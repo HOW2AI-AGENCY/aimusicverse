@@ -1,9 +1,9 @@
 /**
  * Playback Position Persistence Hook
- * 
+ *
  * Saves and restores playback position for tracks.
  * Allows users to resume where they left off.
- * 
+ *
  * Features:
  * - Auto-save position every 5 seconds when playing
  * - Restore position on track load
@@ -11,14 +11,14 @@
  * - Skip saving for very short positions (<10s)
  */
 
-import { useEffect, useCallback, useRef } from 'react';
-import { usePlayerStore } from './usePlayerState';
-import { getGlobalAudioRef } from './useAudioTime';
-import { logger } from '@/lib/logger';
+import { useEffect, useCallback, useRef } from "react";
+import { usePlayerStore } from "./usePlayerState";
+import { getGlobalAudioRef } from "./useAudioTime";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'PlaybackPosition' });
+const log = logger.child({ module: "PlaybackPosition" });
 
-const POSITION_STORAGE_KEY = 'musicverse-playback-positions';
+const POSITION_STORAGE_KEY = "musicverse-playback-positions";
 const SAVE_INTERVAL = 5000; // Save every 5 seconds
 const MIN_SAVE_POSITION = 10; // Don't save positions < 10 seconds
 const MAX_AGE_DAYS = 7; // Clean up positions older than 7 days
@@ -44,13 +44,11 @@ function loadPositions(): Map<string, PlaybackPosition> {
     const maxAge = MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
 
     // Filter out old positions and convert to Map
-    const validPositions = positions.filter(
-      pos => now - pos.timestamp < maxAge
-    );
+    const validPositions = positions.filter((pos) => now - pos.timestamp < maxAge);
 
-    return new Map(validPositions.map(pos => [pos.trackId, pos]));
+    return new Map(validPositions.map((pos) => [pos.trackId, pos]));
   } catch (error) {
-    log.error('Failed to load playback positions', error);
+    log.error("Failed to load playback positions", error);
     return new Map();
   }
 }
@@ -67,7 +65,7 @@ function savePositions(positions: Map<string, PlaybackPosition>): void {
 
     localStorage.setItem(POSITION_STORAGE_KEY, JSON.stringify(positionsArray));
   } catch (error) {
-    log.error('Failed to save playback positions', error);
+    log.error("Failed to save playback positions", error);
   }
 }
 
@@ -105,7 +103,7 @@ export function usePlaybackPosition() {
     positionsRef.current.set(activeTrack.id, positionData);
     savePositions(positionsRef.current);
 
-    log.debug('Saved playback position', {
+    log.debug("Saved playback position", {
       trackId: activeTrack.id,
       position: Math.floor(position),
       duration: Math.floor(duration),
@@ -140,8 +138,8 @@ export function usePlaybackPosition() {
     if (savedPosition !== null && audio.readyState >= 2) {
       audio.currentTime = savedPosition;
       hasRestoredRef.current.add(activeTrack.id);
-      
-      log.info('Restored playback position', {
+
+      log.info("Restored playback position", {
         trackId: activeTrack.id,
         position: Math.floor(savedPosition),
       });
@@ -209,9 +207,9 @@ export function usePlaybackPosition() {
         // Already loaded
         restorePosition();
       } else {
-        audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+        audio.addEventListener("loadedmetadata", handleLoadedMetadata);
         return () => {
-          audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+          audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
         };
       }
     }

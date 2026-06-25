@@ -5,10 +5,10 @@
  * ContentSkeleton - Generic content loading skeletons
  */
 
-import { memo } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 /**
  * Hero section skeleton
@@ -31,10 +31,10 @@ export const HeroSkeleton = memo(function HeroSkeleton({ className }: { classNam
 /**
  * Stats row skeleton
  */
-export const StatsSkeleton = memo(function StatsSkeleton({ 
+export const StatsSkeleton = memo(function StatsSkeleton({
   count = 3,
-  className 
-}: { 
+  className,
+}: {
   count?: number;
   className?: string;
 }) {
@@ -53,11 +53,7 @@ export const StatsSkeleton = memo(function StatsSkeleton({
 /**
  * Section header skeleton
  */
-export const SectionHeaderSkeleton = memo(function SectionHeaderSkeleton({ 
-  className 
-}: { 
-  className?: string;
-}) {
+export const SectionHeaderSkeleton = memo(function SectionHeaderSkeleton({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center justify-between mb-3", className)}>
       <Skeleton className="h-5 w-32" />
@@ -71,8 +67,8 @@ export const SectionHeaderSkeleton = memo(function SectionHeaderSkeleton({
  */
 export const HorizontalCardsSkeleton = memo(function HorizontalCardsSkeleton({
   count = 4,
-  cardWidth = 'w-32',
-  cardHeight = 'h-40',
+  cardWidth = "w-32",
+  cardHeight = "h-40",
   className,
 }: {
   count?: number;
@@ -106,13 +102,7 @@ export const TabBarSkeleton = memo(function TabBarSkeleton({
   return (
     <div className={cn("flex gap-2 p-1 bg-muted/50 rounded-lg", className)}>
       {Array.from({ length: count }).map((_, i) => (
-        <Skeleton 
-          key={i} 
-          className={cn(
-            "h-8 flex-1 rounded-md",
-            i === 0 && "bg-background"
-          )} 
-        />
+        <Skeleton key={i} className={cn("h-8 flex-1 rounded-md", i === 0 && "bg-background")} />
       ))}
     </div>
   );
@@ -122,7 +112,7 @@ export const TabBarSkeleton = memo(function TabBarSkeleton({
  * Feed section skeleton with header + content
  */
 export const FeedSectionSkeleton = memo(function FeedSectionSkeleton({
-  headerWidth = 'w-32',
+  headerWidth = "w-32",
   children,
   className,
 }: {

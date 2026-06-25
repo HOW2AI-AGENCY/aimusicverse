@@ -8,7 +8,7 @@ export {
   ErrorCode,
   ErrorSeverity,
   RecoveryStrategy,
-  
+
   // Error classes
   AppError,
   NetworkError,
@@ -18,11 +18,11 @@ export {
   GenerationError,
   InsufficientCreditsError,
   StorageError,
-  
+
   // Type utilities
   type ErrorMetadata,
   type Result,
-  
+
   // Helper functions
   ok,
   err,
@@ -32,4 +32,4 @@ export {
   isErrorType,
   hasErrorCode,
   retryWithBackoff,
-} from './AppError';
+} from "./AppError";

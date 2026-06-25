@@ -50,15 +50,11 @@ export const useProfile = () => {
   }
 
   return useQuery({
-    queryKey: ['profile', user?.id],
+    queryKey: ["profile", user?.id],
     queryFn: async (): Promise<Profile | null> => {
       if (!user?.id) return null;
 
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
+      const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
 
       if (error) throw error;
       return data as Profile | null;
@@ -76,12 +72,12 @@ export const useUpdateProfile = () => {
       if (!user?.id) throw new Error("No user");
 
       const { data, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
           ...updates,
           updated_at: new Date().toISOString(),
         })
-        .eq('user_id', user.id)
+        .eq("user_id", user.id)
         .select()
         .single();
 
@@ -89,7 +85,7 @@ export const useUpdateProfile = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
     },
     onError: (error) => {
       toast.error("Не удалось обновить профиль", {

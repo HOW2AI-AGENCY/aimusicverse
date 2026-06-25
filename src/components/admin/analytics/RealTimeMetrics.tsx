@@ -3,16 +3,13 @@
  * Displays live counters and real-time activity indicators
  */
 
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { 
-  Activity, Users, Music, Zap, Radio, 
-  TrendingUp, Circle, ArrowUpRight 
-} from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Activity, Users, Music, Zap, Radio, TrendingUp, Circle, ArrowUpRight } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 interface RealTimeStats {
   activeUsers: number;
@@ -28,55 +25,40 @@ export function RealTimeMetrics() {
   const [pulse, setPulse] = useState(false);
 
   const { data, isLoading, refetch } = useQuery({
-    queryKey: ['realtime-metrics'],
+    queryKey: ["realtime-metrics"],
     queryFn: async (): Promise<RealTimeStats> => {
       const now = new Date();
       const oneMinuteAgo = new Date(now.getTime() - 60 * 1000);
       const fifteenMinutesAgo = new Date(now.getTime() - 15 * 60 * 1000);
       const todayStart = new Date(now.setHours(0, 0, 0, 0));
 
-      const [
-        recentEventsResult,
-        generationsResult,
-        activeSessionsResult,
-        newTracksResult,
-        newUsersResult,
-      ] = await Promise.all([
-        // Events in last minute
-        supabase
-          .from('user_analytics_events')
-          .select('created_at')
-          .gte('created_at', oneMinuteAgo.toISOString())
-          .order('created_at', { ascending: false }),
-        
-        // Active generations
-        supabase
-          .from('generation_tasks')
-          .select('id')
-          .in('status', ['pending', 'processing']),
-        
-        // Active sessions (events in last 15 min)
-        supabase
-          .from('user_analytics_events')
-          .select('session_id')
-          .gte('created_at', fifteenMinutesAgo.toISOString()),
-        
-        // New tracks today
-        supabase
-          .from('tracks')
-          .select('id')
-          .gte('created_at', todayStart.toISOString())
-          .eq('status', 'completed'),
-        
-        // New users today
-        supabase
-          .from('profiles')
-          .select('user_id')
-          .gte('created_at', todayStart.toISOString()),
-      ]);
+      const [recentEventsResult, generationsResult, activeSessionsResult, newTracksResult, newUsersResult] =
+        await Promise.all([
+          // Events in last minute
+          supabase
+            .from("user_analytics_events")
+            .select("created_at")
+            .gte("created_at", oneMinuteAgo.toISOString())
+            .order("created_at", { ascending: false }),
+
+          // Active generations
+          supabase.from("generation_tasks").select("id").in("status", ["pending", "processing"]),
+
+          // Active sessions (events in last 15 min)
+          supabase
+            .from("user_analytics_events")
+            .select("session_id")
+            .gte("created_at", fifteenMinutesAgo.toISOString()),
+
+          // New tracks today
+          supabase.from("tracks").select("id").gte("created_at", todayStart.toISOString()).eq("status", "completed"),
+
+          // New users today
+          supabase.from("profiles").select("user_id").gte("created_at", todayStart.toISOString()),
+        ]);
 
       const recentEvents = recentEventsResult.data || [];
-      const uniqueSessions = new Set((activeSessionsResult.data || []).map(e => e.session_id).filter(Boolean));
+      const uniqueSessions = new Set((activeSessionsResult.data || []).map((e) => e.session_id).filter(Boolean));
 
       return {
         activeUsers: uniqueSessions.size,
@@ -104,21 +86,13 @@ export function RealTimeMetrics() {
   // Subscribe to realtime changes
   useEffect(() => {
     const channel = supabase
-      .channel('realtime-metrics')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'user_analytics_events' },
-        () => {
-          refetch();
-        }
-      )
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'generation_tasks' },
-        () => {
-          refetch();
-        }
-      )
+      .channel("realtime-metrics")
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "user_analytics_events" }, () => {
+        refetch();
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "generation_tasks" }, () => {
+        refetch();
+      })
       .subscribe();
 
     return () => {
@@ -127,9 +101,9 @@ export function RealTimeMetrics() {
   }, [refetch]);
 
   const formatTimeSince = (date: Date | null): string => {
-    if (!date) return 'нет данных';
+    if (!date) return "нет данных";
     const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
-    if (seconds < 5) return 'только что';
+    if (seconds < 5) return "только что";
     if (seconds < 60) return `${seconds} сек назад`;
     return `${Math.floor(seconds / 60)} мин назад`;
   };
@@ -138,11 +112,8 @@ export function RealTimeMetrics() {
     <Card className="relative overflow-hidden">
       {/* Live indicator */}
       <div className="absolute top-3 sm:top-4 right-3 sm:right-4 flex items-center gap-1.5">
-        <motion.div
-          animate={{ scale: pulse ? [1, 1.2, 1] : 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Circle className={`h-2 w-2 fill-green-500 ${pulse ? 'animate-pulse' : ''}`} />
+        <motion.div animate={{ scale: pulse ? [1, 1.2, 1] : 1 }} transition={{ duration: 0.3 }}>
+          <Circle className={`h-2 w-2 fill-green-500 ${pulse ? "animate-pulse" : ""}`} />
         </motion.div>
         <span className="text-[10px] sm:text-xs text-green-500 font-medium">LIVE</span>
       </div>
@@ -208,10 +179,10 @@ export function RealTimeMetrics() {
             <motion.div
               className="h-full bg-primary rounded-full"
               initial={{ width: 0 }}
-              animate={{ 
-                width: `${Math.min((data?.eventsPerMinute || 0) * 5, 100)}%` 
+              animate={{
+                width: `${Math.min((data?.eventsPerMinute || 0) * 5, 100)}%`,
               }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             />
           </div>
         </div>
@@ -229,9 +200,7 @@ export function RealTimeMetrics() {
                   className="flex items-center gap-2 text-xs sm:text-sm"
                 >
                   <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-green-500" />
-                  <span className="text-muted-foreground">
-                    {data.recentEvents} событий за минуту
-                  </span>
+                  <span className="text-muted-foreground">{data.recentEvents} событий за минуту</span>
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -252,14 +221,14 @@ interface RealTimeMetricCardProps {
   pulse?: boolean;
 }
 
-function RealTimeMetricCard({ 
-  icon: Icon, 
-  label, 
-  value, 
-  subtext, 
-  iconColor, 
+function RealTimeMetricCard({
+  icon: Icon,
+  label,
+  value,
+  subtext,
+  iconColor,
   isLoading,
-  pulse 
+  pulse,
 }: RealTimeMetricCardProps) {
   return (
     <div className="p-2 sm:p-3 rounded-lg bg-muted/50">
@@ -267,13 +236,8 @@ function RealTimeMetricCard({
         <Icon className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${iconColor}`} />
         <span className="text-[10px] sm:text-xs text-muted-foreground truncate">{label}</span>
       </div>
-      <motion.div
-        animate={{ scale: pulse ? [1, 1.1, 1] : 1 }}
-        transition={{ duration: 0.2 }}
-      >
-        <p className="text-base sm:text-xl font-bold">
-          {isLoading ? '...' : value.toLocaleString()}
-        </p>
+      <motion.div animate={{ scale: pulse ? [1, 1.1, 1] : 1 }} transition={{ duration: 0.2 }}>
+        <p className="text-base sm:text-xl font-bold">{isLoading ? "..." : value.toLocaleString()}</p>
       </motion.div>
       <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{subtext}</p>
     </div>

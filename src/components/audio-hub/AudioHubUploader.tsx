@@ -2,31 +2,28 @@
  * AudioHubUploader - Drag & drop file upload with batch analysis
  */
 
-import React, { useState, useCallback, useRef, memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Upload, FileAudio, X, Sparkles, Check, AlertCircle,
-  Play, Pause, Trash2 
-} from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import React, { useState, useCallback, useRef, memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Upload, FileAudio, X, Sparkles, Check, AlertCircle, Play, Pause, Trash2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface UploadedFile {
   id: string;
   file: File;
   url: string;
-  status: 'pending' | 'analyzing' | 'done' | 'error';
+  status: "pending" | "analyzing" | "done" | "error";
   progress?: number;
   analysisResult?: any;
   error?: string;
 }
 
-const ACCEPTED_TYPES = ['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/webm', 'audio/mp4'];
+const ACCEPTED_TYPES = ["audio/mpeg", "audio/wav", "audio/ogg", "audio/webm", "audio/mp4"];
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 export const AudioHubUploader = memo(function AudioHubUploader() {
@@ -39,7 +36,7 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
   const addFiles = useCallback((newFiles: FileList | File[]) => {
     const validFiles: UploadedFile[] = [];
 
-    Array.from(newFiles).forEach(file => {
+    Array.from(newFiles).forEach((file) => {
       // Validate type
       if (!ACCEPTED_TYPES.includes(file.type)) {
         toast.error(`${file.name}: неподдерживаемый формат`);
@@ -56,21 +53,24 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
         id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
         file,
         url: URL.createObjectURL(file),
-        status: 'pending',
+        status: "pending",
       });
     });
 
     if (validFiles.length > 0) {
-      setFiles(prev => [...prev, ...validFiles]);
+      setFiles((prev) => [...prev, ...validFiles]);
       toast.success(`Добавлено файлов: ${validFiles.length}`);
     }
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    addFiles(e.dataTransfer.files);
-  }, [addFiles]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      addFiles(e.dataTransfer.files);
+    },
+    [addFiles],
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -82,81 +82,90 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
     setIsDragging(false);
   }, []);
 
-  const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      addFiles(e.target.files);
-    }
-  }, [addFiles]);
-
-  const removeFile = useCallback((id: string) => {
-    setFiles(prev => {
-      const file = prev.find(f => f.id === id);
-      if (file) {
-        URL.revokeObjectURL(file.url);
+  const handleFileSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        addFiles(e.target.files);
       }
-      return prev.filter(f => f.id !== id);
-    });
-    if (playingId === id) {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    }
-  }, [playingId]);
+    },
+    [addFiles],
+  );
 
-  const togglePlay = useCallback((file: UploadedFile) => {
-    if (playingId === file.id) {
-      audioRef.current?.pause();
-      setPlayingId(null);
-    } else {
-      if (audioRef.current) {
-        audioRef.current.src = file.url;
-        audioRef.current.play();
+  const removeFile = useCallback(
+    (id: string) => {
+      setFiles((prev) => {
+        const file = prev.find((f) => f.id === id);
+        if (file) {
+          URL.revokeObjectURL(file.url);
+        }
+        return prev.filter((f) => f.id !== id);
+      });
+      if (playingId === id) {
+        audioRef.current?.pause();
+        setPlayingId(null);
+      }
+    },
+    [playingId],
+  );
+
+  const togglePlay = useCallback(
+    (file: UploadedFile) => {
+      if (playingId === file.id) {
+        audioRef.current?.pause();
+        setPlayingId(null);
       } else {
-        audioRef.current = new Audio(file.url);
-        audioRef.current.play();
-        audioRef.current.onended = () => setPlayingId(null);
+        if (audioRef.current) {
+          audioRef.current.src = file.url;
+          audioRef.current.play();
+        } else {
+          audioRef.current = new Audio(file.url);
+          audioRef.current.play();
+          audioRef.current.onended = () => setPlayingId(null);
+        }
+        setPlayingId(file.id);
       }
-      setPlayingId(file.id);
-    }
-  }, [playingId]);
+    },
+    [playingId],
+  );
 
   const analyzeAll = useCallback(async () => {
-    const pendingFiles = files.filter(f => f.status === 'pending');
+    const pendingFiles = files.filter((f) => f.status === "pending");
     if (pendingFiles.length === 0) {
-      toast.info('Нет файлов для анализа');
+      toast.info("Нет файлов для анализа");
       return;
     }
 
     toast.info(`Анализируем ${pendingFiles.length} файлов...`);
 
     for (const file of pendingFiles) {
-      setFiles(prev => prev.map(f => 
-        f.id === file.id ? { ...f, status: 'analyzing', progress: 0 } : f
-      ));
+      setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...f, status: "analyzing", progress: 0 } : f)));
 
       // Simulate analysis progress
       for (let i = 0; i <= 100; i += 20) {
-        await new Promise(r => setTimeout(r, 300));
-        setFiles(prev => prev.map(f => 
-          f.id === file.id ? { ...f, progress: i } : f
-        ));
+        await new Promise((r) => setTimeout(r, 300));
+        setFiles((prev) => prev.map((f) => (f.id === file.id ? { ...f, progress: i } : f)));
       }
 
       // Mock analysis result
-      setFiles(prev => prev.map(f => 
-        f.id === file.id ? { 
-          ...f, 
-          status: 'done',
-          progress: 100,
-          analysisResult: {
-            bpm: Math.floor(80 + Math.random() * 80),
-            key: ['C', 'D', 'E', 'F', 'G', 'A', 'B'][Math.floor(Math.random() * 7)],
-            scale: Math.random() > 0.5 ? 'major' : 'minor',
-          }
-        } : f
-      ));
+      setFiles((prev) =>
+        prev.map((f) =>
+          f.id === file.id
+            ? {
+                ...f,
+                status: "done",
+                progress: 100,
+                analysisResult: {
+                  bpm: Math.floor(80 + Math.random() * 80),
+                  key: ["C", "D", "E", "F", "G", "A", "B"][Math.floor(Math.random() * 7)],
+                  scale: Math.random() > 0.5 ? "major" : "minor",
+                },
+              }
+            : f,
+        ),
+      );
     }
 
-    toast.success('Анализ завершён!');
+    toast.success("Анализ завершён!");
   }, [files]);
 
   const formatFileSize = (bytes: number) => {
@@ -170,8 +179,8 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
       {/* Drop Zone */}
       <Card
         className={cn(
-          'relative overflow-hidden transition-all duration-200 cursor-pointer',
-          isDragging && 'ring-2 ring-primary border-primary'
+          "relative overflow-hidden transition-all duration-200 cursor-pointer",
+          isDragging && "ring-2 ring-primary border-primary",
         )}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
@@ -183,7 +192,7 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
             ref={fileInputRef}
             type="file"
             multiple
-            accept={ACCEPTED_TYPES.join(',')}
+            accept={ACCEPTED_TYPES.join(",")}
             onChange={handleFileSelect}
             className="hidden"
           />
@@ -192,23 +201,15 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
             animate={isDragging ? { scale: 1.02 } : { scale: 1 }}
             className="flex flex-col items-center justify-center text-center"
           >
-            <div className={cn(
-              'p-4 rounded-full mb-4 transition-colors',
-              isDragging ? 'bg-primary/20' : 'bg-muted'
-            )}>
-              <Upload className={cn(
-                'h-8 w-8 transition-colors',
-                isDragging ? 'text-primary' : 'text-muted-foreground'
-              )} />
+            <div className={cn("p-4 rounded-full mb-4 transition-colors", isDragging ? "bg-primary/20" : "bg-muted")}>
+              <Upload
+                className={cn("h-8 w-8 transition-colors", isDragging ? "text-primary" : "text-muted-foreground")}
+              />
             </div>
-            <h3 className="font-medium mb-1">
-              {isDragging ? 'Отпустите для загрузки' : 'Перетащите аудио файлы'}
-            </h3>
-            <p className="text-sm text-muted-foreground mb-3">
-              или нажмите для выбора файлов
-            </p>
+            <h3 className="font-medium mb-1">{isDragging ? "Отпустите для загрузки" : "Перетащите аудио файлы"}</h3>
+            <p className="text-sm text-muted-foreground mb-3">или нажмите для выбора файлов</p>
             <div className="flex flex-wrap gap-1 justify-center">
-              {['MP3', 'WAV', 'OGG', 'WebM'].map(fmt => (
+              {["MP3", "WAV", "OGG", "WebM"].map((fmt) => (
                 <Badge key={fmt} variant="outline" className="text-xs">
                   {fmt}
                 </Badge>
@@ -223,7 +224,7 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
         {files.length > 0 && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
             <Card>
@@ -239,7 +240,7 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
                       e.stopPropagation();
                       analyzeAll();
                     }}
-                    disabled={files.every(f => f.status !== 'pending')}
+                    disabled={files.every((f) => f.status !== "pending")}
                   >
                     <Sparkles className="h-4 w-4 mr-2" />
                     Анализировать все
@@ -249,7 +250,7 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
               <CardContent>
                 <ScrollArea className="max-h-[400px]">
                   <div className="space-y-2">
-                    {files.map(file => (
+                    {files.map((file) => (
                       <motion.div
                         key={file.id}
                         initial={{ opacity: 0, x: -20 }}
@@ -264,18 +265,12 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
                           className="h-8 w-8 shrink-0"
                           onClick={() => togglePlay(file)}
                         >
-                          {playingId === file.id ? (
-                            <Pause className="h-4 w-4" />
-                          ) : (
-                            <Play className="h-4 w-4" />
-                          )}
+                          {playingId === file.id ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                         </Button>
 
                         {/* File info */}
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium truncate text-sm">
-                            {file.file.name}
-                          </p>
+                          <p className="font-medium truncate text-sm">{file.file.name}</p>
                           <div className="flex items-center gap-2 text-xs text-muted-foreground">
                             <span>{formatFileSize(file.file.size)}</span>
                             {file.analysisResult && (
@@ -283,35 +278,35 @@ export const AudioHubUploader = memo(function AudioHubUploader() {
                                 <span>•</span>
                                 <span>{file.analysisResult.bpm} BPM</span>
                                 <span>•</span>
-                                <span>{file.analysisResult.key} {file.analysisResult.scale}</span>
+                                <span>
+                                  {file.analysisResult.key} {file.analysisResult.scale}
+                                </span>
                               </>
                             )}
                           </div>
-                          {file.status === 'analyzing' && (
-                            <Progress value={file.progress} className="h-1 mt-1" />
-                          )}
+                          {file.status === "analyzing" && <Progress value={file.progress} className="h-1 mt-1" />}
                         </div>
 
                         {/* Status */}
                         <div className="shrink-0">
-                          {file.status === 'done' && (
+                          {file.status === "done" && (
                             <Badge variant="secondary" className="gap-1">
                               <Check className="h-3 w-3" />
                               Готово
                             </Badge>
                           )}
-                          {file.status === 'analyzing' && (
+                          {file.status === "analyzing" && (
                             <Badge variant="default" className="gap-1">
                               <motion.div
                                 animate={{ rotate: 360 }}
-                                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                               >
                                 <Sparkles className="h-3 w-3" />
                               </motion.div>
                               Анализ
                             </Badge>
                           )}
-                          {file.status === 'error' && (
+                          {file.status === "error" && (
                             <Badge variant="destructive" className="gap-1">
                               <AlertCircle className="h-3 w-3" />
                               Ошибка

@@ -17,49 +17,49 @@ export const ECONOMY = {
   CREDITS_PER_USD: 100,
   STARS_PER_USD: 50,
   CREDITS_PER_STAR: 2,
-  
+
   // Action costs (GENERATION_COST is now model-specific, see MODEL_COSTS)
-  DEFAULT_GENERATION_COST: 12,        // Default for new models
-  STEM_SEPARATION_SIMPLE_COST: 10,    // 10 credits = $0.10 (2 stems: vocal + instrumental)
-  STEM_SEPARATION_DETAILED_COST: 50,  // 50 credits = $0.50 (12+ stems)
-  REPLACE_SECTION_COST: 5,            // 5 credits = $0.05
-  MIDI_EXPORT_COST: 3,                // 3 credits = $0.03
-  COVER_GENERATION_COST: 10,          // 10 credits = $0.10
-  EXTEND_GENERATION_COST: 10,         // 10 credits = $0.10
-  AUDIO_ANALYSIS_COST: 3,             // 3 credits = $0.03
-  
+  DEFAULT_GENERATION_COST: 12, // Default for new models
+  STEM_SEPARATION_SIMPLE_COST: 10, // 10 credits = $0.10 (2 stems: vocal + instrumental)
+  STEM_SEPARATION_DETAILED_COST: 50, // 50 credits = $0.50 (12+ stems)
+  REPLACE_SECTION_COST: 5, // 5 credits = $0.05
+  MIDI_EXPORT_COST: 3, // 3 credits = $0.03
+  COVER_GENERATION_COST: 10, // 10 credits = $0.10
+  EXTEND_GENERATION_COST: 10, // 10 credits = $0.10
+  AUDIO_ANALYSIS_COST: 3, // 3 credits = $0.03
+
   // Rewards (BOOSTED for faster progression - Sprint 012)
   DAILY_CHECKIN: {
-    credits: 10,  // Was 5
-    xp: 25,       // Was 10
+    credits: 10, // Was 5
+    xp: 25, // Was 10
   },
   STREAK_BONUS: {
-    credits_per_day: 5,  // Was 2
-    xp_per_day: 15,      // Was 5
+    credits_per_day: 5, // Was 2
+    xp_per_day: 15, // Was 5
   },
   SHARE_REWARD: {
-    credits: 5,   // Was 3
-    xp: 30,       // Was 15
+    credits: 5, // Was 3
+    xp: 30, // Was 15
   },
   LIKE_RECEIVED: {
-    credits: 2,   // Was 1
-    xp: 10,       // Was 5
+    credits: 2, // Was 1
+    xp: 10, // Was 5
   },
   GENERATION_COMPLETE: {
     credits: 0,
-    xp: 40,       // Was 20
+    xp: 40, // Was 20
   },
   PUBLIC_TRACK: {
-    credits: 5,   // Was 2
-    xp: 25,       // Was 10
+    credits: 5, // Was 2
+    xp: 25, // Was 10
   },
   ARTIST_CREATED: {
-    credits: 10,  // Was 5
-    xp: 50,       // Was 25
+    credits: 10, // Was 5
+    xp: 50, // Was 25
   },
   PROJECT_CREATED: {
-    credits: 8,   // Was 3
-    xp: 35,       // Was 15
+    credits: 8, // Was 3
+    xp: 35, // Was 15
   },
   // New rewards
   COMMENT_POSTED: {
@@ -70,17 +70,17 @@ export const ECONOMY = {
     credits: 5,
     xp: 25,
   },
-  
+
   // Purchase rewards
   PURCHASE_XP_PER_100_STARS: 10,
   SUBSCRIPTION_XP_BONUS: 50,
   FIRST_PURCHASE_BONUS_CREDITS: 25,
-  
+
   // Referral (reduced rewards)
   REFERRAL_PERCENT: 10, // 10% of purchase
   REFERRAL_INVITE_BONUS: 15, // Credits for inviter (was 100)
   REFERRAL_NEW_USER_BONUS: 15, // Credits for new user (was 50)
-  
+
   // Free user limits
   FREE_DAILY_EARN_CAP: 30, // Max credits free user can earn per day
   FREE_MAX_BALANCE: 100, // Max balance for free users

@@ -25,22 +25,22 @@
 - [isValidDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedSectionEditor.tsx#L82) (1 connections)
 - [maxDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedSectionEditor.tsx#L80) (1 connections)
 - [{
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    isSubmitting,
-    addPreset,
-    executeReplacement,
-    reset,
+  prompt,
+  setPrompt,
+  tags,
+  setTags,
+  lyrics,
+  setLyrics,
+  isSubmitting,
+  addPreset,
+  executeReplacement,
+  reset,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedSectionEditor.tsx#L84) (1 connections)
 - [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedSectionEditor.tsx#L33) (1 connections)
 - [sectionDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedSectionEditor.tsx#L81) (1 connections)
 - [sectionLen](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedSectionEditor.tsx#L183) (1 connections)
 - [[selectedIndex, setSelectedIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedSectionEditor.tsx#L72) (1 connections)
-- *... and 3 more nodes in this community*
+- _... and 3 more nodes in this community_
 
 ## Relationships
 
@@ -58,4 +58,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

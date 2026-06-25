@@ -7,6 +7,7 @@ MusicVerse AI is a sophisticated music generation platform built with React, Typ
 ## 🏗️ Core Architecture
 
 ### Frontend Stack
+
 - **Framework**: React 19 with TypeScript
 - **State Management**: TanStack Query (React Query)
 - **UI Components**: Radix UI + Tailwind CSS
@@ -14,6 +15,7 @@ MusicVerse AI is a sophisticated music generation platform built with React, Typ
 - **Styling**: Tailwind CSS with shadcn/ui components
 
 ### Backend Stack
+
 - **Database**: PostgreSQL with Supabase
 - **Authentication**: Supabase Auth with Telegram integration
 - **Storage**: Supabase Storage for audio files
@@ -29,30 +31,30 @@ erDiagram
     users ||--o{ tasks : "creates tasks"
     users ||--o{ user_tag_preferences : "sets preferences"
     users ||--o{ prompt_templates : "saves templates"
-    
+
     music_projects ||--o{ tracks : "contains tracks"
     music_projects ||--o{ project_assets : "has assets"
     music_projects ||--o{ music_project_artists : "has artists"
-    
+
     tracks ||--o{ track_analytics : "generates analytics"
     tracks ||--o{ track_likes : "receives likes"
     tracks ||--o{ track_versions : "has versions"
     tracks ||--o{ stem_tracks : "has stems"
     tracks ||--o{ stems : "has stem files"
     tracks ||--o{ generation_tag_usage : "uses tags"
-    
+
     suno_meta_tags ||--o{ tag_relationships : "relates to"
     suno_meta_tags ||--o{ style_tag_mappings : "mapped to styles"
     suno_meta_tags ||--o{ user_tag_preferences : "preferred by"
     suno_meta_tags ||--o{ generation_tag_usage : "used in"
-    
+
     music_styles ||--o{ style_tag_mappings : "has recommended tags"
     music_styles ||--o{ user_tag_preferences : "preferred by"
     music_styles ||--o{ generation_tag_usage : "used in"
     music_styles ||--o{ prompt_templates : "uses as template"
-    
+
     tasks ||--o{ task_categories : "categorized by"
-    
+
     profiles {
         UUID id PK
         UUID user_id FK
@@ -72,7 +74,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     tracks {
         UUID id PK
         UUID user_id FK
@@ -105,7 +107,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     music_projects {
         UUID id PK
         UUID user_id FK
@@ -133,7 +135,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     tasks {
         UUID id PK
         UUID user_id FK
@@ -152,7 +154,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     suno_meta_tags {
         UUID id PK
         text tag_name
@@ -165,7 +167,7 @@ erDiagram
         timestamp created_at
         timestamp updated_at
     }
-    
+
     music_styles {
         UUID id PK
         text style_name
@@ -184,11 +186,13 @@ erDiagram
 ## 🔗 Key Relationships & Dependencies
 
 ### User Management
+
 - **Telegram Integration**: Users authenticate via Telegram Web App
 - **Profiles**: Each user has a profile with subscription status and credits
 - **Role System**: Admin, Moderator, User roles with different permissions
 
 ### Music Generation Pipeline
+
 1. **Input Processing**: User provides prompt + optional tags + style preferences
 2. **Tag System**: 174+ meta-tags categorized into 10 categories
 3. **Style System**: 277+ music styles with geographic/mood influences
@@ -196,6 +200,7 @@ erDiagram
 5. **Track Management**: Generated tracks stored with analytics
 
 ### Project Organization
+
 - **Music Projects**: Groups tracks into albums/EPs
 - **Task Management**: Kanban-style task system for project management
 - **Asset Management**: Cover art, stems, and project files
@@ -203,6 +208,7 @@ erDiagram
 ## 🎯 Core Data Models
 
 ### Track Model
+
 ```typescript
 interface Track {
   id: string;
@@ -227,12 +233,13 @@ interface Track {
 ```
 
 ### Project Model
+
 ```typescript
 interface Project {
   id: string;
   user_id: string;
   title: string;
-  project_type: 'single' | 'ep' | 'album' | 'ost' | 'background_music' | 'jingle' | 'compilation' | 'mixtape';
+  project_type: "single" | "ep" | "album" | "ost" | "background_music" | "jingle" | "compilation" | "mixtape";
   genre?: string;
   mood?: string;
   status?: string;
@@ -250,6 +257,7 @@ interface Project {
 ```
 
 ### User Preferences Model
+
 ```typescript
 interface UserPreferences {
   tag_id: string;
@@ -269,30 +277,30 @@ sequenceDiagram
     participant App as MusicVerse App
     participant SB as Supabase
     participant Suno as Suno AI
-    
+
     U->>TG: Open Mini App
     TG->>App: Launch with auth data
     App->>SB: Validate Telegram initData
     SB->>SB: Create/Update user profile
     SB->>App: Return user data + preferences
-    
+
     U->>App: Submit music prompt
     App->>SB: Save generation request
     SB->>App: Return task ID
     App->>Suno: Send generation request
     Suno->>App: Return Suno task ID
     App->>SB: Update task with Suno ID
-    
+
     loop Polling
         App->>Suno: Check task status
         Suno->>App: Return progress
         App->>SB: Update task progress
     end
-    
+
     Suno->>App: Generated track ready
     App->>SB: Create track record
     App->>U: Notify completion
-    
+
     U->>App: Click play
     App->>SB: Log play event
     App->>U: Stream audio
@@ -301,16 +309,19 @@ sequenceDiagram
 ## 📊 Analytics & Insights
 
 ### Track Analytics
+
 - Play counts, likes, and user engagement
 - Tag usage patterns and preferences
 - Generation success rates by model/style
 
 ### User Analytics
+
 - Daily usage tracking
 - Credit consumption patterns
 - Feature adoption rates
 
 ### System Analytics
+
 - API usage and response times
 - Error rates and retry patterns
 - Resource utilization
@@ -318,11 +329,13 @@ sequenceDiagram
 ## 🔐 Security & Access Control
 
 ### Row Level Security (RLS)
+
 - User data isolation
 - Public vs private content management
 - Admin role-based access
 
 ### Authentication
+
 - Telegram Web App validation
 - Session management
 - Secure API access
@@ -330,16 +343,19 @@ sequenceDiagram
 ## 🚀 Performance Optimizations
 
 ### Database Indexes
+
 - User-specific queries
 - Tag and style filtering
 - Analytics aggregations
 
 ### Caching Strategy
+
 - User preferences caching
 - Public content caching
 - API response caching
 
 ### Query Optimization
+
 - TanStack Query stale time: 5 minutes
 - Pagination for large datasets
 - Selective revalidation
@@ -347,6 +363,7 @@ sequenceDiagram
 ## 📁 File Structure Integration
 
 ### Key Directories
+
 - `src/hooks/`: Data fetching and state management
 - `src/services/`: External service integrations
 - `src/components/`: Reusable UI components
@@ -355,6 +372,7 @@ sequenceDiagram
 - `src/types/`: TypeScript type definitions
 
 ### Database Migrations
+
 - `supabase/migrations/`: Schema evolution
 - `supabase/functions/`: Edge functions
 - `public/`: Static assets and images

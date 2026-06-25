@@ -19,14 +19,14 @@
  * @see src/api/presets.api.ts for the API layer
  */
 
-import { useState, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useState, useMemo, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Dialog,
   DialogContent,
@@ -34,48 +34,27 @@ import {
   DialogTitle,
   DialogFooter,
   DialogDescription,
-} from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  usePresets,
-  useCreatePreset,
-  useDeletePreset,
-  useApplyPreset,
-  useClonePreset,
-} from '@/hooks/usePresets';
-import { useAuth } from '@/contexts/AuthContext';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import type {
-  Preset,
-  PresetCategory,
-  PresetSettings,
-} from '@/api/presets.api';
-import { cn } from '@/lib/utils';
-import {
-  Search,
-  Plus,
-  Trash2,
-  Copy,
-  Check,
-  Lock,
-  Globe,
-  User as UserIcon,
-  Sparkles,
-  Loader2,
-} from '@/lib/icons';
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+import { usePresets, useCreatePreset, useDeletePreset, useApplyPreset, useClonePreset } from "@/hooks/usePresets";
+import { useAuth } from "@/contexts/AuthContext";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import type { Preset, PresetCategory, PresetSettings } from "@/api/presets.api";
+import { cn } from "@/lib/utils";
+import { Search, Plus, Trash2, Copy, Check, Lock, Globe, User as UserIcon, Sparkles, Loader2 } from "@/lib/icons";
 
 // ---------------------------------------------------------------------------
 // Constants
 // ---------------------------------------------------------------------------
 
-const CATEGORIES: { value: PresetCategory | 'all'; label: string }[] = [
-  { value: 'all', label: 'Все' },
-  { value: 'vocal', label: 'Вокал' },
-  { value: 'guitar', label: 'Гитара' },
-  { value: 'drums', label: 'Ударные' },
-  { value: 'mastering', label: 'Мастеринг' },
-  { value: 'fx', label: 'Эффекты' },
-  { value: 'custom', label: 'Свои' },
+const CATEGORIES: { value: PresetCategory | "all"; label: string }[] = [
+  { value: "all", label: "Все" },
+  { value: "vocal", label: "Вокал" },
+  { value: "guitar", label: "Гитара" },
+  { value: "drums", label: "Ударные" },
+  { value: "mastering", label: "Мастеринг" },
+  { value: "fx", label: "Эффекты" },
+  { value: "custom", label: "Свои" },
 ];
 
 interface PresetManagerProps {
@@ -94,35 +73,30 @@ interface PresetManagerProps {
 
 function ownershipBadge(preset: Preset) {
   if (preset.is_system) {
-    return { icon: Lock, label: 'Системный', tone: 'text-amber-400' };
+    return { icon: Lock, label: "Системный", tone: "text-amber-400" };
   }
   if (preset.is_public) {
-    return { icon: Globe, label: 'Публичный', tone: 'text-sky-400' };
+    return { icon: Globe, label: "Публичный", tone: "text-sky-400" };
   }
-  return { icon: UserIcon, label: 'Мой', tone: 'text-emerald-400' };
+  return { icon: UserIcon, label: "Мой", tone: "text-emerald-400" };
 }
 
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
-export function PresetManager({
-  trackId,
-  currentSettings,
-  defaultCategory = 'custom',
-  className,
-}: PresetManagerProps) {
+export function PresetManager({ trackId, currentSettings, defaultCategory = "custom", className }: PresetManagerProps) {
   const { user } = useAuth();
   const haptic = useHapticFeedback();
 
-  const [category, setCategory] = useState<PresetCategory | 'all'>('all');
-  const [search, setSearch] = useState('');
+  const [category, setCategory] = useState<PresetCategory | "all">("all");
+  const [search, setSearch] = useState("");
   const [appliedId, setAppliedId] = useState<string | null>(null);
   const [pendingDelete, setPendingDelete] = useState<Preset | null>(null);
   const [saveOpen, setSaveOpen] = useState(false);
 
   const { presets, isLoading } = usePresets({
-    category: category === 'all' ? undefined : category,
+    category: category === "all" ? undefined : category,
     userId: user?.id,
     searchQuery: search.trim() || undefined,
   });
@@ -148,12 +122,9 @@ export function PresetManager({
     (preset: Preset) => {
       if (!trackId) return;
       haptic.tap();
-      applyPreset(
-        { trackId, presetId: preset.id },
-        { onSuccess: () => setAppliedId(preset.id) }
-      );
+      applyPreset({ trackId, presetId: preset.id }, { onSuccess: () => setAppliedId(preset.id) });
     },
-    [trackId, applyPreset, haptic]
+    [trackId, applyPreset, haptic],
   );
 
   const handleDelete = useCallback(() => {
@@ -167,7 +138,7 @@ export function PresetManager({
       haptic.tap();
       clonePreset({ presetId: preset.id });
     },
-    [clonePreset, haptic]
+    [clonePreset, haptic],
   );
 
   const renderPreset = (preset: Preset) => {
@@ -189,21 +160,15 @@ export function PresetManager({
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
                 <span className="truncate text-sm font-medium">{preset.name}</span>
-                <BadgeIcon className={cn('h-3.5 w-3.5 shrink-0', badge.tone)} />
+                <BadgeIcon className={cn("h-3.5 w-3.5 shrink-0", badge.tone)} />
               </div>
-              {preset.description && (
-                <p className="truncate text-xs text-muted-foreground">
-                  {preset.description}
-                </p>
-              )}
+              {preset.description && <p className="truncate text-xs text-muted-foreground">{preset.description}</p>}
               <div className="mt-1 flex items-center gap-2">
                 <Badge variant="secondary" className="text-[10px] uppercase">
                   {preset.category}
                 </Badge>
                 {preset.usage_count > 0 && (
-                  <span className="text-[10px] text-muted-foreground">
-                    {preset.usage_count} использований
-                  </span>
+                  <span className="text-[10px] text-muted-foreground">{preset.usage_count} использований</span>
                 )}
               </div>
             </div>
@@ -212,12 +177,12 @@ export function PresetManager({
               {trackId && (
                 <Button
                   size="sm"
-                  variant={isApplied ? 'secondary' : 'default'}
+                  variant={isApplied ? "secondary" : "default"}
                   className="h-11 min-w-[44px] px-3"
                   disabled={isApplying}
                   onClick={() => handleApply(preset)}
                 >
-                  {isApplied ? <Check className="h-4 w-4" /> : 'Применить'}
+                  {isApplied ? <Check className="h-4 w-4" /> : "Применить"}
                 </Button>
               )}
               {!isOwn && user?.id && (
@@ -254,22 +219,17 @@ export function PresetManager({
     if (items.length === 0) return null;
     return (
       <div className="space-y-2">
-        <h4 className="px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          {title}
-        </h4>
+        <h4 className="px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{title}</h4>
         <AnimatePresence initial={false}>{items.map(renderPreset)}</AnimatePresence>
       </div>
     );
   };
 
   const isEmpty =
-    !isLoading &&
-    grouped.mine.length === 0 &&
-    grouped.system.length === 0 &&
-    grouped.community.length === 0;
+    !isLoading && grouped.mine.length === 0 && grouped.system.length === 0 && grouped.community.length === 0;
 
   return (
-    <div className={cn('flex h-full flex-col gap-3', className)}>
+    <div className={cn("flex h-full flex-col gap-3", className)}>
       {/* Search + Save */}
       <div className="flex items-center gap-2">
         <div className="relative flex-1">
@@ -297,7 +257,7 @@ export function PresetManager({
       </div>
 
       {/* Category tabs */}
-      <Tabs value={category} onValueChange={(v) => setCategory(v as PresetCategory | 'all')}>
+      <Tabs value={category} onValueChange={(v) => setCategory(v as PresetCategory | "all")}>
         <ScrollArea className="w-full">
           <TabsList className="inline-flex w-max">
             {CATEGORIES.map((c) => (
@@ -330,9 +290,9 @@ export function PresetManager({
             </div>
           )}
 
-          {renderGroup('Мои пресеты', grouped.mine)}
-          {renderGroup('Системные', grouped.system)}
-          {renderGroup('Сообщество', grouped.community)}
+          {renderGroup("Мои пресеты", grouped.mine)}
+          {renderGroup("Системные", grouped.system)}
+          {renderGroup("Сообщество", grouped.community)}
         </div>
       </ScrollArea>
 
@@ -349,16 +309,14 @@ export function PresetManager({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Удалить пресет?</DialogTitle>
-            <DialogDescription>
-              «{pendingDelete?.name}» будет удалён без возможности восстановления.
-            </DialogDescription>
+            <DialogDescription>«{pendingDelete?.name}» будет удалён без возможности восстановления.</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="ghost" onClick={() => setPendingDelete(null)}>
               Отмена
             </Button>
             <Button variant="destructive" disabled={isDeleting} onClick={handleDelete}>
-              {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Удалить'}
+              {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Удалить"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -378,21 +336,16 @@ interface SavePresetDialogProps {
   defaultCategory: PresetCategory;
 }
 
-function SavePresetDialog({
-  open,
-  onOpenChange,
-  settings,
-  defaultCategory,
-}: SavePresetDialogProps) {
+function SavePresetDialog({ open, onOpenChange, settings, defaultCategory }: SavePresetDialogProps) {
   const haptic = useHapticFeedback();
   const { createPreset, isCreating } = useCreatePreset();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [category, setCategory] = useState<PresetCategory>(defaultCategory);
 
   const reset = () => {
-    setName('');
-    setDescription('');
+    setName("");
+    setDescription("");
     setCategory(defaultCategory);
   };
 
@@ -411,7 +364,7 @@ function SavePresetDialog({
           reset();
           onOpenChange(false);
         },
-      }
+      },
     );
   };
 
@@ -426,9 +379,7 @@ function SavePresetDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Сохранить пресет</DialogTitle>
-          <DialogDescription>
-            Текущие настройки студии будут сохранены как пресет.
-          </DialogDescription>
+          <DialogDescription>Текущие настройки студии будут сохранены как пресет.</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-3">
@@ -449,7 +400,7 @@ function SavePresetDialog({
           <Tabs value={category} onValueChange={(v) => setCategory(v as PresetCategory)}>
             <ScrollArea className="w-full">
               <TabsList className="inline-flex w-max">
-                {CATEGORIES.filter((c) => c.value !== 'all').map((c) => (
+                {CATEGORIES.filter((c) => c.value !== "all").map((c) => (
                   <TabsTrigger key={c.value} value={c.value} className="text-xs">
                     {c.label}
                   </TabsTrigger>
@@ -464,7 +415,7 @@ function SavePresetDialog({
             Отмена
           </Button>
           <Button disabled={!name.trim() || isCreating} onClick={handleSave}>
-            {isCreating ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Сохранить'}
+            {isCreating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Сохранить"}
           </Button>
         </DialogFooter>
       </DialogContent>

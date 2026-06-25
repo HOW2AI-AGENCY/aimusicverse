@@ -1,65 +1,66 @@
 /**
  * Suno Extend Audio - Extend track from uploaded audio URL
- * 
+ *
  * Uses /api/v1/generate/upload-extend endpoint to extend audio files.
  * This is different from suno-music-extend which extends existing Suno tracks.
- * 
+ *
  * CRITICAL: Uses upload-extend endpoint, NOT generic generate endpoint!
- * 
+ *
  * Cost: 10 credits per extend operation
  */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { isSunoSuccessCode } from '../_shared/suno.ts';
-import { corsHeaders } from '../_shared/cors.ts';
-import { ECONOMY } from '../_shared/economy.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+import { ECONOMY } from "../_shared/economy.ts";
 
-const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
-const DEFAULT_MODEL = 'V4_5';
+const VALID_MODELS = ["V5", "V4_5PLUS", "V4_5", "V4", "V3_5"];
+const DEFAULT_MODEL = "V4_5";
 const EXTEND_COST = ECONOMY.EXTEND_GENERATION_COST; // 10 credits
 
 function getApiModelName(uiKey: string): string {
-  if (uiKey === 'V4_5ALL') return 'V4_5';
+  if (uiKey === "V4_5ALL") return "V4_5";
   return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const sunoApiKey = Deno.env.get('SUNO_API_KEY');
+    const sunoApiKey = Deno.env.get("SUNO_API_KEY");
 
     if (!sunoApiKey) {
-      throw new Error('SUNO_API_KEY not configured');
+      throw new Error("SUNO_API_KEY not configured");
     }
 
     const supabase = getSupabaseClient();
-    
-    const authHeader = req.headers.get('Authorization');
+
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error('No authorization header');
+      throw new Error("No authorization header");
     }
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (userError || !user) {
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
 
     // Check user credit balance
     const { data: credits, error: creditsError } = await supabase
-      .from('user_credits')
-      .select('balance')
-      .eq('user_id', user.id)
+      .from("user_credits")
+      .select("balance")
+      .eq("user_id", user.id)
       .single();
 
     if (creditsError) {
-      console.error('[suno-extend-audio] Credits check error:', creditsError);
-      throw new Error('Failed to check credit balance');
+      console.error("[suno-extend-audio] Credits check error:", creditsError);
+      throw new Error("Failed to check credit balance");
     }
 
     const currentBalance = credits?.balance ?? 0;
@@ -71,10 +72,10 @@ serve(async (req) => {
     const {
       audioUrl,
       continueAt,
-      prompt = '',
-      style = '',
-      title = '',
-      model = 'V4_5',
+      prompt = "",
+      style = "",
+      title = "",
+      model = "V4_5",
       instrumental = false,
       // Additional parameters for upload-extend
       defaultParamFlag = true, // Use original params by default for seamless extension
@@ -88,77 +89,71 @@ serve(async (req) => {
     } = body;
 
     if (!audioUrl) {
-      throw new Error('audioUrl is required');
+      throw new Error("audioUrl is required");
     }
 
     // Validate continueAt - required for upload-extend
     // Must be > 0 and < total duration of audio
-    const effectiveContinueAt = typeof continueAt === 'number' && continueAt > 0 
-      ? continueAt 
-      : 30; // Default to 30 seconds if not specified
+    const effectiveContinueAt = typeof continueAt === "number" && continueAt > 0 ? continueAt : 30; // Default to 30 seconds if not specified
 
-    console.log('[suno-extend-audio] Request:', { 
-      audioUrl: audioUrl.substring(0, 80), 
-      continueAt: effectiveContinueAt, 
+    console.log("[suno-extend-audio] Request:", {
+      audioUrl: audioUrl.substring(0, 80),
+      continueAt: effectiveContinueAt,
       hasPrompt: !!prompt,
       defaultParamFlag,
     });
 
     const effectiveModel = getApiModelName(model);
-    const effectiveTitle = title || `Extended Track ${new Date().toLocaleDateString('ru-RU')}`;
+    const effectiveTitle = title || `Extended Track ${new Date().toLocaleDateString("ru-RU")}`;
 
     // Create new track record
     const { data: newTrack, error: trackError } = await supabase
-      .from('tracks')
+      .from("tracks")
       .insert({
         user_id: user.id,
-        prompt: prompt || 'Extended audio',
+        prompt: prompt || "Extended audio",
         title: effectiveTitle,
-        style: style || 'continuation',
+        style: style || "continuation",
         has_vocals: !instrumental,
-        status: 'pending',
-        provider: 'suno',
+        status: "pending",
+        provider: "suno",
         suno_model: effectiveModel,
-        generation_mode: 'extend',
+        generation_mode: "extend",
       })
       .select()
       .single();
 
     if (trackError || !newTrack) {
-      console.error('[suno-extend-audio] Track creation error:', trackError);
-      throw new Error('Failed to create track record');
+      console.error("[suno-extend-audio] Track creation error:", trackError);
+      throw new Error("Failed to create track record");
     }
 
     // Get telegram_chat_id if available
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('telegram_id')
-      .eq('user_id', user.id)
-      .single();
+    const { data: profile } = await supabase.from("profiles").select("telegram_id").eq("user_id", user.id).single();
 
     // Create generation task
     const { data: task, error: taskError } = await supabase
-      .from('generation_tasks')
+      .from("generation_tasks")
       .insert({
         user_id: user.id,
-        prompt: prompt || 'Extended audio',
-        status: 'pending',
+        prompt: prompt || "Extended audio",
+        status: "pending",
         telegram_chat_id: profile?.telegram_id || null,
         track_id: newTrack.id,
-        source: 'mini_app',
-        generation_mode: 'extend',
+        source: "mini_app",
+        generation_mode: "extend",
         model_used: effectiveModel,
       })
       .select()
       .single();
 
     if (taskError || !task) {
-      console.error('[suno-extend-audio] Task creation error:', taskError);
-      throw new Error('Failed to create generation task');
+      console.error("[suno-extend-audio] Task creation error:", taskError);
+      throw new Error("Failed to create generation task");
     }
 
-    const callbackUrl = `${Deno.env.get('SUPABASE_URL')}/functions/v1/suno-music-callback`;
-    
+    const callbackUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/suno-music-callback`;
+
     // Build payload for upload-extend endpoint
     // Per API docs: https://docs.sunoapi.org/suno-api/upload-extend-music
     const sunoPayload: Record<string, unknown> = {
@@ -172,8 +167,8 @@ serve(async (req) => {
 
     // Add custom parameters when not using default params
     if (!defaultParamFlag) {
-      sunoPayload.prompt = prompt || 'Continue in the same style';
-      sunoPayload.style = style || 'seamless continuation';
+      sunoPayload.prompt = prompt || "Continue in the same style";
+      sunoPayload.style = style || "seamless continuation";
       sunoPayload.title = effectiveTitle;
     }
 
@@ -186,38 +181,38 @@ serve(async (req) => {
     if (personaId) sunoPayload.personaId = personaId;
     if (voiceId) sunoPayload.voiceId = voiceId;
 
-    console.log('[suno-extend-audio] Sending to upload-extend endpoint:', {
+    console.log("[suno-extend-audio] Sending to upload-extend endpoint:", {
       ...sunoPayload,
-      uploadUrl: audioUrl.substring(0, 50) + '...',
+      uploadUrl: audioUrl.substring(0, 50) + "...",
     });
 
     // CRITICAL: Use upload-extend endpoint, NOT generic generate!
     const startTime = Date.now();
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/upload-extend', {
-      method: 'POST',
+    const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/upload-extend", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${sunoApiKey}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sunoApiKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(sunoPayload),
     });
 
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
-    
+
     console.log(`[suno-extend-audio] Response (${duration}ms):`, JSON.stringify(sunoData).substring(0, 300));
 
     // Log API call
-    await supabase.from('api_usage_logs').insert({
+    await supabase.from("api_usage_logs").insert({
       user_id: user.id,
-      service: 'suno',
-      endpoint: 'upload-extend',
-      method: 'POST',
-      request_body: { 
-        uploadUrl: audioUrl.substring(0, 100), 
-        continueAt: effectiveContinueAt, 
-        prompt, 
-        style, 
+      service: "suno",
+      endpoint: "upload-extend",
+      method: "POST",
+      request_body: {
+        uploadUrl: audioUrl.substring(0, 100),
+        continueAt: effectiveContinueAt,
+        prompt,
+        style,
         title,
         defaultParamFlag,
       },
@@ -229,17 +224,23 @@ serve(async (req) => {
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       const errorMsg = sunoData.msg || `SunoAPI upload-extend failed (${sunoResponse.status})`;
-      console.error('[suno-extend-audio] API error:', errorMsg, sunoData);
-      
-      await supabase.from('generation_tasks').update({ 
-        status: 'failed', 
-        error_message: errorMsg,
-      }).eq('id', task.id);
+      console.error("[suno-extend-audio] API error:", errorMsg, sunoData);
 
-      await supabase.from('tracks').update({ 
-        status: 'failed', 
-        error_message: errorMsg,
-      }).eq('id', newTrack.id);
+      await supabase
+        .from("generation_tasks")
+        .update({
+          status: "failed",
+          error_message: errorMsg,
+        })
+        .eq("id", task.id);
+
+      await supabase
+        .from("tracks")
+        .update({
+          status: "failed",
+          error_message: errorMsg,
+        })
+        .eq("id", newTrack.id);
 
       throw new Error(errorMsg);
     }
@@ -247,62 +248,72 @@ serve(async (req) => {
     const sunoTaskId = sunoData.data?.taskId;
 
     if (!sunoTaskId) {
-      throw new Error('No taskId returned from SunoAPI');
+      throw new Error("No taskId returned from SunoAPI");
     }
 
-    await supabase.from('generation_tasks').update({ 
-      suno_task_id: sunoTaskId,
-      status: 'processing',
-    }).eq('id', task.id);
+    await supabase
+      .from("generation_tasks")
+      .update({
+        suno_task_id: sunoTaskId,
+        status: "processing",
+      })
+      .eq("id", task.id);
 
-    await supabase.from('tracks').update({ 
-      suno_task_id: sunoTaskId,
-      status: 'processing',
-    }).eq('id', newTrack.id);
+    await supabase
+      .from("tracks")
+      .update({
+        suno_task_id: sunoTaskId,
+        status: "processing",
+      })
+      .eq("id", newTrack.id);
 
     // Deduct credits after successful API call
-    const { error: deductError } = await supabase.rpc('deduct_credits', {
+    const { error: deductError } = await supabase.rpc("deduct_credits", {
       p_user_id: user.id,
       p_amount: EXTEND_COST,
-      p_action_type: 'extend_generation',
+      p_action_type: "extend_generation",
       p_description: `Extend generation for track: ${effectiveTitle}`,
     });
 
     if (deductError) {
-      console.error(JSON.stringify({
-        tag: '[suno-extend-audio]',
-        event: 'credit_deduct_failed',
-        userId: user.id,
-        trackId: newTrack.id,
-        sunoTaskId,
-        amount: EXTEND_COST,
-        error: deductError.message,
-        hasVoiceId: !!voiceId,
-      }));
+      console.error(
+        JSON.stringify({
+          tag: "[suno-extend-audio]",
+          event: "credit_deduct_failed",
+          userId: user.id,
+          trackId: newTrack.id,
+          sunoTaskId,
+          amount: EXTEND_COST,
+          error: deductError.message,
+          hasVoiceId: !!voiceId,
+        }),
+      );
     } else {
-      console.log(JSON.stringify({
-        tag: '[suno-extend-audio]',
-        event: 'credit_deducted',
-        userId: user.id,
-        trackId: newTrack.id,
-        sunoTaskId,
-        amount: EXTEND_COST,
-        hasVoiceId: !!voiceId,
-      }));
+      console.log(
+        JSON.stringify({
+          tag: "[suno-extend-audio]",
+          event: "credit_deducted",
+          userId: user.id,
+          trackId: newTrack.id,
+          sunoTaskId,
+          amount: EXTEND_COST,
+          hasVoiceId: !!voiceId,
+        }),
+      );
     }
 
     // Log credit transaction
-    await supabase.from('credit_transactions').insert({
+    await supabase.from("credit_transactions").insert({
       user_id: user.id,
       amount: -EXTEND_COST,
-      transaction_type: 'debit',
-      action_type: 'extend_generation',
+      transaction_type: "debit",
+      action_type: "extend_generation",
       description: `Extend: ${effectiveTitle}`,
       metadata: { trackId: newTrack.id, sunoTaskId },
     });
 
-    console.log('[suno-extend-audio] Success:', { 
-      trackId: newTrack.id, 
+    console.log("[suno-extend-audio] Success:", {
+      trackId: newTrack.id,
       sunoTaskId,
       continueAt: effectiveContinueAt,
       creditsDeducted: EXTEND_COST,
@@ -315,24 +326,23 @@ serve(async (req) => {
         taskId: task.id,
         sunoTaskId,
       }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
-      }
+      },
     );
-
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    console.error('[suno-extend-audio] Error:', errorMessage);
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error("[suno-extend-audio] Error:", errorMessage);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
+      JSON.stringify({
+        success: false,
         error: errorMessage,
       }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,
-      }
+      },
     );
   }
 });

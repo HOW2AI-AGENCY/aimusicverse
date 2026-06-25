@@ -11,12 +11,12 @@
 - [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L30) (1 connections)
 - [iconStyleMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L38) (1 connections)
 - [{
-    type = 'info',
-    haptic = true,
-    action,
-    duration,
-    description,
-    ...rest
+  type = 'info',
+  haptic = true,
+  action,
+  duration,
+  description,
+  ...rest
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L63) (1 connections)
 
 ## Relationships
@@ -35,4 +35,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -4,25 +4,25 @@
  * With inline premium badges for gated features
  */
 
-import { useState } from 'react';
-import { 
-  DropdownMenuItem, 
-  DropdownMenuSub, 
-  DropdownMenuSubTrigger, 
+import { useState } from "react";
+import {
+  DropdownMenuItem,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
   DropdownMenuSubContent,
-  DropdownMenuSeparator 
-} from '@/components/ui/dropdown-menu';
-import { Layers, Scissors, Wand2, RefreshCw, Lock, Music2 } from 'lucide-react';
-import { Track } from '@/types/track';
-import { ActionId } from '@/config/trackActionsConfig';
-import { TrackActionState, isActionAvailable } from '@/lib/trackActionConditions';
-import { IconGridButton } from '../IconGridButton';
-import { StemsActionButton } from './StemsActionButton';
-import { MidiTranscriptionActions } from './MidiTranscriptionActions';
-import { useFeatureAccess } from '@/hooks/useFeatureAccess';
-import { PremiumBadge } from '@/components/premium/PremiumBadge';
-import { SubscriptionUpgradePopup } from '@/components/popups/SubscriptionUpgradePopup';
-import { useTelegram } from '@/contexts/TelegramContext';
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Layers, Scissors, Wand2, RefreshCw, Lock, Music2 } from "lucide-react";
+import { Track } from "@/types/track";
+import { ActionId } from "@/config/trackActionsConfig";
+import { TrackActionState, isActionAvailable } from "@/lib/trackActionConditions";
+import { IconGridButton } from "../IconGridButton";
+import { StemsActionButton } from "./StemsActionButton";
+import { MidiTranscriptionActions } from "./MidiTranscriptionActions";
+import { useFeatureAccess } from "@/hooks/useFeatureAccess";
+import { PremiumBadge } from "@/components/premium/PremiumBadge";
+import { SubscriptionUpgradePopup } from "@/components/popups/SubscriptionUpgradePopup";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 interface StemInfo {
   id: string;
@@ -35,27 +35,27 @@ interface StudioActionsProps {
   state: TrackActionState;
   stems?: StemInfo[];
   onAction: (actionId: ActionId, stemId?: string, stemType?: string) => void;
-  variant: 'dropdown' | 'sheet';
+  variant: "dropdown" | "sheet";
   isProcessing?: boolean;
 }
 
 export function StudioActions({ track, state, stems = [], onAction, variant, isProcessing }: StudioActionsProps) {
   const { hapticFeedback } = useTelegram();
   const [upgradePopupOpen, setUpgradePopupOpen] = useState(false);
-  const [lockedFeature, setLockedFeature] = useState<string>('');
+  const [lockedFeature, setLockedFeature] = useState<string>("");
 
-  const showStudio = isActionAvailable('open_studio', track, state);
-  const showReplaceSection = isActionAvailable('replace_section', track, state);
-  const showStemsSimple = isActionAvailable('stems_simple', track, state);
-  const showStemsDetailed = isActionAvailable('stems_detailed', track, state);
-  
+  const showStudio = isActionAvailable("open_studio", track, state);
+  const showReplaceSection = isActionAvailable("replace_section", track, state);
+  const showStemsSimple = isActionAvailable("stems_simple", track, state);
+  const showStemsDetailed = isActionAvailable("stems_detailed", track, state);
+
   // Feature access checks
-  const { hasAccess: canReplaceSection, requiredTier: replaceTier } = useFeatureAccess('section_replace');
-  const { hasAccess: canStemDetailed, requiredTier: stemDetailedTier } = useFeatureAccess('stem_separation_detailed');
-  
+  const { hasAccess: canReplaceSection, requiredTier: replaceTier } = useFeatureAccess("section_replace");
+  const { hasAccess: canStemDetailed, requiredTier: stemDetailedTier } = useFeatureAccess("stem_separation_detailed");
+
   // Show unified stems button if either mode is available
   const showStems = showStemsSimple || showStemsDetailed;
-  
+
   // Show MIDI transcription only if stems exist
   const showMidi = state.stemCount > 0;
 
@@ -64,12 +64,12 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
 
   // Handle locked feature click - show popup instead of doing nothing
   const handleLockedClick = (featureName: string, tier: string) => {
-    hapticFeedback?.('warning');
+    hapticFeedback?.("warning");
     setLockedFeature(featureName);
     setUpgradePopupOpen(true);
   };
 
-  if (variant === 'dropdown') {
+  if (variant === "dropdown") {
     return (
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>
@@ -79,7 +79,7 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
         <DropdownMenuSubContent className="bg-background/95 backdrop-blur-sm z-[10000]" sideOffset={8}>
           {/* Open Studio */}
           {showStudio && (
-            <DropdownMenuItem onClick={() => onAction('open_studio')}>
+            <DropdownMenuItem onClick={() => onAction("open_studio")}>
               <Layers className="w-4 h-4 mr-2" />
               Открыть студию
               {state.stemCount > 0 && (
@@ -87,54 +87,54 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
               )}
             </DropdownMenuItem>
           )}
-          
+
           {/* Section Replace - Premium gated with badge */}
-          {showReplaceSection && (
-            canReplaceSection ? (
-              <DropdownMenuItem onClick={() => onAction('replace_section')}>
+          {showReplaceSection &&
+            (canReplaceSection ? (
+              <DropdownMenuItem onClick={() => onAction("replace_section")}>
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Замена секции
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem 
-                onClick={() => handleLockedClick('Замена секции', replaceTier || 'pro')}
+              <DropdownMenuItem
+                onClick={() => handleLockedClick("Замена секции", replaceTier || "pro")}
                 className="text-muted-foreground cursor-pointer"
               >
                 <Lock className="w-4 h-4 mr-2 text-amber-500/70" />
                 Замена секции
-                <PremiumBadge tier={replaceTier || 'PRO'} size="xs" className="ml-auto" animate={false} />
+                <PremiumBadge tier={replaceTier || "PRO"} size="xs" className="ml-auto" animate={false} />
               </DropdownMenuItem>
-            )
-          )}
-          
+            ))}
+
           {(showStems || showMidi) && <DropdownMenuSeparator />}
-          
+
           {/* Stems - Basic always available, Detailed premium-gated */}
           {showStemsSimple && (
-            <DropdownMenuItem onClick={() => onAction('stems_simple')} disabled={isProcessing}>
+            <DropdownMenuItem onClick={() => onAction("stems_simple")} disabled={isProcessing}>
               <Scissors className="w-4 h-4 mr-2" />
               Стемы (2 дорожки)
-              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-medium">FREE</span>
+              <span className="ml-auto text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-500 font-medium">
+                FREE
+              </span>
             </DropdownMenuItem>
           )}
-          {showStemsDetailed && (
-            canStemDetailed ? (
-              <DropdownMenuItem onClick={() => onAction('stems_detailed')} disabled={isProcessing}>
+          {showStemsDetailed &&
+            (canStemDetailed ? (
+              <DropdownMenuItem onClick={() => onAction("stems_detailed")} disabled={isProcessing}>
                 <Wand2 className="w-4 h-4 mr-2" />
                 Стемы (6+ дорожек)
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem 
-                onClick={() => handleLockedClick('Детальные стемы', stemDetailedTier || 'pro')}
+              <DropdownMenuItem
+                onClick={() => handleLockedClick("Детальные стемы", stemDetailedTier || "pro")}
                 className="text-muted-foreground cursor-pointer"
               >
                 <Lock className="w-4 h-4 mr-2 text-amber-500/70" />
                 Стемы (6+ дорожек)
-                <PremiumBadge tier={stemDetailedTier || 'PRO'} size="xs" className="ml-auto" animate={false} />
+                <PremiumBadge tier={stemDetailedTier || "PRO"} size="xs" className="ml-auto" animate={false} />
               </DropdownMenuItem>
-            )
-          )}
-          
+            ))}
+
           {/* MIDI Transcription - available after stems generated */}
           {showMidi && (
             <>
@@ -162,45 +162,29 @@ export function StudioActions({ track, state, stems = [], onAction, variant, isP
           label="Студия"
           color="blue"
           badge={state.stemCount > 0 ? state.stemCount : undefined}
-          onClick={() => onAction('open_studio')}
+          onClick={() => onAction("open_studio")}
         />
       )}
-      
+
       {/* Section Replace - Premium gated with visual feedback */}
-      {showReplaceSection && (
-        canReplaceSection ? (
-          <IconGridButton
-            icon={RefreshCw}
-            label="Секция"
-            color="amber"
-            onClick={() => onAction('replace_section')}
-          />
+      {showReplaceSection &&
+        (canReplaceSection ? (
+          <IconGridButton icon={RefreshCw} label="Секция" color="amber" onClick={() => onAction("replace_section")} />
         ) : (
           <div className="relative">
             <IconGridButton
               icon={RefreshCw}
               label="Секция"
               color="muted"
-              onClick={() => handleLockedClick('Замена секции', replaceTier || 'pro')}
+              onClick={() => handleLockedClick("Замена секции", replaceTier || "pro")}
             />
-            <PremiumBadge 
-              tier={replaceTier || 'PRO'} 
-              size="xs" 
-              className="absolute -top-1 -right-1" 
-              showLock 
-            />
+            <PremiumBadge tier={replaceTier || "PRO"} size="xs" className="absolute -top-1 -right-1" showLock />
           </div>
-        )
-      )}
-      
+        ))}
+
       {/* Unified stems button with mode selector dialog */}
-      {showStems && (
-        <StemsActionButton
-          onAction={onAction}
-          isProcessing={isProcessing}
-        />
-      )}
-      
+      {showStems && <StemsActionButton onAction={onAction} isProcessing={isProcessing} />}
+
       {/* MIDI Transcription */}
       {showMidi && (
         <MidiTranscriptionActions

@@ -2,12 +2,12 @@
  * FullAnalysisResultCard - Display comprehensive lyrics analysis with actionable quick fixes
  */
 
-import { motion } from '@/lib/motion';
-import { 
-  BarChart3, 
-  FileText, 
-  Music2, 
-  Mic2, 
+import { motion } from "@/lib/motion";
+import {
+  BarChart3,
+  FileText,
+  Music2,
+  Mic2,
   LayoutGrid,
   Lightbulb,
   ChevronDown,
@@ -21,14 +21,14 @@ import {
   Sparkles,
   Check,
   CheckCheck,
-  Play
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
-import { FullAnalysisData, QuickAction } from '../types';
-import { useState } from 'react';
+  Play,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
+import { FullAnalysisData, QuickAction } from "../types";
+import { useState } from "react";
 
 interface FullAnalysisResultCardProps {
   analysis: FullAnalysisData;
@@ -38,71 +38,90 @@ interface FullAnalysisResultCardProps {
 }
 
 const SECTION_CONFIG = {
-  meaning: { icon: FileText, label: 'Смысл', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
-  rhythm: { icon: Music2, label: 'Ритм', color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
-  rhymes: { icon: Mic2, label: 'Рифмы', color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/30' },
-  structure: { icon: LayoutGrid, label: 'Структура', color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/30' },
+  meaning: {
+    icon: FileText,
+    label: "Смысл",
+    color: "text-blue-400",
+    bg: "bg-blue-500/10",
+    border: "border-blue-500/30",
+  },
+  rhythm: {
+    icon: Music2,
+    label: "Ритм",
+    color: "text-orange-400",
+    bg: "bg-orange-500/10",
+    border: "border-orange-500/30",
+  },
+  rhymes: { icon: Mic2, label: "Рифмы", color: "text-cyan-400", bg: "bg-cyan-500/10", border: "border-cyan-500/30" },
+  structure: {
+    icon: LayoutGrid,
+    label: "Структура",
+    color: "text-purple-400",
+    bg: "bg-purple-500/10",
+    border: "border-purple-500/30",
+  },
 };
 
 const PRIORITY_CONFIG = {
-  high: { color: 'bg-red-500', text: 'text-red-400', label: 'Важно', icon: AlertTriangle },
-  medium: { color: 'bg-amber-500', text: 'text-amber-400', label: 'Средне', icon: Target },
-  low: { color: 'bg-blue-500', text: 'text-blue-400', label: 'Мелочь', icon: Sparkles },
+  high: { color: "bg-red-500", text: "text-red-400", label: "Важно", icon: AlertTriangle },
+  medium: { color: "bg-amber-500", text: "text-amber-400", label: "Средне", icon: Target },
+  low: { color: "bg-blue-500", text: "text-blue-400", label: "Мелочь", icon: Sparkles },
 };
 
 const QUICK_ACTION_ICONS: Record<string, any> = {
-  'translate': Languages,
-  'rhythm': Music2,
-  'rhyme': Mic2,
-  'structure': LayoutGrid,
-  'fix': Wand2,
-  'improve': RefreshCw,
+  translate: Languages,
+  rhythm: Music2,
+  rhyme: Mic2,
+  structure: LayoutGrid,
+  fix: Wand2,
+  improve: RefreshCw,
 };
 
 function getScoreColor(score: number) {
-  if (score >= 80) return 'text-green-500';
-  if (score >= 60) return 'text-amber-500';
-  return 'text-red-500';
+  if (score >= 80) return "text-green-500";
+  if (score >= 60) return "text-amber-500";
+  return "text-red-500";
 }
 
 function getScoreGradient(score: number) {
-  if (score >= 80) return 'from-green-500/20 to-green-500/5';
-  if (score >= 60) return 'from-amber-500/20 to-amber-500/5';
-  return 'from-red-500/20 to-red-500/5';
+  if (score >= 80) return "from-green-500/20 to-green-500/5";
+  if (score >= 60) return "from-amber-500/20 to-amber-500/5";
+  return "from-red-500/20 to-red-500/5";
 }
 
 function getScoreLabel(score: number) {
-  if (score >= 90) return 'Отлично';
-  if (score >= 80) return 'Хорошо';
-  if (score >= 60) return 'Средне';
-  return 'Требует работы';
+  if (score >= 90) return "Отлично";
+  if (score >= 80) return "Хорошо";
+  if (score >= 60) return "Средне";
+  return "Требует работы";
 }
 
 function getQuickActionIcon(label: string) {
   const lowerLabel = label.toLowerCase();
-  if (lowerLabel.includes('translat') || lowerLabel.includes('english') || lowerLabel.includes('перевод')) return Languages;
-  if (lowerLabel.includes('rhythm') || lowerLabel.includes('ритм')) return Music2;
-  if (lowerLabel.includes('rhyme') || lowerLabel.includes('рифм')) return Mic2;
-  if (lowerLabel.includes('structure') || lowerLabel.includes('структур')) return LayoutGrid;
-  if (lowerLabel.includes('fix') || lowerLabel.includes('исправ')) return Wand2;
+  if (lowerLabel.includes("translat") || lowerLabel.includes("english") || lowerLabel.includes("перевод"))
+    return Languages;
+  if (lowerLabel.includes("rhythm") || lowerLabel.includes("ритм")) return Music2;
+  if (lowerLabel.includes("rhyme") || lowerLabel.includes("рифм")) return Mic2;
+  if (lowerLabel.includes("structure") || lowerLabel.includes("структур")) return LayoutGrid;
+  if (lowerLabel.includes("fix") || lowerLabel.includes("исправ")) return Wand2;
   return RefreshCw;
 }
 
-export function FullAnalysisResultCard({ 
-  analysis, 
+export function FullAnalysisResultCard({
+  analysis,
   onQuickAction,
   onApplyRecommendations,
-  className 
+  className,
 }: FullAnalysisResultCardProps) {
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [selectedRecommendations, setSelectedRecommendations] = useState<Set<number>>(new Set());
 
   const toggleSection = (section: string) => {
-    setExpandedSection(prev => prev === section ? null : section);
+    setExpandedSection((prev) => (prev === section ? null : section));
   };
 
   const toggleRecommendation = (index: number) => {
-    setSelectedRecommendations(prev => {
+    setSelectedRecommendations((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(index)) {
         newSet.delete(index);
@@ -120,23 +139,24 @@ export function FullAnalysisResultCard({
 
   const handleApplySelected = () => {
     if (onApplyRecommendations && selectedRecommendations.size > 0) {
-      const selectedTexts = Array.from(selectedRecommendations).map(i => recommendations[i].text);
+      const selectedTexts = Array.from(selectedRecommendations).map((i) => recommendations[i].text);
       onApplyRecommendations(selectedTexts);
     }
   };
 
   const handleApplyAll = () => {
     if (onQuickAction && recommendations.length > 0) {
-      const allRecsText = recommendations.map(r => `- ${r.text}`).join('\n');
+      const allRecsText = recommendations.map((r) => `- ${r.text}`).join("\n");
       onQuickAction(`Примени все рекомендации:\n${allRecsText}`);
     }
   };
 
-  const hasIssues = 
-    (analysis.meaning?.issues?.length || 0) + 
-    (analysis.rhythm?.issues?.length || 0) + 
-    (analysis.rhymes?.weakRhymes?.length || 0) + 
-    (analysis.structure?.issues?.length || 0) > 0;
+  const hasIssues =
+    (analysis.meaning?.issues?.length || 0) +
+      (analysis.rhythm?.issues?.length || 0) +
+      (analysis.rhymes?.weakRhymes?.length || 0) +
+      (analysis.structure?.issues?.length || 0) >
+    0;
 
   const quickActions = analysis.quickActions || [];
   const recommendations = analysis.recommendations || [];
@@ -214,7 +234,7 @@ export function FullAnalysisResultCard({
                 "flex flex-col items-center p-2 rounded-lg transition-all",
                 expandedSection === key ? config.bg : "hover:bg-muted/30",
                 expandedSection === key && config.border,
-                expandedSection === key && "border"
+                expandedSection === key && "border",
               )}
             >
               <Icon className={cn("w-4 h-4 mb-1", config.color)} />
@@ -229,11 +249,11 @@ export function FullAnalysisResultCard({
       {expandedSection && (
         <motion.div
           initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
+          animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           className="border-b border-border/30"
         >
-          {expandedSection === 'meaning' && (
+          {expandedSection === "meaning" && (
             <div className="p-3 space-y-2">
               <div>
                 <span className="text-xs text-muted-foreground">Тема: </span>
@@ -242,7 +262,9 @@ export function FullAnalysisResultCard({
               {analysis.meaning.emotions.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {analysis.meaning.emotions.map((e, i) => (
-                    <Badge key={i} variant="secondary" className="text-[10px]">{e}</Badge>
+                    <Badge key={i} variant="secondary" className="text-[10px]">
+                      {e}
+                    </Badge>
                   ))}
                 </div>
               )}
@@ -258,7 +280,7 @@ export function FullAnalysisResultCard({
             </div>
           )}
 
-          {expandedSection === 'rhythm' && (
+          {expandedSection === "rhythm" && (
             <div className="p-3 space-y-2">
               <p className="text-sm font-mono bg-muted/30 p-2 rounded">{analysis.rhythm.pattern}</p>
               {analysis.rhythm.issues.length > 0 && (
@@ -273,7 +295,7 @@ export function FullAnalysisResultCard({
             </div>
           )}
 
-          {expandedSection === 'rhymes' && (
+          {expandedSection === "rhymes" && (
             <div className="p-3 space-y-2">
               <div>
                 <span className="text-xs text-muted-foreground">Схема: </span>
@@ -294,11 +316,13 @@ export function FullAnalysisResultCard({
             </div>
           )}
 
-          {expandedSection === 'structure' && (
+          {expandedSection === "structure" && (
             <div className="p-3 space-y-2">
               <div className="flex flex-wrap gap-1">
                 {analysis.structure.tags.map((tag, i) => (
-                  <Badge key={i} variant="outline" className="text-[10px]">{tag}</Badge>
+                  <Badge key={i} variant="outline" className="text-[10px]">
+                    {tag}
+                  </Badge>
                 ))}
               </div>
               {analysis.structure.issues.length > 0 && (
@@ -322,7 +346,8 @@ export function FullAnalysisResultCard({
             <Lightbulb className="w-4 h-4 text-amber-400" />
             <span className="text-sm font-medium">Рекомендации</span>
             <Badge variant="secondary" className="text-[10px]">
-              {selectedRecommendations.size > 0 ? `${selectedRecommendations.size}/` : ''}{recommendations.length}
+              {selectedRecommendations.size > 0 ? `${selectedRecommendations.size}/` : ""}
+              {recommendations.length}
             </Badge>
             {onQuickAction && (
               <Button
@@ -341,29 +366,29 @@ export function FullAnalysisResultCard({
               const priorityConfig = PRIORITY_CONFIG[rec.priority];
               const isSelected = selectedRecommendations.has(i);
               return (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   onClick={() => onQuickAction && toggleRecommendation(i)}
                   className={cn(
                     "flex items-start gap-2 text-xs p-2 rounded-lg transition-all",
-                    rec.priority === 'high' && 'bg-red-500/10 border border-red-500/20',
-                    rec.priority === 'medium' && 'bg-amber-500/10 border border-amber-500/20',
-                    rec.priority === 'low' && 'bg-blue-500/10 border border-blue-500/20',
-                    onQuickAction && 'cursor-pointer hover:opacity-80',
-                    isSelected && 'ring-2 ring-primary ring-offset-1 ring-offset-background'
+                    rec.priority === "high" && "bg-red-500/10 border border-red-500/20",
+                    rec.priority === "medium" && "bg-amber-500/10 border border-amber-500/20",
+                    rec.priority === "low" && "bg-blue-500/10 border border-blue-500/20",
+                    onQuickAction && "cursor-pointer hover:opacity-80",
+                    isSelected && "ring-2 ring-primary ring-offset-1 ring-offset-background",
                   )}
                 >
                   {onQuickAction && (
-                    <div className={cn(
-                      "w-4 h-4 rounded border flex items-center justify-center shrink-0 mt-0.5",
-                      isSelected ? "bg-primary border-primary" : "border-muted-foreground/30"
-                    )}>
+                    <div
+                      className={cn(
+                        "w-4 h-4 rounded border flex items-center justify-center shrink-0 mt-0.5",
+                        isSelected ? "bg-primary border-primary" : "border-muted-foreground/30",
+                      )}
+                    >
                       {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
                     </div>
                   )}
-                  <Badge 
-                    className={cn("text-[9px] shrink-0", priorityConfig?.color)}
-                  >
+                  <Badge className={cn("text-[9px] shrink-0", priorityConfig?.color)}>
                     {priorityConfig?.label || rec.priority}
                   </Badge>
                   <span className="flex-1">{rec.text}</span>
@@ -384,29 +409,20 @@ export function FullAnalysisResultCard({
               );
             })}
           </div>
-          
+
           {/* Apply buttons */}
           {onQuickAction && selectedRecommendations.size > 0 && (
             <div className="flex gap-2 mt-3 pt-2 border-t border-border/30">
-              <Button
-                size="sm"
-                className="flex-1 h-8 text-xs gap-1"
-                onClick={handleApplySelected}
-              >
+              <Button size="sm" className="flex-1 h-8 text-xs gap-1" onClick={handleApplySelected}>
                 <Wand2 className="w-3 h-3" />
                 Применить выбранные ({selectedRecommendations.size})
               </Button>
             </div>
           )}
-          
+
           {onQuickAction && selectedRecommendations.size === 0 && recommendations.length > 0 && (
             <div className="mt-3 pt-2 border-t border-border/30">
-              <Button
-                size="sm"
-                variant="outline"
-                className="w-full h-8 text-xs gap-1"
-                onClick={handleApplyAll}
-              >
+              <Button size="sm" variant="outline" className="w-full h-8 text-xs gap-1" onClick={handleApplyAll}>
                 <Wand2 className="w-3 h-3" />
                 Применить все рекомендации
               </Button>

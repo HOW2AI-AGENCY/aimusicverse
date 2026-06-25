@@ -3,12 +3,12 @@
  * Better UX than native select on mobile
  */
 
-import { memo, useState } from 'react';
-import { Check, ChevronDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
-import { MobileBottomSheet } from '../MobileBottomSheet';
-import { Button } from '@/components/ui/button';
+import { memo, useState } from "react";
+import { Check, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
+import { MobileBottomSheet } from "../MobileBottomSheet";
+import { Button } from "@/components/ui/button";
 
 export interface MobileSelectOption {
   value: string;
@@ -36,14 +36,14 @@ export const MobileSelect = memo(function MobileSelect({
   value,
   onChange,
   options,
-  placeholder = 'Выберите...',
+  placeholder = "Выберите...",
   disabled = false,
   className,
 }: MobileSelectProps) {
   const { patterns } = useHaptic();
   const [open, setOpen] = useState(false);
 
-  const selectedOption = options.find(opt => opt.value === value);
+  const selectedOption = options.find((opt) => opt.value === value);
 
   const handleSelect = (optionValue: string) => {
     patterns.select();
@@ -72,17 +72,12 @@ export const MobileSelect = memo(function MobileSelect({
           "transition-colors touch-manipulation",
           !disabled && "active:bg-secondary hover:bg-secondary",
           disabled && "opacity-50 cursor-not-allowed",
-          className
+          className,
         )}
       >
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          {selectedOption?.icon && (
-            <span className="shrink-0">{selectedOption.icon}</span>
-          )}
-          <span className={cn(
-            "truncate",
-            !selectedOption && "text-muted-foreground"
-          )}>
+          {selectedOption?.icon && <span className="shrink-0">{selectedOption.icon}</span>}
+          <span className={cn("truncate", !selectedOption && "text-muted-foreground")}>
             {selectedOption?.label || placeholder}
           </span>
         </div>
@@ -90,15 +85,9 @@ export const MobileSelect = memo(function MobileSelect({
       </button>
 
       {/* Bottom Sheet Picker */}
-      <MobileBottomSheet
-        open={open}
-        onOpenChange={setOpen}
-        snapPoints={[0.6]}
-      >
+      <MobileBottomSheet open={open} onOpenChange={setOpen} snapPoints={[0.6]}>
         <div className="p-4">
-          <h3 className="text-base font-semibold mb-4">
-            {placeholder}
-          </h3>
+          <h3 className="text-base font-semibold mb-4">{placeholder}</h3>
           <div className="space-y-1">
             {options.map((option) => (
               <button
@@ -109,27 +98,19 @@ export const MobileSelect = memo(function MobileSelect({
                   "p-3 rounded-lg text-left",
                   "transition-colors touch-manipulation",
                   "hover:bg-accent active:bg-accent/80",
-                  option.value === value && "bg-accent"
+                  option.value === value && "bg-accent",
                 )}
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
-                  {option.icon && (
-                    <span className="shrink-0">{option.icon}</span>
-                  )}
+                  {option.icon && <span className="shrink-0">{option.icon}</span>}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">
-                      {option.label}
-                    </p>
+                    <p className="text-sm font-medium truncate">{option.label}</p>
                     {option.description && (
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">
-                        {option.description}
-                      </p>
+                      <p className="text-xs text-muted-foreground truncate mt-0.5">{option.description}</p>
                     )}
                   </div>
                 </div>
-                {option.value === value && (
-                  <Check className="w-5 h-5 text-primary shrink-0" />
-                )}
+                {option.value === value && <Check className="w-5 h-5 text-primary shrink-0" />}
               </button>
             ))}
           </div>

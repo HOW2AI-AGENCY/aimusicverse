@@ -15,6 +15,7 @@
 ### Текущее Состояние (Current State)
 
 #### ✅ Что уже реализовано:
+
 1. **База данных**: 29 миграций, основные таблицы созданы
 2. **Хранилище**: 1 bucket (project-assets) для медиа-ассетов проектов
 3. **Спринты**: 8-15 детально спланированы (105 задач в E007)
@@ -48,68 +49,84 @@
 ## 📊 Детальный Анализ Спринтов
 
 ### Sprint 008: Library & Player MVP (Dec 15-29)
+
 **Статус**: ⏳ Запланирован  
 **Задачи**: 22 задачи  
 **Инфраструктурные требования**:
+
 - Storage для обложек треков ❌
 - CDN для быстрой загрузки аудио ❌
 - Кэширование метаданных треков ❌
 
 ### Sprint 009: Track Details & Actions (Dec 29 - Jan 12)
+
 **Статус**: ⏳ Запланирован  
 **Задачи**: 19 задач  
 **Инфраструктурные требования**:
+
 - Storage для версий треков ❌
 - Storage для стемов ❌
 - Таблица track_versions (есть в миграциях ✅)
 - Таблица track_stems (есть в миграциях ✅)
 
 ### Sprint 010: Homepage Discovery & AI Assistant (Jan 12-26)
+
 **Статус**: ⏳ Запланирован  
 **Задачи**: 29 задач (25 основных + 4 инфраструктурных)
 **Инфраструктурные требования**:
+
 - ✅ Таблицы для публичного контента (is_public, is_featured)
 - ❌ CDN для homepage thumbnails
 - ❌ Кэширование популярных треков
 
 ### Sprint 011: Social Features (Jan 26 - Feb 09)
+
 **Статус**: ⏳ Outlined  
 **Задачи**: 28-32 задачи  
 **Инфраструктурные требования**:
+
 - ❌ Storage для аватаров пользователей
 - ❌ Storage для баннеров профилей
 - ❌ Таблицы для user_profiles
 - ❌ Таблицы для follows, comments
 
 ### Sprint 012: Monetization (Feb 09-23)
+
 **Статус**: ⏳ Outlined  
 **Задачи**: 24-28 задач  
 **Инфраструктурные требования**:
+
 - ❌ Таблицы для credits, subscriptions
 - ❌ Storage quotas по тарифам
 - ❌ Rate limiting infrastructure
 
 ### Sprint 013: Advanced Audio Features (Feb 23 - Mar 09)
+
 **Статус**: ⏳ Outlined  
 **Задачи**: 26-30 задач  
 **Инфраструктурные требования**:
+
 - ❌ Storage для стемов (critical!)
 - ❌ Storage для миксов
 - ❌ Таблицы stem_files, user_mixes
 - ❌ Большие объемы данных (10-50MB per stem)
 
 ### Sprint 014: Platform Integration (Mar 09-23)
+
 **Статус**: ⏳ Outlined  
 **Задачи**: 22-26 задач  
 **Инфраструктурные требования**:
+
 - ❌ API keys storage
 - ❌ Webhooks storage
 - ❌ Distributions tracking
 
 ### Sprint 015: Quality & Testing (Mar 23 - Apr 06)
+
 **Статус**: ⏳ Outlined  
 **Задачи**: 30-35 задач  
 **Инфраструктурные требования**:
+
 - ❌ Monitoring infrastructure
 - ❌ Logging aggregation
 - ❌ Performance monitoring
@@ -128,19 +145,19 @@
 INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types) VALUES
   -- Треки (приватные, большие файлы)
   ('tracks', 'tracks', false, 52428800, ARRAY['audio/mpeg', 'audio/wav', 'audio/ogg']),
-  
+
   -- Обложки треков (публичные, оптимизированные)
   ('covers', 'covers', true, 5242880, ARRAY['image/jpeg', 'image/png', 'image/webp']),
-  
+
   -- Стемы (приватные, очень большие файлы)
   ('stems', 'stems', false, 104857600, ARRAY['audio/wav', 'audio/flac']),
-  
+
   -- Загруженные пользовательские аудио (приватные)
   ('uploads', 'uploads', false, 52428800, ARRAY['audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/m4a']),
-  
+
   -- Аватары и баннеры (публичные)
   ('avatars', 'avatars', true, 2097152, ARRAY['image/jpeg', 'image/png', 'image/webp']),
-  
+
   -- Временные файлы обработки (приватные, короткий TTL)
   ('temp', 'temp', false, 104857600, NULL)
 ON CONFLICT (id) DO NOTHING;
@@ -151,6 +168,7 @@ ON CONFLICT (id) DO NOTHING;
 Для каждого bucket нужны политики доступа:
 
 **tracks bucket**:
+
 ```sql
 -- Пользователи видят только свои треки
 CREATE POLICY "Users can view own tracks"
@@ -168,14 +186,15 @@ ON storage.objects FOR SELECT
 USING (
   bucket_id = 'tracks' AND
   EXISTS (
-    SELECT 1 FROM tracks 
-    WHERE tracks.audio_url = storage.objects.name 
+    SELECT 1 FROM tracks
+    WHERE tracks.audio_url = storage.objects.name
     AND tracks.is_public = true
   )
 );
 ```
 
 **covers bucket** (публичный):
+
 ```sql
 -- Все могут видеть обложки
 CREATE POLICY "Anyone can view covers"
@@ -189,6 +208,7 @@ WITH CHECK (bucket_id = 'covers' AND auth.uid()::text = (storage.foldername(name
 ```
 
 **stems bucket**:
+
 ```sql
 -- Только владельцы треков и Premium пользователи
 CREATE POLICY "Premium users can view own stems"
@@ -197,8 +217,8 @@ USING (
   bucket_id = 'stems' AND
   auth.uid()::text = (storage.foldername(name))[1] AND
   EXISTS (
-    SELECT 1 FROM user_subscriptions 
-    WHERE user_id = auth.uid() 
+    SELECT 1 FROM user_subscriptions
+    WHERE user_id = auth.uid()
     AND tier IN ('premium', 'enterprise')
     AND status = 'active'
   )
@@ -251,7 +271,7 @@ RETURNS TRIGGER AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
     UPDATE storage_usage
-    SET 
+    SET
       total_bytes = total_bytes + NEW.file_size_bytes,
       tracks_bytes = CASE WHEN NEW.bucket_id = 'tracks' THEN tracks_bytes + NEW.file_size_bytes ELSE tracks_bytes END,
       covers_bytes = CASE WHEN NEW.bucket_id = 'covers' THEN covers_bytes + NEW.file_size_bytes ELSE covers_bytes END,
@@ -262,7 +282,7 @@ BEGIN
     WHERE user_id = NEW.user_id;
   ELSIF TG_OP = 'DELETE' THEN
     UPDATE storage_usage
-    SET 
+    SET
       total_bytes = total_bytes - OLD.file_size_bytes,
       tracks_bytes = CASE WHEN OLD.bucket_id = 'tracks' THEN tracks_bytes - OLD.file_size_bytes ELSE tracks_bytes END,
       covers_bytes = CASE WHEN OLD.bucket_id = 'covers' THEN covers_bytes - OLD.file_size_bytes ELSE covers_bytes END,
@@ -373,12 +393,12 @@ BEGIN
   -- Удалить истекшие файлы из file_registry
   WITH deleted AS (
     DELETE FROM file_registry
-    WHERE is_temporary = TRUE 
+    WHERE is_temporary = TRUE
     AND expires_at < NOW()
     RETURNING *
   )
   SELECT COUNT(*) INTO deleted_count FROM deleted;
-  
+
   RETURN deleted_count;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
@@ -391,7 +411,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 ```sql
 -- Обновить таблицу user_subscriptions с квотами
-ALTER TABLE user_subscriptions 
+ALTER TABLE user_subscriptions
 ADD COLUMN storage_quota_gb INTEGER DEFAULT 1;
 
 -- Установить квоты по тарифам
@@ -411,19 +431,19 @@ BEGIN
   SELECT total_bytes INTO current_usage
   FROM storage_usage
   WHERE user_id = user_uuid;
-  
+
   -- Получить квоту пользователя
   SELECT storage_quota_gb * 1073741824 INTO user_quota
   FROM user_subscriptions
   WHERE user_id = user_uuid AND status = 'active'
   ORDER BY created_at DESC
   LIMIT 1;
-  
+
   -- Если квота NULL (unlimited), вернуть true
   IF user_quota IS NULL THEN
     RETURN TRUE;
   END IF;
-  
+
   -- Проверить, не превысит ли новый файл квоту
   RETURN (COALESCE(current_usage, 0) + additional_bytes) <= user_quota;
 END;
@@ -439,12 +459,14 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 Рекомендации для интеграции с CDN (Cloudflare, CloudFront, или Bunny CDN):
 
 **Для изображений (covers, avatars)**:
+
 - Использовать image resizing on-the-fly
 - Кэшировать на 1 год (immutable)
 - Конвертировать в WebP автоматически
 - Генерировать responsive sizes
 
 **Для аудио (tracks, stems)**:
+
 - HTTP Range requests для streaming
 - Кэшировать на 30 дней
 - Gzip compression
@@ -454,23 +476,26 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 ```typescript
 // src/lib/cdn.ts
-export const getCDNUrl = (originalUrl: string, options?: {
-  width?: number;
-  height?: number;
-  format?: 'webp' | 'jpeg' | 'png';
-  quality?: number;
-}): string => {
+export const getCDNUrl = (
+  originalUrl: string,
+  options?: {
+    width?: number;
+    height?: number;
+    format?: "webp" | "jpeg" | "png";
+    quality?: number;
+  },
+): string => {
   // Если CDN не настроен, вернуть оригинал
   const cdnBase = import.meta.env.VITE_CDN_BASE_URL;
   if (!cdnBase) return originalUrl;
-  
+
   // Построить URL с параметрами трансформации
   const params = new URLSearchParams();
-  if (options?.width) params.set('w', options.width.toString());
-  if (options?.height) params.set('h', options.height.toString());
-  if (options?.format) params.set('f', options.format);
-  if (options?.quality) params.set('q', options.quality.toString());
-  
+  if (options?.width) params.set("w", options.width.toString());
+  if (options?.height) params.set("h", options.height.toString());
+  if (options?.format) params.set("f", options.format);
+  if (options?.quality) params.set("q", options.quality.toString());
+
   return `${cdnBase}/${originalUrl}?${params.toString()}`;
 };
 
@@ -488,25 +513,33 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 Создать следующие миграции:
 
 #### Migration 1: Storage Buckets Setup
+
 **File**: `20251203020000_create_storage_buckets.sql`
+
 ```sql
 -- См. раздел 1.1 выше
 ```
 
 #### Migration 2: Storage Management Tables
+
 **File**: `20251203020001_create_storage_management.sql`
+
 ```sql
 -- См. раздел 2.1 выше
 ```
 
 #### Migration 3: CDN & Media Cache
+
 **File**: `20251203020002_create_cdn_media_cache.sql`
+
 ```sql
 -- См. раздел 2.2 и 2.3 выше
 ```
 
 #### Migration 4: Storage Lifecycle
+
 **File**: `20251203020003_create_storage_lifecycle.sql`
+
 ```sql
 -- См. раздел 3 выше
 ```
@@ -587,6 +620,7 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 ## Areas
 
 ### 1. Storage Optimization
+
 - [ ] Implement automatic image optimization pipeline
 - [ ] Setup audio transcoding pipeline (multiple bitrates)
 - [ ] Add progressive audio streaming (HLS)
@@ -594,6 +628,7 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 - [ ] Add deduplication for identical files
 
 ### 2. CDN & Caching
+
 - [ ] Configure edge caching rules
 - [ ] Implement cache invalidation API
 - [ ] Add cache warming for popular content
@@ -601,6 +636,7 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 - [ ] Monitor cache hit rates
 
 ### 3. Performance Monitoring
+
 - [ ] Setup storage metrics dashboard
 - [ ] Monitor upload/download speeds
 - [ ] Track CDN performance
@@ -608,6 +644,7 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 - [ ] Track media processing queue depth
 
 ### 4. Backup & Recovery
+
 - [ ] Implement automated backup for all buckets
 - [ ] Setup point-in-time recovery
 - [ ] Create disaster recovery plan
@@ -615,6 +652,7 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 - [ ] Document recovery SLAs
 
 ### 5. Security Hardening
+
 - [ ] Implement virus scanning for uploads
 - [ ] Add watermarking for premium content
 - [ ] Setup DRM for commercial tracks
@@ -663,24 +701,28 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 ## 📈 Ожидаемые Результаты
 
 ### Производительность
+
 - **Загрузка обложек**: <500ms (с CDN)
 - **Начало воспроизведения**: <1s (с CDN + streaming)
 - **Upload tracks**: Chunked upload для файлов >10MB
 - **Image optimization**: Автоматическое сжатие до 70-90% от оригинала
 
 ### Масштабируемость
+
 - **Storage**: Поддержка unlimited storage для Enterprise
 - **CDN**: Глобальная доставка контента
 - **Processing**: Очередь обработки с приоритетами
 - **Cleanup**: Автоматическая очистка старых файлов
 
 ### Безопасность
+
 - **RLS**: Все buckets защищены на уровне БД
 - **Quotas**: Контроль использования по тарифам
 - **Audit**: Полный лог доступа к файлам
 - **Encryption**: Все файлы зашифрованы at rest
 
 ### Экономия
+
 - **Storage**: Оптимизация изображений → 50-70% экономии места
 - **Bandwidth**: CDN → 60-80% снижение нагрузки на origin
 - **Costs**: Lifecycle management → автоматическая очистка неиспользуемых файлов
@@ -690,24 +732,28 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 ## 🚀 План Внедрения
 
 ### Неделя 1 (Sprint 010 Start)
+
 1. Создать все миграции для storage infrastructure
 2. Развернуть storage buckets с RLS
 3. Протестировать upload/download flow
 4. Документировать API
 
 ### Неделя 2
+
 1. Интегрировать CDN provider
 2. Реализовать image optimization
 3. Добавить storage quota checking
 4. Создать dashboard для мониторинга
 
 ### Неделя 3-4 (Sprint 011)
+
 1. Реализовать avatar/banner upload
 2. Добавить media processing queue
 3. Внедрить cleanup automation
 4. Провести load testing
 
 ### Месяц 2 (Sprint 012-013)
+
 1. Интегрировать quotas с billing
 2. Реализовать chunked upload
 3. Добавить stem storage support
@@ -728,11 +774,13 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 ## 📚 Дополнительные Ресурсы
 
 ### Документация
+
 - [Supabase Storage Guide](https://supabase.com/docs/guides/storage)
 - [Storage RLS Policies](https://supabase.com/docs/guides/storage/security/access-control)
 - [CDN Integration Best Practices](https://developers.cloudflare.com/images/)
 
 ### Инструменты
+
 - **Image Optimization**: Sharp, ImageMagick
 - **Audio Processing**: FFmpeg, LAME
 - **CDN**: Cloudflare Images, Bunny CDN
@@ -743,4 +791,3 @@ export const getTrackStreamingUrl = (trackUrl: string): string => {
 **Аудит завершен**: 2025-12-03  
 **Следующий обзор**: Sprint 010 Planning Meeting  
 **Контакт**: GitHub Copilot Agent
-

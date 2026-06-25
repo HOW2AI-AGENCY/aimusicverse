@@ -7,14 +7,17 @@ MusicVerse AI использует **Lovable Cloud** (основан на Supaba
 ## Ключевые правила
 
 ### 1. Именование для пользователей
+
 - **ПРАВИЛЬНО**: "Lovable Cloud", "бэкенд", "база данных"
 - **НЕПРАВИЛЬНО**: Не упоминать "Supabase" пользователям напрямую
 
 ### 2. Именование в коде
+
 - В коде используется Supabase SDK: `import { supabase } from '@/integrations/supabase/client'`
 - Типы: `import type { Database } from '@/integrations/supabase/types'`
 
 ### 3. Файлы НЕ редактировать (автогенерируемые)
+
 ```
 src/integrations/supabase/client.ts  - Клиент Supabase
 src/integrations/supabase/types.ts   - Типы из схемы БД
@@ -26,12 +29,12 @@ supabase/config.toml                 - Конфигурация проекта
 
 ### Важные соглашения об именовании
 
-| Правильно | Неправильно | Примечание |
-|-----------|-------------|------------|
-| `is_primary` | `is_master` | Поле в track_versions для главной версии |
-| `track_change_log` | `track_changelog` | Таблица истории изменений |
-| `audio_analysis` | `track_analysis` | Таблица AI-анализа |
-| `track_stems` | `stems` | Таблица стемов |
+| Правильно          | Неправильно       | Примечание                               |
+| ------------------ | ----------------- | ---------------------------------------- |
+| `is_primary`       | `is_master`       | Поле в track_versions для главной версии |
+| `track_change_log` | `track_changelog` | Таблица истории изменений                |
+| `audio_analysis`   | `track_analysis`  | Таблица AI-анализа                       |
+| `track_stems`      | `stems`           | Таблица стемов                           |
 
 ### Основные таблицы
 
@@ -54,6 +57,7 @@ artists             - AI-артисты и персоны
 Деплоятся автоматически из `supabase/functions/`.
 
 ### Основные функции
+
 - `suno-generate` - Генерация музыки
 - `suno-check-status` - Проверка статуса
 - `telegram-bot` - Telegram бот
@@ -64,6 +68,7 @@ artists             - AI-артисты и персоны
 Все таблицы с пользовательскими данными защищены RLS политиками.
 
 ### Типичные паттерны:
+
 ```sql
 -- Пользователь видит только свои данные
 USING (auth.uid() = user_id)
@@ -76,40 +81,40 @@ USING ((auth.uid() = user_id) OR (is_public = true))
 
 ```typescript
 // Использовать типы из автогенерируемого файла
-import type { Database } from '@/integrations/supabase/types';
+import type { Database } from "@/integrations/supabase/types";
 
 // Примеры
-type Track = Database['public']['Tables']['tracks']['Row'];
-type TrackVersion = Database['public']['Tables']['track_versions']['Row'];
-type TrackInsert = Database['public']['Tables']['tracks']['Insert'];
-type TrackUpdate = Database['public']['Tables']['tracks']['Update'];
+type Track = Database["public"]["Tables"]["tracks"]["Row"];
+type TrackVersion = Database["public"]["Tables"]["track_versions"]["Row"];
+type TrackInsert = Database["public"]["Tables"]["tracks"]["Insert"];
+type TrackUpdate = Database["public"]["Tables"]["tracks"]["Update"];
 ```
 
 ## Запросы к БД
 
 ```typescript
 // Правильный импорт
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 
 // Пример запроса
 const { data, error } = await supabase
-  .from('track_versions')
-  .select('*')
-  .eq('track_id', trackId)
-  .eq('is_primary', true)  // НЕ is_master!
+  .from("track_versions")
+  .select("*")
+  .eq("track_id", trackId)
+  .eq("is_primary", true) // НЕ is_master!
   .single();
 ```
 
 ## Storage (Файловое хранилище)
 
 ### Бакеты
+
 - `project-assets` - Ассеты проектов (обложки, и т.д.)
 
 ### Загрузка файлов
+
 ```typescript
-const { data, error } = await supabase.storage
-  .from('project-assets')
-  .upload(path, file);
+const { data, error } = await supabase.storage.from("project-assets").upload(path, file);
 ```
 
 ## Миграции
@@ -126,4 +131,4 @@ ALTER TABLE new_table ENABLE ROW LEVEL SECURITY;
 
 ---
 
-*Последнее обновление: 2025-12-03*
+_Последнее обновление: 2025-12-03_

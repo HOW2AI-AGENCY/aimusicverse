@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tag, X } from 'lucide-react';
-import { TAG_CONFIGS, TagConfig } from './types';
-import { tagColors } from '@/lib/design-colors';
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tag, X } from "lucide-react";
+import { TAG_CONFIGS, TagConfig } from "./types";
+import { tagColors } from "@/lib/design-colors";
 
 interface TagMenuProps {
   isOpen: boolean;
@@ -25,11 +25,11 @@ export const TagMenu = ({ isOpen, onClose, onSelectTag, anchorPosition }: TagMen
     };
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen, onClose]);
 
@@ -37,22 +37,20 @@ export const TagMenu = ({ isOpen, onClose, onSelectTag, anchorPosition }: TagMen
 
   // Use design tokens for tag category colors
   const categories = {
-    VOCAL: { label: 'Вокал', color: `${tagColors.vocal.bg} ${tagColors.vocal.text}` },
-    INSTRUMENT: { label: 'Инструменты', color: `${tagColors.instrument.bg} ${tagColors.instrument.text}` },
-    MOOD: { label: 'Настроение', color: `${tagColors.mood.bg} ${tagColors.mood.text}` },
-    TECH: { label: 'Эффекты', color: `${tagColors.structure.bg} ${tagColors.structure.text}` },
+    VOCAL: { label: "Вокал", color: `${tagColors.vocal.bg} ${tagColors.vocal.text}` },
+    INSTRUMENT: { label: "Инструменты", color: `${tagColors.instrument.bg} ${tagColors.instrument.text}` },
+    MOOD: { label: "Настроение", color: `${tagColors.mood.bg} ${tagColors.mood.text}` },
+    TECH: { label: "Эффекты", color: `${tagColors.structure.bg} ${tagColors.structure.text}` },
   };
 
-  const filteredTags = selectedCategory
-    ? TAG_CONFIGS.filter((tag) => tag.category === selectedCategory)
-    : TAG_CONFIGS;
+  const filteredTags = selectedCategory ? TAG_CONFIGS.filter((tag) => tag.category === selectedCategory) : TAG_CONFIGS;
 
   const style = anchorPosition
     ? {
-        position: 'fixed' as const,
+        position: "fixed" as const,
         top: `${anchorPosition.y}px`,
         left: `${anchorPosition.x}px`,
-        transform: 'translateY(-100%)',
+        transform: "translateY(-100%)",
       }
     : {};
 
@@ -76,7 +74,7 @@ export const TagMenu = ({ isOpen, onClose, onSelectTag, anchorPosition }: TagMen
       {/* Categories */}
       <div className="flex gap-2 p-3 overflow-x-auto">
         <Button
-          variant={selectedCategory === null ? 'default' : 'outline'}
+          variant={selectedCategory === null ? "default" : "outline"}
           size="sm"
           onClick={() => setSelectedCategory(null)}
           className="flex-shrink-0"
@@ -86,7 +84,7 @@ export const TagMenu = ({ isOpen, onClose, onSelectTag, anchorPosition }: TagMen
         {Object.entries(categories).map(([key, { label, color }]) => (
           <Button
             key={key}
-            variant={selectedCategory === key ? 'default' : 'outline'}
+            variant={selectedCategory === key ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedCategory(key)}
             className="flex-shrink-0"
@@ -111,9 +109,7 @@ export const TagMenu = ({ isOpen, onClose, onSelectTag, anchorPosition }: TagMen
                 className={`p-3 rounded-lg border border-border hover:border-primary transition-all text-left ${categoryColor}`}
               >
                 <div className="font-medium text-sm">{tag.label}</div>
-                {tag.description && (
-                  <div className="text-xs opacity-70 mt-1">{tag.description}</div>
-                )}
+                {tag.description && <div className="text-xs opacity-70 mt-1">{tag.description}</div>}
               </button>
             );
           })}

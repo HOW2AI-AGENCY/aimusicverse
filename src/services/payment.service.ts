@@ -3,30 +3,30 @@
  * Facade for accessing both Telegram Stars and Tinkoff card payments
  */
 
-import * as starsService from './starsPaymentService';
-import * as tinkoffService from './tinkoffPaymentService';
-import { logger } from '@/lib/logger';
+import * as starsService from "./starsPaymentService";
+import * as tinkoffService from "./tinkoffPaymentService";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'PaymentService' });
+const log = logger.child({ module: "PaymentService" });
 
-export type PaymentGateway = 'stars' | 'tinkoff';
+export type PaymentGateway = "stars" | "tinkoff";
 
 export interface UnifiedProduct {
   id: string;
   productCode: string;
-  productType: 'credits' | 'subscription';
+  productType: "credits" | "subscription";
   name: string;
   description: string | null;
-  
+
   // Prices
   starsPrice: number | null;
   rubPriceKopecks: number | null;
-  
+
   // Product details
   creditsAmount: number | null;
   subscriptionDays: number | null;
   subscriptionTier: string | null;
-  
+
   // Display
   features: string[] | null;
   isPopular: boolean;
@@ -62,7 +62,7 @@ export async function getAllProducts(): Promise<UnifiedProduct[]> {
     const starsProducts = await starsService.getProducts();
     return starsProducts.map(fromStarsProduct);
   } catch (error) {
-    log.error('Failed to fetch products', error);
+    log.error("Failed to fetch products", error);
     return [];
   }
 }
@@ -75,7 +75,7 @@ export async function getProduct(productCode: string): Promise<UnifiedProduct | 
     const product = await starsService.getProductByCode(productCode);
     return product ? fromStarsProduct(product) : null;
   } catch (error) {
-    log.error('Failed to fetch product', error, { productCode });
+    log.error("Failed to fetch product", error, { productCode });
     return null;
   }
 }
@@ -85,10 +85,10 @@ export async function getProduct(productCode: string): Promise<UnifiedProduct | 
  */
 export async function getCreditPackages(): Promise<UnifiedProduct[]> {
   try {
-    const products = await starsService.getProductsByType('credits');
+    const products = await starsService.getProductsByType("credits");
     return products.map(fromStarsProduct);
   } catch (error) {
-    log.error('Failed to fetch credit packages', error);
+    log.error("Failed to fetch credit packages", error);
     return [];
   }
 }
@@ -98,10 +98,10 @@ export async function getCreditPackages(): Promise<UnifiedProduct[]> {
  */
 export async function getSubscriptions(): Promise<UnifiedProduct[]> {
   try {
-    const products = await starsService.getProductsByType('subscription');
+    const products = await starsService.getProductsByType("subscription");
     return products.map(fromStarsProduct);
   } catch (error) {
-    log.error('Failed to fetch subscriptions', error);
+    log.error("Failed to fetch subscriptions", error);
     return [];
   }
 }
@@ -116,7 +116,7 @@ export async function createPayment(
     userId?: string;
     successUrl?: string;
     failUrl?: string;
-  }
+  },
 ): Promise<{
   success: boolean;
   paymentUrl?: string;
@@ -125,13 +125,13 @@ export async function createPayment(
   error?: string;
 }> {
   try {
-    if (gateway === 'tinkoff') {
+    if (gateway === "tinkoff") {
       const result = await tinkoffService.createTinkoffPayment({
         productCode,
         successUrl: options?.successUrl,
         failUrl: options?.failUrl,
       });
-      
+
       return {
         success: result.success,
         paymentUrl: result.paymentUrl,
@@ -139,16 +139,16 @@ export async function createPayment(
         error: result.error,
       };
     }
-    
+
     // Stars payment requires userId
     if (!options?.userId) {
       return {
         success: false,
-        error: 'User ID is required for Stars payment',
+        error: "User ID is required for Stars payment",
       };
     }
-    
-    const result = await starsService.createInvoice({ 
+
+    const result = await starsService.createInvoice({
       productCode,
       userId: options.userId,
     });
@@ -157,7 +157,7 @@ export async function createPayment(
       invoiceLink: result.invoiceLink,
     };
   } catch (error) {
-    log.error('Payment creation failed', error as Error, { productCode, gateway });
+    log.error("Payment creation failed", error as Error, { productCode, gateway });
     return {
       success: false,
       error: (error as Error).message,
@@ -170,7 +170,7 @@ export async function createPayment(
  */
 export function isTinkoffAvailable(): boolean {
   // Tinkoff is available outside of Telegram
-  return typeof window !== 'undefined' && !(window as any).Telegram?.WebApp;
+  return typeof window !== "undefined" && !(window as any).Telegram?.WebApp;
 }
 
 /**
@@ -178,14 +178,14 @@ export function isTinkoffAvailable(): boolean {
  */
 export function isStarsAvailable(): boolean {
   // Stars are only available inside Telegram
-  return typeof window !== 'undefined' && !!(window as any).Telegram?.WebApp;
+  return typeof window !== "undefined" && !!(window as any).Telegram?.WebApp;
 }
 
 /**
  * Get recommended payment gateway
  */
 export function getRecommendedGateway(): PaymentGateway {
-  return isStarsAvailable() ? 'stars' : 'tinkoff';
+  return isStarsAvailable() ? "stars" : "tinkoff";
 }
 
 // Re-export individual services for direct access

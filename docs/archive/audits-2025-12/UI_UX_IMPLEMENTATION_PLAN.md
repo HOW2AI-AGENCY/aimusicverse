@@ -38,6 +38,7 @@
 
 **Total Tasks**: 105  
 **Distribution**:
+
 - Phase 1: Setup & Infrastructure (24 tasks) - Sprint 007
 - US1: Library Redesign (10 tasks) - Sprint 008
 - US2: Player Optimization (12 tasks) - Sprint 008
@@ -57,14 +58,14 @@
 
 Все файлы находятся в директории: `specs/copilot/audit-interface-and-optimize/`
 
-| Документ | Размер | Описание |
-|----------|--------|----------|
-| **spec.md** | 15.8 KB | Полная спецификация с 6 User Stories |
-| **plan.md** | 23.9 KB | Технический план реализации, фазы, зависимости |
-| **research.md** | 23.0 KB | Исследование mobile-first паттернов, player UX, versioning |
-| **data-model.md** | 19.5 KB | Схема БД, entity definitions, validation rules |
-| **tasks.md** | ~12 KB | 105 задач с зависимостями и приоритетами |
-| **quickstart.md** | 15.0 KB | Setup guide для разработчиков |
+| Документ          | Размер  | Описание                                                   |
+| ----------------- | ------- | ---------------------------------------------------------- |
+| **spec.md**       | 15.8 KB | Полная спецификация с 6 User Stories                       |
+| **plan.md**       | 23.9 KB | Технический план реализации, фазы, зависимости             |
+| **research.md**   | 23.0 KB | Исследование mobile-first паттернов, player UX, versioning |
+| **data-model.md** | 19.5 KB | Схема БД, entity definitions, validation rules             |
+| **tasks.md**      | ~12 KB  | 105 задач с зависимостями и приоритетами                   |
+| **quickstart.md** | 15.0 KB | Setup guide для разработчиков                              |
 
 ### API Контракты (OpenAPI/JSON Schema)
 
@@ -80,10 +81,12 @@
 ## 🏃 Спринты
 
 ### Sprint 006: Аудит и планирование ✅ ЗАВЕРШЕН
+
 **Даты**: 2025-12-01 - 2025-12-08  
 **Статус**: ✅ Done
 
 **Достижения**:
+
 - Проведен полный аудит кодовой базы
 - Создана спецификация с 6 User Stories
 - Разработан план реализации (105 задач)
@@ -97,12 +100,14 @@
 ---
 
 ### Sprint 007: Setup & Infrastructure 🔄 В РАБОТЕ
+
 **Даты**: 2025-12-08 - 2025-12-15  
 **Статус**: 🔄 In Progress
 
 **Задачи** (24):
 
 #### Database Migrations (6 задач)
+
 - [ ] T001: Master version tracking (`master_version_id` в `tracks`)
 - [ ] T002: Version numbering (`version_number`, `version_label`)
 - [ ] T003: Track changelog table (логирование изменений)
@@ -111,12 +116,15 @@
 - [ ] T006: Data migration (установка master versions)
 
 #### Type System (7 задач)
+
 - [ ] T007-T013: Обновление TypeScript типов для Track, TrackVersion, Playlist, PlayerState, AssistantForm
 
 #### Hooks & Queries (11 задач)
+
 - [ ] T014-T024: Базовые хуки (useTrackVersions, useVersionSwitcher, usePlayerState, usePlaybackQueue, backend filtering)
 
 **Критерии приемки**:
+
 - Все миграции применены успешно
 - Существующие треки имеют `master_version_id`
 - TypeScript типы валидны (`tsc --noEmit`)
@@ -128,12 +136,14 @@
 ---
 
 ### Sprint 008: Library & Player MVP ⏳ ПЛАНИРУЕТСЯ
+
 **Даты**: 2025-12-15 - 2025-12-29 (2 недели)  
 **Статус**: ⏳ Planned
 
 **User Stories**: US1 (Library) + US2 (Player)
 
 #### US1: Library Mobile Redesign (10 задач)
+
 - [ ] TrackCard Mobile Redesign (touch targets, swipe)
 - [ ] TrackRow Component (list режим)
 - [ ] VersionBadge (количество версий)
@@ -145,6 +155,7 @@
 - [ ] Tests (unit + e2e)
 
 #### US2: Player Mobile Optimization (12 задач)
+
 - [ ] CompactPlayer Redesign (64px высота)
 - [ ] ExpandedPlayer Component (200px, swipe-контроль)
 - [ ] FullscreenPlayer Redesign (синхронизированная лирика)
@@ -157,6 +168,7 @@
 - [ ] Tests (unit + e2e)
 
 **Критерии приемки**:
+
 - Touch targets ≥44×44px
 - Swipe gestures с haptic feedback
 - Версии отображаются и переключаются
@@ -170,18 +182,21 @@
 ---
 
 ### Sprint 009: Track Details & Actions ⏳ ПЛАНИРУЕТСЯ
+
 **Даты**: 2025-12-29 - 2026-01-12  
 **Статус**: ⏳ Planned
 
 **User Stories**: US3 (Track Details) + US4 (Track Actions)
 
 #### US3: Track Details Panel (11 задач)
+
 - Исправление отображения лирики (normal + timestamped)
 - Version-aware компоненты
 - Display stems в панели деталей
 - Улучшенный AI анализ с парсингом
 
 #### US4: Track Actions Menu (8 задач)
+
 - Create Persona function
 - Open in Studio (для треков со стемами)
 - Version switching в меню
@@ -190,18 +205,21 @@
 ---
 
 ### Sprint 010: Homepage & AI Assistant ⏳ ПЛАНИРУЕТСЯ
+
 **Даты**: 2026-01-12 - 2026-01-26  
 **Статус**: ⏳ Planned
 
 **User Stories**: US5 (Homepage) + US6 (AI Assistant)
 
 #### US5: Homepage Discovery (10 задач)
+
 - Публичные треки/проекты/артисты
 - Featured/New/Popular секции
 - Hybrid feed algorithm
 - Infinite scroll с lazy loading
 
 #### US6: AI Assistant Mode (15 задач)
+
 - AssistantWizard component
 - 7 шагов с контекстными подсказками
 - Динамическая форма (conditional fields)
@@ -210,10 +228,12 @@
 ---
 
 ### Sprint 011: Polish & Testing ⏳ ПЛАНИРУЕТСЯ
+
 **Даты**: 2026-01-26 - 2026-02-02  
 **Статус**: ⏳ Planned
 
 **Focus**: Cross-cutting improvements (15 задач)
+
 - Responsive breakpoints utilities
 - Mobile-first CSS
 - Lazy loading + skeleton loaders
@@ -229,26 +249,31 @@
 ## 🧪 Testing Strategy
 
 ### Unit Tests
+
 - **Target**: 80%+ code coverage
 - **Tools**: Jest, React Testing Library
 - **Scope**: Hooks, components, utilities
 
 ### Integration Tests
+
 - **Target**: Key user flows
 - **Tools**: React Testing Library
 - **Scope**: Form submission, version switching, queue management
 
 ### E2E Tests
+
 - **Target**: Critical paths on mobile viewport
 - **Tools**: Playwright
 - **Viewports**: 375×667 (iPhone SE), 390×844 (iPhone 12)
 - **Scope**: Library browsing, track playback, generation flow
 
 ### Visual Regression
+
 - **Tool**: Storybook + Chromatic
 - **Scope**: All components at 3 breakpoints (mobile/tablet/desktop)
 
 ### Performance Testing
+
 - **Tool**: Lighthouse CI
 - **Target**: Mobile Score >90, FCP <2s на 3G
 - **Frequency**: Each PR
@@ -258,6 +283,7 @@
 ## 📈 Метрики успеха
 
 ### Технические метрики
+
 - ✅ Lighthouse Mobile Score >90
 - ✅ First Contentful Paint <2s на 3G
 - ✅ Time to Interactive <5s
@@ -266,6 +292,7 @@
 - ✅ 0 Critical bugs in production
 
 ### Пользовательские метрики
+
 - 📊 +30% Session Duration
 - 📊 +50% Mobile User Retention
 - 📊 -40% Bounce Rate on Mobile
@@ -273,6 +300,7 @@
 - 📊 +60% Generation Completion Rate
 
 ### Бизнес метрики
+
 - 💰 +20% User Acquisition (mobile traffic)
 - 💰 +15% Conversion to Premium
 - 💰 -30% Support Tickets (mobile UI issues)
@@ -282,38 +310,46 @@
 ## ⚠️ Риски и митигация
 
 ### Риск 1: Миграция данных
+
 **Описание**: Существующие треки без версий могут сломаться  
 **Вероятность**: Medium  
 **Влияние**: High  
 **Митигация**:
+
 - Автоматически создать версию v1.0 для каждого трека
 - Rollback план с backup БД
 - Тестирование на staging с реальными данными
 
 ### Риск 2: Performance на старых устройствах
+
 **Описание**: Анимации и сложные компоненты могут лагать  
 **Вероятность**: Medium  
 **Влияние**: Medium  
 **Митигация**:
+
 - Progressive enhancement
 - Feature detection (reduced motion)
 - Performance profiling на разных устройствах
 - Fallback к простым компонентам
 
 ### Риск 3: Конфликты gesture/scroll
+
 **Описание**: Swipe может конфликтовать со скроллом  
 **Вероятность**: High  
 **Влияние**: Low  
 **Митигация**:
+
 - Threshold detection (>30px horizontal = swipe)
 - Direction priority (vertical scroll > horizontal swipe)
 - Visual feedback для swipe gestures
 
 ### Риск 4: Breaking changes
+
 **Описание**: Изменения типов могут сломать существующие компоненты  
 **Вероятность**: Low  
 **Влияние**: High  
 **Митигация**:
+
 - Постепенное внедрение с fallback
 - Extensive unit tests
 - Feature flags для новых компонентов
@@ -325,12 +361,14 @@
 ### Для разработчиков
 
 1. **Прочитать документацию**:
+
    ```bash
    cd specs/copilot/audit-interface-and-optimize/
    cat quickstart.md
    ```
 
 2. **Посмотреть текущие задачи**:
+
    ```bash
    cat specs/copilot/audit-interface-and-optimize/tasks.md
    cat SPRINTS/SPRINT-007-MOBILE-FIRST-IMPLEMENTATION.md
@@ -339,6 +377,7 @@
 3. **Выбрать задачу** из Sprint 007 (Phase 1)
 
 4. **Создать ветку**:
+
    ```bash
    git checkout -b feature/T001-master-version-tracking
    ```

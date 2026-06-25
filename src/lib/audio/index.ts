@@ -8,7 +8,7 @@ export {
   type AudioBufferPool,
   type BufferPoolConfig,
   type PooledBuffer,
-} from './bufferPool';
+} from "./bufferPool";
 
 export {
   getAudioContextClass,
@@ -16,11 +16,6 @@ export {
   isAudioContextSupported,
   ensureAudioContextRunning,
   safeCloseAudioContext,
-} from './audioContextHelper';
+} from "./audioContextHelper";
 
-export {
-  audioManager,
-  AudioManager,
-  type AudioManagerConfig,
-  type AudioElementMetadata,
-} from './AudioManager';
+export { audioManager, AudioManager, type AudioManagerConfig, type AudioElementMetadata } from "./AudioManager";

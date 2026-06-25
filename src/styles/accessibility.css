@@ -74,17 +74,17 @@ textarea:focus-visible,
     --border: 0 0% 30%;
     --muted-foreground: 0 0% 35%;
   }
-  
+
   .dark {
     --border: 0 0% 70%;
     --muted-foreground: 0 0% 70%;
   }
-  
+
   /* Ensure all text has minimum contrast */
   .text-muted-foreground {
     color: hsl(0 0% 40%);
   }
-  
+
   .dark .text-muted-foreground {
     color: hsl(0 0% 65%);
   }
@@ -101,7 +101,7 @@ textarea:focus-visible,
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   /* Keep essential loading indicators visible */
   .animate-spin {
     animation-duration: 1s !important;
@@ -129,7 +129,7 @@ textarea:focus-visible,
 }
 
 .touch-target-extended::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: -8px;
 }
@@ -162,7 +162,7 @@ textarea:focus-visible,
 }
 
 .status-success::before {
-  content: '✓ ';
+  content: "✓ ";
 }
 
 .status-error {
@@ -170,7 +170,7 @@ textarea:focus-visible,
 }
 
 .status-error::before {
-  content: '✕ ';
+  content: "✕ ";
 }
 
 .status-warning {
@@ -178,7 +178,7 @@ textarea:focus-visible,
 }
 
 .status-warning::before {
-  content: '⚠ ';
+  content: "⚠ ";
 }
 
 /* ========== Links ========== */
@@ -232,7 +232,7 @@ a:not([class]):hover {
 
 /* Required field indicator */
 [aria-required="true"]::after {
-  content: ' *';
+  content: " *";
   color: hsl(var(--destructive));
 }
 
@@ -261,7 +261,7 @@ a:not([class]):hover {
 }
 
 [aria-busy="true"]::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: hsl(var(--background) / 0.7);

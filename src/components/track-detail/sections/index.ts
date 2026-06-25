@@ -1,6 +1,6 @@
 /**
  * Track Detail Sections
- * 
+ *
  * Modular sections for TrackDetailsTab:
  * - TrackCoverSection: Full-width cover with title overlay
  * - TrackStatsGrid: Statistics grid
@@ -12,11 +12,11 @@
  * - TrackRemixToggle: Allow remix toggle
  */
 
-export { TrackCoverSection } from './TrackCoverSection';
-export { TrackStatsGrid } from './TrackStatsGrid';
-export { TrackReferencesSection } from './TrackReferencesSection';
-export { TrackStyleSection } from './TrackStyleSection';
-export { TrackPromptSection } from './TrackPromptSection';
-export { TrackLyricsSection } from './TrackLyricsSection';
-export { TrackTechnicalSection } from './TrackTechnicalSection';
-export { TrackRemixToggle } from './TrackRemixToggle';
+export { TrackCoverSection } from "./TrackCoverSection";
+export { TrackStatsGrid } from "./TrackStatsGrid";
+export { TrackReferencesSection } from "./TrackReferencesSection";
+export { TrackStyleSection } from "./TrackStyleSection";
+export { TrackPromptSection } from "./TrackPromptSection";
+export { TrackLyricsSection } from "./TrackLyricsSection";
+export { TrackTechnicalSection } from "./TrackTechnicalSection";
+export { TrackRemixToggle } from "./TrackRemixToggle";

@@ -7,16 +7,16 @@
 - [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
 - [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L54) (1 connections)
 - [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleKeyDown,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
+  sheetOpen,
+  setSheetOpen,
+  isHovered,
+  isCurrentlyPlaying,
+  handlePlay,
+  handleCardClick,
+  handleKeyDown,
+  handleMouseEnter,
+  handleMouseLeave,
+  openSheet,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L33) (1 connections)
 
 ## Relationships
@@ -35,4 +35,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -1,6 +1,6 @@
 /**
  * EnhancedVariant - Rich card with social features
- * 
+ *
  * Features:
  * - DoubleTapLike
  * - Creator info
@@ -9,25 +9,25 @@
  * - Share
  */
 
-import { memo, useState, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Play, Pause, Share2, Music2, Plus, UserPlus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useAuth } from '@/hooks/useAuth';
-import { useFollow } from '@/hooks/social/useFollow';
-import { LikeButton } from '@/components/ui/like-button';
-import { DoubleTapLike } from '@/components/engagement/DoubleTapLike';
-import { CreatorAvatar, CreatorLink } from '@/components/ui/creator-avatar';
-import { PublicTrackDetailSheet } from '@/components/home/PublicTrackDetailSheet';
-import { AddToPlaylistSheet } from '@/components/home/AddToPlaylistSheet';
-import type { EnhancedTrackCardProps } from '../types';
-import type { Track } from '@/types/track';
-import { pill } from '@/lib/overlay-colors';
+import { memo, useState, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Play, Pause, Share2, Music2, Plus, UserPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useFollow } from "@/hooks/social/useFollow";
+import { LikeButton } from "@/components/ui/like-button";
+import { DoubleTapLike } from "@/components/engagement/DoubleTapLike";
+import { CreatorAvatar, CreatorLink } from "@/components/ui/creator-avatar";
+import { PublicTrackDetailSheet } from "@/components/home/PublicTrackDetailSheet";
+import { AddToPlaylistSheet } from "@/components/home/AddToPlaylistSheet";
+import type { EnhancedTrackCardProps } from "../types";
+import type { Track } from "@/types/track";
+import { pill } from "@/lib/overlay-colors";
 
 export const EnhancedVariant = memo(function EnhancedVariant({
   track,
@@ -60,73 +60,85 @@ export const EnhancedVariant = memo(function EnhancedVariant({
   } as Track;
 
   const handleCardClick = useCallback(() => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     setDetailsOpen(true);
   }, [hapticFeedback]);
 
-  const handlePlay = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
+  const handlePlay = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
 
-    if (isCurrentTrack && isPlaying) {
-      pauseTrack();
-    } else {
-      playTrack(trackForPlayer);
-    }
-  }, [isCurrentTrack, isPlaying, pauseTrack, playTrack, trackForPlayer]);
-
-  const handleShare = useCallback(async (e: React.MouseEvent) => {
-    e.stopPropagation();
-
-    if (onShare) {
-      onShare(track.id);
-      return;
-    }
-
-    const shareUrl = `${window.location.origin}/track/${track.id}`;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: track.title || 'Трек',
-          text: `Послушай "${track.title}" на MusicVerse`,
-          url: shareUrl,
-        });
-      } catch (err) {
-        if ((err as Error).name !== 'AbortError') {
-          await navigator.clipboard.writeText(shareUrl);
-          toast.success('Ссылка скопирована');
-        }
+      if (isCurrentTrack && isPlaying) {
+        pauseTrack();
+      } else {
+        playTrack(trackForPlayer);
       }
-    } else {
-      await navigator.clipboard.writeText(shareUrl);
-      toast.success('Ссылка скопирована');
-    }
-  }, [track.id, track.title, onShare]);
+    },
+    [isCurrentTrack, isPlaying, pauseTrack, playTrack, trackForPlayer],
+  );
 
-  const handleAddToPlaylist = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticFeedback('light');
-    if (onAddToPlaylist) {
-      onAddToPlaylist(track.id);
-    } else {
-      setPlaylistSheetOpen(true);
-    }
-  }, [hapticFeedback, onAddToPlaylist, track.id]);
+  const handleShare = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
 
-  const handleFollow = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticFeedback('light');
-    if (onFollow) {
-      onFollow(track.user_id);
-    } else {
-      toggleFollow();
-    }
-  }, [hapticFeedback, onFollow, track.user_id, toggleFollow]);
+      if (onShare) {
+        onShare(track.id);
+        return;
+      }
+
+      const shareUrl = `${window.location.origin}/track/${track.id}`;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: track.title || "Трек",
+            text: `Послушай "${track.title}" на MusicVerse`,
+            url: shareUrl,
+          });
+        } catch (err) {
+          if ((err as Error).name !== "AbortError") {
+            await navigator.clipboard.writeText(shareUrl);
+            toast.success("Ссылка скопирована");
+          }
+        }
+      } else {
+        await navigator.clipboard.writeText(shareUrl);
+        toast.success("Ссылка скопирована");
+      }
+    },
+    [track.id, track.title, onShare],
+  );
+
+  const handleAddToPlaylist = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      hapticFeedback("light");
+      if (onAddToPlaylist) {
+        onAddToPlaylist(track.id);
+      } else {
+        setPlaylistSheetOpen(true);
+      }
+    },
+    [hapticFeedback, onAddToPlaylist, track.id],
+  );
+
+  const handleFollow = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      hapticFeedback("light");
+      if (onFollow) {
+        onFollow(track.user_id);
+      } else {
+        toggleFollow();
+      }
+    },
+    [hapticFeedback, onFollow, track.user_id, toggleFollow],
+  );
 
   // Cover URL priority
   const platformCover = track.local_cover_url?.trim() || null;
   const sunoCover = track.cover_url?.trim() || null;
-  const coverUrl = imageError ? (platformCover ? sunoCover : null) : (platformCover || sunoCover);
+  const coverUrl = imageError ? (platformCover ? sunoCover : null) : platformCover || sunoCover;
 
   return (
     <>
@@ -138,17 +150,17 @@ export const EnhancedVariant = memo(function EnhancedVariant({
       >
         <motion.div
           whileTap={{ scale: 0.98 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          transition={{ type: "spring", stiffness: 400, damping: 30 }}
           onHoverStart={() => setIsHovered(true)}
           onHoverEnd={() => setIsHovered(false)}
           className="h-full"
         >
           <Card
             className={cn(
-              'group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full',
-              'shadow-sm hover:shadow-lg hover:ring-1 hover:ring-primary/20 transition-all duration-200 cursor-pointer',
-              isCurrentTrack && 'ring-2 ring-primary ring-offset-1 ring-offset-background',
-              className
+              "group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full",
+              "shadow-sm hover:shadow-lg hover:ring-1 hover:ring-primary/20 transition-all duration-200 cursor-pointer",
+              isCurrentTrack && "ring-2 ring-primary ring-offset-1 ring-offset-background",
+              className,
             )}
           >
             {/* Cover Image */}
@@ -156,7 +168,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
               {coverUrl ? (
                 <img
                   src={coverUrl}
-                  alt={track.title || 'Track cover'}
+                  alt={track.title || "Track cover"}
                   className="w-full h-full object-cover transition-transform duration-200 group-hover:scale-105"
                   onError={() => setImageError(true)}
                   loading="lazy"
@@ -171,8 +183,8 @@ export const EnhancedVariant = memo(function EnhancedVariant({
               {/* Gradient Overlay */}
               <div
                 className={cn(
-                  'absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent',
-                  'opacity-50 group-hover:opacity-70 transition-opacity duration-300'
+                  "absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent",
+                  "opacity-50 group-hover:opacity-70 transition-opacity duration-300",
                 )}
               />
 
@@ -189,12 +201,12 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 <Button
                   size="icon"
                   className={cn(
-                    'w-12 h-12 sm:w-10 sm:h-10 min-w-[44px] min-h-[44px] rounded-full shadow-xl',
-                    'bg-primary/90 hover:bg-primary transition-all'
+                    "w-12 h-12 sm:w-10 sm:h-10 min-w-[44px] min-h-[44px] rounded-full shadow-xl",
+                    "bg-primary/90 hover:bg-primary transition-all",
                   )}
                   onClick={handlePlay}
                   disabled={!track.audio_url}
-                  aria-label={isCurrentlyPlaying ? 'Пауза' : 'Воспроизвести'}
+                  aria-label={isCurrentlyPlaying ? "Пауза" : "Воспроизвести"}
                 >
                   {isCurrentlyPlaying ? (
                     <Pause className="w-6 h-6 sm:w-5 sm:h-5 text-primary-foreground" />
@@ -217,7 +229,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                         <motion.div
                           key={i}
                           className="w-0.5 bg-primary-foreground rounded-full"
-                          animate={{ height: ['40%', '100%', '60%', '80%', '40%'] }}
+                          animate={{ height: ["40%", "100%", "60%", "80%", "40%"] }}
                           transition={{ duration: 0.8, repeat: Infinity, delay: i * 0.1 }}
                         />
                       ))}
@@ -254,7 +266,10 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   <Button
                     size="icon"
                     variant="secondary"
-                    className={cn("h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0", pill.glassDark)}
+                    className={cn(
+                      "h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0",
+                      pill.glassDark,
+                    )}
                     onClick={handleAddToPlaylist}
                     aria-label="Добавить в плейлист"
                   >
@@ -267,7 +282,10 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                   <Button
                     size="icon"
                     variant="secondary"
-                    className={cn("h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0", pill.glassDark)}
+                    className={cn(
+                      "h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0",
+                      pill.glassDark,
+                    )}
                     onClick={handleFollow}
                     disabled={isFollowLoading}
                     aria-label="Подписаться на автора"
@@ -280,7 +298,10 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 <Button
                   size="icon"
                   variant="secondary"
-                  className={cn("h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0 ml-auto", pill.glassDark)}
+                  className={cn(
+                    "h-11 w-11 min-w-[44px] min-h-[44px] sm:h-7 sm:w-7 sm:min-w-0 sm:min-h-0 rounded-full border-0 ml-auto",
+                    pill.glassDark,
+                  )}
                   onClick={handleShare}
                   aria-label="Поделиться"
                 >
@@ -290,15 +311,15 @@ export const EnhancedVariant = memo(function EnhancedVariant({
             </div>
 
             {/* Content - increased padding for mobile */}
-            <div className={cn('relative', compact ? 'p-2.5' : 'p-3 sm:p-2.5')}>
+            <div className={cn("relative", compact ? "p-2.5" : "p-3 sm:p-2.5")}>
               <h3
                 className={cn(
-                  'font-semibold line-clamp-1 transition-colors',
-                  compact ? 'text-[11px]' : 'text-xs',
-                  isHovered && 'text-primary'
+                  "font-semibold line-clamp-1 transition-colors",
+                  compact ? "text-[11px]" : "text-xs",
+                  isHovered && "text-primary",
                 )}
               >
-                {track.title || 'Без названия'}
+                {track.title || "Без названия"}
               </h3>
 
               {/* Creator Info */}

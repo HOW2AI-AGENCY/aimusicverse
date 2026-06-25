@@ -3,7 +3,7 @@
  * Raw Supabase operations for generation tasks
  */
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 
 // ==========================================
 // Types
@@ -43,7 +43,7 @@ export interface GenerationLogsFilter {
   limit?: number;
   status?: string;
   userId?: string;
-  timeRange?: '1h' | '24h' | '7d' | '30d';
+  timeRange?: "1h" | "24h" | "7d" | "30d";
 }
 
 // ==========================================
@@ -53,21 +53,31 @@ export interface GenerationLogsFilter {
 function getTimeFilter(timeRange: string): string {
   const now = new Date();
   switch (timeRange) {
-    case '1h': return new Date(now.getTime() - 60 * 60 * 1000).toISOString();
-    case '24h': return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
-    case '7d': return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    case '30d': return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
-    default: return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+    case "1h":
+      return new Date(now.getTime() - 60 * 60 * 1000).toISOString();
+    case "24h":
+      return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+    case "7d":
+      return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    case "30d":
+      return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    default:
+      return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
   }
 }
 
 function getInterval(timeRange: string): string {
   switch (timeRange) {
-    case '1h': return '1 hour';
-    case '24h': return '24 hours';
-    case '7d': return '7 days';
-    case '30d': return '30 days';
-    default: return '24 hours';
+    case "1h":
+      return "1 hour";
+    case "24h":
+      return "24 hours";
+    case "7d":
+      return "7 days";
+    case "30d":
+      return "30 days";
+    default:
+      return "24 hours";
   }
 }
 
@@ -78,23 +88,21 @@ function getInterval(timeRange: string): string {
 /**
  * Fetch generation task logs
  */
-export async function fetchGenerationLogs(
-  filters: GenerationLogsFilter = {}
-): Promise<GenerationLog[]> {
-  const { limit = 50, status, userId, timeRange = '24h' } = filters;
+export async function fetchGenerationLogs(filters: GenerationLogsFilter = {}): Promise<GenerationLog[]> {
+  const { limit = 50, status, userId, timeRange = "24h" } = filters;
 
   let query = supabase
-    .from('generation_tasks')
-    .select('*')
-    .gte('created_at', getTimeFilter(timeRange))
-    .order('created_at', { ascending: false })
+    .from("generation_tasks")
+    .select("*")
+    .gte("created_at", getTimeFilter(timeRange))
+    .order("created_at", { ascending: false })
     .limit(limit);
 
   if (status) {
-    query = query.eq('status', status);
+    query = query.eq("status", status);
   }
   if (userId) {
-    query = query.eq('user_id', userId);
+    query = query.eq("user_id", userId);
   }
 
   const { data, error } = await query;
@@ -106,9 +114,9 @@ export async function fetchGenerationLogs(
  * Get generation statistics
  */
 export async function fetchGenerationStats(
-  timeRange: '1h' | '24h' | '7d' | '30d' = '24h'
+  timeRange: "1h" | "24h" | "7d" | "30d" = "24h",
 ): Promise<GenerationStats | null> {
-  const { data, error } = await supabase.rpc('get_generation_stats', {
+  const { data, error } = await supabase.rpc("get_generation_stats", {
     _time_period: getInterval(timeRange),
   });
   if (error) throw new Error(error.message);
@@ -118,24 +126,24 @@ export async function fetchGenerationStats(
 /**
  * Subscribe to generation logs realtime updates
  */
-export function subscribeToGenerationLogs(
-  callback: (payload: { eventType: string; new: GenerationLog }) => void
-): { unsubscribe: () => void } {
+export function subscribeToGenerationLogs(callback: (payload: { eventType: string; new: GenerationLog }) => void): {
+  unsubscribe: () => void;
+} {
   const channel = supabase
-    .channel('generation-logs-realtime')
+    .channel("generation-logs-realtime")
     .on(
-      'postgres_changes',
+      "postgres_changes",
       {
-        event: '*',
-        schema: 'public',
-        table: 'generation_tasks',
+        event: "*",
+        schema: "public",
+        table: "generation_tasks",
       },
       (payload) => {
         callback({
           eventType: payload.eventType,
           new: payload.new as GenerationLog,
         });
-      }
+      },
     )
     .subscribe();
 
@@ -151,13 +159,13 @@ export function subscribeToGenerationLogs(
  */
 export async function retryGenerationTask(taskId: string): Promise<void> {
   const { error } = await supabase
-    .from('generation_tasks')
-    .update({ 
-      status: 'pending',
+    .from("generation_tasks")
+    .update({
+      status: "pending",
       error_message: null,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', taskId);
+    .eq("id", taskId);
 
   if (error) throw new Error(error.message);
 }

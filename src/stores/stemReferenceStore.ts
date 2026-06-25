@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 export interface StemReferenceInput {
   url: string;
@@ -25,22 +25,22 @@ const EXPIRY_TIME = 5 * 60 * 1000; // 5 minutes
 
 export const useStemReferenceStore = create<StemReferenceStore>((set, get) => ({
   stemReference: null,
-  
+
   setStemReference: (reference) => {
     if (reference) {
-      set({ 
-        stemReference: { 
-          ...reference, 
-          savedAt: Date.now() 
-        } 
+      set({
+        stemReference: {
+          ...reference,
+          savedAt: Date.now(),
+        },
       });
     } else {
       set({ stemReference: null });
     }
   },
-  
+
   clearStemReference: () => set({ stemReference: null }),
-  
+
   isValidReference: () => {
     const { stemReference } = get();
     if (!stemReference) return false;

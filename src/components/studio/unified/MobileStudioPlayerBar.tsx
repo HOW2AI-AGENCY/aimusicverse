@@ -5,22 +5,14 @@
  * Uses design system tokens (Spec 032)
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
-import {
-  Play,
-  Pause,
-  SkipBack,
-  SkipForward,
-  MoreHorizontal,
-  Volume2,
-  VolumeX,
-} from 'lucide-react';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { glass } from '@/lib/glass';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
+import { Play, Pause, SkipBack, SkipForward, MoreHorizontal, Volume2, VolumeX } from "lucide-react";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { glass } from "@/lib/glass";
 
 interface MobileStudioPlayerBarProps {
   isPlaying: boolean;
@@ -85,47 +77,31 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
     <motion.div
       initial={{ y: 100 }}
       animate={{ y: 0 }}
-      transition={{ type: 'spring', damping: 25, stiffness: 400 }}
+      transition={{ type: "spring", damping: 25, stiffness: 400 }}
       className={cn(
         "fixed bottom-0 left-0 right-0 z-50",
         glass.player,
         "pb-[calc(max(var(--tg-safe-area-inset-bottom,0px),env(safe-area-inset-bottom,0px))+0.75rem)]",
-        className
+        className,
       )}
     >
       {/* Progress bar */}
-      <div 
-        className="h-1 bg-muted cursor-pointer touch-manipulation"
-        onClick={handleProgressClick}
-      >
-        <motion.div 
-          className="h-full bg-primary"
-          style={{ width: `${progress}%` }}
-          transition={{ duration: 0.1 }}
-        />
+      <div className="h-1 bg-muted cursor-pointer touch-manipulation" onClick={handleProgressClick}>
+        <motion.div className="h-full bg-primary" style={{ width: `${progress}%` }} transition={{ duration: 0.1 }} />
       </div>
 
       {/* Controls */}
       <div className="flex items-center justify-between px-3 py-2">
         {/* Time display */}
         <div className="flex items-center gap-1 min-w-[80px]">
-          <span className="text-xs font-mono font-medium">
-            {formatTime(currentTime)}
-          </span>
+          <span className="text-xs font-mono font-medium">{formatTime(currentTime)}</span>
           <span className="text-muted-foreground text-[10px]">/</span>
-          <span className="text-xs font-mono text-muted-foreground">
-            {formatTime(duration)}
-          </span>
+          <span className="text-xs font-mono text-muted-foreground">{formatTime(duration)}</span>
         </div>
 
         {/* Main controls */}
         <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-10 w-10 touch-manipulation"
-            onClick={handleSkipBack}
-          >
+          <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" onClick={handleSkipBack}>
             <SkipBack className="h-5 w-5" />
           </Button>
 
@@ -135,38 +111,20 @@ export const MobileStudioPlayerBar = memo(function MobileStudioPlayerBar({
             className="h-12 w-12 rounded-full touch-manipulation"
             onClick={handlePlayPause}
           >
-            {isPlaying ? (
-              <Pause className="h-5 w-5" />
-            ) : (
-              <Play className="h-5 w-5 ml-0.5" />
-            )}
+            {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-10 w-10 touch-manipulation"
-            onClick={handleSkipForward}
-          >
+          <Button variant="ghost" size="icon" className="h-10 w-10 touch-manipulation" onClick={handleSkipForward}>
             <SkipForward className="h-5 w-5" />
           </Button>
         </div>
 
         {/* Right controls */}
         <div className="flex items-center gap-1 min-w-[80px] justify-end">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-9 w-9 touch-manipulation"
-            onClick={handleMasterMute}
-          >
-            {masterVolume === 0 ? (
-              <VolumeX className="h-4 w-4" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
+          <Button variant="ghost" size="icon" className="h-9 w-9 touch-manipulation" onClick={handleMasterMute}>
+            {masterVolume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </Button>
-          
+
           <Button
             variant="ghost"
             size="icon"

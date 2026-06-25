@@ -7,18 +7,31 @@ import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { 
-  Users, Music, FolderKanban, ListMusic, Activity, 
-  TrendingUp, AlertTriangle, Clock, CheckCircle, XCircle,
-  Shield, RefreshCw, BookOpen, Search, Play, Globe, Lock,
-  Coins, MessageSquare, Eye, Crown, ChevronDown, Menu
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Users,
+  Music,
+  FolderKanban,
+  ListMusic,
+  Activity,
+  TrendingUp,
+  AlertTriangle,
+  Clock,
+  CheckCircle,
+  XCircle,
+  Shield,
+  RefreshCw,
+  BookOpen,
+  Search,
+  Play,
+  Globe,
+  Lock,
+  Coins,
+  MessageSquare,
+  Eye,
+  Crown,
+  ChevronDown,
+  Menu,
 } from "lucide-react";
 import { Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -55,12 +68,12 @@ export default function AdminLayout() {
   // Determine active tab from URL
   const activeTab = useMemo(() => {
     const path = location.pathname;
-    const tab = TAB_OPTIONS.find(t => t.path === path);
+    const tab = TAB_OPTIONS.find((t) => t.path === path);
     return tab?.value ?? "overview";
   }, [location.pathname]);
 
   const handleTabChange = (value: string) => {
-    const tab = TAB_OPTIONS.find(t => t.value === value);
+    const tab = TAB_OPTIONS.find((t) => t.value === value);
     if (tab) {
       navigate(tab.path);
     }
@@ -80,13 +93,14 @@ export default function AdminLayout() {
     return <Navigate to="/" replace />;
   }
 
-  const CurrentTabIcon = TAB_OPTIONS.find(t => t.value === activeTab)?.icon || Activity;
+  const CurrentTabIcon = TAB_OPTIONS.find((t) => t.value === activeTab)?.icon || Activity;
 
   return (
-    <div 
+    <div
       className="container mx-auto p-3 md:p-4 space-y-4 pb-[calc(6rem+env(safe-area-inset-bottom))]"
       style={{
-        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+        paddingTop:
+          "max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))",
       }}
     >
       {/* Header */}
@@ -108,7 +122,7 @@ export default function AdminLayout() {
           <SelectTrigger className="w-full">
             <div className="flex items-center gap-2">
               <CurrentTabIcon className="h-4 w-4 flex-shrink-0" />
-              <span>{TAB_OPTIONS.find(t => t.value === activeTab)?.label}</span>
+              <span>{TAB_OPTIONS.find((t) => t.value === activeTab)?.label}</span>
             </div>
           </SelectTrigger>
           <SelectContent className="max-h-[300px]">
@@ -136,7 +150,7 @@ export default function AdminLayout() {
                 onClick={() => handleTabChange(tab.value)}
                 className={cn(
                   "flex items-center gap-1.5 whitespace-nowrap",
-                  activeTab === tab.value && "bg-primary text-primary-foreground"
+                  activeTab === tab.value && "bg-primary text-primary-foreground",
                 )}
               >
                 <tab.icon className="h-4 w-4" />

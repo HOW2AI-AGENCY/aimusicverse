@@ -1,8 +1,8 @@
 /**
  * useHomePageHandlers - Consolidated handlers for home page
- * 
+ *
  * Extracts all callback handlers to reduce Index.tsx complexity
- * 
+ *
  * @module hooks/useHomePageHandlers
  */
 
@@ -18,10 +18,7 @@ interface UseHomePageHandlersOptions {
   onOpenAudioDialog: () => void;
 }
 
-export function useHomePageHandlers({ 
-  onOpenGenerateSheet, 
-  onOpenAudioDialog 
-}: UseHomePageHandlersOptions) {
+export function useHomePageHandlers({ onOpenGenerateSheet, onOpenAudioDialog }: UseHomePageHandlersOptions) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
   const { user } = useAuth();
@@ -39,42 +36,57 @@ export function useHomePageHandlers({
   }, [hapticFeedback, onOpenGenerateSheet]);
 
   // Navigate to remix
-  const handleRemix = useCallback((trackId: string) => {
-    hapticFeedback("light");
-    navigate(`/generate?remix=${trackId}`);
-  }, [hapticFeedback, navigate]);
+  const handleRemix = useCallback(
+    (trackId: string) => {
+      hapticFeedback("light");
+      navigate(`/generate?remix=${trackId}`);
+    },
+    [hapticFeedback, navigate],
+  );
 
   // Navigate to track page
-  const handleTrackClick = useCallback((trackId: string) => {
-    hapticFeedback("light");
-    navigate(`/track/${trackId}`);
-  }, [hapticFeedback, navigate]);
+  const handleTrackClick = useCallback(
+    (trackId: string) => {
+      hapticFeedback("light");
+      navigate(`/track/${trackId}`);
+    },
+    [hapticFeedback, navigate],
+  );
 
   // Handler for Quick Start preset cards
-  const handleQuickStartPreset = useCallback((preset: QuickStartPreset) => {
-    hapticFeedback("medium");
-    switch (preset) {
-      case 'track':
-      case 'riff':
-        onOpenGenerateSheet();
-        break;
-      case 'cover':
-        onOpenAudioDialog();
-        break;
-    }
-  }, [hapticFeedback, onOpenGenerateSheet, onOpenAudioDialog]);
+  const handleQuickStartPreset = useCallback(
+    (preset: QuickStartPreset) => {
+      hapticFeedback("medium");
+      switch (preset) {
+        case "track":
+        case "riff":
+          onOpenGenerateSheet();
+          break;
+        case "cover":
+          onOpenAudioDialog();
+          break;
+      }
+    },
+    [hapticFeedback, onOpenGenerateSheet, onOpenAudioDialog],
+  );
 
   // Handler for Track Presets - opens generation with preset applied
-  const handleQuickGenrePreset = useCallback((preset: TrackPreset) => {
-    hapticFeedback("medium");
-    // Store preset in sessionStorage for useGenerateForm to pick up
-    sessionStorage.setItem('quickGenrePreset', JSON.stringify({
-      description: preset.description,
-      hasVocals: preset.hasVocals,
-      presetId: preset.id,
-    }));
-    onOpenGenerateSheet();
-  }, [hapticFeedback, onOpenGenerateSheet]);
+  const handleQuickGenrePreset = useCallback(
+    (preset: TrackPreset) => {
+      hapticFeedback("medium");
+      // Store preset in sessionStorage for useGenerateForm to pick up
+      sessionStorage.setItem(
+        "quickGenrePreset",
+        JSON.stringify({
+          description: preset.description,
+          hasVocals: preset.hasVocals,
+          presetId: preset.id,
+        }),
+      );
+      onOpenGenerateSheet();
+    },
+    [hapticFeedback, onOpenGenerateSheet],
+  );
 
   return {
     goToProfile,

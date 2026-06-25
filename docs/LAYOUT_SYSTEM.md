@@ -8,20 +8,20 @@ This document describes the unified layout system for MusicVerse AI, including z
 
 ### Hierarchy
 
-| Level | Tailwind Class | Value | Usage |
-|-------|----------------|-------|-------|
-| 0 | `z-base` | 0 | Base content (default) |
-| 10 | `z-raised` | 10 | Cards, panels, elevated surfaces |
-| 20 | `z-sticky` | 20 | Sticky headers/footers |
-| 30 | `z-floating` | 30 | Tooltips, popovers |
-| 40 | `z-overlay` | 40 | Backdrops for modals |
-| 50 | `z-navigation` | 50 | Bottom nav, sidebar |
-| 60 | `z-player` | 60 | Compact/expanded player |
-| 70 | `z-contextual` | 70 | Toasts, hints, notifications |
-| 80 | `z-dialog` | 80 | Dialogs, sheets, modals |
-| 90 | `z-fullscreen` | 90 | Fullscreen player, studio |
-| 100 | `z-system` | 100 | System notifications, achievements |
-| 200 | `z-dropdown` | 200 | Dropdown menus, select lists |
+| Level | Tailwind Class | Value | Usage                              |
+| ----- | -------------- | ----- | ---------------------------------- |
+| 0     | `z-base`       | 0     | Base content (default)             |
+| 10    | `z-raised`     | 10    | Cards, panels, elevated surfaces   |
+| 20    | `z-sticky`     | 20    | Sticky headers/footers             |
+| 30    | `z-floating`   | 30    | Tooltips, popovers                 |
+| 40    | `z-overlay`    | 40    | Backdrops for modals               |
+| 50    | `z-navigation` | 50    | Bottom nav, sidebar                |
+| 60    | `z-player`     | 60    | Compact/expanded player            |
+| 70    | `z-contextual` | 70    | Toasts, hints, notifications       |
+| 80    | `z-dialog`     | 80    | Dialogs, sheets, modals            |
+| 90    | `z-fullscreen` | 90    | Fullscreen player, studio          |
+| 100   | `z-system`     | 100   | System notifications, achievements |
+| 200   | `z-dropdown`   | 200   | Dropdown menus, select lists       |
 
 ### Special Cases
 
@@ -48,6 +48,7 @@ This document describes the unified layout system for MusicVerse AI, including z
 ### What are Safe Areas?
 
 Safe areas account for:
+
 - iOS notch / Dynamic Island
 - Android status bar
 - iOS home indicator
@@ -106,24 +107,24 @@ import { TELEGRAM_SAFE_AREA, SAFE_STYLES, getSafeAreaTop, getSafeAreaBottom } fr
 
 Based on 4px grid system:
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--spacing-xs` | 4px | Tight spacing |
-| `--spacing-sm` | 8px | Compact |
-| `--spacing-md` | 12px | Comfortable |
-| `--spacing-lg` | 16px | Standard |
-| `--spacing-xl` | 24px | Relaxed |
-| `--spacing-2xl` | 32px | Spacious |
+| Token           | Value | Usage         |
+| --------------- | ----- | ------------- |
+| `--spacing-xs`  | 4px   | Tight spacing |
+| `--spacing-sm`  | 8px   | Compact       |
+| `--spacing-md`  | 12px  | Comfortable   |
+| `--spacing-lg`  | 16px  | Standard      |
+| `--spacing-xl`  | 24px  | Relaxed       |
+| `--spacing-2xl` | 32px  | Spacious      |
 
 ### Touch Targets
 
 Minimum sizes for interactive elements:
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--touch-target-min` | 44px | Minimum touch target |
-| `--touch-target-comfortable` | 48px | Comfortable touch target |
-| `--touch-target-large` | 56px | Large touch target |
+| Token                        | Value | Usage                    |
+| ---------------------------- | ----- | ------------------------ |
+| `--touch-target-min`         | 44px  | Minimum touch target     |
+| `--touch-target-comfortable` | 48px  | Comfortable touch target |
+| `--touch-target-large`       | 56px  | Large touch target       |
 
 ### Usage
 
@@ -224,6 +225,7 @@ import { SAFE_STYLES } from '@/constants/safe-area';
 ### 4. Test on Real Devices
 
 Safe areas behave differently on:
+
 - iPhone with notch
 - iPhone with Dynamic Island
 - Android with status bar
@@ -236,26 +238,31 @@ Always test on actual devices!
 ### Converting Existing Code
 
 **Before:**
+
 ```tsx
 <div className="fixed z-50" style={{ bottom: 'calc(1rem + env(safe-area-inset-bottom))' }}>
 ```
 
 **After:**
+
 ```tsx
 <div className="fixed-bottom-safe z-navigation">
 ```
 
 **Before:**
+
 ```tsx
 <div className="z-[80]">...</div>
 ```
 
 **After:**
+
 ```tsx
 <div className="z-dialog">...</div>
 ```
 
 **Before:**
+
 ```tsx
 <div style={{
   paddingTop: 'calc(max(var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 12px)'
@@ -263,6 +270,7 @@ Always test on actual devices!
 ```
 
 **After:**
+
 ```tsx
 <div style={SAFE_STYLES.headerTop}>
 // OR
@@ -273,15 +281,15 @@ Always test on actual devices!
 
 ```typescript
 // Z-index types
-import type { ZIndexKey } from '@/constants/z-index';
+import type { ZIndexKey } from "@/constants/z-index";
 
 // Safe area types
-import type { SafeAreaPosition, SafeAreaVariant } from '@/constants/safe-area';
+import type { SafeAreaPosition, SafeAreaVariant } from "@/constants/safe-area";
 
 // Usage
-const zIndex: ZIndexKey = 'navigation';
-const position: SafeAreaPosition = 'top';
-const variant: SafeAreaVariant = 'spacious';
+const zIndex: ZIndexKey = "navigation";
+const position: SafeAreaPosition = "top";
+const variant: SafeAreaVariant = "spacious";
 ```
 
 ## Troubleshooting
@@ -314,6 +322,7 @@ const variant: SafeAreaVariant = 'spacious';
 ## Changelog
 
 ### 2026-01-12
+
 - Created unified z-index system
 - Added safe area utility classes
 - Standardized spacing and positioning utilities

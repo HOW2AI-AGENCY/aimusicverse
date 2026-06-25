@@ -3,17 +3,17 @@
  *
  * Shown once per device (gated by localStorage). Dismissed on tap, swipe, or after 6s.
  */
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { ChevronDown, ChevronsLeftRight, MousePointerClick, Pointer } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { ChevronDown, ChevronsLeftRight, MousePointerClick, Pointer } from "lucide-react";
 
-const STORAGE_KEY = 'mv:player-gesture-hints-seen';
+const STORAGE_KEY = "mv:player-gesture-hints-seen";
 
 const HINTS = [
-  { icon: ChevronDown, label: 'Свайп вниз — закрыть' },
-  { icon: ChevronsLeftRight, label: 'Свайп вбок — соседний трек' },
-  { icon: MousePointerClick, label: 'Двойной тап — ±10 секунд' },
-  { icon: Pointer, label: 'Долгий пресс — действия' },
+  { icon: ChevronDown, label: "Свайп вниз — закрыть" },
+  { icon: ChevronsLeftRight, label: "Свайп вбок — соседний трек" },
+  { icon: MousePointerClick, label: "Двойной тап — ±10 секунд" },
+  { icon: Pointer, label: "Долгий пресс — действия" },
 ];
 
 export function PlayerGestureHints() {
@@ -21,7 +21,7 @@ export function PlayerGestureHints() {
 
   useEffect(() => {
     try {
-      if (typeof window === 'undefined') return;
+      if (typeof window === "undefined") return;
       if (window.localStorage.getItem(STORAGE_KEY)) return;
       // Defer to avoid competing with player mount animations
       const t = window.setTimeout(() => setVisible(true), 450);
@@ -40,7 +40,7 @@ export function PlayerGestureHints() {
 
   const dismiss = () => {
     try {
-      window.localStorage.setItem(STORAGE_KEY, '1');
+      window.localStorage.setItem(STORAGE_KEY, "1");
     } catch {
       // ignore
     }
@@ -69,7 +69,7 @@ export function PlayerGestureHints() {
             initial={{ y: 12, scale: 0.96, opacity: 0 }}
             animate={{ y: 0, scale: 1, opacity: 1 }}
             exit={{ y: 8, scale: 0.97, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+            transition={{ type: "spring", stiffness: 380, damping: 28 }}
             className="relative w-full max-w-[18rem] rounded-2xl aurora-surface aurora-glow p-4 space-y-2.5"
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground/80 text-center">
@@ -85,9 +85,7 @@ export function PlayerGestureHints() {
                 </li>
               ))}
             </ul>
-            <p className="text-[11px] text-muted-foreground/70 text-center pt-1">
-              Тап в любом месте — закрыть
-            </p>
+            <p className="text-[11px] text-muted-foreground/70 text-center pt-1">Тап в любом месте — закрыть</p>
           </motion.div>
         </motion.div>
       )}

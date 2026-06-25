@@ -1,16 +1,16 @@
 /**
  * Floating Main Button Component
- * 
+ *
  * A fixed-position button that mimics Telegram's MainButton for web/dev environments.
  * Properly handles safe areas and fullscreen mode.
  */
 
-import { ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Z_INDEX, getBottomSafeAreaWithNav } from '@/lib/toast-position';
+import { ReactNode } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Z_INDEX, getBottomSafeAreaWithNav } from "@/lib/toast-position";
 
 interface FloatingMainButtonProps {
   visible: boolean;
@@ -38,7 +38,7 @@ export function FloatingMainButton({
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
           className="fixed bottom-0 left-0 right-0 pointer-events-none"
           style={{
             zIndex: Z_INDEX.floatingButton,
@@ -50,14 +50,14 @@ export function FloatingMainButton({
               onClick={onClick}
               disabled={disabled || loading}
               className={cn(
-                'w-full h-14 text-base font-semibold',
-                'bg-primary hover:bg-primary/90 text-primary-foreground',
-                'shadow-xl shadow-primary/25',
-                'rounded-2xl',
-                'transition-all duration-200',
-                'active:scale-[0.98]',
-                'disabled:opacity-50 disabled:cursor-not-allowed',
-                className
+                "w-full h-14 text-base font-semibold",
+                "bg-primary hover:bg-primary/90 text-primary-foreground",
+                "shadow-xl shadow-primary/25",
+                "rounded-2xl",
+                "transition-all duration-200",
+                "active:scale-[0.98]",
+                "disabled:opacity-50 disabled:cursor-not-allowed",
+                className,
               )}
             >
               {loading ? (

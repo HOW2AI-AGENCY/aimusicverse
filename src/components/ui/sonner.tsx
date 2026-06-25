@@ -11,11 +11,11 @@ type ToasterProps = React.ComponentProps<typeof Sonner>;
  * Accounts for dynamic viewport changes
  */
 const getTelegramOffset = (): number => {
-  if (typeof window === 'undefined') return 0;
-  
+  if (typeof window === "undefined") return 0;
+
   const tgApp = window.Telegram?.WebApp;
   if (!tgApp) return 0;
-  
+
   // Account for keyboard or viewport changes in Telegram
   const isExpanded = tgApp.isExpanded;
   return isExpanded ? 0 : 20;
@@ -27,10 +27,10 @@ const Toaster = ({ ...props }: ToasterProps) => {
 
   // On mobile, use bottom-center to avoid Telegram header buttons
   const position = isMobile ? "bottom-center" : "top-center";
-  
+
   // Calculate dynamic offset for Telegram
   const telegramOffset = getTelegramOffset();
-  
+
   // Get unified positioning styles
   const positionStyles = getToastStyles(isMobile, telegramOffset);
 
@@ -67,7 +67,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
             "group-[.toaster]:text-[13.5px] group-[.toaster]:font-medium group-[.toaster]:leading-tight",
           ),
           title: "group-[.toast]:font-semibold group-[.toast]:tracking-tight",
-          description: "group-[.toast]:text-muted-foreground group-[.toast]:text-[12.5px] group-[.toast]:leading-snug group-[.toast]:mt-0.5",
+          description:
+            "group-[.toast]:text-muted-foreground group-[.toast]:text-[12.5px] group-[.toast]:leading-snug group-[.toast]:mt-0.5",
           actionButton:
             "group-[.toast]:bg-primary group-[.toast]:text-primary-foreground group-[.toast]:rounded-lg group-[.toast]:h-8 group-[.toast]:px-3 group-[.toast]:text-xs group-[.toast]:font-semibold",
           cancelButton:

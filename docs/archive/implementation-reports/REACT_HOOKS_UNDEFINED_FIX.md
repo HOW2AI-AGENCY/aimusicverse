@@ -29,11 +29,20 @@ vendor-other-CbnY--Rj.js:1  Uncaught TypeError: Cannot read properties of undefi
 ### Evidence
 
 From the vendor-other chunk before the fix:
+
 ```javascript
 // react-redux code trying to use hooks
-var Jy=(()=>Gy||Xy?pe.useLayoutEffect:pe.useEffect)();
+var Jy = (() => (Gy || Xy ? pe.useLayoutEffect : pe.useEffect))();
 // zustand persist middleware using hooks
-Jy(()=>(C.current=!0,()=>{C.current=!1}),[]);
+Jy(
+  () => (
+    (C.current = !0),
+    () => {
+      C.current = !1;
+    }
+  ),
+  [],
+);
 ```
 
 Where `pe` refers to the React object, and if React isn't ready, `pe.useLayoutEffect` is undefined.
@@ -68,27 +77,31 @@ if (id.includes("react-redux") || id.includes("zustand")) {
 ## Implementation Details
 
 ### File Modified
+
 - `vite.config.ts` - Added 5 lines to manualChunks configuration
 
 ### Build Results
 
 **Before Fix:**
+
 ```
 vendor-react-CC51WeHS.js         231.59 kB │ gzip:  73.76 kB
 vendor-other-CbnY--Rj.js         520.83 kB │ gzip: 171.38 kB
 ```
 
 **After Fix:**
+
 ```
 vendor-react-BaWjnWam.js         242.46 kB │ gzip:  77.41 kB
 vendor-other-BF_iAu2A.js         509.94 kB │ gzip: 167.46 kB
 ```
 
 ### Module Preload Order (Verified)
+
 ```html
-<link rel="modulepreload" crossorigin href="/assets/vendor-react-BaWjnWam.js">
-<link rel="modulepreload" crossorigin href="/assets/vendor-utils-C9Bxs6o1.js">
-<link rel="modulepreload" crossorigin href="/assets/vendor-other-BF_iAu2A.js">
+<link rel="modulepreload" crossorigin href="/assets/vendor-react-BaWjnWam.js" />
+<link rel="modulepreload" crossorigin href="/assets/vendor-utils-C9Bxs6o1.js" />
+<link rel="modulepreload" crossorigin href="/assets/vendor-other-BF_iAu2A.js" />
 <!-- ... other chunks ... -->
 ```
 
@@ -108,6 +121,7 @@ These libraries should be in `vendor-react` or a chunk that loads after React:
 ### Safe Libraries (Can Be in Other Chunks)
 
 These libraries don't call hooks during initialization:
+
 - `@radix-ui/*` - Exports components that use hooks, but doesn't call them during init
 - `framer-motion` - Animation library
 - `date-fns` - Utility library
@@ -136,6 +150,7 @@ These libraries don't call hooks during initialization:
 ### For Future Development
 
 When adding new dependencies that:
+
 1. Use React hooks (`useState`, `useEffect`, `useLayoutEffect`, etc.)
 2. Call those hooks during module initialization (not just in component functions)
 3. Are imported from `node_modules`
@@ -145,6 +160,7 @@ When adding new dependencies that:
 ### Example Pattern to Watch For
 
 ❌ **Dangerous** (calls hook during module initialization):
+
 ```javascript
 // At module level (executed during import)
 const useMyHook = () => {
@@ -156,6 +172,7 @@ const globalValue = useMyHook(); // Called during module init!
 ```
 
 ✅ **Safe** (hook called only in component):
+
 ```javascript
 function MyComponent() {
   const value = useMyHook(); // Only called when component renders

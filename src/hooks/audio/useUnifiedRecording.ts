@@ -1,15 +1,15 @@
 /**
  * useUnifiedRecording - Unified hook for all audio recording functionality
- * 
+ *
  * Consolidates recording logic from 7+ components into a single reusable hook
  * Supports: vocal, guitar, instrument modes with appropriate audio settings
  */
 
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useRef, useCallback, useEffect } from "react";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
-export type RecordingMode = 'vocal' | 'guitar' | 'instrument' | 'general';
+export type RecordingMode = "vocal" | "guitar" | "instrument" | "general";
 
 export interface RecordingState {
   isRecording: boolean;
@@ -70,11 +70,9 @@ const AUDIO_SETTINGS_BY_MODE: Record<RecordingMode, MediaTrackConstraints> = {
   },
 };
 
-export function useUnifiedRecording(
-  options: UseUnifiedRecordingOptions = {}
-): UseUnifiedRecordingReturn {
+export function useUnifiedRecording(options: UseUnifiedRecordingOptions = {}): UseUnifiedRecordingReturn {
   const {
-    mode = 'general',
+    mode = "general",
     maxDuration = 0,
     onRecordingStart,
     onRecordingStop,
@@ -108,8 +106,7 @@ export function useUnifiedRecording(
   const pausedDurationRef = useRef<number>(0);
 
   // Check browser support
-  const isSupported = typeof navigator !== 'undefined' && 
-    !!navigator.mediaDevices?.getUserMedia;
+  const isSupported = typeof navigator !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
 
   // Cleanup function
   const cleanup = useCallback(() => {
@@ -121,12 +118,12 @@ export function useUnifiedRecording(
       cancelAnimationFrame(animationFrameRef.current);
       animationFrameRef.current = null;
     }
-    if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
+    if (audioContextRef.current && audioContextRef.current.state !== "closed") {
       audioContextRef.current.close();
       audioContextRef.current = null;
     }
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current.getTracks().forEach((track) => track.stop());
       streamRef.current = null;
     }
     analyserRef.current = null;
@@ -164,7 +161,7 @@ export function useUnifiedRecording(
         }
         const average = sum / dataArrayRef.current.length;
         const normalized = Math.min(100, Math.round((average / 255) * 150));
-        
+
         setAudioLevel(normalized);
 
         // Add sample to waveform data (every ~100ms)
@@ -178,14 +175,14 @@ export function useUnifiedRecording(
 
       updateLevel();
     } catch (error) {
-      logger.error('Audio monitoring error', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Audio monitoring error", error instanceof Error ? error : new Error(String(error)));
     }
   }, []);
 
   // Start recording
   const startRecording = useCallback(async () => {
     if (!isSupported) {
-      toast.error('Запись аудио не поддерживается в этом браузере');
+      toast.error("Запись аудио не поддерживается в этом браузере");
       return;
     }
 
@@ -203,18 +200,18 @@ export function useUnifiedRecording(
 
       // Get audio stream with mode-specific settings
       const audioSettings = AUDIO_SETTINGS_BY_MODE[mode];
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        audio: audioSettings 
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: audioSettings,
       });
-      
+
       streamRef.current = stream;
       setMediaStream(stream);
 
       // Create MediaRecorder
-      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-        ? 'audio/webm;codecs=opus'
-        : 'audio/webm';
-      
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus")
+        ? "audio/webm;codecs=opus"
+        : "audio/webm";
+
       const mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = mediaRecorder;
 
@@ -228,12 +225,12 @@ export function useUnifiedRecording(
       mediaRecorder.onstop = async () => {
         const blob = new Blob(audioChunksRef.current, { type: mimeType });
         const url = URL.createObjectURL(blob);
-        
+
         setAudioBlob(blob);
         setAudioUrl(url);
 
         const finalDuration = duration;
-        
+
         cleanup();
         setMediaStream(null);
 
@@ -267,21 +264,34 @@ export function useUnifiedRecording(
       }, 1000);
 
       onRecordingStart?.();
-      toast.success('Запись начата');
+      toast.success("Запись начата");
     } catch (error) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Recording start error', err);
+      logger.error("Recording start error", err);
       onError?.(err);
-      
-      if (err.name === 'NotAllowedError') {
-        toast.error('Доступ к микрофону запрещён');
-      } else if (err.name === 'NotFoundError') {
-        toast.error('Микрофон не найден');
+
+      if (err.name === "NotAllowedError") {
+        toast.error("Доступ к микрофону запрещён");
+      } else if (err.name === "NotFoundError") {
+        toast.error("Микрофон не найден");
       } else {
-        toast.error('Ошибка при начале записи');
+        toast.error("Ошибка при начале записи");
       }
     }
-  }, [isSupported, mode, maxDuration, audioUrl, isPaused, duration, onRecordingStart, onRecordingStop, onAudioData, onError, startAudioMonitoring, cleanup]);
+  }, [
+    isSupported,
+    mode,
+    maxDuration,
+    audioUrl,
+    isPaused,
+    duration,
+    onRecordingStart,
+    onRecordingStop,
+    onAudioData,
+    onError,
+    startAudioMonitoring,
+    cleanup,
+  ]);
 
   // Stop recording
   const stopRecording = useCallback(() => {
@@ -346,14 +356,14 @@ export function useUnifiedRecording(
     duration,
     audioLevel,
     waveformData,
-    
+
     // Actions
     startRecording,
     stopRecording,
     pauseRecording,
     resumeRecording,
     resetRecording,
-    
+
     // Data
     mediaStream,
     audioBlob,

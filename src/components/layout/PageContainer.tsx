@@ -1,21 +1,21 @@
 /**
  * PageContainer - Universal page wrapper with automatic safe areas
  * Simplifies creating new pages with consistent layout and Telegram support
- * 
+ *
  * @example
  * ```tsx
  * // Standard page with bottom nav
  * <PageContainer>
  *   <YourContent />
  * </PageContainer>
- * 
+ *
  * // Fullscreen page without nav
  * <PageContainer variant="fullscreen">
  *   <FullscreenContent />
  * </PageContainer>
- * 
+ *
  * // Page with custom header
- * <PageContainer 
+ * <PageContainer
  *   header={<PageHeader title="Settings" onBack={() => navigate(-1)} />}
  * >
  *   <SettingsContent />
@@ -23,17 +23,17 @@
  * ```
  */
 
-import { ReactNode, CSSProperties } from 'react';
-import { cn } from '@/lib/utils';
-import { TELEGRAM_SAFE_AREA, getSafeAreaTop, getSafeAreaBottom } from '@/constants/safe-area';
+import { ReactNode, CSSProperties } from "react";
+import { cn } from "@/lib/utils";
+import { TELEGRAM_SAFE_AREA, getSafeAreaTop, getSafeAreaBottom } from "@/constants/safe-area";
 
-export type PageVariant = 
-  | 'default'      // Standard page with bottom nav
-  | 'fullscreen'   // Full viewport, no nav
-  | 'modal'        // Modal-like page (e.g., player)
-  | 'overlay';     // Fixed overlay
+export type PageVariant =
+  | "default" // Standard page with bottom nav
+  | "fullscreen" // Full viewport, no nav
+  | "modal" // Modal-like page (e.g., player)
+  | "overlay"; // Fixed overlay
 
-export type PagePadding = 'none' | 'sm' | 'md' | 'lg';
+export type PagePadding = "none" | "sm" | "md" | "lg";
 
 interface PageContainerProps {
   children: ReactNode;
@@ -62,10 +62,10 @@ interface PageContainerProps {
 }
 
 const paddingMap: Record<PagePadding, string> = {
-  none: '',
-  sm: 'px-3',
-  md: 'px-4',
-  lg: 'px-6',
+  none: "",
+  sm: "px-3",
+  md: "px-4",
+  lg: "px-6",
 };
 
 /**
@@ -73,12 +73,12 @@ const paddingMap: Record<PagePadding, string> = {
  */
 export function PageContainer({
   children,
-  variant = 'default',
+  variant = "default",
   withBottomNav = true,
   withStickyHeader = false,
   header,
   footer,
-  padding = 'md',
+  padding = "md",
   className,
   contentClassName,
   style,
@@ -90,30 +90,30 @@ export function PageContainer({
     const baseStyle: CSSProperties = { ...style };
 
     switch (variant) {
-      case 'fullscreen':
+      case "fullscreen":
         return {
           ...baseStyle,
           paddingTop: getSafeAreaTop(extraTop),
           paddingBottom: getSafeAreaBottom(extraBottom),
-          minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+          minHeight: "var(--tg-viewport-stable-height, 100vh)",
         };
 
-      case 'modal':
+      case "modal":
         return {
           ...baseStyle,
           paddingTop: getSafeAreaTop(extraTop + 8),
           paddingBottom: getSafeAreaBottom(extraBottom + 16),
-          minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+          minHeight: "var(--tg-viewport-stable-height, 100vh)",
         };
 
-      case 'overlay':
+      case "overlay":
         return {
           ...baseStyle,
           paddingTop: TELEGRAM_SAFE_AREA.minimalTop,
           paddingBottom: TELEGRAM_SAFE_AREA.bottom,
         };
 
-      case 'default':
+      case "default":
       default:
         // Standard page with optional header and bottom nav
         const bottomNavHeight = withBottomNav ? 80 : 0;
@@ -122,30 +122,25 @@ export function PageContainer({
           // Only add top padding if no header (header handles its own safe area)
           paddingTop: header ? undefined : getSafeAreaTop(extraTop + 12),
           paddingBottom: getSafeAreaBottom(bottomNavHeight + extraBottom),
-          minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+          minHeight: "var(--tg-viewport-stable-height, 100vh)",
         };
     }
   };
 
   const containerClasses = cn(
-    'tg-safe-container flex flex-col',
+    "tg-safe-container flex flex-col",
     paddingMap[padding],
-    variant === 'fullscreen' && 'overflow-hidden',
-    variant === 'overlay' && 'fixed inset-0 z-50',
-    className
+    variant === "fullscreen" && "overflow-hidden",
+    variant === "overlay" && "fixed inset-0 z-50",
+    className,
   );
 
-  const contentClasses = cn(
-    'flex-1',
-    contentClassName
-  );
+  const contentClasses = cn("flex-1", contentClassName);
 
   return (
     <div className={containerClasses} style={getContainerStyle()}>
       {header}
-      <main className={contentClasses}>
-        {children}
-      </main>
+      <main className={contentClasses}>{children}</main>
       {footer}
     </div>
   );
@@ -176,11 +171,11 @@ export function PageHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-sticky w-full',
-        !transparent && 'bg-background/95',
-        blur && 'backdrop-blur-md',
-        bordered && 'border-b border-border/40',
-        className
+        "sticky top-0 z-sticky w-full",
+        !transparent && "bg-background/95",
+        blur && "backdrop-blur-md",
+        bordered && "border-b border-border/40",
+        className,
       )}
       style={{
         paddingTop: TELEGRAM_SAFE_AREA.stickyHeaderTop,
@@ -201,20 +196,9 @@ interface PageContentProps {
   noScroll?: boolean;
 }
 
-export function PageContent({
-  children,
-  className,
-  noScroll = false,
-}: PageContentProps) {
+export function PageContent({ children, className, noScroll = false }: PageContentProps) {
   return (
-    <div
-      className={cn(
-        'flex-1',
-        !noScroll && 'overflow-y-auto',
-        noScroll && 'overflow-hidden',
-        className
-      )}
-    >
+    <div className={cn("flex-1", !noScroll && "overflow-y-auto", noScroll && "overflow-hidden", className)}>
       {children}
     </div>
   );
@@ -233,35 +217,24 @@ interface PageSectionProps {
   /** Right-aligned action */
   action?: ReactNode;
   /** Spacing variant */
-  spacing?: 'none' | 'sm' | 'md' | 'lg';
+  spacing?: "none" | "sm" | "md" | "lg";
 }
 
 const sectionSpacing: Record<string, string> = {
-  none: '',
-  sm: 'py-3',
-  md: 'py-4',
-  lg: 'py-6',
+  none: "",
+  sm: "py-3",
+  md: "py-4",
+  lg: "py-6",
 };
 
-export function PageSection({
-  children,
-  className,
-  title,
-  subtitle,
-  action,
-  spacing = 'md',
-}: PageSectionProps) {
+export function PageSection({ children, className, title, subtitle, action, spacing = "md" }: PageSectionProps) {
   return (
     <section className={cn(sectionSpacing[spacing], className)}>
       {(title || action) && (
         <div className="flex items-center justify-between mb-3">
           <div>
-            {title && (
-              <h2 className="text-lg font-semibold">{title}</h2>
-            )}
-            {subtitle && (
-              <p className="text-sm text-muted-foreground">{subtitle}</p>
-            )}
+            {title && <h2 className="text-lg font-semibold">{title}</h2>}
+            {subtitle && <p className="text-sm text-muted-foreground">{subtitle}</p>}
           </div>
           {action}
         </div>

@@ -1,34 +1,18 @@
 /**
  * Campaign Performance Component
- * 
+ *
  * Shows performance metrics for marketing campaigns
  * tracked via UTM parameters
  */
 
-import { useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer,
-  Cell
-} from 'recharts';
-import { 
-  Target, 
-  TrendingUp, 
-  Users, 
-  MousePointerClick,
-  ChevronUp,
-  ChevronDown,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useMemo } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { Target, TrendingUp, Users, MousePointerClick, ChevronUp, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Campaign {
   name: string;
@@ -46,11 +30,11 @@ interface CampaignPerformanceProps {
 }
 
 const CHART_COLORS = [
-  'hsl(var(--primary))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--chart-4))',
-  'hsl(var(--chart-5))',
+  "hsl(var(--primary))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
 ];
 
 export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanceProps) {
@@ -61,8 +45,8 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
 
   // Top 5 for chart
   const chartData = useMemo(() => {
-    return sortedCampaigns.slice(0, 5).map(c => ({
-      name: c.name.length > 15 ? c.name.slice(0, 15) + '...' : c.name,
+    return sortedCampaigns.slice(0, 5).map((c) => ({
+      name: c.name.length > 15 ? c.name.slice(0, 15) + "..." : c.name,
       fullName: c.name,
       visits: c.visits,
       conversions: c.conversions,
@@ -75,7 +59,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
     const totalVisits = campaigns.reduce((sum, c) => sum + c.visits, 0);
     const totalConversions = campaigns.reduce((sum, c) => sum + c.conversions, 0);
     const avgConversionRate = totalVisits > 0 ? (totalConversions / totalVisits) * 100 : 0;
-    
+
     return {
       totalCampaigns: campaigns.length,
       totalVisits,
@@ -158,23 +142,18 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
                   <BarChart data={chartData} layout="vertical" margin={{ left: 0, right: 10 }}>
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" horizontal={false} />
                     <XAxis type="number" tick={{ fontSize: 10 }} />
-                    <YAxis 
-                      type="category" 
-                      dataKey="name" 
-                      tick={{ fontSize: 9 }} 
-                      width={60}
-                    />
+                    <YAxis type="category" dataKey="name" tick={{ fontSize: 9 }} width={60} />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: 'hsl(var(--popover))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                        fontSize: '12px',
+                        backgroundColor: "hsl(var(--popover))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "8px",
+                        fontSize: "12px",
                       }}
                       formatter={(value: any, name: any) => {
                         const labels: Record<string, string> = {
-                          conversions: 'Конверсии',
-                          visits: 'Визиты',
+                          conversions: "Конверсии",
+                          visits: "Визиты",
                         };
                         return [value, labels[name] || name];
                       }}
@@ -199,9 +178,7 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
           <CardContent>
             <ScrollArea className="h-[150px] sm:h-[200px]">
               {sortedCampaigns.length === 0 ? (
-                <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
-                  Нет данных
-                </div>
+                <div className="flex items-center justify-center h-full text-muted-foreground text-sm">Нет данных</div>
               ) : (
                 <div className="space-y-2 sm:space-y-3">
                   {sortedCampaigns.map((campaign, index) => (
@@ -218,20 +195,23 @@ export function CampaignPerformance({ campaigns, isLoading }: CampaignPerformanc
                         <div className="flex items-center gap-0.5 sm:gap-1 text-xs sm:text-sm shrink-0">
                           <span className="font-medium">{campaign.conversionRate.toFixed(1)}%</span>
                           {campaign.trend !== 0 && (
-                            <span className={cn(
-                              'flex items-center text-[10px] sm:text-xs',
-                              campaign.trend > 0 ? 'text-green-500' : 'text-red-500'
-                            )}>
-                              {campaign.trend > 0 ? <ChevronUp className="h-2.5 w-2.5 sm:h-3 sm:w-3" /> : <ChevronDown className="h-2.5 w-2.5 sm:h-3 sm:w-3" />}
+                            <span
+                              className={cn(
+                                "flex items-center text-[10px] sm:text-xs",
+                                campaign.trend > 0 ? "text-green-500" : "text-red-500",
+                              )}
+                            >
+                              {campaign.trend > 0 ? (
+                                <ChevronUp className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                              ) : (
+                                <ChevronDown className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                              )}
                               {Math.abs(campaign.trend)}%
                             </span>
                           )}
                         </div>
                       </div>
-                      <Progress 
-                        value={campaign.conversionRate} 
-                        className="h-1 sm:h-1.5"
-                      />
+                      <Progress value={campaign.conversionRate} className="h-1 sm:h-1.5" />
                       <div className="flex justify-between text-[10px] sm:text-xs text-muted-foreground">
                         <span>{campaign.visits} визитов</span>
                         <span>{campaign.conversions} конв.</span>

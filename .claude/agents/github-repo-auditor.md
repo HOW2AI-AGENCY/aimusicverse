@@ -89,7 +89,7 @@ Act as both technical editor and documentation architect:
 
 4. **Implementation**
    - Edit README.md with improvements
-   - Create new documentation files as needed (CONTRIBUTING.md, docs/*.md)
+   - Create new documentation files as needed (CONTRIBUTING.md, docs/\*.md)
    - Add appropriate badges and formatting
    - Create cross-references between documents
    - Improve folder structure if beneficial
@@ -126,6 +126,7 @@ After your work, a visitor to the repository should be able to answer within 3 m
 4. **Where**: Where do I find more detailed information?
 
 A potential contributor should understand:
+
 - How to set up the development environment
 - What the code structure looks like
 - How to make a contribution
@@ -142,6 +143,7 @@ A potential contributor should understand:
 ## When to Escalate
 
 If you encounter:
+
 - Ambiguous or conflicting documentation that you cannot resolve
 - Missing critical information that prevents understanding
 - Structural decisions that would significantly change project architecture

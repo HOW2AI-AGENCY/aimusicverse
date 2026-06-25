@@ -15,6 +15,7 @@ Performance monitoring infrastructure has been set up to track bundle size, Ligh
 **Configuration:** `lighthouserc.json`
 
 **Performance Budgets (Updated):**
+
 - **Performance Score:** ≥ 75% (warn)
 - **FCP (First Contentful Paint):** ≤ 1.8s (error)
 - **TTI (Time to Interactive):** ≤ 3.5s (error) ⬅️ **Phase 1 target**
@@ -32,6 +33,7 @@ Performance monitoring infrastructure has been set up to track bundle size, Ligh
 **Tool:** size-limit
 
 **Configuration:** `package.json`
+
 ```json
 "size-limit": [
   {
@@ -50,10 +52,12 @@ Performance monitoring infrastructure has been set up to track bundle size, Ligh
 ```
 
 **Phase Targets:**
+
 - **Phase 1:** < 950 KB (current baseline: ~1.16 MB)
 - **Phase 3:** < 800 KB (final target)
 
 **Scripts:**
+
 ```bash
 npm run size       # Check bundle size limits
 npm run size:why   # Analyze what's in the bundle
@@ -100,13 +104,13 @@ open dist/stats.html
 
 ### Key Metrics to Track
 
-| Metric | Current | Phase 1 Target | Phase 3 Target |
-|--------|---------|----------------|----------------|
-| Bundle Size | ~1.16 MB | <950 KB | <800 KB |
-| TTI (4G) | ~4.5s | <3.5s | <3.5s |
-| FCP | ~2.1s | <1.8s | <1.8s |
-| LCP | ~3.8s | <2.5s | <2.5s |
-| Lighthouse Score | TBD | >75 | >90 |
+| Metric           | Current  | Phase 1 Target | Phase 3 Target |
+| ---------------- | -------- | -------------- | -------------- |
+| Bundle Size      | ~1.16 MB | <950 KB        | <800 KB        |
+| TTI (4G)         | ~4.5s    | <3.5s          | <3.5s          |
+| FCP              | ~2.1s    | <1.8s          | <1.8s          |
+| LCP              | ~3.8s    | <2.5s          | <2.5s          |
+| Lighthouse Score | TBD      | >75            | >90            |
 
 ### Where to Find Metrics
 
@@ -126,6 +130,7 @@ open dist/stats.html
 ## Alert Thresholds
 
 ### Error (Fails CI)
+
 - FCP > 1.8s
 - TTI > 3.5s
 - LCP > 2.5s
@@ -133,6 +138,7 @@ open dist/stats.html
 - Accessibility < 90%
 
 ### Warning (Doesn't fail CI)
+
 - Performance score < 75%
 - Speed Index > 3.0s
 - TBT > 400ms
@@ -142,12 +148,14 @@ open dist/stats.html
 ## Next Steps
 
 ### Phase 1 (Current)
+
 - [x] Setup Lighthouse CI
 - [x] Configure size-limit
 - [x] Update performance budgets
 - [ ] Begin bundle optimization (T1.2)
 
 ### Phase 3 (Future)
+
 - [ ] Tighten budgets (800KB, >90 Lighthouse)
 - [ ] Add custom metrics dashboard
 - [ ] Setup alerting for regressions

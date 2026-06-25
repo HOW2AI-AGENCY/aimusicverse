@@ -1,53 +1,54 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
-import { isSunoSuccessCode } from '../_shared/suno.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { isSunoSuccessCode } from "../_shared/suno.ts";
 
-const logger = createLogger('suno-music-extend');
+const logger = createLogger("suno-music-extend");
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 /**
  * Per SunoAPI docs: Model values are V5, V4_5PLUS, V4_5, V4, V3_5
  */
-const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
-const DEFAULT_MODEL = 'V4_5'; // Fixed: Unified with other functions
+const VALID_MODELS = ["V5", "V4_5PLUS", "V4_5", "V4", "V3_5"];
+const DEFAULT_MODEL = "V4_5"; // Fixed: Unified with other functions
 
 function getApiModelName(uiKey: string): string {
-  if (uiKey === 'V4_5ALL') return 'V4_5'; // Fixed: Unified with other functions
+  if (uiKey === "V4_5ALL") return "V4_5"; // Fixed: Unified with other functions
   return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const sunoApiKey = Deno.env.get('SUNO_API_KEY');
+    const sunoApiKey = Deno.env.get("SUNO_API_KEY");
 
     if (!sunoApiKey) {
-      throw new Error('SUNO_API_KEY not configured');
+      throw new Error("SUNO_API_KEY not configured");
     }
 
     const supabase = getSupabaseClient();
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
-    
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+
     // Get user from auth header
-    const authHeader = req.headers.get('Authorization');
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error('No authorization header');
+      throw new Error("No authorization header");
     }
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser(
-      authHeader.replace('Bearer ', '')
-    );
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (userError || !user) {
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
 
     const body = await req.json();
@@ -69,38 +70,38 @@ serve(async (req) => {
     } = body;
 
     if (!sourceTrackId) {
-      throw new Error('sourceTrackId is required');
+      throw new Error("sourceTrackId is required");
     }
 
     // Get source track
     const { data: sourceTrack, error: sourceError } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('id', sourceTrackId)
-      .eq('user_id', user.id)
+      .from("tracks")
+      .select("*")
+      .eq("id", sourceTrackId)
+      .eq("user_id", user.id)
       .single();
 
     if (sourceError || !sourceTrack) {
-      throw new Error('Source track not found or access denied');
+      throw new Error("Source track not found or access denied");
     }
 
     if (!sourceTrack.suno_id) {
-      throw new Error('Source track does not have a Suno ID');
+      throw new Error("Source track does not have a Suno ID");
     }
 
     // When defaultParamFlag is false (custom mode), we need prompt, style, title
     // When defaultParamFlag is true (use original), we can skip them
     const useCustomParams = !defaultParamFlag;
-    
+
     // Build effective values - always have fallbacks
-    const effectivePrompt = prompt || sourceTrack.prompt || 'Продолжить в том же стиле';
-    const effectiveStyle = style || sourceTrack.style || 'pop';
-    const effectiveTitle = title || `${sourceTrack.title || 'Трек'} (Extended)`;
+    const effectivePrompt = prompt || sourceTrack.prompt || "Продолжить в том же стиле";
+    const effectiveStyle = style || sourceTrack.style || "pop";
+    const effectiveTitle = title || `${sourceTrack.title || "Трек"} (Extended)`;
     const effectiveContinueAt = continueAt || sourceTrack.duration_seconds || 30;
 
-    const effectiveModel = getApiModelName(model || sourceTrack.suno_model || 'V4_5ALL');
-    
-    logger.info('Extend track request', {
+    const effectiveModel = getApiModelName(model || sourceTrack.suno_model || "V4_5ALL");
+
+    logger.info("Extend track request", {
       sourceTrackId,
       useCustomParams,
       continueAt: effectiveContinueAt,
@@ -109,7 +110,7 @@ serve(async (req) => {
 
     // Create new track record for extension
     const { data: newTrack, error: trackError } = await supabase
-      .from('tracks')
+      .from("tracks")
       .insert({
         user_id: user.id,
         project_id: projectId || sourceTrack.project_id,
@@ -117,10 +118,10 @@ serve(async (req) => {
         title: effectiveTitle,
         style: effectiveStyle,
         has_vocals: sourceTrack.has_vocals,
-        status: 'pending',
-        provider: 'suno',
+        status: "pending",
+        provider: "suno",
         suno_model: effectiveModel,
-        generation_mode: 'extend',
+        generation_mode: "extend",
         vocal_gender: vocalGender,
         style_weight: styleWeight,
         negative_tags: negativeTags,
@@ -129,59 +130,53 @@ serve(async (req) => {
       .single();
 
     if (trackError || !newTrack) {
-      logger.error('Track creation error', trackError);
-      throw new Error('Failed to create track record');
+      logger.error("Track creation error", trackError);
+      throw new Error("Failed to create track record");
     }
 
     // Get telegram_chat_id if available
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('telegram_id')
-      .eq('user_id', user.id)
-      .single();
+    const { data: profile } = await supabase.from("profiles").select("telegram_id").eq("user_id", user.id).single();
 
     const telegramChatId = profile?.telegram_id || null;
 
     // Create generation task
     const { data: task, error: taskError } = await supabase
-      .from('generation_tasks')
+      .from("generation_tasks")
       .insert({
         user_id: user.id,
         prompt: prompt || `Extend from ${sourceTrack.title}`,
-        status: 'pending',
+        status: "pending",
         telegram_chat_id: telegramChatId,
         track_id: newTrack.id,
-        source: 'mini_app',
-        generation_mode: 'extend',
+        source: "mini_app",
+        generation_mode: "extend",
         model_used: effectiveModel,
       })
       .select()
       .single();
 
     if (taskError || !task) {
-      console.error('Task creation error:', taskError);
-      throw new Error('Failed to create generation task');
+      console.error("Task creation error:", taskError);
+      throw new Error("Failed to create generation task");
     }
 
     // Create track version relationship
-    await supabase
-      .from('track_versions')
-      .insert({
-        track_id: newTrack.id,
-        audio_url: sourceTrack.audio_url || '',
-        cover_url: sourceTrack.cover_url,
-        duration_seconds: sourceTrack.duration_seconds,
-        version_type: 'extended_from',
-        parent_version_id: null,
-        metadata: {
-          source_track_id: sourceTrackId,
-          continue_at: continueAt,
-        },
-      });
+    await supabase.from("track_versions").insert({
+      track_id: newTrack.id,
+      audio_url: sourceTrack.audio_url || "",
+      cover_url: sourceTrack.cover_url,
+      duration_seconds: sourceTrack.duration_seconds,
+      version_type: "extended_from",
+      parent_version_id: null,
+      metadata: {
+        source_track_id: sourceTrackId,
+        continue_at: continueAt,
+      },
+    });
 
     // Prepare SunoAPI extend request
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
-    
+
     // Per SunoAPI docs:
     // defaultParamFlag=true: use original track params (no prompt/style/title needed)
     // defaultParamFlag=false: use custom params (prompt/style/title required)
@@ -211,30 +206,30 @@ serve(async (req) => {
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
     if (personaId) sunoPayload.personaId = personaId;
 
-    logger.info('Sending extend request to SunoAPI', { payload: sunoPayload });
+    logger.info("Sending extend request to SunoAPI", { payload: sunoPayload });
 
     // Call SunoAPI extend endpoint
     const startTime = Date.now();
-    const sunoResponse = await fetch('https://api.sunoapi.org/api/v1/generate/extend', {
-      method: 'POST',
+    const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/extend", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${sunoApiKey}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sunoApiKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(sunoPayload),
     });
 
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
-    
+
     console.log(`📥 Extend response (${duration}ms, $0.03)`);
 
     // Log API call
-    await supabase.from('api_usage_logs').insert({
+    await supabase.from("api_usage_logs").insert({
       user_id: user.id,
-      service: 'suno',
-      endpoint: 'extend',
-      method: 'POST',
+      service: "suno",
+      endpoint: "extend",
+      method: "POST",
       request_body: sunoPayload,
       response_status: sunoResponse.status,
       response_body: sunoData,
@@ -243,69 +238,67 @@ serve(async (req) => {
     });
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      console.error('SunoAPI extend error:', sunoData);
-      
+      console.error("SunoAPI extend error:", sunoData);
+
       // Update task and track as failed
       await supabase
-        .from('generation_tasks')
-        .update({ 
-          status: 'failed', 
-          error_message: sunoData.msg || 'SunoAPI extend request failed' 
+        .from("generation_tasks")
+        .update({
+          status: "failed",
+          error_message: sunoData.msg || "SunoAPI extend request failed",
         })
-        .eq('id', task.id);
+        .eq("id", task.id);
 
       await supabase
-        .from('tracks')
-        .update({ 
-          status: 'failed', 
-          error_message: sunoData.msg || 'SunoAPI extend request failed' 
+        .from("tracks")
+        .update({
+          status: "failed",
+          error_message: sunoData.msg || "SunoAPI extend request failed",
         })
-        .eq('id', newTrack.id);
+        .eq("id", newTrack.id);
 
-      throw new Error(sunoData.msg || 'SunoAPI extend request failed');
+      throw new Error(sunoData.msg || "SunoAPI extend request failed");
     }
 
     const sunoTaskId = sunoData.data?.taskId;
 
     if (!sunoTaskId) {
-      throw new Error('No taskId returned from SunoAPI');
+      throw new Error("No taskId returned from SunoAPI");
     }
 
     // Update task with Suno taskId
     await supabase
-      .from('generation_tasks')
-      .update({ 
+      .from("generation_tasks")
+      .update({
         suno_task_id: sunoTaskId,
-        status: 'processing',
+        status: "processing",
       })
-      .eq('id', task.id);
+      .eq("id", task.id);
 
     await supabase
-      .from('tracks')
-      .update({ 
+      .from("tracks")
+      .update({
         suno_task_id: sunoTaskId,
-        status: 'processing',
+        status: "processing",
       })
-      .eq('id', newTrack.id);
+      .eq("id", newTrack.id);
 
     // Log the extension
-    await supabase
-      .from('track_change_log')
-      .insert({
-        track_id: newTrack.id,
-        user_id: user.id,
-        change_type: 'track_extended',
-        changed_by: 'suno_api',
-        ai_model_used: effectiveModel,
-        prompt_used: prompt || 'Using original parameters',
-        metadata: {
-          source_track_id: sourceTrackId,
-          continue_at: continueAt,
-          default_param_flag: defaultParamFlag,
-          model: effectiveModel,
-          suno_task_id: sunoTaskId,
-        },
-      });
+    await supabase.from("track_change_log").insert({
+      track_id: newTrack.id,
+      user_id: user.id,
+      change_type: "track_extended",
+      changed_by: "suno_api",
+      ai_model_used: effectiveModel,
+      prompt_used: prompt || "Using original parameters",
+      metadata: {
+        source_track_id: sourceTrackId,
+        continue_at: continueAt,
+        default_param_flag: defaultParamFlag,
+        model: effectiveModel,
+        suno_task_id: sunoTaskId,
+      },
+    });
 
     return new Response(
       JSON.stringify({
@@ -315,23 +308,22 @@ serve(async (req) => {
         sunoTaskId,
         sourceTrackId,
       }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
-      }
+      },
     );
-
   } catch (error: any) {
-    console.error('Error in suno-music-extend:', error);
+    console.error("Error in suno-music-extend:", error);
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: error.message || 'Unknown error',
+      JSON.stringify({
+        success: false,
+        error: error.message || "Unknown error",
       }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,
-      }
+      },
     );
   }
 });

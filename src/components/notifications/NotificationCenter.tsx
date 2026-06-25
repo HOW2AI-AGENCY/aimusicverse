@@ -1,21 +1,17 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Switch } from '@/components/ui/switch';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
-import { useNotificationHub, NotificationItem } from '@/contexts/NotificationContext';
-import { Info, CheckCircle, AlertTriangle, XCircle, Music2, FileMusic, Trophy, Users, Settings } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
+import { useNotificationHub, NotificationItem } from "@/contexts/NotificationContext";
+import { Info, CheckCircle, AlertTriangle, XCircle, Music2, FileMusic, Trophy, Users, Settings } from "lucide-react";
 
 const iconMap = {
   info: Info,
@@ -30,23 +26,23 @@ const iconMap = {
 };
 
 const colorMap = {
-  info: 'text-blue-500 bg-blue-500/10',
-  success: 'text-green-500 bg-green-500/10',
-  warning: 'text-yellow-500 bg-yellow-500/10',
-  error: 'text-red-500 bg-red-500/10',
-  generation: 'text-primary bg-primary/10',
-  project: 'text-purple-500 bg-purple-500/10',
-  social: 'text-pink-500 bg-pink-500/10',
-  achievement: 'text-amber-500 bg-amber-500/10',
-  system: 'text-slate-500 bg-slate-500/10',
+  info: "text-blue-500 bg-blue-500/10",
+  success: "text-green-500 bg-green-500/10",
+  warning: "text-yellow-500 bg-yellow-500/10",
+  error: "text-red-500 bg-red-500/10",
+  generation: "text-primary bg-primary/10",
+  project: "text-purple-500 bg-purple-500/10",
+  social: "text-pink-500 bg-pink-500/10",
+  achievement: "text-amber-500 bg-amber-500/10",
+  system: "text-slate-500 bg-slate-500/10",
 };
 
-function NotificationCard({ 
-  notification, 
+function NotificationCard({
+  notification,
   onMarkAsRead,
   onDelete,
   onNavigate,
-}: { 
+}: {
   notification: NotificationItem;
   onMarkAsRead: (id: string) => void;
   onDelete: (id: string) => void;
@@ -62,31 +58,24 @@ function NotificationCard({
       exit={{ opacity: 0, x: 20 }}
       className={cn(
         "group p-3 rounded-lg transition-colors",
-        !notification.read ? "bg-accent/50" : "hover:bg-accent/30"
+        !notification.read ? "bg-accent/50" : "hover:bg-accent/30",
       )}
     >
       <div className="flex gap-3">
         <div className={cn("w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0", colorClass)}>
           <Icon className="w-4 h-4" />
         </div>
-        
+
         <div className="flex-1 min-w-0">
           <div className="flex items-start justify-between gap-2">
             <div className="flex items-center gap-2">
               <h4 className="font-medium text-sm">{notification.title}</h4>
-              {!notification.read && (
-                <div className="w-2 h-2 bg-primary rounded-full" />
-              )}
+              {!notification.read && <div className="w-2 h-2 bg-primary rounded-full" />}
             </div>
-            
+
             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
               {!notification.read && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
-                  onClick={() => onMarkAsRead(notification.id)}
-                >
+                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onMarkAsRead(notification.id)}>
                   <CheckCheck className="w-3 h-3" />
                 </Button>
               )}
@@ -100,11 +89,9 @@ function NotificationCard({
               </Button>
             </div>
           </div>
-          
-          <p className="text-sm text-muted-foreground mt-0.5 line-clamp-2">
-            {notification.message}
-          </p>
-          
+
+          <p className="text-sm text-muted-foreground mt-0.5 line-clamp-2">{notification.message}</p>
+
           <div className="flex items-center gap-2 mt-2">
             <span className="text-xs text-muted-foreground">
               {formatDistanceToNow(new Date(notification.created_at), {
@@ -112,7 +99,7 @@ function NotificationCard({
                 locale: ru,
               })}
             </span>
-            
+
             {notification.action_url && (
               <Button
                 variant="link"
@@ -132,21 +119,14 @@ function NotificationCard({
 }
 
 export function NotificationCenter() {
-  const {
-    notifications,
-    unreadCount,
-    soundEnabled,
-    setSoundEnabled,
-    markAsRead,
-    markAllAsRead,
-    clearNotification,
-  } = useNotificationHub();
-  
+  const { notifications, unreadCount, soundEnabled, setSoundEnabled, markAsRead, markAllAsRead, clearNotification } =
+    useNotificationHub();
+
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const unreadNotifications = notifications.filter(n => !n.read);
+  const unreadNotifications = notifications.filter((n) => !n.read);
   const markAsReadTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   // Auto-mark notifications as read after opening popover for 2 seconds
   useEffect(() => {
     if (open && unreadCount > 0) {
@@ -154,24 +134,24 @@ export function NotificationCenter() {
       if (markAsReadTimeoutRef.current) {
         clearTimeout(markAsReadTimeoutRef.current);
       }
-      
+
       // Mark all as read after 2 seconds of viewing
       markAsReadTimeoutRef.current = setTimeout(() => {
         markAllAsRead();
       }, 2000);
     }
-    
+
     return () => {
       if (markAsReadTimeoutRef.current) {
         clearTimeout(markAsReadTimeoutRef.current);
       }
     };
   }, [open, unreadCount, markAllAsRead]);
-  
+
   const handleNavigate = (path: string) => {
     setOpen(false);
-    if (path.startsWith('http://') || path.startsWith('https://')) {
-      window.open(path, '_blank', 'noopener,noreferrer');
+    if (path.startsWith("http://") || path.startsWith("https://")) {
+      window.open(path, "_blank", "noopener,noreferrer");
     } else {
       navigate(path);
     }
@@ -184,49 +164,36 @@ export function NotificationCenter() {
           <Bell className="w-5 h-5" />
           <AnimatePresence>
             {unreadCount > 0 && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-              >
-                <Badge 
-                  variant="destructive" 
+              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
+                <Badge
+                  variant="destructive"
                   className="absolute -top-1 -right-1 h-5 min-w-5 flex items-center justify-center p-0 text-xs"
                 >
-                  {unreadCount > 9 ? '9+' : unreadCount}
+                  {unreadCount > 9 ? "9+" : unreadCount}
                 </Badge>
               </motion.div>
             )}
           </AnimatePresence>
         </Button>
       </PopoverTrigger>
-      
+
       <PopoverContent className="w-[calc(100vw-2rem)] sm:w-[380px] p-0" align="end">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="font-semibold">Уведомления</h3>
-          
+
           <div className="flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8"
               onClick={() => setSoundEnabled(!soundEnabled)}
-              title={soundEnabled ? 'Выключить звук' : 'Включить звук'}
+              title={soundEnabled ? "Выключить звук" : "Включить звук"}
             >
-              {soundEnabled ? (
-                <Volume2 className="w-4 h-4" />
-              ) : (
-                <VolumeX className="w-4 h-4 text-muted-foreground" />
-              )}
+              {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4 text-muted-foreground" />}
             </Button>
-            
+
             {unreadCount > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={markAllAsRead}
-                className="text-xs h-8"
-              >
+              <Button variant="ghost" size="sm" onClick={markAllAsRead} className="text-xs h-8">
                 <CheckCheck className="w-3 h-3 mr-1" />
                 Прочитать все
               </Button>
@@ -243,7 +210,7 @@ export function NotificationCenter() {
               Новые ({unreadCount})
             </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="all" className="m-0">
             <ScrollArea className="h-[350px]">
               {notifications.length === 0 ? (
@@ -268,7 +235,7 @@ export function NotificationCenter() {
               )}
             </ScrollArea>
           </TabsContent>
-          
+
           <TabsContent value="unread" className="m-0">
             <ScrollArea className="h-[350px]">
               {unreadNotifications.length === 0 ? (

@@ -16,22 +16,22 @@
  */
 
 // Re-export original StudioShell for backward compatibility
-export { StudioShell } from '../StudioShell';
+export { StudioShell } from "../StudioShell";
 
 // Core UI Components
-export { StudioShellHeader } from './StudioShellHeader';
-export { StudioShellTransportBar } from './StudioShellTransportBar';
-export { StudioShellContent } from './StudioShellContent';
-export { StudioShellMobileNav } from './StudioShellMobileNav';
-export { StudioDialogs } from './StudioDialogs';
-export { AddTrackDialog } from './AddTrackDialog';
+export { StudioShellHeader } from "./StudioShellHeader";
+export { StudioShellTransportBar } from "./StudioShellTransportBar";
+export { StudioShellContent } from "./StudioShellContent";
+export { StudioShellMobileNav } from "./StudioShellMobileNav";
+export { StudioDialogs } from "./StudioDialogs";
+export { AddTrackDialog } from "./AddTrackDialog";
 
 // Custom Hooks
-export { useStudioShellState } from './useStudioShellState';
-export { useStudioKeyboardShortcuts } from './useStudioKeyboardShortcuts';
-export { useStudioStemSync } from './useStudioStemSync';
-export { useStudioDialogState } from './useStudioDialogState';
-export { useStudioAudioSetup } from './useStudioAudioSetup';
+export { useStudioShellState } from "./useStudioShellState";
+export { useStudioKeyboardShortcuts } from "./useStudioKeyboardShortcuts";
+export { useStudioStemSync } from "./useStudioStemSync";
+export { useStudioDialogState } from "./useStudioDialogState";
+export { useStudioAudioSetup } from "./useStudioAudioSetup";
 
 // Types
-export * from './types';
+export * from "./types";

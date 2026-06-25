@@ -1,16 +1,16 @@
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { User, Camera, AtSign, Sparkles } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
-import { ImageGeneratorDialog } from '../ImageGeneratorDialog';
-import type { ProfileSetupData } from './EnhancedProfileSetup';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { User, Camera, AtSign, Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
+import { ImageGeneratorDialog } from "../ImageGeneratorDialog";
+import type { ProfileSetupData } from "./EnhancedProfileSetup";
 
 interface ProfileSetupStep1BasicProps {
   data: ProfileSetupData;
@@ -25,34 +25,32 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !userId) return;
-    
+
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Файл слишком большой (макс. 5МБ)');
+      toast.error("Файл слишком большой (макс. 5МБ)");
       return;
     }
-    
+
     setIsUploading(true);
     try {
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `${userId}_${Date.now()}.${fileExt}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(fileName, file, { upsert: true });
-      
+
+      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
+
       if (uploadError) throw uploadError;
-      
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
-      
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
       onUpdate({ avatarUrl: publicUrl });
-      toast.success('Фото загружено');
+      toast.success("Фото загружено");
     } catch (error) {
-      logger.error('Error uploading avatar', error instanceof Error ? error : new Error(String(error)), {
-        userId
+      logger.error("Error uploading avatar", error instanceof Error ? error : new Error(String(error)), {
+        userId,
       });
-      toast.error('Ошибка загрузки фото');
+      toast.error("Ошибка загрузки фото");
     } finally {
       setIsUploading(false);
     }
@@ -75,15 +73,15 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
           <Avatar className="w-24 h-24 border-4 border-primary/20">
             <AvatarImage src={data.avatarUrl} />
             <AvatarFallback className="text-2xl bg-primary/10">
-              {data.displayName?.[0]?.toUpperCase() || '?'}
+              {data.displayName?.[0]?.toUpperCase() || "?"}
             </AvatarFallback>
           </Avatar>
-          <label 
+          <label
             htmlFor="avatar-upload"
             className={cn(
               "absolute -bottom-1 -right-1 p-2 rounded-full cursor-pointer transition-colors",
               "bg-primary text-primary-foreground hover:bg-primary/90",
-              isUploading && "opacity-50 pointer-events-none"
+              isUploading && "opacity-50 pointer-events-none",
             )}
           >
             {isUploading ? (
@@ -102,15 +100,8 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
           />
         </div>
         <div className="flex flex-col items-center gap-2">
-          <p className="text-xs text-muted-foreground text-center">
-            Нажмите на иконку для загрузки фото
-          </p>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowGenerator(true)}
-            className="gap-2"
-          >
+          <p className="text-xs text-muted-foreground text-center">Нажмите на иконку для загрузки фото</p>
+          <Button variant="outline" size="sm" onClick={() => setShowGenerator(true)} className="gap-2">
             <Sparkles className="w-4 h-4" />
             Сгенерировать AI аватар
           </Button>
@@ -130,9 +121,7 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
           placeholder="Как вас называть?"
           maxLength={50}
         />
-        <p className="text-xs text-muted-foreground">
-          Это имя будут видеть другие пользователи
-        </p>
+        <p className="text-xs text-muted-foreground">Это имя будут видеть другие пользователи</p>
       </div>
 
       {/* Username */}
@@ -144,13 +133,11 @@ export function ProfileSetupStep1Basic({ data, onUpdate, userId }: ProfileSetupS
         <Input
           id="username"
           value={data.username}
-          onChange={(e) => onUpdate({ username: e.target.value.replace(/[^a-zA-Z0-9_]/g, '').toLowerCase() })}
+          onChange={(e) => onUpdate({ username: e.target.value.replace(/[^a-zA-Z0-9_]/g, "").toLowerCase() })}
           placeholder="username"
           maxLength={30}
         />
-        <p className="text-xs text-muted-foreground">
-          Уникальный идентификатор для вашего профиля
-        </p>
+        <p className="text-xs text-muted-foreground">Уникальный идентификатор для вашего профиля</p>
       </div>
 
       {/* AI Generator Dialog */}

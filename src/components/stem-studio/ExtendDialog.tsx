@@ -1,68 +1,67 @@
 /**
  * Extend Dialog
- * 
+ *
  * Extend/continue the track with AI
  */
 
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Clock, Loader2, Music, ArrowRight, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
-import type { Tables } from '@/integrations/supabase/types';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Clock, Loader2, Music, ArrowRight, Sparkles } from "lucide-react";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
+import type { Tables } from "@/integrations/supabase/types";
 
 interface ExtendDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  track: Tables<'tracks'>;
+  track: Tables<"tracks">;
 }
 
-type ExtendDirection = 'continue' | 'intro';
+type ExtendDirection = "continue" | "intro";
 
 export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
-  const [direction, setDirection] = useState<ExtendDirection>('continue');
-  const [prompt, setPrompt] = useState('');
+  const [direction, setDirection] = useState<ExtendDirection>("continue");
+  const [prompt, setPrompt] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {
     if (!track.suno_id) {
-      toast.error('Нет данных для расширения');
+      toast.error("Нет данных для расширения");
       return;
     }
 
     setIsSubmitting(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Не авторизован');
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Не авторизован");
 
-      const { data, error } = await supabase.functions.invoke('suno-extend', {
+      const { data, error } = await supabase.functions.invoke("suno-extend", {
         body: {
           audioId: track.suno_id,
-          prompt: prompt || (direction === 'continue' ? 'Продолжи трек естественно' : 'Добавь вступление'),
-          continueAt: direction === 'continue' ? (track.duration_seconds || 120) : 0,
-          model: 'chirp-v4',
-        }
+          prompt: prompt || (direction === "continue" ? "Продолжи трек естественно" : "Добавь вступление"),
+          continueAt: direction === "continue" ? track.duration_seconds || 120 : 0,
+          model: "chirp-v4",
+        },
       });
 
       if (error) throw error;
 
-      toast.success(
-        direction === 'continue' 
-          ? 'Продление трека запущено'
-          : 'Создание вступления запущено', 
-        { description: 'Процесс займёт 1-3 минуты' }
-      );
-      
+      toast.success(direction === "continue" ? "Продление трека запущено" : "Создание вступления запущено", {
+        description: "Процесс займёт 1-3 минуты",
+      });
+
       onOpenChange(false);
     } catch (error) {
-      logger.error('Error extending track', error);
-      toast.error('Ошибка при расширении трека');
+      logger.error("Error extending track", error);
+      toast.error("Ошибка при расширении трека");
     } finally {
       setIsSubmitting(false);
     }
@@ -76,29 +75,24 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
             <Clock className="w-5 h-5 text-primary" />
             Расширить трек
           </DialogTitle>
-          <DialogDescription>
-            AI продлит трек или добавит новое вступление
-          </DialogDescription>
+          <DialogDescription>AI продлит трек или добавит новое вступление</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4 py-2">
           {/* Current Track */}
           <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
             {track.cover_url ? (
-              <img 
-                src={track.cover_url} 
-                alt={track.title || 'Cover'} 
-                className="w-12 h-12 rounded object-cover"
-              />
+              <img src={track.cover_url} alt={track.title || "Cover"} className="w-12 h-12 rounded object-cover" />
             ) : (
               <div className="w-12 h-12 rounded bg-muted flex items-center justify-center">
                 <Music className="w-5 h-5 text-muted-foreground" />
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate">{track.title || 'Без названия'}</p>
+              <p className="text-sm font-medium truncate">{track.title || "Без названия"}</p>
               <p className="text-xs text-muted-foreground">
-                Длительность: {Math.floor((track.duration_seconds || 0) / 60)}:{String(Math.floor((track.duration_seconds || 0) % 60)).padStart(2, '0')}
+                Длительность: {Math.floor((track.duration_seconds || 0) / 60)}:
+                {String(Math.floor((track.duration_seconds || 0) % 60)).padStart(2, "0")}
               </p>
             </div>
           </div>
@@ -114,9 +108,7 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
               <label
                 className={cn(
                   "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
-                  direction === 'continue' 
-                    ? "border-primary bg-primary/5" 
-                    : "border-border hover:border-border/80"
+                  direction === "continue" ? "border-primary bg-primary/5" : "border-border hover:border-border/80",
                 )}
               >
                 <RadioGroupItem value="continue" id="continue" />
@@ -134,9 +126,7 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
               <label
                 className={cn(
                   "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
-                  direction === 'intro'
-                    ? "border-primary bg-primary/5"
-                    : "border-border hover:border-border/80"
+                  direction === "intro" ? "border-primary bg-primary/5" : "border-border hover:border-border/80",
                 )}
               >
                 <RadioGroupItem value="intro" id="intro" />
@@ -163,7 +153,7 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               placeholder={
-                direction === 'continue'
+                direction === "continue"
                   ? "Например: добавь эпичную концовку с оркестром..."
                   : "Например: мягкое вступление с пианино..."
               }
@@ -185,7 +175,7 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
             ) : (
               <>
                 <Clock className="w-4 h-4 mr-2" />
-                {direction === 'continue' ? 'Продолжить' : 'Добавить вступление'}
+                {direction === "continue" ? "Продолжить" : "Добавить вступление"}
               </>
             )}
           </Button>

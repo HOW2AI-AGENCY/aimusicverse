@@ -1,11 +1,11 @@
 /**
  * Audio Context Helper
- * 
+ *
  * Provides type-safe access to AudioContext with webkit fallback.
  * Eliminates need for (window as any).webkitAudioContext casts.
  */
 
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
 // Extend Window interface to include webkit prefix
 declare global {
@@ -30,11 +30,11 @@ export function getAudioContextClass(): typeof AudioContext | undefined {
  */
 export function createAudioContext(options?: AudioContextOptions): AudioContext {
   const AudioContextClass = getAudioContextClass();
-  
+
   if (!AudioContextClass) {
-    throw new Error('AudioContext is not supported in this browser');
+    throw new Error("AudioContext is not supported in this browser");
   }
-  
+
   return new AudioContextClass(options);
 }
 
@@ -43,10 +43,10 @@ export function createAudioContext(options?: AudioContextOptions): AudioContext 
  * This prevents multiple contexts being created/destroyed
  */
 export function getOrCreateStudioContext(options?: AudioContextOptions): AudioContext {
-  if (studioAudioContext && studioAudioContext.state !== 'closed') {
+  if (studioAudioContext && studioAudioContext.state !== "closed") {
     return studioAudioContext;
   }
-  
+
   studioAudioContext = createAudioContext(options);
   return studioAudioContext;
 }
@@ -55,7 +55,7 @@ export function getOrCreateStudioContext(options?: AudioContextOptions): AudioCo
  * Get current studio context if exists (without creating new one)
  */
 export function getStudioContext(): AudioContext | null {
-  if (studioAudioContext && studioAudioContext.state !== 'closed') {
+  if (studioAudioContext && studioAudioContext.state !== "closed") {
     return studioAudioContext;
   }
   return null;
@@ -73,7 +73,7 @@ export function isAudioContextSupported(): boolean {
  * Resumes if suspended (required after user interaction on some browsers)
  */
 export async function ensureAudioContextRunning(ctx: AudioContext): Promise<void> {
-  if (ctx.state === 'suspended') {
+  if (ctx.state === "suspended") {
     await ctx.resume();
   }
 }
@@ -83,14 +83,14 @@ export async function ensureAudioContextRunning(ctx: AudioContext): Promise<void
  */
 export async function safeCloseAudioContext(ctx: AudioContext | null): Promise<void> {
   if (!ctx) return;
-  
+
   try {
-    if (ctx.state !== 'closed') {
+    if (ctx.state !== "closed") {
       await ctx.close();
     }
   } catch (e) {
     // Ignore errors during cleanup
-    logger.debug('Error closing AudioContext', { error: e instanceof Error ? e.message : String(e) });
+    logger.debug("Error closing AudioContext", { error: e instanceof Error ? e.message : String(e) });
   }
 }
 

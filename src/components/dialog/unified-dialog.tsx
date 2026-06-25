@@ -41,24 +41,24 @@
  * ```
  */
 
-import React, { Suspense, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { backdrop } from '@/lib/overlay-colors';
-import type { UnifiedDialogProps } from './unified-dialog.types';
-import { DIALOG_CONFIG } from './unified-dialog.config';
-import { isModalDialogProps, isSheetDialogProps, isAlertDialogProps } from '@/lib/type-guards';
+import React, { Suspense, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
+import type { UnifiedDialogProps } from "./unified-dialog.types";
+import { DIALOG_CONFIG } from "./unified-dialog.config";
+import { isModalDialogProps, isSheetDialogProps, isAlertDialogProps } from "@/lib/type-guards";
 
 // Lazy load variants for code splitting
-const ModalVariant = React.lazy(() => import('./variants/modal').then(m => ({ default: m.ModalDialog })));
-const SheetVariant = React.lazy(() => import('./variants/sheet').then(m => ({ default: m.SheetDialog })));
-const AlertVariant = React.lazy(() => import('./variants/alert').then(m => ({ default: m.AlertDialog })));
+const ModalVariant = React.lazy(() => import("./variants/modal").then((m) => ({ default: m.ModalDialog })));
+const SheetVariant = React.lazy(() => import("./variants/sheet").then((m) => ({ default: m.SheetDialog })));
+const AlertVariant = React.lazy(() => import("./variants/alert").then((m) => ({ default: m.AlertDialog })));
 
 /**
  * Check if we're on mobile device
  */
 function isMobile(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
   return window.innerWidth < 768;
 }
 
@@ -75,13 +75,13 @@ export function UnifiedDialog(props: UnifiedDialogProps) {
     if (!open) return;
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onOpenChange(false);
       }
     };
 
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
   }, [open, onOpenChange]);
 
   // Auto-switch to sheet on mobile for modal variant
@@ -188,10 +188,7 @@ export function DialogBackdrop({
 }) {
   return (
     <motion.div
-      className={cn(
-        'fixed inset-0 z-40 bg-black',
-        visible && 'pointer-events-auto'
-      )}
+      className={cn("fixed inset-0 z-40 bg-black", visible && "pointer-events-auto")}
       style={{
         backdropFilter: blur ? `blur(${blur})` : undefined,
         opacity: visible ? opacity : 0,
@@ -214,26 +211,26 @@ export function DialogBackdrop({
 export function DialogContainer({
   children,
   className,
-  size = 'md',
+  size = "md",
 }: {
   children: React.ReactNode;
   className?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
 }) {
   const sizeClass = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
+    sm: "max-w-sm",
+    md: "max-w-md",
+    lg: "max-w-lg",
+    xl: "max-w-xl",
   }[size];
 
   return (
     <motion.div
       className={cn(
-        'relative z-50 bg-background rounded-lg shadow-lg',
-        'max-h-[90vh] overflow-auto',
+        "relative z-50 bg-background rounded-lg shadow-lg",
+        "max-h-[90vh] overflow-auto",
         sizeClass,
-        className
+        className,
       )}
       initial={{ scale: 0.95, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}

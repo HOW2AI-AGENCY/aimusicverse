@@ -4,19 +4,14 @@
  * Responsive, with optional finger colors, animations, and touch support
  */
 
-import { cn } from '@/lib/utils';
-import { motion } from '@/lib/motion';
-import {
-  getChordFingering,
-  FINGER_COLORS,
-  STRING_NAMES,
-  type ChordFingering,
-} from '@/lib/chord-data';
+import { cn } from "@/lib/utils";
+import { motion } from "@/lib/motion";
+import { getChordFingering, FINGER_COLORS, STRING_NAMES, type ChordFingering } from "@/lib/chord-data";
 
 interface ChordDiagramUnifiedProps {
   chord: string;
   className?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   showFingers?: boolean;
   showStringNames?: boolean;
   animated?: boolean;
@@ -35,7 +30,7 @@ const SIZE_CONFIG = {
 export function ChordDiagramUnified({
   chord,
   className,
-  size = 'md',
+  size = "md",
   showFingers = false,
   showStringNames = false,
   animated = false,
@@ -50,9 +45,9 @@ export function ChordDiagramUnified({
     return (
       <div
         className={cn(
-          'flex flex-col items-center justify-center rounded-lg border border-dashed border-muted-foreground/30 bg-muted/20 p-2',
-          interactive && 'cursor-pointer hover:bg-muted/40 transition-colors',
-          className
+          "flex flex-col items-center justify-center rounded-lg border border-dashed border-muted-foreground/30 bg-muted/20 p-2",
+          interactive && "cursor-pointer hover:bg-muted/40 transition-colors",
+          className,
         )}
         style={{ width: config.width, height: config.height }}
         onClick={onClick}
@@ -64,12 +59,12 @@ export function ChordDiagramUnified({
   }
 
   const { frets, fingers = [], barres = [] } = fingering;
-  const maxFret = Math.max(...frets.filter(f => f > 0));
-  const minFret = Math.min(...frets.filter(f => f > 0));
+  const maxFret = Math.max(...frets.filter((f) => f > 0));
+  const minFret = Math.min(...frets.filter((f) => f > 0));
   const numFrets = 4;
   const startFret = minFret > 3 ? minFret : 1;
 
-  const Component = animated ? motion.div : 'div';
+  const Component = animated ? motion.div : "div";
   const componentProps = animated
     ? {
         initial: { opacity: 0, scale: 0.8 },
@@ -82,16 +77,19 @@ export function ChordDiagramUnified({
   return (
     <Component
       className={cn(
-        'flex flex-col items-center gap-1 select-none',
-        interactive && 'cursor-pointer touch-manipulation',
-        isActive && 'ring-2 ring-primary ring-offset-2 rounded-lg',
-        className
+        "flex flex-col items-center gap-1 select-none",
+        interactive && "cursor-pointer touch-manipulation",
+        isActive && "ring-2 ring-primary ring-offset-2 rounded-lg",
+        className,
       )}
       onClick={onClick}
       {...componentProps}
     >
       {/* Chord Name */}
-      <div className={cn('font-bold text-center', isActive && 'text-primary')} style={{ fontSize: config.fontSize + 2 }}>
+      <div
+        className={cn("font-bold text-center", isActive && "text-primary")}
+        style={{ fontSize: config.fontSize + 2 }}
+      >
         {chord}
       </div>
 
@@ -123,13 +121,7 @@ export function ChordDiagramUnified({
 
         {/* Fret position indicator */}
         {startFret > 1 && (
-          <text
-            x={-8}
-            y={20}
-            fontSize={config.fontSize}
-            fill="currentColor"
-            className="text-muted-foreground"
-          >
+          <text x={-8} y={20} fontSize={config.fontSize} fill="currentColor" className="text-muted-foreground">
             {startFret}fr
           </text>
         )}
@@ -153,9 +145,9 @@ export function ChordDiagramUnified({
           <line
             key={`fret-${i}`}
             x1={5}
-            y1={i * (config.height - (showStringNames ? 20 : 10)) / numFrets + 5}
+            y1={(i * (config.height - (showStringNames ? 20 : 10))) / numFrets + 5}
             x2={5 * config.spacing + 5}
-            y2={i * (config.height - (showStringNames ? 20 : 10)) / numFrets + 5}
+            y2={(i * (config.height - (showStringNames ? 20 : 10))) / numFrets + 5}
             stroke="currentColor"
             strokeWidth={i === 0 && startFret === 1 ? 3 : 1}
             className="text-foreground/60"
@@ -167,8 +159,8 @@ export function ChordDiagramUnified({
           const adjustedFret = barreFret - startFret + 1;
           if (adjustedFret < 0 || adjustedFret > numFrets) return null;
 
-          const y = adjustedFret * (config.height - (showStringNames ? 20 : 10)) / numFrets;
-          const firstString = frets.findIndex(f => f === barreFret);
+          const y = (adjustedFret * (config.height - (showStringNames ? 20 : 10))) / numFrets;
+          const firstString = frets.findIndex((f) => f === barreFret);
           const lastString = frets.lastIndexOf(barreFret);
 
           if (firstString === -1 || lastString === -1 || firstString === lastString) return null;
@@ -180,10 +172,10 @@ export function ChordDiagramUnified({
               y1={y}
               x2={lastString * config.spacing + 5}
               y2={y}
-              stroke={showFingers && fingers[firstString] ? FINGER_COLORS[fingers[firstString]] : 'currentColor'}
+              stroke={showFingers && fingers[firstString] ? FINGER_COLORS[fingers[firstString]] : "currentColor"}
               strokeWidth={config.dotSize}
               strokeLinecap="round"
-              className={!showFingers || !fingers[firstString] ? 'text-primary' : ''}
+              className={!showFingers || !fingers[firstString] ? "text-primary" : ""}
             />
           );
         })}
@@ -236,13 +228,13 @@ export function ChordDiagramUnified({
           const adjustedFret = fret - startFret + 1;
           if (adjustedFret < 0 || adjustedFret > numFrets) return null;
 
-          const y = adjustedFret * (config.height - (showStringNames ? 20 : 10)) / numFrets;
+          const y = (adjustedFret * (config.height - (showStringNames ? 20 : 10))) / numFrets;
           const fingerNumber = fingers[stringIndex];
-          const isBarreString = barres.some(b => b === fret);
+          const isBarreString = barres.some((b) => b === fret);
 
           // Skip if it's part of a barre (already drawn)
           if (isBarreString && barres.includes(fret)) {
-            const firstBarreString = frets.findIndex(f => f === fret);
+            const firstBarreString = frets.findIndex((f) => f === fret);
             if (stringIndex !== firstBarreString && stringIndex !== frets.lastIndexOf(fret)) {
               return null;
             }
@@ -254,8 +246,8 @@ export function ChordDiagramUnified({
                 cx={stringIndex * config.spacing + 5}
                 cy={y}
                 r={config.dotSize}
-                fill={showFingers && fingerNumber ? FINGER_COLORS[fingerNumber] : 'currentColor'}
-                className={!showFingers || !fingerNumber ? 'text-primary' : ''}
+                fill={showFingers && fingerNumber ? FINGER_COLORS[fingerNumber] : "currentColor"}
+                className={!showFingers || !fingerNumber ? "text-primary" : ""}
               />
               {showFingers && fingerNumber > 0 && (
                 <text

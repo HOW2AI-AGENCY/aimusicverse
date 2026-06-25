@@ -29,7 +29,7 @@
 - [migrateFile()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L92) (4 connections)
 - [y()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/prettify.js#L2) (4 connections)
 - [printResults()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L413) (4 connections)
-- *... and 109 more nodes in this community*
+- _... and 109 more nodes in this community_
 
 ## Relationships
 
@@ -61,4 +61,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

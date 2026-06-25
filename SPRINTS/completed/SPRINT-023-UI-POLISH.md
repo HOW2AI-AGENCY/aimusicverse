@@ -78,12 +78,12 @@
 
 ## Метрики успеха
 
-| Метрика | До | После | Цель |
-|---------|-----|-------|------|
-| Waveform load time | ~500ms | ~50ms (cached) | < 100ms |
-| Waveform height jump | 48px → 12px | Stable 12px | No jump |
-| Documentation coverage | 60% | 90% | > 85% |
-| Bundle size | 1.16MB | TBD | < 800KB |
+| Метрика                | До          | После          | Цель    |
+| ---------------------- | ----------- | -------------- | ------- |
+| Waveform load time     | ~500ms      | ~50ms (cached) | < 100ms |
+| Waveform height jump   | 48px → 12px | Stable 12px    | No jump |
+| Documentation coverage | 60%         | 90%            | > 85%   |
+| Bundle size            | 1.16MB      | TBD            | < 800KB |
 
 ## Зависимости
 

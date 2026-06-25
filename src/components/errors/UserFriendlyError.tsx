@@ -5,20 +5,30 @@
  * Displays errors in a user-friendly format with actionable next steps
  */
 
-import { memo, useCallback, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { AlertTriangle, RefreshCw, X, Info, ExternalLink, Lightbulb, ChevronDown, MessageCircle, HelpCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
-import type { UserFriendlyError } from '@/lib/suno-error-mapper';
+import { memo, useCallback, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  AlertTriangle,
+  RefreshCw,
+  X,
+  Info,
+  ExternalLink,
+  Lightbulb,
+  ChevronDown,
+  MessageCircle,
+  HelpCircle,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import type { UserFriendlyError } from "@/lib/suno-error-mapper";
 
 interface UserFriendlyErrorProps {
   error: UserFriendlyError;
   onRetry?: () => void;
   onDismiss?: () => void;
   className?: string;
-  variant?: 'inline' | 'card' | 'banner';
+  variant?: "inline" | "card" | "banner";
 }
 
 const ERROR_ICONS = {
@@ -34,7 +44,7 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
   onRetry,
   onDismiss,
   className,
-  variant = 'card',
+  variant = "card",
 }: UserFriendlyErrorProps) {
   const ErrorIcon = ERROR_ICONS.warning;
 
@@ -51,8 +61,8 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
 
   const handleContactSupport = useCallback(() => {
     // Open Telegram support or email
-    const telegramSupport = 'https://t.me/musicverse_support';
-    window.open(telegramSupport, '_blank');
+    const telegramSupport = "https://t.me/musicverse_support";
+    window.open(telegramSupport, "_blank");
   }, []);
 
   const handleFaqClick = useCallback(() => {
@@ -69,11 +79,14 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.2 }}
         className={cn(
-          'relative overflow-hidden',
-          variant === 'inline' && 'p-3 rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900/50',
-          variant === 'card' && 'p-4 sm:p-6 rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900/50',
-          variant === 'banner' && 'p-4 rounded-xl bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-200/50 dark:border-red-900/50',
-          className
+          "relative overflow-hidden",
+          variant === "inline" &&
+            "p-3 rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900/50",
+          variant === "card" &&
+            "p-4 sm:p-6 rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/20 dark:border-red-900/50",
+          variant === "banner" &&
+            "p-4 rounded-xl bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-200/50 dark:border-red-900/50",
+          className,
         )}
       >
         {/* Error icon */}
@@ -85,22 +98,16 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
           {/* Error content */}
           <div className="flex-1 min-w-0">
             {/* Title */}
-            <h3 className="font-semibold text-sm sm:text-base text-red-900 dark:text-red-100 mb-1">
-              {error.title}
-            </h3>
+            <h3 className="font-semibold text-sm sm:text-base text-red-900 dark:text-red-100 mb-1">{error.title}</h3>
 
             {/* Message */}
-            <p className="text-sm text-red-700 dark:text-red-300 mb-2">
-              {error.message}
-            </p>
+            <p className="text-sm text-red-700 dark:text-red-300 mb-2">{error.message}</p>
 
             {/* Hint */}
             {error.hint && (
               <div className="flex items-start gap-2 p-2 mb-3 rounded-md bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50">
                 <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
-                <p className="text-xs text-amber-800 dark:text-amber-200">
-                  {error.hint}
-                </p>
+                <p className="text-xs text-amber-800 dark:text-amber-200">{error.hint}</p>
               </div>
             )}
 
@@ -112,7 +119,7 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
                   className="flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400 hover:underline"
                 >
                   <ChevronDown className={cn("w-3.5 h-3.5 transition-transform", showExamples && "rotate-180")} />
-                  {showExamples ? 'Скрыть примеры' : 'Показать примеры исправления'}
+                  {showExamples ? "Скрыть примеры" : "Показать примеры исправления"}
                 </button>
                 {showExamples && (
                   <ul className="mt-2 space-y-1 pl-4">
@@ -190,7 +197,7 @@ export const UserFriendlyErrorDisplay = memo(function UserFriendlyErrorDisplay({
           </div>
 
           {/* Dismiss button */}
-          {onDismiss && variant !== 'inline' && (
+          {onDismiss && variant !== "inline" && (
             <button
               onClick={handleDismiss}
               className="shrink-0 p-1 rounded-md hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
@@ -219,12 +226,8 @@ export const ErrorToast = memo(function ErrorToast({
     <div className="flex items-start gap-3 p-4 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/50">
       <AlertTriangle className="w-5 h-5 text-red-500 dark:text-red-400 shrink-0 mt-0.5" />
       <div className="flex-1 min-w-0">
-        <p className="font-semibold text-sm text-red-900 dark:text-red-100">
-          {error.title}
-        </p>
-        <p className="text-sm text-red-700 dark:text-red-300 mt-0.5">
-          {error.message}
-        </p>
+        <p className="font-semibold text-sm text-red-900 dark:text-red-100">{error.title}</p>
+        <p className="text-sm text-red-700 dark:text-red-300 mt-0.5">{error.message}</p>
         {error.hint && (
           <p className="text-xs text-amber-700 dark:text-amber-300 mt-1.5 flex items-start gap-1.5">
             <Lightbulb className="w-3.5 h-3.5 shrink-0 mt-0.5" />
@@ -232,10 +235,7 @@ export const ErrorToast = memo(function ErrorToast({
           </p>
         )}
         {error.retryable && onRetry && (
-          <button
-            onClick={onRetry}
-            className="mt-2 text-sm font-medium text-red-700 dark:text-red-300 hover:underline"
-          >
+          <button onClick={onRetry} className="mt-2 text-sm font-medium text-red-700 dark:text-red-300 hover:underline">
             {error.action}
           </button>
         )}
@@ -293,13 +293,9 @@ export const ErrorState = memo(function ErrorState({
         <AlertTriangle className="w-8 h-8 text-red-500 dark:text-red-400" />
       </motion.div>
 
-      <h2 className="text-xl font-semibold text-red-900 dark:text-red-100 mb-2">
-        {error.title}
-      </h2>
+      <h2 className="text-xl font-semibold text-red-900 dark:text-red-100 mb-2">{error.title}</h2>
 
-      <p className="text-red-700 dark:text-red-300 mb-6 max-w-md">
-        {error.message}
-      </p>
+      <p className="text-red-700 dark:text-red-300 mb-6 max-w-md">{error.message}</p>
 
       <div className="flex gap-3">
         {error.retryable && onRetry && (

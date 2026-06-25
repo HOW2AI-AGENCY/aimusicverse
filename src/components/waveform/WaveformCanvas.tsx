@@ -3,8 +3,8 @@
  * Pure canvas-based waveform visualization
  */
 
-import React, { memo, useRef, useEffect, useCallback } from 'react';
-import { cn } from '@/lib/utils';
+import React, { memo, useRef, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
 
 interface WaveformCanvasProps {
   waveformData: number[];
@@ -39,22 +39,20 @@ export const WaveformCanvas = memo(function WaveformCanvas({
   // Get CSS colors on mount
   useEffect(() => {
     const getCSSColor = (varName: string, fallback: string): string => {
-      const value = getComputedStyle(document.documentElement)
-        .getPropertyValue(varName)
-        .trim();
+      const value = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
       return value || fallback;
     };
 
-    const primary = getCSSColor('--primary', '217.2 91.2% 59.8%');
-    
+    const primary = getCSSColor("--primary", "217.2 91.2% 59.8%");
+
     // Check if dark mode is active for better contrast
-    const isDark = document.documentElement.classList.contains('dark');
+    const isDark = document.documentElement.classList.contains("dark");
     const waveOpacity = isDark ? 0.55 : 0.4;
 
     colorsRef.current = {
       wave: waveColor || `hsl(${primary} / ${waveOpacity})`,
       progress: progressColor || `hsl(${primary})`,
-      bg: backgroundColor || 'transparent',
+      bg: backgroundColor || "transparent",
     };
   }, [waveColor, progressColor, backgroundColor]);
 
@@ -63,12 +61,12 @@ export const WaveformCanvas = memo(function WaveformCanvas({
     const canvas = canvasRef.current;
     if (!canvas || !waveformData.length || !colorsRef.current) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
-    
+
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.scale(dpr, dpr);
@@ -85,7 +83,7 @@ export const WaveformCanvas = memo(function WaveformCanvas({
     const totalBarWidth = barWidth + barGap;
     const barsCount = Math.min(waveformData.length, Math.floor(width / totalBarWidth));
     const startX = (width - barsCount * totalBarWidth) / 2;
-    
+
     // Sample waveform data to match bar count
     const step = waveformData.length / barsCount;
 
@@ -95,12 +93,12 @@ export const WaveformCanvas = memo(function WaveformCanvas({
       const barHeight = Math.max(2, value * maxBarHeight);
       const x = startX + i * totalBarWidth;
       const y = centerY - barHeight / 2;
-      
+
       const barProgress = (x + barWidth / 2) / width;
       const isPassed = barProgress <= progress;
-      
+
       ctx.fillStyle = isPassed ? colorsRef.current!.progress : colorsRef.current!.wave;
-      
+
       // Draw rounded bar
       if (barRadius > 0) {
         ctx.beginPath();
@@ -119,27 +117,26 @@ export const WaveformCanvas = memo(function WaveformCanvas({
     }
   }, [waveformData, progress, height, barWidth, barGap, barRadius]);
 
-  const handleClick = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!onClick) return;
-    
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const clickProgress = x / rect.width;
-    
-    onClick(Math.max(0, Math.min(1, clickProgress)));
-  }, [onClick]);
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      if (!onClick) return;
+
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const clickProgress = x / rect.width;
+
+      onClick(Math.max(0, Math.min(1, clickProgress)));
+    },
+    [onClick],
+  );
 
   return (
     <canvas
       ref={canvasRef}
-      className={cn(
-        'w-full',
-        onClick && 'cursor-pointer',
-        className
-      )}
+      className={cn("w-full", onClick && "cursor-pointer", className)}
       style={{ height }}
       onClick={handleClick}
     />

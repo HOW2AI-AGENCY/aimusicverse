@@ -1,22 +1,21 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { authorize } from '../_shared/auth.ts';
-
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { authorize } from "../_shared/auth.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface AuditLogEntry {
-  entityType: 'track' | 'project' | 'artist' | 'lyrics' | 'cover' | 'reference_audio';
+  entityType: "track" | "project" | "artist" | "lyrics" | "cover" | "reference_audio";
   entityId: string;
   versionId?: string;
   userId: string;
-  actorType: 'user' | 'ai' | 'system';
+  actorType: "user" | "ai" | "system";
   aiModelUsed?: string;
   actionType: string;
-  actionCategory?: 'generation' | 'modification' | 'approval' | 'publication' | 'deletion';
+  actionCategory?: "generation" | "modification" | "approval" | "publication" | "deletion";
   contentUrl?: string;
   promptUsed?: string;
   inputMetadata?: Record<string, unknown>;
@@ -26,13 +25,13 @@ interface AuditLogEntry {
 }
 
 interface GetHistoryRequest {
-  action: 'get_history';
+  action: "get_history";
   entityType: string;
   entityId: string;
 }
 
 interface GenerateProofRequest {
-  action: 'generate_proof';
+  action: "generate_proof";
   entityType: string;
   entityId: string;
 }
@@ -44,9 +43,9 @@ type RequestBody = AuditLogEntry | GetHistoryRequest | GenerateProofRequest;
  */
 async function sha256(message: string): Promise<string> {
   const msgBuffer = new TextEncoder().encode(message);
-  const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", msgBuffer);
   const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 /**
@@ -56,19 +55,19 @@ async function hashContentFromUrl(url: string): Promise<string | null> {
   try {
     const response = await fetch(url);
     if (!response.ok) return null;
-    
+
     const arrayBuffer = await response.arrayBuffer();
-    const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
   } catch (error) {
-    console.error('Error hashing content from URL:', error);
+    console.error("Error hashing content from URL:", error);
     return null;
   }
 }
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -79,7 +78,7 @@ serve(async (req) => {
     if (!auth.ok) {
       return new Response(JSON.stringify({ success: false, error: auth.error }), {
         status: auth.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
     const isPrivileged = auth.isService || auth.isAdmin;
@@ -90,120 +89,121 @@ serve(async (req) => {
     const body: RequestBody = await req.json();
 
     // Helper: confirm caller owns the entity referenced by a read request
-    const ensureEntityOwner = async (
-      entityType: string,
-      entityId: string,
-    ): Promise<Response | null> => {
+    const ensureEntityOwner = async (entityType: string, entityId: string): Promise<Response | null> => {
       if (isPrivileged) return null;
       if (!callerId) {
-        return new Response(JSON.stringify({ success: false, error: 'Unauthorized' }), {
-          status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+          status: 401,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       const tableMap: Record<string, string> = {
-        track: 'tracks',
-        project: 'music_projects',
-        artist: 'artists',
-        lyrics: 'lyrics_versions',
-        cover: 'cover_thumbnails',
-        reference_audio: 'reference_audio',
+        track: "tracks",
+        project: "music_projects",
+        artist: "artists",
+        lyrics: "lyrics_versions",
+        cover: "cover_thumbnails",
+        reference_audio: "reference_audio",
       };
       const table = tableMap[entityType];
       if (!table) {
-        return new Response(JSON.stringify({ success: false, error: 'Unknown entity type' }), {
-          status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        return new Response(JSON.stringify({ success: false, error: "Unknown entity type" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      const { data, error } = await supabase
-        .from(table).select('user_id').eq('id', entityId).maybeSingle();
+      const { data, error } = await supabase.from(table).select("user_id").eq("id", entityId).maybeSingle();
       if (error || !data || data.user_id !== callerId) {
-        return new Response(JSON.stringify({ success: false, error: 'Forbidden' }), {
-          status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        return new Response(JSON.stringify({ success: false, error: "Forbidden" }), {
+          status: 403,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
       return null;
     };
 
-
     // Handle different actions
-    if ('action' in body) {
-      if (body.action === 'get_history') {
+    if ("action" in body) {
+      if (body.action === "get_history") {
         const denied = await ensureEntityOwner(body.entityType, body.entityId);
         if (denied) return denied;
 
         const { data, error } = await supabase
-          .from('content_audit_log')
-          .select('*')
-          .eq('entity_type', body.entityType)
-          .eq('entity_id', body.entityId)
-          .order('created_at', { ascending: true });
+          .from("content_audit_log")
+          .select("*")
+          .eq("entity_type", body.entityType)
+          .eq("entity_id", body.entityId)
+          .order("created_at", { ascending: true });
 
         if (error) throw error;
 
         return new Response(JSON.stringify({ success: true, history: data }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
 
-      if (body.action === 'generate_proof') {
+      if (body.action === "generate_proof") {
         const denied = await ensureEntityOwner(body.entityType, body.entityId);
         if (denied) return denied;
 
         const { data: auditData, error: auditError } = await supabase
-          .from('content_audit_log')
-          .select('*')
-          .eq('entity_type', body.entityType)
-          .eq('entity_id', body.entityId)
-          .order('created_at', { ascending: true });
+          .from("content_audit_log")
+          .select("*")
+          .eq("entity_type", body.entityType)
+          .eq("entity_id", body.entityId)
+          .order("created_at", { ascending: true });
 
         if (auditError) throw auditError;
 
         if (!auditData || auditData.length === 0) {
-          return new Response(JSON.stringify({ 
-            success: false, 
-            error: 'No audit history found for this content' 
-          }), {
-            status: 404,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          });
+          return new Response(
+            JSON.stringify({
+              success: false,
+              error: "No audit history found for this content",
+            }),
+            {
+              status: 404,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            },
+          );
         }
 
         // Get entity details based on type
         let entityData: Record<string, unknown> | null = null;
         const firstEntry = auditData[0];
 
-        if (body.entityType === 'track') {
+        if (body.entityType === "track") {
           const { data } = await supabase
-            .from('tracks')
-            .select('id, title, style, audio_url, cover_url, created_at, user_id')
-            .eq('id', body.entityId)
+            .from("tracks")
+            .select("id, title, style, audio_url, cover_url, created_at, user_id")
+            .eq("id", body.entityId)
             .single();
           entityData = data;
-        } else if (body.entityType === 'project') {
+        } else if (body.entityType === "project") {
           const { data } = await supabase
-            .from('music_projects')
-            .select('id, title, description, cover_url, created_at, user_id')
-            .eq('id', body.entityId)
+            .from("music_projects")
+            .select("id, title, description, cover_url, created_at, user_id")
+            .eq("id", body.entityId)
             .single();
           entityData = data;
-        } else if (body.entityType === 'artist') {
+        } else if (body.entityType === "artist") {
           const { data } = await supabase
-            .from('artists')
-            .select('id, name, bio, avatar_url, created_at, user_id')
-            .eq('id', body.entityId)
+            .from("artists")
+            .select("id, name, bio, avatar_url, created_at, user_id")
+            .eq("id", body.entityId)
             .single();
           entityData = data;
         }
 
         // Get user profile
         const { data: profile } = await supabase
-          .from('profiles')
-          .select('username, telegram_id, display_name')
-          .eq('user_id', firstEntry.user_id)
+          .from("profiles")
+          .select("username, telegram_id, display_name")
+          .eq("user_id", firstEntry.user_id)
           .single();
 
         // Build creation chain
-        const creationChain = auditData.map(entry => ({
+        const creationChain = auditData.map((entry) => ({
           timestamp: entry.created_at,
           action: entry.action_type,
           actor: entry.actor_type,
@@ -215,15 +215,15 @@ serve(async (req) => {
 
         // Collect all prompts
         const prompts = auditData
-          .filter(e => e.prompt_used)
-          .map(e => ({
+          .filter((e) => e.prompt_used)
+          .map((e) => ({
             hash: e.prompt_hash,
             text: e.prompt_used,
           }));
 
         // Build deposit document
         const depositDocument = {
-          version: '1.0',
+          version: "1.0",
           generatedAt: new Date().toISOString(),
           author: {
             userId: firstEntry.user_id,
@@ -234,7 +234,7 @@ serve(async (req) => {
           content: {
             type: body.entityType,
             id: body.entityId,
-            title: entityData?.title || entityData?.name || 'Untitled',
+            title: entityData?.title || entityData?.name || "Untitled",
             createdAt: entityData?.created_at || firstEntry.created_at,
             contentHash: auditData[auditData.length - 1]?.content_hash || null,
           },
@@ -242,13 +242,13 @@ serve(async (req) => {
           inputs: {
             prompts,
             referenceAudios: auditData
-              .filter(e => e.input_metadata?.reference_audio_id)
-              .map(e => ({
+              .filter((e) => e.input_metadata?.reference_audio_id)
+              .map((e) => ({
                 id: e.input_metadata.reference_audio_id,
                 hash: e.input_data_hash,
               })),
           },
-          documentHash: '', // Will be calculated
+          documentHash: "", // Will be calculated
         };
 
         // Calculate document hash
@@ -257,29 +257,35 @@ serve(async (req) => {
 
         // Store deposit
         const { data: deposit, error: depositError } = await supabase
-          .from('content_deposits')
-          .upsert({
-            entity_type: body.entityType,
-            entity_id: body.entityId,
-            user_id: firstEntry.user_id,
-            deposit_document: depositDocument,
-            document_hash: depositDocument.documentHash,
-            status: 'pending',
-          }, {
-            onConflict: 'entity_type,entity_id',
-          })
+          .from("content_deposits")
+          .upsert(
+            {
+              entity_type: body.entityType,
+              entity_id: body.entityId,
+              user_id: firstEntry.user_id,
+              deposit_document: depositDocument,
+              document_hash: depositDocument.documentHash,
+              status: "pending",
+            },
+            {
+              onConflict: "entity_type,entity_id",
+            },
+          )
           .select()
           .single();
 
         if (depositError) throw depositError;
 
-        return new Response(JSON.stringify({ 
-          success: true, 
-          deposit: deposit,
-          document: depositDocument 
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
+        return new Response(
+          JSON.stringify({
+            success: true,
+            deposit: deposit,
+            document: depositDocument,
+          }),
+          {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
       }
     }
 
@@ -289,12 +295,15 @@ serve(async (req) => {
     // Prevent forged userId: only service/admin may write entries for other users
     if (!isPrivileged) {
       if (!callerId || entry.userId !== callerId) {
-        return new Response(JSON.stringify({ success: false, error: 'Forbidden: cannot write audit entries for other users' }), {
-          status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        });
+        return new Response(
+          JSON.stringify({ success: false, error: "Forbidden: cannot write audit entries for other users" }),
+          {
+            status: 403,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
       }
     }
-
 
     // Calculate hashes
     let contentHash: string | null = null;
@@ -318,7 +327,7 @@ serve(async (req) => {
 
     // Insert audit log entry
     const { data, error } = await supabase
-      .from('content_audit_log')
+      .from("content_audit_log")
       .insert({
         entity_type: entry.entityType,
         entity_id: entry.entityId,
@@ -345,18 +354,20 @@ serve(async (req) => {
     console.log(`[audit-log] Logged ${entry.actionType} for ${entry.entityType}/${entry.entityId}`);
 
     return new Response(JSON.stringify({ success: true, auditId: data.id }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
-
   } catch (error: unknown) {
-    console.error('[audit-log] Error:', error);
-    const message = error instanceof Error ? error.message : 'Unknown error';
-    return new Response(JSON.stringify({ 
-      success: false, 
-      error: message 
-    }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    console.error("[audit-log] Error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: message,
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   }
 });

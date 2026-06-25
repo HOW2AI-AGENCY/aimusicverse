@@ -4,11 +4,11 @@
  */
 
 // Re-export from track-card-new which has the updated variants
-export { 
+export {
   GridVariant,
-  ListVariant, 
+  ListVariant,
   CompactVariant,
   MinimalVariant,
   EnhancedVariant,
-  ProfessionalVariant
-} from '../track-card-new/variants';
+  ProfessionalVariant,
+} from "../track-card-new/variants";

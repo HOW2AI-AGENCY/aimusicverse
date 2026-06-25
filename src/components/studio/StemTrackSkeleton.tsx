@@ -1,13 +1,13 @@
 /**
  * StemTrackSkeleton - Loading placeholder for stem tracks
- * 
+ *
  * Displays animated skeleton UI while stems are loading
  * Matches the exact layout of StemTrackRow components
  */
 
-import { memo } from 'react';
-import { cn } from '@/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
+import { memo } from "react";
+import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface StemTrackSkeletonProps {
   count?: number;
@@ -19,11 +19,13 @@ export const SingleStemSkeleton = memo(({ isMobile }: { isMobile: boolean }) => 
   if (isMobile) {
     return (
       <div className="relative">
-        <div className={cn(
-          "flex flex-col rounded-xl overflow-hidden",
-          "bg-gradient-to-r from-muted/30 to-muted/10",
-          "border border-border/30"
-        )}>
+        <div
+          className={cn(
+            "flex flex-col rounded-xl overflow-hidden",
+            "bg-gradient-to-r from-muted/30 to-muted/10",
+            "border border-border/30",
+          )}
+        >
           {/* Header row */}
           <div className="flex items-center gap-2 px-3 py-2">
             <div className="flex items-center gap-2 min-w-0 flex-1">
@@ -32,7 +34,7 @@ export const SingleStemSkeleton = memo(({ isMobile }: { isMobile: boolean }) => 
               {/* Label skeleton */}
               <Skeleton className="h-3 w-10" />
             </div>
-            
+
             {/* Controls skeleton */}
             <div className="flex items-center gap-1">
               <Skeleton className="h-7 w-7 rounded-lg" />
@@ -68,10 +70,7 @@ export const SingleStemSkeleton = memo(({ isMobile }: { isMobile: boolean }) => 
 
   // Desktop skeleton
   return (
-    <div className={cn(
-      "flex items-center gap-3 px-3 py-1.5",
-      "border-b border-border/20"
-    )}>
+    <div className={cn("flex items-center gap-3 px-3 py-1.5", "border-b border-border/20")}>
       {/* Track label */}
       <div className="flex items-center gap-2 w-32 shrink-0">
         <Skeleton className="w-6 h-6 rounded-md" />
@@ -113,13 +112,9 @@ export const SingleStemSkeleton = memo(({ isMobile }: { isMobile: boolean }) => 
   );
 });
 
-SingleStemSkeleton.displayName = 'SingleStemSkeleton';
+SingleStemSkeleton.displayName = "SingleStemSkeleton";
 
-export const StemTrackSkeleton = memo(({ 
-  count = 4, 
-  isMobile = false,
-  className 
-}: StemTrackSkeletonProps) => {
+export const StemTrackSkeleton = memo(({ count = 4, isMobile = false, className }: StemTrackSkeletonProps) => {
   return (
     <div className={cn("space-y-2", className)}>
       {Array.from({ length: count }).map((_, i) => (
@@ -129,4 +124,4 @@ export const StemTrackSkeleton = memo(({
   );
 });
 
-StemTrackSkeleton.displayName = 'StemTrackSkeleton';
+StemTrackSkeleton.displayName = "StemTrackSkeleton";

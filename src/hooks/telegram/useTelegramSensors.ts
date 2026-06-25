@@ -2,17 +2,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * Telegram Sensors Hook
- * 
+ *
  * Provides access to device sensors (Accelerometer, Gyroscope, DeviceOrientation)
  * Available in Telegram Mini App 2.0+
- * 
+ *
  * Features:
  * - Accelerometer for motion detection
  * - Gyroscope for rotation tracking
  * - Device orientation for tilt detection
  * - Automatic cleanup on unmount
  * - Graceful fallback for unsupported devices
- * 
+ *
  * @example
  * ```tsx
  * const { accelerometer, gyroscope, orientation, isSupported } = useTelegramSensors({
@@ -20,7 +20,7 @@
  *   enableGyroscope: true,
  *   refreshRate: 60
  * });
- * 
+ *
  * // Use sensor data
  * if (accelerometer) {
  *   const tilt = Math.atan2(accelerometer.y, accelerometer.x) * 180 / Math.PI;
@@ -28,11 +28,11 @@
  * ```
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'TelegramSensors' });
+const log = logger.child({ module: "TelegramSensors" });
 
 interface SensorData {
   x: number;
@@ -60,13 +60,13 @@ interface UseTelegramSensorsReturn {
   accelerometer: SensorData | null;
   gyroscope: SensorData | null;
   orientation: OrientationData | null;
-  
+
   // Status
   isSupported: boolean;
   isAccelerometerActive: boolean;
   isGyroscopeActive: boolean;
   isOrientationActive: boolean;
-  
+
   // Controls
   startAccelerometer: () => Promise<boolean>;
   stopAccelerometer: () => void;
@@ -86,26 +86,22 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
   } = options;
 
   const { webApp } = useTelegram();
-  
+
   const [accelerometer, setAccelerometer] = useState<SensorData | null>(null);
   const [gyroscope, setGyroscope] = useState<SensorData | null>(null);
   const [orientation, setOrientation] = useState<OrientationData | null>(null);
-  
+
   const [isAccelerometerActive, setIsAccelerometerActive] = useState(false);
   const [isGyroscopeActive, setIsGyroscopeActive] = useState(false);
   const [isOrientationActive, setIsOrientationActive] = useState(false);
 
   // Check if sensors are supported
-  const isSupported = !!(
-    webApp?.Accelerometer ||
-    webApp?.Gyroscope ||
-    webApp?.DeviceOrientation
-  );
+  const isSupported = !!(webApp?.Accelerometer || webApp?.Gyroscope || webApp?.DeviceOrientation);
 
   // Accelerometer
   const startAccelerometer = useCallback(async (): Promise<boolean> => {
     if (!webApp?.Accelerometer) {
-      log.warn('Accelerometer not supported');
+      log.warn("Accelerometer not supported");
       return false;
     }
 
@@ -114,15 +110,15 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
         webApp.Accelerometer!.start(refreshRate, (started) => {
           if (started) {
             setIsAccelerometerActive(true);
-            log.info('Accelerometer started', { refreshRate });
+            log.info("Accelerometer started", { refreshRate });
             resolve(true);
           } else {
-            log.warn('Failed to start accelerometer');
+            log.warn("Failed to start accelerometer");
             resolve(false);
           }
         });
       } catch (error) {
-        log.error('Error starting accelerometer', error);
+        log.error("Error starting accelerometer", error);
         resolve(false);
       }
     });
@@ -130,22 +126,22 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
 
   const stopAccelerometer = useCallback(() => {
     if (!webApp?.Accelerometer) return;
-    
+
     try {
       webApp.Accelerometer.stop(() => {
         setIsAccelerometerActive(false);
         setAccelerometer(null);
-        log.info('Accelerometer stopped');
+        log.info("Accelerometer stopped");
       });
     } catch (error) {
-      log.error('Error stopping accelerometer', error);
+      log.error("Error stopping accelerometer", error);
     }
   }, [webApp]);
 
   // Gyroscope
   const startGyroscope = useCallback(async (): Promise<boolean> => {
     if (!webApp?.Gyroscope) {
-      log.warn('Gyroscope not supported');
+      log.warn("Gyroscope not supported");
       return false;
     }
 
@@ -154,15 +150,15 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
         webApp.Gyroscope!.start(refreshRate, (started) => {
           if (started) {
             setIsGyroscopeActive(true);
-            log.info('Gyroscope started', { refreshRate });
+            log.info("Gyroscope started", { refreshRate });
             resolve(true);
           } else {
-            log.warn('Failed to start gyroscope');
+            log.warn("Failed to start gyroscope");
             resolve(false);
           }
         });
       } catch (error) {
-        log.error('Error starting gyroscope', error);
+        log.error("Error starting gyroscope", error);
         resolve(false);
       }
     });
@@ -170,22 +166,22 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
 
   const stopGyroscope = useCallback(() => {
     if (!webApp?.Gyroscope) return;
-    
+
     try {
       webApp.Gyroscope.stop(() => {
         setIsGyroscopeActive(false);
         setGyroscope(null);
-        log.info('Gyroscope stopped');
+        log.info("Gyroscope stopped");
       });
     } catch (error) {
-      log.error('Error stopping gyroscope', error);
+      log.error("Error stopping gyroscope", error);
     }
   }, [webApp]);
 
   // Device Orientation
   const startOrientation = useCallback(async (): Promise<boolean> => {
     if (!webApp?.DeviceOrientation) {
-      log.warn('DeviceOrientation not supported');
+      log.warn("DeviceOrientation not supported");
       return false;
     }
 
@@ -194,15 +190,15 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
         webApp.DeviceOrientation!.start(needAbsoluteOrientation, (started) => {
           if (started) {
             setIsOrientationActive(true);
-            log.info('DeviceOrientation started', { needAbsolute: needAbsoluteOrientation });
+            log.info("DeviceOrientation started", { needAbsolute: needAbsoluteOrientation });
             resolve(true);
           } else {
-            log.warn('Failed to start device orientation');
+            log.warn("Failed to start device orientation");
             resolve(false);
           }
         });
       } catch (error) {
-        log.error('Error starting device orientation', error);
+        log.error("Error starting device orientation", error);
         resolve(false);
       }
     });
@@ -210,15 +206,15 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
 
   const stopOrientation = useCallback(() => {
     if (!webApp?.DeviceOrientation) return;
-    
+
     try {
       webApp.DeviceOrientation.stop(() => {
         setIsOrientationActive(false);
         setOrientation(null);
-        log.info('DeviceOrientation stopped');
+        log.info("DeviceOrientation stopped");
       });
     } catch (error) {
-      log.error('Error stopping device orientation', error);
+      log.error("Error stopping device orientation", error);
     }
   }, [webApp]);
 
@@ -290,14 +286,14 @@ export function useTelegramSensors(options: UseTelegramSensorsOptions = {}): Use
       }
     };
 
-    webApp.onEvent?.('accelerometerChanged', handleAccelerometerChanged);
-    webApp.onEvent?.('gyroscopeChanged', handleGyroscopeChanged);
-    webApp.onEvent?.('deviceOrientationChanged', handleOrientationChanged);
+    webApp.onEvent?.("accelerometerChanged", handleAccelerometerChanged);
+    webApp.onEvent?.("gyroscopeChanged", handleGyroscopeChanged);
+    webApp.onEvent?.("deviceOrientationChanged", handleOrientationChanged);
 
     return () => {
-      webApp.offEvent?.('accelerometerChanged', handleAccelerometerChanged);
-      webApp.offEvent?.('gyroscopeChanged', handleGyroscopeChanged);
-      webApp.offEvent?.('deviceOrientationChanged', handleOrientationChanged);
+      webApp.offEvent?.("accelerometerChanged", handleAccelerometerChanged);
+      webApp.offEvent?.("gyroscopeChanged", handleGyroscopeChanged);
+      webApp.offEvent?.("deviceOrientationChanged", handleOrientationChanged);
     };
   }, [webApp]);
 

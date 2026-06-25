@@ -4,19 +4,19 @@
 /**
  * Generation modes supported by the AI Assistant
  */
-export type GenerationMode = 
-  | 'prompt'          // Single prompt generation
-  | 'style-lyrics'    // Separate style + lyrics input
-  | 'cover'           // Cover creation from reference
-  | 'extend'          // Audio extension
-  | 'project'         // Project-based generation
-  | 'persona';        // Persona-based generation
+export type GenerationMode =
+  | "prompt" // Single prompt generation
+  | "style-lyrics" // Separate style + lyrics input
+  | "cover" // Cover creation from reference
+  | "extend" // Audio extension
+  | "project" // Project-based generation
+  | "persona"; // Persona-based generation
 
 /**
  * Reference type for cover/extend modes
  */
 export interface GenerationReference {
-  type: 'audio' | 'track' | 'project' | 'persona';
+  type: "audio" | "track" | "project" | "persona";
   id: string;
   url?: string;
   title?: string;
@@ -27,11 +27,11 @@ export interface GenerationReference {
  */
 export interface GenerationOptions {
   instrumental: boolean;
-  duration: number | null;          // Duration in seconds (null = auto)
-  custom_mode: boolean;             // Enable advanced options
-  make_instrumental: boolean;       // Generate instrumental version
-  style_weight?: number;            // Weight for style influence (0-1)
-  seed?: number;                    // Seed for reproducibility
+  duration: number | null; // Duration in seconds (null = auto)
+  custom_mode: boolean; // Enable advanced options
+  make_instrumental: boolean; // Generate instrumental version
+  style_weight?: number; // Weight for style influence (0-1)
+  seed?: number; // Seed for reproducibility
 }
 
 /**
@@ -41,31 +41,31 @@ export interface AssistantFormState {
   // Progress tracking
   step: number;
   totalSteps: number;
-  
+
   // Mode selection
   mode: GenerationMode;
-  
+
   // Form data
   prompt: string;
   style: string;
   lyrics: string;
-  
+
   // References (for cover/extend modes)
   reference: GenerationReference | null;
-  
+
   // Generation options
   options: GenerationOptions;
-  
+
   // Metadata
   metadata: Record<string, any>;
-  
+
   // Validation state
   isValid: boolean;
   errors: Record<string, string>;
-  
+
   // Persistence
-  savedAt: number;                  // Timestamp of last save
-  expiresAt: number;                // Expiration timestamp
+  savedAt: number; // Timestamp of last save
+  expiresAt: number; // Expiration timestamp
 }
 
 /**
@@ -86,7 +86,7 @@ export interface WizardStep {
   title: string;
   description: string;
   optional: boolean;
-  fields: string[];                 // Fields required in this step
+  fields: string[]; // Fields required in this step
   helper?: FormHelperData;
 }
 

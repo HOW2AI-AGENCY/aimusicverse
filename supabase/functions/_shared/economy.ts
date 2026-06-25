@@ -30,26 +30,26 @@ export const ECONOMY = {
   CREDITS_PER_USD: 100,
   STARS_PER_USD: 50,
   CREDITS_PER_STAR: 2,
-  
+
   // Generation costs
   DEFAULT_GENERATION_COST,
-  
+
   // Feature costs (synced with sunoapi.org prices)
-  STEM_SEPARATION_SIMPLE_COST: 10,    // 10 credits = 2 stems (vocal + instrumental)
-  STEM_SEPARATION_DETAILED_COST: 50,  // 50 credits = 12+ stems
-  REPLACE_SECTION_COST: 5,            // 5 credits = section replacement
+  STEM_SEPARATION_SIMPLE_COST: 10, // 10 credits = 2 stems (vocal + instrumental)
+  STEM_SEPARATION_DETAILED_COST: 50, // 50 credits = 12+ stems
+  REPLACE_SECTION_COST: 5, // 5 credits = section replacement
   AUDIO_ANALYSIS_COST: 3,
-  COVER_GENERATION_COST: 10,          // 10 credits = cover
-  EXTEND_GENERATION_COST: 10,         // 10 credits = extend
+  COVER_GENERATION_COST: 10, // 10 credits = cover
+  EXTEND_GENERATION_COST: 10, // 10 credits = extend
   MIDI_EXPORT_COST: 3,
-  
+
   // Rewards (BOOSTED - synced with frontend)
   DAILY_CHECKIN: {
-    credits: 10,  // Was 5
+    credits: 10, // Was 5
     xp: 25,
   },
   STREAK_BONUS: {
-    credits_per_day: 5,  // Was multiplier
+    credits_per_day: 5, // Was multiplier
     xp_per_day: 15,
     max_credits: 50,
   },
@@ -77,12 +77,12 @@ export const ECONOMY = {
     credits: 3,
     xp: 15,
   },
-  
+
   // Referral (reduced rewards)
   REFERRAL_PERCENT: 10,
   REFERRAL_INVITE_BONUS: 15, // Was 100
   REFERRAL_NEW_USER_BONUS: 15, // Was 50
-  
+
   // Free user limits
   FREE_DAILY_EARN_CAP: 30,
   FREE_MAX_BALANCE: 100,
@@ -95,30 +95,27 @@ export const ECONOMY = {
 export function calculateGenerationCost(options: {
   modelKey: string;
   withStems?: boolean;
-  stemMode?: 'simple' | 'detailed';
+  stemMode?: "simple" | "detailed";
   withAnalysis?: boolean;
 }): number {
   let cost = getGenerationCost(options.modelKey);
-  
+
   if (options.withStems) {
     // Use detailed cost if stemMode is detailed, otherwise simple
-    cost += options.stemMode === 'detailed' 
-      ? ECONOMY.STEM_SEPARATION_DETAILED_COST 
-      : ECONOMY.STEM_SEPARATION_SIMPLE_COST;
+    cost +=
+      options.stemMode === "detailed" ? ECONOMY.STEM_SEPARATION_DETAILED_COST : ECONOMY.STEM_SEPARATION_SIMPLE_COST;
   }
-  
+
   if (options.withAnalysis) {
     cost += ECONOMY.AUDIO_ANALYSIS_COST;
   }
-  
+
   return cost;
 }
 
 /**
  * Get stem separation cost based on mode
  */
-export function getStemSeparationCost(mode: 'simple' | 'detailed'): number {
-  return mode === 'detailed' 
-    ? ECONOMY.STEM_SEPARATION_DETAILED_COST 
-    : ECONOMY.STEM_SEPARATION_SIMPLE_COST;
+export function getStemSeparationCost(mode: "simple" | "detailed"): number {
+  return mode === "detailed" ? ECONOMY.STEM_SEPARATION_DETAILED_COST : ECONOMY.STEM_SEPARATION_SIMPLE_COST;
 }

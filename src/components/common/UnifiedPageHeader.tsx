@@ -1,20 +1,20 @@
 /**
  * UnifiedPageHeader - Universal Page Header Component
- * 
+ *
  * Variants:
  * - sticky: Sticky header with blur backdrop
  * - floating: Transparent floating over content
  * - transparent: No background, integrates with hero
  */
 
-import React, { memo, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { touchTarget } from '@/lib/touch-target';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useIsMobile } from '@/hooks/use-mobile';
+import React, { memo, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { touchTarget } from "@/lib/touch-target";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export interface BreadcrumbItem {
   label: string;
@@ -23,7 +23,7 @@ export interface BreadcrumbItem {
 }
 
 export interface UnifiedPageHeaderProps {
-  variant?: 'sticky' | 'floating' | 'transparent';
+  variant?: "sticky" | "floating" | "transparent";
   title?: string;
   subtitle?: string;
   showBackButton?: boolean;
@@ -38,7 +38,7 @@ export interface UnifiedPageHeaderProps {
 }
 
 export const UnifiedPageHeader = memo(function UnifiedPageHeader({
-  variant = 'sticky',
+  variant = "sticky",
   title,
   subtitle,
   showBackButton = true,
@@ -71,7 +71,7 @@ export const UnifiedPageHeader = memo(function UnifiedPageHeader({
     if (isTelegramAvailable && showBackButton && webApp) {
       webApp.BackButton.show();
       webApp.BackButton.onClick(handleBack);
-      
+
       return () => {
         webApp.BackButton.hide();
         webApp.BackButton.offClick(handleBack);
@@ -80,43 +80,35 @@ export const UnifiedPageHeader = memo(function UnifiedPageHeader({
   }, [isTelegramAvailable, showBackButton, webApp, handleBack]);
 
   const safeAreaPadding = withSafeArea
-    ? 'calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px) + 0.5rem)'
-    : '0.5rem';
+    ? "calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px) + 0.5rem)"
+    : "0.5rem";
 
   const variantClasses = {
-    sticky: 'sticky top-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/50',
-    floating: 'absolute top-0 left-0 right-0 z-40',
-    transparent: 'relative z-10',
+    sticky: "sticky top-0 z-40 bg-background/80 backdrop-blur-lg border-b border-border/50",
+    floating: "absolute top-0 left-0 right-0 z-40",
+    transparent: "relative z-10",
   };
 
   const showNativeBackButton = showBackButton && !isTelegramAvailable;
 
   return (
     <header
-      className={cn(
-        'w-full',
-        variantClasses[variant],
-        className
-      )}
+      className={cn("w-full", variantClasses[variant], className)}
       style={{ paddingTop: withSafeArea ? safeAreaPadding : undefined }}
     >
-      <div className={cn(
-        'flex items-center justify-between',
-        isMobile ? 'px-3 py-2' : 'px-4 py-3'
-      )}>
+      <div className={cn("flex items-center justify-between", isMobile ? "px-3 py-2" : "px-4 py-3")}>
         {/* Left side - fixed width for centering on mobile */}
-        <div className={cn(
-          "flex items-center gap-2 shrink-0",
-          isMobile && "w-10" // Fixed width for symmetry
-        )}>
+        <div
+          className={cn(
+            "flex items-center gap-2 shrink-0",
+            isMobile && "w-10", // Fixed width for symmetry
+          )}
+        >
           {showNativeBackButton && (
             <Button
               size="icon"
-              variant={variant === 'floating' ? 'secondary' : 'ghost'}
-              className={cn(
-                touchTarget.icon,
-                variant === 'floating' && 'bg-background/60 backdrop-blur-sm'
-              )}
+              variant={variant === "floating" ? "secondary" : "ghost"}
+              className={cn(touchTarget.icon, variant === "floating" && "bg-background/60 backdrop-blur-sm")}
               onClick={handleBack}
             >
               <ChevronLeft className="w-5 h-5" />
@@ -128,16 +120,15 @@ export const UnifiedPageHeader = memo(function UnifiedPageHeader({
 
         {/* Title section - centered on mobile */}
         {(title || subtitle || breadcrumbs) && (
-          <div className={cn(
-            "min-w-0 flex-1",
-            isMobile && "text-center"
-          )}>
+          <div className={cn("min-w-0 flex-1", isMobile && "text-center")}>
             {/* Breadcrumbs */}
             {breadcrumbs && breadcrumbs.length > 0 && (
-              <nav className={cn(
-                "flex items-center gap-1 text-xs text-muted-foreground mb-0.5",
-                isMobile && "justify-center"
-              )}>
+              <nav
+                className={cn(
+                  "flex items-center gap-1 text-xs text-muted-foreground mb-0.5",
+                  isMobile && "justify-center",
+                )}
+              >
                 {breadcrumbs.map((item, index) => {
                   const BreadcrumbIcon = item.icon;
                   return (
@@ -164,20 +155,19 @@ export const UnifiedPageHeader = memo(function UnifiedPageHeader({
             )}
 
             {title && (
-              <h1 className={cn(
-                'font-semibold truncate',
-                variant === 'floating' && 'text-white drop-shadow-md',
-                isMobile ? 'text-base' : 'text-lg'
-              )}>
+              <h1
+                className={cn(
+                  "font-semibold truncate",
+                  variant === "floating" && "text-white drop-shadow-md",
+                  isMobile ? "text-base" : "text-lg",
+                )}
+              >
                 {title}
               </h1>
             )}
-            
+
             {subtitle && (
-              <p className={cn(
-                'text-xs truncate',
-                variant === 'floating' ? 'text-white/80' : 'text-muted-foreground'
-              )}>
+              <p className={cn("text-xs truncate", variant === "floating" ? "text-white/80" : "text-muted-foreground")}>
                 {subtitle}
               </p>
             )}
@@ -185,10 +175,12 @@ export const UnifiedPageHeader = memo(function UnifiedPageHeader({
         )}
 
         {/* Right side - fixed width for centering on mobile */}
-        <div className={cn(
-          "flex items-center gap-1 shrink-0",
-          isMobile && "w-10 justify-end" // Fixed width for symmetry
-        )}>
+        <div
+          className={cn(
+            "flex items-center gap-1 shrink-0",
+            isMobile && "w-10 justify-end", // Fixed width for symmetry
+          )}
+        >
           {rightAction}
         </div>
       </div>

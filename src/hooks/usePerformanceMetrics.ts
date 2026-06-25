@@ -2,9 +2,9 @@
  * Hook for fetching and managing performance metrics from database
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export interface PerformanceMetric {
   id: string;
@@ -50,18 +50,18 @@ export const PERFORMANCE_TARGETS = {
   lighthouseSeo: 90,
 };
 
-export type MetricStatus = 'good' | 'needs-improvement' | 'poor';
+export type MetricStatus = "good" | "needs-improvement" | "poor";
 
 export function getMetricStatus(value: number | null, target: number, isLowerBetter = true): MetricStatus {
-  if (value === null) return 'needs-improvement';
+  if (value === null) return "needs-improvement";
   if (isLowerBetter) {
-    if (value <= target) return 'good';
-    if (value <= target * 1.5) return 'needs-improvement';
-    return 'poor';
+    if (value <= target) return "good";
+    if (value <= target * 1.5) return "needs-improvement";
+    return "poor";
   } else {
-    if (value >= target) return 'good';
-    if (value >= target * 0.7) return 'needs-improvement';
-    return 'poor';
+    if (value >= target) return "good";
+    if (value >= target * 0.7) return "needs-improvement";
+    return "poor";
   }
 }
 
@@ -69,7 +69,7 @@ export function getMetricStatus(value: number | null, target: number, isLowerBet
 export function calculateTrend(
   metrics: PerformanceMetric[],
   key: keyof PerformanceMetric,
-  isLowerBetter = true
+  isLowerBetter = true,
 ): number {
   if (metrics.length < 2) return 0;
   const latest = metrics[0]?.[key] as number | null;
@@ -81,9 +81,9 @@ export function calculateTrend(
 }
 
 export function collectWebVitals(): Partial<PerformanceMetric> {
-  const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+  const navigation = performance.getEntriesByType("navigation")[0] as PerformanceNavigationTiming | undefined;
   return {
-    source: 'browser',
+    source: "browser",
     ttfb_ms: navigation?.responseStart ? Math.round(navigation.responseStart) : null,
     fcp_ms: null,
     lcp_ms: null,
@@ -94,12 +94,12 @@ export function collectWebVitals(): Partial<PerformanceMetric> {
 
 export function usePerformanceMetrics(limit = 100) {
   return useQuery({
-    queryKey: ['performance-metrics', limit],
+    queryKey: ["performance-metrics", limit],
     queryFn: async (): Promise<PerformanceMetric[]> => {
       const { data, error } = await supabase
-        .from('performance_metrics')
-        .select('*')
-        .order('recorded_at', { ascending: false })
+        .from("performance_metrics")
+        .select("*")
+        .order("recorded_at", { ascending: false })
         .limit(limit);
 
       if (error) throw error;
@@ -111,17 +111,17 @@ export function usePerformanceMetrics(limit = 100) {
 
 export function useLatestPerformanceMetric() {
   return useQuery({
-    queryKey: ['latest-performance-metric'],
+    queryKey: ["latest-performance-metric"],
     queryFn: async (): Promise<PerformanceMetric | null> => {
       const { data, error } = await supabase
-        .from('performance_metrics')
-        .select('*')
-        .order('recorded_at', { ascending: false })
+        .from("performance_metrics")
+        .select("*")
+        .order("recorded_at", { ascending: false })
         .limit(1)
         .single();
 
       if (error) {
-        if (error.code === 'PGRST116') return null;
+        if (error.code === "PGRST116") return null;
         throw error;
       }
       return data as PerformanceMetric;
@@ -134,20 +134,18 @@ export function useAddPerformanceMetric() {
 
   return useMutation({
     mutationFn: async (metric: Partial<PerformanceMetric>) => {
-      const { error } = await supabase
-        .from('performance_metrics')
-        .insert({
-          source: metric.source || 'manual',
-          recorded_at: new Date().toISOString(),
-          ...metric,
-        });
+      const { error } = await supabase.from("performance_metrics").insert({
+        source: metric.source || "manual",
+        recorded_at: new Date().toISOString(),
+        ...metric,
+      });
 
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['performance-metrics'] });
-      queryClient.invalidateQueries({ queryKey: ['latest-performance-metric'] });
-      toast.success('Metric recorded');
+      queryClient.invalidateQueries({ queryKey: ["performance-metrics"] });
+      queryClient.invalidateQueries({ queryKey: ["latest-performance-metric"] });
+      toast.success("Metric recorded");
     },
     onError: (error) => {
       toast.error(`Failed to record metric: ${error.message}`);
@@ -157,14 +155,14 @@ export function useAddPerformanceMetric() {
 
 export function usePerformanceTrend(key: keyof PerformanceMetric, limit = 30) {
   const { data: metrics } = usePerformanceMetrics(limit);
-  
+
   if (!metrics || metrics.length < 2) {
     return { trend: 0, isPositive: true };
   }
 
   const trend = calculateTrend(metrics, key);
-  return { 
-    trend, 
-    isPositive: trend > 0 
+  return {
+    trend,
+    isPositive: trend > 0,
   };
 }

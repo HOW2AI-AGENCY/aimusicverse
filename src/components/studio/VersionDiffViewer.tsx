@@ -1,36 +1,22 @@
 /**
  * Version Diff Viewer
- * 
+ *
  * Visual comparison between two track versions with waveform overlay
  * and metadata diff display.
  */
 
-import { useState, useMemo, useRef, useEffect } from 'react';
-import { logger } from '@/lib/logger';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { 
-  GitCompare, 
-  Play, 
-  Pause, 
-  SkipBack,
-  Clock,
-  Music,
-  Layers
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { formatDuration } from '@/lib/formatters';
+import { useState, useMemo, useRef, useEffect } from "react";
+import { logger } from "@/lib/logger";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { GitCompare, Play, Pause, SkipBack, Clock, Music, Layers } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { formatDuration } from "@/lib/formatters";
 
 interface TrackVersion {
   id: string;
@@ -52,13 +38,13 @@ interface WaveformData {
   peaks: number[];
 }
 
-function SimpleWaveform({ 
-  audioUrl, 
-  color, 
+function SimpleWaveform({
+  audioUrl,
+  color,
   opacity = 1,
   height = 80,
-}: { 
-  audioUrl: string; 
+}: {
+  audioUrl: string;
   color: string;
   opacity?: number;
   height?: number;
@@ -73,12 +59,12 @@ function SimpleWaveform({
         const arrayBuffer = await response.arrayBuffer();
         const audioContext = new AudioContext();
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        
+
         const channelData = audioBuffer.getChannelData(0);
         const samples = 200;
         const blockSize = Math.floor(channelData.length / samples);
         const peaks: number[] = [];
-        
+
         for (let i = 0; i < samples; i++) {
           let sum = 0;
           for (let j = 0; j < blockSize; j++) {
@@ -86,15 +72,15 @@ function SimpleWaveform({
           }
           peaks.push(sum / blockSize);
         }
-        
+
         // Normalize
         const max = Math.max(...peaks);
-        const normalized = peaks.map(p => p / max);
-        
+        const normalized = peaks.map((p) => p / max);
+
         setWaveformData({ peaks: normalized });
         audioContext.close();
       } catch (error) {
-        logger.error('Failed to generate waveform:', { error });
+        logger.error("Failed to generate waveform:", { error });
       }
     };
 
@@ -105,18 +91,18 @@ function SimpleWaveform({
     if (!waveformData || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
-    
+
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.scale(dpr, dpr);
 
     ctx.clearRect(0, 0, rect.width, rect.height);
-    
+
     const barWidth = rect.width / waveformData.peaks.length;
     const centerY = rect.height / 2;
 
@@ -126,63 +112,47 @@ function SimpleWaveform({
     waveformData.peaks.forEach((peak, i) => {
       const barHeight = peak * centerY * 0.9;
       const x = i * barWidth;
-      
+
       // Draw mirrored bars
       ctx.fillRect(x, centerY - barHeight, barWidth - 1, barHeight * 2);
     });
   }, [waveformData, color, opacity]);
 
-  return (
-    <canvas 
-      ref={canvasRef} 
-      className="w-full" 
-      style={{ height }}
-    />
-  );
+  return <canvas ref={canvasRef} className="w-full" style={{ height }} />;
 }
 
-function MetadataDiff({ 
-  versionA, 
-  versionB 
-}: { 
-  versionA: TrackVersion; 
-  versionB: TrackVersion;
-}) {
+function MetadataDiff({ versionA, versionB }: { versionA: TrackVersion; versionB: TrackVersion }) {
   const diffs = useMemo(() => {
     const changes: Array<{ key: string; a: string; b: string; changed: boolean }> = [];
-    
+
     // Duration
-    const durA = versionA.duration_seconds 
-      ? formatDuration(versionA.duration_seconds) 
-      : 'N/A';
-    const durB = versionB.duration_seconds 
-      ? formatDuration(versionB.duration_seconds) 
-      : 'N/A';
-    changes.push({ 
-      key: 'Длительность', 
-      a: durA, 
-      b: durB, 
-      changed: durA !== durB 
+    const durA = versionA.duration_seconds ? formatDuration(versionA.duration_seconds) : "N/A";
+    const durB = versionB.duration_seconds ? formatDuration(versionB.duration_seconds) : "N/A";
+    changes.push({
+      key: "Длительность",
+      a: durA,
+      b: durB,
+      changed: durA !== durB,
     });
 
     // Version type
-    const typeA = versionA.version_type || 'original';
-    const typeB = versionB.version_type || 'original';
-    changes.push({ 
-      key: 'Тип', 
-      a: typeA, 
-      b: typeB, 
-      changed: typeA !== typeB 
+    const typeA = versionA.version_type || "original";
+    const typeB = versionB.version_type || "original";
+    changes.push({
+      key: "Тип",
+      a: typeA,
+      b: typeB,
+      changed: typeA !== typeB,
     });
 
     // Created at
-    const dateA = new Date(versionA.created_at).toLocaleDateString('ru-RU');
-    const dateB = new Date(versionB.created_at).toLocaleDateString('ru-RU');
-    changes.push({ 
-      key: 'Создано', 
-      a: dateA, 
-      b: dateB, 
-      changed: dateA !== dateB 
+    const dateA = new Date(versionA.created_at).toLocaleDateString("ru-RU");
+    const dateB = new Date(versionB.created_at).toLocaleDateString("ru-RU");
+    changes.push({
+      key: "Создано",
+      a: dateA,
+      b: dateB,
+      changed: dateA !== dateB,
     });
 
     return changes;
@@ -190,17 +160,14 @@ function MetadataDiff({
 
   return (
     <div className="space-y-1 text-xs">
-      {diffs.map(diff => (
-        <div 
-          key={diff.key} 
-          className={cn(
-            'flex items-center justify-between p-1 rounded',
-            diff.changed && 'bg-yellow-500/10'
-          )}
+      {diffs.map((diff) => (
+        <div
+          key={diff.key}
+          className={cn("flex items-center justify-between p-1 rounded", diff.changed && "bg-yellow-500/10")}
         >
           <span className="text-muted-foreground">{diff.key}:</span>
           <div className="flex gap-2">
-            <span className={cn(diff.changed && 'text-blue-500')}>{diff.a}</span>
+            <span className={cn(diff.changed && "text-blue-500")}>{diff.a}</span>
             {diff.changed && (
               <>
                 <span className="text-muted-foreground">→</span>
@@ -218,19 +185,19 @@ export function VersionDiffViewer({ versions, onClose }: VersionDiffViewerProps)
   const [versionAId, setVersionAId] = useState<string>(versions[1]?.id || versions[0]?.id);
   const [versionBId, setVersionBId] = useState<string>(versions[0]?.id);
   const [overlayMode, setOverlayMode] = useState(true);
-  const [playingVersion, setPlayingVersion] = useState<'A' | 'B' | null>(null);
+  const [playingVersion, setPlayingVersion] = useState<"A" | "B" | null>(null);
   const [aOpacity, setAOpacity] = useState([0.5]);
-  
+
   const audioRefA = useRef<HTMLAudioElement>(null);
   const audioRefB = useRef<HTMLAudioElement>(null);
 
-  const versionA = versions.find(v => v.id === versionAId);
-  const versionB = versions.find(v => v.id === versionBId);
+  const versionA = versions.find((v) => v.id === versionAId);
+  const versionB = versions.find((v) => v.id === versionBId);
 
-  const handlePlay = (version: 'A' | 'B') => {
-    const audioRef = version === 'A' ? audioRefA : audioRefB;
-    const otherRef = version === 'A' ? audioRefB : audioRefA;
-    
+  const handlePlay = (version: "A" | "B") => {
+    const audioRef = version === "A" ? audioRefA : audioRefB;
+    const otherRef = version === "A" ? audioRefB : audioRefA;
+
     if (playingVersion === version) {
       audioRef.current?.pause();
       setPlayingVersion(null);
@@ -282,15 +249,17 @@ export function VersionDiffViewer({ versions, onClose }: VersionDiffViewerProps)
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {versions.filter(v => v.id !== versionBId).map(v => (
-                  <SelectItem key={v.id} value={v.id}>
-                    {v.version_label} {v.is_primary && '(основная)'}
-                  </SelectItem>
-                ))}
+                {versions
+                  .filter((v) => v.id !== versionBId)
+                  .map((v) => (
+                    <SelectItem key={v.id} value={v.id}>
+                      {v.version_label} {v.is_primary && "(основная)"}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="space-y-2">
             <Label className="text-green-500">Версия B (стало)</Label>
             <Select value={versionBId} onValueChange={setVersionBId}>
@@ -298,11 +267,13 @@ export function VersionDiffViewer({ versions, onClose }: VersionDiffViewerProps)
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {versions.filter(v => v.id !== versionAId).map(v => (
-                  <SelectItem key={v.id} value={v.id}>
-                    {v.version_label} {v.is_primary && '(основная)'}
-                  </SelectItem>
-                ))}
+                {versions
+                  .filter((v) => v.id !== versionAId)
+                  .map((v) => (
+                    <SelectItem key={v.id} value={v.id}>
+                      {v.version_label} {v.is_primary && "(основная)"}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
@@ -312,54 +283,40 @@ export function VersionDiffViewer({ versions, onClose }: VersionDiffViewerProps)
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
-              <Switch 
-                id="overlay-mode"
-                checked={overlayMode} 
-                onCheckedChange={setOverlayMode}
-              />
+              <Switch id="overlay-mode" checked={overlayMode} onCheckedChange={setOverlayMode} />
               <Label htmlFor="overlay-mode" className="text-sm">
                 Наложение
               </Label>
             </div>
-            
+
             {overlayMode && (
               <div className="flex items-center gap-2 w-32">
                 <Label className="text-xs text-muted-foreground">A:</Label>
-                <Slider
-                  value={aOpacity}
-                  onValueChange={setAOpacity}
-                  min={0}
-                  max={1}
-                  step={0.1}
-                />
+                <Slider value={aOpacity} onValueChange={setAOpacity} min={0} max={1} step={0.1} />
               </div>
             )}
           </div>
 
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="icon"
-              onClick={handleSeekToStart}
-            >
+            <Button variant="outline" size="icon" onClick={handleSeekToStart}>
               <SkipBack className="h-4 w-4" />
             </Button>
             <Button
-              variant={playingVersion === 'A' ? 'default' : 'outline'}
+              variant={playingVersion === "A" ? "default" : "outline"}
               size="sm"
-              onClick={() => handlePlay('A')}
+              onClick={() => handlePlay("A")}
               className="gap-1"
             >
-              {playingVersion === 'A' ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
+              {playingVersion === "A" ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
               <span className="text-blue-500">A</span>
             </Button>
             <Button
-              variant={playingVersion === 'B' ? 'default' : 'outline'}
+              variant={playingVersion === "B" ? "default" : "outline"}
               size="sm"
-              onClick={() => handlePlay('B')}
+              onClick={() => handlePlay("B")}
               className="gap-1"
             >
-              {playingVersion === 'B' ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
+              {playingVersion === "B" ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
               <span className="text-green-500">B</span>
             </Button>
           </div>
@@ -371,20 +328,12 @@ export function VersionDiffViewer({ versions, onClose }: VersionDiffViewerProps)
             <div className="relative h-20">
               {versionA && (
                 <div className="absolute inset-0">
-                  <SimpleWaveform 
-                    audioUrl={versionA.audio_url} 
-                    color="hsl(217, 91%, 60%)"
-                    opacity={aOpacity[0]}
-                  />
+                  <SimpleWaveform audioUrl={versionA.audio_url} color="hsl(217, 91%, 60%)" opacity={aOpacity[0]} />
                 </div>
               )}
               {versionB && (
                 <div className="absolute inset-0">
-                  <SimpleWaveform 
-                    audioUrl={versionB.audio_url} 
-                    color="hsl(142, 71%, 45%)"
-                    opacity={1 - aOpacity[0]}
-                  />
+                  <SimpleWaveform audioUrl={versionB.audio_url} color="hsl(142, 71%, 45%)" opacity={1 - aOpacity[0]} />
                 </div>
               )}
             </div>
@@ -392,22 +341,18 @@ export function VersionDiffViewer({ versions, onClose }: VersionDiffViewerProps)
             <div className="space-y-2">
               {versionA && (
                 <div>
-                  <Badge variant="outline" className="mb-1 text-blue-500">A: {versionA.version_label}</Badge>
-                  <SimpleWaveform 
-                    audioUrl={versionA.audio_url} 
-                    color="hsl(217, 91%, 60%)"
-                    height={50}
-                  />
+                  <Badge variant="outline" className="mb-1 text-blue-500">
+                    A: {versionA.version_label}
+                  </Badge>
+                  <SimpleWaveform audioUrl={versionA.audio_url} color="hsl(217, 91%, 60%)" height={50} />
                 </div>
               )}
               {versionB && (
                 <div>
-                  <Badge variant="outline" className="mb-1 text-green-500">B: {versionB.version_label}</Badge>
-                  <SimpleWaveform 
-                    audioUrl={versionB.audio_url} 
-                    color="hsl(142, 71%, 45%)"
-                    height={50}
-                  />
+                  <Badge variant="outline" className="mb-1 text-green-500">
+                    B: {versionB.version_label}
+                  </Badge>
+                  <SimpleWaveform audioUrl={versionB.audio_url} color="hsl(142, 71%, 45%)" height={50} />
                 </div>
               )}
             </div>
@@ -426,20 +371,8 @@ export function VersionDiffViewer({ versions, onClose }: VersionDiffViewerProps)
         )}
 
         {/* Hidden audio elements */}
-        {versionA && (
-          <audio 
-            ref={audioRefA} 
-            src={versionA.audio_url}
-            onEnded={() => setPlayingVersion(null)}
-          />
-        )}
-        {versionB && (
-          <audio 
-            ref={audioRefB} 
-            src={versionB.audio_url}
-            onEnded={() => setPlayingVersion(null)}
-          />
-        )}
+        {versionA && <audio ref={audioRefA} src={versionA.audio_url} onEnded={() => setPlayingVersion(null)} />}
+        {versionB && <audio ref={audioRefB} src={versionB.audio_url} onEnded={() => setPlayingVersion(null)} />}
       </CardContent>
     </Card>
   );

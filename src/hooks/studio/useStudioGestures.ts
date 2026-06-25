@@ -1,6 +1,6 @@
 /**
  * useStudioGestures - Mobile gesture controls for studio
- * 
+ *
  * Provides:
  * - Pinch-to-zoom for timeline
  * - Swipe gestures for navigation
@@ -8,9 +8,9 @@
  * - Two-finger scroll for horizontal pan
  */
 
-import { useRef, useCallback, useEffect } from 'react';
-import { useGesture } from '@use-gesture/react';
-import { logger } from '@/lib/logger';
+import { useRef, useCallback, useEffect } from "react";
+import { useGesture } from "@use-gesture/react";
+import { logger } from "@/lib/logger";
 
 export interface GestureConfig {
   /** Enable pinch-to-zoom */
@@ -53,10 +53,7 @@ const DEFAULT_CONFIG: Required<GestureConfig> = {
   longPressDuration: 500,
 };
 
-export function useStudioGestures(
-  config: GestureConfig = {},
-  callbacks: GestureCallbacks = {}
-) {
+export function useStudioGestures(config: GestureConfig = {}, callbacks: GestureCallbacks = {}) {
   const mergedConfig = { ...DEFAULT_CONFIG, ...config };
   const zoomRef = useRef(1);
   const panOffsetRef = useRef(0);
@@ -64,13 +61,13 @@ export function useStudioGestures(
   const lastTapRef = useRef<{ time: number; x: number; y: number } | null>(null);
 
   // Haptic feedback helper
-  const triggerHaptic = useCallback((type: 'light' | 'medium' | 'heavy' = 'light') => {
+  const triggerHaptic = useCallback((type: "light" | "medium" | "heavy" = "light") => {
     try {
       const webApp = (window as any).Telegram?.WebApp;
       if (webApp?.HapticFeedback) {
         webApp.HapticFeedback.impactOccurred(type);
       } else if (navigator.vibrate) {
-        const duration = type === 'light' ? 10 : type === 'medium' ? 25 : 50;
+        const duration = type === "light" ? 10 : type === "medium" ? 25 : 50;
         navigator.vibrate(duration);
       }
     } catch {
@@ -99,13 +96,10 @@ export function useStudioGestures(
         if (!mergedConfig.enableZoom) return memo;
 
         if (first) {
-          triggerHaptic('light');
+          triggerHaptic("light");
         }
 
-        const newZoom = Math.max(
-          mergedConfig.minZoom,
-          Math.min(mergedConfig.maxZoom, scale)
-        );
+        const newZoom = Math.max(mergedConfig.minZoom, Math.min(mergedConfig.maxZoom, scale));
 
         if (Math.abs(newZoom - zoomRef.current) > 0.01) {
           zoomRef.current = newZoom;
@@ -113,8 +107,8 @@ export function useStudioGestures(
         }
 
         if (last) {
-          triggerHaptic('medium');
-          logger.debug('[Gestures] Zoom complete', { zoom: newZoom });
+          triggerHaptic("medium");
+          logger.debug("[Gestures] Zoom complete", { zoom: newZoom });
         }
 
         return memo;
@@ -132,29 +126,29 @@ export function useStudioGestures(
         // Handle swipe gestures (single finger, high velocity)
         if (last && mergedConfig.enableSwipe) {
           const velocity = Math.sqrt(vx * vx + vy * vy);
-          
+
           if (velocity > 0.5) {
             if (Math.abs(mx) > mergedConfig.swipeThreshold) {
               if (dx > 0) {
-                triggerHaptic('light');
+                triggerHaptic("light");
                 callbacks.onSwipeRight?.();
-                logger.debug('[Gestures] Swipe right');
+                logger.debug("[Gestures] Swipe right");
               } else {
-                triggerHaptic('light');
+                triggerHaptic("light");
                 callbacks.onSwipeLeft?.();
-                logger.debug('[Gestures] Swipe left');
+                logger.debug("[Gestures] Swipe left");
               }
             }
-            
+
             if (Math.abs(my) > mergedConfig.swipeThreshold) {
               if (dy > 0) {
-                triggerHaptic('light');
+                triggerHaptic("light");
                 callbacks.onSwipeDown?.();
-                logger.debug('[Gestures] Swipe down');
+                logger.debug("[Gestures] Swipe down");
               } else {
-                triggerHaptic('light');
+                triggerHaptic("light");
                 callbacks.onSwipeUp?.();
-                logger.debug('[Gestures] Swipe up');
+                logger.debug("[Gestures] Swipe up");
               }
             }
           }
@@ -164,9 +158,9 @@ export function useStudioGestures(
         if (first && mergedConfig.enableLongPress) {
           clearLongPress();
           longPressTimerRef.current = setTimeout(() => {
-            triggerHaptic('heavy');
+            triggerHaptic("heavy");
             callbacks.onLongPress?.({ x, y });
-            logger.debug('[Gestures] Long press', { x, y });
+            logger.debug("[Gestures] Long press", { x, y });
           }, mergedConfig.longPressDuration);
         }
 
@@ -187,20 +181,18 @@ export function useStudioGestures(
       onPointerDown: ({ event }) => {
         const x = event.clientX;
         const y = event.clientY;
-        
+
         // Double tap detection
         const now = Date.now();
         const lastTap = lastTapRef.current;
 
         if (lastTap && now - lastTap.time < 300) {
-          const distance = Math.sqrt(
-            Math.pow(x - lastTap.x, 2) + Math.pow(y - lastTap.y, 2)
-          );
-          
+          const distance = Math.sqrt(Math.pow(x - lastTap.x, 2) + Math.pow(y - lastTap.y, 2));
+
           if (distance < 50) {
-            triggerHaptic('medium');
+            triggerHaptic("medium");
             callbacks.onDoubleTap?.({ x, y });
-            logger.debug('[Gestures] Double tap', { x, y });
+            logger.debug("[Gestures] Double tap", { x, y });
             lastTapRef.current = null;
             return;
           }
@@ -218,7 +210,7 @@ export function useStudioGestures(
         filterTaps: true,
         threshold: 5,
       },
-    }
+    },
   );
 
   return {
@@ -237,10 +229,7 @@ export function useStudioGestures(
 }
 
 // Simplified hook for just zoom control
-export function usePinchZoom(
-  onZoom: (zoom: number) => void,
-  options: { min?: number; max?: number } = {}
-) {
+export function usePinchZoom(onZoom: (zoom: number) => void, options: { min?: number; max?: number } = {}) {
   return useStudioGestures(
     {
       enableZoom: true,
@@ -250,7 +239,7 @@ export function usePinchZoom(
       minZoom: options.min ?? 0.5,
       maxZoom: options.max ?? 4,
     },
-    { onZoomChange: onZoom }
+    { onZoomChange: onZoom },
   );
 }
 
@@ -273,6 +262,6 @@ export function useSwipeNavigation(callbacks: {
       onSwipeRight: callbacks.onPrev,
       onSwipeUp: callbacks.onUp,
       onSwipeDown: callbacks.onDown,
-    }
+    },
   );
 }

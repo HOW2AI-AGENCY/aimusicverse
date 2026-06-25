@@ -1,17 +1,17 @@
 /**
  * Audio Watermark Hook
- * 
+ *
  * React hook for applying and detecting watermarks on audio
  */
 
-import { useState, useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { 
-  applyWatermark as applyWatermarkApi, 
+import { useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import {
+  applyWatermark as applyWatermarkApi,
   detectWatermark as detectWatermarkApi,
-  WatermarkResult 
-} from '@/api/audio-watermark.api';
+  WatermarkResult,
+} from "@/api/audio-watermark.api";
 
 interface UseAudioWatermarkReturn {
   applyWatermark: (audioUrl: string, trackId?: string) => Promise<WatermarkResult | null>;
@@ -26,25 +26,24 @@ export function useAudioWatermark(): UseAudioWatermarkReturn {
   const [error, setError] = useState<string | null>(null);
 
   const applyMutation = useMutation({
-    mutationFn: ({ audioUrl, trackId }: { audioUrl: string; trackId?: string }) =>
-      applyWatermarkApi(audioUrl, trackId),
+    mutationFn: ({ audioUrl, trackId }: { audioUrl: string; trackId?: string }) => applyWatermarkApi(audioUrl, trackId),
     onMutate: () => {
       setError(null);
-      toast.loading('Добавление водяного знака...', { id: 'watermark-apply' });
+      toast.loading("Добавление водяного знака...", { id: "watermark-apply" });
     },
     onSuccess: (result) => {
-      toast.success('Водяной знак добавлен', { id: 'watermark-apply' });
-      
+      toast.success("Водяной знак добавлен", { id: "watermark-apply" });
+
       // Invalidate track queries to refresh data
       if (result.trackId) {
-        queryClient.invalidateQueries({ queryKey: ['tracks', result.trackId] });
-        queryClient.invalidateQueries({ queryKey: ['tracks'] });
+        queryClient.invalidateQueries({ queryKey: ["tracks", result.trackId] });
+        queryClient.invalidateQueries({ queryKey: ["tracks"] });
       }
     },
     onError: (err: Error) => {
-      const message = err.message || 'Ошибка при добавлении водяного знака';
+      const message = err.message || "Ошибка при добавлении водяного знака";
       setError(message);
-      toast.error(message, { id: 'watermark-apply' });
+      toast.error(message, { id: "watermark-apply" });
     },
   });
 
@@ -52,19 +51,19 @@ export function useAudioWatermark(): UseAudioWatermarkReturn {
     mutationFn: (audioUrl: string) => detectWatermarkApi(audioUrl),
     onMutate: () => {
       setError(null);
-      toast.loading('Проверка водяного знака...', { id: 'watermark-detect' });
+      toast.loading("Проверка водяного знака...", { id: "watermark-detect" });
     },
     onSuccess: (hasWatermark) => {
       if (hasWatermark) {
-        toast.success('Водяной знак обнаружен ✓', { id: 'watermark-detect' });
+        toast.success("Водяной знак обнаружен ✓", { id: "watermark-detect" });
       } else {
-        toast.info('Водяной знак не обнаружен', { id: 'watermark-detect' });
+        toast.info("Водяной знак не обнаружен", { id: "watermark-detect" });
       }
     },
     onError: (err: Error) => {
-      const message = err.message || 'Ошибка при проверке водяного знака';
+      const message = err.message || "Ошибка при проверке водяного знака";
       setError(message);
-      toast.error(message, { id: 'watermark-detect' });
+      toast.error(message, { id: "watermark-detect" });
     },
   });
 
@@ -76,7 +75,7 @@ export function useAudioWatermark(): UseAudioWatermarkReturn {
         return null;
       }
     },
-    [applyMutation]
+    [applyMutation],
   );
 
   const detectWatermark = useCallback(
@@ -87,7 +86,7 @@ export function useAudioWatermark(): UseAudioWatermarkReturn {
         return null;
       }
     },
-    [detectMutation]
+    [detectMutation],
   );
 
   return {

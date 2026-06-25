@@ -4,8 +4,8 @@
  * NOTE: Uses Tone.Analyser type only, no static Tone import to prevent circular deps
  */
 
-import { memo, useRef, useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { memo, useRef, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 // Use a generic type for the analyzer to avoid static Tone.js import
 interface CompactVisualizerProps {
@@ -26,7 +26,7 @@ export const CompactVisualizer = memo(function CompactVisualizer({
     if (!isActive || !analyzerNode) {
       // Idle animation
       const idleInterval = setInterval(() => {
-        setLevels(prev => prev.map(() => 0.05 + Math.random() * 0.1));
+        setLevels((prev) => prev.map(() => 0.05 + Math.random() * 0.1));
       }, 500);
       return () => clearInterval(idleInterval);
     }
@@ -68,18 +68,13 @@ export const CompactVisualizer = memo(function CompactVisualizer({
   }, [isActive, analyzerNode]);
 
   return (
-    <div
-      className={cn(
-        'flex items-end justify-center gap-0.5 h-10',
-        className
-      )}
-    >
+    <div className={cn("flex items-end justify-center gap-0.5 h-10", className)}>
       {levels.map((level, i) => (
         <div
           key={i}
           className={cn(
-            'w-1 rounded-full transition-all duration-75',
-            isActive ? 'bg-primary' : 'bg-muted-foreground/30'
+            "w-1 rounded-full transition-all duration-75",
+            isActive ? "bg-primary" : "bg-muted-foreground/30",
           )}
           style={{
             height: `${Math.max(4, level * 36)}px`,

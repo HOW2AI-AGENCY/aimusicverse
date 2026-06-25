@@ -3,33 +3,33 @@
  * Provides consistent structure regardless of stem availability
  */
 
-import { ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
+import { ReactNode } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 interface UnifiedStudioLayoutProps {
   // Header section
   header: ReactNode;
-  
+
   // Timeline/Waveform section
   timeline: ReactNode;
-  
+
   // Main content area (stems mixer, lyrics, analysis, etc.)
   content: ReactNode;
-  
+
   // Player bar (bottom)
   playerBar: ReactNode;
-  
+
   // Optional floating actions
   floatingActions?: ReactNode;
-  
+
   // Optional overlay (section editor, compare panel)
   overlay?: ReactNode;
-  
+
   // Optional dialogs
   dialogs?: ReactNode;
-  
+
   className?: string;
 }
 
@@ -46,19 +46,12 @@ export function UnifiedStudioLayout({
   const isMobile = useIsMobile();
 
   return (
-    <div className={cn(
-      "h-screen flex flex-col bg-background overflow-hidden",
-      className
-    )}>
+    <div className={cn("h-screen flex flex-col bg-background overflow-hidden", className)}>
       {/* Header */}
-      <div className="shrink-0">
-        {header}
-      </div>
+      <div className="shrink-0">{header}</div>
 
       {/* Timeline/Waveform Section */}
-      <div className="shrink-0 border-b border-border/30">
-        {timeline}
-      </div>
+      <div className="shrink-0 border-b border-border/30">{timeline}</div>
 
       {/* Main Content Area - Scrollable */}
       <div className="flex-1 overflow-y-auto">
@@ -91,16 +84,10 @@ export function UnifiedStudioLayout({
       </AnimatePresence>
 
       {/* Player Bar - Fixed at bottom */}
-      <div className="shrink-0">
-        {playerBar}
-      </div>
+      <div className="shrink-0">{playerBar}</div>
 
       {/* Floating Actions (FAB) */}
-      {floatingActions && !isMobile && (
-        <div className="fixed bottom-24 right-6 z-40">
-          {floatingActions}
-        </div>
-      )}
+      {floatingActions && !isMobile && <div className="fixed bottom-24 right-6 z-40">{floatingActions}</div>}
 
       {/* Dialogs */}
       {dialogs}

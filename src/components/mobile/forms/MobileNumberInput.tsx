@@ -3,12 +3,12 @@
  * Better UX than native number input on mobile
  */
 
-import { memo } from 'react';
-import { Minus, Plus } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { memo } from "react";
+import { Minus, Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface MobileNumberInputProps {
   /** Current value */
@@ -92,10 +92,7 @@ export const MobileNumberInput = memo(function MobileNumberInput({
           max={max}
           step={step}
           disabled={disabled}
-          className={cn(
-            "h-11 text-center text-lg font-semibold",
-            unit && "pr-12"
-          )}
+          className={cn("h-11 text-center text-lg font-semibold", unit && "pr-12")}
         />
         {unit && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground font-medium pointer-events-none">

@@ -1,6 +1,6 @@
 /**
  * StudioLyricsSheet - Full-featured lyrics studio sheet for StudioShell
- * 
+ *
  * Provides comprehensive lyrics editing with:
  * - Section-based editing with type indicators
  * - Version history with restore
@@ -9,8 +9,8 @@
  * - Statistics and validation
  */
 
-import { memo, useState, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, useState, useCallback, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
   FileText,
   History,
@@ -37,18 +37,24 @@ import {
   Plus,
   Trash2,
   Tag,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
-import { useLyricsStudio, AI_TOOLS, type LyricsSection, type LyricsVersion, type SectionNote } from '@/hooks/lyrics/useLyricsStudio';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
+import {
+  useLyricsStudio,
+  AI_TOOLS,
+  type LyricsSection,
+  type LyricsVersion,
+  type SectionNote,
+} from "@/hooks/lyrics/useLyricsStudio";
 
 // ============================================================================
 // TYPES
@@ -64,21 +70,21 @@ interface StudioLyricsSheetProps {
   onLyricsSaved?: (lyrics: string) => void;
 }
 
-type ViewMode = 'editor' | 'history' | 'notes' | 'ai';
+type ViewMode = "editor" | "history" | "notes" | "ai";
 
 // ============================================================================
 // SUB-COMPONENTS
 // ============================================================================
 
 const SECTION_COLORS: Record<string, string> = {
-  verse: 'bg-blue-500/20 text-blue-500 border-blue-500/30',
-  chorus: 'bg-purple-500/20 text-purple-500 border-purple-500/30',
-  prechorus: 'bg-indigo-500/20 text-indigo-500 border-indigo-500/30',
-  bridge: 'bg-amber-500/20 text-amber-500 border-amber-500/30',
-  hook: 'bg-pink-500/20 text-pink-500 border-pink-500/30',
-  intro: 'bg-green-500/20 text-green-500 border-green-500/30',
-  outro: 'bg-red-500/20 text-red-500 border-red-500/30',
-  breakdown: 'bg-orange-500/20 text-orange-500 border-orange-500/30',
+  verse: "bg-blue-500/20 text-blue-500 border-blue-500/30",
+  chorus: "bg-purple-500/20 text-purple-500 border-purple-500/30",
+  prechorus: "bg-indigo-500/20 text-indigo-500 border-indigo-500/30",
+  bridge: "bg-amber-500/20 text-amber-500 border-amber-500/30",
+  hook: "bg-pink-500/20 text-pink-500 border-pink-500/30",
+  intro: "bg-green-500/20 text-green-500 border-green-500/30",
+  outro: "bg-red-500/20 text-red-500 border-red-500/30",
+  breakdown: "bg-orange-500/20 text-orange-500 border-orange-500/30",
 };
 
 const AI_TOOL_ICONS: Record<string, React.ReactNode> = {
@@ -148,7 +154,7 @@ const SectionMarkers = memo(function SectionMarkers({
             }}
             className={cn(
               "px-2 py-1 rounded text-xs font-medium border transition-all active:scale-95",
-              SECTION_COLORS[section.type] || 'bg-muted text-muted-foreground border-border'
+              SECTION_COLORS[section.type] || "bg-muted text-muted-foreground border-border",
             )}
           >
             {section.label}
@@ -170,18 +176,16 @@ const AIToolsToolbar = memo(function AIToolsToolbar({
   onClose: () => void;
 }) {
   const { patterns } = useHaptic();
-  const categories = ['create', 'analyze', 'optimize'] as const;
-  const categoryLabels = { create: 'Создание', analyze: 'Анализ', optimize: 'Оптимизация' };
+  const categories = ["create", "analyze", "optimize"] as const;
+  const categoryLabels = { create: "Создание", analyze: "Анализ", optimize: "Оптимизация" };
 
   return (
     <div className="space-y-4">
-      {categories.map(category => (
+      {categories.map((category) => (
         <div key={category}>
-          <p className="text-xs font-medium text-muted-foreground mb-2 px-1">
-            {categoryLabels[category]}
-          </p>
+          <p className="text-xs font-medium text-muted-foreground mb-2 px-1">{categoryLabels[category]}</p>
           <div className="grid grid-cols-3 gap-2">
-            {AI_TOOLS.filter(t => t.category === category).map(tool => (
+            {AI_TOOLS.filter((t) => t.category === category).map((tool) => (
               <button
                 key={tool.id}
                 onClick={() => {
@@ -191,9 +195,7 @@ const AIToolsToolbar = memo(function AIToolsToolbar({
                 className={cn(
                   "flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all border",
                   "hover:bg-accent active:scale-95",
-                  activeToolId === tool.id
-                    ? "bg-primary/10 border-primary/30 text-primary"
-                    : "border-border/50"
+                  activeToolId === tool.id ? "bg-primary/10 border-primary/30 text-primary" : "border-border/50",
                 )}
               >
                 {AI_TOOL_ICONS[tool.id]}
@@ -210,16 +212,14 @@ const AIToolsToolbar = memo(function AIToolsToolbar({
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               {AI_TOOL_ICONS[activeToolId]}
-              <span className="font-medium">
-                {AI_TOOLS.find(t => t.id === activeToolId)?.name}
-              </span>
+              <span className="font-medium">{AI_TOOLS.find((t) => t.id === activeToolId)?.name}</span>
             </div>
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onClose}>
               <X className="w-4 h-4" />
             </Button>
           </div>
           <p className="text-sm text-muted-foreground mb-4">
-            {AI_TOOLS.find(t => t.id === activeToolId)?.description}
+            {AI_TOOLS.find((t) => t.id === activeToolId)?.description}
           </p>
           <div className="flex items-center justify-center py-8 text-muted-foreground">
             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
@@ -248,9 +248,7 @@ const VersionHistoryView = memo(function VersionHistoryView({
       <div className="flex flex-col items-center justify-center py-12 text-center">
         <History className="w-10 h-10 text-muted-foreground/50 mb-3" />
         <p className="text-sm text-muted-foreground">История версий пуста</p>
-        <p className="text-xs text-muted-foreground mt-1">
-          Сохраните текст, чтобы создать первую версию
-        </p>
+        <p className="text-xs text-muted-foreground mt-1">Сохраните текст, чтобы создать первую версию</p>
       </div>
     );
   }
@@ -266,10 +264,12 @@ const VersionHistoryView = memo(function VersionHistoryView({
         >
           <div className="flex items-start justify-between mb-2">
             <div className="flex items-center gap-2">
-              <div className={cn(
-                "w-8 h-8 rounded-full flex items-center justify-center",
-                version.isCurrent ? "bg-primary/20" : "bg-muted"
-              )}>
+              <div
+                className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center",
+                  version.isCurrent ? "bg-primary/20" : "bg-muted",
+                )}
+              >
                 {version.isCurrent ? (
                   <Check className="w-4 h-4 text-primary" />
                 ) : (
@@ -280,15 +280,17 @@ const VersionHistoryView = memo(function VersionHistoryView({
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">Версия {version.versionNumber}</span>
                   {version.isCurrent && (
-                    <Badge variant="outline" className="h-5 text-[10px]">Текущая</Badge>
+                    <Badge variant="outline" className="h-5 text-[10px]">
+                      Текущая
+                    </Badge>
                   )}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  {new Date(version.createdAt).toLocaleDateString('ru-RU', {
-                    day: 'numeric',
-                    month: 'short',
-                    hour: '2-digit',
-                    minute: '2-digit',
+                  {new Date(version.createdAt).toLocaleDateString("ru-RU", {
+                    day: "numeric",
+                    month: "short",
+                    hour: "2-digit",
+                    minute: "2-digit",
                   })}
                 </p>
               </div>
@@ -343,13 +345,13 @@ const SectionNotesView = memo(function SectionNotesView({
 }) {
   const { patterns } = useHaptic();
   const [newNoteSection, setNewNoteSection] = useState<string | null>(null);
-  const [newNoteContent, setNewNoteContent] = useState('');
+  const [newNoteContent, setNewNoteContent] = useState("");
 
   const handleAddNote = useCallback(() => {
     if (!newNoteSection || !newNoteContent.trim()) return;
     patterns.success();
     onAddNote(newNoteSection, newNoteContent);
-    setNewNoteContent('');
+    setNewNoteContent("");
     setNewNoteSection(null);
   }, [newNoteSection, newNoteContent, onAddNote, patterns]);
 
@@ -364,7 +366,7 @@ const SectionNotesView = memo(function SectionNotesView({
           className="h-8 gap-1"
           onClick={() => {
             patterns.tap();
-            setNewNoteSection(sections[0]?.id || 'general');
+            setNewNoteSection(sections[0]?.id || "general");
           }}
         >
           <Plus className="w-3.5 h-3.5" />
@@ -377,7 +379,7 @@ const SectionNotesView = memo(function SectionNotesView({
         {newNoteSection && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="overflow-hidden"
           >
@@ -388,8 +390,10 @@ const SectionNotesView = memo(function SectionNotesView({
                 className="w-full h-9 px-3 rounded-md border bg-background text-sm"
               >
                 <option value="general">Общая заметка</option>
-                {sections.map(s => (
-                  <option key={s.id} value={s.id}>{s.label}</option>
+                {sections.map((s) => (
+                  <option key={s.id} value={s.id}>
+                    {s.label}
+                  </option>
                 ))}
               </select>
               <Textarea
@@ -417,9 +421,7 @@ const SectionNotesView = memo(function SectionNotesView({
         <div className="flex flex-col items-center justify-center py-8 text-center">
           <MessageSquare className="w-10 h-10 text-muted-foreground/50 mb-3" />
           <p className="text-sm text-muted-foreground">Нет заметок</p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Добавьте заметки для продюсирования
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">Добавьте заметки для продюсирования</p>
         </div>
       ) : (
         <div className="space-y-2">
@@ -434,10 +436,10 @@ const SectionNotesView = memo(function SectionNotesView({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <Badge variant="outline" className="h-5 text-[10px]">
-                      {note.sectionType || 'Общая'}
+                      {note.sectionType || "Общая"}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
-                      {note.createdAt ? new Date(note.createdAt).toLocaleDateString('ru-RU') : ''}
+                      {note.createdAt ? new Date(note.createdAt).toLocaleDateString("ru-RU") : ""}
                     </span>
                   </div>
                   <p className="text-sm">{note.notes}</p>
@@ -482,11 +484,11 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
   trackId,
   projectTrackId,
   lyricsTemplateId,
-  initialLyrics = '',
+  initialLyrics = "",
   onLyricsSaved,
 }: StudioLyricsSheetProps) {
   const { patterns } = useHaptic();
-  const [viewMode, setViewMode] = useState<ViewMode>('editor');
+  const [viewMode, setViewMode] = useState<ViewMode>("editor");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const {
@@ -517,28 +519,31 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
 
   // Auto-focus textarea on open
   useEffect(() => {
-    if (isOpen && viewMode === 'editor') {
+    if (isOpen && viewMode === "editor") {
       setTimeout(() => textareaRef.current?.focus(), 100);
     }
   }, [isOpen, viewMode]);
 
   // Handle section click - scroll to section
-  const handleSectionClick = useCallback((section: LyricsSection) => {
-    if (!textareaRef.current) return;
+  const handleSectionClick = useCallback(
+    (section: LyricsSection) => {
+      if (!textareaRef.current) return;
 
-    const lines = lyrics.split('\n');
-    let charIndex = 0;
-    for (let i = 0; i < section.startLine && i < lines.length; i++) {
-      charIndex += lines[i].length + 1;
-    }
+      const lines = lyrics.split("\n");
+      let charIndex = 0;
+      for (let i = 0; i < section.startLine && i < lines.length; i++) {
+        charIndex += lines[i].length + 1;
+      }
 
-    textareaRef.current.focus();
-    textareaRef.current.setSelectionRange(charIndex, charIndex);
-    
-    // Calculate scroll position
-    const lineHeight = 24;
-    textareaRef.current.scrollTop = section.startLine * lineHeight;
-  }, [lyrics]);
+      textareaRef.current.focus();
+      textareaRef.current.setSelectionRange(charIndex, charIndex);
+
+      // Calculate scroll position
+      const lineHeight = 24;
+      textareaRef.current.scrollTop = section.startLine * lineHeight;
+    },
+    [lyrics],
+  );
 
   // Handle save
   const handleSave = useCallback(async () => {
@@ -547,21 +552,21 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
   }, [save, patterns]);
 
   // Handle add note
-  const handleAddNote = useCallback(async (sectionId: string, content: string) => {
-    const section = sections.find(s => s.id === sectionId);
-    await addNote({
-      sectionId,
-      sectionType: section?.type,
-      notes: content,
-    });
-  }, [sections, addNote]);
+  const handleAddNote = useCallback(
+    async (sectionId: string, content: string) => {
+      const section = sections.find((s) => s.id === sectionId);
+      await addNote({
+        sectionId,
+        sectionType: section?.type,
+        notes: content,
+      });
+    },
+    [sections, addNote],
+  );
 
   return (
     <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <SheetContent
-        side="bottom"
-        className="h-[85vh] rounded-t-2xl p-0 flex flex-col"
-      >
+      <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl p-0 flex flex-col">
         {/* Header */}
         <SheetHeader className="px-4 py-3 border-b flex-shrink-0">
           <div className="flex items-center justify-between">
@@ -571,9 +576,7 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
               </div>
               <div>
                 <SheetTitle className="text-base">Lyrics Studio</SheetTitle>
-                <p className="text-xs text-muted-foreground">
-                  Редактор текста песни
-                </p>
+                <p className="text-xs text-muted-foreground">Редактор текста песни</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -584,11 +587,7 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
                 disabled={isSaving || !isDirty}
                 className="gap-1.5"
               >
-                {isSaving ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Save className="w-4 h-4" />
-                )}
+                {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                 Сохранить
               </Button>
             </div>
@@ -599,7 +598,11 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
         <StatsBar stats={stats} isDirty={isDirty} />
 
         {/* Tabs */}
-        <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)} className="flex-1 flex flex-col min-h-0">
+        <Tabs
+          value={viewMode}
+          onValueChange={(v) => setViewMode(v as ViewMode)}
+          className="flex-1 flex flex-col min-h-0"
+        >
           <TabsList className="mx-4 mt-2 grid grid-cols-4 h-10">
             <TabsTrigger value="editor" className="gap-1.5 text-xs">
               <FileText className="w-3.5 h-3.5" />
@@ -645,11 +648,7 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
           <TabsContent value="ai" className="flex-1 m-0 p-0 overflow-hidden">
             <ScrollArea className="h-full">
               <div className="p-4">
-                <AIToolsToolbar
-                  activeToolId={activeAITool}
-                  onToolSelect={selectAITool}
-                  onClose={closeAITool}
-                />
+                <AIToolsToolbar activeToolId={activeAITool} onToolSelect={selectAITool} onClose={closeAITool} />
               </div>
             </ScrollArea>
           </TabsContent>
@@ -658,11 +657,7 @@ export const StudioLyricsSheet = memo(function StudioLyricsSheet({
           <TabsContent value="history" className="flex-1 m-0 p-0 overflow-hidden">
             <ScrollArea className="h-full">
               <div className="p-4">
-                <VersionHistoryView
-                  versions={versions}
-                  onRestore={restoreVersion}
-                  isRestoring={isRestoring}
-                />
+                <VersionHistoryView versions={versions} onRestore={restoreVersion} isRestoring={isRestoring} />
               </div>
             </ScrollArea>
           </TabsContent>

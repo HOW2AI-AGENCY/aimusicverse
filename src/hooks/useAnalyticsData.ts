@@ -3,10 +3,10 @@
  * Extended analytics with time-series data for charts
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
-import { format, subDays, startOfWeek, endOfWeek, ru } from '@/lib/date-utils';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./useAuth";
+import { format, subDays, startOfWeek, endOfWeek, ru } from "@/lib/date-utils";
 
 export interface DailyLikes {
   date: string;
@@ -46,7 +46,7 @@ export function useAnalyticsData() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['analytics-data', user?.id],
+    queryKey: ["analytics-data", user?.id],
     queryFn: async (): Promise<AnalyticsData> => {
       if (!user?.id) {
         return {
@@ -72,10 +72,10 @@ export function useAnalyticsData() {
 
       // Fetch tracks for the user
       const { data: tracks } = await supabase
-        .from('tracks')
-        .select('id, title, style, created_at, likes_count, play_count, status')
-        .eq('user_id', user.id)
-        .eq('status', 'completed');
+        .from("tracks")
+        .select("id, title, style, created_at, likes_count, play_count, status")
+        .eq("user_id", user.id)
+        .eq("status", "completed");
 
       const allTracks = tracks || [];
 
@@ -83,14 +83,12 @@ export function useAnalyticsData() {
       const dailyEngagement: DailyLikes[] = [];
       for (let i = 6; i >= 0; i--) {
         const date = subDays(now, i);
-        const dateStr = format(date, 'yyyy-MM-dd');
-        const dayLabel = format(date, 'EEE', { locale: ru });
-        
+        const dateStr = format(date, "yyyy-MM-dd");
+        const dayLabel = format(date, "EEE", { locale: ru });
+
         // Count tracks created on this day
-        const dayTracks = allTracks.filter(t => 
-          t.created_at?.startsWith(dateStr)
-        );
-        
+        const dayTracks = allTracks.filter((t) => t.created_at?.startsWith(dateStr));
+
         dailyEngagement.push({
           date: dayLabel,
           likes: dayTracks.reduce((sum, t) => sum + (t.likes_count || 0), 0),
@@ -100,10 +98,10 @@ export function useAnalyticsData() {
 
       // Calculate genre distribution
       const genreCounts: Record<string, number> = {};
-      allTracks.forEach(track => {
-        const style = track.style || 'Без жанра';
+      allTracks.forEach((track) => {
+        const style = track.style || "Без жанра";
         // Extract primary genre from style string
-        const genre = style.split(',')[0]?.trim() || 'Без жанра';
+        const genre = style.split(",")[0]?.trim() || "Без жанра";
         genreCounts[genre] = (genreCounts[genre] || 0) + 1;
       });
 
@@ -118,19 +116,19 @@ export function useAnalyticsData() {
         .slice(0, 5);
 
       // Calculate weekly summary
-      const thisWeekTracks = allTracks.filter(t => {
+      const thisWeekTracks = allTracks.filter((t) => {
         const created = new Date(t.created_at || 0);
         return created >= weekStart && created <= weekEnd;
       });
-      
-      const lastWeekTracks = allTracks.filter(t => {
+
+      const lastWeekTracks = allTracks.filter((t) => {
         const created = new Date(t.created_at || 0);
         return created >= lastWeekStart && created < weekStart;
       });
 
       const thisWeekLikes = thisWeekTracks.reduce((sum, t) => sum + (t.likes_count || 0), 0);
       const lastWeekLikes = lastWeekTracks.reduce((sum, t) => sum + (t.likes_count || 0), 0);
-      
+
       const thisWeekPlays = thisWeekTracks.reduce((sum, t) => sum + (t.play_count || 0), 0);
       const lastWeekPlays = lastWeekTracks.reduce((sum, t) => sum + (t.play_count || 0), 0);
 
@@ -145,19 +143,20 @@ export function useAnalyticsData() {
       };
 
       // Find top track
-      const topTrack = allTracks
-        .sort((a, b) => (b.play_count || 0) - (a.play_count || 0))[0];
+      const topTrack = allTracks.sort((a, b) => (b.play_count || 0) - (a.play_count || 0))[0];
 
       return {
         dailyEngagement,
         genreDistribution,
         weeklySummary,
-        topTrack: topTrack ? {
-          id: topTrack.id,
-          title: topTrack.title || 'Без названия',
-          plays: topTrack.play_count || 0,
-          likes: topTrack.likes_count || 0,
-        } : null,
+        topTrack: topTrack
+          ? {
+              id: topTrack.id,
+              title: topTrack.title || "Без названия",
+              plays: topTrack.play_count || 0,
+              likes: topTrack.likes_count || 0,
+            }
+          : null,
       };
     },
     enabled: !!user?.id,

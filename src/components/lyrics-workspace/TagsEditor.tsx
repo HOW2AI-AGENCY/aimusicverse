@@ -2,14 +2,14 @@
  * Tags Editor Component
  * Structured tag picker with Russian translations, hints, and English insertion
  */
-import { useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  X, 
-  Plus, 
-  Tag, 
-  Sparkles, 
-  Check, 
+import { useState, useCallback, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  X,
+  Plus,
+  Tag,
+  Sparkles,
+  Check,
   HelpCircle,
   Music,
   Heart,
@@ -20,32 +20,17 @@ import {
   LayoutList,
   Wand2,
   ChevronDown,
-  Search
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
-import { 
-  SUNO_TAG_CATEGORIES, 
-  findSunoTag, 
-  getTagLabel,
-  type TagCategory,
-  type SunoTag 
-} from '@/lib/sunoTags';
+  Search,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
+import { SUNO_TAG_CATEGORIES, findSunoTag, getTagLabel, type TagCategory, type SunoTag } from "@/lib/sunoTags";
 
 // Icon mapping for categories
 const CATEGORY_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -76,52 +61,60 @@ export function TagsEditor({
   className,
   compact = false,
 }: TagsEditorProps) {
-  const [newTag, setNewTag] = useState('');
+  const [newTag, setNewTag] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleAddTag = useCallback((tag: string) => {
-    const normalizedTag = tag.toLowerCase().trim();
-    if (!normalizedTag || tags.includes(normalizedTag) || tags.length >= maxTags) return;
-    
-    onChange([...tags, normalizedTag]);
-    setNewTag('');
-    hapticImpact('light');
-  }, [tags, onChange, maxTags]);
+  const handleAddTag = useCallback(
+    (tag: string) => {
+      const normalizedTag = tag.toLowerCase().trim();
+      if (!normalizedTag || tags.includes(normalizedTag) || tags.length >= maxTags) return;
 
-  const handleRemoveTag = useCallback((tagToRemove: string) => {
-    onChange(tags.filter(t => t !== tagToRemove));
-    hapticImpact('light');
-  }, [tags, onChange]);
+      onChange([...tags, normalizedTag]);
+      setNewTag("");
+      hapticImpact("light");
+    },
+    [tags, onChange, maxTags],
+  );
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && newTag.trim()) {
-      e.preventDefault();
-      handleAddTag(newTag);
-    }
-  }, [newTag, handleAddTag]);
+  const handleRemoveTag = useCallback(
+    (tagToRemove: string) => {
+      onChange(tags.filter((t) => t !== tagToRemove));
+      hapticImpact("light");
+    },
+    [tags, onChange],
+  );
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && newTag.trim()) {
+        e.preventDefault();
+        handleAddTag(newTag);
+      }
+    },
+    [newTag, handleAddTag],
+  );
 
   // Filter tags by search
   const filteredCategories = useMemo(() => {
     if (!searchQuery.trim()) return SUNO_TAG_CATEGORIES;
-    
+
     const query = searchQuery.toLowerCase();
-    return SUNO_TAG_CATEGORIES.map(cat => ({
+    return SUNO_TAG_CATEGORIES.map((cat) => ({
       ...cat,
-      tags: cat.tags.filter(tag => 
-        tag.label.toLowerCase().includes(query) ||
-        tag.value.toLowerCase().includes(query) ||
-        tag.hint.toLowerCase().includes(query)
-      )
-    })).filter(cat => cat.tags.length > 0);
+      tags: cat.tags.filter(
+        (tag) =>
+          tag.label.toLowerCase().includes(query) ||
+          tag.value.toLowerCase().includes(query) ||
+          tag.hint.toLowerCase().includes(query),
+      ),
+    })).filter((cat) => cat.tags.length > 0);
   }, [searchQuery]);
 
   // Get suggestions from AI
   const aiSuggestions = useMemo(() => {
-    return suggestedTags
-      .filter(t => !tags.includes(t.toLowerCase()))
-      .slice(0, 8);
+    return suggestedTags.filter((t) => !tags.includes(t.toLowerCase())).slice(0, 8);
   }, [suggestedTags, tags]);
 
   // Get icon component for category
@@ -131,7 +124,7 @@ export function TagsEditor({
 
   if (compact) {
     return (
-      <div className={cn('space-y-2', className)}>
+      <div className={cn("space-y-2", className)}>
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag) => {
             const tagInfo = findSunoTag(tag);
@@ -151,12 +144,7 @@ export function TagsEditor({
               </Badge>
             );
           })}
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="h-6 text-xs px-2"
-            onClick={() => setShowPicker(true)}
-          >
+          <Button variant="outline" size="sm" className="h-6 text-xs px-2" onClick={() => setShowPicker(true)}>
             <Plus className="w-3 h-3 mr-1" />
             Добавить
           </Button>
@@ -167,7 +155,7 @@ export function TagsEditor({
 
   return (
     <TooltipProvider delayDuration={300}>
-      <div className={cn('space-y-3', className)}>
+      <div className={cn("space-y-3", className)}>
         {/* Current Tags */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
@@ -186,7 +174,7 @@ export function TagsEditor({
               </Button>
             )}
           </div>
-          
+
           <div className="flex flex-wrap gap-1.5 min-h-[32px]">
             <AnimatePresence mode="popLayout">
               {tags.map((tag) => {
@@ -214,9 +202,7 @@ export function TagsEditor({
                       {tagInfo && (
                         <TooltipContent side="top" className="max-w-xs">
                           <p className="text-xs">{tagInfo.hint}</p>
-                          <p className="text-[10px] text-muted-foreground mt-1">
-                            Вставляется как: [{tagInfo.value}]
-                          </p>
+                          <p className="text-[10px] text-muted-foreground mt-1">Вставляется как: [{tagInfo.value}]</p>
                         </TooltipContent>
                       )}
                     </Tooltip>
@@ -224,10 +210,8 @@ export function TagsEditor({
                 );
               })}
             </AnimatePresence>
-            
-            {tags.length === 0 && (
-              <span className="text-sm text-muted-foreground">Нет тегов</span>
-            )}
+
+            {tags.length === 0 && <span className="text-sm text-muted-foreground">Нет тегов</span>}
           </div>
         </div>
 
@@ -240,11 +224,7 @@ export function TagsEditor({
             placeholder="Добавить тег вручную..."
             className="flex-1"
           />
-          <Button
-            size="icon"
-            onClick={() => handleAddTag(newTag)}
-            disabled={!newTag.trim() || tags.length >= maxTags}
-          >
+          <Button size="icon" onClick={() => handleAddTag(newTag)} disabled={!newTag.trim() || tags.length >= maxTags}>
             <Plus className="w-4 h-4" />
           </Button>
         </div>
@@ -277,7 +257,7 @@ export function TagsEditor({
         {/* Structured Tag Picker */}
         <div className="space-y-2">
           <Button
-            variant={showPicker ? 'secondary' : 'outline'}
+            variant={showPicker ? "secondary" : "outline"}
             size="sm"
             onClick={() => setShowPicker(!showPicker)}
             className="gap-1.5 w-full justify-between"
@@ -286,17 +266,14 @@ export function TagsEditor({
               <Tag className="w-3.5 h-3.5" />
               Каталог тегов
             </span>
-            <ChevronDown className={cn(
-              "w-4 h-4 transition-transform",
-              showPicker && "rotate-180"
-            )} />
+            <ChevronDown className={cn("w-4 h-4 transition-transform", showPicker && "rotate-180")} />
           </Button>
 
           <AnimatePresence>
             {showPicker && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 className="overflow-hidden"
               >
@@ -318,8 +295,8 @@ export function TagsEditor({
                       {filteredCategories.map((category) => {
                         const Icon = getCategoryIcon(category.icon);
                         const isExpanded = expandedCategory === category.id || !!searchQuery;
-                        const availableTags = category.tags.filter(t => !tags.includes(t.value.toLowerCase()));
-                        
+                        const availableTags = category.tags.filter((t) => !tags.includes(t.value.toLowerCase()));
+
                         return (
                           <Collapsible
                             key={category.id}
@@ -329,11 +306,7 @@ export function TagsEditor({
                             }}
                           >
                             <CollapsibleTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="sm"
-                                className="w-full justify-between h-9 px-2"
-                              >
+                              <Button variant="ghost" size="sm" className="w-full justify-between h-9 px-2">
                                 <span className="flex items-center gap-2">
                                   <Icon className="w-4 h-4 text-muted-foreground" />
                                   <span>{category.label}</span>
@@ -341,13 +314,12 @@ export function TagsEditor({
                                     {availableTags.length}
                                   </Badge>
                                 </span>
-                                <ChevronDown className={cn(
-                                  "w-4 h-4 transition-transform",
-                                  isExpanded && "rotate-180"
-                                )} />
+                                <ChevronDown
+                                  className={cn("w-4 h-4 transition-transform", isExpanded && "rotate-180")}
+                                />
                               </Button>
                             </CollapsibleTrigger>
-                            
+
                             <CollapsibleContent>
                               <div className="flex flex-wrap gap-1.5 p-2 pt-1">
                                 {availableTags.length === 0 ? (
@@ -370,12 +342,8 @@ export function TagsEditor({
                                       </TooltipTrigger>
                                       <TooltipContent side="top" className="max-w-xs">
                                         <p className="font-medium">{tag.label}</p>
-                                        <p className="text-xs text-muted-foreground mt-1">
-                                          {tag.hint}
-                                        </p>
-                                        <p className="text-[10px] text-primary mt-1">
-                                          → [{tag.value}]
-                                        </p>
+                                        <p className="text-xs text-muted-foreground mt-1">{tag.hint}</p>
+                                        <p className="text-[10px] text-primary mt-1">→ [{tag.value}]</p>
                                       </TooltipContent>
                                     </Tooltip>
                                   ))
@@ -385,11 +353,9 @@ export function TagsEditor({
                           </Collapsible>
                         );
                       })}
-                      
+
                       {filteredCategories.length === 0 && (
-                        <p className="text-sm text-muted-foreground text-center py-4">
-                          Ничего не найдено
-                        </p>
+                        <p className="text-sm text-muted-foreground text-center py-4">Ничего не найдено</p>
                       )}
                     </div>
                   </ScrollArea>

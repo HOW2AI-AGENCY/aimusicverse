@@ -29,7 +29,7 @@
 - [📁 Files Created (5 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L471) (1 connections)
 - [Immediate (Days 4-5)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L538) (1 connections)
 - [💡 Key Decisions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L238) (1 connections)
-- *... and 20 more nodes in this community*
+- _... and 20 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -1,15 +1,15 @@
 // ActivityItem component - Sprint 011 Phase 7
 // Activity card with entity rendering
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, Music, MessageSquare, UserPlus, ListMusic, ExternalLink } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
-import { useNavigate } from 'react-router-dom';
-import type { ActivityFeedItem } from '@/types/activity';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CheckCircle2, Music, MessageSquare, UserPlus, ListMusic, ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
+import { useNavigate } from "react-router-dom";
+import type { ActivityFeedItem } from "@/types/activity";
 
 interface ActivityItemProps {
   activity: ActivityFeedItem;
@@ -19,15 +19,15 @@ interface ActivityItemProps {
 // Get icon based on activity type
 function getActivityIcon(activityType: string) {
   switch (activityType) {
-    case 'track_created':
-    case 'track_liked':
+    case "track_created":
+    case "track_liked":
       return Music;
-    case 'comment_posted':
+    case "comment_posted":
       return MessageSquare;
-    case 'user_followed':
+    case "user_followed":
       return UserPlus;
-    case 'playlist_created':
-    case 'track_added_to_playlist':
+    case "playlist_created":
+    case "track_added_to_playlist":
       return ListMusic;
     default:
       return Music;
@@ -37,19 +37,19 @@ function getActivityIcon(activityType: string) {
 // Get icon color based on activity type
 function getActivityColor(activityType: string): string {
   switch (activityType) {
-    case 'track_created':
-      return 'text-blue-500';
-    case 'track_liked':
-      return 'text-red-500';
-    case 'comment_posted':
-      return 'text-green-500';
-    case 'user_followed':
-      return 'text-purple-500';
-    case 'playlist_created':
-    case 'track_added_to_playlist':
-      return 'text-orange-500';
+    case "track_created":
+      return "text-blue-500";
+    case "track_liked":
+      return "text-red-500";
+    case "comment_posted":
+      return "text-green-500";
+    case "user_followed":
+      return "text-purple-500";
+    case "playlist_created":
+    case "track_added_to_playlist":
+      return "text-orange-500";
     default:
-      return 'text-muted-foreground';
+      return "text-muted-foreground";
   }
 }
 
@@ -70,10 +70,10 @@ export function ActivityItem({ activity, className }: ActivityItemProps) {
   };
 
   return (
-    <Card className={cn('p-4 hover:bg-accent/50 transition-colors', className)}>
+    <Card className={cn("p-4 hover:bg-accent/50 transition-colors", className)}>
       <div className="flex items-start gap-3">
         {/* Activity Icon */}
-        <div className={cn('p-2 rounded-full bg-accent/50 flex-shrink-0', iconColor)}>
+        <div className={cn("p-2 rounded-full bg-accent/50 flex-shrink-0", iconColor)}>
           <Icon className="h-5 w-5" />
         </div>
 
@@ -81,16 +81,10 @@ export function ActivityItem({ activity, className }: ActivityItemProps) {
         <div className="flex-1 min-w-0 space-y-2">
           {/* Header: Actor Info */}
           <div className="flex items-center gap-2">
-            <Avatar
-              className="h-8 w-8 cursor-pointer"
-              onClick={() => navigate(`/profile/${activity.actorId}`)}
-            >
-              <AvatarImage
-                src={activity.actor.avatarUrl}
-                alt={activity.actor.displayName || activity.actor.username}
-              />
+            <Avatar className="h-8 w-8 cursor-pointer" onClick={() => navigate(`/profile/${activity.actorId}`)}>
+              <AvatarImage src={activity.actor.avatarUrl} alt={activity.actor.displayName || activity.actor.username} />
               <AvatarFallback>
-                {(activity.actor.displayName || activity.actor.username || 'U').charAt(0).toUpperCase()}
+                {(activity.actor.displayName || activity.actor.username || "U").charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
 
@@ -100,11 +94,9 @@ export function ActivityItem({ activity, className }: ActivityItemProps) {
                   onClick={() => navigate(`/profile/${activity.actorId}`)}
                   className="font-medium text-sm hover:underline truncate"
                 >
-                  {activity.actor.displayName || activity.actor.username || 'Пользователь'}
+                  {activity.actor.displayName || activity.actor.username || "Пользователь"}
                 </button>
-                {activity.actor.isVerified && (
-                  <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
-                )}
+                {activity.actor.isVerified && <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />}
               </div>
               <p className="text-xs text-muted-foreground">{timeAgo}</p>
             </div>

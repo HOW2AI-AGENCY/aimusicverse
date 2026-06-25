@@ -1,17 +1,17 @@
 // CommentItem component - Sprint 011
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Heart, Reply, MoreHorizontal, Flag, Trash2 } from 'lucide-react';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
-import { cn } from '@/lib/utils';
-import { useAuth } from '@/hooks/useAuth';
-import { useLikeComment } from '@/hooks/engagement/useLikeComment';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Heart, Reply, MoreHorizontal, Flag, Trash2 } from "lucide-react";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
+import { useLikeComment } from "@/hooks/engagement/useLikeComment";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 export interface Comment {
   id: string;
@@ -39,20 +39,13 @@ interface CommentItemProps {
   isReply?: boolean;
 }
 
-export function CommentItem({
-  comment,
-  trackId,
-  onReply,
-  onDelete,
-  onReport,
-  isReply = false,
-}: CommentItemProps) {
+export function CommentItem({ comment, trackId, onReply, onDelete, onReport, isReply = false }: CommentItemProps) {
   const { user } = useAuth();
   const likeComment = useLikeComment();
-  
+
   const isOwner = user?.id === comment.user_id;
-  const displayName = comment.user?.display_name || comment.user?.username || 'Пользователь';
-  
+  const displayName = comment.user?.display_name || comment.user?.username || "Пользователь";
+
   const timeAgo = formatDistanceToNow(new Date(comment.created_at), {
     addSuffix: true,
     locale: ru,
@@ -67,7 +60,7 @@ export function CommentItem({
   };
 
   return (
-    <div className={cn('flex gap-3', isReply && 'ml-10')}>
+    <div className={cn("flex gap-3", isReply && "ml-10")}>
       <Avatar className="h-8 w-8 flex-shrink-0">
         <AvatarImage src={comment.user?.photo_url || undefined} />
         <AvatarFallback>{displayName.charAt(0).toUpperCase()}</AvatarFallback>
@@ -79,34 +72,22 @@ export function CommentItem({
           <span className="text-xs text-muted-foreground">{timeAgo}</span>
         </div>
 
-        <p className="text-sm text-foreground whitespace-pre-wrap break-words">
-          {comment.content}
-        </p>
+        <p className="text-sm text-foreground whitespace-pre-wrap break-words">{comment.content}</p>
 
         <div className="flex items-center gap-2 mt-2">
           <Button
             variant="ghost"
             size="sm"
-            className={cn(
-              'h-7 px-2 gap-1',
-              comment.is_liked && 'text-red-500'
-            )}
+            className={cn("h-7 px-2 gap-1", comment.is_liked && "text-red-500")}
             onClick={handleLike}
             disabled={likeComment.isPending}
           >
-            <Heart className={cn('h-4 w-4', comment.is_liked && 'fill-current')} />
-            {comment.likes_count > 0 && (
-              <span className="text-xs">{comment.likes_count}</span>
-            )}
+            <Heart className={cn("h-4 w-4", comment.is_liked && "fill-current")} />
+            {comment.likes_count > 0 && <span className="text-xs">{comment.likes_count}</span>}
           </Button>
 
           {!isReply && onReply && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2 gap-1"
-              onClick={() => onReply(comment.id)}
-            >
+            <Button variant="ghost" size="sm" className="h-7 px-2 gap-1" onClick={() => onReply(comment.id)}>
               <Reply className="h-4 w-4" />
               <span className="text-xs">Ответить</span>
             </Button>

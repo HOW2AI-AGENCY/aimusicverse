@@ -1,32 +1,32 @@
 /**
  * UnifiedVersionSelector
- * 
+ *
  * A unified component for A/B version selection across the app.
  * Replaces: InlineVersionToggle, VersionSwitcher, VersionsSection, StudioVersionSelector
- * 
+ *
  * Variants:
  * - inline: Compact A/B buttons for track cards
- * - compact: Minimal toggle for player bar  
+ * - compact: Minimal toggle for player bar
  * - sheet: Detailed list in bottom sheet for action menus
- * 
+ *
  * @example
  * <UnifiedVersionSelector trackId="..." variant="inline" />
  */
 
-import { memo, useCallback, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useQueryClient } from '@tanstack/react-query';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Check, Star, Play, Pause, Loader2 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { memo, useCallback, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useQueryClient } from "@tanstack/react-query";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Check, Star, Play, Pause, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface TrackVersion {
   id: string;
@@ -42,7 +42,7 @@ interface TrackVersion {
 interface UnifiedVersionSelectorProps {
   trackId: string;
   /** Display variant */
-  variant?: 'inline' | 'compact' | 'sheet';
+  variant?: "inline" | "compact" | "sheet";
   /** Callback when version changes */
   onVersionChange?: (version: TrackVersion) => void;
   /** Show labels (A, B, C...) */
@@ -59,7 +59,7 @@ interface UnifiedVersionSelectorProps {
 
 export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   trackId,
-  variant = 'inline',
+  variant = "inline",
   onVersionChange,
   showLabels = true,
   sheetOpen,
@@ -81,16 +81,16 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   // Lazy fetch versions - only when needed
   const fetchVersions = useCallback(async () => {
     if (!trackId || hasFetched) return;
-    
+
     setIsLoading(true);
     setHasFetched(true);
-    
+
     try {
       const { data, error } = await supabase
-        .from('track_versions')
-        .select('id, version_label, audio_url, cover_url, duration_seconds, is_primary, version_type, created_at')
-        .eq('track_id', trackId)
-        .order('clip_index', { ascending: true });
+        .from("track_versions")
+        .select("id, version_label, audio_url, cover_url, duration_seconds, is_primary, version_type, created_at")
+        .eq("track_id", trackId)
+        .order("clip_index", { ascending: true });
 
       if (error) throw error;
 
@@ -106,11 +106,11 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
       }));
 
       setVersions(mappedVersions);
-      
-      const primary = mappedVersions.find(v => v.isPrimary);
+
+      const primary = mappedVersions.find((v) => v.isPrimary);
       setActiveVersionId(primary?.id || mappedVersions[0]?.id || null);
     } catch (error) {
-      logger.error('Failed to fetch versions', error);
+      logger.error("Failed to fetch versions", error);
     } finally {
       setIsLoading(false);
     }
@@ -124,103 +124,107 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   }, [trackId]);
 
   // Handle version switch
-  const handleSwitch = useCallback(async (version: TrackVersion) => {
-    if (disabled || isSwitching || version.id === activeVersionId) return;
+  const handleSwitch = useCallback(
+    async (version: TrackVersion) => {
+      if (disabled || isSwitching || version.id === activeVersionId) return;
 
-    haptic.select();
-    setIsSwitching(true);
-    
-    // Optimistic update
-    const previousActiveId = activeVersionId;
-    setActiveVersionId(version.id);
-    setVersions(prev => prev.map(v => ({
-      ...v,
-      isPrimary: v.id === version.id,
-    })));
+      haptic.select();
+      setIsSwitching(true);
 
-    try {
-      // Update is_primary on all versions
-      await supabase
-        .from('track_versions')
-        .update({ is_primary: false })
-        .eq('track_id', trackId);
+      // Optimistic update
+      const previousActiveId = activeVersionId;
+      setActiveVersionId(version.id);
+      setVersions((prev) =>
+        prev.map((v) => ({
+          ...v,
+          isPrimary: v.id === version.id,
+        })),
+      );
 
-      await supabase
-        .from('track_versions')
-        .update({ is_primary: true })
-        .eq('id', version.id);
+      try {
+        // Update is_primary on all versions
+        await supabase.from("track_versions").update({ is_primary: false }).eq("track_id", trackId);
 
-      // Update track's active_version_id and audio_url
-      const { error } = await supabase
-        .from('tracks')
-        .update({
-          active_version_id: version.id,
-          audio_url: version.audioUrl,
-          cover_url: version.coverUrl,
-          duration_seconds: version.duration,
-        })
-        .eq('id', trackId);
+        await supabase.from("track_versions").update({ is_primary: true }).eq("id", version.id);
 
-      if (error) throw error;
+        // Update track's active_version_id and audio_url
+        const { error } = await supabase
+          .from("tracks")
+          .update({
+            active_version_id: version.id,
+            audio_url: version.audioUrl,
+            cover_url: version.coverUrl,
+            duration_seconds: version.duration,
+          })
+          .eq("id", trackId);
 
-      // Update player if this track is currently playing
-      if (activeTrack?.id === trackId) {
-        playTrack({
-          ...activeTrack,
-          audio_url: version.audioUrl,
-          cover_url: version.coverUrl || activeTrack.cover_url,
-        } as any);
+        if (error) throw error;
+
+        // Update player if this track is currently playing
+        if (activeTrack?.id === trackId) {
+          playTrack({
+            ...activeTrack,
+            audio_url: version.audioUrl,
+            cover_url: version.coverUrl || activeTrack.cover_url,
+          } as any);
+        }
+
+        // Invalidate queries
+        queryClient.invalidateQueries({ queryKey: ["tracks"] });
+        queryClient.invalidateQueries({ queryKey: ["track-versions", trackId] });
+
+        onVersionChange?.(version);
+        toast.success(`Версия ${version.label} активна`);
+      } catch (error) {
+        // Rollback on error
+        setActiveVersionId(previousActiveId);
+        setVersions((prev) =>
+          prev.map((v) => ({
+            ...v,
+            isPrimary: v.id === previousActiveId,
+          })),
+        );
+        logger.error("Failed to switch version", error);
+        toast.error("Ошибка переключения версии");
+      } finally {
+        setIsSwitching(false);
       }
-
-      // Invalidate queries
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
-      queryClient.invalidateQueries({ queryKey: ['track-versions', trackId] });
-
-      onVersionChange?.(version);
-      toast.success(`Версия ${version.label} активна`);
-    } catch (error) {
-      // Rollback on error
-      setActiveVersionId(previousActiveId);
-      setVersions(prev => prev.map(v => ({
-        ...v,
-        isPrimary: v.id === previousActiveId,
-      })));
-      logger.error('Failed to switch version', error);
-      toast.error('Ошибка переключения версии');
-    } finally {
-      setIsSwitching(false);
-    }
-  }, [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, queryClient, onVersionChange]);
+    },
+    [trackId, activeVersionId, disabled, isSwitching, haptic, activeTrack, playTrack, queryClient, onVersionChange],
+  );
 
   // Handle preview play
-  const handlePreview = useCallback((version: TrackVersion, e: React.MouseEvent) => {
-    e.stopPropagation();
-    haptic.tap();
+  const handlePreview = useCallback(
+    (version: TrackVersion, e: React.MouseEvent) => {
+      e.stopPropagation();
+      haptic.tap();
 
-    if (previewingId === version.id && isPlaying) {
-      pauseTrack();
-      setPreviewingId(null);
-    } else {
-      playTrack({
-        id: trackId,
-        title: `Version ${version.label}`,
-        audio_url: version.audioUrl,
-        cover_url: version.coverUrl,
-        duration: version.duration || 0,
-      } as any);
-      setPreviewingId(version.id);
-    }
-  }, [trackId, previewingId, isPlaying, haptic, playTrack, pauseTrack]);
+      if (previewingId === version.id && isPlaying) {
+        pauseTrack();
+        setPreviewingId(null);
+      } else {
+        playTrack({
+          id: trackId,
+          title: `Version ${version.label}`,
+          audio_url: version.audioUrl,
+          cover_url: version.coverUrl,
+          duration: version.duration || 0,
+        } as any);
+        setPreviewingId(version.id);
+      }
+    },
+    [trackId, previewingId, isPlaying, haptic, playTrack, pauseTrack],
+  );
 
   // Don't render if no trackId
   if (!trackId) return null;
 
   // INLINE variant - compact A/B buttons with lazy loading
-  if (variant === 'inline') {
+  if (variant === "inline") {
     // If not fetched yet, show placeholder that triggers fetch on hover/click
     if (!hasFetched) {
       return (
-        <div 
+        <div
           className={cn("flex items-center gap-1", className)}
           onMouseEnter={fetchVersions}
           onClick={(e) => {
@@ -265,7 +269,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
                   isActive
                     ? "bg-primary text-primary-foreground shadow-sm"
                     : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
-                  (disabled || isSwitching) && "opacity-50 cursor-not-allowed"
+                  (disabled || isSwitching) && "opacity-50 cursor-not-allowed",
                 )}
               >
                 {showLabels ? version.label : version.label.charAt(0)}
@@ -282,11 +286,11 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
   }
 
   // COMPACT variant - minimal for player bar (fetch on first interaction)
-  if (variant === 'compact') {
+  if (variant === "compact") {
     if (!hasFetched) {
       fetchVersions(); // Auto-fetch for compact since it's in player
     }
-    
+
     if (!hasFetched || versions.length <= 1) return null;
 
     return (
@@ -301,7 +305,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
               className={cn(
                 "h-6 w-6 rounded text-xs font-bold transition-colors",
                 isActive ? "bg-primary/20 text-primary" : "text-muted-foreground hover:text-foreground",
-                (disabled || isSwitching) && "opacity-50"
+                (disabled || isSwitching) && "opacity-50",
               )}
             >
               {version.label}
@@ -339,9 +343,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
                     animate={{ opacity: 1, y: 0 }}
                     className={cn(
                       "flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition-colors",
-                      isActive 
-                        ? "border-primary bg-primary/5" 
-                        : "border-border hover:bg-accent/50"
+                      isActive ? "border-primary bg-primary/5" : "border-border hover:bg-accent/50",
                     )}
                     onClick={() => handleSwitch(version)}
                   >
@@ -352,11 +354,7 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
                       className="h-10 w-10 shrink-0 rounded-full"
                       onClick={(e) => handlePreview(version, e)}
                     >
-                      {isPreviewing ? (
-                        <Pause className="h-4 w-4" />
-                      ) : (
-                        <Play className="h-4 w-4 ml-0.5" />
-                      )}
+                      {isPreviewing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
                     </Button>
 
                     {/* Version info */}
@@ -377,18 +375,19 @@ export const UnifiedVersionSelector = memo(function UnifiedVersionSelector({
                       </div>
                       {version.duration && (
                         <p className="text-xs text-muted-foreground">
-                          {Math.floor(version.duration / 60)}:{String(Math.floor(version.duration % 60)).padStart(2, '0')}
+                          {Math.floor(version.duration / 60)}:
+                          {String(Math.floor(version.duration % 60)).padStart(2, "0")}
                         </p>
                       )}
                     </div>
 
                     {/* Selection indicator */}
-                    <div className={cn(
-                      "w-6 h-6 rounded-full border-2 flex items-center justify-center",
-                      isActive 
-                        ? "border-primary bg-primary text-primary-foreground" 
-                        : "border-muted-foreground/30"
-                    )}>
+                    <div
+                      className={cn(
+                        "w-6 h-6 rounded-full border-2 flex items-center justify-center",
+                        isActive ? "border-primary bg-primary text-primary-foreground" : "border-muted-foreground/30",
+                      )}
+                    >
                       {isActive && <Check className="w-4 h-4" />}
                     </div>
                   </motion.div>

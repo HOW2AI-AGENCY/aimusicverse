@@ -1,18 +1,18 @@
 /**
  * Telegram-Optimized List Component
  * Feature: 032-professional-ui
- * 
+ *
  * List with haptic feedback, swipe actions, and pull-to-refresh
  */
 
-import React, { ReactNode, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { PullToRefresh } from '@/components/ui/PullToRefresh';
-import { SwipeableListItem } from '@/components/ui/SwipeableListItem';
-import { EmptyState } from '@/components/ui/EmptyState';
-import { hapticPatterns } from './TelegramHaptics';
-import { Search, Music } from 'lucide-react';
+import React, { ReactNode, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { PullToRefresh } from "@/components/ui/PullToRefresh";
+import { SwipeableListItem } from "@/components/ui/SwipeableListItem";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { hapticPatterns } from "./TelegramHaptics";
+import { Search, Music } from "lucide-react";
 
 interface TelegramListProps<T> {
   items: T[];
@@ -51,10 +51,13 @@ export function TelegramList<T>({
   className,
   listClassName,
 }: TelegramListProps<T>) {
-  const handleItemPress = useCallback((item: T, index: number) => {
-    hapticPatterns.itemSelect();
-    onItemPress?.(item, index);
-  }, [onItemPress]);
+  const handleItemPress = useCallback(
+    (item: T, index: number) => {
+      hapticPatterns.itemSelect();
+      onItemPress?.(item, index);
+    },
+    [onItemPress],
+  );
 
   const content = (
     <div className={cn("flex flex-col", listClassName)}>
@@ -92,20 +95,13 @@ export function TelegramList<T>({
 
   if (pullToRefresh && onRefresh) {
     return (
-      <PullToRefresh
-        onRefresh={onRefresh}
-        className={cn("flex-1 overflow-auto", className)}
-      >
+      <PullToRefresh onRefresh={onRefresh} className={cn("flex-1 overflow-auto", className)}>
         {content}
       </PullToRefresh>
     );
   }
 
-  return (
-    <div className={cn("flex-1 overflow-auto", className)}>
-      {content}
-    </div>
-  );
+  return <div className={cn("flex-1 overflow-auto", className)}>{content}</div>;
 }
 
 /**
@@ -116,7 +112,7 @@ interface TelegramGridProps<T> {
   renderItem: (item: T, index: number) => ReactNode;
   keyExtractor: (item: T, index: number) => string;
   columns?: 2 | 3 | 4;
-  gap?: 'sm' | 'md' | 'lg';
+  gap?: "sm" | "md" | "lg";
   onRefresh?: () => Promise<void>;
   onItemPress?: (item: T, index: number) => void;
   emptyState?: {
@@ -134,7 +130,7 @@ export function TelegramGrid<T>({
   renderItem,
   keyExtractor,
   columns = 2,
-  gap = 'md',
+  gap = "md",
   onRefresh,
   onItemPress,
   emptyState,
@@ -142,21 +138,24 @@ export function TelegramGrid<T>({
   loadingSkeleton,
   className,
 }: TelegramGridProps<T>) {
-  const handleItemPress = useCallback((item: T, index: number) => {
-    hapticPatterns.itemSelect();
-    onItemPress?.(item, index);
-  }, [onItemPress]);
+  const handleItemPress = useCallback(
+    (item: T, index: number) => {
+      hapticPatterns.itemSelect();
+      onItemPress?.(item, index);
+    },
+    [onItemPress],
+  );
 
   const columnClasses = {
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-4',
+    2: "grid-cols-2",
+    3: "grid-cols-3",
+    4: "grid-cols-4",
   };
 
   const gapClasses = {
-    sm: 'gap-2',
-    md: 'gap-3',
-    lg: 'gap-4',
+    sm: "gap-2",
+    md: "gap-3",
+    lg: "gap-4",
   };
 
   const content = (
@@ -170,11 +169,7 @@ export function TelegramGrid<T>({
           description={emptyState.description}
         />
       ) : (
-        <div className={cn(
-          "grid",
-          columnClasses[columns],
-          gapClasses[gap]
-        )}>
+        <div className={cn("grid", columnClasses[columns], gapClasses[gap])}>
           <AnimatePresence mode="popLayout">
             {items.map((item, index) => (
               <motion.div
@@ -201,20 +196,13 @@ export function TelegramGrid<T>({
 
   if (onRefresh) {
     return (
-      <PullToRefresh
-        onRefresh={onRefresh}
-        className={cn("flex-1 overflow-auto", className)}
-      >
+      <PullToRefresh onRefresh={onRefresh} className={cn("flex-1 overflow-auto", className)}>
         {content}
       </PullToRefresh>
     );
   }
 
-  return (
-    <div className={cn("flex-1 overflow-auto", className)}>
-      {content}
-    </div>
-  );
+  return <div className={cn("flex-1 overflow-auto", className)}>{content}</div>;
 }
 
 export default TelegramList;

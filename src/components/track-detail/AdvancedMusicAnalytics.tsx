@@ -1,15 +1,19 @@
-import { AudioAnalysis } from '@/hooks/useAudioAnalysis';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Activity, TrendingUp, Users, Zap, Music2 } from 'lucide-react';
+import { AudioAnalysis } from "@/hooks/useAudioAnalysis";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Activity, TrendingUp, Users, Zap, Music2 } from "lucide-react";
 
 interface AdvancedMusicAnalyticsProps {
   analysis: AudioAnalysis;
 }
 
 export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps) {
-  const hasAdvancedData = analysis.bpm || analysis.arousal !== null || analysis.valence !== null || 
-                          analysis.approachability || analysis.engagement;
+  const hasAdvancedData =
+    analysis.bpm ||
+    analysis.arousal !== null ||
+    analysis.valence !== null ||
+    analysis.approachability ||
+    analysis.engagement;
 
   if (!hasAdvancedData) {
     return null;
@@ -22,11 +26,11 @@ export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps
   // Get emotion quadrant based on arousal and valence
   const getEmotionQuadrant = () => {
     if (arousalPercent === null || valencePercent === null) return null;
-    
-    if (arousalPercent >= 50 && valencePercent >= 50) return 'Радостный/Энергичный';
-    if (arousalPercent >= 50 && valencePercent < 50) return 'Напряжённый/Агрессивный';
-    if (arousalPercent < 50 && valencePercent >= 50) return 'Спокойный/Умиротворённый';
-    return 'Грустный/Меланхоличный';
+
+    if (arousalPercent >= 50 && valencePercent >= 50) return "Радостный/Энергичный";
+    if (arousalPercent >= 50 && valencePercent < 50) return "Напряжённый/Агрессивный";
+    if (arousalPercent < 50 && valencePercent >= 50) return "Спокойный/Умиротворённый";
+    return "Грустный/Меланхоличный";
   };
 
   const emotionQuadrant = getEmotionQuadrant();
@@ -60,7 +64,7 @@ export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps
               <Activity className="w-5 h-5 text-primary mt-0.5" />
               <div className="flex-1 space-y-3">
                 <p className="text-sm font-medium text-muted-foreground">Эмоциональный анализ</p>
-                
+
                 {emotionQuadrant && (
                   <Badge variant="default" className="mb-2">
                     {emotionQuadrant}
@@ -74,10 +78,7 @@ export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps
                       <span className="font-medium">{arousalPercent}%</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-primary transition-all"
-                        style={{ width: `${arousalPercent}%` }}
-                      />
+                      <div className="h-full bg-primary transition-all" style={{ width: `${arousalPercent}%` }} />
                     </div>
                   </div>
                 )}
@@ -89,10 +90,7 @@ export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps
                       <span className="font-medium">{valencePercent}%</span>
                     </div>
                     <div className="h-2 bg-muted rounded-full overflow-hidden">
-                      <div 
-                        className="h-full bg-primary transition-all"
-                        style={{ width: `${valencePercent}%` }}
-                      />
+                      <div className="h-full bg-primary transition-all" style={{ width: `${valencePercent}%` }} />
                     </div>
                   </div>
                 )}
@@ -106,23 +104,25 @@ export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps
             <div className="flex items-start gap-3">
               <Users className="w-5 h-5 text-primary mt-0.5" />
               <div className="flex-1 space-y-2">
-                <p className="text-sm font-medium text-muted-foreground mb-2">
-                  Доступность и вовлечённость
-                </p>
-                
+                <p className="text-sm font-medium text-muted-foreground mb-2">Доступность и вовлечённость</p>
+
                 {analysis.approachability && (
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Доступность</span>
-                    <Badge 
+                    <Badge
                       variant={
-                        analysis.approachability === 'high' ? 'default' : 
-                        analysis.approachability === 'mid' ? 'secondary' : 
-                        'outline'
+                        analysis.approachability === "high"
+                          ? "default"
+                          : analysis.approachability === "mid"
+                            ? "secondary"
+                            : "outline"
                       }
                     >
-                      {analysis.approachability === 'high' ? 'Высокая' : 
-                       analysis.approachability === 'mid' ? 'Средняя' : 
-                       'Низкая'}
+                      {analysis.approachability === "high"
+                        ? "Высокая"
+                        : analysis.approachability === "mid"
+                          ? "Средняя"
+                          : "Низкая"}
                     </Badge>
                   </div>
                 )}
@@ -130,16 +130,20 @@ export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps
                 {analysis.engagement && (
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-muted-foreground">Вовлечённость</span>
-                    <Badge 
+                    <Badge
                       variant={
-                        analysis.engagement === 'high' ? 'default' : 
-                        analysis.engagement === 'mid' ? 'secondary' : 
-                        'outline'
+                        analysis.engagement === "high"
+                          ? "default"
+                          : analysis.engagement === "mid"
+                            ? "secondary"
+                            : "outline"
                       }
                     >
-                      {analysis.engagement === 'high' ? 'Высокая' : 
-                       analysis.engagement === 'mid' ? 'Средняя' : 
-                       'Низкая'}
+                      {analysis.engagement === "high"
+                        ? "Высокая"
+                        : analysis.engagement === "mid"
+                          ? "Средняя"
+                          : "Низкая"}
                     </Badge>
                   </div>
                 )}
@@ -153,9 +157,7 @@ export function AdvancedMusicAnalytics({ analysis }: AdvancedMusicAnalyticsProps
             <div className="flex items-start gap-3">
               <TrendingUp className="w-5 h-5 text-primary mt-0.5" />
               <div className="flex-1">
-                <p className="text-sm font-medium text-muted-foreground mb-1">
-                  Обнаружение битов
-                </p>
+                <p className="text-sm font-medium text-muted-foreground mb-1">Обнаружение битов</p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-2xl font-bold">{analysis.beats_data.length}</span>
                   <span className="text-sm text-muted-foreground">битов обнаружено</span>

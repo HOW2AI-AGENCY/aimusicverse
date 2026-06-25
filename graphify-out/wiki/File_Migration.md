@@ -9,10 +9,10 @@
 - [[activeGenre, setActiveGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L103) (1 connections)
 - [activeGenreTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L119) (1 connections)
 - [{
-    data: infiniteData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+  data: infiniteData,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L106) (1 connections)
 - [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L33) (1 connections)
 - [handleLoadMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L162) (1 connections)
@@ -40,4 +40,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

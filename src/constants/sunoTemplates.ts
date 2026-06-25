@@ -17,12 +17,24 @@ export interface SunoTemplate {
 
 export const SUNO_TEMPLATES: SunoTemplate[] = [
   {
-    id: 'pop-standard',
-    name: 'Pop Standard',
-    nameRu: 'Поп стандарт',
-    genre: 'pop',
-    description: 'Классическая поп-структура с интро, куплетами, пре-припевами, припевами и аутро',
-    structure: ['Intro', 'Verse 1', 'Pre-Chorus', 'Chorus', 'Verse 2', 'Pre-Chorus', 'Chorus', 'Bridge', 'Chorus', 'Outro', 'End'],
+    id: "pop-standard",
+    name: "Pop Standard",
+    nameRu: "Поп стандарт",
+    genre: "pop",
+    description: "Классическая поп-структура с интро, куплетами, пре-припевами, припевами и аутро",
+    structure: [
+      "Intro",
+      "Verse 1",
+      "Pre-Chorus",
+      "Chorus",
+      "Verse 2",
+      "Pre-Chorus",
+      "Chorus",
+      "Bridge",
+      "Chorus",
+      "Outro",
+      "End",
+    ],
     exampleLyrics: `[Intro] [Soft Piano]
 
 [Verse 1] [Female Vocal] [Gentle]
@@ -78,16 +90,16 @@ export const SUNO_TEMPLATES: SunoTemplate[] = [
 Навсегда...
 
 [End]`,
-    recommendedTags: ['Female Vocal', 'Build', 'Full Band', 'Anthemic', 'Fade Out'],
-    stylePrompt: 'pop, emotional, catchy chorus, piano, synth, romantic, female vocals',
+    recommendedTags: ["Female Vocal", "Build", "Full Band", "Anthemic", "Fade Out"],
+    stylePrompt: "pop, emotional, catchy chorus, piano, synth, romantic, female vocals",
   },
   {
-    id: 'hip-hop-drill',
-    name: 'Hip-Hop / Drill',
-    nameRu: 'Хип-хоп / Дрилл',
-    genre: 'hip-hop',
-    description: 'Агрессивный хип-хоп с тёмными битами и жёстким флоу',
-    structure: ['Intro', 'Verse 1', 'Hook', 'Verse 2', 'Hook', 'Bridge', 'Hook', 'Outro', 'End'],
+    id: "hip-hop-drill",
+    name: "Hip-Hop / Drill",
+    nameRu: "Хип-хоп / Дрилл",
+    genre: "hip-hop",
+    description: "Агрессивный хип-хоп с тёмными битами и жёстким флоу",
+    structure: ["Intro", "Verse 1", "Hook", "Verse 2", "Hook", "Bridge", "Hook", "Outro", "End"],
     exampleLyrics: `[Intro] [808 Bass] [Dark]
 Yeah, yeah, yeah
 Let's go
@@ -135,16 +147,16 @@ Let's go
 Yeah... yeah...
 
 [End]`,
-    recommendedTags: ['808 Bass', 'Male Rap', 'Aggressive', 'Dark', 'Drop'],
-    stylePrompt: 'drill, hip-hop, dark, aggressive, 808 bass, trap hi-hats, male rap',
+    recommendedTags: ["808 Bass", "Male Rap", "Aggressive", "Dark", "Drop"],
+    stylePrompt: "drill, hip-hop, dark, aggressive, 808 bass, trap hi-hats, male rap",
   },
   {
-    id: 'edm-festival',
-    name: 'EDM Festival',
-    nameRu: 'EDM Фестиваль',
-    genre: 'edm',
-    description: 'Энергичный EDM с мощными билд-апами и дропами',
-    structure: ['Intro', 'Build', 'Drop', 'Breakdown', 'Verse', 'Build', 'Drop', 'Outro', 'End'],
+    id: "edm-festival",
+    name: "EDM Festival",
+    nameRu: "EDM Фестиваль",
+    genre: "edm",
+    description: "Энергичный EDM с мощными билд-апами и дропами",
+    structure: ["Intro", "Build", "Drop", "Breakdown", "Verse", "Build", "Drop", "Outro", "End"],
     exampleLyrics: `[Intro] [Atmospheric] [Synth]
 
 [Build] [!crescendo] [Building]
@@ -186,16 +198,16 @@ Yeah... yeah...
 Эта ночь навсегда...
 
 [End]`,
-    recommendedTags: ['Synth', 'Build', 'Drop', 'Explosive', 'Atmospheric'],
-    stylePrompt: 'edm, festival, progressive house, synth, euphoric, big room, drop',
+    recommendedTags: ["Synth", "Build", "Drop", "Explosive", "Atmospheric"],
+    stylePrompt: "edm, festival, progressive house, synth, euphoric, big room, drop",
   },
   {
-    id: 'ballad-emotional',
-    name: 'Emotional Ballad',
-    nameRu: 'Эмоциональная баллада',
-    genre: 'ballad',
-    description: 'Медленная лирическая баллада с глубоким эмоциональным содержанием',
-    structure: ['Intro', 'Verse 1', 'Verse 2', 'Chorus', 'Verse 3', 'Chorus', 'Bridge', 'Chorus', 'Outro', 'End'],
+    id: "ballad-emotional",
+    name: "Emotional Ballad",
+    nameRu: "Эмоциональная баллада",
+    genre: "ballad",
+    description: "Медленная лирическая баллада с глубоким эмоциональным содержанием",
+    structure: ["Intro", "Verse 1", "Verse 2", "Chorus", "Verse 3", "Chorus", "Bridge", "Chorus", "Outro", "End"],
     exampleLyrics: `[Intro] [Piano Only] [Soft]
 
 [Verse 1] [Male Vocal] [Gentle] [Emotional]
@@ -246,16 +258,29 @@ Yeah... yeah...
 (ooh, aah)
 
 [End]`,
-    recommendedTags: ['Piano', 'Strings', 'Emotional', 'Gentle', 'Whisper', 'Fade Out'],
-    stylePrompt: 'ballad, emotional, piano, strings, slow, heartfelt, male and female vocals',
+    recommendedTags: ["Piano", "Strings", "Emotional", "Gentle", "Whisper", "Fade Out"],
+    stylePrompt: "ballad, emotional, piano, strings, slow, heartfelt, male and female vocals",
   },
   {
-    id: 'rock-anthem',
-    name: 'Rock Anthem',
-    nameRu: 'Рок-гимн',
-    genre: 'rock',
-    description: 'Мощный рок с гитарными соло и стадионным звучанием',
-    structure: ['Intro', 'Verse 1', 'Pre-Chorus', 'Chorus', 'Verse 2', 'Pre-Chorus', 'Chorus', 'Solo', 'Bridge', 'Chorus', 'Outro', 'End'],
+    id: "rock-anthem",
+    name: "Rock Anthem",
+    nameRu: "Рок-гимн",
+    genre: "rock",
+    description: "Мощный рок с гитарными соло и стадионным звучанием",
+    structure: [
+      "Intro",
+      "Verse 1",
+      "Pre-Chorus",
+      "Chorus",
+      "Verse 2",
+      "Pre-Chorus",
+      "Chorus",
+      "Solo",
+      "Bridge",
+      "Chorus",
+      "Outro",
+      "End",
+    ],
     exampleLyrics: `[Intro] [Electric Guitar] [Powerful]
 (guitar riff)
 
@@ -313,16 +338,16 @@ Yeah... yeah...
 (guitar riff)
 
 [End]`,
-    recommendedTags: ['Electric Guitar', 'Full Band', 'Anthemic', 'Raspy', 'Guitar Solo'],
-    stylePrompt: 'rock, stadium rock, anthem, electric guitar, powerful drums, male vocals, guitar solo',
+    recommendedTags: ["Electric Guitar", "Full Band", "Anthemic", "Raspy", "Guitar Solo"],
+    stylePrompt: "rock, stadium rock, anthem, electric guitar, powerful drums, male vocals, guitar solo",
   },
   {
-    id: 'indie-folk',
-    name: 'Indie Folk',
-    nameRu: 'Инди-фолк',
-    genre: 'indie',
-    description: 'Атмосферный инди-фолк с акустическими инструментами',
-    structure: ['Intro', 'Verse 1', 'Chorus', 'Verse 2', 'Chorus', 'Bridge', 'Chorus', 'Outro', 'End'],
+    id: "indie-folk",
+    name: "Indie Folk",
+    nameRu: "Инди-фолк",
+    genre: "indie",
+    description: "Атмосферный инди-фолк с акустическими инструментами",
+    structure: ["Intro", "Verse 1", "Chorus", "Verse 2", "Chorus", "Bridge", "Chorus", "Outro", "End"],
     exampleLyrics: `[Intro] [Acoustic Guitar] [fingerpicked guitar]
 
 [Verse 1] [Male Vocal] [Breathy] [Gentle]
@@ -370,8 +395,8 @@ Yeah... yeah...
 Где нет прощаний...
 
 [End]`,
-    recommendedTags: ['Acoustic Guitar', 'fingerpicked guitar', 'Breathy', 'Violin', 'Warm'],
-    stylePrompt: 'indie folk, acoustic, warm, intimate, fingerpicked guitar, male vocals, atmospheric',
+    recommendedTags: ["Acoustic Guitar", "fingerpicked guitar", "Breathy", "Violin", "Warm"],
+    stylePrompt: "indie folk, acoustic, warm, intimate, fingerpicked guitar, male vocals, atmospheric",
   },
 ];
 
@@ -379,19 +404,19 @@ Yeah... yeah...
  * Get template by genre
  */
 export function getTemplatesByGenre(genre: string): SunoTemplate[] {
-  return SUNO_TEMPLATES.filter(t => t.genre.toLowerCase() === genre.toLowerCase());
+  return SUNO_TEMPLATES.filter((t) => t.genre.toLowerCase() === genre.toLowerCase());
 }
 
 /**
  * Get template by ID
  */
 export function getTemplateById(id: string): SunoTemplate | undefined {
-  return SUNO_TEMPLATES.find(t => t.id === id);
+  return SUNO_TEMPLATES.find((t) => t.id === id);
 }
 
 /**
  * Get all genre options
  */
 export function getAvailableGenres(): string[] {
-  return [...new Set(SUNO_TEMPLATES.map(t => t.genre))];
+  return [...new Set(SUNO_TEMPLATES.map((t) => t.genre))];
 }

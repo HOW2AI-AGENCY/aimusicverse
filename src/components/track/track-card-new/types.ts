@@ -1,6 +1,6 @@
 /**
  * UnifiedTrackCard v2 - Type definitions
- * 
+ *
  * Discriminated union types for all 7 variants:
  * - grid: Standard grid card with cover
  * - list: Horizontal list row
@@ -11,8 +11,8 @@
  * - default: Alias for grid
  */
 
-import type { Track, TrackWithCreator } from '@/types/track';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
+import type { Track, TrackWithCreator } from "@/types/track";
+import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
 
 // ============================================================================
 // Track Type (supports all formats)
@@ -65,7 +65,7 @@ export interface BaseTrackCardProps {
 // ============================================================================
 
 export interface StandardTrackCardProps extends BaseTrackCardProps {
-  variant?: 'grid' | 'list' | 'compact' | 'minimal' | 'default';
+  variant?: "grid" | "list" | "compact" | "minimal" | "default";
 
   /** Number of versions for version switcher */
   versionCount?: number;
@@ -97,7 +97,7 @@ export interface StandardTrackCardProps extends BaseTrackCardProps {
 // ============================================================================
 
 export interface ProfessionalTrackCardProps extends BaseTrackCardProps {
-  variant: 'professional';
+  variant: "professional";
 
   /** Number of versions */
   versionCount?: number;
@@ -120,7 +120,7 @@ export interface ProfessionalTrackCardProps extends BaseTrackCardProps {
 // ============================================================================
 
 export interface EnhancedTrackCardProps extends BaseTrackCardProps {
-  variant: 'enhanced';
+  variant: "enhanced";
 
   /** Track must be PublicTrackWithCreator for enhanced features */
   track: PublicTrackWithCreator;
@@ -148,10 +148,7 @@ export interface EnhancedTrackCardProps extends BaseTrackCardProps {
 // Discriminated Union
 // ============================================================================
 
-export type UnifiedTrackCardProps =
-  | StandardTrackCardProps
-  | ProfessionalTrackCardProps
-  | EnhancedTrackCardProps;
+export type UnifiedTrackCardProps = StandardTrackCardProps | ProfessionalTrackCardProps | EnhancedTrackCardProps;
 
 // ============================================================================
 // Variant Config (for internal use)
@@ -170,8 +167,8 @@ export interface TrackCardVariantConfig {
   showCreator: boolean;
   showLikeButton: boolean;
   enableSwipe: boolean;
-  coverSize: 'xs' | 'sm' | 'md' | 'lg';
-  layout: 'grid' | 'horizontal';
+  coverSize: "xs" | "sm" | "md" | "lg";
+  layout: "grid" | "horizontal";
 }
 
 export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
@@ -188,8 +185,8 @@ export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
     showCreator: false,
     showLikeButton: true,
     enableSwipe: true,
-    coverSize: 'lg',
-    layout: 'grid',
+    coverSize: "lg",
+    layout: "grid",
   },
   list: {
     showCover: true,
@@ -204,8 +201,8 @@ export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
     showCreator: false,
     showLikeButton: false,
     enableSwipe: true,
-    coverSize: 'md',
-    layout: 'horizontal',
+    coverSize: "md",
+    layout: "horizontal",
   },
   compact: {
     showCover: true,
@@ -220,8 +217,8 @@ export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
     showCreator: false,
     showLikeButton: false,
     enableSwipe: false,
-    coverSize: 'sm',
-    layout: 'horizontal',
+    coverSize: "sm",
+    layout: "horizontal",
   },
   minimal: {
     showCover: true,
@@ -236,8 +233,8 @@ export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
     showCreator: false,
     showLikeButton: false,
     enableSwipe: false,
-    coverSize: 'xs',
-    layout: 'horizontal',
+    coverSize: "xs",
+    layout: "horizontal",
   },
   professional: {
     showCover: true,
@@ -252,8 +249,8 @@ export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
     showCreator: false,
     showLikeButton: false,
     enableSwipe: false,
-    coverSize: 'sm',
-    layout: 'horizontal',
+    coverSize: "sm",
+    layout: "horizontal",
   },
   enhanced: {
     showCover: true,
@@ -268,8 +265,8 @@ export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
     showCreator: true,
     showLikeButton: true,
     enableSwipe: false,
-    coverSize: 'lg',
-    layout: 'grid',
+    coverSize: "lg",
+    layout: "grid",
   },
   default: {
     showCover: true,
@@ -284,7 +281,7 @@ export const VARIANT_CONFIGS: Record<string, TrackCardVariantConfig> = {
     showCreator: false,
     showLikeButton: true,
     enableSwipe: true,
-    coverSize: 'lg',
-    layout: 'grid',
+    coverSize: "lg",
+    layout: "grid",
   },
 };

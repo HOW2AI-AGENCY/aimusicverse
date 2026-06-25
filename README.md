@@ -29,6 +29,7 @@
 <td width="50%">
 
 #### 🤖 AI-генерация музыки
+
 - Suno AI v5 с 277+ стилями
 - Собственные тексты песен
 - Инструментальные треки
@@ -36,6 +37,7 @@
 - Ремиксы и продолжения
 
 #### 🎛️ Профессиональный студия
+
 - Микшер с 16+ каналами
 - Временная шкала (timeline)
 - Разделение на stems (4 stems)
@@ -43,6 +45,7 @@
 - MIDI-транскрипция
 
 #### 🎙️ Voice Cloning Studio ⭐ НОВАЯ ФУНКЦИЯ
+
 - Suno Voice API интеграция
 - 6-шаговый процесс клонирования голоса
 - Создание собственных AI голосов
@@ -51,6 +54,7 @@
 - Голоса для всех жанров и стилей
 
 #### 📝 AI-ассистент текстов
+
 - 10+ инструментов для написания
 - Ритм-анализ и рифмы
 - Структура песен
@@ -61,6 +65,7 @@
 <td width="50%">
 
 #### 👥 Социальные функции
+
 - Профили артистов
 - Комментарии и лайки
 - Подписки и активность
@@ -68,6 +73,7 @@
 - Лидерборды
 
 #### 🎮 Геймификация
+
 - Ежедневные чекины
 - Стрики (серии посещений)
 - Уровни и опыт
@@ -75,12 +81,14 @@
 - Балльная система
 
 #### 💳 Монетизация
+
 - Tinkoff платежи (RUB)
 - Кредитная система
 - Подписки PRO/PREMIUM
 - Тарифные пакеты
 
 #### 🎙️ Voice Cloning ⭐ НОВАЯ ФУНКЦИЯ
+
 - Клонирование голосов за 6 шагов
 - Персонализированные AI голоса
 - Библиотека кастомных голосов
@@ -89,6 +97,7 @@
 - Бонусы за активность
 
 #### 📱 Мобильная оптимизация
+
 - Haptic feedback
 - Swipe-жесты
 - Safe areas (iOS/Android)
@@ -103,13 +112,13 @@
 
 ## 📊 Статус проекта
 
-| Метрика | Текущее | Цель | Прогресс |
-|---------|---------|------|----------|
-| 👥 Пользователи | 574+ | 1,000+ | 🟡 57% |
-| 🎵 Треков создано | 1,800+ | 5,000+ | 🟡 36% |
-| 📈 Месячных генераций | 1,217+ | 2,000+ | 🟡 61% |
-| ✅ Успешность генерации | ~88% | >92% | 🟡 Улучшается |
-| 📱 DAU | ~25 | 50+ | 🟡 50% |
+| Метрика                 | Текущее | Цель   | Прогресс      |
+| ----------------------- | ------- | ------ | ------------- |
+| 👥 Пользователи         | 574+    | 1,000+ | 🟡 57%        |
+| 🎵 Треков создано       | 1,800+  | 5,000+ | 🟡 36%        |
+| 📈 Месячных генераций   | 1,217+  | 2,000+ | 🟡 61%        |
+| ✅ Успешность генерации | ~88%    | >92%   | 🟡 Улучшается |
+| 📱 DAU                  | ~25     | 50+    | 🟡 50%        |
 
 **Общее состояние**: 🟢 **95/100** — Production Ready
 
@@ -121,36 +130,40 @@
 
 **Последний аудит**: 2026-06-25 | [Полный отчёт](docs/REPOSITORY_AUDIT_REPORT_2026-06-25.md)
 
-| Метрика | Оценка | Статус |
-|---------|--------|--------|
-| **Архитектура кода** | 98/100 | 🟢 Отлично |
-| **Гигиена Git** | 7/10 | 🟡 Улучшается |
-| **Документация** | 100/100 | 🟢 Отлично |
-| **Безопасность** | 90/100 | 🟢 Отлично |
-| **Процессы** | 90/100 | 🟢 Отлично |
-| **Общее состояние** | **95/100** | 🟢 **Production Ready** |
+| Метрика              | Оценка     | Статус                  |
+| -------------------- | ---------- | ----------------------- |
+| **Архитектура кода** | 98/100     | 🟢 Отлично              |
+| **Гигиена Git**      | 7/10       | 🟡 Улучшается           |
+| **Документация**     | 100/100    | 🟢 Отлично              |
+| **Безопасность**     | 90/100     | 🟢 Отлично              |
+| **Процессы**         | 90/100     | 🟢 Отлично              |
+| **Общее состояние**  | **95/100** | 🟢 **Production Ready** |
 
 ### ✅ Реализованные улучшения (2026)
 
 #### ✅ Фаза 1: Немедленные действия
+
 - 🛠️ Внедрён commitlint для Conventional Commits
 - 🔍 Очистка устаревших веток (215 → 211)
 - 🔒 Скрипты безопасности (npm audit, SAST/DAST)
 - 📚 Документация безопасности (SECURITY_OPERATIONS.md)
 
 #### ✅ Фаза 2: Краткосрочные улучшения
+
 - 🏗️ **Рефакторинг сервисов**: Модульные файлы (<500 строк)
 - 📋 **Анализ TODO**: 23 элемента (0 критичных)
 - 🚀 **Руководства**: 5 документов (200+ страниц)
 - 🔧 **Troubleshooting & Error Codes**: Стандартизированная обработка
 
 #### ✅ Фаза 3: Voice Cloning Integration
+
 - 🎙️ **Voice Cloning Studio**: 6-шаговый процесс клонирования голосов
 - 🔌 **Suno Voice API**: Полная интеграция с webhook-обработкой
 - 🎤 **Custom Voices**: Создание и библиотека собственных AI голосов
 - 🗄️ **Database Schema**: Новые таблицы для голосов и задач
 
 #### 🔄 Фаза 4: UI Improvements (В процессе)
+
 - 📋 **Spec 001**: UI Improvements — спецификация, план, задачи ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
 - 🧪 Тестирование voice cloning workflow
 - 📋 Увеличение покрытия тестами (70% → 80%)
@@ -167,16 +180,16 @@
 
 <div align="center">
 
-| Категория | Технологии |
-|-----------|-----------|
-| **Frontend** | React 19.2 • TypeScript 5.9 • Vite 5.0 • Tailwind CSS 3.4 |
-| **Backend** | Supabase (PostgreSQL) • Edge Functions (Deno) |
-| **AI/ML** | Suno API v5 • Tone.js • Web Audio API |
-| **State** | Zustand • TanStack Query v5 |
-| **UI** | Radix UI • shadcn/ui • Framer Motion 12 |
-| **Audio** | wavesurfer.js • Tone.js • lamejs • MIDI.js |
-| **Testing** | Jest • Playwright • Vitest • axe-core |
-| **Monitoring** | Sentry • custom logging • api_usage_logs |
+| Категория      | Технологии                                                |
+| -------------- | --------------------------------------------------------- |
+| **Frontend**   | React 19.2 • TypeScript 5.9 • Vite 5.0 • Tailwind CSS 3.4 |
+| **Backend**    | Supabase (PostgreSQL) • Edge Functions (Deno)             |
+| **AI/ML**      | Suno API v5 • Tone.js • Web Audio API                     |
+| **State**      | Zustand • TanStack Query v5                               |
+| **UI**         | Radix UI • shadcn/ui • Framer Motion 12                   |
+| **Audio**      | wavesurfer.js • Tone.js • lamejs • MIDI.js                |
+| **Testing**    | Jest • Playwright • Vitest • axe-core                     |
+| **Monitoring** | Sentry • custom logging • api_usage_logs                  |
 
 </div>
 
@@ -256,6 +269,7 @@ graph LR
 ```
 
 **Возможности**:
+
 - SunoAI v5 с автоматическим fallback (V5 → V4_5PLUS → V4_5 → V4 → V3_5)
 - Exponential backoff retry (3 попытки, задержки 1с-8с)
 - 30-секундный timeout protection
@@ -264,13 +278,13 @@ graph LR
 
 #### 2. Performance Optimizations
 
-| Оптимизация | Реализация | Эффект |
-|-------------|-----------|--------|
-| **Bundle Splitting** | vendor-react, vendor-framer, vendor-tone | Быстрая загрузка |
-| **Lazy Loading** | 15+ тяжелых компонентов | Меньший initial bundle |
-| **React.memo** | TrackCard, MixerChannel, Waveform | -60% re-renders |
-| **Waveform Cache** | IndexedDB + LRU (7 дней TTL) | Мгновенный доступ |
-| **RAF Playback** | Оптимизированные time updates | 55+ FPS scrolling |
+| Оптимизация          | Реализация                               | Эффект                 |
+| -------------------- | ---------------------------------------- | ---------------------- |
+| **Bundle Splitting** | vendor-react, vendor-framer, vendor-tone | Быстрая загрузка       |
+| **Lazy Loading**     | 15+ тяжелых компонентов                  | Меньший initial bundle |
+| **React.memo**       | TrackCard, MixerChannel, Waveform        | -60% re-renders        |
+| **Waveform Cache**   | IndexedDB + LRU (7 дней TTL)             | Мгновенный доступ      |
+| **RAF Playback**     | Оптимизированные time updates            | 55+ FPS scrolling      |
 
 #### 3. Type Safety
 
@@ -313,6 +327,7 @@ npm run dev
 ### Доступные команды
 
 #### Разработка
+
 ```bash
 npm run dev              # Dev-сервер (порт 8080)
 npm run build            # Production build
@@ -320,6 +335,7 @@ npm run preview          # Превью production сборки
 ```
 
 #### Тестирование
+
 ```bash
 npm test                 # Jest unit-тесты
 npm run test:coverage    # С отчётом покрытия
@@ -329,6 +345,7 @@ npm run test:e2e:ui      # С UI-интерфейсом
 ```
 
 #### Качество кода
+
 ```bash
 npm run lint             # ESLint проверка
 npm run format           # Prettier форматирование
@@ -342,44 +359,44 @@ npm run size:why         # Подробный анализ состава
 
 ### 📖 Основная документация
 
-| Документ | Описание |
-|----------|----------|
-| [Архитектура](docs/ARCHITECTURE.md) | Системная архитектура и паттерны проектирования |
-| [Производительность](docs/PERFORMANCE_OPTIMIZATION.md) | Оптимизации: memoization, caching, lazy loading |
-| [Bundle оптимизация](docs/BUNDLE_OPTIMIZATION.md) | Сплиттинг, tree-shaking, оптимизация импортов |
-| [Тестирование](docs/TESTING_INFRASTRUCTURE.md) | Стратегия тестирования и инфраструктура |
-| [Обработка ошибок](docs/ERROR_HANDLING_INFRASTRUCTURE.md) | Type-safe error handling |
-| [База данных](docs/DATABASE.md) | Схема Supabase и связи |
+| Документ                                                  | Описание                                        |
+| --------------------------------------------------------- | ----------------------------------------------- |
+| [Архитектура](docs/ARCHITECTURE.md)                       | Системная архитектура и паттерны проектирования |
+| [Производительность](docs/PERFORMANCE_OPTIMIZATION.md)    | Оптимизации: memoization, caching, lazy loading |
+| [Bundle оптимизация](docs/BUNDLE_OPTIMIZATION.md)         | Сплиттинг, tree-shaking, оптимизация импортов   |
+| [Тестирование](docs/TESTING_INFRASTRUCTURE.md)            | Стратегия тестирования и инфраструктура         |
+| [Обработка ошибок](docs/ERROR_HANDLING_INFRASTRUCTURE.md) | Type-safe error handling                        |
+| [База данных](docs/DATABASE.md)                           | Схема Supabase и связи                          |
 
 ### 🎨 Feature-документация
 
-| Документ | Описание |
-|----------|----------|
+| Документ                                           | Описание                          |
+| -------------------------------------------------- | --------------------------------- |
 | [AI Lyrics Assistant](docs/AI_LYRICS_ASSISTANT.md) | Инструменты для написания текстов |
-| [Студия](docs/STEM_STUDIO.md) | Микшер, timeline, stem separation |
-| [Telegram Bot](docs/TELEGRAM_BOT_ARCHITECTURE.md) | Архитектура бота |
-| [Платежи](docs/TELEGRAM_PAYMENTS.md) | Tinkoff интеграция |
-| [Mobile UI](docs/MOBILE_COMPONENTS.md) | Мобильная оптимизация |
+| [Студия](docs/STEM_STUDIO.md)                      | Микшер, timeline, stem separation |
+| [Telegram Bot](docs/TELEGRAM_BOT_ARCHITECTURE.md)  | Архитектура бота                  |
+| [Платежи](docs/TELEGRAM_PAYMENTS.md)               | Tinkoff интеграция                |
+| [Mobile UI](docs/MOBILE_COMPONENTS.md)             | Мобильная оптимизация             |
 
 ### 🛠️ Руководства для разработчиков
 
-| Документ | Описание |
-|----------|----------|
-| [Быстрый старт](docs/QUICK_START.md) | Руководство по разработке |
-| [Design System](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайн-система и токены |
-| [Навигация](docs/NAVIGATION_SYSTEM.md) | Система навигации |
-| [Hooks Reference](docs/HOOKS_REFERENCE.md) | Референс кастомных хуков |
-| [Contributing](CONTRIBUTING.md) | Гайд по контрибьюции |
+| Документ                                             | Описание                  |
+| ---------------------------------------------------- | ------------------------- |
+| [Быстрый старт](docs/QUICK_START.md)                 | Руководство по разработке |
+| [Design System](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайн-система и токены   |
+| [Навигация](docs/NAVIGATION_SYSTEM.md)               | Система навигации         |
+| [Hooks Reference](docs/HOOKS_REFERENCE.md)           | Референс кастомных хуков  |
+| [Contributing](CONTRIBUTING.md)                      | Гайд по контрибьюции      |
 
 ### 📋 Sprint-документация
 
-| Sprint | Статус | Документ |
-|--------|--------|----------|
-| **Sprints 001-032** | ✅ Завершены | [Архив](SPRINTS/completed/) |
-| **Voice Cloning** | ✅ Завершён | [Документация](docs/VOICE_CLONING_INTEGRATION.md) |
-| **Spec 001: UI Improvements** | 🔄 В процессе | [Спецификация](specs/001-ui-improvements/spec.md) |
-| **Sprint B** | ⏳ Запланирован | Performance Scaling |
-| **Sprint C** | 📋 Q3 2026 | Platform Integrations |
+| Sprint                        | Статус          | Документ                                          |
+| ----------------------------- | --------------- | ------------------------------------------------- |
+| **Sprints 001-032**           | ✅ Завершены    | [Архив](SPRINTS/completed/)                       |
+| **Voice Cloning**             | ✅ Завершён     | [Документация](docs/VOICE_CLONING_INTEGRATION.md) |
+| **Spec 001: UI Improvements** | 🔄 В процессе   | [Спецификация](specs/001-ui-improvements/spec.md) |
+| **Sprint B**                  | ⏳ Запланирован | Performance Scaling                               |
+| **Sprint C**                  | 📋 Q3 2026      | Platform Integrations                             |
 
 ---
 
@@ -427,12 +444,12 @@ npm run size:why         # Подробный анализ состава
 
 <div align="center">
 
-| Тип | Framework | Тестов | Покрытие |
-|-----|-----------|--------|----------|
-| **Unit** | Jest + Testing Library | 27+ files | 70%+ |
-| **E2E** | Playwright | 62+ tests | 7 browsers |
-| **Component** | Storybook | 50+ stories | Interactions |
-| **Performance** | Custom | 4 benchmarks | FPS, Memory |
+| Тип             | Framework              | Тестов       | Покрытие     |
+| --------------- | ---------------------- | ------------ | ------------ |
+| **Unit**        | Jest + Testing Library | 27+ files    | 70%+         |
+| **E2E**         | Playwright             | 62+ tests    | 7 browsers   |
+| **Component**   | Storybook              | 50+ stories  | Interactions |
+| **Performance** | Custom                 | 4 benchmarks | FPS, Memory  |
 
 </div>
 
@@ -506,23 +523,27 @@ bun run dev
 ### Workflow
 
 1. **Создайте ветку** от `main`
+
    ```bash
    git checkout -b feature/amazing-feature
    ```
 
 2. **Внесите изменения** и протестируйте локально
+
    ```bash
    npm run dev
    npm test
    ```
 
 3. **Проверьте код**
+
    ```bash
    npm run lint
    npm run format
    ```
 
 4. **Закоммитьте** с описательным сообщением
+
    ```bash
    git add .
    git commit -m "feat: add amazing feature"
@@ -547,16 +568,19 @@ bun run dev
 ### Q2 2026 (Апрель-Июнь) — Завершается
 
 #### Voice Cloning Integration ✅
+
 - [x] Voice Cloning Studio (6-шаговый процесс)
 - [x] Suno Voice API интеграция + webhook handlers
 - [x] Voice Library + Voice History страницы
 - [x] Database migrations для voice cloning
 
 #### Reliability & Stability ✅
+
 - [x] Улучшение reliability генерации (retry + backoff + model fallback)
 - [x] CI/CD pipeline обновление
 
 #### Spec 001: UI Improvements 🔄 В процессе
+
 - [x] Спецификация, план, задачи, контракты
 - [ ] Реализация UI компонентов
 - [ ] Bundle анализ и оптимизация
@@ -564,11 +588,13 @@ bun run dev
 ### Q3 2026 (Июль-Сентябрь)
 
 #### Performance Scaling ⏳
+
 - [ ] Оптимизация компонентов (PlaylistTrackItem, LyricsLine)
 - [ ] Database query оптимизация
 - [ ] Advanced caching (Service Worker)
 
 #### Platform Integrations 📋
+
 - [ ] Spotify / Apple Music / YouTube export
 - [ ] OAuth 2.0 flows
 - [ ] Public API development
@@ -578,15 +604,18 @@ bun run dev
 ## 🚨 Известные проблемы
 
 ### P1 — Критические (решённые)
+
 - ✅ Все P1-P4 issues закрыты (28 issues resolved)
 - ✅ Generation reliability improved (F1.1 complete)
 
 ### P2 — В процессе улучшения
+
 - 🟡 Generation failure rate ~12% → target <8% (model fallback добавлен)
 - 🟡 Bundle size optimisation pending
 - 🟡 Spec 001: UI Improvements — в реализации
 
 ### P3 — Плановые
+
 - 📋 Platform integrations (Spotify, Apple Music)
 - 📋 Public API
 - 📋 Performance Scaling (Q3 2026)

@@ -1,4 +1,15 @@
-import { useCallback, forwardRef, memo, useEffect, useRef, useMemo, Component, ErrorInfo, ReactNode, useState } from "react";
+import {
+  useCallback,
+  forwardRef,
+  memo,
+  useEffect,
+  useRef,
+  useMemo,
+  Component,
+  ErrorInfo,
+  ReactNode,
+  useState,
+} from "react";
 import { VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
@@ -11,13 +22,10 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
-const log = logger.child({ module: 'VirtualizedTrackList' });
+const log = logger.child({ module: "VirtualizedTrackList" });
 
 // Error boundary for individual track items during HMR
-class TrackItemErrorBoundary extends Component<
-  { children: ReactNode; trackId?: string },
-  { hasError: boolean }
-> {
+class TrackItemErrorBoundary extends Component<{ children: ReactNode; trackId?: string }, { hasError: boolean }> {
   constructor(props: { children: ReactNode; trackId?: string }) {
     super(props);
     this.state = { hasError: false };
@@ -28,9 +36,9 @@ class TrackItemErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    log.error('TrackItem render error (likely HMR)', error, { 
+    log.error("TrackItem render error (likely HMR)", error, {
       trackId: this.props.trackId,
-      errorInfo 
+      errorInfo,
     });
   }
 
@@ -90,15 +98,17 @@ const GridContainer = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEle
     >
       {children}
     </div>
-  )
+  ),
 );
 GridContainer.displayName = "GridContainer";
 
 // Item wrapper for grid - minimal wrapper
 const GridItemWrapper = forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ children, ...props }, ref) => (
-    <div ref={ref} {...props}>{children}</div>
-  )
+    <div ref={ref} {...props}>
+      {children}
+    </div>
+  ),
 );
 GridItemWrapper.displayName = "GridItemWrapper";
 
@@ -131,7 +141,7 @@ const MemoizedTrackItem = memo(function MemoizedTrackItem({
   return (
     <TrackItemErrorBoundary trackId={track.id}>
       <UnifiedTrackCard
-        variant={viewMode === 'grid' ? 'grid' : 'list'}
+        variant={viewMode === "grid" ? "grid" : "list"}
         track={track}
         isPlaying={isPlaying}
         onPlay={onPlay}
@@ -164,7 +174,7 @@ const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
 }) {
   const progress = Math.min(pullDistance / threshold, 1);
   const isReady = pullDistance >= threshold;
-  
+
   return (
     <AnimatePresence>
       {(pullDistance > 0 || isRefreshing) && (
@@ -191,16 +201,12 @@ const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
               <RefreshCw
                 className={cn(
                   "w-5 h-5 transition-colors",
-                  isReady || isRefreshing ? "text-primary" : "text-muted-foreground"
+                  isReady || isRefreshing ? "text-primary" : "text-muted-foreground",
                 )}
               />
             </motion.div>
             <span className="text-xs text-muted-foreground font-medium">
-              {isRefreshing
-                ? "Обновление..."
-                : isReady
-                ? "Отпустите для обновления"
-                : "Потяните для обновления"}
+              {isRefreshing ? "Обновление..." : isReady ? "Отпустите для обновления" : "Потяните для обновления"}
             </span>
             {!isRefreshing && (
               <div className="w-16 h-1 bg-muted rounded-full overflow-hidden">
@@ -239,7 +245,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   const sentinelRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Pull-to-refresh state
   const [pullDistance, setPullDistance] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -247,7 +253,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   const touchStartY = useRef(0);
   const touchCurrentY = useRef(0);
   const canPull = useRef(false);
-  
+
   // Pull-to-refresh constants
   const PULL_THRESHOLD = 80; // Distance to trigger refresh
   const MAX_PULL = 120; // Maximum pull distance
@@ -258,63 +264,69 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   const increaseViewportBy = useMemo(() => ({ top: 200, bottom: 400 }), []);
 
   // Pull-to-refresh handlers
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    if (!enablePullToRefresh || !onRefresh || isRefreshing) return;
-    
-    // Check if user is at the top of the scroll container
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    canPull.current = scrollTop === 0;
-    
-    if (canPull.current) {
-      touchStartY.current = e.touches[0].clientY;
-      setIsPulling(true);
-    }
-  }, [enablePullToRefresh, onRefresh, isRefreshing]);
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      if (!enablePullToRefresh || !onRefresh || isRefreshing) return;
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!canPull.current || !isPulling || isRefreshing) return;
-    
-    touchCurrentY.current = e.touches[0].clientY;
-    const distance = touchCurrentY.current - touchStartY.current;
-    
-    // Only allow pull down (positive distance)
-    if (distance > 0) {
-      // Prevent default scroll behavior when pulling
-      e.preventDefault();
-      
-      // Apply resistance as user pulls further
-      const resistance = Math.min(distance * 0.4, MAX_PULL);
-      setPullDistance(resistance);
-      
-      // Haptic feedback at threshold
-      if (resistance >= PULL_THRESHOLD && pullDistance < PULL_THRESHOLD) {
-        triggerHapticFeedback('medium');
+      // Check if user is at the top of the scroll container
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      canPull.current = scrollTop === 0;
+
+      if (canPull.current) {
+        touchStartY.current = e.touches[0].clientY;
+        setIsPulling(true);
       }
-    }
-  }, [isPulling, isRefreshing, pullDistance, PULL_THRESHOLD, MAX_PULL]);
+    },
+    [enablePullToRefresh, onRefresh, isRefreshing],
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!canPull.current || !isPulling || isRefreshing) return;
+
+      touchCurrentY.current = e.touches[0].clientY;
+      const distance = touchCurrentY.current - touchStartY.current;
+
+      // Only allow pull down (positive distance)
+      if (distance > 0) {
+        // Prevent default scroll behavior when pulling
+        e.preventDefault();
+
+        // Apply resistance as user pulls further
+        const resistance = Math.min(distance * 0.4, MAX_PULL);
+        setPullDistance(resistance);
+
+        // Haptic feedback at threshold
+        if (resistance >= PULL_THRESHOLD && pullDistance < PULL_THRESHOLD) {
+          triggerHapticFeedback("medium");
+        }
+      }
+    },
+    [isPulling, isRefreshing, pullDistance, PULL_THRESHOLD, MAX_PULL],
+  );
 
   const handleTouchEnd = useCallback(async () => {
     if (!isPulling || isRefreshing) return;
-    
+
     setIsPulling(false);
     canPull.current = false;
-    
+
     // Trigger refresh if pulled past threshold
     if (pullDistance >= PULL_THRESHOLD && onRefresh) {
       setIsRefreshing(true);
-      triggerHapticFeedback('heavy');
-      
+      triggerHapticFeedback("heavy");
+
       try {
         await onRefresh();
-        triggerHapticFeedback('success');
+        triggerHapticFeedback("success");
       } catch (error) {
-        log.error('Error refreshing tracks', error);
-        triggerHapticFeedback('error');
+        log.error("Error refreshing tracks", error);
+        triggerHapticFeedback("error");
       } finally {
         setIsRefreshing(false);
       }
     }
-    
+
     // Reset pull distance with animation
     setPullDistance(0);
   }, [isPulling, isRefreshing, pullDistance, PULL_THRESHOLD, onRefresh]);
@@ -328,9 +340,9 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
         setPullDistance(0);
       }
     };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Memoize item key computation for better React reconciliation
@@ -340,10 +352,10 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     (index: number, track: Track) => {
       try {
         if (!track || !track.id) {
-          log.warn('Invalid track data at index', { index, track });
+          log.warn("Invalid track data at index", { index, track });
           return <TrackCardSkeletonCompact />;
         }
-        
+
         const counts = getCountsForTrack(track.id);
         const midiStatus = getMidiStatus?.(track.id);
         return (
@@ -363,33 +375,33 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
           />
         );
       } catch (error) {
-        log.error('Error rendering track item during HMR or runtime', error, { trackId: track?.id, index });
+        log.error("Error rendering track item during HMR or runtime", error, { trackId: track?.id, index });
         // Return skeleton as graceful fallback during HMR errors
         return <TrackCardSkeletonCompact key={`skeleton-${track?.id || index}`} />;
       }
     },
-    [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike, onTagClick]
+    [viewMode, activeTrackId, getCountsForTrack, getMidiStatus, onPlay, onDelete, onDownload, onToggleLike, onTagClick],
   );
 
   // IntersectionObserver for list view pagination (stable, no virtuoso issues)
   useEffect(() => {
     if (viewMode !== "list") return;
-    
+
     const sentinel = sentinelRef.current;
     if (!sentinel) return;
-    
+
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
         if (entry.isIntersecting && hasMore && !isLoadingMore && !loadingRef.current) {
           loadingRef.current = true;
-          log.info('Loading more tracks (intersection)', { currentCount: tracks.length });
+          log.info("Loading more tracks (intersection)", { currentCount: tracks.length });
           onLoadMore();
         }
       },
-      { rootMargin: '200px' }
+      { rootMargin: "200px" },
     );
-    
+
     observer.observe(sentinel);
     return () => observer.disconnect();
   }, [viewMode, hasMore, isLoadingMore, onLoadMore, tracks.length]);
@@ -405,7 +417,7 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   const handleGridEndReached = useCallback(() => {
     if (loadingRef.current || isLoadingMore || !hasMore) return;
     loadingRef.current = true;
-    log.info('Loading more tracks (grid endReached)', { currentCount: tracks.length });
+    log.info("Loading more tracks (grid endReached)", { currentCount: tracks.length });
     setTimeout(() => onLoadMore(), 0);
   }, [hasMore, isLoadingMore, onLoadMore, tracks.length]);
 
@@ -414,29 +426,21 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
     if (!hasMore) return null;
     return (
       <div className="flex justify-center py-6">
-        {isLoadingMore ? (
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-        ) : (
-          <div className="h-1" />
-        )}
+        {isLoadingMore ? <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /> : <div className="h-1" />}
       </div>
     );
   }, [hasMore, isLoadingMore]);
 
   const gridComponents = useMemo(
     () => ({ List: GridContainer, Item: GridItemWrapper, Footer: GridFooter }),
-    [GridFooter]
+    [GridFooter],
   );
 
   // Grid view with VirtuosoGrid (stable)
   if (viewMode === "grid") {
     return (
       <>
-        <PullToRefreshIndicator
-          pullDistance={pullDistance}
-          isRefreshing={isRefreshing}
-          threshold={PULL_THRESHOLD}
-        />
+        <PullToRefreshIndicator pullDistance={pullDistance} isRefreshing={isRefreshing} threshold={PULL_THRESHOLD} />
         <div
           ref={containerRef}
           onTouchStart={handleTouchStart}
@@ -463,44 +467,28 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   // List view - simple map + IntersectionObserver (no virtuoso, stable)
   return (
     <>
-      <PullToRefreshIndicator
-        pullDistance={pullDistance}
-        isRefreshing={isRefreshing}
-        threshold={PULL_THRESHOLD}
-      />
-      <div
-        ref={containerRef}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
+      <PullToRefreshIndicator pullDistance={pullDistance} isRefreshing={isRefreshing} threshold={PULL_THRESHOLD} />
+      <div ref={containerRef} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd}>
         <TrackListProvider tracks={tracks}>
           <div className="flex flex-col gap-3 px-4 sm:px-6">
             {tracks.map((track, index) => (
-              <div key={track.id}>
-                {renderTrackItem(index, track)}
-              </div>
+              <div key={track.id}>{renderTrackItem(index, track)}</div>
             ))}
-            
+
             {/* Sentinel for infinite scroll */}
             <div ref={sentinelRef} className="h-1" />
-            
+
             {/* Loading indicator */}
             {isLoadingMore && (
               <div className="flex justify-center py-6">
                 <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
               </div>
             )}
-            
+
             {/* Manual load button as fallback */}
             {hasMore && !isLoadingMore && tracks.length > 0 && (
               <div className="flex justify-center py-4">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={onLoadMore}
-                  className="text-muted-foreground"
-                >
+                <Button variant="outline" size="sm" onClick={onLoadMore} className="text-muted-foreground">
                   Загрузить ещё
                 </Button>
               </div>

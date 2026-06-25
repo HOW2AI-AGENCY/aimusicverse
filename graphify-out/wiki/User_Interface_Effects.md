@@ -29,7 +29,7 @@
 - [goToNext()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js#L52) (2 connections)
 - [goToPrevious()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js#L41) (2 connections)
 - [EnhancedProfileSetup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/EnhancedProfileSetup.tsx#L1) (2 connections)
-- *... and 53 more nodes in this community*
+- _... and 53 more nodes in this community_
 
 ## Class Diagram
 
@@ -77,4 +77,4 @@ classDiagram
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

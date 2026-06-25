@@ -3,7 +3,7 @@
  * Calculate snap-to-grid positions based on BPM and time signature
  */
 
-import { bpmToBeatDuration } from './bpmDetection';
+import { bpmToBeatDuration } from "./bpmDetection";
 
 export type SnapDivision = 1 | 2 | 4 | 8 | 16 | 32;
 
@@ -56,11 +56,7 @@ export interface SnapResult {
  * @returns Snap result with snapped time and metadata
  */
 export function snapToGrid(time: number, options: SnapOptions): SnapResult {
-  const {
-    bpm,
-    snapDivision = 4,
-    timeSignature = 4,
-  } = options;
+  const { bpm, snapDivision = 4, timeSignature = 4 } = options;
 
   // Fallback to 1-second grid if BPM is not available
   if (!bpm || bpm <= 0) {
@@ -131,19 +127,10 @@ export function getSubdivisionDuration(bpm: number, snapDivision: SnapDivision):
  * @param options - Snap options
  * @returns Array of grid positions
  */
-export function generateGridPositions(
-  startTime: number,
-  endTime: number,
-  options: SnapOptions
-): number[] {
-  const {
-    bpm,
-    snapDivision = 4,
-  } = options;
+export function generateGridPositions(startTime: number, endTime: number, options: SnapOptions): number[] {
+  const { bpm, snapDivision = 4 } = options;
 
-  const gridDuration = bpm
-    ? getSubdivisionDuration(bpm, snapDivision)
-    : 1 / snapDivision;
+  const gridDuration = bpm ? getSubdivisionDuration(bpm, snapDivision) : 1 / snapDivision;
 
   const positions: number[] = [];
 
@@ -176,11 +163,7 @@ export function getNearestGridPosition(time: number, options: SnapOptions): numb
  * @param tolerance - Tolerance in seconds (default: 0.001)
  * @returns True if time is on a grid line
  */
-export function isOnGrid(
-  time: number,
-  options: SnapOptions,
-  tolerance: number = 0.001
-): boolean {
+export function isOnGrid(time: number, options: SnapOptions, tolerance: number = 0.001): boolean {
   const snapped = snapToGrid(time, options);
   return Math.abs(time - snapped.snappedTime) <= tolerance;
 }
@@ -195,7 +178,7 @@ export function isOnGrid(
 export function getMeasurePosition(
   time: number,
   bpm: number,
-  timeSignature: number = 4
+  timeSignature: number = 4,
 ): { measureIndex: number; beatIndex: number } {
   const beatDuration = getBeatDuration(bpm);
   const totalBeats = time / beatDuration;
@@ -213,11 +196,7 @@ export function getMeasurePosition(
  * @param timeSignature - Beats per measure (default: 4)
  * @returns Formatted string (e.g., "1.3" for measure 1, beat 3)
  */
-export function formatAsMeasureBeat(
-  time: number,
-  bpm: number,
-  timeSignature: number = 4
-): string {
+export function formatAsMeasureBeat(time: number, bpm: number, timeSignature: number = 4): string {
   const { measureIndex, beatIndex } = getMeasurePosition(time, bpm, timeSignature);
   return `${measureIndex + 1}.${beatIndex + 1}`;
 }

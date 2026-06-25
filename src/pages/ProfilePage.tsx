@@ -1,11 +1,11 @@
-import { useNavigate } from 'react-router-dom';
-import { 
-  Settings, 
-  ChevronRight, 
-  User, 
-  Users, 
-  LogOut, 
-  GraduationCap, 
+import { useNavigate } from "react-router-dom";
+import {
+  Settings,
+  ChevronRight,
+  User,
+  Users,
+  LogOut,
+  GraduationCap,
   Shield,
   Music,
   Play,
@@ -15,21 +15,21 @@ import {
   BarChart3,
   TrendingUp,
   Sparkles,
-  Gift
-} from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useProfile } from '@/hooks/useProfile';
-import { useAuth } from '@/hooks/useAuth';
-import { useOnboarding } from '@/hooks/useOnboarding';
-import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { useUserStats } from '@/hooks/useUserStats';
-import { motion } from '@/lib/motion';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { InviteFriendsCard } from '@/components/gamification/InviteFriendsCard';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { DesktopDashboardLayout } from '@/components/layout/desktop';
+  Gift,
+} from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useProfile } from "@/hooks/useProfile";
+import { useAuth } from "@/hooks/useAuth";
+import { useOnboarding } from "@/hooks/useOnboarding";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
+import { useUserStats } from "@/hooks/useUserStats";
+import { motion } from "@/lib/motion";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { InviteFriendsCard } from "@/components/gamification/InviteFriendsCard";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { DesktopDashboardLayout } from "@/components/layout/desktop";
 
 export const ProfilePage = () => {
   const navigate = useNavigate();
@@ -44,75 +44,68 @@ export const ProfilePage = () => {
   // Telegram BackButton
   useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   const displayUser = profile || telegramUser;
 
   const handleStartOnboarding = () => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     startOnboarding();
   };
 
   const handleNavigate = (path: string) => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     navigate(path);
   };
 
   const handleLogout = () => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     logout();
   };
 
   const statItems = [
-    { icon: Music, label: 'Треков', value: stats?.totalTracks || 0, color: 'text-blue-500' },
-    { icon: Play, label: 'Прослушиваний', value: stats?.totalPlays || 0, color: 'text-green-500' },
-    { icon: Heart, label: 'Лайков', value: stats?.totalLikes || 0, color: 'text-red-500' },
-    { icon: Sparkles, label: 'Генераций', value: stats?.generationsThisMonth || 0, color: 'text-purple-500' },
+    { icon: Music, label: "Треков", value: stats?.totalTracks || 0, color: "text-blue-500" },
+    { icon: Play, label: "Прослушиваний", value: stats?.totalPlays || 0, color: "text-green-500" },
+    { icon: Heart, label: "Лайков", value: stats?.totalLikes || 0, color: "text-red-500" },
+    { icon: Sparkles, label: "Генераций", value: stats?.generationsThisMonth || 0, color: "text-purple-500" },
   ];
 
   const menuItems = [
     {
       icon: Users,
-      title: 'Мои AI-артисты',
-      description: 'Управление вашими AI-артистами',
-      path: '/artists',
-      color: 'text-purple-500',
-      bgColor: 'bg-purple-500/10',
+      title: "Мои AI-артисты",
+      description: "Управление вашими AI-артистами",
+      path: "/artists",
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
     },
     {
       icon: BarChart3,
-      title: 'Аналитика',
-      description: 'Детальная статистика',
-      path: '/analytics',
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-500/10',
+      title: "Аналитика",
+      description: "Детальная статистика",
+      path: "/analytics",
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
     },
     {
       icon: Settings,
-      title: 'Настройки',
-      description: 'Профиль, уведомления, Telegram',
-      path: '/settings',
-      color: 'text-orange-500',
-      bgColor: 'bg-orange-500/10',
+      title: "Настройки",
+      description: "Профиль, уведомления, Telegram",
+      path: "/settings",
+      color: "text-orange-500",
+      bgColor: "bg-orange-500/10",
     },
   ];
 
   // Profile card component
   const ProfileCard = (
-    <motion.div
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-    >
+    <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
       <Card className="p-6 lg:p-8 glass-card border-primary/20 transition-shadow hover:shadow-lg">
         <div className="flex items-center gap-4 lg:gap-6">
           <div className="w-20 h-20 lg:w-28 lg:h-28 rounded-full overflow-hidden border-2 lg:border-3 border-primary/30 shadow-lg transition-transform hover:scale-105">
             {displayUser?.photo_url ? (
-              <img
-                src={displayUser.photo_url}
-                alt="Avatar"
-                className="w-full h-full object-cover"
-              />
+              <img src={displayUser.photo_url} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
                 <User className="w-10 h-10 lg:w-14 lg:h-14 text-primary" />
@@ -123,13 +116,14 @@ export const ProfilePage = () => {
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold">
               {displayUser?.first_name} {displayUser?.last_name}
             </h1>
-            {displayUser?.username && (
-              <p className="text-muted-foreground lg:text-lg">@{displayUser.username}</p>
-            )}
+            {displayUser?.username && <p className="text-muted-foreground lg:text-lg">@{displayUser.username}</p>}
             {profile?.subscription_tier && (
               <span className="inline-block mt-1 lg:mt-2 px-2 lg:px-3 py-0.5 lg:py-1 text-xs lg:text-sm font-medium rounded-full bg-primary/20 text-primary">
-                {profile.subscription_tier === 'premium' ? 'Premium' : 
-                 profile.subscription_tier === 'enterprise' ? 'Enterprise' : 'Free'}
+                {profile.subscription_tier === "premium"
+                  ? "Premium"
+                  : profile.subscription_tier === "enterprise"
+                    ? "Enterprise"
+                    : "Free"}
               </span>
             )}
           </div>
@@ -148,7 +142,10 @@ export const ProfilePage = () => {
       data-safe-skeleton={statsLoading ? "" : undefined}
     >
       {statItems.map((stat) => (
-        <Card key={stat.label} className="p-4 lg:p-5 glass-card border-border/50 transition-all hover:shadow-md hover:scale-[1.02]">
+        <Card
+          key={stat.label}
+          className="p-4 lg:p-5 glass-card border-border/50 transition-all hover:shadow-md hover:scale-[1.02]"
+        >
           {statsLoading ? (
             <Skeleton className="h-12 lg:h-16 w-full" />
           ) : (
@@ -165,11 +162,7 @@ export const ProfilePage = () => {
 
   // Quick stats row
   const QuickStatsRow = (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.15 }}
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
       <Card className="p-4 lg:p-6 glass-card border-border/50 transition-shadow hover:shadow-md">
         <div className="flex items-center justify-around text-center">
           <div className="transition-transform hover:scale-105">
@@ -215,7 +208,9 @@ export const ProfilePage = () => {
           className="p-4 lg:p-5 hover:bg-muted/50 hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer"
         >
           <div className="flex items-center gap-3 lg:gap-4">
-            <div className={`p-2.5 lg:p-3 rounded-lg lg:rounded-xl ${item.bgColor} transition-transform group-hover:scale-110`}>
+            <div
+              className={`p-2.5 lg:p-3 rounded-lg lg:rounded-xl ${item.bgColor} transition-transform group-hover:scale-110`}
+            >
               <item.icon className={`w-5 h-5 lg:w-6 lg:h-6 ${item.color}`} />
             </div>
             <div className="flex-1 min-w-0">
@@ -231,13 +226,9 @@ export const ProfilePage = () => {
 
   // Admin panel link
   const AdminPanelLink = adminAuth?.isAdmin ? (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
       <Card
-        onClick={() => handleNavigate('/admin')}
+        onClick={() => handleNavigate("/admin")}
         className="p-4 hover:bg-red-500/10 transition-all cursor-pointer border-red-500/30 bg-red-500/5"
       >
         <div className="flex items-center gap-4">
@@ -257,11 +248,7 @@ export const ProfilePage = () => {
   // Action cards (onboarding + logout)
   const ActionCards = (
     <>
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
         <Card
           onClick={handleStartOnboarding}
           className="p-4 hover:bg-primary/10 transition-all cursor-pointer border-primary/20"
@@ -279,11 +266,7 @@ export const ProfilePage = () => {
         </Card>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
         <Card
           onClick={handleLogout}
           className="p-4 hover:bg-destructive/10 transition-all cursor-pointer border-destructive/20"
@@ -306,9 +289,12 @@ export const ProfilePage = () => {
   // Desktop layout
   if (!isMobile) {
     return (
-      <div 
+      <div
         className="min-h-screen pb-24"
-        style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))' }}
+        style={{
+          paddingTop:
+            "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))",
+        }}
       >
         <DesktopDashboardLayout
           maxWidth="wide"
@@ -334,31 +320,29 @@ export const ProfilePage = () => {
 
   // === Mobile layout — Linear/Arc native ============================
   const mobileTierLabel =
-    profile?.subscription_tier === 'premium' ? 'Premium' :
-    profile?.subscription_tier === 'enterprise' ? 'Enterprise' : 'Free';
-  const displayName = [displayUser?.first_name, displayUser?.last_name]
-    .filter(Boolean).join(' ') || 'Гость';
+    profile?.subscription_tier === "premium"
+      ? "Premium"
+      : profile?.subscription_tier === "enterprise"
+        ? "Enterprise"
+        : "Free";
+  const displayName = [displayUser?.first_name, displayUser?.last_name].filter(Boolean).join(" ") || "Гость";
 
   return (
     <div
       className="min-h-screen pb-bottom-stack-lg"
       style={{
         paddingTop:
-          'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 1.25rem), calc(env(safe-area-inset-top, 0px) + 1.25rem))',
+          "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 1.25rem), calc(env(safe-area-inset-top, 0px) + 1.25rem))",
       }}
     >
       {/* === Hero card: aurora ring + identity ============================ */}
-      <motion.div
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="px-4"
-      >
+      <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} className="px-4">
         <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/70 backdrop-blur-xl p-5">
           {/* Aurora glow */}
           <div
             aria-hidden
             className="pointer-events-none absolute -top-16 -right-12 h-48 w-48 rounded-full blur-3xl opacity-40"
-            style={{ background: 'radial-gradient(circle, hsl(var(--primary)/0.55), transparent 65%)' }}
+            style={{ background: "radial-gradient(circle, hsl(var(--primary)/0.55), transparent 65%)" }}
           />
           <div className="relative flex items-center gap-4">
             <div className="relative shrink-0">
@@ -381,13 +365,9 @@ export const ProfilePage = () => {
                 <p className="text-[13px] text-muted-foreground truncate">@{displayUser.username}</p>
               )}
               <div className="mt-2 flex items-center gap-1.5">
-                <span className="tag-chip border-primary/40 text-primary bg-primary/10">
-                  {mobileTierLabel}
-                </span>
+                <span className="tag-chip border-primary/40 text-primary bg-primary/10">{mobileTierLabel}</span>
                 {adminAuth?.isAdmin && (
-                  <span className="tag-chip border-destructive/40 text-destructive bg-destructive/10">
-                    Admin
-                  </span>
+                  <span className="tag-chip border-destructive/40 text-destructive bg-destructive/10">Admin</span>
                 )}
               </div>
             </div>
@@ -403,10 +383,7 @@ export const ProfilePage = () => {
         className="mt-4 px-4 grid grid-cols-2 gap-2.5"
       >
         {statItems.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-2xl border border-border/50 bg-card/60 p-4 flex flex-col gap-1"
-          >
+          <div key={stat.label} className="rounded-2xl border border-border/50 bg-card/60 p-4 flex flex-col gap-1">
             {statsLoading ? (
               <Skeleton className="h-10 w-full" />
             ) : (
@@ -418,9 +395,7 @@ export const ProfilePage = () => {
                 <p className="font-display text-[26px] font-semibold leading-none tracking-tight tabular-nums">
                   {stat.value.toLocaleString()}
                 </p>
-                <p className="text-[11px] text-muted-foreground/80 leading-none mt-1">
-                  {stat.label}
-                </p>
+                <p className="text-[11px] text-muted-foreground/80 leading-none mt-1">{stat.label}</p>
               </>
             )}
           </div>
@@ -436,10 +411,10 @@ export const ProfilePage = () => {
       >
         <div className="rounded-2xl border border-border/50 bg-card/40 px-2 py-3 flex items-center justify-around">
           {[
-            { icon: FolderOpen, value: stats?.totalProjects || 0, label: 'Проекты' },
-            { icon: ListMusic, value: stats?.totalPlaylists || 0, label: 'Плейлисты' },
-            { icon: Users, value: stats?.totalArtists || 0, label: 'Артисты' },
-            { icon: TrendingUp, value: stats?.publicTracks || 0, label: 'Публ.' },
+            { icon: FolderOpen, value: stats?.totalProjects || 0, label: "Проекты" },
+            { icon: ListMusic, value: stats?.totalPlaylists || 0, label: "Плейлисты" },
+            { icon: Users, value: stats?.totalArtists || 0, label: "Артисты" },
+            { icon: TrendingUp, value: stats?.publicTracks || 0, label: "Публ." },
           ].map((s, i, arr) => (
             <div key={s.label} className="relative flex-1 flex flex-col items-center gap-0.5">
               <s.icon className="w-4 h-4 text-muted-foreground/70" strokeWidth={2} />
@@ -471,7 +446,7 @@ export const ProfilePage = () => {
             <div
               role="button"
               tabIndex={0}
-              onClick={() => handleNavigate('/admin')}
+              onClick={() => handleNavigate("/admin")}
               className="row-64 cursor-pointer border-destructive/30 bg-destructive/5 hover:bg-destructive/10"
             >
               <div className="p-2 rounded-xl bg-destructive/15">
@@ -509,12 +484,7 @@ export const ProfilePage = () => {
       <div className="mt-6">
         <p className="section-title px-5 mb-2">Аккаунт</p>
         <div className="px-4 space-y-1.5">
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={handleStartOnboarding}
-            className="row-64 cursor-pointer"
-          >
+          <div role="button" tabIndex={0} onClick={handleStartOnboarding} className="row-64 cursor-pointer">
             <div className="p-2 rounded-xl bg-accent/40">
               <GraduationCap className="w-4.5 h-4.5 text-primary" strokeWidth={2} />
             </div>

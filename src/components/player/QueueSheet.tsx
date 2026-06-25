@@ -1,30 +1,45 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Trash2, ListMusic, Sparkles, Layers, Layers2, Clock, Music2, 
-  Shuffle, Repeat, Repeat1, Save, Check, Radio, Loader2
-} from 'lucide-react';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
-import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { QueueItem } from './QueueItem';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { toast } from 'sonner';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { useAuth } from '@/contexts/AuthContext';
-import { supabase } from '@/integrations/supabase/client';
-import { useRadioMode } from '@/hooks/audio/useRadioMode';
-import { logger } from '@/lib/logger';
-import { glass } from '@/lib/glass';
+  Trash2,
+  ListMusic,
+  Sparkles,
+  Layers,
+  Layers2,
+  Clock,
+  Music2,
+  Shuffle,
+  Repeat,
+  Repeat1,
+  Save,
+  Check,
+  Radio,
+  Loader2,
+} from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { QueueItem } from "./QueueItem";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useRadioMode } from "@/hooks/audio/useRadioMode";
+import { logger } from "@/lib/logger";
+import { glass } from "@/lib/glass";
 
 interface QueueSheetProps {
   open: boolean;
@@ -40,23 +55,23 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
 
   const { user } = useAuth();
   const [isSaving, setIsSaving] = useState(false);
-  
+
   // Radio mode for auto-adding similar tracks
   const { isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount } = useRadioMode();
 
-  const { 
-    queue, 
-    currentIndex, 
-    reorderQueue, 
-    removeFromQueue, 
-    clearQueue, 
-    versionMode, 
+  const {
+    queue,
+    currentIndex,
+    reorderQueue,
+    removeFromQueue,
+    clearQueue,
+    versionMode,
     toggleVersionMode,
     shuffle,
     repeat,
     toggleShuffle,
     toggleRepeat,
-    activeTrack
+    activeTrack,
   } = usePlayerStore();
 
   // Split queue into current track and upcoming tracks
@@ -86,7 +101,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -106,19 +121,15 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
 
   const handleClearQueue = () => {
     if (queue.length === 0) return;
-    
+
     clearQueue();
-    toast.success('Очередь очищена');
+    toast.success("Очередь очищена");
     onOpenChange(false);
   };
 
   const handleToggleVersionMode = () => {
     toggleVersionMode();
-    toast.success(
-      versionMode === 'active' 
-        ? 'Режим: все версии треков' 
-        : 'Режим: только активные версии'
-    );
+    toast.success(versionMode === "active" ? "Режим: все версии треков" : "Режим: только активные версии");
   };
 
   /**
@@ -131,11 +142,11 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
     try {
       // Create playlist
       const { data: playlist, error: playlistError } = await supabase
-        .from('playlists')
+        .from("playlists")
         .insert({
           user_id: user.id,
-          title: `Плейлист ${new Date().toLocaleDateString('ru-RU')}`,
-          description: 'Создан из очереди воспроизведения',
+          title: `Плейлист ${new Date().toLocaleDateString("ru-RU")}`,
+          description: "Создан из очереди воспроизведения",
           is_public: false,
           track_count: queue.length,
           total_duration: totalDuration,
@@ -152,48 +163,46 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
         position: index,
       }));
 
-      const { error: tracksError } = await supabase
-        .from('playlist_tracks')
-        .insert(trackEntries);
+      const { error: tracksError } = await supabase.from("playlist_tracks").insert(trackEntries);
 
       if (tracksError) throw tracksError;
 
-      toast.success('Плейлист создан', {
+      toast.success("Плейлист создан", {
         description: `${queue.length} треков сохранено`,
       });
     } catch (error: unknown) {
-      logger.error('Failed to save playlist', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Не удалось сохранить плейлист');
+      logger.error("Failed to save playlist", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Не удалось сохранить плейлист");
     } finally {
       setIsSaving(false);
     }
   };
 
   const getRepeatIcon = () => {
-    if (repeat === 'one') return <Repeat1 className="w-4 h-4" />;
+    if (repeat === "one") return <Repeat1 className="w-4 h-4" />;
     return <Repeat className="w-4 h-4" />;
   };
 
   const getRepeatLabel = () => {
     switch (repeat) {
-      case 'one': return 'Повторять трек';
-      case 'all': return 'Повторять всё';
-      default: return 'Без повтора';
+      case "one":
+        return "Повторять трек";
+      case "all":
+        return "Повторять всё";
+      default:
+        return "Без повтора";
     }
   };
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent 
-        side="bottom" 
-        className={cn("h-[75vh] rounded-t-3xl p-0", glass.overlay)}
-      >
+      <SheetContent side="bottom" className={cn("h-[75vh] rounded-t-3xl p-0", glass.overlay)}>
         {/* Header */}
         <div className={cn("sticky top-0 z-10 border-b border-border/30 p-4 pb-3", glass.card)}>
           <SheetHeader className="space-y-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <motion.div 
+                <motion.div
                   className={cn("p-2.5 rounded-xl shadow-soft", glass.subtle)}
                   animate={{ rotate: [0, 5, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, repeatDelay: 4 }}
@@ -205,7 +214,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                   <div className="flex items-center gap-2 mt-0.5">
                     <Badge variant="secondary" className="text-[10px] h-5 gap-1">
                       <Music2 className="w-2.5 h-2.5" />
-                      {queue.length} {queue.length === 1 ? 'трек' : queue.length < 5 ? 'трека' : 'треков'}
+                      {queue.length} {queue.length === 1 ? "трек" : queue.length < 5 ? "трека" : "треков"}
                     </Badge>
                     {totalDuration > 0 && (
                       <Badge variant="outline" className="text-[10px] h-5 gap-1">
@@ -239,7 +248,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
               onClick={toggleShuffle}
               className={cn(
                 "h-8 px-3 rounded-xl gap-1.5 text-xs",
-                shuffle && "bg-primary/20 text-primary hover:bg-primary/30 border-primary/30"
+                shuffle && "bg-primary/20 text-primary hover:bg-primary/30 border-primary/30",
               )}
             >
               <Shuffle className="w-3.5 h-3.5" />
@@ -248,12 +257,12 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
 
             {/* Repeat toggle */}
             <Button
-              variant={repeat !== 'off' ? "default" : "outline"}
+              variant={repeat !== "off" ? "default" : "outline"}
               size="sm"
               onClick={toggleRepeat}
               className={cn(
                 "h-8 px-3 rounded-xl gap-1.5 text-xs",
-                repeat !== 'off' && "bg-primary/20 text-primary hover:bg-primary/30 border-primary/30"
+                repeat !== "off" && "bg-primary/20 text-primary hover:bg-primary/30 border-primary/30",
               )}
             >
               {getRepeatIcon()}
@@ -262,16 +271,16 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
 
             {/* Version mode toggle */}
             <Button
-              variant={versionMode === 'all' ? "default" : "outline"}
+              variant={versionMode === "all" ? "default" : "outline"}
               size="sm"
               onClick={handleToggleVersionMode}
               className={cn(
                 "h-8 px-3 rounded-xl gap-1.5 text-xs",
-                versionMode === 'all' && "bg-generate/20 text-generate hover:bg-generate/30 border-generate/30"
+                versionMode === "all" && "bg-generate/20 text-generate hover:bg-generate/30 border-generate/30",
               )}
             >
-              {versionMode === 'all' ? <Layers className="w-3.5 h-3.5" /> : <Layers2 className="w-3.5 h-3.5" />}
-              {versionMode === 'all' ? 'Все' : 'Активные'}
+              {versionMode === "all" ? <Layers className="w-3.5 h-3.5" /> : <Layers2 className="w-3.5 h-3.5" />}
+              {versionMode === "all" ? "Все" : "Активные"}
             </Button>
           </div>
 
@@ -283,16 +292,9 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
               size="sm"
               onClick={toggleRadioMode}
               disabled={radioFetching}
-              className={cn(
-                "h-8 px-3 rounded-xl gap-1.5 text-xs",
-                radioEnabled && "bg-accent text-accent-foreground"
-              )}
+              className={cn("h-8 px-3 rounded-xl gap-1.5 text-xs", radioEnabled && "bg-accent text-accent-foreground")}
             >
-              {radioFetching ? (
-                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-              ) : (
-                <Radio className="w-3.5 h-3.5" />
-              )}
+              {radioFetching ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Radio className="w-3.5 h-3.5" />}
               Радио
               {radioEnabled && autoAddedCount > 0 && (
                 <span className="ml-1 text-[10px] opacity-70">+{autoAddedCount}</span>
@@ -308,11 +310,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                 disabled={isSaving}
                 className="h-8 px-3 rounded-xl gap-1.5 text-xs ml-auto"
               >
-                {isSaving ? (
-                  <Check className="w-3.5 h-3.5 animate-pulse" />
-                ) : (
-                  <Save className="w-3.5 h-3.5" />
-                )}
+                {isSaving ? <Check className="w-3.5 h-3.5 animate-pulse" /> : <Save className="w-3.5 h-3.5" />}
                 Сохранить
               </Button>
             )}
@@ -324,7 +322,7 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
           <div className="p-4 pt-2">
             <AnimatePresence mode="popLayout">
               {queue.length === 0 ? (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="flex flex-col items-center justify-center text-center py-16"
@@ -342,12 +340,8 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                   </p>
                 </motion.div>
               ) : (
-                <DndContext
-                  sensors={sensors}
-                  collisionDetection={closestCenter}
-                  onDragEnd={handleDragEnd}
-                >
-                  <SortableContext items={queue.map(t => t.id)} strategy={verticalListSortingStrategy}>
+                <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                  <SortableContext items={queue.map((t) => t.id)} strategy={verticalListSortingStrategy}>
                     <div className="space-y-1">
                       {/* Now Playing Section */}
                       {currentTrack && (
@@ -371,7 +365,8 @@ export function QueueSheet({ open, onOpenChange }: QueueSheetProps) {
                         <div>
                           <div className="flex items-center justify-between mb-2 px-1 pt-3 border-t border-border/30">
                             <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-                              Далее • {upNextTracks.length} {upNextTracks.length === 1 ? 'трек' : upNextTracks.length < 5 ? 'трека' : 'треков'}
+                              Далее • {upNextTracks.length}{" "}
+                              {upNextTracks.length === 1 ? "трек" : upNextTracks.length < 5 ? "трека" : "треков"}
                             </p>
                             {remainingDuration > 0 && (
                               <p className="text-[10px] text-muted-foreground">

@@ -51,8 +51,7 @@ const sheetVariants = cva(
 );
 
 interface SheetContentProps
-  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {
+  extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>, VariantProps<typeof sheetVariants> {
   /** If true, a visually hidden title will be automatically added for accessibility */
   hideTitle?: boolean;
   /** Accessible title for screen readers when no visible SheetTitle is present */
@@ -62,32 +61,55 @@ interface SheetContentProps
 }
 
 const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Content>, SheetContentProps>(
-  ({ side = "right", className, children, hideTitle = false, accessibleTitle = "Боковая панель", hideCloseButton = false, ...props }, ref) => {
+  (
+    {
+      side = "right",
+      className,
+      children,
+      hideTitle = false,
+      accessibleTitle = "Боковая панель",
+      hideCloseButton = false,
+      ...props
+    },
+    ref,
+  ) => {
     // Check if this is a fullscreen sheet (has h-full, h-screen, or h-[100dvh] in className)
-    const isFullscreen = className?.includes('h-full') || className?.includes('h-screen') || className?.includes('h-[100dvh]') || className?.includes('h-[100vh]');
-    const isBottomSheet = side === 'bottom';
-    
+    const isFullscreen =
+      className?.includes("h-full") ||
+      className?.includes("h-screen") ||
+      className?.includes("h-[100dvh]") ||
+      className?.includes("h-[100vh]");
+    const isBottomSheet = side === "bottom";
+
     return (
       <SheetPortal>
         <SheetOverlay />
-        <SheetPrimitive.Content 
-          ref={ref} 
-          className={cn(sheetVariants({ side }), className)} 
-          style={isFullscreen ? {
-            // Apply safe area padding for fullscreen sheets based on side
-            paddingTop: side === 'top' 
-              ? 'max(calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), calc(env(safe-area-inset-top, 0px) + 0.5rem))'
-              : undefined,
-            paddingBottom: side === 'bottom' 
-              ? 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))'
-              : undefined,
-            paddingLeft: side === 'left'
-              ? 'max(var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))'
-              : undefined,
-            paddingRight: side === 'right'
-              ? 'max(var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))'
-              : undefined,
-          } : undefined}
+        <SheetPrimitive.Content
+          ref={ref}
+          className={cn(sheetVariants({ side }), className)}
+          style={
+            isFullscreen
+              ? {
+                  // Apply safe area padding for fullscreen sheets based on side
+                  paddingTop:
+                    side === "top"
+                      ? "max(calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), calc(env(safe-area-inset-top, 0px) + 0.5rem))"
+                      : undefined,
+                  paddingBottom:
+                    side === "bottom"
+                      ? "max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))"
+                      : undefined,
+                  paddingLeft:
+                    side === "left"
+                      ? "max(var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))"
+                      : undefined,
+                  paddingRight:
+                    side === "right"
+                      ? "max(var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))"
+                      : undefined,
+                }
+              : undefined
+          }
           {...props}
         >
           {/* Accessible title for screen readers when no visible title exists */}

@@ -12,7 +12,7 @@
  * ```
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 /**
  * Hook to match media queries
@@ -26,7 +26,7 @@ export function useMediaQuery(query: string, defaultValue: boolean = false): boo
 
   useEffect(() => {
     // Check if window is available (SSR check)
-    if (typeof window === 'undefined' || !window.matchMedia) {
+    if (typeof window === "undefined" || !window.matchMedia) {
       return;
     }
 
@@ -42,11 +42,11 @@ export function useMediaQuery(query: string, defaultValue: boolean = false): boo
     };
 
     // Listen for changes
-    mediaQuery.addEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
 
     // Cleanup
     return () => {
-      mediaQuery.removeEventListener('change', handleChange);
+      mediaQuery.removeEventListener("change", handleChange);
     };
   }, [query]);
 
@@ -69,61 +69,61 @@ export function useMediaQuery(query: string, defaultValue: boolean = false): boo
  * Match mobile breakpoint (max-width: 767px)
  */
 export function useIsMobile(): boolean {
-  return useMediaQuery('(max-width: 767px)');
+  return useMediaQuery("(max-width: 767px)");
 }
 
 /**
  * Match tablet breakpoint (min-width: 768px and max-width: 1023px)
  */
 export function useIsTablet(): boolean {
-  return useMediaQuery('(min-width: 768px) and (max-width: 1023px)');
+  return useMediaQuery("(min-width: 768px) and (max-width: 1023px)");
 }
 
 /**
  * Match desktop breakpoint (min-width: 1024px)
  */
 export function useIsDesktop(): boolean {
-  return useMediaQuery('(min-width: 1024px)');
+  return useMediaQuery("(min-width: 1024px)");
 }
 
 /**
  * Match small phone breakpoint (max-width: 374px)
  */
 export function useIsSmallPhone(): boolean {
-  return useMediaQuery('(max-width: 374px)');
+  return useMediaQuery("(max-width: 374px)");
 }
 
 /**
  * Get current breakpoint
  */
-export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export function useBreakpoint(): Breakpoint {
-  const is2xl = useMediaQuery('(min-width: 1536px)');
-  const isXl = useMediaQuery('(min-width: 1280px)');
-  const isLg = useMediaQuery('(min-width: 1024px)');
-  const isMd = useMediaQuery('(min-width: 768px)');
-  const isSm = useMediaQuery('(min-width: 640px)');
-  const isXs = useMediaQuery('(min-width: 375px)');
+  const is2xl = useMediaQuery("(min-width: 1536px)");
+  const isXl = useMediaQuery("(min-width: 1280px)");
+  const isLg = useMediaQuery("(min-width: 1024px)");
+  const isMd = useMediaQuery("(min-width: 768px)");
+  const isSm = useMediaQuery("(min-width: 640px)");
+  const isXs = useMediaQuery("(min-width: 375px)");
 
-  if (is2xl) return '2xl';
-  if (isXl) return 'xl';
-  if (isLg) return 'lg';
-  if (isMd) return 'md';
-  if (isSm) return 'sm';
-  return 'xs';
+  if (is2xl) return "2xl";
+  if (isXl) return "xl";
+  if (isLg) return "lg";
+  if (isMd) return "md";
+  if (isSm) return "sm";
+  return "xs";
 }
 
 /**
  * Match orientation
  */
-export function useOrientation(): 'portrait' | 'landscape' {
-  return useMediaQuery('(orientation: landscape)') ? 'landscape' : 'portrait';
+export function useOrientation(): "portrait" | "landscape" {
+  return useMediaQuery("(orientation: landscape)") ? "landscape" : "portrait";
 }
 
 /**
  * Match reduced motion preference
  */
 export function usePrefersReducedMotion(): boolean {
-  return useMediaQuery('(prefers-reduced-motion: reduce)');
+  return useMediaQuery("(prefers-reduced-motion: reduce)");
 }

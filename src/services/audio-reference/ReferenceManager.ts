@@ -3,8 +3,8 @@
  * Centralized management of audio references from all sources
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 import {
   UnifiedAudioReference,
   ReferenceSource,
@@ -13,7 +13,7 @@ import {
   ReferenceContext,
   ACTIVE_REFERENCE_KEY,
   REFERENCE_EXPIRY_MS,
-} from './types';
+} from "./types";
 
 class ReferenceManagerService {
   private static instance: ReferenceManagerService;
@@ -40,7 +40,7 @@ class ReferenceManagerService {
   }
 
   private notifyListeners(ref: UnifiedAudioReference | null): void {
-    this.listeners.forEach(cb => cb(ref));
+    this.listeners.forEach((cb) => cb(ref));
   }
 
   /**
@@ -52,7 +52,7 @@ class ReferenceManagerService {
       if (!stored) return null;
 
       const ref: UnifiedAudioReference = JSON.parse(stored);
-      
+
       // Check expiry
       if (ref.expiresAt && Date.now() > ref.expiresAt) {
         this.clearActive();
@@ -61,7 +61,7 @@ class ReferenceManagerService {
 
       return ref;
     } catch (error) {
-      logger.error('Failed to get active reference', { error });
+      logger.error("Failed to get active reference", { error });
       return null;
     }
   }
@@ -79,13 +79,13 @@ class ReferenceManagerService {
 
       sessionStorage.setItem(ACTIVE_REFERENCE_KEY, JSON.stringify(refWithExpiry));
       this.notifyListeners(refWithExpiry);
-      
-      logger.info('Active reference set', { 
-        source: reference.source, 
-        mode: reference.intendedMode 
+
+      logger.info("Active reference set", {
+        source: reference.source,
+        mode: reference.intendedMode,
       });
     } catch (error) {
-      logger.error('Failed to set active reference', { error });
+      logger.error("Failed to set active reference", { error });
     }
   }
 
@@ -96,25 +96,22 @@ class ReferenceManagerService {
     try {
       sessionStorage.removeItem(ACTIVE_REFERENCE_KEY);
       this.notifyListeners(null);
-      logger.info('Active reference cleared');
+      logger.info("Active reference cleared");
     } catch (error) {
-      logger.error('Failed to clear active reference', { error });
+      logger.error("Failed to clear active reference", { error });
     }
   }
 
   /**
    * Create reference from file upload
    */
-  async createFromUpload(
-    file: File,
-    mode?: ReferenceMode
-  ): Promise<UnifiedAudioReference> {
+  async createFromUpload(file: File, mode?: ReferenceMode): Promise<UnifiedAudioReference> {
     const audioUrl = URL.createObjectURL(file);
     const duration = await this.calculateDuration(audioUrl);
 
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
-      source: 'upload',
+      source: "upload",
       audioUrl,
       fileName: file.name,
       fileSize: file.size,
@@ -122,7 +119,7 @@ class ReferenceManagerService {
       durationSeconds: duration,
       intendedMode: mode,
       createdAt: Date.now(),
-      analysisStatus: 'pending',
+      analysisStatus: "pending",
     };
 
     this.setActive(reference);
@@ -132,17 +129,13 @@ class ReferenceManagerService {
   /**
    * Create reference from recording blob
    */
-  async createFromRecording(
-    blob: Blob,
-    fileName?: string,
-    mode?: ReferenceMode
-  ): Promise<UnifiedAudioReference> {
+  async createFromRecording(blob: Blob, fileName?: string, mode?: ReferenceMode): Promise<UnifiedAudioReference> {
     const audioUrl = URL.createObjectURL(blob);
     const duration = await this.calculateDuration(audioUrl);
 
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
-      source: 'record',
+      source: "record",
       audioUrl,
       fileName: fileName || `recording-${Date.now()}.webm`,
       fileSize: blob.size,
@@ -150,7 +143,7 @@ class ReferenceManagerService {
       durationSeconds: duration,
       intendedMode: mode,
       createdAt: Date.now(),
-      analysisStatus: 'pending',
+      analysisStatus: "pending",
     };
 
     this.setActive(reference);
@@ -178,12 +171,12 @@ class ReferenceManagerService {
       transcription?: string;
       instruments?: string[];
     },
-    mode?: ReferenceMode
+    mode?: ReferenceMode,
   ): UnifiedAudioReference {
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
       dbId: data.id,
-      source: 'cloud',
+      source: "cloud",
       audioUrl: data.fileUrl,
       fileName: data.fileName,
       fileSize: data.fileSize,
@@ -200,7 +193,7 @@ class ReferenceManagerService {
         transcription: data.transcription,
         instruments: data.instruments,
       },
-      analysisStatus: data.styleDescription || data.genre ? 'completed' : 'pending',
+      analysisStatus: data.styleDescription || data.genre ? "completed" : "pending",
       intendedMode: mode,
       createdAt: Date.now(),
     };
@@ -222,11 +215,11 @@ class ReferenceManagerService {
       style?: string;
       action?: string;
     },
-    mode?: ReferenceMode
+    mode?: ReferenceMode,
   ): UnifiedAudioReference {
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
-      source: 'stem',
+      source: "stem",
       audioUrl: data.audioUrl,
       fileName: `${data.stemType}-stem.mp3`,
       context: {
@@ -235,10 +228,13 @@ class ReferenceManagerService {
         originalTitle: data.trackTitle,
         action: data.action,
       },
-      analysis: data.lyrics || data.style ? {
-        transcription: data.lyrics,
-        styleDescription: data.style,
-      } : undefined,
+      analysis:
+        data.lyrics || data.style
+          ? {
+              transcription: data.lyrics,
+              styleDescription: data.style,
+            }
+          : undefined,
       intendedMode: mode,
       createdAt: Date.now(),
     };
@@ -251,13 +247,13 @@ class ReferenceManagerService {
    * Create reference from creative tools (drums, dj)
    */
   createFromCreativeTool(
-    source: 'drums' | 'dj',
+    source: "drums" | "dj",
     audioUrl: string,
     options?: {
       prompt?: string;
       tags?: string;
       bpm?: number;
-    }
+    },
   ): UnifiedAudioReference {
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
@@ -279,18 +275,16 @@ class ReferenceManagerService {
   /**
    * Create reference from guitar recording/analysis
    */
-  createFromGuitar(
-    data: {
-      audioUrl: string;
-      bpm?: number;
-      chordProgression?: string[];
-      styleDescription?: string;
-      tags?: string[];
-    }
-  ): UnifiedAudioReference {
+  createFromGuitar(data: {
+    audioUrl: string;
+    bpm?: number;
+    chordProgression?: string[];
+    styleDescription?: string;
+    tags?: string[];
+  }): UnifiedAudioReference {
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
-      source: 'guitar',
+      source: "guitar",
       audioUrl: data.audioUrl,
       fileName: `guitar-${Date.now()}.mp3`,
       analysis: {
@@ -299,7 +293,7 @@ class ReferenceManagerService {
       },
       context: {
         chordProgression: data.chordProgression,
-        tags: data.tags?.join(', '),
+        tags: data.tags?.join(", "),
       },
       createdAt: Date.now(),
     };
@@ -320,13 +314,13 @@ class ReferenceManagerService {
       style?: string;
       duration?: number;
     },
-    mode?: ReferenceMode
+    mode?: ReferenceMode,
   ): UnifiedAudioReference {
     const reference: UnifiedAudioReference = {
       id: crypto.randomUUID(),
-      source: 'track',
+      source: "track",
       audioUrl: track.audioUrl,
-      fileName: `${track.title || 'track'}.mp3`,
+      fileName: `${track.title || "track"}.mp3`,
       durationSeconds: track.duration,
       context: {
         originalTrackId: track.id,
@@ -354,7 +348,7 @@ class ReferenceManagerService {
     const updated: UnifiedAudioReference = {
       ...active,
       analysis: { ...active.analysis, ...analysis },
-      analysisStatus: 'completed',
+      analysisStatus: "completed",
     };
 
     this.setActive(updated);
@@ -372,26 +366,26 @@ class ReferenceManagerService {
       if (active.dbId) return active.dbId;
 
       // For blob URLs, we need to upload first
-      if (active.audioUrl.startsWith('blob:')) {
+      if (active.audioUrl.startsWith("blob:")) {
         const response = await fetch(active.audioUrl);
         const blob = await response.blob();
-        
+
         const fileName = `${userId}/${active.id}-${active.fileName}`;
         const { error: uploadError } = await supabase.storage
-          .from('reference-audio')
-          .upload(fileName, blob, { contentType: active.mimeType || 'audio/mpeg' });
+          .from("reference-audio")
+          .upload(fileName, blob, { contentType: active.mimeType || "audio/mpeg" });
 
         if (uploadError) throw uploadError;
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('reference-audio')
-          .getPublicUrl(fileName);
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("reference-audio").getPublicUrl(fileName);
 
         active.audioUrl = publicUrl;
       }
 
       const { data, error } = await supabase
-        .from('reference_audio')
+        .from("reference_audio")
         .insert({
           user_id: userId,
           file_name: active.fileName,
@@ -411,9 +405,9 @@ class ReferenceManagerService {
           style_description: active.analysis?.styleDescription,
           transcription: active.analysis?.transcription,
           instruments: active.analysis?.instruments,
-          analysis_status: active.analysisStatus || 'pending',
+          analysis_status: active.analysisStatus || "pending",
         })
-        .select('id')
+        .select("id")
         .single();
 
       if (error) throw error;
@@ -423,7 +417,7 @@ class ReferenceManagerService {
 
       return data.id;
     } catch (error) {
-      logger.error('Failed to persist reference to database', { error });
+      logger.error("Failed to persist reference to database", { error });
       return null;
     }
   }
@@ -453,14 +447,14 @@ class ReferenceManagerService {
   private cleanupExpired(): void {
     // Legacy keys to migrate/cleanup
     const legacyKeys = [
-      'cloudAudioReference',
-      'stem_audio_reference',
-      'audioReferenceFromDrums',
-      'audioReferenceFromDJ',
-      'drumPatternForDJ',
+      "cloudAudioReference",
+      "stem_audio_reference",
+      "audioReferenceFromDrums",
+      "audioReferenceFromDJ",
+      "drumPatternForDJ",
     ];
 
-    legacyKeys.forEach(key => {
+    legacyKeys.forEach((key) => {
       sessionStorage.removeItem(key);
       localStorage.removeItem(key);
     });

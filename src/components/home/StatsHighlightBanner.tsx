@@ -4,13 +4,13 @@
  * Updated with unified glassmorphism and design tokens
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Music, Users, Sparkles, Headphones } from 'lucide-react';
-import { usePlatformStats } from '@/hooks/usePlatformStats';
-import { Skeleton } from '@/components/ui/skeleton';
-import { glass } from '@/lib/glass';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Music, Users, Sparkles, Headphones } from "lucide-react";
+import { usePlatformStats } from "@/hooks/usePlatformStats";
+import { Skeleton } from "@/components/ui/skeleton";
+import { glass } from "@/lib/glass";
 
 interface StatsHighlightBannerProps {
   className?: string;
@@ -18,54 +18,52 @@ interface StatsHighlightBannerProps {
 
 const statColors = {
   tracks: {
-    text: 'text-primary',
-    bg: 'bg-primary/15',
-    border: 'border-primary/20',
+    text: "text-primary",
+    bg: "bg-primary/15",
+    border: "border-primary/20",
   },
   users: {
-    text: 'text-emerald-400',
-    bg: 'bg-emerald-500/15',
-    border: 'border-emerald-500/20',
+    text: "text-emerald-400",
+    bg: "bg-emerald-500/15",
+    border: "border-emerald-500/20",
   },
   ai: {
-    text: 'text-amber-400',
-    bg: 'bg-amber-500/15',
-    border: 'border-amber-500/20',
+    text: "text-amber-400",
+    bg: "bg-amber-500/15",
+    border: "border-amber-500/20",
   },
   plays: {
-    text: 'text-purple-400',
-    bg: 'bg-purple-500/15',
-    border: 'border-purple-500/20',
+    text: "text-purple-400",
+    bg: "bg-purple-500/15",
+    border: "border-purple-500/20",
   },
 } as const;
 
-export const StatsHighlightBanner = memo(function StatsHighlightBanner({
-  className,
-}: StatsHighlightBannerProps) {
+export const StatsHighlightBanner = memo(function StatsHighlightBanner({ className }: StatsHighlightBannerProps) {
   const { formatted, isLoading } = usePlatformStats();
 
   const stats = [
-    { 
-      id: 'tracks' as const, 
-      label: 'Треков', 
+    {
+      id: "tracks" as const,
+      label: "Треков",
       value: formatted.tracks,
       icon: Music,
     },
-    { 
-      id: 'users' as const, 
-      label: 'Авторов', 
+    {
+      id: "users" as const,
+      label: "Авторов",
       value: formatted.users,
       icon: Users,
     },
-    { 
-      id: 'ai' as const, 
-      label: 'AI генераций', 
+    {
+      id: "ai" as const,
+      label: "AI генераций",
       value: formatted.generations,
       icon: Sparkles,
     },
-    { 
-      id: 'plays' as const, 
-      label: 'Прослушиваний', 
+    {
+      id: "plays" as const,
+      label: "Прослушиваний",
       value: formatted.plays,
       icon: Headphones,
     },
@@ -78,7 +76,7 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
         // mobile cleanly. Previous lg:grid-cols-4 caused clipped labels when
         // rendered inside the right rail.
         "grid grid-cols-2 gap-2 sm:gap-3",
-        className
+        className,
       )}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -87,7 +85,7 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
       {stats.map((stat, index) => {
         const Icon = stat.icon;
         const colors = statColors[stat.id];
-        
+
         return (
           <motion.div
             key={stat.id}
@@ -97,18 +95,20 @@ export const StatsHighlightBanner = memo(function StatsHighlightBanner({
               "border",
               colors.border,
               "hover:bg-card/70 hover:shadow-sm hover:border-opacity-50 transition-all duration-200",
-              "group cursor-default"
+              "group cursor-default",
             )}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: index * 0.05 + 0.1 }}
             whileHover={{ scale: 1.02 }}
           >
-            <div className={cn(
-              "w-8 h-8 lg:w-9 lg:h-9 rounded-lg flex items-center justify-center shrink-0",
-              colors.bg,
-              "group-hover:scale-110 transition-transform duration-200"
-            )}>
+            <div
+              className={cn(
+                "w-8 h-8 lg:w-9 lg:h-9 rounded-lg flex items-center justify-center shrink-0",
+                colors.bg,
+                "group-hover:scale-110 transition-transform duration-200",
+              )}
+            >
               <Icon className={cn("w-4 h-4 lg:w-4.5 lg:h-4.5", colors.text)} />
             </div>
             <div className="flex flex-col min-w-0">

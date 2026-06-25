@@ -2,12 +2,12 @@
  * Hook for parsing MIDI files from URL and extracting notes
  * Uses dynamic import of @tonejs/midi to prevent vendor-audio chunk issues
  */
-import { useState, useCallback } from 'react';
-import { logger } from '@/lib/logger';
+import { useState, useCallback } from "react";
+import { logger } from "@/lib/logger";
 
-type MidiType = typeof import('@tonejs/midi');
+type MidiType = typeof import("@tonejs/midi");
 
-const log = logger.child({ module: 'MidiFileParser' });
+const log = logger.child({ module: "MidiFileParser" });
 
 export interface ParsedMidiNote {
   pitch: number;
@@ -27,7 +27,7 @@ interface ParsedMidi {
   trackNames: string[];
 }
 
-const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 function midiToNoteName(midi: number): string {
   const octave = Math.floor(midi / 12) - 1;
@@ -45,11 +45,11 @@ export function useMidiFileParser() {
     setError(null);
 
     try {
-      log.info('Fetching MIDI file', { midiUrl });
+      log.info("Fetching MIDI file", { midiUrl });
 
       // Dynamic import to prevent bundling issues
-      const { Midi } = await import('@tonejs/midi') as MidiType;
-      
+      const { Midi } = (await import("@tonejs/midi")) as MidiType;
+
       const response = await fetch(midiUrl);
       if (!response.ok) {
         throw new Error(`Failed to fetch MIDI: ${response.status}`);
@@ -63,7 +63,7 @@ export function useMidiFileParser() {
 
       midi.tracks.forEach((track, trackIndex) => {
         trackNames.push(track.name || `Track ${trackIndex + 1}`);
-        
+
         track.notes.forEach((note) => {
           notes.push({
             pitch: note.midi,
@@ -100,17 +100,17 @@ export function useMidiFileParser() {
       };
 
       setParsedMidi(result);
-      log.info('MIDI parsed successfully', { 
-        notesCount: notes.length, 
+      log.info("MIDI parsed successfully", {
+        notesCount: notes.length,
         duration: midi.duration,
-        bpm 
+        bpm,
       });
 
       return result;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
       setError(errorMessage);
-      log.error('Failed to parse MIDI', { error: errorMessage });
+      log.error("Failed to parse MIDI", { error: errorMessage });
       return null;
     } finally {
       setIsLoading(false);

@@ -3,9 +3,9 @@
  * Tracks successful generations and provides recommendations
  */
 
-import { useMemo, useCallback } from 'react';
-import { usePromptDJStore, selectHistory, selectTopRatedPrompts } from './usePromptDJStore';
-import { PromptChannel, GlobalSettings } from './usePromptDJEnhanced';
+import { useMemo, useCallback } from "react";
+import { usePromptDJStore, selectHistory, selectTopRatedPrompts } from "./usePromptDJStore";
+import { PromptChannel, GlobalSettings } from "./usePromptDJEnhanced";
 
 interface PromptAnalytics {
   topGenres: Array<{ value: string; count: number }>;
@@ -41,7 +41,6 @@ export function usePromptHistory() {
     usePromptDJStore.getState().addToHistory(entry);
   }, []);
 
-
   const rateHistoryEntry = useCallback((id: string, rating: number) => {
     usePromptDJStore.getState().rateHistoryEntry(id, rating);
   }, []);
@@ -49,7 +48,6 @@ export function usePromptHistory() {
   const clearHistory = useCallback(() => {
     usePromptDJStore.getState().clearHistory();
   }, []);
-
 
   // Analyze user's generation patterns
   const analytics = useMemo((): PromptAnalytics => {
@@ -75,13 +73,13 @@ export function usePromptHistory() {
     let ratedCount = 0;
     let highRatedCount = 0;
 
-    history.forEach(entry => {
+    history.forEach((entry) => {
       // Analyze channels
-      entry.channels.forEach(channel => {
+      entry.channels.forEach((channel) => {
         if (channel.enabled && channel.value) {
-          if (channel.type === 'genre') {
+          if (channel.type === "genre") {
             genreCounts.set(channel.value, (genreCounts.get(channel.value) || 0) + 1);
-          } else if (channel.type === 'mood') {
+          } else if (channel.type === "mood") {
             moodCounts.set(channel.value, (moodCounts.get(channel.value) || 0) + 1);
           }
         }
@@ -91,10 +89,7 @@ export function usePromptHistory() {
       totalBPM += entry.settings.bpm;
       totalDensity += entry.settings.density;
       totalBrightness += entry.settings.brightness;
-      durationCounts.set(
-        entry.settings.duration,
-        (durationCounts.get(entry.settings.duration) || 0) + 1
-      );
+      durationCounts.set(entry.settings.duration, (durationCounts.get(entry.settings.duration) || 0) + 1);
 
       // Track ratings
       if (entry.rating !== undefined) {
@@ -132,110 +127,110 @@ export function usePromptHistory() {
   }, [history]);
 
   // Find prompts similar to current
-  const findSimilarPrompts = useCallback((
-    currentPrompt: string,
-    maxResults: number = 5
-  ): SimilarPrompt[] => {
-    if (!currentPrompt || history.length === 0) return [];
+  const findSimilarPrompts = useCallback(
+    (currentPrompt: string, maxResults: number = 5): SimilarPrompt[] => {
+      if (!currentPrompt || history.length === 0) return [];
 
-    const currentWords = new Set(
-      currentPrompt.toLowerCase().split(/[,\s]+/).filter(w => w.length > 2)
-    );
+      const currentWords = new Set(
+        currentPrompt
+          .toLowerCase()
+          .split(/[,\s]+/)
+          .filter((w) => w.length > 2),
+      );
 
-    return history
-      .map(entry => {
-        const historyWords = new Set(
-          entry.prompt.toLowerCase().split(/[,\s]+/).filter(w => w.length > 2)
-        );
-        
-        // Calculate Jaccard similarity
-        const intersection = new Set(
-          [...currentWords].filter(w => historyWords.has(w))
-        );
-        const union = new Set([...currentWords, ...historyWords]);
-        const similarity = intersection.size / union.size;
+      return history
+        .map((entry) => {
+          const historyWords = new Set(
+            entry.prompt
+              .toLowerCase()
+              .split(/[,\s]+/)
+              .filter((w) => w.length > 2),
+          );
 
-        return {
-          prompt: entry.prompt,
-          similarity,
-          audioUrl: entry.audioUrl,
-          rating: entry.rating,
-        };
-      })
-      .filter(item => item.similarity > 0.2 && item.similarity < 1) // Not identical
-      .sort((a, b) => b.similarity - a.similarity)
-      .slice(0, maxResults);
-  }, [history]);
+          // Calculate Jaccard similarity
+          const intersection = new Set([...currentWords].filter((w) => historyWords.has(w)));
+          const union = new Set([...currentWords, ...historyWords]);
+          const similarity = intersection.size / union.size;
+
+          return {
+            prompt: entry.prompt,
+            similarity,
+            audioUrl: entry.audioUrl,
+            rating: entry.rating,
+          };
+        })
+        .filter((item) => item.similarity > 0.2 && item.similarity < 1) // Not identical
+        .sort((a, b) => b.similarity - a.similarity)
+        .slice(0, maxResults);
+    },
+    [history],
+  );
 
   // Get recommendations based on history
-  const getRecommendations = useCallback((
-    currentChannels: PromptChannel[],
-    count: number = 3
-  ): Array<{ type: string; value: string; reason: string }> => {
-    const recommendations: Array<{ type: string; value: string; reason: string }> = [];
+  const getRecommendations = useCallback(
+    (currentChannels: PromptChannel[], count: number = 3): Array<{ type: string; value: string; reason: string }> => {
+      const recommendations: Array<{ type: string; value: string; reason: string }> = [];
 
-    // Get currently active values
-    const activeGenres = new Set(
-      currentChannels.filter(c => c.type === 'genre' && c.enabled).map(c => c.value)
-    );
-    const activeMoods = new Set(
-      currentChannels.filter(c => c.type === 'mood' && c.enabled).map(c => c.value)
-    );
+      // Get currently active values
+      const activeGenres = new Set(currentChannels.filter((c) => c.type === "genre" && c.enabled).map((c) => c.value));
+      const activeMoods = new Set(currentChannels.filter((c) => c.type === "mood" && c.enabled).map((c) => c.value));
 
-    // Recommend popular genres not currently used
-    analytics.topGenres.forEach(({ value }) => {
-      if (!activeGenres.has(value) && recommendations.length < count) {
-        recommendations.push({
-          type: 'genre',
-          value,
-          reason: 'Часто используется в ваших миксах',
-        });
-      }
-    });
+      // Recommend popular genres not currently used
+      analytics.topGenres.forEach(({ value }) => {
+        if (!activeGenres.has(value) && recommendations.length < count) {
+          recommendations.push({
+            type: "genre",
+            value,
+            reason: "Часто используется в ваших миксах",
+          });
+        }
+      });
 
-    // Recommend popular moods
-    analytics.topMoods.forEach(({ value }) => {
-      if (!activeMoods.has(value) && recommendations.length < count) {
-        recommendations.push({
-          type: 'mood',
-          value,
-          reason: 'Хорошо сочетается с вашим стилем',
-        });
-      }
-    });
+      // Recommend popular moods
+      analytics.topMoods.forEach(({ value }) => {
+        if (!activeMoods.has(value) && recommendations.length < count) {
+          recommendations.push({
+            type: "mood",
+            value,
+            reason: "Хорошо сочетается с вашим стилем",
+          });
+        }
+      });
 
-    // Recommend from top-rated prompts
-    topRated.slice(0, 2).forEach(entry => {
-      const unusedChannel = entry.channels.find(
-        c => c.enabled && c.value && 
-        !currentChannels.some(cc => cc.type === c.type && cc.value === c.value && cc.enabled)
-      );
-      if (unusedChannel && recommendations.length < count) {
-        recommendations.push({
-          type: unusedChannel.type,
-          value: unusedChannel.value,
-          reason: 'Из вашего топ-микса',
-        });
-      }
-    });
+      // Recommend from top-rated prompts
+      topRated.slice(0, 2).forEach((entry) => {
+        const unusedChannel = entry.channels.find(
+          (c) =>
+            c.enabled &&
+            c.value &&
+            !currentChannels.some((cc) => cc.type === c.type && cc.value === c.value && cc.enabled),
+        );
+        if (unusedChannel && recommendations.length < count) {
+          recommendations.push({
+            type: unusedChannel.type,
+            value: unusedChannel.value,
+            reason: "Из вашего топ-микса",
+          });
+        }
+      });
 
-    return recommendations.slice(0, count);
-  }, [analytics, topRated]);
+      return recommendations.slice(0, count);
+    },
+    [analytics, topRated],
+  );
 
   // Save generation to history
-  const saveGeneration = useCallback((
-    prompt: string,
-    channels: PromptChannel[],
-    settings: GlobalSettings,
-    audioUrl?: string
-  ) => {
-    addToHistory({
-      prompt,
-      channels: [...channels], // Clone to prevent mutations
-      settings: { ...settings },
-      audioUrl,
-    });
-  }, [addToHistory]);
+  const saveGeneration = useCallback(
+    (prompt: string, channels: PromptChannel[], settings: GlobalSettings, audioUrl?: string) => {
+      addToHistory({
+        prompt,
+        channels: [...channels], // Clone to prevent mutations
+        settings: { ...settings },
+        audioUrl,
+      });
+    },
+    [addToHistory],
+  );
 
   return {
     history,

@@ -3,35 +3,35 @@
  * Logs user actions in studio for analytics and debugging
  */
 
-import { useCallback, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { useCallback, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 export type StudioAction =
-  | 'studio_open'
-  | 'studio_close'
-  | 'play'
-  | 'pause'
-  | 'seek'
-  | 'section_select'
-  | 'section_preview'
-  | 'replacement_start'
-  | 'replacement_complete'
-  | 'replacement_apply'
-  | 'replacement_discard'
-  | 'version_switch'
-  | 'version_compare'
-  | 'stem_mute'
-  | 'stem_solo'
-  | 'stem_volume'
-  | 'stem_separate_start'
-  | 'stem_separate_complete'
-  | 'export_start'
-  | 'export_complete'
-  | 'trim_start'
-  | 'trim_complete'
-  | 'remix_start'
-  | 'extend_start';
+  | "studio_open"
+  | "studio_close"
+  | "play"
+  | "pause"
+  | "seek"
+  | "section_select"
+  | "section_preview"
+  | "replacement_start"
+  | "replacement_complete"
+  | "replacement_apply"
+  | "replacement_discard"
+  | "version_switch"
+  | "version_compare"
+  | "stem_mute"
+  | "stem_solo"
+  | "stem_volume"
+  | "stem_separate_start"
+  | "stem_separate_complete"
+  | "export_start"
+  | "export_complete"
+  | "trim_start"
+  | "trim_complete"
+  | "remix_start"
+  | "extend_start";
 
 interface ActivityMetadata {
   trackId?: string;
@@ -45,12 +45,12 @@ interface ActivityMetadata {
 
 // Important actions that should be logged to track_change_log
 const IMPORTANT_ACTIONS = [
-  'replacement_apply',
-  'replacement_discard',
-  'version_switch',
-  'stem_separate_complete',
-  'export_complete',
-  'trim_complete'
+  "replacement_apply",
+  "replacement_discard",
+  "version_switch",
+  "stem_separate_complete",
+  "export_complete",
+  "trim_complete",
 ];
 
 export function useStudioActivityLogger(trackId: string) {
@@ -65,63 +65,75 @@ export function useStudioActivityLogger(trackId: string) {
     return sessionIdRef.current;
   }, [trackId]);
 
-  const logActivity = useCallback(async (
-    action: StudioAction,
-    metadata?: ActivityMetadata
-  ) => {
-    try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const logActivity = useCallback(
+    async (action: StudioAction, metadata?: ActivityMetadata) => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) return;
 
-      const sessionId = getSessionId();
-      const sessionDuration = Date.now() - sessionStartRef.current;
+        const sessionId = getSessionId();
+        const sessionDuration = Date.now() - sessionStartRef.current;
 
-      // Log to track_change_log for important actions
-      if (IMPORTANT_ACTIONS.includes(action)) {
-        await supabase.from('track_change_log').insert({
-          track_id: trackId,
-          change_type: action,
-          changed_by: 'user',
-          user_id: user.id,
-          new_value: JSON.stringify(metadata || {}),
-          version_id: metadata?.versionId,
+        // Log to track_change_log for important actions
+        if (IMPORTANT_ACTIONS.includes(action)) {
+          await supabase.from("track_change_log").insert({
+            track_id: trackId,
+            change_type: action,
+            changed_by: "user",
+            user_id: user.id,
+            new_value: JSON.stringify(metadata || {}),
+            version_id: metadata?.versionId,
+          });
+        }
+
+        // Log to console in development
+        logger.debug(`[Studio Activity] ${action}`, {
+          trackId,
+          sessionId,
+          sessionDuration,
+          ...metadata,
         });
+      } catch (error) {
+        logger.error("Failed to log studio activity", error);
       }
-
-      // Log to console in development
-      logger.debug(`[Studio Activity] ${action}`, {
-        trackId,
-        sessionId,
-        sessionDuration,
-        ...metadata
-      });
-    } catch (error) {
-      logger.error('Failed to log studio activity', error);
-    }
-  }, [trackId, getSessionId]);
+    },
+    [trackId, getSessionId],
+  );
 
   // Convenience methods
-  const logPlay = useCallback(() => logActivity('play'), [logActivity]);
-  const logPause = useCallback(() => logActivity('pause'), [logActivity]);
-  const logSeek = useCallback((time: number) => logActivity('seek', { value: time }), [logActivity]);
-  
-  const logSectionSelect = useCallback((start: number, end: number) => 
-    logActivity('section_select', { sectionStart: start, sectionEnd: end }), [logActivity]);
-  
-  const logReplacementStart = useCallback((start: number, end: number) =>
-    logActivity('replacement_start', { sectionStart: start, sectionEnd: end }), [logActivity]);
-  
-  const logReplacementApply = useCallback((versionId: string) =>
-    logActivity('replacement_apply', { versionId }), [logActivity]);
-  
-  const logReplacementDiscard = useCallback(() =>
-    logActivity('replacement_discard'), [logActivity]);
-  
-  const logVersionSwitch = useCallback((versionId: string) =>
-    logActivity('version_switch', { versionId }), [logActivity]);
-  
-  const logStemAction = useCallback((stemType: string, action: 'mute' | 'solo' | 'volume', value?: number) =>
-    logActivity(`stem_${action}`, { stemType, value }), [logActivity]);
+  const logPlay = useCallback(() => logActivity("play"), [logActivity]);
+  const logPause = useCallback(() => logActivity("pause"), [logActivity]);
+  const logSeek = useCallback((time: number) => logActivity("seek", { value: time }), [logActivity]);
+
+  const logSectionSelect = useCallback(
+    (start: number, end: number) => logActivity("section_select", { sectionStart: start, sectionEnd: end }),
+    [logActivity],
+  );
+
+  const logReplacementStart = useCallback(
+    (start: number, end: number) => logActivity("replacement_start", { sectionStart: start, sectionEnd: end }),
+    [logActivity],
+  );
+
+  const logReplacementApply = useCallback(
+    (versionId: string) => logActivity("replacement_apply", { versionId }),
+    [logActivity],
+  );
+
+  const logReplacementDiscard = useCallback(() => logActivity("replacement_discard"), [logActivity]);
+
+  const logVersionSwitch = useCallback(
+    (versionId: string) => logActivity("version_switch", { versionId }),
+    [logActivity],
+  );
+
+  const logStemAction = useCallback(
+    (stemType: string, action: "mute" | "solo" | "volume", value?: number) =>
+      logActivity(`stem_${action}`, { stemType, value }),
+    [logActivity],
+  );
 
   return {
     logActivity,

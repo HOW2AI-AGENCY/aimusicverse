@@ -3,56 +3,67 @@
  * Optimized for virtualized lists with minimal re-renders
  */
 
-import { memo, useCallback, useState } from 'react';
-import { Volume2, VolumeX, MoreHorizontal, Music, Mic2, Guitar, Drum, Waves, Sliders, GripVertical } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { cn } from '@/lib/utils';
-import { UnifiedWaveform, type StemType } from '@/components/waveform/UnifiedWaveform';
+import { memo, useCallback, useState } from "react";
+import {
+  Volume2,
+  VolumeX,
+  MoreHorizontal,
+  Music,
+  Mic2,
+  Guitar,
+  Drum,
+  Waves,
+  Sliders,
+  GripVertical,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
+import { UnifiedWaveform, type StemType } from "@/components/waveform/UnifiedWaveform";
 
 // Track type configuration - static, not recreated
 const TRACK_CONFIG = {
-  main: { 
-    icon: Music, 
-    shortLabel: 'MAIN',
-    gradient: 'from-primary/20 to-primary/5',
-    accent: 'text-primary bg-primary/20 border-primary/30'
+  main: {
+    icon: Music,
+    shortLabel: "MAIN",
+    gradient: "from-primary/20 to-primary/5",
+    accent: "text-primary bg-primary/20 border-primary/30",
   },
-  vocal: { 
-    icon: Mic2, 
-    shortLabel: 'VOX',
-    gradient: 'from-blue-500/20 to-blue-600/5',
-    accent: 'text-blue-400 bg-blue-500/20 border-blue-500/30'
+  vocal: {
+    icon: Mic2,
+    shortLabel: "VOX",
+    gradient: "from-blue-500/20 to-blue-600/5",
+    accent: "text-blue-400 bg-blue-500/20 border-blue-500/30",
   },
-  instrumental: { 
-    icon: Guitar, 
-    shortLabel: 'INS',
-    gradient: 'from-green-500/20 to-green-600/5',
-    accent: 'text-green-400 bg-green-500/20 border-green-500/30'
+  instrumental: {
+    icon: Guitar,
+    shortLabel: "INS",
+    gradient: "from-green-500/20 to-green-600/5",
+    accent: "text-green-400 bg-green-500/20 border-green-500/30",
   },
-  drums: { 
-    icon: Drum, 
-    shortLabel: 'DRM',
-    gradient: 'from-orange-500/20 to-orange-600/5',
-    accent: 'text-orange-400 bg-orange-500/20 border-orange-500/30'
+  drums: {
+    icon: Drum,
+    shortLabel: "DRM",
+    gradient: "from-orange-500/20 to-orange-600/5",
+    accent: "text-orange-400 bg-orange-500/20 border-orange-500/30",
   },
-  bass: { 
-    icon: Waves, 
-    shortLabel: 'BAS',
-    gradient: 'from-purple-500/20 to-purple-600/5',
-    accent: 'text-purple-400 bg-purple-500/20 border-purple-500/30'
+  bass: {
+    icon: Waves,
+    shortLabel: "BAS",
+    gradient: "from-purple-500/20 to-purple-600/5",
+    accent: "text-purple-400 bg-purple-500/20 border-purple-500/30",
   },
-  stem: { 
-    icon: Sliders, 
-    shortLabel: 'STM',
-    gradient: 'from-cyan-500/20 to-cyan-600/5',
-    accent: 'text-cyan-400 bg-cyan-500/20 border-cyan-500/30'
+  stem: {
+    icon: Sliders,
+    shortLabel: "STM",
+    gradient: "from-cyan-500/20 to-cyan-600/5",
+    accent: "text-cyan-400 bg-cyan-500/20 border-cyan-500/30",
   },
-  other: { 
-    icon: Music, 
-    shortLabel: 'OTH',
-    gradient: 'from-gray-500/20 to-gray-600/5',
-    accent: 'text-gray-400 bg-gray-500/20 border-gray-500/30'
+  other: {
+    icon: Music,
+    shortLabel: "OTH",
+    gradient: "from-gray-500/20 to-gray-600/5",
+    accent: "text-gray-400 bg-gray-500/20 border-gray-500/30",
   },
 } as const;
 
@@ -107,23 +118,21 @@ const TrackControls = memo(function TrackControls({
         onClick={onToggleMute}
         className={cn(
           "h-8 w-8 p-0 rounded-lg font-mono text-[10px] font-bold touch-manipulation",
-          muted 
-            ? "bg-destructive text-destructive-foreground" 
-            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+          muted
+            ? "bg-destructive text-destructive-foreground"
+            : "text-muted-foreground hover:text-foreground hover:bg-muted",
         )}
       >
         M
       </Button>
-      
+
       <Button
         variant="ghost"
         size="sm"
         onClick={onToggleSolo}
         className={cn(
           "h-8 w-8 p-0 rounded-lg font-mono text-[10px] font-bold touch-manipulation",
-          solo 
-            ? "bg-primary text-primary-foreground" 
-            : "text-muted-foreground hover:text-foreground hover:bg-muted"
+          solo ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted",
         )}
       >
         S
@@ -133,21 +142,13 @@ const TrackControls = memo(function TrackControls({
         variant="ghost"
         size="sm"
         onClick={onToggleVolume}
-        className={cn(
-          "h-8 px-2 rounded-lg text-[10px] font-mono touch-manipulation",
-          showVolume && "bg-muted"
-        )}
+        className={cn("h-8 px-2 rounded-lg text-[10px] font-mono touch-manipulation", showVolume && "bg-muted")}
       >
         {Math.round(volume * 100)}
       </Button>
 
       {onOpenMenu && (
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-8 w-8 p-0 rounded-lg touch-manipulation"
-          onClick={onOpenMenu}
-        >
+        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg touch-manipulation" onClick={onOpenMenu}>
           <MoreHorizontal className="w-4 h-4" />
         </Button>
       )}
@@ -170,12 +171,7 @@ const VolumeSlider = memo(function VolumeSlider({
   return (
     <div className="px-3 pb-2">
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-6 w-6"
-          onClick={onToggleMute}
-        >
+        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onToggleMute}>
           {muted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
         </Button>
         <Slider
@@ -211,10 +207,10 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
   onOpenMenu,
 }: OptimizedTrackRowProps) {
   const [showVolume, setShowVolume] = useState(false);
-  
+
   const config = TRACK_CONFIG[type] || TRACK_CONFIG.other;
   const Icon = config.icon;
-  
+
   // Effective muted state
   const effectiveMuted = muted || (hasSoloTracks && !solo);
 
@@ -223,35 +219,30 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
   const handleToggleSolo = useCallback(() => onToggleSolo(id), [id, onToggleSolo]);
   const handleVolumeChange = useCallback((v: number) => onVolumeChange(id, v), [id, onVolumeChange]);
   const handleOpenMenu = useCallback(() => onOpenMenu?.(id), [id, onOpenMenu]);
-  const handleToggleVolume = useCallback(() => setShowVolume(v => !v), []);
+  const handleToggleVolume = useCallback(() => setShowVolume((v) => !v), []);
 
   return (
     <div className={cn("relative", effectiveMuted && "opacity-50")}>
-      <div className={cn(
-        "flex flex-col rounded-xl overflow-hidden",
-        "bg-gradient-to-r",
-        config.gradient,
-        "border border-border/30"
-      )}>
+      <div
+        className={cn(
+          "flex flex-col rounded-xl overflow-hidden",
+          "bg-gradient-to-r",
+          config.gradient,
+          "border border-border/30",
+        )}
+      >
         {/* Header */}
         <div className="flex items-center gap-2 px-3 py-2">
           <GripVertical className="h-4 w-4 text-muted-foreground/50 cursor-grab" />
-          
+
           {/* Track icon + label */}
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            <div className={cn(
-              "w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border",
-              config.accent
-            )}>
+            <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border", config.accent)}>
               <Icon className="w-3.5 h-3.5" />
             </div>
             <div className="min-w-0 flex-1">
-              <span className="text-xs font-mono font-semibold truncate block">
-                {name}
-              </span>
-              <span className="text-[10px] text-muted-foreground">
-                {config.shortLabel}
-              </span>
+              <span className="text-xs font-mono font-semibold truncate block">{name}</span>
+              <span className="text-[10px] text-muted-foreground">{config.shortLabel}</span>
             </div>
           </div>
 
@@ -294,11 +285,11 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
                 onSeek={onSeek}
               />
               {duration > 0 && (
-                <div 
+                <div
                   className="absolute top-0 bottom-0 w-0.5 bg-primary pointer-events-none z-10"
-                  style={{ 
+                  style={{
                     left: `${(currentTime / duration) * 100}%`,
-                    boxShadow: '0 0 6px var(--primary)',
+                    boxShadow: "0 0 6px var(--primary)",
                   }}
                 />
               )}

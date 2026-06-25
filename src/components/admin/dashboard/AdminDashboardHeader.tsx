@@ -1,13 +1,13 @@
 /**
  * Admin Dashboard Header Component
- * 
+ *
  * Header with title and refresh button for admin dashboard.
- * 
+ *
  * @module components/admin/dashboard/AdminDashboardHeader
  */
 
-import { Button } from '@/components/ui/button';
-import { Shield, RefreshCw } from 'lucide-react';
+import { Button } from "@/components/ui/button";
+import { Shield, RefreshCw } from "lucide-react";
 
 interface AdminDashboardHeaderProps {
   /** Callback to refresh all data */
@@ -16,7 +16,7 @@ interface AdminDashboardHeaderProps {
 
 /**
  * Admin dashboard header with title and refresh action
- * 
+ *
  * @example
  * ```tsx
  * <AdminDashboardHeader onRefresh={dashboard.refetchMetrics} />

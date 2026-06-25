@@ -3,14 +3,14 @@
  * Matches MainLayout structure to prevent content shifting
  */
 
-import { memo } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { memo } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface PageSkeletonProps {
   /** Page type for optimized skeleton */
-  variant?: 'default' | 'library' | 'projects' | 'settings' | 'profile' | 'studio';
+  variant?: "default" | "library" | "projects" | "settings" | "profile" | "studio";
   /** Show header skeleton */
   showHeader?: boolean;
   /** Additional className */
@@ -22,20 +22,17 @@ interface PageSkeletonProps {
  * Prevents layout shifts during page transitions
  */
 export const PageSkeleton = memo(function PageSkeleton({
-  variant = 'default',
+  variant = "default",
   showHeader = true,
   className,
 }: PageSkeletonProps) {
-  const isDesktop = useMediaQuery('(min-width: 640px)');
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
   return (
-    <div 
-      className={cn(
-        "min-h-screen bg-background animate-in fade-in duration-150",
-        className
-      )}
+    <div
+      className={cn("min-h-screen bg-background animate-in fade-in duration-150", className)}
       style={{
-        minHeight: 'var(--tg-viewport-stable-height, 100vh)',
+        minHeight: "var(--tg-viewport-stable-height, 100vh)",
       }}
     >
       {/* Header skeleton */}
@@ -52,12 +49,12 @@ export const PageSkeleton = memo(function PageSkeleton({
       )}
 
       {/* Content skeleton based on variant */}
-      {variant === 'library' && <LibraryContentSkeleton isDesktop={isDesktop} />}
-      {variant === 'projects' && <ProjectsContentSkeleton isDesktop={isDesktop} />}
-      {variant === 'settings' && <SettingsContentSkeleton isDesktop={isDesktop} />}
-      {variant === 'profile' && <ProfileContentSkeleton />}
-      {variant === 'studio' && <StudioContentSkeleton />}
-      {variant === 'default' && <DefaultContentSkeleton isDesktop={isDesktop} />}
+      {variant === "library" && <LibraryContentSkeleton isDesktop={isDesktop} />}
+      {variant === "projects" && <ProjectsContentSkeleton isDesktop={isDesktop} />}
+      {variant === "settings" && <SettingsContentSkeleton isDesktop={isDesktop} />}
+      {variant === "profile" && <ProfileContentSkeleton />}
+      {variant === "studio" && <StudioContentSkeleton />}
+      {variant === "default" && <DefaultContentSkeleton isDesktop={isDesktop} />}
     </div>
   );
 });
@@ -68,20 +65,20 @@ function DefaultContentSkeleton({ isDesktop }: { isDesktop: boolean }) {
     <div className="space-y-6">
       {/* Hero/Banner skeleton */}
       <Skeleton className="h-32 sm:h-40 w-full rounded-xl" />
-      
+
       {/* Section title */}
       <div className="flex items-center justify-between">
         <Skeleton className="h-6 w-32 rounded-lg" />
         <Skeleton className="h-8 w-20 rounded-lg" />
       </div>
-      
+
       {/* Grid skeleton */}
-      <div className={cn(
-        "grid gap-3",
-        isDesktop 
-          ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-          : "grid-cols-2"
-      )}>
+      <div
+        className={cn(
+          "grid gap-3",
+          isDesktop ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" : "grid-cols-2",
+        )}
+      >
         {Array.from({ length: isDesktop ? 10 : 6 }).map((_, i) => (
           <div key={i} className="space-y-2">
             <Skeleton className="w-full aspect-square rounded-xl" />
@@ -104,10 +101,10 @@ function LibraryContentSkeleton({ isDesktop }: { isDesktop: boolean }) {
           <Skeleton key={i} className="h-9 w-20 rounded-full flex-shrink-0" />
         ))}
       </div>
-      
+
       {/* Search bar */}
       <Skeleton className="h-10 w-full rounded-xl" />
-      
+
       {/* Track list */}
       <div className="space-y-2">
         {Array.from({ length: 8 }).map((_, i) => (
@@ -134,12 +131,9 @@ function ProjectsContentSkeleton({ isDesktop }: { isDesktop: boolean }) {
         <Skeleton className="h-10 w-32 rounded-xl" />
         <Skeleton className="h-10 w-24 rounded-xl" />
       </div>
-      
+
       {/* Project cards */}
-      <div className={cn(
-        "grid gap-4",
-        isDesktop ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-1"
-      )}>
+      <div className={cn("grid gap-4", isDesktop ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-1")}>
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="p-4 rounded-xl border border-border/50 space-y-3">
             <div className="flex items-center gap-3">
@@ -172,7 +166,7 @@ function SettingsContentSkeleton({ isDesktop }: { isDesktop: boolean }) {
             <Skeleton key={i} className="h-10 w-full rounded-lg" />
           ))}
         </div>
-        
+
         {/* Content */}
         <div className="flex-1 space-y-4">
           <Skeleton className="h-8 w-48 rounded-lg" />
@@ -191,7 +185,7 @@ function SettingsContentSkeleton({ isDesktop }: { isDesktop: boolean }) {
       </div>
     );
   }
-  
+
   return (
     <div className="space-y-4">
       {Array.from({ length: 6 }).map((_, i) => (
@@ -217,7 +211,7 @@ function ProfileContentSkeleton() {
         <Skeleton className="h-6 w-40 rounded-lg" />
         <Skeleton className="h-4 w-32 rounded-md" />
       </div>
-      
+
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         {Array.from({ length: 3 }).map((_, i) => (
@@ -227,10 +221,10 @@ function ProfileContentSkeleton() {
           </div>
         ))}
       </div>
-      
+
       {/* Content tabs */}
       <Skeleton className="h-10 w-full rounded-xl" />
-      
+
       {/* Track list */}
       <div className="space-y-2">
         {Array.from({ length: 5 }).map((_, i) => (
@@ -262,10 +256,10 @@ function StudioContentSkeleton() {
           <Skeleton className="h-8 w-20 rounded-lg" />
         </div>
       </div>
-      
+
       {/* Waveform area */}
       <Skeleton className="h-24 w-full rounded-xl" />
-      
+
       {/* Mixer/Tracks */}
       <div className="flex-1 space-y-3">
         {Array.from({ length: 4 }).map((_, i) => (
@@ -277,7 +271,7 @@ function StudioContentSkeleton() {
           </div>
         ))}
       </div>
-      
+
       {/* Bottom controls */}
       <div className="flex items-center justify-center gap-4 py-4">
         <Skeleton className="h-10 w-10 rounded-full" />

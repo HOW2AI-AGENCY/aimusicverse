@@ -1,24 +1,35 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  History, Search, Trash2, Copy, 
-  Clock, Music2, Bookmark, BookmarkPlus, Plus, Sparkles, X, TrendingUp, Loader2
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { format, ru } from '@/lib/date-utils';
-import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from './inspirationPrompts';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
-import { usePromptHistorySync } from '@/hooks/usePromptHistorySync';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  History,
+  Search,
+  Trash2,
+  Copy,
+  Clock,
+  Music2,
+  Bookmark,
+  BookmarkPlus,
+  Plus,
+  Sparkles,
+  X,
+  TrendingUp,
+  Loader2,
+} from "lucide-react";
+import { toast } from "sonner";
+import { format, ru } from "@/lib/date-utils";
+import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from "./inspirationPrompts";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
+import { usePromptHistorySync } from "@/hooks/usePromptHistorySync";
 
-export type PromptMode = 'simple' | 'custom' | 'wizard';
+export type PromptMode = "simple" | "custom" | "wizard";
 
 export interface PromptHistoryItem {
   id: string;
@@ -77,12 +88,12 @@ const scrollbarStyles = `
 export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHistoryProps) {
   const [localHistory, setLocalHistory] = useState<PromptHistoryItem[]>([]);
   const [savedPrompts, setSavedPrompts] = useState<SavedPrompt[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<'history' | 'inspiration' | 'saved'>('history');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState<"history" | "inspiration" | "saved">("history");
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [newPrompt, setNewPrompt] = useState<Partial<SavedPrompt>>({
-    mode: 'simple',
-    model: 'V4_5ALL',
+    mode: "simple",
+    model: "V4_5ALL",
   });
   const [inspirationUsage, setInspirationUsage] = useState<Record<string, number>>({});
 
@@ -97,9 +108,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     const loadData = () => {
       try {
         // Load local history as fallback
-        const storedHistory = localStorage.getItem('musicverse_prompt_history');
+        const storedHistory = localStorage.getItem("musicverse_prompt_history");
         if (storedHistory) {
-          const parsed = JSON.parse(storedHistory) as Array<Omit<PromptHistoryItem, 'timestamp'> & { timestamp: string }>;
+          const parsed = JSON.parse(storedHistory) as Array<
+            Omit<PromptHistoryItem, "timestamp"> & { timestamp: string }
+          >;
           const items = parsed.map((item) => ({
             ...item,
             timestamp: new Date(item.timestamp),
@@ -107,10 +120,10 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
           setLocalHistory(items);
         }
 
-        // Load saved prompts from localStorage 
-        const storedSaved = localStorage.getItem('musicverse_saved_prompts');
+        // Load saved prompts from localStorage
+        const storedSaved = localStorage.getItem("musicverse_saved_prompts");
         if (storedSaved) {
-          const parsed = JSON.parse(storedSaved) as Array<Omit<SavedPrompt, 'createdAt'> & { createdAt: string }>;
+          const parsed = JSON.parse(storedSaved) as Array<Omit<SavedPrompt, "createdAt"> & { createdAt: string }>;
           const items = parsed.map((item) => ({
             ...item,
             createdAt: new Date(item.createdAt),
@@ -120,12 +133,12 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 
         // Load inspiration usage
         const usage: Record<string, number> = {};
-        INSPIRATION_PROMPTS.forEach(p => {
+        INSPIRATION_PROMPTS.forEach((p) => {
           usage[p.id] = getPromptUsageCount(p.id);
         });
         setInspirationUsage(usage);
       } catch (error) {
-        logger.error('Failed to load data', { error });
+        logger.error("Failed to load data", { error });
       }
     };
 
@@ -135,7 +148,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
   }, [open]);
 
   // Filter items based on search
-  const filteredHistory = history.filter(item => {
+  const filteredHistory = history.filter((item) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
@@ -145,7 +158,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     );
   });
 
-  const filteredInspiration = INSPIRATION_PROMPTS.filter(item => {
+  const filteredInspiration = INSPIRATION_PROMPTS.filter((item) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
@@ -156,7 +169,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     );
   });
 
-  const filteredSaved = savedPrompts.filter(item => {
+  const filteredSaved = savedPrompts.filter((item) => {
     if (!searchQuery) return true;
     const query = searchQuery.toLowerCase();
     return (
@@ -168,25 +181,23 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 
   const handleSelectHistory = (item: PromptHistoryItem) => {
     // Update usage count in local storage
-    const localHistoryRaw = localStorage.getItem('musicverse_prompt_history');
+    const localHistoryRaw = localStorage.getItem("musicverse_prompt_history");
     if (localHistoryRaw) {
       const parsed = JSON.parse(localHistoryRaw);
-      const updated = parsed.map((h: any) => 
-        h.id === item.id 
-          ? { ...h, usageCount: (h.usageCount || 0) + 1, lastUsed: new Date().toISOString() }
-          : h
+      const updated = parsed.map((h: any) =>
+        h.id === item.id ? { ...h, usageCount: (h.usageCount || 0) + 1, lastUsed: new Date().toISOString() } : h,
       );
-      localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
+      localStorage.setItem("musicverse_prompt_history", JSON.stringify(updated));
     }
-    
+
     onSelectPrompt(item);
     onOpenChange(false);
-    toast.success('Промпт загружен');
+    toast.success("Промпт загружен");
   };
 
-  const handleSelectInspiration = (item: typeof INSPIRATION_PROMPTS[0]) => {
+  const handleSelectInspiration = (item: (typeof INSPIRATION_PROMPTS)[0]) => {
     incrementPromptUsage(item.id);
-    setInspirationUsage(prev => ({
+    setInspirationUsage((prev) => ({
       ...prev,
       [item.id]: (prev[item.id] || 0) + 1,
     }));
@@ -195,14 +206,14 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
       id: `inspiration-${Date.now()}`,
       timestamp: new Date(),
       usageCount: 1,
-      mode: 'simple',
+      mode: "simple",
       description: item.description,
       style: item.style,
-      model: 'V4_5ALL',
+      model: "V4_5ALL",
     };
     onSelectPrompt(prompt);
     onOpenChange(false);
-    toast.success('Промпт для вдохновения загружен');
+    toast.success("Промпт для вдохновения загружен");
   };
 
   const handleSelectSaved = (item: SavedPrompt) => {
@@ -219,34 +230,34 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
     };
     onSelectPrompt(prompt);
     onOpenChange(false);
-    toast.success('Сохраненный промпт загружен');
+    toast.success("Сохраненный промпт загружен");
   };
 
   const handleDeleteHistory = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    const localHistoryRaw = localStorage.getItem('musicverse_prompt_history');
+    const localHistoryRaw = localStorage.getItem("musicverse_prompt_history");
     if (localHistoryRaw) {
       const parsed = JSON.parse(localHistoryRaw);
       const updated = parsed.filter((item: any) => item.id !== id);
-      localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
-      setLocalHistory(items => items.filter(item => item.id !== id));
+      localStorage.setItem("musicverse_prompt_history", JSON.stringify(updated));
+      setLocalHistory((items) => items.filter((item) => item.id !== id));
     }
-    toast.success('Промпт удален из истории');
+    toast.success("Промпт удален из истории");
   };
 
   const handleDeleteSaved = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    const updated = savedPrompts.filter(item => item.id !== id);
+    const updated = savedPrompts.filter((item) => item.id !== id);
     setSavedPrompts(updated);
-    localStorage.setItem('musicverse_saved_prompts', JSON.stringify(updated));
-    toast.success('Промпт удален из закладок');
+    localStorage.setItem("musicverse_saved_prompts", JSON.stringify(updated));
+    toast.success("Промпт удален из закладок");
   };
 
   const handleSaveToBookmarks = (e: React.MouseEvent, item: PromptHistoryItem) => {
     e.stopPropagation();
     const newSaved: SavedPrompt = {
       id: `saved-${Date.now()}`,
-      name: item.title || item.description?.substring(0, 50) || 'Без названия',
+      name: item.title || item.description?.substring(0, 50) || "Без названия",
       mode: item.mode,
       description: item.description,
       title: item.title,
@@ -255,51 +266,51 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
       model: item.model,
       createdAt: new Date(),
     };
-    
+
     const updated = [newSaved, ...savedPrompts];
     setSavedPrompts(updated);
-    localStorage.setItem('musicverse_saved_prompts', JSON.stringify(updated));
-    toast.success('Промпт сохранен в закладки');
+    localStorage.setItem("musicverse_saved_prompts", JSON.stringify(updated));
+    toast.success("Промпт сохранен в закладки");
   };
 
   const handleAddNewPrompt = () => {
     if (!newPrompt.name || (!newPrompt.description && !newPrompt.style)) {
-      toast.error('Заполните название и описание/стиль');
+      toast.error("Заполните название и описание/стиль");
       return;
     }
 
     const saved: SavedPrompt = {
       id: `saved-${Date.now()}`,
-      name: newPrompt.name || 'Без названия',
-      mode: newPrompt.mode || 'simple',
+      name: newPrompt.name || "Без названия",
+      mode: newPrompt.mode || "simple",
       description: newPrompt.description,
       title: newPrompt.title,
       style: newPrompt.style,
       lyrics: newPrompt.lyrics,
-      model: newPrompt.model || 'V4_5ALL',
+      model: newPrompt.model || "V4_5ALL",
       createdAt: new Date(),
     };
 
     const updated = [saved, ...savedPrompts];
     setSavedPrompts(updated);
-    localStorage.setItem('musicverse_saved_prompts', JSON.stringify(updated));
-    
-    setNewPrompt({ mode: 'simple', model: 'V4_5ALL' });
+    localStorage.setItem("musicverse_saved_prompts", JSON.stringify(updated));
+
+    setNewPrompt({ mode: "simple", model: "V4_5ALL" });
     setShowAddDialog(false);
-    toast.success('Промпт сохранен');
+    toast.success("Промпт сохранен");
   };
 
   const handleCopy = (e: React.MouseEvent, text: string) => {
     e.stopPropagation();
     navigator.clipboard.writeText(text);
-    toast.success('Скопировано в буфер');
+    toast.success("Скопировано в буфер");
   };
 
   const handleClearHistory = () => {
-    if (confirm('Удалить всю историю промптов?')) {
+    if (confirm("Удалить всю историю промптов?")) {
       setLocalHistory([]);
-      localStorage.removeItem('musicverse_prompt_history');
-      toast.success('История очищена');
+      localStorage.removeItem("musicverse_prompt_history");
+      toast.success("История очищена");
     }
   };
 
@@ -315,9 +326,9 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
             </DialogTitle>
           </DialogHeader>
 
-          <Tabs 
-            value={activeTab} 
-            onValueChange={(v) => setActiveTab(v as typeof activeTab)} 
+          <Tabs
+            value={activeTab}
+            onValueChange={(v) => setActiveTab(v as typeof activeTab)}
             className="flex-1 flex flex-col overflow-hidden px-4"
           >
             <TabsList className="grid w-full grid-cols-3 mb-3 shrink-0">
@@ -346,7 +357,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   className="pl-9 h-9"
                 />
               </div>
-              {activeTab === 'history' && (
+              {activeTab === "history" && (
                 <Button
                   variant="outline"
                   size="icon"
@@ -358,7 +369,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   <Trash2 className="w-4 h-4" />
                 </Button>
               )}
-              {activeTab === 'saved' && (
+              {activeTab === "saved" && (
                 <Button
                   variant="default"
                   size="icon"
@@ -375,14 +386,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
             <div className="flex-1 overflow-hidden pb-4">
               {/* History Tab */}
               <TabsContent value="history" className="mt-0 h-full">
-                <div 
-                  data-prompt-scroll 
-                  className="h-full overflow-y-auto pr-1"
-                >
+                <div data-prompt-scroll className="h-full overflow-y-auto pr-1">
                   {filteredHistory.length > 0 ? (
                     <div className="space-y-2">
                       {filteredHistory.map((item) => (
-                        <Card 
+                        <Card
                           key={item.id}
                           className="glass-card border-border/50 hover:border-primary/50 transition-colors cursor-pointer"
                           onClick={() => handleSelectHistory(item)}
@@ -392,11 +400,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                               <div className="flex items-start justify-between gap-2">
                                 <div className="flex-1 min-w-0">
                                   <p className="text-sm font-medium truncate">
-                                    {item.title || item.description?.substring(0, 40) || 'Без названия'}
+                                    {item.title || item.description?.substring(0, 40) || "Без названия"}
                                   </p>
                                   <div className="flex items-center gap-1.5 mt-1 flex-wrap">
                                     <Badge variant="outline" className="text-[10px] h-5">
-                                      {item.mode === 'simple' ? 'Simple' : 'Custom'}
+                                      {item.mode === "simple" ? "Simple" : "Custom"}
                                     </Badge>
                                     <Badge variant="secondary" className="text-[10px] h-5">
                                       {item.model}
@@ -408,7 +416,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                     variant="ghost"
                                     size="icon"
                                     className="h-8 w-8"
-                                    onClick={(e) => handleCopy(e, item.description || item.style || '')}
+                                    onClick={(e) => handleCopy(e, item.description || item.style || "")}
                                   >
                                     <Copy className="w-3.5 h-3.5" />
                                   </Button>
@@ -431,13 +439,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                 </div>
                               </div>
                               {item.description && (
-                                <p className="text-xs text-muted-foreground line-clamp-2">
-                                  {item.description}
-                                </p>
+                                <p className="text-xs text-muted-foreground line-clamp-2">{item.description}</p>
                               )}
                               <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
                                 <Clock className="w-3 h-3" />
-                                {format(item.lastUsed || item.timestamp, 'dd MMM, HH:mm', { locale: ru })}
+                                {format(item.lastUsed || item.timestamp, "dd MMM, HH:mm", { locale: ru })}
                                 <Badge variant="outline" className="text-[10px] h-4 px-1">
                                   {item.usageCount}x
                                 </Badge>
@@ -448,9 +454,9 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                       ))}
                     </div>
                   ) : (
-                    <EmptyState 
+                    <EmptyState
                       icon={History}
-                      text={searchQuery ? 'Ничего не найдено' : 'История промптов пуста'}
+                      text={searchQuery ? "Ничего не найдено" : "История промптов пуста"}
                       subtext="Создайте первый трек, чтобы начать"
                     />
                   )}
@@ -459,14 +465,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 
               {/* Inspiration Tab */}
               <TabsContent value="inspiration" className="mt-0 h-full">
-                <div 
-                  data-prompt-scroll 
-                  className="h-full overflow-y-auto pr-1"
-                >
+                <div data-prompt-scroll className="h-full overflow-y-auto pr-1">
                   {filteredInspiration.length > 0 ? (
                     <div className="space-y-2">
                       {filteredInspiration.map((item) => (
-                        <Card 
+                        <Card
                           key={item.id}
                           className="glass-card border-primary/20 hover:border-primary/50 transition-colors cursor-pointer"
                           onClick={() => handleSelectInspiration(item)}
@@ -497,38 +500,26 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <Copy className="w-3.5 h-3.5" />
                                 </Button>
                               </div>
-                              <p className="text-xs text-muted-foreground line-clamp-3">
-                                {item.description}
-                              </p>
-                              {item.style && (
-                                <p className="text-[10px] text-primary/80 truncate">
-                                  {item.style}
-                                </p>
-                              )}
+                              <p className="text-xs text-muted-foreground line-clamp-3">{item.description}</p>
+                              {item.style && <p className="text-[10px] text-primary/80 truncate">{item.style}</p>}
                             </div>
                           </CardContent>
                         </Card>
                       ))}
                     </div>
                   ) : (
-                    <EmptyState 
-                      icon={Sparkles}
-                      text="Ничего не найдено"
-                    />
+                    <EmptyState icon={Sparkles} text="Ничего не найдено" />
                   )}
                 </div>
               </TabsContent>
 
               {/* Saved Tab */}
               <TabsContent value="saved" className="mt-0 h-full">
-                <div 
-                  data-prompt-scroll 
-                  className="h-full overflow-y-auto pr-1"
-                >
+                <div data-prompt-scroll className="h-full overflow-y-auto pr-1">
                   {filteredSaved.length > 0 ? (
                     <div className="space-y-2">
                       {filteredSaved.map((item) => (
-                        <Card 
+                        <Card
                           key={item.id}
                           className="glass-card border-border/50 hover:border-primary/50 transition-colors cursor-pointer"
                           onClick={() => handleSelectSaved(item)}
@@ -540,7 +531,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                   <p className="text-sm font-medium truncate">{item.name}</p>
                                   <div className="flex items-center gap-1.5 mt-1">
                                     <Badge variant="outline" className="text-[10px] h-5">
-                                      {item.mode === 'simple' ? 'Simple' : 'Custom'}
+                                      {item.mode === "simple" ? "Simple" : "Custom"}
                                     </Badge>
                                   </div>
                                 </div>
@@ -549,7 +540,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                     variant="ghost"
                                     size="icon"
                                     className="h-8 w-8"
-                                    onClick={(e) => handleCopy(e, item.description || item.style || '')}
+                                    onClick={(e) => handleCopy(e, item.description || item.style || "")}
                                   >
                                     <Copy className="w-3.5 h-3.5" />
                                   </Button>
@@ -564,13 +555,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                                 </div>
                               </div>
                               {item.description && (
-                                <p className="text-xs text-muted-foreground line-clamp-2">
-                                  {item.description}
-                                </p>
+                                <p className="text-xs text-muted-foreground line-clamp-2">{item.description}</p>
                               )}
                               <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
                                 <Clock className="w-3 h-3" />
-                                {format(item.createdAt, 'dd MMM yyyy', { locale: ru })}
+                                {format(item.createdAt, "dd MMM yyyy", { locale: ru })}
                               </div>
                             </div>
                           </CardContent>
@@ -578,9 +567,9 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                       ))}
                     </div>
                   ) : (
-                    <EmptyState 
+                    <EmptyState
                       icon={Bookmark}
-                      text={searchQuery ? 'Ничего не найдено' : 'Нет сохраненных промптов'}
+                      text={searchQuery ? "Ничего не найдено" : "Нет сохраненных промптов"}
                       subtext="Сохраняйте промпты из истории или создавайте новые"
                     />
                   )}
@@ -601,16 +590,13 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   <X className="w-4 h-4" />
                 </Button>
               </div>
-              
-              <div 
-                data-prompt-scroll
-                className="flex-1 overflow-y-auto p-4"
-              >
+
+              <div data-prompt-scroll className="flex-1 overflow-y-auto p-4">
                 <div className="space-y-4">
                   <div>
                     <Label className="text-sm">Название</Label>
                     <Input
-                      value={newPrompt.name || ''}
+                      value={newPrompt.name || ""}
                       onChange={(e) => setNewPrompt({ ...newPrompt, name: e.target.value })}
                       placeholder="Название для быстрого поиска"
                       className="mt-1"
@@ -621,17 +607,17 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                     <Label className="text-sm">Режим</Label>
                     <div className="flex gap-2 mt-1">
                       <Button
-                        variant={newPrompt.mode === 'simple' ? 'default' : 'outline'}
+                        variant={newPrompt.mode === "simple" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setNewPrompt({ ...newPrompt, mode: 'simple' })}
+                        onClick={() => setNewPrompt({ ...newPrompt, mode: "simple" })}
                         className="flex-1"
                       >
                         Simple
                       </Button>
                       <Button
-                        variant={newPrompt.mode === 'custom' ? 'default' : 'outline'}
+                        variant={newPrompt.mode === "custom" ? "default" : "outline"}
                         size="sm"
-                        onClick={() => setNewPrompt({ ...newPrompt, mode: 'custom' })}
+                        onClick={() => setNewPrompt({ ...newPrompt, mode: "custom" })}
                         className="flex-1"
                       >
                         Custom
@@ -642,7 +628,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   <div>
                     <Label className="text-sm">Описание</Label>
                     <Textarea
-                      value={newPrompt.description || ''}
+                      value={newPrompt.description || ""}
                       onChange={(e) => setNewPrompt({ ...newPrompt, description: e.target.value })}
                       placeholder="Опишите желаемый трек..."
                       className="min-h-[100px] mt-1"
@@ -652,19 +638,19 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                   <div>
                     <Label className="text-sm">Стиль / Теги</Label>
                     <Input
-                      value={newPrompt.style || ''}
+                      value={newPrompt.style || ""}
                       onChange={(e) => setNewPrompt({ ...newPrompt, style: e.target.value })}
                       placeholder="pop, electronic, energetic..."
                       className="mt-1"
                     />
                   </div>
 
-                  {newPrompt.mode === 'custom' && (
+                  {newPrompt.mode === "custom" && (
                     <>
                       <div>
                         <Label className="text-sm">Название трека</Label>
                         <Input
-                          value={newPrompt.title || ''}
+                          value={newPrompt.title || ""}
                           onChange={(e) => setNewPrompt({ ...newPrompt, title: e.target.value })}
                           placeholder="Название"
                           className="mt-1"
@@ -673,7 +659,7 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
                       <div>
                         <Label className="text-sm">Текст песни</Label>
                         <Textarea
-                          value={newPrompt.lyrics || ''}
+                          value={newPrompt.lyrics || ""}
                           onChange={(e) => setNewPrompt({ ...newPrompt, lyrics: e.target.value })}
                           placeholder="[Verse 1]..."
                           className="min-h-[120px] mt-1 font-mono text-xs"
@@ -703,11 +689,11 @@ export function PromptHistory({ open, onOpenChange, onSelectPrompt }: PromptHist
 }
 
 // Empty state component
-function EmptyState({ 
-  icon: Icon, 
-  text, 
-  subtext 
-}: { 
+function EmptyState({
+  icon: Icon,
+  text,
+  subtext,
+}: {
   icon: React.ComponentType<{ className?: string }>;
   text: string;
   subtext?: string;
@@ -716,49 +702,47 @@ function EmptyState({
     <div className="flex flex-col items-center justify-center h-full min-h-[200px] text-center py-8">
       <Icon className="w-10 h-10 text-muted-foreground/50 mb-3" />
       <p className="text-sm text-muted-foreground">{text}</p>
-      {subtext && (
-        <p className="text-xs text-muted-foreground/70 mt-1">{subtext}</p>
-      )}
+      {subtext && <p className="text-xs text-muted-foreground/70 mt-1">{subtext}</p>}
     </div>
   );
 }
 
 // Helper functions for external use
-export function savePromptToHistory(prompt: Omit<PromptHistoryItem, 'id' | 'timestamp' | 'usageCount'>): void {
+export function savePromptToHistory(prompt: Omit<PromptHistoryItem, "id" | "timestamp" | "usageCount">): void {
   try {
-    const stored = localStorage.getItem('musicverse_prompt_history');
+    const stored = localStorage.getItem("musicverse_prompt_history");
     const history: PromptHistoryItem[] = stored ? JSON.parse(stored) : [];
-    
+
     const newItem: PromptHistoryItem = {
       ...prompt,
       id: `history-${Date.now()}`,
       timestamp: new Date(),
       usageCount: 1,
     };
-    
+
     const updated = [newItem, ...history].slice(0, 50); // Keep last 50 prompts
-    localStorage.setItem('musicverse_prompt_history', JSON.stringify(updated));
+    localStorage.setItem("musicverse_prompt_history", JSON.stringify(updated));
   } catch (error) {
-    logger.error('Failed to save prompt to history', { error });
+    logger.error("Failed to save prompt to history", { error });
   }
 }
 
-export function savePromptToBookmarks(prompt: Omit<SavedPrompt, 'id' | 'createdAt'>): void {
+export function savePromptToBookmarks(prompt: Omit<SavedPrompt, "id" | "createdAt">): void {
   try {
-    const stored = localStorage.getItem('musicverse_saved_prompts');
+    const stored = localStorage.getItem("musicverse_saved_prompts");
     const saved: SavedPrompt[] = stored ? JSON.parse(stored) : [];
-    
+
     const newItem: SavedPrompt = {
       ...prompt,
       id: `saved-${Date.now()}`,
       createdAt: new Date(),
     };
-    
+
     const updated = [newItem, ...saved];
-    localStorage.setItem('musicverse_saved_prompts', JSON.stringify(updated));
-    toast.success('Промпт сохранен в закладки');
+    localStorage.setItem("musicverse_saved_prompts", JSON.stringify(updated));
+    toast.success("Промпт сохранен в закладки");
   } catch (error) {
-    logger.error('Failed to save prompt to bookmarks', { error });
-    toast.error('Не удалось сохранить промпт');
+    logger.error("Failed to save prompt to bookmarks", { error });
+    toast.error("Не удалось сохранить промпт");
   }
 }

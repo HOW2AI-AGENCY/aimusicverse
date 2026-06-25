@@ -10,7 +10,7 @@
 ```mermaid
 graph TB
     Root[🎵 MusicVerse AI<br/>Repository Root]
-    
+
     Root --> Core[🏠 Core Files<br/>Основные файлы]
     Root --> Src[💻 src/<br/>Исходный код]
     Root --> Docs[📚 docs/<br/>Документация]
@@ -22,7 +22,7 @@ graph TB
     Root --> Specs[📝 specs/<br/>Спецификации]
     Root --> Sprints[🏃 SPRINTS/<br/>Спринты]
     Root --> Public[🌐 public/<br/>Публичные файлы]
-    
+
     style Root fill:#61DAFB
     style Src fill:#336791
     style Docs fill:#FFD700
@@ -446,14 +446,14 @@ public/
 
 ### 📈 Размеры
 
-| Категория | Количество | Размер |
-|-----------|-----------|--------|
-| **TypeScript/TSX файлы** | 1,957+ | ~15 MB |
-| **React компоненты** | 1,124+ | ~8 MB |
-| **Тесты** | 89+ | ~2 MB |
-| **Документация** | 100+ | ~1.5 MB |
-| **Edge Functions** | 99+ | ~3 MB |
-| **Спринты** | 35+ | ~500 KB |
+| Категория                | Количество | Размер  |
+| ------------------------ | ---------- | ------- |
+| **TypeScript/TSX файлы** | 1,957+     | ~15 MB  |
+| **React компоненты**     | 1,124+     | ~8 MB   |
+| **Тесты**                | 89+        | ~2 MB   |
+| **Документация**         | 100+       | ~1.5 MB |
+| **Edge Functions**       | 99+        | ~3 MB   |
+| **Спринты**              | 35+        | ~500 KB |
 
 ### 🎯 Типы файлов
 
@@ -541,30 +541,30 @@ Other:              ██ 4%
 
 ### По назначению
 
-| Что ищем? | Где ищем? |
-|-----------|----------|
-| Компонент | `src/components/` |
-| Хук | `src/hooks/` |
-| Сервис | `src/services/` |
-| Страница | `src/pages/` |
-| Утилита | `src/lib/` |
-| Тип | `src/types/` |
-| Тест | `tests/` |
+| Что ищем?     | Где ищем?             |
+| ------------- | --------------------- |
+| Компонент     | `src/components/`     |
+| Хук           | `src/hooks/`          |
+| Сервис        | `src/services/`       |
+| Страница      | `src/pages/`          |
+| Утилита       | `src/lib/`            |
+| Тип           | `src/types/`          |
+| Тест          | `tests/`              |
 | Edge Function | `supabase/functions/` |
-| Документация | `docs/` |
-| ADR | `ADR/` |
-| Спринт | `SPRINTS/` |
+| Документация  | `docs/`               |
+| ADR           | `ADR/`                |
+| Спринт        | `SPRINTS/`            |
 
 ### По технологии
 
-| Технология | Путь |
-|-----------|------|
-| React | `src/components/`, `src/pages/` |
-| TypeScript | `src/**/*.ts`, `src/**/*.tsx` |
-| Tailwind | `*.tsx` (className) |
-| Supabase | `supabase/`, `src/api/` |
-| Telegram | `src/hooks/useTelegram.ts` |
-| Audio | `src/services/audioService.ts` |
+| Технология | Путь                            |
+| ---------- | ------------------------------- |
+| React      | `src/components/`, `src/pages/` |
+| TypeScript | `src/**/*.ts`, `src/**/*.tsx`   |
+| Tailwind   | `*.tsx` (className)             |
+| Supabase   | `supabase/`, `src/api/`         |
+| Telegram   | `src/hooks/useTelegram.ts`      |
+| Audio      | `src/services/audioService.ts`  |
 
 ---
 
@@ -627,7 +627,7 @@ Other:              ██ 4%
 
 **Структура поддерживается и обновляется командой MusicVerse AI**
 
-*Последнее обновление: 25 июня 2026*
+_Последнее обновление: 25 июня 2026_
 
 [🔝 В начало](#-структура-репозитория-musicverse-ai)
 

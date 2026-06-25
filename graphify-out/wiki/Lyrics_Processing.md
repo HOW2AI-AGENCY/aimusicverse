@@ -29,7 +29,7 @@
 - [.stopCleanupTimer()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L172) (2 connections)
 - [usePredictiveGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePredictiveGeneration.ts#L1) (2 connections)
 - [generateSrcSet()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L192) (2 connections)
-- *... and 54 more nodes in this community*
+- _... and 54 more nodes in this community_
 
 ## Class Diagram
 
@@ -71,4 +71,4 @@ classDiagram
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

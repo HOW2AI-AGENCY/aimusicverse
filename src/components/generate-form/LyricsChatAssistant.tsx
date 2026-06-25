@@ -2,40 +2,47 @@
  * LyricsChatAssistant - Unified AI Agent with fixed scrolling and visual editor
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Sparkles, Send, MessageCircle, Tag, Lightbulb, X, 
-  Bot, User, Loader2, Trash2, PenLine 
-} from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useTelegramMainButton } from '@/hooks/telegram';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { hapticImpact } from '@/lib/haptic';
-import { toast } from 'sonner';
-import { useKeyboardAware } from '@/hooks/useKeyboardAware';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Sparkles, Send, MessageCircle, Tag, Lightbulb, X, Bot, User, Loader2, Trash2, PenLine } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTelegramMainButton } from "@/hooks/telegram";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { hapticImpact } from "@/lib/haptic";
+import { toast } from "sonner";
+import { useKeyboardAware } from "@/hooks/useKeyboardAware";
 
 // AI Agent system imports
-import { AIToolbar } from '@/components/lyrics-workspace/ai-agent/AIToolbar';
-import { useAITools } from '@/components/lyrics-workspace/ai-agent/hooks/useAITools';
-import { WriteToolPanel, AnalyzeToolPanel, ProducerToolPanel, OptimizeToolPanel } from '@/components/lyrics-workspace/ai-agent/tools';
-import { StructuredLyricsPreview, TagsResultCard, FullAnalysisResultCard, ProducerResultCard } from '@/components/lyrics-workspace/ai-agent/results';
-import { AIToolId, AIAgentContext, AIMessage } from '@/components/lyrics-workspace/ai-agent/types';
+import { AIToolbar } from "@/components/lyrics-workspace/ai-agent/AIToolbar";
+import { useAITools } from "@/components/lyrics-workspace/ai-agent/hooks/useAITools";
+import {
+  WriteToolPanel,
+  AnalyzeToolPanel,
+  ProducerToolPanel,
+  OptimizeToolPanel,
+} from "@/components/lyrics-workspace/ai-agent/tools";
+import {
+  StructuredLyricsPreview,
+  TagsResultCard,
+  FullAnalysisResultCard,
+  ProducerResultCard,
+} from "@/components/lyrics-workspace/ai-agent/results";
+import { AIToolId, AIAgentContext, AIMessage } from "@/components/lyrics-workspace/ai-agent/types";
 
 // Legacy imports for compatibility
-import { TagBuilderPanel } from './TagBuilderPanel';
-import { ContextRecommendations, Recommendation } from './lyrics-chat/ContextRecommendations';
-import { QuickActions } from './lyrics-chat/QuickActions.tsx';
-import type { LyricsChatAssistantProps } from './lyrics-chat/types';
-import type { LyricsQuickAction } from './lyrics-chat/quickActions';
+import { TagBuilderPanel } from "./TagBuilderPanel";
+import { ContextRecommendations, Recommendation } from "./lyrics-chat/ContextRecommendations";
+import { QuickActions } from "./lyrics-chat/QuickActions.tsx";
+import type { LyricsChatAssistantProps } from "./lyrics-chat/types";
+import type { LyricsQuickAction } from "./lyrics-chat/quickActions";
 
-export type { LyricsChatAssistantProps } from './lyrics-chat/types';
+export type { LyricsChatAssistantProps } from "./lyrics-chat/types";
 
 export function LyricsChatAssistant({
   open,
@@ -45,25 +52,25 @@ export function LyricsChatAssistant({
   onTitleGenerated,
   initialGenre,
   initialMood,
-  initialLanguage = 'ru',
+  initialLanguage = "ru",
   projectContext,
   trackContext,
-  initialMode = 'new',
+  initialMode = "new",
 }: LyricsChatAssistantProps) {
   const isMobile = useIsMobile();
   const { platform } = useTelegram();
-  const isIOS = platform === 'ios';
-  const [activeTab, setActiveTab] = useState<'chat' | 'tags' | 'ai' | 'quick'>('chat');
+  const isIOS = platform === "ios";
+  const [activeTab, setActiveTab] = useState<"chat" | "tags" | "ai" | "quick">("chat");
   const [openToolPanel, setOpenToolPanel] = useState<AIToolId | null>(null);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [isLoadingRecs, setIsLoadingRecs] = useState(false);
-  const [generatedLyrics, setGeneratedLyrics] = useState('');
-  
+  const [generatedLyrics, setGeneratedLyrics] = useState("");
+
   // Scrolling refs
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const shouldAutoScrollRef = useRef(true);
-  
+
   // Keyboard-aware behavior для адаптации под клавиатуру iOS
   const { keyboardHeight, isKeyboardOpen, createFocusHandler } = useKeyboardAware();
 
@@ -73,34 +80,30 @@ export function LyricsChatAssistant({
     genre: initialGenre || projectContext?.genre,
     mood: initialMood?.[0] || projectContext?.mood,
     language: initialLanguage,
-    projectContext: projectContext ? {
-      projectId: projectContext.projectId || '',
-      projectTitle: projectContext.projectTitle || '',
-      projectType: projectContext.projectType,
-      genre: projectContext.genre,
-      mood: projectContext.mood,
-      concept: projectContext.concept,
-      targetAudience: projectContext.targetAudience,
-      language: projectContext.language,
-    } : undefined,
-    trackContext: trackContext ? {
-      position: trackContext.position || 0,
-      title: trackContext.title || '',
-      notes: trackContext.notes,
-      recommendedTags: trackContext.recommendedTags,
-      recommendedStructure: trackContext.recommendedStructure,
-    } : undefined,
+    projectContext: projectContext
+      ? {
+          projectId: projectContext.projectId || "",
+          projectTitle: projectContext.projectTitle || "",
+          projectType: projectContext.projectType,
+          genre: projectContext.genre,
+          mood: projectContext.mood,
+          concept: projectContext.concept,
+          targetAudience: projectContext.targetAudience,
+          language: projectContext.language,
+        }
+      : undefined,
+    trackContext: trackContext
+      ? {
+          position: trackContext.position || 0,
+          title: trackContext.title || "",
+          notes: trackContext.notes,
+          recommendedTags: trackContext.recommendedTags,
+          recommendedStructure: trackContext.recommendedStructure,
+        }
+      : undefined,
   };
 
-  const {
-    messages,
-    isLoading,
-    activeTool,
-    executeTool,
-    sendChatMessage,
-    clearMessages,
-    setActiveTool,
-  } = useAITools({
+  const { messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool } = useAITools({
     context: aiContext,
     onLyricsGenerated: (lyrics) => {
       setGeneratedLyrics(lyrics);
@@ -109,7 +112,7 @@ export function LyricsChatAssistant({
     onTagsGenerated: (tags) => {
       // Append tags to lyrics
       if (generatedLyrics) {
-        const tagsStr = tags.map(t => `[${t}]`).join(' ');
+        const tagsStr = tags.map((t) => `[${t}]`).join(" ");
         const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
         setGeneratedLyrics(updatedLyrics);
         onLyricsGenerated(updatedLyrics);
@@ -138,16 +141,22 @@ export function LyricsChatAssistant({
   }, []);
 
   // Tool panel handlers
-  const handleToolSelect = useCallback((toolId: AIToolId) => {
-    hapticImpact('light');
-    setOpenToolPanel(prev => prev === toolId ? null : toolId);
-    setActiveTool(toolId);
-  }, [setActiveTool]);
+  const handleToolSelect = useCallback(
+    (toolId: AIToolId) => {
+      hapticImpact("light");
+      setOpenToolPanel((prev) => (prev === toolId ? null : toolId));
+      setActiveTool(toolId);
+    },
+    [setActiveTool],
+  );
 
-  const handleToolExecute = useCallback((toolId: AIToolId, toolInput: Record<string, any>) => {
-    setOpenToolPanel(null);
-    executeTool(toolId, toolInput);
-  }, [executeTool]);
+  const handleToolExecute = useCallback(
+    (toolId: AIToolId, toolInput: Record<string, any>) => {
+      setOpenToolPanel(null);
+      executeTool(toolId, toolInput);
+    },
+    [executeTool],
+  );
 
   // Input ref for maintaining focus
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -155,9 +164,9 @@ export function LyricsChatAssistant({
   // Chat handlers - keep focus to prevent keyboard jump
   const handleSend = useCallback(() => {
     if (!input.trim() || isLoading) return;
-    hapticImpact('light');
+    hapticImpact("light");
     sendChatMessage(input);
-    setInput('');
+    setInput("");
     shouldAutoScrollRef.current = true;
     // Keep focus on input to prevent keyboard from closing abruptly
     requestAnimationFrame(() => {
@@ -165,59 +174,71 @@ export function LyricsChatAssistant({
     });
   }, [input, isLoading, sendChatMessage]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      handleSend();
-    }
-  }, [handleSend]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        handleSend();
+      }
+    },
+    [handleSend],
+  );
 
   // Quick actions handler
-  const handleQuickActionSelect = useCallback((action: LyricsQuickAction) => {
-    sendChatMessage(action.prompt);
-    setActiveTab('chat');
-  }, [sendChatMessage]);
+  const handleQuickActionSelect = useCallback(
+    (action: LyricsQuickAction) => {
+      sendChatMessage(action.prompt);
+      setActiveTab("chat");
+    },
+    [sendChatMessage],
+  );
 
   // Tags handler
-  const handleTagsGenerated = useCallback((tags: string) => {
-    if (generatedLyrics) {
-      const updatedLyrics = `${tags}\n\n${generatedLyrics}`;
-      setGeneratedLyrics(updatedLyrics);
-      onLyricsGenerated(updatedLyrics);
-    } else {
-      setInput(`Создай текст с тегами: ${tags}`);
-    }
-    setActiveTab('chat');
-  }, [generatedLyrics, onLyricsGenerated]);
-
-  // Recommendations handler
-  const handleRecommendationSelect = useCallback((rec: Recommendation) => {
-    if (rec.type === 'theme') {
-      sendChatMessage(rec.value);
-    } else if (rec.type === 'tag') {
+  const handleTagsGenerated = useCallback(
+    (tags: string) => {
       if (generatedLyrics) {
-        const updatedLyrics = `[${rec.value}]\n${generatedLyrics}`;
+        const updatedLyrics = `${tags}\n\n${generatedLyrics}`;
         setGeneratedLyrics(updatedLyrics);
         onLyricsGenerated(updatedLyrics);
       } else {
-        setInput(`Добавь тег [${rec.value}] в текст`);
+        setInput(`Создай текст с тегами: ${tags}`);
       }
-    }
-    setActiveTab('chat');
-  }, [sendChatMessage, generatedLyrics, onLyricsGenerated]);
+      setActiveTab("chat");
+    },
+    [generatedLyrics, onLyricsGenerated],
+  );
+
+  // Recommendations handler
+  const handleRecommendationSelect = useCallback(
+    (rec: Recommendation) => {
+      if (rec.type === "theme") {
+        sendChatMessage(rec.value);
+      } else if (rec.type === "tag") {
+        if (generatedLyrics) {
+          const updatedLyrics = `[${rec.value}]\n${generatedLyrics}`;
+          setGeneratedLyrics(updatedLyrics);
+          onLyricsGenerated(updatedLyrics);
+        } else {
+          setInput(`Добавь тег [${rec.value}] в текст`);
+        }
+      }
+      setActiveTab("chat");
+    },
+    [sendChatMessage, generatedLyrics, onLyricsGenerated],
+  );
 
   // Apply lyrics to form
   const handleApplyLyrics = useCallback(() => {
     if (generatedLyrics) {
       onLyricsGenerated(generatedLyrics);
-      toast.success('Текст применён');
+      toast.success("Текст применён");
       onOpenChange(false);
     }
   }, [generatedLyrics, onLyricsGenerated, onOpenChange]);
 
   // Telegram MainButton
   const { shouldShowUIButton } = useTelegramMainButton({
-    text: 'ПРИМЕНИТЬ',
+    text: "ПРИМЕНИТЬ",
     onClick: handleApplyLyrics,
     enabled: !!generatedLyrics && !isLoading,
     visible: !isIOS && open && !!generatedLyrics,
@@ -228,7 +249,7 @@ export function LyricsChatAssistant({
   // Render tool panel
   const renderToolPanel = () => {
     if (!openToolPanel) return null;
-    
+
     const panelProps = {
       context: aiContext,
       onExecute: (toolInput: Record<string, any>) => handleToolExecute(openToolPanel, toolInput),
@@ -237,11 +258,16 @@ export function LyricsChatAssistant({
     };
 
     switch (openToolPanel) {
-      case 'write': return <WriteToolPanel {...panelProps} />;
-      case 'analyze': return <AnalyzeToolPanel {...panelProps} />;
-      case 'producer': return <ProducerToolPanel {...panelProps} />;
-      case 'optimize': return <OptimizeToolPanel {...panelProps} />;
-      default: return null;
+      case "write":
+        return <WriteToolPanel {...panelProps} />;
+      case "analyze":
+        return <AnalyzeToolPanel {...panelProps} />;
+      case "producer":
+        return <ProducerToolPanel {...panelProps} />;
+      case "optimize":
+        return <OptimizeToolPanel {...panelProps} />;
+      default:
+        return null;
     }
   };
 
@@ -259,7 +285,7 @@ export function LyricsChatAssistant({
     return (
       <>
         <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
-        
+
         {/* Lyrics result */}
         {message.data?.lyrics && (
           <StructuredLyricsPreview
@@ -276,19 +302,19 @@ export function LyricsChatAssistant({
             showReplace={!!generatedLyrics}
           />
         )}
-        
+
         {/* Tags result */}
         {message.data?.tags && message.data.tags.length > 0 && (
-          <TagsResultCard 
-            tags={message.data.tags} 
+          <TagsResultCard
+            tags={message.data.tags}
             onApply={(tags) => {
               if (generatedLyrics) {
-                const tagsStr = tags.map(t => `[${t}]`).join(' ');
+                const tagsStr = tags.map((t) => `[${t}]`).join(" ");
                 const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
                 setGeneratedLyrics(updatedLyrics);
                 onLyricsGenerated(updatedLyrics);
               }
-            }} 
+            }}
           />
         )}
 
@@ -298,7 +324,7 @@ export function LyricsChatAssistant({
             analysis={message.data.fullAnalysis}
             onQuickAction={(action) => sendChatMessage(action)}
             onApplyRecommendations={(recs) => {
-              const formattedRecs = recs.map((r, i) => `${i + 1}. ${r}`).join('\n');
+              const formattedRecs = recs.map((r, i) => `${i + 1}. ${r}`).join("\n");
               sendChatMessage(`Примени следующие рекомендации к тексту:\n${formattedRecs}`);
             }}
           />
@@ -312,7 +338,7 @@ export function LyricsChatAssistant({
             onApplyStylePrompt={onStyleGenerated}
             onApplyTags={(tags) => {
               if (generatedLyrics) {
-                const tagsStr = tags.map(t => `[${t}]`).join(' ');
+                const tagsStr = tags.map((t) => `[${t}]`).join(" ");
                 const updatedLyrics = `${tagsStr}\n\n${generatedLyrics}`;
                 setGeneratedLyrics(updatedLyrics);
                 onLyricsGenerated(updatedLyrics);
@@ -328,25 +354,18 @@ export function LyricsChatAssistant({
   const getTitle = () => {
     if (trackContext?.title) return `Лирика: ${trackContext.title}`;
     if (projectContext?.projectTitle) return projectContext.projectTitle;
-    return 'AI Lyrics Agent';
+    return "AI Lyrics Agent";
   };
 
   const chatContent = (
     <div className="flex flex-col flex-1 h-full min-h-0 overflow-hidden">
       {/* AI Toolbar */}
       <div className="border-b border-border/50 shrink-0">
-        <AIToolbar 
-          activeTool={activeTool} 
-          onSelectTool={handleToolSelect} 
-          isLoading={isLoading}
-          className="px-2"
-        />
+        <AIToolbar activeTool={activeTool} onSelectTool={handleToolSelect} isLoading={isLoading} className="px-2" />
       </div>
 
       {/* Tool Panel */}
-      <AnimatePresence mode="wait">
-        {renderToolPanel()}
-      </AnimatePresence>
+      <AnimatePresence mode="wait">{renderToolPanel()}</AnimatePresence>
 
       {/* Tabs for different views */}
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} className="shrink-0 px-4 pt-2">
@@ -372,8 +391,8 @@ export function LyricsChatAssistant({
 
       {/* Tab Contents - Fixed height scrollable area - takes all remaining space */}
       <div className="flex-1 min-h-0 overflow-hidden relative">
-        {activeTab === 'chat' && (
-          <div 
+        {activeTab === "chat" && (
+          <div
             ref={scrollContainerRef}
             onScroll={handleScroll}
             className="absolute inset-0 overflow-y-auto overscroll-contain px-4 py-3"
@@ -386,24 +405,26 @@ export function LyricsChatAssistant({
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className={cn("flex gap-2", message.role === 'user' ? "justify-end" : "justify-start")}
+                    className={cn("flex gap-2", message.role === "user" ? "justify-end" : "justify-start")}
                   >
-                    {message.role === 'assistant' && (
+                    {message.role === "assistant" && (
                       <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center shrink-0 border border-primary/20">
                         <Bot className="w-3.5 h-3.5 text-primary" />
                       </div>
                     )}
-                    
-                    <div className={cn(
-                      "max-w-[85%] rounded-2xl px-3 py-2",
-                      message.role === 'user' 
-                        ? "bg-primary text-primary-foreground rounded-br-sm"
-                        : "bg-muted/80 rounded-bl-sm border border-border/50"
-                    )}>
+
+                    <div
+                      className={cn(
+                        "max-w-[85%] rounded-2xl px-3 py-2",
+                        message.role === "user"
+                          ? "bg-primary text-primary-foreground rounded-br-sm"
+                          : "bg-muted/80 rounded-bl-sm border border-border/50",
+                      )}
+                    >
                       {renderMessageContent(message)}
                     </div>
 
-                    {message.role === 'user' && (
+                    {message.role === "user" && (
                       <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                         <User className="w-3.5 h-3.5 text-primary" />
                       </div>
@@ -411,9 +432,9 @@ export function LyricsChatAssistant({
                   </motion.div>
                 ))}
               </AnimatePresence>
-              
+
               {/* Loading indicator */}
-              {isLoading && messages[messages.length - 1]?.role !== 'assistant' && (
+              {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -434,16 +455,13 @@ export function LyricsChatAssistant({
           </div>
         )}
 
-        {activeTab === 'quick' && (
+        {activeTab === "quick" && (
           <div className="absolute inset-0 overflow-y-auto overscroll-contain p-4">
-            <QuickActions
-              hasLyrics={!!generatedLyrics}
-              onActionSelect={handleQuickActionSelect}
-            />
+            <QuickActions hasLyrics={!!generatedLyrics} onActionSelect={handleQuickActionSelect} />
           </div>
         )}
 
-        {activeTab === 'tags' && (
+        {activeTab === "tags" && (
           <div className="absolute inset-0 overflow-y-auto overscroll-contain p-4">
             <TagBuilderPanel
               onTagsGenerated={handleTagsGenerated}
@@ -453,7 +471,7 @@ export function LyricsChatAssistant({
           </div>
         )}
 
-        {activeTab === 'ai' && (
+        {activeTab === "ai" && (
           <div className="absolute inset-0 overflow-y-auto overscroll-contain p-4">
             <ContextRecommendations
               recommendations={recommendations}
@@ -473,22 +491,22 @@ export function LyricsChatAssistant({
       </div>
 
       {/* Input Area - Only show in chat tab */}
-      {activeTab === 'chat' && (
-        <div 
+      {activeTab === "chat" && (
+        <div
           className="border-t border-border/50 p-3 bg-background/80 backdrop-blur-sm shrink-0"
           style={{
             // Применяем padding для клавиатуры + safe-area (Telegram + iOS)
             paddingBottom: isKeyboardOpen
               ? `${keyboardHeight + 12}px`
-              : 'max(0.75rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
-            transition: 'padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              : "max(0.75rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
+            transition: "padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         >
           <div className="flex gap-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-9 w-9 shrink-0" 
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 shrink-0"
               onClick={clearMessages}
               disabled={isLoading}
             >
@@ -505,23 +523,14 @@ export function LyricsChatAssistant({
               rows={1}
               disabled={isLoading}
             />
-            <Button 
-              size="icon" 
-              className="h-9 w-9 shrink-0" 
-              onClick={handleSend} 
-              disabled={isLoading || !input.trim()}
-            >
+            <Button size="icon" className="h-9 w-9 shrink-0" onClick={handleSend} disabled={isLoading || !input.trim()}>
               {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
             </Button>
           </div>
-          
+
           {/* Apply button */}
           {showApplyUIButton && generatedLyrics && (
-            <Button 
-              onClick={handleApplyLyrics} 
-              className="w-full mt-2 gap-2"
-              disabled={isLoading}
-            >
+            <Button onClick={handleApplyLyrics} className="w-full mt-2 gap-2" disabled={isLoading}>
               <PenLine className="w-4 h-4" />
               Применить текст
             </Button>
@@ -535,47 +544,38 @@ export function LyricsChatAssistant({
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent 
+        <DrawerContent
           className="flex flex-col rounded-none overflow-hidden"
           style={{
             // Fixed positioning with Telegram safe areas
-            position: 'fixed',
-            top: 'calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px))',
+            position: "fixed",
+            top: "calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px))",
             left: 0,
             right: 0,
             bottom: 0,
-            height: 'auto',
-            maxHeight: 'none',
+            height: "auto",
+            maxHeight: "none",
           }}
         >
-          <DrawerHeader 
+          <DrawerHeader
             className="pb-2 border-b border-border/50 shrink-0 flex items-center justify-between"
             style={{
               // Extra padding for header on iOS + Telegram (both safe area vars)
-              paddingTop: 'max(0.5rem, calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))',
+              paddingTop:
+                "max(0.5rem, calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px)), env(safe-area-inset-top, 0px))",
             }}
           >
             <DrawerTitle className="flex items-center gap-2 text-base">
-              <motion.div
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-              >
+              <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 0.5, delay: 0.2 }}>
                 <Sparkles className="h-5 w-5 text-primary" />
               </motion.div>
               <span className="truncate">{getTitle()}</span>
             </DrawerTitle>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-8 w-8"
-              onClick={() => onOpenChange(false)}
-            >
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => onOpenChange(false)}>
               <X className="h-4 w-4" />
             </Button>
           </DrawerHeader>
-          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
-            {chatContent}
-          </div>
+          <div className="flex-1 min-h-0 flex flex-col overflow-hidden">{chatContent}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -586,18 +586,13 @@ export function LyricsChatAssistant({
       <DialogContent className="max-w-2xl h-[85vh] flex flex-col p-0 gap-0">
         <DialogHeader className="px-4 py-3 border-b border-border/50 shrink-0">
           <DialogTitle className="flex items-center gap-2">
-            <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
+            <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 0.5, delay: 0.2 }}>
               <Sparkles className="h-5 w-5 text-primary" />
             </motion.div>
             {getTitle()}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex-1 min-h-0 overflow-hidden">
-          {chatContent}
-        </div>
+        <div className="flex-1 min-h-0 overflow-hidden">{chatContent}</div>
       </DialogContent>
     </Dialog>
   );

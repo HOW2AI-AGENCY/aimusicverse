@@ -2,30 +2,21 @@
  * AddTrackDrawer - UI for adding AI-generated stems to the track
  */
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import {
-  Plus, Loader2, Music2, Sparkles, Wand2, RefreshCw,
-  Check, AlertCircle
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { Progress } from '@/components/ui/progress';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Plus, Loader2, Music2, Sparkles, Wand2, RefreshCw, Check, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Progress } from "@/components/ui/progress";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import {
   useContextualGeneration,
   StemType,
   stemTypeConfig,
   TrackContext,
-} from '@/hooks/studio/useContextualGeneration';
+} from "@/hooks/studio/useContextualGeneration";
 
 interface AddTrackDrawerProps {
   open: boolean;
@@ -35,15 +26,9 @@ interface AddTrackDrawerProps {
   trackTitle?: string;
 }
 
-export function AddTrackDrawer({
-  open,
-  onOpenChange,
-  trackId,
-  trackUrl,
-  trackTitle,
-}: AddTrackDrawerProps) {
+export function AddTrackDrawer({ open, onOpenChange, trackId, trackUrl, trackTitle }: AddTrackDrawerProps) {
   const [selectedType, setSelectedType] = useState<StemType | null>(null);
-  const [styleHint, setStyleHint] = useState('');
+  const [styleHint, setStyleHint] = useState("");
 
   const {
     trackContext,
@@ -57,7 +42,7 @@ export function AddTrackDrawer({
 
   const handleGenerate = () => {
     if (!selectedType) return;
-    
+
     generateStem({
       stemType: selectedType,
       styleHint: styleHint.trim() || undefined,
@@ -67,7 +52,7 @@ export function AddTrackDrawer({
 
   const handleSuccess = () => {
     setSelectedType(null);
-    setStyleHint('');
+    setStyleHint("");
     onOpenChange(false);
   };
 
@@ -92,25 +77,19 @@ export function AddTrackDrawer({
 
         <div className="mt-4 space-y-5">
           {/* Track Context */}
-          <TrackContextCard 
-            context={trackContext} 
-            isLoading={isLoadingContext}
-            onRefresh={refetchContext}
-          />
+          <TrackContextCard context={trackContext} isLoading={isLoadingContext} onRefresh={refetchContext} />
 
           {/* Instrument Selection */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">
-              Выберите инструмент
-            </label>
+            <label className="text-sm font-medium text-muted-foreground">Выберите инструмент</label>
             <div className="grid grid-cols-4 gap-2">
               {(Object.keys(stemTypeConfig) as StemType[]).map((type) => {
                 const config = stemTypeConfig[type];
                 const isSelected = selectedType === type;
                 const isSuggested = trackContext?.suggestedInstruments?.some(
-                  i => i.toLowerCase().includes(type) || type.includes(i.toLowerCase())
+                  (i) => i.toLowerCase().includes(type) || type.includes(i.toLowerCase()),
                 );
-                
+
                 return (
                   <button
                     key={type}
@@ -119,11 +98,9 @@ export function AddTrackDrawer({
                     className={cn(
                       "flex flex-col items-center gap-1.5 p-3 rounded-xl border transition-all",
                       "hover:bg-muted/50 active:scale-95",
-                      isSelected 
-                        ? "border-primary bg-primary/10 ring-2 ring-primary/20" 
-                        : "border-border/50",
+                      isSelected ? "border-primary bg-primary/10 ring-2 ring-primary/20" : "border-border/50",
                       isSuggested && !isSelected && "border-primary/30 bg-primary/5",
-                      isGenerating && "opacity-50 cursor-not-allowed"
+                      isGenerating && "opacity-50 cursor-not-allowed",
                     )}
                   >
                     <span className="text-2xl">{config.emoji}</span>
@@ -145,7 +122,7 @@ export function AddTrackDrawer({
             {selectedType && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
+                animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 className="space-y-2"
               >
@@ -160,9 +137,7 @@ export function AddTrackDrawer({
                   className="resize-none h-20"
                   disabled={isGenerating}
                 />
-                <p className="text-xs text-muted-foreground">
-                  {stemTypeConfig[selectedType].description}
-                </p>
+                <p className="text-xs text-muted-foreground">{stemTypeConfig[selectedType].description}</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -182,8 +157,8 @@ export function AddTrackDrawer({
                 </div>
                 <Progress value={generationProgress} className="h-2" />
                 <p className="text-xs text-muted-foreground">
-                  Создаём {selectedType && stemTypeConfig[selectedType].label.toLowerCase()} 
-                  {" "}с учётом контекста трека. Это может занять до 2 минут.
+                  Создаём {selectedType && stemTypeConfig[selectedType].label.toLowerCase()} с учётом контекста трека.
+                  Это может занять до 2 минут.
                 </p>
               </motion.div>
             )}
@@ -203,9 +178,7 @@ export function AddTrackDrawer({
                 </div>
                 <div>
                   <p className="font-medium text-sm">Готово!</p>
-                  <p className="text-xs text-muted-foreground">
-                    Дорожка добавлена в студию
-                  </p>
+                  <p className="text-xs text-muted-foreground">Дорожка добавлена в студию</p>
                 </div>
               </motion.div>
             )}
@@ -237,12 +210,12 @@ export function AddTrackDrawer({
 }
 
 // Track Context Card Component
-function TrackContextCard({ 
-  context, 
+function TrackContextCard({
+  context,
   isLoading,
   onRefresh,
-}: { 
-  context?: TrackContext; 
+}: {
+  context?: TrackContext;
   isLoading: boolean;
   onRefresh: () => void;
 }) {
@@ -284,7 +257,7 @@ function TrackContextCard({
           <RefreshCw className="w-3 h-3" />
         </Button>
       </div>
-      
+
       <div className="flex flex-wrap gap-2">
         {context.bpm && (
           <Badge variant="secondary" className="text-xs">
@@ -315,9 +288,7 @@ function TrackContextCard({
 
       {context.suggestedInstruments && context.suggestedInstruments.length > 0 && (
         <div className="pt-2 border-t border-border/30">
-          <p className="text-xs text-muted-foreground mb-1.5">
-            💡 Рекомендации:
-          </p>
+          <p className="text-xs text-muted-foreground mb-1.5">💡 Рекомендации:</p>
           <div className="flex flex-wrap gap-1.5">
             {context.suggestedInstruments.slice(0, 4).map((inst) => (
               <Badge key={inst} variant="outline" className="text-xs text-primary border-primary/30">

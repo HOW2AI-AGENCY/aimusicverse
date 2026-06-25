@@ -3,14 +3,14 @@
  * Detects pitch and shows tuning accuracy
  */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Music, Mic, Check, AlertCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Music, Mic, Check, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 interface GuitarTunerProps {
   className?: string;
@@ -18,15 +18,15 @@ interface GuitarTunerProps {
 
 // Standard guitar tuning (E A D G B E)
 const STANDARD_TUNING = [
-  { note: 'E', frequency: 82.41, string: 6 },
-  { note: 'A', frequency: 110.00, string: 5 },
-  { note: 'D', frequency: 146.83, string: 4 },
-  { note: 'G', frequency: 196.00, string: 3 },
-  { note: 'B', frequency: 246.94, string: 2 },
-  { note: 'E', frequency: 329.63, string: 1 },
+  { note: "E", frequency: 82.41, string: 6 },
+  { note: "A", frequency: 110.0, string: 5 },
+  { note: "D", frequency: 146.83, string: 4 },
+  { note: "G", frequency: 196.0, string: 3 },
+  { note: "B", frequency: 246.94, string: 2 },
+  { note: "E", frequency: 329.63, string: 1 },
 ];
 
-const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 // Calculate frequency to note
 const frequencyToNote = (frequency: number) => {
@@ -35,7 +35,7 @@ const frequencyToNote = (frequency: number) => {
   const noteName = NOTE_NAMES[noteIndex % 12];
   const octave = Math.floor(noteIndex / 12) - 1;
   const cents = Math.floor((noteNum - Math.round(noteNum)) * 100);
-  
+
   return { noteName, octave, cents, frequency };
 };
 
@@ -84,9 +84,9 @@ const autoCorrelate = (buffer: Float32Array, sampleRate: number): number => {
 export function GuitarTuner({ className }: GuitarTunerProps) {
   const [isActive, setIsActive] = useState(false);
   const [currentNote, setCurrentNote] = useState<ReturnType<typeof frequencyToNote> | null>(null);
-  const [targetString, setTargetString] = useState<typeof STANDARD_TUNING[0] | null>(null);
+  const [targetString, setTargetString] = useState<(typeof STANDARD_TUNING)[0] | null>(null);
   const [cents, setCents] = useState(0);
-  
+
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -149,7 +149,7 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
       setIsActive(true);
       detectPitch();
     } catch (error) {
-      logger.error('Microphone access error', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Microphone access error", error instanceof Error ? error : new Error(String(error)));
     }
   };
 
@@ -158,7 +158,7 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
       cancelAnimationFrame(animationFrameRef.current);
     }
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => track.stop());
+      streamRef.current.getTracks().forEach((track) => track.stop());
     }
     if (audioContextRef.current) {
       audioContextRef.current.close();
@@ -180,7 +180,7 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
   const isClose = Math.abs(cents) < 15;
 
   return (
-    <Card className={cn('p-6 space-y-4', className)}>
+    <Card className={cn("p-6 space-y-4", className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -198,13 +198,8 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
       {/* Standard tuning reference */}
       {!isActive && (
         <div className="grid grid-cols-6 gap-2">
-          {STANDARD_TUNING.map(tuning => (
-            <Button
-              key={tuning.string}
-              variant="outline"
-              size="sm"
-              className="flex flex-col h-auto py-2"
-            >
+          {STANDARD_TUNING.map((tuning) => (
+            <Button key={tuning.string} variant="outline" size="sm" className="flex flex-col h-auto py-2">
               <span className="text-xs text-muted-foreground">{tuning.string}</span>
               <span className="text-lg font-bold">{tuning.note}</span>
             </Button>
@@ -225,13 +220,9 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
                   transition={{ duration: 0.3 }}
                 >
                   {currentNote.noteName}
-                  <span className="text-3xl text-muted-foreground">
-                    {currentNote.octave}
-                  </span>
+                  <span className="text-3xl text-muted-foreground">{currentNote.octave}</span>
                 </motion.div>
-                <p className="text-sm text-muted-foreground">
-                  {currentNote.frequency.toFixed(2)} Hz
-                </p>
+                <p className="text-sm text-muted-foreground">{currentNote.frequency.toFixed(2)} Hz</p>
 
                 {/* Target string */}
                 {targetString && (
@@ -255,21 +246,21 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
               <div className="relative h-16 bg-muted/30 rounded-lg overflow-hidden">
                 {/* Center line */}
                 <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-border -translate-x-1/2" />
-                
+
                 {/* Tuned zone */}
                 <div className="absolute left-1/2 top-0 bottom-0 w-16 bg-green-500/10 -translate-x-1/2" />
 
                 {/* Needle */}
                 <motion.div
                   className={cn(
-                    'absolute top-0 bottom-0 w-1 rounded-full',
-                    isTuned ? 'bg-green-500' : isClose ? 'bg-yellow-500' : 'bg-red-500'
+                    "absolute top-0 bottom-0 w-1 rounded-full",
+                    isTuned ? "bg-green-500" : isClose ? "bg-yellow-500" : "bg-red-500",
                   )}
-                  style={{ left: '50%' }}
+                  style={{ left: "50%" }}
                   animate={{
                     x: `${Math.max(-100, Math.min(100, cents * 2))}px`,
                   }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               </div>
 
@@ -282,11 +273,14 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
                   ) : (
                     <AlertCircle className="w-5 h-5 text-yellow-500" />
                   )}
-                  <span className={cn(
-                    'font-mono font-bold text-lg',
-                    isTuned ? 'text-green-500' : isClose ? 'text-yellow-500' : 'text-red-500'
-                  )}>
-                    {cents > 0 ? '+' : ''}{cents} ¢
+                  <span
+                    className={cn(
+                      "font-mono font-bold text-lg",
+                      isTuned ? "text-green-500" : isClose ? "text-yellow-500" : "text-red-500",
+                    )}
+                  >
+                    {cents > 0 ? "+" : ""}
+                    {cents} ¢
                   </span>
                 </div>
                 <span className="text-muted-foreground">Высокая</span>
@@ -297,13 +291,9 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
                 {isTuned ? (
                   <p className="text-green-500 font-medium">✓ Настроено идеально!</p>
                 ) : cents > 0 ? (
-                  <p className="text-muted-foreground">
-                    ↑ Слишком высоко — ослабьте струну
-                  </p>
+                  <p className="text-muted-foreground">↑ Слишком высоко — ослабьте струну</p>
                 ) : (
-                  <p className="text-muted-foreground">
-                    ↓ Слишком низко — подтяните струну
-                  </p>
+                  <p className="text-muted-foreground">↓ Слишком низко — подтяните струну</p>
                 )}
               </div>
             </div>
@@ -314,7 +304,7 @@ export function GuitarTuner({ className }: GuitarTunerProps) {
       {/* Control button */}
       <Button
         onClick={isActive ? stopTuner : startTuner}
-        variant={isActive ? 'destructive' : 'default'}
+        variant={isActive ? "destructive" : "default"}
         className="w-full"
         size="lg"
       >

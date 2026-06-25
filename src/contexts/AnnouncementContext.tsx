@@ -6,13 +6,13 @@
  * - Auto-dismiss and "dismiss all" functionality
  */
 
-import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
-import { logger } from '@/lib/logger';
+import { createContext, useContext, useState, useCallback, useEffect, ReactNode } from "react";
+import { logger } from "@/lib/logger";
 
-const announcementLogger = logger.child({ module: 'AnnouncementSystem' });
+const announcementLogger = logger.child({ module: "AnnouncementSystem" });
 
-export type AnnouncementType = 'info' | 'warning' | 'success' | 'beta' | 'feature' | 'system';
-export type AnnouncementPriority = 'low' | 'normal' | 'high' | 'critical';
+export type AnnouncementType = "info" | "warning" | "success" | "beta" | "feature" | "system";
+export type AnnouncementPriority = "low" | "normal" | "high" | "critical";
 
 export interface Announcement {
   id: string;
@@ -53,7 +53,7 @@ interface AnnouncementContextType {
 
 const AnnouncementContext = createContext<AnnouncementContextType | undefined>(undefined);
 
-const DISMISSED_STORAGE_KEY = 'dismissed-announcements-v2';
+const DISMISSED_STORAGE_KEY = "dismissed-announcements-v2";
 const MAX_QUEUE_SIZE = 10;
 
 // Priority weights for sorting
@@ -66,7 +66,7 @@ const PRIORITY_WEIGHT: Record<AnnouncementPriority, number> = {
 
 function getDismissedIds(): string[] {
   try {
-    return JSON.parse(localStorage.getItem(DISMISSED_STORAGE_KEY) || '[]');
+    return JSON.parse(localStorage.getItem(DISMISSED_STORAGE_KEY) || "[]");
   } catch {
     return [];
   }
@@ -97,22 +97,22 @@ export function AnnouncementProvider({ children }: { children: ReactNode }) {
 
       // Sort by priority
       const sorted = [...prevQueue].sort((a, b) => {
-        const weightA = PRIORITY_WEIGHT[a.priority || 'normal'];
-        const weightB = PRIORITY_WEIGHT[b.priority || 'normal'];
+        const weightA = PRIORITY_WEIGHT[a.priority || "normal"];
+        const weightB = PRIORITY_WEIGHT[b.priority || "normal"];
         return weightB - weightA;
       });
 
       const [next, ...rest] = sorted;
-      
+
       // Check if expired
       if (next.expiresAt && new Date() > next.expiresAt) {
-        announcementLogger.debug('Announcement expired, skipping', { id: next.id });
+        announcementLogger.debug("Announcement expired, skipping", { id: next.id });
         return rest;
       }
 
       // Show the announcement
       setCurrentAnnouncement(next);
-      announcementLogger.info('Showing announcement', { id: next.id, title: next.title });
+      announcementLogger.info("Showing announcement", { id: next.id, title: next.title });
 
       // Set auto-dismiss timer if configured
       if (next.autoDismissMs) {
@@ -147,7 +147,7 @@ export function AnnouncementProvider({ children }: { children: ReactNode }) {
   const addAnnouncement = useCallback((announcement: Announcement) => {
     // Check if already dismissed
     if (getDismissedIds().includes(announcement.id)) {
-      announcementLogger.debug('Announcement already dismissed', { id: announcement.id });
+      announcementLogger.debug("Announcement already dismissed", { id: announcement.id });
       return;
     }
 
@@ -158,11 +158,11 @@ export function AnnouncementProvider({ children }: { children: ReactNode }) {
 
       // Limit queue size
       if (prev.length >= MAX_QUEUE_SIZE) {
-        announcementLogger.warn('Queue full, dropping oldest announcement');
+        announcementLogger.warn("Queue full, dropping oldest announcement");
         return [...prev.slice(1), announcement];
       }
 
-      announcementLogger.debug('Added announcement to queue', { id: announcement.id });
+      announcementLogger.debug("Added announcement to queue", { id: announcement.id });
       return [...prev, announcement];
     });
   }, []);
@@ -184,7 +184,7 @@ export function AnnouncementProvider({ children }: { children: ReactNode }) {
     // Call onDismiss callback if provided
     currentAnnouncement.onDismiss?.();
 
-    announcementLogger.debug('Dismissed announcement', { id: currentAnnouncement.id });
+    announcementLogger.debug("Dismissed announcement", { id: currentAnnouncement.id });
     setCurrentAnnouncement(null);
   }, [currentAnnouncement, autoDismissTimer]);
 
@@ -212,7 +212,7 @@ export function AnnouncementProvider({ children }: { children: ReactNode }) {
 
     setCurrentAnnouncement(null);
     setQueue([]);
-    announcementLogger.info('Dismissed all announcements');
+    announcementLogger.info("Dismissed all announcements");
   }, [currentAnnouncement, queue, autoDismissTimer]);
 
   const wasDismissed = useCallback((id: string) => {
@@ -221,12 +221,12 @@ export function AnnouncementProvider({ children }: { children: ReactNode }) {
 
   const pauseAnnouncements = useCallback(() => {
     setIsPaused(true);
-    announcementLogger.debug('Announcements paused');
+    announcementLogger.debug("Announcements paused");
   }, []);
 
   const resumeAnnouncements = useCallback(() => {
     setIsPaused(false);
-    announcementLogger.debug('Announcements resumed');
+    announcementLogger.debug("Announcements resumed");
   }, []);
 
   return (
@@ -251,7 +251,7 @@ export function AnnouncementProvider({ children }: { children: ReactNode }) {
 export function useAnnouncements() {
   const context = useContext(AnnouncementContext);
   if (!context) {
-    throw new Error('useAnnouncements must be used within AnnouncementProvider');
+    throw new Error("useAnnouncements must be used within AnnouncementProvider");
   }
   return context;
 }

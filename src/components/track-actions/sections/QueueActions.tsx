@@ -1,27 +1,24 @@
 /**
  * Queue Actions Section
- * 
+ *
  * Provides queue-related actions for track menus:
  * - Play From Here (play this track and queue remaining)
  * - Play Next (insert after current track)
  * - Add to Queue (add to end of queue)
  */
 
-import { Play, PlayCircle, ListEnd, ListMusic } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { 
-  DropdownMenuItem, 
-  DropdownMenuSeparator 
-} from '@/components/ui/dropdown-menu';
-import { usePlaybackQueue } from '@/hooks/audio/usePlaybackQueue';
-import { useTrackInList } from '@/contexts/TrackListContext';
-import type { Track } from '@/types/track';
-import { hapticImpact } from '@/lib/haptic';
-import { toast } from 'sonner';
+import { Play, PlayCircle, ListEnd, ListMusic } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { usePlaybackQueue } from "@/hooks/audio/usePlaybackQueue";
+import { useTrackInList } from "@/contexts/TrackListContext";
+import type { Track } from "@/types/track";
+import { hapticImpact } from "@/lib/haptic";
+import { toast } from "sonner";
 
 interface QueueActionsProps {
   track: Track;
-  variant?: 'menu' | 'sheet';
+  variant?: "menu" | "sheet";
   onAction?: () => void;
   /** List of tracks for "Play From Here" functionality (optional - uses context if not provided) */
   trackList?: Track[];
@@ -32,14 +29,14 @@ interface QueueActionsProps {
 /**
  * Queue actions for DropdownMenu
  */
-export function QueueActionsMenu({ 
-  track, 
-  onAction, 
-  trackList: propTrackList, 
-  trackIndex: propTrackIndex 
+export function QueueActionsMenu({
+  track,
+  onAction,
+  trackList: propTrackList,
+  trackIndex: propTrackIndex,
 }: QueueActionsProps) {
   const { playNext, addTrack, queue, playFromIndex } = usePlaybackQueue();
-  
+
   // Use context as fallback if props not provided
   const contextData = useTrackInList(track.id);
   const trackList = propTrackList ?? contextData.trackList;
@@ -47,30 +44,30 @@ export function QueueActionsMenu({
 
   const handlePlayFromHere = () => {
     if (!trackList || trackIndex === undefined || trackIndex < 0) return;
-    
-    hapticImpact('medium');
+
+    hapticImpact("medium");
     playFromIndex(trackList, trackIndex);
-    
+
     const remainingCount = trackList.length - trackIndex;
-    toast.success('Воспроизведение', {
-      description: `${track.title}${remainingCount > 1 ? ` и ещё ${remainingCount - 1}` : ''}`,
+    toast.success("Воспроизведение", {
+      description: `${track.title}${remainingCount > 1 ? ` и ещё ${remainingCount - 1}` : ""}`,
     });
     onAction?.();
   };
 
   const handlePlayNext = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     playNext(track);
-    toast.success('Играет следующим', {
+    toast.success("Играет следующим", {
       description: track.title,
     });
     onAction?.();
   };
 
   const handleAddToQueue = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     addTrack(track, false);
-    toast.success('Добавлено в очередь', {
+    toast.success("Добавлено в очередь", {
       description: track.title,
     });
     onAction?.();
@@ -86,9 +83,7 @@ export function QueueActionsMenu({
           <ListMusic className="w-4 h-4 mr-2" />
           <span>Играть отсюда</span>
           {trackList.length - trackIndex > 1 && (
-            <span className="ml-auto text-xs text-muted-foreground">
-              +{trackList.length - trackIndex - 1}
-            </span>
+            <span className="ml-auto text-xs text-muted-foreground">+{trackList.length - trackIndex - 1}</span>
           )}
         </DropdownMenuItem>
       )}
@@ -99,11 +94,7 @@ export function QueueActionsMenu({
       <DropdownMenuItem onClick={handleAddToQueue}>
         <ListEnd className="w-4 h-4 mr-2" />
         <span>Добавить в очередь</span>
-        {queue.length > 0 && (
-          <span className="ml-auto text-xs text-muted-foreground">
-            #{queue.length + 1}
-          </span>
-        )}
+        {queue.length > 0 && <span className="ml-auto text-xs text-muted-foreground">#{queue.length + 1}</span>}
       </DropdownMenuItem>
     </>
   );
@@ -112,14 +103,14 @@ export function QueueActionsMenu({
 /**
  * Queue actions for Sheet/Bottom Sheet
  */
-export function QueueActionsSheet({ 
-  track, 
-  onAction, 
-  trackList: propTrackList, 
-  trackIndex: propTrackIndex 
+export function QueueActionsSheet({
+  track,
+  onAction,
+  trackList: propTrackList,
+  trackIndex: propTrackIndex,
 }: QueueActionsProps) {
   const { playNext, addTrack, queue, playFromIndex } = usePlaybackQueue();
-  
+
   // Use context as fallback if props not provided
   const contextData = useTrackInList(track.id);
   const trackList = propTrackList ?? contextData.trackList;
@@ -127,30 +118,30 @@ export function QueueActionsSheet({
 
   const handlePlayFromHere = () => {
     if (!trackList || trackIndex === undefined || trackIndex < 0) return;
-    
-    hapticImpact('medium');
+
+    hapticImpact("medium");
     playFromIndex(trackList, trackIndex);
-    
+
     const remainingCount = trackList.length - trackIndex;
-    toast.success('Воспроизведение', {
-      description: `${track.title}${remainingCount > 1 ? ` и ещё ${remainingCount - 1}` : ''}`,
+    toast.success("Воспроизведение", {
+      description: `${track.title}${remainingCount > 1 ? ` и ещё ${remainingCount - 1}` : ""}`,
     });
     onAction?.();
   };
 
   const handlePlayNext = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     playNext(track);
-    toast.success('Играет следующим', {
+    toast.success("Играет следующим", {
       description: track.title,
     });
     onAction?.();
   };
 
   const handleAddToQueue = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     addTrack(track, false);
-    toast.success('Добавлено в очередь', {
+    toast.success("Добавлено в очередь", {
       description: track.title,
     });
     onAction?.();
@@ -200,9 +191,7 @@ export function QueueActionsSheet({
         </div>
         <span className="flex-1 text-left font-medium">Добавить в очередь</span>
         {queue.length > 0 && (
-          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">
-            #{queue.length + 1}
-          </span>
+          <span className="text-xs text-muted-foreground bg-muted px-2 py-0.5 rounded-full">#{queue.length + 1}</span>
         )}
       </Button>
     </div>
@@ -212,29 +201,9 @@ export function QueueActionsSheet({
 /**
  * Unified export for both variants
  */
-export function QueueActions({ 
-  track, 
-  variant = 'menu', 
-  onAction,
-  trackList,
-  trackIndex 
-}: QueueActionsProps) {
-  if (variant === 'sheet') {
-    return (
-      <QueueActionsSheet 
-        track={track} 
-        onAction={onAction} 
-        trackList={trackList}
-        trackIndex={trackIndex}
-      />
-    );
+export function QueueActions({ track, variant = "menu", onAction, trackList, trackIndex }: QueueActionsProps) {
+  if (variant === "sheet") {
+    return <QueueActionsSheet track={track} onAction={onAction} trackList={trackList} trackIndex={trackIndex} />;
   }
-  return (
-    <QueueActionsMenu 
-      track={track} 
-      onAction={onAction} 
-      trackList={trackList}
-      trackIndex={trackIndex}
-    />
-  );
+  return <QueueActionsMenu track={track} onAction={onAction} trackList={trackList} trackIndex={trackIndex} />;
 }

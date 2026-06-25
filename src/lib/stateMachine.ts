@@ -3,7 +3,7 @@
  * Phase 4: IMP027 - Type-safe state transitions without XState dependency
  */
 
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
 /**
  * State configuration for a state machine
@@ -49,19 +49,15 @@ export interface StateMachine<TState extends string, TContext, TEvent extends st
 /**
  * Create a type-safe state machine
  */
-export function createMachine<
-  TState extends string,
-  TContext,
-  TEvent extends string
->(
-  config: StateConfig<TState, TContext>
+export function createMachine<TState extends string, TContext, TEvent extends string>(
+  config: StateConfig<TState, TContext>,
 ): StateMachine<TState, TContext, TEvent> {
   let currentState = config.initial;
   let currentContext = { ...config.context };
   const listeners: Set<(state: TState, context: TContext) => void> = new Set();
 
   const notifyListeners = () => {
-    listeners.forEach(listener => listener(currentState, currentContext));
+    listeners.forEach((listener) => listener(currentState, currentContext));
   };
 
   const getStateConfig = (state: TState) => config.states[state];
@@ -73,7 +69,7 @@ export function createMachine<
     get context() {
       return currentContext;
     },
-    
+
     send(event: TEvent, payload?: Partial<TContext>) {
       const stateConfig = getStateConfig(currentState);
       const nextState = stateConfig.on?.[event] as TState | undefined;
@@ -142,15 +138,13 @@ export function createMachine<
 /**
  * React hook for using state machine
  */
-import { useState, useEffect, useCallback, useMemo } from 'react';
+import { useState, useEffect, useCallback, useMemo } from "react";
 
-export function useStateMachine<
-  TState extends string,
-  TContext,
-  TEvent extends string
->(config: StateConfig<TState, TContext>) {
+export function useStateMachine<TState extends string, TContext, TEvent extends string>(
+  config: StateConfig<TState, TContext>,
+) {
   const machine = useMemo(() => createMachine<TState, TContext, TEvent>(config), []);
-  
+
   const [snapshot, setSnapshot] = useState(() => machine.getSnapshot());
 
   useEffect(() => {
@@ -160,13 +154,19 @@ export function useStateMachine<
     return unsubscribe;
   }, [machine]);
 
-  const send = useCallback((event: TEvent, payload?: Partial<TContext>) => {
-    machine.send(event, payload);
-  }, [machine]);
+  const send = useCallback(
+    (event: TEvent, payload?: Partial<TContext>) => {
+      machine.send(event, payload);
+    },
+    [machine],
+  );
 
-  const can = useCallback((event: TEvent) => {
-    return machine.can(event);
-  }, [machine]);
+  const can = useCallback(
+    (event: TEvent) => {
+      return machine.can(event);
+    },
+    [machine],
+  );
 
   const reset = useCallback(() => {
     machine.reset();
@@ -185,22 +185,22 @@ export function useStateMachine<
 // Lyrics Wizard State Machine Definition (IMP027)
 // ============================================================================
 
-export type LyricsWizardState = 
-  | 'concept'      // Step 1: Define theme, genre, mood
-  | 'structure'    // Step 2: Choose song structure
-  | 'writing'      // Step 3: Write/generate lyrics
-  | 'enrichment'   // Step 4: Add vocal/instrument tags
-  | 'validation';  // Step 5: Final validation
+export type LyricsWizardState =
+  | "concept" // Step 1: Define theme, genre, mood
+  | "structure" // Step 2: Choose song structure
+  | "writing" // Step 3: Write/generate lyrics
+  | "enrichment" // Step 4: Add vocal/instrument tags
+  | "validation"; // Step 5: Final validation
 
 export type LyricsWizardEvent =
-  | 'NEXT'
-  | 'BACK'
-  | 'RESET'
-  | 'JUMP_TO_CONCEPT'
-  | 'JUMP_TO_STRUCTURE'
-  | 'JUMP_TO_WRITING'
-  | 'JUMP_TO_ENRICHMENT'
-  | 'JUMP_TO_VALIDATION';
+  | "NEXT"
+  | "BACK"
+  | "RESET"
+  | "JUMP_TO_CONCEPT"
+  | "JUMP_TO_STRUCTURE"
+  | "JUMP_TO_WRITING"
+  | "JUMP_TO_ENRICHMENT"
+  | "JUMP_TO_VALIDATION";
 
 export interface LyricsWizardContext {
   hasValidConcept: boolean;
@@ -210,11 +210,8 @@ export interface LyricsWizardContext {
   isComplete: boolean;
 }
 
-export const lyricsWizardMachineConfig: StateConfig<
-  LyricsWizardState,
-  LyricsWizardContext
-> = {
-  initial: 'concept',
+export const lyricsWizardMachineConfig: StateConfig<LyricsWizardState, LyricsWizardContext> = {
+  initial: "concept",
   context: {
     hasValidConcept: false,
     hasValidStructure: false,
@@ -225,45 +222,45 @@ export const lyricsWizardMachineConfig: StateConfig<
   states: {
     concept: {
       on: {
-        NEXT: 'structure',
-        JUMP_TO_STRUCTURE: 'structure',
+        NEXT: "structure",
+        JUMP_TO_STRUCTURE: "structure",
       },
     },
     structure: {
       on: {
-        NEXT: 'writing',
-        BACK: 'concept',
-        JUMP_TO_CONCEPT: 'concept',
-        JUMP_TO_WRITING: 'writing',
+        NEXT: "writing",
+        BACK: "concept",
+        JUMP_TO_CONCEPT: "concept",
+        JUMP_TO_WRITING: "writing",
       },
     },
     writing: {
       on: {
-        NEXT: 'enrichment',
-        BACK: 'structure',
-        JUMP_TO_CONCEPT: 'concept',
-        JUMP_TO_STRUCTURE: 'structure',
-        JUMP_TO_ENRICHMENT: 'enrichment',
+        NEXT: "enrichment",
+        BACK: "structure",
+        JUMP_TO_CONCEPT: "concept",
+        JUMP_TO_STRUCTURE: "structure",
+        JUMP_TO_ENRICHMENT: "enrichment",
       },
     },
     enrichment: {
       on: {
-        NEXT: 'validation',
-        BACK: 'writing',
-        JUMP_TO_CONCEPT: 'concept',
-        JUMP_TO_STRUCTURE: 'structure',
-        JUMP_TO_WRITING: 'writing',
-        JUMP_TO_VALIDATION: 'validation',
+        NEXT: "validation",
+        BACK: "writing",
+        JUMP_TO_CONCEPT: "concept",
+        JUMP_TO_STRUCTURE: "structure",
+        JUMP_TO_WRITING: "writing",
+        JUMP_TO_VALIDATION: "validation",
       },
     },
     validation: {
       on: {
-        BACK: 'enrichment',
-        RESET: 'concept',
-        JUMP_TO_CONCEPT: 'concept',
-        JUMP_TO_STRUCTURE: 'structure',
-        JUMP_TO_WRITING: 'writing',
-        JUMP_TO_ENRICHMENT: 'enrichment',
+        BACK: "enrichment",
+        RESET: "concept",
+        JUMP_TO_CONCEPT: "concept",
+        JUMP_TO_STRUCTURE: "structure",
+        JUMP_TO_WRITING: "writing",
+        JUMP_TO_ENRICHMENT: "enrichment",
       },
     },
   },
@@ -273,26 +270,19 @@ export const lyricsWizardMachineConfig: StateConfig<
 // Generation State Machine Definition
 // ============================================================================
 
-export type GenerationState =
-  | 'idle'
-  | 'preparing'
-  | 'validating'
-  | 'generating'
-  | 'processing'
-  | 'success'
-  | 'error';
+export type GenerationState = "idle" | "preparing" | "validating" | "generating" | "processing" | "success" | "error";
 
 export type GenerationEvent =
-  | 'START'
-  | 'VALIDATE'
-  | 'VALIDATION_PASS'
-  | 'VALIDATION_FAIL'
-  | 'GENERATE'
-  | 'PROGRESS'
-  | 'COMPLETE'
-  | 'ERROR'
-  | 'RETRY'
-  | 'RESET';
+  | "START"
+  | "VALIDATE"
+  | "VALIDATION_PASS"
+  | "VALIDATION_FAIL"
+  | "GENERATE"
+  | "PROGRESS"
+  | "COMPLETE"
+  | "ERROR"
+  | "RETRY"
+  | "RESET";
 
 export interface GenerationContext {
   progress: number;
@@ -302,11 +292,8 @@ export interface GenerationContext {
   maxRetries: number;
 }
 
-export const generationMachineConfig: StateConfig<
-  GenerationState,
-  GenerationContext
-> = {
-  initial: 'idle',
+export const generationMachineConfig: StateConfig<GenerationState, GenerationContext> = {
+  initial: "idle",
   context: {
     progress: 0,
     retryCount: 0,
@@ -315,7 +302,7 @@ export const generationMachineConfig: StateConfig<
   states: {
     idle: {
       on: {
-        START: 'preparing',
+        START: "preparing",
       },
       entry: (ctx) => {
         ctx.progress = 0;
@@ -325,43 +312,43 @@ export const generationMachineConfig: StateConfig<
     },
     preparing: {
       on: {
-        VALIDATE: 'validating',
-        ERROR: 'error',
-        RESET: 'idle',
+        VALIDATE: "validating",
+        ERROR: "error",
+        RESET: "idle",
       },
     },
     validating: {
       on: {
-        VALIDATION_PASS: 'generating',
-        VALIDATION_FAIL: 'error',
-        RESET: 'idle',
+        VALIDATION_PASS: "generating",
+        VALIDATION_FAIL: "error",
+        RESET: "idle",
       },
     },
     generating: {
       on: {
-        PROGRESS: 'generating',
-        COMPLETE: 'processing',
-        ERROR: 'error',
-        RESET: 'idle',
+        PROGRESS: "generating",
+        COMPLETE: "processing",
+        ERROR: "error",
+        RESET: "idle",
       },
     },
     processing: {
       on: {
-        COMPLETE: 'success',
-        ERROR: 'error',
-        RESET: 'idle',
+        COMPLETE: "success",
+        ERROR: "error",
+        RESET: "idle",
       },
     },
     success: {
       on: {
-        RESET: 'idle',
-        START: 'preparing',
+        RESET: "idle",
+        START: "preparing",
       },
     },
     error: {
       on: {
-        RETRY: 'preparing',
-        RESET: 'idle',
+        RETRY: "preparing",
+        RESET: "idle",
       },
       entry: (ctx) => {
         ctx.retryCount++;

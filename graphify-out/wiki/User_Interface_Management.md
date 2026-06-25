@@ -29,7 +29,7 @@
 - [sharePlaylistToStory()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L198) (8 connections)
 - [shareTrackToStory()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L96) (8 connections)
 - [PlaybackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/PlaybackActions.tsx#L1) (7 connections)
-- *... and 215 more nodes in this community*
+- _... and 215 more nodes in this community_
 
 ## Relationships
 
@@ -37,7 +37,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useSwipeNavigation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSwipeNavigation.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\_\_tests\_\_\hooks\useSwipeNavigation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSwipeNavigation.test.ts)
 - [D:\.MUSICVERSE\aimusicverse\src\components\OnboardingSlider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/OnboardingSlider.tsx)
 - [D:\.MUSICVERSE\aimusicverse\src\components\library\SwipeableTrackItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SwipeableTrackItem.tsx)
 - [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIAgentTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIAgentTabs.tsx)
@@ -66,4 +66,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

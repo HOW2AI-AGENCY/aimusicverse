@@ -62,9 +62,9 @@
 
 - [ ] **T002**: Создать миграцию для добавления полей версионирования в track_versions
   - Файл: `supabase/migrations/[timestamp]_add_version_fields.sql`
-  - SQL: 
+  - SQL:
     ```sql
-    ALTER TABLE track_versions 
+    ALTER TABLE track_versions
     ADD COLUMN version_number INTEGER DEFAULT 1,
     ADD COLUMN is_primary BOOLEAN DEFAULT false;
     ```
@@ -94,6 +94,7 @@
 - [ ] **T004** [P]: Создать миграцию для таблиц playlists
   - Файл: `supabase/migrations/[timestamp]_create_playlists_tables.sql`
   - SQL:
+
     ```sql
     CREATE TABLE playlists (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -105,7 +106,7 @@
       created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
       updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
     );
-    
+
     CREATE TABLE playlist_tracks (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
       playlist_id UUID REFERENCES playlists(id) ON DELETE CASCADE,
@@ -129,10 +130,11 @@
 - [ ] **T006**: Создать скрипт миграции существующих данных
   - Файл: `supabase/migrations/[timestamp]_migrate_existing_data.sql`
   - SQL:
+
     ```sql
     -- Установить version_number = 1 для всех существующих версий
     UPDATE track_versions SET version_number = 1 WHERE version_number IS NULL;
-    
+
     -- Установить первую версию как primary для каждого трека
     UPDATE track_versions tv SET is_primary = true
     FROM (
@@ -141,7 +143,7 @@
       ORDER BY track_id, created_at ASC
     ) first_versions
     WHERE tv.id = first_versions.id;
-    
+
     -- Установить primary_version_id для всех треков
     UPDATE music_tracks mt SET primary_version_id = tv.id
     FROM track_versions tv
@@ -149,6 +151,7 @@
     ```
 
 **Проверка миграций**:
+
 ```bash
 # Локальное тестирование
 supabase db reset
@@ -209,6 +212,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
 - [ ] **T010** [P]: Добавить Playlist интерфейсы
   - Файл: `src/integrations/supabase/types.ts`
   - Добавить:
+
     ```typescript
     interface Playlist {
       id: string;
@@ -220,7 +224,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
       created_at: string;
       updated_at: string;
     }
-    
+
     interface PlaylistTrack {
       id: string;
       playlist_id: string;
@@ -233,9 +237,10 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
 - [ ] **T011** [P]: Создать PlayerState клиентский тип
   - Файл: `src/lib/types/player.ts` (создать)
   - Добавить:
+
     ```typescript
-    export type PlayerMode = 'compact' | 'expanded' | 'fullscreen';
-    
+    export type PlayerMode = "compact" | "expanded" | "fullscreen";
+
     export interface PlayerState {
       mode: PlayerMode;
       currentTrack: Track | null;
@@ -250,9 +255,10 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
 - [ ] **T012** [P]: Создать PlaybackQueue клиентский тип
   - Файл: `src/lib/types/player.ts`
   - Добавить:
+
     ```typescript
-    export type RepeatMode = 'off' | 'all' | 'one';
-    
+    export type RepeatMode = "off" | "all" | "one";
+
     export interface PlaybackQueue {
       items: Track[];
       currentIndex: number;
@@ -265,9 +271,10 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
 - [ ] **T013** [P]: Создать AssistantFormState тип
   - Файл: `src/lib/types/forms.ts` (создать)
   - Добавить:
+
     ```typescript
-    export type GenerationMode = 'prompt' | 'style-lyrics' | 'cover' | 'extend' | 'project' | 'persona';
-    
+    export type GenerationMode = "prompt" | "style-lyrics" | "cover" | "extend" | "project" | "persona";
+
     export interface AssistantFormState {
       mode: GenerationMode;
       currentStep: number;
@@ -312,7 +319,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
     ```typescript
     export function useIsMobile(): boolean;
     export function useTouchEvents(element: RefObject<HTMLElement>): TouchEventHandlers;
-    export function triggerHapticFeedback(type: 'light' | 'medium' | 'heavy'): void;
+    export function triggerHapticFeedback(type: "light" | "medium" | "heavy"): void;
     export function isTouchDevice(): boolean;
     ```
 
@@ -384,7 +391,7 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
   - Функции:
     ```typescript
     export async function getTrackChangelog(trackId: string): Promise<TrackChangelog[]>;
-    export async function logChange(change: Omit<TrackChangelog, 'id' | 'changed_at'>): Promise<void>;
+    export async function logChange(change: Omit<TrackChangelog, "id" | "changed_at">): Promise<void>;
     ```
 
 ---
@@ -404,27 +411,32 @@ psql -h localhost -U postgres -d postgres -c "\d track_change_log"
 ## 📝 Команды для разработки
 
 ### Запуск проекта
+
 ```bash
 npm run dev
 ```
 
 ### Проверка типов
+
 ```bash
 npx tsc --noEmit
 ```
 
 ### Линтинг
+
 ```bash
 npm run lint
 npm run lint -- --fix
 ```
 
 ### Форматирование
+
 ```bash
 npm run format
 ```
 
 ### База данных (локальная)
+
 ```bash
 # Запуск локальной Supabase
 supabase start
@@ -440,6 +452,7 @@ supabase gen types typescript --local > src/integrations/supabase/types.ts
 ```
 
 ### Тестирование
+
 ```bash
 npm test
 npm test:coverage
@@ -459,21 +472,22 @@ npm test:coverage
 
 ## ⚠️ Риски и митигация
 
-| Риск | Вероятность | Митигация |
-|------|-------------|-----------|
-| Миграция данных сломает существующие треки | Средняя | Тестирование на копии БД перед production |
-| Breaking changes в типах | Высокая | Постепенное внедрение с fallback значениями |
-| Performance деградация после миграций | Низкая | Добавлены индексы, мониторинг запросов |
+| Риск                                       | Вероятность | Митигация                                   |
+| ------------------------------------------ | ----------- | ------------------------------------------- |
+| Миграция данных сломает существующие треки | Средняя     | Тестирование на копии БД перед production   |
+| Breaking changes в типах                   | Высокая     | Постепенное внедрение с fallback значениями |
+| Performance деградация после миграций      | Низкая      | Добавлены индексы, мониторинг запросов      |
 
 ---
 
 ## 🔄 Следующий спринт
 
 **Sprint 008: Library & Player MVP (User Stories 1 & 2)**
+
 - Период: 2025-12-15 - 2025-12-29
 - Задачи: 22 задачи
 - Фокус: Реализация UI компонентов для библиотеки и плеера
 
 ---
 
-*Последнее обновление: 2025-12-02*
+_Последнее обновление: 2025-12-02_

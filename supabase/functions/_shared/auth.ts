@@ -3,7 +3,7 @@
  * Common patterns for validating requests and checking permissions
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 export interface User {
   id: string;
@@ -23,28 +23,31 @@ export interface AuthResult {
 export async function validateRequest(
   req: Request,
   supabaseUrl: string,
-  supabaseServiceKey: string
+  supabaseServiceKey: string,
 ): Promise<AuthResult> {
-  const authHeader = req.headers.get('authorization');
-  
+  const authHeader = req.headers.get("authorization");
+
   if (!authHeader) {
-    return { user: null, isAdmin: false, error: 'Missing authorization header' };
+    return { user: null, isAdmin: false, error: "Missing authorization header" };
   }
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
-  
+
   try {
-    const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-    
+    const token = authHeader.replace("Bearer ", "");
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(token);
+
     if (error || !user) {
-      return { user: null, isAdmin: false, error: 'Invalid token' };
+      return { user: null, isAdmin: false, error: "Invalid token" };
     }
 
     // Check admin role
-    const { data: isAdmin } = await supabase.rpc('has_role', {
+    const { data: isAdmin } = await supabase.rpc("has_role", {
       _user_id: user.id,
-      _role: 'admin',
+      _role: "admin",
     });
 
     return {
@@ -55,8 +58,8 @@ export async function validateRequest(
       isAdmin: !!isAdmin,
     };
   } catch (error) {
-    console.error('Auth validation error:', error);
-    return { user: null, isAdmin: false, error: 'Authentication failed' };
+    console.error("Auth validation error:", error);
+    return { user: null, isAdmin: false, error: "Authentication failed" };
   }
 }
 
@@ -66,20 +69,23 @@ export async function validateRequest(
 export async function getAuthenticatedUser(
   req: Request,
   supabaseUrl: string,
-  supabaseServiceKey: string
+  supabaseServiceKey: string,
 ): Promise<User | null> {
-  const authHeader = req.headers.get('authorization');
-  
+  const authHeader = req.headers.get("authorization");
+
   if (!authHeader) {
     return null;
   }
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey);
-  
+
   try {
-    const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error } = await supabase.auth.getUser(token);
-    
+    const token = authHeader.replace("Bearer ", "");
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(token);
+
     if (error || !user) {
       return null;
     }
@@ -96,15 +102,11 @@ export async function getAuthenticatedUser(
 /**
  * Require authentication - throws if not authenticated
  */
-export async function requireAuth(
-  req: Request,
-  supabaseUrl: string,
-  supabaseServiceKey: string
-): Promise<User> {
+export async function requireAuth(req: Request, supabaseUrl: string, supabaseServiceKey: string): Promise<User> {
   const user = await getAuthenticatedUser(req, supabaseUrl, supabaseServiceKey);
-  
+
   if (!user) {
-    throw new Error('Authentication required');
+    throw new Error("Authentication required");
   }
 
   return user;
@@ -113,19 +115,15 @@ export async function requireAuth(
 /**
  * Require admin role - throws if not admin
  */
-export async function requireAdmin(
-  req: Request,
-  supabaseUrl: string,
-  supabaseServiceKey: string
-): Promise<User> {
+export async function requireAdmin(req: Request, supabaseUrl: string, supabaseServiceKey: string): Promise<User> {
   const result = await validateRequest(req, supabaseUrl, supabaseServiceKey);
-  
+
   if (!result.user) {
-    throw new Error(result.error || 'Authentication required');
+    throw new Error(result.error || "Authentication required");
   }
-  
+
   if (!result.isAdmin) {
-    throw new Error('Admin access required');
+    throw new Error("Admin access required");
   }
 
   return result.user;
@@ -136,10 +134,10 @@ export async function requireAdmin(
  * (used for internal edge-function-to-edge-function calls).
  */
 export function isServiceRoleToken(req: Request): boolean {
-  const authHeader = req.headers.get('authorization') || req.headers.get('Authorization');
+  const authHeader = req.headers.get("authorization") || req.headers.get("Authorization");
   if (!authHeader) return false;
-  const token = authHeader.replace(/^Bearer\s+/i, '').trim();
-  const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  const token = authHeader.replace(/^Bearer\s+/i, "").trim();
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   return !!serviceKey && token === serviceKey;
 }
 
@@ -153,28 +151,26 @@ export function isServiceRoleToken(req: Request): boolean {
  */
 export async function authorize(
   req: Request,
-  opts: { requireAdmin?: boolean } = {}
+  opts: { requireAdmin?: boolean } = {},
 ): Promise<
-  | { ok: true; user: User | null; isAdmin: boolean; isService: boolean }
-  | { ok: false; status: number; error: string }
+  { ok: true; user: User | null; isAdmin: boolean; isService: boolean } | { ok: false; status: number; error: string }
 > {
   if (isServiceRoleToken(req)) {
     return { ok: true, user: null, isAdmin: true, isService: true };
   }
 
-  const supabaseUrl = Deno.env.get('SUPABASE_URL');
-  const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceKey) {
-    return { ok: false, status: 500, error: 'Server misconfigured' };
+    return { ok: false, status: 500, error: "Server misconfigured" };
   }
 
   const result = await validateRequest(req, supabaseUrl, serviceKey);
   if (!result.user) {
-    return { ok: false, status: 401, error: result.error || 'Unauthorized' };
+    return { ok: false, status: 401, error: result.error || "Unauthorized" };
   }
   if (opts.requireAdmin && !result.isAdmin) {
-    return { ok: false, status: 403, error: 'Admin access required' };
+    return { ok: false, status: 403, error: "Admin access required" };
   }
   return { ok: true, user: result.user, isAdmin: result.isAdmin, isService: false };
 }
-

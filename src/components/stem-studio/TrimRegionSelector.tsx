@@ -1,7 +1,7 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
+import { useState, useRef, useCallback, useEffect } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
 
 interface TrimRegionSelectorProps {
   duration: number;
@@ -19,82 +19,94 @@ export const TrimRegionSelector = ({
   className,
 }: TrimRegionSelectorProps) => {
   const [region, setRegion] = useState<{ start: number; end: number } | null>(null);
-  const [isDragging, setIsDragging] = useState<'start' | 'end' | 'region' | null>(null);
+  const [isDragging, setIsDragging] = useState<"start" | "end" | "region" | null>(null);
   const [dragStartX, setDragStartX] = useState(0);
   const [dragStartRegion, setDragStartRegion] = useState<{ start: number; end: number } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const getTimeFromPosition = useCallback((clientX: number) => {
-    if (!containerRef.current || !duration) return 0;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
-    return (x / rect.width) * duration;
-  }, [duration]);
+  const getTimeFromPosition = useCallback(
+    (clientX: number) => {
+      if (!containerRef.current || !duration) return 0;
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+      return (x / rect.width) * duration;
+    },
+    [duration],
+  );
 
-  const getPositionFromTime = useCallback((time: number) => {
-    if (!duration) return 0;
-    return (time / duration) * 100;
-  }, [duration]);
+  const getPositionFromTime = useCallback(
+    (time: number) => {
+      if (!duration) return 0;
+      return (time / duration) * 100;
+    },
+    [duration],
+  );
 
-  const handleMouseDown = useCallback((e: React.MouseEvent, type: 'start' | 'end' | 'region' | 'track') => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    if (type === 'track') {
-      const time = getTimeFromPosition(e.clientX);
-      if (region) {
-        // Click outside region - deselect
-        if (time < region.start || time > region.end) {
-          setRegion(null);
-          onRegionChange(0, 0);
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent, type: "start" | "end" | "region" | "track") => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if (type === "track") {
+        const time = getTimeFromPosition(e.clientX);
+        if (region) {
+          // Click outside region - deselect
+          if (time < region.start || time > region.end) {
+            setRegion(null);
+            onRegionChange(0, 0);
+          } else {
+            onSeek(time);
+          }
         } else {
-          onSeek(time);
+          // Start new selection
+          setRegion({ start: time, end: time });
+          setIsDragging("end");
+          setDragStartX(e.clientX);
         }
       } else {
-        // Start new selection
-        setRegion({ start: time, end: time });
-        setIsDragging('end');
+        setIsDragging(type);
         setDragStartX(e.clientX);
+        setDragStartRegion(region ? { ...region } : null);
       }
-    } else {
-      setIsDragging(type);
-      setDragStartX(e.clientX);
-      setDragStartRegion(region ? { ...region } : null);
-    }
-  }, [getTimeFromPosition, region, onRegionChange, onSeek]);
+    },
+    [getTimeFromPosition, region, onRegionChange, onSeek],
+  );
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging || !containerRef.current) return;
 
-    const time = getTimeFromPosition(e.clientX);
-    
-    if (isDragging === 'start' && region) {
-      const newStart = Math.min(time, region.end - 1);
-      setRegion({ ...region, start: Math.max(0, newStart) });
-    } else if (isDragging === 'end' && region) {
-      const newEnd = Math.max(time, region.start + 1);
-      setRegion({ ...region, end: Math.min(duration, newEnd) });
-    } else if (isDragging === 'region' && dragStartRegion) {
-      const deltaX = e.clientX - dragStartX;
-      const rect = containerRef.current.getBoundingClientRect();
-      const deltaTime = (deltaX / rect.width) * duration;
-      
-      let newStart = dragStartRegion.start + deltaTime;
-      let newEnd = dragStartRegion.end + deltaTime;
-      
-      // Keep within bounds
-      if (newStart < 0) {
-        newEnd -= newStart;
-        newStart = 0;
+      const time = getTimeFromPosition(e.clientX);
+
+      if (isDragging === "start" && region) {
+        const newStart = Math.min(time, region.end - 1);
+        setRegion({ ...region, start: Math.max(0, newStart) });
+      } else if (isDragging === "end" && region) {
+        const newEnd = Math.max(time, region.start + 1);
+        setRegion({ ...region, end: Math.min(duration, newEnd) });
+      } else if (isDragging === "region" && dragStartRegion) {
+        const deltaX = e.clientX - dragStartX;
+        const rect = containerRef.current.getBoundingClientRect();
+        const deltaTime = (deltaX / rect.width) * duration;
+
+        let newStart = dragStartRegion.start + deltaTime;
+        let newEnd = dragStartRegion.end + deltaTime;
+
+        // Keep within bounds
+        if (newStart < 0) {
+          newEnd -= newStart;
+          newStart = 0;
+        }
+        if (newEnd > duration) {
+          newStart -= newEnd - duration;
+          newEnd = duration;
+        }
+
+        setRegion({ start: Math.max(0, newStart), end: Math.min(duration, newEnd) });
       }
-      if (newEnd > duration) {
-        newStart -= (newEnd - duration);
-        newEnd = duration;
-      }
-      
-      setRegion({ start: Math.max(0, newStart), end: Math.min(duration, newEnd) });
-    }
-  }, [isDragging, region, duration, getTimeFromPosition, dragStartX, dragStartRegion]);
+    },
+    [isDragging, region, duration, getTimeFromPosition, dragStartX, dragStartRegion],
+  );
 
   const handleMouseUp = useCallback(() => {
     if (isDragging && region && region.end > region.start) {
@@ -106,11 +118,11 @@ export const TrimRegionSelector = ({
 
   useEffect(() => {
     if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
       return () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
       };
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
@@ -118,13 +130,10 @@ export const TrimRegionSelector = ({
   // formatTime imported from @/lib/player-utils
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className={cn(
-        "relative h-16 bg-muted/30 rounded-lg overflow-hidden cursor-crosshair select-none",
-        className
-      )}
-      onMouseDown={(e) => handleMouseDown(e, 'track')}
+      className={cn("relative h-16 bg-muted/30 rounded-lg overflow-hidden cursor-crosshair select-none", className)}
+      onMouseDown={(e) => handleMouseDown(e, "track")}
     >
       {/* Waveform background placeholder */}
       <div className="absolute inset-0 flex items-center justify-center">
@@ -149,20 +158,20 @@ export const TrimRegionSelector = ({
             left: `${getPositionFromTime(region.start)}%`,
             width: `${getPositionFromTime(region.end) - getPositionFromTime(region.start)}%`,
           }}
-          onMouseDown={(e) => handleMouseDown(e, 'region')}
+          onMouseDown={(e) => handleMouseDown(e, "region")}
         >
           {/* Start handle */}
           <div
             className="absolute left-0 top-0 bottom-0 w-3 -ml-1.5 cursor-ew-resize hover:bg-primary/50 flex items-center justify-center"
-            onMouseDown={(e) => handleMouseDown(e, 'start')}
+            onMouseDown={(e) => handleMouseDown(e, "start")}
           >
             <div className="w-0.5 h-8 bg-primary rounded-full" />
           </div>
-          
+
           {/* End handle */}
           <div
             className="absolute right-0 top-0 bottom-0 w-3 -mr-1.5 cursor-ew-resize hover:bg-primary/50 flex items-center justify-center"
-            onMouseDown={(e) => handleMouseDown(e, 'end')}
+            onMouseDown={(e) => handleMouseDown(e, "end")}
           >
             <div className="w-0.5 h-8 bg-primary rounded-full" />
           </div>

@@ -1,6 +1,6 @@
 /**
  * Analytics Service Module
- * 
+ *
  * Unified exports for all analytics functionality.
  * Split from monolithic analytics.service.ts for better maintainability.
  */
@@ -14,7 +14,7 @@ export {
   clearSession,
   hasSessionStartedBeenTracked,
   markSessionStartedAsTracked,
-} from './session.service';
+} from "./session.service";
 
 // Event tracking
 export {
@@ -28,22 +28,13 @@ export {
   trackTrackPlayed,
   trackTrackLiked,
   trackTrackShared,
-} from './events.service';
+} from "./events.service";
 
 // Deeplink tracking
-export {
-  trackDeeplink,
-  markConversion,
-  fetchDeeplinkStats,
-  fetchDeeplinkEvents,
-} from './deeplink.service';
+export { trackDeeplink, markConversion, fetchDeeplinkStats, fetchDeeplinkEvents } from "./deeplink.service";
 
 // Funnel analytics
-export {
-  analyzeFunnelDropoff,
-  getFunnelDropoffStats,
-  type FunnelAnalysis,
-} from './funnel.service';
+export { analyzeFunnelDropoff, getFunnelDropoffStats, type FunnelAnalysis } from "./funnel.service";
 
 // Retention tracking
 export {
@@ -54,7 +45,7 @@ export {
   getLastVisitDate,
   calculateRetentionDays,
   type ReturnInfo,
-} from './retention.service';
+} from "./retention.service";
 
 // Re-export API types
 export type {
@@ -63,9 +54,7 @@ export type {
   DeeplinkStats,
   DeeplinkEvent,
   FunnelDropoffData,
-} from '@/api/analytics.api';
+} from "@/api/analytics.api";
 
 // Re-export API functions for backward compatibility
-export {
-  fetchUserBehaviorStats,
-} from '@/api/analytics.api';
+export { fetchUserBehaviorStats } from "@/api/analytics.api";

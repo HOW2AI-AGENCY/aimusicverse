@@ -1,6 +1,6 @@
-import { motion } from '@/lib/motion';
-import { useUserCredits } from '@/hooks/useGamification';
-import { Coins, TrendingUp, Flame, Sparkles, Star } from 'lucide-react';
+import { motion } from "@/lib/motion";
+import { useUserCredits } from "@/hooks/useGamification";
+import { Coins, TrendingUp, Flame, Sparkles, Star } from "lucide-react";
 
 interface CreditsBalanceProps {
   compact?: boolean;
@@ -11,12 +11,12 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
   const { data: credits, isLoading } = useUserCredits();
 
   if (isLoading) {
-    return <div className={`${compact ? 'h-8 w-20' : 'h-20'} bg-muted animate-pulse rounded-md`} />;
+    return <div className={`${compact ? "h-8 w-20" : "h-20"} bg-muted animate-pulse rounded-md`} />;
   }
 
   if (compact) {
     return (
-      <motion.div 
+      <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         className="flex items-center gap-2 bg-yellow-500/10 px-3 py-1.5 rounded-full border border-yellow-500/20"
@@ -27,9 +27,7 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
         >
           <Coins className="w-4 h-4 text-yellow-500" />
         </motion.div>
-        <span className="font-bold text-yellow-600 dark:text-yellow-400">
-          {credits?.balance || 0}
-        </span>
+        <span className="font-bold text-yellow-600 dark:text-yellow-400">{credits?.balance || 0}</span>
       </motion.div>
     );
   }
@@ -46,7 +44,7 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
       </div>
 
       <div className="relative flex items-center gap-3 mb-3">
-        <motion.div 
+        <motion.div
           whileHover={{ scale: 1.1, rotate: 15 }}
           className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg"
         >
@@ -54,7 +52,7 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
         </motion.div>
         <div>
           <p className="text-sm text-muted-foreground">Ваш баланс</p>
-          <motion.p 
+          <motion.p
             key={credits?.balance}
             initial={{ scale: 1.2 }}
             animate={{ scale: 1 }}
@@ -67,30 +65,21 @@ export function CreditsBalance({ compact = false, showStats = true }: CreditsBal
 
       {showStats && (
         <div className="grid grid-cols-3 gap-3 pt-3 border-t border-yellow-500/10">
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="flex items-center gap-2 bg-green-500/5 p-2 rounded-lg"
-          >
+          <motion.div whileHover={{ scale: 1.02 }} className="flex items-center gap-2 bg-green-500/5 p-2 rounded-lg">
             <TrendingUp className="w-4 h-4 text-green-500" />
             <div>
               <p className="text-[10px] text-muted-foreground">Заработано</p>
               <p className="font-semibold text-sm">{credits?.total_earned || 0}</p>
             </div>
           </motion.div>
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="flex items-center gap-2 bg-orange-500/5 p-2 rounded-lg"
-          >
+          <motion.div whileHover={{ scale: 1.02 }} className="flex items-center gap-2 bg-orange-500/5 p-2 rounded-lg">
             <Flame className="w-4 h-4 text-orange-500" />
             <div>
               <p className="text-[10px] text-muted-foreground">Макс. серия</p>
               <p className="font-semibold text-sm">{credits?.longest_streak || 0}</p>
             </div>
           </motion.div>
-          <motion.div 
-            whileHover={{ scale: 1.02 }}
-            className="flex items-center gap-2 bg-primary/5 p-2 rounded-lg"
-          >
+          <motion.div whileHover={{ scale: 1.02 }} className="flex items-center gap-2 bg-primary/5 p-2 rounded-lg">
             <Sparkles className="w-4 h-4 text-primary" />
             <div>
               <p className="text-[10px] text-muted-foreground">Опыт</p>

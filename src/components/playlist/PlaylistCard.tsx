@@ -1,16 +1,16 @@
-import { Music2, Clock, Globe, Lock, MoreVertical, Play, Pencil, Trash2, Share2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Music2, Clock, Globe, Lock, MoreVertical, Play, Pencil, Trash2, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { LazyImage } from '@/components/ui/lazy-image';
-import { surface, pill } from '@/lib/overlay-colors';
-import { cn } from '@/lib/utils';
-import type { Playlist } from '@/hooks/usePlaylists';
+} from "@/components/ui/dropdown-menu";
+import { LazyImage } from "@/components/ui/lazy-image";
+import { surface, pill } from "@/lib/overlay-colors";
+import { cn } from "@/lib/utils";
+import type { Playlist } from "@/hooks/usePlaylists";
 
 interface PlaylistCardProps {
   playlist: Playlist;
@@ -23,7 +23,7 @@ interface PlaylistCardProps {
 
 export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelete, onShare }: PlaylistCardProps) {
   return (
-    <div 
+    <div
       className="bg-card rounded-lg overflow-hidden border border-border hover:border-primary/50 transition-colors cursor-pointer group"
       onClick={onOpen}
     >
@@ -42,10 +42,20 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
             <Music2 className="h-16 w-16 text-primary/40" />
           </div>
         )}
-        
+
         {/* Play overlay */}
-        <div className={cn("absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center", surface.imageDark)}>
-          <Button size="icon" variant="secondary" className="h-12 w-12 rounded-full" aria-label="Воспроизвести плейлист">
+        <div
+          className={cn(
+            "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center",
+            surface.imageDark,
+          )}
+        >
+          <Button
+            size="icon"
+            variant="secondary"
+            className="h-12 w-12 rounded-full"
+            aria-label="Воспроизвести плейлист"
+          >
             <Play className="h-6 w-6" />
           </Button>
         </div>
@@ -70,7 +80,9 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
           <div className="min-w-0 flex-1">
             <h3 className="font-semibold truncate">{playlist.title}</h3>
             <div className="flex items-center gap-3 text-sm text-muted-foreground mt-1">
-              <span>{playlist.track_count ?? 0} {getTrackWord(playlist.track_count ?? 0)}</span>
+              <span>
+                {playlist.track_count ?? 0} {getTrackWord(playlist.track_count ?? 0)}
+              </span>
               {(playlist.total_duration ?? 0) > 0 && (
                 <span className="flex items-center gap-1">
                   <Clock className="h-3 w-3" />
@@ -88,19 +100,32 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onEdit(); }}>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit();
+                }}
+              >
                 <Pencil className="h-4 w-4 mr-2" />
                 Редактировать
               </DropdownMenuItem>
               {onShare && (
-                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onShare(); }}>
+                <DropdownMenuItem
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onShare();
+                  }}
+                >
                   <Share2 className="h-4 w-4 mr-2" />
                   Поделиться
                 </DropdownMenuItem>
               )}
               <DropdownMenuSeparator />
-              <DropdownMenuItem 
-                onClick={(e) => { e.stopPropagation(); onDelete(); }}
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete();
+                }}
                 className="text-destructive focus:text-destructive"
               >
                 <Trash2 className="h-4 w-4 mr-2" />
@@ -111,9 +136,7 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
         </div>
 
         {playlist.description && (
-          <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
-            {playlist.description}
-          </p>
+          <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{playlist.description}</p>
         )}
       </div>
     </div>
@@ -123,9 +146,9 @@ export function PlaylistCard({ playlist, formatDuration, onOpen, onEdit, onDelet
 function getTrackWord(count: number): string {
   const lastTwo = count % 100;
   const lastOne = count % 10;
-  
-  if (lastTwo >= 11 && lastTwo <= 19) return 'треков';
-  if (lastOne === 1) return 'трек';
-  if (lastOne >= 2 && lastOne <= 4) return 'трека';
-  return 'треков';
+
+  if (lastTwo >= 11 && lastTwo <= 19) return "треков";
+  if (lastOne === 1) return "трек";
+  if (lastOne >= 2 && lastOne <= 4) return "трека";
+  return "треков";
 }

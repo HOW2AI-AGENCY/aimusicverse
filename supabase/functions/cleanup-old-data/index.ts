@@ -3,25 +3,25 @@ import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 /**
  * Cleanup Old Data Edge Function
- * 
+ *
  * Periodically cleans up old data from various tables to prevent database bloat:
  * - error_logs: 30 days retention
  * - user_analytics_events: 90 days retention
  * - api_usage_logs: 60 days retention
  * - error_logs_archive: 90 days retention
  * - api_usage_logs_archive: 90 days retention
- * 
+ *
  * This function can be triggered manually or via pg_cron schedule.
  */
 serve(async (req) => {
   // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -29,10 +29,9 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-
 
   const startTime = Date.now();
 
@@ -65,11 +64,7 @@ serve(async (req) => {
     const results: Record<string, { deleted: number; error?: string }> = {};
 
     // Helper function to delete old records
-    const cleanupTable = async (
-      tableName: string, 
-      timestampColumn: string, 
-      retentionDays: number
-    ): Promise<number> => {
+    const cleanupTable = async (tableName: string, timestampColumn: string, retentionDays: number): Promise<number> => {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - retentionDays);
       const cutoffISO = cutoffDate.toISOString();
@@ -80,7 +75,7 @@ serve(async (req) => {
         // Count only, don't delete
         const { count, error } = await supabase
           .from(tableName)
-          .select('*', { count: 'exact', head: true })
+          .select("*", { count: "exact", head: true })
           .lt(timestampColumn, cutoffISO);
 
         if (error) {
@@ -100,7 +95,7 @@ serve(async (req) => {
         // First get IDs to delete
         const { data: toDelete, error: selectError } = await supabase
           .from(tableName)
-          .select('id')
+          .select("id")
           .lt(timestampColumn, cutoffISO)
           .limit(batchSize);
 
@@ -113,12 +108,9 @@ serve(async (req) => {
           break;
         }
 
-        const ids = toDelete.map(r => r.id);
+        const ids = toDelete.map((r) => r.id);
 
-        const { error: deleteError } = await supabase
-          .from(tableName)
-          .delete()
-          .in('id', ids);
+        const { error: deleteError } = await supabase.from(tableName).delete().in("id", ids);
 
         if (deleteError) {
           throw new Error(`Failed to delete from ${tableName}: ${deleteError.message}`);
@@ -138,11 +130,11 @@ serve(async (req) => {
 
     // Cleanup each table
     const tables: Array<{ name: string; column: string; days: number }> = [
-      { name: 'error_logs', column: 'created_at', days: retention.error_logs },
-      { name: 'user_analytics_events', column: 'created_at', days: retention.user_analytics_events },
-      { name: 'api_usage_logs', column: 'created_at', days: retention.api_usage_logs },
-      { name: 'error_logs_archive', column: 'created_at', days: retention.error_logs_archive },
-      { name: 'api_usage_logs_archive', column: 'created_at', days: retention.api_usage_logs_archive },
+      { name: "error_logs", column: "created_at", days: retention.error_logs },
+      { name: "user_analytics_events", column: "created_at", days: retention.user_analytics_events },
+      { name: "api_usage_logs", column: "created_at", days: retention.api_usage_logs },
+      { name: "error_logs_archive", column: "created_at", days: retention.error_logs_archive },
+      { name: "api_usage_logs_archive", column: "created_at", days: retention.api_usage_logs_archive },
     ];
 
     for (const table of tables) {
@@ -157,7 +149,7 @@ serve(async (req) => {
 
     const duration = Date.now() - startTime;
     const totalDeleted = Object.values(results).reduce((sum, r) => sum + r.deleted, 0);
-    const hasErrors = Object.values(results).some(r => r.error);
+    const hasErrors = Object.values(results).some((r) => r.error);
 
     console.log(`[cleanup-old-data] Completed in ${duration}ms. Total deleted: ${totalDeleted}`);
 
@@ -170,17 +162,17 @@ serve(async (req) => {
         const periodEnd = new Date(periodStart);
         periodEnd.setDate(periodEnd.getDate() + 1);
 
-        await supabase.from('analytics_aggregates').insert({
-          metric_name: 'cleanup_old_data',
+        await supabase.from("analytics_aggregates").insert({
+          metric_name: "cleanup_old_data",
           metric_value: totalDeleted,
           period_start: periodStart.toISOString(),
           period_end: periodEnd.toISOString(),
-          dimension: 'automated',
-          dimension_value: dryRun ? 'dry_run' : 'executed',
+          dimension: "automated",
+          dimension_value: dryRun ? "dry_run" : "executed",
           sample_count: Object.keys(results).length,
         });
       } catch (logError) {
-        console.warn('[cleanup-old-data] Failed to log to analytics:', logError);
+        console.warn("[cleanup-old-data] Failed to log to analytics:", logError);
       }
     }
 
@@ -192,24 +184,24 @@ serve(async (req) => {
         totalDeleted,
         durationMs: duration,
       }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: hasErrors ? 207 : 200,
-      }
+      },
     );
   } catch (error) {
-    console.error('[cleanup-old-data] Fatal error:', error);
-    
+    console.error("[cleanup-old-data] Fatal error:", error);
+
     return new Response(
       JSON.stringify({
         success: false,
         error: String(error),
         durationMs: Date.now() - startTime,
       }),
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 500,
-      }
+      },
     );
   }
 });

@@ -1,19 +1,16 @@
 /**
  * Debounced Stem Controls Hook
- * 
+ *
  * Provides debounced versions of stem control functions
  * to prevent excessive re-renders during rapid changes (e.g., volume sliders)
  */
 
-import { useCallback, useMemo, useRef, useEffect } from 'react';
+import { useCallback, useMemo, useRef, useEffect } from "react";
 
 // Debounce utility function
-function debounce<T extends (...args: never[]) => void>(
-  fn: T,
-  delay: number
-): (...args: Parameters<T>) => void {
+function debounce<T extends (...args: never[]) => void>(fn: T, delay: number): (...args: Parameters<T>) => void {
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  
+
   return (...args: Parameters<T>) => {
     if (timeoutId) {
       clearTimeout(timeoutId);
@@ -26,17 +23,14 @@ function debounce<T extends (...args: never[]) => void>(
 }
 
 // Throttle utility function for seek operations
-function throttle<T extends (...args: never[]) => void>(
-  fn: T,
-  delay: number
-): (...args: Parameters<T>) => void {
+function throttle<T extends (...args: never[]) => void>(fn: T, delay: number): (...args: Parameters<T>) => void {
   let lastCall = 0;
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
-  
+
   return (...args: Parameters<T>) => {
     const now = Date.now();
     const timeSinceLastCall = now - lastCall;
-    
+
     if (timeSinceLastCall >= delay) {
       lastCall = now;
       fn(...args);
@@ -92,7 +86,7 @@ export function useDebouncedStemControls({
       debounce((stemId: string, volume: number) => {
         stemVolumeChangeRef.current(stemId, volume);
       }, volumeDebounceMs),
-    [volumeDebounceMs]
+    [volumeDebounceMs],
   );
 
   // Debounced master volume change
@@ -101,7 +95,7 @@ export function useDebouncedStemControls({
       debounce((volume: number) => {
         masterVolumeChangeRef.current(volume);
       }, volumeDebounceMs),
-    [volumeDebounceMs]
+    [volumeDebounceMs],
   );
 
   // Throttled seek for smooth scrubbing
@@ -110,31 +104,25 @@ export function useDebouncedStemControls({
       throttle((time: number) => {
         seekRef.current(time);
       }, seekThrottleMs),
-    [seekThrottleMs]
+    [seekThrottleMs],
   );
 
   // Wrapper that applies debouncing but also immediately updates local state
-  const handleStemVolumeChange = useCallback(
-    (stemId: string, volume: number) => {
-      // Immediately update for responsive UI
-      stemVolumeChangeRef.current(stemId, volume);
-    },
-    []
-  );
+  const handleStemVolumeChange = useCallback((stemId: string, volume: number) => {
+    // Immediately update for responsive UI
+    stemVolumeChangeRef.current(stemId, volume);
+  }, []);
 
-  const handleMasterVolumeChange = useCallback(
-    (volume: number) => {
-      // Immediately update for responsive UI
-      masterVolumeChangeRef.current(volume);
-    },
-    []
-  );
+  const handleMasterVolumeChange = useCallback((volume: number) => {
+    // Immediately update for responsive UI
+    masterVolumeChangeRef.current(volume);
+  }, []);
 
   const handleSeek = useCallback(
     (time: number) => {
       throttledSeek(time);
     },
-    [throttledSeek]
+    [throttledSeek],
   );
 
   return {

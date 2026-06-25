@@ -19,9 +19,11 @@
 ## 🎯 Пользовательские сценарии (User Stories)
 
 ### User Story 1: Library Mobile Redesign & Versioning (P1)
+
 **Как пользователь мобильного устройства**, я хочу видеть компактную, удобную библиотеку с поддержкой версий треков, чтобы эффективно управлять своей музыкой одной рукой.
 
 **Критерии приемки**:
+
 1. ✅ TrackCard корректно отображается на разрешениях 320px-1920px
 2. ✅ Touch targets всех интерактивных элементов ≥44×44px
 3. ✅ Swipe gestures работают с haptic feedback
@@ -32,9 +34,11 @@
 8. ✅ Lighthouse Mobile Score >90
 
 ### User Story 2: Player Mobile Optimization (P1)
+
 **Как пользователь мобильного устройства**, я хочу иметь адаптивный плеер с тремя режимами (компактный/расширенный/полноэкранный), чтобы слушать музыку без отрыва от других задач.
 
 **Критерии приемки**:
+
 1. ✅ CompactPlayer занимает 64px
 2. ✅ ExpandedPlayer открывается свайпом вверх
 3. ✅ FullscreenPlayer отображает синхронизированную лирику
@@ -48,6 +52,7 @@
 ## 📋 Задачи User Story 1: Library (10 задач)
 
 ### US1-T01: TrackCard Mobile Redesign 🔴 КРИТИЧНО
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/library/TrackCard.tsx`
 - **Приоритет**: P0
@@ -56,6 +61,7 @@
 **Описание**: Адаптировать компонент TrackCard для мобильных устройств с touch-friendly интерфейсом.
 
 **Технические требования**:
+
 - Touch targets минимум 44×44px
 - Swipe gestures (свайп влево/вправо)
 - Haptic feedback при взаимодействии
@@ -63,24 +69,25 @@
 - Поддержка Grid и List режимов
 
 **Реализация**:
+
 ```tsx
 // src/components/library/TrackCard.tsx
-import { motion } from 'framer-motion';
-import { useTelegram } from '@/hooks/useTelegram';
+import { motion } from "framer-motion";
+import { useTelegram } from "@/hooks/useTelegram";
 
 export function TrackCard({ track }: { track: Track }) {
   const { hapticFeedback } = useTelegram();
-  
+
   const handleSwipeLeft = () => {
-    hapticFeedback('impact', 'medium');
+    hapticFeedback("impact", "medium");
     // Действие: добавить в избранное
   };
-  
+
   const handleSwipeRight = () => {
-    hapticFeedback('impact', 'medium');
+    hapticFeedback("impact", "medium");
     // Действие: удалить
   };
-  
+
   return (
     <motion.div
       drag="x"
@@ -98,6 +105,7 @@ export function TrackCard({ track }: { track: Track }) {
 ```
 
 **Проверка**:
+
 - [ ] Touch targets ≥44×44px (инструмент: Chrome DevTools)
 - [ ] Swipe работает плавно на 320px-1920px
 - [ ] Haptic feedback срабатывает (тест на реальном устройстве)
@@ -107,6 +115,7 @@ export function TrackCard({ track }: { track: Track }) {
 ---
 
 ### US1-T02: TrackRow Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/library/TrackRow.tsx` (создать)
 - **Приоритет**: P0
@@ -115,38 +124,33 @@ export function TrackCard({ track }: { track: Track }) {
 **Описание**: Создать компонент для компактного строчного отображения трека в list режиме.
 
 **Технические требования**:
+
 - Высота: 56-64px
 - Compact layout: cover (48x48) + info + actions
 - Touch-friendly кнопки действий
 - Быстрая прокрутка без лагов
 
 **Реализация**:
+
 ```tsx
 // src/components/library/TrackRow.tsx
 export function TrackRow({ track }: { track: Track }) {
   return (
     <div className="flex items-center gap-3 h-16 px-4 touch-manipulation">
-      <img 
-        src={track.cover_url} 
-        className="w-12 h-12 rounded"
-        loading="lazy"
-      />
+      <img src={track.cover_url} className="w-12 h-12 rounded" loading="lazy" />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{track.title}</p>
         <p className="text-xs text-muted-foreground truncate">{track.style}</p>
       </div>
-      <button className="w-11 h-11 touch-manipulation">
-        {/* Play button */}
-      </button>
-      <button className="w-11 h-11 touch-manipulation">
-        {/* More actions */}
-      </button>
+      <button className="w-11 h-11 touch-manipulation">{/* Play button */}</button>
+      <button className="w-11 h-11 touch-manipulation">{/* More actions */}</button>
     </div>
   );
 }
 ```
 
 **Проверка**:
+
 - [ ] Высота ровно 64px
 - [ ] Текст не выходит за границы (truncate)
 - [ ] Кнопки ≥44×44px
@@ -155,6 +159,7 @@ export function TrackRow({ track }: { track: Track }) {
 ---
 
 ### US1-T03: VersionBadge Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/library/VersionBadge.tsx` (создать)
 - **Приоритет**: P0
@@ -163,30 +168,26 @@ export function TrackRow({ track }: { track: Track }) {
 **Описание**: Бейдж с индикацией количества версий и отметкой master версии.
 
 **Технические требования**:
+
 - Показывает количество версий: "v1", "v3 (5 versions)"
 - Master версия: золотая звезда ⭐
 - Компактный размер: ~24-32px высота
 - Clickable: открывает VersionSwitcher
 
 **Реализация**:
+
 ```tsx
 // src/components/library/VersionBadge.tsx
-import { Badge } from '@/components/ui/badge';
+import { Badge } from "@/components/ui/badge";
 
-export function VersionBadge({ 
-  versionNumber, 
-  versionCount, 
-  isMaster,
-  onClick 
-}: VersionBadgeProps) {
+export function VersionBadge({ versionNumber, versionCount, isMaster, onClick }: VersionBadgeProps) {
   return (
-    <Badge 
-      variant={isMaster ? 'default' : 'secondary'}
+    <Badge
+      variant={isMaster ? "default" : "secondary"}
       className="text-xs cursor-pointer touch-manipulation min-h-[28px]"
       onClick={onClick}
     >
-      {isMaster && '⭐ '}
-      v{versionNumber}
+      {isMaster && "⭐ "}v{versionNumber}
       {versionCount > 1 && ` (${versionCount})`}
     </Badge>
   );
@@ -194,6 +195,7 @@ export function VersionBadge({
 ```
 
 **Проверка**:
+
 - [ ] Бейдж кликабельный (≥44×44px touch area)
 - [ ] Master версия визуально выделена
 - [ ] Текст читается на всех темах (light/dark)
@@ -201,6 +203,7 @@ export function VersionBadge({
 ---
 
 ### US1-T04: VersionSwitcher Component
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/library/VersionSwitcher.tsx` (создать)
 - **Приоритет**: P0
@@ -209,6 +212,7 @@ export function VersionBadge({
 **Описание**: UI для переключения между версиями трека с dropdown или bottom sheet.
 
 **Технические требования**:
+
 - Desktop: Dropdown menu
 - Mobile: Bottom Sheet (более удобно)
 - Список версий с деталями (дата, размер)
@@ -216,25 +220,26 @@ export function VersionBadge({
 - Оптимистичные обновления UI
 
 **Реализация**:
+
 ```tsx
 // src/components/library/VersionSwitcher.tsx
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { useTrackVersions } from '@/hooks/useTrackVersions';
-import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { useTrackVersions } from "@/hooks/useTrackVersions";
+import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 
 export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
   const { data: versions, isLoading } = useTrackVersions(trackId);
   const { switchToVersion, setPrimaryVersion } = useVersionSwitcher(trackId);
-  
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[60vh]">
         <SheetHeader>
           <SheetTitle>Select Version</SheetTitle>
         </SheetHeader>
-        
+
         <div className="space-y-2 mt-4">
-          {versions?.map(version => (
+          {versions?.map((version) => (
             <div key={version.id} className="flex items-center gap-3 p-3 border rounded">
               <div className="flex-1">
                 <p className="font-medium">v{version.version_number}</p>
@@ -242,14 +247,10 @@ export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
                   {formatDate(version.created_at)} • {formatSize(version.file_size_bytes)}
                 </p>
               </div>
-              
+
               {version.is_primary && <Badge>Primary</Badge>}
-              
-              <Button 
-                size="sm"
-                onClick={() => switchToVersion(version.id)}
-                className="touch-manipulation"
-              >
+
+              <Button size="sm" onClick={() => switchToVersion(version.id)} className="touch-manipulation">
                 Use This
               </Button>
             </div>
@@ -262,6 +263,7 @@ export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
 ```
 
 **Проверка**:
+
 - [ ] Bottom sheet плавно открывается
 - [ ] Версии отображаются с деталями
 - [ ] Переключение работает с оптимистичными обновлениями
@@ -270,6 +272,7 @@ export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
 ---
 
 ### US1-T05: TrackTypeIcons Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/library/TrackTypeIcons.tsx` (создать)
 - **Приоритет**: P1
@@ -278,12 +281,14 @@ export function VersionSwitcher({ trackId, open, onOpenChange }: Props) {
 **Описание**: Иконки для визуальной индикации типа трека (инструментал, вокал, стемы).
 
 **Технические требования**:
+
 - Иконки: 🎵 (vocal), 🎸 (instrumental), 🎛️ (stems)
 - Размер: 16×16px
 - Tooltip при hover
 - Группируются горизонтально
 
 **Реализация**:
+
 ```tsx
 // src/components/library/TrackTypeIcons.tsx
 export function TrackTypeIcons({ track }: { track: Track }) {
@@ -310,6 +315,7 @@ export function TrackTypeIcons({ track }: { track: Track }) {
 ```
 
 **Проверка**:
+
 - [ ] Иконки отображаются корректно
 - [ ] Tooltip работает (desktop)
 - [ ] Цвета различимы на всех темах
@@ -317,6 +323,7 @@ export function TrackTypeIcons({ track }: { track: Track }) {
 ---
 
 ### US1-T06: Library Page Update
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/pages/Library.tsx`
 - **Приоритет**: P0
@@ -325,6 +332,7 @@ export function TrackTypeIcons({ track }: { track: Track }) {
 **Описание**: Интегрировать новые компоненты в Library page, добавить backend фильтрацию, lazy loading.
 
 **Технические требования**:
+
 - Режимы отображения: Grid / List (переключение)
 - Backend фильтрация и сортировка
 - Infinite scroll с lazy loading
@@ -332,28 +340,23 @@ export function TrackTypeIcons({ track }: { track: Track }) {
 - Search и фильтры
 
 **Реализация**:
+
 ```tsx
 // src/pages/Library.tsx (обновить)
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { TrackCard } from '@/components/library/TrackCard';
-import { TrackRow } from '@/components/library/TrackRow';
-import { SkeletonLoader } from '@/components/ui/skeleton-loader';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { TrackCard } from "@/components/library/TrackCard";
+import { TrackRow } from "@/components/library/TrackRow";
+import { SkeletonLoader } from "@/components/ui/skeleton-loader";
 
 export default function Library() {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading
-  } = useInfiniteQuery({
-    queryKey: ['tracks', filters],
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
+    queryKey: ["tracks", filters],
     queryFn: ({ pageParam = 0 }) => fetchTracks({ page: pageParam, ...filters }),
-    getNextPageParam: (lastPage) => lastPage.nextPage
+    getNextPageParam: (lastPage) => lastPage.nextPage,
   });
-  
+
   return (
     <div className="p-4">
       {/* Header with view mode toggle */}
@@ -364,34 +367,33 @@ export default function Library() {
           <ToggleGroupItem value="list">List</ToggleGroupItem>
         </ToggleGroup>
       </div>
-      
+
       {/* Track list */}
-      <div className={viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4' : 'space-y-2'}>
+      <div className={viewMode === "grid" ? "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" : "space-y-2"}>
         {isLoading ? (
-          <SkeletonLoader count={8} type={viewMode === 'grid' ? 'card' : 'row'} />
+          <SkeletonLoader count={8} type={viewMode === "grid" ? "card" : "row"} />
         ) : (
-          data?.pages.flatMap(page => 
-            page.tracks.map(track => 
-              viewMode === 'grid' 
-                ? <TrackCard key={track.id} track={track} />
-                : <TrackRow key={track.id} track={track} />
-            )
+          data?.pages.flatMap((page) =>
+            page.tracks.map((track) =>
+              viewMode === "grid" ? (
+                <TrackCard key={track.id} track={track} />
+              ) : (
+                <TrackRow key={track.id} track={track} />
+              ),
+            ),
           )
         )}
       </div>
-      
+
       {/* Infinite scroll trigger */}
-      {hasNextPage && (
-        <div ref={loadMoreRef}>
-          {isFetchingNextPage && <SkeletonLoader count={4} type={viewMode} />}
-        </div>
-      )}
+      {hasNextPage && <div ref={loadMoreRef}>{isFetchingNextPage && <SkeletonLoader count={4} type={viewMode} />}</div>}
     </div>
   );
 }
 ```
 
 **Проверка**:
+
 - [ ] Grid/List режимы переключаются
 - [ ] Infinite scroll работает
 - [ ] Backend фильтрация быстрее клиентской
@@ -400,6 +402,7 @@ export default function Library() {
 ---
 
 ### US1-T07: Swipe Actions
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/library/TrackCard.tsx`
 - **Приоритет**: P1
@@ -408,6 +411,7 @@ export default function Library() {
 **Описание**: Реализовать swipe-to-like, swipe-to-delete с haptic feedback.
 
 **Технические требования**:
+
 - Swipe влево: Like/Unlike
 - Swipe вправо: Delete
 - Haptic feedback при действии
@@ -415,22 +419,24 @@ export default function Library() {
 - Подтверждение для delete
 
 **Реализация**:
+
 ```tsx
 // Добавить в TrackCard.tsx
-const handleSwipe = (direction: 'left' | 'right') => {
-  if (direction === 'left') {
+const handleSwipe = (direction: "left" | "right") => {
+  if (direction === "left") {
     // Like action
-    hapticFeedback('impact', 'light');
+    hapticFeedback("impact", "light");
     toggleLike(track.id);
   } else {
     // Delete action - показать confirmation
-    hapticFeedback('impact', 'heavy');
+    hapticFeedback("impact", "heavy");
     setShowDeleteConfirm(true);
   }
 };
 ```
 
 **Проверка**:
+
 - [ ] Swipe работает плавно
 - [ ] Haptic feedback ощутим на устройстве
 - [ ] Delete требует подтверждения
@@ -439,6 +445,7 @@ const handleSwipe = (direction: 'left' | 'right') => {
 ---
 
 ### US1-T08: Skeleton Loaders [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/ui/skeleton-loader.tsx` (создать)
 - **Приоритет**: P1
@@ -447,16 +454,17 @@ const handleSwipe = (direction: 'left' | 'right') => {
 **Описание**: Создать скелетоны для TrackCard и TrackRow.
 
 **Реализация**:
+
 ```tsx
 // src/components/ui/skeleton-loader.tsx
-import { Skeleton } from '@/components/ui/skeleton';
+import { Skeleton } from "@/components/ui/skeleton";
 
-export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
+export function SkeletonLoader({ count = 4, type = "card" }: Props) {
   return (
     <>
       {Array.from({ length: count }).map((_, i) => (
         <div key={i}>
-          {type === 'card' ? (
+          {type === "card" ? (
             <div className="space-y-2">
               <Skeleton className="h-48 w-full" />
               <Skeleton className="h-4 w-3/4" />
@@ -479,12 +487,14 @@ export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
 ```
 
 **Проверка**:
+
 - [ ] Скелетоны соответствуют реальным компонентам
 - [ ] Анимация загрузки плавная
 
 ---
 
 ### US1-T09: Library Tests (опционально)
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/pages/Library.test.tsx` (создать)
 - **Приоритет**: P2
@@ -493,6 +503,7 @@ export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
 **Описание**: Unit и integration тесты для версионирования.
 
 **Тесты**:
+
 - Переключение Grid/List режимов
 - Версионирование треков
 - Swipe actions
@@ -501,6 +512,7 @@ export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
 ---
 
 ### US1-T10: Library Mobile E2E (опционально)
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `tests/e2e/library.spec.ts` (создать)
 - **Приоритет**: P2
@@ -509,6 +521,7 @@ export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
 **Описание**: E2E тесты с Playwright на мобильном viewport.
 
 **Сценарии**:
+
 - Открыть Library на 375×667px
 - Переключить на List режим
 - Свайпнуть трек влево (like)
@@ -520,6 +533,7 @@ export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
 ## 📋 Задачи User Story 2: Player (12 задач)
 
 ### US2-T01: CompactPlayer Redesign [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/CompactPlayer.tsx`
 - **Приоритет**: P0
@@ -528,6 +542,7 @@ export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
 **Описание**: Минималистичный плеер высотой 64px для bottom navigation.
 
 **Технические требования**:
+
 - Высота: фиксированная 64px
 - Layout: cover (48×48) + track info + play/pause
 - Swipe up → ExpandedPlayer
@@ -535,20 +550,21 @@ export function SkeletonLoader({ count = 4, type = 'card' }: Props) {
 - Не закрывает контент (fixed bottom)
 
 **Реализация**:
+
 ```tsx
 // src/components/player/CompactPlayer.tsx
-import { motion } from 'framer-motion';
-import { usePlayerState } from '@/hooks/usePlayerState';
+import { motion } from "framer-motion";
+import { usePlayerState } from "@/hooks/usePlayerState";
 
 export function CompactPlayer() {
   const { state, play, pause, setMode } = usePlayerState();
-  
+
   const handleSwipeUp = () => {
-    setMode('expanded');
+    setMode("expanded");
   };
-  
+
   if (!state.currentTrack) return null;
-  
+
   return (
     <motion.div
       className="fixed bottom-0 left-0 right-0 h-16 bg-background border-t z-40"
@@ -559,18 +575,12 @@ export function CompactPlayer() {
       }}
     >
       <div className="flex items-center gap-3 h-full px-4">
-        <img 
-          src={state.currentTrack.cover_url}
-          className="w-12 h-12 rounded"
-        />
+        <img src={state.currentTrack.cover_url} className="w-12 h-12 rounded" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium truncate">{state.currentTrack.title}</p>
           <p className="text-xs text-muted-foreground truncate">{state.currentTrack.style}</p>
         </div>
-        <button 
-          onClick={() => state.isPlaying ? pause() : play()}
-          className="w-11 h-11 touch-manipulation"
-        >
+        <button onClick={() => (state.isPlaying ? pause() : play())} className="w-11 h-11 touch-manipulation">
           {state.isPlaying ? <Pause /> : <Play />}
         </button>
       </div>
@@ -580,6 +590,7 @@ export function CompactPlayer() {
 ```
 
 **Проверка**:
+
 - [ ] Высота ровно 64px
 - [ ] Swipe up открывает ExpandedPlayer
 - [ ] Не перекрывает контент страницы
@@ -588,6 +599,7 @@ export function CompactPlayer() {
 ---
 
 ### US2-T02: ExpandedPlayer Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/ExpandedPlayer.tsx` (создать)
 - **Приоритет**: P0
@@ -596,6 +608,7 @@ export function CompactPlayer() {
 **Описание**: Средний режим плеера (~40% viewport) с основными контролами.
 
 **Технические требования**:
+
 - Высота: ~40vh (динамическая)
 - Bottom sheet дизайн
 - Swipe down → CompactPlayer
@@ -603,41 +616,36 @@ export function CompactPlayer() {
 - Cover, progress bar, controls, queue button
 
 **Реализация**:
+
 ```tsx
 // src/components/player/ExpandedPlayer.tsx
-import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { usePlayerState } from '@/hooks/usePlayerState';
-import { PlaybackControls } from './PlaybackControls';
-import { ProgressBar } from './ProgressBar';
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { usePlayerState } from "@/hooks/usePlayerState";
+import { PlaybackControls } from "./PlaybackControls";
+import { ProgressBar } from "./ProgressBar";
 
 export function ExpandedPlayer() {
   const { state, setMode } = usePlayerState();
-  const isExpanded = state.mode === 'expanded';
-  
+  const isExpanded = state.mode === "expanded";
+
   return (
-    <Sheet open={isExpanded} onOpenChange={(open) => setMode(open ? 'expanded' : 'compact')}>
+    <Sheet open={isExpanded} onOpenChange={(open) => setMode(open ? "expanded" : "compact")}>
       <SheetContent side="bottom" className="h-[40vh]">
         <div className="flex flex-col h-full justify-between">
           {/* Cover art */}
           <div className="flex justify-center">
-            <img 
-              src={state.currentTrack?.cover_url}
-              className="w-32 h-32 rounded-lg shadow-lg"
-            />
+            <img src={state.currentTrack?.cover_url} className="w-32 h-32 rounded-lg shadow-lg" />
           </div>
-          
+
           {/* Track info */}
           <div className="text-center">
             <h3 className="font-semibold text-lg">{state.currentTrack?.title}</h3>
             <p className="text-sm text-muted-foreground">{state.currentTrack?.style}</p>
           </div>
-          
+
           {/* Progress bar */}
-          <ProgressBar 
-            current={state.currentTime}
-            duration={state.duration}
-          />
-          
+          <ProgressBar current={state.currentTime} duration={state.duration} />
+
           {/* Playback controls */}
           <PlaybackControls />
         </div>
@@ -648,6 +656,7 @@ export function ExpandedPlayer() {
 ```
 
 **Проверка**:
+
 - [ ] Открывается плавно (анимация)
 - [ ] Swipe down закрывает
 - [ ] Swipe up открывает Fullscreen
@@ -656,6 +665,7 @@ export function ExpandedPlayer() {
 ---
 
 ### US2-T03: FullscreenPlayer Redesign [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/FullscreenPlayer.tsx`
 - **Приоритет**: P0
@@ -664,6 +674,7 @@ export function ExpandedPlayer() {
 **Описание**: Полноэкранный режим с синхронизированной лирикой и всеми контролами.
 
 **Технические требования**:
+
 - Fullscreen (100vh)
 - Large cover art
 - Синхронизированная лирика (если доступна)
@@ -671,42 +682,37 @@ export function ExpandedPlayer() {
 - Все контролы: volume, queue, shuffle, repeat
 
 **Реализация**:
+
 ```tsx
 // src/components/player/FullscreenPlayer.tsx
 export function FullscreenPlayer() {
   const { state, setMode } = usePlayerState();
   const [showLyrics, setShowLyrics] = useState(true);
-  const isFullscreen = state.mode === 'fullscreen';
-  
+  const isFullscreen = state.mode === "fullscreen";
+
   if (!isFullscreen) return null;
-  
+
   return (
     <div className="fixed inset-0 bg-background z-50 flex flex-col">
       {/* Header */}
       <div className="flex justify-between p-4">
-        <button onClick={() => setMode('expanded')}>
+        <button onClick={() => setMode("expanded")}>
           <ChevronDown />
         </button>
         <button onClick={() => setShowLyrics(!showLyrics)}>
           <Music />
         </button>
       </div>
-      
+
       {/* Cover or Lyrics */}
       <div className="flex-1 overflow-auto p-6">
         {showLyrics && state.currentTrack?.lyrics ? (
-          <TimestampedLyrics 
-            lyrics={state.currentTrack.lyrics}
-            currentTime={state.currentTime}
-          />
+          <TimestampedLyrics lyrics={state.currentTrack.lyrics} currentTime={state.currentTime} />
         ) : (
-          <img 
-            src={state.currentTrack?.cover_url}
-            className="w-full max-w-sm mx-auto rounded-xl shadow-2xl"
-          />
+          <img src={state.currentTrack?.cover_url} className="w-full max-w-sm mx-auto rounded-xl shadow-2xl" />
         )}
       </div>
-      
+
       {/* Progress and Controls */}
       <div className="p-6 space-y-4">
         <ProgressBar />
@@ -719,6 +725,7 @@ export function FullscreenPlayer() {
 ```
 
 **Проверка**:
+
 - [ ] Fullscreen режим работает
 - [ ] Лирика синхронизируется
 - [ ] Swipe down закрывает
@@ -727,6 +734,7 @@ export function FullscreenPlayer() {
 ---
 
 ### US2-T04: PlaybackControls Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/PlaybackControls.tsx` (создать)
 - **Приоритет**: P0
@@ -735,47 +743,49 @@ export function FullscreenPlayer() {
 **Описание**: Универсальные контролы воспроизведения.
 
 **Технические требования**:
+
 - Кнопки: Previous, Play/Pause, Next
 - Shuffle, Repeat toggles
 - Touch-friendly (≥44×44px)
 - Responsive sizes: compact, medium, large
 
 **Реализация**:
+
 ```tsx
 // src/components/player/PlaybackControls.tsx
-export function PlaybackControls({ size = 'medium' }: Props) {
+export function PlaybackControls({ size = "medium" }: Props) {
   const { state, play, pause } = usePlayerState();
   const { previous, next, toggleShuffle, setRepeatMode } = usePlaybackQueue();
-  
+
   const buttonSize = {
-    compact: 'w-8 h-8',
-    medium: 'w-11 h-11',
-    large: 'w-14 h-14'
+    compact: "w-8 h-8",
+    medium: "w-11 h-11",
+    large: "w-14 h-14",
   }[size];
-  
+
   return (
     <div className="flex items-center justify-center gap-4">
       <button onClick={toggleShuffle} className={buttonSize}>
-        <Shuffle className={state.queue.shuffle ? 'text-primary' : ''} />
+        <Shuffle className={state.queue.shuffle ? "text-primary" : ""} />
       </button>
-      
+
       <button onClick={previous} className={buttonSize}>
         <SkipBack />
       </button>
-      
-      <button 
-        onClick={() => state.isPlaying ? pause() : play()}
+
+      <button
+        onClick={() => (state.isPlaying ? pause() : play())}
         className={`${buttonSize} bg-primary text-primary-foreground rounded-full`}
       >
         {state.isPlaying ? <Pause /> : <Play />}
       </button>
-      
+
       <button onClick={next} className={buttonSize}>
         <SkipForward />
       </button>
-      
+
       <button onClick={() => setRepeatMode(cycleRepeat(state.queue.repeat))} className={buttonSize}>
-        <Repeat className={state.queue.repeat !== 'off' ? 'text-primary' : ''} />
+        <Repeat className={state.queue.repeat !== "off" ? "text-primary" : ""} />
       </button>
     </div>
   );
@@ -783,6 +793,7 @@ export function PlaybackControls({ size = 'medium' }: Props) {
 ```
 
 **Проверка**:
+
 - [ ] Все кнопки ≥44×44px
 - [ ] Shuffle/Repeat визуально активны
 - [ ] Previous/Next работают
@@ -791,6 +802,7 @@ export function PlaybackControls({ size = 'medium' }: Props) {
 ---
 
 ### US2-T05: ProgressBar Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/ProgressBar.tsx` (создать)
 - **Приоритет**: P0
@@ -799,6 +811,7 @@ export function PlaybackControls({ size = 'medium' }: Props) {
 **Описание**: Прогресс бар с seek и buffering индикатором.
 
 **Технические требования**:
+
 - Touch-friendly: высота ≥44px touch area
 - Drag to seek
 - Tap to seek
@@ -806,33 +819,34 @@ export function PlaybackControls({ size = 'medium' }: Props) {
 - Time labels (current / total)
 
 **Реализация**:
+
 ```tsx
 // src/components/player/ProgressBar.tsx
 export function ProgressBar() {
   const { state, seek } = usePlayerState();
-  
+
   const handleSeek = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const percent = (e.clientX - rect.left) / rect.width;
     const newTime = percent * state.duration;
     seek(newTime);
   };
-  
+
   return (
     <div className="space-y-2">
-      <div 
+      <div
         className="relative h-1 bg-secondary rounded-full cursor-pointer touch-manipulation"
         onClick={handleSeek}
-        style={{ minHeight: '44px', paddingTop: '21px', paddingBottom: '21px' }}
+        style={{ minHeight: "44px", paddingTop: "21px", paddingBottom: "21px" }}
       >
         <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2 bg-secondary rounded-full">
-          <div 
+          <div
             className="h-full bg-primary rounded-full transition-all"
             style={{ width: `${(state.currentTime / state.duration) * 100}%` }}
           />
         </div>
       </div>
-      
+
       <div className="flex justify-between text-xs text-muted-foreground">
         <span>{formatTime(state.currentTime)}</span>
         <span>{formatTime(state.duration)}</span>
@@ -843,6 +857,7 @@ export function ProgressBar() {
 ```
 
 **Проверка**:
+
 - [ ] Seek работает на touch
 - [ ] Прогресс обновляется плавно
 - [ ] Time labels корректны
@@ -850,6 +865,7 @@ export function ProgressBar() {
 ---
 
 ### US2-T06: QueueSheet Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/QueueSheet.tsx` (создать)
 - **Приоритет**: P1
@@ -858,31 +874,33 @@ export function ProgressBar() {
 **Описание**: Bottom sheet с очередью воспроизведения.
 
 **Технические требования**:
+
 - Drag-to-reorder tracks
 - Swipe-to-remove
 - Current track highlight
 - Clear queue button
 
 **Реализация**:
+
 ```tsx
 // src/components/player/QueueSheet.tsx
-import { DndContext, closestCenter } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
 
 export function QueueSheet({ open, onOpenChange }: Props) {
   const { queue, reorderQueue, removeFromQueue } = usePlaybackQueue();
-  
+
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="h-[70vh]">
         <SheetHeader>
           <SheetTitle>Queue ({queue.items.length})</SheetTitle>
         </SheetHeader>
-        
+
         <DndContext onDragEnd={handleDragEnd}>
           <SortableContext items={queue.items} strategy={verticalListSortingStrategy}>
             {queue.items.map((track, index) => (
-              <QueueItem 
+              <QueueItem
                 key={track.id}
                 track={track}
                 isCurrentTrack={index === queue.currentIndex}
@@ -898,6 +916,7 @@ export function QueueSheet({ open, onOpenChange }: Props) {
 ```
 
 **Проверка**:
+
 - [ ] Drag-to-reorder работает
 - [ ] Swipe-to-remove работает
 - [ ] Current track выделен
@@ -906,6 +925,7 @@ export function QueueSheet({ open, onOpenChange }: Props) {
 ---
 
 ### US2-T07: QueueItem Component [P]
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/QueueItem.tsx` (создать)
 - **Приоритет**: P1
@@ -914,29 +934,27 @@ export function QueueSheet({ open, onOpenChange }: Props) {
 **Описание**: Элемент очереди с drag handle и swipe-to-remove.
 
 **Реализация**:
+
 ```tsx
 // src/components/player/QueueItem.tsx
-import { useSortable } from '@dnd-kit/sortable';
+import { useSortable } from "@dnd-kit/sortable";
 
 export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
   const { attributes, listeners, setNodeRef, transform } = useSortable({ id: track.id });
-  
+
   return (
-    <div 
-      ref={setNodeRef}
-      className={`flex items-center gap-3 p-3 ${isCurrentTrack ? 'bg-accent' : ''}`}
-    >
+    <div ref={setNodeRef} className={`flex items-center gap-3 p-3 ${isCurrentTrack ? "bg-accent" : ""}`}>
       <div {...attributes} {...listeners} className="touch-manipulation cursor-grab">
         <GripVertical className="w-5 h-5" />
       </div>
-      
+
       <img src={track.cover_url} className="w-10 h-10 rounded" />
-      
+
       <div className="flex-1 min-w-0">
         <p className="text-sm font-medium truncate">{track.title}</p>
         <p className="text-xs text-muted-foreground truncate">{track.style}</p>
       </div>
-      
+
       <button onClick={onRemove} className="w-9 h-9 touch-manipulation">
         <X className="w-4 h-4" />
       </button>
@@ -946,6 +964,7 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
 ```
 
 **Проверка**:
+
 - [ ] Drag handle работает
 - [ ] Remove button работает
 - [ ] isCurrentTrack выделяется
@@ -953,6 +972,7 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
 ---
 
 ### US2-T08: TimestampedLyrics Update
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/TimestampedLyrics.tsx`
 - **Приоритет**: P1
@@ -961,12 +981,14 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
 **Описание**: Исправить синхронизацию и видимость лирики на мобильных.
 
 **Технические требования**:
+
 - Word-by-word highlight
 - Auto-scroll to current line
 - Mobile-optimized layout
 - Fallback для треков без timestamps
 
 **Проверка**:
+
 - [ ] Лирика синхронизируется
 - [ ] Auto-scroll работает
 - [ ] Читается на mobile
@@ -974,6 +996,7 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
 ---
 
 ### US2-T09: Player State Management
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/hooks/usePlayerState.ts`
 - **Приоритет**: P0
@@ -982,12 +1005,14 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
 **Описание**: Интеграция usePlayerState и usePlaybackQueue хуков в компоненты.
 
 **Задачи**:
+
 - Подключить usePlayerState в все компоненты плеера
 - Подключить usePlaybackQueue в QueueSheet
 - Тестирование state transitions
 - Persist state в localStorage
 
 **Проверка**:
+
 - [ ] State синхронизируется между компонентами
 - [ ] Queue корректно обновляется
 - [ ] State сохраняется при перезагрузке
@@ -995,6 +1020,7 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
 ---
 
 ### US2-T10: Player Transitions
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `src/components/player/` (все компоненты)
 - **Приоритет**: P1
@@ -1003,31 +1029,34 @@ export function QueueItem({ track, isCurrentTrack, onRemove }: Props) {
 **Описание**: Плавные переходы между режимами плеера с анимациями.
 
 **Технические требования**:
+
 - Framer Motion для анимаций
 - Smooth transitions (60fps)
 - Spring physics
 - Gesture-based transitions
 
 **Реализация**:
+
 ```tsx
 // Добавить в компоненты плеера
 const variants = {
-  compact: { height: '64px', opacity: 1 },
-  expanded: { height: '40vh', opacity: 1 },
-  fullscreen: { height: '100vh', opacity: 1 }
+  compact: { height: "64px", opacity: 1 },
+  expanded: { height: "40vh", opacity: 1 },
+  fullscreen: { height: "100vh", opacity: 1 },
 };
 
 <motion.div
   initial={false}
   animate={state.mode}
   variants={variants}
-  transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+  transition={{ type: "spring", damping: 30, stiffness: 300 }}
 >
   {/* Player content */}
-</motion.div>
+</motion.div>;
 ```
 
 **Проверка**:
+
 - [ ] Transitions плавные (60fps)
 - [ ] Нет лагов при свайпе
 - [ ] Spring animation натуральная
@@ -1035,11 +1064,13 @@ const variants = {
 ---
 
 ### US2-T11: Player Tests (опционально)
+
 - **Статус**: ⏳ Запланировано
 - **Файлы**: `src/components/player/*.test.tsx` (создать)
 - **Приоритет**: P2
 
 **Тесты**:
+
 - PlaybackControls: play/pause, next/prev, shuffle, repeat
 - ProgressBar: seek, time display
 - QueueSheet: drag-to-reorder, remove
@@ -1047,11 +1078,13 @@ const variants = {
 ---
 
 ### US2-T12: Player Mobile E2E (опционально)
+
 - **Статус**: ⏳ Запланировано
 - **Файл**: `tests/e2e/player.spec.ts` (создать)
 - **Приоритет**: P2
 
 **Сценарии**:
+
 - Открыть плеер в Compact режиме
 - Свайп вверх → Expanded
 - Свайп вверх → Fullscreen
@@ -1063,6 +1096,7 @@ const variants = {
 ## 🎯 Критерии приемки спринта
 
 ### Функциональные требования
+
 - [ ] Все задачи US1 (1-10) выполнены
 - [ ] Все задачи US2 (1-12) выполнены
 - [ ] TrackCard и TrackRow работают на 320px-1920px
@@ -1072,6 +1106,7 @@ const variants = {
 - [ ] Queue management работает (drag-to-reorder)
 
 ### Качество кода
+
 - [ ] Code review пройден
 - [ ] TypeScript: 0 ошибок `tsc --noEmit`
 - [ ] ESLint: 0 ошибок `npm run lint`
@@ -1079,12 +1114,14 @@ const variants = {
 - [ ] Unit тесты: покрытие >80% (опционально)
 
 ### Performance
+
 - [ ] Lighthouse Mobile Score >90
 - [ ] FCP (First Contentful Paint) <2s на 3G
 - [ ] Smooth animations 60fps
 - [ ] No layout shifts (CLS <0.1)
 
 ### Accessibility
+
 - [ ] WCAG 2.1 AA compliance
 - [ ] Touch targets ≥44×44px
 - [ ] ARIA labels на всех интерактивных элементах
@@ -1092,6 +1129,7 @@ const variants = {
 - [ ] Screen reader support
 
 ### Документация
+
 - [ ] README обновлен с новыми компонентами
 - [ ] Storybook stories созданы для новых компонентов
 - [ ] API документация обновлена
@@ -1101,16 +1139,19 @@ const variants = {
 ## 📝 Команды для разработки
 
 ### Запуск проекта
+
 ```bash
 npm run dev
 ```
 
 ### Проверка типов
+
 ```bash
 npx tsc --noEmit
 ```
 
 ### Линтинг и форматирование
+
 ```bash
 npm run lint
 npm run lint -- --fix
@@ -1118,6 +1159,7 @@ npm run format
 ```
 
 ### Тестирование
+
 ```bash
 npm test
 npm test:coverage
@@ -1125,11 +1167,13 @@ npm test -- --watch
 ```
 
 ### Storybook
+
 ```bash
 npm run storybook
 ```
 
 ### Performance audit
+
 ```bash
 npm run build
 npm run preview
@@ -1140,24 +1184,26 @@ npm run preview
 
 ## ⚠️ Риски и митигация
 
-| Риск | Вероятность | Влияние | Митигация |
-|------|-------------|---------|-----------|
-| Сложность анимаций Framer Motion | Средняя | Средне | Начать с простых анимаций, постепенно усложнять |
-| Performance на старых устройствах | Средняя | Высокое | Profiling, оптимизация, fallback для старых устройств |
-| Gesture conflicts (swipe vs scroll) | Высокая | Средне | Threshold detection, direction detection |
-| Haptic feedback не работает везде | Низкая | Низкое | Graceful fallback, optional feature |
-| Зависимость от Sprint 007 | Низкая | Высокое | Убедиться что Sprint 007 завершен перед началом |
+| Риск                                | Вероятность | Влияние | Митигация                                             |
+| ----------------------------------- | ----------- | ------- | ----------------------------------------------------- |
+| Сложность анимаций Framer Motion    | Средняя     | Средне  | Начать с простых анимаций, постепенно усложнять       |
+| Performance на старых устройствах   | Средняя     | Высокое | Profiling, оптимизация, fallback для старых устройств |
+| Gesture conflicts (swipe vs scroll) | Высокая     | Средне  | Threshold detection, direction detection              |
+| Haptic feedback не работает везде   | Низкая      | Низкое  | Graceful fallback, optional feature                   |
+| Зависимость от Sprint 007           | Низкая      | Высокое | Убедиться что Sprint 007 завершен перед началом       |
 
 ---
 
 ## 🔗 Зависимости
 
 ### Внешние зависимости
+
 - ✅ Sprint 007 завершен (миграции, типы, хуки)
 - ⏳ Design assets для компонентов
 - ⏳ Тестовые данные (треки с версиями, лирика)
 
 ### NPM пакеты (установить при необходимости)
+
 ```bash
 # Framer Motion (анимации)
 npm install framer-motion
@@ -1174,12 +1220,14 @@ npm install @dnd-kit/core @dnd-kit/sortable
 ## 📊 Метрики успеха
 
 ### User Story 1: Library
+
 - Touch target compliance: 100%
 - Mobile responsiveness: 320px-1920px
 - Lighthouse Mobile: >90
 - Версионирование: <500ms переключение
 
 ### User Story 2: Player
+
 - Player mode transitions: <300ms
 - 60fps animations на всех переходах
 - Queue reorder: smooth drag-and-drop
@@ -1190,9 +1238,10 @@ npm install @dnd-kit/core @dnd-kit/sortable
 ## 🔄 Следующий спринт
 
 **Sprint 009: Track Details & Actions (User Stories 3 & 4)**
+
 - Период: 2025-12-29 - 2026-01-12
 - Задачи: 19 задач
-- Фокус: 
+- Фокус:
   - Панель деталей трека (лирика, версии, стемы, analysis, changelog)
   - Меню действий (Create Persona, Open in Studio, Add to Project/Playlist)
 
@@ -1209,4 +1258,4 @@ npm install @dnd-kit/core @dnd-kit/sortable
 
 ---
 
-*Последнее обновление: 2025-12-02*
+_Последнее обновление: 2025-12-02_

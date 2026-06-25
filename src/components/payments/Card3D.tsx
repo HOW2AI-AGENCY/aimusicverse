@@ -3,9 +3,9 @@
  * Interactive card with flip, tilt, and shine effects
  */
 
-import { useState, useRef } from 'react';
-import { motion, useMotionValue, useTransform, useSpring } from '@/lib/motion';
-import { CreditCard, Lock, Wifi } from 'lucide-react';
+import { useState, useRef } from "react";
+import { motion, useMotionValue, useTransform, useSpring } from "@/lib/motion";
+import { CreditCard, Lock, Wifi } from "lucide-react";
 
 interface Card3DProps {
   className?: string;
@@ -15,11 +15,11 @@ interface Card3DProps {
   isProcessing?: boolean;
 }
 
-export function Card3D({ 
-  className = '',
-  cardNumber = '•••• •••• •••• ••••',
-  expiryDate = 'MM/YY',
-  holderName = 'YOUR NAME',
+export function Card3D({
+  className = "",
+  cardNumber = "•••• •••• •••• ••••",
+  expiryDate = "MM/YY",
+  holderName = "YOUR NAME",
   isProcessing = false,
 }: Card3DProps) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -43,11 +43,11 @@ export function Card3D({
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
-    
+
     const rect = cardRef.current.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
-    
+
     x.set(e.clientX - centerX);
     y.set(e.clientY - centerY);
   };
@@ -69,12 +69,12 @@ export function Card3D({
         style={{
           rotateX: springRotateX,
           rotateY: springRotateY,
-          transformStyle: 'preserve-3d',
+          transformStyle: "preserve-3d",
         }}
         animate={{
           rotateY: isFlipped ? 180 : 0,
         }}
-        transition={{ duration: 0.6, type: 'spring', stiffness: 300, damping: 30 }}
+        transition={{ duration: 0.6, type: "spring", stiffness: 300, damping: 30 }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
@@ -82,13 +82,13 @@ export function Card3D({
         whileTap={{ scale: 0.98 }}
       >
         {/* Front of card */}
-        <motion.div 
+        <motion.div
           className="absolute inset-0 rounded-2xl overflow-hidden backface-hidden"
-          style={{ backfaceVisibility: 'hidden' }}
+          style={{ backfaceVisibility: "hidden" }}
         >
           {/* Card background with gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-[hsl(207,90%,45%)] via-[hsl(220,80%,40%)] to-[hsl(250,80%,35%)]" />
-          
+
           {/* Animated mesh pattern */}
           <div className="absolute inset-0 opacity-20">
             <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -114,8 +114,8 @@ export function Card3D({
           {isProcessing && (
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
-              animate={{ x: ['-100%', '100%'] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+              animate={{ x: ["-100%", "100%"] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
             />
           )}
 
@@ -148,9 +148,7 @@ export function Card3D({
 
             {/* Card number */}
             <div className="space-y-1">
-              <p className="text-lg sm:text-xl font-mono text-white tracking-[0.2em] drop-shadow-md">
-                {cardNumber}
-              </p>
+              <p className="text-lg sm:text-xl font-mono text-white tracking-[0.2em] drop-shadow-md">{cardNumber}</p>
             </div>
 
             {/* Bottom row */}
@@ -174,18 +172,18 @@ export function Card3D({
         </motion.div>
 
         {/* Back of card */}
-        <motion.div 
+        <motion.div
           className="absolute inset-0 rounded-2xl overflow-hidden"
-          style={{ 
-            backfaceVisibility: 'hidden',
-            transform: 'rotateY(180deg)',
+          style={{
+            backfaceVisibility: "hidden",
+            transform: "rotateY(180deg)",
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-[hsl(220,20%,20%)] via-[hsl(220,20%,15%)] to-[hsl(220,20%,10%)]" />
-          
+
           {/* Magnetic stripe */}
           <div className="absolute top-8 left-0 right-0 h-12 bg-[hsl(0,0%,8%)]" />
-          
+
           {/* Signature strip and CVV */}
           <div className="absolute top-24 left-4 right-4 flex gap-2">
             <div className="flex-1 h-10 bg-white/90 rounded flex items-center justify-end px-3">
@@ -199,8 +197,8 @@ export function Card3D({
           {/* Info text */}
           <div className="absolute bottom-4 left-4 right-4 text-center">
             <p className="text-[8px] text-white/40 leading-relaxed">
-              Authorized signature – not valid unless signed. 
-              This card is property of issuing bank and must be returned on request.
+              Authorized signature – not valid unless signed. This card is property of issuing bank and must be returned
+              on request.
             </p>
           </div>
 
@@ -209,7 +207,7 @@ export function Card3D({
       </motion.div>
 
       {/* Helper text */}
-      <motion.p 
+      <motion.p
         className="text-center text-xs text-muted-foreground mt-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

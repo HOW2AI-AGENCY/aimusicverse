@@ -4,24 +4,21 @@
  * Tapping a section opens the section editor
  */
 
-import { memo, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Scissors, Check, Clock, Play, Pause, Music2,
-  ChevronRight, Sparkles
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
-import { sectionColors } from '@/lib/design-colors';
-import type { DetectedSection } from '@/hooks/useSectionDetection';
+import { memo, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Scissors, Check, Clock, Play, Pause, Music2, ChevronRight, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
+import { sectionColors } from "@/lib/design-colors";
+import type { DetectedSection } from "@/hooks/useSectionDetection";
 
 interface ReplacedRange {
   start: number;
   end: number;
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
+  status?: "pending" | "processing" | "completed" | "failed";
 }
 
 interface MobileSectionsViewProps {
@@ -35,34 +32,34 @@ interface MobileSectionsViewProps {
 }
 
 // Section type colors from design tokens
-const SECTION_COLORS: Record<DetectedSection['type'], string> = {
-  'verse': sectionColors.verse.dot,
-  'chorus': sectionColors.chorus.dot,
-  'bridge': sectionColors.bridge.dot,
-  'intro': sectionColors.intro.dot,
-  'outro': sectionColors.outro.dot,
-  'pre-chorus': sectionColors['pre-chorus'].dot,
-  'hook': sectionColors.hook.dot,
-  'instrumental': sectionColors.instrumental.dot,
-  'interlude': sectionColors.interlude.dot,
-  'breakdown': sectionColors.breakdown.dot,
-  'drop': 'bg-red-500',
-  'unknown': 'bg-neutral-400',
+const SECTION_COLORS: Record<DetectedSection["type"], string> = {
+  verse: sectionColors.verse.dot,
+  chorus: sectionColors.chorus.dot,
+  bridge: sectionColors.bridge.dot,
+  intro: sectionColors.intro.dot,
+  outro: sectionColors.outro.dot,
+  "pre-chorus": sectionColors["pre-chorus"].dot,
+  hook: sectionColors.hook.dot,
+  instrumental: sectionColors.instrumental.dot,
+  interlude: sectionColors.interlude.dot,
+  breakdown: sectionColors.breakdown.dot,
+  drop: "bg-red-500",
+  unknown: "bg-neutral-400",
 };
 
-const SECTION_BG: Record<DetectedSection['type'], string> = {
-  'verse': `${sectionColors.verse.bg} hover:bg-blue-500/25`,
-  'chorus': `${sectionColors.chorus.bg} hover:bg-purple-500/25`,
-  'bridge': `${sectionColors.bridge.bg} hover:bg-amber-500/25`,
-  'intro': `${sectionColors.intro.bg} hover:bg-cyan-500/25`,
-  'outro': `${sectionColors.outro.bg} hover:bg-rose-500/25`,
-  'pre-chorus': `${sectionColors['pre-chorus'].bg} hover:bg-indigo-500/25`,
-  'hook': `${sectionColors.hook.bg} hover:bg-pink-500/25`,
-  'instrumental': `${sectionColors.instrumental.bg} hover:bg-teal-500/25`,
-  'interlude': `${sectionColors.interlude.bg} hover:bg-emerald-500/25`,
-  'breakdown': `${sectionColors.breakdown.bg} hover:bg-orange-500/25`,
-  'drop': 'bg-red-500/15 hover:bg-red-500/25',
-  'unknown': 'bg-neutral-500/25 hover:bg-neutral-500/35',
+const SECTION_BG: Record<DetectedSection["type"], string> = {
+  verse: `${sectionColors.verse.bg} hover:bg-blue-500/25`,
+  chorus: `${sectionColors.chorus.bg} hover:bg-purple-500/25`,
+  bridge: `${sectionColors.bridge.bg} hover:bg-amber-500/25`,
+  intro: `${sectionColors.intro.bg} hover:bg-cyan-500/25`,
+  outro: `${sectionColors.outro.bg} hover:bg-rose-500/25`,
+  "pre-chorus": `${sectionColors["pre-chorus"].bg} hover:bg-indigo-500/25`,
+  hook: `${sectionColors.hook.bg} hover:bg-pink-500/25`,
+  instrumental: `${sectionColors.instrumental.bg} hover:bg-teal-500/25`,
+  interlude: `${sectionColors.interlude.bg} hover:bg-emerald-500/25`,
+  breakdown: `${sectionColors.breakdown.bg} hover:bg-orange-500/25`,
+  drop: "bg-red-500/15 hover:bg-red-500/25",
+  unknown: "bg-neutral-500/25 hover:bg-neutral-500/35",
 };
 
 export const MobileSectionsView = memo(function MobileSectionsView({
@@ -74,29 +71,39 @@ export const MobileSectionsView = memo(function MobileSectionsView({
   onSeek,
   onPlayPause,
 }: MobileSectionsViewProps) {
-
   // Check if section is currently playing
-  const isActiveSection = useCallback((section: DetectedSection): boolean => {
-    return currentTime >= section.startTime && currentTime < section.endTime;
-  }, [currentTime]);
+  const isActiveSection = useCallback(
+    (section: DetectedSection): boolean => {
+      return currentTime >= section.startTime && currentTime < section.endTime;
+    },
+    [currentTime],
+  );
 
   // Check if section has been replaced
-  const getSectionStatus = useCallback((section: DetectedSection): ReplacedRange | null => {
-    return replacedRanges.find(range => {
-      const overlap = Math.max(0, Math.min(section.endTime, range.end) - Math.max(section.startTime, range.start));
-      const sectionDuration = section.endTime - section.startTime;
-      return overlap > sectionDuration * 0.5;
-    }) || null;
-  }, [replacedRanges]);
+  const getSectionStatus = useCallback(
+    (section: DetectedSection): ReplacedRange | null => {
+      return (
+        replacedRanges.find((range) => {
+          const overlap = Math.max(0, Math.min(section.endTime, range.end) - Math.max(section.startTime, range.start));
+          const sectionDuration = section.endTime - section.startTime;
+          return overlap > sectionDuration * 0.5;
+        }) || null
+      );
+    },
+    [replacedRanges],
+  );
 
   // Play section from start
-  const playSection = useCallback((section: DetectedSection, e: React.MouseEvent) => {
-    e.stopPropagation();
-    onSeek(section.startTime);
-    if (!isPlaying) {
-      setTimeout(() => onPlayPause(), 100);
-    }
-  }, [onSeek, isPlaying, onPlayPause]);
+  const playSection = useCallback(
+    (section: DetectedSection, e: React.MouseEvent) => {
+      e.stopPropagation();
+      onSeek(section.startTime);
+      if (!isPlaying) {
+        setTimeout(() => onPlayPause(), 100);
+      }
+    },
+    [onSeek, isPlaying, onPlayPause],
+  );
 
   if (sections.length === 0) {
     return (
@@ -125,7 +132,7 @@ export const MobileSectionsView = memo(function MobileSectionsView({
             </p>
           </div>
           <Badge variant="outline" className="text-xs">
-            {replacedRanges.filter(r => r.status === 'completed').length} заменено
+            {replacedRanges.filter((r) => r.status === "completed").length} заменено
           </Badge>
         </div>
       </div>
@@ -152,43 +159,52 @@ export const MobileSectionsView = memo(function MobileSectionsView({
                   className={cn(
                     "w-full p-4 rounded-xl border-2 transition-all text-left shadow-sm",
                     bgColor,
-                    isActive 
-                      ? "border-primary ring-2 ring-primary/20 shadow-primary/10" 
-                      : "border-border/50 hover:border-border/80"
+                    isActive
+                      ? "border-primary ring-2 ring-primary/20 shadow-primary/10"
+                      : "border-border/50 hover:border-border/80",
                   )}
                 >
                   <div className="flex items-start gap-3">
                     {/* Color indicator */}
-                    <div className={cn(
-                      "w-2 h-full min-h-[40px] rounded-full shrink-0 shadow-sm",
-                      color,
-                      isActive && "shadow-lg"
-                    )} />
+                    <div
+                      className={cn(
+                        "w-2 h-full min-h-[40px] rounded-full shrink-0 shadow-sm",
+                        color,
+                        isActive && "shadow-lg",
+                      )}
+                    />
 
                     {/* Content */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={cn(
-                          "font-medium",
-                          isActive && "text-foreground font-semibold"
-                        )}>{section.label}</span>
-                        
-                        {replacement?.status === 'completed' && (
-                          <Badge variant="outline" className="bg-green-500/10 text-green-500 border-green-500/30 text-[10px]">
+                        <span className={cn("font-medium", isActive && "text-foreground font-semibold")}>
+                          {section.label}
+                        </span>
+
+                        {replacement?.status === "completed" && (
+                          <Badge
+                            variant="outline"
+                            className="bg-green-500/10 text-green-500 border-green-500/30 text-[10px]"
+                          >
                             <Check className="w-3 h-3 mr-0.5" />
                             Заменено
                           </Badge>
                         )}
-                        
-                        {replacement?.status === 'pending' && (
-                          <Badge variant="outline" className="bg-yellow-500/10 text-yellow-500 border-yellow-500/30 text-[10px]">
-                            <Clock className="w-3 h-3 mr-0.5 animate-pulse" />
-                            В очереди
+
+                        {replacement?.status === "pending" && (
+                          <Badge
+                            variant="outline"
+                            className="bg-yellow-500/10 text-yellow-500 border-yellow-500/30 text-[10px]"
+                          >
+                            <Clock className="w-3 h-3 mr-0.5 animate-pulse" />В очереди
                           </Badge>
                         )}
-                        
-                        {replacement?.status === 'processing' && (
-                          <Badge variant="outline" className="bg-blue-500/10 text-blue-500 border-blue-500/30 text-[10px]">
+
+                        {replacement?.status === "processing" && (
+                          <Badge
+                            variant="outline"
+                            className="bg-blue-500/10 text-blue-500 border-blue-500/30 text-[10px]"
+                          >
                             <Sparkles className="w-3 h-3 mr-0.5 animate-spin" />
                             Генерация
                           </Badge>
@@ -207,7 +223,8 @@ export const MobileSectionsView = memo(function MobileSectionsView({
                       {/* Lyrics preview */}
                       {section.lyrics && (
                         <p className="text-xs text-muted-foreground mt-2 line-clamp-2 italic">
-                          "{section.lyrics.slice(0, 100)}{section.lyrics.length > 100 ? '...' : ''}"
+                          "{section.lyrics.slice(0, 100)}
+                          {section.lyrics.length > 100 ? "..." : ""}"
                         </p>
                       )}
                     </div>

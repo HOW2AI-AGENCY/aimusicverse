@@ -1,6 +1,6 @@
 /**
  * Zustand History Middleware
- * 
+ *
  * Provides undo/redo functionality for any Zustand store.
  * Captures state snapshots and allows time travel through history.
  */
@@ -10,7 +10,7 @@ export interface HistoryState {
   _history: unknown[];
   _historyIndex: number;
   _maxHistory: number;
-  
+
   // History actions
   undo: () => void;
   redo: () => void;
@@ -27,17 +27,17 @@ interface HistoryOptions {
 
 // Keys to exclude from history by default (internal state, not user actions)
 const DEFAULT_EXCLUDE_KEYS = [
-  '_history',
-  '_historyIndex', 
-  '_maxHistory',
-  'undo',
-  'redo',
-  'canUndo',
-  'canRedo',
-  'clearHistory',
-  'getHistoryLength',
-  'isPlaying',
-  'currentTime',
+  "_history",
+  "_historyIndex",
+  "_maxHistory",
+  "undo",
+  "redo",
+  "canUndo",
+  "canRedo",
+  "clearHistory",
+  "getHistoryLength",
+  "isPlaying",
+  "currentTime",
 ];
 
 /**
@@ -47,7 +47,7 @@ const DEFAULT_EXCLUDE_KEYS = [
 export function createHistorySlice(
   set: (partial: Record<string, unknown>) => void,
   get: () => Record<string, unknown>,
-  options: HistoryOptions = {}
+  options: HistoryOptions = {},
 ) {
   const maxHistory = options.maxHistory ?? 50;
   const excludeKeys = new Set([...DEFAULT_EXCLUDE_KEYS, ...(options.exclude ?? [])]);
@@ -56,7 +56,7 @@ export function createHistorySlice(
   const getTrackedState = (state: Record<string, unknown>): Record<string, unknown> => {
     const tracked: Record<string, unknown> = {};
     for (const key of Object.keys(state)) {
-      if (!excludeKeys.has(key) && typeof state[key] !== 'function') {
+      if (!excludeKeys.has(key) && typeof state[key] !== "function") {
         tracked[key] = state[key];
       }
     }
@@ -80,7 +80,7 @@ export function createHistorySlice(
     pushToHistory: () => {
       const state = get();
       const tracked = getTrackedState(state);
-      const history = [...(state._history as unknown[] || [])];
+      const history = [...((state._history as unknown[]) || [])];
       const historyIndex = (state._historyIndex as number) ?? -1;
 
       // Remove any future history if we're not at the end

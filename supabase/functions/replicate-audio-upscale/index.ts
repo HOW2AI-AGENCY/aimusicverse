@@ -22,10 +22,9 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-
 
   try {
     const REPLICATE_API_KEY = Deno.env.get("REPLICATE_API_KEY");
@@ -46,21 +45,20 @@ serve(async (req) => {
     }: UpscaleRequest = await req.json();
 
     if (!audioUrl) {
-      return new Response(
-        JSON.stringify({ error: "audioUrl is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "audioUrl is required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     console.log(`[audio-upscale] Starting upscale for: ${audioUrl}`);
-    console.log(`[audio-upscale] Settings: ddim=${ddimSteps}, guidance=${guidanceScale}, truncated=${truncatedBatches}`);
+    console.log(
+      `[audio-upscale] Settings: ddim=${ddimSteps}, guidance=${guidanceScale}, truncated=${truncatedBatches}`,
+    );
 
     // Update track status if trackId provided
     if (trackId) {
-      await supabase
-        .from("tracks")
-        .update({ upscale_status: "processing" })
-        .eq("id", trackId);
+      await supabase.from("tracks").update({ upscale_status: "processing" }).eq("id", trackId);
     }
 
     // Call AudioSR model
@@ -75,7 +73,7 @@ serve(async (req) => {
           guidance_scale: guidanceScale,
           ...(seed !== undefined && { seed }),
         },
-      }
+      },
     );
 
     const processingTime = Date.now() - startTime;
@@ -97,19 +95,17 @@ serve(async (req) => {
         const timestamp = Date.now();
         const fileName = `audio-upscaled/${trackId || "audio"}-${timestamp}-48khz.wav`;
 
-        const { error: uploadError } = await supabase.storage
-          .from("project-assets")
-          .upload(fileName, audioBlob, {
-            contentType: "audio/wav",
-            cacheControl: "31536000",
-          });
+        const { error: uploadError } = await supabase.storage.from("project-assets").upload(fileName, audioBlob, {
+          contentType: "audio/wav",
+          cacheControl: "31536000",
+        });
 
         if (uploadError) {
           console.error("[audio-upscale] Upload error:", uploadError);
         } else {
-          const { data: { publicUrl } } = supabase.storage
-            .from("project-assets")
-            .getPublicUrl(fileName);
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("project-assets").getPublicUrl(fileName);
           storedUrl = publicUrl;
           console.log(`[audio-upscale] Uploaded to: ${storedUrl}`);
         }
@@ -138,7 +134,9 @@ serve(async (req) => {
     const authHeader = req.headers.get("Authorization");
     let userId = null;
     if (authHeader) {
-      const { data: { user } } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
+      const {
+        data: { user },
+      } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
       userId = user?.id;
     }
 
@@ -165,25 +163,25 @@ serve(async (req) => {
         processingTimeMs: processingTime,
         quality: "48kHz",
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("[audio-upscale] Error:", error);
 
     // Update track status on error
-    const body = await req.clone().json().catch(() => ({}));
+    const body = await req
+      .clone()
+      .json()
+      .catch(() => ({}));
     if (body.trackId) {
       const supabase = getSupabaseClient();
-      await supabase
-        .from("tracks")
-        .update({ upscale_status: "failed" })
-        .eq("id", body.trackId);
+      await supabase.from("tracks").update({ upscale_status: "failed" }).eq("id", body.trackId);
     }
 
     const errorMessage = error instanceof Error ? error.message : "Upscale failed";
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: false, error: errorMessage }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

@@ -1,18 +1,18 @@
 /**
  * Branded Types for Type Safety
- * 
+ *
  * Provides nominal typing for IDs and other primitives
  * to prevent accidental mixing of different ID types.
- * 
+ *
  * @module types/branded
  * @example
  * ```typescript
  * import { createTrackId, TrackId } from '@/types/branded';
- * 
+ *
  * function playTrack(trackId: TrackId) {
  *   // Type-safe: only TrackId can be passed
  * }
- * 
+ *
  * const trackId = createTrackId('550e8400-e29b-41d4-a716-446655440000');
  * playTrack(trackId); // OK
  * playTrack('some-string'); // TypeScript error!
@@ -32,22 +32,22 @@ type Brand<T, B> = T & { [brand]: B };
 // ============= ID Types =============
 
 /** Branded type for Track IDs (UUID format) */
-export type TrackId = Brand<string, 'TrackId'>;
+export type TrackId = Brand<string, "TrackId">;
 
 /** Branded type for User IDs (UUID format) */
-export type UserId = Brand<string, 'UserId'>;
+export type UserId = Brand<string, "UserId">;
 
 /** Branded type for Stem IDs (UUID format) */
-export type StemId = Brand<string, 'StemId'>;
+export type StemId = Brand<string, "StemId">;
 
 /** Branded type for Project IDs (UUID format) */
-export type ProjectId = Brand<string, 'ProjectId'>;
+export type ProjectId = Brand<string, "ProjectId">;
 
 /** Branded type for Artist IDs (UUID format) */
-export type ArtistId = Brand<string, 'ArtistId'>;
+export type ArtistId = Brand<string, "ArtistId">;
 
 /** Branded type for Playlist IDs (UUID format) */
-export type PlaylistId = Brand<string, 'PlaylistId'>;
+export type PlaylistId = Brand<string, "PlaylistId">;
 
 // ============= Type Guards =============
 
@@ -57,7 +57,7 @@ export type PlaylistId = Brand<string, 'PlaylistId'>;
  * @returns True if value is a valid UUID v1-5
  */
 export function isValidUUID(value: unknown): value is string {
-  if (typeof value !== 'string') return false;
+  if (typeof value !== "string") return false;
   const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   return uuidRegex.test(value);
 }

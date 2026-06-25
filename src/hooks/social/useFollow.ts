@@ -1,11 +1,11 @@
 // useFollow hook - Sprint 011
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { toast } from 'sonner';
-import { showErrorWithRecovery } from '@/lib/errorHandling';
-import { logger } from '@/lib/logger';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { showErrorWithRecovery } from "@/lib/errorHandling";
+import { logger } from "@/lib/logger";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 export function useFollow(targetUserId: string, initialFollowing?: boolean) {
   const { user } = useAuth();
@@ -14,14 +14,14 @@ export function useFollow(targetUserId: string, initialFollowing?: boolean) {
 
   // If initialFollowing is provided, use it and skip the query
   const { data: isFollowing, isLoading: isCheckingFollow } = useQuery({
-    queryKey: ['follow-status', targetUserId, user?.id],
+    queryKey: ["follow-status", targetUserId, user?.id],
     queryFn: async () => {
       if (!user?.id || user.id === targetUserId) return false;
       const { data } = await supabase
-        .from('user_follows')
-        .select('id')
-        .eq('follower_id', user.id)
-        .eq('following_id', targetUserId)
+        .from("user_follows")
+        .select("id")
+        .eq("follower_id", user.id)
+        .eq("following_id", targetUserId)
         .maybeSingle();
       return !!data;
     },
@@ -31,36 +31,36 @@ export function useFollow(targetUserId: string, initialFollowing?: boolean) {
 
   const followMutation = useMutation({
     mutationFn: async () => {
-      if (!user?.id) throw new Error('Не авторизован');
+      if (!user?.id) throw new Error("Не авторизован");
 
       if (isFollowing) {
         const { error } = await supabase
-          .from('user_follows')
+          .from("user_follows")
           .delete()
-          .eq('follower_id', user.id)
-          .eq('following_id', targetUserId);
+          .eq("follower_id", user.id)
+          .eq("following_id", targetUserId);
         if (error) throw error;
-        return { action: 'unfollow' as const };
+        return { action: "unfollow" as const };
       } else {
         const { error } = await supabase
-          .from('user_follows')
+          .from("user_follows")
           .insert({ follower_id: user.id, following_id: targetUserId });
         if (error) throw error;
-        return { action: 'follow' as const };
+        return { action: "follow" as const };
       }
     },
     onMutate: () => {
-      haptic.impact('light');
+      haptic.impact("light");
     },
     onSuccess: (result) => {
-      queryClient.invalidateQueries({ queryKey: ['follow-status', targetUserId] });
-      queryClient.invalidateQueries({ queryKey: ['followers'] });
-      queryClient.invalidateQueries({ queryKey: ['following'] });
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
-      toast.success(result.action === 'follow' ? 'Вы подписались' : 'Вы отписались');
+      queryClient.invalidateQueries({ queryKey: ["follow-status", targetUserId] });
+      queryClient.invalidateQueries({ queryKey: ["followers"] });
+      queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["profile"] });
+      toast.success(result.action === "follow" ? "Вы подписались" : "Вы отписались");
     },
     onError: (error) => {
-      logger.error('Error toggling follow', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Error toggling follow", error instanceof Error ? error : new Error(String(error)));
       showErrorWithRecovery(error);
     },
   });

@@ -2,16 +2,16 @@
  * GenerationWizard - Step-by-step music generation with AI assistance
  */
 
-import { useCallback } from 'react';
-import { AnimatePresence } from '@/lib/motion';
-import { useGenerationWizardStore, type WizardStep } from '@/stores/generationWizardStore';
-import { WizardProgress } from './WizardProgress';
-import { IdeaStep } from './steps/IdeaStep';
-import { StyleStep } from './steps/StyleStep';
-import { VocalsStep } from './steps/VocalsStep';
-import { LyricsStep } from './steps/LyricsStep';
-import { SettingsStep } from './steps/SettingsStep';
-import { PreviewStep } from './steps/PreviewStep';
+import { useCallback } from "react";
+import { AnimatePresence } from "@/lib/motion";
+import { useGenerationWizardStore, type WizardStep } from "@/stores/generationWizardStore";
+import { WizardProgress } from "./WizardProgress";
+import { IdeaStep } from "./steps/IdeaStep";
+import { StyleStep } from "./steps/StyleStep";
+import { VocalsStep } from "./steps/VocalsStep";
+import { LyricsStep } from "./steps/LyricsStep";
+import { SettingsStep } from "./steps/SettingsStep";
+import { PreviewStep } from "./steps/PreviewStep";
 
 interface GenerationWizardProps {
   onGenerate: (params: WizardGenerateParams) => void;
@@ -24,25 +24,21 @@ export interface WizardGenerateParams {
   style: string;
   lyrics: string;
   hasVocals: boolean;
-  vocalGender: '' | 'm' | 'f';
+  vocalGender: "" | "m" | "f";
   model: string;
   isPublic: boolean;
 }
 
 export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProps) {
-  const { 
-    currentStep, 
-    completedSteps, 
-    data,
-    setStep, 
-    nextStep, 
-    prevStep,
-    markStepComplete,
-  } = useGenerationWizardStore();
+  const { currentStep, completedSteps, data, setStep, nextStep, prevStep, markStepComplete } =
+    useGenerationWizardStore();
 
-  const handleStepClick = useCallback((step: WizardStep) => {
-    setStep(step);
-  }, [setStep]);
+  const handleStepClick = useCallback(
+    (step: WizardStep) => {
+      setStep(step);
+    },
+    [setStep],
+  );
 
   const handleNext = useCallback(() => {
     markStepComplete(currentStep);
@@ -60,8 +56,8 @@ export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProp
     const params: WizardGenerateParams = {
       description: data.ideaDescription,
       title: data.title,
-      style: styleParts.join(', '),
-      lyrics: data.hasVocals ? data.lyrics : '',
+      style: styleParts.join(", "),
+      lyrics: data.hasVocals ? data.lyrics : "",
       hasVocals: data.hasVocals,
       vocalGender: data.vocalGender,
       model: data.model,
@@ -73,17 +69,17 @@ export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProp
 
   const renderStep = () => {
     switch (currentStep) {
-      case 'idea':
+      case "idea":
         return <IdeaStep onNext={handleNext} />;
-      case 'style':
+      case "style":
         return <StyleStep onNext={handleNext} onBack={prevStep} />;
-      case 'vocals':
+      case "vocals":
         return <VocalsStep onNext={handleNext} onBack={prevStep} />;
-      case 'lyrics':
+      case "lyrics":
         return <LyricsStep onNext={handleNext} onBack={prevStep} />;
-      case 'settings':
+      case "settings":
         return <SettingsStep onNext={handleNext} onBack={prevStep} />;
-      case 'preview':
+      case "preview":
         return <PreviewStep onGenerate={handleGenerate} onBack={prevStep} isLoading={isLoading} />;
       default:
         return <IdeaStep onNext={handleNext} />;
@@ -93,16 +89,10 @@ export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProp
   return (
     <div className="space-y-4">
       {/* Progress indicator */}
-      <WizardProgress
-        currentStep={currentStep}
-        completedSteps={completedSteps}
-        onStepClick={handleStepClick}
-      />
+      <WizardProgress currentStep={currentStep} completedSteps={completedSteps} onStepClick={handleStepClick} />
 
       {/* Step content */}
-      <AnimatePresence mode="wait">
-        {renderStep()}
-      </AnimatePresence>
+      <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
     </div>
   );
 }

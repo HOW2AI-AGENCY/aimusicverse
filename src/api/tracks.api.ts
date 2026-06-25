@@ -3,21 +3,21 @@
  * Raw Supabase database operations for tracks
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
-export type TrackRow = Database['public']['Tables']['tracks']['Row'];
-export type TrackInsert = Database['public']['Tables']['tracks']['Insert'];
-export type TrackUpdate = Database['public']['Tables']['tracks']['Update'];
+export type TrackRow = Database["public"]["Tables"]["tracks"]["Row"];
+export type TrackInsert = Database["public"]["Tables"]["tracks"]["Insert"];
+export type TrackUpdate = Database["public"]["Tables"]["tracks"]["Update"];
 
 export interface TrackFilters {
   userId?: string;
   projectId?: string;
   searchQuery?: string;
-  sortBy?: 'recent' | 'popular' | 'liked';
+  sortBy?: "recent" | "popular" | "liked";
   statusFilter?: string[];
   isPublic?: boolean;
-  tagFilter?: string;  // Filter by specific tag
+  tagFilter?: string; // Filter by specific tag
 }
 
 export interface PaginationParams {
@@ -38,38 +38,33 @@ export interface TracksResponse {
  * Fetch tracks with filters and optional pagination
  * When tagFilter is used, performs a join on track_tags for accurate matching
  */
-export async function fetchTracks(
-  filters: TrackFilters,
-  pagination?: PaginationParams
-): Promise<TracksResponse> {
-  const { userId, projectId, searchQuery, sortBy = 'recent', statusFilter, isPublic, tagFilter } = filters;
+export async function fetchTracks(filters: TrackFilters, pagination?: PaginationParams): Promise<TracksResponse> {
+  const { userId, projectId, searchQuery, sortBy = "recent", statusFilter, isPublic, tagFilter } = filters;
 
   // If tagFilter is specified, use track_tags join for accurate search
   if (tagFilter) {
     return fetchTracksWithTagJoin(filters, pagination);
   }
 
-  let query = supabase
-    .from('tracks')
-    .select('*', { count: 'exact' });
+  let query = supabase.from("tracks").select("*", { count: "exact" });
 
   // User filter
   if (userId) {
-    query = query.eq('user_id', userId);
+    query = query.eq("user_id", userId);
   }
 
   // Public filter
   if (isPublic !== undefined) {
-    query = query.eq('is_public', isPublic);
+    query = query.eq("is_public", isPublic);
   }
 
   // Status filter
-  const statuses = statusFilter || ['completed', 'streaming_ready'];
-  query = query.in('status', statuses);
+  const statuses = statusFilter || ["completed", "streaming_ready"];
+  query = query.in("status", statuses);
 
   // Project filter
   if (projectId) {
-    query = query.eq('project_id', projectId);
+    query = query.eq("project_id", projectId);
   }
 
   // Search filter
@@ -79,15 +74,15 @@ export async function fetchTracks(
 
   // Sorting
   switch (sortBy) {
-    case 'popular':
-      query = query.order('play_count', { ascending: false, nullsFirst: false });
+    case "popular":
+      query = query.order("play_count", { ascending: false, nullsFirst: false });
       break;
-    case 'liked':
-      query = query.order('likes_count', { ascending: false, nullsFirst: false });
+    case "liked":
+      query = query.order("likes_count", { ascending: false, nullsFirst: false });
       break;
-    case 'recent':
+    case "recent":
     default:
-      query = query.order('created_at', { ascending: false });
+      query = query.order("created_at", { ascending: false });
       break;
   }
 
@@ -110,38 +105,35 @@ export async function fetchTracks(
 /**
  * Fetch tracks using track_tags join for accurate tag filtering
  */
-async function fetchTracksWithTagJoin(
-  filters: TrackFilters,
-  pagination?: PaginationParams
-): Promise<TracksResponse> {
-  const { userId, projectId, searchQuery, sortBy = 'recent', statusFilter, isPublic, tagFilter } = filters;
-  
+async function fetchTracksWithTagJoin(filters: TrackFilters, pagination?: PaginationParams): Promise<TracksResponse> {
+  const { userId, projectId, searchQuery, sortBy = "recent", statusFilter, isPublic, tagFilter } = filters;
+
   // Normalize tag for comparison
-  const normalizedTag = tagFilter?.toLowerCase().trim() || '';
-  
+  const normalizedTag = tagFilter?.toLowerCase().trim() || "";
+
   // Query with inner join on track_tags
   let query = supabase
-    .from('tracks')
-    .select('*, track_tags!inner(normalized_name)', { count: 'exact' })
-    .eq('track_tags.normalized_name', normalizedTag);
+    .from("tracks")
+    .select("*, track_tags!inner(normalized_name)", { count: "exact" })
+    .eq("track_tags.normalized_name", normalizedTag);
 
   // User filter
   if (userId) {
-    query = query.eq('user_id', userId);
+    query = query.eq("user_id", userId);
   }
 
   // Public filter
   if (isPublic !== undefined) {
-    query = query.eq('is_public', isPublic);
+    query = query.eq("is_public", isPublic);
   }
 
   // Status filter
-  const statuses = statusFilter || ['completed', 'streaming_ready'];
-  query = query.in('status', statuses);
+  const statuses = statusFilter || ["completed", "streaming_ready"];
+  query = query.in("status", statuses);
 
   // Project filter
   if (projectId) {
-    query = query.eq('project_id', projectId);
+    query = query.eq("project_id", projectId);
   }
 
   // Search filter
@@ -151,15 +143,15 @@ async function fetchTracksWithTagJoin(
 
   // Sorting
   switch (sortBy) {
-    case 'popular':
-      query = query.order('play_count', { ascending: false, nullsFirst: false });
+    case "popular":
+      query = query.order("play_count", { ascending: false, nullsFirst: false });
       break;
-    case 'liked':
-      query = query.order('likes_count', { ascending: false, nullsFirst: false });
+    case "liked":
+      query = query.order("likes_count", { ascending: false, nullsFirst: false });
       break;
-    case 'recent':
+    case "recent":
     default:
-      query = query.order('created_at', { ascending: false });
+      query = query.order("created_at", { ascending: false });
       break;
   }
 
@@ -173,7 +165,7 @@ async function fetchTracksWithTagJoin(
   const { data, error, count } = await query;
 
   // Remove track_tags from response to match TrackRow type
-  const cleanedData = (data || []).map(track => {
+  const cleanedData = (data || []).map((track) => {
     const { track_tags, ...rest } = track as TrackRow & { track_tags?: unknown };
     return rest as TrackRow;
   });
@@ -191,20 +183,22 @@ async function fetchTracksWithTagJoin(
  */
 export async function fetchTrackById(trackId: string): Promise<TrackRow | null> {
   const { data, error } = await supabase
-    .from('tracks')
-    .select(`
+    .from("tracks")
+    .select(
+      `
       *,
       active_version:track_versions!active_version_id(
         audio_url,
         cover_url,
         version_label
       )
-    `)
-    .eq('id', trackId)
+    `,
+    )
+    .eq("id", trackId)
     .maybeSingle();
 
   if (error) throw new Error(error.message);
-  
+
   // Resolve audio_url from active_version if available
   if (data && data.active_version) {
     const version = data.active_version as { audio_url?: string; cover_url?: string };
@@ -215,7 +209,7 @@ export async function fetchTrackById(trackId: string): Promise<TrackRow | null> 
       active_version: undefined, // Remove nested object from response
     } as TrackRow;
   }
-  
+
   return data;
 }
 
@@ -223,11 +217,7 @@ export async function fetchTrackById(trackId: string): Promise<TrackRow | null> 
  * Create a new track
  */
 export async function createTrack(track: TrackInsert): Promise<TrackRow> {
-  const { data, error } = await supabase
-    .from('tracks')
-    .insert(track)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("tracks").insert(track).select().single();
 
   if (error) throw new Error(error.message);
   return data;
@@ -237,12 +227,7 @@ export async function createTrack(track: TrackInsert): Promise<TrackRow> {
  * Update track
  */
 export async function updateTrack(trackId: string, updates: TrackUpdate): Promise<TrackRow> {
-  const { data, error } = await supabase
-    .from('tracks')
-    .update(updates)
-    .eq('id', trackId)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("tracks").update(updates).eq("id", trackId).select().single();
 
   if (error) throw new Error(error.message);
   return data;
@@ -252,10 +237,7 @@ export async function updateTrack(trackId: string, updates: TrackUpdate): Promis
  * Delete track
  */
 export async function deleteTrack(trackId: string): Promise<void> {
-  const { error } = await supabase
-    .from('tracks')
-    .delete()
-    .eq('id', trackId);
+  const { error } = await supabase.from("tracks").delete().eq("id", trackId);
 
   if (error) throw new Error(error.message);
 }
@@ -266,24 +248,21 @@ export async function deleteTrack(trackId: string): Promise<void> {
  */
 export async function fetchTrackLikesWithUser(
   trackIds: string[],
-  userId?: string
+  userId?: string,
 ): Promise<{ counts: Record<string, number>; userLikes: Set<string> }> {
   if (trackIds.length === 0) {
     return { counts: {}, userLikes: new Set() };
   }
 
   // Single query to get all likes for these tracks
-  const { data, error } = await supabase
-    .from('track_likes')
-    .select('track_id, user_id')
-    .in('track_id', trackIds);
+  const { data, error } = await supabase.from("track_likes").select("track_id, user_id").in("track_id", trackIds);
 
   if (error) throw new Error(error.message);
 
   const counts: Record<string, number> = {};
   const userLikes = new Set<string>();
 
-  (data || []).forEach(like => {
+  (data || []).forEach((like) => {
     // Count total likes
     counts[like.track_id] = (counts[like.track_id] || 0) + 1;
     // Track user's likes
@@ -297,22 +276,12 @@ export async function fetchTrackLikesWithUser(
 /**
  * Toggle track like
  */
-export async function toggleTrackLike(
-  trackId: string,
-  userId: string,
-  isCurrentlyLiked: boolean
-): Promise<void> {
+export async function toggleTrackLike(trackId: string, userId: string, isCurrentlyLiked: boolean): Promise<void> {
   if (isCurrentlyLiked) {
-    const { error } = await supabase
-      .from('track_likes')
-      .delete()
-      .eq('track_id', trackId)
-      .eq('user_id', userId);
+    const { error } = await supabase.from("track_likes").delete().eq("track_id", trackId).eq("user_id", userId);
     if (error) throw new Error(error.message);
   } else {
-    const { error } = await supabase
-      .from('track_likes')
-      .insert({ track_id: trackId, user_id: userId });
+    const { error } = await supabase.from("track_likes").insert({ track_id: trackId, user_id: userId });
     if (error) throw new Error(error.message);
   }
 }
@@ -321,8 +290,8 @@ export async function toggleTrackLike(
  * Increment play count via RPC
  */
 export async function incrementPlayCount(trackId: string): Promise<void> {
-  const { error } = await supabase.rpc('increment_track_play_count', { 
-    track_id_param: trackId 
+  const { error } = await supabase.rpc("increment_track_play_count", {
+    track_id_param: trackId,
   });
   if (error) throw new Error(error.message);
 }

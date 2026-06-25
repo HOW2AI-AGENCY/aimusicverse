@@ -1,19 +1,19 @@
 /**
  * Karaoke View Component
- * 
+ *
  * Fullscreen karaoke mode with enlarged text and word fill animation
  * Similar to Apple Music Sing
  */
 
-import { useMemo, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { X, Mic2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { KaraokeWord } from '@/components/lyrics/KaraokeWord';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
-import { glassButton } from '@/lib/glass';
-import { surface } from '@/lib/overlay-colors';
+import { useMemo, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { X, Mic2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { KaraokeWord } from "@/components/lyrics/KaraokeWord";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
+import { glassButton } from "@/lib/glass";
+import { surface } from "@/lib/overlay-colors";
 
 interface AlignedWord {
   word: string;
@@ -39,14 +39,14 @@ export function KaraokeView({
   onSeek,
 }: KaraokeViewProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   // Show only 3 lines: previous, current, next
   const visibleLines = useMemo(() => {
     if (!lyricsLines) return [];
-    
+
     const start = Math.max(0, activeLineIndex - 1);
     const end = Math.min(lyricsLines.length, activeLineIndex + 2);
-    
+
     return lyricsLines.slice(start, end).map((line, idx) => ({
       line,
       originalIndex: start + idx,
@@ -71,9 +71,7 @@ export function KaraokeView({
         data-testid="karaoke-view-empty"
       >
         <Mic2 className="w-10 h-10 text-muted-foreground/60" aria-hidden />
-        <p className="text-foreground/80 text-base font-medium">
-          Синхронизированный текст недоступен
-        </p>
+        <p className="text-foreground/80 text-base font-medium">Синхронизированный текст недоступен</p>
         <p className="text-muted-foreground text-sm max-w-xs">
           Для этого трека ещё не сгенерированы тайминги. Откройте обычный режим текста.
         </p>
@@ -81,14 +79,11 @@ export function KaraokeView({
           variant="ghost"
           size="icon"
           onClick={() => {
-            hapticImpact('light');
+            hapticImpact("light");
             onClose();
           }}
           aria-label="Закрыть караоке"
-          className={cn(
-            "absolute top-4 right-4 h-11 w-11 min-h-11 min-w-11 rounded-full",
-            glassButton.default
-          )}
+          className={cn("absolute top-4 right-4 h-11 w-11 min-h-11 min-w-11 rounded-full", glassButton.default)}
         >
           <X className="h-5 w-5 text-foreground" />
         </Button>
@@ -103,19 +98,24 @@ export function KaraokeView({
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[100] bg-black flex flex-col"
       style={{
-        paddingTop: 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))',
-        paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))'
+        paddingTop:
+          "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))",
+        paddingBottom: "calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))",
       }}
     >
       {/* Minimal header */}
-      <div className="absolute top-4 right-4 z-10" style={{
-        marginTop: 'calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))'
-      }}>
+      <div
+        className="absolute top-4 right-4 z-10"
+        style={{
+          marginTop:
+            "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))",
+        }}
+      >
         <Button
           variant="ghost"
           size="icon"
           onClick={() => {
-            hapticImpact('light');
+            hapticImpact("light");
             onClose();
           }}
           aria-label="Закрыть караоке"
@@ -124,12 +124,9 @@ export function KaraokeView({
           <X className="h-5 w-5 text-white" />
         </Button>
       </div>
-      
+
       {/* Karaoke lyrics */}
-      <div 
-        ref={containerRef}
-        className="flex-1 flex flex-col justify-center items-center px-6 overflow-hidden"
-      >
+      <div ref={containerRef} className="flex-1 flex flex-col justify-center items-center px-6 overflow-hidden">
         <AnimatePresence mode="popLayout">
           {visibleLines.map(({ line, originalIndex, isActive, isPast }) => (
             <motion.div
@@ -141,10 +138,10 @@ export function KaraokeView({
                 scale: isActive ? 1 : 0.85,
               }}
               exit={{ opacity: 0, y: -50, scale: 0.9 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className={cn(
-                'flex flex-wrap justify-center gap-x-2 gap-y-1 mb-8 cursor-pointer',
-                isActive ? 'text-4xl font-bold' : 'text-2xl font-medium'
+                "flex flex-wrap justify-center gap-x-2 gap-y-1 mb-8 cursor-pointer",
+                isActive ? "text-4xl font-bold" : "text-2xl font-medium",
               )}
               onClick={() => line[0] && onSeek(line[0].startS)}
             >
@@ -157,7 +154,7 @@ export function KaraokeView({
                   currentTime={currentTime}
                   isPlaying={isPlaying && isActive}
                   onClick={() => onSeek(word.startS)}
-                  className={isActive ? 'text-4xl' : 'text-2xl'}
+                  className={isActive ? "text-4xl" : "text-2xl"}
                   activeColor="hsl(var(--primary))"
                   inactiveColor="rgba(255,255,255,0.4)"
                   pastColor="rgba(255,255,255,0.7)"
@@ -167,15 +164,15 @@ export function KaraokeView({
           ))}
         </AnimatePresence>
       </div>
-      
+
       {/* Karaoke mode indicator */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 text-white/50"
         style={{
-          marginBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))'
+          marginBottom: "calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))",
         }}
       >
         <Mic2 className="w-4 h-4" />

@@ -1,44 +1,54 @@
 /**
  * UnifiedSectionEditor - Consolidated section editing component
- * 
+ *
  * Combines functionality from:
  * - SectionPicker: section selection
  * - SectionSelector: timeline-based region selection
  * - IntegratedSectionEditor: editing UI
- * 
+ *
  * Provides a complete section editing experience with detection,
  * selection, and AI-powered replacement.
  */
 
-import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  GripVertical, AlertCircle, Check, X, Wand2, Zap,
-  ChevronDown, ChevronUp, Tag, MessageSquare, Sparkles, Loader2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { DetectedSection } from '@/hooks/useSectionDetection';
-import { useSectionEditorStore } from '@/stores/useSectionEditorStore';
-import { useSectionReplacement, SECTION_PRESETS } from '@/hooks/useSectionReplacement';
-import { SectionPreviewPlayer } from '@/components/stem-studio/SectionPreviewPlayer';
+  GripVertical,
+  AlertCircle,
+  Check,
+  X,
+  Wand2,
+  Zap,
+  ChevronDown,
+  ChevronUp,
+  Tag,
+  MessageSquare,
+  Sparkles,
+  Loader2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { DetectedSection } from "@/hooks/useSectionDetection";
+import { useSectionEditorStore } from "@/stores/useSectionEditorStore";
+import { useSectionReplacement, SECTION_PRESETS } from "@/hooks/useSectionReplacement";
+import { SectionPreviewPlayer } from "@/components/stem-studio/SectionPreviewPlayer";
 
 // Section type colors
 const SECTION_COLORS: Record<string, { bg: string; border: string; text: string }> = {
-  verse: { bg: 'bg-blue-500/20', border: 'border-blue-500/50', text: 'text-blue-400' },
-  chorus: { bg: 'bg-purple-500/20', border: 'border-purple-500/50', text: 'text-purple-400' },
-  bridge: { bg: 'bg-amber-500/20', border: 'border-amber-500/50', text: 'text-amber-400' },
-  intro: { bg: 'bg-green-500/20', border: 'border-green-500/50', text: 'text-green-400' },
-  outro: { bg: 'bg-rose-500/20', border: 'border-rose-500/50', text: 'text-rose-400' },
-  'pre-chorus': { bg: 'bg-cyan-500/20', border: 'border-cyan-500/50', text: 'text-cyan-400' },
-  hook: { bg: 'bg-orange-500/20', border: 'border-orange-500/50', text: 'text-orange-400' },
-  unknown: { bg: 'bg-muted', border: 'border-border', text: 'text-muted-foreground' },
+  verse: { bg: "bg-blue-500/20", border: "border-blue-500/50", text: "text-blue-400" },
+  chorus: { bg: "bg-purple-500/20", border: "border-purple-500/50", text: "text-purple-400" },
+  bridge: { bg: "bg-amber-500/20", border: "border-amber-500/50", text: "text-amber-400" },
+  intro: { bg: "bg-green-500/20", border: "border-green-500/50", text: "text-green-400" },
+  outro: { bg: "bg-rose-500/20", border: "border-rose-500/50", text: "text-rose-400" },
+  "pre-chorus": { bg: "bg-cyan-500/20", border: "border-cyan-500/50", text: "text-cyan-400" },
+  hook: { bg: "bg-orange-500/20", border: "border-orange-500/50", text: "text-orange-400" },
+  unknown: { bg: "bg-muted", border: "border-border", text: "text-muted-foreground" },
 };
 
 interface UnifiedSectionEditorProps {
@@ -70,59 +80,56 @@ export function UnifiedSectionEditor({
 }: UnifiedSectionEditorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [isDragging, setIsDragging] = useState<'start' | 'end' | null>(null);
+  const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null);
   const [startTime, setStartTime] = useState(duration * 0.2);
   const [endTime, setEndTime] = useState(duration * 0.4);
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
-  
-  const { selectedSection, customRange, editMode, selectSection, setCustomRange, clearSelection } = useSectionEditorStore();
+
+  const { selectedSection, customRange, editMode, selectSection, setCustomRange, clearSelection } =
+    useSectionEditorStore();
 
   const maxDuration = (duration * maxSectionPercent) / 100;
   const sectionDuration = endTime - startTime;
   const isValidDuration = sectionDuration <= maxDuration && sectionDuration > 0;
 
-  const {
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    isSubmitting,
-    addPreset,
-    executeReplacement,
-    reset,
-  } = useSectionReplacement({
-    trackId,
-    trackTags,
-    duration,
-    onSuccess: () => {
-      clearSelection();
-      onClose?.();
-    },
-  });
+  const { prompt, setPrompt, tags, setTags, lyrics, setLyrics, isSubmitting, addPreset, executeReplacement, reset } =
+    useSectionReplacement({
+      trackId,
+      trackTags,
+      duration,
+      onSuccess: () => {
+        clearSelection();
+        onClose?.();
+      },
+    });
 
   // Select section from list
-  const handleSectionSelect = useCallback((index: number) => {
-    setSelectedIndex(index);
-    const section = sections[index];
-    if (section) {
-      setStartTime(section.startTime);
-      setEndTime(section.endTime);
-      selectSection(section, index);
-    }
-  }, [sections, selectSection]);
+  const handleSectionSelect = useCallback(
+    (index: number) => {
+      setSelectedIndex(index);
+      const section = sections[index];
+      if (section) {
+        setStartTime(section.startTime);
+        setEndTime(section.endTime);
+        selectSection(section, index);
+      }
+    },
+    [sections, selectSection],
+  );
 
   // Handle drag for region selection
-  const getPositionFromEvent = useCallback((e: MouseEvent | TouchEvent) => {
-    if (!containerRef.current) return 0;
-    const rect = containerRef.current.getBoundingClientRect();
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
-    const position = (clientX - rect.left) / rect.width;
-    return Math.max(0, Math.min(1, position)) * duration;
-  }, [duration]);
+  const getPositionFromEvent = useCallback(
+    (e: MouseEvent | TouchEvent) => {
+      if (!containerRef.current) return 0;
+      const rect = containerRef.current.getBoundingClientRect();
+      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
+      const position = (clientX - rect.left) / rect.width;
+      return Math.max(0, Math.min(1, position)) * duration;
+    },
+    [duration],
+  );
 
-  const handleDragStart = (handle: 'start' | 'end') => (e: React.MouseEvent | React.TouchEvent) => {
+  const handleDragStart = (handle: "start" | "end") => (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();
     setIsDragging(handle);
   };
@@ -132,7 +139,7 @@ export function UnifiedSectionEditor({
 
     const handleMove = (e: MouseEvent | TouchEvent) => {
       const newTime = getPositionFromEvent(e);
-      if (isDragging === 'start') {
+      if (isDragging === "start") {
         setStartTime(Math.max(0, Math.min(newTime, endTime - 1)));
       } else {
         setEndTime(Math.min(duration, Math.max(newTime, startTime + 1)));
@@ -144,16 +151,16 @@ export function UnifiedSectionEditor({
       setCustomRange(startTime, endTime);
     };
 
-    document.addEventListener('mousemove', handleMove);
-    document.addEventListener('mouseup', handleEnd);
-    document.addEventListener('touchmove', handleMove);
-    document.addEventListener('touchend', handleEnd);
+    document.addEventListener("mousemove", handleMove);
+    document.addEventListener("mouseup", handleEnd);
+    document.addEventListener("touchmove", handleMove);
+    document.addEventListener("touchend", handleEnd);
 
     return () => {
-      document.removeEventListener('mousemove', handleMove);
-      document.removeEventListener('mouseup', handleEnd);
-      document.removeEventListener('touchmove', handleMove);
-      document.removeEventListener('touchend', handleEnd);
+      document.removeEventListener("mousemove", handleMove);
+      document.removeEventListener("mouseup", handleEnd);
+      document.removeEventListener("touchmove", handleMove);
+      document.removeEventListener("touchend", handleEnd);
     };
   }, [isDragging, endTime, startTime, duration, getPositionFromEvent, setCustomRange]);
 
@@ -167,7 +174,7 @@ export function UnifiedSectionEditor({
   const endPercent = (endTime / duration) * 100;
   const currentPercent = (currentTime / duration) * 100;
 
-  const isEditorVisible = editMode === 'editing' || selectedIndex !== null;
+  const isEditorVisible = editMode === "editing" || selectedIndex !== null;
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -190,8 +197,10 @@ export function UnifiedSectionEditor({
                     className={cn(
                       "flex-shrink-0 px-3 py-2 rounded-lg border text-left transition-all min-w-[100px]",
                       "hover:ring-2 hover:ring-primary/50",
-                      colors.bg, colors.border, colors.text,
-                      isSelected && "ring-2 ring-primary shadow-lg shadow-primary/20"
+                      colors.bg,
+                      colors.border,
+                      colors.text,
+                      isSelected && "ring-2 ring-primary shadow-lg shadow-primary/20",
                     )}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -218,7 +227,7 @@ export function UnifiedSectionEditor({
       {/* Timeline Region Selector */}
       <div className="space-y-3">
         {/* Selection Info */}
-        <motion.div 
+        <motion.div
           className="flex items-center justify-between text-sm"
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
@@ -227,25 +236,23 @@ export function UnifiedSectionEditor({
             <motion.div
               className={cn(
                 "px-2.5 py-1 rounded-md font-mono text-sm",
-                isValidDuration 
-                  ? "bg-primary/10 text-primary border border-primary/20" 
-                  : "bg-destructive/10 text-destructive border border-destructive/20"
+                isValidDuration
+                  ? "bg-primary/10 text-primary border border-primary/20"
+                  : "bg-destructive/10 text-destructive border border-destructive/20",
               )}
               animate={{ scale: isDragging ? 1.02 : 1 }}
             >
               {formatTime(startTime)} — {formatTime(endTime)}
             </motion.div>
-            <span className="text-muted-foreground text-xs">
-              ({formatTime(sectionDuration)})
-            </span>
+            <span className="text-muted-foreground text-xs">({formatTime(sectionDuration)})</span>
           </div>
-          
-          <motion.div 
+
+          <motion.div
             className={cn(
               "flex items-center gap-1.5 px-2 py-1 rounded-md text-xs",
-              isValidDuration 
-                ? "bg-green-500/10 text-green-600 dark:text-green-400" 
-                : "bg-destructive/10 text-destructive"
+              isValidDuration
+                ? "bg-green-500/10 text-green-600 dark:text-green-400"
+                : "bg-destructive/10 text-destructive",
             )}
           >
             {isValidDuration ? (
@@ -256,14 +263,16 @@ export function UnifiedSectionEditor({
             ) : (
               <>
                 <AlertCircle className="w-3.5 h-3.5 animate-pulse" />
-                <span>Макс. {maxSectionPercent}% ({formatTime(maxDuration)})</span>
+                <span>
+                  Макс. {maxSectionPercent}% ({formatTime(maxDuration)})
+                </span>
               </>
             )}
           </motion.div>
         </motion.div>
 
         {/* Timeline */}
-        <div 
+        <div
           ref={containerRef}
           className="relative h-16 bg-muted/50 rounded-lg overflow-hidden cursor-pointer"
           onClick={(e) => {
@@ -285,9 +294,9 @@ export function UnifiedSectionEditor({
           <motion.div
             className={cn(
               "absolute top-2 bottom-6 rounded",
-              isValidDuration 
-                ? "bg-primary/30 border-y-2 border-primary" 
-                : "bg-destructive/30 border-y-2 border-destructive"
+              isValidDuration
+                ? "bg-primary/30 border-y-2 border-primary"
+                : "bg-destructive/30 border-y-2 border-destructive",
             )}
             style={{ left: `${startPercent}%`, width: `${endPercent - startPercent}%` }}
             animate={{ opacity: [0.8, 1, 0.8] }}
@@ -299,11 +308,11 @@ export function UnifiedSectionEditor({
             className={cn(
               "absolute w-3 cursor-ew-resize flex items-center justify-center z-10 top-2 bottom-6",
               "bg-primary rounded-l border-2 border-primary-foreground shadow-lg",
-              isDragging === 'start' && "ring-2 ring-primary ring-offset-2"
+              isDragging === "start" && "ring-2 ring-primary ring-offset-2",
             )}
             style={{ left: `calc(${startPercent}% - 6px)` }}
-            onMouseDown={handleDragStart('start')}
-            onTouchStart={handleDragStart('start')}
+            onMouseDown={handleDragStart("start")}
+            onTouchStart={handleDragStart("start")}
             whileHover={{ scale: 1.1 }}
           >
             <GripVertical className="w-2.5 h-2.5 text-primary-foreground" />
@@ -313,11 +322,11 @@ export function UnifiedSectionEditor({
             className={cn(
               "absolute w-3 cursor-ew-resize flex items-center justify-center z-10 top-2 bottom-6",
               "bg-primary rounded-r border-2 border-primary-foreground shadow-lg",
-              isDragging === 'end' && "ring-2 ring-primary ring-offset-2"
+              isDragging === "end" && "ring-2 ring-primary ring-offset-2",
             )}
             style={{ left: `calc(${endPercent}% - 6px)` }}
-            onMouseDown={handleDragStart('end')}
-            onTouchStart={handleDragStart('end')}
+            onMouseDown={handleDragStart("end")}
+            onTouchStart={handleDragStart("end")}
             whileHover={{ scale: 1.1 }}
           >
             <GripVertical className="w-2.5 h-2.5 text-primary-foreground" />
@@ -343,7 +352,7 @@ export function UnifiedSectionEditor({
         {isEditorVisible && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="border rounded-xl bg-gradient-to-r from-primary/5 via-card/80 to-primary/5 overflow-hidden"
           >
@@ -353,7 +362,7 @@ export function UnifiedSectionEditor({
                 <div className="flex items-center gap-2">
                   <Wand2 className="w-4 h-4 text-primary" />
                   <h4 className="font-semibold text-sm">
-                    {selectedIndex !== null ? sections[selectedIndex]?.label : 'Редактор секции'}
+                    {selectedIndex !== null ? sections[selectedIndex]?.label : "Редактор секции"}
                   </h4>
                   <Badge variant="outline" className="text-[10px]">
                     {formatTime(startTime)} — {formatTime(endTime)}
@@ -383,7 +392,7 @@ export function UnifiedSectionEditor({
                     size="sm"
                     className={cn(
                       "h-7 text-xs gap-1",
-                      prompt.includes(preset.prompt) && "bg-primary/10 border-primary/50"
+                      prompt.includes(preset.prompt) && "bg-primary/10 border-primary/50",
                     )}
                     onClick={() => addPreset(preset.prompt)}
                   >
@@ -441,7 +450,9 @@ export function UnifiedSectionEditor({
 
               {/* Actions */}
               <div className="flex items-center justify-end gap-2 pt-1">
-                <Button variant="ghost" size="sm" onClick={handleClose}>Отмена</Button>
+                <Button variant="ghost" size="sm" onClick={handleClose}>
+                  Отмена
+                </Button>
                 <Button
                   size="sm"
                   onClick={executeReplacement}

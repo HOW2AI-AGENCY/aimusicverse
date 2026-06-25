@@ -1,6 +1,6 @@
 /**
  * CompactVariant - Compact list row with minimal info
- * 
+ *
  * Features:
  * - Small cover
  * - Title + style
@@ -8,16 +8,16 @@
  * - Menu button
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { MoreHorizontal } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { formatDuration } from '@/lib/player-utils';
-import { UnifiedTrackSheet } from '@/components/track-actions';
-import { useTrackCardState } from '../hooks/useTrackCardState';
-import { TrackCoverImage } from '../components/TrackCoverImage';
-import type { StandardTrackCardProps } from '../types';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { formatDuration } from "@/lib/player-utils";
+import { UnifiedTrackSheet } from "@/components/track-actions";
+import { useTrackCardState } from "../hooks/useTrackCardState";
+import { TrackCoverImage } from "../components/TrackCoverImage";
+import type { StandardTrackCardProps } from "../types";
 
 export const CompactVariant = memo(function CompactVariant({
   track,
@@ -50,18 +50,15 @@ export const CompactVariant = memo(function CompactVariant({
         transition={{ delay: index * 0.02, duration: 0.18 }}
       >
         <div
-          data-active={isCurrentlyPlaying ? 'true' : undefined}
-          className={cn(
-            'row-64 group cursor-pointer touch-manipulation select-none',
-            className
-          )}
+          data-active={isCurrentlyPlaying ? "true" : undefined}
+          className={cn("row-64 group cursor-pointer touch-manipulation select-none", className)}
           onClick={handleCardClick}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           role="button"
           tabIndex={0}
           onKeyDown={handleKeyDown}
-          aria-label={`Трек ${track.title || 'Без названия'}`}
+          aria-label={`Трек ${track.title || "Без названия"}`}
         >
           <TrackCoverImage
             coverUrl={track.cover_url}
@@ -76,20 +73,18 @@ export const CompactVariant = memo(function CompactVariant({
           <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
             <h3
               className={cn(
-                'font-display text-[14px] leading-tight truncate tracking-tight',
-                isCurrentlyPlaying ? 'text-primary font-semibold' : 'text-foreground font-medium'
+                "font-display text-[14px] leading-tight truncate tracking-tight",
+                isCurrentlyPlaying ? "text-primary font-semibold" : "text-foreground font-medium",
               )}
             >
-              {track.title || 'Без названия'}
+              {track.title || "Без названия"}
             </h3>
             <div className="flex items-center gap-1.5 min-w-0">
               {track.style && (
-                <span className="tag-chip shrink-0 max-w-[140px] truncate">
-                  {track.style.split(',')[0]}
-                </span>
+                <span className="tag-chip shrink-0 max-w-[140px] truncate">{track.style.split(",")[0]}</span>
               )}
               <span className="text-[11px] text-muted-foreground/80 tabular-nums shrink-0">
-                {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
+                {track.duration_seconds ? formatDuration(track.duration_seconds) : "--:--"}
               </span>
             </div>
           </div>

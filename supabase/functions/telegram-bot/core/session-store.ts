@@ -3,7 +3,7 @@
  * Used to track pending audio upload requests
  */
 
-export type AudioUploadMode = 'cover' | 'extend' | 'upload';
+export type AudioUploadMode = "cover" | "extend" | "upload";
 
 export interface PendingUpload {
   mode: AudioUploadMode;
@@ -22,7 +22,7 @@ export interface UserSession {
   lastActivity: number;
   // Track last message for context
   lastCommand?: string;
-  conversationContext?: 'awaiting_audio' | 'awaiting_selection' | 'awaiting_prompt' | null;
+  conversationContext?: "awaiting_audio" | "awaiting_selection" | "awaiting_prompt" | null;
 }
 
 // Simple in-memory store (resets on function cold start)
@@ -37,12 +37,12 @@ const SESSION_EXPIRY_MS = 15 * 60 * 1000;
  */
 export function getSession(telegramUserId: number): UserSession {
   let session = sessions.get(telegramUserId);
-  
+
   if (!session) {
     session = { lastActivity: Date.now() };
     sessions.set(telegramUserId, session);
   }
-  
+
   return session;
 }
 
@@ -50,9 +50,9 @@ export function getSession(telegramUserId: number): UserSession {
  * Set pending audio upload for user
  */
 export function setPendingUpload(
-  telegramUserId: number, 
+  telegramUserId: number,
   mode: AudioUploadMode,
-  options: Partial<Omit<PendingUpload, 'mode' | 'createdAt'>> = {}
+  options: Partial<Omit<PendingUpload, "mode" | "createdAt">> = {},
 ): void {
   const session = getSession(telegramUserId);
   session.pendingUpload = {
@@ -61,7 +61,7 @@ export function setPendingUpload(
     ...options,
   };
   session.lastActivity = Date.now();
-  session.conversationContext = 'awaiting_audio';
+  session.conversationContext = "awaiting_audio";
   sessions.set(telegramUserId, session);
 }
 
@@ -71,21 +71,21 @@ export function setPendingUpload(
 export function consumePendingUpload(telegramUserId: number): PendingUpload | null {
   const session = getSession(telegramUserId);
   const pending = session.pendingUpload;
-  
+
   if (!pending) return null;
-  
+
   // Check if expired
   if (Date.now() - pending.createdAt > SESSION_EXPIRY_MS) {
     session.pendingUpload = undefined;
     session.conversationContext = null;
     return null;
   }
-  
+
   // Clear the pending upload
   session.pendingUpload = undefined;
   session.lastActivity = Date.now();
   session.conversationContext = null;
-  
+
   return pending;
 }
 
@@ -95,16 +95,16 @@ export function consumePendingUpload(telegramUserId: number): PendingUpload | nu
 export function hasPendingUpload(telegramUserId: number): boolean {
   const session = getSession(telegramUserId);
   const pending = session.pendingUpload;
-  
+
   if (!pending) return false;
-  
+
   // Check expiry
   if (Date.now() - pending.createdAt > SESSION_EXPIRY_MS) {
     session.pendingUpload = undefined;
     session.conversationContext = null;
     return false;
   }
-  
+
   return true;
 }
 
@@ -114,16 +114,16 @@ export function hasPendingUpload(telegramUserId: number): boolean {
 export function getPendingUpload(telegramUserId: number): PendingUpload | null {
   const session = getSession(telegramUserId);
   const pending = session.pendingUpload;
-  
+
   if (!pending) return null;
-  
+
   // Check if expired
   if (Date.now() - pending.createdAt > SESSION_EXPIRY_MS) {
     session.pendingUpload = undefined;
     session.conversationContext = null;
     return null;
   }
-  
+
   return pending;
 }
 
@@ -132,7 +132,7 @@ export function getPendingUpload(telegramUserId: number): PendingUpload | null {
  */
 export function updatePendingUpload(
   telegramUserId: number,
-  updates: Partial<Omit<PendingUpload, 'mode' | 'createdAt'>>
+  updates: Partial<Omit<PendingUpload, "mode" | "createdAt">>,
 ): void {
   const session = getSession(telegramUserId);
   if (session.pendingUpload) {
@@ -147,10 +147,7 @@ export function updatePendingUpload(
 /**
  * Set conversation context
  */
-export function setConversationContext(
-  telegramUserId: number,
-  context: UserSession['conversationContext']
-): void {
+export function setConversationContext(telegramUserId: number, context: UserSession["conversationContext"]): void {
   const session = getSession(telegramUserId);
   session.conversationContext = context;
   session.lastActivity = Date.now();
@@ -159,7 +156,7 @@ export function setConversationContext(
 /**
  * Get conversation context
  */
-export function getConversationContext(telegramUserId: number): UserSession['conversationContext'] {
+export function getConversationContext(telegramUserId: number): UserSession["conversationContext"] {
   const session = getSession(telegramUserId);
   return session.conversationContext;
 }
@@ -186,7 +183,7 @@ export function getLastCommand(telegramUserId: number): string | undefined {
  */
 export function cleanupSessions(): void {
   const now = Date.now();
-  
+
   for (const [userId, session] of sessions.entries()) {
     // Remove sessions inactive for more than 1 hour
     if (now - session.lastActivity > 60 * 60 * 1000) {

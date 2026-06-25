@@ -1,31 +1,47 @@
-import { useState } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { 
-  Music2, Clock, Tag, FileText, Wand2, Heart, Play, Pause,
-  User, Mic, Cpu, Share2, Headphones, Calendar, Globe, 
-  Sparkles, ExternalLink, Copy, Check
-} from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { LikeButton } from '@/components/ui/like-button';
-import { TrackCommentsSection } from '@/components/track/TrackCommentsSection';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { toast } from 'sonner';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
-import type { Track } from '@/types/track';
-import { useNavigate } from 'react-router-dom';
-import { formatTime } from '@/lib/formatters';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { cn } from '@/lib/utils';
-import { surface } from '@/lib/overlay-colors';
+import { useState } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  Music2,
+  Clock,
+  Tag,
+  FileText,
+  Wand2,
+  Heart,
+  Play,
+  Pause,
+  User,
+  Mic,
+  Cpu,
+  Share2,
+  Headphones,
+  Calendar,
+  Globe,
+  Sparkles,
+  ExternalLink,
+  Copy,
+  Check,
+} from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { LikeButton } from "@/components/ui/like-button";
+import { TrackCommentsSection } from "@/components/track/TrackCommentsSection";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { toast } from "sonner";
+import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
+import type { Track } from "@/types/track";
+import { useNavigate } from "react-router-dom";
+import { formatTime } from "@/lib/formatters";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { cn } from "@/lib/utils";
+import { surface } from "@/lib/overlay-colors";
 
 interface PublicTrackDetailSheetProps {
   open: boolean;
@@ -57,7 +73,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
   };
 
   const handlePlay = () => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     if (isCurrentTrack) {
       if (isPlaying) {
         pauseTrack();
@@ -70,10 +86,10 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
   };
 
   const handleShare = () => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     if (navigator.share) {
       navigator.share({
-        title: track.title || 'Трек',
+        title: track.title || "Трек",
         text: `Послушай "${track.title}" на MusicVerse`,
         url: `${window.location.origin}/track/${track.id}`,
       });
@@ -83,7 +99,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
   const handleCopyLink = () => {
     navigator.clipboard.writeText(`${window.location.origin}/track/${track.id}`);
     setCopied(true);
-    toast.success('Ссылка скопирована');
+    toast.success("Ссылка скопирована");
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -94,34 +110,34 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
   };
 
   const formatDurationValue = (seconds: number | null) => {
-    if (!seconds) return '—';
+    if (!seconds) return "—";
     return formatTime(seconds);
   };
 
   const formatModelName = (model: string | null) => {
     if (!model) return null;
     const modelLabels: Record<string, string> = {
-      'V5': 'Suno V5',
-      'V4_5ALL': 'Suno V4.5',
-      'V4_5PLUS': 'Suno V4.5+',
-      'V4': 'Suno V4',
-      'V3_5': 'Suno V3.5',
+      V5: "Suno V5",
+      V4_5ALL: "Suno V4.5",
+      V4_5PLUS: "Suno V4.5+",
+      V4: "Suno V4",
+      V3_5: "Suno V3.5",
     };
     return modelLabels[model] || model;
   };
 
   const formatDate = (dateStr: string | null) => {
-    if (!dateStr) return '—';
-    return new Date(dateStr).toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
+    if (!dateStr) return "—";
+    return new Date(dateStr).toLocaleDateString("ru-RU", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
     });
   };
 
-  const platformCover = track.local_cover_url && track.local_cover_url.trim() !== '' ? track.local_cover_url : null;
-  const sunoCover = track.cover_url && track.cover_url.trim() !== '' ? track.cover_url : null;
-  const coverUrl = imageError ? (platformCover ? sunoCover : null) : (platformCover || sunoCover);
+  const platformCover = track.local_cover_url && track.local_cover_url.trim() !== "" ? track.local_cover_url : null;
+  const sunoCover = track.cover_url && track.cover_url.trim() !== "" ? track.cover_url : null;
+  const coverUrl = imageError ? (platformCover ? sunoCover : null) : platformCover || sunoCover;
 
   const content = (
     <ScrollArea className="h-full max-h-[85vh]">
@@ -130,25 +146,25 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
         <div className="relative -mx-6 -mt-6 overflow-hidden">
           {/* Background Blur */}
           {coverUrl && (
-            <div 
+            <div
               className="absolute inset-0 scale-110 blur-3xl opacity-30"
-              style={{ backgroundImage: `url(${coverUrl})`, backgroundSize: 'cover' }}
+              style={{ backgroundImage: `url(${coverUrl})`, backgroundSize: "cover" }}
             />
           )}
-          
+
           <div className="relative px-6 pt-6 pb-4">
             <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
               {/* Cover */}
-              <motion.div 
+              <motion.div
                 className="relative flex-shrink-0"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ type: 'spring', duration: 0.5 }}
+                transition={{ type: "spring", duration: 0.5 }}
               >
                 {coverUrl ? (
                   <img
                     src={coverUrl}
-                    alt={track.title || 'Track cover'}
+                    alt={track.title || "Track cover"}
                     className="w-48 h-48 sm:w-44 sm:h-44 rounded-2xl object-cover shadow-2xl ring-4 ring-background/50"
                     onError={() => setImageError(true)}
                   />
@@ -157,12 +173,12 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                     <Music2 className="w-20 h-20 text-primary/40" />
                   </div>
                 )}
-                
+
                 {/* Play Overlay */}
                 <motion.button
                   className={cn(
                     "absolute inset-0 flex items-center justify-center rounded-2xl opacity-0 hover:opacity-100 transition-opacity",
-                    surface.imageDark
+                    surface.imageDark,
                   )}
                   onClick={handlePlay}
                   whileHover={{ scale: 1.02 }}
@@ -181,16 +197,16 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
               {/* Info */}
               <div className="flex-1 text-center sm:text-left space-y-3">
                 <div>
-                  <motion.h2 
+                  <motion.h2
                     className="text-2xl sm:text-3xl font-bold tracking-tight mb-2"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
                   >
-                    {track.title || 'Без названия'}
+                    {track.title || "Без названия"}
                   </motion.h2>
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="flex flex-wrap items-center justify-center sm:justify-start gap-2"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -225,17 +241,13 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                     transition={{ delay: 0.3 }}
                   >
                     <Avatar className="w-10 h-10 ring-2 ring-primary/20">
-                      {track.creator_photo_url ? (
-                        <AvatarImage src={track.creator_photo_url} />
-                      ) : null}
+                      {track.creator_photo_url ? <AvatarImage src={track.creator_photo_url} /> : null}
                       <AvatarFallback className="bg-primary/10 text-primary font-bold">
-                        {(track.creator_name || track.creator_username || 'U')[0].toUpperCase()}
+                        {(track.creator_name || track.creator_username || "U")[0].toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
                     <div className="text-left">
-                      <p className="font-semibold text-sm">
-                        {track.creator_name || track.creator_username}
-                      </p>
+                      <p className="font-semibold text-sm">{track.creator_name || track.creator_username}</p>
                       {track.creator_username && track.creator_name && (
                         <p className="text-xs text-muted-foreground">@{track.creator_username}</p>
                       )}
@@ -245,18 +257,13 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                 )}
 
                 {/* Action Buttons */}
-                <motion.div 
+                <motion.div
                   className="flex items-center gap-2 justify-center sm:justify-start pt-2"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <Button
-                    onClick={handlePlay}
-                    disabled={!track.audio_url}
-                    className="gap-2 px-6"
-                    size="lg"
-                  >
+                  <Button onClick={handlePlay} disabled={!track.audio_url} className="gap-2 px-6" size="lg">
                     {isCurrentlyPlaying ? (
                       <>
                         <Pause className="w-5 h-5" />
@@ -269,8 +276,8 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                       </>
                     )}
                   </Button>
-                  <LikeButton 
-                    trackId={track.id} 
+                  <LikeButton
+                    trackId={track.id}
                     likesCount={track.like_count || 0}
                     initialLiked={track.user_liked}
                     showCount
@@ -279,12 +286,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                   <Button variant="outline" size="icon" className="h-11 w-11" onClick={handleShare}>
                     <Share2 className="w-5 h-5" />
                   </Button>
-                  <Button 
-                    variant="outline" 
-                    size="icon" 
-                    className="h-11 w-11"
-                    onClick={handleCopyLink}
-                  >
+                  <Button variant="outline" size="icon" className="h-11 w-11" onClick={handleCopyLink}>
                     {copied ? <Check className="w-5 h-5 text-green-500" /> : <Copy className="w-5 h-5" />}
                   </Button>
                 </motion.div>
@@ -296,10 +298,22 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
         {/* Stats Cards */}
         <div className="grid grid-cols-4 gap-2 px-1">
           {[
-            { icon: Clock, label: 'Длительность', value: formatDurationValue(track.duration_seconds), color: 'text-blue-500' },
-            { icon: Headphones, label: 'Plays', value: track.play_count || 0, color: 'text-green-500' },
-            { icon: Heart, label: 'Лайки', value: track.like_count || 0, color: 'text-red-500' },
-            { icon: Calendar, label: 'Создан', value: track.created_at ? new Date(track.created_at).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' }) : '—', color: 'text-purple-500' },
+            {
+              icon: Clock,
+              label: "Длительность",
+              value: formatDurationValue(track.duration_seconds),
+              color: "text-blue-500",
+            },
+            { icon: Headphones, label: "Plays", value: track.play_count || 0, color: "text-green-500" },
+            { icon: Heart, label: "Лайки", value: track.like_count || 0, color: "text-red-500" },
+            {
+              icon: Calendar,
+              label: "Создан",
+              value: track.created_at
+                ? new Date(track.created_at).toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit" })
+                : "—",
+              color: "text-purple-500",
+            },
           ].map((stat, i) => (
             <motion.div
               key={stat.label}
@@ -318,11 +332,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
 
         {/* Style & Tags */}
         {(track.style || track.tags) && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
             <Card className="p-4 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/10">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
@@ -344,7 +354,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                 <div>
                   <p className="text-xs text-muted-foreground mb-1.5">Теги:</p>
                   <div className="flex flex-wrap gap-1.5">
-                    {track.tags.split(',').map((tag, i) => (
+                    {track.tags.split(",").map((tag, i) => (
                       <Badge key={i} variant="secondary" className="px-2 py-0.5 text-xs">
                         {tag.trim()}
                       </Badge>
@@ -358,11 +368,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
 
         {/* Prompt */}
         {track.prompt && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}>
             <Card className="p-4 border-0 bg-muted/30">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center">
@@ -370,20 +376,14 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                 </div>
                 <h4 className="font-semibold">Промпт генерации</h4>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
-                {track.prompt}
-              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">{track.prompt}</p>
             </Card>
           </motion.div>
         )}
 
         {/* Lyrics */}
         {track.lyrics && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.7 }}>
             <Card className="p-4 border-0 bg-muted/30">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 rounded-lg bg-cyan-500/10 flex items-center justify-center">
@@ -399,11 +399,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
         )}
 
         {/* Technical Info */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-        >
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
           <Card className="p-4 border-0 bg-muted/30">
             <h4 className="font-semibold mb-3">Параметры генерации</h4>
             <div className="grid grid-cols-2 gap-3">
@@ -421,7 +417,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
                 <div className="p-2.5 rounded-lg bg-background/50">
                   <p className="text-xs text-muted-foreground">Режим</p>
                   <p className="text-sm font-medium mt-0.5">
-                    {track.generation_mode === 'custom' ? 'Кастомный' : 'Простой'}
+                    {track.generation_mode === "custom" ? "Кастомный" : "Простой"}
                   </p>
                 </div>
               )}
@@ -463,9 +459,7 @@ export function PublicTrackDetailSheet({ open, onOpenChange, track }: PublicTrac
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] p-6">
-        {content}
-      </DialogContent>
+      <DialogContent className="max-w-2xl max-h-[90vh] p-6">{content}</DialogContent>
     </Dialog>
   );
 }

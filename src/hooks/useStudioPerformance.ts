@@ -3,8 +3,8 @@
  * Tracks memory usage, render counts, and provides optimization utilities
  */
 
-import { useEffect, useRef, useCallback, useMemo, useState } from 'react';
-import { logger } from '@/lib/logger';
+import { useEffect, useRef, useCallback, useMemo, useState } from "react";
+import { logger } from "@/lib/logger";
 
 interface PerformanceMetrics {
   renderCount: number;
@@ -38,19 +38,19 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
     if (lastRenderStart.current > 0) {
       const renderTime = performance.now() - lastRenderStart.current;
       renderTimes.current.push(renderTime);
-      
+
       // Keep only last N samples
       if (renderTimes.current.length > MAX_RENDER_SAMPLES) {
         renderTimes.current.shift();
       }
-      
+
       renderCount.current++;
     }
   });
 
   // Get memory usage (when available)
   const getMemoryUsage = useCallback((): number | null => {
-    if ('memory' in performance) {
+    if ("memory" in performance) {
       const memory = (performance as any).memory;
       if (memory?.usedJSHeapSize) {
         return Math.round(memory.usedJSHeapSize / (1024 * 1024));
@@ -62,7 +62,7 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
   // Calculate average render time
   // Track render count changes via state for proper memoization
   const [renderCountState, setRenderCountState] = useState(0);
-  
+
   // Update state when renderCount changes
   useEffect(() => {
     setRenderCountState(renderCount.current);
@@ -80,8 +80,8 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
   // Log warning if memory is high
   useEffect(() => {
     if (isMemoryWarning) {
-      logger.warn(`[${componentName}] High memory usage: ${memoryUsageMB}MB`, { 
-        threshold: MEMORY_WARNING_THRESHOLD_MB 
+      logger.warn(`[${componentName}] High memory usage: ${memoryUsageMB}MB`, {
+        threshold: MEMORY_WARNING_THRESHOLD_MB,
       });
     }
   }, [isMemoryWarning, memoryUsageMB, componentName]);
@@ -114,31 +114,37 @@ export function useStudioPerformance(componentName: string): UseStudioPerformanc
  */
 export function useThrottledCallback<T extends (...args: any[]) => any>(
   callback: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => ReturnType<T> | undefined {
   const lastCall = useRef<number>(0);
   const timeoutId = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const lastResult = useRef<ReturnType<T> | undefined>(undefined);
-  
-  return useCallback((...args: Parameters<T>) => {
-    const now = Date.now();
-    
-    if (now - lastCall.current >= delay) {
-      lastCall.current = now;
-      lastResult.current = callback(...args);
-      return lastResult.current;
-    } else {
-      // Schedule for later
-      if (timeoutId.current) {
-        clearTimeout(timeoutId.current);
-      }
-      timeoutId.current = setTimeout(() => {
-        lastCall.current = Date.now();
+
+  return useCallback(
+    (...args: Parameters<T>) => {
+      const now = Date.now();
+
+      if (now - lastCall.current >= delay) {
+        lastCall.current = now;
         lastResult.current = callback(...args);
-      }, delay - (now - lastCall.current));
-      return undefined;
-    }
-  }, [callback, delay]);
+        return lastResult.current;
+      } else {
+        // Schedule for later
+        if (timeoutId.current) {
+          clearTimeout(timeoutId.current);
+        }
+        timeoutId.current = setTimeout(
+          () => {
+            lastCall.current = Date.now();
+            lastResult.current = callback(...args);
+          },
+          delay - (now - lastCall.current),
+        );
+        return undefined;
+      }
+    },
+    [callback, delay],
+  );
 }
 
 /**
@@ -152,7 +158,7 @@ export function useCustomDeferredValue<T>(value: T, delay: number = 100): T {
     if (timeoutId.current) {
       clearTimeout(timeoutId.current);
     }
-    
+
     timeoutId.current = setTimeout(() => {
       deferredValue.current = value;
     }, delay);

@@ -3,15 +3,15 @@
  * Shown while tracks are being fetched
  */
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface LibrarySkeletonProps {
-  viewMode?: 'grid' | 'list';
+  viewMode?: "grid" | "list";
   count?: number;
 }
 
-export function LibrarySkeleton({ viewMode = 'grid', count = 6 }: LibrarySkeletonProps) {
+export function LibrarySkeleton({ viewMode = "grid", count = 6 }: LibrarySkeletonProps) {
   return (
     <div className="space-y-4">
       {/* Filter bar skeleton */}
@@ -25,7 +25,7 @@ export function LibrarySkeleton({ viewMode = 'grid', count = 6 }: LibrarySkeleto
       </div>
 
       {/* Track cards */}
-      {viewMode === 'grid' ? (
+      {viewMode === "grid" ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
           {Array.from({ length: count }).map((_, i) => (
             <div key={i} className="space-y-2">

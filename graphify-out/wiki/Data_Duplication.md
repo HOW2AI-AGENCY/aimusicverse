@@ -7,14 +7,14 @@
 - [social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L1) (6 connections)
 - [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L192) (1 connections)
 - [{
-    isLiked,
-    likesCount,
-    toggleLike,
-    isLikePending,
-    isFollowing,
-    toggleFollow,
-    share,
-    isSharing,
+  isLiked,
+  likesCount,
+  toggleLike,
+  isLikePending,
+  isFollowing,
+  toggleFollow,
+  share,
+  isSharing,
   }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L66) (1 connections)
 - [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L142) (1 connections)
 - [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L101) (1 connections)
@@ -37,4 +37,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

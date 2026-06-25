@@ -2,21 +2,15 @@
  * Dynamics Compressor Control
  */
 
-import { useState, useEffect } from 'react';
-import { Slider } from '@/components/ui/slider';
-import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { RotateCcw, Activity } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { CompressorSettings, compressorPresets, defaultCompressorSettings } from '@/hooks/studio/stemEffectsConfig';
+import { useState, useEffect } from "react";
+import { Slider } from "@/components/ui/slider";
+import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RotateCcw, Activity } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { CompressorSettings, compressorPresets, defaultCompressorSettings } from "@/hooks/studio/stemEffectsConfig";
 
 interface CompressorControlProps {
   settings: CompressorSettings;
@@ -26,21 +20,16 @@ interface CompressorControlProps {
 }
 
 const presetLabels: Record<keyof typeof compressorPresets, string> = {
-  off: 'Выкл',
-  gentle: 'Мягкий',
-  moderate: 'Средний',
-  heavy: 'Сильный',
-  vocals: 'Вокал',
-  drums: 'Ударные',
+  off: "Выкл",
+  gentle: "Мягкий",
+  moderate: "Средний",
+  heavy: "Сильный",
+  vocals: "Вокал",
+  drums: "Ударные",
 };
 
-export function CompressorControl({ 
-  settings, 
-  onChange, 
-  onPresetChange,
-  getReduction,
-}: CompressorControlProps) {
-  const [selectedPreset, setSelectedPreset] = useState<string>(settings.enabled ? 'moderate' : 'off');
+export function CompressorControl({ settings, onChange, onPresetChange, getReduction }: CompressorControlProps) {
+  const [selectedPreset, setSelectedPreset] = useState<string>(settings.enabled ? "moderate" : "off");
   const [reduction, setReduction] = useState(0);
 
   // Poll gain reduction meter
@@ -60,13 +49,13 @@ export function CompressorControl({
   };
 
   const handleReset = () => {
-    setSelectedPreset('off');
+    setSelectedPreset("off");
     onChange(defaultCompressorSettings);
   };
 
   const handleToggle = (enabled: boolean) => {
     onChange({ enabled });
-    setSelectedPreset(enabled ? 'moderate' : 'off');
+    setSelectedPreset(enabled ? "moderate" : "off");
   };
 
   return (
@@ -74,22 +63,14 @@ export function CompressorControl({
       {/* Header */}
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-3">
-          <Switch
-            checked={settings.enabled}
-            onCheckedChange={handleToggle}
-            id="compressor-toggle"
-          />
+          <Switch checked={settings.enabled} onCheckedChange={handleToggle} id="compressor-toggle" />
           <Label htmlFor="compressor-toggle" className="text-sm font-medium cursor-pointer">
             Компрессор
           </Label>
         </div>
 
         <div className="flex items-center gap-2">
-          <Select 
-            value={selectedPreset} 
-            onValueChange={handlePresetChange}
-            disabled={!settings.enabled}
-          >
+          <Select value={selectedPreset} onValueChange={handlePresetChange} disabled={!settings.enabled}>
             <SelectTrigger className="w-[120px] h-8 text-xs">
               <SelectValue placeholder="Пресет" />
             </SelectTrigger>
@@ -125,11 +106,10 @@ export function CompressorControl({
             <span className="tabular-nums">{Math.abs(reduction).toFixed(1)} dB</span>
           </div>
           <div className="h-2 bg-muted rounded-full overflow-hidden">
-            <div 
+            <div
               className={cn(
                 "h-full transition-all duration-75 rounded-full",
-                Math.abs(reduction) > 12 ? "bg-red-500" : 
-                Math.abs(reduction) > 6 ? "bg-yellow-500" : "bg-green-500"
+                Math.abs(reduction) > 12 ? "bg-red-500" : Math.abs(reduction) > 6 ? "bg-yellow-500" : "bg-green-500",
               )}
               style={{ width: `${Math.min(100, Math.abs(reduction) * 5)}%` }}
             />
@@ -138,10 +118,12 @@ export function CompressorControl({
       )}
 
       {/* Controls */}
-      <div className={cn(
-        "grid grid-cols-2 gap-4 transition-opacity",
-        !settings.enabled && "opacity-50 pointer-events-none"
-      )}>
+      <div
+        className={cn(
+          "grid grid-cols-2 gap-4 transition-opacity",
+          !settings.enabled && "opacity-50 pointer-events-none",
+        )}
+      >
         {/* Threshold */}
         <div className="space-y-2">
           <div className="flex justify-between text-xs">

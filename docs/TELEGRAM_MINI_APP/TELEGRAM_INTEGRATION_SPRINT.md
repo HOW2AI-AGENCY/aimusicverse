@@ -9,12 +9,12 @@
 
 ## 📊 Обзор Спринтов
 
-| Спринт | Фокус | Story Points | Приоритет |
-|--------|-------|--------------|-----------|
-| **Sprint 1** | Telegram Bot Core + Notifications | 21 | 🔴 Critical |
-| **Sprint 2** | Mini App Advanced Features | 18 | 🟡 High |
-| **Sprint 3** | Bot-App Integration + Payments | 24 | 🟡 High |
-| **Sprint 4** | Advanced Features + Polish | 15 | 🟢 Medium |
+| Спринт       | Фокус                             | Story Points | Приоритет   |
+| ------------ | --------------------------------- | ------------ | ----------- |
+| **Sprint 1** | Telegram Bot Core + Notifications | 21           | 🔴 Critical |
+| **Sprint 2** | Mini App Advanced Features        | 18           | 🟡 High     |
+| **Sprint 3** | Bot-App Integration + Payments    | 24           | 🟡 High     |
+| **Sprint 4** | Advanced Features + Polish        | 15           | 🟢 Medium   |
 
 **Общий объем:** 78 Story Points
 **Команда:** 2-3 разработчика
@@ -23,6 +23,7 @@
 ---
 
 # 🎯 SPRINT 1: Telegram Bot Core + Notifications
+
 **Цель:** Создать функциональный Telegram бот с базовыми командами и системой уведомлений
 
 **Длительность:** 5 рабочих дней
@@ -33,15 +34,18 @@
 ## 📋 Задачи Sprint 1
 
 ### TASK-1.1: Настройка инфраструктуры Telegram бота
+
 **Priority:** 🔴 Critical
 **Story Points:** 5
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `infrastructure`
 
 #### Описание
+
 Настроить базовую инфраструктуру для Telegram бота на Supabase Edge Functions.
 
 #### Acceptance Criteria
+
 - [ ] Создана Edge Function `telegram-bot`
 - [ ] Настроен webhook для получения обновлений от Telegram
 - [ ] Добавлена библиотека Grammy/Telegraf
@@ -52,6 +56,7 @@
 #### Технические требования
 
 **1. Создать структуру проекта:**
+
 ```bash
 supabase/functions/
 ├── telegram-bot/
@@ -64,6 +69,7 @@ supabase/functions/
 ```
 
 **2. Установить зависимости:**
+
 ```typescript
 // import_map.json или package.json для Deno
 {
@@ -75,6 +81,7 @@ supabase/functions/
 ```
 
 **3. Базовая структура бота:**
+
 ```typescript
 // supabase/functions/telegram-bot/bot.ts
 import { Bot } from "grammy";
@@ -88,6 +95,7 @@ export { bot };
 ```
 
 **4. Webhook handler:**
+
 ```typescript
 // supabase/functions/telegram-bot/index.ts
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
@@ -98,21 +106,20 @@ serve(webhookCallback(bot, "std/http"));
 ```
 
 **5. Setup webhook:**
+
 ```typescript
 // supabase/functions/telegram-webhook-setup/index.ts
 const WEBHOOK_URL = `${Deno.env.get("SUPABASE_URL")}/functions/v1/telegram-bot`;
 
-const response = await fetch(
-  `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ url: WEBHOOK_URL }),
-  }
-);
+const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ url: WEBHOOK_URL }),
+});
 ```
 
 #### Testing
+
 ```bash
 # 1. Deploy function
 supabase functions deploy telegram-bot
@@ -128,6 +135,7 @@ supabase functions invoke telegram-webhook-setup
 ```
 
 #### Definition of Done
+
 - ✅ Бот отвечает на команды в Telegram
 - ✅ Webhook работает без ошибок
 - ✅ Логи показывают успешную обработку сообщений
@@ -137,15 +145,18 @@ supabase functions invoke telegram-webhook-setup
 ---
 
 ### TASK-1.2: Реализация основных команд бота
+
 **Priority:** 🔴 Critical
 **Story Points:** 5
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `features`
 
 #### Описание
+
 Реализовать основные команды для взаимодействия с ботом.
 
 #### Acceptance Criteria
+
 - [ ] `/start` - приветствие с кнопкой "Открыть Mini App"
 - [ ] `/help` - справка по командам
 - [ ] `/generate <prompt>` - быстрая генерация музыки
@@ -157,6 +168,7 @@ supabase functions invoke telegram-webhook-setup
 #### Технические требования
 
 **Структура:**
+
 ```bash
 supabase/functions/telegram-bot/
 ├── commands/
@@ -199,7 +211,7 @@ export async function startCommand(ctx: CommandContext) {
     {
       parse_mode: "HTML",
       reply_markup: keyboard,
-    }
+    },
   );
 }
 
@@ -218,7 +230,7 @@ export async function helpCommand(ctx: CommandContext) {
 <b>Примеры генерации:</b>
 /generate ambient electronic peaceful
 /generate upbeat rock guitar solo`,
-    { parse_mode: "HTML" }
+    { parse_mode: "HTML" },
   );
 }
 
@@ -233,20 +245,12 @@ export async function generateCommand(ctx: CommandContext) {
   }
 
   // Получить user_id из БД по telegram_id
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("user_id")
-    .eq("telegram_id", ctx.from.id)
-    .single();
+  const { data: profile } = await supabase.from("profiles").select("user_id").eq("telegram_id", ctx.from.id).single();
 
   if (!profile) {
-    return ctx.reply(
-      "❌ Сначала авторизуйтесь в Mini App!",
-      {
-        reply_markup: new InlineKeyboard()
-          .webApp("🔐 Войти", process.env.MINI_APP_URL!)
-      }
-    );
+    return ctx.reply("❌ Сначала авторизуйтесь в Mini App!", {
+      reply_markup: new InlineKeyboard().webApp("🔐 Войти", process.env.MINI_APP_URL!),
+    });
   }
 
   // Отправить в очередь генерации
@@ -263,17 +267,13 @@ export async function generateCommand(ctx: CommandContext) {
     .single();
 
   await ctx.reply(
-    `⏳ Генерация началась!\n\n📝 Промпт: "${prompt}"\n\nВы получите уведомление, когда трек будет готов.`
+    `⏳ Генерация началась!\n\n📝 Промпт: "${prompt}"\n\nВы получите уведомление, когда трек будет готов.`,
   );
 }
 
 // commands/library.ts
 export async function libraryCommand(ctx: CommandContext) {
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("user_id")
-    .eq("telegram_id", ctx.from.id)
-    .single();
+  const { data: profile } = await supabase.from("profiles").select("user_id").eq("telegram_id", ctx.from.id).single();
 
   if (!profile) {
     return ctx.reply("❌ Сначала авторизуйтесь в Mini App!");
@@ -287,9 +287,7 @@ export async function libraryCommand(ctx: CommandContext) {
     .limit(5);
 
   if (!tracks || tracks.length === 0) {
-    return ctx.reply(
-      "📚 Ваша библиотека пуста.\n\nИспользуйте /generate для создания первого трека!"
-    );
+    return ctx.reply("📚 Ваша библиотека пуста.\n\nИспользуйте /generate для создания первого трека!");
   }
 
   let message = "🎵 <b>Ваши последние треки:</b>\n\n";
@@ -311,6 +309,7 @@ export async function libraryCommand(ctx: CommandContext) {
 ```
 
 **Регистрация команд:**
+
 ```typescript
 // bot.ts
 import { Bot } from "grammy";
@@ -331,6 +330,7 @@ export { bot };
 ```
 
 #### Testing
+
 ```bash
 # В Telegram отправить:
 /start
@@ -342,6 +342,7 @@ export { bot };
 ```
 
 #### Definition of Done
+
 - ✅ Все команды работают
 - ✅ Inline клавиатуры отображаются
 - ✅ Deep links открывают Mini App
@@ -352,15 +353,18 @@ export { bot };
 ---
 
 ### TASK-1.3: Система уведомлений о генерации
+
 **Priority:** 🔴 Critical
 **Story Points:** 5
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `notifications`
 
 #### Описание
+
 Реализовать систему отправки уведомлений через бота при завершении генерации треков.
 
 #### Acceptance Criteria
+
 - [ ] Уведомление отправляется при завершении генерации
 - [ ] Сообщение содержит информацию о треке
 - [ ] Прикрепляется аудиофайл
@@ -371,6 +375,7 @@ export { bot };
 #### Технические требования
 
 **1. Создать таблицу для задач генерации:**
+
 ```sql
 -- supabase/migrations/[timestamp]_create_generation_tasks.sql
 CREATE TABLE generation_tasks (
@@ -398,6 +403,7 @@ CREATE POLICY "Users can view own tasks"
 ```
 
 **2. Edge Function для отправки уведомлений:**
+
 ```typescript
 // supabase/functions/send-telegram-notification/index.ts
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
@@ -422,7 +428,7 @@ serve(async (req) => {
     const caption = `✅ <b>Трек готов!</b>
 
 🎵 ${payload.track_title}
-⏱️ Длительность: ${Math.floor(payload.duration / 60)}:${(payload.duration % 60).toString().padStart(2, '0')}
+⏱️ Длительность: ${Math.floor(payload.duration / 60)}:${(payload.duration % 60).toString().padStart(2, "0")}
 
 Создано с помощью MusicVerse AI`;
 
@@ -432,34 +438,29 @@ serve(async (req) => {
         [
           {
             text: "📱 Открыть в приложении",
-            web_app: { url: `${MINI_APP_URL}/library?track=${payload.track_id}` }
-          }
+            web_app: { url: `${MINI_APP_URL}/library?track=${payload.track_id}` },
+          },
         ],
         [
           { text: "🔄 Создать ремикс", callback_data: `remix_${payload.track_id}` },
-          { text: "💾 В проект", callback_data: `add_to_project_${payload.track_id}` }
+          { text: "💾 В проект", callback_data: `add_to_project_${payload.track_id}` },
         ],
-        [
-          { text: "🔗 Поделиться", switch_inline_query: `track_${payload.track_id}` }
-        ]
-      ]
+        [{ text: "🔗 Поделиться", switch_inline_query: `track_${payload.track_id}` }],
+      ],
     };
 
     // Отправляем аудиофайл
-    const response = await fetch(
-      `https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: payload.telegram_id,
-          audio: payload.audio_url,
-          caption: caption,
-          parse_mode: "HTML",
-          reply_markup: keyboard,
-        }),
-      }
-    );
+    const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendAudio`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: payload.telegram_id,
+        audio: payload.audio_url,
+        caption: caption,
+        parse_mode: "HTML",
+        reply_markup: keyboard,
+      }),
+    });
 
     const result = await response.json();
 
@@ -467,21 +468,21 @@ serve(async (req) => {
       throw new Error(`Telegram API error: ${result.description}`);
     }
 
-    return new Response(
-      JSON.stringify({ success: true, message_id: result.result.message_id }),
-      { headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: true, message_id: result.result.message_id }), {
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Error sending notification:", error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 });
 ```
 
 **3. Триггер на завершение генерации:**
+
 ```sql
 -- Функция для отправки уведомления
 CREATE OR REPLACE FUNCTION notify_track_completed()
@@ -530,6 +531,7 @@ CREATE TRIGGER on_track_created
 ```
 
 **4. Обработка callback queries:**
+
 ```typescript
 // telegram-bot/callbacks/track-actions.ts
 import { CallbackQueryContext } from "grammy";
@@ -547,15 +549,11 @@ export async function handleTrackCallback(ctx: CallbackQueryContext) {
 
     // Запустить генерацию ремикса
     // ... логика
-
   } else if (data.startsWith("add_to_project_")) {
     const trackId = data.replace("add_to_project_", "");
 
     // Показать список проектов
-    const { data: projects } = await supabase
-      .from("music_projects")
-      .select("id, title")
-      .eq("user_id", /* ... */);
+    const { data: projects } = await supabase.from("music_projects").select("id, title").eq("user_id" /* ... */);
 
     // Показать inline клавиатуру с проектами
     // ...
@@ -567,6 +565,7 @@ bot.on("callback_query:data", handleTrackCallback);
 ```
 
 #### Testing
+
 ```bash
 # 1. Создать генерацию через Mini App
 # 2. Дождаться завершения
@@ -576,6 +575,7 @@ bot.on("callback_query:data", handleTrackCallback);
 ```
 
 #### Definition of Done
+
 - ✅ Уведомления приходят при завершении генерации
 - ✅ Аудиофайл прикрепляется корректно
 - ✅ Inline кнопки работают
@@ -587,15 +587,18 @@ bot.on("callback_query:data", handleTrackCallback);
 ---
 
 ### TASK-1.4: Bot Menu Button и Deep Linking
+
 **Priority:** 🟡 High
 **Story Points:** 3
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `integration`
 
 #### Описание
+
 Настроить Bot Menu Button для быстрого доступа к Mini App и реализовать deep linking.
 
 #### Acceptance Criteria
+
 - [ ] Menu Button настроена и отображается
 - [ ] Deep links открывают конкретные страницы Mini App
 - [ ] Параметры передаются корректно
@@ -604,66 +607,62 @@ bot.on("callback_query:data", handleTrackCallback);
 #### Технические требования
 
 **1. Настройка Menu Button:**
+
 ```typescript
 // supabase/functions/telegram-webhook-setup/index.ts
 const BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN")!;
 const MINI_APP_URL = Deno.env.get("MINI_APP_URL")!;
 
 // Установить Menu Button для всех пользователей
-await fetch(
-  `https://api.telegram.org/bot${BOT_TOKEN}/setChatMenuButton`,
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      menu_button: {
-        type: "web_app",
-        text: "🎵 MusicVerse",
-        web_app: {
-          url: MINI_APP_URL,
-        },
+await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setChatMenuButton`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    menu_button: {
+      type: "web_app",
+      text: "🎵 MusicVerse",
+      web_app: {
+        url: MINI_APP_URL,
       },
-    }),
-  }
-);
+    },
+  }),
+});
 
 // Установить команды бота (для автокомплита)
-await fetch(
-  `https://api.telegram.org/bot${BOT_TOKEN}/setMyCommands`,
-  {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      commands: [
-        { command: "start", description: "🏠 Главное меню" },
-        { command: "generate", description: "🎵 Создать трек" },
-        { command: "library", description: "📚 Моя библиотека" },
-        { command: "projects", description: "💿 Мои проекты" },
-        { command: "app", description: "📱 Открыть приложение" },
-        { command: "help", description: "❓ Справка" },
-      ],
-    }),
-  }
-);
+await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setMyCommands`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    commands: [
+      { command: "start", description: "🏠 Главное меню" },
+      { command: "generate", description: "🎵 Создать трек" },
+      { command: "library", description: "📚 Моя библиотека" },
+      { command: "projects", description: "💿 Мои проекты" },
+      { command: "app", description: "📱 Открыть приложение" },
+      { command: "help", description: "❓ Справка" },
+    ],
+  }),
+});
 ```
 
 **2. Deep Linking схема:**
 
-| Deep Link | Назначение |
-|-----------|-----------|
-| `?startapp=generate` | Открыть страницу генерации |
+| Deep Link                    | Назначение                         |
+| ---------------------------- | ---------------------------------- |
+| `?startapp=generate`         | Открыть страницу генерации         |
 | `?startapp=generate_ambient` | Генерация с предзаполненным стилем |
-| `?startapp=track_<id>` | Открыть конкретный трек |
-| `?startapp=project_<id>` | Открыть проект |
-| `?startapp=library` | Открыть библиотеку |
-| `?startapp=profile` | Открыть профиль |
+| `?startapp=track_<id>`       | Открыть конкретный трек            |
+| `?startapp=project_<id>`     | Открыть проект                     |
+| `?startapp=library`          | Открыть библиотеку                 |
+| `?startapp=profile`          | Открыть профиль                    |
 
 **3. Frontend обработка deep links:**
+
 ```typescript
 // src/hooks/useDeepLink.tsx
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 export const useDeepLink = () => {
   const navigate = useNavigate();
@@ -677,25 +676,25 @@ export const useDeepLink = () => {
     if (!startParam) return;
 
     // Парсинг deep link параметра
-    if (startParam === 'generate') {
-      navigate('/generate');
-    } else if (startParam.startsWith('generate_')) {
-      const style = startParam.replace('generate_', '');
+    if (startParam === "generate") {
+      navigate("/generate");
+    } else if (startParam.startsWith("generate_")) {
+      const style = startParam.replace("generate_", "");
       navigate(`/generate?style=${style}`);
-    } else if (startParam.startsWith('track_')) {
-      const trackId = startParam.replace('track_', '');
+    } else if (startParam.startsWith("track_")) {
+      const trackId = startParam.replace("track_", "");
       navigate(`/library?track=${trackId}`);
-    } else if (startParam.startsWith('project_')) {
-      const projectId = startParam.replace('project_', '');
+    } else if (startParam.startsWith("project_")) {
+      const projectId = startParam.replace("project_", "");
       navigate(`/projects/${projectId}`);
-    } else if (startParam === 'library') {
-      navigate('/library');
-    } else if (startParam === 'profile') {
-      navigate('/profile');
+    } else if (startParam === "library") {
+      navigate("/library");
+    } else if (startParam === "profile") {
+      navigate("/profile");
     }
 
     // Логирование для аналитики
-    console.log('Deep link opened:', startParam);
+    console.log("Deep link opened:", startParam);
 
     // Отправить событие в аналитику
     // trackEvent('deep_link_open', { param: startParam });
@@ -704,6 +703,7 @@ export const useDeepLink = () => {
 ```
 
 **4. Использование в App.tsx:**
+
 ```typescript
 // src/App.tsx
 import { useDeepLink } from '@/hooks/useDeepLink';
@@ -720,6 +720,7 @@ function App() {
 ```
 
 **5. Создание deep links в боте:**
+
 ```typescript
 // telegram-bot/utils/deep-links.ts
 export function createDeepLink(param: string): string {
@@ -738,6 +739,7 @@ const keyboard = new InlineKeyboard()
 ```
 
 #### Testing
+
 ```bash
 # 1. Проверить Menu Button в Telegram
 # 2. Нажать на Menu Button - должен открыться Mini App
@@ -748,6 +750,7 @@ const keyboard = new InlineKeyboard()
 ```
 
 #### Definition of Done
+
 - ✅ Menu Button отображается в Telegram
 - ✅ Deep links работают корректно
 - ✅ Параметры передаются в Mini App
@@ -759,15 +762,18 @@ const keyboard = new InlineKeyboard()
 ---
 
 ### TASK-1.5: CloudStorage для синхронизации настроек
+
 **Priority:** 🟡 High
 **Story Points:** 3
 **Assignee:** Frontend Developer
 **Labels:** `frontend`, `telegram-sdk`, `storage`
 
 #### Описание
+
 Интегрировать CloudStorage API для синхронизации пользовательских настроек между устройствами.
 
 #### Acceptance Criteria
+
 - [ ] Hook `useTelegramStorage` создан
 - [ ] Сохранение настроек в CloudStorage
 - [ ] Загрузка настроек при старте
@@ -778,6 +784,7 @@ const keyboard = new InlineKeyboard()
 #### Технические требования
 
 **1. Расширить типы Telegram SDK:**
+
 ```typescript
 // src/types/telegram.d.ts
 interface CloudStorage {
@@ -796,10 +803,11 @@ interface TelegramWebApp {
 ```
 
 **2. Hook для работы с CloudStorage:**
+
 ```typescript
 // src/hooks/useTelegramStorage.tsx
-import { useState, useEffect, useCallback } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { useState, useEffect, useCallback } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 interface UserPreferences {
   favoriteStyles: string[];
@@ -809,18 +817,18 @@ interface UserPreferences {
     instrumental: boolean;
   };
   recentPrompts: string[];
-  theme: 'light' | 'dark' | 'auto';
+  theme: "light" | "dark" | "auto";
 }
 
 const DEFAULT_PREFERENCES: UserPreferences = {
   favoriteStyles: [],
   defaultTags: [],
   generationSettings: {
-    model: 'chirp-crow',
+    model: "chirp-crow",
     instrumental: false,
   },
   recentPrompts: [],
-  theme: 'auto',
+  theme: "auto",
 };
 
 export const useTelegramStorage = () => {
@@ -840,9 +848,9 @@ export const useTelegramStorage = () => {
     try {
       if (isCloudStorageAvailable()) {
         // Загрузка из Telegram CloudStorage
-        webApp!.CloudStorage.getItem('user_preferences', (error, value) => {
+        webApp!.CloudStorage.getItem("user_preferences", (error, value) => {
           if (error) {
-            console.error('CloudStorage error:', error);
+            console.error("CloudStorage error:", error);
             // Fallback на localStorage
             loadFromLocalStorage();
           } else if (value) {
@@ -850,7 +858,7 @@ export const useTelegramStorage = () => {
               const parsed = JSON.parse(value);
               setPreferences({ ...DEFAULT_PREFERENCES, ...parsed });
             } catch (e) {
-              console.error('Parse error:', e);
+              console.error("Parse error:", e);
               setPreferences(DEFAULT_PREFERENCES);
             }
           } else {
@@ -864,14 +872,14 @@ export const useTelegramStorage = () => {
         setIsLoading(false);
       }
     } catch (error) {
-      console.error('Load preferences error:', error);
+      console.error("Load preferences error:", error);
       setIsLoading(false);
     }
   }, [isCloudStorageAvailable, webApp]);
 
   // Fallback на localStorage
   const loadFromLocalStorage = () => {
-    const stored = localStorage.getItem('user_preferences');
+    const stored = localStorage.getItem("user_preferences");
     if (stored) {
       try {
         const parsed = JSON.parse(stored);
@@ -883,57 +891,72 @@ export const useTelegramStorage = () => {
   };
 
   // Сохранение настроек
-  const savePreferences = useCallback(async (newPreferences: Partial<UserPreferences>) => {
-    const updated = { ...preferences, ...newPreferences };
-    setPreferences(updated);
+  const savePreferences = useCallback(
+    async (newPreferences: Partial<UserPreferences>) => {
+      const updated = { ...preferences, ...newPreferences };
+      setPreferences(updated);
 
-    const serialized = JSON.stringify(updated);
+      const serialized = JSON.stringify(updated);
 
-    if (isCloudStorageAvailable()) {
-      // Сохранение в Telegram CloudStorage
-      webApp!.CloudStorage.setItem('user_preferences', serialized, (error, success) => {
-        if (error) {
-          console.error('CloudStorage save error:', error);
-          // Fallback на localStorage
-          localStorage.setItem('user_preferences', serialized);
-        } else {
-          console.log('Preferences saved to CloudStorage');
-        }
-      });
-    } else {
-      // Development mode
-      localStorage.setItem('user_preferences', serialized);
-    }
-  }, [preferences, isCloudStorageAvailable, webApp]);
+      if (isCloudStorageAvailable()) {
+        // Сохранение в Telegram CloudStorage
+        webApp!.CloudStorage.setItem("user_preferences", serialized, (error, success) => {
+          if (error) {
+            console.error("CloudStorage save error:", error);
+            // Fallback на localStorage
+            localStorage.setItem("user_preferences", serialized);
+          } else {
+            console.log("Preferences saved to CloudStorage");
+          }
+        });
+      } else {
+        // Development mode
+        localStorage.setItem("user_preferences", serialized);
+      }
+    },
+    [preferences, isCloudStorageAvailable, webApp],
+  );
 
   // Добавить в избранное
-  const addFavoriteStyle = useCallback((style: string) => {
-    if (!preferences.favoriteStyles.includes(style)) {
-      savePreferences({
-        favoriteStyles: [...preferences.favoriteStyles, style],
-      });
-    }
-  }, [preferences, savePreferences]);
+  const addFavoriteStyle = useCallback(
+    (style: string) => {
+      if (!preferences.favoriteStyles.includes(style)) {
+        savePreferences({
+          favoriteStyles: [...preferences.favoriteStyles, style],
+        });
+      }
+    },
+    [preferences, savePreferences],
+  );
 
   // Удалить из избранного
-  const removeFavoriteStyle = useCallback((style: string) => {
-    savePreferences({
-      favoriteStyles: preferences.favoriteStyles.filter(s => s !== style),
-    });
-  }, [preferences, savePreferences]);
+  const removeFavoriteStyle = useCallback(
+    (style: string) => {
+      savePreferences({
+        favoriteStyles: preferences.favoriteStyles.filter((s) => s !== style),
+      });
+    },
+    [preferences, savePreferences],
+  );
 
   // Добавить промпт в историю
-  const addRecentPrompt = useCallback((prompt: string) => {
-    const recent = [prompt, ...preferences.recentPrompts.filter(p => p !== prompt)].slice(0, 10);
-    savePreferences({ recentPrompts: recent });
-  }, [preferences, savePreferences]);
+  const addRecentPrompt = useCallback(
+    (prompt: string) => {
+      const recent = [prompt, ...preferences.recentPrompts.filter((p) => p !== prompt)].slice(0, 10);
+      savePreferences({ recentPrompts: recent });
+    },
+    [preferences, savePreferences],
+  );
 
   // Обновить настройки генерации
-  const updateGenerationSettings = useCallback((settings: Partial<UserPreferences['generationSettings']>) => {
-    savePreferences({
-      generationSettings: { ...preferences.generationSettings, ...settings },
-    });
-  }, [preferences, savePreferences]);
+  const updateGenerationSettings = useCallback(
+    (settings: Partial<UserPreferences["generationSettings"]>) => {
+      savePreferences({
+        generationSettings: { ...preferences.generationSettings, ...settings },
+      });
+    },
+    [preferences, savePreferences],
+  );
 
   // Загрузка при монтировании
   useEffect(() => {
@@ -954,6 +977,7 @@ export const useTelegramStorage = () => {
 ```
 
 **3. Использование в компонентах:**
+
 ```typescript
 // src/pages/Generate.tsx
 import { useTelegramStorage } from '@/hooks/useTelegramStorage';
@@ -988,6 +1012,7 @@ export default function Generate() {
 ```
 
 **4. Компонент настроек:**
+
 ```typescript
 // src/components/SettingsPanel.tsx
 import { useTelegramStorage } from '@/hooks/useTelegramStorage';
@@ -1032,6 +1057,7 @@ export function SettingsPanel() {
 ```
 
 #### Testing
+
 ```bash
 # 1. Открыть Mini App на устройстве 1
 # 2. Изменить настройки генерации
@@ -1043,6 +1069,7 @@ export function SettingsPanel() {
 ```
 
 #### Definition of Done
+
 - ✅ CloudStorage API интегрирован
 - ✅ Настройки сохраняются и загружаются
 - ✅ Синхронизация между устройствами работает
@@ -1072,6 +1099,7 @@ export function SettingsPanel() {
 ---
 
 # 🎯 SPRINT 2: Mini App Advanced Features
+
 **Цель:** Расширить функционал Mini App продвинутыми возможностями Telegram SDK
 
 **Длительность:** 5 рабочих дней
@@ -1082,15 +1110,18 @@ export function SettingsPanel() {
 ## 📋 Задачи Sprint 2
 
 ### TASK-2.1: ShareToStory Integration
+
 **Priority:** 🟡 High
 **Story Points:** 3
 **Assignee:** Frontend Developer
 **Labels:** `frontend`, `telegram-sdk`, `sharing`
 
 #### Описание
+
 Реализовать функцию публикации треков в Telegram Stories.
 
 #### Acceptance Criteria
+
 - [ ] Кнопка "Поделиться в Stories" на карточках треков
 - [ ] Генерация красивого превью для сторис
 - [ ] Виджет-ссылка ведет в Mini App
@@ -1100,6 +1131,7 @@ export function SettingsPanel() {
 #### Технические требования
 
 **1. Расширить типы:**
+
 ```typescript
 // src/types/telegram.d.ts
 interface StoryShareParams {
@@ -1118,11 +1150,12 @@ interface TelegramWebApp {
 ```
 
 **2. Hook для шаринга:**
+
 ```typescript
 // src/hooks/useTelegramShare.tsx
-import { useCallback } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { toast } from 'sonner';
+import { useCallback } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { toast } from "sonner";
 
 interface ShareToStoryParams {
   trackId: string;
@@ -1138,44 +1171,47 @@ export const useTelegramShare = () => {
     return webApp?.shareToStoryMedia !== undefined;
   }, [webApp]);
 
-  const shareToStory = useCallback(async ({ trackId, title, coverImageUrl, audioUrl }: ShareToStoryParams) => {
-    if (!isStoryShareAvailable()) {
-      toast.error('Публикация в Stories недоступна');
-      return false;
-    }
+  const shareToStory = useCallback(
+    async ({ trackId, title, coverImageUrl, audioUrl }: ShareToStoryParams) => {
+      if (!isStoryShareAvailable()) {
+        toast.error("Публикация в Stories недоступна");
+        return false;
+      }
 
-    try {
-      // Создаем превью для сторис (можно использовать обложку трека)
-      const mediaUrl = coverImageUrl || generateDefaultCover(title);
+      try {
+        // Создаем превью для сторис (можно использовать обложку трека)
+        const mediaUrl = coverImageUrl || generateDefaultCover(title);
 
-      const params = {
-        media_url: mediaUrl,
-        text: `🎵 ${title}\n\nСоздано с MusicVerse AI`,
-        widget_link: {
-          url: `https://t.me/musicverse_bot/app?startapp=track_${trackId}`,
-          name: 'Слушать трек',
-        },
-      };
+        const params = {
+          media_url: mediaUrl,
+          text: `🎵 ${title}\n\nСоздано с MusicVerse AI`,
+          widget_link: {
+            url: `https://t.me/musicverse_bot/app?startapp=track_${trackId}`,
+            name: "Слушать трек",
+          },
+        };
 
-      return new Promise<boolean>((resolve) => {
-        webApp!.shareToStoryMedia!(params, (success) => {
-          if (success) {
-            toast.success('Трек опубликован в Stories!');
-            // Логирование
-            trackEvent('share_to_story', { track_id: trackId });
-            resolve(true);
-          } else {
-            toast.error('Не удалось опубликовать в Stories');
-            resolve(false);
-          }
+        return new Promise<boolean>((resolve) => {
+          webApp!.shareToStoryMedia!(params, (success) => {
+            if (success) {
+              toast.success("Трек опубликован в Stories!");
+              // Логирование
+              trackEvent("share_to_story", { track_id: trackId });
+              resolve(true);
+            } else {
+              toast.error("Не удалось опубликовать в Stories");
+              resolve(false);
+            }
+          });
         });
-      });
-    } catch (error) {
-      console.error('Share to story error:', error);
-      toast.error('Ошибка при публикации');
-      return false;
-    }
-  }, [isStoryShareAvailable, webApp]);
+      } catch (error) {
+        console.error("Share to story error:", error);
+        toast.error("Ошибка при публикации");
+        return false;
+      }
+    },
+    [isStoryShareAvailable, webApp],
+  );
 
   return {
     shareToStory,
@@ -1192,6 +1228,7 @@ function generateDefaultCover(title: string): string {
 ```
 
 **3. Компонент кнопки:**
+
 ```typescript
 // src/components/ShareToStoryButton.tsx
 import { Button } from '@/components/ui/button';
@@ -1231,6 +1268,7 @@ export function ShareToStoryButton({ trackId, title, coverImageUrl, audioUrl }: 
 ```
 
 **4. Использование в TrackCard:**
+
 ```typescript
 // src/components/TrackCard.tsx
 import { ShareToStoryButton } from '@/components/ShareToStoryButton';
@@ -1255,6 +1293,7 @@ export function TrackCard({ track }: { track: Track }) {
 ```
 
 #### Testing
+
 ```bash
 # 1. Открыть Mini App в Telegram (iOS или Android)
 # 2. Открыть трек из библиотеки
@@ -1266,6 +1305,7 @@ export function TrackCard({ track }: { track: Track }) {
 ```
 
 #### Definition of Done
+
 - ✅ Кнопка отображается на карточках треков
 - ✅ Публикация в Stories работает
 - ✅ Превью генерируется корректно
@@ -1277,15 +1317,18 @@ export function TrackCard({ track }: { track: Track }) {
 ---
 
 ### TASK-2.2: SettingsButton и SecondaryButton
+
 **Priority:** 🟡 High
 **Story Points:** 2
 **Assignee:** Frontend Developer
 **Labels:** `frontend`, `telegram-sdk`, `ui`
 
 #### Описание
+
 Добавить SettingsButton в header и SecondaryButton для дополнительных действий.
 
 #### Acceptance Criteria
+
 - [ ] SettingsButton отображается в header
 - [ ] Клик открывает страницу настроек
 - [ ] SecondaryButton показывается контекстно
@@ -1295,6 +1338,7 @@ export function TrackCard({ track }: { track: Track }) {
 #### Технические требования
 
 **1. Расширить TelegramContext:**
+
 ```typescript
 // src/contexts/TelegramContext.tsx
 
@@ -1353,6 +1397,7 @@ export const TelegramProvider = ({ children }: { children: ReactNode }) => {
 ```
 
 **2. Глобальная настройка SettingsButton:**
+
 ```typescript
 // src/App.tsx
 import { useEffect } from 'react';
@@ -1390,6 +1435,7 @@ function App() {
 ```
 
 **3. Контекстное использование SecondaryButton:**
+
 ```typescript
 // src/pages/Generate.tsx
 import { useEffect, useState } from 'react';
@@ -1432,11 +1478,12 @@ export default function Generate() {
 ```
 
 **4. Разные контексты для SecondaryButton:**
+
 ```typescript
 // src/pages/Library.tsx - "Выбрать все"
 useEffect(() => {
   if (selectionMode) {
-    showSecondaryButton('✓ Выбрать все', selectAllTracks);
+    showSecondaryButton("✓ Выбрать все", selectAllTracks);
   } else {
     hideSecondaryButton();
   }
@@ -1444,18 +1491,19 @@ useEffect(() => {
 
 // src/pages/ProjectDetail.tsx - "Экспорт проекта"
 useEffect(() => {
-  showSecondaryButton('📤 Экспорт', exportProject);
+  showSecondaryButton("📤 Экспорт", exportProject);
   return () => hideSecondaryButton();
 }, []);
 
 // src/pages/Profile.tsx - "Выйти"
 useEffect(() => {
-  showSecondaryButton('🚪 Выйти', logout);
+  showSecondaryButton("🚪 Выйти", logout);
   return () => hideSecondaryButton();
 }, []);
 ```
 
 #### Testing
+
 ```bash
 # 1. Открыть Mini App
 # 2. Проверить, что в header есть кнопка настроек (⚙️)
@@ -1469,6 +1517,7 @@ useEffect(() => {
 ```
 
 #### Definition of Done
+
 - ✅ SettingsButton отображается и работает
 - ✅ SecondaryButton показывается контекстно
 - ✅ Кнопки работают на iOS/Android
@@ -1480,15 +1529,18 @@ useEffect(() => {
 ---
 
 ### TASK-2.3: QR Scanner для коллабораций
+
 **Priority:** 🟢 Medium
 **Story Points:** 3
 **Assignee:** Frontend Developer
 **Labels:** `frontend`, `telegram-sdk`, `collaboration`
 
 #### Описание
+
 Реализовать сканирование QR кодов для быстрого добавления коллабораторов в проекты.
 
 #### Acceptance Criteria
+
 - [ ] Кнопка "Сканировать QR" в разделе коллабораций
 - [ ] QR Scanner открывается корректно
 - [ ] Сканирование работает на iOS/Android
@@ -1499,6 +1551,7 @@ useEffect(() => {
 #### Технические требования
 
 **1. Расширить типы:**
+
 ```typescript
 // src/types/telegram.d.ts
 interface QrTextReceived {
@@ -1513,11 +1566,12 @@ interface TelegramWebApp {
 ```
 
 **2. Hook для QR Scanner:**
+
 ```typescript
 // src/hooks/useQRScanner.tsx
-import { useCallback } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { toast } from 'sonner';
+import { useCallback } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { toast } from "sonner";
 
 export const useQRScanner = () => {
   const { webApp } = useTelegram();
@@ -1526,32 +1580,32 @@ export const useQRScanner = () => {
     return webApp?.showScanQrPopup !== undefined;
   }, [webApp]);
 
-  const scanQR = useCallback(async (text?: string): Promise<string | null> => {
-    if (!isQRScannerAvailable()) {
-      toast.error('QR сканер недоступен');
-      return null;
-    }
+  const scanQR = useCallback(
+    async (text?: string): Promise<string | null> => {
+      if (!isQRScannerAvailable()) {
+        toast.error("QR сканер недоступен");
+        return null;
+      }
 
-    return new Promise((resolve) => {
-      try {
-        webApp!.showScanQrPopup!(
-          { text: text || 'Отсканируйте QR код' },
-          (data) => {
+      return new Promise((resolve) => {
+        try {
+          webApp!.showScanQrPopup!({ text: text || "Отсканируйте QR код" }, (data) => {
             if (data) {
               resolve(data);
             } else {
               // Пользователь закрыл сканер
               resolve(null);
             }
-          }
-        );
-      } catch (error) {
-        console.error('QR scan error:', error);
-        toast.error('Ошибка сканирования');
-        resolve(null);
-      }
-    });
-  }, [isQRScannerAvailable, webApp]);
+          });
+        } catch (error) {
+          console.error("QR scan error:", error);
+          toast.error("Ошибка сканирования");
+          resolve(null);
+        }
+      });
+    },
+    [isQRScannerAvailable, webApp],
+  );
 
   const closeScanner = useCallback(() => {
     if (webApp?.closeScanQrPopup) {
@@ -1568,6 +1622,7 @@ export const useQRScanner = () => {
 ```
 
 **3. Генерация QR кода профиля:**
+
 ```typescript
 // src/components/ProfileQRCode.tsx
 import { useState, useEffect } from 'react';
@@ -1611,6 +1666,7 @@ export function ProfileQRCode() {
 ```
 
 **4. Страница коллабораций:**
+
 ```typescript
 // src/pages/Collaborations.tsx
 import { useState } from 'react';
@@ -1699,6 +1755,7 @@ export default function Collaborations() {
 ```
 
 **5. Добавить зависимость:**
+
 ```json
 // package.json
 {
@@ -1709,6 +1766,7 @@ export default function Collaborations() {
 ```
 
 #### Testing
+
 ```bash
 # 1. Открыть страницу Collaborations
 # 2. Нажать "Мой QR код" - проверить отображение
@@ -1720,6 +1778,7 @@ export default function Collaborations() {
 ```
 
 #### Definition of Done
+
 - ✅ QR Scanner работает
 - ✅ Генерация собственного QR кода
 - ✅ Добавление коллабораторов работает
@@ -1731,15 +1790,18 @@ export default function Collaborations() {
 ---
 
 ### TASK-2.4: Biometric Authentication
+
 **Priority:** 🟢 Medium
 **Story Points:** 3
 **Assignee:** Frontend Developer
 **Labels:** `frontend`, `telegram-sdk`, `security`
 
 #### Описание
+
 Добавить биометрическую аутентификацию для защиты премиум функций.
 
 #### Acceptance Criteria
+
 - [ ] Проверка доступности биометрии
 - [ ] Запрос биометрической аутентификации
 - [ ] Защита премиум функций (AI обложки, экспорт проектов)
@@ -1750,12 +1812,13 @@ export default function Collaborations() {
 #### Технические требования
 
 **1. Типы:**
+
 ```typescript
 // src/types/telegram.d.ts
 interface BiometricManager {
   isInited: boolean;
   isBiometricAvailable: boolean;
-  biometricType: 'finger' | 'face' | 'unknown';
+  biometricType: "finger" | "face" | "unknown";
   isAccessRequested: boolean;
   isAccessGranted: boolean;
   isBiometricTokenSaved: boolean;
@@ -1775,17 +1838,18 @@ interface TelegramWebApp {
 ```
 
 **2. Hook для биометрии:**
+
 ```typescript
 // src/hooks/useBiometric.tsx
-import { useState, useEffect, useCallback } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { toast } from 'sonner';
+import { useState, useEffect, useCallback } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { toast } from "sonner";
 
 export const useBiometric = () => {
   const { webApp } = useTelegram();
   const [isAvailable, setIsAvailable] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
-  const [biometricType, setBiometricType] = useState<'finger' | 'face' | 'unknown'>('unknown');
+  const [biometricType, setBiometricType] = useState<"finger" | "face" | "unknown">("unknown");
 
   useEffect(() => {
     if (!webApp?.BiometricManager) return;
@@ -1806,55 +1870,55 @@ export const useBiometric = () => {
     }
   }, [webApp]);
 
-  const requestAccess = useCallback(async (reason?: string): Promise<boolean> => {
-    if (!webApp?.BiometricManager || !isAvailable) {
-      return false;
-    }
+  const requestAccess = useCallback(
+    async (reason?: string): Promise<boolean> => {
+      if (!webApp?.BiometricManager || !isAvailable) {
+        return false;
+      }
 
-    return new Promise((resolve) => {
-      webApp.BiometricManager.requestAccess(
-        { reason: reason || 'Требуется доступ к биометрии' },
-        (granted) => {
+      return new Promise((resolve) => {
+        webApp.BiometricManager.requestAccess({ reason: reason || "Требуется доступ к биометрии" }, (granted) => {
           if (granted) {
-            toast.success('Доступ к биометрии предоставлен');
+            toast.success("Доступ к биометрии предоставлен");
           } else {
-            toast.error('Доступ к биометрии отклонен');
+            toast.error("Доступ к биометрии отклонен");
           }
           resolve(granted);
-        }
-      );
-    });
-  }, [webApp, isAvailable]);
+        });
+      });
+    },
+    [webApp, isAvailable],
+  );
 
-  const authenticate = useCallback(async (reason?: string): Promise<boolean> => {
-    if (!webApp?.BiometricManager || !isAvailable) {
-      toast.error('Биометрия недоступна');
-      return false;
-    }
+  const authenticate = useCallback(
+    async (reason?: string): Promise<boolean> => {
+      if (!webApp?.BiometricManager || !isAvailable) {
+        toast.error("Биометрия недоступна");
+        return false;
+      }
 
-    const manager = webApp.BiometricManager;
+      const manager = webApp.BiometricManager;
 
-    // Проверяем, есть ли доступ
-    if (!manager.isAccessGranted) {
-      const granted = await requestAccess(reason);
-      if (!granted) return false;
-    }
+      // Проверяем, есть ли доступ
+      if (!manager.isAccessGranted) {
+        const granted = await requestAccess(reason);
+        if (!granted) return false;
+      }
 
-    return new Promise((resolve) => {
-      manager.authenticate(
-        { reason: reason || 'Подтвердите действие' },
-        (success, token) => {
+      return new Promise((resolve) => {
+        manager.authenticate({ reason: reason || "Подтвердите действие" }, (success, token) => {
           if (success) {
-            toast.success('Аутентификация успешна');
+            toast.success("Аутентификация успешна");
             resolve(true);
           } else {
-            toast.error('Аутентификация не прошла');
+            toast.error("Аутентификация не прошла");
             resolve(false);
           }
-        }
-      );
-    });
-  }, [webApp, isAvailable, requestAccess]);
+        });
+      });
+    },
+    [webApp, isAvailable, requestAccess],
+  );
 
   const openSettings = useCallback(() => {
     if (webApp?.BiometricManager) {
@@ -1874,6 +1938,7 @@ export const useBiometric = () => {
 ```
 
 **3. Компонент для защиты функций:**
+
 ```typescript
 // src/components/BiometricProtected.tsx
 import { ReactNode } from 'react';
@@ -1931,6 +1996,7 @@ export function BiometricProtected({
 ```
 
 **4. Использование:**
+
 ```typescript
 // src/pages/GenerateCoverImage.tsx
 import { BiometricProtected } from '@/components/BiometricProtected';
@@ -1971,6 +2037,7 @@ export default function ExportProject({ projectId }: { projectId: string }) {
 ```
 
 **5. Настройки биометрии:**
+
 ```typescript
 // src/components/BiometricSettings.tsx
 import { useBiometric } from '@/hooks/useBiometric';
@@ -2021,6 +2088,7 @@ export function BiometricSettings() {
 ```
 
 #### Testing
+
 ```bash
 # 1. Открыть настройки
 # 2. Включить биометрическую защиту
@@ -2034,6 +2102,7 @@ export function BiometricSettings() {
 ```
 
 #### Definition of Done
+
 - ✅ Биометрия инициализируется
 - ✅ Запрос доступа работает
 - ✅ Аутентификация работает
@@ -2045,7 +2114,7 @@ export function BiometricSettings() {
 
 ---
 
-*(Продолжение следует в следующих спринтах...)*
+_(Продолжение следует в следующих спринтах...)_
 
 ---
 

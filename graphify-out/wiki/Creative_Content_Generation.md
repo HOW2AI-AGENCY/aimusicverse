@@ -29,7 +29,7 @@
 - [RHYME_SCHEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L226) (1 connections)
 - [SECTION_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L211) (1 connections)
 - [SECTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L132) (1 connections)
-- *... and 7 more nodes in this community*
+- _... and 7 more nodes in this community_
 
 ## Relationships
 
@@ -49,4 +49,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

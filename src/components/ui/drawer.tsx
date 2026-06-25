@@ -20,15 +20,10 @@ const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay 
-    ref={ref} 
-    className={cn(
-      "fixed inset-0 z-[150]",
-      backdrop.dark,
-      "backdrop-blur-sm",
-      className
-    )} 
-    {...props} 
+  <DrawerPrimitive.Overlay
+    ref={ref}
+    className={cn("fixed inset-0 z-[150]", backdrop.dark, "backdrop-blur-sm", className)}
+    {...props}
   />
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
@@ -40,47 +35,52 @@ interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof Drawe
   accessibleTitle?: string;
 }
 
-const DrawerContent = React.forwardRef<
-  React.ElementRef<typeof DrawerPrimitive.Content>,
-  DrawerContentProps
->(({ className, children, hideTitle = false, accessibleTitle = "Выдвижная панель", ...props }, ref) => {
-  // Check if this is a fullscreen drawer (has h-[100dvh] or h-screen in className)
-  const isFullscreen = className?.includes('h-[100dvh]') || className?.includes('h-screen') || className?.includes('h-[100vh]');
-  
-  return (
-    <DrawerPortal>
-      <DrawerOverlay />
-      <DrawerPrimitive.Content
-        ref={ref}
-        className={cn(
-          // z-[151] for sheet content - above backdrop (150) per Z_INDEX_HIERARCHY.md
-          "fixed inset-x-0 bottom-0 z-[151] mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
-          className,
-        )}
-        style={isFullscreen ? {
-          // Apply safe area padding for fullscreen drawers to avoid Telegram native buttons
-          paddingTop: 'max(calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), calc(env(safe-area-inset-top, 0px) + 0.5rem))',
-        } : undefined}
-        {...props}
-      >
-        {/* Drag indicator handle - visible for non-fullscreen drawers */}
-        {!isFullscreen && (
-          <div className="mx-auto mt-3 flex flex-col items-center gap-1">
-            <div className="h-1.5 w-12 rounded-full bg-muted-foreground/30" />
-            <span className="sr-only">Потяните для закрытия</span>
-          </div>
-        )}
-        {/* Accessible title for screen readers when no visible title exists */}
-        {hideTitle && (
-          <VisuallyHidden asChild>
-            <DrawerPrimitive.Title>{accessibleTitle}</DrawerPrimitive.Title>
-          </VisuallyHidden>
-        )}
-        {children}
-      </DrawerPrimitive.Content>
-    </DrawerPortal>
-  );
-});
+const DrawerContent = React.forwardRef<React.ElementRef<typeof DrawerPrimitive.Content>, DrawerContentProps>(
+  ({ className, children, hideTitle = false, accessibleTitle = "Выдвижная панель", ...props }, ref) => {
+    // Check if this is a fullscreen drawer (has h-[100dvh] or h-screen in className)
+    const isFullscreen =
+      className?.includes("h-[100dvh]") || className?.includes("h-screen") || className?.includes("h-[100vh]");
+
+    return (
+      <DrawerPortal>
+        <DrawerOverlay />
+        <DrawerPrimitive.Content
+          ref={ref}
+          className={cn(
+            // z-[151] for sheet content - above backdrop (150) per Z_INDEX_HIERARCHY.md
+            "fixed inset-x-0 bottom-0 z-[151] mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
+            className,
+          )}
+          style={
+            isFullscreen
+              ? {
+                  // Apply safe area padding for fullscreen drawers to avoid Telegram native buttons
+                  paddingTop:
+                    "max(calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px)), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
+                }
+              : undefined
+          }
+          {...props}
+        >
+          {/* Drag indicator handle - visible for non-fullscreen drawers */}
+          {!isFullscreen && (
+            <div className="mx-auto mt-3 flex flex-col items-center gap-1">
+              <div className="h-1.5 w-12 rounded-full bg-muted-foreground/30" />
+              <span className="sr-only">Потяните для закрытия</span>
+            </div>
+          )}
+          {/* Accessible title for screen readers when no visible title exists */}
+          {hideTitle && (
+            <VisuallyHidden asChild>
+              <DrawerPrimitive.Title>{accessibleTitle}</DrawerPrimitive.Title>
+            </VisuallyHidden>
+          )}
+          {children}
+        </DrawerPrimitive.Content>
+      </DrawerPortal>
+    );
+  },
+);
 DrawerContent.displayName = "DrawerContent";
 
 const DrawerHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (

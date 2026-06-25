@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Sparkles, X } from 'lucide-react';
-import { useLyricsWizardStore } from '@/stores/lyricsWizardStore';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import { GENRES, MOODS, THEME_SUGGESTIONS } from '@/lib/lyrics/constants';
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Sparkles, X } from "lucide-react";
+import { useLyricsWizardStore } from "@/stores/lyricsWizardStore";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import { GENRES, MOODS, THEME_SUGGESTIONS } from "@/lib/lyrics/constants";
 
 export function ConceptStep() {
   const { concept, setTheme, setGenre, setMood, setLanguage } = useLyricsWizardStore();
@@ -17,24 +17,24 @@ export function ConceptStep() {
 
   const toggleMood = (moodValue: string) => {
     if (concept.mood.includes(moodValue)) {
-      setMood(concept.mood.filter(m => m !== moodValue));
+      setMood(concept.mood.filter((m) => m !== moodValue));
     } else if (concept.mood.length < 3) {
       setMood([...concept.mood, moodValue]);
     } else {
-      toast.info('Максимум 3 настроения');
+      toast.info("Максимум 3 настроения");
     }
   };
 
   const generateThemeIdea = async () => {
     setIsGeneratingTheme(true);
     try {
-      const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
+      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
         body: {
-          action: 'generate',
-          genre: concept.genre || 'pop',
-          mood: concept.mood[0] || 'romantic',
+          action: "generate",
+          genre: concept.genre || "pop",
+          mood: concept.mood[0] || "romantic",
           language: concept.language,
-          theme: 'предложи одну интересную тему для песни в 1-2 предложениях',
+          theme: "предложи одну интересную тему для песни в 1-2 предложениях",
         },
       });
 
@@ -43,8 +43,8 @@ export function ConceptStep() {
         setTheme(data.lyrics.trim());
       }
     } catch (err) {
-      logger.error('Error generating theme', { error: err });
-      toast.error('Не удалось сгенерировать тему');
+      logger.error("Error generating theme", { error: err });
+      toast.error("Не удалось сгенерировать тему");
     } finally {
       setIsGeneratingTheme(false);
     }
@@ -63,7 +63,7 @@ export function ConceptStep() {
             className="gap-1 text-xs"
           >
             <Sparkles className="h-3 w-3" />
-            {isGeneratingTheme ? 'Генерация...' : 'Подсказать идею'}
+            {isGeneratingTheme ? "Генерация..." : "Подсказать идею"}
           </Button>
         </div>
         <Textarea
@@ -106,7 +106,7 @@ export function ConceptStep() {
 
         <div className="space-y-2">
           <Label>Язык</Label>
-          <Select value={concept.language} onValueChange={(v) => setLanguage(v as 'ru' | 'en')}>
+          <Select value={concept.language} onValueChange={(v) => setLanguage(v as "ru" | "en")}>
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -124,24 +124,18 @@ export function ConceptStep() {
           {MOODS.map((mood) => (
             <Badge
               key={mood.value}
-              variant={concept.mood.includes(mood.value) ? 'default' : 'outline'}
+              variant={concept.mood.includes(mood.value) ? "default" : "outline"}
               className="cursor-pointer transition-colors"
               onClick={() => toggleMood(mood.value)}
             >
               {mood.emoji} {mood.label}
-              {concept.mood.includes(mood.value) && (
-                <X className="h-3 w-3 ml-1" />
-              )}
+              {concept.mood.includes(mood.value) && <X className="h-3 w-3 ml-1" />}
             </Badge>
           ))}
         </div>
       </div>
 
-      {!concept.theme && (
-        <p className="text-sm text-muted-foreground">
-          * Тема песни обязательна для продолжения
-        </p>
-      )}
+      {!concept.theme && <p className="text-sm text-muted-foreground">* Тема песни обязательна для продолжения</p>}
     </div>
   );
 }

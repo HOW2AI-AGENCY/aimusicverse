@@ -11,12 +11,8 @@
  * @see src/services/lyrics/lyrics-types.ts for type definitions
  */
 
-import { logger } from '@/lib/logger';
-import type {
-  FormattedLyrics,
-  LyricsSection,
-  LyricsStatistics
-} from './lyrics-types';
+import { logger } from "@/lib/logger";
+import type { FormattedLyrics, LyricsSection, LyricsStatistics } from "./lyrics-types";
 
 // ============================================================================
 // FORMATTING CONFIGURATION
@@ -24,13 +20,13 @@ import type {
 
 const FORMATTING_CONFIG = {
   SECTION_PATTERNS: [
-    { pattern: /\[verse\s*(\d*)\]/gi, type: 'verse' as const, label: 'Verse' },
-    { pattern: /\[chorus\s*(\d*)\]/gi, type: 'chorus' as const, label: 'Chorus' },
-    { pattern: /\[bridge\s*(\d*)\]/gi, type: 'bridge' as const, label: 'Bridge' },
-    { pattern: /\[intro\]/gi, type: 'intro' as const, label: 'Intro' },
-    { pattern: /\[outro\]/gi, type: 'outro' as const, label: 'Outro' },
-    { pattern: /\[pre-chorus\s*(\d*)\]/gi, type: 'pre-chorus' as const, label: 'Pre-Chorus' },
-    { pattern: /\[hook\s*(\d*)\]/gi, type: 'chorus' as const, label: 'Hook' },
+    { pattern: /\[verse\s*(\d*)\]/gi, type: "verse" as const, label: "Verse" },
+    { pattern: /\[chorus\s*(\d*)\]/gi, type: "chorus" as const, label: "Chorus" },
+    { pattern: /\[bridge\s*(\d*)\]/gi, type: "bridge" as const, label: "Bridge" },
+    { pattern: /\[intro\]/gi, type: "intro" as const, label: "Intro" },
+    { pattern: /\[outro\]/gi, type: "outro" as const, label: "Outro" },
+    { pattern: /\[pre-chorus\s*(\d*)\]/gi, type: "pre-chorus" as const, label: "Pre-Chorus" },
+    { pattern: /\[hook\s*(\d*)\]/gi, type: "chorus" as const, label: "Hook" },
   ],
   LINE_BREAK_THRESHOLD: 2, // Number of consecutive blank lines to detect sections
 } as const;
@@ -51,8 +47,8 @@ const FORMATTING_CONFIG = {
  * @returns FormattedLyrics with all display formats
  */
 export function formatLyricsForDisplay(content: string): FormattedLyrics {
-  logger.debug('Formatting lyrics for display', {
-    contentLength: content.length
+  logger.debug("Formatting lyrics for display", {
+    contentLength: content.length,
   });
 
   // Extract sections
@@ -68,13 +64,13 @@ export function formatLyricsForDisplay(content: string): FormattedLyrics {
     raw: content,
     sections,
     html,
-    markdown
+    markdown,
   };
 
-  logger.debug('Lyrics formatted successfully', {
+  logger.debug("Lyrics formatted successfully", {
     sectionsCount: sections.length,
     htmlLength: html.length,
-    markdownLength: markdown.length
+    markdownLength: markdown.length,
   });
 
   return formatted;
@@ -91,7 +87,7 @@ export function formatLyricsForDisplay(content: string): FormattedLyrics {
  */
 export function extractLyricsSections(content: string): LyricsSection[] {
   const sections: LyricsSection[] = [];
-  const lines = content.split('\n');
+  const lines = content.split("\n");
   let currentIndex = 0;
   let currentSection: LyricsSection | null = null;
 
@@ -100,13 +96,13 @@ export function extractLyricsSections(content: string): LyricsSection[] {
     const lineLength = line.length;
 
     // Check if this line is a section marker
-    let sectionMatch: { type: LyricsSection['type']; label: string } | null = null;
+    let sectionMatch: { type: LyricsSection["type"]; label: string } | null = null;
 
     for (const { pattern, type, label } of FORMATTING_CONFIG.SECTION_PATTERNS) {
       const match = pattern.exec(line);
       if (match) {
         // Add number to label if present
-        const number = match[1] ? ` ${match[1]}` : '';
+        const number = match[1] ? ` ${match[1]}` : "";
         sectionMatch = { type, label: `${label}${number}` };
         pattern.lastIndex = 0; // Reset regex
         break;
@@ -124,13 +120,13 @@ export function extractLyricsSections(content: string): LyricsSection[] {
       currentSection = {
         type: sectionMatch.type,
         label: sectionMatch.label,
-        content: '',
+        content: "",
         startIndex: currentIndex + lineLength + 1, // +1 for newline
-        endIndex: 0
+        endIndex: 0,
       };
     } else if (currentSection) {
       // Add line to current section
-      currentSection.content += (currentSection.content ? '\n' : '') + line;
+      currentSection.content += (currentSection.content ? "\n" : "") + line;
     }
 
     currentIndex += lineLength + 1; // +1 for newline
@@ -145,17 +141,17 @@ export function extractLyricsSections(content: string): LyricsSection[] {
   // If no structured sections found, create a single "other" section
   if (sections.length === 0) {
     sections.push({
-      type: 'other',
-      label: 'Lyrics',
+      type: "other",
+      label: "Lyrics",
       content: content.trim(),
       startIndex: 0,
-      endIndex: content.length
+      endIndex: content.length,
     });
   }
 
-  logger.debug('Lyrics sections extracted', {
+  logger.debug("Lyrics sections extracted", {
     sectionsCount: sections.length,
-    sectionTypes: sections.map(s => s.type)
+    sectionTypes: sections.map((s) => s.type),
   });
 
   return sections;
@@ -168,8 +164,11 @@ export function extractLyricsSections(content: string): LyricsSection[] {
  * @returns LyricsStatistics with word count, duration, structure info
  */
 export function getLyricsStatistics(content: string): LyricsStatistics {
-  const lines = content.split('\n').filter(line => line.trim().length > 0);
-  const words = content.trim().split(/\s+/).filter(w => w.length > 0);
+  const lines = content.split("\n").filter((line) => line.trim().length > 0);
+  const words = content
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0);
   const characters = content.length;
 
   const wordCount = words.length;
@@ -181,8 +180,7 @@ export function getLyricsStatistics(content: string): LyricsStatistics {
 
   // Check for structured sections
   const sections = extractLyricsSections(content);
-  const hasStructuredSections = sections.length > 1 ||
-    (sections.length === 1 && sections[0].type !== 'other');
+  const hasStructuredSections = sections.length > 1 || (sections.length === 1 && sections[0].type !== "other");
 
   const sectionsCount = sections.length;
 
@@ -192,10 +190,10 @@ export function getLyricsStatistics(content: string): LyricsStatistics {
     characterCount,
     estimatedDuration,
     hasStructuredSections,
-    sectionsCount
+    sectionsCount,
   };
 
-  logger.debug('Lyrics statistics computed', { ...statistics });
+  logger.debug("Lyrics statistics computed", { ...statistics });
 
   return statistics;
 }
@@ -208,8 +206,7 @@ export function getLyricsStatistics(content: string): LyricsStatistics {
  */
 export function hasStructuredSections(content: string): boolean {
   const sections = extractLyricsSections(content);
-  return sections.length > 1 ||
-    (sections.length === 1 && sections[0].type !== 'other');
+  return sections.length > 1 || (sections.length === 1 && sections[0].type !== "other");
 }
 
 // ============================================================================
@@ -227,20 +224,20 @@ function generateLyricsHTML(content: string, sections?: LyricsSection[]): string
   const extractedSections = sections || extractLyricsSections(content);
 
   if (extractedSections.length === 0) {
-    return escapeHtml(content).replace(/\n/g, '<br>');
+    return escapeHtml(content).replace(/\n/g, "<br>");
   }
 
-  let html = '';
+  let html = "";
 
   for (const section of extractedSections) {
     // Add section label if it's not "other"
-    if (section.type !== 'other') {
+    if (section.type !== "other") {
       html += `<h3 class="lyrics-section-label lyrics-section-${section.type}">${escapeHtml(section.label)}</h3>`;
     }
 
     // Add section content
     const escapedContent = escapeHtml(section.content);
-    const contentLines = escapedContent.split('\n');
+    const contentLines = escapedContent.split("\n");
 
     html += '<div class="lyrics-section-content">';
 
@@ -251,7 +248,7 @@ function generateLyricsHTML(content: string, sections?: LyricsSection[]): string
       }
     }
 
-    html += '</div>';
+    html += "</div>";
   }
 
   return html;
@@ -275,16 +272,16 @@ function generateLyricsMarkdown(content: string, sections?: LyricsSection[]): st
     return content;
   }
 
-  let markdown = '';
+  let markdown = "";
 
   for (const section of extractedSections) {
     // Add section label if it's not "other"
-    if (section.type !== 'other') {
+    if (section.type !== "other") {
       markdown += `### ${section.label}\n\n`;
     }
 
     // Add section content
-    markdown += section.content.trim() + '\n\n';
+    markdown += section.content.trim() + "\n\n";
   }
 
   return markdown;
@@ -302,15 +299,15 @@ function generateLyricsMarkdown(content: string, sections?: LyricsSection[]): st
  */
 function escapeHtml(text: string): string {
   const htmlEntities: Record<string, string> = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-    '/': '&#47;'
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+    "/": "&#47;",
   };
 
-  return text.replace(/[&<>"'/]/g, char => htmlEntities[char]);
+  return text.replace(/[&<>"'/]/g, (char) => htmlEntities[char]);
 }
 
 /**
@@ -324,13 +321,13 @@ export function formatLyricsForKaraoke(content: string): Array<{
   startTime?: number;
   endTime?: number;
 }> {
-  const lines = content.split('\n').filter(line => line.trim().length > 0);
+  const lines = content.split("\n").filter((line) => line.trim().length > 0);
 
   return lines.map((line, index) => ({
     text: line.trim(),
     // Time sync would be added here when we implement time-synced lyrics
     startTime: index * 3, // Placeholder: 3 seconds per line
-    endTime: (index + 1) * 3
+    endTime: (index + 1) * 3,
   }));
 }
 
@@ -347,19 +344,19 @@ export function formatLyricsForExport(
     includeSectionLabels?: boolean;
     lineNumbers?: boolean;
     timestamp?: boolean;
-  }
+  },
 ): string {
   const sections = extractLyricsSections(content);
-  let exported = '';
+  let exported = "";
 
   for (const section of sections) {
     // Add section label if requested
-    if (options?.includeSectionLabels && section.type !== 'other') {
+    if (options?.includeSectionLabels && section.type !== "other") {
       exported += `[${section.label}]\n`;
     }
 
     // Add section content with optional line numbers
-    const lines = section.content.split('\n');
+    const lines = section.content.split("\n");
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
 
@@ -372,10 +369,10 @@ export function formatLyricsForExport(
         exported += `[${timestamp}] `;
       }
 
-      exported += line + '\n';
+      exported += line + "\n";
     }
 
-    exported += '\n'; // Blank line between sections
+    exported += "\n"; // Blank line between sections
   }
 
   return exported.trim();
@@ -389,10 +386,10 @@ export function formatLyricsForExport(
  */
 export function compressLyrics(content: string): string {
   return content
-    .split('\n')
-    .map(line => line.trim())
-    .filter(line => line.length > 0)
-    .join('\n');
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0)
+    .join("\n");
 }
 
 /**
@@ -402,8 +399,8 @@ export function compressLyrics(content: string): string {
  * @returns Expanded lyrics with standard formatting
  */
 export function expandLyrics(content: string): string {
-  const lines = content.split('\n');
-  let expanded = '';
+  const lines = content.split("\n");
+  let expanded = "";
   let blankLines = 0;
 
   for (let i = 0; i < lines.length; i++) {
@@ -411,17 +408,18 @@ export function expandLyrics(content: string): string {
 
     // Add blank line between sections (detected by common patterns)
     if (isSectionMarker(line)) {
-      if (i > 0) expanded += '\n';
+      if (i > 0) expanded += "\n";
       blankLines = 0;
     }
 
-    expanded += line + '\n';
+    expanded += line + "\n";
 
     // Add blank line after consecutive non-marker lines
     if (!isSectionMarker(line)) {
       blankLines++;
-      if (blankLines >= 4) { // Every 4 lines, add extra spacing
-        expanded += '\n';
+      if (blankLines >= 4) {
+        // Every 4 lines, add extra spacing
+        expanded += "\n";
         blankLines = 0;
       }
     }
@@ -461,15 +459,15 @@ export function generateLyricsStructureSummary(content: string): {
 
   for (const section of sections) {
     sectionTypes[section.type] = (sectionTypes[section.type] || 0) + 1;
-    totalLines += section.content.split('\n').filter(line => line.trim().length > 0).length;
+    totalLines += section.content.split("\n").filter((line) => line.trim().length > 0).length;
   }
 
   return {
     totalSections: sections.length,
     sectionTypes,
     averageLinesPerSection: sections.length > 0 ? Math.round(totalLines / sections.length) : 0,
-    hasIntro: sections.some(s => s.type === 'intro'),
-    hasOutro: sections.some(s => s.type === 'outro'),
-    hasBridge: sections.some(s => s.type === 'bridge')
+    hasIntro: sections.some((s) => s.type === "intro"),
+    hasOutro: sections.some((s) => s.type === "outro"),
+    hasBridge: sections.some((s) => s.type === "bridge"),
   };
 }

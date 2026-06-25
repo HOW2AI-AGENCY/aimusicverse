@@ -1,8 +1,8 @@
 /**
  * UnifiedRewardNotification - Consolidated notification for all gamification rewards
- * 
+ *
  * Replaces: LevelUpNotification, AchievementUnlockNotification, RewardCelebration
- * 
+ *
  * Supports:
  * - Level up notifications
  * - Achievement unlocks
@@ -13,68 +13,68 @@
  * - Subscription success
  */
 
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useEffect, useState, memo, useCallback } from 'react';
-import { 
-  Coins, 
-  Sparkles, 
-  Star, 
-  Flame, 
-  Trophy, 
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useEffect, useState, memo, useCallback } from "react";
+import {
+  Coins,
+  Sparkles,
+  Star,
+  Flame,
+  Trophy,
   Crown,
   Zap,
   Gift,
   TrendingUp,
   X,
   PartyPopper,
-  Check
-} from 'lucide-react';
-import confetti from 'canvas-confetti';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { backdrop, pill } from '@/lib/overlay-colors';
+  Check,
+} from "lucide-react";
+import confetti from "canvas-confetti";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { backdrop, pill } from "@/lib/overlay-colors";
 
 // ============= Types =============
 
-export type RewardNotificationType = 
-  | 'level_up'
-  | 'achievement'
-  | 'credits'
-  | 'experience'
-  | 'streak'
-  | 'welcome_bonus'
-  | 'subscription';
+export type RewardNotificationType =
+  | "level_up"
+  | "achievement"
+  | "credits"
+  | "experience"
+  | "streak"
+  | "welcome_bonus"
+  | "subscription";
 
 export interface RewardNotificationData {
   type: RewardNotificationType;
-  
+
   // Common
   title?: string;
   description?: string;
-  
+
   // Level up
   level?: number;
   levelTitle?: string;
-  
+
   // Achievement
   achievementName?: string;
   achievementIcon?: string;
-  
+
   // Credits/XP
   credits?: number;
   experience?: number;
-  
+
   // Streak
   streak?: number;
-  
+
   // Welcome bonus
   welcomeBonus?: number;
-  
+
   // Subscription
-  subscriptionTier?: 'pro' | 'premium';
+  subscriptionTier?: "pro" | "premium";
   subscriptionCredits?: number;
   subscriptionFeatures?: string[];
-  
+
   // Behavior
   autoClose?: boolean;
   autoCloseDelay?: number;
@@ -90,28 +90,28 @@ interface UnifiedRewardNotificationProps {
 // ============= Constants =============
 
 const LEVEL_COLORS: Record<number, string> = {
-  1: 'from-gray-400 to-gray-600',
-  2: 'from-green-400 to-green-600',
-  3: 'from-blue-400 to-blue-600',
-  4: 'from-purple-400 to-purple-600',
-  5: 'from-yellow-400 to-yellow-600',
-  6: 'from-orange-400 to-orange-600',
-  7: 'from-red-400 to-red-600',
-  8: 'from-pink-400 to-pink-600',
-  9: 'from-indigo-400 to-indigo-600',
-  10: 'from-amber-300 via-yellow-400 to-amber-500',
+  1: "from-gray-400 to-gray-600",
+  2: "from-green-400 to-green-600",
+  3: "from-blue-400 to-blue-600",
+  4: "from-purple-400 to-purple-600",
+  5: "from-yellow-400 to-yellow-600",
+  6: "from-orange-400 to-orange-600",
+  7: "from-red-400 to-red-600",
+  8: "from-pink-400 to-pink-600",
+  9: "from-indigo-400 to-indigo-600",
+  10: "from-amber-300 via-yellow-400 to-amber-500",
 };
 
 const SUBSCRIPTION_INFO = {
   pro: {
-    name: 'PRO',
+    name: "PRO",
     icon: Zap,
-    gradient: 'from-blue-500 to-cyan-500',
+    gradient: "from-blue-500 to-cyan-500",
   },
   premium: {
-    name: 'PREMIUM',
+    name: "PREMIUM",
     icon: Crown,
-    gradient: 'from-amber-500 to-orange-500',
+    gradient: "from-amber-500 to-orange-500",
   },
 };
 
@@ -124,26 +124,26 @@ const getLevelGradient = (level: number): string => {
   return LEVEL_COLORS[level] || LEVEL_COLORS[1];
 };
 
-const generateParticlePositions = () => 
+const generateParticlePositions = () =>
   Array.from({ length: 8 }, () => ({
     x: Math.random() * 100,
     y: Math.random() * 100,
   }));
 
-const triggerConfetti = (variant: 'burst' | 'sides' | 'stars' = 'sides') => {
-  const colors = ['#FFD700', '#FFA500', '#FF6347', '#9370DB', '#00CED1', '#8B5CF6', '#EC4899'];
-  
-  if (variant === 'burst') {
+const triggerConfetti = (variant: "burst" | "sides" | "stars" = "sides") => {
+  const colors = ["#FFD700", "#FFA500", "#FF6347", "#9370DB", "#00CED1", "#8B5CF6", "#EC4899"];
+
+  if (variant === "burst") {
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
       colors,
     });
-  } else if (variant === 'sides') {
+  } else if (variant === "sides") {
     const duration = 2000;
     const end = Date.now() + duration;
-    
+
     const frame = () => {
       confetti({
         particleCount: 3,
@@ -171,14 +171,14 @@ const triggerConfetti = (variant: 'burst' | 'sides' | 'stars' = 'sides') => {
 
 const FloatingParticles = memo(function FloatingParticles() {
   const [positions] = useState(generateParticlePositions);
-  
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {positions.map((pos, i) => (
         <motion.div
           key={i}
-          initial={{ x: '50%', y: '50%', scale: 0, opacity: 0 }}
-          animate={{ 
+          initial={{ x: "50%", y: "50%", scale: 0, opacity: 0 }}
+          animate={{
             x: `${pos.x}%`,
             y: `${pos.y}%`,
             scale: [0, 1, 0],
@@ -199,16 +199,16 @@ const FloatingParticles = memo(function FloatingParticles() {
   );
 });
 
-const RewardRow = memo(function RewardRow({ 
-  icon: Icon, 
-  value, 
-  label, 
+const RewardRow = memo(function RewardRow({
+  icon: Icon,
+  value,
+  label,
   color,
   delay = 0.3,
-}: { 
-  icon: typeof Coins; 
-  value: number; 
-  label: string; 
+}: {
+  icon: typeof Coins;
+  value: number;
+  label: string;
   color: string;
   delay?: number;
 }) {
@@ -219,10 +219,7 @@ const RewardRow = memo(function RewardRow({
       transition={{ delay }}
       className={cn("flex items-center justify-center gap-3 bg-primary/10 rounded-lg p-3")}
     >
-      <motion.div
-        animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.1, 1] }}
-        transition={{ duration: 0.5, repeat: 2 }}
-      >
+      <motion.div animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.1, 1] }} transition={{ duration: 0.5, repeat: 2 }}>
         <Icon className={cn("w-6 h-6", color)} />
       </motion.div>
       <motion.span
@@ -245,7 +242,7 @@ export const UnifiedRewardNotification = memo(function UnifiedRewardNotification
   onComplete,
 }: UnifiedRewardNotificationProps) {
   const [isVisible, setIsVisible] = useState(false);
-  
+
   const handleClose = useCallback(() => {
     setIsVisible(false);
     onComplete?.();
@@ -258,11 +255,10 @@ export const UnifiedRewardNotification = memo(function UnifiedRewardNotification
     }
 
     setIsVisible(true);
-    
+
     // Trigger confetti if enabled
     if (data.showConfetti !== false) {
-      const confettiVariant = 
-        data.type === 'welcome_bonus' || data.type === 'subscription' ? 'burst' : 'sides';
+      const confettiVariant = data.type === "welcome_bonus" || data.type === "subscription" ? "burst" : "sides";
       setTimeout(() => triggerConfetti(confettiVariant), 300);
     }
 
@@ -285,9 +281,7 @@ export const UnifiedRewardNotification = memo(function UnifiedRewardNotification
           exit={{ opacity: 0 }}
           className={cn(
             "fixed inset-0 z-[100] flex items-center justify-center",
-            data.requireDismiss 
-              ? cn(backdrop.medium, "backdrop-blur-sm")
-              : "pointer-events-none"
+            data.requireDismiss ? cn(backdrop.medium, "backdrop-blur-sm") : "pointer-events-none",
           )}
           onClick={data.requireDismiss ? handleClose : undefined}
         >
@@ -295,28 +289,23 @@ export const UnifiedRewardNotification = memo(function UnifiedRewardNotification
             initial={{ scale: 0.5, y: 50 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.5, y: -50, opacity: 0 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className={cn(
               "bg-card/95 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-primary/30 max-w-sm mx-4 relative",
-              data.requireDismiss && "pointer-events-auto"
+              data.requireDismiss && "pointer-events-auto",
             )}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button for dismissable notifications */}
             {data.requireDismiss && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="absolute top-2 right-2"
-                onClick={handleClose}
-              >
+              <Button variant="ghost" size="icon" className="absolute top-2 right-2" onClick={handleClose}>
                 <X className="w-4 h-4" />
               </Button>
             )}
-            
+
             {/* Render based on type */}
             <NotificationContent data={data} onClose={handleClose} />
-            
+
             {/* Floating particles */}
             <FloatingParticles />
           </motion.div>
@@ -328,21 +317,21 @@ export const UnifiedRewardNotification = memo(function UnifiedRewardNotification
 
 // ============= Content Renderer =============
 
-const NotificationContent = memo(function NotificationContent({ 
-  data, 
-  onClose 
-}: { 
+const NotificationContent = memo(function NotificationContent({
+  data,
+  onClose,
+}: {
   data: RewardNotificationData;
   onClose: () => void;
 }) {
   switch (data.type) {
-    case 'level_up':
+    case "level_up":
       return <LevelUpContent data={data} />;
-    case 'achievement':
+    case "achievement":
       return <AchievementContent data={data} onClose={onClose} />;
-    case 'welcome_bonus':
+    case "welcome_bonus":
       return <WelcomeBonusContent data={data} onClose={onClose} />;
-    case 'subscription':
+    case "subscription":
       return <SubscriptionContent data={data} onClose={onClose} />;
     default:
       return <GenericRewardContent data={data} />;
@@ -353,27 +342,26 @@ const NotificationContent = memo(function NotificationContent({
 
 const LevelUpContent = memo(function LevelUpContent({ data }: { data: RewardNotificationData }) {
   const level = data.level || 1;
-  
+
   return (
     <div className="text-center">
       <motion.div
         initial={{ scale: 0, rotate: -180 }}
         animate={{ scale: 1, rotate: 0 }}
-        transition={{ delay: 0.2, type: 'spring' }}
+        transition={{ delay: 0.2, type: "spring" }}
         className="relative inline-block mb-4"
       >
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-          className={cn(
-            "absolute inset-0 bg-gradient-to-r rounded-full blur-xl opacity-50",
-            getLevelGradient(level)
-          )}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+          className={cn("absolute inset-0 bg-gradient-to-r rounded-full blur-xl opacity-50", getLevelGradient(level))}
         />
-        <div className={cn(
-          "relative w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-3xl shadow-lg bg-gradient-to-br",
-          getLevelGradient(level)
-        )}>
+        <div
+          className={cn(
+            "relative w-20 h-20 rounded-full flex items-center justify-center text-white font-bold text-3xl shadow-lg bg-gradient-to-br",
+            getLevelGradient(level),
+          )}
+        >
           {level}
         </div>
         <motion.div
@@ -384,7 +372,7 @@ const LevelUpContent = memo(function LevelUpContent({ data }: { data: RewardNoti
           <Star className="w-5 h-5 text-yellow-400" fill="currentColor" />
         </motion.div>
       </motion.div>
-      
+
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -394,7 +382,7 @@ const LevelUpContent = memo(function LevelUpContent({ data }: { data: RewardNoti
         <TrendingUp className="w-4 h-4 text-green-500" />
         <span className="text-sm font-medium text-muted-foreground">Новый уровень!</span>
       </motion.div>
-      
+
       <motion.h2
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -403,7 +391,7 @@ const LevelUpContent = memo(function LevelUpContent({ data }: { data: RewardNoti
       >
         {data.levelTitle || `Уровень ${level}`}
       </motion.h2>
-      
+
       {/* Rewards */}
       <div className="mt-4 space-y-2">
         {data.credits && data.credits > 0 && (
@@ -417,10 +405,10 @@ const LevelUpContent = memo(function LevelUpContent({ data }: { data: RewardNoti
   );
 });
 
-const AchievementContent = memo(function AchievementContent({ 
-  data, 
-  onClose 
-}: { 
+const AchievementContent = memo(function AchievementContent({
+  data,
+  onClose,
+}: {
   data: RewardNotificationData;
   onClose: () => void;
 }) {
@@ -436,10 +424,10 @@ const AchievementContent = memo(function AchievementContent({
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: 'spring' }}
+            transition={{ delay: 0.2, type: "spring" }}
             className="w-20 h-20 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 flex items-center justify-center shadow-lg"
           >
-            <span className="text-4xl">{data.achievementIcon || '🏆'}</span>
+            <span className="text-4xl">{data.achievementIcon || "🏆"}</span>
           </motion.div>
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -461,9 +449,7 @@ const AchievementContent = memo(function AchievementContent({
           <span className="text-sm font-medium">Достижение разблокировано!</span>
         </div>
         <h2 className="text-xl font-bold">{data.achievementName || data.title}</h2>
-        {data.description && (
-          <p className="text-sm text-muted-foreground mt-1">{data.description}</p>
-        )}
+        {data.description && <p className="text-sm text-muted-foreground mt-1">{data.description}</p>}
       </motion.div>
 
       {/* Rewards */}
@@ -493,11 +479,7 @@ const AchievementContent = memo(function AchievementContent({
         )}
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
         <Button onClick={onClose} className="w-full">
           Отлично!
         </Button>
@@ -506,10 +488,10 @@ const AchievementContent = memo(function AchievementContent({
   );
 });
 
-const WelcomeBonusContent = memo(function WelcomeBonusContent({ 
-  data, 
-  onClose 
-}: { 
+const WelcomeBonusContent = memo(function WelcomeBonusContent({
+  data,
+  onClose,
+}: {
   data: RewardNotificationData;
   onClose: () => void;
 }) {
@@ -518,7 +500,7 @@ const WelcomeBonusContent = memo(function WelcomeBonusContent({
       <motion.div
         initial={{ rotate: -20, scale: 0 }}
         animate={{ rotate: 0, scale: 1 }}
-        transition={{ delay: 0.2, type: 'spring' }}
+        transition={{ delay: 0.2, type: "spring" }}
         className="relative mb-6"
       >
         <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center">
@@ -554,7 +536,7 @@ const WelcomeBonusContent = memo(function WelcomeBonusContent({
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.5, type: 'spring', damping: 10 }}
+        transition={{ delay: 0.5, type: "spring", damping: 10 }}
         className="relative mb-6"
       >
         <div className="px-8 py-4 rounded-2xl bg-gradient-to-r from-primary/20 via-purple-500/20 to-pink-500/20 border border-primary/30">
@@ -580,11 +562,7 @@ const WelcomeBonusContent = memo(function WelcomeBonusContent({
         Используй кредиты для создания музыки с помощью AI!
       </motion.p>
 
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.7 }}
-      >
+      <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.7 }}>
         <Button
           onClick={onClose}
           className="px-8 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
@@ -596,27 +574,24 @@ const WelcomeBonusContent = memo(function WelcomeBonusContent({
   );
 });
 
-const SubscriptionContent = memo(function SubscriptionContent({ 
-  data, 
-  onClose 
-}: { 
+const SubscriptionContent = memo(function SubscriptionContent({
+  data,
+  onClose,
+}: {
   data: RewardNotificationData;
   onClose: () => void;
 }) {
-  const tier = data.subscriptionTier || 'pro';
+  const tier = data.subscriptionTier || "pro";
   const info = SUBSCRIPTION_INFO[tier];
   const Icon = info.icon;
-  
+
   return (
     <div className="flex flex-col items-center text-center">
       <motion.div
         initial={{ scale: 0, rotate: -180 }}
         animate={{ scale: 1, rotate: 0 }}
-        transition={{ delay: 0.2, type: 'spring' }}
-        className={cn(
-          "w-20 h-20 rounded-full flex items-center justify-center bg-gradient-to-br mb-6",
-          info.gradient
-        )}
+        transition={{ delay: 0.2, type: "spring" }}
+        className={cn("w-20 h-20 rounded-full flex items-center justify-center bg-gradient-to-br mb-6", info.gradient)}
       >
         <Icon className="w-10 h-10 text-white" />
       </motion.div>
@@ -633,7 +608,7 @@ const SubscriptionContent = memo(function SubscriptionContent({
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
-        transition={{ delay: 0.4, type: 'spring' }}
+        transition={{ delay: 0.4, type: "spring" }}
         className="mb-6 px-6 py-3 rounded-xl bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/20"
       >
         <div className="flex items-center gap-2">
@@ -649,9 +624,7 @@ const SubscriptionContent = memo(function SubscriptionContent({
           transition={{ delay: 0.5 }}
           className="w-full mb-6"
         >
-          <p className="text-sm text-muted-foreground mb-3">
-            Теперь тебе доступно:
-          </p>
+          <p className="text-sm text-muted-foreground mb-3">Теперь тебе доступно:</p>
           <ul className="space-y-2 text-left">
             {data.subscriptionFeatures.map((feature, i) => (
               <motion.li
@@ -669,15 +642,8 @@ const SubscriptionContent = memo(function SubscriptionContent({
         </motion.div>
       )}
 
-      <motion.div
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.8 }}
-      >
-        <Button
-          onClick={onClose}
-          className={cn("px-8 bg-gradient-to-r", info.gradient)}
-        >
+      <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.8 }}>
+        <Button onClick={onClose} className={cn("px-8 bg-gradient-to-r", info.gradient)}>
           <Sparkles className="w-4 h-4 mr-2" />
           Начать творить!
         </Button>
@@ -686,11 +652,7 @@ const SubscriptionContent = memo(function SubscriptionContent({
   );
 });
 
-const GenericRewardContent = memo(function GenericRewardContent({ 
-  data 
-}: { 
-  data: RewardNotificationData;
-}) {
+const GenericRewardContent = memo(function GenericRewardContent({ data }: { data: RewardNotificationData }) {
   return (
     <div className="text-center">
       {/* Title */}
@@ -732,10 +694,7 @@ const GenericRewardContent = memo(function GenericRewardContent({
             transition={{ delay: 0.5 }}
             className="flex items-center justify-center gap-2 text-orange-500"
           >
-            <motion.div
-              animate={{ scale: [1, 1.3, 1] }}
-              transition={{ duration: 0.5, repeat: Infinity }}
-            >
+            <motion.div animate={{ scale: [1, 1.3, 1] }} transition={{ duration: 0.5, repeat: Infinity }}>
               <Flame className="w-5 h-5" />
             </motion.div>
             <span className="font-semibold">День {data.streak}</span>

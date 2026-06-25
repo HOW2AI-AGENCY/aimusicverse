@@ -1,17 +1,17 @@
 /**
  * Playback Slice
- * 
+ *
  * Zustand slice for audio playback state management.
  * Handles play/pause, time tracking, loop modes.
- * 
+ *
  * @see ADR-003 Performance Optimization Architecture
  */
 
-import { StateCreator } from 'zustand';
+import { StateCreator } from "zustand";
 
 // ============ Types ============
 
-export type LoopMode = 'none' | 'all' | 'one' | 'section';
+export type LoopMode = "none" | "all" | "one" | "section";
 
 export interface LoopRegion {
   start: number;
@@ -35,22 +35,22 @@ export interface PlaybackActions {
   pause: () => void;
   stop: () => void;
   togglePlay: () => void;
-  
+
   // Time controls
   seek: (time: number) => void;
   setCurrentTime: (time: number) => void;
   setDuration: (duration: number) => void;
   skipForward: (seconds?: number) => void;
   skipBackward: (seconds?: number) => void;
-  
+
   // Rate controls
   setPlaybackRate: (rate: number) => void;
-  
+
   // Loop controls
   setLoopMode: (mode: LoopMode) => void;
   setLoopRegion: (region: LoopRegion | null) => void;
   cycleLoopMode: () => void;
-  
+
   // Buffer/seek state
   setIsBuffering: (buffering: boolean) => void;
   setIsSeeking: (seeking: boolean) => void;
@@ -65,7 +65,7 @@ const DEFAULT_PLAYBACK_STATE: PlaybackState = {
   currentTime: 0,
   duration: 0,
   playbackRate: 1,
-  loopMode: 'none',
+  loopMode: "none",
   loopRegion: null,
   isBuffering: false,
   isSeeking: false,
@@ -73,16 +73,11 @@ const DEFAULT_PLAYBACK_STATE: PlaybackState = {
 
 // ============ Loop Mode Cycle ============
 
-const LOOP_MODE_CYCLE: LoopMode[] = ['none', 'all', 'one'];
+const LOOP_MODE_CYCLE: LoopMode[] = ["none", "all", "one"];
 
 // ============ Slice Creator ============
 
-export const createPlaybackSlice: StateCreator<
-  PlaybackSlice,
-  [],
-  [],
-  PlaybackSlice
-> = (set, get) => ({
+export const createPlaybackSlice: StateCreator<PlaybackSlice, [], [], PlaybackSlice> = (set, get) => ({
   ...DEFAULT_PLAYBACK_STATE,
 
   // ============ Playback Controls ============
@@ -188,5 +183,4 @@ export const selectLoopState = (state: PlaybackSlice) => ({
 /**
  * Selector for playback progress (0-1)
  */
-export const selectProgress = (state: PlaybackSlice) =>
-  state.duration > 0 ? state.currentTime / state.duration : 0;
+export const selectProgress = (state: PlaybackSlice) => (state.duration > 0 ? state.currentTime / state.duration : 0);

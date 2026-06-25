@@ -3,10 +3,10 @@
  * Provides native-feeling refresh gesture for mobile
  */
 
-import { memo, ReactNode } from 'react';
-import { usePullToRefresh } from '@/hooks/usePullToRefresh';
-import { PullToRefreshIndicator } from '@/components/ui/pull-to-refresh-indicator';
-import { cn } from '@/lib/utils';
+import { memo, ReactNode } from "react";
+import { usePullToRefresh } from "@/hooks/usePullToRefresh";
+import { PullToRefreshIndicator } from "@/components/ui/pull-to-refresh-indicator";
+import { cn } from "@/lib/utils";
 
 interface PullToRefreshWrapperProps {
   children: ReactNode;
@@ -44,11 +44,11 @@ export const PullToRefreshWrapper = memo(function PullToRefreshWrapper({
         style={{
           // Only apply transform when actively pulling to avoid layout thrash
           transform: isPulling ? `translateY(${pullDistance * 0.5}px)` : undefined,
-          transition: !isPulling ? 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'none',
+          transition: !isPulling ? "transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)" : "none",
           // GPU acceleration - only when pulling to save resources
-          willChange: isPulling ? 'transform' : 'auto',
+          willChange: isPulling ? "transform" : "auto",
           // Prevent scroll anchoring issues during pull
-          overflowAnchor: 'none',
+          overflowAnchor: "none",
         }}
       >
         {children}

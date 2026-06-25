@@ -14,8 +14,7 @@ const restrictedImports = {
     },
     {
       name: "lucide-react",
-      message:
-        "Импортируйте иконки из '@/lib/icons' — централизованный реестр для оптимизации бандла.",
+      message: "Импортируйте иконки из '@/lib/icons' — централизованный реестр для оптимизации бандла.",
     },
   ],
 };
@@ -111,13 +110,7 @@ export default tseslint.config(
   },
   // Файлы, которым разрешены console.* (инфраструктура логирования / отладки)
   {
-    files: [
-      "src/lib/logger.ts",
-      "src/lib/sentry.ts",
-      "src/lib/debug/**",
-      "src/lib/icons.ts",
-      "src/lib/motion.ts",
-    ],
+    files: ["src/lib/logger.ts", "src/lib/sentry.ts", "src/lib/debug/**", "src/lib/icons.ts", "src/lib/motion.ts"],
     rules: {
       "no-console": "off",
       "no-restricted-imports": "off",
@@ -125,12 +118,7 @@ export default tseslint.config(
   },
   // Node / tooling files (build scripts, configs) — CommonJS + Node globals
   {
-    files: [
-      "**/*.config.{js,cjs,mjs,ts}",
-      "scripts/**/*.{js,cjs,mjs}",
-      "*.cjs",
-      ".husky/**/*.{js,cjs}",
-    ],
+    files: ["**/*.config.{js,cjs,mjs,ts}", "scripts/**/*.{js,cjs,mjs}", "*.cjs", ".husky/**/*.{js,cjs}"],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -172,13 +160,12 @@ export default tseslint.config(
       "no-restricted-syntax": [
         "warn",
         {
-          selector:
-            "CallExpression[callee.object.name='supabase'][callee.property.name='from']",
+          selector: "CallExpression[callee.object.name='supabase'][callee.property.name='from']",
           message:
             "Не вызывайте supabase.from() напрямую в компонентах/страницах. Используйте слой src/api/* или src/services/*.",
         },
       ],
     },
   },
-  prettier
+  prettier,
 );

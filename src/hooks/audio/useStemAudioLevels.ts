@@ -3,8 +3,8 @@
  * Uses Web Audio API AnalyserNode to calculate RMS levels for each stem
  */
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { logger } from "@/lib/logger";
 
 export interface StemLevels {
   vocals: number;
@@ -46,7 +46,7 @@ function calculateRMS(dataArray: Uint8Array): number {
 export function useStemAudioLevels(
   audioElement: HTMLAudioElement | null,
   isPlaying: boolean,
-  stemVolumes: { vocals: number; drums: number; bass: number; other: number }
+  stemVolumes: { vocals: number; drums: number; bass: number; other: number },
 ) {
   const [levels, setLevels] = useState<StemLevels>(DEFAULT_LEVELS);
   const nodesRef = useRef<AudioNodes | null>(null);
@@ -54,14 +54,17 @@ export function useStemAudioLevels(
   const dataArrayRef = useRef<Uint8Array | null>(null);
   const leftDataRef = useRef<Uint8Array | null>(null);
   const rightDataRef = useRef<Uint8Array | null>(null);
-  
+
   // Memoize stem volume ratios for level simulation
-  const volumeRatios = useMemo(() => ({
-    vocals: stemVolumes.vocals / 100,
-    drums: stemVolumes.drums / 100,
-    bass: stemVolumes.bass / 100,
-    other: stemVolumes.other / 100,
-  }), [stemVolumes.vocals, stemVolumes.drums, stemVolumes.bass, stemVolumes.other]);
+  const volumeRatios = useMemo(
+    () => ({
+      vocals: stemVolumes.vocals / 100,
+      drums: stemVolumes.drums / 100,
+      bass: stemVolumes.bass / 100,
+      other: stemVolumes.other / 100,
+    }),
+    [stemVolumes.vocals, stemVolumes.drums, stemVolumes.bass, stemVolumes.other],
+  );
 
   // Initialize audio nodes
   const initializeNodes = useCallback(() => {
@@ -70,40 +73,40 @@ export function useStemAudioLevels(
     try {
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       const context = new AudioContextClass();
-      
+
       // Main analyser for overall level
       const analyser = context.createAnalyser();
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = 0.8;
-      
+
       // Stereo splitter for L/R meters
       const splitter = context.createChannelSplitter(2);
-      
+
       // Left channel analyser
       const leftAnalyser = context.createAnalyser();
       leftAnalyser.fftSize = 256;
       leftAnalyser.smoothingTimeConstant = 0.8;
-      
+
       // Right channel analyser
       const rightAnalyser = context.createAnalyser();
       rightAnalyser.fftSize = 256;
       rightAnalyser.smoothingTimeConstant = 0.8;
-      
+
       // Connect source
       const source = context.createMediaElementSource(audioElement);
       source.connect(analyser);
       source.connect(splitter);
       source.connect(context.destination);
-      
+
       // Connect splitter to L/R analysers
       splitter.connect(leftAnalyser, 0);
       splitter.connect(rightAnalyser, 1);
-      
+
       // Create data arrays
       dataArrayRef.current = new Uint8Array(analyser.frequencyBinCount);
       leftDataRef.current = new Uint8Array(leftAnalyser.frequencyBinCount);
       rightDataRef.current = new Uint8Array(rightAnalyser.frequencyBinCount);
-      
+
       nodesRef.current = {
         context,
         source,
@@ -112,10 +115,10 @@ export function useStemAudioLevels(
         leftAnalyser,
         rightAnalyser,
       };
-      
-      logger.debug('Stem audio levels initialized');
+
+      logger.debug("Stem audio levels initialized");
     } catch (error) {
-      logger.error('Failed to initialize stem audio levels', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Failed to initialize stem audio levels", error instanceof Error ? error : new Error(String(error)));
     }
   }, [audioElement]);
 
@@ -142,10 +145,10 @@ export function useStemAudioLevels(
     // This is an approximation that responds to the mix
     const baseFactor = overallRMS * 0.8;
     const variationFactor = 0.2;
-    
+
     // Add slight random variation to make it look more natural
     const variation = () => 1 + (Math.random() - 0.5) * variationFactor;
-    
+
     setLevels({
       vocals: Math.min(1, baseFactor * volumeRatios.vocals * variation()),
       drums: Math.min(1, baseFactor * volumeRatios.drums * variation()),
@@ -164,12 +167,12 @@ export function useStemAudioLevels(
   useEffect(() => {
     if (isPlaying && audioElement) {
       initializeNodes();
-      
+
       // Resume audio context if suspended
-      if (nodesRef.current?.context.state === 'suspended') {
+      if (nodesRef.current?.context.state === "suspended") {
         nodesRef.current.context.resume();
       }
-      
+
       rafRef.current = requestAnimationFrame(updateLevels);
     } else {
       // Stop animation
@@ -177,9 +180,9 @@ export function useStemAudioLevels(
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
       }
-      
+
       // Decay levels to zero
-      setLevels(prev => ({
+      setLevels((prev) => ({
         vocals: prev.vocals * 0.9,
         drums: prev.drums * 0.9,
         bass: prev.bass * 0.9,
@@ -205,7 +208,7 @@ export function useStemAudioLevels(
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
-      if (nodesRef.current?.context.state !== 'closed') {
+      if (nodesRef.current?.context.state !== "closed") {
         nodesRef.current?.context.close();
       }
       nodesRef.current = null;

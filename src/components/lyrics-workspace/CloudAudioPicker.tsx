@@ -3,39 +3,19 @@
  * Integrates with studio audio coordination
  */
 
-import { useState, useEffect, useRef, useId } from 'react';
-import { 
-  Cloud, 
-  Search, 
-  Play, 
-  Pause, 
-  Check, 
-  Music2,
-  Loader2,
-  Clock,
-  Tag
-} from 'lucide-react';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle,
-  DialogDescription 
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { logger } from '@/lib/logger';
-import { cn } from '@/lib/utils';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
+import { useState, useEffect, useRef, useId } from "react";
+import { Cloud, Search, Play, Pause, Check, Music2, Loader2, Clock, Tag } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { logger } from "@/lib/logger";
+import { cn } from "@/lib/utils";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface CloudAudio {
   id: string;
@@ -56,19 +36,15 @@ interface CloudAudioPickerProps {
   onSelect: (audio: CloudAudio) => void;
 }
 
-export function CloudAudioPicker({ 
-  open, 
-  onOpenChange, 
-  onSelect 
-}: CloudAudioPickerProps) {
+export function CloudAudioPicker({ open, onOpenChange, onSelect }: CloudAudioPickerProps) {
   const { user } = useAuth();
   const [audioList, setAudioList] = useState<CloudAudio[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sourceId = useId();
-  
+
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   // Fetch audio list
@@ -110,20 +86,20 @@ export function CloudAudioPicker({
 
   const fetchAudioList = async () => {
     if (!user) return;
-    
+
     setIsLoading(true);
     try {
       const { data, error } = await supabase
-        .from('reference_audio')
-        .select('id, file_name, file_url, duration_seconds, genre, mood, bpm, instruments, source, created_at')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+        .from("reference_audio")
+        .select("id, file_name, file_url, duration_seconds, genre, mood, bpm, instruments, source, created_at")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
         .limit(50);
 
       if (error) throw error;
       setAudioList(data || []);
     } catch (error: unknown) {
-      logger.error('Failed to fetch audio list', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Failed to fetch audio list", error instanceof Error ? error : new Error(String(error)));
     } finally {
       setIsLoading(false);
     }
@@ -147,10 +123,10 @@ export function CloudAudioPicker({
     newAudio.onended = () => setPlayingId(null);
     newAudio.onerror = () => {
       setPlayingId(null);
-      logger.warn('Failed to load audio', { url: audio.file_url });
+      logger.warn("Failed to load audio", { url: audio.file_url });
     };
     newAudio.play().catch((err: unknown) => {
-      logger.error('Audio play error', err instanceof Error ? err : new Error(String(err)));
+      logger.error("Audio play error", err instanceof Error ? err : new Error(String(err)));
       setPlayingId(null);
     });
     audioRef.current = newAudio;
@@ -166,16 +142,17 @@ export function CloudAudioPicker({
   };
 
   const formatDuration = (seconds: number | null) => {
-    if (!seconds) return '--:--';
+    if (!seconds) return "--:--";
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const filteredList = audioList.filter(audio => 
-    audio.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    audio.genre?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    audio.mood?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredList = audioList.filter(
+    (audio) =>
+      audio.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      audio.genre?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      audio.mood?.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -186,9 +163,7 @@ export function CloudAudioPicker({
             <Cloud className="w-5 h-5 text-primary" />
             Выбрать из облака
           </DialogTitle>
-          <DialogDescription>
-            Выберите аудио-референс из вашей библиотеки
-          </DialogDescription>
+          <DialogDescription>Выберите аудио-референс из вашей библиотеки</DialogDescription>
         </DialogHeader>
 
         {/* Search */}
@@ -211,9 +186,7 @@ export function CloudAudioPicker({
           ) : filteredList.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
               <Music2 className="w-10 h-10 mb-2 opacity-50" />
-              <p className="text-sm">
-                {searchQuery ? 'Ничего не найдено' : 'Нет аудио в библиотеке'}
-              </p>
+              <p className="text-sm">{searchQuery ? "Ничего не найдено" : "Нет аудио в библиотеке"}</p>
             </div>
           ) : (
             <div className="space-y-2 pb-4">
@@ -222,28 +195,17 @@ export function CloudAudioPicker({
                   key={audio.id}
                   className={cn(
                     "p-3 rounded-xl border bg-card hover:bg-accent/50 transition-colors",
-                    "flex items-center gap-3"
+                    "flex items-center gap-3",
                   )}
                 >
                   {/* Play Button */}
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="shrink-0"
-                    onClick={() => handlePlay(audio)}
-                  >
-                    {playingId === audio.id ? (
-                      <Pause className="w-4 h-4" />
-                    ) : (
-                      <Play className="w-4 h-4" />
-                    )}
+                  <Button variant="ghost" size="icon" className="shrink-0" onClick={() => handlePlay(audio)}>
+                    {playingId === audio.id ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   </Button>
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium truncate">
-                      {audio.file_name}
-                    </p>
+                    <p className="text-sm font-medium truncate">{audio.file_name}</p>
                     <div className="flex items-center gap-2 mt-1">
                       {audio.duration_seconds && (
                         <span className="text-xs text-muted-foreground flex items-center gap-1">
@@ -265,11 +227,7 @@ export function CloudAudioPicker({
                   </div>
 
                   {/* Select Button */}
-                  <Button
-                    size="sm"
-                    className="shrink-0 gap-1"
-                    onClick={() => handleSelect(audio)}
-                  >
+                  <Button size="sm" className="shrink-0 gap-1" onClick={() => handleSelect(audio)}>
                     <Check className="w-3 h-3" />
                     Выбрать
                   </Button>

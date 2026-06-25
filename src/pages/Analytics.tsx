@@ -1,23 +1,13 @@
-import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
-import { Card } from '@/components/ui/card';
-import { 
-  BarChart3, 
-  Music, 
-  Play, 
-  Heart, 
-  TrendingUp,
-  Calendar,
-  CheckCircle2,
-  XCircle,
-  Clock
-} from 'lucide-react';
-import { useUserStats } from '@/hooks/useUserStats';
-import { motion } from '@/lib/motion';
-import { Skeleton } from '@/components/ui/skeleton';
-import { EngagementChart, GenreDistributionChart } from '@/components/analytics';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { DesktopDashboardLayout } from '@/components/layout/desktop';
+import { useAuth } from "@/hooks/useAuth";
+import { Navigate } from "react-router-dom";
+import { Card } from "@/components/ui/card";
+import { BarChart3, Music, Play, Heart, TrendingUp, Calendar, CheckCircle2, XCircle, Clock } from "lucide-react";
+import { useUserStats } from "@/hooks/useUserStats";
+import { motion } from "@/lib/motion";
+import { Skeleton } from "@/components/ui/skeleton";
+import { EngagementChart, GenreDistributionChart } from "@/components/analytics";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { DesktopDashboardLayout } from "@/components/layout/desktop";
 
 export default function Analytics() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -37,71 +27,67 @@ export default function Analytics() {
   }
 
   const mainStats = [
-    { 
-      icon: Music, 
-      label: 'Всего треков', 
+    {
+      icon: Music,
+      label: "Всего треков",
       value: stats?.totalTracks || 0,
-      color: 'text-blue-500',
-      bgColor: 'bg-blue-500/10'
+      color: "text-blue-500",
+      bgColor: "bg-blue-500/10",
     },
-    { 
-      icon: Play, 
-      label: 'Прослушиваний', 
+    {
+      icon: Play,
+      label: "Прослушиваний",
       value: stats?.totalPlays || 0,
-      color: 'text-green-500',
-      bgColor: 'bg-green-500/10'
+      color: "text-green-500",
+      bgColor: "bg-green-500/10",
     },
-    { 
-      icon: Heart, 
-      label: 'Получено лайков', 
+    {
+      icon: Heart,
+      label: "Получено лайков",
       value: stats?.totalLikes || 0,
-      color: 'text-red-500',
-      bgColor: 'bg-red-500/10'
+      color: "text-red-500",
+      bgColor: "bg-red-500/10",
     },
-    { 
-      icon: TrendingUp, 
-      label: 'Публичных треков', 
+    {
+      icon: TrendingUp,
+      label: "Публичных треков",
       value: stats?.publicTracks || 0,
-      color: 'text-purple-500',
-      bgColor: 'bg-purple-500/10'
+      color: "text-purple-500",
+      bgColor: "bg-purple-500/10",
     },
   ];
 
   const generationStats = [
-    { 
-      icon: Calendar, 
-      label: 'Генераций в этом месяце', 
+    {
+      icon: Calendar,
+      label: "Генераций в этом месяце",
       value: stats?.generationsThisMonth || 0,
-      color: 'text-amber-500',
-      bgColor: 'bg-amber-500/10'
+      color: "text-amber-500",
+      bgColor: "bg-amber-500/10",
     },
-    { 
-      icon: CheckCircle2, 
-      label: 'Успешных', 
+    {
+      icon: CheckCircle2,
+      label: "Успешных",
       value: stats?.completedGenerations || 0,
-      color: 'text-emerald-500',
-      bgColor: 'bg-emerald-500/10'
+      color: "text-emerald-500",
+      bgColor: "bg-emerald-500/10",
     },
-    { 
-      icon: XCircle, 
-      label: 'Неудачных', 
+    {
+      icon: XCircle,
+      label: "Неудачных",
       value: stats?.failedGenerations || 0,
-      color: 'text-red-500',
-      bgColor: 'bg-red-500/10'
+      color: "text-red-500",
+      bgColor: "bg-red-500/10",
     },
   ];
 
-  const successRate = stats?.generationsThisMonth 
-    ? Math.round((stats.completedGenerations / stats.generationsThisMonth) * 100) 
+  const successRate = stats?.generationsThisMonth
+    ? Math.round((stats.completedGenerations / stats.generationsThisMonth) * 100)
     : 0;
 
   // Header component
   const Header = (
-    <motion.div 
-      className="flex items-center gap-3"
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-    >
+    <motion.div className="flex items-center gap-3" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
       <div className="p-3 rounded-full glass-card border-primary/20">
         <BarChart3 className="w-6 h-6 text-primary" />
       </div>
@@ -115,7 +101,7 @@ export default function Analytics() {
   );
 
   // Stats card component
-  const StatCard = ({ stat, index }: { stat: typeof mainStats[0]; index: number }) => (
+  const StatCard = ({ stat, index }: { stat: (typeof mainStats)[0]; index: number }) => (
     <Card className="p-4 glass-card border-border/50">
       {isLoading ? (
         <Skeleton className="h-16 w-full" />
@@ -135,11 +121,7 @@ export default function Analytics() {
 
   // Generation stats section
   const GenerationStatsCard = (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
       <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
         <Clock className="w-5 h-5 text-muted-foreground" />
         Генерации за месяц
@@ -154,7 +136,7 @@ export default function Analytics() {
               <span className="text-2xl font-bold text-primary">{successRate}%</span>
             </div>
             <div className="w-full h-3 bg-muted rounded-full overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-gradient-to-r from-primary to-primary/70 rounded-full transition-all duration-500"
                 style={{ width: `${successRate}%` }}
               />
@@ -176,11 +158,7 @@ export default function Analytics() {
 
   // Content stats section
   const ContentStatsCards = (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.3 }}
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
       <h2 className="text-lg font-semibold mb-3">Ваш контент</h2>
       <div className="grid grid-cols-3 gap-3">
         <Card className="p-4 glass-card border-border/50 text-center">
@@ -220,10 +198,11 @@ export default function Analytics() {
   // Desktop layout
   if (!isMobile) {
     return (
-      <div 
+      <div
         className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24"
         style={{
-          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+          paddingTop:
+            "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
         }}
       >
         <DesktopDashboardLayout
@@ -242,7 +221,7 @@ export default function Analytics() {
                   <StatCard key={stat.label} stat={stat} index={index} />
                 ))}
               </motion.div>
-              
+
               {/* Charts */}
               <EngagementChart />
             </>
@@ -261,10 +240,11 @@ export default function Analytics() {
 
   // Mobile layout (original)
   return (
-    <div 
+    <div
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24"
       style={{
-        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+        paddingTop:
+          "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
       }}
     >
       <div className="container max-w-4xl mx-auto px-4 py-4">
@@ -284,14 +264,10 @@ export default function Analytics() {
         </motion.div>
 
         {/* Generation Stats */}
-        <div className="mb-6">
-          {GenerationStatsCard}
-        </div>
+        <div className="mb-6">{GenerationStatsCard}</div>
 
         {/* Content Stats */}
-        <div className="mb-6">
-          {ContentStatsCards}
-        </div>
+        <div className="mb-6">{ContentStatsCards}</div>
 
         {/* Charts Section */}
         <div className="space-y-6">

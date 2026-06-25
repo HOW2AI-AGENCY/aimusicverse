@@ -1,4 +1,5 @@
 # 🎵 MusicVerse AI - Профессиональная DAW-подобная Студия
+
 # Полное Руководство по Улучшению и Развитию
 
 **Дата создания:** 2025-12-10  
@@ -25,7 +26,9 @@
 ## 📊 ИСПОЛНИТЕЛЬНОЕ РЕЗЮМЕ
 
 ### Видение
+
 MusicVerse AI становится **полноценной профессиональной DAW (Digital Audio Workstation)** в формате Telegram Mini App, объединяющей:
+
 - ✅ AI-генерацию музыки (Suno AI v5)
 - 🆕 **Многодорожечное редактирование**
 - 🆕 **Послойную работу со стемами**
@@ -36,6 +39,7 @@ MusicVerse AI становится **полноценной профессион
 ### Ключевые Улучшения
 
 #### 1. **DAW Core Engine** (новый)
+
 - Timeline с миллисекундной точностью
 - Multi-track editing с до 32 дорожек
 - Non-destructive editing
@@ -43,6 +47,7 @@ MusicVerse AI становится **полноценной профессион
 - Real-time audio preview
 
 #### 2. **Advanced Stem Studio** (улучшение)
+
 - Послойное редактирование каждого стема
 - Volume automation с кривыми
 - Pan automation (стерео)
@@ -50,6 +55,7 @@ MusicVerse AI становится **полноценной профессион
 - Crossfade между секциями
 
 #### 3. **Section Editor Pro** (расширение)
+
 - Visual waveform editing
 - Trim, cut, copy, paste секций
 - Time-stretching без изменения pitch
@@ -57,6 +63,7 @@ MusicVerse AI становится **полноценной профессион
 - Замена только vocal/instrumental частей
 
 #### 4. **MIDI Studio** (новый)
+
 - Piano Roll editor с полной функциональностью
 - Drum sequencer с grid view
 - MIDI import/export (GP5, MusicXML, MIDI, PDF)
@@ -64,6 +71,7 @@ MusicVerse AI становится **полноценной профессион
 - Velocity editing
 
 #### 5. **AI-Powered Features** (расширение)
+
 - AI Beat Detection улучшенный
 - AI Chord Recognition расширенный
 - AI Mastering (loudness, EQ, compression)
@@ -71,6 +79,7 @@ MusicVerse AI становится **полноценной профессион
 - AI Style Transfer
 
 #### 6. **Performance Optimization** (критично)
+
 - Web Workers для обработки audio
 - OffscreenCanvas для visualizers
 - Virtual scrolling для больших проектов
@@ -84,6 +93,7 @@ MusicVerse AI становится **полноценной профессион
 ### Что Работает Хорошо ✅
 
 #### 1. **Audio Player System**
+
 ```typescript
 // src/components/GlobalAudioProvider.tsx
 // ✅ Отличная архитектура: единый источник audio
@@ -93,12 +103,14 @@ MusicVerse AI становится **полноценной профессион
 ```
 
 **Сильные стороны:**
+
 - Глобальное управление через Zustand store
 - Синхронизированные lyrics с точностью ±0.05s
 - Queue management (Play Next, Add to Queue)
 - Audio visualizer через Web Audio API
 
 #### 2. **Stem Studio Foundation**
+
 ```typescript
 // src/components/stem-studio/StemStudioContent.tsx
 // ✅ Web Audio API для синхронного playback
@@ -108,12 +120,14 @@ MusicVerse AI становится **полноценной профессион
 ```
 
 **Сильные стороны:**
+
 - Separation на 6 стемов (vocals, drums, bass, guitar, piano, other)
 - Real-time mixing с low latency
 - MIDI export в 4 форматах
 - klang.io integration
 
 #### 3. **State Management**
+
 ```typescript
 // src/stores/
 // ✅ Zustand для local state
@@ -123,11 +137,13 @@ MusicVerse AI становится **полноценной профессион
 ```
 
 **Сильные стороны:**
+
 - Централизованные stores (playerStore, sectionEditorStore)
 - Query invalidation стратегия
 - Offline-first подход
 
 #### 4. **Component Architecture**
+
 - **420 компонентов** хорошо организованы
 - Lazy loading для оптимизации bundle
 - shadcn/ui для consistent UI
@@ -138,6 +154,7 @@ MusicVerse AI становится **полноценной профессион
 #### 1. **Stem Studio Limitations**
 
 **Проблема 1: Отсутствие Timeline**
+
 ```typescript
 // ТЕКУЩЕЕ: нет visual timeline
 // src/components/stem-studio/StemStudioContent.tsx
@@ -145,12 +162,14 @@ MusicVerse AI становится **полноценной профессион
 ```
 
 **Требуется:**
+
 - Visual timeline с waveform preview
 - Zoom in/out функциональность
 - Snap to grid/beats
 - Markers и loop points
 
 **Проблема 2: Нет Layer Effects**
+
 ```typescript
 // ТЕКУЩЕЕ: только volume control
 // src/components/stem-studio/StemChannel.tsx
@@ -159,6 +178,7 @@ const [volume, setVolume] = useState(0.85);
 ```
 
 **Требуется:**
+
 - EQ (3-band minimum, 8-band professional)
 - Compressor (threshold, ratio, attack, release)
 - Reverb (room, hall, plate presets)
@@ -166,6 +186,7 @@ const [volume, setVolume] = useState(0.85);
 - Limiting для prevention clipping
 
 **Проблема 3: Ограниченное Section Editing**
+
 ```typescript
 // ТЕКУЩЕЕ: замена целых секций
 // src/hooks/useSectionDetection.ts
@@ -173,6 +194,7 @@ const [volume, setVolume] = useState(0.85);
 ```
 
 **Требуется:**
+
 - Cut, Copy, Paste операции
 - Time-stretch
 - Pitch-shift
@@ -182,6 +204,7 @@ const [volume, setVolume] = useState(0.85);
 #### 2. **Missing DAW Features**
 
 **Критично Отсутствует:**
+
 - ❌ Multi-track timeline view
 - ❌ Automation lanes (volume, pan, effects)
 - ❌ MIDI editor interface
@@ -193,6 +216,7 @@ const [volume, setVolume] = useState(0.85);
 #### 3. **Performance Issues**
 
 **Проблема: Audio Processing на Main Thread**
+
 ```typescript
 // ПРОБЛЕМА: все audio processing блокирует UI
 // src/hooks/studio/useStemStudioEngine.ts
@@ -200,11 +224,13 @@ const [volume, setVolume] = useState(0.85);
 ```
 
 **Impact:**
+
 - UI freezing при heavy processing
 - Laggy waveform rendering
 - Slow stem loading
 
 **Решение:**
+
 - Web Workers для audio processing
 - OffscreenCanvas для waveforms
 - Streaming audio chunks
@@ -212,12 +238,14 @@ const [volume, setVolume] = useState(0.85);
 #### 4. **UI/UX Issues**
 
 **Issue 1: Waveform Fallback**
+
 ```typescript
 // src/components/CompactPlayer.tsx (lines 148-177)
 // ❌ Random bars при loading → резкая замена
 ```
 
 **Issue 2: Desktop Card Click**
+
 ```typescript
 // src/components/TrackCard.tsx
 // ❌ На desktop клик по карточке не работает
@@ -225,6 +253,7 @@ handleCardClick: isMobile ? setSheetOpen(true) : НЕТ ДЕЙСТВИЯ
 ```
 
 **Issue 3: Полноэкранный Player**
+
 - Обложка слишком большая на mobile
 - Volume control не нужен на mobile
 - Lyrics скрыты за scroll
@@ -236,17 +265,20 @@ handleCardClick: isMobile ? setSheetOpen(true) : НЕТ ДЕЙСТВИЯ
 ### Философия Дизайна
 
 #### 1. **"Professional Yet Accessible"**
+
 - **Для профессионалов:** Все функции DAW
 - **Для новичков:** Progressive disclosure, tooltips, wizards
 - **Для всех:** Mobile-first, touch-optimized
 
 #### 2. **"Non-Destructive by Default"**
+
 - Все операции сохраняют оригинал
 - Unlimited undo/redo
 - Version history
 - A/B comparison всегда доступно
 
 #### 3. **"AI-Assisted, Not AI-Replaced"**
+
 - AI предлагает, человек решает
 - AI automation опциональна
 - Ручной контроль всегда доступен
@@ -376,7 +408,7 @@ handleCardClick: isMobile ? setSheetOpen(true) : НЕТ ДЕЙСТВИЯ
 ```typescript
 /**
  * DAW Core Engine - Центральная система управления проектом
- * 
+ *
  * Ответственность:
  * - Multi-track synchronization
  * - Audio routing
@@ -385,8 +417,8 @@ handleCardClick: isMobile ? setSheetOpen(true) : НЕТ ДЕЙСТВИЯ
  * - Undo/redo
  */
 
-import { create } from 'zustand';
-import { produce } from 'immer';
+import { create } from "zustand";
+import { produce } from "immer";
 
 // ──────────────────────────────────────────────────────────────
 // ТИПЫ И ИНТЕРФЕЙСЫ
@@ -395,25 +427,25 @@ import { produce } from 'immer';
 /**
  * Тип аудио трека в проекте
  */
-export type TrackType = 
-  | 'master'      // Мастер трек (всегда один)
-  | 'stem'        // Stem от separation
-  | 'audio'       // Аудио запись
-  | 'midi'        // MIDI трек
-  | 'aux';        // Auxiliary (для эффектов)
+export type TrackType =
+  | "master" // Мастер трек (всегда один)
+  | "stem" // Stem от separation
+  | "audio" // Аудио запись
+  | "midi" // MIDI трек
+  | "aux"; // Auxiliary (для эффектов)
 
 /**
  * Состояние воспроизведения
  */
-export type PlaybackState = 'stopped' | 'playing' | 'paused' | 'recording';
+export type PlaybackState = "stopped" | "playing" | "paused" | "recording";
 
 /**
  * Automation Point - точка автоматизации на timeline
  */
 export interface AutomationPoint {
-  time: number;        // Время в секундах
-  value: number;       // Значение (0-1)
-  curve?: 'linear' | 'exponential' | 'logarithmic';
+  time: number; // Время в секундах
+  value: number; // Значение (0-1)
+  curve?: "linear" | "exponential" | "logarithmic";
 }
 
 /**
@@ -421,7 +453,7 @@ export interface AutomationPoint {
  */
 export interface AutomationLane {
   id: string;
-  parameter: string;   // 'volume', 'pan', 'eq.gain', etc.
+  parameter: string; // 'volume', 'pan', 'eq.gain', etc.
   points: AutomationPoint[];
   enabled: boolean;
 }
@@ -431,13 +463,13 @@ export interface AutomationLane {
  */
 export interface AudioRegion {
   id: string;
-  startTime: number;   // Начало на timeline (секунды)
-  duration: number;    // Длительность
-  offset: number;      // Смещение в source audio
-  audioUrl: string;    // URL source audio
-  fadeIn?: number;     // Fade in duration
-  fadeOut?: number;    // Fade out duration
-  gain: number;        // Gain adjustment (0-2)
+  startTime: number; // Начало на timeline (секунды)
+  duration: number; // Длительность
+  offset: number; // Смещение в source audio
+  audioUrl: string; // URL source audio
+  fadeIn?: number; // Fade in duration
+  fadeOut?: number; // Fade out duration
+  gain: number; // Gain adjustment (0-2)
   muted: boolean;
   locked: boolean;
 }
@@ -447,7 +479,7 @@ export interface AudioRegion {
  */
 export interface Effect {
   id: string;
-  type: 'eq' | 'compressor' | 'reverb' | 'delay' | 'limiter' | 'distortion';
+  type: "eq" | "compressor" | "reverb" | "delay" | "limiter" | "distortion";
   enabled: boolean;
   parameters: Record<string, number>;
   preset?: string;
@@ -460,29 +492,29 @@ export interface Track {
   id: string;
   name: string;
   type: TrackType;
-  color: string;       // Цвет для visual distinction
-  
+  color: string; // Цвет для visual distinction
+
   // Audio routing
-  inputSource?: string;  // 'mic', 'file', 'stem_id'
-  outputBus: string;     // 'master', 'aux_1', etc.
-  
+  inputSource?: string; // 'mic', 'file', 'stem_id'
+  outputBus: string; // 'master', 'aux_1', etc.
+
   // Playback state
   regions: AudioRegion[];
-  volume: number;        // 0-1
-  pan: number;           // -1 (left) to 1 (right)
+  volume: number; // 0-1
+  pan: number; // -1 (left) to 1 (right)
   muted: boolean;
   solo: boolean;
-  armed: boolean;        // Для recording
-  
+  armed: boolean; // Для recording
+
   // Effects
   effects: Effect[];
   sendLevels: Record<string, number>; // Aux send levels
-  
+
   // Automation
   automationLanes: AutomationLane[];
-  
+
   // UI state
-  height: number;        // Высота на timeline
+  height: number; // Высота на timeline
   collapsed: boolean;
   locked: boolean;
 }
@@ -493,18 +525,18 @@ export interface Track {
 export interface Project {
   id: string;
   name: string;
-  tempo: number;         // BPM
+  tempo: number; // BPM
   timeSignature: {
-    numerator: number;   // 4 in 4/4
+    numerator: number; // 4 in 4/4
     denominator: number; // 4 in 4/4
   };
-  
+
   // Tracks
   tracks: Track[];
-  masterTrack: Track;    // Мастер трек
-  
+  masterTrack: Track; // Мастер трек
+
   // Timeline
-  duration: number;      // Общая длительность (секунды)
+  duration: number; // Общая длительность (секунды)
   loopStart: number | null;
   loopEnd: number | null;
   markers: Array<{
@@ -512,15 +544,15 @@ export interface Project {
     label: string;
     color: string;
   }>;
-  
+
   // Playback
   currentTime: number;
   playbackState: PlaybackState;
-  
+
   // Metadata
   createdAt: string;
   updatedAt: string;
-  trackId?: string;      // Link to MusicVerse track
+  trackId?: string; // Link to MusicVerse track
 }
 
 /**
@@ -539,66 +571,58 @@ interface HistoryEntry {
 interface DAWEngineState {
   // Current project
   project: Project | null;
-  
+
   // History для undo/redo
   history: HistoryEntry[];
   historyIndex: number;
-  
+
   // Selection
   selectedTrackIds: string[];
   selectedRegionIds: string[];
-  
+
   // UI State
-  zoom: number;          // Pixels per second
+  zoom: number; // Pixels per second
   scrollPosition: number; // Horizontal scroll
   snapEnabled: boolean;
-  snapValue: number;     // В beats
-  
+  snapValue: number; // В beats
+
   // Audio Engine
   audioContext: AudioContext | null;
   masterGainNode: GainNode | null;
-  
+
   // Actions
   createProject: (name: string) => void;
   loadProject: (project: Project) => void;
   saveProject: () => Promise<void>;
-  
+
   // Track management
   addTrack: (type: TrackType, name: string) => void;
   removeTrack: (trackId: string) => void;
   duplicateTrack: (trackId: string) => void;
   reorderTracks: (trackIds: string[]) => void;
-  
+
   // Region management
-  addRegion: (trackId: string, region: Omit<AudioRegion, 'id'>) => void;
+  addRegion: (trackId: string, region: Omit<AudioRegion, "id">) => void;
   removeRegion: (regionId: string) => void;
   moveRegion: (regionId: string, newStartTime: number) => void;
   trimRegion: (regionId: string, newStart: number, newDuration: number) => void;
   splitRegion: (regionId: string, splitTime: number) => void;
-  
+
   // Playback
   play: () => void;
   pause: () => void;
   stop: () => void;
   seek: (time: number) => void;
-  
+
   // Undo/Redo
   undo: () => void;
   redo: () => void;
   canUndo: () => boolean;
   canRedo: () => boolean;
-  
+
   // Automation
-  addAutomationPoint: (
-    trackId: string, 
-    parameter: string, 
-    point: AutomationPoint
-  ) => void;
-  removeAutomationPoint: (
-    trackId: string,
-    parameter: string,
-    pointIndex: number
-  ) => void;
+  addAutomationPoint: (trackId: string, parameter: string, point: AutomationPoint) => void;
+  removeAutomationPoint: (trackId: string, parameter: string, pointIndex: number) => void;
 }
 
 /**
@@ -616,11 +640,11 @@ export const useDAWEngine = create<DAWEngineState>((set, get) => ({
   snapValue: 0.25, // 1/4 beat
   audioContext: null,
   masterGainNode: null,
-  
+
   // ────────────────────────────────────────────────────────
   // PROJECT MANAGEMENT
   // ────────────────────────────────────────────────────────
-  
+
   /**
    * Создать новый проект
    */
@@ -632,11 +656,11 @@ export const useDAWEngine = create<DAWEngineState>((set, get) => ({
       timeSignature: { numerator: 4, denominator: 4 },
       tracks: [],
       masterTrack: {
-        id: 'master',
-        name: 'Master',
-        type: 'master',
-        color: '#ef4444',
-        outputBus: 'output',
+        id: "master",
+        name: "Master",
+        type: "master",
+        color: "#ef4444",
+        outputBus: "output",
         regions: [],
         volume: 0.85,
         pan: 0,
@@ -655,359 +679,372 @@ export const useDAWEngine = create<DAWEngineState>((set, get) => ({
       loopEnd: null,
       markers: [],
       currentTime: 0,
-      playbackState: 'stopped',
+      playbackState: "stopped",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
-    
-    set({ 
+
+    set({
       project: newProject,
       history: [],
       historyIndex: -1,
     });
   },
-  
+
   /**
    * Загрузить существующий проект
    */
   loadProject: (project: Project) => {
-    set({ 
+    set({
       project,
       history: [],
       historyIndex: -1,
     });
   },
-  
+
   /**
    * Сохранить проект (в IndexedDB и опционально на сервер)
    */
   saveProject: async () => {
     const { project } = get();
     if (!project) return;
-    
+
     // TODO: Implement save to IndexedDB
     // TODO: Implement sync to Supabase Storage
-    console.log('Saving project:', project.name);
+    console.log("Saving project:", project.name);
   },
-  
+
   // ────────────────────────────────────────────────────────
   // TRACK MANAGEMENT
   // ────────────────────────────────────────────────────────
-  
+
   /**
    * Добавить новый трек
    */
   addTrack: (type: TrackType, name: string) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      const newTrack: Track = {
-        id: crypto.randomUUID(),
-        name,
-        type,
-        color: getRandomTrackColor(),
-        outputBus: 'master',
-        regions: [],
-        volume: 0.85,
-        pan: 0,
-        muted: false,
-        solo: false,
-        armed: false,
-        effects: [],
-        sendLevels: {},
-        automationLanes: [],
-        height: 120,
-        collapsed: false,
-        locked: false,
-      };
-      
-      state.project.tracks.push(newTrack);
-      state.project.updatedAt = new Date().toISOString();
-      
-      // Add to history
-      addToHistory(state, 'Add Track');
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        const newTrack: Track = {
+          id: crypto.randomUUID(),
+          name,
+          type,
+          color: getRandomTrackColor(),
+          outputBus: "master",
+          regions: [],
+          volume: 0.85,
+          pan: 0,
+          muted: false,
+          solo: false,
+          armed: false,
+          effects: [],
+          sendLevels: {},
+          automationLanes: [],
+          height: 120,
+          collapsed: false,
+          locked: false,
+        };
+
+        state.project.tracks.push(newTrack);
+        state.project.updatedAt = new Date().toISOString();
+
+        // Add to history
+        addToHistory(state, "Add Track");
+      }),
+    );
   },
-  
+
   /**
    * Удалить трек
    */
   removeTrack: (trackId: string) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      state.project.tracks = state.project.tracks.filter(
-        t => t.id !== trackId
-      );
-      state.project.updatedAt = new Date().toISOString();
-      
-      addToHistory(state, 'Remove Track');
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        state.project.tracks = state.project.tracks.filter((t) => t.id !== trackId);
+        state.project.updatedAt = new Date().toISOString();
+
+        addToHistory(state, "Remove Track");
+      }),
+    );
   },
-  
+
   /**
    * Дублировать трек
    */
   duplicateTrack: (trackId: string) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      const track = state.project.tracks.find(t => t.id === trackId);
-      if (!track) return;
-      
-      const duplicated: Track = {
-        ...track,
-        id: crypto.randomUUID(),
-        name: `${track.name} (Copy)`,
-        regions: track.regions.map(r => ({
-          ...r,
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        const track = state.project.tracks.find((t) => t.id === trackId);
+        if (!track) return;
+
+        const duplicated: Track = {
+          ...track,
           id: crypto.randomUUID(),
-        })),
-      };
-      
-      const index = state.project.tracks.indexOf(track);
-      state.project.tracks.splice(index + 1, 0, duplicated);
-      state.project.updatedAt = new Date().toISOString();
-      
-      addToHistory(state, 'Duplicate Track');
-    }));
+          name: `${track.name} (Copy)`,
+          regions: track.regions.map((r) => ({
+            ...r,
+            id: crypto.randomUUID(),
+          })),
+        };
+
+        const index = state.project.tracks.indexOf(track);
+        state.project.tracks.splice(index + 1, 0, duplicated);
+        state.project.updatedAt = new Date().toISOString();
+
+        addToHistory(state, "Duplicate Track");
+      }),
+    );
   },
-  
+
   /**
    * Изменить порядок треков
    */
   reorderTracks: (trackIds: string[]) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      const trackMap = new Map(
-        state.project.tracks.map(t => [t.id, t])
-      );
-      
-      state.project.tracks = trackIds
-        .map(id => trackMap.get(id))
-        .filter(Boolean) as Track[];
-      
-      state.project.updatedAt = new Date().toISOString();
-      
-      addToHistory(state, 'Reorder Tracks');
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        const trackMap = new Map(state.project.tracks.map((t) => [t.id, t]));
+
+        state.project.tracks = trackIds.map((id) => trackMap.get(id)).filter(Boolean) as Track[];
+
+        state.project.updatedAt = new Date().toISOString();
+
+        addToHistory(state, "Reorder Tracks");
+      }),
+    );
   },
-  
+
   // ────────────────────────────────────────────────────────
   // REGION MANAGEMENT
   // ────────────────────────────────────────────────────────
-  
+
   /**
    * Добавить audio region на трек
    */
-  addRegion: (trackId: string, regionData: Omit<AudioRegion, 'id'>) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      const track = state.project.tracks.find(t => t.id === trackId);
-      if (!track) return;
-      
-      const region: AudioRegion = {
-        ...regionData,
-        id: crypto.randomUUID(),
-      };
-      
-      track.regions.push(region);
-      state.project.updatedAt = new Date().toISOString();
-      
-      addToHistory(state, 'Add Region');
-    }));
+  addRegion: (trackId: string, regionData: Omit<AudioRegion, "id">) => {
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        const track = state.project.tracks.find((t) => t.id === trackId);
+        if (!track) return;
+
+        const region: AudioRegion = {
+          ...regionData,
+          id: crypto.randomUUID(),
+        };
+
+        track.regions.push(region);
+        state.project.updatedAt = new Date().toISOString();
+
+        addToHistory(state, "Add Region");
+      }),
+    );
   },
-  
+
   /**
    * Удалить region
    */
   removeRegion: (regionId: string) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      for (const track of state.project.tracks) {
-        track.regions = track.regions.filter(r => r.id !== regionId);
-      }
-      
-      state.project.updatedAt = new Date().toISOString();
-      
-      addToHistory(state, 'Remove Region');
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        for (const track of state.project.tracks) {
+          track.regions = track.regions.filter((r) => r.id !== regionId);
+        }
+
+        state.project.updatedAt = new Date().toISOString();
+
+        addToHistory(state, "Remove Region");
+      }),
+    );
   },
-  
+
   /**
    * Переместить region по времени
    */
   moveRegion: (regionId: string, newStartTime: number) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      for (const track of state.project.tracks) {
-        const region = track.regions.find(r => r.id === regionId);
-        if (region) {
-          region.startTime = newStartTime;
-          state.project.updatedAt = new Date().toISOString();
-          break;
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        for (const track of state.project.tracks) {
+          const region = track.regions.find((r) => r.id === regionId);
+          if (region) {
+            region.startTime = newStartTime;
+            state.project.updatedAt = new Date().toISOString();
+            break;
+          }
         }
-      }
-      
-      addToHistory(state, 'Move Region');
-    }));
+
+        addToHistory(state, "Move Region");
+      }),
+    );
   },
-  
+
   /**
    * Обрезать region (trim)
    */
-  trimRegion: (
-    regionId: string, 
-    newStart: number, 
-    newDuration: number
-  ) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      for (const track of state.project.tracks) {
-        const region = track.regions.find(r => r.id === regionId);
-        if (region) {
-          region.startTime = newStart;
-          region.duration = newDuration;
-          state.project.updatedAt = new Date().toISOString();
-          break;
+  trimRegion: (regionId: string, newStart: number, newDuration: number) => {
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        for (const track of state.project.tracks) {
+          const region = track.regions.find((r) => r.id === regionId);
+          if (region) {
+            region.startTime = newStart;
+            region.duration = newDuration;
+            state.project.updatedAt = new Date().toISOString();
+            break;
+          }
         }
-      }
-      
-      addToHistory(state, 'Trim Region');
-    }));
+
+        addToHistory(state, "Trim Region");
+      }),
+    );
   },
-  
+
   /**
    * Разделить region на две части
    */
   splitRegion: (regionId: string, splitTime: number) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      for (const track of state.project.tracks) {
-        const regionIndex = track.regions.findIndex(r => r.id === regionId);
-        if (regionIndex !== -1) {
-          const region = track.regions[regionIndex];
-          const relativeTime = splitTime - region.startTime;
-          
-          // Создаем две новые region
-          const region1: AudioRegion = {
-            ...region,
-            id: crypto.randomUUID(),
-            duration: relativeTime,
-          };
-          
-          const region2: AudioRegion = {
-            ...region,
-            id: crypto.randomUUID(),
-            startTime: splitTime,
-            duration: region.duration - relativeTime,
-            offset: region.offset + relativeTime,
-          };
-          
-          track.regions.splice(regionIndex, 1, region1, region2);
-          state.project.updatedAt = new Date().toISOString();
-          break;
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        for (const track of state.project.tracks) {
+          const regionIndex = track.regions.findIndex((r) => r.id === regionId);
+          if (regionIndex !== -1) {
+            const region = track.regions[regionIndex];
+            const relativeTime = splitTime - region.startTime;
+
+            // Создаем две новые region
+            const region1: AudioRegion = {
+              ...region,
+              id: crypto.randomUUID(),
+              duration: relativeTime,
+            };
+
+            const region2: AudioRegion = {
+              ...region,
+              id: crypto.randomUUID(),
+              startTime: splitTime,
+              duration: region.duration - relativeTime,
+              offset: region.offset + relativeTime,
+            };
+
+            track.regions.splice(regionIndex, 1, region1, region2);
+            state.project.updatedAt = new Date().toISOString();
+            break;
+          }
         }
-      }
-      
-      addToHistory(state, 'Split Region');
-    }));
+
+        addToHistory(state, "Split Region");
+      }),
+    );
   },
-  
+
   // ────────────────────────────────────────────────────────
   // PLAYBACK CONTROL
   // ────────────────────────────────────────────────────────
-  
+
   /**
    * Начать воспроизведение
    */
   play: () => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      state.project.playbackState = 'playing';
-      // TODO: Start Web Audio API playback
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+        state.project.playbackState = "playing";
+        // TODO: Start Web Audio API playback
+      }),
+    );
   },
-  
+
   /**
    * Пауза
    */
   pause: () => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      state.project.playbackState = 'paused';
-      // TODO: Pause Web Audio API
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+        state.project.playbackState = "paused";
+        // TODO: Pause Web Audio API
+      }),
+    );
   },
-  
+
   /**
    * Остановить (return to start)
    */
   stop: () => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      state.project.playbackState = 'stopped';
-      state.project.currentTime = 0;
-      // TODO: Stop Web Audio API
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+        state.project.playbackState = "stopped";
+        state.project.currentTime = 0;
+        // TODO: Stop Web Audio API
+      }),
+    );
   },
-  
+
   /**
    * Перейти к времени
    */
   seek: (time: number) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      state.project.currentTime = Math.max(
-        0,
-        Math.min(time, state.project.duration)
-      );
-      // TODO: Seek Web Audio API
-    }));
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+        state.project.currentTime = Math.max(0, Math.min(time, state.project.duration));
+        // TODO: Seek Web Audio API
+      }),
+    );
   },
-  
+
   // ────────────────────────────────────────────────────────
   // UNDO/REDO
   // ────────────────────────────────────────────────────────
-  
+
   /**
    * Отменить последнее действие
    */
   undo: () => {
     const { history, historyIndex } = get();
     if (historyIndex <= 0) return;
-    
+
     const newIndex = historyIndex - 1;
     const entry = history[newIndex];
-    
+
     set({
       project: entry.snapshot,
       historyIndex: newIndex,
     });
   },
-  
+
   /**
    * Повторить отмененное действие
    */
   redo: () => {
     const { history, historyIndex } = get();
     if (historyIndex >= history.length - 1) return;
-    
+
     const newIndex = historyIndex + 1;
     const entry = history[newIndex];
-    
+
     set({
       project: entry.snapshot,
       historyIndex: newIndex,
     });
   },
-  
+
   /**
    * Можно ли отменить
    */
@@ -1015,7 +1052,7 @@ export const useDAWEngine = create<DAWEngineState>((set, get) => ({
     const { historyIndex } = get();
     return historyIndex > 0;
   },
-  
+
   /**
    * Можно ли повторить
    */
@@ -1023,74 +1060,70 @@ export const useDAWEngine = create<DAWEngineState>((set, get) => ({
     const { history, historyIndex } = get();
     return historyIndex < history.length - 1;
   },
-  
+
   // ────────────────────────────────────────────────────────
   // AUTOMATION
   // ────────────────────────────────────────────────────────
-  
+
   /**
    * Добавить точку автоматизации
    */
-  addAutomationPoint: (
-    trackId: string,
-    parameter: string,
-    point: AutomationPoint
-  ) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      const track = state.project.tracks.find(t => t.id === trackId);
-      if (!track) return;
-      
-      let lane = track.automationLanes.find(l => l.parameter === parameter);
-      
-      if (!lane) {
-        lane = {
-          id: crypto.randomUUID(),
-          parameter,
-          points: [],
-          enabled: true,
-        };
-        track.automationLanes.push(lane);
-      }
-      
-      // Добавляем точку в отсортированном порядке
-      const index = lane.points.findIndex(p => p.time > point.time);
-      if (index === -1) {
-        lane.points.push(point);
-      } else {
-        lane.points.splice(index, 0, point);
-      }
-      
-      state.project.updatedAt = new Date().toISOString();
-      
-      addToHistory(state, 'Add Automation Point');
-    }));
+  addAutomationPoint: (trackId: string, parameter: string, point: AutomationPoint) => {
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        const track = state.project.tracks.find((t) => t.id === trackId);
+        if (!track) return;
+
+        let lane = track.automationLanes.find((l) => l.parameter === parameter);
+
+        if (!lane) {
+          lane = {
+            id: crypto.randomUUID(),
+            parameter,
+            points: [],
+            enabled: true,
+          };
+          track.automationLanes.push(lane);
+        }
+
+        // Добавляем точку в отсортированном порядке
+        const index = lane.points.findIndex((p) => p.time > point.time);
+        if (index === -1) {
+          lane.points.push(point);
+        } else {
+          lane.points.splice(index, 0, point);
+        }
+
+        state.project.updatedAt = new Date().toISOString();
+
+        addToHistory(state, "Add Automation Point");
+      }),
+    );
   },
-  
+
   /**
    * Удалить точку автоматизации
    */
-  removeAutomationPoint: (
-    trackId: string,
-    parameter: string,
-    pointIndex: number
-  ) => {
-    set(produce((state: DAWEngineState) => {
-      if (!state.project) return;
-      
-      const track = state.project.tracks.find(t => t.id === trackId);
-      if (!track) return;
-      
-      const lane = track.automationLanes.find(l => l.parameter === parameter);
-      if (!lane) return;
-      
-      lane.points.splice(pointIndex, 1);
-      
-      state.project.updatedAt = new Date().toISOString();
-      
-      addToHistory(state, 'Remove Automation Point');
-    }));
+  removeAutomationPoint: (trackId: string, parameter: string, pointIndex: number) => {
+    set(
+      produce((state: DAWEngineState) => {
+        if (!state.project) return;
+
+        const track = state.project.tracks.find((t) => t.id === trackId);
+        if (!track) return;
+
+        const lane = track.automationLanes.find((l) => l.parameter === parameter);
+        if (!lane) return;
+
+        lane.points.splice(pointIndex, 1);
+
+        state.project.updatedAt = new Date().toISOString();
+
+        addToHistory(state, "Remove Automation Point");
+      }),
+    );
   },
 }));
 
@@ -1103,19 +1136,19 @@ export const useDAWEngine = create<DAWEngineState>((set, get) => ({
  */
 function addToHistory(state: DAWEngineState, action: string) {
   if (!state.project) return;
-  
+
   // Удаляем все entries после текущего index (для branching)
   state.history = state.history.slice(0, state.historyIndex + 1);
-  
+
   // Добавляем новый entry
   state.history.push({
     timestamp: Date.now(),
     action,
     snapshot: JSON.parse(JSON.stringify(state.project)),
   });
-  
+
   state.historyIndex = state.history.length - 1;
-  
+
   // Ограничиваем размер history (max 50 entries)
   if (state.history.length > 50) {
     state.history.shift();
@@ -1128,16 +1161,16 @@ function addToHistory(state: DAWEngineState, action: string) {
  */
 function getRandomTrackColor(): string {
   const colors = [
-    '#ef4444', // red
-    '#f97316', // orange
-    '#f59e0b', // amber
-    '#84cc16', // lime
-    '#10b981', // emerald
-    '#06b6d4', // cyan
-    '#3b82f6', // blue
-    '#8b5cf6', // violet
-    '#d946ef', // fuchsia
-    '#ec4899', // pink
+    "#ef4444", // red
+    "#f97316", // orange
+    "#f59e0b", // amber
+    "#84cc16", // lime
+    "#10b981", // emerald
+    "#06b6d4", // cyan
+    "#3b82f6", // blue
+    "#8b5cf6", // violet
+    "#d946ef", // fuchsia
+    "#ec4899", // pink
   ];
   return colors[Math.floor(Math.random() * colors.length)];
 }
@@ -1150,7 +1183,7 @@ function getRandomTrackColor(): string {
 ```typescript
 /**
  * Timeline Component - Визуальный timeline для DAW
- * 
+ *
  * Features:
  * - Horizontal scrolling
  * - Zoom in/out
@@ -1163,9 +1196,9 @@ function getRandomTrackColor(): string {
 
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  ZoomIn, ZoomOut, Grid3x3, Ruler, PlayCircle, 
-  Scissors, Copy, Trash2 
+import {
+  ZoomIn, ZoomOut, Grid3x3, Ruler, PlayCircle,
+  Scissors, Copy, Trash2
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
@@ -1188,42 +1221,42 @@ export const Timeline = () => {
     stop,
     seek,
   } = useDAWEngine();
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
-  
+
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  
+
   // ────────────────────────────────────────────────────────
   // ZOOM CONTROL
   // ────────────────────────────────────────────────────────
-  
+
   const handleZoomIn = useCallback(() => {
     useDAWEngine.setState(state => ({
       zoom: Math.min(state.zoom * 1.5, 1000),
     }));
   }, []);
-  
+
   const handleZoomOut = useCallback(() => {
     useDAWEngine.setState(state => ({
       zoom: Math.max(state.zoom / 1.5, 10),
     }));
   }, []);
-  
+
   const handleZoomFit = useCallback(() => {
     if (!project || !containerRef.current) return;
-    
+
     const containerWidth = containerRef.current.offsetWidth;
     const newZoom = containerWidth / project.duration;
-    
+
     useDAWEngine.setState({ zoom: newZoom, scrollPosition: 0 });
   }, [project]);
-  
+
   // ────────────────────────────────────────────────────────
   // SCROLL HANDLING
   // ────────────────────────────────────────────────────────
-  
+
   const handleWheel = useCallback((e: WheelEvent) => {
     if (e.ctrlKey || e.metaKey) {
       // Zoom with Ctrl/Cmd + wheel
@@ -1240,36 +1273,36 @@ export const Timeline = () => {
       }));
     }
   }, []);
-  
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
-    
+
     container.addEventListener('wheel', handleWheel, { passive: false });
-    
+
     return () => {
       container.removeEventListener('wheel', handleWheel);
     };
   }, [handleWheel]);
-  
+
   // ────────────────────────────────────────────────────────
   // PLAYHEAD INTERACTION
   // ────────────────────────────────────────────────────────
-  
+
   const handleTimelineClick = useCallback((e: React.MouseEvent) => {
     if (!project || !timelineRef.current) return;
-    
+
     const rect = timelineRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left + scrollPosition;
     const time = x / zoom;
-    
+
     seek(time);
   }, [project, zoom, scrollPosition, seek]);
-  
+
   // ────────────────────────────────────────────────────────
   // RENDER
   // ────────────────────────────────────────────────────────
-  
+
   if (!project) {
     return (
       <div className="flex-1 flex items-center justify-center bg-muted/20">
@@ -1277,7 +1310,7 @@ export const Timeline = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="flex-1 flex flex-col bg-background overflow-hidden">
       {/* Toolbar */}
@@ -1299,9 +1332,9 @@ export const Timeline = () => {
             <Square className="w-5 h-5" />
           </Button>
         </div>
-        
+
         <div className="w-px h-6 bg-border" />
-        
+
         {/* Zoom Controls */}
         <div className="flex items-center gap-1">
           <Button variant="ghost" size="icon" onClick={handleZoomOut}>
@@ -1319,8 +1352,8 @@ export const Timeline = () => {
           <Button variant="ghost" size="icon" onClick={handleZoomIn}>
             <ZoomIn className="w-4 h-4" />
           </Button>
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="sm"
             onClick={handleZoomFit}
             className="text-xs"
@@ -1328,31 +1361,31 @@ export const Timeline = () => {
             Fit
           </Button>
         </div>
-        
+
         <div className="w-px h-6 bg-border" />
-        
+
         {/* Snap Grid */}
         <Button
           variant={snapEnabled ? 'default' : 'ghost'}
           size="icon"
-          onClick={() => useDAWEngine.setState(s => ({ 
-            snapEnabled: !s.snapEnabled 
+          onClick={() => useDAWEngine.setState(s => ({
+            snapEnabled: !s.snapEnabled
           }))}
         >
           <Grid3x3 className="w-4 h-4" />
         </Button>
-        
+
         {/* Time Display */}
         <div className="ml-auto font-mono text-sm">
           {formatTime(project.currentTime)} / {formatTime(project.duration)}
         </div>
       </div>
-      
+
       {/* Timeline Area */}
-      <div 
+      <div
         ref={containerRef}
         className="flex-1 relative overflow-auto"
-        style={{ 
+        style={{
           scrollbarGutter: 'stable',
         }}
       >
@@ -1372,7 +1405,7 @@ export const Timeline = () => {
             tempo={project.tempo}
             timeSignature={project.timeSignature}
           />
-          
+
           {/* Track Lanes */}
           <div className="relative">
             {project.tracks.map((track, index) => (
@@ -1385,7 +1418,7 @@ export const Timeline = () => {
                 index={index}
               />
             ))}
-            
+
             {/* Master Track (always at bottom) */}
             <TrackLane
               track={project.masterTrack}
@@ -1396,14 +1429,14 @@ export const Timeline = () => {
               isMaster
             />
           </div>
-          
+
           {/* Playhead */}
           <Playhead
             currentTime={project.currentTime}
             zoom={zoom}
             isPlaying={project.playbackState === 'playing'}
           />
-          
+
           {/* Loop Region */}
           {project.loopStart !== null && project.loopEnd !== null && (
             <div
@@ -1427,7 +1460,7 @@ function formatTime(seconds: number): string {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
   const ms = Math.floor((seconds % 1) * 1000);
-  
+
   return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}.${ms.toString().padStart(3, '0')}`;
 }
 ```

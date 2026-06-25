@@ -7,27 +7,27 @@
  * - Notes list
  */
 
-import { memo, useCallback, useMemo, useState } from 'react';
-import { AlertCircle, ChevronDown, Download, FileText, Loader2, Music2, RefreshCw } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { memo, useCallback, useMemo, useState } from "react";
+import { AlertCircle, ChevronDown, Download, FileText, Loader2, Music2, RefreshCw } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-import { supabase } from '@/integrations/supabase/client';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
-import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
-import { UnifiedNotesViewer } from '@/components/studio/UnifiedNotesViewer';
-import type { MidiNote } from './PianoRoll';
+import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
+import { UnifiedNotesViewer } from "@/components/studio/UnifiedNotesViewer";
+import type { MidiNote } from "./PianoRoll";
 
 interface StudioNotationPanelProps {
   track: StudioTrack;
@@ -68,32 +68,36 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   const isMobile = useIsMobile();
   const [isDownloading, setIsDownloading] = useState<string | null>(null);
 
-  const durationSeconds =
-    (track as any).duration || track.clips?.[0]?.duration || 60;
+  const durationSeconds = (track as any).duration || track.clips?.[0]?.duration || 60;
 
-  const { data: transcription, isLoading, error, refetch } = useQuery({
-    queryKey: ['studio-transcription', trackId, stemType || null, versionId, track.id],
+  const {
+    data: transcription,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["studio-transcription", trackId, stemType || null, versionId, track.id],
     queryFn: async (): Promise<TranscriptionData | null> => {
       // 1) Try cached transcription_data on track_versions
       if (versionId) {
         const { data: version } = await supabase
-          .from('track_versions')
-          .select('transcription_data')
-          .eq('id', versionId)
+          .from("track_versions")
+          .select("transcription_data")
+          .eq("id", versionId)
           .maybeSingle();
 
-        if (version?.transcription_data && typeof version.transcription_data === 'object') {
+        if (version?.transcription_data && typeof version.transcription_data === "object") {
           const td = version.transcription_data as Record<string, unknown>;
           return {
-            id: String(td.transcription_id || ''),
+            id: String(td.transcription_id || ""),
             midi_url: td.midi_url as string | undefined,
             mxml_url: td.mxml_url as string | undefined,
             gp5_url: td.gp5_url as string | undefined,
             pdf_url: td.pdf_url as string | undefined,
-            bpm: typeof td.bpm === 'number' ? td.bpm : undefined,
+            bpm: typeof td.bpm === "number" ? td.bpm : undefined,
             key_detected: td.key as string | undefined,
             time_signature: td.time_signature as string | undefined,
-            notes_count: typeof td.notes_count === 'number' ? td.notes_count : undefined,
+            notes_count: typeof td.notes_count === "number" ? td.notes_count : undefined,
             notes: Array.isArray(td.notes) ? (td.notes as MidiNote[]) : undefined,
           };
         }
@@ -102,18 +106,18 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
       // 2) Prefer stem_transcriptions by (trackId + stemType)
       if (trackId && stemType) {
         const { data: stem } = await supabase
-          .from('track_stems')
-          .select('id')
-          .eq('track_id', trackId)
-          .eq('stem_type', stemType)
+          .from("track_stems")
+          .select("id")
+          .eq("track_id", trackId)
+          .eq("stem_type", stemType)
           .maybeSingle();
 
         if (stem) {
           const { data, error } = await supabase
-            .from('stem_transcriptions')
-            .select('*')
-            .eq('stem_id', stem.id)
-            .order('created_at', { ascending: false })
+            .from("stem_transcriptions")
+            .select("*")
+            .eq("stem_id", stem.id)
+            .order("created_at", { ascending: false })
             .limit(1);
 
           if (error) throw error;
@@ -125,20 +129,12 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
           if (Array.isArray(item.notes)) {
             notes = item.notes
               .map((n: any, i: number) => {
-                const pitch = typeof n?.pitch === 'number' ? n.pitch : 60;
+                const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
                 const startTime =
-                  typeof n?.startTime === 'number'
-                    ? n.startTime
-                    : typeof n?.start_time === 'number'
-                      ? n.start_time
-                      : 0;
+                  typeof n?.startTime === "number" ? n.startTime : typeof n?.start_time === "number" ? n.start_time : 0;
                 const duration =
-                  typeof n?.duration === 'number'
-                    ? n.duration
-                    : typeof n?.dur === 'number'
-                      ? n.dur
-                      : 0.25;
-                const velocity = typeof n?.velocity === 'number' ? n.velocity : 100;
+                  typeof n?.duration === "number" ? n.duration : typeof n?.dur === "number" ? n.dur : 0.25;
+                const velocity = typeof n?.velocity === "number" ? n.velocity : 100;
 
                 return {
                   id: String(n?.id ?? `note-${i}`),
@@ -148,11 +144,12 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
                   velocity,
                 } satisfies MidiNote;
               })
-              .filter((n: MidiNote) =>
-                Number.isFinite(n.pitch) &&
-                Number.isFinite(n.startTime) &&
-                Number.isFinite(n.duration) &&
-                n.duration > 0
+              .filter(
+                (n: MidiNote) =>
+                  Number.isFinite(n.pitch) &&
+                  Number.isFinite(n.startTime) &&
+                  Number.isFinite(n.duration) &&
+                  n.duration > 0,
               );
           }
 
@@ -173,12 +170,10 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
 
       // 3) Fallback: latest transcription by trackId (or track.id)
       const query = trackId
-        ? supabase.from('stem_transcriptions').select('*').eq('track_id', trackId)
-        : supabase.from('stem_transcriptions').select('*').eq('stem_id', track.id);
+        ? supabase.from("stem_transcriptions").select("*").eq("track_id", trackId)
+        : supabase.from("stem_transcriptions").select("*").eq("stem_id", track.id);
 
-      const { data, error } = await query
-        .order('created_at', { ascending: false })
-        .limit(1);
+      const { data, error } = await query.order("created_at", { ascending: false }).limit(1);
 
       if (error) throw error;
       if (!data || data.length === 0) return null;
@@ -189,20 +184,11 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
       if (Array.isArray(item.notes)) {
         notes = item.notes
           .map((n: any, i: number) => {
-            const pitch = typeof n?.pitch === 'number' ? n.pitch : 60;
+            const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
             const startTime =
-              typeof n?.startTime === 'number'
-                ? n.startTime
-                : typeof n?.start_time === 'number'
-                  ? n.start_time
-                  : 0;
-            const duration =
-              typeof n?.duration === 'number'
-                ? n.duration
-                : typeof n?.dur === 'number'
-                  ? n.dur
-                  : 0.25;
-            const velocity = typeof n?.velocity === 'number' ? n.velocity : 100;
+              typeof n?.startTime === "number" ? n.startTime : typeof n?.start_time === "number" ? n.start_time : 0;
+            const duration = typeof n?.duration === "number" ? n.duration : typeof n?.dur === "number" ? n.dur : 0.25;
+            const velocity = typeof n?.velocity === "number" ? n.velocity : 100;
 
             return {
               id: String(n?.id ?? `note-${i}`),
@@ -212,11 +198,9 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
               velocity,
             } satisfies MidiNote;
           })
-          .filter((n: MidiNote) =>
-            Number.isFinite(n.pitch) &&
-            Number.isFinite(n.startTime) &&
-            Number.isFinite(n.duration) &&
-            n.duration > 0
+          .filter(
+            (n: MidiNote) =>
+              Number.isFinite(n.pitch) && Number.isFinite(n.startTime) && Number.isFinite(n.duration) && n.duration > 0,
           );
       }
 
@@ -226,7 +210,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
         mxml_url: item.mxml_url ?? undefined,
         gp5_url: item.gp5_url ?? undefined,
         pdf_url: item.pdf_url ?? undefined,
-        bpm: typeof item.bpm === 'number' ? item.bpm : undefined,
+        bpm: typeof item.bpm === "number" ? item.bpm : undefined,
         key_detected: item.key_detected ?? undefined,
         time_signature: item.time_signature ?? undefined,
         notes_count: item.notes_count ?? (notes ? notes.length : undefined),
@@ -240,12 +224,12 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
     setIsDownloading(filename);
     try {
       const response = await fetch(url);
-      if (!response.ok) throw new Error('Download failed');
+      if (!response.ok) throw new Error("Download failed");
 
       const blob = await response.blob();
       const downloadUrl = URL.createObjectURL(blob);
 
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = downloadUrl;
       a.download = filename;
       document.body.appendChild(a);
@@ -255,7 +239,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
 
       toast.success(`${filename} скачан`);
     } catch (err) {
-      toast.error('Ошибка скачивания');
+      toast.error("Ошибка скачивания");
     } finally {
       setIsDownloading(null);
     }
@@ -264,16 +248,16 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   const availableFiles = useMemo(() => {
     if (!transcription) return [];
     return [
-      { key: 'midi', url: transcription.midi_url, label: 'MIDI', ext: '.mid' },
-      { key: 'mxml', url: transcription.mxml_url, label: 'MusicXML', ext: '.xml' },
-      { key: 'gp5', url: transcription.gp5_url, label: 'Guitar Pro', ext: '.gp5' },
-      { key: 'pdf', url: transcription.pdf_url, label: 'PDF', ext: '.pdf' },
+      { key: "midi", url: transcription.midi_url, label: "MIDI", ext: ".mid" },
+      { key: "mxml", url: transcription.mxml_url, label: "MusicXML", ext: ".xml" },
+      { key: "gp5", url: transcription.gp5_url, label: "Guitar Pro", ext: ".gp5" },
+      { key: "pdf", url: transcription.pdf_url, label: "PDF", ext: ".pdf" },
     ].filter((f) => !!f.url);
   }, [transcription]);
 
   if (isLoading) {
     return (
-      <div className={cn('flex items-center justify-center py-12', className)}>
+      <div className={cn("flex items-center justify-center py-12", className)}>
         <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
       </div>
     );
@@ -281,15 +265,13 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
 
   if (error || !transcription) {
     return (
-      <div className={cn('flex flex-col items-center justify-center py-12 px-4', className)}>
+      <div className={cn("flex flex-col items-center justify-center py-12 px-4", className)}>
         <AlertCircle className="w-10 h-10 text-muted-foreground mb-3" />
         <p className="text-sm text-muted-foreground mb-2 text-center">
-          {error ? 'Ошибка загрузки' : 'Нет транскрипции'}
+          {error ? "Ошибка загрузки" : "Нет транскрипции"}
         </p>
         <p className="text-xs text-muted-foreground mb-4 text-center max-w-xs">
-          {error
-            ? 'Не удалось загрузить данные нот'
-            : 'Выполните транскрипцию трека для просмотра нот'}
+          {error ? "Не удалось загрузить данные нот" : "Выполните транскрипцию трека для просмотра нот"}
         </p>
         <Button variant="outline" size="sm" onClick={() => refetch()}>
           <RefreshCw className="w-4 h-4 mr-2" />
@@ -300,7 +282,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
   }
 
   return (
-    <div className={cn('flex flex-col h-full', className)}>
+    <div className={cn("flex flex-col h-full", className)}>
       {/* Header */}
       <div className="flex items-center justify-between p-3 border-b border-border/50">
         <div className="flex items-center gap-2 min-w-0">
@@ -316,7 +298,7 @@ export const StudioNotationPanel = memo(function StudioNotationPanel({
               {transcription.key_detected}
             </Badge>
           )}
-          {typeof transcription.notes_count === 'number' && transcription.notes_count > 0 && (
+          {typeof transcription.notes_count === "number" && transcription.notes_count > 0 && (
             <Badge variant="outline" className="text-xs">
               {transcription.notes_count} нот
             </Badge>

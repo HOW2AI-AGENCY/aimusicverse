@@ -1,26 +1,26 @@
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { GENRES, buttonVariants, type GenreOption } from '@/lib/lyrics/constants';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { GENRES, buttonVariants, type GenreOption } from "@/lib/lyrics/constants";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface GenrePickerProps {
   value: string;
   onChange: (genre: string) => void;
-  mode?: 'grid' | 'select' | 'compact';
+  mode?: "grid" | "select" | "compact";
   className?: string;
   disabled?: boolean;
   placeholder?: string;
 }
 
-export function GenrePicker({ 
-  value, 
-  onChange, 
-  mode = 'grid',
+export function GenrePicker({
+  value,
+  onChange,
+  mode = "grid",
   className,
   disabled = false,
-  placeholder = 'Выберите жанр'
+  placeholder = "Выберите жанр",
 }: GenrePickerProps) {
-  if (mode === 'select') {
+  if (mode === "select") {
     return (
       <Select value={value} onValueChange={onChange} disabled={disabled}>
         <SelectTrigger className={className}>
@@ -40,7 +40,7 @@ export function GenrePicker({
     );
   }
 
-  if (mode === 'compact') {
+  if (mode === "compact") {
     return (
       <div className={cn("flex flex-wrap gap-1.5", className)}>
         {GENRES.slice(0, 8).map((g) => (
@@ -57,7 +57,7 @@ export function GenrePicker({
               value === g.value
                 ? "bg-primary text-primary-foreground shadow-md"
                 : "bg-secondary/50 hover:bg-secondary text-foreground",
-              disabled && "opacity-50 cursor-not-allowed"
+              disabled && "opacity-50 cursor-not-allowed",
             )}
             onClick={() => onChange(g.value)}
           >
@@ -71,7 +71,7 @@ export function GenrePicker({
 
   // Grid mode (default)
   return (
-    <motion.div 
+    <motion.div
       className={cn("grid grid-cols-3 gap-1.5", className)}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
@@ -96,7 +96,7 @@ export function GenrePicker({
               value === g.value
                 ? "bg-primary text-primary-foreground shadow-lg"
                 : "bg-secondary/50 hover:bg-secondary text-foreground",
-              disabled && "opacity-50 cursor-not-allowed"
+              disabled && "opacity-50 cursor-not-allowed",
             )}
             onClick={() => onChange(g.value)}
           >

@@ -25,27 +25,28 @@ MusicVerse AI uses a comprehensive hook-based architecture with **263 custom hoo
 
 ### Hook Categories
 
-| Category | Count | Description |
-|----------|-------|-------------|
-| Audio System | 25+ | Player state, playback, visualization |
-| Studio & Production | 28+ | Multi-track, effects, rendering |
-| Generation | 8+ | Music generation and progress tracking |
-| Lyrics & Music Recognition | 5+ | Lyrics extraction, MIDI transcription |
-| Analysis & Instruments | 8+ | Melody, guitar, drums analysis |
-| Audio Reference & Stems | 6+ | Reference management, stem separation |
-| Generation Features | 12+ | PromptDJ, predictive generation |
-| Social & Engagement | 8+ | Following, comments, likes |
-| User Systems | 15+ | Credits, rewards, gamification, admin |
-| UI & UX | 15+ | Mobile, gestures, hints, keyboard |
-| Analytics & Tracking | 10+ | Analytics, playback tracking |
-| Telegram Integration | 8+ | Mini app, storage, haptics |
-| Data & Persistence | 10+ | Projects, tracks, moderation |
+| Category                   | Count | Description                            |
+| -------------------------- | ----- | -------------------------------------- |
+| Audio System               | 25+   | Player state, playback, visualization  |
+| Studio & Production        | 28+   | Multi-track, effects, rendering        |
+| Generation                 | 8+    | Music generation and progress tracking |
+| Lyrics & Music Recognition | 5+    | Lyrics extraction, MIDI transcription  |
+| Analysis & Instruments     | 8+    | Melody, guitar, drums analysis         |
+| Audio Reference & Stems    | 6+    | Reference management, stem separation  |
+| Generation Features        | 12+   | PromptDJ, predictive generation        |
+| Social & Engagement        | 8+    | Following, comments, likes             |
+| User Systems               | 15+   | Credits, rewards, gamification, admin  |
+| UI & UX                    | 15+   | Mobile, gestures, hints, keyboard      |
+| Analytics & Tracking       | 10+   | Analytics, playback tracking           |
+| Telegram Integration       | 8+    | Mini app, storage, haptics             |
+| Data & Persistence         | 10+   | Projects, tracks, moderation           |
 
 ---
 
 ## Audio System Hooks
 
 ### usePlayerStore
+
 **Location**: `src/hooks/audio/usePlayerState.ts`
 **Type**: Zustand Store
 **Lines**: ~200
@@ -83,6 +84,7 @@ function PlayerControls() {
 ```
 
 **State Shape**:
+
 ```typescript
 interface PlayerState {
   activeTrack: Track | null;
@@ -92,12 +94,13 @@ interface PlayerState {
   queue: Track[];
   currentIndex: number;
   shuffle: boolean;
-  repeat: 'off' | 'one' | 'all';
+  repeat: "off" | "one" | "all";
   volume: number;
 }
 ```
 
 **Actions**:
+
 - `playTrack(track)` - Start playing a track
 - `pauseTrack()` - Pause current track
 - `nextTrack()` - Skip to next track
@@ -109,6 +112,7 @@ interface PlayerState {
 ---
 
 ### usePlaybackQueue
+
 **Location**: `src/hooks/audio/usePlaybackQueue.ts`
 **Lines**: ~150
 
@@ -154,6 +158,7 @@ function QueueManager() {
 ```
 
 **Features**:
+
 - Add tracks to queue
 - Play next (insert after current)
 - Remove from queue
@@ -164,6 +169,7 @@ function QueueManager() {
 ---
 
 ### useOptimizedAudioPlayer
+
 **Location**: `src/hooks/audio/useOptimizedAudioPlayer.tsx`
 **Lines**: 375
 
@@ -201,16 +207,18 @@ function AudioPlayer() {
 ```
 
 **Options**:
+
 ```typescript
 interface OptimizedAudioPlayerOptions {
-  enablePrefetch?: boolean;  // Prefetch next tracks
-  enableCache?: boolean;     // Cache audio in IndexedDB
+  enablePrefetch?: boolean; // Prefetch next tracks
+  enableCache?: boolean; // Cache audio in IndexedDB
   crossfadeDuration?: number; // Crossfade in seconds
-  maxCacheSize?: number;     // Max cache size in MB
+  maxCacheSize?: number; // Max cache size in MB
 }
 ```
 
 **Features**:
+
 - IndexedDB audio caching (500MB max)
 - LRU eviction strategy
 - Automatic prefetching
@@ -221,6 +229,7 @@ interface OptimizedAudioPlayerOptions {
 ---
 
 ### useWaveform
+
 **Location**: `src/hooks/audio/useWaveform.ts`
 **Lines**: ~200
 
@@ -259,6 +268,7 @@ function WaveformVisualizer({ audioUrl }) {
 ---
 
 ### useAudioVisualizer
+
 **Location**: `src/hooks/audio/useAudioVisualizer.ts`
 **Lines**: ~180
 
@@ -284,6 +294,7 @@ function Visualizer() {
 ```
 
 **Options**:
+
 - `fftSize`: 128, 256, 512, 1024, 2048 (frequency resolution)
 - `smoothingTimeConstant`: 0-1 (smoothing factor)
 - `barColor`: CSS color
@@ -294,6 +305,7 @@ function Visualizer() {
 ## Studio & Production Hooks
 
 ### useStemAudioEngine
+
 **Location**: `src/hooks/studio/useStemAudioEngine.ts`
 **Lines**: ~320
 
@@ -332,6 +344,7 @@ function StemStudio({ stems }) {
 ```
 
 **Features**:
+
 - Synchronized playback of multiple stems
 - Drift detection and auto-correction (0.1s threshold)
 - Individual stem volume control
@@ -341,6 +354,7 @@ function StemStudio({ stems }) {
 ---
 
 ### useAudioEffectsChain
+
 **Location**: `src/hooks/studio/useAudioEffectsChain.ts`
 **Lines**: ~280
 
@@ -387,6 +401,7 @@ function EffectsPanel({ stemId }) {
 ```
 
 **Available Effects**:
+
 - EQ (3-band)
 - Compression
 - Reverb
@@ -398,6 +413,7 @@ function EffectsPanel({ stemId }) {
 ---
 
 ### useMixExport
+
 **Location**: `src/hooks/studio/useMixExport.ts`
 **Lines**: 372
 
@@ -439,6 +455,7 @@ function ExportButton({ stems, stemControls }) {
 ```
 
 **Formats**:
+
 - WAV (lossless)
 - MP3 (320kbps)
 - OGG (variable quality)
@@ -446,6 +463,7 @@ function ExportButton({ stems, stemControls }) {
 ---
 
 ### useLoopRegion
+
 **Location**: `src/hooks/studio/useLoopRegion.ts`
 **Lines**: ~240
 
@@ -487,6 +505,7 @@ function LoopControls() {
 ---
 
 ### useUndoRedo
+
 **Location**: `src/hooks/studio/useUndoRedo.ts`
 **Lines**: ~200
 
@@ -527,6 +546,7 @@ function StudioEditor() {
 ## Generation Hooks
 
 ### useGenerateForm
+
 **Location**: `src/hooks/generation/useGenerateForm.ts`
 **Lines**: ~180
 
@@ -569,6 +589,7 @@ function GenerateSheet() {
 ---
 
 ### useGenerateDraft
+
 **Location**: `src/hooks/generation/useGenerateDraft.ts`
 **Lines**: ~120
 
@@ -604,6 +625,7 @@ function GenerateForm() {
 ---
 
 ### useActiveGenerations
+
 **Location**: `src/hooks/generation/useActiveGenerations.ts`
 **Lines**: ~150
 
@@ -640,6 +662,7 @@ function GenerationMonitor() {
 ## Social & Engagement Hooks
 
 ### useFollow
+
 **Location**: `src/hooks/social/useFollow.ts`
 **Lines**: ~140
 
@@ -673,6 +696,7 @@ function FollowButton({ userId }) {
 ```
 
 **Features**:
+
 - Optimistic UI updates
 - Haptic feedback
 - Rate limiting
@@ -681,6 +705,7 @@ function FollowButton({ userId }) {
 ---
 
 ### useLikeTrack
+
 **Location**: `src/hooks/engagement/useLikeTrack.ts`
 **Lines**: ~130
 
@@ -708,6 +733,7 @@ function LikeButton({ track }) {
 ---
 
 ### useComments
+
 **Location**: `src/hooks/comments/useComments.ts`
 **Lines**: ~200
 
@@ -749,6 +775,7 @@ function CommentsSection({ trackId }) {
 ```
 
 **Features**:
+
 - 5-level threading
 - @mentions
 - Real-time updates via Supabase
@@ -759,6 +786,7 @@ function CommentsSection({ trackId }) {
 ## UI/UX Hooks
 
 ### useHaptic
+
 **Location**: `src/hooks/useHaptic.ts`
 **Lines**: ~80
 
@@ -787,6 +815,7 @@ function InteractiveButton() {
 ```
 
 **Available Patterns**:
+
 - `tap()` - Light impact
 - `success()` - Success notification
 - `error()` - Error notification
@@ -798,6 +827,7 @@ function InteractiveButton() {
 ---
 
 ### useSwipeGesture
+
 **Location**: `src/hooks/useSwipeGesture.ts`
 **Lines**: ~150
 
@@ -825,6 +855,7 @@ function SwipeableCard({ onSwipeLeft, onSwipeRight }) {
 ---
 
 ### useKeyboardAware
+
 **Location**: `src/hooks/useKeyboardAware.ts`
 **Lines**: ~100
 
@@ -876,14 +907,14 @@ const likeMutation = useMutation({
   mutationFn: likeTrack,
   onMutate: async (trackId) => {
     // Optimistic update
-    queryClient.setQueryData(['track', trackId], (old) => ({
+    queryClient.setQueryData(["track", trackId], (old) => ({
       ...old,
       likes_count: old.likes_count + 1,
     }));
   },
   onError: (err, vars, context) => {
     // Rollback on error
-    queryClient.setQueryData(['track', vars.trackId], context.previous);
+    queryClient.setQueryData(["track", vars.trackId], context.previous);
   },
 });
 ```
@@ -933,28 +964,26 @@ if (isError) {
 ### Pattern 1: Optimistic Update with Rollback
 
 ```typescript
-export function useOptimisticUpdate<T>({
-  initialData,
-  updateFn,
-  onSuccess,
-  onError,
-}: Options<T>) {
+export function useOptimisticUpdate<T>({ initialData, updateFn, onSuccess, onError }: Options<T>) {
   const [state, setState] = useState({ data: initialData, isOptimistic: false });
   const previousDataRef = useRef(initialData);
 
-  const update = useCallback(async (newData: T) => {
-    previousDataRef.current = state.data;
-    setState({ data: newData, isOptimistic: true });
+  const update = useCallback(
+    async (newData: T) => {
+      previousDataRef.current = state.data;
+      setState({ data: newData, isOptimistic: true });
 
-    try {
-      const confirmedData = await updateFn(newData);
-      setState({ data: confirmedData, isOptimistic: false });
-      onSuccess?.(confirmedData);
-    } catch (error) {
-      setState({ data: previousDataRef.current, isOptimistic: false });
-      onError?.(error, previousDataRef.current);
-    }
-  }, [state.data, updateFn, onSuccess, onError]);
+      try {
+        const confirmedData = await updateFn(newData);
+        setState({ data: confirmedData, isOptimistic: false });
+        onSuccess?.(confirmedData);
+      } catch (error) {
+        setState({ data: previousDataRef.current, isOptimistic: false });
+        onError?.(error, previousDataRef.current);
+      }
+    },
+    [state.data, updateFn, onSuccess, onError],
+  );
 
   return { data: state.data, isOptimistic: state.isOptimistic, update };
 }
@@ -963,14 +992,14 @@ export function useOptimisticUpdate<T>({
 ### Pattern 2: Debounced State
 
 ```typescript
-import { useDebouncedValue } from 'use-debounce';
+import { useDebouncedValue } from "use-debounce";
 
 export function useDebouncedSearch() {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [debouncedTerm] = useDebouncedValue(searchTerm, 300);
 
   const { data: results } = useQuery({
-    queryKey: ['search', debouncedTerm],
+    queryKey: ["search", debouncedTerm],
     queryFn: () => searchTracks(debouncedTerm),
     enabled: debouncedTerm.length > 0,
   });
@@ -982,17 +1011,14 @@ export function useDebouncedSearch() {
 ### Pattern 3: Retry with Exponential Backoff
 
 ```typescript
-async function retryWithBackoff<T>(
-  fn: () => Promise<T>,
-  attempts = 3
-): Promise<T> {
+async function retryWithBackoff<T>(fn: () => Promise<T>, attempts = 3): Promise<T> {
   try {
     return await fn();
   } catch (error) {
     if (attempts <= 1) throw error;
 
     const delay = 1000 * (4 - attempts);
-    await new Promise(resolve => setTimeout(resolve, delay));
+    await new Promise((resolve) => setTimeout(resolve, delay));
 
     return retryWithBackoff(fn, attempts - 1);
   }
@@ -1008,12 +1034,12 @@ async function retryWithBackoff<T>(
 ```typescript
 // ❌ BAD - circular dependency
 // hooks/audio/index.ts
-export * from './usePlayerState';
-export * from './useAudioPlayer';
+export * from "./usePlayerState";
+export * from "./useAudioPlayer";
 
 // ✅ GOOD - direct imports
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useAudioPlayer } from '@/hooks/audio/useAudioPlayer';
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useAudioPlayer } from "@/hooks/audio/useAudioPlayer";
 ```
 
 ---

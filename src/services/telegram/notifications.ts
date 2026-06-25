@@ -3,11 +3,11 @@
  * Handles sending notifications via Telegram Bot API
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { getTrackDeepLink } from '@/lib/telegram';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { getTrackDeepLink } from "@/lib/telegram";
 
-const log = logger.child({ module: 'TelegramNotifications' });
+const log = logger.child({ module: "TelegramNotifications" });
 
 // ============================================================================
 // Types
@@ -16,7 +16,7 @@ const log = logger.child({ module: 'TelegramNotifications' });
 interface TelegramNotificationPayload {
   chatId: number;
   text: string;
-  parseMode?: 'HTML' | 'Markdown' | 'MarkdownV2';
+  parseMode?: "HTML" | "Markdown" | "MarkdownV2";
   replyMarkup?: object;
 }
 
@@ -47,7 +47,7 @@ export function queueNotification(payload: TelegramNotificationPayload): string 
     retryCount: 0,
     createdAt: Date.now(),
   });
-  
+
   processQueue();
   return id;
 }
@@ -57,19 +57,19 @@ export function queueNotification(payload: TelegramNotificationPayload): string 
  */
 async function processQueue(): Promise<void> {
   if (isProcessing || notificationQueue.length === 0) return;
-  
+
   isProcessing = true;
-  
+
   while (notificationQueue.length > 0) {
     const item = notificationQueue.shift();
     if (!item) break;
-    
+
     try {
       await sendTelegramMessage(item.payload);
-      log.debug('Notification sent', { id: item.id });
+      log.debug("Notification sent", { id: item.id });
     } catch (error) {
-      log.error('Failed to send notification', error);
-      
+      log.error("Failed to send notification", error);
+
       if (item.retryCount < MAX_RETRIES) {
         item.retryCount++;
         notificationQueue.push(item);
@@ -80,12 +80,12 @@ async function processQueue(): Promise<void> {
       }
     }
   }
-  
+
   isProcessing = false;
 }
 
 function delay(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 // ============================================================================
@@ -96,11 +96,11 @@ function delay(ms: number): Promise<void> {
  * Send message via Telegram Bot
  */
 async function sendTelegramMessage(payload: TelegramNotificationPayload): Promise<boolean> {
-  const { data, error } = await supabase.functions.invoke('telegram-send-message', {
+  const { data, error } = await supabase.functions.invoke("telegram-send-message", {
     body: {
       chat_id: payload.chatId,
       text: payload.text,
-      parse_mode: payload.parseMode || 'HTML',
+      parse_mode: payload.parseMode || "HTML",
       reply_markup: payload.replyMarkup,
     },
   });
@@ -117,15 +117,15 @@ async function sendTelegramMessage(payload: TelegramNotificationPayload): Promis
  */
 async function saveFailedNotification(item: NotificationQueueItem): Promise<void> {
   try {
-    await supabase.from('failed_telegram_notifications').insert({
+    await supabase.from("failed_telegram_notifications").insert({
       chat_id: item.payload.chatId,
-      method: 'sendMessage',
+      method: "sendMessage",
       payload: item.payload as any,
       retry_count: item.retryCount,
-      status: 'failed',
+      status: "failed",
     });
   } catch (error) {
-    log.error('Failed to save notification for retry', error);
+    log.error("Failed to save notification for retry", error);
   }
 }
 
@@ -136,29 +136,22 @@ async function saveFailedNotification(item: NotificationQueueItem): Promise<void
 /**
  * Notify user about generation completion
  */
-export function notifyGenerationComplete(
-  chatId: number,
-  trackTitle: string,
-  trackId: string
-): string {
+export function notifyGenerationComplete(chatId: number, trackTitle: string, trackId: string): string {
   return queueNotification({
     chatId,
     text: `🎵 <b>Трек готов!</b>\n\n${trackTitle}\n\n<a href="${getTrackDeepLink(trackId)}">Открыть трек</a>`,
-    parseMode: 'HTML',
+    parseMode: "HTML",
   });
 }
 
 /**
  * Notify user about generation failure
  */
-export function notifyGenerationFailed(
-  chatId: number,
-  errorMessage: string
-): string {
+export function notifyGenerationFailed(chatId: number, errorMessage: string): string {
   return queueNotification({
     chatId,
     text: `❌ <b>Ошибка генерации</b>\n\n${errorMessage}\n\nПопробуйте ещё раз.`,
-    parseMode: 'HTML',
+    parseMode: "HTML",
   });
 }
 
@@ -167,10 +160,10 @@ export function notifyGenerationFailed(
  */
 export function notifySocialEvent(
   chatId: number,
-  eventType: 'like' | 'comment' | 'follow',
+  eventType: "like" | "comment" | "follow",
   actorName: string,
   entityTitle?: string,
-  entityUrl?: string
+  entityUrl?: string,
 ): string {
   const templates = {
     like: `❤️ <b>${actorName}</b> оценил ваш трек "${entityTitle}"`,
@@ -186,7 +179,7 @@ export function notifySocialEvent(
   return queueNotification({
     chatId,
     text,
-    parseMode: 'HTML',
+    parseMode: "HTML",
   });
 }
 
@@ -197,10 +190,10 @@ export function notifyAchievement(
   chatId: number,
   achievementName: string,
   description: string,
-  reward?: number
+  reward?: number,
 ): string {
   let text = `🏆 <b>Достижение разблокировано!</b>\n\n<b>${achievementName}</b>\n${description}`;
-  
+
   if (reward) {
     text += `\n\n+${reward} кредитов 💰`;
   }
@@ -208,7 +201,7 @@ export function notifyAchievement(
   return queueNotification({
     chatId,
     text,
-    parseMode: 'HTML',
+    parseMode: "HTML",
   });
 }
 
@@ -218,7 +211,7 @@ export function notifyAchievement(
 export function sendCustomMessage(
   chatId: number,
   text: string,
-  parseMode?: 'HTML' | 'Markdown' | 'MarkdownV2'
+  parseMode?: "HTML" | "Markdown" | "MarkdownV2",
 ): string {
   return queueNotification({
     chatId,

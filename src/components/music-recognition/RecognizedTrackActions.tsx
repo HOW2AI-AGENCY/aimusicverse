@@ -1,18 +1,15 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from '@/components/ui/drawer';
-import { Badge } from '@/components/ui/badge';
-import { 
-  FileText, Edit3, Music2, Save, Copy, Loader2, 
-  Sparkles, CheckCircle2, AlertCircle
-} from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useLyricsRecognition } from '@/hooks/useLyricsRecognition';
-import { RecognizedTrack } from '@/hooks/useMusicRecognition';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
+import { Badge } from "@/components/ui/badge";
+import { FileText, Edit3, Music2, Save, Copy, Loader2, Sparkles, CheckCircle2, AlertCircle } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useLyricsRecognition } from "@/hooks/useLyricsRecognition";
+import { RecognizedTrack } from "@/hooks/useMusicRecognition";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface RecognizedTrackActionsProps {
   track: RecognizedTrack;
@@ -21,33 +18,28 @@ interface RecognizedTrackActionsProps {
   onCreateCover?: (trackInfo: RecognizedTrack, lyrics?: string) => void;
 }
 
-export function RecognizedTrackActions({
-  track,
-  audioUrl,
-  onUseLyrics,
-  onCreateCover,
-}: RecognizedTrackActionsProps) {
+export function RecognizedTrackActions({ track, audioUrl, onUseLyrics, onCreateCover }: RecognizedTrackActionsProps) {
   const isMobile = useIsMobile();
   const [showLyricsDialog, setShowLyricsDialog] = useState(false);
-  const [editedLyrics, setEditedLyrics] = useState('');
-  const [lyricsSource, setLyricsSource] = useState<'api' | 'recognized' | 'manual'>('api');
-  
+  const [editedLyrics, setEditedLyrics] = useState("");
+  const [lyricsSource, setLyricsSource] = useState<"api" | "recognized" | "manual">("api");
+
   const { isRecognizing, result, recognizeLyrics, clearResult } = useLyricsRecognition();
 
   // Get lyrics from track data (if available from AuDD)
-  const apiLyrics = track.lyrics?.lyrics || '';
+  const apiLyrics = track.lyrics?.lyrics || "";
 
   // Handle recognize lyrics from audio
   const handleRecognizeLyrics = async () => {
     if (!audioUrl) {
-      toast.error('Нет аудио для распознавания');
+      toast.error("Нет аудио для распознавания");
       return;
     }
 
     const result = await recognizeLyrics(audioUrl);
     if (result.success && result.lyrics) {
       setEditedLyrics(result.lyrics.text);
-      setLyricsSource('recognized');
+      setLyricsSource("recognized");
       setShowLyricsDialog(true);
     }
   };
@@ -56,7 +48,7 @@ export function RecognizedTrackActions({
   const handleUseApiLyrics = () => {
     if (apiLyrics) {
       setEditedLyrics(apiLyrics);
-      setLyricsSource('api');
+      setLyricsSource("api");
       setShowLyricsDialog(true);
     }
   };
@@ -64,7 +56,7 @@ export function RecognizedTrackActions({
   // Handle copy lyrics
   const handleCopyLyrics = () => {
     navigator.clipboard.writeText(editedLyrics);
-    toast.success('Текст скопирован');
+    toast.success("Текст скопирован");
   };
 
   // Handle save/use lyrics
@@ -72,7 +64,7 @@ export function RecognizedTrackActions({
     if (onUseLyrics && editedLyrics) {
       onUseLyrics(editedLyrics);
       setShowLyricsDialog(false);
-      toast.success('Текст применён');
+      toast.success("Текст применён");
     }
   };
 
@@ -89,12 +81,12 @@ export function RecognizedTrackActions({
       {/* Lyrics source badges */}
       <div className="flex flex-wrap gap-2">
         {apiLyrics && (
-          <Badge 
-            variant={lyricsSource === 'api' ? 'default' : 'outline'}
+          <Badge
+            variant={lyricsSource === "api" ? "default" : "outline"}
             className="cursor-pointer"
             onClick={() => {
               setEditedLyrics(apiLyrics);
-              setLyricsSource('api');
+              setLyricsSource("api");
             }}
           >
             <FileText className="w-3 h-3 mr-1" />
@@ -102,22 +94,22 @@ export function RecognizedTrackActions({
           </Badge>
         )}
         {result?.lyrics && (
-          <Badge 
-            variant={lyricsSource === 'recognized' ? 'default' : 'outline'}
+          <Badge
+            variant={lyricsSource === "recognized" ? "default" : "outline"}
             className="cursor-pointer"
             onClick={() => {
               setEditedLyrics(result.lyrics!.text);
-              setLyricsSource('recognized');
+              setLyricsSource("recognized");
             }}
           >
             <Sparkles className="w-3 h-3 mr-1" />
             Распознанный
           </Badge>
         )}
-        <Badge 
-          variant={lyricsSource === 'manual' ? 'default' : 'outline'}
+        <Badge
+          variant={lyricsSource === "manual" ? "default" : "outline"}
           className="cursor-pointer"
-          onClick={() => setLyricsSource('manual')}
+          onClick={() => setLyricsSource("manual")}
         >
           <Edit3 className="w-3 h-3 mr-1" />
           Свой текст
@@ -129,7 +121,7 @@ export function RecognizedTrackActions({
         value={editedLyrics}
         onChange={(e) => {
           setEditedLyrics(e.target.value);
-          if (lyricsSource !== 'manual') setLyricsSource('manual');
+          if (lyricsSource !== "manual") setLyricsSource("manual");
         }}
         placeholder="Введите или отредактируйте текст песни..."
         className="min-h-[300px] font-mono text-sm"
@@ -138,9 +130,7 @@ export function RecognizedTrackActions({
       {/* Character count */}
       <div className="flex items-center justify-between text-xs text-muted-foreground">
         <span>{editedLyrics.length} символов</span>
-        {result?.lyrics?.language && (
-          <span>Язык: {result.lyrics.language}</span>
-        )}
+        {result?.lyrics?.language && <span>Язык: {result.lyrics.language}</span>}
       </div>
     </div>
   );
@@ -180,18 +170,9 @@ export function RecognizedTrackActions({
 
         {/* Recognize lyrics from audio */}
         {audioUrl && (
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={handleRecognizeLyrics}
-            disabled={isRecognizing}
-          >
-            {isRecognizing ? (
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            ) : (
-              <Sparkles className="w-4 h-4 mr-2" />
-            )}
-            {isRecognizing ? 'Распознаю...' : 'Распознать текст'}
+          <Button variant="outline" size="sm" onClick={handleRecognizeLyrics} disabled={isRecognizing}>
+            {isRecognizing ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Sparkles className="w-4 h-4 mr-2" />}
+            {isRecognizing ? "Распознаю..." : "Распознать текст"}
           </Button>
         )}
 

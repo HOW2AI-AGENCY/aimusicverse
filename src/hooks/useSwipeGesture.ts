@@ -3,10 +3,10 @@
  * Returns direction and progress for swipe animations
  */
 
-import { useState, useCallback, useRef } from 'react';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { useState, useCallback, useRef } from "react";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
-type SwipeDirection = 'left' | 'right' | 'up' | 'down' | null;
+type SwipeDirection = "left" | "right" | "up" | "down" | null;
 
 interface SwipeConfig {
   threshold?: number;
@@ -25,14 +25,7 @@ interface SwipeState {
 }
 
 export function useSwipeGesture(config: SwipeConfig = {}) {
-  const {
-    threshold = 50,
-    onSwipeLeft,
-    onSwipeRight,
-    onSwipeUp,
-    onSwipeDown,
-    preventScroll = false,
-  } = config;
+  const { threshold = 50, onSwipeLeft, onSwipeRight, onSwipeUp, onSwipeDown, preventScroll = false } = config;
 
   const [state, setState] = useState<SwipeState>({
     direction: null,
@@ -51,40 +44,43 @@ export function useSwipeGesture(config: SwipeConfig = {}) {
       y: touch.clientY,
       time: Date.now(),
     };
-    setState(prev => ({ ...prev, isSwiping: true }));
+    setState((prev) => ({ ...prev, isSwiping: true }));
   }, []);
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!startRef.current) return;
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!startRef.current) return;
 
-    const touch = e.touches[0];
-    const deltaX = touch.clientX - startRef.current.x;
-    const deltaY = touch.clientY - startRef.current.y;
-    const absX = Math.abs(deltaX);
-    const absY = Math.abs(deltaY);
+      const touch = e.touches[0];
+      const deltaX = touch.clientX - startRef.current.x;
+      const deltaY = touch.clientY - startRef.current.y;
+      const absX = Math.abs(deltaX);
+      const absY = Math.abs(deltaY);
 
-    // Determine primary direction
-    let direction: SwipeDirection = null;
-    let primaryDelta = 0;
+      // Determine primary direction
+      let direction: SwipeDirection = null;
+      let primaryDelta = 0;
 
-    if (absX > absY && absX > 10) {
-      direction = deltaX > 0 ? 'right' : 'left';
-      primaryDelta = absX;
-      if (preventScroll) e.preventDefault();
-    } else if (absY > absX && absY > 10) {
-      direction = deltaY > 0 ? 'down' : 'up';
-      primaryDelta = absY;
-    }
+      if (absX > absY && absX > 10) {
+        direction = deltaX > 0 ? "right" : "left";
+        primaryDelta = absX;
+        if (preventScroll) e.preventDefault();
+      } else if (absY > absX && absY > 10) {
+        direction = deltaY > 0 ? "down" : "up";
+        primaryDelta = absY;
+      }
 
-    const progress = Math.min(1, primaryDelta / threshold);
+      const progress = Math.min(1, primaryDelta / threshold);
 
-    setState({
-      direction,
-      progress,
-      offset: { x: deltaX, y: deltaY },
-      isSwiping: true,
-    });
-  }, [threshold, preventScroll]);
+      setState({
+        direction,
+        progress,
+        offset: { x: deltaX, y: deltaY },
+        isSwiping: true,
+      });
+    },
+    [threshold, preventScroll],
+  );
 
   const handleTouchEnd = useCallback(() => {
     if (!startRef.current) return;
@@ -97,18 +93,18 @@ export function useSwipeGesture(config: SwipeConfig = {}) {
 
     if (isValidSwipe && direction) {
       haptic.selectionChanged();
-      
+
       switch (direction) {
-        case 'left':
+        case "left":
           onSwipeLeft?.();
           break;
-        case 'right':
+        case "right":
           onSwipeRight?.();
           break;
-        case 'up':
+        case "up":
           onSwipeUp?.();
           break;
-        case 'down':
+        case "down":
           onSwipeDown?.();
           break;
       }

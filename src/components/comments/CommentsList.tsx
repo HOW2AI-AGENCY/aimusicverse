@@ -1,17 +1,22 @@
 // CommentsList component - Sprint 011
-import { useState } from 'react';
-import { CommentItem, type Comment } from './CommentItem';
-import { CommentForm } from './CommentForm';
-import { ReportCommentDialog } from './ReportCommentDialog';
-import { useComments, useAddComment, useDeleteComment, type Comment as CommentType } from '@/hooks/comments/useComments';
-import { Skeleton } from '@/components/ui/skeleton';
-import { MessageSquare } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { CommentItem, type Comment } from "./CommentItem";
+import { CommentForm } from "./CommentForm";
+import { ReportCommentDialog } from "./ReportCommentDialog";
+import {
+  useComments,
+  useAddComment,
+  useDeleteComment,
+  type Comment as CommentType,
+} from "@/hooks/comments/useComments";
+import { Skeleton } from "@/components/ui/skeleton";
+import { MessageSquare } from "lucide-react";
+import { cn } from "@/lib/utils";
 // Sprint 32: Comment engagement components
-import { FirstCommentCTA } from '@/components/comments/FirstCommentCTA';
-import { CommentSuggestions } from '@/components/comments/CommentSuggestions';
-import type { Track } from '@/types/track';
-import { CommentsSectionSkeleton } from '@/components/ui/skeleton-components';
+import { FirstCommentCTA } from "@/components/comments/FirstCommentCTA";
+import { CommentSuggestions } from "@/components/comments/CommentSuggestions";
+import type { Track } from "@/types/track";
+import { CommentsSectionSkeleton } from "@/components/ui/skeleton-components";
 
 interface CommentsListProps {
   trackId: string;
@@ -43,7 +48,7 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
     if (comment?.user) {
       setReplyTo({
         id: commentId,
-        username: comment.user.username || comment.user.first_name || 'Пользователь',
+        username: comment.user.username || comment.user.first_name || "Пользователь",
       });
     }
   };
@@ -73,23 +78,25 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
     likes_count: c.likes_count,
     created_at: c.created_at,
     is_liked: c.isLiked,
-    user: c.user ? {
-      username: c.user.username,
-      photo_url: c.user.photo_url,
-      display_name: c.user.first_name,
-    } : undefined,
+    user: c.user
+      ? {
+          username: c.user.username,
+          photo_url: c.user.photo_url,
+          display_name: c.user.first_name,
+        }
+      : undefined,
   }));
 
   if (isLoading) {
     return (
-      <div className={cn('space-y-4', className)}>
+      <div className={cn("space-y-4", className)}>
         <CommentsSectionSkeleton count={3} />
       </div>
     );
   }
 
   return (
-    <div className={cn('space-y-6', className)}>
+    <div className={cn("space-y-6", className)}>
       {/* Sprint 32: Comment Suggestions - shown before form */}
       {mappedComments.length === 0 && (
         <>
@@ -97,10 +104,10 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
           <div className="mb-4">
             <FirstCommentCTA
               trackId={trackId}
-              trackTitle={title || 'этот трек'}
+              trackTitle={title || "этот трек"}
               variant="card"
               onOpenComments={() => {
-                document.getElementById('comment-form')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById("comment-form")?.scrollIntoView({ behavior: "smooth" });
               }}
             />
           </div>
@@ -112,11 +119,11 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
             maxSuggestions={4}
             variant="chips"
             onSuggestionSelect={(suggestion) => {
-              const formInput = document.querySelector('#comment-form textarea') as HTMLTextAreaElement;
+              const formInput = document.querySelector("#comment-form textarea") as HTMLTextAreaElement;
               if (formInput) {
                 formInput.value = suggestion;
                 formInput.focus();
-                formInput.dispatchEvent(new Event('input', { bubbles: true }));
+                formInput.dispatchEvent(new Event("input", { bubbles: true }));
               }
             }}
             className="mb-3"
@@ -141,12 +148,8 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
           <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-primary/10 flex items-center justify-center">
             <MessageSquare className="h-6 w-6 text-primary" />
           </div>
-          <p className="font-medium text-foreground mb-1">
-            Будьте первым!
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Оставьте комментарий и начните обсуждение
-          </p>
+          <p className="font-medium text-foreground mb-1">Будьте первым!</p>
+          <p className="text-sm text-muted-foreground">Оставьте комментарий и начните обсуждение</p>
         </div>
       ) : (
         <div className="space-y-4">

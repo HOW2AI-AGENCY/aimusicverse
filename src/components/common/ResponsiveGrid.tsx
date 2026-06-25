@@ -1,13 +1,13 @@
 /**
  * ResponsiveGrid - Unified responsive grid component
- * 
+ *
  * Centralizes grid column definitions and breakpoints for consistency
  */
 
-import { memo, ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import { memo, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
-type GridColumns = 1 | 2 | 3 | 4 | 5 | 6 | 'auto';
+type GridColumns = 1 | 2 | 3 | 4 | 5 | 6 | "auto";
 type GridGap = 1 | 2 | 3 | 4 | 5 | 6;
 
 interface ResponsiveGridProps {
@@ -20,7 +20,7 @@ interface ResponsiveGridProps {
   /** Additional className */
   className?: string;
   /** Whether to use CSS Grid (default) or Flexbox */
-  type?: 'grid' | 'flex';
+  type?: "grid" | "flex";
   /** Minimum item width for 'auto' columns (default: 160px) */
   minItemWidth?: number;
 }
@@ -31,22 +31,22 @@ interface ResponsiveGridProps {
  * lg: 1024px (tablet landscape/small desktop)
  */
 const GRID_COLS: Record<GridColumns, string> = {
-  1: 'grid-cols-1',
-  2: 'grid-cols-2',
-  3: 'grid-cols-2 md:grid-cols-3',
-  4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
-  5: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
-  6: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6',
-  auto: '', // Handled separately with minItemWidth
+  1: "grid-cols-1",
+  2: "grid-cols-2",
+  3: "grid-cols-2 md:grid-cols-3",
+  4: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+  5: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5",
+  6: "grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6",
+  auto: "", // Handled separately with minItemWidth
 };
 
 const GAP_SIZES: Record<GridGap, string> = {
-  1: 'gap-1',
-  2: 'gap-2 sm:gap-2',
-  3: 'gap-2 sm:gap-3',
-  4: 'gap-3 sm:gap-4',
-  5: 'gap-3 sm:gap-5',
-  6: 'gap-4 sm:gap-6',
+  1: "gap-1",
+  2: "gap-2 sm:gap-2",
+  3: "gap-2 sm:gap-3",
+  4: "gap-3 sm:gap-4",
+  5: "gap-3 sm:gap-5",
+  6: "gap-4 sm:gap-6",
 };
 
 export const ResponsiveGrid = memo(function ResponsiveGrid({
@@ -54,41 +54,20 @@ export const ResponsiveGrid = memo(function ResponsiveGrid({
   gap = 3,
   children,
   className,
-  type = 'grid',
+  type = "grid",
   minItemWidth = 160,
 }: ResponsiveGridProps) {
-  if (type === 'flex') {
-    return (
-      <div
-        className={cn(
-          "flex flex-wrap",
-          GAP_SIZES[gap],
-          className
-        )}
-      >
-        {children}
-      </div>
-    );
+  if (type === "flex") {
+    return <div className={cn("flex flex-wrap", GAP_SIZES[gap], className)}>{children}</div>;
   }
 
-  const gridColsClass = columns === 'auto'
-    ? undefined
-    : GRID_COLS[columns];
+  const gridColsClass = columns === "auto" ? undefined : GRID_COLS[columns];
 
-  const gridStyle = columns === 'auto'
-    ? { gridTemplateColumns: `repeat(auto-fill, minmax(${minItemWidth}px, 1fr))` }
-    : undefined;
+  const gridStyle =
+    columns === "auto" ? { gridTemplateColumns: `repeat(auto-fill, minmax(${minItemWidth}px, 1fr))` } : undefined;
 
   return (
-    <div
-      className={cn(
-        "grid",
-        gridColsClass,
-        GAP_SIZES[gap],
-        className
-      )}
-      style={gridStyle}
-    >
+    <div className={cn("grid", gridColsClass, GAP_SIZES[gap], className)} style={gridStyle}>
       {children}
     </div>
   );
@@ -106,7 +85,7 @@ export const GRID_PRESETS = {
   /** User avatars - compact grid */
   users: { columns: 4 as const, gap: 3 as const },
   /** Small badges/tags */
-  tags: { columns: 'auto' as const, gap: 2 as const, minItemWidth: 80 },
+  tags: { columns: "auto" as const, gap: 2 as const, minItemWidth: 80 },
   /** Dashboard stats - 2 mobile, 4 tablet+ */
   stats: { columns: 4 as const, gap: 3 as const },
   /** Feature cards - larger items */

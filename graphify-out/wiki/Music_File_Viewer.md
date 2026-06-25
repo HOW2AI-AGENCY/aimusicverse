@@ -14,10 +14,10 @@
 - [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L53) (1 connections)
 - [replacedRanges](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L88) (1 connections)
 - [{
-    selectedSection,
-    selectedSectionIndex,
-    selectSection,
-    clearSelection,
+  selectedSection,
+  selectedSectionIndex,
+  selectSection,
+  clearSelection,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L45) (1 connections)
 - [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L42) (1 connections)
 - [[showEditor, setShowEditor]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L43) (1 connections)
@@ -39,4 +39,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

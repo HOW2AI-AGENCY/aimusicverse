@@ -1,24 +1,24 @@
 /**
  * Studio Dialogs Container
- * 
+ *
  * Renders all modal dialogs for studio operations.
  * Keeps main UnifiedStudioMobile component clean.
  */
 
-import { memo } from 'react';
-import { AddTrackDrawer } from './AddTrackDrawer';
-import { ExportMixDialog } from './ExportMixDialog';
-import { SaveVersionDialog } from './SaveVersionDialog';
-import { StemSeparationModeDialog } from './StemSeparationModeDialog';
-import { ExtendDialog } from '@/components/stem-studio/ExtendDialog';
-import { RemixDialog } from '@/components/stem-studio/RemixDialog';
-import { LazyAddVocalsDrawer } from '@/components/lazy';
-import { RecordTrackDrawer } from './RecordTrackDrawer';
-import { NotationDrawer } from './NotationDrawer';
-import { ChordSheet } from './ChordSheet';
-import { AddInstrumentalDrawer } from './AddInstrumentalDrawer';
-import type { RecordingType } from './RecordTrackDrawer';
-import type { StudioModalType } from '@/hooks/studio/useStudioModals';
+import { memo } from "react";
+import { AddTrackDrawer } from "./AddTrackDrawer";
+import { ExportMixDialog } from "./ExportMixDialog";
+import { SaveVersionDialog } from "./SaveVersionDialog";
+import { StemSeparationModeDialog } from "./StemSeparationModeDialog";
+import { ExtendDialog } from "@/components/stem-studio/ExtendDialog";
+import { RemixDialog } from "@/components/stem-studio/RemixDialog";
+import { LazyAddVocalsDrawer } from "@/components/lazy";
+import { RecordTrackDrawer } from "./RecordTrackDrawer";
+import { NotationDrawer } from "./NotationDrawer";
+import { ChordSheet } from "./ChordSheet";
+import { AddInstrumentalDrawer } from "./AddInstrumentalDrawer";
+import type { RecordingType } from "./RecordTrackDrawer";
+import type { StudioModalType } from "@/hooks/studio/useStudioModals";
 
 interface StudioDialogsProps {
   id: string;
@@ -39,7 +39,7 @@ interface StudioDialogsProps {
     close: () => void;
     payload: any;
   };
-  onStemSeparationConfirm: (mode: 'simple' | 'detailed') => Promise<void>;
+  onStemSeparationConfirm: (mode: "simple" | "detailed") => Promise<void>;
   onRecordingComplete: (track: {
     id: string;
     audioUrl: string;
@@ -72,8 +72,8 @@ export const StudioDialogs = memo(function StudioDialogs({
   onSeek,
 }: StudioDialogsProps) {
   // Prepare export tracks data
-  const exportTracks = tracks.map(t => ({
-    url: t.audioUrl || '',
+  const exportTracks = tracks.map((t) => ({
+    url: t.audioUrl || "",
     volume: t.volume,
     muted: t.muted,
   }));
@@ -82,8 +82,8 @@ export const StudioDialogs = memo(function StudioDialogs({
     <>
       {/* Add Track Drawer */}
       <AddTrackDrawer
-        open={modals.isOpen('addTrack')}
-        onOpenChange={modals.getOpenChangeHandler('addTrack')}
+        open={modals.isOpen("addTrack")}
+        onOpenChange={modals.getOpenChangeHandler("addTrack")}
         trackId={id}
         trackUrl={mainTrackUrl}
         trackTitle={mainTrackTitle}
@@ -91,8 +91,8 @@ export const StudioDialogs = memo(function StudioDialogs({
 
       {/* Export Dialog */}
       <ExportMixDialog
-        open={modals.isOpen('export')}
-        onOpenChange={modals.getOpenChangeHandler('export')}
+        open={modals.isOpen("export")}
+        onOpenChange={modals.getOpenChangeHandler("export")}
         tracks={exportTracks}
         masterVolume={masterVolume}
         trackTitle={mainTrackTitle}
@@ -100,8 +100,8 @@ export const StudioDialogs = memo(function StudioDialogs({
 
       {/* Save Version Dialog */}
       <SaveVersionDialog
-        open={modals.isOpen('saveVersion')}
-        onOpenChange={modals.getOpenChangeHandler('saveVersion')}
+        open={modals.isOpen("saveVersion")}
+        onOpenChange={modals.getOpenChangeHandler("saveVersion")}
         projectId={projectId}
         sourceTrackId={id}
         tracks={tracks as any}
@@ -111,8 +111,8 @@ export const StudioDialogs = memo(function StudioDialogs({
 
       {/* Stem Separation Dialog */}
       <StemSeparationModeDialog
-        open={modals.isOpen('stemSeparation')}
-        onOpenChange={modals.getOpenChangeHandler('stemSeparation')}
+        open={modals.isOpen("stemSeparation")}
+        onOpenChange={modals.getOpenChangeHandler("stemSeparation")}
         onConfirm={onStemSeparationConfirm}
         isProcessing={isSeparating}
       />
@@ -120,8 +120,8 @@ export const StudioDialogs = memo(function StudioDialogs({
       {/* Extend Dialog */}
       {mainTrack && trackForSeparation && (
         <ExtendDialog
-          open={modals.isOpen('extend')}
-          onOpenChange={modals.getOpenChangeHandler('extend')}
+          open={modals.isOpen("extend")}
+          onOpenChange={modals.getOpenChangeHandler("extend")}
           track={trackForSeparation}
         />
       )}
@@ -129,8 +129,8 @@ export const StudioDialogs = memo(function StudioDialogs({
       {/* Remix/Cover Dialog */}
       {mainTrack && trackForSeparation && (
         <RemixDialog
-          open={modals.isOpen('remix')}
-          onOpenChange={modals.getOpenChangeHandler('remix')}
+          open={modals.isOpen("remix")}
+          onOpenChange={modals.getOpenChangeHandler("remix")}
           track={trackForSeparation}
         />
       )}
@@ -138,23 +138,23 @@ export const StudioDialogs = memo(function StudioDialogs({
       {/* Add Vocals Drawer */}
       {mainTrack && trackForSeparation && (
         <LazyAddVocalsDrawer
-          open={modals.isOpen('addVocals')}
-          onOpenChange={modals.getOpenChangeHandler('addVocals')}
+          open={modals.isOpen("addVocals")}
+          onOpenChange={modals.getOpenChangeHandler("addVocals")}
           track={trackForSeparation}
         />
       )}
 
       {/* Record Track Drawer */}
       <RecordTrackDrawer
-        open={modals.isOpen('record')}
-        onOpenChange={modals.getOpenChangeHandler('record')}
+        open={modals.isOpen("record")}
+        onOpenChange={modals.getOpenChangeHandler("record")}
         projectId={projectId}
         onRecordingComplete={onRecordingComplete}
       />
 
       {/* Notation Drawer */}
       <NotationDrawer
-        open={modals.isOpen('notation')}
+        open={modals.isOpen("notation")}
         onClose={modals.close}
         track={modals.payload.selectedTrack}
         transcriptionData={modals.payload.selectedTrack?.transcription}
@@ -166,9 +166,9 @@ export const StudioDialogs = memo(function StudioDialogs({
 
       {/* Chord Sheet */}
       <ChordSheet
-        open={modals.isOpen('chordSheet')}
+        open={modals.isOpen("chordSheet")}
         onClose={modals.close}
-        trackName={modals.payload.selectedTrack?.name || 'Track'}
+        trackName={modals.payload.selectedTrack?.name || "Track"}
         chords={modals.payload.selectedTrack?.chords || []}
         currentTime={currentTime}
         onSeekToChord={onSeek}
@@ -177,8 +177,8 @@ export const StudioDialogs = memo(function StudioDialogs({
       {/* Add Instrumental Drawer */}
       {mainTrack && trackForSeparation && (
         <AddInstrumentalDrawer
-          open={modals.isOpen('addInstrumental')}
-          onOpenChange={modals.getOpenChangeHandler('addInstrumental')}
+          open={modals.isOpen("addInstrumental")}
+          onOpenChange={modals.getOpenChangeHandler("addInstrumental")}
           track={trackForSeparation}
         />
       )}

@@ -1,17 +1,17 @@
 /**
  * ValidationMessage - Inline validation message component
  * Provides WCAG AA compliant error/warning messages with proper contrast
- * 
+ *
  * Phase 3.2: Enhanced error messages with actionable suggestions
  */
 
-import { memo, useState } from 'react';
-import { AlertCircle, AlertTriangle, Info, ChevronDown, ChevronUp, Lightbulb } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { checkForBlockedArtists } from '@/lib/errorHandling';
-import { Button } from '@/components/ui/button';
+import { memo, useState } from "react";
+import { AlertCircle, AlertTriangle, Info, ChevronDown, ChevronUp, Lightbulb } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { checkForBlockedArtists } from "@/lib/errorHandling";
+import { Button } from "@/components/ui/button";
 
-export type ValidationLevel = 'error' | 'warning' | 'info';
+export type ValidationLevel = "error" | "warning" | "info";
 
 interface ValidationMessageProps {
   message: string;
@@ -24,35 +24,38 @@ interface ValidationMessageProps {
   examples?: string[];
 }
 
-const levelConfig: Record<ValidationLevel, {
-  icon: typeof AlertCircle;
-  color: string;
-  bgColor: string;
-  borderColor: string;
-}> = {
+const levelConfig: Record<
+  ValidationLevel,
+  {
+    icon: typeof AlertCircle;
+    color: string;
+    bgColor: string;
+    borderColor: string;
+  }
+> = {
   error: {
     icon: AlertCircle,
-    color: 'text-destructive',
-    bgColor: 'bg-destructive/10',
-    borderColor: 'border-destructive/20',
+    color: "text-destructive",
+    bgColor: "bg-destructive/10",
+    borderColor: "border-destructive/20",
   },
   warning: {
     icon: AlertTriangle,
-    color: 'text-yellow-600 dark:text-yellow-500',
-    bgColor: 'bg-yellow-50 dark:bg-yellow-950/30',
-    borderColor: 'border-yellow-200 dark:border-yellow-800/50',
+    color: "text-yellow-600 dark:text-yellow-500",
+    bgColor: "bg-yellow-50 dark:bg-yellow-950/30",
+    borderColor: "border-yellow-200 dark:border-yellow-800/50",
   },
   info: {
     icon: Info,
-    color: 'text-blue-600 dark:text-blue-400',
-    bgColor: 'bg-blue-50 dark:bg-blue-950/30',
-    borderColor: 'border-blue-200 dark:border-blue-800/50',
+    color: "text-blue-600 dark:text-blue-400",
+    bgColor: "bg-blue-50 dark:bg-blue-950/30",
+    borderColor: "border-blue-200 dark:border-blue-800/50",
   },
 };
 
 export const ValidationMessage = memo(function ValidationMessage({
   message,
-  level = 'error',
+  level = "error",
   fieldId,
   className,
   suggestion,
@@ -68,18 +71,13 @@ export const ValidationMessage = memo(function ValidationMessage({
       id={fieldId ? `${fieldId}-error` : undefined}
       role="alert"
       aria-live="polite"
-      className={cn(
-        'rounded-lg border text-xs overflow-hidden',
-        config.bgColor,
-        config.borderColor,
-        className
-      )}
+      className={cn("rounded-lg border text-xs overflow-hidden", config.bgColor, config.borderColor, className)}
     >
-      <div className={cn('flex items-start gap-2 p-2.5', config.color)}>
+      <div className={cn("flex items-start gap-2 p-2.5", config.color)}>
         <Icon className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" aria-hidden="true" />
         <div className="flex-1 min-w-0">
           <span className="leading-tight block">{message}</span>
-          
+
           {/* Inline suggestion */}
           {suggestion && (
             <div className="flex items-start gap-1.5 mt-1.5 text-muted-foreground">
@@ -88,7 +86,7 @@ export const ValidationMessage = memo(function ValidationMessage({
             </div>
           )}
         </div>
-        
+
         {/* Expand button for examples */}
         {examples && examples.length > 0 && (
           <Button
@@ -99,15 +97,11 @@ export const ValidationMessage = memo(function ValidationMessage({
             className="h-5 px-1.5 text-[10px] gap-0.5"
           >
             Примеры
-            {showExamples ? (
-              <ChevronUp className="w-3 h-3" />
-            ) : (
-              <ChevronDown className="w-3 h-3" />
-            )}
+            {showExamples ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
           </Button>
         )}
       </div>
-      
+
       {/* Expandable examples section */}
       {showExamples && examples && examples.length > 0 && (
         <div className="px-2.5 pb-2.5 pt-0 border-t border-border/20">
@@ -135,27 +129,27 @@ export const ValidationMessage = memo(function ValidationMessage({
  * Check for blocked artist names in text
  * Returns validation result if artist found with helpful suggestions
  */
-export function checkArtistValidation(text: string): { 
-  message: string; 
-  level: ValidationLevel; 
+export function checkArtistValidation(text: string): {
+  message: string;
+  level: ValidationLevel;
   suggestion?: string;
   examples?: string[];
 } | null {
   if (!text) return null;
-  
+
   const blockedArtist = checkForBlockedArtists(text);
   if (blockedArtist) {
     // Get style suggestions based on common artists
     const styleSuggestions = getStyleSuggestionsForArtist(blockedArtist);
-    
+
     return {
       message: `Нельзя использовать имя "${blockedArtist}". Опишите стиль без упоминания артистов.`,
-      level: 'error',
-      suggestion: 'Опишите жанр, настроение и инструменты вместо имени артиста',
+      level: "error",
+      suggestion: "Опишите жанр, настроение и инструменты вместо имени артиста",
       examples: styleSuggestions,
     };
   }
-  
+
   return null;
 }
 
@@ -165,132 +159,138 @@ export function checkArtistValidation(text: string): {
  */
 function getStyleSuggestionsForArtist(artist: string): string[] {
   const lower = artist.toLowerCase();
-  
+
   // Mapping of artists to style suggestions
   const artistStyles: Record<string, string[]> = {
     // Russian hip-hop / rap
-    'morgenshtern': ['энергичный русский рэп', 'трэп с басами', 'party rap'],
-    'oxxxymiron': ['интеллектуальный рэп', 'лирический хип-хоп', 'storytelling rap'],
-    'face': ['агрессивный русский рэп', 'hard trap', 'street rap'],
-    'скриптонит': ['dark atmospheric rap', 'экспериментальный хип-хоп'],
-    'баста': ['мелодичный русский рэп', 'хип-хоп с душой'],
-    'instasamka': ['женский рэп', 'pop-rap', 'party music'],
-    
+    morgenshtern: ["энергичный русский рэп", "трэп с басами", "party rap"],
+    oxxxymiron: ["интеллектуальный рэп", "лирический хип-хоп", "storytelling rap"],
+    face: ["агрессивный русский рэп", "hard trap", "street rap"],
+    скриптонит: ["dark atmospheric rap", "экспериментальный хип-хоп"],
+    баста: ["мелодичный русский рэп", "хип-хоп с душой"],
+    instasamka: ["женский рэп", "pop-rap", "party music"],
+
     // Rock / Metal
-    'rammstein': ['industrial metal', 'немецкий индастриал-рок'],
-    'metallica': ['thrash metal', 'heavy metal'],
-    'linkin park': ['nu-metal', 'alternative rock'],
-    'bad omens': ['metalcore', 'post-hardcore'],
-    
+    rammstein: ["industrial metal", "немецкий индастриал-рок"],
+    metallica: ["thrash metal", "heavy metal"],
+    "linkin park": ["nu-metal", "alternative rock"],
+    "bad omens": ["metalcore", "post-hardcore"],
+
     // Pop
-    'дора': ['инди-поп', 'мечтательный поп'],
-    'anna asti': ['русский поп', 'dance pop'],
-    'zivert': ['электро-поп', 'современный поп'],
-    
+    дора: ["инди-поп", "мечтательный поп"],
+    "anna asti": ["русский поп", "dance pop"],
+    zivert: ["электро-поп", "современный поп"],
+
     // Default suggestions
-    'default': ['мелодичный', 'энергичный', 'атмосферный'],
+    default: ["мелодичный", "энергичный", "атмосферный"],
   };
-  
+
   // Find matching suggestions
   for (const [key, suggestions] of Object.entries(artistStyles)) {
     if (lower.includes(key)) {
       return suggestions;
     }
   }
-  
-  return artistStyles['default'];
+
+  return artistStyles["default"];
 }
 
 export const validation = {
   description: {
     minLength: 10,
     maxLength: 500,
-    getMessage: (length: number, text?: string): { message: string; level: ValidationLevel; suggestion?: string } | null => {
+    getMessage: (
+      length: number,
+      text?: string,
+    ): { message: string; level: ValidationLevel; suggestion?: string } | null => {
       // First check for blocked artists (priority error)
       if (text) {
         const artistCheck = checkArtistValidation(text);
         if (artistCheck) return artistCheck;
       }
-      
+
       if (length === 0) {
         return null; // Empty is allowed
       }
       if (length < validation.description.minLength) {
         return {
           message: `Минимум ${validation.description.minLength} символов для точной генерации`,
-          level: 'warning',
+          level: "warning",
         };
       }
       if (length > validation.description.maxLength) {
         return {
-          message: 'Превышен лимит символов. Сократите описание или переключитесь в Полный режим',
-          level: 'error',
+          message: "Превышен лимит символов. Сократите описание или переключитесь в Полный режим",
+          level: "error",
         };
       }
       if (length > validation.description.maxLength * 0.9) {
         return {
           message: `Осталось ${validation.description.maxLength - length} символов`,
-          level: 'warning',
+          level: "warning",
         };
       }
       return null;
     },
   },
-  
+
   title: {
     maxLength: 80,
     getMessage: (length: number): { message: string; level: ValidationLevel } | null => {
       if (length > validation.title.maxLength) {
         return {
           message: `Название слишком длинное (максимум ${validation.title.maxLength} символов)`,
-          level: 'error',
+          level: "error",
         };
       }
       if (length > validation.title.maxLength * 0.9) {
         return {
           message: `Осталось ${validation.title.maxLength - length} символов`,
-          level: 'info',
+          level: "info",
         };
       }
       return null;
     },
   },
-  
+
   style: {
     minLength: 10,
     maxLength: 500,
-    getMessage: (length: number, text?: string): { message: string; level: ValidationLevel; suggestion?: string } | null => {
+    getMessage: (
+      length: number,
+      text?: string,
+    ): { message: string; level: ValidationLevel; suggestion?: string } | null => {
       // First check for blocked artists (priority error)
       if (text) {
         const artistCheck = checkArtistValidation(text);
         if (artistCheck) return artistCheck;
       }
-      
+
       if (length === 0) {
         return null; // Empty is allowed
       }
       if (length < validation.style.minLength) {
         return {
           message: `Минимум ${validation.style.minLength} символов для точной генерации стиля`,
-          level: 'warning',
+          level: "warning",
         };
       }
       if (length > validation.style.maxLength) {
         return {
-          message: 'Превышен лимит символов. Сократите описание стиля',
-          level: 'error',
+          message: "Превышен лимит символов. Сократите описание стиля",
+          level: "error",
         };
       }
       if (length > validation.style.maxLength * 0.9) {
         return {
           message: `Осталось ${validation.style.maxLength - length} символов`,
-          level: 'warning',
+          level: "warning",
         };
       }
       return null;
     },
   },
-  
+
   lyrics: {
     minLength: 20,
     maxLength: 3000,
@@ -300,26 +300,26 @@ export const validation = {
       }
       if (length === 0) {
         return {
-          message: 'Для вокального трека требуется текст песни',
-          level: 'warning',
+          message: "Для вокального трека требуется текст песни",
+          level: "warning",
         };
       }
       if (length < validation.lyrics.minLength) {
         return {
           message: `Минимум ${validation.lyrics.minLength} символов для полноценной песни`,
-          level: 'warning',
+          level: "warning",
         };
       }
       if (length > validation.lyrics.maxLength) {
         return {
-          message: 'Превышен лимит символов. Сократите текст песни',
-          level: 'error',
+          message: "Превышен лимит символов. Сократите текст песни",
+          level: "error",
         };
       }
       if (length > validation.lyrics.maxLength * 0.9) {
         return {
           message: `Осталось ${validation.lyrics.maxLength - length} символов`,
-          level: 'info',
+          level: "info",
         };
       }
       return null;

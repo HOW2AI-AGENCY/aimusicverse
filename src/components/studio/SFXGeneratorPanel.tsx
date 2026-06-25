@@ -3,49 +3,45 @@
  * Integrates with studio audio coordination
  */
 
-import { useState, useCallback, useEffect, useId } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2, Sparkles, Play, Pause, Plus, Volume2 } from 'lucide-react';
-import { toast } from 'sonner';
-import { useStudioProjectStore } from '@/stores/useStudioProjectStore';
-import { cn } from '@/lib/utils';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
+import { useState, useCallback, useEffect, useId } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2, Sparkles, Play, Pause, Plus, Volume2 } from "lucide-react";
+import { toast } from "sonner";
+import { useStudioProjectStore } from "@/stores/useStudioProjectStore";
+import { cn } from "@/lib/utils";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface SFXGeneratorPanelProps {
   onClose: () => void;
 }
 
 const sfxPresets = [
-  { label: 'Удар', prompt: 'powerful impact hit, dramatic', emoji: '💥' },
-  { label: 'Свуш', prompt: 'fast whoosh transition, cinematic', emoji: '💨' },
-  { label: 'Рост', prompt: 'rising tension buildup, suspenseful', emoji: '📈' },
-  { label: 'Падение', prompt: 'falling drop impact, bass heavy', emoji: '📉' },
-  { label: 'Атмосфера', prompt: 'ambient atmosphere pad, ethereal', emoji: '🌫️' },
-  { label: 'Чайм', prompt: 'magical chime bell, sparkle', emoji: '✨' },
-  { label: 'Скрип', prompt: 'vinyl scratch, dj effect', emoji: '🎧' },
-  { label: 'Эхо', prompt: 'deep echo reverb tail, spacious', emoji: '🔊' },
+  { label: "Удар", prompt: "powerful impact hit, dramatic", emoji: "💥" },
+  { label: "Свуш", prompt: "fast whoosh transition, cinematic", emoji: "💨" },
+  { label: "Рост", prompt: "rising tension buildup, suspenseful", emoji: "📈" },
+  { label: "Падение", prompt: "falling drop impact, bass heavy", emoji: "📉" },
+  { label: "Атмосфера", prompt: "ambient atmosphere pad, ethereal", emoji: "🌫️" },
+  { label: "Чайм", prompt: "magical chime bell, sparkle", emoji: "✨" },
+  { label: "Скрип", prompt: "vinyl scratch, dj effect", emoji: "🎧" },
+  { label: "Эхо", prompt: "deep echo reverb tail, spacious", emoji: "🔊" },
 ];
 
 export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
-  const [prompt, setPrompt] = useState('');
+  const [prompt, setPrompt] = useState("");
   const [duration, setDuration] = useState(3);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio] = useState(() => new Audio());
   const sourceId = useId();
-  
+
   const { addTrack, addClip, currentProject } = useStudioProjectStore();
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
@@ -74,20 +70,20 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
   const generateMutation = useMutation({
     mutationFn: async ({ prompt, duration }: { prompt: string; duration: number }) => {
       // Call Replicate/fal.ai SFX edge function
-      const { data, error } = await supabase.functions.invoke('generate-sfx', {
+      const { data, error } = await supabase.functions.invoke("generate-sfx", {
         body: { prompt, duration },
       });
 
       if (error) throw error;
       if (!data?.success || !data?.audioUrl) {
-        throw new Error(data?.error || 'Failed to generate SFX');
+        throw new Error(data?.error || "Failed to generate SFX");
       }
 
       return data.audioUrl;
     },
     onSuccess: (url) => {
       setGeneratedUrl(url);
-      toast.success('SFX сгенерирован!');
+      toast.success("SFX сгенерирован!");
     },
     onError: (error: Error) => {
       toast.error(error.message);
@@ -96,7 +92,7 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
 
   const handleGenerate = () => {
     if (!prompt.trim()) {
-      toast.error('Введите описание звукового эффекта');
+      toast.error("Введите описание звукового эффекта");
       return;
     }
     generateMutation.mutate({ prompt, duration });
@@ -104,7 +100,7 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
 
   const handlePreview = () => {
     if (!generatedUrl) return;
-    
+
     if (isPlaying) {
       audio.pause();
       setIsPlaying(false);
@@ -122,18 +118,18 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
 
   const handleAddToTimeline = () => {
     if (!generatedUrl || !currentProject) return;
-    
+
     // Add new SFX track
     const trackId = addTrack({
       name: `SFX: ${prompt.slice(0, 20)}`,
-      type: 'sfx',
+      type: "sfx",
       volume: 1,
       pan: 0,
       muted: false,
       solo: false,
-      color: 'hsl(38 92% 50%)',
+      color: "hsl(38 92% 50%)",
     });
-    
+
     // Add clip to the track
     addClip(trackId, {
       audioUrl: generatedUrl,
@@ -145,8 +141,8 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
       fadeIn: 0.1,
       fadeOut: 0.1,
     });
-    
-    toast.success('SFX добавлен на таймлайн');
+
+    toast.success("SFX добавлен на таймлайн");
     onClose();
   };
 
@@ -158,7 +154,7 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
           Генератор звуковых эффектов
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         {/* Presets */}
         <div className="space-y-2">
@@ -170,7 +166,7 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
                 variant="outline"
                 className={cn(
                   "cursor-pointer transition-colors",
-                  prompt === preset.prompt && "bg-primary text-primary-foreground"
+                  prompt === preset.prompt && "bg-primary text-primary-foreground",
                 )}
                 onClick={() => setPrompt(preset.prompt)}
               >
@@ -198,21 +194,11 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
             <Label>Длительность</Label>
             <span className="text-sm text-muted-foreground">{duration}с</span>
           </div>
-          <Slider
-            value={[duration]}
-            min={0.5}
-            max={22}
-            step={0.5}
-            onValueChange={([v]) => setDuration(v)}
-          />
+          <Slider value={[duration]} min={0.5} max={22} step={0.5} onValueChange={([v]) => setDuration(v)} />
         </div>
 
         {/* Generate Button */}
-        <Button
-          className="w-full"
-          onClick={handleGenerate}
-          disabled={generateMutation.isPending || !prompt.trim()}
-        >
+        <Button className="w-full" onClick={handleGenerate} disabled={generateMutation.isPending || !prompt.trim()}>
           {generateMutation.isPending ? (
             <>
               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -229,23 +215,12 @@ export function SFXGeneratorPanel({ onClose }: SFXGeneratorPanelProps) {
         {/* Preview & Add */}
         {generatedUrl && (
           <div className="flex gap-2 pt-2 border-t border-border/50">
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handlePreview}
-            >
-              {isPlaying ? (
-                <Pause className="h-4 w-4 mr-2" />
-              ) : (
-                <Play className="h-4 w-4 mr-2" />
-              )}
-              {isPlaying ? 'Играет...' : 'Прослушать'}
+            <Button variant="outline" className="flex-1" onClick={handlePreview}>
+              {isPlaying ? <Pause className="h-4 w-4 mr-2" /> : <Play className="h-4 w-4 mr-2" />}
+              {isPlaying ? "Играет..." : "Прослушать"}
             </Button>
-            
-            <Button
-              className="flex-1"
-              onClick={handleAddToTimeline}
-            >
+
+            <Button className="flex-1" onClick={handleAddToTimeline}>
               <Plus className="h-4 w-4 mr-2" />
               На таймлайн
             </Button>

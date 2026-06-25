@@ -9,14 +9,14 @@
 
 ### 📚 Основные документы
 
-| Документ | Назначение | Для кого |
-|----------|-----------|----------|
-| **[README.md](../README.md)** | 🎯 Главная точка входа | Все |
-| **[CONTRIBUTING.md](../CONTRIBUTING.md)** | 🤝 Руководство по контрибуции | Разработчики |
-| **[REPOSITORY_STRUCTURE.md](../REPOSITORY_STRUCTURE.md)** | 📁 Структура репозитория | Разработчики |
-| **[DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)** | 📚 Полный индекс документации | Все |
-| **[PROJECT_STATUS.md](../PROJECT_STATUS.md)** | 📊 Текущий статус проекта | Все |
-| **[ROADMAP.md](../ROADMAP.md)** | 🗺️ Дорожная карта | Все |
+| Документ                                                  | Назначение                    | Для кого     |
+| --------------------------------------------------------- | ----------------------------- | ------------ |
+| **[README.md](../README.md)**                             | 🎯 Главная точка входа        | Все          |
+| **[CONTRIBUTING.md](../CONTRIBUTING.md)**                 | 🤝 Руководство по контрибуции | Разработчики |
+| **[REPOSITORY_STRUCTURE.md](../REPOSITORY_STRUCTURE.md)** | 📁 Структура репозитория      | Разработчики |
+| **[DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)**   | 📚 Полный индекс документации | Все          |
+| **[PROJECT_STATUS.md](../PROJECT_STATUS.md)**             | 📊 Текущий статус проекта     | Все          |
+| **[ROADMAP.md](../ROADMAP.md)**                           | 🗺️ Дорожная карта             | Все          |
 
 ---
 
@@ -33,25 +33,25 @@ graph TB
         F4[Tailwind 3]
         F5[shadcn/ui]
     end
-    
+
     subgraph Backend["⚙️ Backend"]
         B1[Supabase]
         B2[PostgreSQL]
         B3[Edge Functions]
         B4[Cloud Storage]
     end
-    
+
     subgraph External["🔗 External"]
         E1[Suno AI v5]
         E2[Telegram API]
         E3[Gemini AI]
     end
-    
+
     F1 --> F2
     F2 --> F3
     F3 --> F4
     F4 --> F5
-    
+
     F1 <--> B3
     B3 <--> B1
     B3 <--> B2
@@ -59,7 +59,7 @@ graph TB
     B3 <--> E1
     B3 <--> E2
     B3 <--> E3
-    
+
     style Frontend fill:#61DAFB
     style Backend fill:#336791
     style External fill:#e74c3c
@@ -74,7 +74,7 @@ graph TB
 ```mermaid
 graph LR
     Root[📚 Документация]
-    
+
     Root --> Getting[🚀 Начало работы]
     Root --> Arch[🏗️ Архитектура]
     Root --> Features[✨ Функции]
@@ -82,36 +82,36 @@ graph LR
     Root --> Test[🧪 Тестирование]
     Root --> Mobile[📱 Мобильное]
     Root --> Telegram[🤖 Telegram]
-    
+
     Getting --> G1[README.md]
     Getting --> G2[QUICK_START.md]
     Getting --> G3[ONBOARDING.md]
-    
+
     Arch --> A1[ARCHITECTURE.md]
     Arch --> A2[DATABASE.md]
     Arch --> A3[PLAYER_ARCHITECTURE.md]
     Arch --> A4[ADR/]
-    
+
     Features --> F1[SUNO_API.md]
     Features --> F2[STEM_STUDIO.md]
     Features --> F3[GENERATION_SYSTEM.md]
-    
+
     Dev --> D1[DEVELOPMENT_WORKFLOW.md]
     Dev --> D2[CONTRIBUTING.md]
     Dev --> D3[API.md]
-    
+
     Test --> T1[TESTING_INFRASTRUCTURE.md]
     Test --> T2[QUALITY_GATES.md]
     Test --> T3[tests/]
-    
+
     Mobile --> M1[SAFE_AREA_GUIDELINES.md]
     Mobile --> M2[MOBILE_COMPONENTS.md]
     Mobile --> M3[mobile/]
-    
+
     Telegram --> TG1[TELEGRAM_BOT_ARCHITECTURE.md]
     Telegram --> TG2[TELEGRAM_MINI_APP_FEATURES.md]
     Telegram --> TG3[TELEGRAM_BOT_COMMANDS_REFERENCE.md]
-    
+
     style Root fill:#FFD700
     style Getting fill:#90EE90
     style Arch fill:#61DAFB
@@ -139,18 +139,18 @@ graph TB
         S8[types/]
         S9[contexts/]
     end
-    
+
     subgraph Tests["🧪 tests/"]
         T1[e2e/]
         T2[unit/]
         T3[integration/]
     end
-    
+
     subgraph Backend["⚙️ supabase/"]
         B1[functions/]
         B2[migrations/]
     end
-    
+
     S1 --> S2
     S2 --> S3
     S3 --> S4
@@ -159,14 +159,14 @@ graph TB
     S6 --> S7
     S7 --> S8
     S8 --> S9
-    
+
     S1 --> T1
     S2 --> T2
     S3 --> T3
-    
+
     S4 --> B1
     B1 --> B2
-    
+
     style Src fill:#61DAFB
     style Tests fill:#90EE90
     style Backend fill:#336791
@@ -320,40 +320,40 @@ graph TB
 
 ### По типу информации
 
-| Что нужно? | Где искать? |
-|-----------|-------------|
-| **Как запустить проект?** | [README.md](../README.md#-быстрый-старт) |
-| **Как контрибьютить?** | [CONTRIBUTING.md](../CONTRIBUTING.md) |
-| **Архитектура системы?** | [docs/ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md) |
-| **Схема базы данных?** | [docs/DATABASE.md](DATABASE.md) |
-| **API документация?** | [docs/API.md](API.md) |
-| **Как писать тесты?** | [docs/TESTING_INFRASTRUCTURE.md](TESTING_INFRASTRUCTURE.md) |
-| **Мобильные guidelines?** | [docs/SAFE_AREA_GUIDELINES.md](SAFE_AREA_GUIDELINES.md) |
-| **Telegram интеграция?** | [docs/TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md) |
-| **Производительность?** | [docs/PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md) |
-| **Известные проблемы?** | [docs/KNOWN_ISSUES.md](KNOWN_ISSUES.md) |
+| Что нужно?                | Где искать?                                                       |
+| ------------------------- | ----------------------------------------------------------------- |
+| **Как запустить проект?** | [README.md](../README.md#-быстрый-старт)                          |
+| **Как контрибьютить?**    | [CONTRIBUTING.md](../CONTRIBUTING.md)                             |
+| **Архитектура системы?**  | [docs/ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)         |
+| **Схема базы данных?**    | [docs/DATABASE.md](DATABASE.md)                                   |
+| **API документация?**     | [docs/API.md](API.md)                                             |
+| **Как писать тесты?**     | [docs/TESTING_INFRASTRUCTURE.md](TESTING_INFRASTRUCTURE.md)       |
+| **Мобильные guidelines?** | [docs/SAFE_AREA_GUIDELINES.md](SAFE_AREA_GUIDELINES.md)           |
+| **Telegram интеграция?**  | [docs/TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md) |
+| **Производительность?**   | [docs/PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md)   |
+| **Известные проблемы?**   | [docs/KNOWN_ISSUES.md](KNOWN_ISSUES.md)                           |
 
 ### По компоненту/функции
 
-| Компонент/Функция | Документация | Код |
-|-------------------|--------------|-----|
-| **Аудио плеер** | [docs/PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md) | `src/components/player/` |
-| **Генерация музыки** | [docs/SUNO_API.md](SUNO_API.md) | `src/components/generate/` |
-| **Библиотека треков** | [docs/GENERATION_SYSTEM.md](GENERATION_SYSTEM.md) | `src/components/library/` |
-| **Stem Studio** | [docs/STEM_STUDIO.md](STEM_STUDIO.md) | `src/components/studio/` |
-| **Геймификация** | [docs/CREATIVE_TOOLS.md](CREATIVE_TOOLS.md) | `src/components/gamification/` |
-| **Telegram Bot** | [docs/TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md) | `supabase/functions/` |
+| Компонент/Функция     | Документация                                                      | Код                            |
+| --------------------- | ----------------------------------------------------------------- | ------------------------------ |
+| **Аудио плеер**       | [docs/PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md)             | `src/components/player/`       |
+| **Генерация музыки**  | [docs/SUNO_API.md](SUNO_API.md)                                   | `src/components/generate/`     |
+| **Библиотека треков** | [docs/GENERATION_SYSTEM.md](GENERATION_SYSTEM.md)                 | `src/components/library/`      |
+| **Stem Studio**       | [docs/STEM_STUDIO.md](STEM_STUDIO.md)                             | `src/components/studio/`       |
+| **Геймификация**      | [docs/CREATIVE_TOOLS.md](CREATIVE_TOOLS.md)                       | `src/components/gamification/` |
+| **Telegram Bot**      | [docs/TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md) | `supabase/functions/`          |
 
 ### По технологии
 
-| Технология | Документация | Примеры кода |
-|-----------|--------------|--------------|
-| **React** | [docs/DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | `src/components/` |
-| **TypeScript** | [CONTRIBUTING.md#typescript](../CONTRIBUTING.md#typescript) | `src/**/*.ts` |
-| **Tailwind** | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](DESIGN_SYSTEM_COMPREHENSIVE.md) | `*.tsx` |
-| **Supabase** | [docs/DATABASE.md](DATABASE.md) | `supabase/` |
-| **Zustand** | [docs/ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md) | `src/stores/` |
-| **TanStack Query** | [docs/HOOKS_REFERENCE.md](HOOKS_REFERENCE.md) | `src/hooks/` |
+| Технология         | Документация                                                          | Примеры кода      |
+| ------------------ | --------------------------------------------------------------------- | ----------------- |
+| **React**          | [docs/DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md)               | `src/components/` |
+| **TypeScript**     | [CONTRIBUTING.md#typescript](../CONTRIBUTING.md#typescript)           | `src/**/*.ts`     |
+| **Tailwind**       | [docs/DESIGN_SYSTEM_COMPREHENSIVE.md](DESIGN_SYSTEM_COMPREHENSIVE.md) | `*.tsx`           |
+| **Supabase**       | [docs/DATABASE.md](DATABASE.md)                                       | `supabase/`       |
+| **Zustand**        | [docs/ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)             | `src/stores/`     |
+| **TanStack Query** | [docs/HOOKS_REFERENCE.md](HOOKS_REFERENCE.md)                         | `src/hooks/`      |
 
 ---
 
@@ -369,7 +369,7 @@ graph LR
     API[⚡ Edge Functions]
     DB[🗄️ PostgreSQL]
     AI[☀️ Suno AI]
-    
+
     User --> TG
     TG --> FE
     FE --> API
@@ -381,7 +381,7 @@ graph LR
     API --> FE
     FE --> TG
     TG --> User
-    
+
     style User fill:#90EE90
     style TG fill:#26A5E4
     style FE fill:#61DAFB
@@ -399,30 +399,30 @@ graph LR
 ```mermaid
 graph TB
     Start[🚀 Начало]
-    
+
     Start --> Read[1. Читаем README]
     Read --> Setup[2. Настраиваем окружение]
     Setup --> Structure[3. Изучаем структуру]
     Structure --> Architecture[4. Поняем архитектуру]
     Architecture --> Choose[5. Выбираем задачу]
-    
+
     Choose --> Feature[Новая функция]
     Choose --> Bug[Исправление бага]
     Choose --> Docs[Документация]
-    
+
     Feature --> Code[Пишем код]
     Bug --> Code
     Docs --> Write[Пишем доки]
-    
+
     Code --> Test[Пишем тесты]
     Write --> Test
-    
+
     Test --> Lint[Линтинг]
     Lint --> Format[Форматирование]
     Format --> PR[Создаём PR]
     PR --> Review[Code Review]
     Review --> Merge[✅ Merged!]
-    
+
     style Start fill:#90EE90
     style Merge fill:#61DAFB
     style Code fill:#FFD700
@@ -435,17 +435,20 @@ graph TB
 ### Путь 1: Полный разработчик (4-6 недель)
 
 **Неделя 1-2: Фундамент**
+
 - [README.md](../README.md) — Обзор
 - [CONTRIBUTING.md](../CONTRIBUTING.md) — Процесс
 - [docs/ONBOARDING.md](ONBOARDING.md) — Онбординг
 - [REPOSITORY_STRUCTURE.md](../REPOSITORY_STRUCTURE.md) — Структура
 
 **Неделя 3-4: Архитектура**
+
 - [docs/ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md) — Архитектура
 - [docs/DATABASE.md](DATABASE.md) — База данных
 - [ADR/](../ADR/) — Архитектурные решения
 
 **Неделя 5-6: Практика**
+
 - [docs/DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) — Workflow
 - [docs/TESTING_INFRASTRUCTURE.md](TESTING_INFRASTRUCTURE.md) — Тесты
 - Первый PR! 🎉
@@ -455,15 +458,18 @@ graph TB
 ### Путь 2: Мобильный разработчик (2-3 недели)
 
 **Неделя 1: Основы**
+
 - [docs/SAFE_AREA_GUIDELINES.md](SAFE_AREA_GUIDELINES.md) — Safe Area
 - [docs/MOBILE_COMPONENTS.md](MOBILE_COMPONENTS.md) — Компоненты
 - [docs/mobile/OPTIMIZATION_ROADMAP_2026.md](mobile/OPTIMIZATION_ROADMAP_2026.md) — План
 
 **Неделя 2: Практика**
+
 - [specs/031-mobile-studio-v2/](../specs/031-mobile-studio-v2/) — Спецификация
 - `src/components/mobile/` — Компоненты
 
 **Неделя 3: Оптимизация**
+
 - [docs/PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md) — Оптимизация
 - Вклад в мобильные фичи! 📱
 
@@ -472,15 +478,18 @@ graph TB
 ### Путь 3: Backend разработчик (2-3 недели)
 
 **Неделя 1: Основы**
+
 - [docs/DATABASE.md](DATABASE.md) — База данных
 - [docs/API.md](API.md) — API
 - `supabase/functions/` — Edge Functions
 
 **Неделя 2: Архитектура**
+
 - [docs/TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md) — Бот
 - [docs/SUNO_API.md](SUNO_API.md) — Suno интеграция
 
 **Неделя 3: Практика**
+
 - Создание Edge Function
 - Вклад в бэкенд! ⚙️
 
@@ -522,25 +531,25 @@ graph TB
 
 ### По популярности
 
-| 🔥 Популярность | Документ | Описание |
-|-----------------|----------|----------|
-| ⭐⭐⭐⭐⭐ | [README.md](../README.md) | Главная страница |
-| ⭐⭐⭐⭐⭐ | [CONTRIBUTING.md](../CONTRIBUTING.md) | Как контрибьютить |
-| ⭐⭐⭐⭐⭐ | [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) | Индекс документации |
-| ⭐⭐⭐⭐ | [docs/ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md) | Архитектура |
-| ⭐⭐⭐⭐ | [docs/DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md) | Workflow |
-| ⭐⭐⭐⭐ | [docs/TESTING_INFRASTRUCTURE.md](TESTING_INFRASTRUCTURE.md) | Тесты |
-| ⭐⭐⭐ | [docs/SAFE_AREA_GUIDELINES.md](SAFE_AREA_GUIDELINES.md) | Mobile |
-| ⭐⭐⭐ | [docs/SUNO_API.md](SUNO_API.md) | Suno AI |
+| 🔥 Популярность | Документ                                                    | Описание            |
+| --------------- | ----------------------------------------------------------- | ------------------- |
+| ⭐⭐⭐⭐⭐      | [README.md](../README.md)                                   | Главная страница    |
+| ⭐⭐⭐⭐⭐      | [CONTRIBUTING.md](../CONTRIBUTING.md)                       | Как контрибьютить   |
+| ⭐⭐⭐⭐⭐      | [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md)         | Индекс документации |
+| ⭐⭐⭐⭐        | [docs/ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)   | Архитектура         |
+| ⭐⭐⭐⭐        | [docs/DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md)     | Workflow            |
+| ⭐⭐⭐⭐        | [docs/TESTING_INFRASTRUCTURE.md](TESTING_INFRASTRUCTURE.md) | Тесты               |
+| ⭐⭐⭐          | [docs/SAFE_AREA_GUIDELINES.md](SAFE_AREA_GUIDELINES.md)     | Mobile              |
+| ⭐⭐⭐          | [docs/SUNO_API.md](SUNO_API.md)                             | Suno AI             |
 
 ### По обновляемости
 
-| 📅 Частота | Документы |
-|-----------|-----------|
-| **Ежедневно** | PROJECT_STATUS.md, SPRINTS/SPRINT-PROGRESS.md |
-| **Еженедельно** | CHANGELOG.md, docs/PROGRESS.md |
-| **Ежемесячно** | ROADMAP.md, README.md |
-| **По необходимости** | docs/*.md, ADR/*.md |
+| 📅 Частота           | Документы                                     |
+| -------------------- | --------------------------------------------- |
+| **Ежедневно**        | PROJECT_STATUS.md, SPRINTS/SPRINT-PROGRESS.md |
+| **Еженедельно**      | CHANGELOG.md, docs/PROGRESS.md                |
+| **Ежемесячно**       | ROADMAP.md, README.md                         |
+| **По необходимости** | docs/_.md, ADR/_.md                           |
 
 ---
 
@@ -574,29 +583,29 @@ A: [PROJECT_STATUS.md](../PROJECT_STATUS.md) и [docs/PROGRESS.md](PROGRESS.md).
 
 ### Жесты и shortcuts
 
-| Действие | Где |
-|----------|-----|
-| **Поиск по файлам** | Ctrl+P (VS Code) |
-| **Поиск по тексту** | Ctrl+Shift+F |
-| **Переход к определению** | F12 |
-| **Найти все references** | Shift+F12 |
-| **Переименовать** | F2 |
-| **Форматирование** | Shift+Alt+F |
+| Действие                  | Где              |
+| ------------------------- | ---------------- |
+| **Поиск по файлам**       | Ctrl+P (VS Code) |
+| **Поиск по тексту**       | Ctrl+Shift+F     |
+| **Переход к определению** | F12              |
+| **Найти все references**  | Shift+F12        |
+| **Переименовать**         | F2               |
+| **Форматирование**        | Shift+Alt+F      |
 
 ### Быстрые переходы в коде
 
 ```typescript
 // Из компонента к хуку
-import { useTelegram } from '@/hooks/useTelegram';
+import { useTelegram } from "@/hooks/useTelegram";
 
 // Из компонента к сервису
-import { generationService } from '@/services/generationService';
+import { generationService } from "@/services/generationService";
 
 // Из компонента к store
-import { usePlayerStore } from '@/stores/usePlayerStore';
+import { usePlayerStore } from "@/stores/usePlayerStore";
 
 // Из компонента к типу
-import type { Track } from '@/types/track';
+import type { Track } from "@/types/track";
 ```
 
 ---
@@ -619,7 +628,7 @@ import type { Track } from '@/types/track';
 
 **Счастливого программирования!** 🎵💻
 
-*Последнее обновление: 25 июня 2026*
+_Последнее обновление: 25 июня 2026_
 
 [🔝 В начало](#-навигация-по-репозиторию-musicverse-ai)
 

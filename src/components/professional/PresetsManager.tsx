@@ -3,35 +3,43 @@
  * Provides quick access to effect presets, mix templates, and custom settings
  */
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Sparkles, Save, Trash2, Download, Upload, 
-  Star, StarOff, Music, Sliders, Zap, Check,
-  Guitar, Mic, Drum, Piano, Headphones, Copy
-} from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  Sparkles,
+  Save,
+  Trash2,
+  Download,
+  Upload,
+  Star,
+  StarOff,
+  Music,
+  Sliders,
+  Zap,
+  Check,
+  Guitar,
+  Mic,
+  Drum,
+  Piano,
+  Headphones,
+  Copy,
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export interface Preset {
   id: string;
   name: string;
   description: string;
-  category: 'eq' | 'compressor' | 'reverb' | 'mix' | 'custom';
+  category: "eq" | "compressor" | "reverb" | "mix" | "custom";
   icon: React.ElementType;
   color: string;
   isFavorite: boolean;
@@ -62,20 +70,20 @@ const categoryIcons = {
 };
 
 const categoryColors = {
-  eq: 'from-purple-500 to-pink-500',
-  compressor: 'from-amber-500 to-orange-500',
-  reverb: 'from-cyan-500 to-blue-500',
-  mix: 'from-green-500 to-emerald-500',
-  custom: 'from-indigo-500 to-purple-500',
+  eq: "from-purple-500 to-pink-500",
+  compressor: "from-amber-500 to-orange-500",
+  reverb: "from-cyan-500 to-blue-500",
+  mix: "from-green-500 to-emerald-500",
+  custom: "from-indigo-500 to-purple-500",
 };
 
 const genrePresets = [
-  { label: 'Rock', icon: Guitar, color: 'text-red-400' },
-  { label: 'Pop', icon: Mic, color: 'text-pink-400' },
-  { label: 'Electronic', icon: Zap, color: 'text-cyan-400' },
-  { label: 'Hip-Hop', icon: Drum, color: 'text-amber-400' },
-  { label: 'Classical', icon: Piano, color: 'text-purple-400' },
-  { label: 'Jazz', icon: Music, color: 'text-green-400' },
+  { label: "Rock", icon: Guitar, color: "text-red-400" },
+  { label: "Pop", icon: Mic, color: "text-pink-400" },
+  { label: "Electronic", icon: Zap, color: "text-cyan-400" },
+  { label: "Hip-Hop", icon: Drum, color: "text-amber-400" },
+  { label: "Classical", icon: Piano, color: "text-purple-400" },
+  { label: "Jazz", icon: Music, color: "text-green-400" },
 ];
 
 export function PresetsManager({
@@ -88,17 +96,18 @@ export function PresetsManager({
   onImportPresets,
   currentSettings,
 }: PresetsManagerProps) {
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [showSaveDialog, setShowSaveDialog] = useState(false);
-  const [newPresetName, setNewPresetName] = useState('');
+  const [newPresetName, setNewPresetName] = useState("");
 
   // Filter presets
   const filteredPresets = presets.filter((preset) => {
-    const matchesCategory = selectedCategory === 'all' || preset.category === selectedCategory;
-    const matchesSearch = preset.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         preset.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         preset.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesCategory = selectedCategory === "all" || preset.category === selectedCategory;
+    const matchesSearch =
+      preset.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      preset.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      preset.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
 
@@ -111,26 +120,26 @@ export function PresetsManager({
 
   const handleSaveCurrentPreset = () => {
     if (!newPresetName.trim()) {
-      toast.error('Введите название пресета');
+      toast.error("Введите название пресета");
       return;
     }
-    
+
     if (!currentSettings) {
-      toast.error('Нет текущих настроек для сохранения');
+      toast.error("Нет текущих настроек для сохранения");
       return;
     }
 
     onSavePreset(newPresetName, currentSettings);
-    setNewPresetName('');
+    setNewPresetName("");
     setShowSaveDialog(false);
-    toast.success('Пресет сохранён', {
+    toast.success("Пресет сохранён", {
       description: `"${newPresetName}" добавлен в вашу библиотеку`,
     });
   };
 
   const handleApplyPreset = (preset: Preset) => {
     onApplyPreset(preset);
-    toast.success('Пресет применён', {
+    toast.success("Пресет применён", {
       description: preset.name,
       icon: <Check className="w-4 h-4 text-green-400" />,
     });
@@ -140,7 +149,7 @@ export function PresetsManager({
     const file = event.target.files?.[0];
     if (file) {
       onImportPresets(file);
-      toast.success('Пресеты импортированы');
+      toast.success("Пресеты импортированы");
     }
   };
 
@@ -160,31 +169,20 @@ export function PresetsManager({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={onExportPresets}
-            className="h-8"
-          >
+          <Button size="sm" variant="outline" onClick={onExportPresets} className="h-8">
             <Download className="w-4 h-4 mr-1" />
             Экспорт
           </Button>
           <Button
             size="sm"
             variant="outline"
-            onClick={() => document.getElementById('import-presets')?.click()}
+            onClick={() => document.getElementById("import-presets")?.click()}
             className="h-8"
           >
             <Upload className="w-4 h-4 mr-1" />
             Импорт
           </Button>
-          <input
-            id="import-presets"
-            type="file"
-            accept=".json"
-            className="hidden"
-            onChange={handleImport}
-          />
+          <input id="import-presets" type="file" accept=".json" className="hidden" onChange={handleImport} />
         </div>
       </div>
 
@@ -226,7 +224,7 @@ export function PresetsManager({
               className="h-7 px-2 shrink-0"
               onClick={() => setSearchQuery(genre.label)}
             >
-              <Icon className={cn('w-3 h-3 mr-1', genre.color)} />
+              <Icon className={cn("w-3 h-3 mr-1", genre.color)} />
               <span className="text-xs">{genre.label}</span>
             </Button>
           );
@@ -241,7 +239,7 @@ export function PresetsManager({
           {sortedPresets.map((preset, index) => {
             const Icon = preset.icon;
             const CategoryIcon = categoryIcons[preset.category];
-            
+
             return (
               <motion.div
                 key={preset.id}
@@ -251,8 +249,8 @@ export function PresetsManager({
               >
                 <Card
                   className={cn(
-                    'group relative cursor-pointer transition-all hover:shadow-lg border-2',
-                    preset.isFavorite && 'border-amber-500/30 bg-amber-500/5'
+                    "group relative cursor-pointer transition-all hover:shadow-lg border-2",
+                    preset.isFavorite && "border-amber-500/30 bg-amber-500/5",
                   )}
                   onClick={() => handleApplyPreset(preset)}
                 >
@@ -261,18 +259,13 @@ export function PresetsManager({
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-2">
                         <motion.div
-                          className={cn(
-                            'p-2 rounded-lg',
-                            `bg-gradient-to-br ${categoryColors[preset.category]}`
-                          )}
+                          className={cn("p-2 rounded-lg", `bg-gradient-to-br ${categoryColors[preset.category]}`)}
                           whileHover={{ scale: 1.1, rotate: 5 }}
                         >
                           <Icon className="w-4 h-4 text-white" />
                         </motion.div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm leading-tight mb-0.5">
-                            {preset.name}
-                          </h4>
+                          <h4 className="font-medium text-sm leading-tight mb-0.5">{preset.name}</h4>
                           <p className="text-[10px] text-muted-foreground leading-tight line-clamp-1">
                             {preset.description}
                           </p>
@@ -317,11 +310,7 @@ export function PresetsManager({
                         {preset.category}
                       </Badge>
                       {preset.tags.slice(0, 2).map((tag) => (
-                        <Badge
-                          key={tag}
-                          variant="outline"
-                          className="text-[10px] px-1.5 py-0 h-5"
-                        >
+                        <Badge key={tag} variant="outline" className="text-[10px] px-1.5 py-0 h-5">
                           {tag}
                         </Badge>
                       ))}
@@ -359,7 +348,7 @@ export function PresetsManager({
                           onClick={(e) => {
                             e.stopPropagation();
                             navigator.clipboard.writeText(JSON.stringify(preset.settings));
-                            toast.success('Настройки скопированы');
+                            toast.success("Настройки скопированы");
                           }}
                         >
                           <Copy className="w-3 h-3" />
@@ -376,12 +365,8 @@ export function PresetsManager({
         {sortedPresets.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <Sparkles className="w-12 h-12 text-muted-foreground mb-4" />
-            <p className="text-sm text-muted-foreground mb-1">
-              Пресеты не найдены
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Попробуйте изменить фильтры или создайте новый пресет
-            </p>
+            <p className="text-sm text-muted-foreground mb-1">Пресеты не найдены</p>
+            <p className="text-xs text-muted-foreground">Попробуйте изменить фильтры или создайте новый пресет</p>
           </div>
         )}
       </ScrollArea>
@@ -403,16 +388,10 @@ export function PresetsManager({
                     <Save className="w-4 h-4 text-primary" />
                     <div>
                       <p className="text-sm font-medium">Текущие настройки</p>
-                      <p className="text-xs text-muted-foreground">
-                        Сохраните как новый пресет
-                      </p>
+                      <p className="text-xs text-muted-foreground">Сохраните как новый пресет</p>
                     </div>
                   </div>
-                  <Button
-                    size="sm"
-                    onClick={() => setShowSaveDialog(true)}
-                    className="h-8"
-                  >
+                  <Button size="sm" onClick={() => setShowSaveDialog(true)} className="h-8">
                     <Save className="w-4 h-4 mr-1" />
                     Сохранить
                   </Button>
@@ -438,11 +417,7 @@ export function PresetsManager({
                     />
                   </div>
                   <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={handleSaveCurrentPreset}
-                      className="h-8 flex-1"
-                    >
+                    <Button size="sm" onClick={handleSaveCurrentPreset} className="h-8 flex-1">
                       <Check className="w-4 h-4 mr-1" />
                       Сохранить
                     </Button>
@@ -451,7 +426,7 @@ export function PresetsManager({
                       variant="outline"
                       onClick={() => {
                         setShowSaveDialog(false);
-                        setNewPresetName('');
+                        setNewPresetName("");
                       }}
                       className="h-8"
                     >

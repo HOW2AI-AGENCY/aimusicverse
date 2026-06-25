@@ -27,6 +27,7 @@
 ## 🎯 Введение
 
 MusicVerse AI использует профессиональную дизайн-систему, построенную на основе:
+
 - **Tailwind CSS 3.4** для утилит
 - **CSS переменные** для токенов
 - **Mobile-first подход** для адаптивности
@@ -45,18 +46,18 @@ MusicVerse AI использует профессиональную дизайн
 
 ### Шкала размеров
 
-| Класс | Размер | Высота строки | Вес | Использование |
-|:------|:-------|:-------------|:----|:-------------|
-| `text-display-1` | 2.5rem (40px) | 1.2 | 700 | Главные заголовки |
-| `text-display-2` | 2rem (32px) | 1.25 | 600 | Крупные заголовки |
-| `text-heading-1` | 1.5rem (24px) | 1.3 | 600 | Заголовки страниц |
-| `text-heading-2` | 1.25rem (20px) | 1.35 | 600 | Подзаголовки |
-| `text-heading-3` | 1.125rem (18px) | 1.4 | 500 | Малые заголовки |
-| `text-body-lg` | 1rem (16px) | 1.6 | 400 | Основной текст |
-| `text-body` | 0.875rem (14px) | 1.5 | 400 | Стандартный текст |
-| `text-body-sm` | 0.8125rem (13px) | 1.5 | 400 | Мелкий текст |
-| `text-caption` | 0.75rem (12px) | 1.4 | 400 | Подписи |
-| `text-caption-sm` | 0.6875rem (11px) | 1.3 | 400 | Микротекст |
+| Класс             | Размер           | Высота строки | Вес | Использование     |
+| :---------------- | :--------------- | :------------ | :-- | :---------------- |
+| `text-display-1`  | 2.5rem (40px)    | 1.2           | 700 | Главные заголовки |
+| `text-display-2`  | 2rem (32px)      | 1.25          | 600 | Крупные заголовки |
+| `text-heading-1`  | 1.5rem (24px)    | 1.3           | 600 | Заголовки страниц |
+| `text-heading-2`  | 1.25rem (20px)   | 1.35          | 600 | Подзаголовки      |
+| `text-heading-3`  | 1.125rem (18px)  | 1.4           | 500 | Малые заголовки   |
+| `text-body-lg`    | 1rem (16px)      | 1.6           | 400 | Основной текст    |
+| `text-body`       | 0.875rem (14px)  | 1.5           | 400 | Стандартный текст |
+| `text-body-sm`    | 0.8125rem (13px) | 1.5           | 400 | Мелкий текст      |
+| `text-caption`    | 0.75rem (12px)   | 1.4           | 400 | Подписи           |
+| `text-caption-sm` | 0.6875rem (11px) | 1.3           | 400 | Микротекст        |
 
 ### Примеры использования
 
@@ -81,10 +82,10 @@ MusicVerse AI использует профессиональную дизайн
 
 ```css
 /* Inter — основной шрифт */
-font-family: 'Inter', sans-serif;
+font-family: "Inter", sans-serif;
 
 /* Roboto Mono — монопространственный */
-font-family: 'Roboto Mono', monospace;
+font-family: "Roboto Mono", monospace;
 ```
 
 ---
@@ -93,23 +94,23 @@ font-family: 'Roboto Mono', monospace;
 
 ### Цветовая палитра (Light Mode)
 
-| Переменная | HSL | RGB | Назначение |
-|:-----------|:----:|:---:|:----------|
-| Primary | 207 90% 54% | #0088CC | Основная цвет (Telegram Blue) |
-| Secondary | 220 15% 92% | #E8EBEF | Фоны сторон |
-| Accent | 207 80% 95% | #E8F4FF | Выделение |
-| Success | 160 70% 42% | #00B369 | Успешные действия |
-| Warning | 38 95% 50% | #FFB800 | Предупреждения |
-| Destructive | 0 72% 51% | #EF4444 | Опасные действия |
+| Переменная  |     HSL     |   RGB   | Назначение                    |
+| :---------- | :---------: | :-----: | :---------------------------- |
+| Primary     | 207 90% 54% | #0088CC | Основная цвет (Telegram Blue) |
+| Secondary   | 220 15% 92% | #E8EBEF | Фоны сторон                   |
+| Accent      | 207 80% 95% | #E8F4FF | Выделение                     |
+| Success     | 160 70% 42% | #00B369 | Успешные действия             |
+| Warning     | 38 95% 50%  | #FFB800 | Предупреждения                |
+| Destructive |  0 72% 51%  | #EF4444 | Опасные действия              |
 
 ### Цветовая палитра (Dark Mode)
 
 ```css
 /* Dark Mode переменные использует те же структуру */
---background: 220 20% 7%;        /* #0F1419 */
---foreground: 220 10% 98%;       /* #F7F8FB */
---card: 220 18% 10%;             /* #141A25 */
---primary: 207 90% 54%;          /* #0088CC */
+--background: 220 20% 7%; /* #0F1419 */
+--foreground: 220 10% 98%; /* #F7F8FB */
+--card: 220 18% 10%; /* #141A25 */
+--primary: 207 90% 54%; /* #0088CC */
 ```
 
 ### Использование цветов
@@ -154,17 +155,17 @@ font-family: 'Roboto Mono', monospace;
 
 ### Система сетки (4px base)
 
-| Токен | Значение | Использование |
-|:------|:---------|:-------------|
-| `--space-1` | 0.25rem (4px) | Микроспейсы |
-| `--space-2` | 0.5rem (8px) | Компактные отступы |
-| `--space-3` | 0.75rem (12px) | Стандартные отступы |
-| `--space-4` | 1rem (16px) | Основной спейс |
-| `--space-5` | 1.25rem (20px) | Повышенный спейс |
-| `--space-6` | 1.5rem (24px) | Расслабленный спейс |
-| `--space-8` | 2rem (32px) | Большой спейс |
-| `--space-10` | 2.5rem (40px) | Очень большой |
-| `--space-12` | 3rem (48px) | Максимальный спейс |
+| Токен        | Значение       | Использование       |
+| :----------- | :------------- | :------------------ |
+| `--space-1`  | 0.25rem (4px)  | Микроспейсы         |
+| `--space-2`  | 0.5rem (8px)   | Компактные отступы  |
+| `--space-3`  | 0.75rem (12px) | Стандартные отступы |
+| `--space-4`  | 1rem (16px)    | Основной спейс      |
+| `--space-5`  | 1.25rem (20px) | Повышенный спейс    |
+| `--space-6`  | 1.5rem (24px)  | Расслабленный спейс |
+| `--space-8`  | 2rem (32px)    | Большой спейс       |
+| `--space-10` | 2.5rem (40px)  | Очень большой       |
+| `--space-12` | 3rem (48px)    | Максимальный спейс  |
 
 ### Tailwind классы
 
@@ -204,16 +205,16 @@ font-family: 'Roboto Mono', monospace;
 
 ### Точки разрыва (responsive)
 
-| Breakpoint | Значение | Вес | Использование |
-|:-----------|:---------|:----|:-------------|
-| `xs` | 375px | — | Extra small phones |
-| `sm` | 640px | — | Small phones |
-| `md` | 768px | 📱 | Tablets |
-| `lg` | 1024px | 💻 | Desktops |
-| `xl` | 1280px | 💻 | Large desktops |
-| `2xl` | 1536px | 🖥️ | Very large |
-| `3xl` | 1920px | 🖥️ | Ultra-wide |
-| `4xl` | 2560px | 🖥️ | 4K |
+| Breakpoint | Значение | Вес | Использование      |
+| :--------- | :------- | :-- | :----------------- |
+| `xs`       | 375px    | —   | Extra small phones |
+| `sm`       | 640px    | —   | Small phones       |
+| `md`       | 768px    | 📱  | Tablets            |
+| `lg`       | 1024px   | 💻  | Desktops           |
+| `xl`       | 1280px   | 💻  | Large desktops     |
+| `2xl`      | 1536px   | 🖥️  | Very large         |
+| `3xl`      | 1920px   | 🖥️  | Ultra-wide         |
+| `4xl`      | 2560px   | 🖥️  | 4K                 |
 
 ### Mobile-first подход
 
@@ -259,23 +260,23 @@ font-family: 'Roboto Mono', monospace;
 
 ### Иерархия слоёв
 
-| Уровень | Z-Index | Класс | Использование |
-|:--------|:------:|:------|:-------------|
-| Base | 0 | `z-base` | Основной контент |
-| Raised | 10 | `z-raised` | Карточки, панели |
-| Sticky | 20 | `z-sticky` | Липкие заголовки |
-| Floating | 30 | `z-floating` | Плавающие кнопки |
-| Overlay | 40 | `z-overlay` | Подложки |
-| Navigation | 50 | `z-navigation` | Нижняя навигация |
-| Player | 60 | `z-player` | Плеер |
-| Contextual | 70 | `z-contextual` | Всплывающие подсказки |
-| Fullscreen | 90 | `z-fullscreen` | Полноэкранный плеер |
-| Dialog | 140 | `z-dialog` | Модальные окна |
-| Sheet | 150–151 | `z-sheet-*` | Bottom sheets |
-| Dropdown | 200 | `z-dropdown` | Выпадающие меню |
-| Tooltip | 250 | `z-tooltip` | Подсказки |
-| Toast | 300 | `z-toast` | Уведомления |
-| Max | 9999 | `z-max` | Критические окна |
+| Уровень    | Z-Index | Класс          | Использование         |
+| :--------- | :-----: | :------------- | :-------------------- |
+| Base       |    0    | `z-base`       | Основной контент      |
+| Raised     |   10    | `z-raised`     | Карточки, панели      |
+| Sticky     |   20    | `z-sticky`     | Липкие заголовки      |
+| Floating   |   30    | `z-floating`   | Плавающие кнопки      |
+| Overlay    |   40    | `z-overlay`    | Подложки              |
+| Navigation |   50    | `z-navigation` | Нижняя навигация      |
+| Player     |   60    | `z-player`     | Плеер                 |
+| Contextual |   70    | `z-contextual` | Всплывающие подсказки |
+| Fullscreen |   90    | `z-fullscreen` | Полноэкранный плеер   |
+| Dialog     |   140   | `z-dialog`     | Модальные окна        |
+| Sheet      | 150–151 | `z-sheet-*`    | Bottom sheets         |
+| Dropdown   |   200   | `z-dropdown`   | Выпадающие меню       |
+| Tooltip    |   250   | `z-tooltip`    | Подсказки             |
+| Toast      |   300   | `z-toast`      | Уведомления           |
+| Max        |  9999   | `z-max`        | Критические окна      |
 
 ### Примеры использования
 
@@ -330,27 +331,27 @@ env(safe-area-inset-right)
 
 ### Типичные значения
 
-| Устройство | Top | Bottom | Примечание |
-|:-----------|:---:|:------:|:----------|
-| iPhone 15 Pro | 59px | 34px | Dynamic Island |
-| iPhone SE | 44px | 34px | Стандартный notch |
-| Android (notch) | 24px | 0px | Punch-hole |
-| Android (no notch) | 0px | 0px | Нет особенностей |
+| Устройство         | Top  | Bottom | Примечание        |
+| :----------------- | :--: | :----: | :---------------- |
+| iPhone 15 Pro      | 59px |  34px  | Dynamic Island    |
+| iPhone SE          | 44px |  34px  | Стандартный notch |
+| Android (notch)    | 24px |  0px   | Punch-hole        |
+| Android (no notch) | 0px  |  0px   | Нет особенностей  |
 
 ### Применение safe areas
 
 ```tsx
 // ✅ Заголовок с отступом для notch
-<header 
-  style={{ 
-    paddingTop: 'max(var(--tg-content-safe-area-inset-top), env(safe-area-inset-top), 1rem)' 
+<header
+  style={{
+    paddingTop: 'max(var(--tg-content-safe-area-inset-top), env(safe-area-inset-top), 1rem)'
   }}
 >
   Заголовок
 </header>
 
 // ✅ Нижняя навигация с отступом
-<nav 
+<nav
   className="pb-[max(1rem,env(safe-area-inset-bottom))]"
 >
   Навигация
@@ -362,8 +363,8 @@ env(safe-area-inset-right)
 </div>
 
 // ✅ Боковые отступы на wide экранах
-<main 
-  style={{ 
+<main
+  style={{
     paddingLeft: 'max(1rem, env(safe-area-inset-left))',
     paddingRight: 'max(1rem, env(safe-area-inset-right))'
   }}
@@ -396,11 +397,11 @@ env(safe-area-inset-right)
 
 ### Минимальные размеры
 
-| Размер | Значение | Использование |
-|:-------|:---------|:-------------|
-| Min | 44×44px | Минимум по iOS HIG |
-| Comfortable | 48×48px | Стандартный размер |
-| Large | 56×56px | Большие кнопки |
+| Размер      | Значение | Использование      |
+| :---------- | :------- | :----------------- |
+| Min         | 44×44px  | Минимум по iOS HIG |
+| Comfortable | 48×48px  | Стандартный размер |
+| Large       | 56×56px  | Большие кнопки     |
 
 ### Tailwind классы
 
@@ -443,8 +444,8 @@ env(safe-area-inset-right)
 </button>
 
 // ✅ Форма контролей
-<input 
-  type="text" 
+<input
+  type="text"
   className="h-touch px-3 py-2 border rounded"
   placeholder="Введите текст"
 />
@@ -456,14 +457,14 @@ env(safe-area-inset-right)
 
 ### Elevation уровни
 
-| Уровень | Значение | Использование |
-|:--------|:---------|:-------------|
-| 0 | `none` | Base |
-| 1 | `0 1px 2px` | Мягкая тень |
-| 2 | `0 1px 3px` | Легкая тень |
-| 3 | `0 4px 6px` | Стандартная тень |
-| 4 | `0 10px 15px` | Средняя тень |
-| 5 | `0 20px 25px` | Глубокая тень |
+| Уровень | Значение      | Использование    |
+| :------ | :------------ | :--------------- |
+| 0       | `none`        | Base             |
+| 1       | `0 1px 2px`   | Мягкая тень      |
+| 2       | `0 1px 3px`   | Легкая тень      |
+| 3       | `0 4px 6px`   | Стандартная тень |
+| 4       | `0 10px 15px` | Средняя тень     |
+| 5       | `0 20px 25px` | Глубокая тень    |
 
 ### CSS классы
 
@@ -495,21 +496,21 @@ env(safe-area-inset-right)
 
 ### Duration tokens
 
-| Токен | Значение | Использование |
-|:------|:---------|:-------------|
-| `instant` | 0ms | Мгновенно |
-| `fast` | 100ms | Быстрые действия |
-| `normal` | 200ms | Стандартные |
-| `slow` | 300ms | Медленные |
-| `slower` | 400ms | Более медленные |
-| `slowest` | 500ms | Очень медленные |
+| Токен     | Значение | Использование    |
+| :-------- | :------- | :--------------- |
+| `instant` | 0ms      | Мгновенно        |
+| `fast`    | 100ms    | Быстрые действия |
+| `normal`  | 200ms    | Стандартные      |
+| `slow`    | 300ms    | Медленные        |
+| `slower`  | 400ms    | Более медленные  |
+| `slowest` | 500ms    | Очень медленные  |
 
 ### Easing функции
 
 ```css
---ease-default: cubic-bezier(0.4, 0, 0.2, 1);   /* Стандартная */
---ease-in: cubic-bezier(0.4, 0, 1, 1);          /* Ускорение */
---ease-out: cubic-bezier(0, 0, 0.2, 1);         /* Замедление */
+--ease-default: cubic-bezier(0.4, 0, 0.2, 1); /* Стандартная */
+--ease-in: cubic-bezier(0.4, 0, 1, 1); /* Ускорение */
+--ease-out: cubic-bezier(0, 0, 0.2, 1); /* Замедление */
 --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); /* Пружина */
 --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Отскок */
 ```
@@ -550,8 +551,9 @@ env(safe-area-inset-right)
 ### Мобильные компоненты
 
 #### MobileListItem
+
 ```tsx
-import { MobileListItem } from '@/components/mobile';
+import { MobileListItem } from "@/components/mobile";
 
 <MobileListItem
   title="Название трека"
@@ -560,48 +562,43 @@ import { MobileListItem } from '@/components/mobile';
   trailing={<Badge>NEW</Badge>}
   showChevron
   onClick={handleClick}
-/>
+/>;
 ```
 
 **Особенности:**
+
 - Минимальная высота 56px
 - Touch-оптимизированные отступы
 - Поддержка иконок слева/справа
 - Active/disabled состояния
 
 #### MobileHeaderBar
-```tsx
-import { MobileHeaderBar } from '@/components/mobile';
 
-<MobileHeaderBar
-  title="Заголовок"
-  subtitle="Подзаголовок"
-  onBack={() => navigate(-1)}
-  sticky
-/>
+```tsx
+import { MobileHeaderBar } from "@/components/mobile";
+
+<MobileHeaderBar title="Заголовок" subtitle="Подзаголовок" onBack={() => navigate(-1)} sticky />;
 ```
 
 **Особенности:**
+
 - Safe area support
 - Sticky/transparent режимы
 - Кнопки для навигации
 - Custom контент поддержка
 
 #### MobileFormField
-```tsx
-import { MobileFormField } from '@/components/mobile/forms';
 
-<MobileFormField
-  label="BPM"
-  description="Beats per minute"
-  error={errors.bpm}
-  required
->
+```tsx
+import { MobileFormField } from "@/components/mobile/forms";
+
+<MobileFormField label="BPM" description="Beats per minute" error={errors.bpm} required>
   <Input type="number" min={60} max={200} />
-</MobileFormField>
+</MobileFormField>;
 ```
 
 **Особенности:**
+
 - Label, description, error сообщения
 - Required индикатор
 - Consistent spacing
@@ -629,7 +626,7 @@ import { MobileFormField } from '@/components/mobile/forms';
 
 // ✅ Фуллскрин модальное окно
 <Sheet>
-  <SheetContent 
+  <SheetContent
     className="h-[100dvh] flex flex-col"
     style={{ paddingTop: 'max(env(safe-area-inset-top), 1rem)' }}
   >
@@ -651,10 +648,8 @@ function ResponsiveLayout() {
       {/* Мобильный: 1 колона */}
       {/* Планшет (768px+): 2 колоны */}
       {/* Десктоп (1024px+): 3 колоны */}
-      {items.map(item => (
-        <Card key={item.id}>
-          {item.name}
-        </Card>
+      {items.map((item) => (
+        <Card key={item.id}>{item.name}</Card>
       ))}
     </div>
   );
@@ -669,15 +664,12 @@ function ConditionalRender() {
     <>
       {/* Показать только на мобилях */}
       <MobileMenu className="md:hidden" />
-      
+
       {/* Показать только на десктопе */}
       <DesktopMenu className="hidden md:block" />
-      
+
       {/* Адаптивная кнопка */}
-      <Button 
-        size="sm" 
-        className="md:size-md lg:size-lg"
-      >
+      <Button size="sm" className="md:size-md lg:size-lg">
         Действие
       </Button>
     </>
@@ -694,12 +686,8 @@ function SpaceResponsive() {
       {/* Мобильный: 12px */}
       {/* Планшет: 16px */}
       {/* Десктоп: 24px */}
-      <h1 className="text-heading-2 md:text-heading-1 lg:text-display-2">
-        Адаптивный заголовок
-      </h1>
-      <p className="text-body-sm md:text-body text-muted-foreground mt-2 md:mt-3">
-        Адаптивный текст
-      </p>
+      <h1 className="text-heading-2 md:text-heading-1 lg:text-display-2">Адаптивный заголовок</h1>
+      <p className="text-body-sm md:text-body text-muted-foreground mt-2 md:mt-3">Адаптивный текст</p>
     </div>
   );
 }
@@ -713,10 +701,7 @@ function FlexResponsive() {
     <div className="flex flex-col gap-3 md:flex-row md:gap-6 md:items-center">
       {/* Мобильный: вертикально, 12px гап */}
       {/* Планшет+: горизонтально, 24px гап, центрирование */}
-      <img 
-        src="cover.jpg" 
-        className="w-full md:w-40 h-40 md:h-40 object-cover rounded-lg"
-      />
+      <img src="cover.jpg" className="w-full md:w-40 h-40 md:h-40 object-cover rounded-lg" />
       <div className="flex-1">
         <h2 className="text-heading-2">Название</h2>
         <p className="text-body-sm text-muted-foreground">Описание</p>
@@ -745,14 +730,16 @@ function ResponsiveContainer() {
 ```tsx
 function GridResponsive() {
   return (
-    <div className="grid 
+    <div
+      className="grid 
       grid-cols-[repeat(auto-fit,minmax(280px,1fr))] 
       gap-4
-    ">
+    "
+    >
       {/* Автоматическое количество колон */}
       {/* Минимум 280px на элемент */}
       {/* Максимум доступная ширина */}
-      {items.map(item => (
+      {items.map((item) => (
         <Card key={item.id}>{item.name}</Card>
       ))}
     </div>
@@ -768,23 +755,19 @@ function GridResponsive() {
 
 ```tsx
 // Автоматическое определение (по системе)
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export function DarkModeToggle() {
   const toggleDarkMode = () => {
     const html = document.documentElement;
-    if (html.classList.contains('dark')) {
-      html.classList.remove('dark');
+    if (html.classList.contains("dark")) {
+      html.classList.remove("dark");
     } else {
-      html.classList.add('dark');
+      html.classList.add("dark");
     }
   };
 
-  return (
-    <Button onClick={toggleDarkMode}>
-      🌙 Темная тема
-    </Button>
-  );
+  return <Button onClick={toggleDarkMode}>🌙 Темная тема</Button>;
 }
 ```
 
@@ -823,13 +806,13 @@ export function DarkModeToggle() {
 
 ## 📚 Файлы системы
 
-| Файл | Назначение |
-|:-----|:----------|
-| `tailwind.config.ts` | Tailwind конфигурация |
-| `src/index.css` | CSS токены и утилиты |
-| `src/constants/z-index.ts` | Z-index константы |
-| `src/constants/safe-area.ts` | Safe area константы |
-| `src/lib/design-tokens.ts` | Токены типографии |
+| Файл                         | Назначение            |
+| :--------------------------- | :-------------------- |
+| `tailwind.config.ts`         | Tailwind конфигурация |
+| `src/index.css`              | CSS токены и утилиты  |
+| `src/constants/z-index.ts`   | Z-index константы     |
+| `src/constants/safe-area.ts` | Safe area константы   |
+| `src/lib/design-tokens.ts`   | Токены типографии     |
 
 ---
 

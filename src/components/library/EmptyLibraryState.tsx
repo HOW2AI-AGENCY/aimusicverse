@@ -1,17 +1,17 @@
 /**
  * EmptyLibraryState - Empty state for library view
  * Feature: 032-professional-ui
- * 
+ *
  * Uses design system glass tokens
  */
 
-import { motion } from '@/lib/motion';
-import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { typographyClass, spacingClass, textBalance, touchTargetClass } from '@/lib/design-tokens';
-import { glass } from '@/lib/glass';
+import { motion } from "@/lib/motion";
+import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { typographyClass, spacingClass, textBalance, touchTargetClass } from "@/lib/design-tokens";
+import { glass } from "@/lib/glass";
 
 interface EmptyLibraryStateProps {
   searchQuery?: string;
@@ -35,16 +35,13 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className={cn(
-          "flex flex-col items-center justify-center text-center p-8 sm:p-12",
-          className
-        )}
+        className={cn("flex flex-col items-center justify-center text-center p-8 sm:p-12", className)}
       >
-        <motion.div 
+        <motion.div
           className={cn(
             "w-20 h-20 rounded-2xl flex items-center justify-center mb-5 shadow-lg",
             glass.card,
-            "bg-gradient-to-br from-muted/80 to-muted/40"
+            "bg-gradient-to-br from-muted/80 to-muted/40",
           )}
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 2.5, repeat: Infinity }}
@@ -68,7 +65,7 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         "bg-gradient-to-br from-primary/5 via-generate/5 to-background",
         "border border-dashed border-primary/30",
         glass.subtle,
-        className
+        className,
       )}
     >
       {/* Animated background elements */}
@@ -89,42 +86,36 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
       <motion.div
         initial={{ scale: 0.8 }}
         animate={{ scale: 1 }}
-        transition={{ type: 'spring', stiffness: 200, delay: 0.1 }}
+        transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
         className="relative mb-8"
       >
-        <motion.div 
+        <motion.div
           className={cn(
             "w-24 h-24 rounded-3xl flex items-center justify-center shadow-2xl border border-primary/20",
             glass.card,
-            "bg-gradient-to-br from-primary/30 to-generate/20"
+            "bg-gradient-to-br from-primary/30 to-generate/20",
           )}
           animate={{ rotate: [0, 5, -5, 0] }}
           transition={{ duration: 4, repeat: Infinity }}
         >
-          <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
+          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>
             <Sparkles className="w-12 h-12 text-primary" />
           </motion.div>
         </motion.div>
-        
+
         {/* Floating particles */}
         {[...Array(4)].map((_, i) => (
           <motion.div
             key={i}
-            className={cn(
-              "absolute w-3 h-3 rounded-full",
-              i % 2 === 0 ? "bg-generate/40" : "bg-primary/40"
-            )}
+            className={cn("absolute w-3 h-3 rounded-full", i % 2 === 0 ? "bg-generate/40" : "bg-primary/40")}
             style={{
               top: `${20 + (i % 2) * 60}%`,
-              left: i < 2 ? '-10%' : '110%',
+              left: i < 2 ? "-10%" : "110%",
             }}
-            animate={{ 
-              y: [-10, 10, -10], 
+            animate={{
+              y: [-10, 10, -10],
               opacity: [0.4, 0.8, 0.4],
-              scale: [1, 1.2, 1]
+              scale: [1, 1.2, 1],
             }}
             transition={{ duration: 2 + i * 0.5, repeat: Infinity }}
           />
@@ -137,7 +128,13 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         transition={{ delay: 0.2 }}
         className="space-y-3 mb-8 relative"
       >
-        <h3 className={cn(typographyClass.heading.h2, "bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent", textBalance.balance)}>
+        <h3
+          className={cn(
+            typographyClass.heading.h2,
+            "bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent",
+            textBalance.balance,
+          )}
+        >
           Создайте свой первый трек
         </h3>
         <p className={cn(typographyClass.body.md, "text-muted-foreground max-w-md mx-auto", textBalance.ru)}>
@@ -164,8 +161,12 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
       >
         <motion.div className="flex-1" whileTap={{ scale: 0.98 }}>
           <Button
-            onClick={() => handleNavigate('/', { state: { openGenerate: true } })}
-            className={cn("w-full h-14 gap-2 bg-gradient-to-r from-primary via-primary to-generate hover:from-primary/90 hover:to-generate/90 shadow-xl shadow-primary/25 font-semibold rounded-2xl", typographyClass.body.lg, touchTargetClass.button)}
+            onClick={() => handleNavigate("/", { state: { openGenerate: true } })}
+            className={cn(
+              "w-full h-14 gap-2 bg-gradient-to-r from-primary via-primary to-generate hover:from-primary/90 hover:to-generate/90 shadow-xl shadow-primary/25 font-semibold rounded-2xl",
+              typographyClass.body.lg,
+              touchTargetClass.button,
+            )}
           >
             <Wand2 className="w-5 h-5" />
             Создать трек
@@ -175,8 +176,12 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         <motion.div className="flex-1 sm:flex-none" whileTap={{ scale: 0.98 }}>
           <Button
             variant="outline"
-            onClick={() => handleNavigate('/', { state: { openGenerate: true, mode: 'upload' } })}
-            className={cn("w-full sm:w-auto h-14 gap-2 rounded-2xl border-border/50 hover:border-primary/50 hover:bg-primary/5", typographyClass.body.lg, touchTargetClass.button)}
+            onClick={() => handleNavigate("/", { state: { openGenerate: true, mode: "upload" } })}
+            className={cn(
+              "w-full sm:w-auto h-14 gap-2 rounded-2xl border-border/50 hover:border-primary/50 hover:bg-primary/5",
+              typographyClass.body.lg,
+              touchTargetClass.button,
+            )}
           >
             <Upload className="w-5 h-5" />
             Загрузить
@@ -192,7 +197,7 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
         className="mt-10 flex flex-wrap justify-center gap-2 relative"
       >
         <p className="w-full text-xs text-muted-foreground mb-2">Попробуйте:</p>
-        {['Поп хит 🎤', 'Рок баллада 🎸', 'Lo-fi beats 🎧', 'Электронный 🎹', 'R&B 🎵'].map((tag, i) => (
+        {["Поп хит 🎤", "Рок баллада 🎸", "Lo-fi beats 🎧", "Электронный 🎹", "R&B 🎵"].map((tag, i) => (
           <motion.button
             key={tag}
             initial={{ opacity: 0, scale: 0.8 }}
@@ -200,11 +205,13 @@ export function EmptyLibraryState({ searchQuery, className, navigate }: EmptyLib
             transition={{ delay: 0.5 + i * 0.05 }}
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => handleNavigate('/', { state: { openGenerate: true, prompt: tag.replace(/[^\w\s]/g, '').trim() } })}
+            onClick={() =>
+              handleNavigate("/", { state: { openGenerate: true, prompt: tag.replace(/[^\w\s]/g, "").trim() } })
+            }
             className={cn(
               "px-4 py-2 rounded-full text-sm text-muted-foreground shadow-sm",
               glass.subtle,
-              "hover:bg-primary/10 hover:text-foreground hover:border-primary/30 transition-all"
+              "hover:bg-primary/10 hover:text-foreground hover:border-primary/30 transition-all",
             )}
           >
             {tag}

@@ -1,39 +1,39 @@
-import { motion } from '@/lib/motion';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { DailyCheckin } from '@/components/gamification/DailyCheckin';
-import { UserLevel } from '@/components/gamification/UserLevel';
-import { AchievementsList } from '@/components/gamification/AchievementsList';
-import { Leaderboard } from '@/components/gamification/Leaderboard';
-import { TransactionHistory } from '@/components/gamification/TransactionHistory';
-import { StreakCalendar } from '@/components/gamification/StreakCalendar';
-import { DailyMissions } from '@/components/gamification/DailyMissions';
-import { WeeklyChallenges } from '@/components/gamification/WeeklyChallenges';
-import { SpecialChallenges } from '@/components/gamification/SpecialChallenges';
-import { QuickStats } from '@/components/gamification/QuickStats';
-import { CreditsBalance } from '@/components/gamification/CreditsBalance';
-import { SoundToggle } from '@/components/gamification/SoundToggle';
-import { DesktopRewardsLayout } from '@/components/gamification/DesktopRewardsLayout';
-import { Trophy, Crown, History, Target, Gift, Calendar, Gem, Sparkles, Info } from 'lucide-react';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useIsMobile } from '@/hooks/use-is-mobile';
+import { motion } from "@/lib/motion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { DailyCheckin } from "@/components/gamification/DailyCheckin";
+import { UserLevel } from "@/components/gamification/UserLevel";
+import { AchievementsList } from "@/components/gamification/AchievementsList";
+import { Leaderboard } from "@/components/gamification/Leaderboard";
+import { TransactionHistory } from "@/components/gamification/TransactionHistory";
+import { StreakCalendar } from "@/components/gamification/StreakCalendar";
+import { DailyMissions } from "@/components/gamification/DailyMissions";
+import { WeeklyChallenges } from "@/components/gamification/WeeklyChallenges";
+import { SpecialChallenges } from "@/components/gamification/SpecialChallenges";
+import { QuickStats } from "@/components/gamification/QuickStats";
+import { CreditsBalance } from "@/components/gamification/CreditsBalance";
+import { SoundToggle } from "@/components/gamification/SoundToggle";
+import { DesktopRewardsLayout } from "@/components/gamification/DesktopRewardsLayout";
+import { Trophy, Crown, History, Target, Gift, Calendar, Gem, Sparkles, Info } from "lucide-react";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 
 // Animated icon wrapper
 const AnimatedIcon = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => (
   <motion.div
     initial={{ scale: 0, rotate: -180 }}
     animate={{ scale: 1, rotate: 0 }}
-    transition={{ 
-      type: 'spring', 
-      stiffness: 260, 
+    transition={{
+      type: "spring",
+      stiffness: 260,
       damping: 20,
-      delay 
+      delay,
     }}
-    whileHover={{ 
-      scale: 1.2, 
+    whileHover={{
+      scale: 1.2,
       rotate: [0, -10, 10, 0],
-      transition: { duration: 0.4 }
+      transition: { duration: 0.4 },
     }}
   >
     {children}
@@ -41,27 +41,25 @@ const AnimatedIcon = ({ children, delay = 0 }: { children: React.ReactNode; dela
 );
 
 // Section header with tooltip
-const SectionHeader = ({ 
-  icon, 
-  title, 
-  description, 
-  delay = 0 
-}: { 
-  icon: React.ReactNode; 
-  title: string; 
+const SectionHeader = ({
+  icon,
+  title,
+  description,
+  delay = 0,
+}: {
+  icon: React.ReactNode;
+  title: string;
   description: string;
   delay?: number;
 }) => (
   <TooltipProvider>
-    <motion.div 
+    <motion.div
       className="flex items-center gap-2 mb-3"
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay }}
     >
-      <AnimatedIcon delay={delay}>
-        {icon}
-      </AnimatedIcon>
+      <AnimatedIcon delay={delay}>{icon}</AnimatedIcon>
       <h2 className="text-sm font-semibold">{title}</h2>
       <Tooltip>
         <TooltipTrigger asChild>
@@ -85,33 +83,29 @@ export default function Rewards() {
   const { webApp } = useTelegram();
   const isTelegramApp = !!webApp;
   const isMobile = useIsMobile();
-  
+
   // Telegram BackButton
   useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   // Header component (shared between layouts)
   const header = (
-    <motion.div
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="relative"
-    >
+    <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="relative">
       {/* Animated background glow */}
-      <motion.div 
+      <motion.div
         className="absolute inset-0 bg-gradient-to-r from-primary/10 via-yellow-500/10 to-primary/10 rounded-2xl blur-xl"
-        animate={{ 
+        animate={{
           opacity: [0.5, 0.8, 0.5],
-          scale: [1, 1.02, 1]
+          scale: [1, 1.02, 1],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
       <div className="relative bg-card/50 backdrop-blur-sm rounded-2xl p-3 sm:p-4 border border-primary/10">
         <div className="flex items-center justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <motion.h1 
+            <motion.h1
               className="text-xl sm:text-2xl font-bold flex items-center gap-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -122,16 +116,16 @@ export default function Rewards() {
               </AnimatedIcon>
               <span>Награды</span>
               <motion.div
-                animate={{ 
+                animate={{
                   rotate: [0, 15, -15, 0],
-                  scale: [1, 1.1, 1]
+                  scale: [1, 1.1, 1],
                 }}
                 transition={{ duration: 2, repeat: Infinity, delay: 1 }}
               >
                 <Sparkles className="w-4 h-4 text-yellow-400" />
               </motion.div>
             </motion.h1>
-            <motion.p 
+            <motion.p
               className="text-muted-foreground text-xs sm:text-sm mt-1 truncate"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -140,7 +134,7 @@ export default function Rewards() {
               Выполняй миссии и открывай достижения
             </motion.p>
           </div>
-          <motion.div 
+          <motion.div
             className="flex items-center gap-1.5 sm:gap-2 shrink-0"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -152,9 +146,7 @@ export default function Rewards() {
                   <SoundToggle size="sm" />
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="text-xs">
-                Звуки наград
-              </TooltipContent>
+              <TooltipContent className="text-xs">Звуки наград</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -162,9 +154,7 @@ export default function Rewards() {
                   <CreditsBalance compact />
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="text-xs">
-                Ваш баланс кредитов
-              </TooltipContent>
+              <TooltipContent className="text-xs">Ваш баланс кредитов</TooltipContent>
             </Tooltip>
           </motion.div>
         </div>
@@ -175,7 +165,7 @@ export default function Rewards() {
   // Missions section (shared)
   const missionsSection = (
     <>
-      <SectionHeader 
+      <SectionHeader
         icon={<Target className="w-4 h-4 text-green-400" />}
         title="Миссии"
         description="Выполняй задания и получай награды"
@@ -195,25 +185,25 @@ export default function Rewards() {
             </motion.div>
             <span>Неделя</span>
           </TabsTrigger>
-          <TabsTrigger value="special" className="gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full">
-            <motion.div 
-              whileHover={{ rotate: [0, -10, 10, 0] }} 
-              transition={{ duration: 0.3 }}
-            >
+          <TabsTrigger
+            value="special"
+            className="gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full"
+          >
+            <motion.div whileHover={{ rotate: [0, -10, 10, 0] }} transition={{ duration: 0.3 }}>
               <Gem className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             </motion.div>
             <span>VIP</span>
           </TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="daily" className="mt-0">
           <DailyMissions />
         </TabsContent>
-        
+
         <TabsContent value="weekly" className="mt-0">
           <WeeklyChallenges />
         </TabsContent>
-        
+
         <TabsContent value="special" className="mt-0">
           <SpecialChallenges />
         </TabsContent>
@@ -224,7 +214,7 @@ export default function Rewards() {
   // Achievements section (shared)
   const achievementsSection = (
     <>
-      <SectionHeader 
+      <SectionHeader
         icon={<Trophy className="w-4 h-4 text-yellow-400" />}
         title="Достижения"
         description="Коллекционируй награды и соревнуйся с другими"
@@ -234,7 +224,10 @@ export default function Rewards() {
         <TabsList className="w-full grid grid-cols-4 mb-3 sm:mb-4 bg-muted/50 h-9">
           <Tooltip>
             <TooltipTrigger asChild>
-              <TabsTrigger value="achievements" className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2">
+              <TabsTrigger
+                value="achievements"
+                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+              >
                 <motion.div whileHover={{ scale: 1.2, rotate: 15 }} transition={{ duration: 0.2 }}>
                   <Trophy className="w-3 h-3 sm:w-4 sm:h-4" />
                 </motion.div>
@@ -243,10 +236,13 @@ export default function Rewards() {
             </TooltipTrigger>
             <TooltipContent className="text-xs">Ваши достижения</TooltipContent>
           </Tooltip>
-          
+
           <Tooltip>
             <TooltipTrigger asChild>
-              <TabsTrigger value="all" className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2">
+              <TabsTrigger
+                value="all"
+                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+              >
                 <motion.div whileHover={{ scale: 1.2, rotate: -15 }} transition={{ duration: 0.2 }}>
                   <Target className="w-3 h-3 sm:w-4 sm:h-4" />
                 </motion.div>
@@ -255,14 +251,14 @@ export default function Rewards() {
             </TooltipTrigger>
             <TooltipContent className="text-xs">Все достижения</TooltipContent>
           </Tooltip>
-          
+
           <Tooltip>
             <TooltipTrigger asChild>
-              <TabsTrigger value="leaderboard" className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2">
-                <motion.div 
-                  whileHover={{ scale: 1.2 }} 
-                  transition={{ duration: 0.2 }}
-                >
+              <TabsTrigger
+                value="leaderboard"
+                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+              >
+                <motion.div whileHover={{ scale: 1.2 }} transition={{ duration: 0.2 }}>
                   <Crown className="w-3 h-3 sm:w-4 sm:h-4" />
                 </motion.div>
                 <span className="hidden xs:inline">Топ</span>
@@ -270,10 +266,13 @@ export default function Rewards() {
             </TooltipTrigger>
             <TooltipContent className="text-xs">Таблица лидеров</TooltipContent>
           </Tooltip>
-          
+
           <Tooltip>
             <TooltipTrigger asChild>
-              <TabsTrigger value="history" className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2">
+              <TabsTrigger
+                value="history"
+                className="gap-0.5 sm:gap-1 text-[10px] sm:text-xs data-[state=active]:bg-primary/10 h-full px-1 sm:px-2"
+              >
                 <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
                   <History className="w-3 h-3 sm:w-4 sm:h-4" />
                 </motion.div>
@@ -307,10 +306,11 @@ export default function Rewards() {
   if (!isMobile) {
     return (
       <TooltipProvider>
-        <div 
+        <div
           className="min-h-screen pb-24"
           style={{
-            paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+            paddingTop:
+              "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
           }}
         >
           <div className="container max-w-6xl mx-auto px-4 sm:px-6 pt-2">
@@ -321,7 +321,7 @@ export default function Rewards() {
               streakSection={<StreakCalendar />}
               statsSection={
                 <>
-                  <SectionHeader 
+                  <SectionHeader
                     icon={<Sparkles className="w-4 h-4 text-primary" />}
                     title="Статистика"
                     description="Ваш прогресс и достижения за всё время"
@@ -342,20 +342,19 @@ export default function Rewards() {
   // Mobile layout (original)
   return (
     <TooltipProvider>
-      <div 
+      <div
         className="min-h-screen pb-24"
         style={{
-          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+          paddingTop:
+            "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
         }}
       >
         <div className="container max-w-lg mx-auto px-3 sm:px-4 pt-2">
           {/* Header with gradient */}
-          <div className="mb-5 sm:mb-6">
-            {header}
-          </div>
+          <div className="mb-5 sm:mb-6">{header}</div>
 
           {/* Level & Check-in Section */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
@@ -373,7 +372,7 @@ export default function Rewards() {
             transition={{ delay: 0.2 }}
             className="mb-5 sm:mb-6"
           >
-            <SectionHeader 
+            <SectionHeader
               icon={<Sparkles className="w-4 h-4 text-primary" />}
               title="Статистика"
               description="Ваш прогресс и достижения за всё время"
@@ -393,11 +392,7 @@ export default function Rewards() {
           </motion.div>
 
           {/* Achievements & Leaderboard Tabs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             {achievementsSection}
           </motion.div>
         </div>

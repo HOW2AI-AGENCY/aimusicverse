@@ -1,8 +1,8 @@
-import { Card } from '@/components/ui/card';
-import { AudioAnalysis } from '@/hooks/useAudioAnalysis';
-import { Music2, Play, Pause } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { Card } from "@/components/ui/card";
+import { AudioAnalysis } from "@/hooks/useAudioAnalysis";
+import { Music2, Play, Pause } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 interface BeatsVisualizationProps {
   analysis: AudioAnalysis;
@@ -13,13 +13,13 @@ interface BeatsVisualizationProps {
   onPlayPause?: () => void;
 }
 
-export function BeatsVisualization({ 
-  analysis, 
+export function BeatsVisualization({
+  analysis,
   currentTime = 0,
   duration = 0,
   isPlaying = false,
   onSeek,
-  onPlayPause
+  onPlayPause,
 }: BeatsVisualizationProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hoveredBeat, setHoveredBeat] = useState<number | null>(null);
@@ -32,11 +32,11 @@ export function BeatsVisualization({
   }
 
   // Calculate track duration from last beat or use provided duration
-  const trackDuration = duration > 0 ? duration : (beats[beats.length - 1]?.time || 100);
+  const trackDuration = duration > 0 ? duration : beats[beats.length - 1]?.time || 100;
 
   // Group beats by measure (assuming 4 beats per measure)
   const measures: number[] = [];
-  beats.forEach(beat => {
+  beats.forEach((beat) => {
     if (beat.beat === 1) {
       measures.push(beat.time);
     }
@@ -44,12 +44,12 @@ export function BeatsVisualization({
 
   const handleTimelineClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current || !onSeek) return;
-    
+
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const percentage = x / rect.width;
     const time = percentage * trackDuration;
-    
+
     onSeek(time);
   };
 
@@ -68,12 +68,7 @@ export function BeatsVisualization({
             <h4 className="text-sm font-semibold">Визуализация битов</h4>
           </div>
           {onPlayPause && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onPlayPause}
-              className="gap-2"
-            >
+            <Button variant="outline" size="sm" onClick={onPlayPause} className="gap-2">
               {isPlaying ? (
                 <>
                   <Pause className="w-4 h-4" />
@@ -111,10 +106,13 @@ export function BeatsVisualization({
         <div className="space-y-2">
           <div className="text-xs text-muted-foreground flex justify-between">
             <span>Кликните на бит для навигации</span>
-            <span>{Math.floor(currentTime / 60)}:{String(Math.floor(currentTime % 60)).padStart(2, '0')} / {Math.floor(trackDuration / 60)}:{String(Math.floor(trackDuration % 60)).padStart(2, '0')}</span>
+            <span>
+              {Math.floor(currentTime / 60)}:{String(Math.floor(currentTime % 60)).padStart(2, "0")} /{" "}
+              {Math.floor(trackDuration / 60)}:{String(Math.floor(trackDuration % 60)).padStart(2, "0")}
+            </span>
           </div>
 
-          <div 
+          <div
             ref={containerRef}
             className="relative h-24 bg-muted/30 rounded-lg overflow-hidden cursor-pointer border border-border hover:border-primary/50 transition-colors"
             onClick={handleTimelineClick}
@@ -125,7 +123,7 @@ export function BeatsVisualization({
                 key={`measure-${i}`}
                 className="absolute top-0 bottom-0 border-l border-border/30"
                 style={{
-                  left: `${(measureTime / trackDuration) * 100}%`
+                  left: `${(measureTime / trackDuration) * 100}%`,
                 }}
               />
             ))}
@@ -136,19 +134,13 @@ export function BeatsVisualization({
               const isDownbeat = beat.beat === 1;
               const isPassed = beat.time <= currentTime;
               const isHovered = hoveredBeat === i;
-              
+
               return (
                 <div
                   key={`beat-${i}`}
                   className={`absolute top-0 bottom-0 transition-all ${
-                    isDownbeat 
-                      ? 'w-1 bg-primary' 
-                      : 'w-0.5 bg-primary/60'
-                  } ${
-                    isPassed ? 'opacity-100' : 'opacity-30'
-                  } ${
-                    isHovered ? 'scale-y-110 opacity-100' : ''
-                  }`}
+                    isDownbeat ? "w-1 bg-primary" : "w-0.5 bg-primary/60"
+                  } ${isPassed ? "opacity-100" : "opacity-30"} ${isHovered ? "scale-y-110 opacity-100" : ""}`}
                   style={{
                     left: `${position}%`,
                   }}
@@ -173,7 +165,7 @@ export function BeatsVisualization({
             <div
               className="absolute top-0 bottom-0 w-0.5 bg-accent z-10"
               style={{
-                left: `${(currentTime / trackDuration) * 100}%`
+                left: `${(currentTime / trackDuration) * 100}%`,
               }}
             >
               <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-accent rounded-full border-2 border-background shadow-lg" />
@@ -190,19 +182,11 @@ export function BeatsVisualization({
             <div
               key={`preview-${i}`}
               className={`flex-shrink-0 w-2 rounded-sm transition-all ${
-                beat.beat === 1 
-                  ? 'h-6 bg-primary' 
-                  : 'h-4 bg-primary/60'
-              } ${
-                beat.time <= currentTime ? 'opacity-100' : 'opacity-20'
-              }`}
+                beat.beat === 1 ? "h-6 bg-primary" : "h-4 bg-primary/60"
+              } ${beat.time <= currentTime ? "opacity-100" : "opacity-20"}`}
             />
           ))}
-          {beats.length > 32 && (
-            <span className="text-xs text-muted-foreground ml-2">
-              +{beats.length - 32} битов
-            </span>
-          )}
+          {beats.length > 32 && <span className="text-xs text-muted-foreground ml-2">+{beats.length - 32} битов</span>}
         </div>
       </div>
     </Card>

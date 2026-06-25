@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Copy, Check, Music2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { motion } from '@/lib/motion';
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Copy, Check, Music2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { motion } from "@/lib/motion";
 
 // Auto-scroll behavior constants
 const USER_SCROLL_THRESHOLD = 5; // pixels - minimum scroll delta to detect user scroll
@@ -28,7 +28,7 @@ interface UnifiedLyricsViewProps {
   onSeek?: (time: number) => void;
   maxHeight?: string;
   showCopyButton?: boolean;
-  variant?: 'default' | 'compact' | 'fullscreen';
+  variant?: "default" | "compact" | "fullscreen";
 }
 
 function parseLyrics(lyrics: string | null | undefined): {
@@ -36,23 +36,23 @@ function parseLyrics(lyrics: string | null | undefined): {
   timestamped: { alignedWords: TimestampedWord[] } | null;
 } {
   if (!lyrics) {
-    return { plainText: '', timestamped: null };
+    return { plainText: "", timestamped: null };
   }
 
-  if (lyrics.trim().startsWith('{') || lyrics.trim().startsWith('[')) {
+  if (lyrics.trim().startsWith("{") || lyrics.trim().startsWith("[")) {
     try {
       const parsed = JSON.parse(lyrics);
-      
+
       if (parsed.alignedWords && Array.isArray(parsed.alignedWords)) {
-        const plainText = parsed.alignedWords.map((w: TimestampedWord) => w.word).join(' ');
+        const plainText = parsed.alignedWords.map((w: TimestampedWord) => w.word).join(" ");
         return { plainText, timestamped: parsed };
       }
-      
+
       if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].word !== undefined) {
-        const plainText = parsed.map((w: TimestampedWord) => w.word).join(' ');
+        const plainText = parsed.map((w: TimestampedWord) => w.word).join(" ");
         return { plainText, timestamped: { alignedWords: parsed } };
       }
-      
+
       if (parsed.normalLyrics) {
         return {
           plainText: parsed.normalLyrics,
@@ -65,14 +65,14 @@ function parseLyrics(lyrics: string | null | undefined): {
   }
 
   const cleanedLyrics = lyrics
-    .replace(/\[Verse\s*\d*\]/gi, '\n[Куплет]\n')
-    .replace(/\[Chorus\]/gi, '\n[Припев]\n')
-    .replace(/\[Bridge\]/gi, '\n[Бридж]\n')
-    .replace(/\[Outro\]/gi, '\n[Аутро]\n')
-    .replace(/\[Intro\]/gi, '\n[Интро]\n')
-    .replace(/\[Pre-Chorus\]/gi, '\n[Пред-припев]\n')
-    .replace(/\[Hook\]/gi, '\n[Хук]\n')
-    .replace(/\n{3,}/g, '\n\n')
+    .replace(/\[Verse\s*\d*\]/gi, "\n[Куплет]\n")
+    .replace(/\[Chorus\]/gi, "\n[Припев]\n")
+    .replace(/\[Bridge\]/gi, "\n[Бридж]\n")
+    .replace(/\[Outro\]/gi, "\n[Аутро]\n")
+    .replace(/\[Intro\]/gi, "\n[Интро]\n")
+    .replace(/\[Pre-Chorus\]/gi, "\n[Пред-припев]\n")
+    .replace(/\[Hook\]/gi, "\n[Хук]\n")
+    .replace(/\n{3,}/g, "\n\n")
     .trim();
 
   return { plainText: cleanedLyrics, timestamped: null };
@@ -84,9 +84,9 @@ export function UnifiedLyricsView({
   currentTime = 0,
   isPlaying = false,
   onSeek,
-  maxHeight = '400px',
+  maxHeight = "400px",
   showCopyButton = true,
-  variant = 'default',
+  variant = "default",
 }: UnifiedLyricsViewProps) {
   const [copied, setCopied] = useState(false);
   const [activeWordIndex, setActiveWordIndex] = useState<number | null>(null);
@@ -98,7 +98,7 @@ export function UnifiedLyricsView({
 
   const { plainText, timestamped } = useMemo(() => {
     if (providedTimestamped) {
-      const plain = providedTimestamped.alignedWords.map(w => w.word).join(' ');
+      const plain = providedTimestamped.alignedWords.map((w) => w.word).join(" ");
       return { plainText: plain, timestamped: providedTimestamped };
     }
     return parseLyrics(lyrics);
@@ -110,27 +110,27 @@ export function UnifiedLyricsView({
   const handleScroll = useCallback((e: Event) => {
     // Ignore programmatic scrolls
     if (isProgrammaticScrollRef.current) return;
-    
+
     const target = e.target as HTMLElement;
     const currentScrollTop = target.scrollTop;
-    
+
     // Detect if this is user-initiated scroll (not programmatic)
     const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
-    
+
     if (scrollDelta > USER_SCROLL_THRESHOLD) {
       setUserScrolling(true);
-      
+
       // Clear existing timeout
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
-      
+
       // Resume auto-scroll after delay
       scrollTimeoutRef.current = setTimeout(() => {
         setUserScrolling(false);
       }, AUTO_SCROLL_RESUME_DELAY);
     }
-    
+
     lastScrollTopRef.current = currentScrollTop;
   }, []);
 
@@ -139,19 +139,23 @@ export function UnifiedLyricsView({
     const container = lyricsRef.current;
     if (!container) return;
 
-    container.addEventListener('scroll', handleScroll, { passive: true });
-    container.addEventListener('touchstart', () => setUserScrolling(true), { passive: true });
-    container.addEventListener('touchend', () => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        setUserScrolling(false);
-      }, 3000);
-    }, { passive: true });
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    container.addEventListener("touchstart", () => setUserScrolling(true), { passive: true });
+    container.addEventListener(
+      "touchend",
+      () => {
+        if (scrollTimeoutRef.current) {
+          clearTimeout(scrollTimeoutRef.current);
+        }
+        scrollTimeoutRef.current = setTimeout(() => {
+          setUserScrolling(false);
+        }, 3000);
+      },
+      { passive: true },
+    );
 
     return () => {
-      container.removeEventListener('scroll', handleScroll);
+      container.removeEventListener("scroll", handleScroll);
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
@@ -161,13 +165,12 @@ export function UnifiedLyricsView({
   // Update active word based on current time - improved timing
   useEffect(() => {
     if (!hasTimestampedLyrics || !isPlaying) return;
-    
+
     const words = timestamped!.alignedWords;
-    const idx = words.findIndex(w => 
-      currentTime >= w.startS - WORD_TIMING_TOLERANCE && 
-      currentTime <= w.endS + WORD_TIMING_TOLERANCE
+    const idx = words.findIndex(
+      (w) => currentTime >= w.startS - WORD_TIMING_TOLERANCE && currentTime <= w.endS + WORD_TIMING_TOLERANCE,
     );
-    
+
     if (idx !== -1 && idx !== activeWordIndex) {
       setActiveWordIndex(idx);
     }
@@ -176,7 +179,7 @@ export function UnifiedLyricsView({
   // Auto-scroll to active word (only if not user scrolling) - improved
   useEffect(() => {
     if (!hasTimestampedLyrics || !isPlaying || activeWordIndex === null || userScrolling) return;
-    
+
     const container = lyricsRef.current;
     if (!container) return;
 
@@ -190,18 +193,18 @@ export function UnifiedLyricsView({
     const currentPosition = elementRect.top - containerRect.top;
     const scrollOffset = currentPosition - targetPosition;
     const targetScrollTop = Math.max(0, container.scrollTop + scrollOffset);
-    
+
     // Only scroll if element is too far from target position
     const needsScroll = Math.abs(scrollOffset) > AUTO_SCROLL_DISTANCE_THRESHOLD;
     if (!needsScroll) return;
-    
+
     // Smooth scroll with programmatic flag
     requestAnimationFrame(() => {
       isProgrammaticScrollRef.current = true;
       lastScrollTopRef.current = targetScrollTop;
       container.scrollTo({
         top: targetScrollTop,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
       // Reset programmatic flag after scroll animation completes
       setTimeout(() => {
@@ -214,10 +217,10 @@ export function UnifiedLyricsView({
     try {
       await navigator.clipboard.writeText(plainText);
       setCopied(true);
-      toast.success('Текст скопирован');
+      toast.success("Текст скопирован");
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error('Не удалось скопировать');
+      toast.error("Не удалось скопировать");
     }
   };
 
@@ -230,20 +233,20 @@ export function UnifiedLyricsView({
 
   if (!plainText && !hasTimestampedLyrics) {
     return (
-      <div className={cn(
-        'flex flex-col items-center justify-center text-center p-6',
-        variant === 'compact' ? 'py-4' : 'py-8'
-      )}>
+      <div
+        className={cn(
+          "flex flex-col items-center justify-center text-center p-6",
+          variant === "compact" ? "py-4" : "py-8",
+        )}
+      >
         <Music2 className="w-10 h-10 text-muted-foreground/50 mb-3" />
-        <p className="text-muted-foreground text-sm">
-          Текст песни недоступен
-        </p>
+        <p className="text-muted-foreground text-sm">Текст песни недоступен</p>
       </div>
     );
   }
 
   // Fullscreen variant
-  if (variant === 'fullscreen') {
+  if (variant === "fullscreen") {
     return (
       <div className="h-full overflow-hidden relative">
         {/* User scroll indicator */}
@@ -252,15 +255,12 @@ export function UnifiedLyricsView({
             Автоскролл выкл
           </div>
         )}
-        <div
-          ref={lyricsRef}
-          className="h-full overflow-y-auto px-4 py-8 touch-pan-y overscroll-contain scroll-smooth"
-        >
+        <div ref={lyricsRef} className="h-full overflow-y-auto px-4 py-8 touch-pan-y overscroll-contain scroll-smooth">
           {hasTimestampedLyrics ? (
             <div className="space-y-1">
               {groupWordsIntoLines(timestamped!.alignedWords).map((line, lineIndex) => {
-                const isLineActive = line.some(w => currentTime >= w.startS && currentTime <= w.endS);
-                const isLinePast = line.every(w => currentTime > w.endS);
+                const isLineActive = line.some((w) => currentTime >= w.startS && currentTime <= w.endS);
+                const isLinePast = line.every((w) => currentTime > w.endS);
 
                 return (
                   <motion.div
@@ -272,8 +272,8 @@ export function UnifiedLyricsView({
                     }}
                     transition={{ duration: 0.2 }}
                     className={cn(
-                      'text-xl font-medium cursor-pointer py-2 px-3 rounded-lg transition-all',
-                      isLineActive && 'text-primary bg-primary/10 font-bold'
+                      "text-xl font-medium cursor-pointer py-2 px-3 rounded-lg transition-all",
+                      isLineActive && "text-primary bg-primary/10 font-bold",
                     )}
                     onClick={() => {
                       if (onSeek) {
@@ -285,17 +285,17 @@ export function UnifiedLyricsView({
                     {line.map((word, wordIndex) => {
                       const globalIndex = timestamped!.alignedWords.indexOf(word);
                       const isWordActive = currentTime >= word.startS && currentTime <= word.endS;
-                      
+
                       return (
                         <span
                           key={wordIndex}
                           data-word-index={globalIndex}
                           className={cn(
-                            'inline mr-1.5 transition-colors',
-                            isWordActive && 'text-primary font-extrabold underline decoration-primary/50'
+                            "inline mr-1.5 transition-colors",
+                            isWordActive && "text-primary font-extrabold underline decoration-primary/50",
                           )}
                         >
-                          {word.word.replace('\n', '')}
+                          {word.word.replace("\n", "")}
                         </span>
                       );
                     })}
@@ -304,9 +304,7 @@ export function UnifiedLyricsView({
               })}
             </div>
           ) : (
-            <div className="whitespace-pre-wrap text-lg leading-relaxed text-foreground/90">
-              {plainText}
-            </div>
+            <div className="whitespace-pre-wrap text-lg leading-relaxed text-foreground/90">{plainText}</div>
           )}
         </div>
       </div>
@@ -342,18 +340,18 @@ export function UnifiedLyricsView({
               <div className="leading-relaxed">
                 {timestamped!.alignedWords.map((word, i) => {
                   const isWordActive = isPlaying && currentTime >= word.startS && currentTime <= word.endS;
-                  
+
                   return (
                     <span
                       key={i}
                       data-word-index={i}
                       onClick={() => handleWordClick(word)}
                       className={cn(
-                        'inline px-0.5 rounded transition-all cursor-pointer hover:bg-primary/10',
-                        isWordActive && 'bg-primary text-primary-foreground font-medium'
+                        "inline px-0.5 rounded transition-all cursor-pointer hover:bg-primary/10",
+                        isWordActive && "bg-primary text-primary-foreground font-medium",
                       )}
                     >
-                      {word.word}{' '}
+                      {word.word}{" "}
                     </span>
                   );
                 })}
@@ -375,20 +373,20 @@ function groupWordsIntoLines(words: TimestampedWord[]): TimestampedWord[][] {
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
     const nextWord = words[i + 1];
-    
+
     // Skip empty words
     if (!word.word.trim()) continue;
-    
+
     currentLine.push(word);
-    
+
     // Check for line breaks
-    const hasNewline = word.word.includes('\n');
-    const hasDoubleNewline = word.word.includes('\n\n');
-    
+    const hasNewline = word.word.includes("\n");
+    const hasDoubleNewline = word.word.includes("\n\n");
+
     // Time gap threshold for line separation (increased from 0.5 to 0.8)
     const timeGap = nextWord ? nextWord.startS - word.endS : 0;
     const hasTimeGap = timeGap > 0.8;
-    
+
     if (hasDoubleNewline || (hasNewline && hasTimeGap) || !nextWord) {
       if (currentLine.length > 0) {
         lines.push(currentLine);
@@ -405,16 +403,16 @@ function groupWordsIntoLines(words: TimestampedWord[]): TimestampedWord[][] {
   if (lines.length <= 1 && words.length > 8) {
     const result: TimestampedWord[][] = [];
     let line: TimestampedWord[] = [];
-    
+
     for (let i = 0; i < words.length; i++) {
       const word = words[i];
       if (!word.word.trim()) continue;
-      
+
       line.push(word);
-      
+
       const nextWord = words[i + 1];
       const timeGap = nextWord ? nextWord.startS - word.endS : 0;
-      
+
       // Increased from 8/0.5 to 10/0.8 for better grouping
       if (line.length >= 10 || timeGap > 0.8) {
         if (line.length > 0) {
@@ -423,11 +421,11 @@ function groupWordsIntoLines(words: TimestampedWord[]): TimestampedWord[][] {
         }
       }
     }
-    
+
     if (line.length > 0) {
       result.push(line);
     }
-    
+
     return result;
   }
 

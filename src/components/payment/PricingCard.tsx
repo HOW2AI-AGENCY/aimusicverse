@@ -1,15 +1,15 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Check, CreditCard, Zap } from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { formatRubles } from '@/types/payment';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Check, CreditCard, Zap } from "lucide-react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { formatRubles } from "@/types/payment";
 
 export interface StarsProduct {
   id: string;
   product_code: string;
-  product_type: 'credit_package' | 'subscription';
+  product_type: "credit_package" | "subscription";
   name: Record<string, string>;
   description: Record<string, string>;
   stars_price: number; // kept for compatibility
@@ -25,44 +25,32 @@ export interface StarsProduct {
 interface PricingCardProps {
   product: StarsProduct;
   onPurchase: (productCode: string) => void;
-  lang?: 'en' | 'ru';
+  lang?: "en" | "ru";
   isPurchasing?: boolean;
   className?: string;
 }
 
-export function PricingCard({ 
-  product, 
-  onPurchase, 
-  lang = 'ru',
-  isPurchasing = false,
-  className 
-}: PricingCardProps) {
-  const name = product.name[lang] || product.name['en'];
-  const description = product.description[lang] || product.description['en'];
-  
+export function PricingCard({ product, onPurchase, lang = "ru", isPurchasing = false, className }: PricingCardProps) {
+  const name = product.name[lang] || product.name["en"];
+  const description = product.description[lang] || product.description["en"];
+
   const handlePurchase = () => {
     if (!isPurchasing) onPurchase(product.product_code);
   };
 
-  const isSubscription = product.product_type === 'subscription';
-  const isCreditPackage = product.product_type === 'credit_package';
-  
+  const isSubscription = product.product_type === "subscription";
+  const isCreditPackage = product.product_type === "credit_package";
+
   // Format price in RUB
-  const priceDisplay = product.price_rub_cents 
-    ? formatRubles(product.price_rub_cents)
-    : `${product.stars_price} ₽`; // fallback
+  const priceDisplay = product.price_rub_cents ? formatRubles(product.price_rub_cents) : `${product.stars_price} ₽`; // fallback
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card 
+    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <Card
         className={cn(
           "relative overflow-hidden transition-all",
           product.is_featured && "border-primary shadow-lg ring-2 ring-primary/20",
-          className
+          className,
         )}
       >
         {product.is_featured && (
@@ -84,9 +72,7 @@ export function PricingCard({
             <div className="flex items-baseline gap-2">
               <span className="text-4xl font-bold">{priceDisplay}</span>
             </div>
-            {isSubscription && (
-              <p className="text-sm text-muted-foreground mt-1">в месяц</p>
-            )}
+            {isSubscription && <p className="text-sm text-muted-foreground mt-1">в месяц</p>}
           </div>
         </CardHeader>
 
@@ -96,9 +82,7 @@ export function PricingCard({
             <div className="mb-4 p-3 bg-primary/10 rounded-lg">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Кредитов</span>
-                <span className="text-2xl font-bold text-primary">
-                  {product.credits_amount}
-                </span>
+                <span className="text-2xl font-bold text-primary">{product.credits_amount}</span>
               </div>
             </div>
           )}
@@ -109,9 +93,7 @@ export function PricingCard({
                 {product.subscription_tier.toUpperCase()}
               </Badge>
               {product.subscription_duration_days && (
-                <p className="text-sm text-muted-foreground">
-                  {product.subscription_duration_days} дней
-                </p>
+                <p className="text-sm text-muted-foreground">{product.subscription_duration_days} дней</p>
               )}
             </div>
           )}
@@ -135,7 +117,8 @@ export function PricingCard({
             disabled={isPurchasing}
             className={cn(
               "w-full",
-              product.is_featured && "bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"
+              product.is_featured &&
+                "bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90",
             )}
             size="lg"
           >

@@ -30,6 +30,7 @@ src/
 ## Layer Responsibilities
 
 ### Layer 1: API (`src/api/`)
+
 - **Purpose**: Raw database/API operations
 - **Contains**: Direct Supabase queries, edge function calls
 - **No**: Business logic, UI state, React hooks, toasts
@@ -38,12 +39,13 @@ src/
 ```typescript
 // src/api/tracks.api.ts
 export async function fetchTracks(filters: TrackFilters): Promise<TracksResponse> {
-  const { data, error } = await supabase.from('tracks').select('*');
+  const { data, error } = await supabase.from("tracks").select("*");
   return { data, error };
 }
 ```
 
 ### Layer 2: Services (`src/services/`)
+
 - **Purpose**: Business logic and data transformations
 - **Contains**: Calculations, validation, data enrichment, complex operations
 - **No**: React hooks, UI state, toasts, haptic feedback
@@ -61,6 +63,7 @@ export async function processDailyCheckin(userId: string) {
 ```
 
 ### Layer 3: Hooks (`src/hooks/`)
+
 - **Purpose**: UI state management, React Query integration
 - **Contains**: useQuery/useMutation, cache invalidation, optimistic updates, toasts
 - **No**: Direct Supabase calls, complex business logic
@@ -71,7 +74,7 @@ export async function processDailyCheckin(userId: string) {
 export function useTracks(params) {
   const { user } = useAuth();
   return useQuery({
-    queryKey: ['tracks', user?.id],
+    queryKey: ["tracks", user?.id],
     queryFn: () => tracksService.fetchTracksWithLikes(user.id, params),
   });
 }
@@ -80,44 +83,46 @@ export function useTracks(params) {
 ## Migration Guide
 
 ### Before (Mixed concerns)
+
 ```typescript
 // ❌ OLD: Everything in one hook
 export function useTracksUnified() {
   // Direct Supabase query
-  const { data } = await supabase.from('tracks').select('*');
-  
+  const { data } = await supabase.from("tracks").select("*");
+
   // Business logic mixed in
-  const enrichedTracks = data.map(t => ({
+  const enrichedTracks = data.map((t) => ({
     ...t,
     likes_count: calculateLikes(t),
   }));
-  
+
   // UI feedback
-  toast.success('Loaded!');
+  toast.success("Loaded!");
 }
 ```
 
 ### After (Separated)
+
 ```typescript
 // ✅ NEW: Separated layers
 
 // api/tracks.api.ts
 export async function fetchTracks() {
-  return supabase.from('tracks').select('*');
+  return supabase.from("tracks").select("*");
 }
 
 // services/tracks.service.ts
 export async function fetchTracksWithLikes(userId) {
   const tracks = await tracksApi.fetchTracks();
   const likes = await tracksApi.fetchTrackLikes(trackIds);
-  return tracks.map(t => ({ ...t, likes_count: likes[t.id] }));
+  return tracks.map((t) => ({ ...t, likes_count: likes[t.id] }));
 }
 
 // hooks/useTracks.ts
 export function useTracks() {
   return useQuery({
     queryFn: () => tracksService.fetchTracksWithLikes(userId),
-    onSuccess: () => toast.success('Loaded!'),
+    onSuccess: () => toast.success("Loaded!"),
   });
 }
 ```
@@ -132,28 +137,28 @@ export function useTracks() {
 
 ## Existing Hooks Migration Status
 
-| Hook | Status | Notes |
-|------|--------|-------|
-| useTracksUnified | ✅ Migrated | → useTracks |
-| useGamification | ✅ Migrated | → useCredits |
-| useUserCredits | ✅ Migrated | → useCredits |
-| useAchievements | ✅ Migrated | → useCredits |
-| useLeaderboard | ✅ Migrated | → useCredits |
-| usePublicTracks | ✅ Migrated | → useTracks |
-| usePlaylists | ✅ API/Service created | playlists.api.ts, playlists.service.ts |
-| useProjects | ✅ API/Service created | projects.api.ts, projects.service.ts |
-| useArtists | ✅ API/Service created | artists.api.ts, artists.service.ts |
-| useStudio | ✅ API/Service created | studio.api.ts, studio.service.ts |
-| useAdminAuth | ✅ Migrated | → admin.api.ts |
-| useBotMetrics | ✅ Migrated | → admin.api.ts |
-| useUserBalanceSummary | ✅ Migrated | → admin.api.ts |
-| useAnalyticsTracking | ✅ Migrated | → analytics.api.ts, analytics.service.ts |
-| useDeeplinkAnalytics | ✅ Migrated | → analytics.api.ts |
-| useJourneyTracking | ✅ Migrated | → analytics.api.ts, analytics.service.ts |
-| useGenerationLogs | ✅ Migrated | → generation.api.ts, generation.service.ts |
-| usePlaybackTracking | ✅ Migrated | → tracks.api.ts |
-| useMelodyAnalysis | ✅ Migrated | → analysis.api.ts, analysis.service.ts |
-| useStudioActivityLogger | ✅ Partial | Uses supabase for track_change_log only |
+| Hook                    | Status                 | Notes                                      |
+| ----------------------- | ---------------------- | ------------------------------------------ |
+| useTracksUnified        | ✅ Migrated            | → useTracks                                |
+| useGamification         | ✅ Migrated            | → useCredits                               |
+| useUserCredits          | ✅ Migrated            | → useCredits                               |
+| useAchievements         | ✅ Migrated            | → useCredits                               |
+| useLeaderboard          | ✅ Migrated            | → useCredits                               |
+| usePublicTracks         | ✅ Migrated            | → useTracks                                |
+| usePlaylists            | ✅ API/Service created | playlists.api.ts, playlists.service.ts     |
+| useProjects             | ✅ API/Service created | projects.api.ts, projects.service.ts       |
+| useArtists              | ✅ API/Service created | artists.api.ts, artists.service.ts         |
+| useStudio               | ✅ API/Service created | studio.api.ts, studio.service.ts           |
+| useAdminAuth            | ✅ Migrated            | → admin.api.ts                             |
+| useBotMetrics           | ✅ Migrated            | → admin.api.ts                             |
+| useUserBalanceSummary   | ✅ Migrated            | → admin.api.ts                             |
+| useAnalyticsTracking    | ✅ Migrated            | → analytics.api.ts, analytics.service.ts   |
+| useDeeplinkAnalytics    | ✅ Migrated            | → analytics.api.ts                         |
+| useJourneyTracking      | ✅ Migrated            | → analytics.api.ts, analytics.service.ts   |
+| useGenerationLogs       | ✅ Migrated            | → generation.api.ts, generation.service.ts |
+| usePlaybackTracking     | ✅ Migrated            | → tracks.api.ts                            |
+| useMelodyAnalysis       | ✅ Migrated            | → analysis.api.ts, analysis.service.ts     |
+| useStudioActivityLogger | ✅ Partial             | Uses supabase for track_change_log only    |
 
 ## File Structure
 

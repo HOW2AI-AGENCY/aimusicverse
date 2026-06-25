@@ -1,9 +1,11 @@
 # Audio Player No Sound Fix V2 - December 10, 2025
 
 ## Issue Summary
+
 **Problem**: ПЛЕЕР НЕ РАБОТАЕТ - НЕТ ЗВУКА (The player doesn't work - no sound)
 
-**Symptoms**: 
+**Symptoms**:
+
 - Timeline shows track is playing (currentTime updates)
 - isPlaying state is true
 - No audio output from speakers
@@ -14,6 +16,7 @@
 The issue was a **race condition** between AudioContext resume and audio playback start:
 
 ### The Problem Chain
+
 1. `useAudioVisualizer` creates MediaElementSource node
 2. This immediately disconnects audio from browser's default output
 3. Audio now MUST route through Web Audio API graph
@@ -23,35 +26,40 @@ The issue was a **race condition** between AudioContext resume and audio playbac
 7. Result: Silent playback (audio routes to suspended context)
 
 ### Previous Fix (December 10, 2025 - earlier)
+
 The previous fix addressed emergency reconnection when node creation fails, but didn't handle the async resume timing issue.
 
 ### Current Fix
+
 This fix ensures AudioContext is fully resumed **before** any audio processing begins.
 
 ## Technical Details
 
 ### Web Audio API Autoplay Policy
+
 Modern browsers suspend AudioContext by default to prevent unwanted audio:
+
 - AudioContext starts in 'suspended' state
 - Must be resumed after user interaction (click, tap, etc.)
 - Calling `resume()` returns a Promise
 - Audio won't play until Promise resolves
 
 ### The Critical Path
+
 ```typescript
 // BROKEN (Previous Code)
-if (audioContext.state === 'suspended') {
+if (audioContext.state === "suspended") {
   audioContext.resume().then(() => {
     // This happens AFTER the function returns
-    logger.debug('Resumed');
+    logger.debug("Resumed");
   });
 }
 return globalAnalyserNode; // Returns immediately!
 
 // FIXED (Current Code)
-if (audioContext.state === 'suspended') {
+if (audioContext.state === "suspended") {
   await audioContext.resume(); // Waits for completion
-  logger.debug('Resumed');
+  logger.debug("Resumed");
 }
 return globalAnalyserNode; // Returns only after resume
 ```
@@ -59,35 +67,35 @@ return globalAnalyserNode; // Returns only after resume
 ## Solution Implemented
 
 ### 1. Make getOrCreateAudioNodes Async
+
 **File**: `src/hooks/audio/useAudioVisualizer.ts`
 
 Changed function signature to properly await resume:
+
 ```typescript
-async function getOrCreateAudioNodes(
-  audioElement: HTMLAudioElement, 
-  fftSize: number, 
-  smoothing: number
-) {
+async function getOrCreateAudioNodes(audioElement: HTMLAudioElement, fftSize: number, smoothing: number) {
   // ... create context
-  
+
   // IMPORTANT: Wait for resume to complete
-  if (audioContext.state === 'suspended') {
+  if (audioContext.state === "suspended") {
     try {
       await audioContext.resume();
-      logger.debug('AudioContext resumed successfully');
+      logger.debug("AudioContext resumed successfully");
     } catch (err) {
-      logger.warn('AudioContext resume failed', err);
+      logger.warn("AudioContext resume failed", err);
     }
   }
-  
+
   // ... rest of setup
 }
 ```
 
 ### 2. Add Public resumeAudioContext Utility
+
 **File**: `src/hooks/audio/useAudioVisualizer.ts`
 
 New export for external use:
+
 ```typescript
 /**
  * Resume the global AudioContext if it exists and is suspended.
@@ -95,43 +103,47 @@ New export for external use:
  */
 export async function resumeAudioContext(): Promise<void> {
   if (!audioContext) return;
-  
-  if (audioContext.state === 'suspended') {
+
+  if (audioContext.state === "suspended") {
     try {
       await audioContext.resume();
-      logger.debug('AudioContext resumed via resumeAudioContext()');
+      logger.debug("AudioContext resumed via resumeAudioContext()");
     } catch (err) {
-      logger.warn('Failed to resume AudioContext', err);
+      logger.warn("Failed to resume AudioContext", err);
     }
   }
 }
 ```
 
 ### 3. Resume Before Playback
+
 **File**: `src/components/GlobalAudioProvider.tsx`
 
 Call resume before every play attempt:
+
 ```typescript
 const playAttempt = async () => {
   if (isCleanedUp) return;
-  
+
   // CRITICAL: Resume AudioContext before playing
   try {
     await resumeAudioContext();
   } catch (err) {
-    logger.warn('AudioContext resume failed before playback', err);
+    logger.warn("AudioContext resume failed before playback", err);
     // Continue anyway - audio might work without visualizer
   }
-  
+
   const playPromise = audio.play();
   // ... rest of play logic
 };
 ```
 
 ### 4. Fix Animation Loop for Async
+
 **File**: `src/hooks/audio/useAudioVisualizer.ts`
 
 Refactored animation setup to handle async analyser:
+
 ```typescript
 useEffect(() => {
   if (!isPlaying) {
@@ -141,28 +153,28 @@ useEffect(() => {
 
   let analyser: AnalyserNode | null = null;
   let isActive = true;
-  
+
   const initAnalyser = async () => {
     if (!isActive) return;
-    
+
     try {
       analyser = await getAnalyser();
     } catch (err) {
-      logger.warn('Failed to get analyser', err);
+      logger.warn("Failed to get analyser", err);
       analyser = null;
     }
-    
+
     if (!isActive) return; // Check again after await
-    
+
     if (!analyser) {
       // Fallback animation
     } else {
       // Real analyser animation
     }
   };
-  
+
   initAnalyser();
-  
+
   return () => {
     isActive = false;
     if (animationRef.current) {
@@ -191,18 +203,23 @@ useEffect(() => {
 ## Testing
 
 ### Build Check
+
 ```bash
 npm run build
 ```
+
 ✅ Build succeeded without TypeScript errors
 
 ### Code Review
+
 ✅ Passed with minor nitpick addressed (removed unnecessary null assignment)
 
 ### Security Scan
+
 ```bash
 # CodeQL security analysis
 ```
+
 ✅ 0 vulnerabilities found
 
 ## Verification Steps
@@ -221,6 +238,7 @@ To verify the fix works:
 ## Key Learnings
 
 ### 1. Always Await AudioContext Operations
+
 ```typescript
 // WRONG
 audioContext.resume();
@@ -232,24 +250,27 @@ doSomethingWithAudio();
 ```
 
 ### 2. Resume on User Interaction
+
 Browser autoplay policies require user interaction:
+
 - Call `resumeAudioContext()` on play button click
 - Don't rely solely on automatic resume during setup
 - Resume should happen on the user interaction thread
 
 ### 3. Async Effects Need Cleanup Guards
+
 ```typescript
 useEffect(() => {
   let isActive = true;
-  
+
   const asyncWork = async () => {
     await something();
     if (!isActive) return; // Guard after await
     // Continue only if still mounted
   };
-  
+
   asyncWork();
-  
+
   return () => {
     isActive = false; // Prevent state updates after unmount
   };
@@ -257,7 +278,9 @@ useEffect(() => {
 ```
 
 ### 4. Web Audio API Routing is Permanent
+
 Once `createMediaElementSource()` is called:
+
 - Audio element is disconnected from default output
 - You own the routing responsibility forever
 - Must connect to `audioContext.destination` or no sound
@@ -266,11 +289,13 @@ Once `createMediaElementSource()` is called:
 ## Related Issues
 
 ### Previous Fix
+
 **Date**: December 10, 2025 (earlier)  
 **File**: `docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_2025-12-10.md`  
 **Focus**: Emergency reconnection when node creation fails
 
 ### This Fix
+
 **Date**: December 10, 2025 (later)  
 **Focus**: AudioContext resume timing race condition
 

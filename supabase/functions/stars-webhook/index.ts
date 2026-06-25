@@ -1,22 +1,22 @@
 /**
  * Telegram Stars Payment Webhook Handler
- * 
+ *
  * Handles:
  * - pre_checkout_query: Validates payment before processing
  * - successful_payment (via message.successful_payment): Processes completed payment
- * 
+ *
  * Tasks: T042-T049
  */
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const logger = createLogger('stars-webhook');
+const logger = createLogger("stars-webhook");
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-telegram-bot-api-secret-token',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-telegram-bot-api-secret-token",
 };
 
 interface PreCheckoutQuery {
@@ -71,20 +71,20 @@ interface InvoicePayload {
  * T043: Validate webhook signature
  */
 function validateWebhookSignature(req: Request): boolean {
-  const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET_TOKEN');
+  const secretToken = Deno.env.get("TELEGRAM_WEBHOOK_SECRET_TOKEN");
   if (!secretToken) {
-    logger.error('TELEGRAM_WEBHOOK_SECRET_TOKEN not configured - rejecting request (fail-closed)');
+    logger.error("TELEGRAM_WEBHOOK_SECRET_TOKEN not configured - rejecting request (fail-closed)");
     return false; // Fail closed: never accept unsigned webhooks
   }
 
-  const headerToken = req.headers.get('x-telegram-bot-api-secret-token');
+  const headerToken = req.headers.get("x-telegram-bot-api-secret-token");
   if (!headerToken) {
-    logger.error('Missing webhook secret token header');
+    logger.error("Missing webhook secret token header");
     return false;
   }
 
   if (headerToken !== secretToken) {
-    logger.error('Invalid webhook secret token');
+    logger.error("Invalid webhook secret token");
     return false;
   }
 
@@ -94,95 +94,91 @@ function validateWebhookSignature(req: Request): boolean {
 /**
  * T044: Handle pre-checkout query (validation before payment)
  */
-async function handlePreCheckoutQuery(
-  query: PreCheckoutQuery,
-  supabase: any,
-  botToken: string
-): Promise<Response> {
+async function handlePreCheckoutQuery(query: PreCheckoutQuery, supabase: any, botToken: string): Promise<Response> {
   const startTime = Date.now();
-  logger.info('Pre-checkout query received', { queryId: query.id, amount: query.total_amount });
+  logger.info("Pre-checkout query received", { queryId: query.id, amount: query.total_amount });
 
   try {
     // Parse invoice payload
     const payload: InvoicePayload = JSON.parse(query.invoice_payload);
-    
+
     // Get transaction from database
     const { data: transaction, error: txError } = await supabase
-      .from('stars_transactions')
-      .select('*, product:stars_products(*)')
-      .eq('id', payload.transactionId)
+      .from("stars_transactions")
+      .select("*, product:stars_products(*)")
+      .eq("id", payload.transactionId)
       .single();
 
     if (txError || !transaction) {
-      logger.error('Transaction not found', { transactionId: payload.transactionId, error: txError });
-      
+      logger.error("Transaction not found", { transactionId: payload.transactionId, error: txError });
+
       // Answer pre-checkout query with error
       await fetch(`https://api.telegram.org/bot${botToken}/answerPreCheckoutQuery`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           pre_checkout_query_id: query.id,
           ok: false,
-          error_message: 'Transaction not found. Please try again.',
+          error_message: "Transaction not found. Please try again.",
         }),
       });
 
       return new Response(JSON.stringify({ ok: true }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     // Validate product exists and is active
-    if (!transaction.product || transaction.product.status !== 'active') {
-      logger.error('Product not active', { productId: transaction.product_id });
-      
+    if (!transaction.product || transaction.product.status !== "active") {
+      logger.error("Product not active", { productId: transaction.product_id });
+
       await fetch(`https://api.telegram.org/bot${botToken}/answerPreCheckoutQuery`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           pre_checkout_query_id: query.id,
           ok: false,
-          error_message: 'This product is no longer available.',
+          error_message: "This product is no longer available.",
         }),
       });
 
       return new Response(JSON.stringify({ ok: true }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     // Validate amount matches
     if (query.total_amount !== transaction.product.stars_price) {
-      logger.error('Amount mismatch', {
+      logger.error("Amount mismatch", {
         expected: transaction.product.stars_price,
         received: query.total_amount,
       });
 
       await fetch(`https://api.telegram.org/bot${botToken}/answerPreCheckoutQuery`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           pre_checkout_query_id: query.id,
           ok: false,
-          error_message: 'Price mismatch. Please try again.',
+          error_message: "Price mismatch. Please try again.",
         }),
       });
 
       return new Response(JSON.stringify({ ok: true }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     // Update transaction status to 'processing'
     await supabase
-      .from('stars_transactions')
-      .update({ status: 'processing', updated_at: new Date().toISOString() })
-      .eq('id', payload.transactionId);
+      .from("stars_transactions")
+      .update({ status: "processing", updated_at: new Date().toISOString() })
+      .eq("id", payload.transactionId);
 
     // Answer pre-checkout query with success
     await fetch(`https://api.telegram.org/bot${botToken}/answerPreCheckoutQuery`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         pre_checkout_query_id: query.id,
         ok: true,
@@ -190,27 +186,27 @@ async function handlePreCheckoutQuery(
     });
 
     const duration = Date.now() - startTime;
-    logger.info('Pre-checkout approved', { queryId: query.id, duration });
+    logger.info("Pre-checkout approved", { queryId: query.id, duration });
 
     return new Response(JSON.stringify({ ok: true }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error: any) {
-    logger.error('Pre-checkout error', { error: error.message, stack: error.stack });
+    logger.error("Pre-checkout error", { error: error.message, stack: error.stack });
 
     // Answer with generic error
     await fetch(`https://api.telegram.org/bot${botToken}/answerPreCheckoutQuery`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         pre_checkout_query_id: query.id,
         ok: false,
-        error_message: 'Payment processing error. Please contact support.',
+        error_message: "Payment processing error. Please contact support.",
       }),
     });
 
     return new Response(JSON.stringify({ ok: true }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 }
@@ -223,10 +219,10 @@ async function handleSuccessfulPayment(
   payment: SuccessfulPayment,
   telegramUserId: number,
   supabase: any,
-  botToken: string
+  botToken: string,
 ): Promise<Response> {
   const startTime = Date.now();
-  logger.info('Successful payment received', {
+  logger.info("Successful payment received", {
     chargeId: payment.telegram_payment_charge_id,
     amount: payment.total_amount,
   });
@@ -238,26 +234,26 @@ async function handleSuccessfulPayment(
     // T047: Idempotency check with retry handling for race conditions
     // First check for existing completed transaction
     const { data: existing } = await supabase
-      .from('stars_transactions')
-      .select('*')
-      .eq('telegram_payment_charge_id', payment.telegram_payment_charge_id)
+      .from("stars_transactions")
+      .select("*")
+      .eq("telegram_payment_charge_id", payment.telegram_payment_charge_id)
       .maybeSingle();
 
     if (existing) {
-      logger.info('Duplicate payment detected (idempotent)', {
+      logger.info("Duplicate payment detected (idempotent)", {
         chargeId: payment.telegram_payment_charge_id,
         transactionId: existing.id,
         status: existing.status,
       });
 
       return new Response(JSON.stringify({ ok: true, duplicate: true }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     // Process payment using database function with built-in idempotency
     // The database function handles concurrent requests via FOR UPDATE lock
-    const { data: result, error: processError } = await supabase.rpc('process_stars_payment', {
+    const { data: result, error: processError } = await supabase.rpc("process_stars_payment", {
       p_transaction_id: payload.transactionId,
       p_telegram_payment_charge_id: payment.telegram_payment_charge_id,
       p_metadata: {
@@ -269,7 +265,7 @@ async function handleSuccessfulPayment(
     });
 
     if (processError || !result?.success) {
-      logger.error('Payment processing failed', {
+      logger.error("Payment processing failed", {
         error: processError,
         result,
         transactionId: payload.transactionId,
@@ -277,18 +273,18 @@ async function handleSuccessfulPayment(
 
       return new Response(
         JSON.stringify({
-          error: 'Payment processing failed',
+          error: "Payment processing failed",
           details: result?.error || processError?.message,
         }),
         {
           status: 500,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        },
       );
     }
 
     const duration = Date.now() - startTime;
-    logger.info('Payment processed successfully', {
+    logger.info("Payment processed successfully", {
       transactionId: payload.transactionId,
       type: result.type,
       credits: result.credits_granted,
@@ -298,63 +294,62 @@ async function handleSuccessfulPayment(
 
     // Call reward-action for XP, achievements (first_purchase, subscriber)
     try {
-      const actionType = result.type === 'credits' ? 'credits_purchase' : 'subscription_purchase';
-      await supabase.functions.invoke('reward-action', {
+      const actionType = result.type === "credits" ? "credits_purchase" : "subscription_purchase";
+      await supabase.functions.invoke("reward-action", {
         body: {
           userId: payload.userId,
           actionType,
           customCredits: 0, // Credits already granted via process_stars_payment
-          customExperience: result.type === 'credits' ? 25 : 50,
-          description: result.type === 'credits' 
-            ? `Покупка ${result.credits_granted} кредитов` 
-            : `Подписка ${result.subscription_tier}`,
+          customExperience: result.type === "credits" ? 25 : 50,
+          description:
+            result.type === "credits"
+              ? `Покупка ${result.credits_granted} кредитов`
+              : `Подписка ${result.subscription_tier}`,
           metadata: {
             transactionId: payload.transactionId,
             productCode: payload.productCode,
           },
         },
       });
-      logger.info('Reward-action called for purchase', { actionType, userId: payload.userId });
+      logger.info("Reward-action called for purchase", { actionType, userId: payload.userId });
     } catch (rewardError) {
-      logger.error('Failed to call reward-action', { error: rewardError });
+      logger.error("Failed to call reward-action", { error: rewardError });
       // Don't fail the payment if reward fails
     }
 
     // Send confirmation message to user
-    const confirmationMessage = result.type === 'credits'
-      ? `✅ Payment successful! ${result.credits_granted} credits have been added to your account.`
-      : `✅ Subscription activated! You now have ${result.subscription_tier} access.`;
+    const confirmationMessage =
+      result.type === "credits"
+        ? `✅ Payment successful! ${result.credits_granted} credits have been added to your account.`
+        : `✅ Subscription activated! You now have ${result.subscription_tier} access.`;
 
     // Use MarkdownV2 and escape special characters
-    const { escapeMarkdown } = await import('../_shared/telegram-utils.ts');
+    const { escapeMarkdown } = await import("../_shared/telegram-utils.ts");
     const escapedMessage = escapeMarkdown(confirmationMessage);
-    
+
     await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: telegramUserId,
         text: escapedMessage,
-        parse_mode: 'MarkdownV2',
+        parse_mode: "MarkdownV2",
       }),
     });
 
     return new Response(JSON.stringify({ ok: true, result }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error: any) {
-    logger.error('Successful payment handler error', {
+    logger.error("Successful payment handler error", {
       error: error.message,
       stack: error.stack,
     });
 
-    return new Response(
-      JSON.stringify({ error: 'Internal server error', message: error.message }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return new Response(JSON.stringify({ error: "Internal server error", message: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 }
 
@@ -363,7 +358,7 @@ async function handleSuccessfulPayment(
  */
 serve(async (req) => {
   // Handle CORS
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -372,23 +367,23 @@ serve(async (req) => {
   const timeoutId = setTimeout(() => timeoutController.abort(), 28000); // 28s safety margin
 
   try {
-    const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
+    const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
     if (!botToken) {
-      throw new Error('TELEGRAM_BOT_TOKEN not configured');
+      throw new Error("TELEGRAM_BOT_TOKEN not configured");
     }
 
     // T043: Validate webhook signature
     if (!validateWebhookSignature(req)) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     const supabase = getSupabaseClient();
 
     const update: WebhookUpdate = await req.json();
-    logger.info('Webhook update received', { updateId: update.update_id });
+    logger.info("Webhook update received", { updateId: update.update_id });
 
     // Handle pre_checkout_query
     if (update.pre_checkout_query) {
@@ -403,35 +398,32 @@ serve(async (req) => {
         update.message.successful_payment,
         update.message.from.id,
         supabase,
-        botToken
+        botToken,
       );
       clearTimeout(timeoutId);
       return response;
     }
 
     // Unknown update type
-    logger.warn('Unknown update type', { update });
+    logger.warn("Unknown update type", { update });
     clearTimeout(timeoutId);
     return new Response(JSON.stringify({ ok: true }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error: any) {
     clearTimeout(timeoutId);
-    
+
     // T046: Error handling and structured logging
-    logger.error('Webhook error', {
-      level: 'ERROR',
+    logger.error("Webhook error", {
+      level: "ERROR",
       error: error.message,
       stack: error.stack,
       timestamp: new Date().toISOString(),
     });
 
-    return new Response(
-      JSON.stringify({ error: 'Internal server error', message: error.message }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return new Response(JSON.stringify({ error: "Internal server error", message: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

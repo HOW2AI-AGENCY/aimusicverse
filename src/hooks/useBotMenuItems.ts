@@ -2,9 +2,9 @@
  * Hooks for managing Telegram bot menu items
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export interface BotMenuItem {
   id: string;
@@ -56,17 +56,17 @@ export interface UpdateMenuItemInput extends Partial<CreateMenuItemInput> {
  */
 export function useBotMenuItems() {
   return useQuery({
-    queryKey: ['bot-menu-items'],
+    queryKey: ["bot-menu-items"],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('telegram_menu_items')
-        .select('*')
-        .order('parent_key', { ascending: true, nullsFirst: true })
-        .order('sort_order', { ascending: true });
-      
+        .from("telegram_menu_items")
+        .select("*")
+        .order("parent_key", { ascending: true, nullsFirst: true })
+        .order("sort_order", { ascending: true });
+
       if (error) throw error;
       return data as BotMenuItem[];
-    }
+    },
   });
 }
 
@@ -75,24 +75,21 @@ export function useBotMenuItems() {
  */
 export function useBotMenuItemsByParent(parentKey: string | null) {
   return useQuery({
-    queryKey: ['bot-menu-items', 'parent', parentKey],
+    queryKey: ["bot-menu-items", "parent", parentKey],
     queryFn: async () => {
-      let query = supabase
-        .from('telegram_menu_items')
-        .select('*')
-        .order('sort_order', { ascending: true });
-      
+      let query = supabase.from("telegram_menu_items").select("*").order("sort_order", { ascending: true });
+
       if (parentKey === null) {
-        query = query.is('parent_key', null);
+        query = query.is("parent_key", null);
       } else {
-        query = query.eq('parent_key', parentKey);
+        query = query.eq("parent_key", parentKey);
       }
-      
+
       const { data, error } = await query;
-      
+
       if (error) throw error;
       return data as BotMenuItem[];
-    }
+    },
   });
 }
 
@@ -101,27 +98,23 @@ export function useBotMenuItemsByParent(parentKey: string | null) {
  */
 export function useCreateMenuItem() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (input: CreateMenuItemInput) => {
-      const { data, error } = await supabase
-        .from('telegram_menu_items')
-        .insert(input)
-        .select()
-        .single();
-      
+      const { data, error } = await supabase.from("telegram_menu_items").insert(input).select().single();
+
       if (error) throw error;
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bot-menu-items'] });
-      toast.success('Пункт меню создан');
+      queryClient.invalidateQueries({ queryKey: ["bot-menu-items"] });
+      toast.success("Пункт меню создан");
     },
     onError: (error) => {
-      toast.error('Ошибка создания пункта меню', {
-        description: error.message
+      toast.error("Ошибка создания пункта меню", {
+        description: error.message,
       });
-    }
+    },
   });
 }
 
@@ -130,28 +123,28 @@ export function useCreateMenuItem() {
  */
 export function useUpdateMenuItem() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async ({ id, ...updates }: UpdateMenuItemInput) => {
       const { data, error } = await supabase
-        .from('telegram_menu_items')
+        .from("telegram_menu_items")
         .update({ ...updates, updated_at: new Date().toISOString() })
-        .eq('id', id)
+        .eq("id", id)
         .select()
         .single();
-      
+
       if (error) throw error;
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bot-menu-items'] });
-      toast.success('Пункт меню обновлён');
+      queryClient.invalidateQueries({ queryKey: ["bot-menu-items"] });
+      toast.success("Пункт меню обновлён");
     },
     onError: (error) => {
-      toast.error('Ошибка обновления', {
-        description: error.message
+      toast.error("Ошибка обновления", {
+        description: error.message,
       });
-    }
+    },
   });
 }
 
@@ -160,25 +153,22 @@ export function useUpdateMenuItem() {
  */
 export function useDeleteMenuItem() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('telegram_menu_items')
-        .delete()
-        .eq('id', id);
-      
+      const { error } = await supabase.from("telegram_menu_items").delete().eq("id", id);
+
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bot-menu-items'] });
-      toast.success('Пункт меню удалён');
+      queryClient.invalidateQueries({ queryKey: ["bot-menu-items"] });
+      toast.success("Пункт меню удалён");
     },
     onError: (error) => {
-      toast.error('Ошибка удаления', {
-        description: error.message
+      toast.error("Ошибка удаления", {
+        description: error.message,
       });
-    }
+    },
   });
 }
 
@@ -187,32 +177,32 @@ export function useDeleteMenuItem() {
  */
 export function useReorderMenuItems() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async (items: { id: string; sort_order: number; row_position: number }[]) => {
       // Update each item's sort_order and row_position
-      const updates = items.map(item =>
+      const updates = items.map((item) =>
         supabase
-          .from('telegram_menu_items')
+          .from("telegram_menu_items")
           .update({
             sort_order: item.sort_order,
             row_position: item.row_position,
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           })
-          .eq('id', item.id)
+          .eq("id", item.id),
       );
-      
+
       await Promise.all(updates);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bot-menu-items'] });
-      toast.success('Порядок сохранён');
+      queryClient.invalidateQueries({ queryKey: ["bot-menu-items"] });
+      toast.success("Порядок сохранён");
     },
     onError: (error) => {
-      toast.error('Ошибка сохранения порядка', {
-        description: error.message
+      toast.error("Ошибка сохранения порядка", {
+        description: error.message,
       });
-    }
+    },
   });
 }
 
@@ -221,28 +211,28 @@ export function useReorderMenuItems() {
  */
 export function useToggleMenuItem() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: async ({ id, is_enabled }: { id: string; is_enabled: boolean }) => {
       const { data, error } = await supabase
-        .from('telegram_menu_items')
+        .from("telegram_menu_items")
         .update({ is_enabled, updated_at: new Date().toISOString() })
-        .eq('id', id)
+        .eq("id", id)
         .select()
         .single();
-      
+
       if (error) throw error;
       return data;
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['bot-menu-items'] });
-      toast.success(data.is_enabled ? 'Пункт включён' : 'Пункт отключён');
+      queryClient.invalidateQueries({ queryKey: ["bot-menu-items"] });
+      toast.success(data.is_enabled ? "Пункт включён" : "Пункт отключён");
     },
     onError: (error) => {
-      toast.error('Ошибка переключения', {
-        description: error.message
+      toast.error("Ошибка переключения", {
+        description: error.message,
       });
-    }
+    },
   });
 }
 
@@ -250,22 +240,20 @@ export function useToggleMenuItem() {
  * Upload image for menu item
  */
 export async function uploadMenuItemImage(file: File, menuKey: string): Promise<string> {
-  const fileExt = file.name.split('.').pop();
+  const fileExt = file.name.split(".").pop();
   const fileName = `menu-${menuKey}-${Date.now()}.${fileExt}`;
   const filePath = `menu-images/${fileName}`;
-  
-  const { error: uploadError } = await supabase.storage
-    .from('bot-assets')
-    .upload(filePath, file, {
-      cacheControl: '3600',
-      upsert: true
-    });
-  
+
+  const { error: uploadError } = await supabase.storage.from("bot-assets").upload(filePath, file, {
+    cacheControl: "3600",
+    upsert: true,
+  });
+
   if (uploadError) throw uploadError;
-  
-  const { data: { publicUrl } } = supabase.storage
-    .from('bot-assets')
-    .getPublicUrl(filePath);
-  
+
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("bot-assets").getPublicUrl(filePath);
+
   return publicUrl;
 }

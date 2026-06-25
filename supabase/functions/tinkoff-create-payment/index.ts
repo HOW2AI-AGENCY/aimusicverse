@@ -1,114 +1,117 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { 
-  generateTinkoffToken, 
-  initTinkoffPayment, 
+import {
+  generateTinkoffToken,
+  initTinkoffPayment,
   generateOrderId,
-  type TinkoffInitRequest 
+  type TinkoffInitRequest,
 } from "../_shared/tinkoff.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 interface CreatePaymentRequest {
   productCode: string;
   successUrl?: string;
   failUrl?: string;
-  paymentMethod?: 'card' | 'sbp' | 'tinkoff_pay';  // Метод оплаты
-  isRecurrent?: boolean;  // Рекуррентный платёж для подписки
+  paymentMethod?: "card" | "sbp" | "tinkoff_pay"; // Метод оплаты
+  isRecurrent?: boolean; // Рекуррентный платёж для подписки
 }
 
 serve(async (req) => {
   // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     // Get secrets
-    const terminalKey = Deno.env.get('TINKOFF_TERMINAL_KEY');
-    const secretKey = Deno.env.get('TINKOFF_SECRET_KEY');
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const terminalKey = Deno.env.get("TINKOFF_TERMINAL_KEY");
+    const secretKey = Deno.env.get("TINKOFF_SECRET_KEY");
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 
     if (!terminalKey || !secretKey) {
-      console.error('Tinkoff credentials not configured');
-      return new Response(
-        JSON.stringify({ success: false, error: 'Payment gateway not configured' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error("Tinkoff credentials not configured");
+      return new Response(JSON.stringify({ success: false, error: "Payment gateway not configured" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Verify authorization
-    const authHeader = req.headers.get('Authorization');
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Use shared admin client
     const supabaseAdmin = getSupabaseClient();
     // Auth client needs user token
-    const supabaseAuth = createClient(supabaseUrl, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!, {
-      global: { headers: { Authorization: authHeader } }
+    const supabaseAuth = createClient(supabaseUrl, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, {
+      global: { headers: { Authorization: authHeader } },
     });
 
     // Get user
-    const { data: { user }, error: userError } = await supabaseAuth.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabaseAuth.auth.getUser();
     if (userError || !user) {
-      console.error('Auth error:', userError);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error("Auth error:", userError);
+      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+        status: 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Parse request
-    const { 
-      productCode, 
-      successUrl, 
-      failUrl, 
-      paymentMethod = 'card',
-      isRecurrent = false 
+    const {
+      productCode,
+      successUrl,
+      failUrl,
+      paymentMethod = "card",
+      isRecurrent = false,
     }: CreatePaymentRequest = await req.json();
 
     if (!productCode) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Product code required' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Product code required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Get product
     const { data: product, error: productError } = await supabaseAdmin
-      .from('stars_products')
-      .select('*')
-      .eq('product_code', productCode)
-      .eq('status', 'active')
+      .from("stars_products")
+      .select("*")
+      .eq("product_code", productCode)
+      .eq("status", "active")
       .single();
 
     if (productError || !product) {
-      console.error('Product not found:', productCode, productError);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Product not found' }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error("Product not found:", productCode, productError);
+      return new Response(JSON.stringify({ success: false, error: "Product not found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Check if product has RUB price
     if (!product.price_rub_cents) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Product not available for card payment' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Product not available for card payment" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Determine if this is a subscription (needs recurrent)
-    const isSubscription = product.product_type === 'subscription';
+    const isSubscription = product.product_type === "subscription";
     const enableRecurrent = isRecurrent || isSubscription;
 
     // Generate unique order ID
@@ -116,14 +119,14 @@ serve(async (req) => {
 
     // Create payment transaction record
     const { data: transaction, error: txError } = await supabaseAdmin
-      .from('payment_transactions')
+      .from("payment_transactions")
       .insert({
         user_id: user.id,
-        gateway: 'tinkoff',
+        gateway: "tinkoff",
         product_code: productCode,
         amount_cents: product.price_rub_cents,
-        currency: 'RUB',
-        status: 'pending',
+        currency: "RUB",
+        status: "pending",
         gateway_order_id: orderId,
         is_recurrent: enableRecurrent,
         metadata: {
@@ -133,28 +136,29 @@ serve(async (req) => {
           subscription_days: product.subscription_days,
           payment_method: paymentMethod,
           is_first_recurrent: enableRecurrent,
-        }
+        },
       })
       .select()
       .single();
 
     if (txError || !transaction) {
-      console.error('Failed to create transaction:', txError);
-      return new Response(
-        JSON.stringify({ success: false, error: 'Failed to create transaction' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error("Failed to create transaction:", txError);
+      return new Response(JSON.stringify({ success: false, error: "Failed to create transaction" }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // Build Tinkoff request
     const notificationUrl = `${supabaseUrl}/functions/v1/tinkoff-webhook`;
-    const defaultSuccessUrl = successUrl || `${req.headers.get('origin') || 'https://t.me'}/payment/success`;
-    const defaultFailUrl = failUrl || `${req.headers.get('origin') || 'https://t.me'}/payment/fail`;
+    const defaultSuccessUrl = successUrl || `${req.headers.get("origin") || "https://t.me"}/payment/success`;
+    const defaultFailUrl = failUrl || `${req.headers.get("origin") || "https://t.me"}/payment/fail`;
 
     // Get product name for description
-    const productName = typeof product.name === 'object' 
-      ? (product.name as Record<string, string>).ru || (product.name as Record<string, string>).en || productCode
-      : product.name || productCode;
+    const productName =
+      typeof product.name === "object"
+        ? (product.name as Record<string, string>).ru || (product.name as Record<string, string>).en || productCode
+        : product.name || productCode;
 
     const tinkoffRequest: TinkoffInitRequest = {
       TerminalKey: terminalKey,
@@ -164,69 +168,69 @@ serve(async (req) => {
       SuccessURL: defaultSuccessUrl,
       FailURL: defaultFailUrl,
       NotificationURL: notificationUrl,
-      PayType: 'O', // Одностадийная оплата
-      Language: 'ru',
+      PayType: "O", // Одностадийная оплата
+      Language: "ru",
       DATA: {
         UserId: user.id,
         TransactionId: transaction.id,
-      }
+      },
     };
 
     // Add recurrent flag for subscriptions
     if (enableRecurrent) {
-      tinkoffRequest.Recurrent = 'Y';
-      tinkoffRequest.CustomerKey = user.id;  // Используем user_id как CustomerKey
+      tinkoffRequest.Recurrent = "Y";
+      tinkoffRequest.CustomerKey = user.id; // Используем user_id как CustomerKey
     }
 
     // Generate token
     tinkoffRequest.Token = await generateTinkoffToken(tinkoffRequest as unknown as Record<string, unknown>, secretKey);
 
-    console.log('Initializing Tinkoff payment:', { 
-      orderId, 
+    console.log("Initializing Tinkoff payment:", {
+      orderId,
       amount: product.price_rub_cents,
       recurrent: enableRecurrent,
-      paymentMethod 
+      paymentMethod,
     });
 
     // Call Tinkoff Init
     const tinkoffResponse = await initTinkoffPayment(tinkoffRequest);
 
-    console.log('Tinkoff response:', tinkoffResponse);
+    console.log("Tinkoff response:", tinkoffResponse);
 
     if (!tinkoffResponse.Success) {
       // Update transaction as failed
       await supabaseAdmin
-        .from('payment_transactions')
+        .from("payment_transactions")
         .update({
-          status: 'failed',
-          error_message: tinkoffResponse.Message || tinkoffResponse.Details || 'Tinkoff init failed',
+          status: "failed",
+          error_message: tinkoffResponse.Message || tinkoffResponse.Details || "Tinkoff init failed",
         })
-        .eq('id', transaction.id);
+        .eq("id", transaction.id);
 
       return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: tinkoffResponse.Message || 'Payment initialization failed',
-          errorCode: tinkoffResponse.ErrorCode 
+        JSON.stringify({
+          success: false,
+          error: tinkoffResponse.Message || "Payment initialization failed",
+          errorCode: tinkoffResponse.ErrorCode,
         }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     // Update transaction with payment info
     await supabaseAdmin
-      .from('payment_transactions')
+      .from("payment_transactions")
       .update({
         gateway_transaction_id: String(tinkoffResponse.PaymentId),
         gateway_payment_url: tinkoffResponse.PaymentURL,
-        status: 'pending',
+        status: "pending",
       })
-      .eq('id', transaction.id);
+      .eq("id", transaction.id);
 
-    console.log('Payment created successfully:', { 
-      transactionId: transaction.id, 
+    console.log("Payment created successfully:", {
+      transactionId: transaction.id,
       paymentId: tinkoffResponse.PaymentId,
-      paymentUrl: tinkoffResponse.PaymentURL 
+      paymentUrl: tinkoffResponse.PaymentURL,
     });
 
     return new Response(
@@ -236,18 +240,17 @@ serve(async (req) => {
         paymentUrl: tinkoffResponse.PaymentURL,
         orderId: orderId,
         amount: product.price_rub_cents,
-        currency: 'RUB',
+        currency: "RUB",
         isRecurrent: enableRecurrent,
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error) {
-    console.error('Tinkoff create payment error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Internal error';
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    console.error("Tinkoff create payment error:", error);
+    const errorMessage = error instanceof Error ? error.message : "Internal error";
+    return new Response(JSON.stringify({ success: false, error: errorMessage }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

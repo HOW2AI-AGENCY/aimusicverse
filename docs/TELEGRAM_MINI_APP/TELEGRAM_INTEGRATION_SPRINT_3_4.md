@@ -5,6 +5,7 @@
 ---
 
 # 🎯 SPRINT 3: Bot-App Integration + Payments
+
 **Цель:** Интегрировать бота с Mini App и реализовать монетизацию через Telegram Payments
 
 **Длительность:** 5 рабочих дней
@@ -15,15 +16,18 @@
 ## 📋 Задачи Sprint 3
 
 ### TASK-3.1: Inline Mode для генерации музыки
+
 **Priority:** 🟡 High
 **Story Points:** 5
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `inline-mode`
 
 #### Описание
+
 Реализовать Inline Mode, позволяющий пользователям генерировать музыку из любого чата.
 
 #### Acceptance Criteria
+
 - [ ] Inline query обработчик реализован
 - [ ] Поиск по стилям работает
 - [ ] Результаты отображают превью треков
@@ -33,6 +37,7 @@
 #### Технические требования
 
 **1. Регистрация inline mode:**
+
 ```bash
 # Через BotFather
 /setinline
@@ -41,6 +46,7 @@
 ```
 
 **2. Inline Query Handler:**
+
 ```typescript
 // telegram-bot/inline/inline-query.ts
 import { InlineQueryContext } from "grammy";
@@ -61,34 +67,31 @@ export async function handleInlineQuery(ctx: InlineQueryContext) {
   }
 
   // Поиск стилей по запросу
-  const { data: styles } = await supabase
-    .from("music_styles")
-    .select("*")
-    .ilike("name", `%${query}%`)
-    .limit(10);
+  const { data: styles } = await supabase.from("music_styles").select("*").ilike("name", `%${query}%`).limit(10);
 
-  const results: InlineQueryResultArticle[] = styles?.map((style, index) => ({
-    type: "article",
-    id: `style_${style.id}_${index}`,
-    title: style.name,
-    description: `Создать ${style.name} трек`,
-    input_message_content: {
-      message_text: `🎵 Генерирую трек в стиле: ${style.name}...`,
-    },
-    reply_markup: {
-      inline_keyboard: [
-        [
-          {
-            text: "📱 Открыть в MusicVerse",
-            web_app: {
-              url: `${process.env.MINI_APP_URL}/generate?style=${encodeURIComponent(style.name)}`
-            }
-          }
-        ]
-      ]
-    },
-    thumbnail_url: style.image_url || generateStyleThumbnail(style.name),
-  })) || [];
+  const results: InlineQueryResultArticle[] =
+    styles?.map((style, index) => ({
+      type: "article",
+      id: `style_${style.id}_${index}`,
+      title: style.name,
+      description: `Создать ${style.name} трек`,
+      input_message_content: {
+        message_text: `🎵 Генерирую трек в стиле: ${style.name}...`,
+      },
+      reply_markup: {
+        inline_keyboard: [
+          [
+            {
+              text: "📱 Открыть в MusicVerse",
+              web_app: {
+                url: `${process.env.MINI_APP_URL}/generate?style=${encodeURIComponent(style.name)}`,
+              },
+            },
+          ],
+        ],
+      },
+      thumbnail_url: style.image_url || generateStyleThumbnail(style.name),
+    })) || [];
 
   await ctx.answerInlineQuery(results, {
     cache_time: 60,
@@ -100,13 +103,7 @@ export async function handleInlineQuery(ctx: InlineQueryContext) {
 }
 
 async function getPopularStyles(): Promise<InlineQueryResultArticle[]> {
-  const popularStyles = [
-    "Ambient Electronic",
-    "Upbeat Pop",
-    "Epic Orchestral",
-    "Chill Lo-fi",
-    "Energetic Rock",
-  ];
+  const popularStyles = ["Ambient Electronic", "Upbeat Pop", "Epic Orchestral", "Chill Lo-fi", "Energetic Rock"];
 
   return popularStyles.map((style, index) => ({
     type: "article",
@@ -122,11 +119,11 @@ async function getPopularStyles(): Promise<InlineQueryResultArticle[]> {
           {
             text: "🎹 Создать трек",
             web_app: {
-              url: `${process.env.MINI_APP_URL}/generate?style=${encodeURIComponent(style)}`
-            }
-          }
-        ]
-      ]
+              url: `${process.env.MINI_APP_URL}/generate?style=${encodeURIComponent(style)}`,
+            },
+          },
+        ],
+      ],
     },
   }));
 }
@@ -149,6 +146,7 @@ bot.on("inline_query", handleInlineQuery);
 ```
 
 **3. Chosen Inline Result Handler:**
+
 ```typescript
 // telegram-bot/inline/chosen-result.ts
 import { ChosenInlineResultContext } from "grammy";
@@ -164,11 +162,7 @@ export async function handleChosenInlineResult(ctx: ChosenInlineResultContext) {
     const styleName = query;
 
     // Получить user_id
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("user_id")
-      .eq("telegram_id", ctx.from.id)
-      .single();
+    const { data: profile } = await supabase.from("profiles").select("user_id").eq("telegram_id", ctx.from.id).single();
 
     if (profile) {
       // Создать задачу генерации
@@ -195,6 +189,7 @@ bot.on("chosen_inline_result", handleChosenInlineResult);
 ```
 
 #### Testing
+
 ```bash
 # 1. Открыть любой чат в Telegram
 # 2. Ввести: @musicverse_bot ambient
@@ -205,6 +200,7 @@ bot.on("chosen_inline_result", handleChosenInlineResult);
 ```
 
 #### Definition of Done
+
 - ✅ Inline mode работает
 - ✅ Поиск стилей функционирует
 - ✅ Результаты отображаются корректно
@@ -215,15 +211,18 @@ bot.on("chosen_inline_result", handleChosenInlineResult);
 ---
 
 ### TASK-3.2: Telegram Payments Integration
+
 **Priority:** 🔴 Critical
 **Story Points:** 8
 **Assignee:** Backend + Frontend Developer
 **Labels:** `backend`, `frontend`, `payments`, `monetization`
 
 #### Описание
+
 Реализовать систему покупки кредитов через Telegram Payments.
 
 #### Acceptance Criteria
+
 - [ ] Настроены Telegram Payments через BotFather
 - [ ] Пакеты кредитов определены
 - [ ] Invoice API интегрирован
@@ -235,6 +234,7 @@ bot.on("chosen_inline_result", handleChosenInlineResult);
 #### Технические требования
 
 **1. Настройка Payments Provider:**
+
 ```bash
 # Через BotFather
 /mybots → @musicverse_bot → Payments
@@ -243,6 +243,7 @@ bot.on("chosen_inline_result", handleChosenInlineResult);
 ```
 
 **2. Таблица для биллинга:**
+
 ```sql
 -- supabase/migrations/[timestamp]_create_billing_tables.sql
 
@@ -321,6 +322,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 ```
 
 **3. Пакеты кредитов:**
+
 ```typescript
 // telegram-bot/payments/packages.ts
 export interface CreditPackage {
@@ -371,6 +373,7 @@ export const CREDIT_PACKAGES: CreditPackage[] = [
 ```
 
 **4. Команда покупки кредитов:**
+
 ```typescript
 // telegram-bot/commands/buy.ts
 import { CommandContext } from "grammy";
@@ -382,16 +385,10 @@ export async function buyCommand(ctx: CommandContext) {
 
   CREDIT_PACKAGES.forEach((pkg) => {
     const label = pkg.popular ? `⭐ ${pkg.title}` : pkg.title;
-    keyboard.text(
-      `${label} - $${(pkg.price / 100).toFixed(2)}`,
-      `buy_${pkg.id}`
-    ).row();
+    keyboard.text(`${label} - $${(pkg.price / 100).toFixed(2)}`, `buy_${pkg.id}`).row();
   });
 
-  keyboard.webApp(
-    "💳 Все пакеты",
-    `${process.env.MINI_APP_URL}/pricing`
-  );
+  keyboard.webApp("💳 Все пакеты", `${process.env.MINI_APP_URL}/pricing`);
 
   await ctx.reply(
     `💰 <b>Покупка кредитов</b>
@@ -405,7 +402,7 @@ export async function buyCommand(ctx: CommandContext) {
     {
       parse_mode: "HTML",
       reply_markup: keyboard,
-    }
+    },
   );
 }
 
@@ -414,6 +411,7 @@ bot.command("buy", buyCommand);
 ```
 
 **5. Обработчик покупки:**
+
 ```typescript
 // telegram-bot/payments/purchase-handler.ts
 import { CallbackQueryContext } from "grammy";
@@ -464,6 +462,7 @@ bot.on("callback_query:data", (ctx) => {
 ```
 
 **6. Pre-checkout и Payment handlers:**
+
 ```typescript
 // telegram-bot/payments/payment-handlers.ts
 import { PreCheckoutQueryContext, MessageContext } from "grammy";
@@ -499,11 +498,7 @@ export async function handleSuccessfulPayment(ctx: MessageContext) {
   });
 
   // Получить user_id
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("user_id")
-    .eq("telegram_id", ctx.from.id)
-    .single();
+  const { data: profile } = await supabase.from("profiles").select("user_id").eq("telegram_id", ctx.from.id).single();
 
   if (!profile) {
     await ctx.reply("❌ Ошибка: профиль не найден. Обратитесь в поддержку.");
@@ -527,7 +522,7 @@ export async function handleSuccessfulPayment(ctx: MessageContext) {
 📝 Чек: <code>${payment.telegram_payment_charge_id}</code>
 
 Используйте /generate для создания треков!`,
-      { parse_mode: "HTML" }
+      { parse_mode: "HTML" },
     );
 
     // Отправить уведомление в Mini App
@@ -536,7 +531,7 @@ export async function handleSuccessfulPayment(ctx: MessageContext) {
     console.error("Error crediting:", error);
     await ctx.reply(
       "⚠️ Оплата прошла, но возникла ошибка зачисления. Обратитесь в поддержку с этим кодом: " +
-        payment.telegram_payment_charge_id
+        payment.telegram_payment_charge_id,
     );
   }
 }
@@ -547,10 +542,11 @@ bot.on("message:successful_payment", handleSuccessfulPayment);
 ```
 
 **7. Frontend - Invoice API:**
+
 ```typescript
 // src/hooks/useTelegramPayments.tsx
-import { useTelegram } from '@/contexts/TelegramContext';
-import { toast } from 'sonner';
+import { useTelegram } from "@/contexts/TelegramContext";
+import { toast } from "sonner";
 
 interface InvoiceParams {
   title: string;
@@ -566,20 +562,20 @@ export const useTelegramPayments = () => {
 
   const openInvoice = async (invoiceLink: string): Promise<boolean> => {
     if (!webApp?.openInvoice) {
-      toast.error('Telegram Payments недоступны');
+      toast.error("Telegram Payments недоступны");
       return false;
     }
 
     return new Promise((resolve) => {
       webApp.openInvoice(invoiceLink, (status) => {
-        if (status === 'paid') {
-          toast.success('Оплата успешна!');
+        if (status === "paid") {
+          toast.success("Оплата успешна!");
           resolve(true);
-        } else if (status === 'cancelled') {
-          toast.info('Оплата отменена');
+        } else if (status === "cancelled") {
+          toast.info("Оплата отменена");
           resolve(false);
-        } else if (status === 'failed') {
-          toast.error('Ошибка оплаты');
+        } else if (status === "failed") {
+          toast.error("Ошибка оплаты");
           resolve(false);
         } else {
           resolve(false);
@@ -596,6 +592,7 @@ export const useTelegramPayments = () => {
 ```
 
 **8. Страница Pricing:**
+
 ```typescript
 // src/pages/Pricing.tsx
 import { Button } from '@/components/ui/button';
@@ -667,6 +664,7 @@ export default function Pricing() {
 ```
 
 #### Testing
+
 ```bash
 # 1. Отправить /buy в боте
 # 2. Выбрать пакет
@@ -678,6 +676,7 @@ export default function Pricing() {
 ```
 
 #### Definition of Done
+
 - ✅ Payments провайдер настроен
 - ✅ Invoice API работает
 - ✅ Pre-checkout валидация реализована
@@ -691,15 +690,18 @@ export default function Pricing() {
 ---
 
 ### TASK-3.3: Real-time синхронизация между ботом и Mini App
+
 **Priority:** 🟡 High
 **Story Points:** 5
 **Assignee:** Backend Developer
 **Labels:** `backend`, `realtime`, `sync`
 
 #### Описание
+
 Реализовать real-time синхронизацию состояния между ботом и Mini App.
 
 #### Acceptance Criteria
+
 - [ ] Supabase Realtime subscriptions настроены
 - [ ] Изменения в боте отражаются в Mini App
 - [ ] Изменения в Mini App отражаются в боте
@@ -709,6 +711,7 @@ export default function Pricing() {
 #### Технические требования
 
 **1. Настройка Realtime в Supabase:**
+
 ```sql
 -- Включить Realtime для таблиц
 ALTER PUBLICATION supabase_realtime ADD TABLE generation_tasks;
@@ -718,13 +721,14 @@ ALTER PUBLICATION supabase_realtime ADD TABLE tracks;
 ```
 
 **2. Frontend hook для Realtime:**
+
 ```typescript
 // src/hooks/useRealtimeSync.tsx
-import { useEffect } from 'react';
-import { useAuth } from './useAuth';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { useQueryClient } from '@tanstack/react-query';
+import { useEffect } from "react";
+import { useAuth } from "./useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const useRealtimeSync = () => {
   const { user } = useAuth();
@@ -735,71 +739,73 @@ export const useRealtimeSync = () => {
 
     // Подписка на изменения кредитов
     const creditsChannel = supabase
-      .channel('user_credits_changes')
+      .channel("user_credits_changes")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'user_credits',
+          event: "UPDATE",
+          schema: "public",
+          table: "user_credits",
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
-          console.log('Credits updated:', payload.new);
+          console.log("Credits updated:", payload.new);
 
           // Обновить кэш React Query
-          queryClient.invalidateQueries({ queryKey: ['credits'] });
+          queryClient.invalidateQueries({ queryKey: ["credits"] });
 
           // Показать уведомление
           toast.success(`Баланс обновлен: ${payload.new.credits} кредитов`);
-        }
+        },
       )
       .subscribe();
 
     // Подписка на новые треки
     const tracksChannel = supabase
-      .channel('tracks_changes')
+      .channel("tracks_changes")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'tracks',
+          event: "INSERT",
+          schema: "public",
+          table: "tracks",
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
-          console.log('New track created:', payload.new);
+          console.log("New track created:", payload.new);
 
           // Обновить список треков
-          queryClient.invalidateQueries({ queryKey: ['tracks'] });
+          queryClient.invalidateQueries({ queryKey: ["tracks"] });
 
           // Уведомление
-          toast.success('Новый трек готов!');
-        }
+          toast.success("Новый трек готов!");
+        },
       )
       .subscribe();
 
     // Подписка на уведомления
     const notificationsChannel = supabase
-      .channel('notifications_changes')
+      .channel("notifications_changes")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'notifications',
+          event: "INSERT",
+          schema: "public",
+          table: "notifications",
           filter: `user_id=eq.${user.id}`,
         },
         (payload) => {
           const notification = payload.new;
 
           toast.info(notification.message, {
-            action: notification.action_url ? {
-              label: 'Открыть',
-              onClick: () => window.location.href = notification.action_url,
-            } : undefined,
+            action: notification.action_url
+              ? {
+                  label: "Открыть",
+                  onClick: () => (window.location.href = notification.action_url),
+                }
+              : undefined,
           });
-        }
+        },
       )
       .subscribe();
 
@@ -814,6 +820,7 @@ export const useRealtimeSync = () => {
 ```
 
 **3. Использование в App:**
+
 ```typescript
 // src/App.tsx
 import { useRealtimeSync } from '@/hooks/useRealtimeSync';
@@ -830,22 +837,20 @@ function App() {
 ```
 
 **4. Backend - отправка изменений в Mini App:**
+
 ```typescript
 // supabase/functions/notify-mini-app/index.ts
 // Вызывается после изменений в боте
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 serve(async (req) => {
   const { user_id, event_type, data } = await req.json();
 
-  const supabase = createClient(
-    Deno.env.get('SUPABASE_URL')!,
-    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
-  );
+  const supabase = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!);
 
   // Создать уведомление
-  await supabase.from('notifications').insert({
+  await supabase.from("notifications").insert({
     user_id,
     message: getMessageForEvent(event_type, data),
     type: event_type,
@@ -859,19 +864,20 @@ serve(async (req) => {
 
 function getMessageForEvent(type: string, data: any): string {
   switch (type) {
-    case 'generation_started':
+    case "generation_started":
       return `Генерация трека "${data.prompt}" началась`;
-    case 'generation_completed':
+    case "generation_completed":
       return `Трек "${data.title}" готов!`;
-    case 'credits_added':
+    case "credits_added":
       return `Зачислено ${data.amount} кредитов`;
     default:
-      return 'Новое уведомление';
+      return "Новое уведомление";
   }
 }
 ```
 
 #### Testing
+
 ```bash
 # 1. Открыть Mini App
 # 2. В другом окне отправить /buy в боте
@@ -884,6 +890,7 @@ function getMessageForEvent(type: string, data: any): string {
 ```
 
 #### Definition of Done
+
 - ✅ Realtime subscriptions настроены
 - ✅ Изменения синхронизируются
 - ✅ Уведомления доставляются
@@ -895,15 +902,18 @@ function getMessageForEvent(type: string, data: any): string {
 ---
 
 ### TASK-3.4: Voice Messages → Music Generation
+
 **Priority:** 🟢 Medium
 **Story Points:** 4
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `ai`, `voice`
 
 #### Описание
+
 Реализовать генерацию музыки из голосовых сообщений пользователя.
 
 #### Acceptance Criteria
+
 - [ ] Обработчик голосовых сообщений реализован
 - [ ] Скачивание voice файла работает
 - [ ] Whisper транскрипция интегрирована
@@ -913,6 +923,7 @@ function getMessageForEvent(type: string, data: any): string {
 #### Технические требования
 
 **1. Voice Message Handler:**
+
 ```typescript
 // telegram-bot/handlers/voice-handler.ts
 import { MessageContext } from "grammy";
@@ -944,11 +955,7 @@ export async function handleVoiceMessage(ctx: MessageContext) {
     await ctx.reply(`📝 Распознано: "${transcript}"\n\n⏳ Генерирую музыку...`);
 
     // 3. Получить user_id
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("user_id")
-      .eq("telegram_id", ctx.from.id)
-      .single();
+    const { data: profile } = await supabase.from("profiles").select("user_id").eq("telegram_id", ctx.from.id).single();
 
     if (!profile) {
       await ctx.reply("❌ Сначала авторизуйтесь в Mini App!");
@@ -982,7 +989,7 @@ async function transcribeAudio(audioBuffer: ArrayBuffer): Promise<string | null>
     const response = await fetch("https://ai.gateway.lovable.dev/v1/audio/transcriptions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${Deno.env.get("LOVABLE_API_KEY")}`,
+        Authorization: `Bearer ${Deno.env.get("LOVABLE_API_KEY")}`,
       },
       body: formData,
     });
@@ -1000,6 +1007,7 @@ bot.on("message:voice", handleVoiceMessage);
 ```
 
 #### Testing
+
 ```bash
 # 1. Отправить голосовое сообщение в бота
 # 2. Сказать: "Создай спокойную ambient музыку"
@@ -1009,6 +1017,7 @@ bot.on("message:voice", handleVoiceMessage);
 ```
 
 #### Definition of Done
+
 - ✅ Voice handler работает
 - ✅ Whisper транскрипция функционирует
 - ✅ Генерация запускается
@@ -1019,15 +1028,18 @@ bot.on("message:voice", handleVoiceMessage);
 ---
 
 ### TASK-3.5: Analytics Dashboard в боте
+
 **Priority:** 🟢 Medium
 **Story Points:** 2
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `analytics`
 
 #### Описание
+
 Добавить команду /analytics для просмотра статистики в боте.
 
 #### Acceptance Criteria
+
 - [ ] Команда /analytics реализована
 - [ ] Показывает основные метрики
 - [ ] Кнопка для полного dashboard в Mini App
@@ -1042,11 +1054,7 @@ import { InlineKeyboard } from "grammy";
 import { supabase } from "../config.ts";
 
 export async function analyticsCommand(ctx: CommandContext) {
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("user_id")
-    .eq("telegram_id", ctx.from.id)
-    .single();
+  const { data: profile } = await supabase.from("profiles").select("user_id").eq("telegram_id", ctx.from.id).single();
 
   if (!profile) {
     return ctx.reply("❌ Сначала авторизуйтесь в Mini App!");
@@ -1060,15 +1068,14 @@ export async function analyticsCommand(ctx: CommandContext) {
 🎵 Треков создано: <b>${stats.tracks_count}</b>
 💿 Проектов: <b>${stats.projects_count}</b>
 ⏱️ Общее время: <b>${formatDuration(stats.total_duration)}</b>
-🔥 Топ стиль: <b>${stats.top_style || 'N/A'}</b>
+🔥 Топ стиль: <b>${stats.top_style || "N/A"}</b>
 💰 Кредитов осталось: <b>${stats.credits}</b>
 
 📈 За последний месяц:
 • Треков: ${stats.monthly_tracks}
 • Активных дней: ${stats.active_days}`;
 
-  const keyboard = new InlineKeyboard()
-    .webApp("📱 Полная аналитика", `${process.env.MINI_APP_URL}/analytics`);
+  const keyboard = new InlineKeyboard().webApp("📱 Полная аналитика", `${process.env.MINI_APP_URL}/analytics`);
 
   await ctx.reply(message, {
     parse_mode: "HTML",
@@ -1078,21 +1085,11 @@ export async function analyticsCommand(ctx: CommandContext) {
 
 async function getUserAnalytics(userId: string) {
   // Запросы к БД для получения статистики
-  const { data: tracks } = await supabase
-    .from("tracks")
-    .select("duration, created_at")
-    .eq("user_id", userId);
+  const { data: tracks } = await supabase.from("tracks").select("duration, created_at").eq("user_id", userId);
 
-  const { data: projects } = await supabase
-    .from("music_projects")
-    .select("id")
-    .eq("user_id", userId);
+  const { data: projects } = await supabase.from("music_projects").select("id").eq("user_id", userId);
 
-  const { data: credits } = await supabase
-    .from("user_credits")
-    .select("credits")
-    .eq("user_id", userId)
-    .single();
+  const { data: credits } = await supabase.from("user_credits").select("credits").eq("user_id", userId).single();
 
   // ... вычисления
 
@@ -1118,6 +1115,7 @@ bot.command("analytics", analyticsCommand);
 ```
 
 #### Testing
+
 ```bash
 # 1. Отправить /analytics
 # 2. Проверить отображение статистики
@@ -1126,6 +1124,7 @@ bot.command("analytics", analyticsCommand);
 ```
 
 #### Definition of Done
+
 - ✅ Команда работает
 - ✅ Статистика корректная
 - ✅ Deep link в Mini App работает
@@ -1147,6 +1146,7 @@ bot.command("analytics", analyticsCommand);
 ---
 
 # 🎯 SPRINT 4: Advanced Features + Polish
+
 **Цель:** Добавить продвинутые функции и отполировать UX
 
 **Длительность:** 5 рабочих дней
@@ -1157,15 +1157,18 @@ bot.command("analytics", analyticsCommand);
 ## 📋 Задачи Sprint 4
 
 ### TASK-4.1: Collaboration Rooms (Групповые чаты)
+
 **Priority:** 🟢 Medium
 **Story Points:** 5
 **Assignee:** Backend + Frontend
 **Labels:** `backend`, `frontend`, `collaboration`
 
 #### Описание
+
 Создание групповых чатов в Telegram для совместной работы над проектами.
 
 #### Acceptance Criteria
+
 - [ ] Создание collaboration room
 - [ ] Invite links генерируются
 - [ ] Интеграция с проектами
@@ -1197,15 +1200,18 @@ async function createCollaborationRoom(projectId: string, chatId: number) {
 ---
 
 ### TASK-4.2: AI Daily Recommendations
+
 **Priority:** 🟢 Medium
 **Story Points:** 3
 **Assignee:** Backend Developer
 **Labels:** `backend`, `ai`, `cron`
 
 #### Описание
+
 Ежедневная рассылка персонализированных рекомендаций стилей.
 
 #### Acceptance Criteria
+
 - [ ] Cron job настроен
 - [ ] AI генерирует рекомендации
 - [ ] Рассылка происходит в выбранное время
@@ -1217,7 +1223,7 @@ async function createCollaborationRoom(projectId: string, chatId: number) {
 // Cron job через Supabase Edge Function
 // Запуск каждый день в 10:00
 
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
 
 Deno.cron("daily_recommendations", "0 10 * * *", async () => {
   const users = await getActiveUsers();
@@ -1244,15 +1250,18 @@ async function generateRecommendations(userId: string) {
 ---
 
 ### TASK-4.3: Music Sharing в группах
+
 **Priority:** 🟢 Medium
 **Story Points:** 3
 **Assignee:** Backend Developer
 **Labels:** `backend`, `telegram-bot`, `sharing`
 
 #### Описание
+
 Улучшенный шаринг треков в группах с красивыми карточками.
 
 #### Acceptance Criteria
+
 - [ ] Красивые карточки треков
 - [ ] Inline keyboard с действиями
 - [ ] Remix из группового чата
@@ -1261,15 +1270,18 @@ async function generateRecommendations(userId: string) {
 ---
 
 ### TASK-4.4: UI/UX Polish
+
 **Priority:** 🟡 High
 **Story Points:** 3
 **Assignee:** Frontend Developer
 **Labels:** `frontend`, `ui`, `ux`
 
 #### Описание
+
 Финальная полировка UI/UX Mini App.
 
 #### Acceptance Criteria
+
 - [ ] Анимации transitions
 - [ ] Loading states
 - [ ] Error boundaries
@@ -1279,15 +1291,18 @@ async function generateRecommendations(userId: string) {
 ---
 
 ### TASK-4.5: Documentation & Deployment
+
 **Priority:** 🔴 Critical
 **Story Points:** 1
 **Assignee:** Team Lead
 **Labels:** `documentation`, `deployment`
 
 #### Описание
+
 Финализация документации и deployment.
 
 #### Acceptance Criteria
+
 - [ ] README обновлен
 - [ ] API документация
 - [ ] User guides
@@ -1309,13 +1324,13 @@ async function generateRecommendations(userId: string) {
 
 ## 📊 ИТОГОВАЯ СТАТИСТИКА ВСЕХ СПРИНТОВ
 
-| Sprint | Story Points | Status |
-|--------|--------------|--------|
-| Sprint 1 | 21 | ⏳ Planned |
-| Sprint 2 | 18 | ⏳ Planned |
-| Sprint 3 | 24 | ⏳ Planned |
-| Sprint 4 | 15 | ⏳ Planned |
-| **ИТОГО** | **78** | **0% Complete** |
+| Sprint    | Story Points | Status          |
+| --------- | ------------ | --------------- |
+| Sprint 1  | 21           | ⏳ Planned      |
+| Sprint 2  | 18           | ⏳ Planned      |
+| Sprint 3  | 24           | ⏳ Planned      |
+| Sprint 4  | 15           | ⏳ Planned      |
+| **ИТОГО** | **78**       | **0% Complete** |
 
 ---
 
@@ -1324,4 +1339,3 @@ async function generateRecommendations(userId: string) {
 **Start date:** TBD
 
 ---
-

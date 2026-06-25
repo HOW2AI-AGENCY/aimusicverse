@@ -1,12 +1,12 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ArrowUp, ArrowDown, Music2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useMemo } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ArrowUp, ArrowDown, Music2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useMemo } from "react";
 
 interface StrumData {
   time: number;
-  direction: 'U' | 'D';
+  direction: "U" | "D";
 }
 
 interface StrummingPatternVisualizationProps {
@@ -15,52 +15,49 @@ interface StrummingPatternVisualizationProps {
   className?: string;
 }
 
-export function StrummingPatternVisualization({
-  strumming,
-  bpm = 120,
-  className,
-}: StrummingPatternVisualizationProps) {
+export function StrummingPatternVisualization({ strumming, bpm = 120, className }: StrummingPatternVisualizationProps) {
   // Analyze strumming pattern
   const analysis = useMemo(() => {
     if (!strumming || strumming.length === 0) {
       return null;
     }
 
-    const upCount = strumming.filter(s => s.direction === 'U').length;
-    const downCount = strumming.filter(s => s.direction === 'D').length;
+    const upCount = strumming.filter((s) => s.direction === "U").length;
+    const downCount = strumming.filter((s) => s.direction === "D").length;
 
     // Try to detect repeating pattern
-    const directions = strumming.map(s => s.direction);
+    const directions = strumming.map((s) => s.direction);
     let patternLength = 0;
-    
+
     for (let len = 2; len <= Math.min(8, Math.floor(directions.length / 2)); len++) {
       const pattern = directions.slice(0, len);
       let matches = true;
-      
+
       for (let i = len; i < directions.length; i++) {
         if (directions[i] !== pattern[i % len]) {
           matches = false;
           break;
         }
       }
-      
+
       if (matches) {
         patternLength = len;
         break;
       }
     }
 
-    const patternStr = patternLength > 0 
-      ? directions.slice(0, patternLength).join(' ')
-      : directions.slice(0, Math.min(8, directions.length)).join(' ');
+    const patternStr =
+      patternLength > 0
+        ? directions.slice(0, patternLength).join(" ")
+        : directions.slice(0, Math.min(8, directions.length)).join(" ");
 
     // Classify pattern type
-    let patternType = 'Свободный';
-    if (patternStr.includes('D D U U D U')) patternType = 'Народный/Фолк';
-    else if (patternStr === 'D D D D') patternType = 'Прямой бой';
-    else if (patternStr === 'D U D U') patternType = 'Переменный бой';
-    else if (patternStr.includes('D D U D U')) patternType = 'Восьмерка';
-    else if (upCount > downCount * 1.5) patternType = 'Арпеджио/Перебор';
+    let patternType = "Свободный";
+    if (patternStr.includes("D D U U D U")) patternType = "Народный/Фолк";
+    else if (patternStr === "D D D D") patternType = "Прямой бой";
+    else if (patternStr === "D U D U") patternType = "Переменный бой";
+    else if (patternStr.includes("D D U D U")) patternType = "Восьмерка";
+    else if (upCount > downCount * 1.5) patternType = "Арпеджио/Перебор";
 
     return {
       upCount,
@@ -102,27 +99,22 @@ export function StrummingPatternVisualization({
               key={index}
               className={cn(
                 "flex flex-col items-center gap-1 p-2 rounded-lg transition-all",
-                strum.direction === 'D' 
-                  ? "bg-primary/20 border border-primary/30" 
-                  : "bg-accent/20 border border-accent/30"
+                strum.direction === "D"
+                  ? "bg-primary/20 border border-primary/30"
+                  : "bg-accent/20 border border-accent/30",
               )}
             >
-              {strum.direction === 'D' ? (
+              {strum.direction === "D" ? (
                 <ArrowDown className="w-5 h-5 text-primary" />
               ) : (
                 <ArrowUp className="w-5 h-5 text-accent" />
               )}
-              <span className={cn(
-                "text-xs font-bold",
-                strum.direction === 'D' ? "text-primary" : "text-accent"
-              )}>
+              <span className={cn("text-xs font-bold", strum.direction === "D" ? "text-primary" : "text-accent")}>
                 {strum.direction}
               </span>
             </div>
           ))}
-          {strumming.length > 16 && (
-            <span className="text-muted-foreground text-sm px-2">...</span>
-          )}
+          {strumming.length > 16 && <span className="text-muted-foreground text-sm px-2">...</span>}
         </div>
 
         {/* Pattern analysis */}
@@ -132,11 +124,7 @@ export function StrummingPatternVisualization({
               <Badge variant="secondary" className="bg-primary/10 text-primary">
                 {analysis.patternType}
               </Badge>
-              {bpm && (
-                <Badge variant="outline">
-                  {bpm} BPM
-                </Badge>
-              )}
+              {bpm && <Badge variant="outline">{bpm} BPM</Badge>}
             </div>
 
             <div className="grid grid-cols-3 gap-2 text-center">
@@ -158,12 +146,12 @@ export function StrummingPatternVisualization({
             <div className="p-3 bg-muted/20 rounded-lg font-mono text-sm">
               <div className="text-xs text-muted-foreground mb-1">Паттерн:</div>
               <div className="flex flex-wrap gap-1">
-                {analysis.patternStr.split(' ').map((char, i) => (
+                {analysis.patternStr.split(" ").map((char, i) => (
                   <span
                     key={i}
                     className={cn(
                       "px-2 py-0.5 rounded",
-                      char === 'D' ? "bg-primary/20 text-primary" : "bg-accent/20 text-accent"
+                      char === "D" ? "bg-primary/20 text-primary" : "bg-accent/20 text-accent",
                     )}
                   >
                     {char}
@@ -175,7 +163,7 @@ export function StrummingPatternVisualization({
             {/* Timing info */}
             {strumming.length > 1 && (
               <div className="text-xs text-muted-foreground">
-                Длительность: {((strumming[strumming.length - 1].time - strumming[0].time)).toFixed(1)}с
+                Длительность: {(strumming[strumming.length - 1].time - strumming[0].time).toFixed(1)}с
               </div>
             )}
           </div>

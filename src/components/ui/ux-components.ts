@@ -1,10 +1,10 @@
 /**
  * UX Components Index
  * Feature: 032-professional-ui
- * 
+ *
  * Central export for all UX enhancement components.
  * Import from this file for consistent UX patterns across the app.
- * 
+ *
  * @example
  * import { TouchFeedback, AnimatedList, EmptyState } from '@/components/ui/ux-components';
  */
@@ -12,39 +12,38 @@
 // ============================================================================
 // TOUCH & INTERACTION
 // ============================================================================
-export { TouchFeedback, PressableCard, IconTouchButton } from './TouchFeedback';
-export { SwipeableListItem } from './SwipeableListItem';
-export { PullToRefresh } from './PullToRefresh';
+export { TouchFeedback, PressableCard, IconTouchButton } from "./TouchFeedback";
+export { SwipeableListItem } from "./SwipeableListItem";
+export { PullToRefresh } from "./PullToRefresh";
 
 // ============================================================================
 // ANIMATIONS
 // ============================================================================
-export { PageTransition, AnimatedSection, FadeIn, ScaleIn } from './PageTransition';
-// Removed during UI unification (Phase 3): AnimatedList, AnimatedGrid, AnimatedCounter.
-// Use motion presets from `@/lib/motion-presets` directly.
-
+export { AnimatedList, AnimatedGrid } from "./AnimatedList";
+export { PageTransition, AnimatedSection, FadeIn, ScaleIn } from "./PageTransition";
+export { AnimatedCounter } from "./AnimatedCounter";
 
 // ============================================================================
 // LOADING STATES
 // ============================================================================
-export { 
-  LoadingSpinner, 
-  FullPageLoading, 
-  InlineLoading, 
+export {
+  LoadingSpinner,
+  FullPageLoading,
+  InlineLoading,
   LoadingDots,
   ButtonLoading,
   SectionLoading,
-} from './LoadingSpinner';
+} from "./LoadingSpinner";
 
 // ============================================================================
 // IMAGES
 // ============================================================================
-export { ProgressiveImage, AvatarImage } from './ProgressiveImage';
+export { ProgressiveImage, AvatarImage } from "./ProgressiveImage";
 
 // ============================================================================
 // EMPTY STATES
 // ============================================================================
-export { EmptyState } from './EmptyState';
+export { EmptyState } from "./EmptyState";
 
 // ============================================================================
 // SKELETONS - Complete skeleton library for loading states
@@ -54,102 +53,102 @@ export {
   TrackCardSkeleton,
   TrackCardSkeletonCompact,
   TrackRowSkeleton,
-  
+
   // Player
   PlayerSkeleton,
-  
+
   // Lists & Grids
   ListItemSkeleton,
   GridSkeleton,
-  
+
   // Horizontal scroll
   CarouselSkeleton,
   HorizontalScrollSkeleton,
-  
+
   // Sections
   SectionSkeleton,
   SectionHeaderSkeleton,
-  
+
   // Forms
   FormSkeleton,
-  
+
   // Stats & Widgets
   StatsWidgetSkeleton,
-  
+
   // Profile
   ProfileHeaderSkeleton,
-  
+
   // Specialized
   WaveformSkeleton,
   PlaylistCoverSkeleton,
   ArtistCardSkeleton,
   TextSkeleton,
-} from './skeleton-components';
+} from "./skeleton-components";
 
 // Base skeleton (for custom compositions)
-export { Skeleton } from './skeleton';
+export { Skeleton } from "./skeleton";
 
 // ============================================================================
-// INTERACTIVE COMPONENTS (removed in unification — use TouchFeedback/PressableCard)
+// INTERACTIVE COMPONENTS
 // ============================================================================
+export { InteractiveCard, InteractiveListItem, InteractiveButton } from "./InteractiveCard";
 
 // ============================================================================
 // SHIMMER EFFECTS
 // ============================================================================
-export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from './Shimmer';
+export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from "./Shimmer";
 
 // ============================================================================
-// FEEDBACK & NOTIFICATIONS — canonical entry point is `@/lib/toast`
+// FEEDBACK & NOTIFICATIONS
 // ============================================================================
-export { notify, notify as showToast } from '@/lib/toast';
-export { toast } from 'sonner';
+export { showToast, toast } from "./FeedbackToast";
 
 // ============================================================================
 // BADGES & INDICATORS
 // ============================================================================
-export { NotificationBadge, StatusIndicator, LabelBadge } from './NotificationBadge';
+export { NotificationBadge, StatusIndicator, LabelBadge } from "./NotificationBadge";
 
 // ============================================================================
 // FORM COMPONENTS
 // ============================================================================
-export { FloatingInput, FloatingTextarea } from './FloatingInput';
+export { FloatingInput, FloatingTextarea } from "./FloatingInput";
 
 // ============================================================================
 // SHEETS & OVERLAYS
 // ============================================================================
-export { ActionSheet } from './ActionSheet';
-
+export { ActionSheet } from "./ActionSheet";
 
 // ============================================================================
 // PROGRESS & STEPS
 // ============================================================================
-export { ProgressSteps, ProgressBarSteps } from './ProgressSteps';
+export { ProgressSteps, ProgressBarSteps } from "./ProgressSteps";
 
 // ============================================================================
 // COLLAPSIBLE SECTIONS
 // ============================================================================
-export { Collapsible as CollapsibleSection, Accordion, ExpandableText } from './CollapsibleSection';
+export { Collapsible as CollapsibleSection, Accordion, ExpandableText } from "./CollapsibleSection";
 
 // ============================================================================
 // CHIPS & TAGS
 // ============================================================================
-export { ChipInput, ChipSelector } from './ChipInput';
+export { ChipInput, ChipSelector } from "./ChipInput";
 
 // ============================================================================
-// REFINED COMPONENTS — RefinedButton/RefinedTrackCard/EnhancedTooltip removed
-// during unification. Use Button (shadcn), UnifiedTrackCard and Tooltip instead.
+// REFINED COMPONENTS
 // ============================================================================
-export { RefinedCard, CardHeader, CardContent, CardFooter, FeatureCard, StatCard } from './RefinedCard';
-export { LoadingOverlay, ProgressOverlay, SkeletonOverlay } from './LoadingOverlay';
-export { StatusBadge, StatusDot } from './StatusBadge';
-
+export { RefinedButton, IconButton, ButtonGroup } from "./RefinedButton";
+export { RefinedCard, CardHeader, CardContent, CardFooter, FeatureCard, StatCard } from "./RefinedCard";
+export { RefinedTrackCard } from "./RefinedTrackCard";
+export { EnhancedTooltip, Shortcut, TooltipWithShortcut } from "./EnhancedTooltip";
+export { LoadingOverlay, ProgressOverlay, SkeletonOverlay } from "./LoadingOverlay";
+export { StatusBadge, StatusDot } from "./StatusBadge";
 
 // ============================================================================
 // HOOKS RE-EXPORTS
 // ============================================================================
-export { useScrollReveal, useStaggeredReveal } from '@/hooks/useScrollReveal';
-export { useSmoothCounter } from '@/hooks/useSmoothCounter';
-export { useOptimistic, useOptimisticList } from '@/hooks/useOptimistic';
-export { usePullToRefresh } from '@/hooks/usePullToRefresh';
-export { useSwipeActions } from '@/hooks/useSwipeActions';
-export { useKeyboardShortcuts, usePlayerShortcuts, commonShortcuts } from '@/hooks/useKeyboardShortcuts';
+export { useScrollReveal, useStaggeredReveal } from "@/hooks/useScrollReveal";
+export { useSmoothCounter } from "@/hooks/useSmoothCounter";
+export { useOptimistic, useOptimisticList } from "@/hooks/useOptimistic";
+export { usePullToRefresh } from "@/hooks/usePullToRefresh";
+export { useSwipeActions } from "@/hooks/useSwipeActions";
+export { useKeyboardShortcuts, usePlayerShortcuts, commonShortcuts } from "@/hooks/useKeyboardShortcuts";

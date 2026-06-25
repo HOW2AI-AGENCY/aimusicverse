@@ -1,6 +1,6 @@
 /**
  * useTrackCardState - Shared state and logic for track cards
- * 
+ *
  * Extracts common logic from all track card variants:
  * - Playing state detection
  * - Hover/interaction state
@@ -10,13 +10,13 @@
  * - Ownership detection
  */
 
-import { useState, useCallback, useMemo } from 'react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useAuth } from '@/hooks/useAuth';
-import { hapticImpact } from '@/lib/haptic';
-import type { TrackData } from '../types';
-import type { Track } from '@/types/track';
+import { useState, useCallback, useMemo } from "react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useAuth } from "@/hooks/useAuth";
+import { hapticImpact } from "@/lib/haptic";
+import type { TrackData } from "../types";
+import type { Track } from "@/types/track";
 
 interface UseTrackCardStateOptions {
   track: TrackData;
@@ -54,57 +54,66 @@ export function useTrackCardState({ track, onPlay, isPlaying: isPlayingProp }: U
   }, [track]);
 
   // Play/Pause handler
-  const handlePlay = useCallback((e?: React.MouseEvent) => {
-    e?.stopPropagation();
-    hapticImpact('medium');
+  const handlePlay = useCallback(
+    (e?: React.MouseEvent) => {
+      e?.stopPropagation();
+      hapticImpact("medium");
 
-    if (onPlay) {
-      onPlay();
-      return;
-    }
+      if (onPlay) {
+        onPlay();
+        return;
+      }
 
-    if (isCurrentTrack && storeIsPlaying) {
-      pauseTrack();
-    } else {
-      playTrack(trackForPlayer);
-    }
-  }, [onPlay, isCurrentTrack, storeIsPlaying, pauseTrack, playTrack, trackForPlayer]);
+      if (isCurrentTrack && storeIsPlaying) {
+        pauseTrack();
+      } else {
+        playTrack(trackForPlayer);
+      }
+    },
+    [onPlay, isCurrentTrack, storeIsPlaying, pauseTrack, playTrack, trackForPlayer],
+  );
 
   // Card click handler
-  const handleCardClick = useCallback((e: React.MouseEvent) => {
-    const target = e.target as HTMLElement;
-    
-    // Don't trigger if clicking on buttons or interactive elements
-    if (
-      target.closest('button') ||
-      target.closest('[data-play-button]') ||
-      target.closest('[role="menuitem"]') ||
-      target.closest('[data-radix-collection-item]') ||
-      target.closest('[data-radix-dropdown-menu-content]') ||
-      target.closest('[data-menu-trigger]')
-    ) {
-      return;
-    }
+  const handleCardClick = useCallback(
+    (e: React.MouseEvent) => {
+      const target = e.target as HTMLElement;
 
-    if (isMobile) {
-      hapticImpact('light');
-    }
-    setSheetOpen(true);
-  }, [isMobile]);
+      // Don't trigger if clicking on buttons or interactive elements
+      if (
+        target.closest("button") ||
+        target.closest("[data-play-button]") ||
+        target.closest('[role="menuitem"]') ||
+        target.closest("[data-radix-collection-item]") ||
+        target.closest("[data-radix-dropdown-menu-content]") ||
+        target.closest("[data-menu-trigger]")
+      ) {
+        return;
+      }
+
+      if (isMobile) {
+        hapticImpact("light");
+      }
+      setSheetOpen(true);
+    },
+    [isMobile],
+  );
 
   // Open sheet directly
   const openSheet = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     setSheetOpen(true);
   }, []);
 
   // Keyboard handler
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleCardClick(e as any);
-    }
-  }, [handleCardClick]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        handleCardClick(e as any);
+      }
+    },
+    [handleCardClick],
+  );
 
   // Hover handlers
   const handleMouseEnter = useCallback(() => setIsHovered(true), []);

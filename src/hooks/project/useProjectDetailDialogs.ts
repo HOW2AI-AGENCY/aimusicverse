@@ -2,8 +2,8 @@
  * useProjectDetailDialogs - Dialog state management for ProjectDetail
  */
 
-import { useState, useCallback } from 'react';
-import type { ProjectTrack } from '@/hooks/useProjectTracks';
+import { useState, useCallback } from "react";
+import type { ProjectTrack } from "@/hooks/useProjectTracks";
 
 export interface ProjectDialogState {
   aiDialogOpen: boolean;
@@ -33,13 +33,13 @@ export function useProjectDetailDialogs() {
   const [projectInfoExpanded, setProjectInfoExpanded] = useState(false);
 
   // Check if any dialog is open (for MainButton visibility)
-  const isAnyDialogOpen = 
-    aiDialogOpen || 
-    settingsOpen || 
-    addTrackOpen || 
-    lyricsSheetOpen || 
-    lyricsWizardOpen || 
-    mediaGeneratorOpen || 
+  const isAnyDialogOpen =
+    aiDialogOpen ||
+    settingsOpen ||
+    addTrackOpen ||
+    lyricsSheetOpen ||
+    lyricsWizardOpen ||
+    mediaGeneratorOpen ||
     publishDialogOpen;
 
   // Dialog openers with context
@@ -79,22 +79,22 @@ export function useProjectDetailDialogs() {
     setMediaGeneratorOpen,
     publishDialogOpen,
     setPublishDialogOpen,
-    
+
     // Selected items
     selectedTrackForLyrics,
     setSelectedTrackForLyrics,
     selectedTrackForMedia,
     setSelectedTrackForMedia,
-    
+
     // Expand states
     descriptionExpanded,
     setDescriptionExpanded,
     projectInfoExpanded,
     setProjectInfoExpanded,
-    
+
     // Computed
     isAnyDialogOpen,
-    
+
     // Convenience methods
     openLyricsWizard,
     openMediaGenerator,

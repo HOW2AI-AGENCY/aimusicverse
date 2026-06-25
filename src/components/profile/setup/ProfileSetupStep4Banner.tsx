@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { ImageIcon, Upload, Sparkles, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
-import { ImageGeneratorDialog } from '../ImageGeneratorDialog';
-import type { ProfileSetupData } from './EnhancedProfileSetup';
-import { surface } from '@/lib/overlay-colors';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { ImageIcon, Upload, Sparkles, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
+import { ImageGeneratorDialog } from "../ImageGeneratorDialog";
+import type { ProfileSetupData } from "./EnhancedProfileSetup";
+import { surface } from "@/lib/overlay-colors";
 
 interface ProfileSetupStep4BannerProps {
   data: ProfileSetupData;
@@ -24,34 +24,32 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
   const handleBannerUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !userId) return;
-    
+
     if (file.size > 10 * 1024 * 1024) {
-      toast.error('Файл слишком большой (макс. 10МБ)');
+      toast.error("Файл слишком большой (макс. 10МБ)");
       return;
     }
-    
+
     setIsUploading(true);
     try {
-      const fileExt = file.name.split('.').pop();
+      const fileExt = file.name.split(".").pop();
       const fileName = `banner_${userId}_${Date.now()}.${fileExt}`;
-      
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(fileName, file, { upsert: true });
-      
+
+      const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
+
       if (uploadError) throw uploadError;
-      
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(fileName);
-      
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("avatars").getPublicUrl(fileName);
+
       onUpdate({ bannerUrl: publicUrl });
-      toast.success('Баннер загружен');
+      toast.success("Баннер загружен");
     } catch (error) {
-      logger.error('Error uploading banner', error instanceof Error ? error : new Error(String(error)), {
-        userId
+      logger.error("Error uploading banner", error instanceof Error ? error : new Error(String(error)), {
+        userId,
       });
-      toast.error('Ошибка загрузки баннера');
+      toast.error("Ошибка загрузки баннера");
     } finally {
       setIsUploading(false);
     }
@@ -73,21 +71,20 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
           <ImageIcon className="w-4 h-4" />
           Баннер профиля
         </Label>
-        <p className="text-xs text-muted-foreground">
-          Баннер отображается вверху вашего публичного профиля
-        </p>
+        <p className="text-xs text-muted-foreground">Баннер отображается вверху вашего публичного профиля</p>
       </div>
 
       {/* Banner Preview */}
       <div className="relative aspect-[3/1] rounded-lg overflow-hidden border-2 border-dashed border-border bg-muted/30">
         {data.bannerUrl ? (
           <>
-            <img
-              src={data.bannerUrl}
-              alt="Баннер профиля"
-              className="w-full h-full object-cover"
-            />
-            <div className={cn("absolute inset-0 flex items-center justify-center gap-2 opacity-0 hover:opacity-100 transition-opacity", surface.imageDark)}>
+            <img src={data.bannerUrl} alt="Баннер профиля" className="w-full h-full object-cover" />
+            <div
+              className={cn(
+                "absolute inset-0 flex items-center justify-center gap-2 opacity-0 hover:opacity-100 transition-opacity",
+                surface.imageDark,
+              )}
+            >
               <label htmlFor="banner-upload" className="cursor-pointer">
                 <Button variant="secondary" size="sm" asChild>
                   <span>
@@ -111,7 +108,7 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
           <div
             className={cn(
               "absolute inset-0 flex flex-col items-center justify-center gap-3",
-              isUploading && "pointer-events-none"
+              isUploading && "pointer-events-none",
             )}
           >
             {isUploading ? (
@@ -132,9 +129,7 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
                     Сгенерировать AI
                   </Button>
                 </div>
-                <span className="text-xs text-muted-foreground">
-                  Рекомендуемый размер: 1200x400px
-                </span>
+                <span className="text-xs text-muted-foreground">Рекомендуемый размер: 1200x400px</span>
               </>
             )}
           </div>
@@ -159,11 +154,8 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
         <p className="text-sm font-medium mb-3">Предпросмотр профиля:</p>
         <div className="relative rounded-lg overflow-hidden border">
           {/* Mini banner */}
-          <div 
-            className={cn(
-              "h-16 bg-gradient-to-r from-primary/20 to-primary/5",
-              data.bannerUrl && "bg-cover bg-center"
-            )}
+          <div
+            className={cn("h-16 bg-gradient-to-r from-primary/20 to-primary/5", data.bannerUrl && "bg-cover bg-center")}
             style={data.bannerUrl ? { backgroundImage: `url(${data.bannerUrl})` } : undefined}
           />
           {/* Avatar overlay */}
@@ -173,20 +165,16 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
                 <img src={data.avatarUrl} alt="" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-xl font-bold text-muted-foreground">
-                  {data.displayName?.[0]?.toUpperCase() || '?'}
+                  {data.displayName?.[0]?.toUpperCase() || "?"}
                 </div>
               )}
             </div>
           </div>
           {/* Info */}
           <div className="pt-10 pb-4 px-4">
-            <h4 className="font-bold">{data.displayName || 'Ваше имя'}</h4>
-            {data.username && (
-              <p className="text-xs text-muted-foreground">@{data.username}</p>
-            )}
-            {data.bio && (
-              <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{data.bio}</p>
-            )}
+            <h4 className="font-bold">{data.displayName || "Ваше имя"}</h4>
+            {data.username && <p className="text-xs text-muted-foreground">@{data.username}</p>}
+            {data.bio && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{data.bio}</p>}
           </div>
         </div>
       </div>

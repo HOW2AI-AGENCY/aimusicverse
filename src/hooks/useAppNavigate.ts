@@ -3,8 +3,8 @@
  * Replaces window.location.href with React Router navigation
  */
 
-import { useNavigate, NavigateOptions } from 'react-router-dom';
-import { useCallback } from 'react';
+import { useNavigate, NavigateOptions } from "react-router-dom";
+import { useCallback } from "react";
 
 /**
  * A hook that provides SPA-friendly navigation
@@ -14,16 +14,19 @@ import { useCallback } from 'react';
 export function useAppNavigate() {
   const navigate = useNavigate();
 
-  return useCallback((path: string, options?: NavigateOptions) => {
-    // For external URLs - open in new tab
-    if (path.startsWith('http://') || path.startsWith('https://')) {
-      window.open(path, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    
-    // For internal paths - use SPA navigation
-    navigate(path, options);
-  }, [navigate]);
+  return useCallback(
+    (path: string, options?: NavigateOptions) => {
+      // For external URLs - open in new tab
+      if (path.startsWith("http://") || path.startsWith("https://")) {
+        window.open(path, "_blank", "noopener,noreferrer");
+        return;
+      }
+
+      // For internal paths - use SPA navigation
+      navigate(path, options);
+    },
+    [navigate],
+  );
 }
 
 /**

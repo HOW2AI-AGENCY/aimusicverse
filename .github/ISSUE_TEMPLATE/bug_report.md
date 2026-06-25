@@ -1,9 +1,9 @@
 ---
 name: 🐛 Bug Report
 about: Создать отчет об ошибке чтобы помочь нам улучшить проект
-title: '[BUG] '
-labels: ['bug', 'needs-triage']
-assignees: ''
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+assignees: ""
 ---
 
 ## 🐛 Описание ошибки
@@ -32,12 +32,14 @@ assignees: ''
 ## 🌐 Окружение
 
 **Устройство:**
+
 - [ ] Desktop
 - [ ] Mobile (iOS)
 - [ ] Mobile (Android)
 - [ ] Tablet
 
 **Браузер:**
+
 - [ ] Chrome
 - [ ] Firefox
 - [ ] Safari
@@ -46,6 +48,7 @@ assignees: ''
 - Другой: [укажите]
 
 **Дополнительная информация:**
+
 - ОС: [например, macOS 14, Windows 11, iOS 17]
 - Версия браузера: [например, Chrome 120]
 - Версия приложения: [если известна]

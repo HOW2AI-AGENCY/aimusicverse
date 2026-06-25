@@ -1,9 +1,9 @@
 /**
  * Telegram Context Types
- * 
+ *
  * Type definitions for Telegram Mini App integration.
  * Extracted from TelegramContext.tsx for modularity.
- * 
+ *
  * @module contexts/telegram/types
  */
 
@@ -29,7 +29,7 @@ export interface MainButtonOptions {
 export interface SecondaryButtonOptions {
   color?: string;
   textColor?: string;
-  position?: 'left' | 'right';
+  position?: "left" | "right";
 }
 
 export interface PopupParams {
@@ -52,7 +52,7 @@ export interface TelegramContextType {
   initData: string;
   isInitialized: boolean;
   isDevelopmentMode: boolean;
-  
+
   // Buttons
   showMainButton: (text: string, onClick: () => void, options?: MainButtonOptions) => void;
   hideMainButton: () => void;
@@ -62,49 +62,49 @@ export interface TelegramContextType {
   hideBackButton: () => void;
   showSettingsButton: (onClick: () => void) => void;
   hideSettingsButton: () => void;
-  
+
   // Dialogs
   showPopup: (params: PopupParams, callback?: (buttonId: string) => void) => void;
   showAlert: (message: string) => void;
   showConfirm: (message: string, callback?: (confirmed: boolean) => void) => void;
-  
+
   // Feedback
-  hapticFeedback: (type: 'light' | 'medium' | 'heavy' | 'success' | 'error' | 'warning' | 'selection') => void;
-  
+  hapticFeedback: (type: "light" | "medium" | "heavy" | "success" | "error" | "warning" | "selection") => void;
+
   // Window control
   close: () => void;
   expand: () => void;
   ready: () => void;
   enableClosingConfirmation: () => void;
   disableClosingConfirmation: () => void;
-  
+
   // Fullscreen (Mini App 2.0)
   requestFullscreen: () => void;
   exitFullscreen: () => void;
   isFullscreen: boolean;
-  
+
   // Orientation
   lockOrientation: () => void;
   unlockOrientation: () => void;
-  
+
   // Links
   openLink: (url: string, options?: { try_instant_view?: boolean }) => void;
   openTelegramLink: (url: string) => void;
-  
+
   // Sharing
   shareToStory: (mediaUrl: string, options?: ShareToStoryOptions) => void;
   shareURL: (url: string, text?: string) => void;
-  
+
   // QR Scanner
   showQRScanner: (text?: string, callback?: (data: string) => boolean) => void;
   closeQRScanner: () => void;
-  
+
   // Downloads
   downloadFile: (url: string, fileName: string, callback?: (success: boolean) => void) => void;
   requestWriteAccess: (callback?: (granted: boolean) => void) => void;
 }
 
-export type HapticType = 'light' | 'medium' | 'heavy' | 'success' | 'error' | 'warning' | 'selection';
+export type HapticType = "light" | "medium" | "heavy" | "success" | "error" | "warning" | "selection";
 
 export interface SafeAreaInsets {
   top: number;

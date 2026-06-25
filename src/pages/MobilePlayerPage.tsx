@@ -1,23 +1,23 @@
 /**
  * MobilePlayerPage - Standalone fullscreen player page for deep links
- * 
+ *
  * Accessed via:
  * - /player/:trackId
  * - Deep links: play_{trackId}, player_{trackId}, listen_{trackId}
- * 
+ *
  * Automatically loads track and starts playback in fullscreen mode
  */
 
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { FullscreenPlayer } from '@/components/player/FullscreenPlayer';
-import { Loader2, ChevronLeft, Music2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import type { Track } from '@/types/track';
-import { logger } from '@/lib/logger';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { FullscreenPlayer } from "@/components/player/FullscreenPlayer";
+import { Loader2, ChevronLeft, Music2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import type { Track } from "@/types/track";
+import { logger } from "@/lib/logger";
 
 export default function MobilePlayerPage() {
   const { trackId } = useParams<{ trackId: string }>();
@@ -26,26 +26,32 @@ export default function MobilePlayerPage() {
   const [hasStartedPlayback, setHasStartedPlayback] = useState(false);
 
   // Fetch track data
-  const { data: track, isLoading, error } = useQuery({
-    queryKey: ['player-track', trackId],
+  const {
+    data: track,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["player-track", trackId],
     queryFn: async () => {
-      if (!trackId) throw new Error('No track ID');
-      
+      if (!trackId) throw new Error("No track ID");
+
       const { data, error } = await supabase
-        .from('tracks')
-        .select(`
+        .from("tracks")
+        .select(
+          `
           *,
           profiles:user_id (
             username,
             display_name,
             photo_url
           )
-        `)
-        .eq('id', trackId)
+        `,
+        )
+        .eq("id", trackId)
         .single();
 
       if (error) throw error;
-      
+
       // Transform to Track type with is_liked default
       return {
         ...data,
@@ -59,11 +65,11 @@ export default function MobilePlayerPage() {
   // Auto-start playback when track loads
   useEffect(() => {
     if (track && !hasStartedPlayback) {
-      logger.info('MobilePlayerPage: Starting playback', { trackId: track.id, title: track.title });
-      
+      logger.info("MobilePlayerPage: Starting playback", { trackId: track.id, title: track.title });
+
       // Set player mode to fullscreen and start playing
-      setPlayerMode('fullscreen');
-      
+      setPlayerMode("fullscreen");
+
       // Small delay to ensure audio element is ready
       const timer = setTimeout(() => {
         playTrack(track);
@@ -76,24 +82,26 @@ export default function MobilePlayerPage() {
 
   // Handle back navigation
   const handleBack = () => {
-    setPlayerMode('compact');
-    navigate('/library', { replace: true });
+    setPlayerMode("compact");
+    navigate("/library", { replace: true });
   };
 
   // Handle closing fullscreen player
   const handleCloseFullscreen = () => {
-    setPlayerMode('compact');
-    navigate('/library', { replace: true });
+    setPlayerMode("compact");
+    navigate("/library", { replace: true });
   };
 
   // Loading state
   if (isLoading) {
     return (
-      <div 
+      <div
         className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50"
         style={{
-          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
-          paddingBottom: 'max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+          paddingTop:
+            "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
+          paddingBottom:
+            "max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
         }}
       >
         <div className="flex flex-col items-center gap-4">
@@ -112,11 +120,13 @@ export default function MobilePlayerPage() {
   // Error state
   if (error || !track) {
     return (
-      <div 
+      <div
         className="fixed inset-0 bg-background flex flex-col items-center justify-center z-50 p-6"
         style={{
-          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1.5rem, env(safe-area-inset-top, 0px) + 1.5rem)',
-          paddingBottom: 'max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px) + 1.5rem, env(safe-area-inset-bottom, 0px) + 1.5rem)',
+          paddingTop:
+            "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1.5rem, env(safe-area-inset-top, 0px) + 1.5rem)",
+          paddingBottom:
+            "max(var(--tg-content-safe-area-inset-bottom, 0px) + var(--tg-safe-area-inset-bottom, 0px) + 1.5rem, env(safe-area-inset-bottom, 0px) + 1.5rem)",
         }}
       >
         <div className="flex flex-col items-center gap-4 text-center max-w-sm">
@@ -124,12 +134,9 @@ export default function MobilePlayerPage() {
             <Music2 className="w-10 h-10 text-destructive" />
           </div>
           <h2 className="text-xl font-semibold">Трек не найден</h2>
-          <p className="text-muted-foreground text-sm">
-            Возможно, трек был удалён или ссылка недействительна
-          </p>
+          <p className="text-muted-foreground text-sm">Возможно, трек был удалён или ссылка недействительна</p>
           <Button onClick={handleBack} variant="outline" className="mt-4">
-            <ChevronLeft className="w-4 h-4 mr-2" />
-            В библиотеку
+            <ChevronLeft className="w-4 h-4 mr-2" />В библиотеку
           </Button>
         </div>
       </div>
@@ -139,10 +146,7 @@ export default function MobilePlayerPage() {
   // Render fullscreen player
   return (
     <div className="fixed inset-0 z-50">
-      <FullscreenPlayer 
-        track={track}
-        onClose={handleCloseFullscreen}
-      />
+      <FullscreenPlayer track={track} onClose={handleCloseFullscreen} />
     </div>
   );
 }

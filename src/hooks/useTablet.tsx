@@ -27,18 +27,12 @@ export function useIsTablet() {
   const [isTablet, setIsTablet] = React.useState<boolean | undefined>(undefined);
 
   React.useEffect(() => {
-    const mql = window.matchMedia(
-      `(min-width: ${TABLET_MIN}px) and (max-width: ${TABLET_MAX}px)`
-    );
+    const mql = window.matchMedia(`(min-width: ${TABLET_MIN}px) and (max-width: ${TABLET_MAX}px)`);
     const onChange = () => {
-      setIsTablet(
-        window.innerWidth >= TABLET_MIN && window.innerWidth <= TABLET_MAX
-      );
+      setIsTablet(window.innerWidth >= TABLET_MIN && window.innerWidth <= TABLET_MAX);
     };
     mql.addEventListener("change", onChange);
-    setIsTablet(
-      window.innerWidth >= TABLET_MIN && window.innerWidth <= TABLET_MAX
-    );
+    setIsTablet(window.innerWidth >= TABLET_MIN && window.innerWidth <= TABLET_MAX);
     return () => mql.removeEventListener("change", onChange);
   }, []);
 
@@ -79,10 +73,10 @@ export function useResponsive() {
 
     updateBreakpoints();
 
-    const mql = window.matchMedia('(min-width: 640px)');
-    mql.addEventListener('change', updateBreakpoints);
+    const mql = window.matchMedia("(min-width: 640px)");
+    mql.addEventListener("change", updateBreakpoints);
 
-    return () => mql.removeEventListener('change', updateBreakpoints);
+    return () => mql.removeEventListener("change", updateBreakpoints);
   }, []);
 
   return breakpoints;

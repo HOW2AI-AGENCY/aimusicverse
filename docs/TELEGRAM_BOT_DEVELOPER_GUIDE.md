@@ -26,15 +26,12 @@ supabase/functions/telegram-bot/
 Create `supabase/functions/telegram-bot/commands/your-command.ts`:
 
 ```typescript
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { BOT_CONFIG } from '../config.ts';
-import { logger } from '../utils/index.ts';
-import { sendMessage, sendAudio } from '../telegram-api.ts';
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { BOT_CONFIG } from "../config.ts";
+import { logger } from "../utils/index.ts";
+import { sendMessage, sendAudio } from "../telegram-api.ts";
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = createClient(BOT_CONFIG.supabaseUrl, BOT_CONFIG.supabaseServiceKey);
 
 /**
  * Handle /yourcommand
@@ -42,28 +39,15 @@ const supabase = createClient(
  * @param userId - Telegram user ID
  * @param args - Command arguments
  */
-export async function handleYourCommand(
-  chatId: number,
-  userId: number,
-  args: string[]
-): Promise<void> {
+export async function handleYourCommand(chatId: number, userId: number, args: string[]): Promise<void> {
   try {
-    logger.info('your_command_start', { chatId, userId, args });
+    logger.info("your_command_start", { chatId, userId, args });
 
     // 1. Get user profile
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('telegram_id', userId)
-      .single();
+    const { data: profile } = await supabase.from("profiles").select("*").eq("telegram_id", userId).single();
 
     if (!profile) {
-      await sendMessage(
-        chatId,
-        '🔑 Требуется авторизация. Нажмите /start',
-        undefined,
-        null
-      );
+      await sendMessage(chatId, "🔑 Требуется авторизация. Нажмите /start", undefined, null);
       return;
     }
 
@@ -71,35 +55,21 @@ export async function handleYourCommand(
     const result = await processYourCommand(profile, args);
 
     // 3. Send response
-    await sendMessage(
-      chatId,
-      result.message,
-      'MarkdownV2',
-      {
-        inline_keyboard: [
-          [
-            { text: '🎵 Открыть приложение', web_app: { url: BOT_CONFIG.miniAppUrl } }
-          ]
-        ]
-      }
-    );
+    await sendMessage(chatId, result.message, "MarkdownV2", {
+      inline_keyboard: [[{ text: "🎵 Открыть приложение", web_app: { url: BOT_CONFIG.miniAppUrl } }]],
+    });
 
-    logger.info('your_command_success', { chatId, userId });
+    logger.info("your_command_success", { chatId, userId });
   } catch (error) {
-    logger.error('your_command_error', { error, chatId, userId });
-    await sendMessage(
-      chatId,
-      '❌ Произошла ошибка. Попробуйте позже.',
-      undefined,
-      null
-    );
+    logger.error("your_command_error", { error, chatId, userId });
+    await sendMessage(chatId, "❌ Произошла ошибка. Попробуйте позже.", undefined, null);
   }
 }
 
 async function processYourCommand(profile: any, args: string[]) {
   // Your business logic here
   return {
-    message: '✅ Команда выполнена успешно!'
+    message: "✅ Команда выполнена успешно!",
   };
 }
 ```
@@ -109,20 +79,15 @@ async function processYourCommand(profile: any, args: string[]) {
 Edit `supabase/functions/telegram-bot/bot.ts`:
 
 ```typescript
-async function handleCommand(
-  command: string,
-  args: string[],
-  chatId: number,
-  userId: number
-) {
+async function handleCommand(command: string, args: string[], chatId: number, userId: number) {
   switch (command) {
     // ... existing commands ...
-    
-    case '/yourcommand':
-      const { handleYourCommand } = await import('./commands/your-command.ts');
+
+    case "/yourcommand":
+      const { handleYourCommand } = await import("./commands/your-command.ts");
       await handleYourCommand(chatId, userId, args);
       break;
-    
+
     // ... rest of cases ...
   }
 }
@@ -135,6 +100,7 @@ async function handleCommand(
 3. Select @AIMusicVerseBot
 4. Choose "Edit Bot" → "Edit Commands"
 5. Add your command:
+
 ```
 yourcommand - Brief description of what it does
 ```
@@ -146,16 +112,16 @@ Edit `supabase/functions/telegram-bot/config.ts`:
 ```typescript
 export const BOT_CONFIG = {
   // ... existing config ...
-  
+
   messages: {
     // ... existing messages ...
-    
+
     yourCommand: {
-      success: '✅ Команда выполнена!',
-      error: '❌ Ошибка выполнения команды',
-      help: 'Используйте: /yourcommand [аргументы]'
-    }
-  }
+      success: "✅ Команда выполнена!",
+      error: "❌ Ошибка выполнения команды",
+      help: "Используйте: /yourcommand [аргументы]",
+    },
+  },
 };
 ```
 
@@ -166,14 +132,14 @@ If your command uses inline keyboard buttons, add callback handlers in `handlers
 ```typescript
 export async function handleCallbackQuery(callbackQuery: any) {
   const data = callbackQuery.data;
-  
-  if (data.startsWith('your_action_')) {
-    const id = data.replace('your_action_', '');
+
+  if (data.startsWith("your_action_")) {
+    const id = data.replace("your_action_", "");
     await handleYourAction(callbackQuery.message.chat.id, id);
-    await answerCallbackQuery(callbackQuery.id, 'Действие выполнено!');
+    await answerCallbackQuery(callbackQuery.id, "Действие выполнено!");
     return;
   }
-  
+
   // ... existing handlers ...
 }
 
@@ -189,13 +155,13 @@ async function handleYourAction(chatId: number, id: string) {
 ```typescript
 export async function handleListCommand(chatId: number, userId: number) {
   const { data: items } = await supabase
-    .from('your_table')
-    .select('*')
-    .eq('user_id', userId)
-    .order('created_at', { ascending: false })
+    .from("your_table")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
     .limit(10);
 
-  const message = items?.map(item => `• ${item.name}`).join('\n') || 'Нет элементов';
+  const message = items?.map((item) => `• ${item.name}`).join("\n") || "Нет элементов";
   await sendMessage(chatId, message);
 }
 ```
@@ -203,30 +169,26 @@ export async function handleListCommand(chatId: number, userId: number) {
 ### Pattern 2: Command with Pagination
 
 ```typescript
-export async function handlePaginatedCommand(
-  chatId: number,
-  userId: number,
-  page: number = 1
-) {
+export async function handlePaginatedCommand(chatId: number, userId: number, page: number = 1) {
   const pageSize = 5;
   const offset = (page - 1) * pageSize;
 
   const { data: items, count } = await supabase
-    .from('your_table')
-    .select('*', { count: 'exact' })
-    .eq('user_id', userId)
+    .from("your_table")
+    .select("*", { count: "exact" })
+    .eq("user_id", userId)
     .range(offset, offset + pageSize - 1);
 
   const totalPages = Math.ceil((count || 0) / pageSize);
 
-  await sendMessage(chatId, formatItems(items), 'MarkdownV2', {
+  await sendMessage(chatId, formatItems(items), "MarkdownV2", {
     inline_keyboard: [
       [
-        { text: '◀️ Назад', callback_data: `page_${page - 1}` },
-        { text: `${page}/${totalPages}`, callback_data: 'noop' },
-        { text: 'Вперёд ▶️', callback_data: `page_${page + 1}` }
-      ]
-    ]
+        { text: "◀️ Назад", callback_data: `page_${page - 1}` },
+        { text: `${page}/${totalPages}`, callback_data: "noop" },
+        { text: "Вперёд ▶️", callback_data: `page_${page + 1}` },
+      ],
+    ],
   });
 }
 ```
@@ -241,10 +203,8 @@ export async function handleUploadCommand(chatId: number, file: any) {
   const blob = await response.blob();
 
   // 2. Upload to Supabase Storage
-  const fileName = `${crypto.randomUUID()}.${file.mime_type.split('/')[1]}`;
-  const { data: uploadData } = await supabase.storage
-    .from('uploads')
-    .upload(fileName, blob);
+  const fileName = `${crypto.randomUUID()}.${file.mime_type.split("/")[1]}`;
+  const { data: uploadData } = await supabase.storage.from("uploads").upload(fileName, blob);
 
   // 3. Process file
   const result = await processFile(uploadData.path);
@@ -259,26 +219,19 @@ export async function handleUploadCommand(chatId: number, file: any) {
 export async function handleAsyncCommand(chatId: number, userId: number) {
   // 1. Create task
   const { data: task } = await supabase
-    .from('tasks')
+    .from("tasks")
     .insert({
       user_id: userId,
-      status: 'pending',
-      type: 'your_task_type'
+      status: "pending",
+      type: "your_task_type",
     })
     .select()
     .single();
 
   // 2. Send immediate response
-  await sendMessage(
-    chatId,
-    '⏳ Задача запущена. Вы получите уведомление по завершении.',
-    undefined,
-    {
-      inline_keyboard: [[
-        { text: '🔍 Проверить статус', callback_data: `task_${task.id}` }
-      ]]
-    }
-  );
+  await sendMessage(chatId, "⏳ Задача запущена. Вы получите уведомление по завершении.", undefined, {
+    inline_keyboard: [[{ text: "🔍 Проверить статус", callback_data: `task_${task.id}` }]],
+  });
 
   // 3. Process asynchronously (in another function/edge function)
   // The task will send notification when complete
@@ -318,16 +271,16 @@ curl -X POST "https://[SUPABASE_URL]/functions/v1/telegram-bot" \
 Create a test file in `tests/telegram-bot/`:
 
 ```typescript
-import { describe, it, expect } from '@jest/globals';
-import { handleYourCommand } from '../../supabase/functions/telegram-bot/commands/your-command';
+import { describe, it, expect } from "@jest/globals";
+import { handleYourCommand } from "../../supabase/functions/telegram-bot/commands/your-command";
 
-describe('YourCommand', () => {
-  it('should execute successfully', async () => {
-    const result = await handleYourCommand(123, 456, ['arg1']);
+describe("YourCommand", () => {
+  it("should execute successfully", async () => {
+    const result = await handleYourCommand(123, 456, ["arg1"]);
     expect(result).toBeDefined();
   });
 
-  it('should handle errors gracefully', async () => {
+  it("should handle errors gracefully", async () => {
     // Test error scenarios
   });
 });
@@ -338,76 +291,82 @@ describe('YourCommand', () => {
 ### ✅ DO
 
 1. **Always validate user authentication**
+
    ```typescript
    if (!profile) {
-     await sendMessage(chatId, '🔑 Требуется авторизация');
+     await sendMessage(chatId, "🔑 Требуется авторизация");
      return;
    }
    ```
 
 2. **Log all actions**
+
    ```typescript
-   logger.info('command_start', { chatId, userId, args });
+   logger.info("command_start", { chatId, userId, args });
    ```
 
 3. **Handle errors gracefully**
+
    ```typescript
    try {
      // command logic
    } catch (error) {
-     logger.error('command_error', error);
-     await sendMessage(chatId, '❌ Ошибка');
+     logger.error("command_error", error);
+     await sendMessage(chatId, "❌ Ошибка");
    }
    ```
 
 4. **Use MarkdownV2 escaping**
+
    ```typescript
-   import { escapeMarkdownV2 } from '../utils/text-processor.ts';
+   import { escapeMarkdownV2 } from "../utils/text-processor.ts";
    const text = escapeMarkdownV2(userInput);
    ```
 
 5. **Provide clear user feedback**
+
    ```typescript
-   await sendMessage(chatId, '✅ Действие выполнено успешно');
+   await sendMessage(chatId, "✅ Действие выполнено успешно");
    ```
 
 6. **Add inline keyboard buttons**
    ```typescript
    {
-     inline_keyboard: [
-       [{ text: '🎵 Открыть', url: deepLink }]
-     ]
+     inline_keyboard: [[{ text: "🎵 Открыть", url: deepLink }]];
    }
    ```
 
 ### ❌ DON'T
 
 1. **Don't expose internal errors to users**
+
    ```typescript
    // BAD
    await sendMessage(chatId, error.message);
-   
+
    // GOOD
-   logger.error('error', error);
-   await sendMessage(chatId, '❌ Произошла ошибка');
+   logger.error("error", error);
+   await sendMessage(chatId, "❌ Произошла ошибка");
    ```
 
 2. **Don't forget rate limiting**
+
    ```typescript
    if (!checkRateLimit(userId, 10, 60000)) {
-     await sendMessage(chatId, '⏳ Слишком много запросов');
+     await sendMessage(chatId, "⏳ Слишком много запросов");
      return;
    }
    ```
 
 3. **Don't block the response**
+
    ```typescript
    // BAD - blocks webhook response
    await longRunningTask();
-   
+
    // GOOD - async processing
    createTask().then(processAsync);
-   await sendMessage(chatId, '⏳ Задача запущена');
+   await sendMessage(chatId, "⏳ Задача запущена");
    ```
 
 4. **Don't send too many messages at once**
@@ -418,73 +377,79 @@ describe('YourCommand', () => {
 ## Command Types
 
 ### 1. Query Command
+
 Returns information without modifying data.
 **Examples:** `/stats`, `/status`, `/library`
 
 ### 2. Action Command
+
 Performs an action and returns result.
 **Examples:** `/generate`, `/remix`, `/upload`
 
 ### 3. Settings Command
+
 Modifies user preferences.
 **Examples:** `/settings`, `/notify`
 
 ### 4. Navigation Command
+
 Opens app or changes context.
 **Examples:** `/app`, `/start`
 
 ## Inline Keyboard Patterns
 
 ### Simple Button
+
 ```typescript
 {
-  inline_keyboard: [
-    [{ text: '🎵 Action', callback_data: 'action_id' }]
-  ]
+  inline_keyboard: [[{ text: "🎵 Action", callback_data: "action_id" }]];
 }
 ```
 
 ### Multiple Rows
+
 ```typescript
 {
   inline_keyboard: [
-    [{ text: 'Option 1', callback_data: 'opt1' }],
-    [{ text: 'Option 2', callback_data: 'opt2' }],
-    [{ text: 'Cancel', callback_data: 'cancel' }]
-  ]
+    [{ text: "Option 1", callback_data: "opt1" }],
+    [{ text: "Option 2", callback_data: "opt2" }],
+    [{ text: "Cancel", callback_data: "cancel" }],
+  ];
 }
 ```
 
 ### Web App Button
+
 ```typescript
 {
-  inline_keyboard: [
-    [{ text: '🎵 Open App', web_app: { url: BOT_CONFIG.miniAppUrl } }]
-  ]
+  inline_keyboard: [[{ text: "🎵 Open App", web_app: { url: BOT_CONFIG.miniAppUrl } }]];
 }
 ```
 
 ### URL Button
+
 ```typescript
 {
-  inline_keyboard: [
-    [{ text: '🔗 Open Link', url: 'https://example.com' }]
-  ]
+  inline_keyboard: [[{ text: "🔗 Open Link", url: "https://example.com" }]];
 }
 ```
 
 ## Troubleshooting
 
 ### Issue: Command not responding
+
 **Check:**
+
 - Is command registered in `bot.ts`?
 - Is webhook working? (`/getWebhookInfo`)
 - Are there any errors in Supabase logs?
 
 ### Issue: Markdown formatting broken
+
 **Solution:** Use `escapeMarkdownV2()` for all user-generated content
 
 ### Issue: Callback query timeout
+
 **Solution:** Answer callback query within 10 seconds, even if action is still processing
 
 ## Resources

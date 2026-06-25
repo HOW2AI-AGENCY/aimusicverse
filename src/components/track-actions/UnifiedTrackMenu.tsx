@@ -1,28 +1,28 @@
-import { useState } from 'react';
-import type { Track } from '@/types/track';
+import { useState } from "react";
+import type { Track } from "@/types/track";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
-import { MoreVertical } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useTrackActionsState } from '@/hooks/useTrackActionsState';
-import { useAuth } from '@/hooks/useAuth';
-import { InfoActions } from './sections/InfoActions';
-import { DownloadActions } from './sections/DownloadActions';
-import { ShareActions } from './sections/ShareActions';
-import { StudioActions } from './sections/StudioActions';
-import { CreateActions } from './sections/CreateActions';
-import { DeleteActions } from './sections/DeleteActions';
-import { QueueActionsMenu } from './sections/QueueActions';
-import { QualityActions } from './sections/QualityActions';
-import { WatermarkActions } from './sections/WatermarkActions';
-import { TrackDialogsPortal } from './TrackDialogsPortal';
-import { MobileTrackActionSheet } from './MobileTrackActionSheet';
-import { getZIndexString } from '@/lib/z-index';
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { MoreVertical } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTrackActionsState } from "@/hooks/useTrackActionsState";
+import { useAuth } from "@/hooks/useAuth";
+import { InfoActions } from "./sections/InfoActions";
+import { DownloadActions } from "./sections/DownloadActions";
+import { ShareActions } from "./sections/ShareActions";
+import { StudioActions } from "./sections/StudioActions";
+import { CreateActions } from "./sections/CreateActions";
+import { DeleteActions } from "./sections/DeleteActions";
+import { QueueActionsMenu } from "./sections/QueueActions";
+import { QualityActions } from "./sections/QualityActions";
+import { WatermarkActions } from "./sections/WatermarkActions";
+import { TrackDialogsPortal } from "./TrackDialogsPortal";
+import { MobileTrackActionSheet } from "./MobileTrackActionSheet";
+import { getZIndexString } from "@/lib/z-index";
 
 interface UnifiedTrackMenuProps {
   track: Track;
@@ -36,9 +36,9 @@ interface UnifiedTrackMenuProps {
   trigger?: React.ReactNode;
 }
 
-export function UnifiedTrackMenu({ 
-  track, 
-  onDelete, 
+export function UnifiedTrackMenu({
+  track,
+  onDelete,
   onDownload,
   trackList,
   trackIndex,
@@ -47,32 +47,25 @@ export function UnifiedTrackMenu({
   const isMobile = useIsMobile();
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const { user } = useAuth();
-  
+
   // Check if current user is the owner of this track
   const isOwner = user?.id === track.user_id;
-  
-  const {
-    actionState,
-    isProcessing,
-    dialogs,
-    closeDialog,
-    executeAction,
-    handleConfirmDelete,
-    stems,
-  } = useTrackActionsState({
-    track,
-    onDelete,
-    onDownload,
-  });
+
+  const { actionState, isProcessing, dialogs, closeDialog, executeAction, handleConfirmDelete, stems } =
+    useTrackActionsState({
+      track,
+      onDelete,
+      onDownload,
+    });
 
   // On mobile, use MobileActionSheet pattern
   if (isMobile) {
     return (
       <>
-        <Button 
-          size="icon" 
-          variant="ghost" 
-          className="h-11 w-11 touch-manipulation" 
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-11 w-11 touch-manipulation"
           onClick={() => setMobileSheetOpen(true)}
           aria-label="Меню трека"
         >
@@ -115,9 +108,9 @@ export function UnifiedTrackMenu({
           )}
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent 
-          align="end" 
-          className="w-56 max-h-[70vh] bg-background/95 backdrop-blur-sm overflow-y-auto" 
+        <DropdownMenuContent
+          align="end"
+          className="w-56 max-h-[70vh] bg-background/95 backdrop-blur-sm overflow-y-auto"
           style={{ zIndex: 9999 }}
         >
           {/* Info Actions */}
@@ -130,11 +123,7 @@ export function UnifiedTrackMenu({
           />
 
           {/* Queue Actions */}
-          <QueueActionsMenu 
-            track={track} 
-            trackList={trackList}
-            trackIndex={trackIndex}
-          />
+          <QueueActionsMenu track={track} trackList={trackList} trackIndex={trackIndex} />
 
           <DropdownMenuSeparator />
 

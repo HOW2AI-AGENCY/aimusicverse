@@ -1,16 +1,20 @@
 /**
  * User Journey Panel
- * 
+ *
  * Visualizes user flow between pages using a Sankey-style diagram
  * and shows top user paths through the application.
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { useUserJourneyAnalytics, type PageTransition, type JourneyNode } from '@/hooks/analytics/useUserJourneyAnalytics';
-import { ArrowRight, TrendingUp, Users, MousePointerClick } from 'lucide-react';
-import { useMemo } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import {
+  useUserJourneyAnalytics,
+  type PageTransition,
+  type JourneyNode,
+} from "@/hooks/analytics/useUserJourneyAnalytics";
+import { ArrowRight, TrendingUp, Users, MousePointerClick } from "lucide-react";
+import { useMemo } from "react";
 
 interface UserJourneyPanelProps {
   timePeriod: string;
@@ -65,7 +69,7 @@ export function UserJourneyPanel({ timePeriod }: UserJourneyPanelProps) {
               <p className="text-xs text-muted-foreground">Bounce rate</p>
             </div>
           </div>
-          
+
           <div>
             <p className="text-sm font-medium mb-2">Топ страницы входа</p>
             <div className="space-y-1">
@@ -130,18 +134,18 @@ export function UserJourneyPanel({ timePeriod }: UserJourneyPanelProps) {
 }
 
 const PAGE_LABELS: Record<string, string> = {
-  '/': 'Главная',
-  '/library': 'Библиотека',
-  '/generate': 'Генерация',
-  '/explore': 'Обзор',
-  '/profile': 'Профиль',
-  '/studio': 'Студия',
-  '/projects': 'Проекты',
-  '/settings': 'Настройки',
-  '/admin': 'Админ',
-  '/track': 'Трек',
-  '/playlist': 'Плейлист',
-  '/onboarding': 'Онбординг',
+  "/": "Главная",
+  "/library": "Библиотека",
+  "/generate": "Генерация",
+  "/explore": "Обзор",
+  "/profile": "Профиль",
+  "/studio": "Студия",
+  "/projects": "Проекты",
+  "/settings": "Настройки",
+  "/admin": "Админ",
+  "/track": "Трек",
+  "/playlist": "Плейлист",
+  "/onboarding": "Онбординг",
 };
 
 interface SankeyDiagramProps {
@@ -158,8 +162,8 @@ function SankeyDiagram({ nodes, links }: SankeyDiagramProps) {
     // Simple two-column layout: sources on left, targets on right
     const sourceNodes = new Set<string>();
     const targetNodes = new Set<string>();
-    
-    links.forEach(link => {
+
+    links.forEach((link) => {
       sourceNodes.add(link.source);
       targetNodes.add(link.target);
     });
@@ -167,57 +171,67 @@ function SankeyDiagram({ nodes, links }: SankeyDiagramProps) {
     // Nodes that are only sources go left, only targets go right
     // Nodes that are both go in the middle (we'll put them on left)
     const leftNodes = Array.from(sourceNodes);
-    const rightNodes = Array.from(targetNodes).filter(n => !sourceNodes.has(n));
-    
+    const rightNodes = Array.from(targetNodes).filter((n) => !sourceNodes.has(n));
+
     // Add remaining target nodes to left if they're also sources
     const allLeftNodes = [...new Set([...leftNodes])];
-    const allRightNodes = [...new Set([...rightNodes, ...Array.from(targetNodes).filter(n => !leftNodes.includes(n) || rightNodes.length === 0)])];
-    
+    const allRightNodes = [
+      ...new Set([
+        ...rightNodes,
+        ...Array.from(targetNodes).filter((n) => !leftNodes.includes(n) || rightNodes.length === 0),
+      ]),
+    ];
+
     // If all nodes ended up on one side, split them
-    const finalLeft = allLeftNodes.length > 0 ? allLeftNodes : nodes.slice(0, Math.ceil(nodes.length / 2)).map(n => n.id);
-    const finalRight = allRightNodes.length > 0 ? allRightNodes : nodes.slice(Math.ceil(nodes.length / 2)).map(n => n.id);
+    const finalLeft =
+      allLeftNodes.length > 0 ? allLeftNodes : nodes.slice(0, Math.ceil(nodes.length / 2)).map((n) => n.id);
+    const finalRight =
+      allRightNodes.length > 0 ? allRightNodes : nodes.slice(Math.ceil(nodes.length / 2)).map((n) => n.id);
 
     const positions = new Map<string, { x: number; y: number; height: number }>();
-    const nodeMap = new Map(nodes.map(n => [n.id, n]));
-    
+    const nodeMap = new Map(nodes.map((n) => [n.id, n]));
+
     // Calculate max value for scaling
-    const max = Math.max(...links.map(l => l.value), 1);
-    
+    const max = Math.max(...links.map((l) => l.value), 1);
+
     // Position left nodes
     let yOffset = 0;
     finalLeft.forEach((id) => {
       const node = nodeMap.get(id);
-      const height = Math.max(20, Math.min(60, (node?.count || 1) / max * 50));
+      const height = Math.max(20, Math.min(60, ((node?.count || 1) / max) * 50));
       positions.set(id, { x: 50, y: yOffset + 20, height });
       yOffset += height + 15;
     });
-    
+
     // Position right nodes
     yOffset = 0;
     finalRight.forEach((id) => {
       const node = nodeMap.get(id);
-      const height = Math.max(20, Math.min(60, (node?.count || 1) / max * 50));
+      const height = Math.max(20, Math.min(60, ((node?.count || 1) / max) * 50));
       positions.set(id, { x: 350, y: yOffset + 20, height });
       yOffset += height + 15;
     });
 
     // Generate path data
-    const paths = links.slice(0, 15).map(link => {
-      const source = positions.get(link.source);
-      const target = positions.get(link.target);
-      
-      if (!source || !target) return null;
-      
-      const sourceY = source.y + source.height / 2;
-      const targetY = target.y + target.height / 2;
-      
-      return {
-        path: `M ${source.x + 80} ${sourceY} C ${source.x + 150} ${sourceY}, ${target.x - 70} ${targetY}, ${target.x} ${targetY}`,
-        value: link.value,
-        source: link.source,
-        target: link.target,
-      };
-    }).filter(Boolean);
+    const paths = links
+      .slice(0, 15)
+      .map((link) => {
+        const source = positions.get(link.source);
+        const target = positions.get(link.target);
+
+        if (!source || !target) return null;
+
+        const sourceY = source.y + source.height / 2;
+        const targetY = target.y + target.height / 2;
+
+        return {
+          path: `M ${source.x + 80} ${sourceY} C ${source.x + 150} ${sourceY}, ${target.x - 70} ${targetY}, ${target.x} ${targetY}`,
+          value: link.value,
+          source: link.source,
+          target: link.target,
+        };
+      })
+      .filter(Boolean);
 
     return { nodePositions: positions, pathData: paths, maxValue: max };
   }, [nodes, links]);
@@ -237,25 +251,28 @@ function SankeyDiagram({ nodes, links }: SankeyDiagramProps) {
       <svg width="100%" viewBox={`0 0 450 ${height}`} className="min-w-[400px]">
         {/* Links */}
         <g>
-          {pathData.map((p, i) => p && (
-            <path
-              key={i}
-              d={p.path}
-              fill="none"
-              stroke="hsl(var(--primary))"
-              strokeWidth={Math.max(2, Math.min(15, (p.value / maxValue) * 15))}
-              strokeOpacity={0.3}
-              className="transition-all hover:stroke-opacity-60"
-            >
-              <title>{`${PAGE_LABELS[p.source] || p.source} → ${PAGE_LABELS[p.target] || p.target}: ${p.value}`}</title>
-            </path>
-          ))}
+          {pathData.map(
+            (p, i) =>
+              p && (
+                <path
+                  key={i}
+                  d={p.path}
+                  fill="none"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={Math.max(2, Math.min(15, (p.value / maxValue) * 15))}
+                  strokeOpacity={0.3}
+                  className="transition-all hover:stroke-opacity-60"
+                >
+                  <title>{`${PAGE_LABELS[p.source] || p.source} → ${PAGE_LABELS[p.target] || p.target}: ${p.value}`}</title>
+                </path>
+              ),
+          )}
         </g>
-        
+
         {/* Nodes */}
         <g>
           {Array.from(nodePositions.entries()).map(([id, pos]) => {
-            const node = nodes.find(n => n.id === id);
+            const node = nodes.find((n) => n.id === id);
             return (
               <g key={id}>
                 <rect

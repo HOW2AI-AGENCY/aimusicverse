@@ -41,13 +41,21 @@ import { DailyTipCard } from "@/components/home/DailyTipCard";
 import { HomeSection } from "@/components/home/HomeSection";
 
 // Lazy loaded components
-const GamificationBar = lazy(() => import("@/components/gamification/GamificationBar").then(m => ({ default: m.GamificationBar })));
-const RecentTracksSection = lazy(() => import("@/components/home/RecentTracksSection").then(m => ({ default: m.RecentTracksSection })));
+const GamificationBar = lazy(() =>
+  import("@/components/gamification/GamificationBar").then((m) => ({ default: m.GamificationBar })),
+);
+const RecentTracksSection = lazy(() =>
+  import("@/components/home/RecentTracksSection").then((m) => ({ default: m.RecentTracksSection })),
+);
 
 // Dialogs - only loaded when opened
-const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then(m => ({ default: m.GenerateSheet })));
-const MusicRecognitionDialog = lazy(() => import("@/components/music-recognition/MusicRecognitionDialog").then(m => ({ default: m.MusicRecognitionDialog })));
-const AudioActionDialog = lazy(() => import("@/components/generate-form/AudioActionDialog").then(m => ({ default: m.AudioActionDialog })));
+const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
+const MusicRecognitionDialog = lazy(() =>
+  import("@/components/music-recognition/MusicRecognitionDialog").then((m) => ({ default: m.MusicRecognitionDialog })),
+);
+const AudioActionDialog = lazy(() =>
+  import("@/components/generate-form/AudioActionDialog").then((m) => ({ default: m.AudioActionDialog })),
+);
 
 import { ContextHints } from "@/components/hints";
 
@@ -79,17 +87,11 @@ const Index = () => {
     refresh,
   } = useHomePageData();
 
-  const {
-    goToProfile,
-    handleCreate,
-    handleRemix,
-    handleTrackClick,
-    handleQuickStartPreset,
-    handleQuickGenrePreset,
-  } = useHomePageHandlers({
-    onOpenGenerateSheet: () => setGenerateSheetOpen(true),
-    onOpenAudioDialog: () => setAudioDialogOpen(true),
-  });
+  const { goToProfile, handleCreate, handleRemix, handleTrackClick, handleQuickStartPreset, handleQuickGenrePreset } =
+    useHomePageHandlers({
+      onOpenGenerateSheet: () => setGenerateSheetOpen(true),
+      onOpenAudioDialog: () => setAudioDialogOpen(true),
+    });
 
   useHomePageEffects({
     onOpenGenerateSheet: () => setGenerateSheetOpen(true),
@@ -138,7 +140,11 @@ const Index = () => {
         sectionId="hero"
         className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
-        fallback={<div data-safe-skeleton=""><HeroSkeleton /></div>}
+        fallback={
+          <div data-safe-skeleton="">
+            <HeroSkeleton />
+          </div>
+        }
       >
         <FirstTimeHeroCard onCreateClick={handleCreate} />
       </HomeSection>
@@ -157,11 +163,7 @@ const Index = () => {
     ) : null,
 
     continueDraft: !isNewUser ? (
-      <ContinueDraftCard
-        key="continueDraft"
-        onContinue={handleCreate}
-        className={isMobile ? "mb-3" : undefined}
-      />
+      <ContinueDraftCard key="continueDraft" onContinue={handleCreate} className={isMobile ? "mb-3" : undefined} />
     ) : null,
 
     quickCreate: !isNewUser ? (
@@ -176,12 +178,7 @@ const Index = () => {
     ) : null,
 
     stats: (
-      <HomeSection
-        key="stats"
-        sectionId="stats"
-        className={isMobile ? "mb-3" : undefined}
-        animation={fadeInUp}
-      >
+      <HomeSection key="stats" sectionId="stats" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
         <div data-testid="stats-highlight">
           <StatsHighlightBanner />
         </div>
@@ -200,12 +197,7 @@ const Index = () => {
     ),
 
     featured: (
-      <HomeSection
-        key="featured"
-        sectionId="featured"
-        className={isMobile ? "mb-3" : undefined}
-        animation={fadeInUp}
-      >
+      <HomeSection key="featured" sectionId="featured" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
         <FeaturedSection
           tracks={popularTracks}
           isLoading={isLoading}
@@ -219,12 +211,7 @@ const Index = () => {
     ),
 
     dailyTip: !isNewUser ? (
-      <HomeSection
-        key="dailyTip"
-        sectionId="daily-tip"
-        className={isMobile ? "mb-3" : undefined}
-        animation={fadeInUp}
-      >
+      <HomeSection key="dailyTip" sectionId="daily-tip" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
         <DailyTipCard />
       </HomeSection>
     ) : null,
@@ -235,7 +222,11 @@ const Index = () => {
         sectionId="popular"
         className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
-        fallback={<div data-safe-skeleton=""><Skeleton className="h-32 rounded-xl" /></div>}
+        fallback={
+          <div data-safe-skeleton="">
+            <Skeleton className="h-32 rounded-xl" />
+          </div>
+        }
       >
         <RecentTracksSection maxTracks={5} />
       </HomeSection>

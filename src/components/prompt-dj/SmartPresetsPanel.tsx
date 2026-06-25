@@ -3,25 +3,16 @@
  * Shows personalized suggestions based on user history
  */
 
-import { memo, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Sparkles, TrendingUp, Clock, Star, 
-  ChevronRight, Lightbulb, Zap 
-} from 'lucide-react';
-import { usePromptHistory } from '@/hooks/usePromptHistory';
-import { usePromptDJStore, selectPresets } from '@/hooks/usePromptDJStore';
-import { PromptChannel, CHANNEL_TYPES, ChannelType } from '@/hooks/usePromptDJEnhanced';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
+import { memo, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sparkles, TrendingUp, Clock, Star, ChevronRight, Lightbulb, Zap } from "lucide-react";
+import { usePromptHistory } from "@/hooks/usePromptHistory";
+import { usePromptDJStore, selectPresets } from "@/hooks/usePromptDJStore";
+import { PromptChannel, CHANNEL_TYPES, ChannelType } from "@/hooks/usePromptDJEnhanced";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 
 interface SmartPresetsPanelProps {
   channels: PromptChannel[];
@@ -36,24 +27,27 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
 }: SmartPresetsPanelProps) {
   const { analytics, getRecommendations, topRated, history } = usePromptHistory();
   const userPresets = usePromptDJStore(selectPresets);
-  
+
   // Get actions via getState to avoid subscription
   const loadPreset = useCallback((id: string) => {
     usePromptDJStore.getState().loadPreset(id);
   }, []);
-  
+
   const deletePreset = useCallback((id: string) => {
     usePromptDJStore.getState().deletePreset(id);
   }, []);
 
   const recommendations = getRecommendations(channels, 4);
 
-  const handleApplyRecommendation = useCallback((type: string, value: string) => {
-    onApplyRecommendation(type as ChannelType, value);
-  }, [onApplyRecommendation]);
+  const handleApplyRecommendation = useCallback(
+    (type: string, value: string) => {
+      onApplyRecommendation(type as ChannelType, value);
+    },
+    [onApplyRecommendation],
+  );
 
   const getChannelConfig = (type: string) => {
-    return CHANNEL_TYPES.find(c => c.type === type);
+    return CHANNEL_TYPES.find((c) => c.type === type);
   };
 
   return (
@@ -88,22 +82,17 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                       <button
                         key={i}
                         className={cn(
-                          'flex flex-col items-start p-2.5 rounded-lg',
-                          'bg-muted/30 hover:bg-muted/50 transition-colors',
-                          'text-left'
+                          "flex flex-col items-start p-2.5 rounded-lg",
+                          "bg-muted/30 hover:bg-muted/50 transition-colors",
+                          "text-left",
                         )}
                         onClick={() => handleApplyRecommendation(rec.type, rec.value)}
                       >
                         <div className="flex items-center gap-1.5 mb-1">
-                          <div 
-                            className="w-2 h-2 rounded-full"
-                            style={{ backgroundColor: config?.color }}
-                          />
+                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: config?.color }} />
                           <span className="text-xs font-medium">{rec.value}</span>
                         </div>
-                        <span className="text-[10px] text-muted-foreground line-clamp-1">
-                          {rec.reason}
-                        </span>
+                        <span className="text-[10px] text-muted-foreground line-clamp-1">{rec.reason}</span>
                       </button>
                     );
                   })}
@@ -128,22 +117,20 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                     <div className="text-[10px] text-muted-foreground">Генераций</div>
                   </div>
                   <div className="p-2 rounded-lg bg-muted/20 text-center">
-                    <div className="text-lg font-bold">
-                      {Math.round(analytics.successRate * 100)}%
-                    </div>
+                    <div className="text-lg font-bold">{Math.round(analytics.successRate * 100)}%</div>
                     <div className="text-[10px] text-muted-foreground">Успех</div>
                   </div>
                 </div>
-                
+
                 {/* Top genres */}
                 {analytics.topGenres.length > 0 && (
                   <div className="flex flex-wrap gap-1 mt-2">
                     {analytics.topGenres.slice(0, 4).map(({ value, count }) => (
-                      <Badge 
-                        key={value} 
+                      <Badge
+                        key={value}
                         variant="secondary"
                         className="text-[10px] cursor-pointer"
-                        onClick={() => handleApplyRecommendation('genre', value)}
+                        onClick={() => handleApplyRecommendation("genre", value)}
                       >
                         {value} ({count})
                       </Badge>
@@ -165,9 +152,9 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                     <button
                       key={entry.id}
                       className={cn(
-                        'w-full flex items-center gap-2 p-2 rounded-lg',
-                        'bg-muted/20 hover:bg-muted/40 transition-colors',
-                        'text-left'
+                        "w-full flex items-center gap-2 p-2 rounded-lg",
+                        "bg-muted/20 hover:bg-muted/40 transition-colors",
+                        "text-left",
                       )}
                       onClick={() => onLoadPreset?.({ channels: entry.channels })}
                     >
@@ -195,25 +182,14 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                 </div>
                 <div className="space-y-1.5">
                   {userPresets.map((preset) => (
-                    <div
-                      key={preset.id}
-                      className={cn(
-                        'flex items-center gap-2 p-2 rounded-lg',
-                        'bg-muted/20'
-                      )}
-                    >
+                    <div key={preset.id} className={cn("flex items-center gap-2 p-2 rounded-lg", "bg-muted/20")}>
                       <button
                         className="flex-1 text-left text-xs hover:text-primary transition-colors"
                         onClick={() => loadPreset(preset.id)}
                       >
                         {preset.name}
                       </button>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-6 w-6"
-                        onClick={() => deletePreset(preset.id)}
-                      >
+                      <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => deletePreset(preset.id)}>
                         ×
                       </Button>
                     </div>
@@ -234,14 +210,12 @@ export const SmartPresetsPanel = memo(function SmartPresetsPanel({
                     <button
                       key={entry.id}
                       className={cn(
-                        'w-full p-2 rounded-lg text-left',
-                        'bg-muted/10 hover:bg-muted/30 transition-colors'
+                        "w-full p-2 rounded-lg text-left",
+                        "bg-muted/10 hover:bg-muted/30 transition-colors",
                       )}
                       onClick={() => onLoadPreset?.({ channels: entry.channels })}
                     >
-                      <p className="text-[11px] line-clamp-1 text-muted-foreground">
-                        {entry.prompt}
-                      </p>
+                      <p className="text-[11px] line-clamp-1 text-muted-foreground">{entry.prompt}</p>
                     </button>
                   ))}
                 </div>

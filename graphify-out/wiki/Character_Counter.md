@@ -29,7 +29,7 @@
 - [hasUnsavedData](file:///D:/.MUSICVERSE/aimusicverse/src/components/GenerateSheet.tsx#L125) (1 connections)
 - [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/GenerateSheet.tsx#L89) (1 connections)
 - [{ keyboardHeight, isKeyboardOpen, createFocusHandler }](file:///D:/.MUSICVERSE/aimusicverse/src/components/GenerateSheet.tsx#L82) (1 connections)
-- *... and 27 more nodes in this community*
+- _... and 27 more nodes in this community_
 
 ## Relationships
 
@@ -48,4 +48,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

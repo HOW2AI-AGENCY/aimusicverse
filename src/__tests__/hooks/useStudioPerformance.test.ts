@@ -3,16 +3,12 @@
  * Tests performance monitoring and optimization utilities
  */
 
-import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { 
-  useStudioPerformance, 
-  useThrottledCallback, 
-  useCustomDeferredValue 
-} from '@/hooks/useStudioPerformance';
+import { renderHook, act } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { useStudioPerformance, useThrottledCallback, useCustomDeferredValue } from "@/hooks/useStudioPerformance";
 
 // Mock logger
-vi.mock('@/lib/logger', () => ({
+vi.mock("@/lib/logger", () => ({
   logger: {
     debug: vi.fn(),
     warn: vi.fn(),
@@ -21,24 +17,22 @@ vi.mock('@/lib/logger', () => ({
   },
 }));
 
-describe('useStudioPerformance', () => {
+describe("useStudioPerformance", () => {
   // Mock performance.now()
   let mockNow = 0;
-  
+
   beforeEach(() => {
     mockNow = 0;
-    vi.spyOn(performance, 'now').mockImplementation(() => mockNow);
+    vi.spyOn(performance, "now").mockImplementation(() => mockNow);
   });
 
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  describe('initialization', () => {
-    it('should return metrics object', () => {
-      const { result } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+  describe("initialization", () => {
+    it("should return metrics object", () => {
+      const { result } = renderHook(() => useStudioPerformance("TestComponent"));
 
       expect(result.current.metrics).toBeDefined();
       expect(result.current.metrics.renderCount).toBe(0);
@@ -46,28 +40,22 @@ describe('useStudioPerformance', () => {
       expect(result.current.metrics.averageRenderTime).toBe(0);
     });
 
-    it('should return trackRender function', () => {
-      const { result } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+    it("should return trackRender function", () => {
+      const { result } = renderHook(() => useStudioPerformance("TestComponent"));
 
       expect(result.current.trackRender).toBeInstanceOf(Function);
     });
 
-    it('should return logMetrics function', () => {
-      const { result } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+    it("should return logMetrics function", () => {
+      const { result } = renderHook(() => useStudioPerformance("TestComponent"));
 
       expect(result.current.logMetrics).toBeInstanceOf(Function);
     });
   });
 
-  describe('render tracking', () => {
-    it('should track render time when trackRender is called', () => {
-      const { result, rerender } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+  describe("render tracking", () => {
+    it("should track render time when trackRender is called", () => {
+      const { result, rerender } = renderHook(() => useStudioPerformance("TestComponent"));
 
       // Start tracking
       mockNow = 100;
@@ -83,10 +71,8 @@ describe('useStudioPerformance', () => {
       expect(result.current.metrics.lastRenderTime).toBe(10);
     });
 
-    it('should calculate average render time correctly', () => {
-      const { result, rerender } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+    it("should calculate average render time correctly", () => {
+      const { result, rerender } = renderHook(() => useStudioPerformance("TestComponent"));
 
       // First render: 10ms
       mockNow = 100;
@@ -105,21 +91,19 @@ describe('useStudioPerformance', () => {
     });
   });
 
-  describe('memory warning', () => {
-    it('should set isMemoryWarning when memory exceeds threshold', () => {
+  describe("memory warning", () => {
+    it("should set isMemoryWarning when memory exceeds threshold", () => {
       // Mock performance.memory
       const mockMemory = {
         usedJSHeapSize: 160 * 1024 * 1024, // 160MB
       };
-      
-      Object.defineProperty(performance, 'memory', {
+
+      Object.defineProperty(performance, "memory", {
         value: mockMemory,
         configurable: true,
       });
 
-      const { result } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+      const { result } = renderHook(() => useStudioPerformance("TestComponent"));
 
       expect(result.current.isMemoryWarning).toBe(true);
       expect(result.current.metrics.memoryUsageMB).toBe(160);
@@ -129,19 +113,17 @@ describe('useStudioPerformance', () => {
       delete (performance as Record<string, unknown>).memory;
     });
 
-    it('should not warn when memory is below threshold', () => {
+    it("should not warn when memory is below threshold", () => {
       const mockMemory = {
         usedJSHeapSize: 100 * 1024 * 1024, // 100MB
       };
-      
-      Object.defineProperty(performance, 'memory', {
+
+      Object.defineProperty(performance, "memory", {
         value: mockMemory,
         configurable: true,
       });
 
-      const { result } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+      const { result } = renderHook(() => useStudioPerformance("TestComponent"));
 
       expect(result.current.isMemoryWarning).toBe(false);
 
@@ -150,30 +132,28 @@ describe('useStudioPerformance', () => {
     });
   });
 
-  describe('logMetrics', () => {
-    it('should call logger.debug with metrics', async () => {
-      const { logger } = await import('@/lib/logger');
-      
-      const { result } = renderHook(() => 
-        useStudioPerformance('TestComponent')
-      );
+  describe("logMetrics", () => {
+    it("should call logger.debug with metrics", async () => {
+      const { logger } = await import("@/lib/logger");
+
+      const { result } = renderHook(() => useStudioPerformance("TestComponent"));
 
       act(() => {
         result.current.logMetrics();
       });
 
       expect(logger.debug).toHaveBeenCalledWith(
-        '[TestComponent] Performance metrics',
+        "[TestComponent] Performance metrics",
         expect.objectContaining({
           renderCount: 0,
           averageRenderTime: expect.any(String),
-        })
+        }),
       );
     });
   });
 });
 
-describe('useThrottledCallback', () => {
+describe("useThrottledCallback", () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -182,12 +162,10 @@ describe('useThrottledCallback', () => {
     vi.useRealTimers();
   });
 
-  it('should call callback immediately on first call', () => {
+  it("should call callback immediately on first call", () => {
     const callback = vi.fn((x: number) => x * 2);
-    
-    const { result } = renderHook(() => 
-      useThrottledCallback(callback, 100)
-    );
+
+    const { result } = renderHook(() => useThrottledCallback(callback, 100));
 
     const returnValue = result.current(5);
 
@@ -195,12 +173,10 @@ describe('useThrottledCallback', () => {
     expect(returnValue).toBe(10);
   });
 
-  it('should throttle subsequent calls within delay', () => {
+  it("should throttle subsequent calls within delay", () => {
     const callback = vi.fn((x: number) => x * 2);
-    
-    const { result } = renderHook(() => 
-      useThrottledCallback(callback, 100)
-    );
+
+    const { result } = renderHook(() => useThrottledCallback(callback, 100));
 
     result.current(1);
     result.current(2);
@@ -211,12 +187,10 @@ describe('useThrottledCallback', () => {
     expect(callback).toHaveBeenCalledWith(1);
   });
 
-  it('should schedule delayed execution for throttled calls', () => {
+  it("should schedule delayed execution for throttled calls", () => {
     const callback = vi.fn((x: number) => x * 2);
-    
-    const { result } = renderHook(() => 
-      useThrottledCallback(callback, 100)
-    );
+
+    const { result } = renderHook(() => useThrottledCallback(callback, 100));
 
     result.current(1);
     result.current(2);
@@ -228,12 +202,10 @@ describe('useThrottledCallback', () => {
     expect(callback).toHaveBeenLastCalledWith(2);
   });
 
-  it('should return undefined for throttled calls', () => {
+  it("should return undefined for throttled calls", () => {
     const callback = vi.fn((x: number) => x * 2);
-    
-    const { result } = renderHook(() => 
-      useThrottledCallback(callback, 100)
-    );
+
+    const { result } = renderHook(() => useThrottledCallback(callback, 100));
 
     result.current(1);
     const returnValue = result.current(2);
@@ -242,7 +214,7 @@ describe('useThrottledCallback', () => {
   });
 });
 
-describe('useCustomDeferredValue', () => {
+describe("useCustomDeferredValue", () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -251,25 +223,22 @@ describe('useCustomDeferredValue', () => {
     vi.useRealTimers();
   });
 
-  it('should return initial value immediately', () => {
-    const { result } = renderHook(() => 
-      useCustomDeferredValue('initial', 100)
-    );
+  it("should return initial value immediately", () => {
+    const { result } = renderHook(() => useCustomDeferredValue("initial", 100));
 
-    expect(result.current).toBe('initial');
+    expect(result.current).toBe("initial");
   });
 
-  it('should defer value update by specified delay', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useCustomDeferredValue(value, 100),
-      { initialProps: { value: 'initial' } }
-    );
+  it("should defer value update by specified delay", () => {
+    const { result, rerender } = renderHook(({ value }) => useCustomDeferredValue(value, 100), {
+      initialProps: { value: "initial" },
+    });
 
     // Update value
-    rerender({ value: 'updated' });
+    rerender({ value: "updated" });
 
     // Should still be initial
-    expect(result.current).toBe('initial');
+    expect(result.current).toBe("initial");
 
     // Fast-forward time
     act(() => {
@@ -277,41 +246,39 @@ describe('useCustomDeferredValue', () => {
     });
 
     // Re-render to get updated ref value
-    rerender({ value: 'updated' });
+    rerender({ value: "updated" });
 
     // Note: Due to how useRef works, we need another render to see the change
-    expect(result.current).toBe('initial'); // Will be updated on next render
+    expect(result.current).toBe("initial"); // Will be updated on next render
   });
 
-  it('should cancel previous timeout on rapid changes', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useCustomDeferredValue(value, 100),
-      { initialProps: { value: 'v1' } }
-    );
+  it("should cancel previous timeout on rapid changes", () => {
+    const { result, rerender } = renderHook(({ value }) => useCustomDeferredValue(value, 100), {
+      initialProps: { value: "v1" },
+    });
 
-    rerender({ value: 'v2' });
+    rerender({ value: "v2" });
     vi.advanceTimersByTime(50);
-    
-    rerender({ value: 'v3' });
+
+    rerender({ value: "v3" });
     vi.advanceTimersByTime(50);
 
     // v2 should have been cancelled
-    expect(result.current).toBe('v1');
+    expect(result.current).toBe("v1");
   });
 
-  it('should use default delay of 100ms', () => {
-    const { result, rerender } = renderHook(
-      ({ value }) => useCustomDeferredValue(value),
-      { initialProps: { value: 'initial' } }
-    );
+  it("should use default delay of 100ms", () => {
+    const { result, rerender } = renderHook(({ value }) => useCustomDeferredValue(value), {
+      initialProps: { value: "initial" },
+    });
 
-    rerender({ value: 'updated' });
+    rerender({ value: "updated" });
 
     act(() => {
       vi.advanceTimersByTime(99);
     });
-    
+
     // Should still be initial before 100ms
-    expect(result.current).toBe('initial');
+    expect(result.current).toBe("initial");
   });
 });

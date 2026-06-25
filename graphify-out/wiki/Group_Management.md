@@ -11,32 +11,32 @@
 - [handleDiscardComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L158) (1 connections)
 - [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L52) (1 connections)
 - [[replacedSections, setReplacedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L87) (1 connections)
-- [{ 
-    selectedSection, 
-    customRange, 
-    clearSelection, 
-    latestCompletion,
-    setLatestCompletion,
-    editMode,
+- [{
+  selectedSection,
+  customRange,
+  clearSelection,
+  latestCompletion,
+  setLatestCompletion,
+  editMode,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L78) (1 connections)
 - [{
-    startTime,
-    endTime,
-    sectionDuration,
-    maxDuration,
-    hasSelection,
-    isValidDuration,
-    isSubmitting,
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    updateRange,
-    addPreset,
-    executeReplacement,
-    reset,
+  startTime,
+  endTime,
+  sectionDuration,
+  maxDuration,
+  hasSelection,
+  isValidDuration,
+  isSubmitting,
+  prompt,
+  setPrompt,
+  tags,
+  setTags,
+  lyrics,
+  setLyrics,
+  updateRange,
+  addPreset,
+  executeReplacement,
+  reset,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L89) (1 connections)
 
 ## Relationships
@@ -55,4 +55,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -3,8 +3,8 @@
  * Provides normalized audio level (0-100) from MediaStream
  */
 
-import { useState, useEffect, useRef } from 'react';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useRef } from "react";
+import { logger } from "@/lib/logger";
 
 export function useAudioLevel(mediaStream: MediaStream | null, isActive: boolean = true) {
   const [audioLevel, setAudioLevel] = useState(0);
@@ -75,12 +75,12 @@ export function useAudioLevel(mediaStream: MediaStream | null, isActive: boolean
           cancelAnimationFrame(rafRef.current);
         }
         source.disconnect();
-        if (audioContext.state !== 'closed') {
+        if (audioContext.state !== "closed") {
           audioContext.close();
         }
       };
     } catch (error) {
-      logger.error('Audio level monitoring error', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Audio level monitoring error", error instanceof Error ? error : new Error(String(error)));
       setAudioLevel(0);
     }
   }, [mediaStream, isActive]);

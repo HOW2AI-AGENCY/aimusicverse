@@ -1,20 +1,16 @@
-import { memo, useState, useRef, useEffect } from 'react';
-import { useTrackVersions } from '@/hooks/useTrackVersions';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Music2, Clock, Play, Pause, Download, Check, Trash2, Plus } from 'lucide-react';
-import { format, ru } from '@/lib/date-utils';
-import { useTrackVersionManagement } from '@/hooks/useTrackVersionManagement';
-import { supabase } from '@/integrations/supabase/client';
-import { useQuery } from '@tanstack/react-query';
-import type { Track } from '@/types/track';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
-import { formatTime } from '@/lib/formatters';
+import { memo, useState, useRef, useEffect } from "react";
+import { useTrackVersions } from "@/hooks/useTrackVersions";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Music2, Clock, Play, Pause, Download, Check, Trash2, Plus } from "lucide-react";
+import { format, ru } from "@/lib/date-utils";
+import { useTrackVersionManagement } from "@/hooks/useTrackVersionManagement";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import type { Track } from "@/types/track";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
+import { formatTime } from "@/lib/formatters";
 
 interface VersionMetadata {
   prompt?: string;
@@ -33,17 +29,12 @@ interface TrackVersionsTabProps {
 
 export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
   const { data: versions, isLoading } = useTrackVersions(trackId);
-  const { 
-    isProcessing, 
-    createVersionFromTrack, 
-    setVersionAsPrimary, 
-    deleteVersion 
-  } = useTrackVersionManagement();
-  
+  const { isProcessing, createVersionFromTrack, setVersionAsPrimary, deleteVersion } = useTrackVersionManagement();
+
   const [playingId, setPlayingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sourceId = `versions-tab-${trackId}`;
-  
+
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   // Register with studio audio coordinator
@@ -69,47 +60,43 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
 
   // Fetch main track data
   const { data: mainTrack } = useQuery({
-    queryKey: ['track', trackId],
+    queryKey: ["track", trackId],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('id', trackId)
-        .single();
-      
+      const { data, error } = await supabase.from("tracks").select("*").eq("id", trackId).single();
+
       if (error) throw error;
       return {
         ...data,
         likes_count: 0,
-        is_liked: false
+        is_liked: false,
       } as Track;
     },
   });
 
   const formatDuration = (seconds: number | null) => {
-    if (!seconds) return 'N/A';
+    if (!seconds) return "N/A";
     return formatTime(seconds);
   };
 
   const getVersionLabel = (type: string | null) => {
-    if (!type) return 'Версия';
+    if (!type) return "Версия";
     const labels: Record<string, string> = {
-      current: 'Текущая версия',
-      initial: 'Оригинал',
-      original: 'Оригинал',
-      alternative: 'Альтернатива',
-      remix: 'Ремикс',
-      extend: 'Продление',
-      cover: 'Кавер',
-      instrumental: 'Инструментал',
-      vocal: 'Вокал добавлен',
+      current: "Текущая версия",
+      initial: "Оригинал",
+      original: "Оригинал",
+      alternative: "Альтернатива",
+      remix: "Ремикс",
+      extend: "Продление",
+      cover: "Кавер",
+      instrumental: "Инструментал",
+      vocal: "Вокал добавлен",
     };
     return labels[type] || type;
   };
 
   // Helper to safely parse metadata
   const parseMetadata = (metadata: unknown): VersionMetadata | null => {
-    if (!metadata || typeof metadata !== 'object') return null;
+    if (!metadata || typeof metadata !== "object") return null;
     return metadata as VersionMetadata;
   };
 
@@ -125,25 +112,29 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
 
   // Combine main track with versions
   const allVersions = [
-    ...(mainTrack ? [{
-      id: mainTrack.id,
-      track_id: mainTrack.id,
-      audio_url: mainTrack.audio_url || '',
-      cover_url: mainTrack.cover_url,
-      duration_seconds: mainTrack.duration_seconds,
-      version_type: 'current' as const,
-      is_primary: true,
-      parent_version_id: null,
-      metadata: {
-        prompt: mainTrack.prompt,
-        style: mainTrack.style,
-        tags: mainTrack.tags,
-      } as VersionMetadata,
-      created_at: mainTrack.created_at,
-    }] : []),
-    ...(versions || []).map(v => ({
+    ...(mainTrack
+      ? [
+          {
+            id: mainTrack.id,
+            track_id: mainTrack.id,
+            audio_url: mainTrack.audio_url || "",
+            cover_url: mainTrack.cover_url,
+            duration_seconds: mainTrack.duration_seconds,
+            version_type: "current" as const,
+            is_primary: true,
+            parent_version_id: null,
+            metadata: {
+              prompt: mainTrack.prompt,
+              style: mainTrack.style,
+              tags: mainTrack.tags,
+            } as VersionMetadata,
+            created_at: mainTrack.created_at,
+          },
+        ]
+      : []),
+    ...(versions || []).map((v) => ({
       ...v,
-      version_type: v.version_type || 'initial',
+      version_type: v.version_type || "initial",
       metadata: parseMetadata(v.metadata),
     })),
   ];
@@ -185,12 +176,7 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
       {/* Action buttons */}
       {mainTrack && (
         <div className="mb-6 flex gap-2">
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => createVersionFromTrack(mainTrack)}
-            disabled={isProcessing}
-          >
+          <Button size="sm" variant="outline" onClick={() => createVersionFromTrack(mainTrack)} disabled={isProcessing}>
             <Plus className="w-4 h-4 mr-2" />
             Создать версию из текущего трека
           </Button>
@@ -203,15 +189,15 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
       <div className="space-y-6">
         {allVersions.map((version, index) => {
           const meta = version.metadata;
-          
+
           return (
             <div key={version.id} className="relative pl-16 group">
               {/* Timeline dot */}
               <div
                 className={`absolute left-4 top-6 w-5 h-5 rounded-full border-4 transition-all ${
                   version.is_primary
-                    ? 'bg-primary border-primary shadow-lg shadow-primary/50'
-                    : 'bg-background border-primary/50 group-hover:border-primary'
+                    ? "bg-primary border-primary shadow-lg shadow-primary/50"
+                    : "bg-background border-primary/50 group-hover:border-primary"
                 }`}
               />
 
@@ -220,11 +206,7 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     {version.cover_url ? (
-                      <img
-                        src={version.cover_url}
-                        alt="Version cover"
-                        className="w-16 h-16 rounded-lg object-cover"
-                      />
+                      <img src={version.cover_url} alt="Version cover" className="w-16 h-16 rounded-lg object-cover" />
                     ) : (
                       <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center">
                         <Music2 className="w-8 h-8 text-primary/40" />
@@ -232,7 +214,7 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                     )}
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <Badge variant={version.is_primary ? 'default' : 'secondary'}>
+                        <Badge variant={version.is_primary ? "default" : "secondary"}>
                           {getVersionLabel(version.version_type)}
                         </Badge>
                         {version.is_primary && (
@@ -243,7 +225,7 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                       </div>
                       <p className="text-sm text-muted-foreground">
                         {version.created_at &&
-                          format(new Date(version.created_at), 'dd MMM yyyy, HH:mm', {
+                          format(new Date(version.created_at), "dd MMM yyyy, HH:mm", {
                             locale: ru,
                           })}
                       </p>
@@ -259,37 +241,34 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                 {/* Metadata */}
                 {meta && (
                   <div className="mb-3 space-y-2">
-                    {meta.title && version.version_type !== 'current' && (
+                    {meta.title && version.version_type !== "current" && (
                       <div className="flex items-center gap-2">
                         <Music2 className="w-4 h-4 text-muted-foreground" />
                         <span className="text-sm font-medium">{meta.title}</span>
                       </div>
                     )}
-                    
+
                     {meta.tags && (
                       <div className="flex flex-wrap gap-1">
-                        {meta.tags.split(',').slice(0, 5).map((tag: string, i: number) => (
-                          <Badge key={i} variant="outline" className="text-xs">
-                            {tag.trim()}
-                          </Badge>
-                        ))}
+                        {meta.tags
+                          .split(",")
+                          .slice(0, 5)
+                          .map((tag: string, i: number) => (
+                            <Badge key={i} variant="outline" className="text-xs">
+                              {tag.trim()}
+                            </Badge>
+                          ))}
                       </div>
                     )}
-                    
+
                     {(meta.model_name || meta.suno_id) && (
                       <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        {meta.model_name && (
-                          <span>🤖 {meta.model_name}</span>
-                        )}
-                        {meta.suno_id && (
-                          <span className="font-mono">ID: {meta.suno_id.substring(0, 8)}...</span>
-                        )}
-                        {meta.clip_index !== undefined && (
-                          <span>Клип #{meta.clip_index + 1}</span>
-                        )}
+                        {meta.model_name && <span>🤖 {meta.model_name}</span>}
+                        {meta.suno_id && <span className="font-mono">ID: {meta.suno_id.substring(0, 8)}...</span>}
+                        {meta.clip_index !== undefined && <span>Клип #{meta.clip_index + 1}</span>}
                       </div>
                     )}
-                    
+
                     {meta.local_storage && (
                       <div className="flex items-center gap-2 text-xs text-green-600 dark:text-green-400">
                         <Check className="w-3 h-3" />
@@ -301,31 +280,23 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
 
                 {/* Actions */}
                 <div className="flex gap-2 flex-wrap">
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     variant={playingId === version.id ? "default" : "outline"}
                     className="flex-1"
                     onClick={() => handlePlayVersion(version.id, version.audio_url)}
                   >
-                    {playingId === version.id ? (
-                      <Pause className="w-3 h-3 mr-1" />
-                    ) : (
-                      <Play className="w-3 h-3 mr-1" />
-                    )}
-                    {playingId === version.id ? 'Пауза' : 'Прослушать'}
+                    {playingId === version.id ? <Pause className="w-3 h-3 mr-1" /> : <Play className="w-3 h-3 mr-1" />}
+                    {playingId === version.id ? "Пауза" : "Прослушать"}
                   </Button>
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={() => window.open(version.audio_url, '_blank')}
-                  >
+                  <Button size="sm" variant="outline" onClick={() => window.open(version.audio_url, "_blank")}>
                     <Download className="w-3 h-3" />
                   </Button>
-                  
-                  {!version.is_primary && version.version_type !== 'current' && (
+
+                  {!version.is_primary && version.version_type !== "current" && (
                     <>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         variant="default"
                         onClick={() => setVersionAsPrimary(version.id, trackId)}
                         disabled={isProcessing}
@@ -333,8 +304,8 @@ export function TrackVersionsTab({ trackId }: TrackVersionsTabProps) {
                         <Check className="w-3 h-3 mr-1" />
                         Сделать текущей
                       </Button>
-                      <Button 
-                        size="sm" 
+                      <Button
+                        size="sm"
                         variant="destructive"
                         onClick={() => deleteVersion(version.id)}
                         disabled={isProcessing}

@@ -1,8 +1,8 @@
 /**
  * LibraryDialogs - Consolidated dialog components for Library page
- * 
+ *
  * Extracts all dialog rendering to reduce Library.tsx complexity
- * 
+ *
  * @module components/library/LibraryDialogs
  */
 
@@ -19,7 +19,7 @@ interface LibraryDialogsProps {
   // Track detail sheet
   selectedTrackForDetail: Track | null;
   onCloseTrackDetail: () => void;
-  
+
   // Deep link dialogs
   deepLinkDialogTrack: Track | null;
   deepLinkDialogType: DeepLinkDialogType;
@@ -43,9 +43,9 @@ export const LibraryDialogs = memo(function LibraryDialogs({
           track={selectedTrackForDetail}
         />
       )}
-      
+
       {/* Deep link action dialogs */}
-      {deepLinkDialogTrack && deepLinkDialogType === 'add_vocals' && (
+      {deepLinkDialogTrack && deepLinkDialogType === "add_vocals" && (
         <AddVocalsDialog
           open={true}
           onOpenChange={(open) => {
@@ -54,8 +54,8 @@ export const LibraryDialogs = memo(function LibraryDialogs({
           track={deepLinkDialogTrack}
         />
       )}
-      
-      {deepLinkDialogTrack && deepLinkDialogType === 'add_instrumental' && (
+
+      {deepLinkDialogTrack && deepLinkDialogType === "add_instrumental" && (
         <AddInstrumentalDialog
           open={true}
           onOpenChange={(open) => {
@@ -64,8 +64,8 @@ export const LibraryDialogs = memo(function LibraryDialogs({
           track={deepLinkDialogTrack}
         />
       )}
-      
-      {deepLinkDialogTrack && deepLinkDialogType === 'extend' && (
+
+      {deepLinkDialogTrack && deepLinkDialogType === "extend" && (
         <ExtendTrackDialog
           open={true}
           onOpenChange={(open) => {
@@ -74,8 +74,8 @@ export const LibraryDialogs = memo(function LibraryDialogs({
           track={deepLinkDialogTrack}
         />
       )}
-      
-      {deepLinkDialogTrack && deepLinkDialogType === 'cover' && (
+
+      {deepLinkDialogTrack && deepLinkDialogType === "cover" && (
         <AudioCoverDialog
           open={true}
           onOpenChange={(open) => {

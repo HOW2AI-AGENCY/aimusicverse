@@ -1,18 +1,17 @@
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { getBotMention, getMiniAppUrl } from '../_shared/telegram-config.ts';
-import { authorize } from '../_shared/auth.ts';
-
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { getBotMention, getMiniAppUrl } from "../_shared/telegram-config.ts";
+import { authorize } from "../_shared/auth.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const TELEGRAM_BOT_TOKEN = Deno.env.get('TELEGRAM_BOT_TOKEN')!;
+const TELEGRAM_BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN")!;
 const TELEGRAM_API = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 
 Deno.serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -22,27 +21,26 @@ Deno.serve(async (req) => {
     if (!auth.ok) {
       return new Response(JSON.stringify({ error: auth.error }), {
         status: auth.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     const supabase = getSupabaseClient();
 
-    const { title, message, targetType = 'all', blogPostId, imageUrl, saveAsTemplate, templateName } = await req.json();
+    const { title, message, targetType = "all", blogPostId, imageUrl, saveAsTemplate, templateName } = await req.json();
 
     if (!title || !message) {
-      return new Response(JSON.stringify({ error: 'Title and message are required' }), {
+      return new Response(JSON.stringify({ error: "Title and message are required" }), {
         status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
     const senderId = auth.user?.id ?? null;
 
-
     // Save as template if requested
     if (saveAsTemplate && templateName) {
-      await supabase.from('broadcast_templates').insert({
+      await supabase.from("broadcast_templates").insert({
         name: templateName,
         title,
         message,
@@ -53,20 +51,20 @@ Deno.serve(async (req) => {
     }
 
     // Get users with telegram_chat_id based on target type
-    let query = supabase.from('profiles').select('telegram_chat_id, user_id, username');
-    
-    if (targetType === 'premium') {
-      query = query.in('subscription_tier', ['premium', 'enterprise']);
+    let query = supabase.from("profiles").select("telegram_chat_id, user_id, username");
+
+    if (targetType === "premium") {
+      query = query.in("subscription_tier", ["premium", "enterprise"]);
     }
 
     const { data: users, error: usersError } = await query;
 
     if (usersError) {
-      console.error('Error fetching users:', usersError);
+      console.error("Error fetching users:", usersError);
       throw usersError;
     }
 
-    const usersWithChat = users?.filter(u => u.telegram_chat_id) || [];
+    const usersWithChat = users?.filter((u) => u.telegram_chat_id) || [];
     console.log(`Broadcasting to ${usersWithChat.length} users`);
 
     let sentCount = 0;
@@ -74,43 +72,39 @@ Deno.serve(async (req) => {
 
     // Escape markdown special characters for MarkdownV2
     const escapeMarkdown = (text: string) => {
-      return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, '\\$1');
+      return text.replace(/([_*[\]()~`>#+\-=|{}.!\\])/g, "\\$1");
     };
 
     // Build message - simpler format for image messages
     const botMention = getBotMention();
-    const textMessage = imageUrl 
+    const textMessage = imageUrl
       ? `${message}\n\n🤖 ${botMention}`
       : `📢 *${escapeMarkdown(title)}*\n\n${escapeMarkdown(message)}\n\n🤖 _${botMention}_`;
-    
+
     const inlineKeyboard: { text: string; callback_data?: string; url?: string }[][] = [];
-    
+
     if (blogPostId) {
       const miniAppUrl = getMiniAppUrl();
-      inlineKeyboard.push([
-        { text: '📖 Читать статью', url: `${miniAppUrl}?startapp=blog_${blogPostId}` }
-      ]);
+      inlineKeyboard.push([{ text: "📖 Читать статью", url: `${miniAppUrl}?startapp=blog_${blogPostId}` }]);
     }
-    
-    inlineKeyboard.push([
-      { text: '🏠 Меню', callback_data: 'open_main_menu' }
-    ]);
+
+    inlineKeyboard.push([{ text: "🏠 Меню", callback_data: "open_main_menu" }]);
 
     // Send messages in batches - delete previous menu before sending broadcast
     for (const user of usersWithChat) {
       try {
         // Try to delete user's active menu before sending broadcast
         const { data: menuState } = await supabase
-          .from('telegram_menu_state')
-          .select('active_menu_message_id')
-          .eq('chat_id', user.telegram_chat_id)
+          .from("telegram_menu_state")
+          .select("active_menu_message_id")
+          .eq("chat_id", user.telegram_chat_id)
           .single();
 
         if (menuState?.active_menu_message_id) {
           // Delete the old menu message
           await fetch(`${TELEGRAM_API}/deleteMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               chat_id: user.telegram_chat_id,
               message_id: menuState.active_menu_message_id,
@@ -119,35 +113,35 @@ Deno.serve(async (req) => {
 
           // Clear the active menu state
           await supabase
-            .from('telegram_menu_state')
+            .from("telegram_menu_state")
             .update({ active_menu_message_id: null })
-            .eq('chat_id', user.telegram_chat_id);
+            .eq("chat_id", user.telegram_chat_id);
         }
 
         let response;
-        
+
         if (imageUrl) {
           // Send photo with caption
           response = await fetch(`${TELEGRAM_API}/sendPhoto`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               chat_id: user.telegram_chat_id,
               photo: imageUrl,
               caption: textMessage,
-              parse_mode: 'HTML', // Use HTML for photo captions (more reliable)
+              parse_mode: "HTML", // Use HTML for photo captions (more reliable)
               reply_markup: inlineKeyboard.length > 0 ? { inline_keyboard: inlineKeyboard } : undefined,
             }),
           });
         } else {
           // Send text message
           response = await fetch(`${TELEGRAM_API}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               chat_id: user.telegram_chat_id,
               text: textMessage,
-              parse_mode: 'MarkdownV2',
+              parse_mode: "MarkdownV2",
               reply_markup: inlineKeyboard.length > 0 ? { inline_keyboard: inlineKeyboard } : undefined,
             }),
           });
@@ -162,7 +156,7 @@ Deno.serve(async (req) => {
         }
 
         // Rate limiting - max 30 messages per second
-        await new Promise(resolve => setTimeout(resolve, 35));
+        await new Promise((resolve) => setTimeout(resolve, 35));
       } catch (err) {
         console.error(`Error sending to ${user.telegram_chat_id}:`, err);
         failedCount++;
@@ -170,16 +164,16 @@ Deno.serve(async (req) => {
     }
 
     // Also create in-app notifications for all users (including those without Telegram)
-    const { data: allUsers } = await supabase.from('profiles').select('user_id');
-    const usersToNotify = allUsers?.filter(u => u.user_id) || [];
-    
+    const { data: allUsers } = await supabase.from("profiles").select("user_id");
+    const usersToNotify = allUsers?.filter((u) => u.user_id) || [];
+
     if (usersToNotify.length > 0) {
       const actionUrl = blogPostId ? `/blog/${blogPostId}` : undefined;
-      const notificationsToInsert = usersToNotify.map(u => ({
+      const notificationsToInsert = usersToNotify.map((u) => ({
         user_id: u.user_id,
         title: `📢 ${title}`,
-        message: message.substring(0, 200) + (message.length > 200 ? '...' : ''),
-        type: 'info',
+        message: message.substring(0, 200) + (message.length > 200 ? "..." : ""),
+        type: "info",
         action_url: actionUrl,
         read: false,
       }));
@@ -187,13 +181,13 @@ Deno.serve(async (req) => {
       // Insert in batches of 100
       for (let i = 0; i < notificationsToInsert.length; i += 100) {
         const batch = notificationsToInsert.slice(i, i + 100);
-        await supabase.from('notifications').insert(batch);
+        await supabase.from("notifications").insert(batch);
       }
       console.log(`Created ${usersToNotify.length} in-app notifications`);
     }
 
     // Log broadcast with image URL
-    await supabase.from('broadcast_messages').insert({
+    await supabase.from("broadcast_messages").insert({
       sender_id: senderId,
       title,
       message,
@@ -203,22 +197,28 @@ Deno.serve(async (req) => {
       image_url: imageUrl || null,
     });
 
-    return new Response(JSON.stringify({
-      success: true,
-      sentCount,
-      failedCount,
-      totalTargeted: usersWithChat.length,
-      templateSaved: saveAsTemplate && templateName ? templateName : null,
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        sentCount,
+        failedCount,
+        totalTargeted: usersWithChat.length,
+        templateSaved: saveAsTemplate && templateName ? templateName : null,
+      }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   } catch (error) {
-    console.error('Broadcast error:', error);
-    return new Response(JSON.stringify({ 
-      error: error instanceof Error ? error.message : 'Unknown error' 
-    }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    console.error("Broadcast error:", error);
+    return new Response(
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
+      }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
+    );
   }
 });

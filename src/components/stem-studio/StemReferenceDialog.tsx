@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Music, Wand2, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Music, Wand2, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -9,14 +9,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { TrackStem } from '@/hooks/useTrackStems';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { ReferenceManager } from '@/services/audio-reference';
-import { getStemLabel } from '@/lib/stemLabels';
-import { getStemColor as getDesignStemColor } from '@/lib/design-colors';
-import { logger } from '@/lib/logger';
+} from "@/components/ui/dialog";
+import { TrackStem } from "@/hooks/useTrackStems";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { ReferenceManager } from "@/services/audio-reference";
+import { getStemLabel } from "@/lib/stemLabels";
+import { getStemColor as getDesignStemColor } from "@/lib/design-colors";
+import { logger } from "@/lib/logger";
 
 interface StemReferenceDialogProps {
   stems: TrackStem[];
@@ -32,13 +32,13 @@ const getStemColorClass = (stemType: string): string => {
   return getDesignStemColor(stemType).combined;
 };
 
-export const StemReferenceDialog = ({ 
-  stems, 
-  trackTitle, 
-  trackLyrics, 
-  trackStyle, 
+export const StemReferenceDialog = ({
+  stems,
+  trackTitle,
+  trackLyrics,
+  trackStyle,
   trackPrompt,
-  trackTags
+  trackTags,
 }: StemReferenceDialogProps) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -47,7 +47,7 @@ export const StemReferenceDialog = ({
 
   const handleUseAsReference = async () => {
     if (!selectedStem) return;
-    
+
     setIsLoading(true);
     try {
       // Use unified ReferenceManager
@@ -58,15 +58,15 @@ export const StemReferenceDialog = ({
         lyrics: trackLyrics || undefined,
         style: trackStyle || undefined,
       });
-      
-      toast.success('Референс из студии загружен');
+
+      toast.success("Референс из студии загружен");
       setOpen(false);
-      
+
       // Navigate to home with flag to open generate sheet
-      navigate('/', { state: { openGenerate: true, fromStemReference: true } });
+      navigate("/", { state: { openGenerate: true, fromStemReference: true } });
     } catch (error: unknown) {
-      logger.error('Error setting reference', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка при установке референса');
+      logger.error("Error setting reference", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка при установке референса");
     } finally {
       setIsLoading(false);
     }
@@ -83,11 +83,9 @@ export const StemReferenceDialog = ({
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Выберите стем для генерации</DialogTitle>
-          <DialogDescription>
-            Используйте отдельный стем как аудио-референс для создания нового трека
-          </DialogDescription>
+          <DialogDescription>Используйте отдельный стем как аудио-референс для создания нового трека</DialogDescription>
         </DialogHeader>
-        
+
         <div className="grid gap-2 py-4">
           {stems.map((stem) => (
             <button
@@ -96,21 +94,17 @@ export const StemReferenceDialog = ({
               className={cn(
                 "flex items-center gap-3 p-3 rounded-lg border transition-all text-left",
                 getStemColorClass(stem.stem_type),
-                selectedStem?.id === stem.id 
-                  ? "ring-2 ring-primary border-primary" 
-                  : "hover:bg-accent/50"
+                selectedStem?.id === stem.id ? "ring-2 ring-primary border-primary" : "hover:bg-accent/50",
               )}
             >
               <Music className="w-5 h-5" />
               <div className="flex-1">
                 <p className="font-medium">{getStemLabel(stem.stem_type)}</p>
                 <p className="text-xs text-muted-foreground">
-                  {stem.separation_mode === 'detailed' ? 'Детальное разделение' : 'Простое разделение'}
+                  {stem.separation_mode === "detailed" ? "Детальное разделение" : "Простое разделение"}
                 </p>
               </div>
-              {selectedStem?.id === stem.id && (
-                <div className="w-2 h-2 rounded-full bg-primary" />
-              )}
+              {selectedStem?.id === stem.id && <div className="w-2 h-2 rounded-full bg-primary" />}
             </button>
           ))}
         </div>
@@ -119,16 +113,8 @@ export const StemReferenceDialog = ({
           <Button variant="outline" onClick={() => setOpen(false)}>
             Отмена
           </Button>
-          <Button 
-            onClick={handleUseAsReference}
-            disabled={!selectedStem || isLoading}
-            className="gap-2"
-          >
-            {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Wand2 className="w-4 h-4" />
-            )}
+          <Button onClick={handleUseAsReference} disabled={!selectedStem || isLoading} className="gap-2">
+            {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Wand2 className="w-4 h-4" />}
             Создать трек
           </Button>
         </div>

@@ -1,15 +1,15 @@
 /**
  * Feature Highlight Component
- * 
+ *
  * Pulsing highlight effect for new features.
  * Use to draw attention to new UI elements.
- * 
+ *
  * @module components/onboarding/FeatureHighlight
  */
 
-import { memo, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { memo, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface FeatureHighlightProps {
   /** Unique ID for persistence */
@@ -17,14 +17,14 @@ interface FeatureHighlightProps {
   /** Whether to show the highlight */
   enabled?: boolean;
   /** Pulse animation color */
-  color?: 'primary' | 'success' | 'warning';
+  color?: "primary" | "success" | "warning";
   /** Additional class name */
   className?: string;
   /** Children to wrap */
   children: React.ReactNode;
 }
 
-const STORAGE_KEY = 'feature-highlights-seen';
+const STORAGE_KEY = "feature-highlights-seen";
 
 function getSeenHighlights(): Set<string> {
   try {
@@ -48,7 +48,7 @@ function markHighlightSeen(id: string) {
 export const FeatureHighlight = memo(function FeatureHighlight({
   id,
   enabled = true,
-  color = 'primary',
+  color = "primary",
   className,
   children,
 }: FeatureHighlightProps) {
@@ -79,13 +79,13 @@ export const FeatureHighlight = memo(function FeatureHighlight({
   };
 
   const colorClasses = {
-    primary: 'bg-primary/30',
-    success: 'bg-green-500/30',
-    warning: 'bg-amber-500/30',
+    primary: "bg-primary/30",
+    success: "bg-green-500/30",
+    warning: "bg-amber-500/30",
   };
 
   return (
-    <div className={cn('relative', className)} onClick={handleClick}>
+    <div className={cn("relative", className)} onClick={handleClick}>
       {children}
 
       <AnimatePresence>
@@ -93,10 +93,7 @@ export const FeatureHighlight = memo(function FeatureHighlight({
           <>
             {/* Pulsing ring */}
             <motion.div
-              className={cn(
-                'absolute inset-0 rounded-xl pointer-events-none',
-                colorClasses[color]
-              )}
+              className={cn("absolute inset-0 rounded-xl pointer-events-none", colorClasses[color])}
               initial={{ opacity: 0.5, scale: 1 }}
               animate={{
                 opacity: [0.5, 0.2, 0.5],
@@ -105,7 +102,7 @@ export const FeatureHighlight = memo(function FeatureHighlight({
               transition={{
                 duration: 1.5,
                 repeat: Infinity,
-                ease: 'easeInOut',
+                ease: "easeInOut",
               }}
             />
 
@@ -115,7 +112,7 @@ export const FeatureHighlight = memo(function FeatureHighlight({
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}
             >
               NEW
             </motion.div>

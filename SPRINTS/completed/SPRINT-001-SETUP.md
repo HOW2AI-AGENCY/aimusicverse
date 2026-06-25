@@ -5,11 +5,11 @@
 
 ## Задачи
 
-| ID | Название | Статус | Ответственный |
-|---|---|---|---|
-| T001 | Настроить ESLint, Prettier | Done | @Jules |
-| T002 | Создать CI/CD pipeline | Done | @Jules |
-| T003 | Реализовать Telegram OAuth | Done | @Jules |
+| ID   | Название                   | Статус | Ответственный |
+| ---- | -------------------------- | ------ | ------------- |
+| T001 | Настроить ESLint, Prettier | Done   | @Jules        |
+| T002 | Создать CI/CD pipeline     | Done   | @Jules        |
+| T003 | Реализовать Telegram OAuth | Done   | @Jules        |
 
 ## Ретроспектива
 

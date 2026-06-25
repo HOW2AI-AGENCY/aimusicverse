@@ -18,14 +18,15 @@
 
 ### Category 1: Layout Components
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `TrackStudioMobileLayout.tsx` | Studio layout, header, tabs | 450 | High | **Merge** | `MobileStudio.tsx` | P0 |
-| `MobileStudioLayout.tsx` | Generic studio layout | 320 | Med | **Merge** | `MobileStudio.tsx` | P0 |
-| | | | | | | |
-| **Total:** 2 | | 770 | | → 1 | `-50%` | |
+| Current Component             | Features                    | LOC | Usage | Action    | New Component      | Priority |
+| ----------------------------- | --------------------------- | --- | ----- | --------- | ------------------ | -------- |
+| `TrackStudioMobileLayout.tsx` | Studio layout, header, tabs | 450 | High  | **Merge** | `MobileStudio.tsx` | P0       |
+| `MobileStudioLayout.tsx`      | Generic studio layout       | 320 | Med   | **Merge** | `MobileStudio.tsx` | P0       |
+|                               |                             |     |       |           |                    |          |
+| **Total:** 2                  |                             | 770 |       | → 1       | `-50%`             |          |
 
 **Consolidation Plan:**
+
 - Create unified `MobileStudio.tsx` component
 - Support both `stem-studio` and generic `studio` modes
 - Extract common layout logic
@@ -37,21 +38,22 @@
 
 ### Category 2: Tab Components
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `MobileActionsTab.tsx` | Actions tab | 180 | High | **Merge** | `MobileTabBar.tsx` | P0 |
-| `MobileLyricsTab.tsx` | Lyrics tab | 210 | High | **Extract Content** | `MobileLyricsContent.tsx` | P0 |
-| `MobilePlayerTab.tsx` | Player tab | 250 | High | **Extract Content** | `MobilePlayerContent.tsx` | P0 |
-| `MobileSectionsTab.tsx` | Sections tab | 190 | High | **Extract Content** | `MobileSectionsContent.tsx` | P0 |
-| `MobileEditTab.tsx` | Edit tab | 170 | Med | **Extract Content** | `MobileEditContent.tsx` | P1 |
-| `MobileMainTab.tsx` | Main tab | 200 | Med | **Extract Content** | `MobileMainContent.tsx` | P1 |
-| `StudioTabsMobile.tsx` | Tab container | 140 | Med | **Replace** | `MobileTabBar.tsx` | P1 |
-| | | | | | | |
-| **Total:** 7 | | 1340 | | → 2 | `-71%` | |
+| Current Component       | Features      | LOC  | Usage | Action              | New Component               | Priority |
+| ----------------------- | ------------- | ---- | ----- | ------------------- | --------------------------- | -------- |
+| `MobileActionsTab.tsx`  | Actions tab   | 180  | High  | **Merge**           | `MobileTabBar.tsx`          | P0       |
+| `MobileLyricsTab.tsx`   | Lyrics tab    | 210  | High  | **Extract Content** | `MobileLyricsContent.tsx`   | P0       |
+| `MobilePlayerTab.tsx`   | Player tab    | 250  | High  | **Extract Content** | `MobilePlayerContent.tsx`   | P0       |
+| `MobileSectionsTab.tsx` | Sections tab  | 190  | High  | **Extract Content** | `MobileSectionsContent.tsx` | P0       |
+| `MobileEditTab.tsx`     | Edit tab      | 170  | Med   | **Extract Content** | `MobileEditContent.tsx`     | P1       |
+| `MobileMainTab.tsx`     | Main tab      | 200  | Med   | **Extract Content** | `MobileMainContent.tsx`     | P1       |
+| `StudioTabsMobile.tsx`  | Tab container | 140  | Med   | **Replace**         | `MobileTabBar.tsx`          | P1       |
+|                         |               |      |       |                     |                             |          |
+| **Total:** 7            |               | 1340 |       | → 2                 | `-71%`                      |          |
 
 **Consolidation Plan:**
 
 1. **Create `MobileTabBar.tsx`** - Universal tab component:
+
    ```typescript
    interface Tab {
      id: string;
@@ -60,8 +62,8 @@
      badge?: number;
      content: ReactNode;
    }
-   
-   <MobileTabBar 
+
+   <MobileTabBar
      tabs={tabs}
      activeTab={activeTab}
      onTabChange={setActiveTab}
@@ -79,15 +81,16 @@
 
 ### Category 3: Actions & Controls
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `MobileActionsBar.tsx` | Floating action bar | 160 | High | **Keep + Refactor** | `MobileActionBar.tsx` | P0 |
-| `MobileActionsContent.tsx` | Action list | 140 | Med | **Merge** | `MobileActionBar.tsx` | P1 |
-| `MobileMasterVolume.tsx` | Volume control | 95 | High | **Keep** | `MobileMasterVolume.tsx` | P1 |
-| | | | | | | |
-| **Total:** 3 | | 395 | | → 2 | `-33%` | |
+| Current Component          | Features            | LOC | Usage | Action              | New Component            | Priority |
+| -------------------------- | ------------------- | --- | ----- | ------------------- | ------------------------ | -------- |
+| `MobileActionsBar.tsx`     | Floating action bar | 160 | High  | **Keep + Refactor** | `MobileActionBar.tsx`    | P0       |
+| `MobileActionsContent.tsx` | Action list         | 140 | Med   | **Merge**           | `MobileActionBar.tsx`    | P1       |
+| `MobileMasterVolume.tsx`   | Volume control      | 95  | High  | **Keep**            | `MobileMasterVolume.tsx` | P1       |
+|                            |                     |     |       |                     |                          |          |
+| **Total:** 3               |                     | 395 |       | → 2                 | `-33%`                   |          |
 
 **Consolidation Plan:**
+
 - Merge `MobileActionsBar` + `MobileActionsContent` → unified component
 - Support both `floating` and `inline` modes via props
 - Keep `MobileMasterVolume` as specialized component
@@ -98,13 +101,14 @@
 
 ### Category 4: Header Components
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `MobileStudioHeader.tsx` | Stem studio header | 180 | High | **Merge** | `MobileHeader.tsx` | P0 |
-| | | | | | | |
-| **Total:** 1 | | 180 | | → 1 | `0%` | |
+| Current Component        | Features           | LOC | Usage | Action    | New Component      | Priority |
+| ------------------------ | ------------------ | --- | ----- | --------- | ------------------ | -------- |
+| `MobileStudioHeader.tsx` | Stem studio header | 180 | High  | **Merge** | `MobileHeader.tsx` | P0       |
+|                          |                    |     |       |           |                    |          |
+| **Total:** 1             |                    | 180 |       | → 1       | `0%`               |          |
 
 **Consolidation Plan:**
+
 - Refactor `MobileStudioHeader` → generic `MobileHeader`
 - Support multiple modes: `studio`, `player`, `generic`
 - Configurable actions, title, back button
@@ -115,13 +119,14 @@
 
 ### Category 5: Player Components
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `MobileFullscreenPlayer.tsx` | Fullscreen player | 480 | High | **Refactor** | `MobilePlayer.tsx` | P0 |
-| | | | | | | |
-| **Total:** 1 | | 480 | | → 1 | `0%` | |
+| Current Component            | Features          | LOC | Usage | Action       | New Component      | Priority |
+| ---------------------------- | ----------------- | --- | ----- | ------------ | ------------------ | -------- |
+| `MobileFullscreenPlayer.tsx` | Fullscreen player | 480 | High  | **Refactor** | `MobilePlayer.tsx` | P0       |
+|                              |                   |     |       |              |                    |          |
+| **Total:** 1                 |                   | 480 |       | → 1          | `0%`               |          |
 
 **Consolidation Plan:**
+
 - Refactor to use new layout primitives
 - Extract controls to `MobilePlayerControls.tsx`
 - Improve performance with React.memo
@@ -132,19 +137,20 @@
 
 ### Category 6: Specialized Components
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `MobileStemCard.tsx` | Stem card | 210 | High | **Keep** | `MobileStemCard.tsx` | P1 |
-| `MobileStemMixer.tsx` | Stem mixer | 350 | High | **Keep** | `MobileStemMixer.tsx` | P1 |
-| `MobileStemEffects.tsx` | Effects panel | 180 | Med | **Keep** | `MobileStemEffects.tsx` | P2 |
-| `SectionEditorMobile.tsx` | Section editor | 420 | High | **Keep** | `SectionEditorMobile.tsx` | P1 |
-| `MobileSectionTimelineCompact.tsx` | Compact timeline | 190 | Med | **Keep** | `MobileSectionTimeline.tsx` | P2 |
-| `MobileVersionBadge.tsx` | Version badge | 75 | Med | **Keep** | `MobileVersionBadge.tsx` | P2 |
-| `MobileAudioWarning.tsx` | Audio warning | 85 | Low | **Keep** | `MobileAudioWarning.tsx` | P3 |
-| | | | | | | |
-| **Total:** 7 | | 1510 | | → 7 | `0%` | |
+| Current Component                  | Features         | LOC  | Usage | Action   | New Component               | Priority |
+| ---------------------------------- | ---------------- | ---- | ----- | -------- | --------------------------- | -------- |
+| `MobileStemCard.tsx`               | Stem card        | 210  | High  | **Keep** | `MobileStemCard.tsx`        | P1       |
+| `MobileStemMixer.tsx`              | Stem mixer       | 350  | High  | **Keep** | `MobileStemMixer.tsx`       | P1       |
+| `MobileStemEffects.tsx`            | Effects panel    | 180  | Med   | **Keep** | `MobileStemEffects.tsx`     | P2       |
+| `SectionEditorMobile.tsx`          | Section editor   | 420  | High  | **Keep** | `SectionEditorMobile.tsx`   | P1       |
+| `MobileSectionTimelineCompact.tsx` | Compact timeline | 190  | Med   | **Keep** | `MobileSectionTimeline.tsx` | P2       |
+| `MobileVersionBadge.tsx`           | Version badge    | 75   | Med   | **Keep** | `MobileVersionBadge.tsx`    | P2       |
+| `MobileAudioWarning.tsx`           | Audio warning    | 85   | Low   | **Keep** | `MobileAudioWarning.tsx`    | P3       |
+|                                    |                  |      |       |          |                             |          |
+| **Total:** 7                       |                  | 1510 |       | → 7      | `0%`                        |          |
 
 **Consolidation Plan:**
+
 - Keep specialized components (domain-specific)
 - Refactor to use new primitives where applicable
 - Improve with React.memo for performance
@@ -155,13 +161,14 @@
 
 ### Category 7: Panels
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `StemsMobilePanel.tsx` | Stems panel | 280 | Med | **Keep** | `StemsMobilePanel.tsx` | P2 |
-| | | | | | | |
-| **Total:** 1 | | 280 | | → 1 | `0%` | |
+| Current Component      | Features    | LOC | Usage | Action   | New Component          | Priority |
+| ---------------------- | ----------- | --- | ----- | -------- | ---------------------- | -------- |
+| `StemsMobilePanel.tsx` | Stems panel | 280 | Med   | **Keep** | `StemsMobilePanel.tsx` | P2       |
+|                        |             |     |       |          |                        |          |
+| **Total:** 1           |             | 280 |       | → 1      | `0%`                   |          |
 
 **Consolidation Plan:**
+
 - Keep as specialized panel
 - Refactor to use new layout primitives
 
@@ -171,18 +178,19 @@
 
 ### Category 8: Low Priority / Feature-Specific
 
-| Current Component | Features | LOC | Usage | Action | New Component | Priority |
-|-------------------|----------|-----|-------|--------|---------------|----------|
-| `MidiExportPanelMobile.tsx` | MIDI export | 150 | Low | **Keep** | — | P3 |
-| `ChordTimelineMobile.tsx` | Chord timeline | 220 | Low | **Keep** | — | P3 |
-| `GuitarAnalysisReportMobile.tsx` | Guitar analysis | 180 | Low | **Keep** | — | P3 |
-| `MobileGraphView.tsx` | Music graph | 200 | Low | **Keep** | — | P3 |
-| `MobileNotesViewer.tsx` | Notes viewer | 130 | Low | **Keep** | — | P3 |
-| `MobileTelegramBotSettings.tsx` | Bot settings | 110 | Very Low | **Keep** | — | P3 |
-| | | | | | | |
-| **Total:** 6 | | 990 | | → 6 | `0%` | |
+| Current Component                | Features        | LOC | Usage    | Action   | New Component | Priority |
+| -------------------------------- | --------------- | --- | -------- | -------- | ------------- | -------- |
+| `MidiExportPanelMobile.tsx`      | MIDI export     | 150 | Low      | **Keep** | —             | P3       |
+| `ChordTimelineMobile.tsx`        | Chord timeline  | 220 | Low      | **Keep** | —             | P3       |
+| `GuitarAnalysisReportMobile.tsx` | Guitar analysis | 180 | Low      | **Keep** | —             | P3       |
+| `MobileGraphView.tsx`            | Music graph     | 200 | Low      | **Keep** | —             | P3       |
+| `MobileNotesViewer.tsx`          | Notes viewer    | 130 | Low      | **Keep** | —             | P3       |
+| `MobileTelegramBotSettings.tsx`  | Bot settings    | 110 | Very Low | **Keep** | —             | P3       |
+|                                  |                 |     |          |          |               |          |
+| **Total:** 6                     |                 | 990 |          | → 6      | `0%`          |          |
 
 **Consolidation Plan:**
+
 - Keep feature-specific components (low priority)
 - Consolidate only if usage increases
 - Defer to future optimization phase
@@ -216,18 +224,18 @@ Kept:                   11
 
 ### LOC Savings Breakdown
 
-| Category | Before | After | Savings | % |
-|----------|--------|-------|---------|---|
-| Layout | 770 | 350 | -420 | -55% |
-| Tabs | 1340 | 450 | -890 | -66% |
-| Actions | 395 | 250 | -145 | -37% |
-| Headers | 180 | 130 | -50 | -28% |
-| Player | 480 | 330 | -150 | -31% |
-| Specialized | 1510 | 1310 | -200 | -13% |
-| Panels | 280 | 230 | -50 | -18% |
-| Low Priority | 990 | 990 | 0 | 0% |
-| **New Base Components** | — | +185 | — | — |
-| **Total** | **5,925** | **~4,225** | **-1,700** | **-29%** |
+| Category                | Before    | After      | Savings    | %        |
+| ----------------------- | --------- | ---------- | ---------- | -------- |
+| Layout                  | 770       | 350        | -420       | -55%     |
+| Tabs                    | 1340      | 450        | -890       | -66%     |
+| Actions                 | 395       | 250        | -145       | -37%     |
+| Headers                 | 180       | 130        | -50        | -28%     |
+| Player                  | 480       | 330        | -150       | -31%     |
+| Specialized             | 1510      | 1310       | -200       | -13%     |
+| Panels                  | 280       | 230        | -50        | -18%     |
+| Low Priority            | 990       | 990        | 0          | 0%       |
+| **New Base Components** | —         | +185       | —          | —        |
+| **Total**               | **5,925** | **~4,225** | **-1,700** | **-29%** |
 
 ---
 
@@ -273,18 +281,21 @@ Specialized (Keep):
 ### Phase 1: Foundation (Week 1)
 
 **Day 1-2: Audit**
+
 - [x] Create this matrix
 - [ ] Analyze dependencies with madge
 - [ ] Measure code duplication with jscpd
 - [ ] Document current patterns
 
 **Day 3: Base Components**
+
 - [ ] Create `MobileLayout.tsx`
 - [ ] Create `MobileTabBar.tsx`
 - [ ] Create `MobileHeader.tsx`
 - [ ] Write tests
 
 **Day 4-5: Primitives**
+
 - [ ] Create `MobileSheet.tsx`
 - [ ] Create `MobileButton.tsx`
 - [ ] Create `MobileCard.tsx`
@@ -294,6 +305,7 @@ Specialized (Keep):
 ### Phase 2: Consolidation (Week 2)
 
 **Day 1-2: Studio**
+
 - [ ] Create `MobileStudio.tsx` (merge 2 components)
 - [ ] Migrate `TrackStudioMobileLayout`
 - [ ] Migrate `MobileStudioLayout`
@@ -301,6 +313,7 @@ Specialized (Keep):
 - [ ] Test thoroughly
 
 **Day 3: Tabs**
+
 - [ ] Extract content from tab components
 - [ ] Create content components
 - [ ] Replace with `MobileTabBar`
@@ -308,12 +321,14 @@ Specialized (Keep):
 - [ ] Test thoroughly
 
 **Day 4: Actions**
+
 - [ ] Merge `MobileActionsBar` + `MobileActionsContent`
 - [ ] Create unified `MobileActionBar`
 - [ ] Update imports
 - [ ] Test thoroughly
 
 **Day 5: Player & Testing**
+
 - [ ] Refactor `MobileFullscreenPlayer`
 - [ ] Extract `MobilePlayerControls`
 - [ ] Full regression testing
@@ -322,11 +337,13 @@ Specialized (Keep):
 ### Phase 3: Polish & Cleanup (Week 3)
 
 **Day 1-2: Refactoring**
+
 - [ ] Refactor specialized components to use new primitives
 - [ ] Apply React.memo optimizations
 - [ ] Performance testing
 
 **Day 3: Cleanup**
+
 - [ ] Remove old components
 - [ ] Clean up unused code
 - [ ] Update documentation
@@ -337,18 +354,21 @@ Specialized (Keep):
 ## ✅ Success Criteria
 
 **Code Metrics:**
+
 - [ ] Components reduced from 29 → 18 (-38%)
 - [ ] LOC reduced from ~5,925 → ~4,225 (-29%)
 - [ ] Code duplication <5%
 - [ ] Test coverage >80%
 
 **Quality:**
+
 - [ ] All tests passing
 - [ ] No TypeScript errors
 - [ ] No ESLint warnings
 - [ ] Build successful
 
 **Functionality:**
+
 - [ ] All features working
 - [ ] No regressions
 - [ ] Improved performance

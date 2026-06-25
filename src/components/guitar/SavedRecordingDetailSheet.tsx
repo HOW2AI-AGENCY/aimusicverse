@@ -1,29 +1,43 @@
-import { useState, useRef } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
-import { Progress } from '@/components/ui/progress';
-import { 
-  Play, Pause, RefreshCw, Loader2, Music, Download,
-  Clock, Gauge, Key, FileMusic, FileText, Guitar, ArrowRight,
-  CheckCircle2, AlertCircle, Wand2, Piano
-} from 'lucide-react';
-import { format, ru } from '@/lib/date-utils';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
-import { useGuitarRecordings, type GuitarRecording } from '@/hooks/useGuitarRecordings';
-import { GuitarTabVisualization } from '@/components/analysis/GuitarTabVisualization';
-import { PianoRollWithMidiSync } from './PianoRollWithMidiSync';
-import { ExportFilesPanel } from './ExportFilesPanel';
-import { ChordTimelineMobile } from './ChordTimelineMobile';
-import { ChordDiagramUnified as ChordDiagramEnhanced } from './ChordDiagramUnified';
-import { logger } from '@/lib/logger';
-import { formatDuration } from '@/lib/player-utils';
+import { useState, useRef } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
+import { Progress } from "@/components/ui/progress";
+import {
+  Play,
+  Pause,
+  RefreshCw,
+  Loader2,
+  Music,
+  Download,
+  Clock,
+  Gauge,
+  Key,
+  FileMusic,
+  FileText,
+  Guitar,
+  ArrowRight,
+  CheckCircle2,
+  AlertCircle,
+  Wand2,
+  Piano,
+} from "lucide-react";
+import { format, ru } from "@/lib/date-utils";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useGuitarAnalysis } from "@/hooks/useGuitarAnalysis";
+import { useGuitarRecordings, type GuitarRecording } from "@/hooks/useGuitarRecordings";
+import { GuitarTabVisualization } from "@/components/analysis/GuitarTabVisualization";
+import { PianoRollWithMidiSync } from "./PianoRollWithMidiSync";
+import { ExportFilesPanel } from "./ExportFilesPanel";
+import { ChordTimelineMobile } from "./ChordTimelineMobile";
+import { ChordDiagramUnified as ChordDiagramEnhanced } from "./ChordDiagramUnified";
+import { logger } from "@/lib/logger";
+import { formatDuration } from "@/lib/player-utils";
 
 interface SavedRecordingDetailSheetProps {
   recording: GuitarRecording | null;
@@ -32,17 +46,17 @@ interface SavedRecordingDetailSheetProps {
   onUseForGeneration?: (recording: GuitarRecording) => void;
 }
 
-export function SavedRecordingDetailSheet({ 
-  recording, 
-  open, 
+export function SavedRecordingDetailSheet({
+  recording,
+  open,
   onOpenChange,
-  onUseForGeneration 
+  onUseForGeneration,
 }: SavedRecordingDetailSheetProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isReanalyzing, setIsReanalyzing] = useState(false);
   const [reanalysisProgress, setReanalysisProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  
+
   const { analyzeGuitarRecording, progress, progressPercent } = useGuitarAnalysis();
   const { saveRecording, toAnalysisResult } = useGuitarRecordings();
 
@@ -50,7 +64,7 @@ export function SavedRecordingDetailSheet({
 
   const handleTogglePlayback = () => {
     if (!audioRef.current) return;
-    
+
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -70,11 +84,11 @@ export function SavedRecordingDetailSheet({
       // Fetch audio file from URL
       const response = await fetch(recording.audio_url);
       const blob = await response.blob();
-      const file = new File([blob], 'reanalysis.webm', { type: blob.type });
+      const file = new File([blob], "reanalysis.webm", { type: blob.type });
 
       // Run analysis
       const result = await analyzeGuitarRecording(file);
-      
+
       if (result) {
         // Update the recording with new analysis
         await saveRecording.mutateAsync({
@@ -85,17 +99,17 @@ export function SavedRecordingDetailSheet({
         });
       }
     } catch (error) {
-      logger.error('Reanalysis failed', error instanceof Error ? error : new Error(String(error)), {
-        recordingId: recording?.id
+      logger.error("Reanalysis failed", error instanceof Error ? error : new Error(String(error)), {
+        recordingId: recording?.id,
       });
     } finally {
       setIsReanalyzing(false);
     }
   };
 
-
   const analysisResult = toAnalysisResult(recording);
-  const hasAnalysis = recording.analysis_status?.beats || recording.analysis_status?.chords || recording.analysis_status?.transcription;
+  const hasAnalysis =
+    recording.analysis_status?.beats || recording.analysis_status?.chords || recording.analysis_status?.transcription;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -103,7 +117,7 @@ export function SavedRecordingDetailSheet({
         <SheetHeader className="px-4 pt-4 pb-2">
           <SheetTitle className="flex items-center gap-2">
             <Guitar className="w-5 h-5 text-primary" />
-            {recording.title || 'Запись гитары'}
+            {recording.title || "Запись гитары"}
           </SheetTitle>
         </SheetHeader>
 
@@ -118,21 +132,15 @@ export function SavedRecordingDetailSheet({
                   onClick={handleTogglePlayback}
                   className="h-14 w-14 rounded-full shrink-0"
                 >
-                  {isPlaying ? (
-                    <Pause className="w-6 h-6" />
-                  ) : (
-                    <Play className="w-6 h-6 ml-0.5" />
-                  )}
+                  {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
                 </Button>
 
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium truncate">
-                    {recording.title || 'Без названия'}
-                  </p>
+                  <p className="font-medium truncate">{recording.title || "Без названия"}</p>
                   <p className="text-sm text-muted-foreground">
-                    {format(new Date(recording.created_at), 'd MMMM yyyy, HH:mm', { locale: ru })}
+                    {format(new Date(recording.created_at), "d MMMM yyyy, HH:mm", { locale: ru })}
                   </p>
-                  
+
                   {/* Metadata Badges */}
                   <div className="flex flex-wrap gap-1.5 mt-2">
                     {recording.bpm && (
@@ -141,7 +149,7 @@ export function SavedRecordingDetailSheet({
                         {Math.round(recording.bpm)} BPM
                       </Badge>
                     )}
-                    {recording.key && recording.key !== 'Unknown' && (
+                    {recording.key && recording.key !== "Unknown" && (
                       <Badge variant="secondary" className="text-xs gap-1">
                         <Key className="w-3 h-3" />
                         {recording.key}
@@ -163,12 +171,7 @@ export function SavedRecordingDetailSheet({
                 </div>
               </div>
 
-              <audio
-                ref={audioRef}
-                src={recording.audio_url}
-                onEnded={() => setIsPlaying(false)}
-                className="hidden"
-              />
+              <audio ref={audioRef} src={recording.audio_url} onEnded={() => setIsPlaying(false)} className="hidden" />
             </Card>
 
             {/* Analysis Status */}
@@ -187,7 +190,7 @@ export function SavedRecordingDetailSheet({
                     </>
                   )}
                 </div>
-                
+
                 <Button
                   size="sm"
                   variant="outline"
@@ -221,10 +224,7 @@ export function SavedRecordingDetailSheet({
 
               {!isReanalyzing && (
                 <div className="flex flex-wrap gap-2">
-                  <Badge 
-                    variant={recording.analysis_status?.beats ? "default" : "secondary"}
-                    className="gap-1"
-                  >
+                  <Badge variant={recording.analysis_status?.beats ? "default" : "secondary"} className="gap-1">
                     {recording.analysis_status?.beats ? (
                       <CheckCircle2 className="w-3 h-3" />
                     ) : (
@@ -232,10 +232,7 @@ export function SavedRecordingDetailSheet({
                     )}
                     Ритм и темп
                   </Badge>
-                  <Badge 
-                    variant={recording.analysis_status?.chords ? "default" : "secondary"}
-                    className="gap-1"
-                  >
+                  <Badge variant={recording.analysis_status?.chords ? "default" : "secondary"} className="gap-1">
                     {recording.analysis_status?.chords ? (
                       <CheckCircle2 className="w-3 h-3" />
                     ) : (
@@ -243,10 +240,7 @@ export function SavedRecordingDetailSheet({
                     )}
                     Аккорды
                   </Badge>
-                  <Badge 
-                    variant={recording.analysis_status?.transcription ? "default" : "secondary"}
-                    className="gap-1"
-                  >
+                  <Badge variant={recording.analysis_status?.transcription ? "default" : "secondary"} className="gap-1">
                     {recording.analysis_status?.transcription ? (
                       <CheckCircle2 className="w-3 h-3" />
                     ) : (
@@ -267,12 +261,7 @@ export function SavedRecordingDetailSheet({
                 </h3>
                 <div className="flex flex-wrap gap-2 justify-center mb-4">
                   {[...new Set(recording.chords.map((c) => c.chord))].slice(0, 8).map((chord, i) => (
-                    <ChordDiagramEnhanced 
-                      key={i} 
-                      chord={String(chord)} 
-                      size="sm"
-                      animated
-                    />
+                    <ChordDiagramEnhanced key={i} chord={String(chord)} size="sm" animated />
                   ))}
                 </div>
                 {/* Chord Timeline */}
@@ -309,9 +298,7 @@ export function SavedRecordingDetailSheet({
             {recording.style_description && (
               <Card className="p-4">
                 <h3 className="font-medium mb-2">Описание стиля</h3>
-                <p className="text-sm text-muted-foreground">
-                  {recording.style_description}
-                </p>
+                <p className="text-sm text-muted-foreground">{recording.style_description}</p>
               </Card>
             )}
 
@@ -338,10 +325,7 @@ export function SavedRecordingDetailSheet({
                 </TabsContent>
 
                 <TabsContent value="tab" className="mt-4">
-                  <GuitarTabVisualization
-                    notes={recording.notes || []}
-                    bpm={recording.bpm || 120}
-                  />
+                  <GuitarTabVisualization notes={recording.notes || []} bpm={recording.bpm || 120} />
                 </TabsContent>
               </Tabs>
             )}
@@ -363,11 +347,7 @@ export function SavedRecordingDetailSheet({
             {/* Action Buttons */}
             <div className="space-y-2">
               {onUseForGeneration && (
-                <Button
-                  onClick={() => onUseForGeneration(recording)}
-                  className="w-full gap-2"
-                  size="lg"
-                >
+                <Button onClick={() => onUseForGeneration(recording)} className="w-full gap-2" size="lg">
                   <Wand2 className="w-5 h-5" />
                   Использовать для генерации
                   <ArrowRight className="w-4 h-4 ml-auto" />

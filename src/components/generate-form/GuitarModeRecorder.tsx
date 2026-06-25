@@ -3,24 +3,21 @@
  * Shows chords in real-time during microphone recording
  */
 
-import { useState, useRef, useEffect, useCallback, useId } from 'react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { 
-  Mic, MicOff, Guitar, Music, Waves, Copy, Check,
-  Play, Pause, Trash2, Sparkles
-} from 'lucide-react';
-import { useRealtimeChordDetection } from '@/hooks/useRealtimeChordDetection';
-import { ChordDiagram } from '@/components/guitar/ChordDiagram';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { toast } from 'sonner';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { useState, useRef, useEffect, useCallback, useId } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Mic, MicOff, Guitar, Music, Waves, Copy, Check, Play, Pause, Trash2, Sparkles } from "lucide-react";
+import { useRealtimeChordDetection } from "@/hooks/useRealtimeChordDetection";
+import { ChordDiagram } from "@/components/guitar/ChordDiagram";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { toast } from "sonner";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
-type UseMode = 'style' | 'audio';
+type UseMode = "style" | "audio";
 
 interface GuitarModeRecorderProps {
   onRecordingComplete: (data: {
@@ -33,10 +30,7 @@ interface GuitarModeRecorderProps {
   onCancel: () => void;
 }
 
-export function GuitarModeRecorder({ 
-  onRecordingComplete, 
-  onCancel 
-}: GuitarModeRecorderProps) {
+export function GuitarModeRecorder({ onRecordingComplete, onCancel }: GuitarModeRecorderProps) {
   const sourceId = useId();
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
   const [isRecording, setIsRecording] = useState(false);
@@ -45,7 +39,7 @@ export function GuitarModeRecorder({
   const [recordedFile, setRecordedFile] = useState<File | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [copiedProgression, setCopiedProgression] = useState(false);
-  
+
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<number | null>(null);
@@ -91,35 +85,35 @@ export function GuitarModeRecorder({
 
   // Generate style description from chord progression
   const generateStyleDescription = useCallback(() => {
-    if (chordHistory.length === 0) return '';
-    
-    const uniqueChords = [...new Set(chordHistory.map(c => c.name))];
-    const hasMinorChords = uniqueChords.some(c => c.includes('m') && !c.includes('maj'));
-    const hasMajorChords = uniqueChords.some(c => !c.includes('m') || c.includes('maj'));
-    const has7thChords = uniqueChords.some(c => c.includes('7'));
-    const hasSus = uniqueChords.some(c => c.includes('sus'));
-    
+    if (chordHistory.length === 0) return "";
+
+    const uniqueChords = [...new Set(chordHistory.map((c) => c.name))];
+    const hasMinorChords = uniqueChords.some((c) => c.includes("m") && !c.includes("maj"));
+    const hasMajorChords = uniqueChords.some((c) => !c.includes("m") || c.includes("maj"));
+    const has7thChords = uniqueChords.some((c) => c.includes("7"));
+    const hasSus = uniqueChords.some((c) => c.includes("sus"));
+
     const characteristics: string[] = [];
-    
+
     if (hasMinorChords && hasMajorChords) {
-      characteristics.push('mixed major/minor tonality');
+      characteristics.push("mixed major/minor tonality");
     } else if (hasMinorChords) {
-      characteristics.push('minor key, melancholic');
+      characteristics.push("minor key, melancholic");
     } else if (hasMajorChords) {
-      characteristics.push('major key, uplifting');
+      characteristics.push("major key, uplifting");
     }
-    
+
     if (has7thChords) {
-      characteristics.push('jazzy, sophisticated harmony');
+      characteristics.push("jazzy, sophisticated harmony");
     }
-    
+
     if (hasSus) {
-      characteristics.push('suspended chords, atmospheric');
+      characteristics.push("suspended chords, atmospheric");
     }
-    
-    const progression = uniqueChords.slice(0, 4).join(' - ');
-    
-    return `Acoustic guitar, ${characteristics.join(', ')}. Chord progression: ${progression}`;
+
+    const progression = uniqueChords.slice(0, 4).join(" - ");
+
+    return `Acoustic guitar, ${characteristics.join(", ")}. Chord progression: ${progression}`;
   }, [chordHistory]);
 
   // Start recording with chord detection
@@ -133,48 +127,45 @@ export function GuitarModeRecorder({
           sampleRate: 44100,
         },
       });
-      
+
       streamRef.current = stream;
-      
-      const mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-        ? 'audio/webm;codecs=opus'
-        : 'audio/mp4';
-      
+
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm;codecs=opus") ? "audio/webm;codecs=opus" : "audio/mp4";
+
       const mediaRecorder = new MediaRecorder(stream, { mimeType });
       mediaRecorderRef.current = mediaRecorder;
       chunksRef.current = [];
-      
+
       mediaRecorder.ondataavailable = (e) => {
         if (e.data.size > 0) {
           chunksRef.current.push(e.data);
         }
       };
-      
+
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunksRef.current, { type: mimeType });
-        const ext = mimeType.includes('webm') ? 'webm' : 'mp4';
+        const ext = mimeType.includes("webm") ? "webm" : "mp4";
         const file = new File([blob], `guitar-${Date.now()}.${ext}`, { type: mimeType });
         const url = URL.createObjectURL(blob);
-        
+
         setRecordedFile(file);
         setRecordedAudioUrl(url);
       };
-      
+
       mediaRecorder.start(1000);
       setIsRecording(true);
       setRecordingDuration(0);
       clearHistory();
-      
+
       // Start chord detection
       await startListening();
-      
+
       // Start timer
       timerRef.current = window.setInterval(() => {
-        setRecordingDuration(d => d + 1);
+        setRecordingDuration((d) => d + 1);
       }, 1000);
-      
     } catch (error) {
-      toast.error('Не удалось получить доступ к микрофону');
+      toast.error("Не удалось получить доступ к микрофону");
     }
   };
 
@@ -182,10 +173,10 @@ export function GuitarModeRecorder({
   const handleStopRecording = () => {
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
-      streamRef.current?.getTracks().forEach(t => t.stop());
+      streamRef.current?.getTracks().forEach((t) => t.stop());
       setIsRecording(false);
       stopListening();
-      
+
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
@@ -224,7 +215,7 @@ export function GuitarModeRecorder({
     navigator.clipboard.writeText(progression);
     setCopiedProgression(true);
     setTimeout(() => setCopiedProgression(false), 2000);
-    toast.success('Прогрессия скопирована');
+    toast.success("Прогрессия скопирована");
   };
 
   // Complete and pass data with selected mode
@@ -233,7 +224,7 @@ export function GuitarModeRecorder({
       onRecordingComplete({
         audioFile: recordedFile,
         audioUrl: recordedAudioUrl,
-        chordProgression: chordHistory.map(c => c.name),
+        chordProgression: chordHistory.map((c) => c.name),
         styleDescription: generateStyleDescription(),
         useMode: mode,
       });
@@ -252,11 +243,11 @@ export function GuitarModeRecorder({
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   // Note labels for chromagram
-  const NOTE_LABELS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const NOTE_LABELS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
   return (
     <div className="space-y-3">
@@ -264,17 +255,19 @@ export function GuitarModeRecorder({
       {!recordedAudioUrl ? (
         <div className="space-y-3">
           {/* Main Recording Button - Compact for mobile */}
-          <Card className={cn(
-            "p-4 flex flex-col items-center justify-center gap-3 transition-all",
-            isRecording && "bg-destructive/10 border-destructive"
-          )}>
+          <Card
+            className={cn(
+              "p-4 flex flex-col items-center justify-center gap-3 transition-all",
+              isRecording && "bg-destructive/10 border-destructive",
+            )}
+          >
             <div className="relative">
               <motion.div
                 className={cn(
                   "w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center",
-                  isRecording 
-                    ? "bg-destructive" 
-                    : "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30"
+                  isRecording
+                    ? "bg-destructive"
+                    : "bg-gradient-to-br from-primary/20 to-primary/5 border-2 border-primary/30",
                 )}
                 animate={isRecording ? { scale: [1, 1.05, 1] } : {}}
                 transition={{ duration: 1.5, repeat: Infinity }}
@@ -285,7 +278,7 @@ export function GuitarModeRecorder({
                   <Guitar className="w-7 h-7 sm:w-8 sm:h-8 text-primary" />
                 )}
               </motion.div>
-              
+
               {/* Recording pulse */}
               {isRecording && (
                 <motion.div
@@ -299,18 +292,13 @@ export function GuitarModeRecorder({
             <div className="text-center">
               <h3 className="font-semibold">
                 {isRecording ? (
-                  <span className="text-destructive font-mono text-lg">
-                    {formatDuration(recordingDuration)}
-                  </span>
+                  <span className="text-destructive font-mono text-lg">{formatDuration(recordingDuration)}</span>
                 ) : (
-                  'Запись гитары'
+                  "Запись гитары"
                 )}
               </h3>
               <p className="text-xs text-muted-foreground max-w-[200px]">
-                {isRecording 
-                  ? 'Играйте — аккорды определяются' 
-                  : 'Запись с детектированием аккордов'
-                }
+                {isRecording ? "Играйте — аккорды определяются" : "Запись с детектированием аккордов"}
               </p>
             </div>
 
@@ -339,11 +327,7 @@ export function GuitarModeRecorder({
 
           {/* Realtime Chord Display - Compact for mobile */}
           {isListening && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-2"
-            >
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
               {/* Current Chord - Compact */}
               <Card className="p-3">
                 <div className="flex items-center gap-3">
@@ -355,7 +339,7 @@ export function GuitarModeRecorder({
                       animate={{ height: `${volume * 100}%` }}
                     />
                   </div>
-                  
+
                   {/* Current Chord Display */}
                   <div className="flex-1 text-center min-w-0">
                     <AnimatePresence mode="wait">
@@ -366,25 +350,19 @@ export function GuitarModeRecorder({
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.8, opacity: 0 }}
                         >
-                          <div className="text-2xl font-bold text-primary">
-                            {currentChord.name}
-                          </div>
+                          <div className="text-2xl font-bold text-primary">{currentChord.name}</div>
                           <span className="text-[10px] text-muted-foreground">
                             {Math.round(currentChord.confidence * 100)}%
                           </span>
                         </motion.div>
                       ) : (
-                        <motion.div
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="text-muted-foreground"
-                        >
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-muted-foreground">
                           <Waves className="w-6 h-6 mx-auto animate-pulse" />
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
-                  
+
                   {/* Chord Diagram - Hidden on very small screens */}
                   {currentChord && (
                     <div className="hidden xs:block shrink-0">
@@ -414,7 +392,7 @@ export function GuitarModeRecorder({
               {chordHistory.length > 0 && (
                 <div className="flex flex-wrap gap-1">
                   {chordHistory.slice(0, 8).map((chord, i) => (
-                    <Badge 
+                    <Badge
                       key={`${chord.name}-${i}`}
                       variant={i === 0 ? "default" : "secondary"}
                       className="text-[10px] px-1.5 py-0"
@@ -434,11 +412,7 @@ export function GuitarModeRecorder({
         </div>
       ) : (
         /* Recorded Audio Preview - Choice between style or audio reference */
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="space-y-3"
-        >
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
           {/* Audio Player - Compact */}
           <Card className="p-3">
             <div className="flex items-center gap-2">
@@ -450,14 +424,14 @@ export function GuitarModeRecorder({
               >
                 {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
               </Button>
-              
+
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">Записано</p>
                 <p className="text-xs text-muted-foreground">
                   {formatDuration(recordingDuration)} • {chordHistory.length} аккордов
                 </p>
               </div>
-              
+
               <Button
                 size="icon"
                 variant="ghost"
@@ -467,13 +441,8 @@ export function GuitarModeRecorder({
                 <Trash2 className="w-4 h-4" />
               </Button>
             </div>
-            
-            <audio
-              ref={audioRef}
-              src={recordedAudioUrl}
-              onEnded={() => setIsPlaying(false)}
-              className="hidden"
-            />
+
+            <audio ref={audioRef} src={recordedAudioUrl} onEnded={() => setIsPlaying(false)} className="hidden" />
           </Card>
 
           {/* Chord Progression - Compact */}
@@ -493,10 +462,12 @@ export function GuitarModeRecorder({
                   {copiedProgression ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                 </Button>
               </div>
-              
+
               <div className="flex flex-wrap gap-1">
-                {[...new Set(chordHistory.map(c => c.name))].slice(0, 6).map((chord, i) => (
-                  <Badge key={i} variant="secondary" className="text-[10px] px-1.5 py-0">{chord}</Badge>
+                {[...new Set(chordHistory.map((c) => c.name))].slice(0, 6).map((chord, i) => (
+                  <Badge key={i} variant="secondary" className="text-[10px] px-1.5 py-0">
+                    {chord}
+                  </Badge>
                 ))}
               </div>
             </Card>
@@ -504,14 +475,12 @@ export function GuitarModeRecorder({
 
           {/* Choice: Use Style Description or Audio Reference */}
           <div className="space-y-2">
-            <p className="text-xs text-muted-foreground text-center">
-              Как использовать запись?
-            </p>
-            
+            <p className="text-xs text-muted-foreground text-center">Как использовать запись?</p>
+
             {/* Option 1: Style Description */}
-            <Card 
+            <Card
               className="p-3 cursor-pointer hover:bg-primary/5 border-primary/20 transition-colors"
-              onClick={() => handleComplete('style')}
+              onClick={() => handleComplete("style")}
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-lg bg-primary/10 shrink-0">
@@ -520,16 +489,16 @@ export function GuitarModeRecorder({
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm">Описание стиля</p>
                   <p className="text-[11px] text-muted-foreground line-clamp-2">
-                    {generateStyleDescription() || 'Acoustic guitar melody'}
+                    {generateStyleDescription() || "Acoustic guitar melody"}
                   </p>
                 </div>
               </div>
             </Card>
 
             {/* Option 2: Audio Reference */}
-            <Card 
+            <Card
               className="p-3 cursor-pointer hover:bg-accent/50 transition-colors"
-              onClick={() => handleComplete('audio')}
+              onClick={() => handleComplete("audio")}
             >
               <div className="flex items-start gap-3">
                 <div className="p-2 rounded-lg bg-accent shrink-0">
@@ -546,12 +515,7 @@ export function GuitarModeRecorder({
           </div>
 
           {/* Cancel button */}
-          <Button
-            variant="ghost"
-            onClick={onCancel}
-            className="w-full text-muted-foreground"
-            size="sm"
-          >
+          <Button variant="ghost" onClick={onCancel} className="w-full text-muted-foreground" size="sm">
             Отмена
           </Button>
         </motion.div>

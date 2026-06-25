@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
 
 ## Audit Trail
 
@@ -26,4 +26,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

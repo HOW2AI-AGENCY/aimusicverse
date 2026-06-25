@@ -2,15 +2,9 @@
  * Multi-gateway payment types
  */
 
-export type PaymentGateway = 'tinkoff'; // Stars and Robokassa removed - RUB only
+export type PaymentGateway = "tinkoff"; // Stars and Robokassa removed - RUB only
 
-export type PaymentStatus = 
-  | 'pending' 
-  | 'processing' 
-  | 'completed' 
-  | 'failed' 
-  | 'cancelled' 
-  | 'refunded';
+export type PaymentStatus = "pending" | "processing" | "completed" | "failed" | "cancelled" | "refunded";
 
 export interface PaymentMethod {
   gateway: PaymentGateway;
@@ -62,7 +56,7 @@ export interface CreatePaymentResponse {
 export interface ProductWithPrices {
   id: string;
   product_code: string;
-  product_type: 'credits' | 'subscription';
+  product_type: "credits" | "subscription";
   name: Record<string, string>;
   description?: Record<string, string>;
   price_stars: number;
@@ -78,9 +72,9 @@ export interface ProductWithPrices {
 // Helper to format price in rubles
 export function formatRubles(kopecks: number): string {
   const rubles = kopecks / 100;
-  return new Intl.NumberFormat('ru-RU', {
-    style: 'currency',
-    currency: 'RUB',
+  return new Intl.NumberFormat("ru-RU", {
+    style: "currency",
+    currency: "RUB",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(rubles);
@@ -95,12 +89,12 @@ export function formatStars(stars: number): string {
 export function getPaymentMethods(_isTelegram: boolean): PaymentMethod[] {
   return [
     {
-      gateway: 'tinkoff',
-      name: 'Банковская карта',
-      description: 'Visa, Mastercard, МИР, СБП',
-      icon: '💳',
+      gateway: "tinkoff",
+      name: "Банковская карта",
+      description: "Visa, Mastercard, МИР, СБП",
+      icon: "💳",
       available: true,
-      currencies: ['RUB'],
+      currencies: ["RUB"],
     },
   ];
 }

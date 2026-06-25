@@ -110,6 +110,7 @@ import { SectionTagSelector } from '@/components/generate-form/SectionTagSelecto
 #### Изменения:
 
 **Навигация между секциями:**
+
 ```tsx
 // До:
 <Button size="sm">
@@ -117,7 +118,7 @@ import { SectionTagSelector } from '@/components/generate-form/SectionTagSelecto
 </Button>
 
 // После:
-<Button 
+<Button
   size="sm"
   className="h-8 w-8 p-0 shrink-0" // Компактная квадратная кнопка
 >
@@ -131,11 +132,13 @@ import { SectionTagSelector } from '@/components/generate-form/SectionTagSelecto
 - Центрирование названия секции с `justify-center`
 
 **Интеграция тегов:**
+
 - Полный режим `SectionTagSelector` в редакторе секции
 - Секция тегов отделена от текста: `pt-2 border-t`
 - Добавлен метод `updateSectionTags` из store
 
 **Кнопки управления:**
+
 ```tsx
 // Компактные кнопки для мобильных
 <Button
@@ -177,6 +180,7 @@ import { SectionTagSelector } from '@/components/generate-form/SectionTagSelecto
 #### Изменения:
 
 **Header оптимизация:**
+
 ```tsx
 // Вертикальное расположение для мобильных
 <div className="space-y-2">
@@ -187,24 +191,28 @@ import { SectionTagSelector } from '@/components/generate-form/SectionTagSelecto
     </div>
   </div>
   <div className="flex gap-2 flex-wrap">
-    <Button size="sm" className="h-8 text-xs">...</Button>
+    <Button size="sm" className="h-8 text-xs">
+      ...
+    </Button>
   </div>
 </div>
 ```
 
 **Улучшенные карточки категорий:**
+
 - Компактные отступы: `py-2.5 px-3`
 - Кнопка "Очистить" для каждой категории
 - AI рекомендации с ограничением: `suggested.slice(0, 3)` + счётчик
 - Pulse анимация для рекомендованных тегов:
   ```tsx
-  className={`${isSuggested && !isSelected ? 
+  className={`${isSuggested && !isSelected ?
     'border-primary/50 bg-primary/10 animate-pulse' : ''
   }`}
   ```
 - Высота бейджей h-7 для удобного тапа на мобильных
 
 **Новая Summary секция:**
+
 ```tsx
 {(enrichment.vocalTags.length > 0 || ...) && (
   <div className="p-3 bg-muted/50 rounded-lg border">
@@ -221,10 +229,11 @@ import { SectionTagSelector } from '@/components/generate-form/SectionTagSelecto
 ```
 
 **Улучшенная подсказка:**
+
 ```tsx
 <div className="p-3 bg-muted/30 rounded-lg">
   <p className="text-xs text-muted-foreground leading-relaxed">
-    <strong className="text-foreground">💡 Подсказка:</strong> 
+    <strong className="text-foreground">💡 Подсказка:</strong>
     Выбранные теги будут добавлены в текст песни...
   </p>
 </div>
@@ -313,15 +322,17 @@ updateSectionTags('verse-1', ['Male Vocal', 'Piano']);
 
 ```typescript
 persist(
-  (set, get) => ({ /* store logic */ }),
+  (set, get) => ({
+    /* store logic */
+  }),
   {
-    name: 'lyrics-wizard-storage',
+    name: "lyrics-wizard-storage",
     partialize: (state) => ({
       writing: state.writing, // включает sections с tags
       // ...
     }),
-  }
-)
+  },
+);
 ```
 
 ---
@@ -332,22 +343,24 @@ persist(
 
 Теги разделены на **4 смысловые категории** для упрощения выбора:
 
-| Категория | Иконка | Описание | Примеры |
-|-----------|--------|----------|---------|
-| Вокал | 🎤 | Тип голоса и вокальная техника | Male Vocal, Falsetto, Harmonies |
-| Инструменты | 🎵 | Музыкальные инструменты | Piano, Guitar, Synth |
-| Динамика | ⚡ | Изменения громкости и темпа | Build, Drop, Crescendo |
-| Эмоции | ❤️ | Эмоциональная подача | with passion, softly |
+| Категория   | Иконка | Описание                       | Примеры                         |
+| ----------- | ------ | ------------------------------ | ------------------------------- |
+| Вокал       | 🎤     | Тип голоса и вокальная техника | Male Vocal, Falsetto, Harmonies |
+| Инструменты | 🎵     | Музыкальные инструменты        | Piano, Guitar, Synth            |
+| Динамика    | ⚡     | Изменения громкости и темпа    | Build, Drop, Crescendo          |
+| Эмоции      | ❤️     | Эмоциональная подача           | with passion, softly            |
 
 ### 2. AI интеграция
 
 **EnrichmentStep:**
+
 - Кнопка "Подобрать AI" анализирует текст лирики
 - Рекомендованные теги подсвечиваются
 - Pulse анимация привлекает внимание
 - Можно применить все сразу или выбрать вручную
 
 **WritingStep:**
+
 - Генерация секций с AI
 - Предложение следующей строки
 - Рифмы к последнему слову
@@ -364,12 +377,15 @@ persist(
 ## 🧪 Тестирование
 
 ### Build тест:
+
 ```bash
 npm run build
 ```
+
 **Результат:** ✅ Успешно (без ошибок и предупреждений)
 
 ### Размер бандла:
+
 - `feature-generate-ZH5RjNBV.js`: 132.63 kB (39.63 kB gzip)
 - Увеличение незначительное (~5KB из-за SectionTagSelector)
 
@@ -390,10 +406,9 @@ npm run build
 ### Потенциальные улучшения:
 
 1. **Копирование тегов между секциями:**
+
    ```tsx
-   <Button onClick={() => copyTagsFromSection(prevSection.id)}>
-     Копировать из предыдущей
-   </Button>
+   <Button onClick={() => copyTagsFromSection(prevSection.id)}>Копировать из предыдущей</Button>
    ```
 
 2. **Шаблоны тегов:**
@@ -433,12 +448,14 @@ npm run build
 ## 📊 Метрики улучшений
 
 ### До:
+
 - ❌ Теги секций не использовались в UI
 - ❌ Сложно добавить теги на мобильных
 - ❌ Нет визуальной обратной связи
 - ❌ 47 тегов в одном списке (EnrichmentStep)
 
 ### После:
+
 - ✅ Удобный интерфейс для тегов секций
 - ✅ Мобильный Sheet с 4 категориями
 - ✅ Визуальная индикация (pulse, иконки)
@@ -449,6 +466,7 @@ npm run build
 - ✅ Компактное отображение inline
 
 ### Количественные показатели:
+
 - **Уменьшение кликов** для добавления тега: 3 → 2
 - **Время на добавление 5 тегов**: ~30сек → ~10сек
 - **Высота кнопок на мобильных**: 24px → 32px (+33%)
@@ -465,7 +483,7 @@ npm run build
 
 const TAG_CATEGORIES = {
   // ... existing categories
-  
+
   // Новая категория
   tempo: {
     label: 'Темп',
@@ -483,7 +501,7 @@ const TAG_CATEGORIES = {
 
 ```tsx
 // Изменение цветов категорий
-<TabsTrigger 
+<TabsTrigger
   className="data-[state=active]:bg-primary" // ← Цвет активной вкладки
 >
 
@@ -497,17 +515,17 @@ const TAG_CATEGORIES = {
 const validateTags = (tags: string[]): boolean => {
   // Максимум 10 тегов на секцию
   if (tags.length > 10) {
-    toast.warning('Максимум 10 тегов на секцию');
+    toast.warning("Максимум 10 тегов на секцию");
     return false;
   }
-  
+
   // Уникальные теги
   const unique = new Set(tags);
   if (unique.size !== tags.length) {
-    toast.warning('Теги должны быть уникальными');
+    toast.warning("Теги должны быть уникальными");
     return false;
   }
-  
+
   return true;
 };
 ```

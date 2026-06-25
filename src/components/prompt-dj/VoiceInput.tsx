@@ -1,9 +1,9 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Mic, MicOff, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useRef, useCallback, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Mic, MicOff, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 // Web Speech API types
 interface SpeechRecognitionEvent extends Event {
@@ -57,17 +57,23 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
   const [isListening, setIsListening] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const recognitionRef = useRef<ISpeechRecognition | null>(null);
-  const [interimTranscript, setInterimTranscript] = useState('');
+  const [interimTranscript, setInterimTranscript] = useState("");
 
   useEffect(() => {
     // Check browser support
-    const SpeechRecognitionClass = (window as Window & { 
-      SpeechRecognition?: new () => ISpeechRecognition;
-      webkitSpeechRecognition?: new () => ISpeechRecognition;
-    }).SpeechRecognition || (window as Window & { 
-      webkitSpeechRecognition?: new () => ISpeechRecognition;
-    }).webkitSpeechRecognition;
-    
+    const SpeechRecognitionClass =
+      (
+        window as Window & {
+          SpeechRecognition?: new () => ISpeechRecognition;
+          webkitSpeechRecognition?: new () => ISpeechRecognition;
+        }
+      ).SpeechRecognition ||
+      (
+        window as Window & {
+          webkitSpeechRecognition?: new () => ISpeechRecognition;
+        }
+      ).webkitSpeechRecognition;
+
     if (!SpeechRecognitionClass) {
       return;
     }
@@ -75,7 +81,7 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
     const recognition = new SpeechRecognitionClass();
     recognition.continuous = true;
     recognition.interimResults = true;
-    recognition.lang = 'ru-RU';
+    recognition.lang = "ru-RU";
 
     recognition.onstart = () => {
       setIsListening(true);
@@ -83,8 +89,8 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
     };
 
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      let finalTranscript = '';
-      let interim = '';
+      let finalTranscript = "";
+      let interim = "";
 
       for (let i = event.resultIndex; i < event.results.length; i++) {
         const transcript = event.results[i][0].transcript;
@@ -99,14 +105,14 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
 
       if (finalTranscript) {
         onTranscript(finalTranscript.trim());
-        setInterimTranscript('');
+        setInterimTranscript("");
       }
     };
 
     recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
-      logger.error('Speech recognition error', new Error(event.error));
-      if (event.error !== 'no-speech') {
-        toast.error('Ошибка распознавания речи');
+      logger.error("Speech recognition error", new Error(event.error));
+      if (event.error !== "no-speech") {
+        toast.error("Ошибка распознавания речи");
       }
       setIsListening(false);
       setIsProcessing(false);
@@ -126,9 +132,9 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
 
   const toggleListening = useCallback(() => {
     const recognition = recognitionRef.current;
-    
+
     if (!recognition) {
-      toast.error('Голосовой ввод не поддерживается браузером');
+      toast.error("Голосовой ввод не поддерживается браузером");
       return;
     }
 
@@ -136,29 +142,26 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
       recognition.stop();
       setIsProcessing(true);
     } else {
-      setInterimTranscript('');
+      setInterimTranscript("");
       recognition.start();
     }
   }, [isListening]);
 
-  const isSupported = typeof window !== 'undefined' && 
-    ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
+  const isSupported =
+    typeof window !== "undefined" && ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
 
   if (!isSupported) {
     return null;
   }
 
   return (
-    <div className={cn('relative', className)}>
+    <div className={cn("relative", className)}>
       <Button
-        variant={isListening ? 'destructive' : 'outline'}
+        variant={isListening ? "destructive" : "outline"}
         size="icon"
         onClick={toggleListening}
         disabled={disabled || isProcessing}
-        className={cn(
-          'relative transition-all',
-          isListening && 'animate-pulse ring-2 ring-destructive/50'
-        )}
+        className={cn("relative transition-all", isListening && "animate-pulse ring-2 ring-destructive/50")}
       >
         {isProcessing ? (
           <Loader2 className="h-4 w-4 animate-spin" />
@@ -168,7 +171,7 @@ export function VoiceInput({ onTranscript, disabled, className }: VoiceInputProp
           <Mic className="h-4 w-4" />
         )}
       </Button>
-      
+
       {/* Recording indicator */}
       {isListening && (
         <span className="absolute -top-1 -right-1 h-3 w-3">

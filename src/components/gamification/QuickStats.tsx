@@ -1,10 +1,10 @@
-import { motion } from '@/lib/motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { useUserCredits } from '@/hooks/useGamification';
-import { useAuth } from '@/hooks/useAuth';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Coins, Flame, Music, Trophy } from 'lucide-react';
+import { motion } from "@/lib/motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { useUserCredits } from "@/hooks/useGamification";
+import { useAuth } from "@/hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Coins, Flame, Music, Trophy } from "lucide-react";
 
 interface StatItemProps {
   icon: React.ReactNode;
@@ -23,14 +23,10 @@ function StatItem({ icon, label, value, subValue, color, delay }: StatItemProps)
       transition={{ delay }}
       className="text-center"
     >
-      <div className={`w-12 h-12 mx-auto rounded-xl ${color} flex items-center justify-center mb-2`}>
-        {icon}
-      </div>
+      <div className={`w-12 h-12 mx-auto rounded-xl ${color} flex items-center justify-center mb-2`}>{icon}</div>
       <p className="text-xl font-bold">{value}</p>
       <p className="text-xs text-muted-foreground">{label}</p>
-      {subValue && (
-        <p className="text-[10px] text-primary mt-0.5">{subValue}</p>
-      )}
+      {subValue && <p className="text-[10px] text-primary mt-0.5">{subValue}</p>}
     </motion.div>
   );
 }
@@ -38,25 +34,25 @@ function StatItem({ icon, label, value, subValue, color, delay }: StatItemProps)
 export function QuickStats() {
   const { user } = useAuth();
   const { data: credits } = useUserCredits();
-  
+
   const { data: stats } = useQuery({
-    queryKey: ['user-quick-stats', user?.id],
+    queryKey: ["user-quick-stats", user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
-      
+
       // Get total tracks count
       const { count: tracksCount } = await supabase
-        .from('tracks')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id)
-        .eq('status', 'completed');
-      
+        .from("tracks")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .eq("status", "completed");
+
       // Get achievements count
       const { count: achievementsCount } = await supabase
-        .from('user_achievements')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', user.id);
-      
+        .from("user_achievements")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id);
+
       return {
         tracks: tracksCount || 0,
         achievements: achievementsCount || 0,

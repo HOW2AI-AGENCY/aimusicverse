@@ -3,14 +3,14 @@
  * Bottom sheet with studio actions for mobile
  * Contains: Download, Transcription, Export, Save, Settings
  * Uses design system tokens (Spec 032)
- * 
+ *
  * Unified interface - MusicLab and Lyrics open as sheets, not tabs
  */
 
-import { memo } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import {
   Download,
   Save,
@@ -27,9 +27,9 @@ import {
   Layers,
   SlidersHorizontal,
   BarChart3,
-} from '@/lib/icons';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { glass } from '@/lib/glass';
+} from "@/lib/icons";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { glass } from "@/lib/glass";
 
 interface StudioActionsSheetProps {
   open: boolean;
@@ -61,7 +61,7 @@ interface ActionItemProps {
   label: string;
   description?: string;
   onClick: () => void;
-  variant?: 'default' | 'primary' | 'destructive';
+  variant?: "default" | "primary" | "destructive";
   disabled?: boolean;
 }
 
@@ -70,7 +70,7 @@ const ActionItem = memo(function ActionItem({
   label,
   description,
   onClick,
-  variant = 'default',
+  variant = "default",
   disabled,
 }: ActionItemProps) {
   const haptic = useHapticFeedback();
@@ -88,24 +88,24 @@ const ActionItem = memo(function ActionItem({
         "flex items-center gap-3 w-full p-3 rounded-xl transition-all touch-manipulation",
         glass.subtle,
         "hover:ring-1 hover:ring-primary/20 active:scale-[0.98]",
-        variant === 'primary' && "ring-1 ring-primary/30",
-        variant === 'destructive' && "text-destructive",
-        disabled && "opacity-50 cursor-not-allowed"
+        variant === "primary" && "ring-1 ring-primary/30",
+        variant === "destructive" && "text-destructive",
+        disabled && "opacity-50 cursor-not-allowed",
       )}
     >
-      <div className={cn(
-        "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
-        variant === 'default' && glass.subtle,
-        variant === 'primary' && "bg-primary text-primary-foreground",
-        variant === 'destructive' && "bg-destructive/10 text-destructive"
-      )}>
+      <div
+        className={cn(
+          "w-10 h-10 rounded-xl flex items-center justify-center shrink-0",
+          variant === "default" && glass.subtle,
+          variant === "primary" && "bg-primary text-primary-foreground",
+          variant === "destructive" && "bg-destructive/10 text-destructive",
+        )}
+      >
         {icon}
       </div>
       <div className="flex flex-col items-start min-w-0">
         <span className="text-sm font-medium">{label}</span>
-        {description && (
-          <span className="text-xs text-muted-foreground truncate">{description}</span>
-        )}
+        {description && <span className="text-xs text-muted-foreground truncate">{description}</span>}
       </div>
     </button>
   );
@@ -239,8 +239,8 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
           <div className="space-y-1 pt-3">
             <ActionItem
               icon={<Save className="w-5 h-5" />}
-              label={isSaving ? 'Сохранение...' : 'Сохранить проект'}
-              description={hasUnsavedChanges ? 'Есть несохранённые изменения' : 'Все изменения сохранены'}
+              label={isSaving ? "Сохранение..." : "Сохранить проект"}
+              description={hasUnsavedChanges ? "Есть несохранённые изменения" : "Все изменения сохранены"}
               onClick={() => handleAction(onSave)}
               disabled={isSaving || !hasUnsavedChanges}
             />

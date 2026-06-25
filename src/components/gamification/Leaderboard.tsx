@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { useLeaderboard, LeaderboardCategory, LEADERBOARD_CATEGORIES } from '@/hooks/useGamification';
-import { useAuth } from '@/hooks/useAuth';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Crown, Medal, Award, Flame, Star, Music, Share2, Heart, Headphones } from 'lucide-react';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
-import { getRankColor } from '@/lib/design-colors';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { useLeaderboard, LeaderboardCategory, LEADERBOARD_CATEGORIES } from "@/hooks/useGamification";
+import { useAuth } from "@/hooks/useAuth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Crown, Medal, Award, Flame, Star, Music, Share2, Heart, Headphones } from "lucide-react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { getRankColor } from "@/lib/design-colors";
 
 const getRankIcon = (rank: number) => {
   const colors = getRankColor(rank);
@@ -30,13 +30,13 @@ const getRankBg = (rank: number) => {
 
 const getCategoryIcon = (category: LeaderboardCategory) => {
   switch (category) {
-    case 'generators':
+    case "generators":
       return <Music className="w-3 h-3" />;
-    case 'sharers':
+    case "sharers":
       return <Share2 className="w-3 h-3" />;
-    case 'popular':
+    case "popular":
       return <Heart className="w-3 h-3" />;
-    case 'listeners':
+    case "listeners":
       return <Headphones className="w-3 h-3" />;
     default:
       return <Star className="w-3 h-3" />;
@@ -61,16 +61,16 @@ interface LeaderboardEntry {
 
 const getCategoryStat = (entry: LeaderboardEntry, category: LeaderboardCategory) => {
   switch (category) {
-    case 'generators':
-      return { value: entry.total_tracks, label: 'треков' };
-    case 'sharers':
-      return { value: entry.total_shares, label: 'шеров' };
-    case 'popular':
-      return { value: entry.total_likes_received, label: 'лайков' };
-    case 'listeners':
-      return { value: entry.total_plays, label: 'прослуш.' };
+    case "generators":
+      return { value: entry.total_tracks, label: "треков" };
+    case "sharers":
+      return { value: entry.total_shares, label: "шеров" };
+    case "popular":
+      return { value: entry.total_likes_received, label: "лайков" };
+    case "listeners":
+      return { value: entry.total_plays, label: "прослуш." };
     default:
-      return { value: entry.experience, label: 'XP' };
+      return { value: entry.experience, label: "XP" };
   }
 };
 
@@ -85,7 +85,7 @@ interface LeaderboardProps {
 }
 
 export function Leaderboard({ limit = 20 }: LeaderboardProps) {
-  const [category, setCategory] = useState<LeaderboardCategory>('overall');
+  const [category, setCategory] = useState<LeaderboardCategory>("overall");
   const { data: leaderboard, isLoading } = useLeaderboard(limit, category);
   const { user } = useAuth();
 
@@ -116,11 +116,7 @@ export function Leaderboard({ limit = 20 }: LeaderboardProps) {
         <Tabs value={category} onValueChange={(v) => setCategory(v as LeaderboardCategory)}>
           <TabsList className="inline-flex h-9 w-max">
             {Object.entries(LEADERBOARD_CATEGORIES).map(([key, { label, icon }]) => (
-              <TabsTrigger
-                key={key}
-                value={key}
-                className="text-xs px-3 gap-1.5"
-              >
+              <TabsTrigger key={key} value={key} className="text-xs px-3 gap-1.5">
                 <span>{icon}</span>
                 <span className="hidden sm:inline">{label}</span>
               </TabsTrigger>
@@ -145,27 +141,25 @@ export function Leaderboard({ limit = 20 }: LeaderboardProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.05 }}
             >
-              <Card className={`transition-all ${rankBg} ${isCurrentUser ? 'ring-2 ring-primary' : ''}`}>
+              <Card className={`transition-all ${rankBg} ${isCurrentUser ? "ring-2 ring-primary" : ""}`}>
                 <CardContent className="p-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 text-center font-bold text-lg">
-                      {rankIcon || entry.rank}
-                    </div>
-                    
+                    <div className="w-8 text-center font-bold text-lg">{rankIcon || entry.rank}</div>
+
                     <Avatar className="h-10 w-10">
                       <AvatarImage src={entry.photo_url || undefined} />
-                      <AvatarFallback>
-                        {entry.username?.[0]?.toUpperCase() || '?'}
-                      </AvatarFallback>
+                      <AvatarFallback>{entry.username?.[0]?.toUpperCase() || "?"}</AvatarFallback>
                     </Avatar>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className={`font-medium truncate ${isCurrentUser ? 'text-primary' : ''}`}>
-                          {entry.username || 'Аноним'}
+                        <span className={`font-medium truncate ${isCurrentUser ? "text-primary" : ""}`}>
+                          {entry.username || "Аноним"}
                         </span>
                         {isCurrentUser && (
-                          <Badge variant="secondary" className="text-xs">Вы</Badge>
+                          <Badge variant="secondary" className="text-xs">
+                            Вы
+                          </Badge>
                         )}
                       </div>
                       <div className="flex items-center gap-2 text-xs text-muted-foreground">

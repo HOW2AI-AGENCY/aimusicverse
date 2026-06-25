@@ -9,12 +9,24 @@ const corsHeaders = {
 
 interface KlangioRequest {
   audio_url: string;
-  mode: 'transcription' | 'chord-recognition' | 'chord-recognition-extended' | 'beat-tracking';
-  model?: 'guitar' | 'piano' | 'drums' | 'vocal' | 'bass' | 'universal' | 'lead' | 'detect' | 'multi' | 'wind' | 'string' | 'piano_arrangement';
+  mode: "transcription" | "chord-recognition" | "chord-recognition-extended" | "beat-tracking";
+  model?:
+    | "guitar"
+    | "piano"
+    | "drums"
+    | "vocal"
+    | "bass"
+    | "universal"
+    | "lead"
+    | "detect"
+    | "multi"
+    | "wind"
+    | "string"
+    | "piano_arrangement";
   // OpenAPI spec JobOutputs enum: mxml, midi, pdf, gp5, json, midi_quant
-  outputs?: ('midi' | 'mxml' | 'gp5' | 'pdf' | 'midi_quant' | 'json')[];
+  outputs?: ("midi" | "mxml" | "gp5" | "pdf" | "midi_quant" | "json")[];
   title?: string;
-  vocabulary?: 'major-minor' | 'full';
+  vocabulary?: "major-minor" | "full";
   user_id?: string;
   stem_type?: string; // Used for intelligent output selection
 }
@@ -22,29 +34,29 @@ interface KlangioRequest {
 // Intelligent model selection based on stem type
 function getSmartModel(stemType: string | undefined, requestedModel: string | undefined): string {
   // If model explicitly provided, use it
-  if (requestedModel && requestedModel !== 'universal') {
+  if (requestedModel && requestedModel !== "universal") {
     return requestedModel;
   }
-  
-  const type = (stemType || '').toLowerCase();
-  
-  if (type.includes('guitar')) return 'guitar';
-  if (type.includes('bass')) return 'bass';
-  if (type.includes('drum')) return 'drums';
-  if (type.includes('piano') || type.includes('keys')) return 'piano';
-  if (type.includes('vocal')) return 'vocal';
-  if (type.includes('lead')) return 'lead';
-  if (type.includes('string')) return 'string';
-  if (type.includes('wind')) return 'wind';
-  
+
+  const type = (stemType || "").toLowerCase();
+
+  if (type.includes("guitar")) return "guitar";
+  if (type.includes("bass")) return "bass";
+  if (type.includes("drum")) return "drums";
+  if (type.includes("piano") || type.includes("keys")) return "piano";
+  if (type.includes("vocal")) return "vocal";
+  if (type.includes("lead")) return "lead";
+  if (type.includes("string")) return "string";
+  if (type.includes("wind")) return "wind";
+
   // For unknown/other/instrumental - use 'piano' model which has better MIDI support
   // 'universal' model often doesn't generate MIDI for complex polyphonic content
-  if (type.includes('instrumental') || type.includes('other') || !type) {
+  if (type.includes("instrumental") || type.includes("other") || !type) {
     console.log(`[klangio] stem_type="${stemType}" - using 'piano' model for better MIDI support`);
-    return 'piano';
+    return "piano";
   }
-  
-  return requestedModel || 'piano';
+
+  return requestedModel || "piano";
 }
 
 // Intelligent output selection based on stem type
@@ -53,31 +65,31 @@ function getSmartOutputs(stemType: string | undefined, requestedOutputs: string[
   if (requestedOutputs && requestedOutputs.length > 0) {
     return requestedOutputs;
   }
-  
+
   // Intelligent selection based on stem type
-  const type = (stemType || '').toLowerCase();
-  
-  if (type.includes('guitar')) {
-    return ['midi', 'midi_quant', 'gp5', 'pdf', 'mxml'];
+  const type = (stemType || "").toLowerCase();
+
+  if (type.includes("guitar")) {
+    return ["midi", "midi_quant", "gp5", "pdf", "mxml"];
   }
-  if (type.includes('bass')) {
-    return ['midi', 'midi_quant', 'gp5', 'mxml'];
+  if (type.includes("bass")) {
+    return ["midi", "midi_quant", "gp5", "mxml"];
   }
-  if (type.includes('drum')) {
-    return ['midi', 'midi_quant', 'pdf'];
+  if (type.includes("drum")) {
+    return ["midi", "midi_quant", "pdf"];
   }
-  if (type.includes('piano') || type.includes('keys')) {
-    return ['midi', 'midi_quant', 'pdf', 'mxml'];
+  if (type.includes("piano") || type.includes("keys")) {
+    return ["midi", "midi_quant", "pdf", "mxml"];
   }
-  if (type.includes('vocal')) {
-    return ['midi', 'pdf', 'mxml'];
+  if (type.includes("vocal")) {
+    return ["midi", "pdf", "mxml"];
   }
-  if (type.includes('instrumental') || type.includes('other')) {
-    return ['midi', 'midi_quant', 'mxml'];
+  if (type.includes("instrumental") || type.includes("other")) {
+    return ["midi", "midi_quant", "mxml"];
   }
-  
+
   // Default outputs
-  return ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
+  return ["midi", "midi_quant", "mxml", "gp5", "pdf"];
 }
 
 // Generate MIDI file from notes array (fallback when API doesn't return MIDI)
@@ -85,109 +97,121 @@ function generateMidiFromNotes(notes: any[], bpm: number = 120): Uint8Array {
   // Standard MIDI File format (SMF Type 0)
   const ticksPerBeat = 480;
   const tempo = Math.round(60000000 / bpm); // microseconds per beat
-  
+
   // Sort notes by start time
   const sortedNotes = [...notes].sort((a, b) => a.startTime - b.startTime);
-  
+
   // Convert time in seconds to ticks
   const secondsToTicks = (seconds: number) => Math.round(seconds * ticksPerBeat * (bpm / 60));
-  
+
   // Build track data
-  const trackEvents: Array<{delta: number, data: number[]}> = [];
-  
+  const trackEvents: Array<{ delta: number; data: number[] }> = [];
+
   // Tempo event (FF 51 03 + 3-byte tempo)
   trackEvents.push({
     delta: 0,
-    data: [0xFF, 0x51, 0x03, (tempo >> 16) & 0xFF, (tempo >> 8) & 0xFF, tempo & 0xFF]
+    data: [0xff, 0x51, 0x03, (tempo >> 16) & 0xff, (tempo >> 8) & 0xff, tempo & 0xff],
   });
-  
+
   // Convert notes to MIDI events (note on/off pairs)
   interface MidiEvent {
     tick: number;
-    type: 'on' | 'off';
+    type: "on" | "off";
     pitch: number;
     velocity: number;
   }
-  
+
   const midiEvents: MidiEvent[] = [];
-  
+
   for (const note of sortedNotes) {
     const startTick = secondsToTicks(note.startTime);
     const endTick = secondsToTicks(note.endTime);
     const pitch = Math.min(127, Math.max(0, note.pitch));
     const velocity = Math.min(127, Math.max(1, note.velocity || 80));
-    
-    midiEvents.push({ tick: startTick, type: 'on', pitch, velocity });
-    midiEvents.push({ tick: endTick, type: 'off', pitch, velocity: 0 });
+
+    midiEvents.push({ tick: startTick, type: "on", pitch, velocity });
+    midiEvents.push({ tick: endTick, type: "off", pitch, velocity: 0 });
   }
-  
+
   // Sort by tick time
   midiEvents.sort((a, b) => {
     if (a.tick !== b.tick) return a.tick - b.tick;
     // Note offs before note ons at same tick
-    return a.type === 'off' ? -1 : 1;
+    return a.type === "off" ? -1 : 1;
   });
-  
+
   // Convert to track events with delta times
   let lastTick = 0;
   for (const event of midiEvents) {
     const delta = event.tick - lastTick;
     lastTick = event.tick;
-    
-    const status = event.type === 'on' ? 0x90 : 0x80; // Channel 0
+
+    const status = event.type === "on" ? 0x90 : 0x80; // Channel 0
     trackEvents.push({
       delta,
-      data: [status, event.pitch, event.velocity]
+      data: [status, event.pitch, event.velocity],
     });
   }
-  
+
   // End of track event
   trackEvents.push({
     delta: 0,
-    data: [0xFF, 0x2F, 0x00]
+    data: [0xff, 0x2f, 0x00],
   });
-  
+
   // Encode variable-length quantity
   function encodeVLQ(value: number): number[] {
     if (value === 0) return [0];
     const bytes: number[] = [];
     let v = value;
-    bytes.unshift(v & 0x7F);
+    bytes.unshift(v & 0x7f);
     v >>= 7;
     while (v > 0) {
-      bytes.unshift((v & 0x7F) | 0x80);
+      bytes.unshift((v & 0x7f) | 0x80);
       v >>= 7;
     }
     return bytes;
   }
-  
+
   // Build track chunk
   const trackData: number[] = [];
   for (const event of trackEvents) {
     trackData.push(...encodeVLQ(event.delta));
     trackData.push(...event.data);
   }
-  
+
   // Header chunk: MThd
   const header = [
-    0x4D, 0x54, 0x68, 0x64, // "MThd"
-    0x00, 0x00, 0x00, 0x06, // chunk length (6)
-    0x00, 0x00,             // format type 0
-    0x00, 0x01,             // 1 track
-    (ticksPerBeat >> 8) & 0xFF, ticksPerBeat & 0xFF // ticks per beat
+    0x4d,
+    0x54,
+    0x68,
+    0x64, // "MThd"
+    0x00,
+    0x00,
+    0x00,
+    0x06, // chunk length (6)
+    0x00,
+    0x00, // format type 0
+    0x00,
+    0x01, // 1 track
+    (ticksPerBeat >> 8) & 0xff,
+    ticksPerBeat & 0xff, // ticks per beat
   ];
-  
+
   // Track chunk: MTrk
   const trackLength = trackData.length;
   const track = [
-    0x4D, 0x54, 0x72, 0x6B, // "MTrk"
-    (trackLength >> 24) & 0xFF,
-    (trackLength >> 16) & 0xFF,
-    (trackLength >> 8) & 0xFF,
-    trackLength & 0xFF,
-    ...trackData
+    0x4d,
+    0x54,
+    0x72,
+    0x6b, // "MTrk"
+    (trackLength >> 24) & 0xff,
+    (trackLength >> 16) & 0xff,
+    (trackLength >> 8) & 0xff,
+    trackLength & 0xff,
+    ...trackData,
   ];
-  
+
   return new Uint8Array([...header, ...track]);
 }
 
@@ -202,10 +226,9 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-
 
   const startTime = Date.now();
   let logId: string | null = null;
@@ -216,61 +239,62 @@ serve(async (req) => {
     if (!KLANGIO_API_KEY) {
       console.error("[klangio] KLANGIO_API_KEY not configured");
       return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: "KLANGIO_API_KEY is not configured", 
-          code: "SERVICE_UNAVAILABLE" 
+        JSON.stringify({
+          success: false,
+          error: "KLANGIO_API_KEY is not configured",
+          code: "SERVICE_UNAVAILABLE",
         }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     supabase = getSupabaseClient();
 
-    const { audio_url, mode, model, outputs, vocabulary, title, stem_type } = await req.json() as KlangioRequest;
+    const { audio_url, mode, model, outputs, vocabulary, title, stem_type } = (await req.json()) as KlangioRequest;
     // Derive user_id from verified JWT, never trust the body
     const user_id = __auth.user?.id;
 
-
     if (!audio_url || !mode) {
       return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: "audio_url and mode are required", 
-          code: "VALIDATION_ERROR" 
+        JSON.stringify({
+          success: false,
+          error: "audio_url and mode are required",
+          code: "VALIDATION_ERROR",
         }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     // Use intelligent model selection
     const smartModel = getSmartModel(stem_type, model);
     console.log(`[klangio] Starting ${mode} analysis for: ${audio_url}`);
-    console.log(`[klangio] stem_type: ${stem_type || 'not specified'}, requested model: ${model || 'none'}, using model: ${smartModel}`);
+    console.log(
+      `[klangio] stem_type: ${stem_type || "not specified"}, requested model: ${model || "none"}, using model: ${smartModel}`,
+    );
 
     // Create initial log entry
     // Use intelligent output selection based on stem_type
     const smartOutputs = getSmartOutputs(stem_type, outputs);
-    const requestedOutputs = mode === 'transcription' ? smartOutputs : null;
+    const requestedOutputs = mode === "transcription" ? smartOutputs : null;
     console.log(`[klangio] Smart outputs for stem_type "${stem_type}": ${JSON.stringify(smartOutputs)}`);
 
     const { data: logData, error: logError } = await supabase
-      .from('klangio_analysis_logs')
+      .from("klangio_analysis_logs")
       .insert({
-        user_id: user_id || '00000000-0000-0000-0000-000000000000',
+        user_id: user_id || "00000000-0000-0000-0000-000000000000",
         mode,
         model: smartModel,
-        status: 'pending',
+        status: "pending",
         audio_url,
         requested_outputs: requestedOutputs,
         vocabulary: vocabulary || null,
         raw_request: { mode, model: smartModel, outputs, vocabulary, title, audio_url, stem_type },
       })
-      .select('id')
+      .select("id")
       .single();
 
     if (logError) {
-      console.warn('[klangio] Failed to create log entry:', logError);
+      console.warn("[klangio] Failed to create log entry:", logError);
     } else {
       logId = logData.id;
       console.log(`[klangio] Created log entry: ${logId}`);
@@ -294,27 +318,29 @@ serve(async (req) => {
     const queryParams = new URLSearchParams();
 
     // Valid output formats from OpenAPI spec JobOutputs enum: mxml, midi, pdf, gp5, json, midi_quant
-    const validFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf', 'json'];
-    
+    const validFormats = ["midi", "midi_quant", "mxml", "gp5", "pdf", "json"];
+
     switch (mode) {
-      case 'transcription':
+      case "transcription":
         baseEndpoint = `${API_BASE}/transcription`;
-        queryParams.set('model', smartModel);
+        queryParams.set("model", smartModel);
         // CRITICAL: Set demo=false to use full audio length with paid subscription
         // Without this, Klangio only processes first ~50 seconds even with paid tier
-        queryParams.set('demo', 'false');
-        formData.append('demo', 'false');
-        if (title) queryParams.set('title', title);
-        
+        queryParams.set("demo", "false");
+        formData.append("demo", "false");
+        if (title) queryParams.set("title", title);
+
         // Klangio API (FastAPI/Pydantic) requires:
         // 1) outputs as REPEATED FORM FIELDS in multipart body (NOT JSON string, NOT only query params)
         // 2) gen_* query parameters for each output format (for backward compatibility)
-        const transcriptionValidFormats = ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf'];
+        const transcriptionValidFormats = ["midi", "midi_quant", "mxml", "gp5", "pdf"];
         const reqOutputs = outputs || smartOutputs;
         const validOutputs = reqOutputs.filter((o: string) => transcriptionValidFormats.includes(o));
-        if (validOutputs.length === 0) validOutputs.push('midi');
+        if (validOutputs.length === 0) validOutputs.push("midi");
 
-        console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`);
+        console.log(
+          `[klangio] Transcription outputs: requested=${JSON.stringify(reqOutputs)}, valid=${JSON.stringify(validOutputs)}`,
+        );
         console.log(`[klangio] Demo mode: false (paid tier - full length transcription)`);
 
         // CRITICAL: Send outputs as REPEATED form fields in multipart body
@@ -322,59 +348,59 @@ serve(async (req) => {
         // DO NOT send as JSON string (causes [["midi"]] nested array error)
         // DO NOT send only in query params (causes "Field required" error in body)
         validOutputs.forEach((o) => {
-          formData.append('outputs', o);
+          formData.append("outputs", o);
         });
-        console.log(`[klangio] FormData outputs (repeated fields): ${validOutputs.join(', ')}`);
+        console.log(`[klangio] FormData outputs (repeated fields): ${validOutputs.join(", ")}`);
 
         // Also set gen_* query parameters for each requested format
-        if (validOutputs.includes('midi')) {
-          queryParams.set('gen_midi', 'true');
+        if (validOutputs.includes("midi")) {
+          queryParams.set("gen_midi", "true");
         }
-        if (validOutputs.includes('midi_quant')) {
-          queryParams.set('gen_midi_quant', 'true');
+        if (validOutputs.includes("midi_quant")) {
+          queryParams.set("gen_midi_quant", "true");
         }
-        if (validOutputs.includes('mxml')) {
-          queryParams.set('gen_xml', 'true');
+        if (validOutputs.includes("mxml")) {
+          queryParams.set("gen_xml", "true");
         }
-        if (validOutputs.includes('gp5')) {
-          queryParams.set('gen_gp5', 'true');
+        if (validOutputs.includes("gp5")) {
+          queryParams.set("gen_gp5", "true");
         }
-        if (validOutputs.includes('pdf')) {
-          queryParams.set('gen_pdf', 'true');
+        if (validOutputs.includes("pdf")) {
+          queryParams.set("gen_pdf", "true");
         }
-        
-        console.log(`[klangio] Gen query params: midi=${validOutputs.includes('midi')}, midi_quant=${validOutputs.includes('midi_quant')}, xml=${validOutputs.includes('mxml')}, gp5=${validOutputs.includes('gp5')}, pdf=${validOutputs.includes('pdf')}`);
+
+        console.log(
+          `[klangio] Gen query params: midi=${validOutputs.includes("midi")}, midi_quant=${validOutputs.includes("midi_quant")}, xml=${validOutputs.includes("mxml")}, gp5=${validOutputs.includes("gp5")}, pdf=${validOutputs.includes("pdf")}`,
+        );
         console.log(`[klangio] QueryParams: ${queryParams.toString()}`);
         break;
-        
-      case 'chord-recognition':
+
+      case "chord-recognition":
         baseEndpoint = `${API_BASE}/chord-recognition`;
-        queryParams.set('vocabulary', vocabulary || 'major-minor');
+        queryParams.set("vocabulary", vocabulary || "major-minor");
         break;
-        
-      case 'chord-recognition-extended':
+
+      case "chord-recognition-extended":
         baseEndpoint = `${API_BASE}/chord-recognition-extended`;
-        queryParams.set('vocabulary', vocabulary || 'full');
+        queryParams.set("vocabulary", vocabulary || "full");
         break;
-        
-      case 'beat-tracking':
+
+      case "beat-tracking":
         baseEndpoint = `${API_BASE}/beat-tracking`;
         break;
-        
+
       default:
         return new Response(
-          JSON.stringify({ 
-            success: false, 
-            error: `Unknown mode: ${mode}`, 
-            code: "VALIDATION_ERROR" 
+          JSON.stringify({
+            success: false,
+            error: `Unknown mode: ${mode}`,
+            code: "VALIDATION_ERROR",
           }),
-          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
     }
 
-    const endpoint = queryParams.toString()
-      ? `${baseEndpoint}?${queryParams.toString()}`
-      : baseEndpoint;
+    const endpoint = queryParams.toString() ? `${baseEndpoint}?${queryParams.toString()}` : baseEndpoint;
 
     console.log(`[klangio] Final queryParams.toString(): ${queryParams.toString()}`);
     console.log(`[klangio] Final endpoint constructed: ${endpoint}`);
@@ -392,45 +418,48 @@ serve(async (req) => {
     if (!submitResponse.ok) {
       const errorText = await submitResponse.text();
       console.error(`[klangio] API error: ${submitResponse.status} - ${errorText}`);
-      
+
       // Update log with error
       if (logId) {
-        await supabase.from('klangio_analysis_logs').update({
-          status: 'failed',
-          error_message: `API error ${submitResponse.status}: ${errorText}`,
-          raw_response: { status: submitResponse.status, body: errorText },
-          duration_ms: Date.now() - startTime,
-          completed_at: new Date().toISOString(),
-        }).eq('id', logId);
+        await supabase
+          .from("klangio_analysis_logs")
+          .update({
+            status: "failed",
+            error_message: `API error ${submitResponse.status}: ${errorText}`,
+            raw_response: { status: submitResponse.status, body: errorText },
+            duration_ms: Date.now() - startTime,
+            completed_at: new Date().toISOString(),
+          })
+          .eq("id", logId);
       }
-      
+
       if (submitResponse.status === 401) {
         return new Response(
-          JSON.stringify({ 
-            success: false, 
-            error: "Invalid Klangio API key", 
-            code: "AUTH_ERROR" 
+          JSON.stringify({
+            success: false,
+            error: "Invalid Klangio API key",
+            code: "AUTH_ERROR",
           }),
-          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
       if (submitResponse.status === 422) {
         return new Response(
-          JSON.stringify({ 
-            success: false, 
-            error: `Klangio validation error: ${errorText}`, 
-            code: "VALIDATION_ERROR" 
+          JSON.stringify({
+            success: false,
+            error: `Klangio validation error: ${errorText}`,
+            code: "VALIDATION_ERROR",
           }),
-          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
       return new Response(
-        JSON.stringify({ 
-          success: false, 
-          error: `Klangio API error: ${submitResponse.status}`, 
-          code: "API_ERROR" 
+        JSON.stringify({
+          success: false,
+          error: `Klangio API error: ${submitResponse.status}`,
+          code: "API_ERROR",
         }),
-        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -441,37 +470,40 @@ serve(async (req) => {
     // Update log with job_id and check which files will be generated
     // TranscriptionJobResponse includes: gen_xml, gen_midi, gen_midi_quant, gen_gp5, gen_pdf
     const generatedFormats: string[] = [];
-    if (jobResponse.gen_midi) generatedFormats.push('midi');
+    if (jobResponse.gen_midi) generatedFormats.push("midi");
     // Check both field names for quantized MIDI (API docs inconsistency)
-    if (jobResponse.gen_midi_quant || jobResponse.gen_midi_unq) generatedFormats.push('midi_quant');
-    if (jobResponse.gen_xml) generatedFormats.push('mxml');
-    if (jobResponse.gen_gp5) generatedFormats.push('gp5');
-    if (jobResponse.gen_pdf) generatedFormats.push('pdf');
-    console.log(`[klangio] API response flags:`, { 
-      gen_midi: jobResponse.gen_midi, 
+    if (jobResponse.gen_midi_quant || jobResponse.gen_midi_unq) generatedFormats.push("midi_quant");
+    if (jobResponse.gen_xml) generatedFormats.push("mxml");
+    if (jobResponse.gen_gp5) generatedFormats.push("gp5");
+    if (jobResponse.gen_pdf) generatedFormats.push("pdf");
+    console.log(`[klangio] API response flags:`, {
+      gen_midi: jobResponse.gen_midi,
       gen_midi_unq: jobResponse.gen_midi_unq,
       gen_midi_quant: jobResponse.gen_midi_quant,
-      gen_xml: jobResponse.gen_xml, 
-      gen_gp5: jobResponse.gen_gp5, 
-      gen_pdf: jobResponse.gen_pdf 
+      gen_xml: jobResponse.gen_xml,
+      gen_gp5: jobResponse.gen_gp5,
+      gen_pdf: jobResponse.gen_pdf,
     });
-    console.log(`[klangio] Will attempt to fetch formats: ${generatedFormats.join(', ')}`);
-    
+    console.log(`[klangio] Will attempt to fetch formats: ${generatedFormats.join(", ")}`);
+
     if (logId) {
-      await supabase.from('klangio_analysis_logs').update({
-        job_id: jobId,
-        status: 'processing',
-        raw_response: jobResponse,
-      }).eq('id', logId);
+      await supabase
+        .from("klangio_analysis_logs")
+        .update({
+          job_id: jobId,
+          status: "processing",
+          raw_response: jobResponse,
+        })
+        .eq("id", logId);
     }
 
     // Poll for job completion
-    const maxAttempts = mode === 'transcription' ? 90 : 60;
+    const maxAttempts = mode === "transcription" ? 90 : 60;
     const pollInterval = 2000;
     let result: any = null;
 
     for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      await new Promise(resolve => setTimeout(resolve, pollInterval));
+      await new Promise((resolve) => setTimeout(resolve, pollInterval));
 
       const statusResponse = await fetch(`${API_BASE}/job/${jobId}/status`, {
         headers: { "kl-api-key": KLANGIO_API_KEY },
@@ -489,7 +521,7 @@ serve(async (req) => {
         result = statusData;
         console.log(`[klangio] Job completed! Full status data:`, JSON.stringify(statusData, null, 2));
         // Log any generation flags if present
-        if (mode === 'transcription') {
+        if (mode === "transcription") {
           const flags = {
             gen_midi: statusData.gen_midi,
             gen_midi_unq: statusData.gen_midi_unq,
@@ -502,25 +534,31 @@ serve(async (req) => {
         }
         break;
       } else if (["FAILED", "CANCELLED", "TIMED_OUT"].includes(statusData.status)) {
-        const errorMsg = statusData.error || 'Unknown error';
-        
+        const errorMsg = statusData.error || "Unknown error";
+
         if (logId) {
-          await supabase.from('klangio_analysis_logs').update({
-            status: 'failed',
-            error_message: errorMsg,
-            duration_ms: Date.now() - startTime,
-            completed_at: new Date().toISOString(),
-          }).eq('id', logId);
+          await supabase
+            .from("klangio_analysis_logs")
+            .update({
+              status: "failed",
+              error_message: errorMsg,
+              duration_ms: Date.now() - startTime,
+              completed_at: new Date().toISOString(),
+            })
+            .eq("id", logId);
         }
-        
-        if (errorMsg.toLowerCase().includes('no notes found')) {
-          return new Response(JSON.stringify({ 
-            error: 'no_notes_found',
-            message: 'Не удалось распознать музыкальные ноты в записи.'
-          }), { 
-            status: 422,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-          });
+
+        if (errorMsg.toLowerCase().includes("no notes found")) {
+          return new Response(
+            JSON.stringify({
+              error: "no_notes_found",
+              message: "Не удалось распознать музыкальные ноты в записи.",
+            }),
+            {
+              status: 422,
+              headers: { ...corsHeaders, "Content-Type": "application/json" },
+            },
+          );
         }
         throw new Error(`Klangio job ${statusData.status}: ${errorMsg}`);
       }
@@ -528,12 +566,15 @@ serve(async (req) => {
 
     if (!result) {
       if (logId) {
-        await supabase.from('klangio_analysis_logs').update({
-          status: 'failed',
-          error_message: 'Job timed out',
-          duration_ms: Date.now() - startTime,
-          completed_at: new Date().toISOString(),
-        }).eq('id', logId);
+        await supabase
+          .from("klangio_analysis_logs")
+          .update({
+            status: "failed",
+            error_message: "Job timed out",
+            duration_ms: Date.now() - startTime,
+            completed_at: new Date().toISOString(),
+          })
+          .eq("id", logId);
       }
       throw new Error("Job timed out waiting for completion");
     }
@@ -551,24 +592,24 @@ serve(async (req) => {
     const fetchErrors: Record<string, string> = {};
     const uploadErrors: Record<string, string> = {};
 
-    if (mode === 'transcription') {
+    if (mode === "transcription") {
       // Only fetch files that were actually generated (based on gen_* flags from API response)
-      const filesToFetch = generatedFormats.length > 0 ? generatedFormats : ['midi'];
+      const filesToFetch = generatedFormats.length > 0 ? generatedFormats : ["midi"];
       const files: Record<string, string> = {};
       let notes: any[] = [];
       let detectedBpm = 120; // default
 
-      console.log(`[klangio] Fetching files for formats:`, filesToFetch, '(API confirmed generation)');
+      console.log(`[klangio] Fetching files for formats:`, filesToFetch, "(API confirmed generation)");
 
       // Map format to API endpoints - try multiple endpoints for each format
       // According to Klang.io docs: /midi_unq is for unquantized MIDI (standard MIDI export)
       const formatToEndpoints: Record<string, string[]> = {
-        'midi': ['midi_unq', 'midi', 'download/midi', 'result/midi'],
-        'midi_quant': ['midi_unq', 'midi_quant', 'download/midi_unq'],
-        'mxml': ['xml', 'download/xml'],
-        'gp5': ['gp5', 'download/gp5'],
-        'pdf': ['pdf', 'download/pdf'],
-        'json': ['json'],
+        midi: ["midi_unq", "midi", "download/midi", "result/midi"],
+        midi_quant: ["midi_unq", "midi_quant", "download/midi_unq"],
+        mxml: ["xml", "download/xml"],
+        gp5: ["gp5", "download/gp5"],
+        pdf: ["pdf", "download/pdf"],
+        json: ["json"],
       };
 
       // Always fetch JSON for notes data first
@@ -577,33 +618,39 @@ serve(async (req) => {
         const jsonResponse = await fetch(`${API_BASE}/job/${jobId}/json`, {
           headers: { "kl-api-key": KLANGIO_API_KEY },
         });
-        
+
         if (jsonResponse.ok) {
           const transcriptionData = await jsonResponse.json();
           console.log("[klangio] Transcription JSON structure:", Object.keys(transcriptionData));
           console.log("[klangio] Transcription JSON:", JSON.stringify(transcriptionData).slice(0, 3000));
-          
+
           // Extract notes from various possible structures
           if (transcriptionData.notes && Array.isArray(transcriptionData.notes)) {
             // Simple notes array
             notes = transcriptionData.notes.map((n: any) => ({
               pitch: n.pitch ?? n.midi ?? n.note ?? 60,
               startTime: n.start_time ?? n.startTime ?? n.time ?? n.onset ?? 0,
-              endTime: n.end_time ?? n.endTime ?? n.offset ?? ((n.start_time ?? n.startTime ?? n.time ?? 0) + (n.duration ?? 0.5)),
+              endTime:
+                n.end_time ??
+                n.endTime ??
+                n.offset ??
+                (n.start_time ?? n.startTime ?? n.time ?? 0) + (n.duration ?? 0.5),
               duration: n.duration ?? 0.5,
               velocity: n.velocity ?? n.loudness ?? 80,
               noteName: n.note_name ?? n.noteName ?? null,
             }));
           } else if (transcriptionData.events && Array.isArray(transcriptionData.events)) {
             // Events array format
-            notes = transcriptionData.events.filter((e: any) => e.type === 'note' || e.pitch).map((n: any) => ({
-              pitch: n.pitch ?? n.midi ?? 60,
-              startTime: n.start ?? n.onset ?? n.time ?? 0,
-              endTime: n.end ?? n.offset ?? ((n.start ?? n.time ?? 0) + (n.duration ?? 0.5)),
-              duration: n.duration ?? 0.5,
-              velocity: n.velocity ?? 80,
-              noteName: null,
-            }));
+            notes = transcriptionData.events
+              .filter((e: any) => e.type === "note" || e.pitch)
+              .map((n: any) => ({
+                pitch: n.pitch ?? n.midi ?? 60,
+                startTime: n.start ?? n.onset ?? n.time ?? 0,
+                endTime: n.end ?? n.offset ?? (n.start ?? n.time ?? 0) + (n.duration ?? 0.5),
+                duration: n.duration ?? 0.5,
+                velocity: n.velocity ?? 80,
+                noteName: null,
+              }));
           } else if (transcriptionData.Parts && Array.isArray(transcriptionData.Parts)) {
             // Klang.io V3 format: Parts[].Measures[].Voices[].Notes[]
             console.log("[klangio] Detected V3 format with Parts structure");
@@ -614,9 +661,9 @@ serve(async (req) => {
             // IMPORTANT: In V3, note.Duration and offsets are typically expressed as a FRACTION OF A MEASURE
             // (e.g. 0.125 == 1/8 of a bar in 4/4), not seconds.
             // The correct scaling is: measure_fraction * beats_per_measure * seconds_per_beat.
-            const timeSignature = (musicInfo.TimeSignature || '4/4') as string;
+            const timeSignature = (musicInfo.TimeSignature || "4/4") as string;
             const beatsPerMeasure = (() => {
-              const n = Number.parseInt(timeSignature.split('/')[0] || '4', 10);
+              const n = Number.parseInt(timeSignature.split("/")[0] || "4", 10);
               return Number.isFinite(n) && n > 0 ? n : 4;
             })();
             const measureSeconds = beatsPerMeasure * secondsPerBeat;
@@ -644,7 +691,7 @@ serve(async (req) => {
 
                     const durationInMeasure = note.Duration || 0.25;
                     const durationInSeconds = durationInMeasure * measureSeconds;
-                    const startTime = measureStartTime + (noteOffsetInMeasure * measureSeconds);
+                    const startTime = measureStartTime + noteOffsetInMeasure * measureSeconds;
 
                     if (validMidi.length > 0) {
                       for (const midi of validMidi) {
@@ -675,35 +722,35 @@ serve(async (req) => {
             }
             if (musicInfo.Key !== undefined) {
               // Convert key number to string (0 = C, 1 = G, etc.)
-              const keyNames = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'C#', 'F', 'Bb', 'Eb', 'Ab'];
+              const keyNames = ["C", "G", "D", "A", "E", "B", "F#", "C#", "F", "Bb", "Eb", "Ab"];
               finalResult.key = keyNames[musicInfo.Key] || `Key ${musicInfo.Key}`;
             }
           }
-          
+
           console.log(`[klangio] Parsed ${notes.length} notes`);
         } else {
           const errText = await jsonResponse.text();
-          fetchErrors['json'] = `${jsonResponse.status}: ${errText}`;
+          fetchErrors["json"] = `${jsonResponse.status}: ${errText}`;
           console.warn(`[klangio] Failed to fetch JSON: ${jsonResponse.status}`);
         }
       } catch (e) {
-        fetchErrors['json'] = e instanceof Error ? e.message : 'Unknown error';
+        fetchErrors["json"] = e instanceof Error ? e.message : "Unknown error";
         console.error("[klangio] Error fetching JSON:", e);
       }
 
       // Wait shorter time (reduced from 8s to 3s) to leave time for fallback
-      console.log('[klangio] Waiting 3s for files to be ready after job completion...');
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      console.log("[klangio] Waiting 3s for files to be ready after job completion...");
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       // Fetch and upload each file format that API confirmed it generated
       for (const format of filesToFetch) {
-        if (format === 'json') continue; // Already handled
-        
+        if (format === "json") continue; // Already handled
+
         try {
           const apiEndpoints = formatToEndpoints[format] || [format];
           let fileResponse: Response | null = null;
           let fetchSuccess = false;
-          let usedEndpoint = '';
+          let usedEndpoint = "";
 
           // Try each possible endpoint
           for (const apiEndpoint of apiEndpoints) {
@@ -714,8 +761,10 @@ serve(async (req) => {
             for (let retry = 0; retry < maxRetries; retry++) {
               if (retry > 0) {
                 const delay = baseRetryDelay * Math.pow(1.3, retry - 1);
-                console.log(`[klangio] Retry ${retry}/${maxRetries - 1} for ${format} via ${apiEndpoint} (waiting ${delay}ms)...`);
-                await new Promise(resolve => setTimeout(resolve, delay));
+                console.log(
+                  `[klangio] Retry ${retry}/${maxRetries - 1} for ${format} via ${apiEndpoint} (waiting ${delay}ms)...`,
+                );
+                await new Promise((resolve) => setTimeout(resolve, delay));
               }
 
               console.log(`[klangio] Fetching ${format} from /job/${jobId}/${apiEndpoint}`);
@@ -723,7 +772,9 @@ serve(async (req) => {
                 headers: { "kl-api-key": KLANGIO_API_KEY },
               });
 
-              console.log(`[klangio] ${format} via ${apiEndpoint}: status=${fileResponse.status}, content-type=${fileResponse.headers.get('content-type')}`);
+              console.log(
+                `[klangio] ${format} via ${apiEndpoint}: status=${fileResponse.status}, content-type=${fileResponse.headers.get("content-type")}`,
+              );
 
               if (fileResponse.ok) {
                 fetchSuccess = true;
@@ -735,7 +786,7 @@ serve(async (req) => {
               }
               // For 404, continue retrying - file might still be generating
             }
-            
+
             if (fetchSuccess) {
               console.log(`[klangio] ✅ Successfully fetched ${format} via /${usedEndpoint}`);
               break;
@@ -747,14 +798,15 @@ serve(async (req) => {
           if (fetchSuccess && fileResponse && fileResponse.ok) {
             const fileBlob = await fileResponse.blob();
             console.log(`[klangio] Downloaded ${format}: ${fileBlob.size} bytes`);
-            
+
             // Create blob with correct MIME type for storage
             const correctMimeType = getContentType(format);
             const typedBlob = new Blob([fileBlob], { type: correctMimeType });
-            
+
             // Determine file extension
-            const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
-            const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
+            const extension =
+              format === "mxml" ? "xml" : format === "midi_quant" ? "mid" : format === "midi" ? "mid" : format;
+            const fileName = `${user_id || "anonymous"}/klangio/${jobId}_${format}.${extension}`;
 
             console.log(`[klangio] Uploading ${format} to project-assets-private/${fileName} (${correctMimeType})`);
 
@@ -774,7 +826,7 @@ serve(async (req) => {
                 .from("project-assets-private")
                 .createSignedUrl(fileName, 60 * 60 * 24 * 365);
               if (signError || !signed?.signedUrl) {
-                uploadErrors[format] = `sign-failed: ${signError?.message || 'unknown'}`;
+                uploadErrors[format] = `sign-failed: ${signError?.message || "unknown"}`;
                 console.error(`[klangio] ❌ Failed to sign URL for ${format}:`, signError);
               } else {
                 files[format] = signed.signedUrl;
@@ -789,28 +841,33 @@ serve(async (req) => {
             }
           }
         } catch (e) {
-          fetchErrors[format] = e instanceof Error ? e.message : 'Unknown error';
+          fetchErrors[format] = e instanceof Error ? e.message : "Unknown error";
           console.error(`[klangio] ❌ Error processing ${format}:`, e);
         }
       }
 
       // FALLBACK: Generate MIDI locally from notes if API didn't return MIDI but we have notes
-      if (!files['midi'] && notes.length > 0) {
-        console.log(`[klangio] ⚠️ API didn't return MIDI, but we have ${notes.length} notes. Generating MIDI locally...`);
+      if (!files["midi"] && notes.length > 0) {
+        console.log(
+          `[klangio] ⚠️ API didn't return MIDI, but we have ${notes.length} notes. Generating MIDI locally...`,
+        );
         try {
           const midiData = generateMidiFromNotes(notes, detectedBpm);
           // Convert Uint8Array to ArrayBuffer explicitly for Blob compatibility in Deno
-          const arrayBuffer = midiData.buffer.slice(midiData.byteOffset, midiData.byteOffset + midiData.byteLength) as ArrayBuffer;
-          const midiBlob = new Blob([arrayBuffer], { type: 'audio/midi' });
-          
+          const arrayBuffer = midiData.buffer.slice(
+            midiData.byteOffset,
+            midiData.byteOffset + midiData.byteLength,
+          ) as ArrayBuffer;
+          const midiBlob = new Blob([arrayBuffer], { type: "audio/midi" });
+
           console.log(`[klangio] Generated MIDI blob size: ${midiBlob.size} bytes from ${notes.length} notes`);
-          
-          const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_midi_generated.mid`;
+
+          const fileName = `${user_id || "anonymous"}/klangio/${jobId}_midi_generated.mid`;
 
           const { error: uploadError } = await supabase.storage
             .from("project-assets-private")
             .upload(fileName, midiBlob, {
-              contentType: 'audio/midi',
+              contentType: "audio/midi",
               upsert: true,
             });
 
@@ -819,7 +876,7 @@ serve(async (req) => {
               .from("project-assets-private")
               .createSignedUrl(fileName, 60 * 60 * 24 * 365);
             if (signed?.signedUrl) {
-              files['midi'] = signed.signedUrl;
+              files["midi"] = signed.signedUrl;
               console.log(`[klangio] ✅ Generated MIDI uploaded and signed (${midiBlob.size} bytes)`);
             } else {
               console.error(`[klangio] ❌ Failed to sign generated MIDI URL:`, signError);
@@ -839,7 +896,7 @@ serve(async (req) => {
       console.log(`[klangio] ===== TRANSCRIPTION SUMMARY =====`);
       console.log(`[klangio] Model used: ${smartModel}`);
       console.log(`[klangio] Files generated: ${Object.keys(files).length}`);
-      console.log(`[klangio] Available formats: ${finalResult.available_formats.join(', ')}`);
+      console.log(`[klangio] Available formats: ${finalResult.available_formats.join(", ")}`);
       console.log(`[klangio] File URLs:`, files);
       console.log(`[klangio] Notes: ${notes.length}`);
       console.log(`[klangio] Fetch errors:`, fetchErrors);
@@ -848,37 +905,39 @@ serve(async (req) => {
 
       // Update log with results
       if (logId) {
-        await supabase.from('klangio_analysis_logs').update({
-          status: 'completed',
-          files,
-          notes_count: notes.length,
-          fetch_errors: fetchErrors,
-          upload_errors: uploadErrors,
-          duration_ms: Date.now() - startTime,
-          completed_at: new Date().toISOString(),
-        }).eq('id', logId);
+        await supabase
+          .from("klangio_analysis_logs")
+          .update({
+            status: "completed",
+            files,
+            notes_count: notes.length,
+            fetch_errors: fetchErrors,
+            upload_errors: uploadErrors,
+            duration_ms: Date.now() - startTime,
+            completed_at: new Date().toISOString(),
+          })
+          .eq("id", logId);
       }
-      
-    } else if (mode === 'beat-tracking') {
+    } else if (mode === "beat-tracking") {
       try {
         console.log("[klangio] Fetching beat tracking JSON...");
         const jsonResponse = await fetch(`${API_BASE}/job/${jobId}/json`, {
           headers: { "kl-api-key": KLANGIO_API_KEY },
         });
-        
+
         if (jsonResponse.ok) {
           const beatData = await jsonResponse.json();
           console.log("[klangio] Beat data:", JSON.stringify(beatData).slice(0, 1000));
-          
+
           finalResult.beats = beatData.beats || [];
           finalResult.downbeats = beatData.downbeats || [];
           finalResult.bpm = beatData.bpm || beatData.tempo;
-          
+
           if (!finalResult.bpm && finalResult.beats.length >= 2) {
             const beatTimes = finalResult.beats as number[];
             const intervals = [];
             for (let i = 1; i < Math.min(beatTimes.length, 20); i++) {
-              intervals.push(beatTimes[i] - beatTimes[i-1]);
+              intervals.push(beatTimes[i] - beatTimes[i - 1]);
             }
             if (intervals.length > 0) {
               const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
@@ -888,24 +947,26 @@ serve(async (req) => {
 
           // Update log
           if (logId) {
-            await supabase.from('klangio_analysis_logs').update({
-              status: 'completed',
-              beats_count: (finalResult.beats || []).length,
-              bpm: finalResult.bpm,
-              raw_response: beatData,
-              duration_ms: Date.now() - startTime,
-              completed_at: new Date().toISOString(),
-            }).eq('id', logId);
+            await supabase
+              .from("klangio_analysis_logs")
+              .update({
+                status: "completed",
+                beats_count: (finalResult.beats || []).length,
+                bpm: finalResult.bpm,
+                raw_response: beatData,
+                duration_ms: Date.now() - startTime,
+                completed_at: new Date().toISOString(),
+              })
+              .eq("id", logId);
           }
         } else {
           const errorText = await jsonResponse.text();
-          fetchErrors['json'] = `${jsonResponse.status}: ${errorText}`;
+          fetchErrors["json"] = `${jsonResponse.status}: ${errorText}`;
           console.warn(`[klangio] Failed to fetch beat JSON: ${jsonResponse.status}`);
         }
       } catch (e) {
         console.error(`[klangio] Error fetching beat data:`, e);
       }
-      
     } else {
       // Chord recognition
       try {
@@ -913,37 +974,37 @@ serve(async (req) => {
         const jsonResponse = await fetch(`${API_BASE}/job/${jobId}/json`, {
           headers: { "kl-api-key": KLANGIO_API_KEY },
         });
-        
+
         if (jsonResponse.ok) {
           const chordData = await jsonResponse.json();
           console.log("[klangio] Chord data:", JSON.stringify(chordData).slice(0, 1000));
-          
+
           let chords: any[] = [];
-          
+
           if (Array.isArray(chordData.chords)) {
             chords = chordData.chords.map((c: any) => {
               if (Array.isArray(c)) {
                 return {
                   chord: c[2] || c[0],
-                  startTime: typeof c[0] === 'number' ? c[0] : parseFloat(c[0]) || 0,
-                  endTime: typeof c[1] === 'number' ? c[1] : parseFloat(c[1]) || 0,
+                  startTime: typeof c[0] === "number" ? c[0] : parseFloat(c[0]) || 0,
+                  endTime: typeof c[1] === "number" ? c[1] : parseFloat(c[1]) || 0,
                 };
               }
               return {
-                chord: c.chord || c.name || c.label || 'N',
+                chord: c.chord || c.name || c.label || "N",
                 startTime: c.start_time ?? c.time ?? c.start ?? 0,
                 endTime: c.end_time ?? c.end ?? (c.start_time ? c.start_time + 2 : 2),
               };
             });
           }
-          
+
           finalResult.chords = chords;
           finalResult.key = chordData.key || chordData.detected_key || null;
-          
+
           if (chordData.strumming && Array.isArray(chordData.strumming)) {
             finalResult.strumming = chordData.strumming.map((s: any) => ({
               time: s.time || s.timestamp || 0,
-              direction: s.direction === 'up' || s.direction === 'U' ? 'U' : 'D',
+              direction: s.direction === "up" || s.direction === "U" ? "U" : "D",
             }));
           } else {
             finalResult.strumming = [];
@@ -951,14 +1012,17 @@ serve(async (req) => {
 
           // Update log
           if (logId) {
-            await supabase.from('klangio_analysis_logs').update({
-              status: 'completed',
-              chords_count: chords.length,
-              key_detected: finalResult.key,
-              raw_response: chordData,
-              duration_ms: Date.now() - startTime,
-              completed_at: new Date().toISOString(),
-            }).eq('id', logId);
+            await supabase
+              .from("klangio_analysis_logs")
+              .update({
+                status: "completed",
+                chords_count: chords.length,
+                key_detected: finalResult.key,
+                raw_response: chordData,
+                duration_ms: Date.now() - startTime,
+                completed_at: new Date().toISOString(),
+              })
+              .eq("id", logId);
           }
         } else {
           const errorText = await jsonResponse.text();
@@ -976,42 +1040,45 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("[klangio] Error:", error);
-    
+
     // Update log with error if possible
     if (logId && supabase) {
       try {
-        await supabase.from('klangio_analysis_logs').update({
-          status: 'failed',
-          error_message: error instanceof Error ? error.message : 'Unknown error',
-          duration_ms: Date.now() - startTime,
-          completed_at: new Date().toISOString(),
-        }).eq('id', logId);
+        await supabase
+          .from("klangio_analysis_logs")
+          .update({
+            status: "failed",
+            error_message: error instanceof Error ? error.message : "Unknown error",
+            duration_ms: Date.now() - startTime,
+            completed_at: new Date().toISOString(),
+          })
+          .eq("id", logId);
       } catch (e) {
-        console.error('[klangio] Failed to update log with error:', e);
+        console.error("[klangio] Failed to update log with error:", e);
       }
     }
-    
-    return new Response(
-      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+
+    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });
 
 function getContentType(format: string): string {
   switch (format) {
-    case 'midi':
-    case 'midi_quant':
-      return 'audio/midi';
-    case 'mxml':
-      return 'application/vnd.recordare.musicxml+xml';
-    case 'gp5':
-      return 'application/x-guitar-pro';
-    case 'pdf':
-      return 'application/pdf';
-    case 'json':
-      return 'application/json';
+    case "midi":
+    case "midi_quant":
+      return "audio/midi";
+    case "mxml":
+      return "application/vnd.recordare.musicxml+xml";
+    case "gp5":
+      return "application/x-guitar-pro";
+    case "pdf":
+      return "application/pdf";
+    case "json":
+      return "application/json";
     default:
-      return 'application/octet-stream';
+      return "application/octet-stream";
   }
 }

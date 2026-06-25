@@ -3,13 +3,13 @@
  * Infinite scroll hook for transaction history with react-virtuoso
  */
 
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getPaymentHistory, type PaymentTransaction } from '@/services/starsPaymentService';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import { getPaymentHistory, type PaymentTransaction } from "@/services/starsPaymentService";
 
 // Query key factory
 export const paymentHistoryKeys = {
-  all: ['payment-history'] as const,
-  list: (userId: string) => [...paymentHistoryKeys.all, 'list', userId] as const,
+  all: ["payment-history"] as const,
+  list: (userId: string) => [...paymentHistoryKeys.all, "list", userId] as const,
 };
 
 interface UsePaymentHistoryOptions {
@@ -21,11 +21,7 @@ interface UsePaymentHistoryOptions {
 /**
  * Fetch payment history with infinite scroll support
  */
-export function usePaymentHistory({
-  userId,
-  pageSize = 20,
-  enabled = true,
-}: UsePaymentHistoryOptions) {
+export function usePaymentHistory({ userId, pageSize = 20, enabled = true }: UsePaymentHistoryOptions) {
   const query = useInfiniteQuery({
     queryKey: paymentHistoryKeys.list(userId),
     queryFn: ({ pageParam }) => getPaymentHistory(userId, pageParam, pageSize),
@@ -43,8 +39,7 @@ export function usePaymentHistory({
   });
 
   // Flatten all pages into a single array
-  const transactions: PaymentTransaction[] =
-    query.data?.pages.flatMap((page) => page.transactions) ?? [];
+  const transactions: PaymentTransaction[] = query.data?.pages.flatMap((page) => page.transactions) ?? [];
 
   return {
     ...query,

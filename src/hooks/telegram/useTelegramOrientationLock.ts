@@ -1,9 +1,9 @@
 /**
  * Telegram Orientation Lock Hook
- * 
+ *
  * Automatically locks orientation when component mounts (e.g., Studio)
  * and unlocks when unmounting.
- * 
+ *
  * @example
  * ```tsx
  * // In Studio component
@@ -11,11 +11,11 @@
  * ```
  */
 
-import { useEffect, useCallback, useState, useRef } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { logger } from '@/lib/logger';
+import { useEffect, useCallback, useState, useRef } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'TelegramOrientationLock' });
+const log = logger.child({ module: "TelegramOrientationLock" });
 
 interface UseTelegramOrientationLockOptions {
   /** Lock orientation when component mounts */
@@ -38,20 +38,20 @@ interface UseTelegramOrientationLockReturn {
 }
 
 export function useTelegramOrientationLock(
-  options: UseTelegramOrientationLockOptions = {}
+  options: UseTelegramOrientationLockOptions = {},
 ): UseTelegramOrientationLockReturn {
   const { lockOnMount = false, unlockOnUnmount = true } = options;
   const { webApp } = useTelegram();
   const [isLocked, setIsLocked] = useState(false);
-  
+
   // Track if we locked orientation (to properly unlock on unmount)
   const didLockRef = useRef(false);
 
-  const isSupported = !!(webApp && typeof (webApp as any).lockOrientation === 'function');
+  const isSupported = !!(webApp && typeof (webApp as any).lockOrientation === "function");
 
   const lock = useCallback(() => {
-    if (!webApp || typeof (webApp as any).lockOrientation !== 'function') {
-      log.debug('Orientation lock not supported');
+    if (!webApp || typeof (webApp as any).lockOrientation !== "function") {
+      log.debug("Orientation lock not supported");
       return;
     }
 
@@ -59,15 +59,15 @@ export function useTelegramOrientationLock(
       (webApp as any).lockOrientation();
       setIsLocked(true);
       didLockRef.current = true;
-      log.info('Orientation locked');
+      log.info("Orientation locked");
     } catch (error) {
-      log.warn('Failed to lock orientation', { error: String(error) });
+      log.warn("Failed to lock orientation", { error: String(error) });
     }
   }, [webApp]);
 
   const unlock = useCallback(() => {
-    if (!webApp || typeof (webApp as any).unlockOrientation !== 'function') {
-      log.debug('Orientation unlock not supported');
+    if (!webApp || typeof (webApp as any).unlockOrientation !== "function") {
+      log.debug("Orientation unlock not supported");
       return;
     }
 
@@ -75,9 +75,9 @@ export function useTelegramOrientationLock(
       (webApp as any).unlockOrientation();
       setIsLocked(false);
       didLockRef.current = false;
-      log.info('Orientation unlocked');
+      log.info("Orientation unlocked");
     } catch (error) {
-      log.warn('Failed to unlock orientation', { error: String(error) });
+      log.warn("Failed to unlock orientation", { error: String(error) });
     }
   }, [webApp]);
 
@@ -102,9 +102,9 @@ export function useTelegramOrientationLock(
       if (unlockOnUnmount && didLockRef.current && webApp) {
         try {
           (webApp as any).unlockOrientation?.();
-          log.info('Orientation unlocked on unmount');
+          log.info("Orientation unlocked on unmount");
         } catch (error) {
-          log.warn('Failed to unlock orientation on unmount', { error: String(error) });
+          log.warn("Failed to unlock orientation on unmount", { error: String(error) });
         }
       }
     };

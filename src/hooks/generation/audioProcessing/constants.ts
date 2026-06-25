@@ -3,7 +3,7 @@
  * Status messages and progress values for all operations
  */
 
-import type { AudioProcessingOperation, ProcessingStatus } from './types';
+import type { AudioProcessingOperation, ProcessingStatus } from "./types";
 
 // ==========================================
 // Status Messages
@@ -11,40 +11,40 @@ import type { AudioProcessingOperation, ProcessingStatus } from './types';
 
 export const STATUS_MESSAGES: Record<AudioProcessingOperation, Record<ProcessingStatus, string>> = {
   extend: {
-    idle: '',
-    submitting: 'Отправляем запрос...',
-    pending: 'В очереди на обработку...',
-    processing: 'AI расширяет трек...',
-    streaming_ready: 'Почти готово...',
-    completed: 'Трек расширен!',
-    error: 'Ошибка при расширении трека',
+    idle: "",
+    submitting: "Отправляем запрос...",
+    pending: "В очереди на обработку...",
+    processing: "AI расширяет трек...",
+    streaming_ready: "Почти готово...",
+    completed: "Трек расширен!",
+    error: "Ошибка при расширении трека",
   },
   cover: {
-    idle: '',
-    submitting: 'Отправляем запрос...',
-    pending: 'В очереди на обработку...',
-    processing: 'AI создаёт кавер...',
-    streaming_ready: 'Почти готово...',
-    completed: 'Кавер готов!',
-    error: 'Ошибка при создании кавера',
+    idle: "",
+    submitting: "Отправляем запрос...",
+    pending: "В очереди на обработку...",
+    processing: "AI создаёт кавер...",
+    streaming_ready: "Почти готово...",
+    completed: "Кавер готов!",
+    error: "Ошибка при создании кавера",
   },
   add_vocals: {
-    idle: '',
-    submitting: 'Отправляем запрос...',
-    pending: 'В очереди на обработку...',
-    processing: 'AI добавляет вокал...',
-    streaming_ready: 'Почти готово...',
-    completed: 'Вокал добавлен!',
-    error: 'Ошибка при добавлении вокала',
+    idle: "",
+    submitting: "Отправляем запрос...",
+    pending: "В очереди на обработку...",
+    processing: "AI добавляет вокал...",
+    streaming_ready: "Почти готово...",
+    completed: "Вокал добавлен!",
+    error: "Ошибка при добавлении вокала",
   },
   add_instrumental: {
-    idle: '',
-    submitting: 'Отправляем запрос...',
-    pending: 'В очереди на обработку...',
-    processing: 'AI создаёт инструментал...',
-    streaming_ready: 'Почти готово...',
-    completed: 'Инструментал готов!',
-    error: 'Ошибка при создании инструментала',
+    idle: "",
+    submitting: "Отправляем запрос...",
+    pending: "В очереди на обработку...",
+    processing: "AI создаёт инструментал...",
+    streaming_ready: "Почти готово...",
+    completed: "Инструментал готов!",
+    error: "Ошибка при создании инструментала",
   },
 };
 
@@ -67,10 +67,10 @@ export const STATUS_PROGRESS: Record<ProcessingStatus, number> = {
 // ==========================================
 
 export const OPERATION_ENDPOINTS: Record<AudioProcessingOperation, string> = {
-  extend: 'suno-music-extend',
-  cover: 'suno-upload-cover',
-  add_vocals: 'suno-add-vocals',
-  add_instrumental: 'suno-add-instrumental',
+  extend: "suno-music-extend",
+  cover: "suno-upload-cover",
+  add_vocals: "suno-add-vocals",
+  add_instrumental: "suno-add-instrumental",
 };
 
 // ==========================================
@@ -78,10 +78,10 @@ export const OPERATION_ENDPOINTS: Record<AudioProcessingOperation, string> = {
 // ==========================================
 
 export const DEFAULT_TITLES: Record<AudioProcessingOperation, string> = {
-  extend: 'Расширенный трек',
-  cover: 'Кавер',
-  add_vocals: 'Трек с вокалом',
-  add_instrumental: 'Инструментал',
+  extend: "Расширенный трек",
+  cover: "Кавер",
+  add_vocals: "Трек с вокалом",
+  add_instrumental: "Инструментал",
 };
 
 // ==========================================
@@ -89,8 +89,8 @@ export const DEFAULT_TITLES: Record<AudioProcessingOperation, string> = {
 // ==========================================
 
 export const INVALIDATE_QUERY_KEYS: Record<AudioProcessingOperation, string[][]> = {
-  extend: [['user-tracks'], ['library'], ['tracks']],
-  cover: [['user-tracks'], ['library'], ['tracks']],
-  add_vocals: [['user-tracks'], ['library'], ['tracks']],
-  add_instrumental: [['user-tracks'], ['library'], ['tracks'], ['studio-projects']],
+  extend: [["user-tracks"], ["library"], ["tracks"]],
+  cover: [["user-tracks"], ["library"], ["tracks"]],
+  add_vocals: [["user-tracks"], ["library"], ["tracks"]],
+  add_instrumental: [["user-tracks"], ["library"], ["tracks"], ["studio-projects"]],
 };

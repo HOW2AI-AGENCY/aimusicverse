@@ -1,17 +1,17 @@
 /**
  * FirstTimeHeroCard - Hero section for new users
  * Feature: 032-professional-ui
- * 
+ *
  * Shows step-by-step guide and primary CTA
  * Uses design system glass tokens
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { Sparkles, Music2, Headphones } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { glass, gradientGlass } from '@/lib/glass';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { Sparkles, Music2, Headphones } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { glass, gradientGlass } from "@/lib/glass";
 
 interface FirstTimeHeroCardProps {
   onCreateClick: () => void;
@@ -21,41 +21,38 @@ interface FirstTimeHeroCardProps {
 const STEPS = [
   {
     number: 1,
-    title: 'Опиши музыку',
-    description: 'Жанр, настроение, инструменты',
+    title: "Опиши музыку",
+    description: "Жанр, настроение, инструменты",
     icon: Music2,
   },
   {
     number: 2,
-    title: 'Подожди 2-3 минуты',
-    description: 'AI создаёт твой трек',
+    title: "Подожди 2-3 минуты",
+    description: "AI создаёт твой трек",
     icon: Sparkles,
   },
   {
     number: 3,
-    title: 'Слушай и редактируй',
-    description: 'Получи 2 варианта на выбор',
+    title: "Слушай и редактируй",
+    description: "Получи 2 варианта на выбор",
     icon: Headphones,
   },
 ];
 
-export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
-  onCreateClick,
-  className,
-}: FirstTimeHeroCardProps) {
+export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick, className }: FirstTimeHeroCardProps) {
   return (
-    <section className={cn('relative overflow-hidden rounded-2xl', className)}>
+    <section className={cn("relative overflow-hidden rounded-2xl", className)}>
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-background to-generate/10" />
-      
+
       {/* Animated glow */}
       <motion.div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full bg-primary/20 blur-3xl"
-        animate={{ 
+        animate={{
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
         }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Content */}
@@ -111,27 +108,17 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] sm:text-xs font-medium text-primary">
-                    Шаг {step.number}
-                  </span>
+                  <span className="text-[10px] sm:text-xs font-medium text-primary">Шаг {step.number}</span>
                 </div>
-                <h3 className="text-sm font-medium text-foreground leading-tight">
-                  {step.title}
-                </h3>
-                <p className="text-xs text-muted-foreground">
-                  {step.description}
-                </p>
+                <h3 className="text-sm font-medium text-foreground leading-tight">{step.title}</h3>
+                <p className="text-xs text-muted-foreground">{step.description}</p>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
         {/* CTA Button - larger touch target on mobile */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
           <div className="relative overflow-visible">
             <Button
               onClick={onCreateClick}
@@ -155,7 +142,8 @@ export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({
           transition={{ delay: 0.6 }}
           className="text-[11px] sm:text-xs text-muted-foreground text-center mt-3 sm:mt-4 hidden xs:block"
         >
-          💡 Совет: начни с простого описания, например<br />
+          💡 Совет: начни с простого описания, например
+          <br />
           <span className="text-primary">"Энергичный рок с электрогитарами"</span>
         </motion.p>
       </div>

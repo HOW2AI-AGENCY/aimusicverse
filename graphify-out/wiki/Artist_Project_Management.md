@@ -29,7 +29,7 @@
 - [isLinePast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L263) (1 connections)
 - [isProgrammaticScrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L97) (1 connections)
 - [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L287) (1 connections)
-- *... and 19 more nodes in this community*
+- _... and 19 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAdminAuth } from './useAdminAuth';
-import { logger } from '@/lib/logger';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAdminAuth } from "./useAdminAuth";
+import { logger } from "@/lib/logger";
 
 interface SunoCreditsResponse {
   success: boolean;
@@ -23,23 +23,23 @@ export function useAdminBalance(): AdminBalanceData {
   const { data: adminAuth, isLoading: authLoading } = useAdminAuth();
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['admin-api-balance'],
+    queryKey: ["admin-api-balance"],
     queryFn: async (): Promise<number> => {
       try {
-        const { data, error } = await supabase.functions.invoke<SunoCreditsResponse>('suno-credits');
-        
+        const { data, error } = await supabase.functions.invoke<SunoCreditsResponse>("suno-credits");
+
         if (error) {
-          logger.error('Failed to fetch Suno API balance', { error });
+          logger.error("Failed to fetch Suno API balance", { error });
           throw error;
         }
-        
+
         if (data?.credits !== undefined) {
           return data.credits;
         }
-        
+
         return 0;
       } catch (err) {
-        logger.error('Error in useAdminBalance', { error: err });
+        logger.error("Error in useAdminBalance", { error: err });
         throw err;
       }
     },

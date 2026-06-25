@@ -3,8 +3,8 @@
  * Saves analysis results to storage for access in Stem Studio
  */
 
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
 import {
   Dialog,
   DialogContent,
@@ -12,27 +12,20 @@ import {
   DialogHeader,
   DialogTitle,
   DialogFooter,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Link2,
-  Music2,
-  Search,
-  Check,
-  Loader2,
-  ExternalLink,
-} from 'lucide-react';
-import { useTracks } from '@/hooks/useTracks';
-import { saveGuitarAnalysisForTrack } from '@/hooks/useTrackGuitarAnalysis';
-import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Link2, Music2, Search, Check, Loader2, ExternalLink } from "lucide-react";
+import { useTracks } from "@/hooks/useTracks";
+import { saveGuitarAnalysisForTrack } from "@/hooks/useTrackGuitarAnalysis";
+import type { GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 interface LinkToTrackDialogProps {
   open: boolean;
@@ -40,37 +33,35 @@ interface LinkToTrackDialogProps {
   analysisResult: GuitarAnalysisResult | null;
 }
 
-export function LinkToTrackDialog({
-  open,
-  onOpenChange,
-  analysisResult,
-}: LinkToTrackDialogProps) {
-  const [searchQuery, setSearchQuery] = useState('');
+export function LinkToTrackDialog({ open, onOpenChange, analysisResult }: LinkToTrackDialogProps) {
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const { tracks, isLoading } = useTracks();
   const navigate = useNavigate();
 
-  const filteredTracks = tracks?.filter(track =>
-    (track.title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-    track.style?.toLowerCase().includes(searchQuery.toLowerCase())
-  ) || [];
+  const filteredTracks =
+    tracks?.filter(
+      (track) =>
+        (track.title || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        track.style?.toLowerCase().includes(searchQuery.toLowerCase()),
+    ) || [];
 
   const handleLink = async () => {
     if (!selectedTrackId || !analysisResult) {
-      toast.error('Выберите трек');
+      toast.error("Выберите трек");
       return;
     }
 
     setIsSaving(true);
     try {
       const success = await saveGuitarAnalysisForTrack(selectedTrackId, analysisResult);
-      
+
       if (success) {
-        toast.success('Анализ привязан к треку', {
-          description: 'Теперь доступен в Stem Studio',
+        toast.success("Анализ привязан к треку", {
+          description: "Теперь доступен в Stem Studio",
           action: {
-            label: 'Открыть',
+            label: "Открыть",
             onClick: () => {
               onOpenChange(false);
               navigate(`/stem-studio/${selectedTrackId}`);
@@ -79,10 +70,10 @@ export function LinkToTrackDialog({
         });
         onOpenChange(false);
       } else {
-        toast.error('Ошибка сохранения анализа');
+        toast.error("Ошибка сохранения анализа");
       }
     } catch (error) {
-      toast.error('Ошибка при привязке');
+      toast.error("Ошибка при привязке");
     } finally {
       setIsSaving(false);
     }
@@ -96,9 +87,7 @@ export function LinkToTrackDialog({
             <Link2 className="w-5 h-5" />
             Привязать к треку
           </DialogTitle>
-          <DialogDescription>
-            Сохраните анализ гитары для использования в Stem Studio
-          </DialogDescription>
+          <DialogDescription>Сохраните анализ гитары для использования в Stem Studio</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -163,7 +152,7 @@ export function LinkToTrackDialog({
                         "w-full p-3 rounded-lg border-2 text-left transition-all",
                         isSelected
                           ? "border-primary bg-primary/10"
-                          : "border-border hover:border-primary/50 hover:bg-muted/50"
+                          : "border-border hover:border-primary/50 hover:bg-muted/50",
                       )}
                     >
                       <div className="flex items-start gap-3">
@@ -171,7 +160,7 @@ export function LinkToTrackDialog({
                         {track.cover_url ? (
                           <img
                             src={track.cover_url}
-                            alt={track.title || 'Track'}
+                            alt={track.title || "Track"}
                             className="w-12 h-12 rounded object-cover shrink-0"
                           />
                         ) : (
@@ -182,13 +171,9 @@ export function LinkToTrackDialog({
 
                         {/* Info */}
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm truncate">
-                            {track.title || 'Без названия'}
-                          </h4>
+                          <h4 className="font-medium text-sm truncate">{track.title || "Без названия"}</h4>
                           {track.style && (
-                            <p className="text-xs text-muted-foreground truncate mt-0.5">
-                              {track.style}
-                            </p>
+                            <p className="text-xs text-muted-foreground truncate mt-0.5">{track.style}</p>
                           )}
                           <div className="flex items-center gap-1 mt-1">
                             {track.has_stems && (
@@ -197,18 +182,15 @@ export function LinkToTrackDialog({
                               </Badge>
                             )}
                             <Badge variant="outline" className="text-[10px] px-1 py-0">
-                              {Math.floor((track.duration_seconds || 0) / 60)}:{String(Math.floor((track.duration_seconds || 0) % 60)).padStart(2, '0')}
+                              {Math.floor((track.duration_seconds || 0) / 60)}:
+                              {String(Math.floor((track.duration_seconds || 0) % 60)).padStart(2, "0")}
                             </Badge>
                           </div>
                         </div>
 
                         {/* Selected Check */}
                         {isSelected && (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            className="shrink-0"
-                          >
+                          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="shrink-0">
                             <Check className="w-5 h-5 text-primary" />
                           </motion.div>
                         )}
@@ -222,17 +204,10 @@ export function LinkToTrackDialog({
         </div>
 
         <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => onOpenChange(false)}
-            disabled={isSaving}
-          >
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
             Отмена
           </Button>
-          <Button
-            onClick={handleLink}
-            disabled={!selectedTrackId || isSaving}
-          >
+          <Button onClick={handleLink} disabled={!selectedTrackId || isSaving}>
             {isSaving ? (
               <>
                 <Loader2 className="w-4 h-4 mr-2 animate-spin" />

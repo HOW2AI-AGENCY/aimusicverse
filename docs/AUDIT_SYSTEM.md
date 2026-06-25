@@ -36,72 +36,79 @@ MusicVerse AI implements a comprehensive audit logging system designed to track 
 
 Stores all content-related actions with cryptographic hashes.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | UUID | Primary key |
-| `entity_type` | VARCHAR | track, project, artist, lyrics, cover, reference_audio |
-| `entity_id` | UUID | ID of the content entity |
-| `version_id` | UUID | Optional version reference |
-| `user_id` | UUID | Creator/actor |
-| `actor_type` | VARCHAR | user, ai, system |
-| `ai_model_used` | VARCHAR | AI model if applicable |
-| `action_type` | VARCHAR | created, generated, edited, approved, published |
-| `action_category` | VARCHAR | generation, modification, approval, publication, deletion |
-| `content_hash` | VARCHAR(64) | SHA-256 hash of content |
-| `prompt_hash` | VARCHAR(64) | SHA-256 hash of prompt |
-| `input_data_hash` | VARCHAR(64) | SHA-256 hash of input data |
-| `prompt_used` | TEXT | Full prompt text |
-| `input_metadata` | JSONB | Additional input info |
-| `output_metadata` | JSONB | Additional output info |
-| `parent_audit_id` | UUID | Link to parent action |
-| `chain_id` | UUID | Group related actions |
-| `created_at` | TIMESTAMPTZ | Timestamp |
+| Column            | Type        | Description                                               |
+| ----------------- | ----------- | --------------------------------------------------------- |
+| `id`              | UUID        | Primary key                                               |
+| `entity_type`     | VARCHAR     | track, project, artist, lyrics, cover, reference_audio    |
+| `entity_id`       | UUID        | ID of the content entity                                  |
+| `version_id`      | UUID        | Optional version reference                                |
+| `user_id`         | UUID        | Creator/actor                                             |
+| `actor_type`      | VARCHAR     | user, ai, system                                          |
+| `ai_model_used`   | VARCHAR     | AI model if applicable                                    |
+| `action_type`     | VARCHAR     | created, generated, edited, approved, published           |
+| `action_category` | VARCHAR     | generation, modification, approval, publication, deletion |
+| `content_hash`    | VARCHAR(64) | SHA-256 hash of content                                   |
+| `prompt_hash`     | VARCHAR(64) | SHA-256 hash of prompt                                    |
+| `input_data_hash` | VARCHAR(64) | SHA-256 hash of input data                                |
+| `prompt_used`     | TEXT        | Full prompt text                                          |
+| `input_metadata`  | JSONB       | Additional input info                                     |
+| `output_metadata` | JSONB       | Additional output info                                    |
+| `parent_audit_id` | UUID        | Link to parent action                                     |
+| `chain_id`        | UUID        | Group related actions                                     |
+| `created_at`      | TIMESTAMPTZ | Timestamp                                                 |
 
 ### content_deposits
 
 Stores generated proof-of-creation documents.
 
-| Column | Type | Description |
-|--------|------|-------------|
-| `id` | UUID | Primary key |
-| `entity_type` | VARCHAR | Content type |
-| `entity_id` | UUID | Content ID |
-| `user_id` | UUID | Owner |
-| `deposit_document` | JSONB | Full proof document |
-| `document_hash` | VARCHAR(64) | SHA-256 of document |
-| `status` | VARCHAR | pending, submitted, confirmed |
-| `external_deposit_id` | VARCHAR | External system reference |
-| `created_at` | TIMESTAMPTZ | Creation time |
-| `confirmed_at` | TIMESTAMPTZ | Confirmation time |
+| Column                | Type        | Description                   |
+| --------------------- | ----------- | ----------------------------- |
+| `id`                  | UUID        | Primary key                   |
+| `entity_type`         | VARCHAR     | Content type                  |
+| `entity_id`           | UUID        | Content ID                    |
+| `user_id`             | UUID        | Owner                         |
+| `deposit_document`    | JSONB       | Full proof document           |
+| `document_hash`       | VARCHAR(64) | SHA-256 of document           |
+| `status`              | VARCHAR     | pending, submitted, confirmed |
+| `external_deposit_id` | VARCHAR     | External system reference     |
+| `created_at`          | TIMESTAMPTZ | Creation time                 |
+| `confirmed_at`        | TIMESTAMPTZ | Confirmation time             |
 
 ## Integrated Flows
 
 ### Track Generation
+
 - `suno-music-callback` logs track creation with audio hash
 - Captures: AI model, prompt, style tags, reference audio
 
 ### Track Approval & Publishing
+
 - `useProjectGeneratedTracks` logs track approval, rejection, master selection
 - `tracks.service.ts` logs visibility changes (publish/unpublish)
 
 ### Project Management
+
 - `useProjects` hook logs creation and updates
 - `project-ai-actions` logs AI improvements and translations
 - `usePublishProject` logs project publication
 
 ### Artist Creation
+
 - `useArtists` hook logs artist creation
 - `generate-artist-portrait` logs AI portrait generation
 
 ### Lyrics Generation
+
 - `generate-lyrics` logs lyrics generation requests
 - Captures: theme, style, mood, language
 
 ### Cover Generation
+
 - `generate-track-cover` logs cover art generation
 - Captures: prompt, style context, project aesthetics
 
 ### Reference Audio
+
 - `MultiTrackUpload` logs user audio uploads
 - Captures: file name, size, MIME type, storage URL
 
@@ -110,10 +117,10 @@ Stores generated proof-of-creation documents.
 ### Frontend (React)
 
 ```typescript
-import { useAuditLog } from '@/hooks/useAuditLog';
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 function MyComponent() {
-  const { 
+  const {
     logAction,
     logTrackCreated,
     logProjectCreated,
@@ -124,18 +131,18 @@ function MyComponent() {
 
   // Log custom action
   await logAction({
-    entityType: 'track',
+    entityType: "track",
     entityId: trackId,
-    actorType: 'user',
-    actionType: 'published',
-    actionCategory: 'publication',
+    actorType: "user",
+    actionType: "published",
+    actionCategory: "publication",
   });
 
   // Get audit history
-  const history = await getContentHistory('track', trackId);
+  const history = await getContentHistory("track", trackId);
 
   // Generate proof document
-  const { deposit, document } = await generateProofOfCreation('track', trackId);
+  const { deposit, document } = await generateProofOfCreation("track", trackId);
 }
 ```
 
@@ -143,14 +150,14 @@ function MyComponent() {
 
 ```typescript
 // Direct insert to audit log
-await supabase.from('content_audit_log').insert({
-  entity_type: 'track',
+await supabase.from("content_audit_log").insert({
+  entity_type: "track",
   entity_id: trackId,
   user_id: userId,
-  actor_type: 'ai',
-  ai_model_used: 'suno_v4',
-  action_type: 'generated',
-  action_category: 'generation',
+  actor_type: "ai",
+  ai_model_used: "suno_v4",
+  action_type: "generated",
+  action_category: "generation",
   prompt_used: prompt,
   input_metadata: { style, tags },
   output_metadata: { audio_url },
@@ -161,16 +168,16 @@ await supabase.from('content_audit_log').insert({
 
 ```typescript
 interface DepositDocument {
-  version: '1.0';
+  version: "1.0";
   generatedAt: string;
-  
+
   author: {
     userId: string;
     username: string | null;
     displayName: string | null;
     telegramId: number | null;
   };
-  
+
   content: {
     type: string;
     id: string;
@@ -178,22 +185,22 @@ interface DepositDocument {
     createdAt: string;
     contentHash: string | null;
   };
-  
+
   creationChain: Array<{
     timestamp: string;
     action: string;
-    actor: 'user' | 'ai';
+    actor: "user" | "ai";
     aiModel?: string;
     promptHash?: string;
     inputDataHash?: string;
     outputHash?: string;
   }>;
-  
+
   inputs: {
     prompts: Array<{ hash: string; text: string }>;
     referenceAudios: Array<{ id: string; hash: string }>;
   };
-  
+
   documentHash: string; // SHA-256 of entire document
 }
 ```

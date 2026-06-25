@@ -1,7 +1,7 @@
 /**
  * Circular progress indicator for project completion
  */
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 interface ProjectProgressRingProps {
   progress: number; // 0-100
@@ -23,7 +23,7 @@ export function ProjectProgressRing({
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className={cn('relative inline-flex items-center justify-center', className)}>
+    <div className={cn("relative inline-flex items-center justify-center", className)}>
       <svg width={size} height={size} className="transform -rotate-90">
         {/* Background circle */}
         <circle
@@ -55,11 +55,7 @@ export function ProjectProgressRing({
           </linearGradient>
         </defs>
       </svg>
-      {showLabel && (
-        <span className="absolute text-[8px] font-medium text-foreground">
-          {Math.round(progress)}%
-        </span>
-      )}
+      {showLabel && <span className="absolute text-[8px] font-medium text-foreground">{Math.round(progress)}%</span>}
     </div>
   );
 }

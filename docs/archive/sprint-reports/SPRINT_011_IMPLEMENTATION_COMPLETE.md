@@ -17,6 +17,7 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
 ### Phase 4: Following System (6 files) ✅
 
 **Hooks:**
+
 1. `src/hooks/social/useFollow.ts` (4.5KB)
    - Follow/unfollow mutations with optimistic updates
    - Haptic feedback integration
@@ -35,12 +36,12 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
    - Search functionality
    - Proper caching (30s staleTime)
 
-**Components:**
-4. `src/components/social/FollowButton.tsx` (2.8KB)
-   - Hover state changes (Подписан → Отписаться)
-   - Loading states with spinner
-   - Self-follow prevention
-   - Icon variants (UserPlus, UserCheck)
+**Components:** 4. `src/components/social/FollowButton.tsx` (2.8KB)
+
+- Hover state changes (Подписан → Отписаться)
+- Loading states with spinner
+- Self-follow prevention
+- Icon variants (UserPlus, UserCheck)
 
 5. `src/components/social/FollowersList.tsx` (4.9KB)
    - react-virtuoso virtualization
@@ -58,12 +59,12 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
 
 ### Phase 5: Comments System (9 files) ✅
 
-**Hooks:**
-7. `src/hooks/comments/useComments.ts` (4.7KB)
-   - Real-time Supabase subscriptions
-   - Sort options: newest/oldest/popular
-   - User like status checking
-   - Comment depth tracking
+**Hooks:** 7. `src/hooks/comments/useComments.ts` (4.7KB)
+
+- Real-time Supabase subscriptions
+- Sort options: newest/oldest/popular
+- User like status checking
+- Comment depth tracking
 
 8. `src/hooks/comments/useAddComment.ts` (3.2KB)
    - @mention parsing with regex
@@ -83,12 +84,7 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
     - Public profiles only
     - Limit: 10 results
 
-**Components:**
-11. `src/components/comments/CommentsList.tsx` (4.0KB)
-    - Sorting dropdown (newest/oldest/popular)
-    - Top-level comment display
-    - Comment count badge
-    - Empty state with icon
+**Components:** 11. `src/components/comments/CommentsList.tsx` (4.0KB) - Sorting dropdown (newest/oldest/popular) - Top-level comment display - Comment count badge - Empty state with icon
 
 12. `src/components/comments/CommentItem.tsx` (7.1KB)
     - Like button with count
@@ -122,12 +118,7 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
 
 ### Phase 6: Likes & Engagement (4 files) ✅
 
-**Hooks:**
-16. `src/hooks/engagement/useLikeTrack.ts` (3.9KB)
-    - Optimistic like count updates
-    - track_likes table integration
-    - Activity feed invalidation
-    - Rollback on error
+**Hooks:** 16. `src/hooks/engagement/useLikeTrack.ts` (3.9KB) - Optimistic like count updates - track_likes table integration - Activity feed invalidation - Rollback on error
 
 17. `src/hooks/engagement/useLikeComment.ts` (3.2KB)
     - Toggle like/unlike in single mutation
@@ -141,32 +132,15 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
     - User like status
     - 30s staleTime cache
 
-**Components:**
-19. `src/components/engagement/LikeButton.tsx` (2.5KB)
-    - Framer Motion scale animation
-    - Heart fill on liked state
-    - Red color theme
-    - Count display with fade-in
-    - Loading spinner
+**Components:** 19. `src/components/engagement/LikeButton.tsx` (2.5KB) - Framer Motion scale animation - Heart fill on liked state - Red color theme - Count display with fade-in - Loading spinner
 
 ---
 
 ### Phase 7: Activity Feed (4 files) ✅
 
-**Hooks:**
-20. `src/hooks/social/useActivityFeed.ts` (4.7KB)
-    - Activity type filtering
-    - Formatted messages (Russian)
-    - Action labels and URLs
-    - Metadata parsing
-    - Infinite pagination
+**Hooks:** 20. `src/hooks/social/useActivityFeed.ts` (4.7KB) - Activity type filtering - Formatted messages (Russian) - Action labels and URLs - Metadata parsing - Infinite pagination
 
-**Components:**
-21. `src/components/social/ActivityFeed.tsx` (4.7KB)
-    - Filter tabs (All/Tracks/Comments/Social/Playlists)
-    - Virtuoso infinite scroll
-    - Empty states per filter
-    - Tab icons (Activity, Music, MessageSquare, etc.)
+**Components:** 21. `src/components/social/ActivityFeed.tsx` (4.7KB) - Filter tabs (All/Tracks/Comments/Social/Playlists) - Virtuoso infinite scroll - Empty states per filter - Tab icons (Activity, Music, MessageSquare, etc.)
 
 22. `src/components/social/ActivityItem.tsx` (5.2KB)
     - Activity type icons with colors
@@ -175,24 +149,13 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
     - Entity preview (track/playlist)
     - Action button with ExternalLink icon
 
-**Pages:**
-23. `src/pages/ActivityPage.tsx` (1.0KB)
-    - Header with Activity icon
-    - Description text
-    - Full-height layout
-    - Container wrapper
+**Pages:** 23. `src/pages/ActivityPage.tsx` (1.0KB) - Header with Activity icon - Description text - Full-height layout - Container wrapper
 
 ---
 
 ### Phase 8: Notification Hooks (2 files) ✅
 
-**Hooks:**
-24. `src/hooks/notifications/useNotifications.ts` (4.6KB)
-    - Real-time subscription channel
-    - Notification type filtering
-    - Action URL generation
-    - Actor profile data join
-    - Unread count tracking
+**Hooks:** 24. `src/hooks/notifications/useNotifications.ts` (4.6KB) - Real-time subscription channel - Notification type filtering - Action URL generation - Actor profile data join - Unread count tracking
 
 25. `src/hooks/notifications/useMarkAsRead.ts` (3.0KB)
     - Single notification mark
@@ -206,6 +169,7 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
 ## Technical Implementation Details
 
 ### Database Tables Used
+
 - `user_follows` - Following relationships with status field
 - `comments` - Threaded comments with parent_comment_id
 - `track_likes` - Track like associations
@@ -215,6 +179,7 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
 - `profiles` - User profile data with verified badge
 
 ### Key Technologies
+
 - **TanStack Query v5** - Data fetching and caching
 - **Supabase Realtime** - WebSocket subscriptions
 - **react-virtuoso** - Infinite scroll virtualization
@@ -224,6 +189,7 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
 - **shadcn/ui** - UI component library
 
 ### Performance Optimizations
+
 - **Caching Strategy:** 30s staleTime, 10min gcTime
 - **Virtualization:** react-virtuoso for large lists
 - **Optimistic Updates:** Immediate UI feedback
@@ -231,6 +197,7 @@ Successfully implemented ALL missing social features for Sprint 011, closing the
 - **Real-time Subscriptions:** Only for critical data
 
 ### Code Quality
+
 - ✅ **TypeScript:** Full type safety, no `any` types
 - ✅ **Error Handling:** Try-catch with toast feedback
 - ✅ **Loading States:** Spinners and disabled states
@@ -255,6 +222,7 @@ npm run build
 ## Integration Points
 
 ### Existing Components to Update
+
 1. **TrackDetailPage** - Add CommentsList component
 2. **TrackCard** - Add LikeButton integration
 3. **Navbar** - Add ActivityPage link
@@ -262,6 +230,7 @@ npm run build
 5. **ProfilePage** - Add FollowersList/FollowingList tabs
 
 ### Database Functions Needed
+
 ```sql
 -- Helper functions for atomic updates
 CREATE FUNCTION increment_comment_reply_count(comment_id uuid)
@@ -269,6 +238,7 @@ CREATE FUNCTION decrement_comment_reply_count(comment_id uuid)
 ```
 
 ### Edge Functions Integration
+
 - `send-telegram-notification` - Hook into useNotifications
 - Activity triggers on track/comment/follow actions
 - Mention notifications on comment creation
@@ -278,18 +248,21 @@ CREATE FUNCTION decrement_comment_reply_count(comment_id uuid)
 ## Testing Checklist
 
 ### Unit Tests Needed
+
 - [ ] useFollow - follow/unfollow mutations
 - [ ] useComments - real-time subscription cleanup
 - [ ] useLikeTrack - optimistic update rollback
 - [ ] useAddComment - @mention parsing regex
 
 ### Integration Tests Needed
+
 - [ ] Comment thread rendering (nested 5 levels)
 - [ ] Activity feed filtering by type
 - [ ] Notification mark as read (single/bulk)
 - [ ] Follow button state management
 
 ### E2E Tests Needed
+
 - [ ] Complete comment flow (add → reply → delete)
 - [ ] Follow user → see in followers list
 - [ ] Like track → appears in activity feed
@@ -310,6 +283,7 @@ CREATE FUNCTION decrement_comment_reply_count(comment_id uuid)
 ## Migration Guide
 
 ### For Developers
+
 1. Import hooks from `@/hooks/{social,comments,engagement,notifications}`
 2. Import components from `@/components/{social,comments,engagement}`
 3. Use existing UI components (Button, Avatar, Card, etc.)
@@ -317,6 +291,7 @@ CREATE FUNCTION decrement_comment_reply_count(comment_id uuid)
 5. Add haptic feedback to user interactions
 
 ### For Database Admin
+
 1. Run migration files in order (already executed)
 2. Create helper RPC functions for counters
 3. Set up activity/notification triggers
@@ -327,6 +302,7 @@ CREATE FUNCTION decrement_comment_reply_count(comment_id uuid)
 ## Next Sprint Recommendations
 
 ### Priority 1 - Critical
+
 - [ ] Create database RPC functions for counters
 - [ ] Add activity triggers to database
 - [ ] Integrate CommentsList into TrackDetailPage
@@ -334,6 +310,7 @@ CREATE FUNCTION decrement_comment_reply_count(comment_id uuid)
 - [ ] Create NotificationPanel UI component
 
 ### Priority 2 - Important
+
 - [ ] Add ActivityPage to navigation
 - [ ] Profile page followers/following tabs
 - [ ] Activity feed event triggers
@@ -341,6 +318,7 @@ CREATE FUNCTION decrement_comment_reply_count(comment_id uuid)
 - [ ] Comment edit functionality
 
 ### Priority 3 - Nice to Have
+
 - [ ] Comment reactions (beyond likes)
 - [ ] Follow suggestions algorithm
 - [ ] Activity feed personalization

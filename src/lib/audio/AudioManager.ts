@@ -1,12 +1,12 @@
 /**
  * AudioManager - Centralized Audio Element Pooling
- * 
+ *
  * Manages audio element lifecycle with pooling to prevent memory leaks
  * and respect mobile browser limits (6-8 concurrent audio elements).
- * 
+ *
  * Phase 1 Critical Fix: IMP-AudioContext-001
  * Priority: P0 CRITICAL
- * 
+ *
  * Features:
  * - Audio element pooling (max 8 elements)
  * - Automatic cleanup of oldest elements
@@ -15,8 +15,8 @@
  * - Mobile browser compatibility
  */
 
-import { createAudioContext, ensureAudioContextRunning } from './audioContextHelper';
-import { logger } from '@/lib/logger';
+import { createAudioContext, ensureAudioContextRunning } from "./audioContextHelper";
+import { logger } from "@/lib/logger";
 
 interface AudioElementMetadata {
   id: string;
@@ -52,7 +52,7 @@ class AudioManager {
     this.startAutoCleanup();
 
     if (this.config.enableLogging) {
-      logger.info('AudioManager initialized', {
+      logger.info("AudioManager initialized", {
         maxPoolSize: this.config.maxPoolSize,
         autoCleanupInterval: this.config.autoCleanupInterval,
       });
@@ -73,13 +73,13 @@ class AudioManager {
     try {
       this.audioContext = createAudioContext();
       if (this.config.enableLogging) {
-        logger.debug('AudioContext created', {
+        logger.debug("AudioContext created", {
           state: this.audioContext.state,
           sampleRate: this.audioContext.sampleRate,
         });
       }
     } catch (error) {
-      logger.error('Failed to create AudioContext', { error });
+      logger.error("Failed to create AudioContext", { error });
     }
   }
 
@@ -88,45 +88,45 @@ class AudioManager {
    * Handles visibility changes and suspends/resumes context
    */
   private setupAudioContextStateManagement(): void {
-    if (typeof document === 'undefined') return;
+    if (typeof document === "undefined") return;
 
-    document.addEventListener('visibilitychange', async () => {
+    document.addEventListener("visibilitychange", async () => {
       if (!this.audioContext) return;
 
       try {
-        if (document.hidden && this.audioContext.state === 'running') {
+        if (document.hidden && this.audioContext.state === "running") {
           await this.audioContext.suspend();
           if (this.config.enableLogging) {
-            logger.debug('AudioContext suspended (page hidden)');
+            logger.debug("AudioContext suspended (page hidden)");
           }
-        } else if (!document.hidden && this.audioContext.state === 'suspended') {
+        } else if (!document.hidden && this.audioContext.state === "suspended") {
           await this.audioContext.resume();
           if (this.config.enableLogging) {
-            logger.debug('AudioContext resumed (page visible)');
+            logger.debug("AudioContext resumed (page visible)");
           }
         }
       } catch (error) {
-        logger.error('Error managing AudioContext state', { error });
+        logger.error("Error managing AudioContext state", { error });
       }
     });
 
     // Resume AudioContext on user interaction (required on iOS)
     const resumeAudioContext = async () => {
-      if (this.audioContext && this.audioContext.state === 'suspended') {
+      if (this.audioContext && this.audioContext.state === "suspended") {
         try {
           await ensureAudioContextRunning(this.audioContext);
           if (this.config.enableLogging) {
-            logger.debug('AudioContext resumed on user interaction');
+            logger.debug("AudioContext resumed on user interaction");
           }
         } catch (error) {
-          logger.error('Error resuming AudioContext', { error });
+          logger.error("Error resuming AudioContext", { error });
         }
       }
     };
 
     // Listen for first user interaction
-    const events = ['touchstart', 'touchend', 'mousedown', 'keydown'];
-    events.forEach(event => {
+    const events = ["touchstart", "touchend", "mousedown", "keydown"];
+    events.forEach((event) => {
       document.addEventListener(event, resumeAudioContext, { once: true, passive: true });
     });
   }
@@ -142,7 +142,7 @@ class AudioManager {
       existing.lastUsed = Date.now();
       existing.isActive = true;
       if (this.config.enableLogging) {
-        logger.debug('Audio element retrieved from pool', { id, poolSize: this.audioPool.size });
+        logger.debug("Audio element retrieved from pool", { id, poolSize: this.audioPool.size });
       }
       return existing.element;
     }
@@ -154,8 +154,8 @@ class AudioManager {
 
     // Create new audio element
     const audio = new Audio();
-    audio.preload = 'auto';
-    audio.crossOrigin = 'anonymous';
+    audio.preload = "auto";
+    audio.crossOrigin = "anonymous";
 
     const metadata: AudioElementMetadata = {
       id,
@@ -168,7 +168,7 @@ class AudioManager {
     this.audioPool.set(id, metadata);
 
     if (this.config.enableLogging) {
-      logger.debug('Audio element created', {
+      logger.debug("Audio element created", {
         id,
         poolSize: this.audioPool.size,
         maxPoolSize: this.config.maxPoolSize,
@@ -187,9 +187,9 @@ class AudioManager {
     if (metadata) {
       metadata.isActive = false;
       metadata.element.pause();
-      
+
       if (this.config.enableLogging) {
-        logger.debug('Audio element released', { id, poolSize: this.audioPool.size });
+        logger.debug("Audio element released", { id, poolSize: this.audioPool.size });
       }
     }
   }
@@ -203,12 +203,12 @@ class AudioManager {
     if (metadata) {
       const { element } = metadata;
       element.pause();
-      element.src = '';
+      element.src = "";
       element.load(); // Force release of resources
       this.audioPool.delete(id);
 
       if (this.config.enableLogging) {
-        logger.debug('Audio element removed', { id, poolSize: this.audioPool.size });
+        logger.debug("Audio element removed", { id, poolSize: this.audioPool.size });
       }
     }
   }
@@ -240,7 +240,7 @@ class AudioManager {
 
     if (oldestMetadata) {
       if (this.config.enableLogging) {
-        logger.info('Evicting audio element', {
+        logger.info("Evicting audio element", {
           id: oldestMetadata.id,
           age: Date.now() - oldestMetadata.createdAt,
           isActive: oldestMetadata.isActive,
@@ -287,13 +287,13 @@ class AudioManager {
     }
 
     if (elementsToRemove.length > 0 && this.config.enableLogging) {
-      logger.info('Cleaning up inactive audio elements', {
+      logger.info("Cleaning up inactive audio elements", {
         count: elementsToRemove.length,
         poolSize: this.audioPool.size,
       });
     }
 
-    elementsToRemove.forEach(id => this.removeAudioElement(id));
+    elementsToRemove.forEach((id) => this.removeAudioElement(id));
   }
 
   /**
@@ -337,7 +337,7 @@ class AudioManager {
    */
   cleanup(): void {
     if (this.config.enableLogging) {
-      logger.info('AudioManager cleanup started', {
+      logger.info("AudioManager cleanup started", {
         poolSize: this.audioPool.size,
       });
     }
@@ -348,20 +348,20 @@ class AudioManager {
     // Cleanup all audio elements
     this.audioPool.forEach((metadata) => {
       metadata.element.pause();
-      metadata.element.src = '';
+      metadata.element.src = "";
       metadata.element.load();
     });
     this.audioPool.clear();
 
     // Close AudioContext
-    if (this.audioContext && this.audioContext.state !== 'closed') {
-      this.audioContext.close().catch(error => {
-        logger.error('Error closing AudioContext', { error });
+    if (this.audioContext && this.audioContext.state !== "closed") {
+      this.audioContext.close().catch((error) => {
+        logger.error("Error closing AudioContext", { error });
       });
     }
 
     if (this.config.enableLogging) {
-      logger.info('AudioManager cleanup complete');
+      logger.info("AudioManager cleanup complete");
     }
   }
 }

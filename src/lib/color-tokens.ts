@@ -13,18 +13,18 @@
 // ============================================================================
 
 export const sectionColors = {
-  generate: 'hsl(var(--generate))',
-  generateGlow: 'hsl(var(--generate-glow))',
-  library: 'hsl(var(--library))',
-  libraryGlow: 'hsl(var(--library-glow))',
-  projects: 'hsl(var(--projects))',
-  projectsGlow: 'hsl(var(--projects-glow))',
-  community: 'hsl(var(--community))',
-  communityGlow: 'hsl(var(--community-glow))',
-  success: 'hsl(var(--success))',
-  successGlow: 'hsl(var(--success-glow))',
-  warning: 'hsl(var(--warning))',
-  warningGlow: 'hsl(var(--warning-glow))',
+  generate: "hsl(var(--generate))",
+  generateGlow: "hsl(var(--generate-glow))",
+  library: "hsl(var(--library))",
+  libraryGlow: "hsl(var(--library-glow))",
+  projects: "hsl(var(--projects))",
+  projectsGlow: "hsl(var(--projects-glow))",
+  community: "hsl(var(--community))",
+  communityGlow: "hsl(var(--community-glow))",
+  success: "hsl(var(--success))",
+  successGlow: "hsl(var(--success-glow))",
+  warning: "hsl(var(--warning))",
+  warningGlow: "hsl(var(--warning-glow))",
 } as const;
 
 // ============================================================================
@@ -32,21 +32,21 @@ export const sectionColors = {
 // ============================================================================
 
 export const surfaceColors = {
-  surface1: 'hsl(var(--surface-1))',
-  surface2: 'hsl(var(--surface-2))',
-  surface3: 'hsl(var(--surface-3))',
-  scrim: 'hsl(var(--overlay-scrim))',
+  surface1: "hsl(var(--surface-1))",
+  surface2: "hsl(var(--surface-2))",
+  surface3: "hsl(var(--surface-3))",
+  scrim: "hsl(var(--overlay-scrim))",
 } as const;
 
 export const stateColors = {
-  success: 'hsl(var(--state-success))',
-  successForeground: 'hsl(var(--state-success-foreground))',
-  warning: 'hsl(var(--state-warning))',
-  warningForeground: 'hsl(var(--state-warning-foreground))',
-  danger: 'hsl(var(--state-danger))',
-  dangerForeground: 'hsl(var(--state-danger-foreground))',
-  info: 'hsl(var(--state-info))',
-  infoForeground: 'hsl(var(--state-info-foreground))',
+  success: "hsl(var(--state-success))",
+  successForeground: "hsl(var(--state-success-foreground))",
+  warning: "hsl(var(--state-warning))",
+  warningForeground: "hsl(var(--state-warning-foreground))",
+  danger: "hsl(var(--state-danger))",
+  dangerForeground: "hsl(var(--state-danger-foreground))",
+  info: "hsl(var(--state-info))",
+  infoForeground: "hsl(var(--state-info-foreground))",
 } as const;
 
 // ============================================================================
@@ -54,21 +54,21 @@ export const stateColors = {
 // ============================================================================
 
 export const uiColors = {
-  border: 'hsl(var(--border))',
-  input: 'hsl(var(--input))',
-  ring: 'hsl(var(--ring))',
-  background: 'hsl(var(--background))',
-  foreground: 'hsl(var(--foreground))',
-  primary: 'hsl(var(--primary))',
-  primaryForeground: 'hsl(var(--primary-foreground))',
-  secondary: 'hsl(var(--secondary))',
-  secondaryForeground: 'hsl(var(--secondary-foreground))',
-  destructive: 'hsl(var(--destructive))',
-  destructiveForeground: 'hsl(var(--destructive-foreground))',
-  muted: 'hsl(var(--muted))',
-  mutedForeground: 'hsl(var(--muted-foreground))',
-  accent: 'hsl(var(--accent))',
-  accentForeground: 'hsl(var(--accent-foreground))',
+  border: "hsl(var(--border))",
+  input: "hsl(var(--input))",
+  ring: "hsl(var(--ring))",
+  background: "hsl(var(--background))",
+  foreground: "hsl(var(--foreground))",
+  primary: "hsl(var(--primary))",
+  primaryForeground: "hsl(var(--primary-foreground))",
+  secondary: "hsl(var(--secondary))",
+  secondaryForeground: "hsl(var(--secondary-foreground))",
+  destructive: "hsl(var(--destructive))",
+  destructiveForeground: "hsl(var(--destructive-foreground))",
+  muted: "hsl(var(--muted))",
+  mutedForeground: "hsl(var(--muted-foreground))",
+  accent: "hsl(var(--accent))",
+  accentForeground: "hsl(var(--accent-foreground))",
 } as const;
 
 // ============================================================================
@@ -76,12 +76,12 @@ export const uiColors = {
 // ============================================================================
 
 export const gradients = {
-  telegram: 'linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%))',
-  primary: 'var(--gradient-primary)',
-  card: 'var(--gradient-card)',
-  hero: 'var(--gradient-hero)',
-  generate: 'var(--gradient-generate)',
-  success: 'var(--gradient-success)',
+  telegram: "linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%))",
+  primary: "var(--gradient-primary)",
+  card: "var(--gradient-card)",
+  hero: "var(--gradient-hero)",
+  generate: "var(--gradient-generate)",
+  success: "var(--gradient-success)",
 } as const;
 
 // ============================================================================
@@ -120,7 +120,7 @@ export function getUIColor(color: keyof typeof uiColors): string {
  * Check if a color is light or dark
  */
 export function isLightColor(hexColor: string): boolean {
-  const hex = hexColor.replace('#', '');
+  const hex = hexColor.replace("#", "");
   const r = parseInt(hex.substr(0, 2), 16);
   const g = parseInt(hex.substr(2, 2), 16);
   const b = parseInt(hex.substr(4, 2), 16);
@@ -137,16 +137,16 @@ export function isLightColor(hexColor: string): boolean {
  */
 export function generateColorPalette(baseColor: string) {
   return {
-    50: `${baseColor}0d`,    // 5% opacity
-    100: `${baseColor}1a`,   // 10% opacity
-    200: `${baseColor}33`,   // 20% opacity
-    300: `${baseColor}4d`,   // 30% opacity
-    400: `${baseColor}66`,   // 40% opacity
-    500: `${baseColor}80`,   // 50% opacity
-    600: `${baseColor}99`,   // 60% opacity
-    700: `${baseColor}b3`,   // 70% opacity
-    800: `${baseColor}cc`,   // 80% opacity
-    900: `${baseColor}e6}`,  // 90% opacity
+    50: `${baseColor}0d`, // 5% opacity
+    100: `${baseColor}1a`, // 10% opacity
+    200: `${baseColor}33`, // 20% opacity
+    300: `${baseColor}4d`, // 30% opacity
+    400: `${baseColor}66`, // 40% opacity
+    500: `${baseColor}80`, // 50% opacity
+    600: `${baseColor}99`, // 60% opacity
+    700: `${baseColor}b3`, // 70% opacity
+    800: `${baseColor}cc`, // 80% opacity
+    900: `${baseColor}e6}`, // 90% opacity
   };
 }
 

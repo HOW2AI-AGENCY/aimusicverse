@@ -3,21 +3,21 @@
  * React hooks wrapping credits service for gamification features
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from './useAuth';
-import { toast } from 'sonner';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "./useAuth";
+import { toast } from "sonner";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 // Re-export from service for backward compatibility
-import * as creditsApi from '@/api/credits.api';
-import * as creditsService from '@/services/credits.service';
+import * as creditsApi from "@/api/credits.api";
+import * as creditsService from "@/services/credits.service";
 
 export {
   ACTION_REWARDS,
   getExperienceForLevel,
   getLevelFromExperience,
   getLevelProgress,
-} from '@/services/credits.service';
+} from "@/services/credits.service";
 
 // Types (re-exported for backward compatibility)
 export interface UserCredits {
@@ -71,14 +71,14 @@ export interface LeaderboardEntry {
   total_plays: number;
 }
 
-export type LeaderboardCategory = 'overall' | 'generators' | 'sharers' | 'popular' | 'listeners';
+export type LeaderboardCategory = "overall" | "generators" | "sharers" | "popular" | "listeners";
 
 export const LEADERBOARD_CATEGORIES = {
-  overall: { label: 'Общий', icon: '👑', stat: 'experience' },
-  generators: { label: 'Генераторы', icon: '🎵', stat: 'total_tracks' },
-  sharers: { label: 'Промоутеры', icon: '🔗', stat: 'total_shares' },
-  popular: { label: 'Популярные', icon: '❤️', stat: 'total_likes_received' },
-  listeners: { label: 'Прослушивания', icon: '👂', stat: 'total_plays' },
+  overall: { label: "Общий", icon: "👑", stat: "experience" },
+  generators: { label: "Генераторы", icon: "🎵", stat: "total_tracks" },
+  sharers: { label: "Промоутеры", icon: "🔗", stat: "total_shares" },
+  popular: { label: "Популярные", icon: "❤️", stat: "total_likes_received" },
+  listeners: { label: "Прослушивания", icon: "👂", stat: "total_plays" },
 } as const;
 
 export interface CreditTransaction {
@@ -99,14 +99,14 @@ export function useUserCredits() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['user-credits', user?.id],
+    queryKey: ["user-credits", user?.id],
     queryFn: async (): Promise<UserCredits | null> => {
       if (!user?.id) return null;
       const data = await creditsApi.fetchUserCredits(user.id);
-      
+
       // If no record exists, create one
       if (!data) {
-        return await creditsApi.upsertUserCredits(user.id, {}) as UserCredits;
+        return (await creditsApi.upsertUserCredits(user.id, {})) as UserCredits;
       }
       return data as UserCredits;
     },
@@ -120,7 +120,7 @@ export function useUserCredits() {
  */
 export function useAchievements() {
   return useQuery({
-    queryKey: ['achievements'],
+    queryKey: ["achievements"],
     queryFn: creditsApi.fetchAchievements,
     staleTime: 5 * 60 * 1000,
   });
@@ -133,7 +133,7 @@ export function useUserAchievements() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['user-achievements', user?.id],
+    queryKey: ["user-achievements", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
       return creditsApi.fetchUserAchievements(user.id);
@@ -146,9 +146,9 @@ export function useUserAchievements() {
 /**
  * Hook to fetch leaderboard
  */
-export function useLeaderboard(limit = 50, category: LeaderboardCategory = 'overall') {
+export function useLeaderboard(limit = 50, category: LeaderboardCategory = "overall") {
   return useQuery({
-    queryKey: ['leaderboard', limit, category],
+    queryKey: ["leaderboard", limit, category],
     queryFn: async (): Promise<LeaderboardEntry[]> => {
       const data = await creditsApi.fetchLeaderboard(limit, category);
       return data as LeaderboardEntry[];
@@ -164,7 +164,7 @@ export function useCreditTransactions(limit = 20) {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['credit-transactions', user?.id, limit],
+    queryKey: ["credit-transactions", user?.id, limit],
     queryFn: async (): Promise<CreditTransaction[]> => {
       if (!user?.id) return [];
       const data = await creditsApi.fetchCreditTransactions(user.id, limit);
@@ -185,23 +185,23 @@ export function useCheckin() {
 
   return useMutation({
     mutationFn: async () => {
-      if (!user?.id) throw new Error('Not authenticated');
+      if (!user?.id) throw new Error("Not authenticated");
       return creditsService.processDailyCheckin(user.id);
     },
     onSuccess: (result) => {
-      hapticFeedback?.('success');
+      hapticFeedback?.("success");
       toast.success(`+${result.credits} кредитов! День ${result.streak} 🔥`, {
         description: `+${result.experience} опыта`,
       });
-      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
-      queryClient.invalidateQueries({ queryKey: ['user-checkins'] });
-      queryClient.invalidateQueries({ queryKey: ['credit-transactions'] });
+      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
+      queryClient.invalidateQueries({ queryKey: ["user-checkins"] });
+      queryClient.invalidateQueries({ queryKey: ["credit-transactions"] });
     },
     onError: (error: Error) => {
-      if (error.message === 'Вы уже отметились сегодня') {
+      if (error.message === "Вы уже отметились сегодня") {
         toast.info(error.message);
       } else {
-        toast.error('Ошибка чекина');
+        toast.error("Ошибка чекина");
       }
     },
   });
@@ -228,12 +228,12 @@ export function useRewardAction() {
       description?: string;
       metadata?: Record<string, unknown>;
     }) => {
-      if (!user?.id) throw new Error('Not authenticated');
+      if (!user?.id) throw new Error("Not authenticated");
       return creditsService.rewardForAction(user.id, actionType, metadata);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
-      queryClient.invalidateQueries({ queryKey: ['credit-transactions'] });
+      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
+      queryClient.invalidateQueries({ queryKey: ["credit-transactions"] });
     },
   });
 }
@@ -245,7 +245,7 @@ export function useCanCheckinToday() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['can-checkin-today', user?.id],
+    queryKey: ["can-checkin-today", user?.id],
     queryFn: async (): Promise<boolean> => {
       if (!user?.id) return false;
       const hasCheckedIn = await creditsApi.hasCheckedInToday(user.id);
@@ -265,12 +265,12 @@ export function useRewardShare() {
 
   return useMutation({
     mutationFn: async ({ trackId }: { trackId: string }) => {
-      if (!user?.id) throw new Error('Not authenticated');
-      return creditsService.rewardForAction(user.id, 'share', { trackId });
+      if (!user?.id) throw new Error("Not authenticated");
+      return creditsService.rewardForAction(user.id, "share", { trackId });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
-      queryClient.invalidateQueries({ queryKey: ['credit-transactions'] });
+      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
+      queryClient.invalidateQueries({ queryKey: ["credit-transactions"] });
     },
   });
 }

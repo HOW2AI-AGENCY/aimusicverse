@@ -24,14 +24,14 @@
 
 ### Размер компонентов
 
-| Компонент | Строк кода | Статус |
-|-----------|------------|--------|
-| `StemStudioContent.tsx` | 1105 | 🟡 Требует оптимизации |
-| `TrackStudioContent.tsx` | 787 | ✅ Приемлемо |
-| `MidiVisualizationMobile.tsx` | 581 | 🟡 Можно оптимизировать |
-| `MidiVisualizationPanel.tsx` | 539 | ✅ Приемлемо |
-| `MidiPianoRoll.tsx` | 511 | ✅ Приемлемо |
-| `StemMidiPanel.tsx` | 504 | ✅ Приемлемо |
+| Компонент                     | Строк кода | Статус                  |
+| ----------------------------- | ---------- | ----------------------- |
+| `StemStudioContent.tsx`       | 1105       | 🟡 Требует оптимизации  |
+| `TrackStudioContent.tsx`      | 787        | ✅ Приемлемо            |
+| `MidiVisualizationMobile.tsx` | 581        | 🟡 Можно оптимизировать |
+| `MidiVisualizationPanel.tsx`  | 539        | ✅ Приемлемо            |
+| `MidiPianoRoll.tsx`           | 511        | ✅ Приемлемо            |
+| `StemMidiPanel.tsx`           | 504        | ✅ Приемлемо            |
 
 **Итого:** ~18,862 строк кода в папке stem-studio
 
@@ -84,22 +84,35 @@
 **Проблема:** `StemStudioContent.tsx` содержит 1105 строк и множество состояний
 
 **Рекомендации:**
+
 - Разделить на подкомпоненты
 - Использовать `useMemo` для тяжёлых вычислений
 - Оптимизировать useEffect зависимости
 - Добавить React.memo для дочерних компонентов
 
 **Текущие useEffect в StemStudioContent:**
+
 ```typescript
 // Найдено 7+ useEffect хуков
-useEffect(() => { resetSectionEditor() }, [trackId])
-useEffect(() => { syncVolumes }, [effectsEnabled, stemStates])
-useEffect(() => { initializeAudio }, [stems])
-useEffect(() => { updateVolumes }, [stemStates, masterVolume])
-useEffect(() => { keyboardShortcuts }, [togglePlay, handleSkip])
+useEffect(() => {
+  resetSectionEditor();
+}, [trackId]);
+useEffect(() => {
+  syncVolumes;
+}, [effectsEnabled, stemStates]);
+useEffect(() => {
+  initializeAudio;
+}, [stems]);
+useEffect(() => {
+  updateVolumes;
+}, [stemStates, masterVolume]);
+useEffect(() => {
+  keyboardShortcuts;
+}, [togglePlay, handleSkip]);
 ```
 
 **Оптимизация:**
+
 - Объединить связанные эффекты
 - Использовать `useCallback` для стабильных функций
 - Мемоизировать вычисляемые значения
@@ -109,6 +122,7 @@ useEffect(() => { keyboardShortcuts }, [togglePlay, handleSkip])
 **Проблема:** Монолитный компонент с множеством ответственностей
 
 **Рефакторинг план:**
+
 ```
 StemStudioContent (главный контейнер)
 ├── StemStudioHeader (навигация, кнопки действий)
@@ -120,6 +134,7 @@ StemStudioContent (главный контейнер)
 ```
 
 **Преимущества:**
+
 - Улучшенная читаемость
 - Лучшая тестируемость
 - Переиспользуемость
@@ -130,11 +145,13 @@ StemStudioContent (главный контейнер)
 **Текущая реализация:** Каждый стем создаёт WaveSurfer instance
 
 **Потенциальные проблемы:**
+
 - Много памяти при 6+ стемах
 - Повторная загрузка аудио
 - Дублирование декодирования
 
 **Рекомендации:**
+
 - Использовать единый Audio Context
 - Кэшировать AudioBuffer
 - Lazy loading waveform
@@ -145,6 +162,7 @@ StemStudioContent (главный контейнер)
 **Текущая структура:** Много дублирования между desktop/mobile
 
 **Улучшения:**
+
 - Унифицировать компоненты с responsive дизайном
 - Использовать CSS-in-JS для адаптивности
 - Убрать дублирование логики
@@ -154,6 +172,7 @@ StemStudioContent (главный контейнер)
 **Текущее состояние:** Базовая обработка через logger и toast
 
 **Улучшения:**
+
 - Добавить Error Boundaries для критических секций
 - Graceful degradation при ошибках Web Audio
 - Retry механизм для загрузки аудио
@@ -168,6 +187,7 @@ StemStudioContent (главный контейнер)
 **Текущее состояние:** Хорошо, но можно улучшить
 
 **Рекомендации:**
+
 - Более явные индикаторы активных эффектов
 - Визуальный feedback при изменении параметров
 - Прогресс-бар для операций (MIDI, stem separation)
@@ -176,12 +196,14 @@ StemStudioContent (главный контейнер)
 ### 2. Keyboard shortcuts
 
 **Текущие:**
+
 - Space: Play/Pause
 - M: Master Mute
 - ←/→: Skip
 - Esc: Cancel
 
 **Предлагаемые дополнения:**
+
 - S: Solo выбранный стем
 - Shift+M: Mute выбранный стем
 - Ctrl+Z: Undo (для section editing)
@@ -192,6 +214,7 @@ StemStudioContent (главный контейнер)
 ### 3. Tooltips и контекстная помощь
 
 **Добавить:**
+
 - Tooltips для всех иконок
 - Контекстные подсказки для новичков
 - Inline help для сложных функций
@@ -200,6 +223,7 @@ StemStudioContent (главный контейнер)
 ### 4. Визуальные индикаторы
 
 **Улучшения:**
+
 - Более яркий индикатор Solo-режима
 - Анимация при переключении Mute
 - Визуализация уровня компрессии (gain reduction meter)
@@ -266,18 +290,19 @@ StemStudioContent (главный контейнер)
 
 ### Текущие показатели (оценочно)
 
-| Метрика | Значение | Цель | Статус |
-|---------|----------|------|--------|
-| Initial load | ~2-3s | <2s | 🟡 |
-| Stem load time | ~1s/stem | <500ms | 🟡 |
-| Play latency | <100ms | <50ms | ✅ |
-| Audio sync drift | <0.1s | <0.1s | ✅ |
-| Re-render count | ~10-15/sec | <5/sec | 🔴 |
-| Memory usage | ~50-100MB | <80MB | 🟡 |
+| Метрика          | Значение   | Цель   | Статус |
+| ---------------- | ---------- | ------ | ------ |
+| Initial load     | ~2-3s      | <2s    | 🟡     |
+| Stem load time   | ~1s/stem   | <500ms | 🟡     |
+| Play latency     | <100ms     | <50ms  | ✅     |
+| Audio sync drift | <0.1s      | <0.1s  | ✅     |
+| Re-render count  | ~10-15/sec | <5/sec | 🔴     |
+| Memory usage     | ~50-100MB  | <80MB  | 🟡     |
 
 ### Целевые показатели
 
 После оптимизации:
+
 - Initial load: <2s
 - Re-render count: <5/sec
 - Memory usage: <80MB
@@ -294,6 +319,7 @@ StemStudioContent (главный контейнер)
 3. Добавить мемоизацию
 
 **Файлы для создания:**
+
 ```
 src/components/stem-studio/
 ├── core/
@@ -386,6 +412,7 @@ src/components/stem-studio/
 ### Совместимость
 
 Все изменения должны быть обратно совместимы с существующими:
+
 - Hooks (useTrackStems, useStemMidi)
 - Stores (useSectionEditorStore)
 - Props interfaces
@@ -393,6 +420,7 @@ src/components/stem-studio/
 ### Миграция
 
 При рефакторинге поддерживать:
+
 - Существующие routes
 - Query параметры
 - Deep links
@@ -400,6 +428,7 @@ src/components/stem-studio/
 ### Документация
 
 Обновить после реализации:
+
 - README.md
 - STEM_STUDIO_ARCHITECTURE.md
 - Component documentation
@@ -412,24 +441,28 @@ src/components/stem-studio/
 После реализации всех улучшений:
 
 ✅ **Производительность**
+
 - Быстрая загрузка (<2s)
 - Плавный UI (60fps)
 - Меньше памяти (<80MB)
 - Меньше ре-рендеров (<5/sec)
 
 ✅ **Качество кода**
+
 - Модульная архитектура
 - Лучшая читаемость
 - Легче поддержка
 - Проще тестирование
 
 ✅ **Пользовательский опыт**
+
 - Интуитивный интерфейс
 - Быстрый отклик
 - Понятные индикаторы
 - Полезные shortcuts
 
 ✅ **Надёжность**
+
 - Graceful error handling
 - Fallback UI
 - Retry механизмы

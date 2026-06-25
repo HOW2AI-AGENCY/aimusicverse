@@ -4,15 +4,24 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { 
-  Music, Play, Pause, Globe, Lock, Clock, 
-  Heart, Calendar, User, FileAudio, Upload,
-  AudioWaveform
+import {
+  Music,
+  Play,
+  Pause,
+  Globe,
+  Lock,
+  Clock,
+  Heart,
+  Calendar,
+  User,
+  FileAudio,
+  Upload,
+  AudioWaveform,
 } from "lucide-react";
-import { format, ru } from '@/lib/date-utils';
+import { format, ru } from "@/lib/date-utils";
 import { useRef, useState } from "react";
-import { formatDuration } from '@/lib/player-utils';
-import { ReferenceAudioPlayer } from './ReferenceAudioPlayer';
+import { formatDuration } from "@/lib/player-utils";
+import { ReferenceAudioPlayer } from "./ReferenceAudioPlayer";
 
 interface AdminTrack {
   id: string;
@@ -39,17 +48,13 @@ interface AdminTrackDetailsDialogProps {
   track: AdminTrack | null;
 }
 
-export function AdminTrackDetailsDialog({ 
-  open, 
-  onOpenChange, 
-  track 
-}: AdminTrackDetailsDialogProps) {
+export function AdminTrackDetailsDialog({ open, onOpenChange, track }: AdminTrackDetailsDialogProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const togglePlay = () => {
     if (!audioRef.current) return;
-    
+
     if (isPlaying) {
       audioRef.current.pause();
     } else {
@@ -58,19 +63,21 @@ export function AdminTrackDetailsDialog({
     setIsPlaying(!isPlaying);
   };
 
-
   if (!track) return null;
 
   const hasReferenceAudio = !!track.reference_audio_url;
 
   return (
-    <Dialog open={open} onOpenChange={(v) => {
-      if (!v && audioRef.current) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      }
-      onOpenChange(v);
-    }}>
+    <Dialog
+      open={open}
+      onOpenChange={(v) => {
+        if (!v && audioRef.current) {
+          audioRef.current.pause();
+          setIsPlaying(false);
+        }
+        onOpenChange(v);
+      }}
+    >
       <DialogContent className="max-w-lg max-h-[85vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
@@ -98,21 +105,13 @@ export function AdminTrackDetailsDialog({
                     className="absolute inset-0 m-auto w-10 h-10 rounded-full opacity-90"
                     onClick={togglePlay}
                   >
-                    {isPlaying ? (
-                      <Pause className="h-5 w-5" />
-                    ) : (
-                      <Play className="h-5 w-5 ml-0.5" />
-                    )}
+                    {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
                   </Button>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-lg truncate">
-                  {track.title || "Без названия"}
-                </h3>
-                <p className="text-sm text-muted-foreground truncate">
-                  {track.style || "Стиль не указан"}
-                </p>
+                <h3 className="font-semibold text-lg truncate">{track.title || "Без названия"}</h3>
+                <p className="text-sm text-muted-foreground truncate">{track.style || "Стиль не указан"}</p>
                 <div className="flex items-center gap-2 mt-2 flex-wrap">
                   {track.is_public ? (
                     <Badge variant="outline" className="text-green-500 border-green-500/30">
@@ -125,13 +124,10 @@ export function AdminTrackDetailsDialog({
                       Приватный
                     </Badge>
                   )}
-                  <Badge variant={track.status === "completed" ? "default" : "secondary"}>
-                    {track.status}
-                  </Badge>
+                  <Badge variant={track.status === "completed" ? "default" : "secondary"}>{track.status}</Badge>
                   {hasReferenceAudio && (
                     <Badge variant="outline" className="text-primary border-primary/30">
-                      <Upload className="h-3 w-3 mr-1" />
-                      С референсом
+                      <Upload className="h-3 w-3 mr-1" />С референсом
                     </Badge>
                   )}
                 </div>
@@ -159,7 +155,7 @@ export function AdminTrackDetailsDialog({
                     Референсное аудио
                   </h4>
                   <div className="p-3 rounded-lg border bg-muted/30">
-                    <ReferenceAudioPlayer 
+                    <ReferenceAudioPlayer
                       audioUrl={track.reference_audio_url!}
                       generationMode={track.generation_mode}
                     />
@@ -174,7 +170,9 @@ export function AdminTrackDetailsDialog({
                 <Clock className="h-4 w-4 text-muted-foreground" />
                 <div>
                   <div className="text-xs text-muted-foreground">Длительность</div>
-                  <div className="font-medium">{track.duration_seconds ? formatDuration(track.duration_seconds) : '—'}</div>
+                  <div className="font-medium">
+                    {track.duration_seconds ? formatDuration(track.duration_seconds) : "—"}
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2 p-3 rounded-lg bg-muted">
@@ -189,9 +187,7 @@ export function AdminTrackDetailsDialog({
                 <div>
                   <div className="text-xs text-muted-foreground">Создан</div>
                   <div className="font-medium">
-                    {track.created_at 
-                      ? format(new Date(track.created_at), "dd MMM yyyy", { locale: ru })
-                      : "—"}
+                    {track.created_at ? format(new Date(track.created_at), "dd MMM yyyy", { locale: ru }) : "—"}
                   </div>
                 </div>
               </div>
@@ -208,9 +204,7 @@ export function AdminTrackDetailsDialog({
             <div className="flex items-center gap-3 p-3 rounded-lg border">
               <Avatar>
                 <AvatarImage src={track.creator_photo_url || undefined} />
-                <AvatarFallback>
-                  {track.creator_username?.[0]?.toUpperCase() || "?"}
-                </AvatarFallback>
+                <AvatarFallback>{track.creator_username?.[0]?.toUpperCase() || "?"}</AvatarFallback>
               </Avatar>
               <div>
                 <div className="text-sm text-muted-foreground">Автор</div>

@@ -2,9 +2,9 @@
 // Cleans up activities older than 30 days to maintain performance
 // Should be run as a scheduled cron job (e.g., daily at 2 AM)
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { authorize } from '../_shared/auth.ts';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { authorize } from "../_shared/auth.ts";
 
 const DAYS_TO_KEEP = 30;
 const BATCH_SIZE = 1000;
@@ -25,12 +25,11 @@ serve(async (req) => {
   try {
     const auth = await authorize(req, { requireAdmin: true });
     if (!auth.ok) {
-      return new Response(
-        JSON.stringify({ error: auth.error }),
-        { status: auth.status, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: auth.error }), {
+        status: auth.status,
+        headers: { "Content-Type": "application/json" },
+      });
     }
-
 
     // Create Supabase client
     const supabase = getSupabaseClient();
@@ -44,9 +43,9 @@ serve(async (req) => {
 
     // Step 1: Count activities to archive
     const { count, error: countError } = await supabase
-      .from('activities')
-      .select('*', { count: 'exact', head: true })
-      .lt('created_at', cutoffIso);
+      .from("activities")
+      .select("*", { count: "exact", head: true })
+      .lt("created_at", cutoffIso);
 
     if (countError) {
       throw new Error(`Error counting activities: ${countError.message}`);
@@ -58,10 +57,10 @@ serve(async (req) => {
       return new Response(
         JSON.stringify({
           success: true,
-          message: 'No activities to archive',
+          message: "No activities to archive",
           archived: 0,
         }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
+        { status: 200, headers: { "Content-Type": "application/json" } },
       );
     }
 
@@ -72,9 +71,9 @@ serve(async (req) => {
     while (hasMore && totalArchived < count) {
       // Fetch batch of old activities
       const { data: oldActivities, error: fetchError } = await supabase
-        .from('activities')
-        .select('*')
-        .lt('created_at', cutoffIso)
+        .from("activities")
+        .select("*")
+        .lt("created_at", cutoffIso)
         .limit(BATCH_SIZE);
 
       if (fetchError) {
@@ -93,9 +92,7 @@ serve(async (req) => {
       }));
 
       // Insert into activities_archive table
-      const { error: insertError } = await supabase
-        .from('activities_archive')
-        .insert(archivedRecords);
+      const { error: insertError } = await supabase.from("activities_archive").insert(archivedRecords);
 
       if (insertError) {
         console.error(`Error inserting into archive: ${insertError.message}`);
@@ -104,10 +101,7 @@ serve(async (req) => {
 
       // Delete from activities table
       const activityIds = oldActivities.map((a) => a.id);
-      const { error: deleteError } = await supabase
-        .from('activities')
-        .delete()
-        .in('id', activityIds);
+      const { error: deleteError } = await supabase.from("activities").delete().in("id", activityIds);
 
       if (deleteError) {
         throw new Error(`Error deleting activities: ${deleteError.message}`);
@@ -128,9 +122,9 @@ serve(async (req) => {
     const archiveCutoffIso = archiveCutoffDate.toISOString();
 
     const { error: cleanupError } = await supabase
-      .from('activities_archive')
+      .from("activities_archive")
       .delete()
-      .lt('created_at', archiveCutoffIso);
+      .lt("created_at", archiveCutoffIso);
 
     if (cleanupError) {
       console.error(`Error cleaning old archives: ${cleanupError.message}`);
@@ -143,16 +137,16 @@ serve(async (req) => {
         archived: totalArchived,
         cutoff_date: cutoffIso,
       }),
-      { status: 200, headers: { 'Content-Type': 'application/json' } }
+      { status: 200, headers: { "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    console.error('Error in archive-old-activities:', error);
+    console.error("Error in archive-old-activities:", error);
     return new Response(
       JSON.stringify({
-        error: 'Internal server error',
+        error: "Internal server error",
         message: error.message,
       }),
-      { status: 500, headers: { 'Content-Type': 'application/json' } }
+      { status: 500, headers: { "Content-Type": "application/json" } },
     );
   }
 });

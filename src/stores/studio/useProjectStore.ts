@@ -7,21 +7,15 @@
  * @module stores/studio/useProjectStore
  */
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { supabase } from '@/integrations/supabase/client';
-import { Json } from '@/integrations/supabase/types';
-import { logger } from '@/lib/logger';
-import type {
-  StudioProject,
-  CreateProjectParams,
-  ProjectStatus,
-  StemsMode,
-  ViewSettings,
-} from './types';
-import { createDefaultViewSettings, generateId } from './types';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { supabase } from "@/integrations/supabase/client";
+import { Json } from "@/integrations/supabase/types";
+import { logger } from "@/lib/logger";
+import type { StudioProject, CreateProjectParams, ProjectStatus, StemsMode, ViewSettings } from "./types";
+import { createDefaultViewSettings, generateId } from "./types";
 
-const projectLogger = logger.child({ module: 'ProjectStore' });
+const projectLogger = logger.child({ module: "ProjectStore" });
 
 // ============ State Interface ============
 
@@ -66,10 +60,12 @@ export const useProjectStore = create<ProjectState>()(
        */
       createProject: async (params: CreateProjectParams) => {
         const projectId = generateId();
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
 
         if (!user) {
-          projectLogger.error('No authenticated user found');
+          projectLogger.error("No authenticated user found");
           return null;
         }
 
@@ -83,12 +79,12 @@ export const useProjectStore = create<ProjectState>()(
           description: undefined,
           bpm: 120,
           keySignature: undefined,
-          timeSignature: '4/4',
+          timeSignature: "4/4",
           durationSeconds: params.duration,
           masterVolume: 0.85,
-          tracks: tracks.map(t => ({ ...t, id: generateId(), clips: [] })),
-          status: 'draft',
-          stemsMode: 'none',
+          tracks: tracks.map((t) => ({ ...t, id: generateId(), clips: [] })),
+          status: "draft",
+          stemsMode: "none",
           viewSettings: createDefaultViewSettings(),
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -102,18 +98,18 @@ export const useProjectStore = create<ProjectState>()(
 
         // Save to database
         try {
-          const { error } = await supabase.from('studio_projects').insert({
+          const { error } = await supabase.from("studio_projects").insert({
             id: projectId,
             user_id: user.id,
             source_track_id: params.sourceTrackId,
             name: params.name,
             bpm: 120,
-            time_signature: '4/4',
+            time_signature: "4/4",
             duration_seconds: params.duration,
             master_volume: 0.85,
             tracks: project.tracks as unknown as Json,
-            status: 'draft',
-            stems_mode: 'none',
+            status: "draft",
+            stems_mode: "none",
             view_settings: createDefaultViewSettings() as unknown as Json,
           });
 
@@ -121,14 +117,14 @@ export const useProjectStore = create<ProjectState>()(
 
           set({ hasUnsavedChanges: false, lastSavedAt: new Date().toISOString() });
 
-          projectLogger.info('Project created successfully', { projectId, name: params.name });
+          projectLogger.info("Project created successfully", { projectId, name: params.name });
           return projectId;
         } catch (err) {
-          projectLogger.error('Failed to save project to database', { error: err, projectId });
+          projectLogger.error("Failed to save project to database", { error: err, projectId });
           // Import toast dynamically to avoid circular dependency
-          import('sonner').then(({ toast }) => {
-            toast.error('Не удалось создать проект', {
-              description: 'Проверьте подключение к интернету'
+          import("sonner").then(({ toast }) => {
+            toast.error("Не удалось создать проект", {
+              description: "Проверьте подключение к интернету",
             });
           });
           // Clear the in-memory project since it wasn't saved
@@ -144,14 +140,10 @@ export const useProjectStore = create<ProjectState>()(
         set({ isLoading: true });
 
         try {
-          const { data, error } = await supabase
-            .from('studio_projects')
-            .select('*')
-            .eq('id', projectId)
-            .single();
+          const { data, error } = await supabase.from("studio_projects").select("*").eq("id", projectId).single();
 
           if (error) throw error;
-          if (!data) throw new Error('Project not found');
+          if (!data) throw new Error("Project not found");
 
           const project: StudioProject = {
             id: data.id,
@@ -161,12 +153,12 @@ export const useProjectStore = create<ProjectState>()(
             description: data.description || undefined,
             bpm: data.bpm || 120,
             keySignature: data.key_signature || undefined,
-            timeSignature: data.time_signature || '4/4',
+            timeSignature: data.time_signature || "4/4",
             durationSeconds: data.duration_seconds || undefined,
             masterVolume: Number(data.master_volume) || 0.85,
             tracks: (data.tracks as unknown as any[]) || [],
-            status: (data.status as ProjectStatus) || 'draft',
-            stemsMode: (data.stems_mode as StemsMode) || 'none',
+            status: (data.status as ProjectStatus) || "draft",
+            stemsMode: (data.stems_mode as StemsMode) || "none",
             viewSettings: (data.view_settings as unknown as ViewSettings) || createDefaultViewSettings(),
             createdAt: data.created_at || new Date().toISOString(),
             updatedAt: data.updated_at || new Date().toISOString(),
@@ -182,15 +174,12 @@ export const useProjectStore = create<ProjectState>()(
           });
 
           // Update opened_at
-          await supabase
-            .from('studio_projects')
-            .update({ opened_at: new Date().toISOString() })
-            .eq('id', projectId);
+          await supabase.from("studio_projects").update({ opened_at: new Date().toISOString() }).eq("id", projectId);
 
-          projectLogger.info('Project loaded successfully', { projectId, name: project.name });
+          projectLogger.info("Project loaded successfully", { projectId, name: project.name });
           return true;
         } catch (err) {
-          projectLogger.error('Failed to load project', { error: err, projectId });
+          projectLogger.error("Failed to load project", { error: err, projectId });
           set({ isLoading: false });
           return false;
         }
@@ -205,7 +194,7 @@ export const useProjectStore = create<ProjectState>()(
           projectId: data.id,
           hasUnsavedChanges: false,
         });
-        projectLogger.debug('Project loaded from data', { projectId: data.id, name: data.name });
+        projectLogger.debug("Project loaded from data", { projectId: data.id, name: data.name });
       },
 
       /**
@@ -219,7 +208,7 @@ export const useProjectStore = create<ProjectState>()(
 
         try {
           const { error } = await supabase
-            .from('studio_projects')
+            .from("studio_projects")
             .update({
               name: project.name,
               description: project.description,
@@ -234,7 +223,7 @@ export const useProjectStore = create<ProjectState>()(
               view_settings: project.viewSettings as unknown as Json,
               updated_at: new Date().toISOString(),
             })
-            .eq('id', project.id);
+            .eq("id", project.id);
 
           if (error) throw error;
 
@@ -244,10 +233,10 @@ export const useProjectStore = create<ProjectState>()(
             lastSavedAt: new Date().toISOString(),
           });
 
-          projectLogger.info('Project saved successfully', { projectId: project.id });
+          projectLogger.info("Project saved successfully", { projectId: project.id });
           return true;
         } catch (err) {
-          projectLogger.error('Failed to save project', { error: err, projectId: project?.id });
+          projectLogger.error("Failed to save project", { error: err, projectId: project?.id });
           set({ isSaving: false });
           return false;
         }
@@ -263,7 +252,7 @@ export const useProjectStore = create<ProjectState>()(
           hasUnsavedChanges: false,
           lastSavedAt: null,
         });
-        projectLogger.debug('Project closed');
+        projectLogger.debug("Project closed");
       },
 
       /**
@@ -271,10 +260,7 @@ export const useProjectStore = create<ProjectState>()(
        */
       deleteProject: async (projectId: string) => {
         try {
-          const { error } = await supabase
-            .from('studio_projects')
-            .delete()
-            .eq('id', projectId);
+          const { error } = await supabase.from("studio_projects").delete().eq("id", projectId);
 
           if (error) throw error;
 
@@ -284,10 +270,10 @@ export const useProjectStore = create<ProjectState>()(
             get().closeProject();
           }
 
-          projectLogger.info('Project deleted successfully', { projectId });
+          projectLogger.info("Project deleted successfully", { projectId });
           return true;
         } catch (err) {
-          projectLogger.error('Failed to delete project', { error: err, projectId });
+          projectLogger.error("Failed to delete project", { error: err, projectId });
           return false;
         }
       },
@@ -346,12 +332,12 @@ export const useProjectStore = create<ProjectState>()(
       },
     }),
     {
-      name: 'musicverse-studio-project-storage',
+      name: "musicverse-studio-project-storage",
       partialize: (state) => ({
         project: state.project,
         projectId: state.projectId,
         lastSavedAt: state.lastSavedAt,
       }),
-    }
-  )
+    },
+  ),
 );

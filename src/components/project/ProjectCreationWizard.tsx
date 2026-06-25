@@ -1,52 +1,76 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Sparkles, Wand2, Music, Check, Loader2, 
-  ChevronRight, ArrowLeft, ListMusic, FileText,
-  Lock, Globe
-} from 'lucide-react';
-import { useProjects } from '@/hooks/useProjects';
-import { useProjectTracks } from '@/hooks/useProjectTracks';
-import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import {
+  Sparkles,
+  Wand2,
+  Music,
+  Check,
+  Loader2,
+  ChevronRight,
+  ArrowLeft,
+  ListMusic,
+  FileText,
+  Lock,
+  Globe,
+} from "lucide-react";
+import { useProjects } from "@/hooks/useProjects";
+import { useProjectTracks } from "@/hooks/useProjectTracks";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { logger } from "@/lib/logger";
 
 interface ProjectCreationWizardProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-type WizardStep = 'details' | 'creating' | 'tracklist' | 'complete';
+type WizardStep = "details" | "creating" | "tracklist" | "complete";
 
 const PROJECT_TYPES = [
-  { value: 'single', label: 'Сингл', tracks: '1-2', icon: '🎵' },
-  { value: 'ep', label: 'EP', tracks: '3-6', icon: '💿' },
-  { value: 'album', label: 'Альбом', tracks: '7-15', icon: '📀' },
-  { value: 'ost', label: 'OST', tracks: '5-20', icon: '🎬' },
-  { value: 'mixtape', label: 'Микстейп', tracks: '5-15', icon: '🎤' },
+  { value: "single", label: "Сингл", tracks: "1-2", icon: "🎵" },
+  { value: "ep", label: "EP", tracks: "3-6", icon: "💿" },
+  { value: "album", label: "Альбом", tracks: "7-15", icon: "📀" },
+  { value: "ost", label: "OST", tracks: "5-20", icon: "🎬" },
+  { value: "mixtape", label: "Микстейп", tracks: "5-15", icon: "🎤" },
 ];
 
 const GENRES = [
-  'Hip-Hop', 'Pop', 'Rock', 'Electronic', 'R&B', 'Jazz', 
-  'Trap', 'House', 'Techno', 'Ambient', 'Metal', 'Folk'
+  "Hip-Hop",
+  "Pop",
+  "Rock",
+  "Electronic",
+  "R&B",
+  "Jazz",
+  "Trap",
+  "House",
+  "Techno",
+  "Ambient",
+  "Metal",
+  "Folk",
 ];
 
 const MOODS = [
-  'Энергичное', 'Спокойное', 'Меланхоличное', 'Радостное', 
-  'Мотивирующее', 'Расслабляющее', 'Мрачное', 'Эйфоричное'
+  "Энергичное",
+  "Спокойное",
+  "Меланхоличное",
+  "Радостное",
+  "Мотивирующее",
+  "Расслабляющее",
+  "Мрачное",
+  "Эйфоричное",
 ];
 
 export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWizardProps) {
@@ -56,20 +80,20 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
   const isMobile = useIsMobile();
 
   // Form state
-  const [title, setTitle] = useState('');
-  const [projectType, setProjectType] = useState('album');
-  const [genre, setGenre] = useState('');
-  const [mood, setMood] = useState('');
-  const [description, setConcept] = useState('');
+  const [title, setTitle] = useState("");
+  const [projectType, setProjectType] = useState("album");
+  const [genre, setGenre] = useState("");
+  const [mood, setMood] = useState("");
+  const [description, setConcept] = useState("");
   const [isPublic, setIsPublic] = useState(true);
   const [isPremiumUser, setIsPremiumUser] = useState(false);
-  const [language, setLanguage] = useState<'ru' | 'en'>('ru');
+  const [language, setLanguage] = useState<"ru" | "en">("ru");
 
   // Wizard state
-  const [step, setStep] = useState<WizardStep>('details');
+  const [step, setStep] = useState<WizardStep>("details");
   const [createdProjectId, setCreatedProjectId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
-  const [statusMessage, setStatusMessage] = useState('');
+  const [statusMessage, setStatusMessage] = useState("");
   const [generatedTracksCount, setGeneratedTracksCount] = useState(0);
   const [autoGenerateTracklist, setAutoGenerateTracklist] = useState(true);
 
@@ -79,22 +103,21 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
   // Check premium status
   useEffect(() => {
     if (user) {
-      supabase.rpc('is_premium_or_admin', { _user_id: user.id })
-        .then(({ data }) => {
-          setIsPremiumUser(!!data);
-          setIsPublic(!data);
-        });
+      supabase.rpc("is_premium_or_admin", { _user_id: user.id }).then(({ data }) => {
+        setIsPremiumUser(!!data);
+        setIsPublic(!data);
+      });
     }
   }, [user]);
 
   // Watch for tracks being added
   useEffect(() => {
-    if (tracks && tracks.length > 0 && step === 'tracklist') {
+    if (tracks && tracks.length > 0 && step === "tracklist") {
       setGeneratedTracksCount(tracks.length);
-      setProgress(Math.min(90 + (tracks.length * 2), 100));
-      
+      setProgress(Math.min(90 + tracks.length * 2, 100));
+
       if (!isGenerating && tracks.length > 0) {
-        setStep('complete');
+        setStep("complete");
         setProgress(100);
         setStatusMessage(`Создано ${tracks.length} треков`);
       }
@@ -102,22 +125,22 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
   }, [tracks, step, isGenerating]);
 
   const resetForm = useCallback(() => {
-    setTitle('');
-    setProjectType('album');
-    setGenre('');
-    setMood('');
-    setConcept('');
-    setStep('details');
+    setTitle("");
+    setProjectType("album");
+    setGenre("");
+    setMood("");
+    setConcept("");
+    setStep("details");
     setCreatedProjectId(null);
     setProgress(0);
-    setStatusMessage('');
+    setStatusMessage("");
     setGeneratedTracksCount(0);
     setAutoGenerateTracklist(true);
-    setLanguage('ru');
+    setLanguage("ru");
   }, []);
 
   const handleClose = useCallback(() => {
-    if (step === 'complete' && createdProjectId) {
+    if (step === "complete" && createdProjectId) {
       navigate(`/projects/${createdProjectId}`);
     }
     onOpenChange(false);
@@ -126,13 +149,13 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
 
   const handleCreateProject = async () => {
     if (!title.trim()) {
-      toast.error('Введите название проекта');
+      toast.error("Введите название проекта");
       return;
     }
 
-    setStep('creating');
+    setStep("creating");
     setProgress(10);
-    setStatusMessage('Создание проекта...');
+    setStatusMessage("Создание проекта...");
 
     try {
       // Create project
@@ -143,7 +166,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
           genre: genre || null,
           mood: mood || null,
           description: description || null,
-          status: 'draft',
+          status: "draft",
           is_public: isPublic,
           language,
         },
@@ -151,23 +174,23 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
           onSuccess: async (data) => {
             setCreatedProjectId(data.id);
             setProgress(30);
-            setStatusMessage('Проект создан!');
+            setStatusMessage("Проект создан!");
 
             if (autoGenerateTracklist) {
               // Generate full project with AI
               setTimeout(async () => {
-                setStep('tracklist');
+                setStep("tracklist");
                 setProgress(40);
-                setStatusMessage('AI анализирует концепцию...');
-                
+                setStatusMessage("AI анализирует концепцию...");
+
                 try {
                   // Step 1: Generate the full project
                   setProgress(50);
-                  setStatusMessage('AI создаёт трек-лист...');
-                  
-                  const { data: aiResult, error } = await supabase.functions.invoke('project-ai', {
+                  setStatusMessage("AI создаёт трек-лист...");
+
+                  const { data: aiResult, error } = await supabase.functions.invoke("project-ai", {
                     body: {
-                      action: 'full-project',
+                      action: "full-project",
                       projectId: data.id,
                       projectType,
                       genre: genre || undefined,
@@ -177,144 +200,155 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                       language,
                     },
                   });
-                  
+
                   if (error) {
-                    logger.error('Project AI error', error);
-                    throw new Error(error.message || 'Ошибка AI генерации');
+                    logger.error("Project AI error", error);
+                    throw new Error(error.message || "Ошибка AI генерации");
                   }
-                  
+
                   // Check for partial errors
                   if (aiResult?.data?.error) {
-                    logger.warn('AI parsing error', { error: aiResult.data.error });
-                    toast.error('AI не смог полностью обработать запрос');
-                    setStep('complete');
+                    logger.warn("AI parsing error", { error: aiResult.data.error });
+                    toast.error("AI не смог полностью обработать запрос");
+                    setStep("complete");
                     setProgress(100);
                     return;
                   }
-                  
+
                   const aiData = aiResult?.data;
-                  
+
                   // Step 2: Update project with AI-generated data
                   if (aiData) {
                     setProgress(70);
-                    setStatusMessage('Сохранение концепции...');
-                    
-                    const { concept, visualAesthetic, coverPrompt, title: aiTitle, description: aiDescription } = aiData;
-                    
+                    setStatusMessage("Сохранение концепции...");
+
+                    const {
+                      concept,
+                      visualAesthetic,
+                      coverPrompt,
+                      title: aiTitle,
+                      description: aiDescription,
+                    } = aiData;
+
                     // Save all AI-generated fields
                     const updateData: Record<string, any> = {};
                     if (concept) updateData.concept = concept;
                     if (visualAesthetic) updateData.visual_aesthetic = visualAesthetic;
                     if (coverPrompt) updateData.cover_prompt = coverPrompt;
                     if (!description && aiDescription) updateData.description = aiDescription;
-                    
+
                     if (Object.keys(updateData).length > 0) {
                       const { error: updateError } = await supabase
-                        .from('music_projects')
+                        .from("music_projects")
                         .update(updateData as any)
-                        .eq('id', data.id);
-                        
+                        .eq("id", data.id);
+
                       if (updateError) {
-                        logger.warn('Failed to update project with AI data', { error: updateError });
+                        logger.warn("Failed to update project with AI data", { error: updateError });
                       }
                     }
-                    
+
                     // Step 3: Auto-generate cover if coverPrompt is available
                     if (coverPrompt) {
                       setProgress(85);
-                      setStatusMessage('Генерация обложки...');
-                      
+                      setStatusMessage("Генерация обложки...");
+
                       try {
-                        const { data: coverData, error: coverError } = await supabase.functions.invoke('generate-cover-image', {
-                          body: {
-                            projectId: data.id,
-                            prompt: coverPrompt,
-                            title: aiTitle || title,
-                            genre: genre || undefined,
-                            mood: mood || undefined,
+                        const { data: coverData, error: coverError } = await supabase.functions.invoke(
+                          "generate-cover-image",
+                          {
+                            body: {
+                              projectId: data.id,
+                              prompt: coverPrompt,
+                              title: aiTitle || title,
+                              genre: genre || undefined,
+                              mood: mood || undefined,
+                            },
                           },
-                        });
-                        
+                        );
+
                         if (!coverError && coverData?.url) {
-                          logger.info('Cover generated successfully', { url: coverData.url });
-                          toast.success('Обложка создана!');
+                          logger.info("Cover generated successfully", { url: coverData.url });
+                          toast.success("Обложка создана!");
                         }
                       } catch (coverErr) {
-                        logger.warn('Cover generation failed, continuing...', { error: String(coverErr) });
+                        logger.warn("Cover generation failed, continuing...", { error: String(coverErr) });
                         // Don't fail the whole process if cover fails
                       }
                     }
-                    
+
                     // Log success metrics
-                    logger.info('Project generation complete', {
+                    logger.info("Project generation complete", {
                       projectId: data.id,
                       tracksGenerated: aiData.insertedCount || aiData.tracks?.length || 0,
                       hasCover: !!coverPrompt,
                     });
                   }
-                  
+
                   setProgress(95);
-                  setStatusMessage('Финализация...');
-                  
+                  setStatusMessage("Финализация...");
+
                   // Wait for real-time to update
                   setTimeout(() => {
-                    setStep('complete');
+                    setStep("complete");
                     setProgress(100);
-                    setStatusMessage('Проект готов!');
+                    setStatusMessage("Проект готов!");
                   }, 800);
-                  
                 } catch (error: any) {
-                  logger.error('Error generating full project', error);
-                  const errorMessage = error.message?.includes('429') 
-                    ? 'Превышен лимит AI запросов'
-                    : error.message?.includes('402')
-                    ? 'Необходимо пополнить баланс'
-                    : 'Ошибка генерации';
+                  logger.error("Error generating full project", error);
+                  const errorMessage = error.message?.includes("429")
+                    ? "Превышен лимит AI запросов"
+                    : error.message?.includes("402")
+                      ? "Необходимо пополнить баланс"
+                      : "Ошибка генерации";
                   toast.error(errorMessage);
-                  setStep('complete');
+                  setStep("complete");
                   setProgress(100);
-                  setStatusMessage('Проект создан (без AI трек-листа)');
+                  setStatusMessage("Проект создан (без AI трек-листа)");
                 }
               }, 500);
             } else {
-              setStep('complete');
+              setStep("complete");
               setProgress(100);
-              setStatusMessage('Проект готов!');
+              setStatusMessage("Проект готов!");
             }
           },
           onError: (error) => {
-            logger.error('Project creation error', error);
-            toast.error('Ошибка создания проекта');
-            setStep('details');
+            logger.error("Project creation error", error);
+            toast.error("Ошибка создания проекта");
+            setStep("details");
           },
-        }
+        },
       );
     } catch (error) {
-      logger.error('Create project error', error);
-      toast.error('Ошибка создания проекта');
-      setStep('details');
+      logger.error("Create project error", error);
+      toast.error("Ошибка создания проекта");
+      setStep("details");
     }
   };
 
   const getRecommendedTrackCount = (type: string): number => {
     switch (type) {
-      case 'single': return 2;
-      case 'ep': return 5;
-      case 'album': return 10;
-      case 'ost': return 8;
-      case 'mixtape': return 8;
-      default: return 8;
+      case "single":
+        return 2;
+      case "ep":
+        return 5;
+      case "album":
+        return 10;
+      case "ost":
+        return 8;
+      case "mixtape":
+        return 8;
+      default:
+        return 8;
     }
   };
 
-  const selectedType = PROJECT_TYPES.find(t => t.value === projectType);
+  const selectedType = PROJECT_TYPES.find((t) => t.value === projectType);
 
   return (
     <Sheet open={open} onOpenChange={handleClose}>
-      <SheetContent className={cn(
-        "w-full overflow-y-auto",
-        isMobile ? "max-w-full" : "sm:max-w-lg"
-      )}>
+      <SheetContent className={cn("w-full overflow-y-auto", isMobile ? "max-w-full" : "sm:max-w-lg")}>
         <SheetHeader className="pb-4">
           <SheetTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-primary" />
@@ -324,7 +358,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
 
         <AnimatePresence mode="wait">
           {/* Step: Details */}
-          {step === 'details' && (
+          {step === "details" && (
             <motion.div
               key="details"
               initial={{ opacity: 0, x: 20 }}
@@ -358,7 +392,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                         "p-3 rounded-lg border-2 text-left transition-all",
                         projectType === type.value
                           ? "border-primary bg-primary/10"
-                          : "border-border hover:border-primary/50"
+                          : "border-border hover:border-primary/50",
                       )}
                     >
                       <div className="flex items-center gap-2">
@@ -383,7 +417,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     </SelectTrigger>
                     <SelectContent>
                       {GENRES.map((g) => (
-                        <SelectItem key={g} value={g}>{g}</SelectItem>
+                        <SelectItem key={g} value={g}>
+                          {g}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -396,7 +432,9 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     </SelectTrigger>
                     <SelectContent>
                       {MOODS.map((m) => (
-                        <SelectItem key={m} value={m}>{m}</SelectItem>
+                        <SelectItem key={m} value={m}>
+                          {m}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
@@ -409,18 +447,18 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                 <div className="flex gap-2">
                   <Button
                     type="button"
-                    variant={language === 'ru' ? 'default' : 'outline'}
+                    variant={language === "ru" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setLanguage('ru')}
+                    onClick={() => setLanguage("ru")}
                     className="flex-1"
                   >
                     🇷🇺 Русский
                   </Button>
                   <Button
                     type="button"
-                    variant={language === 'en' ? 'default' : 'outline'}
+                    variant={language === "en" ? "default" : "outline"}
                     size="sm"
-                    onClick={() => setLanguage('en')}
+                    onClick={() => setLanguage("en")}
                     className="flex-1"
                   >
                     🇬🇧 English
@@ -446,35 +484,27 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                   <ListMusic className="w-5 h-5 text-primary" />
                   <div>
                     <Label className="cursor-pointer">AI Трек-лист</Label>
-                    <p className="text-xs text-muted-foreground">
-                      Автоматически создать структуру альбома
-                    </p>
+                    <p className="text-xs text-muted-foreground">Автоматически создать структуру альбома</p>
                   </div>
                 </div>
-                <Switch
-                  checked={autoGenerateTracklist}
-                  onCheckedChange={setAutoGenerateTracklist}
-                />
+                <Switch checked={autoGenerateTracklist} onCheckedChange={setAutoGenerateTracklist} />
               </div>
 
               {/* Privacy toggle */}
               {isPremiumUser && (
                 <div className="flex items-center justify-between p-3 border rounded-lg bg-muted/30">
                   <div className="flex items-center gap-3">
-                    {isPublic ? <Globe className="w-5 h-5 text-green-500" /> : <Lock className="w-5 h-5 text-orange-500" />}
+                    {isPublic ? (
+                      <Globe className="w-5 h-5 text-green-500" />
+                    ) : (
+                      <Lock className="w-5 h-5 text-orange-500" />
+                    )}
                     <div>
-                      <Label className="cursor-pointer">
-                        {isPublic ? 'Публичный' : 'Приватный'}
-                      </Label>
-                      <p className="text-xs text-muted-foreground">
-                        {isPublic ? 'Виден всем' : 'Только для вас'}
-                      </p>
+                      <Label className="cursor-pointer">{isPublic ? "Публичный" : "Приватный"}</Label>
+                      <p className="text-xs text-muted-foreground">{isPublic ? "Виден всем" : "Только для вас"}</p>
                     </div>
                   </div>
-                  <Switch
-                    checked={isPublic}
-                    onCheckedChange={setIsPublic}
-                  />
+                  <Switch checked={isPublic} onCheckedChange={setIsPublic} />
                 </div>
               )}
 
@@ -492,7 +522,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
           )}
 
           {/* Step: Creating / Tracklist / Complete */}
-          {(step === 'creating' || step === 'tracklist' || step === 'complete') && (
+          {(step === "creating" || step === "tracklist" || step === "complete") && (
             <motion.div
               key="progress"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -503,15 +533,15 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
               {/* Progress visualization */}
               <div className="flex flex-col items-center text-center space-y-4">
                 {/* Icon */}
-                <div className={cn(
-                  "w-20 h-20 rounded-full flex items-center justify-center",
-                  step === 'complete' 
-                    ? "bg-green-500/20" 
-                    : "bg-primary/20"
-                )}>
-                  {step === 'complete' ? (
+                <div
+                  className={cn(
+                    "w-20 h-20 rounded-full flex items-center justify-center",
+                    step === "complete" ? "bg-green-500/20" : "bg-primary/20",
+                  )}
+                >
+                  {step === "complete" ? (
                     <Check className="w-10 h-10 text-green-500" />
-                  ) : step === 'tracklist' ? (
+                  ) : step === "tracklist" ? (
                     <ListMusic className="w-10 h-10 text-primary animate-pulse" />
                   ) : (
                     <Loader2 className="w-10 h-10 text-primary animate-spin" />
@@ -521,15 +551,13 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                 {/* Title */}
                 <div>
                   <h3 className="text-xl font-semibold">
-                    {step === 'complete' 
-                      ? 'Проект создан!' 
-                      : step === 'tracklist' 
-                        ? 'Генерация трек-листа' 
-                        : 'Создание проекта'}
+                    {step === "complete"
+                      ? "Проект создан!"
+                      : step === "tracklist"
+                        ? "Генерация трек-листа"
+                        : "Создание проекта"}
                   </h3>
-                  <p className="text-muted-foreground text-sm mt-1">
-                    {statusMessage}
-                  </p>
+                  <p className="text-muted-foreground text-sm mt-1">{statusMessage}</p>
                 </div>
 
                 {/* Progress bar */}
@@ -546,7 +574,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                 </div>
 
                 {/* Track count during generation */}
-                {step === 'tracklist' && generatedTracksCount > 0 && (
+                {step === "tracklist" && generatedTracksCount > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -558,7 +586,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                 )}
 
                 {/* Complete info */}
-                {step === 'complete' && tracks && tracks.length > 0 && (
+                {step === "complete" && tracks && tracks.length > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -573,9 +601,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                         </div>
                       ))}
                       {tracks.length > 10 && (
-                        <div className="text-xs text-muted-foreground">
-                          и ещё {tracks.length - 10}...
-                        </div>
+                        <div className="text-xs text-muted-foreground">и ещё {tracks.length - 10}...</div>
                       )}
                     </div>
                   </motion.div>
@@ -584,14 +610,14 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
 
               {/* Actions */}
               <div className="flex flex-col gap-2">
-                {step === 'complete' ? (
+                {step === "complete" ? (
                   <>
                     <Button onClick={handleClose} className="w-full gap-2" size="lg">
                       <Music className="w-4 h-4" />
                       Открыть проект
                     </Button>
-                    <Button 
-                      variant="outline" 
+                    <Button
+                      variant="outline"
                       onClick={() => {
                         onOpenChange(false);
                         setTimeout(resetForm, 300);
@@ -602,9 +628,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     </Button>
                   </>
                 ) : (
-                  <p className="text-xs text-center text-muted-foreground">
-                    Пожалуйста, подождите...
-                  </p>
+                  <p className="text-xs text-center text-muted-foreground">Пожалуйста, подождите...</p>
                 )}
               </div>
             </motion.div>

@@ -1,7 +1,7 @@
-import { motion } from '@/lib/motion';
-import { Check, Play, ChevronRight, Info } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { motion } from "@/lib/motion";
+import { Check, Play, ChevronRight, Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 interface TutorialStepProps {
   step: {
@@ -41,7 +41,7 @@ export function TutorialStep({ step, stepNumber, totalSteps, onTryNow }: Tutoria
           >
             <StepIcon className="w-6 h-6 text-primary" />
           </motion.div>
-          
+
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-xs text-muted-foreground font-medium">
@@ -53,9 +53,7 @@ export function TutorialStep({ step, stepNumber, totalSteps, onTryNow }: Tutoria
         </div>
 
         {/* Description */}
-        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
-          {step.description}
-        </p>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-4">{step.description}</p>
 
         {/* Features list */}
         {step.features && step.features.length > 0 && (
@@ -94,12 +92,7 @@ export function TutorialStep({ step, stepNumber, totalSteps, onTryNow }: Tutoria
 
         {/* Try now button */}
         {step.route && onTryNow && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.35 }}
-            className="mt-4"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }} className="mt-4">
             <Button
               variant="outline"
               size="sm"

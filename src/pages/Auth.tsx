@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useGuestMode } from '@/contexts/GuestModeContext';
-import { Loader2, Music, Eye } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { LoadingScreen } from '@/components/UnifiedSplashScreen';
-import { AppLogo } from '@/components/branding/AppLogo';
-import { logger } from '@/lib/logger';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useGuestMode } from "@/contexts/GuestModeContext";
+import { Loader2, Music, Eye } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { LoadingScreen } from "@/components/UnifiedSplashScreen";
+import { AppLogo } from "@/components/branding/AppLogo";
+import { logger } from "@/lib/logger";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -25,18 +25,18 @@ const Auth = () => {
 
     if (result?.session) {
       // Navigate to main page - onboarding is handled via OnboardingOverlay
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
     }
   };
 
   const handleGuestMode = () => {
     enableGuestMode();
-    navigate('/', { replace: true });
+    navigate("/", { replace: true });
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/', { replace: true });
+      navigate("/", { replace: true });
     }
   }, [isAuthenticated, navigate]);
 
@@ -45,7 +45,7 @@ const Auth = () => {
   // Auto-authenticate in development mode
   useEffect(() => {
     if (isDevelopmentMode && !isAuthenticated && !loading && !isAuthenticating) {
-      logger.debug('Auto-authenticating in dev mode...');
+      logger.debug("Auto-authenticating in dev mode...");
       handleAuth();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,11 +69,9 @@ const Auth = () => {
               <h1 className="text-2xl font-bold mb-2 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
                 Режим разработки
               </h1>
-              <p className="text-muted-foreground mb-4">
-                Вы работаете в режиме тестирования без Telegram
-              </p>
+              <p className="text-muted-foreground mb-4">Вы работаете в режиме тестирования без Telegram</p>
             </div>
-            
+
             {loading || isAuthenticating ? (
               <div className="py-4">
                 <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
@@ -88,19 +86,14 @@ const Auth = () => {
                 >
                   Войти как Test User
                 </Button>
-                
-                <Button
-                  onClick={handleGuestMode}
-                  variant="outline"
-                  className="w-full mt-3"
-                  size="lg"
-                >
+
+                <Button onClick={handleGuestMode} variant="outline" className="w-full mt-3" size="lg">
                   <Eye className="w-4 h-4 mr-2" />
                   Попробовать без авторизации
                 </Button>
               </>
             )}
-            
+
             <div className="mt-6 p-4 glass rounded-lg text-left">
               <p className="text-xs text-muted-foreground mb-2">
                 <strong>Для продакшена:</strong> Откройте приложение через Telegram Mini App
@@ -127,23 +120,16 @@ const Auth = () => {
             <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Требуется Telegram
             </h1>
-            <p className="text-muted-foreground mb-6">
-              Это приложение должно быть открыто через Telegram.
-            </p>
+            <p className="text-muted-foreground mb-6">Это приложение должно быть открыто через Telegram.</p>
             <p className="text-sm text-muted-foreground mb-6">
               Пожалуйста, откройте приложение из вашего Telegram бота.
             </p>
-            
-            <Button
-              onClick={handleGuestMode}
-              variant="outline"
-              className="w-full"
-              size="lg"
-            >
+
+            <Button onClick={handleGuestMode} variant="outline" className="w-full" size="lg">
               <Eye className="w-4 h-4 mr-2" />
               Попробовать без авторизации
             </Button>
-            
+
             <div className="mt-4 p-3 glass rounded-lg">
               <p className="text-xs text-muted-foreground text-center">
                 В гостевом режиме вы можете просматривать интерфейс и публичные треки
@@ -166,35 +152,25 @@ const Auth = () => {
             <h1 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
               Добро пожаловать в MusicVerse!
             </h1>
-            
+
             {user.photo_url && (
               <div className="mb-4 flex justify-center">
-                <img
-                  src={user.photo_url}
-                  alt="Avatar"
-                  className="w-20 h-20 rounded-full border-2 border-primary/30"
-                />
+                <img src={user.photo_url} alt="Avatar" className="w-20 h-20 rounded-full border-2 border-primary/30" />
               </div>
             )}
-            
+
             <p className="text-lg font-semibold text-foreground">
               {user.first_name} {user.last_name}
             </p>
-            {user.username && (
-              <p className="text-sm text-muted-foreground mb-2">@{user.username}</p>
-            )}
-            <p className="text-xs text-muted-foreground mt-2">
-              Нажмите "Продолжить" для авторизации через Telegram
-            </p>
+            {user.username && <p className="text-sm text-muted-foreground mb-2">@{user.username}</p>}
+            <p className="text-xs text-muted-foreground mt-2">Нажмите "Продолжить" для авторизации через Telegram</p>
           </div>
 
           {loading || isAuthenticating ? (
             <div className="text-center py-4">
               <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary" />
               <p className="text-muted-foreground">Авторизация...</p>
-              <p className="text-xs text-muted-foreground/60 mt-2">
-                Проверяем данные Telegram...
-              </p>
+              <p className="text-xs text-muted-foreground/60 mt-2">Проверяем данные Telegram...</p>
             </div>
           ) : (
             <>
@@ -205,21 +181,14 @@ const Auth = () => {
               >
                 Продолжить
               </Button>
-              
-              <Button
-                onClick={handleGuestMode}
-                variant="outline"
-                className="w-full mt-3"
-                size="lg"
-              >
+
+              <Button onClick={handleGuestMode} variant="outline" className="w-full mt-3" size="lg">
                 <Eye className="w-4 h-4 mr-2" />
                 Попробовать без авторизации
               </Button>
-              
+
               <div className="mt-4 p-3 glass rounded-lg">
-                <p className="text-xs text-muted-foreground text-center">
-                  ✨ Безопасная авторизация через Telegram
-                </p>
+                <p className="text-xs text-muted-foreground text-center">✨ Безопасная авторизация через Telegram</p>
               </div>
             </>
           )}

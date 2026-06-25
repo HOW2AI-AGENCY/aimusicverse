@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { PresetBrowser } from './PresetBrowser';
-import { QuickCreatePreset } from '@/constants/quickCreatePresets';
-import { useNavigate } from 'react-router-dom';
-import { logger } from '@/lib/logger';
-import { CheckCircle, Circle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { glass } from '@/lib/glass';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { PresetBrowser } from "./PresetBrowser";
+import { QuickCreatePreset } from "@/constants/quickCreatePresets";
+import { useNavigate } from "react-router-dom";
+import { logger } from "@/lib/logger";
+import { CheckCircle, Circle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { glass } from "@/lib/glass";
 
 interface QuickCreateProps {
   onPresetSelect?: (preset: QuickCreatePreset) => void;
@@ -29,16 +29,17 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
     try {
       // Navigate to generate page with preset params
       const params = new URLSearchParams();
-      params.set('preset', selectedPreset.id);
-      if (selectedPreset.defaultParams.style) params.set('style', selectedPreset.defaultParams.style);
-      if (selectedPreset.defaultParams.mood) params.set('mood', selectedPreset.defaultParams.mood);
-      if (selectedPreset.defaultParams.tempo) params.set('tempo', selectedPreset.defaultParams.tempo);
-      if (selectedPreset.defaultParams.instruments) params.set('instruments', selectedPreset.defaultParams.instruments.join(','));
+      params.set("preset", selectedPreset.id);
+      if (selectedPreset.defaultParams.style) params.set("style", selectedPreset.defaultParams.style);
+      if (selectedPreset.defaultParams.mood) params.set("mood", selectedPreset.defaultParams.mood);
+      if (selectedPreset.defaultParams.tempo) params.set("tempo", selectedPreset.defaultParams.tempo);
+      if (selectedPreset.defaultParams.instruments)
+        params.set("instruments", selectedPreset.defaultParams.instruments.join(","));
 
       navigate(`/generate?${params.toString()}`);
-      logger.info('Quick Create: Navigating to generation with preset', { presetId: selectedPreset.id });
+      logger.info("Quick Create: Navigating to generation with preset", { presetId: selectedPreset.id });
     } catch (error) {
-      logger.error('Quick Create: Failed to navigate', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Quick Create: Failed to navigate", error instanceof Error ? error : new Error(String(error)));
     }
   };
 
@@ -48,9 +49,7 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
       <div className="space-y-4">
         <div>
           <h2 className="text-2xl font-bold">Quick Create</h2>
-          <p className="text-muted-foreground">
-            Start creating music instantly with professionally curated presets
-          </p>
+          <p className="text-muted-foreground">Start creating music instantly with professionally curated presets</p>
         </div>
 
         {/* 4-Step Flow Visualization */}
@@ -61,7 +60,7 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
             ) : (
               <Circle className="w-4 h-4 text-muted-foreground" />
             )}
-            <span className={selectedPreset ? 'text-green-500 font-medium' : 'text-muted-foreground'}>
+            <span className={selectedPreset ? "text-green-500 font-medium" : "text-muted-foreground"}>
               1. Select Preset
             </span>
           </div>
@@ -92,15 +91,9 @@ export function QuickCreate({ onPresetSelect }: QuickCreateProps) {
               <p className="font-semibold truncate">
                 {selectedPreset.icon} {selectedPreset.name}
               </p>
-              <p className="text-sm text-muted-foreground truncate">
-                {selectedPreset.description}
-              </p>
+              <p className="text-sm text-muted-foreground truncate">{selectedPreset.description}</p>
             </div>
-            <Button
-              onClick={handleQuickGenerate}
-              size="lg"
-              className="shrink-0"
-            >
+            <Button onClick={handleQuickGenerate} size="lg" className="shrink-0">
               Next Step →
             </Button>
           </div>

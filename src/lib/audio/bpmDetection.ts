@@ -3,10 +3,10 @@
  * Uses web-audio-beat-detector package for tempo detection
  */
 
-import { analyze, guess } from 'web-audio-beat-detector';
-import { logger } from '@/lib/logger';
+import { analyze, guess } from "web-audio-beat-detector";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'bpmDetection' });
+const log = logger.child({ module: "bpmDetection" });
 
 export interface BPMDetectionResult {
   bpm: number;
@@ -42,15 +42,12 @@ export interface BPMDetectionOptions {
  */
 export async function detectBPM(
   audioBuffer: AudioBuffer,
-  options: BPMDetectionOptions = {}
+  options: BPMDetectionOptions = {},
 ): Promise<BPMDetectionResult | null> {
-  const {
-    minBPM = 60,
-    maxBPM = 200,
-  } = options;
+  const { minBPM = 60, maxBPM = 200 } = options;
 
   try {
-    log.debug('Starting BPM detection', {
+    log.debug("Starting BPM detection", {
       duration: audioBuffer.duration,
       sampleRate: audioBuffer.sampleRate,
       channels: audioBuffer.numberOfChannels,
@@ -64,7 +61,7 @@ export async function detectBPM(
     const endTime = performance.now();
     const processingTime = endTime - startTime;
 
-    log.info('BPM detection complete', {
+    log.info("BPM detection complete", {
       bpm: result.bpm,
       offset: result.offset,
       processingTime: `${processingTime.toFixed(2)}ms`,
@@ -72,7 +69,7 @@ export async function detectBPM(
 
     // Validate BPM is within reasonable range
     if (result.bpm < minBPM || result.bpm > maxBPM) {
-      log.warn('BPM outside expected range', {
+      log.warn("BPM outside expected range", {
         detected: result.bpm,
         min: minBPM,
         max: maxBPM,
@@ -84,9 +81,8 @@ export async function detectBPM(
       offset: result.offset || 0,
       confidence: calculateConfidence(result.bpm, audioBuffer.duration),
     };
-
   } catch (error) {
-    log.error('BPM detection failed', error instanceof Error ? error.message : String(error));
+    log.error("BPM detection failed", error instanceof Error ? error.message : String(error));
     return null;
   }
 }
@@ -99,10 +95,10 @@ export async function detectBPM(
  */
 export async function detectBPMFromUrl(
   audioUrl: string,
-  options: BPMDetectionOptions = {}
+  options: BPMDetectionOptions = {},
 ): Promise<BPMDetectionResult | null> {
   try {
-    log.debug('Fetching audio for BPM detection', { audioUrl });
+    log.debug("Fetching audio for BPM detection", { audioUrl });
 
     const response = await fetch(audioUrl);
     if (!response.ok) {
@@ -125,9 +121,8 @@ export async function detectBPMFromUrl(
       await audioContext.close();
       throw error;
     }
-
   } catch (error) {
-    log.error('Failed to detect BPM from URL', error instanceof Error ? error.message : String(error));
+    log.error("Failed to detect BPM from URL", error instanceof Error ? error.message : String(error));
     return null;
   }
 }

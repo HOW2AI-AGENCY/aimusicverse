@@ -1,11 +1,11 @@
 // Task: T011-T012 - Player state and queue interfaces
 // Client-side player state management types
 
-import { Database } from '@/integrations/supabase/types';
+import { Database } from "@/integrations/supabase/types";
 
 // Type aliases for database types
-type Track = Database['public']['Tables']['tracks']['Row'];
-type TrackVersion = Database['public']['Tables']['track_versions']['Row'];
+type Track = Database["public"]["Tables"]["tracks"]["Row"];
+type TrackVersion = Database["public"]["Tables"]["track_versions"]["Row"];
 
 /**
  * Timestamped lyrics format from Suno AI
@@ -34,19 +34,19 @@ export interface TrackWithMetadata extends Track {
 export interface PlaybackQueue {
   current_track: TrackWithMetadata;
   current_version: TrackVersion | null;
-  
+
   // Queue management
-  queue: TrackWithMetadata[];           // Upcoming tracks
-  history: TrackWithMetadata[];         // Previously played (last 50)
-  
+  queue: TrackWithMetadata[]; // Upcoming tracks
+  history: TrackWithMetadata[]; // Previously played (last 50)
+
   // Playback modes
-  repeat_mode: 'off' | 'one' | 'all';
+  repeat_mode: "off" | "one" | "all";
   shuffle: boolean;
-  shuffle_order: number[];              // Pre-shuffled indices
-  
+  shuffle_order: number[]; // Pre-shuffled indices
+
   // Metadata
-  created_at: number;                   // Timestamp
-  source: 'library' | 'playlist' | 'public' | 'project';
+  created_at: number; // Timestamp
+  source: "library" | "playlist" | "public" | "project";
 }
 
 /**
@@ -56,18 +56,18 @@ export interface PlayerState {
   // Current playback
   track: TrackWithMetadata | null;
   version: TrackVersion | null;
-  
+
   // Player UI state
-  state: 'compact' | 'expanded' | 'fullscreen';
+  state: "compact" | "expanded" | "fullscreen";
   isPlaying: boolean;
   currentTime: number;
   duration: number;
   buffered: number;
   volume: number;
-  
+
   // Queue
   queue: PlaybackQueue | null;
-  
+
   // Lyrics
   showLyrics: boolean;
   currentWord: number | null;
@@ -83,11 +83,11 @@ export interface PlayerActions {
   stop: () => void;
   seek: (time: number) => void;
   setVolume: (volume: number) => void;
-  setState: (state: PlayerState['state']) => void;
+  setState: (state: PlayerState["state"]) => void;
   toggleLyrics: () => void;
   nextTrack: () => void;
   previousTrack: () => void;
-  setRepeatMode: (mode: PlaybackQueue['repeat_mode']) => void;
+  setRepeatMode: (mode: PlaybackQueue["repeat_mode"]) => void;
   toggleShuffle: () => void;
   addToQueue: (track: TrackWithMetadata) => void;
   removeFromQueue: (index: number) => void;

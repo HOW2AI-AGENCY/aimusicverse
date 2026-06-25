@@ -1,14 +1,14 @@
 /**
  * Type declarations for lamejs
- * 
+ *
  * lamejs is a JavaScript MP3 encoder library that doesn't ship with types.
  * This provides basic type definitions for the parts we use.
  */
 
-declare module 'lamejs' {
+declare module "lamejs" {
   export class Mp3Encoder {
     constructor(channels: number, sampleRate: number, kbps: number);
-    
+
     /**
      * Encode PCM samples to MP3
      * @param left - Left channel samples (Int16Array)
@@ -16,7 +16,7 @@ declare module 'lamejs' {
      * @returns Encoded MP3 data as Int8Array
      */
     encodeBuffer(left: Int16Array, right?: Int16Array): Int8Array;
-    
+
     /**
      * Finish encoding and get remaining MP3 data
      * @returns Final MP3 data as Int8Array

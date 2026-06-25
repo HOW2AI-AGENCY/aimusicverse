@@ -1,17 +1,17 @@
 /**
  * Batch Track Counts Hook
- * 
+ *
  * Fetches version and stem counts for multiple tracks in a single query
  * and subscribes to realtime updates via a single channel.
  * This replaces individual subscriptions per TrackCard to prevent memory leaks.
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'TrackCounts' });
+const log = logger.child({ module: "TrackCounts" });
 
 export interface TrackCounts {
   versionCount: number;
@@ -31,30 +31,24 @@ export function useTrackCounts(trackIds: string[]) {
 
     try {
       // Batch fetch version counts
-      const { data: versions } = await supabase
-        .from('track_versions')
-        .select('track_id')
-        .in('track_id', ids);
+      const { data: versions } = await supabase.from("track_versions").select("track_id").in("track_id", ids);
 
       // Batch fetch stem counts
-      const { data: stems } = await supabase
-        .from('track_stems')
-        .select('track_id')
-        .in('track_id', ids);
+      const { data: stems } = await supabase.from("track_stems").select("track_id").in("track_id", ids);
 
       // Aggregate counts by track_id
       const newCounts: TrackCountsMap = {};
-      
-      ids.forEach(id => {
+
+      ids.forEach((id) => {
         newCounts[id] = {
-          versionCount: versions?.filter(v => v.track_id === id).length || 0,
-          stemCount: stems?.filter(s => s.track_id === id).length || 0,
+          versionCount: versions?.filter((v) => v.track_id === id).length || 0,
+          stemCount: stems?.filter((s) => s.track_id === id).length || 0,
         };
       });
 
-      setCountsMap(prev => ({ ...prev, ...newCounts }));
+      setCountsMap((prev) => ({ ...prev, ...newCounts }));
     } catch (error) {
-      log.error('Error fetching track counts', { error });
+      log.error("Error fetching track counts", { error });
     }
   }, []);
 
@@ -63,9 +57,9 @@ export function useTrackCounts(trackIds: string[]) {
     if (trackIds.length === 0) return;
 
     // Only re-subscribe if track IDs changed significantly
-    const idsChanged = trackIds.length !== trackIdsRef.current.length ||
-      trackIds.some(id => !trackIdsRef.current.includes(id));
-    
+    const idsChanged =
+      trackIds.length !== trackIdsRef.current.length || trackIds.some((id) => !trackIdsRef.current.includes(id));
+
     if (!idsChanged && channelRef.current) return;
 
     trackIdsRef.current = trackIds;
@@ -80,41 +74,41 @@ export function useTrackCounts(trackIds: string[]) {
 
     // Create single channel for all track updates
     const channel = supabase
-      .channel('track-counts-updates')
+      .channel("track-counts-updates")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'track_stems',
+          event: "INSERT",
+          schema: "public",
+          table: "track_stems",
         },
         (payload) => {
           const trackId = payload.new.track_id;
           if (trackIds.includes(trackId)) {
-            log.info('New stem added for track', { trackId });
-            setCountsMap(prev => ({
+            log.info("New stem added for track", { trackId });
+            setCountsMap((prev) => ({
               ...prev,
               [trackId]: {
                 ...prev[trackId],
                 stemCount: (prev[trackId]?.stemCount || 0) + 1,
               },
             }));
-            toast.success('Стемы готовы! 🎵');
+            toast.success("Стемы готовы! 🎵");
           }
-        }
+        },
       )
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'track_versions',
+          event: "INSERT",
+          schema: "public",
+          table: "track_versions",
         },
         (payload) => {
           const trackId = payload.new.track_id;
           if (trackIds.includes(trackId)) {
-            log.info('New version added for track', { trackId });
-            setCountsMap(prev => ({
+            log.info("New version added for track", { trackId });
+            setCountsMap((prev) => ({
               ...prev,
               [trackId]: {
                 ...prev[trackId],
@@ -122,7 +116,7 @@ export function useTrackCounts(trackIds: string[]) {
               },
             }));
           }
-        }
+        },
       )
       .subscribe();
 
@@ -134,12 +128,15 @@ export function useTrackCounts(trackIds: string[]) {
         channelRef.current = null;
       }
     };
-  }, [trackIds.join(','), fetchCounts]);
+  }, [trackIds.join(","), fetchCounts]);
 
   // Get counts for a specific track
-  const getCountsForTrack = useCallback((trackId: string): TrackCounts => {
-    return countsMap[trackId] || { versionCount: 0, stemCount: 0 };
-  }, [countsMap]);
+  const getCountsForTrack = useCallback(
+    (trackId: string): TrackCounts => {
+      return countsMap[trackId] || { versionCount: 0, stemCount: 0 };
+    },
+    [countsMap],
+  );
 
   return {
     countsMap,

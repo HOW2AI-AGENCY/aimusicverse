@@ -5,7 +5,9 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 ## Available Agents
 
 ### 🗄️ Backend & Database Agent
+
 **File:** `backend-database.md`
+
 - Supabase PostgreSQL database
 - Row Level Security (RLS) policies
 - Edge Functions (Deno)
@@ -13,7 +15,9 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 - Database migrations
 
 ### 🔌 API Integration Agent
+
 **File:** `api-integration.md`
+
 - SunoAPI.org integration (music generation)
 - Klang.io integration (transcription, chords, beats)
 - AuDD integration (music recognition)
@@ -21,7 +25,9 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 - Rate limiting and retry logic
 
 ### 🎵 Audio & DAW Agent
+
 **File:** `audio-daw.md`
+
 - Web Audio API
 - Tone.js for synthesis and effects
 - WaveSurfer.js for visualization
@@ -29,7 +35,9 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 - Stem mixing and editing
 
 ### ⚛️ React & TypeScript Agent
+
 **File:** `react-typescript.md`
+
 - React 19 with hooks
 - TypeScript strict mode
 - TanStack Query
@@ -37,7 +45,9 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 - Framer Motion animations
 
 ### 📱 Mobile & Telegram Agent
+
 **File:** `mobile-telegram.md`
+
 - Telegram Mini App SDK
 - Mobile-first responsive design
 - Touch interactions and gestures
@@ -45,7 +55,9 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 - Deep linking
 
 ### 🐛 Error Debugger Agent
+
 **File:** `error-debugger.md`
+
 - Runtime error diagnosis
 - TypeScript compilation errors
 - React rendering issues
@@ -53,7 +65,9 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 - Audio playback issues
 
 ### ✅ Testing & Quality Agent
+
 **File:** `testing-quality.md`
+
 - Jest / Vitest unit testing
 - React Testing Library
 - Playwright E2E testing
@@ -63,11 +77,13 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 ## How to Use
 
 1. Reference the agent in your prompt:
+
    ```
    @workspace Using backend-database agent, help me create a migration for...
    ```
 
 2. Use agent-specific commands:
+
    ```
    /db-schema tracks
    /create-migration add_column_to_tracks
@@ -81,13 +97,13 @@ This directory contains specialized agent configurations for GitHub Copilot to a
 
 ## Agent Selection Guide
 
-| Task | Recommended Agent |
-|------|-------------------|
-| Create database table | backend-database |
-| Write edge function | backend-database |
-| Integrate Suno API | api-integration |
-| Add audio visualization | audio-daw |
-| Create React component | react-typescript |
-| Optimize for mobile | mobile-telegram |
-| Debug runtime error | error-debugger |
-| Write unit test | testing-quality |
+| Task                    | Recommended Agent |
+| ----------------------- | ----------------- |
+| Create database table   | backend-database  |
+| Write edge function     | backend-database  |
+| Integrate Suno API      | api-integration   |
+| Add audio visualization | audio-daw         |
+| Create React component  | react-typescript  |
+| Optimize for mobile     | mobile-telegram   |
+| Debug runtime error     | error-debugger    |
+| Write unit test         | testing-quality   |

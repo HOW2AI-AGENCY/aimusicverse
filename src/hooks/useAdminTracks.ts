@@ -23,7 +23,9 @@ export function useAdminTracks(searchQuery?: string, limit = 50) {
     queryFn: async () => {
       let query = supabase
         .from("tracks")
-        .select("id, title, status, style, duration_seconds, play_count, is_public, created_at, user_id, audio_url, cover_url")
+        .select(
+          "id, title, status, style, duration_seconds, play_count, is_public, created_at, user_id, audio_url, cover_url",
+        )
         .order("created_at", { ascending: false })
         .limit(limit);
 
@@ -35,15 +37,15 @@ export function useAdminTracks(searchQuery?: string, limit = 50) {
       if (error) throw error;
 
       // Fetch creator info
-      const userIds = [...new Set(tracks?.map(t => t.user_id) || [])];
+      const userIds = [...new Set(tracks?.map((t) => t.user_id) || [])];
       const { data: profiles } = await supabase
         .from("profiles")
         .select("user_id, username, photo_url")
         .in("user_id", userIds);
 
-      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+      const profileMap = new Map(profiles?.map((p) => [p.user_id, p]) || []);
 
-      return tracks?.map(track => ({
+      return tracks?.map((track) => ({
         ...track,
         creator_username: profileMap.get(track.user_id)?.username,
         creator_photo_url: profileMap.get(track.user_id)?.photo_url,

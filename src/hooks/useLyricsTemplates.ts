@@ -1,8 +1,8 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { logger } from '@/lib/logger';
-import { toast } from 'sonner';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { logger } from "@/lib/logger";
+import { toast } from "sonner";
 
 export interface LyricsTemplate {
   id: string;
@@ -35,15 +35,15 @@ export function useLyricsTemplates() {
   const queryClient = useQueryClient();
 
   const { data: templates, isLoading } = useQuery({
-    queryKey: ['lyrics-templates', user?.id],
+    queryKey: ["lyrics-templates", user?.id],
     queryFn: async () => {
       if (!user) return [];
-      
+
       const { data, error } = await supabase
-        .from('lyrics_templates')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .from("lyrics_templates")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data as LyricsTemplate[];
@@ -53,10 +53,10 @@ export function useLyricsTemplates() {
 
   const saveTemplate = useMutation({
     mutationFn: async (templateData: SaveTemplateData) => {
-      if (!user) throw new Error('Not authenticated');
+      if (!user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
-        .from('lyrics_templates')
+        .from("lyrics_templates")
         .insert({
           user_id: user.id,
           name: templateData.name,
@@ -66,7 +66,7 @@ export function useLyricsTemplates() {
           mood: templateData.mood || null,
           tags: templateData.tags || null,
           structure: templateData.structure || null,
-          language: templateData.language || 'ru',
+          language: templateData.language || "ru",
         })
         .select()
         .single();
@@ -75,27 +75,24 @@ export function useLyricsTemplates() {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['lyrics-templates'] });
-      toast.success('Шаблон сохранён');
+      queryClient.invalidateQueries({ queryKey: ["lyrics-templates"] });
+      toast.success("Шаблон сохранён");
     },
     onError: (error) => {
-      logger.error('Error saving template', error as Error);
-      toast.error('Ошибка сохранения шаблона');
+      logger.error("Error saving template", error as Error);
+      toast.error("Ошибка сохранения шаблона");
     },
   });
 
   const deleteTemplate = useMutation({
     mutationFn: async (templateId: string) => {
-      const { error } = await supabase
-        .from('lyrics_templates')
-        .delete()
-        .eq('id', templateId);
+      const { error } = await supabase.from("lyrics_templates").delete().eq("id", templateId);
 
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['lyrics-templates'] });
-      toast.success('Шаблон удален');
+      queryClient.invalidateQueries({ queryKey: ["lyrics-templates"] });
+      toast.success("Шаблон удален");
     },
   });
 

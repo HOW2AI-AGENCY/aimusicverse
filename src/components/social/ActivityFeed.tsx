@@ -1,9 +1,9 @@
 // ActivityFeed component - Sprint 011
-import { ActivityItem } from './ActivityItem';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Activity } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import type { ActivityFeedItem } from '@/types/activity';
+import { ActivityItem } from "./ActivityItem";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Activity } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { ActivityFeedItem } from "@/types/activity";
 
 interface ActivityFeedProps {
   activities: ActivityFeedItem[];
@@ -14,7 +14,7 @@ interface ActivityFeedProps {
 export function ActivityFeed({ activities, isLoading, className }: ActivityFeedProps) {
   if (isLoading) {
     return (
-      <div className={cn('space-y-4', className)}>
+      <div className={cn("space-y-4", className)}>
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="p-4 rounded-lg border">
             <div className="flex items-start gap-3">
@@ -33,18 +33,16 @@ export function ActivityFeed({ activities, isLoading, className }: ActivityFeedP
 
   if (activities.length === 0) {
     return (
-      <div className={cn('py-12 text-center', className)}>
+      <div className={cn("py-12 text-center", className)}>
         <Activity className="h-16 w-16 mx-auto text-muted-foreground/50 mb-4" />
         <h3 className="text-lg font-medium mb-2">Нет активности</h3>
-        <p className="text-muted-foreground">
-          Здесь будет отображаться активность ваших подписок
-        </p>
+        <p className="text-muted-foreground">Здесь будет отображаться активность ваших подписок</p>
       </div>
     );
   }
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn("space-y-4", className)}>
       {activities.map((activity) => (
         <ActivityItem key={activity.id} activity={activity} />
       ))}

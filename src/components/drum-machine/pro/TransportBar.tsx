@@ -1,18 +1,10 @@
-import React, { memo, useState, useCallback, useRef } from 'react';
-import { cn } from '@/lib/utils';
-import { 
-  Play, Square, Circle, SkipBack, 
-  Volume2, VolumeX, Gauge
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { hardware } from '@/lib/overlay-colors';
+import React, { memo, useState, useCallback, useRef } from "react";
+import { cn } from "@/lib/utils";
+import { Play, Square, Circle, SkipBack, Volume2, VolumeX, Gauge } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { hardware } from "@/lib/overlay-colors";
 
 interface TransportBarProps {
   isPlaying: boolean;
@@ -49,7 +41,7 @@ export const TransportBar = memo(function TransportBar({
   onSwingChange,
   onVolumeChange,
   onReset,
-  className
+  className,
 }: TransportBarProps) {
   const [isMuted, setIsMuted] = useState(false);
   const [prevVolume, setPrevVolume] = useState(volume);
@@ -60,11 +52,11 @@ export const TransportBar = memo(function TransportBar({
   const handleTapTempo = useCallback(() => {
     const now = Date.now();
     tapTimesRef.current.push(now);
-    
+
     if (tapTimesRef.current.length > 4) {
       tapTimesRef.current.shift();
     }
-    
+
     if (tapTimesRef.current.length >= 2) {
       const intervals: number[] = [];
       for (let i = 1; i < tapTimesRef.current.length; i++) {
@@ -72,15 +64,15 @@ export const TransportBar = memo(function TransportBar({
       }
       const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
       const newBpm = Math.round(60000 / avgInterval);
-      
+
       if (newBpm >= 40 && newBpm <= 220) {
         onBpmChange(newBpm);
       }
     }
-    
+
     setShowTapIndicator(true);
     setTimeout(() => setShowTapIndicator(false), 100);
-    
+
     setTimeout(() => {
       if (Date.now() - tapTimesRef.current[tapTimesRef.current.length - 1] > 2000) {
         tapTimesRef.current = [];
@@ -104,13 +96,15 @@ export const TransportBar = memo(function TransportBar({
 
   return (
     <TooltipProvider>
-      <div className={cn(
-        'flex flex-wrap items-center gap-3 p-4 rounded-2xl',
-        'bg-gradient-to-b from-[hsl(var(--card))] to-[hsl(var(--muted)/0.3)]',
-        'border border-border/40',
-        'shadow-xl shadow-black/20',
-        className
-      )}>
+      <div
+        className={cn(
+          "flex flex-wrap items-center gap-3 p-4 rounded-2xl",
+          "bg-gradient-to-b from-[hsl(var(--card))] to-[hsl(var(--muted)/0.3)]",
+          "border border-border/40",
+          "shadow-xl shadow-black/20",
+          className,
+        )}
+      >
         {/* Transport Controls */}
         <div className="flex items-center gap-2">
           <Tooltip>
@@ -129,42 +123,38 @@ export const TransportBar = memo(function TransportBar({
           </Tooltip>
 
           <Button
-            variant={isPlaying ? 'default' : 'outline'}
+            variant={isPlaying ? "default" : "outline"}
             size="icon"
             onClick={isPlaying ? onStop : onPlay}
             disabled={!isReady}
             className={cn(
-              'h-14 w-14 rounded-2xl transition-all',
-              isPlaying 
-                ? 'bg-primary shadow-lg shadow-primary/40' 
-                : 'bg-muted/50 border-2 border-primary/50 hover:border-primary'
+              "h-14 w-14 rounded-2xl transition-all",
+              isPlaying
+                ? "bg-primary shadow-lg shadow-primary/40"
+                : "bg-muted/50 border-2 border-primary/50 hover:border-primary",
             )}
           >
-            {isPlaying ? (
-              <Square className="h-6 w-6" />
-            ) : (
-              <Play className="h-6 w-6 ml-0.5" />
-            )}
+            {isPlaying ? <Square className="h-6 w-6" /> : <Play className="h-6 w-6 ml-0.5" />}
           </Button>
 
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
-                variant={isRecording ? 'destructive' : 'ghost'}
+                variant={isRecording ? "destructive" : "ghost"}
                 size="icon"
                 onClick={onRecord}
                 disabled={!isReady}
                 className={cn(
-                  'h-11 w-11 rounded-xl transition-all',
-                  isRecording 
-                    ? 'bg-destructive shadow-lg shadow-destructive/40 animate-pulse' 
-                    : 'bg-muted/50 hover:bg-destructive/20'
+                  "h-11 w-11 rounded-xl transition-all",
+                  isRecording
+                    ? "bg-destructive shadow-lg shadow-destructive/40 animate-pulse"
+                    : "bg-muted/50 hover:bg-destructive/20",
                 )}
               >
-                <Circle className={cn('h-5 w-5', isRecording && 'fill-current')} />
+                <Circle className={cn("h-5 w-5", isRecording && "fill-current")} />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{isRecording ? 'Стоп' : 'Запись'}</TooltipContent>
+            <TooltipContent>{isRecording ? "Стоп" : "Запись"}</TooltipContent>
           </Tooltip>
         </div>
 
@@ -175,9 +165,7 @@ export const TransportBar = memo(function TransportBar({
             <div className="font-mono text-3xl font-bold tracking-tight text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]">
               {currentBar}.{currentBeat}
             </div>
-            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">
-              BAR.BEAT
-            </div>
+            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">BAR.BEAT</div>
           </div>
 
           <div className="h-10 w-px bg-foreground/10" />
@@ -196,9 +184,9 @@ export const TransportBar = memo(function TransportBar({
               <button
                 onClick={handleTapTempo}
                 className={cn(
-                  'font-mono text-3xl font-bold tracking-tight min-w-[70px] text-center transition-colors cursor-pointer',
-                  'text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]',
-                  showTapIndicator && 'text-white'
+                  "font-mono text-3xl font-bold tracking-tight min-w-[70px] text-center transition-colors cursor-pointer",
+                  "text-emerald-400 drop-shadow-[0_0_10px_rgba(52,211,153,0.5)]",
+                  showTapIndicator && "text-white",
                 )}
               >
                 {bpm}
@@ -212,9 +200,7 @@ export const TransportBar = memo(function TransportBar({
                 +
               </Button>
             </div>
-            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">
-              BPM • TAP
-            </div>
+            <div className="text-[9px] text-emerald-400/60 uppercase tracking-widest">BPM • TAP</div>
           </div>
         </div>
 
@@ -246,13 +232,13 @@ export const TransportBar = memo(function TransportBar({
             <div
               key={i}
               className={cn(
-                'w-3 h-5 rounded-sm transition-all duration-75',
-                i % 4 === 0 ? 'ml-1 first:ml-0' : '',
-                isPlaying && i === currentStep 
-                  ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' 
-                  : i % 4 === 0 
-                    ? 'bg-muted/60' 
-                    : 'bg-muted/30'
+                "w-3 h-5 rounded-sm transition-all duration-75",
+                i % 4 === 0 ? "ml-1 first:ml-0" : "",
+                isPlaying && i === currentStep
+                  ? "bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]"
+                  : i % 4 === 0
+                    ? "bg-muted/60"
+                    : "bg-muted/30",
               )}
             />
           ))}
@@ -262,12 +248,7 @@ export const TransportBar = memo(function TransportBar({
         <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted/30">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleMuteToggle}
-                className="h-9 w-9 rounded-lg"
-              >
+              <Button variant="ghost" size="icon" onClick={handleMuteToggle} className="h-9 w-9 rounded-lg">
                 {isMuted || volume <= -40 ? (
                   <VolumeX className="h-4 w-4 text-destructive" />
                 ) : (
@@ -275,7 +256,7 @@ export const TransportBar = memo(function TransportBar({
                 )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{isMuted ? 'Вкл' : 'Выкл'}</TooltipContent>
+            <TooltipContent>{isMuted ? "Вкл" : "Выкл"}</TooltipContent>
           </Tooltip>
           <Slider
             value={[isMuted ? -60 : volume]}
@@ -293,4 +274,3 @@ export const TransportBar = memo(function TransportBar({
     </TooltipProvider>
   );
 });
-

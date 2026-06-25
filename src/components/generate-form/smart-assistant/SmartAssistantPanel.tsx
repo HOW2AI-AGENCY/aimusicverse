@@ -3,33 +3,21 @@
  * Full panel view with all suggestions and context info
  */
 
-import { memo, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Sparkles, 
-  RefreshCw, 
-  Brain,
-  History,
-  Folder,
-  ChevronDown,
-  Loader2,
-} from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
-import { SmartSuggestionCard } from './SmartSuggestionCard';
-import { useSmartAssistant } from '@/hooks/generation/useSmartAssistant';
-import type { SmartSuggestion, ProjectGenerationContext } from './types';
+import { memo, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Sparkles, RefreshCw, Brain, History, Folder, ChevronDown, Loader2 } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { cn } from "@/lib/utils";
+import { SmartSuggestionCard } from "./SmartSuggestionCard";
+import { useSmartAssistant } from "@/hooks/generation/useSmartAssistant";
+import type { SmartSuggestion, ProjectGenerationContext } from "./types";
 
 interface SmartAssistantPanelProps {
-  onApplySuggestion: (prompt: string, metadata?: SmartSuggestion['metadata']) => void;
+  onApplySuggestion: (prompt: string, metadata?: SmartSuggestion["metadata"]) => void;
   projectContext?: ProjectGenerationContext;
   className?: string;
   defaultOpen?: boolean;
@@ -58,9 +46,12 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
     setProjectContext(projectContext);
   }
 
-  const handleApply = useCallback((suggestion: SmartSuggestion) => {
-    onApplySuggestion(suggestion.prompt, suggestion.metadata);
-  }, [onApplySuggestion]);
+  const handleApply = useCallback(
+    (suggestion: SmartSuggestion) => {
+      onApplySuggestion(suggestion.prompt, suggestion.metadata);
+    },
+    [onApplySuggestion],
+  );
 
   const handleRefresh = useCallback(() => {
     analyze();
@@ -79,15 +70,13 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
               <div>
                 <h3 className="font-semibold text-sm">Smart Assistant</h3>
                 <p className="text-[10px] text-muted-foreground">
-                  {hasContext ? 'Персональные рекомендации' : 'Начните генерацию для анализа'}
+                  {hasContext ? "Персональные рекомендации" : "Начните генерацию для анализа"}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
-              {isAnalyzing && (
-                <Loader2 className="h-4 w-4 animate-spin text-primary" />
-              )}
+              {isAnalyzing && <Loader2 className="h-4 w-4 animate-spin text-primary" />}
               <Badge variant="secondary" className="text-xs">
                 {suggestions.length} идей
               </Badge>
@@ -107,7 +96,7 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
                     {userContext.totalGenerations} генераций
                   </Badge>
                 )}
-                {userContext?.favoriteGenres.slice(0, 2).map(genre => (
+                {userContext?.favoriteGenres.slice(0, 2).map((genre) => (
                   <Badge key={genre} variant="secondary" className="text-[10px]">
                     {genre}
                   </Badge>
@@ -124,11 +113,7 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
             {/* Suggestions list */}
             <ScrollArea className="h-[300px]">
               <div className="p-3 space-y-2">
-                {error && (
-                  <div className="text-center py-4 text-sm text-destructive">
-                    {error}
-                  </div>
-                )}
+                {error && <div className="text-center py-4 text-sm text-destructive">{error}</div>}
 
                 {!error && suggestions.length === 0 && !isAnalyzing && (
                   <div className="text-center py-8 text-sm text-muted-foreground">
@@ -155,10 +140,9 @@ export const SmartAssistantPanel = memo(function SmartAssistantPanel({
             {/* Footer */}
             <div className="px-3 py-2 border-t bg-muted/30 flex items-center justify-between">
               <span className="text-[10px] text-muted-foreground">
-                {lastAnalyzedAt 
-                  ? `Обновлено: ${new Date(lastAnalyzedAt).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}`
-                  : 'Не анализировано'
-                }
+                {lastAnalyzedAt
+                  ? `Обновлено: ${new Date(lastAnalyzedAt).toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}`
+                  : "Не анализировано"}
               </span>
               <Button
                 variant="ghost"

@@ -21,6 +21,7 @@ Sprint 031 focuses on **performance optimization and component integration** for
 
 **Language/Version**: TypeScript 5.9, React 19.2
 **Primary Dependencies**:
+
 - **State**: Zustand 5.0, TanStack Query 5.90
 - **UI**: Tailwind CSS 3.4, shadcn/ui, Radix UI, Framer Motion
 - **Audio**: Tone.js 14.9, Wavesurfer.js 7.8
@@ -29,11 +30,13 @@ Sprint 031 focuses on **performance optimization and component integration** for
 - **Build**: Vite 5.0
 
 **Storage**:
+
 - **Database**: Supabase (PostgreSQL)
 - **Cache**: IndexedDB (waveforms, audio buffers)
 - **Client**: localStorage (drafts, preferences)
 
 **Testing**:
+
 - **Unit**: Jest 30.2, @testing-library/react
 - **E2E**: Playwright 1.57
 - **Performance**: Chrome DevTools, Lighthouse CI
@@ -42,6 +45,7 @@ Sprint 031 focuses on **performance optimization and component integration** for
 **Target Platform**: Telegram Mini App (iOS Safari 15+, Chrome Android 100+)
 **Project Type**: Mobile-first web application (Telegram Mini App)
 **Performance Goals**:
+
 - 60 FPS scroll on lists with 1000+ items (mid-range devices)
 - Mixer channel re-renders: 1 per volume change (from ~10)
 - Waveform load time (cached): <50ms (from ~500ms)
@@ -49,12 +53,14 @@ Sprint 031 focuses on **performance optimization and component integration** for
 - Memory usage (10 stems): <100MB (from ~150MB)
 
 **Constraints**:
+
 - Bundle size HARD LIMIT: 950KB (enforced by size-limit)
 - Touch targets: minimum 44×44px (iOS HIG)
-- Safe areas: must respect notch/island (env(safe-area-inset-*))
+- Safe areas: must respect notch/island (env(safe-area-inset-\*))
 - Audio: single HTMLAudioElement managed by GlobalAudioProvider
 
 **Scale/Scope**:
+
 - 946 TSX components in codebase
 - 40+ pages with lazy loading
 - 13 new optimized components created in Phase 1
@@ -63,7 +69,7 @@ Sprint 031 focuses on **performance optimization and component integration** for
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### I. Mobile-First Development ✅ PASS
 
@@ -238,8 +244,8 @@ tests/
 > **No violations requiring justification** - All Constitution checks passed.
 
 | Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| N/A | N/A | N/A |
+| --------- | ---------- | ------------------------------------ |
+| N/A       | N/A        | N/A                                  |
 
 ---
 
@@ -323,6 +329,7 @@ Research agents will be dispatched for each unknown. Results will be consolidate
 ### 1.3 Agent Context Update
 
 After Phase 1 design is complete, run:
+
 ```bash
 .specify/scripts/powershell/update-agent-context.ps1 -AgentType claude
 ```
@@ -343,13 +350,13 @@ This will update `.claude/agents/spec-driven-developer.md` with new technologies
 
 ### Performance Benchmarks (Target: Mid-range Devices)
 
-| Metric | Before | Target | Measurement Method |
-|--------|--------|--------|---------------------|
-| TrackList scroll FPS | ~30 | 60 | Chrome DevTools Performance monitor |
-| Mixer re-renders/volume change | ~10 | 1 | React DevTools Profiler |
-| Waveform load (cached) | ~500ms | <50ms | Performance.mark() + measure() |
-| Bundle size (studio) | ~200KB | <180KB | npm run size |
-| Memory (10 stems) | ~150MB | <100MB | Chrome DevTools Memory profiler |
+| Metric                         | Before | Target | Measurement Method                  |
+| ------------------------------ | ------ | ------ | ----------------------------------- |
+| TrackList scroll FPS           | ~30    | 60     | Chrome DevTools Performance monitor |
+| Mixer re-renders/volume change | ~10    | 1      | React DevTools Profiler             |
+| Waveform load (cached)         | ~500ms | <50ms  | Performance.mark() + measure()      |
+| Bundle size (studio)           | ~200KB | <180KB | npm run size                        |
+| Memory (10 stems)              | ~150MB | <100MB | Chrome DevTools Memory profiler     |
 
 ### Quality Metrics
 
@@ -363,13 +370,13 @@ This will update `.claude/agents/spec-driven-developer.md` with new technologies
 
 ## Risks & Mitigations
 
-| Risk | Impact | Probability | Mitigation |
-|------|--------|-------------|------------|
-| Store migration breaks existing studio functionality | HIGH | MEDIUM | Comprehensive E2E tests, gradual migration with feature flags |
-| React.memo over-optimization causes bugs | MEDIUM | LOW | Thorough testing of optimized components, monitor for stale props |
-| IndexedDB quota exceeded on mobile | MEDIUM | LOW | Implement LRU eviction, monitor cache size, fallback to memory |
-| RAF throttling causes perceived lag | LOW | LOW | Test on target devices (Pixel 5, iPhone 12), adjust throttle interval |
-| Bundle size exceeds limit | HIGH | LOW | Regular `npm run size` checks, code splitting, vendor chunk analysis |
+| Risk                                                 | Impact | Probability | Mitigation                                                            |
+| ---------------------------------------------------- | ------ | ----------- | --------------------------------------------------------------------- |
+| Store migration breaks existing studio functionality | HIGH   | MEDIUM      | Comprehensive E2E tests, gradual migration with feature flags         |
+| React.memo over-optimization causes bugs             | MEDIUM | LOW         | Thorough testing of optimized components, monitor for stale props     |
+| IndexedDB quota exceeded on mobile                   | MEDIUM | LOW         | Implement LRU eviction, monitor cache size, fallback to memory        |
+| RAF throttling causes perceived lag                  | LOW    | LOW         | Test on target devices (Pixel 5, iPhone 12), adjust throttle interval |
+| Bundle size exceeds limit                            | HIGH   | LOW         | Regular `npm run size` checks, code splitting, vendor chunk analysis  |
 
 ---
 
@@ -395,16 +402,16 @@ This will update `.claude/agents/spec-driven-developer.md` with new technologies
 
 ## Timeline Estimate
 
-| Phase | Tasks | Estimate | Dependencies |
-|-------|-------|----------|--------------|
-| Phase 0 | Research & technical decisions | 4h | None |
-| Phase 1 | Design artifacts generation | 2h | Phase 0 |
-| Phase 2 | Store Unification | 5.5h | Phase 1 |
-| Phase 3 | Component Optimizations | 6h | Phase 2 |
-| Phase 4 | DAW Timeline Improvements | 6.5h | Phase 3 |
-| Phase 5 | Testing & Validation | 8h | Phase 2-4 (parallel) |
-| Phase 6 | Cleanup & Documentation | 2.75h | Phase 2-5 |
-| **Total** | **11 tasks** | **34.75h (~1 week)** | - |
+| Phase     | Tasks                          | Estimate             | Dependencies         |
+| --------- | ------------------------------ | -------------------- | -------------------- |
+| Phase 0   | Research & technical decisions | 4h                   | None                 |
+| Phase 1   | Design artifacts generation    | 2h                   | Phase 0              |
+| Phase 2   | Store Unification              | 5.5h                 | Phase 1              |
+| Phase 3   | Component Optimizations        | 6h                   | Phase 2              |
+| Phase 4   | DAW Timeline Improvements      | 6.5h                 | Phase 3              |
+| Phase 5   | Testing & Validation           | 8h                   | Phase 2-4 (parallel) |
+| Phase 6   | Cleanup & Documentation        | 2.75h                | Phase 2-5            |
+| **Total** | **11 tasks**                   | **34.75h (~1 week)** | -                    |
 
 **Note**: Estimates assume mid-range devices (Pixel 5, iPhone 12) as performance targets. Actual time may vary based on complexity of store migration and testing requirements.
 

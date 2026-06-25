@@ -1842,6 +1842,7 @@ sequenceDiagram
 ## Connections by Relation
 
 ### calls
+
 - [[processVoiceMessage()]] `INFERRED`
 - [[resumeAudioContext()]] `INFERRED`
 - [[handleProjectsCarousel()]] `INFERRED`
@@ -1864,8 +1865,9 @@ sequenceDiagram
 - [[checkRateLimit()]] `INFERRED`
 
 ### contains
+
 - [[ProfessionalWaveformTimeline.tsx]] `EXTRACTED`
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

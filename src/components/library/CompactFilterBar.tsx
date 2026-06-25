@@ -3,19 +3,19 @@
  * Optimized for mobile with horizontal scrolling filters
  */
 
-import { memo, useState } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Search, SlidersHorizontal, X, Music2, Mic, Volume2, Layers, CheckCircle2, AlertCircle } from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { LibraryFilterModal } from './LibraryFilterModal';
-import { surface } from '@/lib/overlay-colors';
+import { memo, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search, SlidersHorizontal, X, Music2, Mic, Volume2, Layers, CheckCircle2, AlertCircle } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { LibraryFilterModal } from "./LibraryFilterModal";
+import { surface } from "@/lib/overlay-colors";
 
-type FilterOption = 'all' | 'vocals' | 'instrumental' | 'stems';
-type SortOption = 'recent' | 'popular' | 'liked';
-export type StatusFilter = 'all' | 'completed' | 'failed';
+type FilterOption = "all" | "vocals" | "instrumental" | "stems";
+type SortOption = "recent" | "popular" | "liked";
+export type StatusFilter = "all" | "completed" | "failed";
 
 interface CompactFilterBarProps {
   searchQuery: string;
@@ -37,21 +37,21 @@ interface CompactFilterBarProps {
 }
 
 const FILTERS: { id: FilterOption; label: string; icon: React.ReactNode }[] = [
-  { id: 'all', label: 'Все', icon: <Music2 className="w-3 h-3" /> },
-  { id: 'vocals', label: 'Вокал', icon: <Mic className="w-3 h-3" /> },
-  { id: 'instrumental', label: 'Инстр', icon: <Volume2 className="w-3 h-3" /> },
-  { id: 'stems', label: 'Стемы', icon: <Layers className="w-3 h-3" /> },
+  { id: "all", label: "Все", icon: <Music2 className="w-3 h-3" /> },
+  { id: "vocals", label: "Вокал", icon: <Mic className="w-3 h-3" /> },
+  { id: "instrumental", label: "Инстр", icon: <Volume2 className="w-3 h-3" /> },
+  { id: "stems", label: "Стемы", icon: <Layers className="w-3 h-3" /> },
 ];
 
 const SORTS: { id: SortOption; label: string }[] = [
-  { id: 'recent', label: 'Новые' },
-  { id: 'popular', label: 'Популярные' },
-  { id: 'liked', label: 'Любимые' },
+  { id: "recent", label: "Новые" },
+  { id: "popular", label: "Популярные" },
+  { id: "liked", label: "Любимые" },
 ];
 
 const STATUS_FILTERS: { id: StatusFilter; label: string; icon: React.ReactNode }[] = [
-  { id: 'completed', label: 'Готовые', icon: <CheckCircle2 className="w-3 h-3" /> },
-  { id: 'failed', label: 'С ошибками', icon: <AlertCircle className="w-3 h-3" /> },
+  { id: "completed", label: "Готовые", icon: <CheckCircle2 className="w-3 h-3" /> },
+  { id: "failed", label: "С ошибками", icon: <AlertCircle className="w-3 h-3" /> },
 ];
 
 export const CompactFilterBar = memo(function CompactFilterBar({
@@ -61,7 +61,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
   onFilterChange,
   sortBy,
   onSortChange,
-  statusFilter = 'all',
+  statusFilter = "all",
   onStatusFilterChange,
   counts,
   failedCount,
@@ -76,10 +76,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
     <div className={cn("space-y-2", className)}>
       {/* Search + Sort Row */}
       <div className="flex items-center gap-2">
-        <div className={cn(
-          "relative flex-1 transition-all duration-200",
-          isSearchFocused && "flex-[2]"
-        )}>
+        <div className={cn("relative flex-1 transition-all duration-200", isSearchFocused && "flex-[2]")}>
           <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
           <Input
             placeholder="Поиск..."
@@ -97,7 +94,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
                 className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full min-w-[28px] min-h-[28px] flex items-center justify-center"
-                onClick={() => onSearchChange('')}
+                onClick={() => onSearchChange("")}
                 aria-label="Очистить поиск"
               >
                 <X className="w-3 h-3 text-muted-foreground" />
@@ -130,9 +127,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               aria-label="Сортировка"
             >
               <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">
-                {SORTS.find(s => s.id === sortBy)?.label}
-              </span>
+              <span className="hidden sm:inline">{SORTS.find((s) => s.id === sortBy)?.label}</span>
             </Button>
 
             <AnimatePresence>
@@ -156,9 +151,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
                         key={sort.id}
                         className={cn(
                           "w-full text-left px-3 py-2 text-xs rounded-md transition-colors",
-                          sortBy === sort.id
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-muted"
+                          sortBy === sort.id ? "bg-primary text-primary-foreground" : "hover:bg-muted",
                         )}
                         onClick={() => {
                           onSortChange(sort.id);
@@ -186,9 +179,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
             <motion.button
               key={filter.id}
               whileTap={{ scale: 0.95 }}
-              className={cn(
-                "pill-chip flex-shrink-0 touch-manipulation min-h-[44px] md:min-h-[36px]"
-              )}
+              className={cn("pill-chip flex-shrink-0 touch-manipulation min-h-[44px] md:min-h-[36px]")}
               data-active={isActive}
               onClick={() => onFilterChange(filter.id)}
               aria-label={`Фильтр: ${filter.label}`}
@@ -197,11 +188,13 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               {filter.icon}
               <span>{filter.label}</span>
               {count !== undefined && count > 0 && (
-                <span className={cn(
-                  "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
-                  isActive ? "bg-primary/25 text-foreground" : "bg-foreground/10 text-muted-foreground"
-                )}>
-                  {count > 99 ? '99+' : count}
+                <span
+                  className={cn(
+                    "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
+                    isActive ? "bg-primary/25 text-foreground" : "bg-foreground/10 text-muted-foreground",
+                  )}
+                >
+                  {count > 99 ? "99+" : count}
                 </span>
               )}
             </motion.button>
@@ -209,38 +202,41 @@ export const CompactFilterBar = memo(function CompactFilterBar({
         })}
 
         {/* Status Filter Chips */}
-        {onStatusFilterChange && STATUS_FILTERS.map((filter) => {
-          const isActive = statusFilter === filter.id;
-          const count = filter.id === 'failed' ? failedCount : undefined;
-          const isFailed = filter.id === 'failed';
+        {onStatusFilterChange &&
+          STATUS_FILTERS.map((filter) => {
+            const isActive = statusFilter === filter.id;
+            const count = filter.id === "failed" ? failedCount : undefined;
+            const isFailed = filter.id === "failed";
 
-          return (
-            <motion.button
-              key={filter.id}
-              whileTap={{ scale: 0.95 }}
-              className={cn(
-                "pill-chip flex-shrink-0 touch-manipulation min-h-[44px] md:min-h-[36px]",
-                isActive && isFailed && "!bg-destructive/15 !text-destructive !border-destructive/40",
-                isActive && !isFailed && "!bg-emerald-500/15 !text-emerald-400 !border-emerald-500/40"
-              )}
-              data-active={isActive}
-              onClick={() => onStatusFilterChange(isActive ? 'all' : filter.id)}
-              aria-label={`Фильтр: ${filter.label}`}
-              aria-pressed={isActive}
-            >
-              {filter.icon}
-              <span>{filter.label}</span>
-              {count !== undefined && count > 0 && (
-                <span className={cn(
-                  "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
-                  isActive ? "bg-destructive/25 text-destructive" : "bg-destructive/15 text-destructive"
-                )}>
-                  {count > 99 ? '99+' : count}
-                </span>
-              )}
-            </motion.button>
-          );
-        })}
+            return (
+              <motion.button
+                key={filter.id}
+                whileTap={{ scale: 0.95 }}
+                className={cn(
+                  "pill-chip flex-shrink-0 touch-manipulation min-h-[44px] md:min-h-[36px]",
+                  isActive && isFailed && "!bg-destructive/15 !text-destructive !border-destructive/40",
+                  isActive && !isFailed && "!bg-emerald-500/15 !text-emerald-400 !border-emerald-500/40",
+                )}
+                data-active={isActive}
+                onClick={() => onStatusFilterChange(isActive ? "all" : filter.id)}
+                aria-label={`Фильтр: ${filter.label}`}
+                aria-pressed={isActive}
+              >
+                {filter.icon}
+                <span>{filter.label}</span>
+                {count !== undefined && count > 0 && (
+                  <span
+                    className={cn(
+                      "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
+                      isActive ? "bg-destructive/25 text-destructive" : "bg-destructive/15 text-destructive",
+                    )}
+                  >
+                    {count > 99 ? "99+" : count}
+                  </span>
+                )}
+              </motion.button>
+            );
+          })}
       </div>
 
       {/* Filter Modal for Mobile */}

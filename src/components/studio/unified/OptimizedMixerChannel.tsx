@@ -3,11 +3,11 @@
  * Uses memo and callbacks for maximum performance
  */
 
-import { memo, useCallback } from 'react';
-import { Volume2, VolumeX, Headphones } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { SimpleMeter } from './AudioMeter';
+import { memo, useCallback } from "react";
+import { Volume2, VolumeX, Headphones } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { SimpleMeter } from "./AudioMeter";
 
 export interface OptimizedMixerChannelProps {
   id: string;
@@ -57,7 +57,7 @@ const VolumeFader = memo(function VolumeFader({
         value={volume}
         onChange={(e) => onChange(parseFloat(e.target.value))}
         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-        style={{ writingMode: 'vertical-lr', direction: 'rtl' }}
+        style={{ writingMode: "vertical-lr", direction: "rtl" }}
         disabled={disabled}
       />
     </div>
@@ -78,20 +78,10 @@ const ChannelControls = memo(function ChannelControls({
 }) {
   return (
     <div className="flex gap-1">
-      <Button
-        variant={muted ? "destructive" : "outline"}
-        size="icon"
-        className="h-10 w-10"
-        onClick={onToggleMute}
-      >
+      <Button variant={muted ? "destructive" : "outline"} size="icon" className="h-10 w-10" onClick={onToggleMute}>
         {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
       </Button>
-      <Button
-        variant={solo ? "default" : "outline"}
-        size="icon"
-        className="h-10 w-10"
-        onClick={onToggleSolo}
-      >
+      <Button variant={solo ? "default" : "outline"} size="icon" className="h-10 w-10" onClick={onToggleSolo}>
         <Headphones className="w-4 h-4" />
       </Button>
     </div>
@@ -102,8 +92,8 @@ export const OptimizedMixerChannel = memo(function OptimizedMixerChannel({
   id,
   name,
   shortName,
-  icon = '🎵',
-  color = 'hsl(var(--primary))',
+  icon = "🎵",
+  color = "hsl(var(--primary))",
   volume,
   pan = 0,
   muted,
@@ -128,7 +118,7 @@ export const OptimizedMixerChannel = memo(function OptimizedMixerChannel({
         (onVolumeChange as (volume: number) => void)(v);
       }
     },
-    [id, onVolumeChange]
+    [id, onVolumeChange],
   );
 
   const handleToggleMute = useCallback(() => {
@@ -152,7 +142,7 @@ export const OptimizedMixerChannel = memo(function OptimizedMixerChannel({
       className={cn(
         "flex flex-col items-center p-3 rounded-xl border min-w-[80px]",
         "bg-card/50",
-        muted ? "opacity-60 border-border/30" : "border-border/50"
+        muted ? "opacity-60 border-border/30" : "border-border/50",
       )}
     >
       {/* Icon */}
@@ -164,38 +154,21 @@ export const OptimizedMixerChannel = memo(function OptimizedMixerChannel({
       </div>
 
       {/* Name */}
-      <p className="text-xs font-medium text-center truncate w-full mb-2">
-        {shortName || name}
-      </p>
+      <p className="text-xs font-medium text-center truncate w-full mb-2">{shortName || name}</p>
 
       {/* Level Meter + Fader */}
       <div className="flex items-end gap-1 mb-2">
-        <SimpleMeter
-          volume={volume}
-          isMuted={muted}
-          isPlaying={isPlaying}
-          height={96}
-          width={6}
-        />
-        <VolumeFader
-          volume={volume}
-          onChange={handleVolumeChange}
-          disabled={muted}
-        />
+        <SimpleMeter volume={volume} isMuted={muted} isPlaying={isPlaying} height={96} width={6} />
+        <VolumeFader volume={volume} onChange={handleVolumeChange} disabled={muted} />
       </div>
 
       {/* Volume Value */}
       <span className="text-[10px] font-mono text-muted-foreground mb-2">
-        {muted ? 'M' : `${Math.round(volume * 100)}`}
+        {muted ? "M" : `${Math.round(volume * 100)}`}
       </span>
 
       {/* Mute/Solo Buttons */}
-      <ChannelControls
-        muted={muted}
-        solo={solo}
-        onToggleMute={handleToggleMute}
-        onToggleSolo={handleToggleSolo}
-      />
+      <ChannelControls muted={muted} solo={solo} onToggleMute={handleToggleMute} onToggleSolo={handleToggleSolo} />
     </div>
   );
 });

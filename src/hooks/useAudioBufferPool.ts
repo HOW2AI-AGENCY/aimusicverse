@@ -3,18 +3,18 @@
  * Handles preloading, caching, and memory management for audio buffers
  */
 
-import { useCallback, useRef, useEffect } from 'react';
+import { useCallback, useRef, useEffect } from "react";
 
 // Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
-type ToneType = typeof import('tone');
-type ToneAudioBufferType = import('tone').ToneAudioBuffer;
+type ToneType = typeof import("tone");
+type ToneAudioBufferType = import("tone").ToneAudioBuffer;
 
 // Cached Tone module reference
 let ToneModule: ToneType | null = null;
 
 async function getToneModule(): Promise<ToneType> {
   if (!ToneModule) {
-    ToneModule = await import('tone');
+    ToneModule = await import("tone");
   }
   return ToneModule;
 }
@@ -48,10 +48,7 @@ class AudioBufferPool {
     const size = buffer.length * 4; // Approximate size in bytes
 
     // Evict if necessary
-    while (
-      (this.totalSize + size > MAX_CACHE_SIZE || this.cache.size >= MAX_ENTRIES) &&
-      this.cache.size > 0
-    ) {
+    while ((this.totalSize + size > MAX_CACHE_SIZE || this.cache.size >= MAX_ENTRIES) && this.cache.size > 0) {
       this.evictOldest();
     }
 
@@ -121,7 +118,7 @@ class AudioBufferPool {
         try {
           const { url, key } = JSON.parse(item);
           this.preload(url, key).finally(() => {
-            if ('requestIdleCallback' in window) {
+            if ("requestIdleCallback" in window) {
               (window as any).requestIdleCallback(processNext, { timeout: 5000 });
             } else {
               setTimeout(processNext, 100);
@@ -133,7 +130,7 @@ class AudioBufferPool {
       }
     };
 
-    if ('requestIdleCallback' in window) {
+    if ("requestIdleCallback" in window) {
       (window as any).requestIdleCallback(processNext, { timeout: 5000 });
     } else {
       setTimeout(processNext, 100);

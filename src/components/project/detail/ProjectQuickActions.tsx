@@ -2,11 +2,11 @@
  * ProjectQuickActions - Quick action buttons row
  */
 
-import { memo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Plus, Sparkles, Image } from 'lucide-react';
-import { ShareProjectCard } from '@/components/project/ShareProjectCard';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Button } from "@/components/ui/button";
+import { Plus, Sparkles, Image } from "lucide-react";
+import { ShareProjectCard } from "@/components/project/ShareProjectCard";
+import { cn } from "@/lib/utils";
 
 interface Project {
   id: string;
@@ -42,52 +42,34 @@ export const ProjectQuickActions = memo(function ProjectQuickActions({
   isMobile = false,
 }: ProjectQuickActionsProps) {
   return (
-    <div className={cn(
-      "flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none",
-      isMobile ? "px-3" : "px-4"
-    )}>
-      <Button 
-        variant="default" 
-        size="sm"
-        onClick={onAddTrack}
-        className="gap-1 shrink-0 h-7 px-2 text-xs"
-      >
+    <div className={cn("flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none", isMobile ? "px-3" : "px-4")}>
+      <Button variant="default" size="sm" onClick={onAddTrack} className="gap-1 shrink-0 h-7 px-2 text-xs">
         <Plus className="w-3.5 h-3.5" />
         Добавить
       </Button>
-      
-      <Button 
-        variant="outline" 
+
+      <Button
+        variant="outline"
         size="sm"
         onClick={onGenerateTracklist}
         disabled={isGenerating}
         className="gap-1 shrink-0 h-7 px-2 text-xs"
       >
         <Sparkles className="w-3.5 h-3.5" />
-        {isGenerating ? 'Генерация...' : 'AI'}
+        {isGenerating ? "Генерация..." : "AI"}
       </Button>
-      
-      <Button 
-        variant="outline" 
-        size="sm"
-        onClick={onOpenAiDialog}
-        className="gap-1 shrink-0 h-7 px-2 text-xs"
-      >
+
+      <Button variant="outline" size="sm" onClick={onOpenAiDialog} className="gap-1 shrink-0 h-7 px-2 text-xs">
         <Sparkles className="w-3.5 h-3.5" />
         Действия
       </Button>
-      
-      <Button 
-        variant="outline" 
-        size="sm"
-        onClick={onOpenMediaGenerator}
-        className="gap-1 shrink-0 h-7 px-2 text-xs"
-      >
+
+      <Button variant="outline" size="sm" onClick={onOpenMediaGenerator} className="gap-1 shrink-0 h-7 px-2 text-xs">
         <Image className="w-3.5 h-3.5" />
         Медиа
       </Button>
-      
-      <ShareProjectCard 
+
+      <ShareProjectCard
         project={{
           id: project.id,
           title: project.title,

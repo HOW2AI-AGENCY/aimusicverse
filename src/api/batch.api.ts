@@ -6,7 +6,7 @@
  * API Reference: specs/031-mobile-studio-v2/contracts/api-contracts.md
  */
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 
 // ==========================================
 // Type Definitions
@@ -18,7 +18,7 @@ import { supabase } from '@/integrations/supabase/client';
 export interface BatchTranscribeRequest {
   trackId: string;
   stemIds: string[];
-  model: 'basic' | 'advanced' | 'instrumental';
+  model: "basic" | "advanced" | "instrumental";
 }
 
 /**
@@ -26,7 +26,7 @@ export interface BatchTranscribeRequest {
  */
 export interface BatchTranscribeResponse {
   batchId: string;
-  status: 'processing' | 'queued' | 'failed';
+  status: "processing" | "queued" | "failed";
   stemsCount: number;
 }
 
@@ -36,7 +36,7 @@ export interface BatchTranscribeResponse {
 export interface BatchSeparateRequest {
   trackId: string;
   stemIds: string[];
-  mode: 'simple' | 'detailed';
+  mode: "simple" | "detailed";
 }
 
 /**
@@ -44,8 +44,8 @@ export interface BatchSeparateRequest {
  */
 export interface BatchSeparateResponse {
   batchId: string;
-  status: 'processing' | 'queued' | 'failed';
-  mode: 'simple' | 'detailed';
+  status: "processing" | "queued" | "failed";
+  mode: "simple" | "detailed";
 }
 
 /**
@@ -53,7 +53,7 @@ export interface BatchSeparateResponse {
  */
 export interface StemBatchStatus {
   id: string;
-  status: 'processing' | 'completed' | 'failed' | 'queued';
+  status: "processing" | "completed" | "failed" | "queued";
   progress: number;
   results: {
     stems: StemBatchResult[];
@@ -66,7 +66,7 @@ export interface StemBatchStatus {
  */
 export interface StemBatchResult {
   stemId: string;
-  status: 'success' | 'processing' | 'failed';
+  status: "success" | "processing" | "failed";
   midiUrl?: string;
   progress?: number;
   error?: string;
@@ -109,11 +109,9 @@ export interface BatchError {
  *   model: 'basic'
  * });
  */
-export async function initiateBatchTranscribe(
-  params: BatchTranscribeRequest
-): Promise<BatchTranscribeResponse> {
+export async function initiateBatchTranscribe(params: BatchTranscribeRequest): Promise<BatchTranscribeResponse> {
   try {
-    const { data, error } = await supabase.functions.invoke('batch-transcribe', {
+    const { data, error } = await supabase.functions.invoke("batch-transcribe", {
       body: {
         track_id: params.trackId,
         stem_ids: params.stemIds,
@@ -126,7 +124,7 @@ export async function initiateBatchTranscribe(
     }
 
     if (!data || data.error) {
-      throw new Error(data?.message || 'Failed to initiate batch transcription');
+      throw new Error(data?.message || "Failed to initiate batch transcription");
     }
 
     return {
@@ -158,11 +156,9 @@ export async function initiateBatchTranscribe(
  *   mode: 'detailed'
  * });
  */
-export async function initiateBatchSeparate(
-  params: BatchSeparateRequest
-): Promise<BatchSeparateResponse> {
+export async function initiateBatchSeparate(params: BatchSeparateRequest): Promise<BatchSeparateResponse> {
   try {
-    const { data, error } = await supabase.functions.invoke('batch-separate', {
+    const { data, error } = await supabase.functions.invoke("batch-separate", {
       body: {
         track_id: params.trackId,
         stem_ids: params.stemIds,
@@ -175,7 +171,7 @@ export async function initiateBatchSeparate(
     }
 
     if (!data || data.error) {
-      throw new Error(data?.message || 'Failed to initiate batch separation');
+      throw new Error(data?.message || "Failed to initiate batch separation");
     }
 
     return {
@@ -204,15 +200,9 @@ export async function initiateBatchSeparate(
  * const status = await getBatchStatus('batch-uuid');
  * console.log(status.progress); // 66
  */
-export async function getBatchStatus(
-  batchId: string
-): Promise<StemBatchStatus> {
+export async function getBatchStatus(batchId: string): Promise<StemBatchStatus> {
   try {
-    const { data, error } = await supabase
-      .from('stem_batches')
-      .select('*')
-      .eq('id', batchId)
-      .single();
+    const { data, error } = await supabase.from("stem_batches").select("*").eq("id", batchId).single();
 
     if (error) {
       throw new Error(error.message);
@@ -253,15 +243,13 @@ export async function getBatchStatus(
  * @example
  * const batches = await getTrackBatches('track-uuid');
  */
-export async function getTrackBatches(
-  trackId: string
-): Promise<StemBatchStatus[]> {
+export async function getTrackBatches(trackId: string): Promise<StemBatchStatus[]> {
   try {
     const { data, error } = await supabase
-      .from('stem_batches')
-      .select('*')
-      .eq('track_id', trackId)
-      .order('created_at', { ascending: false });
+      .from("stem_batches")
+      .select("*")
+      .eq("track_id", trackId)
+      .order("created_at", { ascending: false });
 
     if (error) {
       throw new Error(error.message);
@@ -306,16 +294,16 @@ export async function getTrackBatches(
  */
 export function subscribeToBatchUpdates(
   batchId: string,
-  callback: (status: StemBatchStatus) => void
+  callback: (status: StemBatchStatus) => void,
 ): { unsubscribe: () => void } {
   const channel = supabase
     .channel(`batch-${batchId}`)
     .on(
-      'postgres_changes',
+      "postgres_changes",
       {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'stem_batches',
+        event: "UPDATE",
+        schema: "public",
+        table: "stem_batches",
         filter: `id=eq.${batchId}`,
       },
       (payload) => {
@@ -331,11 +319,11 @@ export function subscribeToBatchUpdates(
 
         callback({
           id: newStatus.id,
-          status: newStatus.status as StemBatchStatus['status'],
+          status: newStatus.status as StemBatchStatus["status"],
           progress: newStatus.progress || 0,
           results: newStatus.results,
         });
-      }
+      },
     )
     .subscribe();
 
@@ -363,10 +351,10 @@ export function subscribeToBatchUpdates(
 export async function cancelBatch(batchId: string): Promise<void> {
   try {
     const { error } = await supabase
-      .from('stem_batches')
-      .update({ status: 'cancelled' })
-      .eq('id', batchId)
-      .eq('status', 'processing'); // Only allow cancelling if still processing
+      .from("stem_batches")
+      .update({ status: "cancelled" })
+      .eq("id", batchId)
+      .eq("status", "processing"); // Only allow cancelling if still processing
 
     if (error) {
       throw new Error(error.message);
@@ -391,30 +379,30 @@ export async function retryBatch(batchId: string): Promise<string> {
   try {
     // First, get the original batch details
     const { data: originalBatch, error: fetchError } = await supabase
-      .from('stem_batches')
-      .select('*')
-      .eq('id', batchId)
+      .from("stem_batches")
+      .select("*")
+      .eq("id", batchId)
       .single();
 
     if (fetchError || !originalBatch) {
-      throw new Error(fetchError?.message || 'Batch not found');
+      throw new Error(fetchError?.message || "Batch not found");
     }
 
     // Invoke the appropriate batch function based on batch type
     const batchType = originalBatch.metadata?.batch_type;
 
-    if (batchType === 'transcribe') {
+    if (batchType === "transcribe") {
       const result = await initiateBatchTranscribe({
         trackId: originalBatch.track_id,
         stemIds: originalBatch.metadata.stem_ids || [],
-        model: originalBatch.metadata.model || 'basic',
+        model: originalBatch.metadata.model || "basic",
       });
       return result.batchId;
-    } else if (batchType === 'separate') {
+    } else if (batchType === "separate") {
       const result = await initiateBatchSeparate({
         trackId: originalBatch.track_id,
         stemIds: originalBatch.metadata.stem_ids || [],
-        mode: originalBatch.metadata.mode || 'simple',
+        mode: originalBatch.metadata.mode || "simple",
       });
       return result.batchId;
     } else {
@@ -438,10 +426,7 @@ export async function retryBatch(batchId: string): Promise<string> {
  */
 export async function deleteBatch(batchId: string): Promise<void> {
   try {
-    const { error } = await supabase
-      .from('stem_batches')
-      .delete()
-      .eq('id', batchId);
+    const { error } = await supabase.from("stem_batches").delete().eq("id", batchId);
 
     if (error) {
       throw new Error(error.message);
@@ -476,26 +461,24 @@ export async function getUserBatchStats(userId: string): Promise<{
 }> {
   try {
     const { data, error } = await supabase
-      .from('stem_batches')
-      .select('id, status, created_at, completed_at')
-      .eq('user_id', userId);
+      .from("stem_batches")
+      .select("id, status, created_at, completed_at")
+      .eq("user_id", userId);
 
     if (error) {
       throw new Error(error.message);
     }
 
     const batches = data || [];
-    const completed = batches.filter((b) => b.status === 'completed');
-    const failed = batches.filter((b) => b.status === 'failed');
-    const processing = batches.filter((b) => b.status === 'processing');
+    const completed = batches.filter((b) => b.status === "completed");
+    const failed = batches.filter((b) => b.status === "failed");
+    const processing = batches.filter((b) => b.status === "processing");
 
     // Calculate average processing time (in seconds)
     let totalTime = 0;
     completed.forEach((batch) => {
       if (batch.completed_at && batch.created_at) {
-        totalTime +=
-          new Date(batch.completed_at).getTime() -
-          new Date(batch.created_at).getTime();
+        totalTime += new Date(batch.completed_at).getTime() - new Date(batch.created_at).getTime();
       }
     });
     const avgTime = completed.length > 0 ? totalTime / completed.length / 1000 : 0;
@@ -523,16 +506,14 @@ export async function getUserBatchStats(userId: string): Promise<{
  * @example
  * const active = await getActiveUserBatches('user-uuid');
  */
-export async function getActiveUserBatches(
-  userId: string
-): Promise<StemBatchStatus[]> {
+export async function getActiveUserBatches(userId: string): Promise<StemBatchStatus[]> {
   try {
     const { data, error } = await supabase
-      .from('stem_batches')
-      .select('*')
-      .eq('user_id', userId)
-      .in('status', ['queued', 'processing'])
-      .order('created_at', { ascending: false });
+      .from("stem_batches")
+      .select("*")
+      .eq("user_id", userId)
+      .in("status", ["queued", "processing"])
+      .order("created_at", { ascending: false });
 
     if (error) {
       throw new Error(error.message);

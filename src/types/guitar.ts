@@ -22,7 +22,7 @@ export interface Beat {
 }
 
 export interface AnalysisStatus {
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   progress?: number;
   error?: string;
 }

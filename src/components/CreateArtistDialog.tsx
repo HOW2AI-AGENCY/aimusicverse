@@ -1,20 +1,20 @@
-import { useState, useEffect, useRef } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { User, Sparkles, Image as ImageIcon, X, Plus, Play, Pause, Music } from 'lucide-react';
-import { useArtists } from '@/hooks/useArtists';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
-import { surface } from '@/lib/overlay-colors';
+import { useState, useEffect, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { User, Sparkles, Image as ImageIcon, X, Plus, Play, Pause, Music } from "lucide-react";
+import { useArtists } from "@/hooks/useArtists";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { surface } from "@/lib/overlay-colors";
 
 interface TrackData {
   title?: string | null;
@@ -31,13 +31,13 @@ interface CreateArtistDialogProps {
 }
 
 export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArtistDialogProps) {
-  const [name, setName] = useState('');
-  const [bio, setBio] = useState('');
-  const [styleDescription, setStyleDescription] = useState('');
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [styleDescription, setStyleDescription] = useState("");
   const [genreTags, setGenreTags] = useState<string[]>([]);
   const [moodTags, setMoodTags] = useState<string[]>([]);
-  const [newGenreTag, setNewGenreTag] = useState('');
-  const [newMoodTag, setNewMoodTag] = useState('');
+  const [newGenreTag, setNewGenreTag] = useState("");
+  const [newMoodTag, setNewMoodTag] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [isGeneratingPortrait, setIsGeneratingPortrait] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -47,20 +47,21 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
   // Pre-fill from track data when dialog opens
   useEffect(() => {
     if (open && fromTrack) {
-      const trackTitle = fromTrack.title || '';
-      const artistName = trackTitle.includes(' - ') 
-        ? trackTitle.split(' - ')[0].trim() 
-        : `Артист "${trackTitle}"`;
-      
+      const trackTitle = fromTrack.title || "";
+      const artistName = trackTitle.includes(" - ") ? trackTitle.split(" - ")[0].trim() : `Артист "${trackTitle}"`;
+
       setName(artistName);
-      setStyleDescription(fromTrack.style || '');
+      setStyleDescription(fromTrack.style || "");
       setAvatarUrl(fromTrack.cover_url || null);
-      
+
       if (fromTrack.tags) {
-        const tags = fromTrack.tags.split(',').map(t => t.trim()).filter(Boolean);
+        const tags = fromTrack.tags
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean);
         setGenreTags(tags.slice(0, 5));
       }
-      
+
       setBio(`AI артист, вдохновлённый треком "${trackTitle}"`);
     }
   }, [open, fromTrack]);
@@ -78,24 +79,23 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.src = '';
+        audioRef.current.src = "";
         audioRef.current.load();
         audioRef.current = null;
       }
     };
   }, []);
 
-
   const { createArtist, isCreating } = useArtists();
 
   const togglePlayback = () => {
     if (!fromTrack?.audio_url) return;
-    
+
     if (!audioRef.current) {
       audioRef.current = new Audio(fromTrack.audio_url);
       audioRef.current.onended = () => setIsPlaying(false);
     }
-    
+
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -107,30 +107,30 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
 
   const handleGeneratePortrait = async () => {
     if (!name.trim()) {
-      toast.error('Введите имя артиста для генерации портрета');
+      toast.error("Введите имя артиста для генерации портрета");
       return;
     }
 
     setIsGeneratingPortrait(true);
     try {
-      const { data, error } = await supabase.functions.invoke('generate-artist-portrait', {
-        body: { 
+      const { data, error } = await supabase.functions.invoke("generate-artist-portrait", {
+        body: {
           artistName: name.trim(),
           styleDescription: styleDescription || undefined,
-        }
+        },
       });
 
       if (error) throw error;
 
       if (data?.avatarUrl) {
         setAvatarUrl(data.avatarUrl);
-        toast.success('Портрет сгенерирован');
+        toast.success("Портрет сгенерирован");
       } else {
-        throw new Error('No avatar URL in response');
+        throw new Error("No avatar URL in response");
       }
     } catch (error) {
-      logger.error('Error generating portrait', { error });
-      toast.error('Ошибка генерации портрета');
+      logger.error("Error generating portrait", { error });
+      toast.error("Ошибка генерации портрета");
     } finally {
       setIsGeneratingPortrait(false);
     }
@@ -139,20 +139,20 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
   const addGenreTag = () => {
     if (newGenreTag.trim() && !genreTags.includes(newGenreTag.trim())) {
       setGenreTags([...genreTags, newGenreTag.trim()]);
-      setNewGenreTag('');
+      setNewGenreTag("");
     }
   };
 
   const addMoodTag = () => {
     if (newMoodTag.trim() && !moodTags.includes(newMoodTag.trim())) {
       setMoodTags([...moodTags, newMoodTag.trim()]);
-      setNewMoodTag('');
+      setNewMoodTag("");
     }
   };
 
   const handleSubmit = () => {
     if (!name.trim()) {
-      toast.error('Введите имя артиста');
+      toast.error("Введите имя артиста");
       return;
     }
 
@@ -168,9 +168,9 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
     });
 
     // Reset form
-    setName('');
-    setBio('');
-    setStyleDescription('');
+    setName("");
+    setBio("");
+    setStyleDescription("");
     setGenreTags([]);
     setMoodTags([]);
     setAvatarUrl(null);
@@ -184,9 +184,9 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
         <div className="flex items-center gap-3 p-3 rounded-lg border border-border/50 bg-muted/30">
           <div className="relative shrink-0">
             {fromTrack.cover_url ? (
-              <img 
-                src={fromTrack.cover_url} 
-                alt={fromTrack.title || ''} 
+              <img
+                src={fromTrack.cover_url}
+                alt={fromTrack.title || ""}
                 className="w-14 h-14 rounded-lg object-cover"
               />
             ) : (
@@ -199,14 +199,10 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
                 onClick={togglePlayback}
                 className={cn(
                   "absolute inset-0 flex items-center justify-center rounded-lg opacity-0 hover:opacity-100 transition-opacity",
-                  surface.imageDark
+                  surface.imageDark,
                 )}
               >
-                {isPlaying ? (
-                  <Pause className="w-6 h-6 text-white" />
-                ) : (
-                  <Play className="w-6 h-6 text-white" />
-                )}
+                {isPlaying ? <Pause className="w-6 h-6 text-white" /> : <Play className="w-6 h-6 text-white" />}
               </button>
             )}
           </div>
@@ -214,12 +210,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
             <p className="text-xs text-muted-foreground">Создание на основе трека</p>
             <p className="text-sm font-medium truncate">{fromTrack.title}</p>
             {fromTrack.audio_url && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 px-2 mt-1 text-xs"
-                onClick={togglePlayback}
-              >
+              <Button variant="ghost" size="sm" className="h-6 px-2 mt-1 text-xs" onClick={togglePlayback}>
                 {isPlaying ? (
                   <>
                     <Pause className="w-3 h-3 mr-1" />
@@ -238,15 +229,19 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
       )}
 
       {/* Avatar Section */}
-      <div className={cn(
-        "flex flex-col items-center gap-3 p-4 rounded-lg border border-border/50 bg-muted/30",
-        isMobile && "p-3"
-      )}>
+      <div
+        className={cn(
+          "flex flex-col items-center gap-3 p-4 rounded-lg border border-border/50 bg-muted/30",
+          isMobile && "p-3",
+        )}
+      >
         {avatarUrl ? (
-          <div className={cn(
-            "relative rounded-full overflow-hidden border-4 border-primary/20",
-            isMobile ? "w-24 h-24" : "w-32 h-32"
-          )}>
+          <div
+            className={cn(
+              "relative rounded-full overflow-hidden border-4 border-primary/20",
+              isMobile ? "w-24 h-24" : "w-32 h-32",
+            )}
+          >
             <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
             <button
               onClick={() => setAvatarUrl(null)}
@@ -256,10 +251,12 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
             </button>
           </div>
         ) : (
-          <div className={cn(
-            "rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border-4 border-primary/20",
-            isMobile ? "w-24 h-24" : "w-32 h-32"
-          )}>
+          <div
+            className={cn(
+              "rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center border-4 border-primary/20",
+              isMobile ? "w-24 h-24" : "w-32 h-32",
+            )}
+          >
             <User className={cn(isMobile ? "w-12 h-12" : "w-16 h-16", "text-primary/50")} />
           </div>
         )}
@@ -272,7 +269,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
           size={isMobile ? "sm" : "default"}
         >
           <ImageIcon className="w-4 h-4 mr-2" />
-          {isGeneratingPortrait ? 'Генерация...' : 'Сгенерировать портрет'}
+          {isGeneratingPortrait ? "Генерация..." : "Сгенерировать портрет"}
         </Button>
       </div>
 
@@ -327,7 +324,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
           <Input
             value={newGenreTag}
             onChange={(e) => setNewGenreTag(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && addGenreTag()}
+            onKeyPress={(e) => e.key === "Enter" && addGenreTag()}
             placeholder="Добавить жанр"
             className="h-9"
           />
@@ -356,7 +353,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
           <Input
             value={newMoodTag}
             onChange={(e) => setNewMoodTag(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && addMoodTag()}
+            onKeyPress={(e) => e.key === "Enter" && addMoodTag()}
             placeholder="Добавить настроение"
             className="h-9"
           />
@@ -381,14 +378,11 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
   );
 
   const actionButtons = (
-    <div className={cn(
-      "flex gap-2 pt-4 border-t",
-      isMobile ? "flex-col" : "justify-end"
-    )}>
+    <div className={cn("flex gap-2 pt-4 border-t", isMobile ? "flex-col" : "justify-end")}>
       {isMobile ? (
         <>
           <Button onClick={handleSubmit} disabled={isCreating || !name.trim()} className="w-full">
-            {isCreating ? 'Создание...' : 'Создать артиста'}
+            {isCreating ? "Создание..." : "Создать артиста"}
           </Button>
           <Button variant="outline" onClick={() => onOpenChange(false)} className="w-full">
             Отмена
@@ -400,7 +394,7 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
             Отмена
           </Button>
           <Button onClick={handleSubmit} disabled={isCreating || !name.trim()}>
-            {isCreating ? 'Создание...' : 'Создать артиста'}
+            {isCreating ? "Создание..." : "Создать артиста"}
           </Button>
         </>
       )}
@@ -418,12 +412,8 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
               Создать AI Артиста
             </SheetTitle>
           </SheetHeader>
-          <ScrollArea className="flex-1 px-4 py-3">
-            {formContent}
-          </ScrollArea>
-          <div className="px-4 pb-6 pt-2 shrink-0 border-t bg-background">
-            {actionButtons}
-          </div>
+          <ScrollArea className="flex-1 px-4 py-3">{formContent}</ScrollArea>
+          <div className="px-4 pb-6 pt-2 shrink-0 border-t bg-background">{actionButtons}</div>
         </SheetContent>
       </Sheet>
     );
@@ -438,12 +428,8 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
             Создать AI Артиста
           </DialogTitle>
         </DialogHeader>
-        <ScrollArea className="flex-1 px-6 py-4">
-          {formContent}
-        </ScrollArea>
-        <div className="px-6 pb-6 shrink-0">
-          {actionButtons}
-        </div>
+        <ScrollArea className="flex-1 px-6 py-4">{formContent}</ScrollArea>
+        <div className="px-6 pb-6 shrink-0">{actionButtons}</div>
       </DialogContent>
     </Dialog>
   );

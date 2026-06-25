@@ -3,18 +3,18 @@
  * Re-exports all API modules for easy importing
  */
 
-export * from './tracks.api';
-export * from './credits.api';
-export * from './playlists.api';
-export * from './projects.api';
-export * from './artists.api';
-export * from './studio.api';
-export * from './admin.api';
-export * from './analytics.api';
-export * from './generation.api';
+export * from "./tracks.api";
+export * from "./credits.api";
+export * from "./playlists.api";
+export * from "./projects.api";
+export * from "./artists.api";
+export * from "./studio.api";
+export * from "./admin.api";
+export * from "./analytics.api";
+export * from "./generation.api";
 // Note: analysis.api exports GuitarRecording which conflicts with studio.api
 // Import directly from analysis.api when needed
-export { 
+export {
   fetchTrackAnalysis,
   createAudioAnalysis,
   uploadAudioForAnalysis,
@@ -23,4 +23,4 @@ export {
   invokeMidiTranscription,
   saveGuitarRecording,
   type AudioAnalysis,
-} from './analysis.api';
+} from "./analysis.api";

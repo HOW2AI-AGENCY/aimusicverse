@@ -7,12 +7,13 @@
 Display error toast with recovery actions.
 
 ```typescript
-function showErrorWithRecovery(error: AppError): void
+function showErrorWithRecovery(error: AppError): void;
 ```
 
 **Example:**
+
 ```typescript
-import { showErrorWithRecovery, NetworkError } from '@/lib/errors';
+import { showErrorWithRecovery, NetworkError } from "@/lib/errors";
 
 try {
   await fetchData();
@@ -33,16 +34,17 @@ Full-screen or inline loading indicator.
 interface LoadingScreenProps {
   message?: string;
   progress?: number;
-  variant?: 'fullscreen' | 'inline' | 'overlay';
+  variant?: "fullscreen" | "inline" | "overlay";
 }
 ```
 
 **Example:**
+
 ```typescript
-<LoadingScreen 
-  message="Generating..." 
-  progress={45} 
-  variant="overlay" 
+<LoadingScreen
+  message="Generating..."
+  progress={45}
+  variant="overlay"
 />
 ```
 
@@ -60,13 +62,14 @@ interface OptimizedImageProps {
   height?: number;
   priority?: boolean;
   quality?: number;
-  objectFit?: 'cover' | 'contain' | 'fill';
+  objectFit?: "cover" | "contain" | "fill";
   onLoad?: () => void;
   onError?: () => void;
 }
 ```
 
 **Example:**
+
 ```typescript
 <OptimizedImage
   src={track.coverUrl}
@@ -87,12 +90,13 @@ Optimized avatar with fallback.
 interface OptimizedAvatarProps {
   src?: string | null;
   alt: string;
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
   fallback?: ReactNode;
 }
 ```
 
 **Example:**
+
 ```typescript
 <OptimizedAvatar
   src={user.photoUrl}
@@ -111,14 +115,15 @@ Touch-friendly icon button (min 44x44px).
 interface TouchIconButtonProps {
   icon: ReactNode;
   label: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'ghost' | 'outline' | 'solid';
+  size?: "sm" | "md" | "lg";
+  variant?: "ghost" | "outline" | "solid";
   disabled?: boolean;
   onClick?: () => void;
 }
 ```
 
 **Example:**
+
 ```typescript
 <TouchIconButton
   icon={<Play className="h-5 w-5" />}
@@ -147,6 +152,7 @@ interface SwipeableCardProps {
 ```
 
 **Example:**
+
 ```typescript
 <SwipeableCard
   onSwipeLeft={() => deleteItem(id)}
@@ -166,14 +172,14 @@ Type-safe state machine hook.
 
 ```typescript
 function useStateMachine<TState, TContext, TEvent>(
-  config: StateConfig<TState, TContext>
+  config: StateConfig<TState, TContext>,
 ): {
   state: TState;
   context: TContext;
   send: (event: TEvent, payload?: Partial<TContext>) => void;
   can: (event: TEvent) => boolean;
   reset: () => void;
-}
+};
 ```
 
 ---
@@ -183,17 +189,14 @@ function useStateMachine<TState, TContext, TEvent>(
 Error handling with auto-retry.
 
 ```typescript
-function useErrorRecovery(options?: {
-  maxRetries?: number;
-  retryDelay?: number;
-}): {
+function useErrorRecovery(options?: { maxRetries?: number; retryDelay?: number }): {
   error: AppError | null;
   isRetrying: boolean;
   retryCount: number;
   handleError: (error: unknown) => void;
   retry: (fn: () => Promise<void>) => Promise<void>;
   clear: () => void;
-}
+};
 ```
 
 ---
@@ -208,13 +211,13 @@ function useLazyImage(
   options?: {
     placeholder?: string;
     rootMargin?: string;
-  }
+  },
 ): {
   ref: (node: HTMLImageElement | null) => void;
   isLoaded: boolean;
   isError: boolean;
   currentSrc: string;
-}
+};
 ```
 
 ---
@@ -230,7 +233,7 @@ function useHaptics(): {
   heavy: () => void;
   success: () => void;
   error: () => void;
-}
+};
 ```
 
 ---
@@ -240,12 +243,10 @@ function useHaptics(): {
 Trap focus within container (for modals).
 
 ```typescript
-function useFocusTrap(
-  isActive: boolean
-): {
+function useFocusTrap(isActive: boolean): {
   containerRef: RefObject<HTMLElement>;
   firstFocusableRef: RefObject<HTMLElement>;
-}
+};
 ```
 
 ---
@@ -255,7 +256,7 @@ function useFocusTrap(
 Detect user's motion preference.
 
 ```typescript
-function usePrefersReducedMotion(): boolean
+function usePrefersReducedMotion(): boolean;
 ```
 
 ---
@@ -265,19 +266,13 @@ function usePrefersReducedMotion(): boolean
 ### debounce
 
 ```typescript
-function debounce<T extends (...args: any[]) => any>(
-  fn: T,
-  delay: number
-): (...args: Parameters<T>) => void
+function debounce<T extends (...args: any[]) => any>(fn: T, delay: number): (...args: Parameters<T>) => void;
 ```
 
 ### throttle
 
 ```typescript
-function throttle<T extends (...args: any[]) => any>(
-  fn: T,
-  limit: number
-): (...args: Parameters<T>) => void
+function throttle<T extends (...args: any[]) => any>(fn: T, limit: number): (...args: Parameters<T>) => void;
 ```
 
 ### memoizeWithLimit
@@ -285,10 +280,7 @@ function throttle<T extends (...args: any[]) => any>(
 LRU memoization with size limit.
 
 ```typescript
-function memoizeWithLimit<T extends (...args: any[]) => any>(
-  fn: T,
-  maxSize?: number
-): T
+function memoizeWithLimit<T extends (...args: any[]) => any>(fn: T, maxSize?: number): T;
 ```
 
 ### retryWithBackoff
@@ -302,8 +294,8 @@ function retryWithBackoff<T>(
     maxRetries?: number;
     initialDelayMs?: number;
     maxDelayMs?: number;
-  }
-): Promise<T>
+  },
+): Promise<T>;
 ```
 
 ### triggerHaptic
@@ -311,7 +303,5 @@ function retryWithBackoff<T>(
 Trigger device vibration.
 
 ```typescript
-function triggerHaptic(
-  type?: 'light' | 'medium' | 'heavy' | 'success' | 'error'
-): void
+function triggerHaptic(type?: "light" | "medium" | "heavy" | "success" | "error"): void;
 ```

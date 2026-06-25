@@ -1,16 +1,16 @@
 /**
  * Telegram Services - Unified Exports
- * 
+ *
  * Consolidates all Telegram-related functionality:
  * - Authentication
  * - Sharing (tracks, playlists, stories)
  * - Notifications via Telegram Bot
- * 
+ *
  * Note: For constants and deep link utilities, import from '@/lib/telegram'
  */
 
 // Authentication
-export { authenticateWithTelegram } from './auth';
+export { authenticateWithTelegram } from "./auth";
 
 // Sharing
 export {
@@ -18,30 +18,30 @@ export {
   getTrackDeepLink,
   getPlaylistDeepLink,
   getRecognizeDeepLink,
-  
+
   // Capability checks
   canShareToStory,
   canShareURL,
   canDownloadFile,
-  
+
   // Track sharing
   getTrackShareUrl,
   shareTrackToStory,
   shareTrackURL,
   downloadTrack,
-  
+
   // Playlist sharing
   getPlaylistShareUrl,
   sharePlaylistToStory,
   sharePlaylistURL,
-  
+
   // Inline query
   switchInlineQuery,
-  
+
   // Caption builders
   buildTrackShareCaption,
   buildPlaylistShareCaption,
-} from './share';
+} from "./share";
 
 // Telegram Bot Notifications
 export {
@@ -51,7 +51,7 @@ export {
   notifySocialEvent as telegramNotifySocialEvent,
   notifyAchievement as telegramNotifyAchievement,
   sendCustomMessage,
-} from './notifications';
+} from "./notifications";
 
 // Re-export constants from lib for convenience
 export {
@@ -60,4 +60,4 @@ export {
   TELEGRAM_MINI_APP_BASE_URL,
   getBotMention,
   getMiniAppDeepLink,
-} from '@/lib/telegram';
+} from "@/lib/telegram";

@@ -1,12 +1,12 @@
 /**
  * Scroll Reveal Hook
  * Feature: 032-professional-ui
- * 
+ *
  * Efficiently reveals elements as they enter the viewport.
  * Uses IntersectionObserver for optimal scroll performance.
  */
 
-import { useRef, useState, useEffect, useCallback, RefObject } from 'react';
+import { useRef, useState, useEffect, useCallback, RefObject } from "react";
 
 interface ScrollRevealOptions {
   /** Threshold for triggering reveal (0-1) */
@@ -30,10 +30,10 @@ interface ScrollRevealResult {
 
 /**
  * useScrollReveal - Detect when an element enters the viewport
- * 
+ *
  * @example
  * const { ref, isRevealed } = useScrollReveal({ threshold: 0.2 });
- * 
+ *
  * <div ref={ref} className={cn(
  *   'transition-all duration-500',
  *   isRevealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -44,7 +44,7 @@ interface ScrollRevealResult {
 export function useScrollReveal(options: ScrollRevealOptions = {}): ScrollRevealResult {
   const {
     threshold = 0.1,
-    rootMargin = '0px 0px -50px 0px',
+    rootMargin = "0px 0px -50px 0px",
     once = true,
     delay = 0,
     respectReducedMotion = true,
@@ -54,9 +54,8 @@ export function useScrollReveal(options: ScrollRevealOptions = {}): ScrollReveal
   const [isRevealed, setIsRevealed] = useState(false);
 
   // Check for reduced motion preference
-  const prefersReducedMotion = typeof window !== 'undefined' 
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
-    : false;
+  const prefersReducedMotion =
+    typeof window !== "undefined" ? window.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
 
   const reveal = useCallback(() => {
     setIsRevealed(true);
@@ -90,7 +89,7 @@ export function useScrollReveal(options: ScrollRevealOptions = {}): ScrollReveal
           }
         });
       },
-      { threshold, rootMargin }
+      { threshold, rootMargin },
     );
 
     observer.observe(element);
@@ -105,10 +104,10 @@ export function useScrollReveal(options: ScrollRevealOptions = {}): ScrollReveal
 
 /**
  * useStaggeredReveal - Reveal multiple elements with staggered timing
- * 
+ *
  * @example
  * const { containerRef, getItemProps } = useStaggeredReveal({ stagger: 50 });
- * 
+ *
  * <div ref={containerRef}>
  *   {items.map((item, index) => (
  *     <div key={item.id} {...getItemProps(index)}>
@@ -117,11 +116,13 @@ export function useScrollReveal(options: ScrollRevealOptions = {}): ScrollReveal
  *   ))}
  * </div>
  */
-export function useStaggeredReveal(options: {
-  stagger?: number;
-  threshold?: number;
-  once?: boolean;
-} = {}) {
+export function useStaggeredReveal(
+  options: {
+    stagger?: number;
+    threshold?: number;
+    once?: boolean;
+  } = {},
+) {
   const { stagger = 50, threshold = 0.1, once = true } = options;
   const containerRef = useRef<HTMLDivElement>(null);
   const [isContainerVisible, setIsContainerVisible] = useState(false);
@@ -141,20 +142,23 @@ export function useStaggeredReveal(options: {
           }
         });
       },
-      { threshold }
+      { threshold },
     );
 
     observer.observe(element);
     return () => observer.disconnect();
   }, [threshold, once]);
 
-  const getItemProps = useCallback((index: number) => ({
-    style: {
-      opacity: isContainerVisible ? 1 : 0,
-      transform: isContainerVisible ? 'translateY(0)' : 'translateY(10px)',
-      transition: `opacity 0.3s ease ${index * stagger}ms, transform 0.3s ease ${index * stagger}ms`,
-    },
-  }), [isContainerVisible, stagger]);
+  const getItemProps = useCallback(
+    (index: number) => ({
+      style: {
+        opacity: isContainerVisible ? 1 : 0,
+        transform: isContainerVisible ? "translateY(0)" : "translateY(10px)",
+        transition: `opacity 0.3s ease ${index * stagger}ms, transform 0.3s ease ${index * stagger}ms`,
+      },
+    }),
+    [isContainerVisible, stagger],
+  );
 
   return { containerRef, isContainerVisible, getItemProps };
 }

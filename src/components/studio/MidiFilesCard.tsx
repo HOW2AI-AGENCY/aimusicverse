@@ -1,20 +1,17 @@
 /**
  * MidiFilesCard - Shows all available transcription file formats with download and Telegram share
  */
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Download, FileMusic, FileText, FileCode, 
-  Music2, ExternalLink, Send, Loader2
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { TranscriptionFiles } from '@/hooks/useReplicateMidiTranscription';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Download, FileMusic, FileText, FileCode, Music2, ExternalLink, Send, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { TranscriptionFiles } from "@/hooks/useReplicateMidiTranscription";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface FileFormat {
   key: keyof TranscriptionFiles;
@@ -27,44 +24,44 @@ interface FileFormat {
 
 const FILE_FORMATS: FileFormat[] = [
   {
-    key: 'midi',
-    label: 'MIDI',
-    description: 'Стандартный MIDI для DAW',
+    key: "midi",
+    label: "MIDI",
+    description: "Стандартный MIDI для DAW",
     icon: <FileMusic className="w-4 h-4" />,
-    extension: '.mid',
-    color: 'text-blue-400',
+    extension: ".mid",
+    color: "text-blue-400",
   },
   {
-    key: 'midi_quant',
-    label: 'MIDI (Quantized)',
-    description: 'Выровненный по сетке',
+    key: "midi_quant",
+    label: "MIDI (Quantized)",
+    description: "Выровненный по сетке",
     icon: <FileMusic className="w-4 h-4" />,
-    extension: '.mid',
-    color: 'text-cyan-400',
+    extension: ".mid",
+    color: "text-cyan-400",
   },
   {
-    key: 'gp5',
-    label: 'Guitar Pro',
-    description: 'Табулатура для Guitar Pro',
+    key: "gp5",
+    label: "Guitar Pro",
+    description: "Табулатура для Guitar Pro",
     icon: <Music2 className="w-4 h-4" />,
-    extension: '.gp5',
-    color: 'text-orange-400',
+    extension: ".gp5",
+    color: "text-orange-400",
   },
   {
-    key: 'mxml',
-    label: 'MusicXML',
-    description: 'Универсальный нотный формат',
+    key: "mxml",
+    label: "MusicXML",
+    description: "Универсальный нотный формат",
     icon: <FileCode className="w-4 h-4" />,
-    extension: '.xml',
-    color: 'text-purple-400',
+    extension: ".xml",
+    color: "text-purple-400",
   },
   {
-    key: 'pdf',
-    label: 'PDF Ноты',
-    description: 'Печатная партитура',
+    key: "pdf",
+    label: "PDF Ноты",
+    description: "Печатная партитура",
     icon: <FileText className="w-4 h-4" />,
-    extension: '.pdf',
-    color: 'text-red-400',
+    extension: ".pdf",
+    color: "text-red-400",
   },
 ];
 
@@ -77,47 +74,46 @@ interface MidiFilesCardProps {
 
 export function MidiFilesCard({ files, className, title, trackTitle }: MidiFilesCardProps) {
   const [sendingFile, setSendingFile] = useState<string | null>(null);
-  const availableFormats = FILE_FORMATS.filter(f => files[f.key]);
-  
+  const availableFormats = FILE_FORMATS.filter((f) => files[f.key]);
+
   if (availableFormats.length === 0) {
     return null;
   }
 
   const handleDownload = (url: string, filename: string) => {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success('Скачивание начато');
+    toast.success("Скачивание начато");
   };
 
   const handleOpen = (url: string) => {
-    window.open(url, '_blank');
+    window.open(url, "_blank");
   };
 
   const handleSendToTelegram = async (url: string, format: FileFormat) => {
     setSendingFile(format.key);
     try {
       // Telegram chat id is fetched via secure RPC (column REVOKEd from authenticated).
-      const { getOwnTelegramIds } = await import('@/lib/telegram/getOwnTelegramIds');
+      const { getOwnTelegramIds } = await import("@/lib/telegram/getOwnTelegramIds");
       const ids = await getOwnTelegramIds();
 
       if (!ids?.telegram_id) {
-        toast.error('Telegram не подключен');
+        toast.error("Telegram не подключен");
         return;
       }
 
-      const { error } = await supabase.functions.invoke('send-telegram-notification', {
+      const { error } = await supabase.functions.invoke("send-telegram-notification", {
         body: {
-          type: 'document_share',
+          type: "document_share",
           chat_id: ids.telegram_id,
           document_url: url,
           document_type: format.key,
-          filename: `${trackTitle || 'transcription'}${format.extension}`,
+          filename: `${trackTitle || "transcription"}${format.extension}`,
           track_title: trackTitle,
-
         },
       });
 
@@ -125,8 +121,8 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
 
       toast.success(`${format.label} отправлен в Telegram`);
     } catch (error: unknown) {
-      logger.error('Send to Telegram error', error instanceof Error ? error : new Error(String(error)));
-      const errorMessage = error instanceof Error ? error.message : 'Ошибка отправки';
+      logger.error("Send to Telegram error", error instanceof Error ? error : new Error(String(error)));
+      const errorMessage = error instanceof Error ? error.message : "Ошибка отправки";
       toast.error(errorMessage);
     } finally {
       setSendingFile(null);
@@ -145,13 +141,13 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
           </div>
         </div>
       )}
-      
+
       <div className="p-3 space-y-2">
         {availableFormats.map((format, index) => {
           const url = files[format.key];
           if (!url) return null;
           const isSending = sendingFile === format.key;
-          
+
           return (
             <motion.div
               key={format.key}
@@ -161,9 +157,7 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
               className="flex items-center justify-between p-2 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
             >
               <div className="flex items-center gap-3">
-                <div className={cn("p-2 rounded-lg bg-background", format.color)}>
-                  {format.icon}
-                </div>
+                <div className={cn("p-2 rounded-lg bg-background", format.color)}>{format.icon}</div>
                 <div>
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium">{format.label}</span>
@@ -174,15 +168,10 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
                   <p className="text-xs text-muted-foreground">{format.description}</p>
                 </div>
               </div>
-              
+
               <div className="flex gap-1">
-                {format.key === 'pdf' && (
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => handleOpen(url)}
-                    title="Открыть"
-                  >
+                {format.key === "pdf" && (
+                  <Button size="sm" variant="ghost" onClick={() => handleOpen(url)} title="Открыть">
                     <ExternalLink className="w-3.5 h-3.5" />
                   </Button>
                 )}
@@ -193,11 +182,7 @@ export function MidiFilesCard({ files, className, title, trackTitle }: MidiFiles
                   disabled={isSending}
                   title="Отправить в Telegram"
                 >
-                  {isSending ? (
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                  ) : (
-                    <Send className="w-3.5 h-3.5" />
-                  )}
+                  {isSending ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
                 </Button>
                 <Button
                   size="sm"

@@ -2,25 +2,22 @@
  * Piano Roll with MIDI synchronized playback
  * Plays MIDI notes in real-time with audio
  */
-import { useState, useRef, useEffect, useCallback, useId } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Slider } from '@/components/ui/slider';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { 
-  Play, Pause, Volume2, VolumeX, Music, 
-  Piano, Settings2, Loader2 
-} from 'lucide-react';
-import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
-import { useMidiSync } from '@/hooks/studio/useMidiSync';
-import type { MidiNote } from '@/hooks/useMidiVisualization';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { motion } from '@/lib/motion';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { useState, useRef, useEffect, useCallback, useId } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Play, Pause, Volume2, VolumeX, Music, Piano, Settings2, Loader2 } from "lucide-react";
+import { PianoRollPreview } from "@/components/analysis/PianoRollPreview";
+import { useMidiSync } from "@/hooks/studio/useMidiSync";
+import type { MidiNote } from "@/hooks/useMidiVisualization";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { motion } from "@/lib/motion";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface NoteData {
   pitch: number;
@@ -39,7 +36,7 @@ interface PianoRollWithMidiSyncProps {
   className?: string;
 }
 
-const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 function midiToNoteName(midi: number): string {
   const octave = Math.floor(midi / 12) - 1;
@@ -60,12 +57,7 @@ function toMidiNotes(notes: NoteData[]): MidiNote[] {
   }));
 }
 
-export function PianoRollWithMidiSync({
-  notes,
-  audioUrl,
-  duration,
-  className,
-}: PianoRollWithMidiSyncProps) {
+export function PianoRollWithMidiSync({ notes, audioUrl, duration, className }: PianoRollWithMidiSyncProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const sourceId = useId();
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
@@ -92,9 +84,9 @@ export function PianoRollWithMidiSync({
       setIsPlaying(false);
     }
   }, [globalIsPlaying, isPlaying]);
-  
+
   const midiNotes = toMidiNotes(notes);
-  
+
   const {
     isReady,
     isSyncEnabled,
@@ -127,16 +119,16 @@ export function PianoRollWithMidiSync({
     const handlePause = () => setIsPlaying(false);
     const handlePlay = () => setIsPlaying(true);
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('play', handlePlay);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("play", handlePlay);
 
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("play", handlePlay);
     };
   }, [stopAll]);
 
@@ -174,9 +166,7 @@ export function PianoRollWithMidiSync({
       <Card className={cn("p-6 text-center", className)}>
         <Piano className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
         <p className="text-muted-foreground">Ноты не найдены</p>
-        <p className="text-sm text-muted-foreground mt-1">
-          Проанализируйте аудио для отображения нот
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">Проанализируйте аудио для отображения нот</p>
       </Card>
     );
   }
@@ -184,7 +174,7 @@ export function PianoRollWithMidiSync({
   return (
     <div className={cn("space-y-3", className)}>
       <audio ref={audioRef} src={audioUrl} className="hidden" />
-      
+
       {/* Controls */}
       <Card className="p-3">
         <div className="flex items-center gap-3">
@@ -195,16 +185,12 @@ export function PianoRollWithMidiSync({
             onClick={handleTogglePlayback}
             className="h-12 w-12 rounded-full shrink-0"
           >
-            {isPlaying ? (
-              <Pause className="w-5 h-5" />
-            ) : (
-              <Play className="w-5 h-5 ml-0.5" />
-            )}
+            {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
           </Button>
 
           {/* Progress */}
           <div className="flex-1 min-w-0">
-            <div 
+            <div
               className="h-2 bg-muted rounded-full overflow-hidden cursor-pointer"
               onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -216,26 +202,16 @@ export function PianoRollWithMidiSync({
                 }
               }}
             >
-              <motion.div 
-                className="h-full bg-primary"
-                style={{ width: `${(currentTime / duration) * 100}%` }}
-              />
+              <motion.div className="h-full bg-primary" style={{ width: `${(currentTime / duration) * 100}%` }} />
             </div>
             <div className="flex items-center justify-between mt-1">
-              <span className="text-xs text-muted-foreground">
-                {formatTime(currentTime)}
-              </span>
-              <span className="text-xs text-muted-foreground">
-                {formatTime(duration)}
-              </span>
+              <span className="text-xs text-muted-foreground">{formatTime(currentTime)}</span>
+              <span className="text-xs text-muted-foreground">{formatTime(duration)}</span>
             </div>
           </div>
 
           {/* MIDI Sync Status */}
-          <Badge 
-            variant={isSyncEnabled ? "default" : "secondary"} 
-            className="gap-1 shrink-0"
-          >
+          <Badge variant={isSyncEnabled ? "default" : "secondary"} className="gap-1 shrink-0">
             {isReady ? (
               <>
                 <Music className="w-3 h-3" />
@@ -250,12 +226,7 @@ export function PianoRollWithMidiSync({
           </Badge>
 
           {/* Settings Toggle */}
-          <Button
-            size="icon"
-            variant="ghost"
-            onClick={() => setShowSettings(!showSettings)}
-            className="h-9 w-9"
-          >
+          <Button size="icon" variant="ghost" onClick={() => setShowSettings(!showSettings)} className="h-9 w-9">
             <Settings2 className="w-4 h-4" />
           </Button>
         </div>
@@ -264,7 +235,7 @@ export function PianoRollWithMidiSync({
         {showSettings && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="mt-4 pt-4 border-t space-y-4"
           >
@@ -274,35 +245,18 @@ export function PianoRollWithMidiSync({
                 <Piano className="w-4 h-4" />
                 Воспроизводить MIDI ноты
               </Label>
-              <Switch
-                id="midi-sync"
-                checked={isSyncEnabled}
-                onCheckedChange={setSyncEnabled}
-              />
+              <Switch id="midi-sync" checked={isSyncEnabled} onCheckedChange={setSyncEnabled} />
             </div>
 
             {/* Volume */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Label className="flex items-center gap-2">
-                  {isMuted ? (
-                    <VolumeX className="w-4 h-4" />
-                  ) : (
-                    <Volume2 className="w-4 h-4" />
-                  )}
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                   Громкость MIDI
                 </Label>
-                <Button
-                  size="icon"
-                  variant="ghost"
-                  className="h-7 w-7"
-                  onClick={() => setMuted(!isMuted)}
-                >
-                  {isMuted ? (
-                    <VolumeX className="w-4 h-4" />
-                  ) : (
-                    <Volume2 className="w-4 h-4" />
-                  )}
+                <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setMuted(!isMuted)}>
+                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </Button>
               </div>
               <Slider
@@ -314,21 +268,14 @@ export function PianoRollWithMidiSync({
                 disabled={isMuted}
                 className="w-full"
               />
-              <p className="text-xs text-muted-foreground text-right">
-                {volume} dB
-              </p>
+              <p className="text-xs text-muted-foreground text-right">{volume} dB</p>
             </div>
           </motion.div>
         )}
       </Card>
 
       {/* Piano Roll */}
-      <PianoRollPreview
-        notes={notes}
-        duration={duration}
-        currentTime={currentTime}
-        height={200}
-      />
+      <PianoRollPreview notes={notes} duration={duration} currentTime={currentTime} height={200} />
 
       {/* Note count */}
       <div className="flex items-center justify-between text-sm text-muted-foreground">

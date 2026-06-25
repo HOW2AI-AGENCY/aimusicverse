@@ -69,7 +69,7 @@ export interface FileUrlOptions {
  */
 export async function checkStorageQuota(
   _userId: string,
-  _fileSize: number
+  _fileSize: number,
 ): Promise<{
   allowed: boolean;
   currentUsage: number;
@@ -174,12 +174,14 @@ export function getFileUrl(options: FileUrlOptions): string {
 
   const { data } = supabase.storage.from(bucket).getPublicUrl(path, {
     download,
-    transform: transform ? {
-      width: transform.width,
-      height: transform.height,
-      quality: transform.quality,
-      format: transform.format,
-    } : undefined,
+    transform: transform
+      ? {
+          width: transform.width,
+          height: transform.height,
+          quality: transform.quality,
+          format: transform.format,
+        }
+      : undefined,
   });
 
   return data.publicUrl;
@@ -226,7 +228,7 @@ export async function getStorageUsage(): Promise<{
  */
 export async function getEntityFiles(
   _entityType: FileEntityType,
-  _entityId: string
+  _entityId: string,
 ): Promise<{
   files: Array<{
     id: string;

@@ -3,12 +3,12 @@
  * Provides consistent navigation header across pages
  */
 
-import { memo, ReactNode } from 'react';
-import { ArrowLeft, MoreVertical } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
-import { Button } from '@/components/ui/button';
-import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
+import { memo, ReactNode } from "react";
+import { ArrowLeft, MoreVertical } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
+import { Button } from "@/components/ui/button";
+import { TELEGRAM_SAFE_AREA } from "@/constants/safe-area";
 
 interface MobileHeaderBarProps {
   /** Header title */
@@ -70,28 +70,28 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
       className={cn(
         "w-full z-sticky",
         sticky && "sticky top-0",
-        !transparent &&
-          "bg-background/70 backdrop-blur-xl backdrop-saturate-150 border-b border-border/40",
-        className
+        !transparent && "bg-background/70 backdrop-blur-xl backdrop-saturate-150 border-b border-border/40",
+        className,
       )}
       style={{
-        paddingTop: sticky ? TELEGRAM_SAFE_AREA.stickyHeaderTop : '0.5rem',
+        paddingTop: sticky ? TELEGRAM_SAFE_AREA.stickyHeaderTop : "0.5rem",
       }}
     >
       <div className="flex items-center gap-2 px-3 pb-2.5 min-h-[52px]">
         {/* Leading */}
         <div className="flex items-center gap-1 shrink-0 w-10">
-          {leading || (showBack && onBack && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleBack}
-              className="h-10 w-10 rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
-              aria-label="Назад"
-            >
-              <ArrowLeft className="w-5 h-5" strokeWidth={2.2} />
-            </Button>
-          ))}
+          {leading ||
+            (showBack && onBack && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleBack}
+                className="h-10 w-10 rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
+                aria-label="Назад"
+              >
+                <ArrowLeft className="w-5 h-5" strokeWidth={2.2} />
+              </Button>
+            ))}
         </div>
 
         {/* Center — left-aligned title (native iOS large-title feel, compact) */}
@@ -103,28 +103,25 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
                   {title}
                 </h1>
               )}
-              {subtitle && (
-                <p className="text-[12px] text-muted-foreground truncate leading-snug mt-0.5">
-                  {subtitle}
-                </p>
-              )}
+              {subtitle && <p className="text-[12px] text-muted-foreground truncate leading-snug mt-0.5">{subtitle}</p>}
             </div>
           )}
         </div>
 
         {/* Trailing */}
         <div className="flex items-center gap-1 shrink-0">
-          {trailing || (showMore && onMore && (
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={handleMore}
-              className="h-10 w-10 rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
-              aria-label="Дополнительно"
-            >
-              <MoreVertical className="w-5 h-5" strokeWidth={2.2} />
-            </Button>
-          ))}
+          {trailing ||
+            (showMore && onMore && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleMore}
+                className="h-10 w-10 rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
+                aria-label="Дополнительно"
+              >
+                <MoreVertical className="w-5 h-5" strokeWidth={2.2} />
+              </Button>
+            ))}
         </div>
       </div>
     </header>

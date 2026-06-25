@@ -3,24 +3,24 @@
  * Uses UnifiedVersionSelector for A/B version switching
  */
 
-import { memo, useState } from 'react';
-import { Track } from '@/types/track';
-import { Play, Pause, Heart, Share2, ListPlus, Music2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { pill } from '@/lib/overlay-colors';
-import { Badge } from '@/components/ui/badge';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useTracks } from '@/hooks/useTracks';
-import { hapticImpact } from '@/lib/haptic';
-import { toast } from 'sonner';
-import { EditableTrackTitle } from './EditableTrackTitle';
-import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
+import { memo, useState } from "react";
+import { Track } from "@/types/track";
+import { Play, Pause, Heart, Share2, ListPlus, Music2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { pill } from "@/lib/overlay-colors";
+import { Badge } from "@/components/ui/badge";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useTracks } from "@/hooks/useTracks";
+import { hapticImpact } from "@/lib/haptic";
+import { toast } from "sonner";
+import { EditableTrackTitle } from "./EditableTrackTitle";
+import { UnifiedVersionSelector } from "@/components/shared/UnifiedVersionSelector";
 
 // Format duration from seconds to mm:ss
 const formatDuration = (seconds: number): string => {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 };
 
 interface CompactSheetHeaderProps {
@@ -28,23 +28,20 @@ interface CompactSheetHeaderProps {
   onClose: () => void;
 }
 
-export const CompactSheetHeader = memo(function CompactSheetHeader({
-  track,
-  onClose,
-}: CompactSheetHeaderProps) {
+export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onClose }: CompactSheetHeaderProps) {
   const { activeTrack, isPlaying, playTrack, pauseTrack, addToQueue } = usePlayerStore();
   const { toggleLike } = useTracks();
-  const [localTitle, setLocalTitle] = useState(track.title || 'Без названия');
+  const [localTitle, setLocalTitle] = useState(track.title || "Без названия");
 
   const coverUrl = track.cover_url;
   const duration = track.duration_seconds ? formatDuration(track.duration_seconds) : null;
-  const hasHD = !!(track as any).audio_url_hd || (track as any).audio_quality === 'hd';
+  const hasHD = !!(track as any).audio_url_hd || (track as any).audio_quality === "hd";
 
   const isCurrentTrack = activeTrack?.id === track.id;
   const isTrackPlaying = isCurrentTrack && isPlaying;
 
   const handlePlay = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     if (isCurrentTrack) {
       isPlaying ? pauseTrack() : playTrack();
     } else {
@@ -53,7 +50,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
   };
 
   const handleLike = async () => {
-    hapticImpact('light');
+    hapticImpact("light");
     await toggleLike({
       trackId: track.id,
       isLiked: track.is_liked || false,
@@ -61,58 +58,61 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
   };
 
   const handleShare = async () => {
-    hapticImpact('light');
+    hapticImpact("light");
     const url = `${window.location.origin}/track/${track.id}`;
     try {
       if (navigator.share) {
-        await navigator.share({ title: track.title || 'Track', url });
+        await navigator.share({ title: track.title || "Track", url });
       } else {
         await navigator.clipboard.writeText(url);
-        toast.success('Ссылка скопирована');
+        toast.success("Ссылка скопирована");
       }
-    } catch { /* User cancelled */ }
+    } catch {
+      /* User cancelled */
+    }
   };
 
   const handleAddToQueue = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     addToQueue(track);
-    toast.success('Добавлено в очередь');
+    toast.success("Добавлено в очередь");
   };
 
   return (
     <div className="flex items-center gap-3 py-2">
       {/* Cover - 48x48 compact size */}
       <div className="relative flex-shrink-0">
-        <div className={cn(
-          "w-12 h-12 rounded-lg overflow-hidden",
-          "bg-gradient-to-br from-primary/20 to-primary/5",
-          "ring-1 ring-white/10"
-        )}>
+        <div
+          className={cn(
+            "w-12 h-12 rounded-lg overflow-hidden",
+            "bg-gradient-to-br from-primary/20 to-primary/5",
+            "ring-1 ring-white/10",
+          )}
+        >
           {coverUrl ? (
-            <img
-              src={coverUrl}
-              alt={track.title || 'Cover'}
-              className="w-full h-full object-cover"
-            />
+            <img src={coverUrl} alt={track.title || "Cover"} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <Music2 className="w-5 h-5 text-primary/60" />
             </div>
           )}
         </div>
-        
+
         {/* HD Badge */}
         {hasHD && (
-          <Badge 
-            className="absolute -top-1 -right-1 px-1 py-0 text-[7px] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0"
-          >
+          <Badge className="absolute -top-1 -right-1 px-1 py-0 text-[7px] font-bold bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
             HD
           </Badge>
         )}
-        
+
         {/* Duration badge */}
         {duration && (
-          <div className={cn("absolute bottom-0 right-0 text-[8px] px-0.5 py-0 rounded text-center min-w-[24px]", pill.glassDark)}>
+          <div
+            className={cn(
+              "absolute bottom-0 right-0 text-[8px] px-0.5 py-0 rounded text-center min-w-[24px]",
+              pill.glassDark,
+            )}
+          >
             {duration}
           </div>
         )}
@@ -121,20 +121,12 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
       {/* Title + Version Selector */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <EditableTrackTitle
-            trackId={track.id}
-            title={localTitle}
-            onTitleChange={setLocalTitle}
-          />
+          <EditableTrackTitle trackId={track.id} title={localTitle} onTitleChange={setLocalTitle} />
         </div>
-        
+
         {/* UnifiedVersionSelector - compact inline variant */}
         <div className="mt-1">
-          <UnifiedVersionSelector 
-            trackId={track.id}
-            variant="inline"
-            showLabels
-          />
+          <UnifiedVersionSelector trackId={track.id} variant="inline" showLabels />
         </div>
       </div>
 
@@ -145,14 +137,10 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
           className={cn(
             "w-9 h-9 rounded-lg flex items-center justify-center",
             "bg-primary/15 text-primary",
-            "active:scale-95 transition-transform"
+            "active:scale-95 transition-transform",
           )}
         >
-          {isTrackPlaying ? (
-            <Pause className="w-4 h-4" />
-          ) : (
-            <Play className="w-4 h-4 ml-0.5" />
-          )}
+          {isTrackPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
         </button>
 
         <button
@@ -160,15 +148,10 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
           className={cn(
             "w-9 h-9 rounded-lg flex items-center justify-center",
             "active:scale-95 transition-transform",
-            track.is_liked 
-              ? "bg-red-500/15 text-red-500" 
-              : "bg-muted/60 text-muted-foreground"
+            track.is_liked ? "bg-red-500/15 text-red-500" : "bg-muted/60 text-muted-foreground",
           )}
         >
-          <Heart 
-            className="w-4 h-4" 
-            fill={track.is_liked ? 'currentColor' : 'none'} 
-          />
+          <Heart className="w-4 h-4" fill={track.is_liked ? "currentColor" : "none"} />
         </button>
 
         <button
@@ -176,7 +159,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
           className={cn(
             "w-9 h-9 rounded-lg flex items-center justify-center",
             "bg-muted/60 text-muted-foreground",
-            "active:scale-95 transition-transform"
+            "active:scale-95 transition-transform",
           )}
         >
           <ListPlus className="w-4 h-4" />
@@ -187,7 +170,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({
           className={cn(
             "w-9 h-9 rounded-lg flex items-center justify-center",
             "bg-muted/60 text-muted-foreground",
-            "active:scale-95 transition-transform"
+            "active:scale-95 transition-transform",
           )}
         >
           <Share2 className="w-4 h-4" />

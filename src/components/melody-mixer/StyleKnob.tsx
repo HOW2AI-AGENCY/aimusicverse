@@ -3,10 +3,10 @@
  * DJ-style knob with glow effects
  */
 
-import { memo, useRef, useCallback, useState } from 'react';
-import { motion } from '@/lib/motion';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { cn } from '@/lib/utils';
+import { memo, useRef, useCallback, useState } from "react";
+import { motion } from "@/lib/motion";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { cn } from "@/lib/utils";
 
 interface StyleKnobProps {
   value: number; // 0-1
@@ -42,33 +42,42 @@ export const StyleKnob = memo(function StyleKnob({
   const angle = value * 270 - 135;
 
   // Handle drag
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    if (!enabled) return;
-    
-    e.preventDefault();
-    setIsDragging(true);
-    startYRef.current = e.clientY;
-    startValueRef.current = value;
-    
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    haptic.impact('light');
-  }, [enabled, value, haptic]);
+  const handlePointerDown = useCallback(
+    (e: React.PointerEvent) => {
+      if (!enabled) return;
 
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!isDragging) return;
+      e.preventDefault();
+      setIsDragging(true);
+      startYRef.current = e.clientY;
+      startValueRef.current = value;
 
-    const deltaY = startYRef.current - e.clientY;
-    const sensitivity = 0.005;
-    const newValue = Math.max(0, Math.min(1, startValueRef.current + deltaY * sensitivity));
-    
-    onChange(newValue);
-  }, [isDragging, onChange]);
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+      haptic.impact("light");
+    },
+    [enabled, value, haptic],
+  );
 
-  const handlePointerUp = useCallback((e: React.PointerEvent) => {
-    setIsDragging(false);
-    (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-    haptic.tap();
-  }, [haptic]);
+  const handlePointerMove = useCallback(
+    (e: React.PointerEvent) => {
+      if (!isDragging) return;
+
+      const deltaY = startYRef.current - e.clientY;
+      const sensitivity = 0.005;
+      const newValue = Math.max(0, Math.min(1, startValueRef.current + deltaY * sensitivity));
+
+      onChange(newValue);
+    },
+    [isDragging, onChange],
+  );
+
+  const handlePointerUp = useCallback(
+    (e: React.PointerEvent) => {
+      setIsDragging(false);
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+      haptic.tap();
+    },
+    [haptic],
+  );
 
   // Handle double-click to edit label
   const handleDoubleClick = useCallback(() => {
@@ -78,23 +87,24 @@ export const StyleKnob = memo(function StyleKnob({
   }, [onLabelChange]);
 
   return (
-    <div className={cn('flex flex-col items-center gap-2', className)}>
+    <div className={cn("flex flex-col items-center gap-2", className)}>
       {/* Knob container */}
       <motion.div
         ref={knobRef}
         className={cn(
-          'relative w-20 h-20 rounded-full cursor-pointer',
-          'bg-gradient-to-b from-muted to-muted/50',
-          'border-2',
-          !enabled && 'opacity-50 cursor-not-allowed'
+          "relative w-20 h-20 rounded-full cursor-pointer",
+          "bg-gradient-to-b from-muted to-muted/50",
+          "border-2",
+          !enabled && "opacity-50 cursor-not-allowed",
         )}
         style={{
-          borderColor: enabled ? color : 'hsl(var(--muted-foreground))',
-          boxShadow: isActive && enabled
-            ? `0 0 30px ${color}, 0 0 60px ${color}50`
-            : enabled 
-              ? `0 0 ${value * 20}px ${color}50`
-              : 'none',
+          borderColor: enabled ? color : "hsl(var(--muted-foreground))",
+          boxShadow:
+            isActive && enabled
+              ? `0 0 30px ${color}, 0 0 60px ${color}50`
+              : enabled
+                ? `0 0 ${value * 20}px ${color}50`
+                : "none",
         }}
         animate={{
           scale: isActive ? [1, 1.05, 1] : 1,
@@ -107,7 +117,7 @@ export const StyleKnob = memo(function StyleKnob({
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
-        onClick={e => {
+        onClick={(e) => {
           if (e.detail === 2) return; // Ignore double-clicks
           // Toggle on single click if not dragging
         }}
@@ -128,7 +138,7 @@ export const StyleKnob = memo(function StyleKnob({
             cy="50%"
             r="35"
             fill="none"
-            stroke={enabled ? color : 'hsl(var(--muted-foreground))'}
+            stroke={enabled ? color : "hsl(var(--muted-foreground))"}
             strokeWidth="4"
             strokeLinecap="round"
             strokeDasharray={`${value * 0.75 * 2 * Math.PI * 35} ${2 * Math.PI * 35}`}
@@ -146,11 +156,11 @@ export const StyleKnob = memo(function StyleKnob({
         >
           <motion.div
             className="absolute w-1 h-4 rounded-full top-3"
-            style={{ backgroundColor: enabled ? color : 'hsl(var(--muted-foreground))' }}
+            style={{ backgroundColor: enabled ? color : "hsl(var(--muted-foreground))" }}
             animate={{ rotate: angle }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
           />
-          
+
           {/* Value display */}
           <span className="text-xs font-bold mt-2" style={{ color: enabled ? color : undefined }}>
             {Math.round(value * 100)}
@@ -165,16 +175,16 @@ export const StyleKnob = memo(function StyleKnob({
           defaultValue={label}
           className="w-20 text-xs text-center bg-muted rounded px-1 py-0.5"
           autoFocus
-          onBlur={e => {
+          onBlur={(e) => {
             onLabelChange?.(e.target.value);
             setIsEditing(false);
           }}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
               onLabelChange?.(e.currentTarget.value);
               setIsEditing(false);
             }
-            if (e.key === 'Escape') {
+            if (e.key === "Escape") {
               setIsEditing(false);
             }
           }}
@@ -182,9 +192,9 @@ export const StyleKnob = memo(function StyleKnob({
       ) : (
         <button
           className={cn(
-            'text-xs text-center truncate w-20 px-1 py-0.5 rounded',
-            'hover:bg-muted/50 transition-colors',
-            !enabled && 'text-muted-foreground'
+            "text-xs text-center truncate w-20 px-1 py-0.5 rounded",
+            "hover:bg-muted/50 transition-colors",
+            !enabled && "text-muted-foreground",
           )}
           onClick={onToggle}
           onDoubleClick={handleDoubleClick}
@@ -198,7 +208,7 @@ export const StyleKnob = memo(function StyleKnob({
       <motion.div
         className="w-2 h-2 rounded-full"
         animate={{
-          backgroundColor: enabled ? color : 'hsl(var(--muted-foreground))',
+          backgroundColor: enabled ? color : "hsl(var(--muted-foreground))",
           scale: enabled && value > 0 ? 1 : 0.7,
         }}
       />

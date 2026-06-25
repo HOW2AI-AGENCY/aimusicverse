@@ -2743,6 +2743,7 @@ sequenceDiagram
 ## Connections by Relation
 
 ### calls
+
 - [[uploadAndShowActions()]] `INFERRED`
 - [[handleAudioActionCallback()]] `INFERRED`
 - [[setActiveMenuMessageId()]] `INFERRED`
@@ -2765,8 +2766,9 @@ sequenceDiagram
 - [[analyzeAudio()]] `INFERRED`
 
 ### contains
+
 - [[index.ts]] `EXTRACTED`
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

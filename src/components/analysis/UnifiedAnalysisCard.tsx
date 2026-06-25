@@ -3,18 +3,15 @@
  * Works with both legacy AudioAnalysis and new UnifiedAnalysisResult
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Music, Gauge, Key, Heart, Zap, Activity, 
-  Mic2, Guitar, Drum, Piano, Sparkles
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import type { UnifiedAnalysisResult } from '@/services/unified-analysis/types';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Music, Gauge, Key, Heart, Zap, Activity, Mic2, Guitar, Drum, Piano, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
+import type { UnifiedAnalysisResult } from "@/services/unified-analysis/types";
 
 interface UnifiedAnalysisCardProps {
   analysis: UnifiedAnalysisResult | null;
@@ -25,13 +22,13 @@ interface UnifiedAnalysisCardProps {
 
 // Instrument icon mapping
 const instrumentIcons: Record<string, React.ReactNode> = {
-  'vocals': <Mic2 className="w-3 h-3" />,
-  'voice': <Mic2 className="w-3 h-3" />,
-  'guitar': <Guitar className="w-3 h-3" />,
-  'drums': <Drum className="w-3 h-3" />,
-  'piano': <Piano className="w-3 h-3" />,
-  'keys': <Piano className="w-3 h-3" />,
-  'keyboard': <Piano className="w-3 h-3" />,
+  vocals: <Mic2 className="w-3 h-3" />,
+  voice: <Mic2 className="w-3 h-3" />,
+  guitar: <Guitar className="w-3 h-3" />,
+  drums: <Drum className="w-3 h-3" />,
+  piano: <Piano className="w-3 h-3" />,
+  keys: <Piano className="w-3 h-3" />,
+  keyboard: <Piano className="w-3 h-3" />,
 };
 
 function getInstrumentIcon(instrument: string): React.ReactNode {
@@ -57,25 +54,21 @@ export const UnifiedAnalysisCard = memo(function UnifiedAnalysisCard({
       <Card className={cn("bg-card/50 border-dashed", className)}>
         <CardContent className="py-8 text-center">
           <Sparkles className="w-8 h-8 mx-auto mb-2 text-muted-foreground/50" />
-          <p className="text-sm text-muted-foreground">
-            Анализ не выполнен
-          </p>
+          <p className="text-sm text-muted-foreground">Анализ не выполнен</p>
         </CardContent>
       </Card>
     );
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card className={cn(
-        "bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm",
-        "border-border/50 overflow-hidden",
-        className
-      )}>
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+      <Card
+        className={cn(
+          "bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm",
+          "border-border/50 overflow-hidden",
+          className,
+        )}
+      >
         <CardHeader className={cn("pb-2", compact && "py-3")}>
           <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Activity className="w-4 h-4 text-primary" />
@@ -90,10 +83,7 @@ export const UnifiedAnalysisCard = memo(function UnifiedAnalysisCard({
 
         <CardContent className={cn("space-y-4", compact && "pb-3")}>
           {/* Primary Stats Grid */}
-          <div className={cn(
-            "grid gap-2",
-            compact ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-3"
-          )}>
+          <div className={cn("grid gap-2", compact ? "grid-cols-3" : "grid-cols-2 sm:grid-cols-3")}>
             {/* BPM */}
             {analysis.bpm && (
               <StatItem
@@ -130,18 +120,12 @@ export const UnifiedAnalysisCard = memo(function UnifiedAnalysisCard({
           {(analysis.genre || analysis.mood) && (
             <div className="flex flex-wrap gap-2">
               {analysis.genre && (
-                <Badge 
-                  variant="secondary" 
-                  className="bg-purple-500/10 text-purple-400 border-purple-500/20"
-                >
+                <Badge variant="secondary" className="bg-purple-500/10 text-purple-400 border-purple-500/20">
                   {analysis.genre}
                 </Badge>
               )}
               {analysis.mood && (
-                <Badge 
-                  variant="secondary"
-                  className="bg-pink-500/10 text-pink-400 border-pink-500/20"
-                >
+                <Badge variant="secondary" className="bg-pink-500/10 text-pink-400 border-pink-500/20">
                   {analysis.mood}
                 </Badge>
               )}
@@ -181,11 +165,7 @@ export const UnifiedAnalysisCard = memo(function UnifiedAnalysisCard({
               <p className="text-xs text-muted-foreground">Инструменты</p>
               <div className="flex flex-wrap gap-1.5">
                 {analysis.instruments.map((instrument, i) => (
-                  <Badge
-                    key={i}
-                    variant="outline"
-                    className="text-xs gap-1 bg-background/50"
-                  >
+                  <Badge key={i} variant="outline" className="text-xs gap-1 bg-background/50">
                     {getInstrumentIcon(instrument)}
                     {instrument}
                   </Badge>
@@ -198,9 +178,7 @@ export const UnifiedAnalysisCard = memo(function UnifiedAnalysisCard({
           {analysis.styleDescription && !compact && (
             <div className="space-y-1.5">
               <p className="text-xs text-muted-foreground">Описание стиля</p>
-              <p className="text-sm text-foreground/80 leading-relaxed">
-                {analysis.styleDescription}
-              </p>
+              <p className="text-sm text-foreground/80 leading-relaxed">{analysis.styleDescription}</p>
             </div>
           )}
 
@@ -231,24 +209,17 @@ interface StatItemProps {
 
 function StatItem({ icon, label, value, subValue, compact }: StatItemProps) {
   return (
-    <div className={cn(
-      "flex items-center gap-2 p-2 rounded-lg",
-      "bg-background/50 border border-border/30",
-      compact && "p-1.5"
-    )}>
+    <div
+      className={cn(
+        "flex items-center gap-2 p-2 rounded-lg",
+        "bg-background/50 border border-border/30",
+        compact && "p-1.5",
+      )}
+    >
       <div className="flex-shrink-0">{icon}</div>
       <div className="min-w-0">
-        <p className={cn(
-          "font-semibold truncate",
-          compact ? "text-xs" : "text-sm"
-        )}>
-          {value}
-        </p>
-        {!compact && (
-          <p className="text-[10px] text-muted-foreground truncate">
-            {subValue || label}
-          </p>
-        )}
+        <p className={cn("font-semibold truncate", compact ? "text-xs" : "text-sm")}>{value}</p>
+        {!compact && <p className="text-[10px] text-muted-foreground truncate">{subValue || label}</p>}
       </div>
     </div>
   );
@@ -259,15 +230,15 @@ interface EnergyBarProps {
   icon: React.ReactNode;
   label: string;
   value: number;
-  color: 'yellow' | 'pink' | 'green' | 'blue';
+  color: "yellow" | "pink" | "green" | "blue";
 }
 
 function EnergyBar({ icon, label, value, color }: EnergyBarProps) {
   const colorClasses = {
-    yellow: 'bg-yellow-500',
-    pink: 'bg-pink-500',
-    green: 'bg-green-500',
-    blue: 'bg-blue-500',
+    yellow: "bg-yellow-500",
+    pink: "bg-pink-500",
+    green: "bg-green-500",
+    blue: "bg-blue-500",
   };
 
   return (
@@ -279,7 +250,7 @@ function EnergyBar({ icon, label, value, color }: EnergyBarProps) {
           className={cn("h-full rounded-full", colorClasses[color])}
           initial={{ width: 0 }}
           animate={{ width: `${value}%` }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
         />
       </div>
       <span className="text-xs font-mono w-8 text-right">{Math.round(value)}%</span>

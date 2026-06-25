@@ -1,26 +1,18 @@
-import { useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Check, Sparkles, SkipForward } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { useOnboarding } from '@/hooks/useOnboarding';
-import { ONBOARDING_STEPS } from './onboardingSteps';
-import { TutorialStep } from './TutorialStep';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
+import { useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft, ChevronRight, Check, Sparkles, SkipForward } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useOnboarding } from "@/hooks/useOnboarding";
+import { ONBOARDING_STEPS } from "./onboardingSteps";
+import { TutorialStep } from "./TutorialStep";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
 
 export function OnboardingOverlay() {
   const navigate = useNavigate();
-  const { 
-    isActive, 
-    currentStep, 
-    nextStep, 
-    prevStep, 
-    skipOnboarding, 
-    completeOnboarding,
-    goToStep
-  } = useOnboarding();
+  const { isActive, currentStep, nextStep, prevStep, skipOnboarding, completeOnboarding, goToStep } = useOnboarding();
 
   const totalSteps = ONBOARDING_STEPS.length;
   const step = ONBOARDING_STEPS[currentStep];
@@ -36,7 +28,7 @@ export function OnboardingOverlay() {
   }, [isActive, currentStep, step?.route, navigate]);
 
   const handleNext = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     if (isLastStep) {
       completeOnboarding();
     } else {
@@ -45,17 +37,17 @@ export function OnboardingOverlay() {
   };
 
   const handlePrev = () => {
-    hapticImpact('light');
+    hapticImpact("light");
     prevStep();
   };
 
   const handleSkip = () => {
-    hapticImpact('medium');
+    hapticImpact("medium");
     skipOnboarding();
   };
 
   const handleTryNow = () => {
-    hapticImpact('medium');
+    hapticImpact("medium");
     if (step?.route) {
       skipOnboarding();
       navigate(step.route);
@@ -99,7 +91,7 @@ export function OnboardingOverlay() {
             className="h-full bg-gradient-to-r from-primary via-primary to-primary/60"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
           />
         </div>
 
@@ -110,18 +102,13 @@ export function OnboardingOverlay() {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
             className="w-full"
           >
-            <TutorialStep
-              step={step}
-              stepNumber={currentStep + 1}
-              totalSteps={totalSteps}
-              onTryNow={handleTryNow}
-            />
-            
+            <TutorialStep step={step} stepNumber={currentStep + 1} totalSteps={totalSteps} onTryNow={handleTryNow} />
+
             {/* Step indicators */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -131,16 +118,16 @@ export function OnboardingOverlay() {
                 <button
                   key={index}
                   onClick={() => {
-                    hapticImpact('light');
+                    hapticImpact("light");
                     goToStep(index);
                   }}
                   className={cn(
                     "h-2 rounded-full transition-all duration-300 hover:scale-110",
-                    index === currentStep 
-                      ? "bg-primary w-6" 
-                      : index < currentStep 
-                        ? "bg-primary/50 w-2 hover:bg-primary/70" 
-                        : "bg-muted-foreground/20 w-2 hover:bg-muted-foreground/40"
+                    index === currentStep
+                      ? "bg-primary w-6"
+                      : index < currentStep
+                        ? "bg-primary/50 w-2 hover:bg-primary/70"
+                        : "bg-muted-foreground/20 w-2 hover:bg-muted-foreground/40",
                   )}
                   aria-label={`Шаг ${index + 1}`}
                 />
@@ -152,12 +139,7 @@ export function OnboardingOverlay() {
         {/* Navigation */}
         <div className="p-4 border-t border-border/30 bg-background/80 backdrop-blur-sm">
           <div className="flex gap-3 max-w-md mx-auto">
-            <Button
-              variant="outline"
-              onClick={handlePrev}
-              disabled={isFirstStep}
-              className="flex-1 h-12 rounded-xl"
-            >
+            <Button variant="outline" onClick={handlePrev} disabled={isFirstStep} className="flex-1 h-12 rounded-xl">
               <ChevronLeft className="w-4 h-4 mr-1" />
               Назад
             </Button>

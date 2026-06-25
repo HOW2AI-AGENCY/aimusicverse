@@ -1,14 +1,14 @@
 /**
  * useAddInstrumentalProgress - Track add instrumental task status with realtime updates
- * 
+ *
  * @deprecated Use useAudioProcessing().addInstrumentalProgress instead
  * This hook is kept for backward compatibility and will be removed in a future version.
- * 
+ *
  * Migration:
  * ```tsx
  * // Old way
  * const { status, startTracking, ... } = useAddInstrumentalProgress();
- * 
+ *
  * // New way
  * const { addInstrumental, addInstrumentalProgress } = useAudioProcessing();
  * const result = await addInstrumental(params);
@@ -16,19 +16,19 @@
  * ```
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { useQueryClient } from "@tanstack/react-query";
 
-export type AddInstrumentalStatus = 
-  | 'idle'
-  | 'submitting'
-  | 'pending'
-  | 'processing'
-  | 'streaming_ready'
-  | 'completed'
-  | 'error';
+export type AddInstrumentalStatus =
+  | "idle"
+  | "submitting"
+  | "pending"
+  | "processing"
+  | "streaming_ready"
+  | "completed"
+  | "error";
 
 export interface AddInstrumentalProgressState {
   status: AddInstrumentalStatus;
@@ -47,13 +47,13 @@ export interface AddInstrumentalProgressState {
 }
 
 const STATUS_MESSAGES: Record<AddInstrumentalStatus, string> = {
-  idle: '',
-  submitting: 'Отправляем запрос...',
-  pending: 'В очереди на обработку...',
-  processing: 'AI создаёт инструментал...',
-  streaming_ready: 'Почти готово...',
-  completed: 'Инструментал готов!',
-  error: 'Ошибка при создании инструментала',
+  idle: "",
+  submitting: "Отправляем запрос...",
+  pending: "В очереди на обработку...",
+  processing: "AI создаёт инструментал...",
+  streaming_ready: "Почти готово...",
+  completed: "Инструментал готов!",
+  error: "Ошибка при создании инструментала",
 };
 
 const STATUS_PROGRESS: Record<AddInstrumentalStatus, number> = {
@@ -69,21 +69,21 @@ const STATUS_PROGRESS: Record<AddInstrumentalStatus, number> = {
 export function useAddInstrumentalProgress() {
   const queryClient = useQueryClient();
   const [state, setState] = useState<AddInstrumentalProgressState>({
-    status: 'idle',
+    status: "idle",
     taskId: null,
     trackId: null,
     studioProjectId: null,
     error: null,
     progress: 0,
-    message: '',
+    message: "",
     completedTrack: null,
   });
 
   // Start tracking a task
   const startTracking = useCallback((taskId: string, trackId: string, studioProjectId?: string) => {
-    logger.info('Start tracking add instrumental', { taskId, trackId, studioProjectId });
+    logger.info("Start tracking add instrumental", { taskId, trackId, studioProjectId });
     setState({
-      status: 'pending',
+      status: "pending",
       taskId,
       trackId,
       studioProjectId: studioProjectId || null,
@@ -96,9 +96,9 @@ export function useAddInstrumentalProgress() {
 
   // Set submitting state (before API call)
   const setSubmitting = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      status: 'submitting',
+      status: "submitting",
       progress: STATUS_PROGRESS.submitting,
       message: STATUS_MESSAGES.submitting,
       error: null,
@@ -107,9 +107,9 @@ export function useAddInstrumentalProgress() {
 
   // Set error state
   const setError = useCallback((error: string) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      status: 'error',
+      status: "error",
       error,
       progress: 0,
       message: STATUS_MESSAGES.error,
@@ -119,81 +119,81 @@ export function useAddInstrumentalProgress() {
   // Reset state
   const reset = useCallback(() => {
     setState({
-      status: 'idle',
+      status: "idle",
       taskId: null,
       trackId: null,
       studioProjectId: null,
       error: null,
       progress: 0,
-      message: '',
+      message: "",
       completedTrack: null,
     });
   }, []);
 
   // Subscribe to task updates
   useEffect(() => {
-    if (!state.taskId || state.status === 'completed' || state.status === 'error') {
+    if (!state.taskId || state.status === "completed" || state.status === "error") {
       return;
     }
 
     const channel = supabase
       .channel(`add-instrumental-task-${state.taskId}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'generation_tasks',
+          event: "UPDATE",
+          schema: "public",
+          table: "generation_tasks",
           filter: `id=eq.${state.taskId}`,
         },
         async (payload) => {
-          const task = payload.new as { 
-            status: string; 
+          const task = payload.new as {
+            status: string;
             error_message?: string;
             track_id?: string;
           };
-          
-          logger.debug('Add instrumental task update', { taskId: state.taskId, status: task.status });
 
-          if (task.status === 'failed' || task.status === 'error') {
-            setState(prev => ({
+          logger.debug("Add instrumental task update", { taskId: state.taskId, status: task.status });
+
+          if (task.status === "failed" || task.status === "error") {
+            setState((prev) => ({
               ...prev,
-              status: 'error',
-              error: task.error_message || 'Ошибка генерации',
+              status: "error",
+              error: task.error_message || "Ошибка генерации",
               progress: 0,
               message: task.error_message || STATUS_MESSAGES.error,
             }));
             return;
           }
 
-          if (task.status === 'completed') {
+          if (task.status === "completed") {
             // Fetch the completed track
             const trackIdToFetch = task.track_id || state.trackId;
             if (trackIdToFetch) {
               const { data: track } = await supabase
-                .from('tracks')
-                .select('id, title, audio_url, cover_url')
-                .eq('id', trackIdToFetch)
+                .from("tracks")
+                .select("id, title, audio_url, cover_url")
+                .eq("id", trackIdToFetch)
                 .single();
 
               if (track) {
-                setState(prev => ({
+                setState((prev) => ({
                   ...prev,
-                  status: 'completed',
+                  status: "completed",
                   progress: 100,
                   message: STATUS_MESSAGES.completed,
                   completedTrack: {
                     id: track.id,
-                    title: track.title || 'Новый инструментал',
-                    audio_url: track.audio_url || '',
+                    title: track.title || "Новый инструментал",
+                    audio_url: track.audio_url || "",
                     cover_url: track.cover_url,
                   },
                 }));
 
                 // Invalidate library queries to refresh
-                queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
-                queryClient.invalidateQueries({ queryKey: ['library'] });
-                queryClient.invalidateQueries({ queryKey: ['studio-projects'] });
+                queryClient.invalidateQueries({ queryKey: ["user-tracks"] });
+                queryClient.invalidateQueries({ queryKey: ["library"] });
+                queryClient.invalidateQueries({ queryKey: ["studio-projects"] });
               }
             }
             return;
@@ -202,14 +202,14 @@ export function useAddInstrumentalProgress() {
           // Map status to our state
           const newStatus = task.status as AddInstrumentalStatus;
           if (STATUS_MESSAGES[newStatus]) {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
               status: newStatus,
               progress: STATUS_PROGRESS[newStatus] || prev.progress,
               message: STATUS_MESSAGES[newStatus],
             }));
           }
-        }
+        },
       )
       .subscribe();
 
@@ -218,46 +218,46 @@ export function useAddInstrumentalProgress() {
       if (!state.taskId) return;
 
       const { data: task } = await supabase
-        .from('generation_tasks')
-        .select('status, error_message, track_id')
-        .eq('id', state.taskId)
+        .from("generation_tasks")
+        .select("status, error_message, track_id")
+        .eq("id", state.taskId)
         .single();
 
       if (!task) return;
 
-      if (task.status === 'completed' && state.status !== 'completed') {
+      if (task.status === "completed" && state.status !== "completed") {
         const trackIdToFetch = task.track_id || state.trackId;
         if (trackIdToFetch) {
           const { data: track } = await supabase
-            .from('tracks')
-            .select('id, title, audio_url, cover_url')
-            .eq('id', trackIdToFetch)
+            .from("tracks")
+            .select("id, title, audio_url, cover_url")
+            .eq("id", trackIdToFetch)
             .single();
 
           if (track) {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
-              status: 'completed',
+              status: "completed",
               progress: 100,
               message: STATUS_MESSAGES.completed,
               completedTrack: {
                 id: track.id,
-                title: track.title || 'Новый инструментал',
-                audio_url: track.audio_url || '',
+                title: track.title || "Новый инструментал",
+                audio_url: track.audio_url || "",
                 cover_url: track.cover_url,
               },
             }));
 
-            queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
-            queryClient.invalidateQueries({ queryKey: ['library'] });
-            queryClient.invalidateQueries({ queryKey: ['studio-projects'] });
+            queryClient.invalidateQueries({ queryKey: ["user-tracks"] });
+            queryClient.invalidateQueries({ queryKey: ["library"] });
+            queryClient.invalidateQueries({ queryKey: ["studio-projects"] });
           }
         }
-      } else if (task.status === 'failed' || task.status === 'error') {
-        setState(prev => ({
+      } else if (task.status === "failed" || task.status === "error") {
+        setState((prev) => ({
           ...prev,
-          status: 'error',
-          error: task.error_message || 'Ошибка генерации',
+          status: "error",
+          error: task.error_message || "Ошибка генерации",
           progress: 0,
           message: task.error_message || STATUS_MESSAGES.error,
         }));
@@ -276,8 +276,8 @@ export function useAddInstrumentalProgress() {
     startTracking,
     setError,
     reset,
-    isActive: state.status !== 'idle' && state.status !== 'completed' && state.status !== 'error',
-    isCompleted: state.status === 'completed',
-    isError: state.status === 'error',
+    isActive: state.status !== "idle" && state.status !== "completed" && state.status !== "error",
+    isCompleted: state.status === "completed",
+    isError: state.status === "error",
   };
 }

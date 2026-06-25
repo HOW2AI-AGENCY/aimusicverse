@@ -3,22 +3,22 @@
  * Business logic for audio analysis and melody recognition
  */
 
-import * as analysisApi from '@/api/analysis.api';
+import * as analysisApi from "@/api/analysis.api";
 
 // ==========================================
 // Types
 // ==========================================
 
 export interface NoteData {
-  pitch: number;      // MIDI pitch (0-127)
-  startTime: number;  // seconds
-  endTime: number;    // seconds
-  velocity: number;   // 0-127
-  noteName: string;   // e.g., "C4", "A#3"
+  pitch: number; // MIDI pitch (0-127)
+  startTime: number; // seconds
+  endTime: number; // seconds
+  velocity: number; // 0-127
+  noteName: string; // e.g., "C4", "A#3"
 }
 
 export interface ChordData {
-  chord: string;      // e.g., "Am", "G", "F", "C"
+  chord: string; // e.g., "Am", "G", "F", "C"
   startTime: number;
   endTime: number;
 }
@@ -27,7 +27,7 @@ export interface MelodyAnalysisResult {
   notes: NoteData[];
   chords: ChordData[];
   bpm: number;
-  key: string;           // e.g., "A minor", "C major"
+  key: string; // e.g., "A minor", "C major"
   timeSignature: string; // e.g., "4/4"
   generatedTags: string[];
 }
@@ -36,12 +36,12 @@ export interface MelodyAnalysisResult {
 // Constants
 // ==========================================
 
-const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 // Major scale profile (Krumhansl-Schmuckler)
 const MAJOR_PROFILE = [6.35, 2.23, 3.48, 2.33, 4.38, 4.09, 2.52, 5.19, 2.39, 3.66, 2.29, 2.88];
 // Minor scale profile
-const MINOR_PROFILE = [6.33, 2.68, 3.52, 5.38, 2.60, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17];
+const MINOR_PROFILE = [6.33, 2.68, 3.52, 5.38, 2.6, 3.53, 2.54, 4.75, 3.98, 2.69, 3.34, 3.17];
 
 // ==========================================
 // Music Theory Helpers
@@ -60,21 +60,21 @@ export function midiToNoteName(midi: number): string {
  * Detect key from notes using Krumhansl-Schmuckler algorithm
  */
 export function detectKey(notes: NoteData[]): string {
-  if (notes.length === 0) return 'Unknown';
-  
+  if (notes.length === 0) return "Unknown";
+
   const pitchClasses = new Array(12).fill(0);
-  notes.forEach(note => {
+  notes.forEach((note) => {
     const pitchClass = note.pitch % 12;
     pitchClasses[pitchClass] += note.endTime - note.startTime;
   });
-  
-  let bestKey = 'C major';
+
+  let bestKey = "C major";
   let bestScore = -Infinity;
-  
+
   for (let root = 0; root < 12; root++) {
     // Rotate pitch classes
     const rotated = [...pitchClasses.slice(root), ...pitchClasses.slice(0, root)];
-    
+
     // Calculate correlation with major and minor profiles
     let majorScore = 0;
     let minorScore = 0;
@@ -82,7 +82,7 @@ export function detectKey(notes: NoteData[]): string {
       majorScore += rotated[i] * MAJOR_PROFILE[i];
       minorScore += rotated[i] * MINOR_PROFILE[i];
     }
-    
+
     if (majorScore > bestScore) {
       bestScore = majorScore;
       bestKey = `${NOTE_NAMES[root]} major`;
@@ -92,7 +92,7 @@ export function detectKey(notes: NoteData[]): string {
       bestKey = `${NOTE_NAMES[root]} minor`;
     }
   }
-  
+
   return bestKey;
 }
 
@@ -101,22 +101,22 @@ export function detectKey(notes: NoteData[]): string {
  */
 export function detectBPM(notes: NoteData[]): number {
   if (notes.length < 4) return 120;
-  
-  const onsets = notes.map(n => n.startTime).sort((a, b) => a - b);
+
+  const onsets = notes.map((n) => n.startTime).sort((a, b) => a - b);
   const intervals: number[] = [];
-  
+
   for (let i = 1; i < onsets.length; i++) {
     const interval = onsets[i] - onsets[i - 1];
     if (interval > 0.1 && interval < 2) {
       intervals.push(interval);
     }
   }
-  
+
   if (intervals.length === 0) return 120;
-  
+
   const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
   const bpm = Math.round(60 / avgInterval);
-  
+
   // Clamp to reasonable range
   return Math.max(60, Math.min(200, bpm));
 }
@@ -128,26 +128,24 @@ export function detectChords(notes: NoteData[], duration: number): ChordData[] {
   const chords: ChordData[] = [];
   const segmentLength = 2; // seconds per segment
   const numSegments = Math.ceil(duration / segmentLength);
-  
+
   for (let i = 0; i < numSegments; i++) {
     const startTime = i * segmentLength;
     const endTime = Math.min((i + 1) * segmentLength, duration);
-    
-    const segmentNotes = notes.filter(n => 
-      n.startTime < endTime && n.endTime > startTime
-    );
-    
+
+    const segmentNotes = notes.filter((n) => n.startTime < endTime && n.endTime > startTime);
+
     if (segmentNotes.length >= 2) {
       const pitchClasses = new Set<number>();
-      segmentNotes.forEach(n => pitchClasses.add(n.pitch % 12));
-      
+      segmentNotes.forEach((n) => pitchClasses.add(n.pitch % 12));
+
       const chord = identifyChord(Array.from(pitchClasses));
       if (chord) {
         chords.push({ chord, startTime, endTime });
       }
     }
   }
-  
+
   return chords;
 }
 
@@ -156,13 +154,13 @@ export function detectChords(notes: NoteData[], duration: number): ChordData[] {
  */
 function identifyChord(pitchClasses: number[]): string | null {
   if (pitchClasses.length < 2) return null;
-  
+
   const sorted = [...pitchClasses].sort((a, b) => a - b);
   const root = sorted[0];
-  const intervals = sorted.slice(1).map(p => (p - root + 12) % 12);
-  
+  const intervals = sorted.slice(1).map((p) => (p - root + 12) % 12);
+
   const rootName = NOTE_NAMES[root];
-  
+
   // Major: [4, 7]
   if (intervals.includes(4) && intervals.includes(7)) return rootName;
   // Minor: [3, 7]
@@ -175,46 +173,44 @@ function identifyChord(pitchClasses: number[]): string | null {
   if (intervals.includes(5) && intervals.includes(7)) return `${rootName}sus4`;
   // Sus2: [2, 7]
   if (intervals.includes(2) && intervals.includes(7)) return `${rootName}sus2`;
-  
+
   return rootName;
 }
 
 /**
  * Generate style tags from analysis
  */
-export function generateTagsFromAnalysis(
-  analysis: Omit<MelodyAnalysisResult, 'generatedTags'>
-): string[] {
+export function generateTagsFromAnalysis(analysis: Omit<MelodyAnalysisResult, "generatedTags">): string[] {
   const tags: string[] = [];
-  
+
   // Add key and BPM
   tags.push(`[Key: ${analysis.key}]`);
   tags.push(`[BPM: ${analysis.bpm}]`);
-  
+
   // Add chord progression
   if (analysis.chords.length > 0) {
-    const uniqueChords = [...new Set(analysis.chords.map(c => c.chord))];
-    tags.push(`[Chords: ${uniqueChords.slice(0, 4).join('-')}]`);
+    const uniqueChords = [...new Set(analysis.chords.map((c) => c.chord))];
+    tags.push(`[Chords: ${uniqueChords.slice(0, 4).join("-")}]`);
   }
-  
+
   // Determine tempo feel
   if (analysis.bpm < 80) {
-    tags.push('slow tempo', 'ballad');
+    tags.push("slow tempo", "ballad");
   } else if (analysis.bpm < 110) {
-    tags.push('mid-tempo', 'groove');
+    tags.push("mid-tempo", "groove");
   } else if (analysis.bpm < 140) {
-    tags.push('upbeat', 'energetic');
+    tags.push("upbeat", "energetic");
   } else {
-    tags.push('fast tempo', 'driving');
+    tags.push("fast tempo", "driving");
   }
-  
+
   // Determine mood from key
-  if (analysis.key.includes('minor')) {
-    tags.push('melancholic', 'emotional');
-  } else if (analysis.key.includes('major')) {
-    tags.push('uplifting', 'bright');
+  if (analysis.key.includes("minor")) {
+    tags.push("melancholic", "emotional");
+  } else if (analysis.key.includes("major")) {
+    tags.push("uplifting", "bright");
   }
-  
+
   return tags;
 }
 
@@ -225,45 +221,42 @@ export function generateTagsFromAnalysis(
 /**
  * Analyze audio file completely
  */
-export async function analyzeAudioFile(
-  file: File,
-  userId: string
-): Promise<MelodyAnalysisResult> {
+export async function analyzeAudioFile(file: File, userId: string): Promise<MelodyAnalysisResult> {
   // Upload audio
   const audioUrl = await analysisApi.uploadAudioForAnalysis(file, userId);
-  
+
   // Create temp track
   const trackId = await analysisApi.createTempAnalysisTrack(userId, audioUrl);
-  
+
   try {
     // Run MIDI transcription
     const result = await analysisApi.invokeMidiTranscription({
       trackId,
       audioUrl,
-      modelType: 'basic-pitch',
+      modelType: "basic-pitch",
     });
-    
+
     if (!result.success) {
-      throw new Error(result.error || 'MIDI transcription failed');
+      throw new Error(result.error || "MIDI transcription failed");
     }
-    
+
     // For now, generate synthetic analysis
     const mockNotes = generateMockNotes();
     const key = detectKey(mockNotes);
     const bpm = detectBPM(mockNotes);
     const chords = detectChords(mockNotes, 30);
-    
+
     const analysisResult: MelodyAnalysisResult = {
       notes: mockNotes,
       chords,
       bpm,
       key,
-      timeSignature: '4/4',
+      timeSignature: "4/4",
       generatedTags: [],
     };
-    
+
     analysisResult.generatedTags = generateTagsFromAnalysis(analysisResult);
-    
+
     return analysisResult;
   } finally {
     // Clean up temp track
@@ -278,7 +271,7 @@ function generateMockNotes(): NoteData[] {
   const notes: NoteData[] = [];
   const baseNote = 60; // Middle C
   const scale = [0, 2, 4, 5, 7, 9, 11]; // Major scale
-  
+
   for (let i = 0; i < 16; i++) {
     const pitch = baseNote + scale[i % scale.length] + Math.floor(i / scale.length) * 12;
     notes.push({
@@ -289,7 +282,7 @@ function generateMockNotes(): NoteData[] {
       noteName: midiToNoteName(pitch),
     });
   }
-  
+
   return notes;
 }
 
@@ -299,4 +292,4 @@ export {
   createAudioAnalysis,
   uploadAudioForAnalysis,
   deleteTempAnalysisTrack,
-} from '@/api/analysis.api';
+} from "@/api/analysis.api";

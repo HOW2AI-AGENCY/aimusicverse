@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface ModelUsageStats {
   model: string;
@@ -44,36 +44,39 @@ export interface ContentStats {
   public_tracks_percentage: number;
 }
 
-export function useModelUsageStats(timeRange: '24h' | '7d' | '30d' = '7d') {
+export function useModelUsageStats(timeRange: "24h" | "7d" | "30d" = "7d") {
   return useQuery({
-    queryKey: ['model-usage-stats', timeRange],
+    queryKey: ["model-usage-stats", timeRange],
     queryFn: async () => {
       const getTimeFilter = () => {
         const now = new Date();
         switch (timeRange) {
-          case '24h': return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
-          case '7d': return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-          case '30d': return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+          case "24h":
+            return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+          case "7d":
+            return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+          case "30d":
+            return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
         }
       };
 
       const { data, error } = await supabase
-        .from('generation_tasks')
-        .select('model_used, status')
-        .gte('created_at', getTimeFilter())
-        .not('model_used', 'is', null);
+        .from("generation_tasks")
+        .select("model_used, status")
+        .gte("created_at", getTimeFilter())
+        .not("model_used", "is", null);
 
       if (error) throw error;
 
       // Aggregate by model
       const modelMap = new Map<string, { total: number; success: number; failed: number }>();
-      
-      data?.forEach(task => {
-        const model = task.model_used || 'unknown';
+
+      data?.forEach((task) => {
+        const model = task.model_used || "unknown";
         const existing = modelMap.get(model) || { total: 0, success: 0, failed: 0 };
         existing.total++;
-        if (task.status === 'completed') existing.success++;
-        if (task.status === 'failed') existing.failed++;
+        if (task.status === "completed") existing.success++;
+        if (task.status === "failed") existing.failed++;
         modelMap.set(model, existing);
       });
 
@@ -93,29 +96,32 @@ export function useModelUsageStats(timeRange: '24h' | '7d' | '30d' = '7d') {
   });
 }
 
-export function useGenerationModeStats(timeRange: '24h' | '7d' | '30d' = '7d') {
+export function useGenerationModeStats(timeRange: "24h" | "7d" | "30d" = "7d") {
   return useQuery({
-    queryKey: ['generation-mode-stats', timeRange],
+    queryKey: ["generation-mode-stats", timeRange],
     queryFn: async () => {
       const getTimeFilter = () => {
         const now = new Date();
         switch (timeRange) {
-          case '24h': return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
-          case '7d': return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-          case '30d': return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+          case "24h":
+            return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+          case "7d":
+            return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+          case "30d":
+            return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
         }
       };
 
       const { data, error } = await supabase
-        .from('generation_tasks')
-        .select('generation_mode')
-        .gte('created_at', getTimeFilter());
+        .from("generation_tasks")
+        .select("generation_mode")
+        .gte("created_at", getTimeFilter());
 
       if (error) throw error;
 
       const modeMap = new Map<string, number>();
-      data?.forEach(task => {
-        const mode = task.generation_mode || 'standard';
+      data?.forEach((task) => {
+        const mode = task.generation_mode || "standard";
         modeMap.set(mode, (modeMap.get(mode) || 0) + 1);
       });
 
@@ -136,7 +142,7 @@ export function useGenerationModeStats(timeRange: '24h' | '7d' | '30d' = '7d') {
 
 export function useActiveUsersStats() {
   return useQuery({
-    queryKey: ['active-users-stats'],
+    queryKey: ["active-users-stats"],
     queryFn: async () => {
       const now = new Date();
       const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
@@ -152,31 +158,16 @@ export function useActiveUsersStats() {
         { count: newToday },
         { count: newThisWeek },
       ] = await Promise.all([
-        supabase
-          .from('generation_tasks')
-          .select('user_id')
-          .gte('created_at', dayAgo),
-        supabase
-          .from('generation_tasks')
-          .select('user_id')
-          .gte('created_at', weekAgo),
-        supabase
-          .from('generation_tasks')
-          .select('user_id')
-          .gte('created_at', monthAgo),
-        supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true })
-          .gte('created_at', todayStart),
-        supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true })
-          .gte('created_at', weekAgo),
+        supabase.from("generation_tasks").select("user_id").gte("created_at", dayAgo),
+        supabase.from("generation_tasks").select("user_id").gte("created_at", weekAgo),
+        supabase.from("generation_tasks").select("user_id").gte("created_at", monthAgo),
+        supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", todayStart),
+        supabase.from("profiles").select("*", { count: "exact", head: true }).gte("created_at", weekAgo),
       ]);
 
-      const uniqueDaily = new Set(dailyActive?.map(d => d.user_id)).size;
-      const uniqueWeekly = new Set(weeklyActive?.map(d => d.user_id)).size;
-      const uniqueMonthly = new Set(monthlyActive?.map(d => d.user_id)).size;
+      const uniqueDaily = new Set(dailyActive?.map((d) => d.user_id)).size;
+      const uniqueWeekly = new Set(weeklyActive?.map((d) => d.user_id)).size;
+      const uniqueMonthly = new Set(monthlyActive?.map((d) => d.user_id)).size;
 
       return {
         daily_active: uniqueDaily,
@@ -190,48 +181,51 @@ export function useActiveUsersStats() {
   });
 }
 
-export function useErrorDistribution(timeRange: '24h' | '7d' | '30d' = '7d') {
+export function useErrorDistribution(timeRange: "24h" | "7d" | "30d" = "7d") {
   return useQuery({
-    queryKey: ['error-distribution', timeRange],
+    queryKey: ["error-distribution", timeRange],
     queryFn: async () => {
       const getTimeFilter = () => {
         const now = new Date();
         switch (timeRange) {
-          case '24h': return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
-          case '7d': return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-          case '30d': return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+          case "24h":
+            return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+          case "7d":
+            return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+          case "30d":
+            return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
         }
       };
 
       const { data, error } = await supabase
-        .from('generation_tasks')
-        .select('error_message')
-        .eq('status', 'failed')
-        .gte('created_at', getTimeFilter())
-        .not('error_message', 'is', null);
+        .from("generation_tasks")
+        .select("error_message")
+        .eq("status", "failed")
+        .gte("created_at", getTimeFilter())
+        .not("error_message", "is", null);
 
       if (error) throw error;
 
       // Categorize errors
       const errorMap = new Map<string, number>();
-      data?.forEach(task => {
-        const msg = task.error_message?.toLowerCase() || '';
-        let category = 'Другое';
-        
-        if (msg.includes('artist') || msg.includes('named') || msg.includes('celebrity')) {
-          category = 'Имя артиста';
-        } else if (msg.includes('lyrics') || msg.includes('empty') || msg.includes('malformed')) {
-          category = 'Проблема с текстом';
-        } else if (msg.includes('credit') || msg.includes('429')) {
-          category = 'Лимит кредитов';
-        } else if (msg.includes('timeout') || msg.includes('rate limit') || msg.includes('430')) {
-          category = 'Rate limit';
-        } else if (msg.includes('audio') || msg.includes('duration')) {
-          category = 'Проблема с аудио';
-        } else if (msg.includes('model') || msg.includes('version')) {
-          category = 'Модель недоступна';
+      data?.forEach((task) => {
+        const msg = task.error_message?.toLowerCase() || "";
+        let category = "Другое";
+
+        if (msg.includes("artist") || msg.includes("named") || msg.includes("celebrity")) {
+          category = "Имя артиста";
+        } else if (msg.includes("lyrics") || msg.includes("empty") || msg.includes("malformed")) {
+          category = "Проблема с текстом";
+        } else if (msg.includes("credit") || msg.includes("429")) {
+          category = "Лимит кредитов";
+        } else if (msg.includes("timeout") || msg.includes("rate limit") || msg.includes("430")) {
+          category = "Rate limit";
+        } else if (msg.includes("audio") || msg.includes("duration")) {
+          category = "Проблема с аудио";
+        } else if (msg.includes("model") || msg.includes("version")) {
+          category = "Модель недоступна";
         }
-        
+
         errorMap.set(category, (errorMap.get(category) || 0) + 1);
       });
 
@@ -252,28 +246,17 @@ export function useErrorDistribution(timeRange: '24h' | '7d' | '30d' = '7d') {
 
 export function useContentStats() {
   return useQuery({
-    queryKey: ['content-stats'],
+    queryKey: ["content-stats"],
     queryFn: async () => {
-      const [
-        { data: tracks },
-        { count: totalLikes },
-        { count: totalComments },
-      ] = await Promise.all([
-        supabase
-          .from('tracks')
-          .select('play_count, is_public')
-          .eq('status', 'completed'),
-        supabase
-          .from('track_likes')
-          .select('*', { count: 'exact', head: true }),
-        supabase
-          .from('comments')
-          .select('*', { count: 'exact', head: true }),
+      const [{ data: tracks }, { count: totalLikes }, { count: totalComments }] = await Promise.all([
+        supabase.from("tracks").select("play_count, is_public").eq("status", "completed"),
+        supabase.from("track_likes").select("*", { count: "exact", head: true }),
+        supabase.from("comments").select("*", { count: "exact", head: true }),
       ]);
 
       const totalTracks = tracks?.length || 0;
       const totalPlays = tracks?.reduce((sum, t) => sum + (t.play_count || 0), 0) || 0;
-      const publicTracks = tracks?.filter(t => t.is_public).length || 0;
+      const publicTracks = tracks?.filter((t) => t.is_public).length || 0;
 
       return {
         total_plays: totalPlays,
@@ -287,29 +270,32 @@ export function useContentStats() {
   });
 }
 
-export function useSourceDistribution(timeRange: '24h' | '7d' | '30d' = '7d') {
+export function useSourceDistribution(timeRange: "24h" | "7d" | "30d" = "7d") {
   return useQuery({
-    queryKey: ['source-distribution', timeRange],
+    queryKey: ["source-distribution", timeRange],
     queryFn: async () => {
       const getTimeFilter = () => {
         const now = new Date();
         switch (timeRange) {
-          case '24h': return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
-          case '7d': return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-          case '30d': return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+          case "24h":
+            return new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+          case "7d":
+            return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+          case "30d":
+            return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
         }
       };
 
       const { data, error } = await supabase
-        .from('generation_tasks')
-        .select('source')
-        .gte('created_at', getTimeFilter());
+        .from("generation_tasks")
+        .select("source")
+        .gte("created_at", getTimeFilter());
 
       if (error) throw error;
 
       const sourceMap = new Map<string, number>();
-      data?.forEach(task => {
-        const source = task.source || 'mini_app';
+      data?.forEach((task) => {
+        const source = task.source || "mini_app";
         sourceMap.set(source, (sourceMap.get(source) || 0) + 1);
       });
 

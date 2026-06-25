@@ -2,17 +2,11 @@
  * @deprecated Use `UnifiedEmptyState` from `@/components/ui/unified-empty-state`.
  * Thin compatibility shim. Removed in Phase 10 of `docs/UI_AUDIT.md`.
  */
-import { memo, type ReactNode } from 'react';
-import type { LucideIcon } from 'lucide-react';
-import { UnifiedEmptyState } from '@/components/ui/unified-empty-state';
+import { memo, type ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 
-export type EmptyStateVariant =
-  | 'default'
-  | 'search'
-  | 'error'
-  | 'success'
-  | 'music'
-  | 'loading';
+export type EmptyStateVariant = "default" | "search" | "error" | "success" | "music" | "loading";
 
 interface EmptyStateProps {
   icon?: LucideIcon;
@@ -21,7 +15,7 @@ interface EmptyStateProps {
   action?: {
     label: string;
     onClick: () => void;
-    variant?: 'default' | 'outline' | 'secondary' | 'ghost';
+    variant?: "default" | "outline" | "secondary" | "ghost";
     icon?: LucideIcon;
   };
   secondaryAction?: { label: string; onClick: () => void };
@@ -44,9 +38,13 @@ export const EmptyState = memo(function EmptyState({
   compact = false,
   emoji,
 }: EmptyStateProps) {
-  const iconNode: ReactNode | LucideIcon | undefined = emoji
-    ? <span className="text-3xl" aria-hidden="true">{emoji}</span>
-    : icon;
+  const iconNode: ReactNode | LucideIcon | undefined = emoji ? (
+    <span className="text-3xl" aria-hidden="true">
+      {emoji}
+    </span>
+  ) : (
+    icon
+  );
 
   return (
     <UnifiedEmptyState

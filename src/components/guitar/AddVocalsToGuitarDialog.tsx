@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Badge } from '@/components/ui/badge';
-import { Loader2, MicVocal, Music, Sparkles } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { logger } from '@/lib/logger';
-import { VoiceInputButton } from '@/components/ui/VoiceInputButton';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, MicVocal, Music, Sparkles } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { logger } from "@/lib/logger";
+import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
 
 interface AddVocalsToGuitarDialogProps {
   open: boolean;
@@ -23,89 +23,88 @@ interface AddVocalsToGuitarDialogProps {
 }
 
 const vocalStyles = [
-  { label: 'Мужской', value: 'male vocals' },
-  { label: 'Женский', value: 'female vocals' },
-  { label: 'Дуэт', value: 'duet, male and female vocals' },
-  { label: 'Хор', value: 'choir, harmony vocals' },
+  { label: "Мужской", value: "male vocals" },
+  { label: "Женский", value: "female vocals" },
+  { label: "Дуэт", value: "duet, male and female vocals" },
+  { label: "Хор", value: "choir, harmony vocals" },
 ];
 
 const moodPresets = [
-  { label: 'Романтичный', tags: 'romantic, emotional, heartfelt' },
-  { label: 'Энергичный', tags: 'energetic, powerful, dynamic' },
-  { label: 'Меланхоличный', tags: 'melancholic, sad, atmospheric' },
-  { label: 'Весёлый', tags: 'upbeat, happy, cheerful' },
+  { label: "Романтичный", tags: "romantic, emotional, heartfelt" },
+  { label: "Энергичный", tags: "energetic, powerful, dynamic" },
+  { label: "Меланхоличный", tags: "melancholic, sad, atmospheric" },
+  { label: "Весёлый", tags: "upbeat, happy, cheerful" },
 ];
 
 export function AddVocalsToGuitarDialog({
   open,
   onOpenChange,
   audioUrl,
-  suggestedStyle = '',
+  suggestedStyle = "",
   suggestedTags = [],
 }: AddVocalsToGuitarDialogProps) {
   const isMobile = useIsMobile();
   const [loading, setLoading] = useState(false);
   const [customMode, setCustomMode] = useState(false);
-  
+
   // Form state
-  const [lyrics, setLyrics] = useState('');
-  const [title, setTitle] = useState('');
-  const [style, setStyle] = useState(suggestedStyle || 'acoustic, guitar, vocals');
-  const [vocalType, setVocalType] = useState('');
-  const [mood, setMood] = useState('');
+  const [lyrics, setLyrics] = useState("");
+  const [title, setTitle] = useState("");
+  const [style, setStyle] = useState(suggestedStyle || "acoustic, guitar, vocals");
+  const [vocalType, setVocalType] = useState("");
+  const [mood, setMood] = useState("");
 
   const handleSubmit = async () => {
     if (!audioUrl) {
-      toast.error('Аудио файл не найден');
+      toast.error("Аудио файл не найден");
       return;
     }
 
     if (customMode && !lyrics.trim()) {
-      toast.error('Добавьте текст песни или описание');
+      toast.error("Добавьте текст песни или описание");
       return;
     }
 
     setLoading(true);
     try {
       // Build prompt from lyrics or description
-      const prompt = lyrics.trim() || 'Добавить профессиональный вокал к этой гитарной записи';
-      
+      const prompt = lyrics.trim() || "Добавить профессиональный вокал к этой гитарной записи";
+
       // Build style combining suggested tags, vocal type, and mood
       const styleParts = [style];
       if (vocalType) styleParts.push(vocalType);
       if (mood) styleParts.push(mood);
-      const finalStyle = styleParts.filter(Boolean).join(', ');
+      const finalStyle = styleParts.filter(Boolean).join(", ");
 
-      const effectiveTitle = title.trim() || `Гитарный трек с вокалом ${new Date().toLocaleDateString('ru-RU')}`;
+      const effectiveTitle = title.trim() || `Гитарный трек с вокалом ${new Date().toLocaleDateString("ru-RU")}`;
 
-      const { data, error } = await supabase.functions.invoke('suno-add-vocals', {
+      const { data, error } = await supabase.functions.invoke("suno-add-vocals", {
         body: {
           audioUrl,
           prompt,
           customMode,
           style: finalStyle,
           title: effectiveTitle,
-          negativeTags: '',
+          negativeTags: "",
         },
       });
 
       if (error) throw error;
 
-      toast.success('Добавление вокала началось! 🎤', {
-        description: 'Трек появится в библиотеке через 1-3 минуты',
+      toast.success("Добавление вокала началось! 🎤", {
+        description: "Трек появится в библиотеке через 1-3 минуты",
       });
 
       onOpenChange(false);
-      
+
       // Reset form
-      setLyrics('');
-      setTitle('');
-      setVocalType('');
-      setMood('');
-      
+      setLyrics("");
+      setTitle("");
+      setVocalType("");
+      setMood("");
     } catch (error) {
-      logger.error('Add vocals to guitar error', { error });
-      const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления вокала';
+      logger.error("Add vocals to guitar error", { error });
+      const errorMessage = error instanceof Error ? error.message : "Ошибка добавления вокала";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -145,9 +144,9 @@ export function AddVocalsToGuitarDialog({
             <Button
               key={vs.value}
               type="button"
-              variant={vocalType === vs.value ? 'default' : 'outline'}
+              variant={vocalType === vs.value ? "default" : "outline"}
               size="sm"
-              onClick={() => setVocalType(vocalType === vs.value ? '' : vs.value)}
+              onClick={() => setVocalType(vocalType === vs.value ? "" : vs.value)}
               className="text-xs"
             >
               {vs.label}
@@ -164,9 +163,9 @@ export function AddVocalsToGuitarDialog({
             <Button
               key={mp.tags}
               type="button"
-              variant={mood === mp.tags ? 'default' : 'outline'}
+              variant={mood === mp.tags ? "default" : "outline"}
               size="sm"
-              onClick={() => setMood(mood === mp.tags ? '' : mp.tags)}
+              onClick={() => setMood(mood === mp.tags ? "" : mp.tags)}
               className="text-xs"
             >
               {mp.label}
@@ -179,23 +178,18 @@ export function AddVocalsToGuitarDialog({
       <div>
         <div className="flex items-center justify-between mb-2">
           <Label htmlFor="lyrics" className="text-sm">
-            {customMode ? 'Текст песни' : 'Описание (опционально)'}
+            {customMode ? "Текст песни" : "Описание (опционально)"}
           </Label>
-          <VoiceInputButton
-            onResult={setLyrics}
-            context="lyrics"
-            appendMode
-            currentValue={lyrics}
-            size="sm"
-          />
+          <VoiceInputButton onResult={setLyrics} context="lyrics" appendMode currentValue={lyrics} size="sm" />
         </div>
         <Textarea
           id="lyrics"
           value={lyrics}
           onChange={(e) => setLyrics(e.target.value)}
-          placeholder={customMode 
-            ? "[Куплет]\nТвои слова здесь...\n\n[Припев]\nПрипев песни..." 
-            : "Опишите желаемый вокал или оставьте пустым для автогенерации"
+          placeholder={
+            customMode
+              ? "[Куплет]\nТвои слова здесь...\n\n[Припев]\nПрипев песни..."
+              : "Опишите желаемый вокал или оставьте пустым для автогенерации"
           }
           rows={customMode ? 6 : 3}
           className="resize-none"
@@ -206,7 +200,9 @@ export function AddVocalsToGuitarDialog({
       {customMode && (
         <>
           <div>
-            <Label htmlFor="title" className="text-sm">Название трека</Label>
+            <Label htmlFor="title" className="text-sm">
+              Название трека
+            </Label>
             <Input
               id="title"
               value={title}
@@ -217,7 +213,9 @@ export function AddVocalsToGuitarDialog({
           </div>
 
           <div>
-            <Label htmlFor="style" className="text-sm">Стиль</Label>
+            <Label htmlFor="style" className="text-sm">
+              Стиль
+            </Label>
             <Input
               id="style"
               value={style}
@@ -231,18 +229,10 @@ export function AddVocalsToGuitarDialog({
 
       {/* Submit Button */}
       <div className="flex gap-2 pt-2">
-        <Button 
-          variant="outline" 
-          onClick={() => onOpenChange(false)}
-          className="flex-1"
-        >
+        <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
           Отмена
         </Button>
-        <Button 
-          onClick={handleSubmit} 
-          disabled={loading}
-          className="flex-1 gap-2"
-        >
+        <Button onClick={handleSubmit} disabled={loading} className="flex-1 gap-2">
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -269,9 +259,7 @@ export function AddVocalsToGuitarDialog({
               Добавить вокал к гитаре
             </DrawerTitle>
           </DrawerHeader>
-          <div className="px-4 pb-6 overflow-y-auto">
-            {content}
-          </div>
+          <div className="px-4 pb-6 overflow-y-auto">{content}</div>
         </DrawerContent>
       </Drawer>
     );

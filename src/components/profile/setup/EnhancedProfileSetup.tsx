@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Sparkles, ChevronRight, ChevronLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
-import { useProfile } from '@/hooks/useProfile';
-import { useAuth } from '@/hooks/useAuth';
-import { logger } from '@/lib/logger';
-import { useTelegramMainButton } from '@/hooks/telegram';
-import { ProfileSetupStep1Basic } from './ProfileSetupStep1Basic';
-import { ProfileSetupStep2About } from './ProfileSetupStep2About';
-import { ProfileSetupStep3Social } from './ProfileSetupStep3Social';
-import { ProfileSetupStep4Banner } from './ProfileSetupStep4Banner';
-import { ProfileProgressIndicator } from './ProfileProgressIndicator';
-import type { SocialLinks } from '@/types/profile';
+import { useState, useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Sparkles, ChevronRight, ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useProfile } from "@/hooks/useProfile";
+import { useAuth } from "@/hooks/useAuth";
+import { logger } from "@/lib/logger";
+import { useTelegramMainButton } from "@/hooks/telegram";
+import { ProfileSetupStep1Basic } from "./ProfileSetupStep1Basic";
+import { ProfileSetupStep2About } from "./ProfileSetupStep2About";
+import { ProfileSetupStep3Social } from "./ProfileSetupStep3Social";
+import { ProfileSetupStep4Banner } from "./ProfileSetupStep4Banner";
+import { ProfileProgressIndicator } from "./ProfileProgressIndicator";
+import type { SocialLinks } from "@/types/profile";
 
 interface EnhancedProfileSetupProps {
   onComplete: () => void;
@@ -26,53 +26,53 @@ export interface ProfileSetupData {
   username: string;
   avatarUrl: string;
   bio: string;
-  role: 'producer' | 'musician' | 'listener' | '';
+  role: "producer" | "musician" | "listener" | "";
   genres: string[];
   socialLinks: SocialLinks;
   bannerUrl: string;
 }
 
 const STEPS = [
-  { id: 1, title: 'Основа', description: 'Имя и фото' },
-  { id: 2, title: 'О себе', description: 'Биография' },
-  { id: 3, title: 'Соцсети', description: 'Ссылки' },
-  { id: 4, title: 'Баннер', description: 'Оформление' },
+  { id: 1, title: "Основа", description: "Имя и фото" },
+  { id: 2, title: "О себе", description: "Биография" },
+  { id: 3, title: "Соцсети", description: "Ссылки" },
+  { id: 4, title: "Баннер", description: "Оформление" },
 ];
 
 export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) {
   const { user } = useAuth();
   const { data: profile, isLoading } = useProfile();
   const queryClient = useQueryClient();
-  
+
   const [currentStep, setCurrentStep] = useState(1);
   const [isSaving, setIsSaving] = useState(false);
-  
+
   const [formData, setFormData] = useState<ProfileSetupData>({
-    displayName: '',
-    username: '',
-    avatarUrl: '',
-    bio: '',
-    role: '',
+    displayName: "",
+    username: "",
+    avatarUrl: "",
+    bio: "",
+    role: "",
     genres: [],
     socialLinks: {},
-    bannerUrl: '',
+    bannerUrl: "",
   });
 
   // Import from existing profile OR Telegram data
   useEffect(() => {
     if (profile) {
-      const fullName = [profile.first_name, profile.last_name].filter(Boolean).join(' ');
-      setFormData(prev => ({
+      const fullName = [profile.first_name, profile.last_name].filter(Boolean).join(" ");
+      setFormData((prev) => ({
         ...prev,
-        displayName: fullName || profile.first_name || '',
-        username: profile.username || '',
-        avatarUrl: profile.photo_url || '',
+        displayName: fullName || profile.first_name || "",
+        username: profile.username || "",
+        avatarUrl: profile.photo_url || "",
       }));
     }
   }, [profile]);
 
   const updateFormData = (updates: Partial<ProfileSetupData>) => {
-    setFormData(prev => ({ ...prev, ...updates }));
+    setFormData((prev) => ({ ...prev, ...updates }));
   };
 
   const canProceed = () => {
@@ -92,31 +92,31 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
 
   const handleNext = () => {
     if (currentStep < STEPS.length) {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(prev => prev - 1);
+      setCurrentStep((prev) => prev - 1);
     }
   };
 
   const handleComplete = async () => {
     if (!user?.id) return;
-    
+
     setIsSaving(true);
     try {
       // Filter out empty social links
       const filteredSocialLinks = Object.fromEntries(
-        Object.entries(formData.socialLinks).filter(([_, value]) => value && value.trim())
+        Object.entries(formData.socialLinks).filter(([_, value]) => value && value.trim()),
       );
 
       const { error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update({
-          first_name: formData.displayName.split(' ')[0] || formData.displayName,
-          last_name: formData.displayName.split(' ').slice(1).join(' ') || null,
+          first_name: formData.displayName.split(" ")[0] || formData.displayName,
+          last_name: formData.displayName.split(" ").slice(1).join(" ") || null,
           display_name: formData.displayName.trim(),
           username: formData.username.trim() || null,
           photo_url: formData.avatarUrl || null,
@@ -126,20 +126,20 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
           is_public: true, // Always public for free users
           updated_at: new Date().toISOString(),
         })
-        .eq('user_id', user.id);
+        .eq("user_id", user.id);
 
       if (error) throw error;
 
       // Invalidate profile cache to trigger needsSetup recalculation
-      await queryClient.invalidateQueries({ queryKey: ['profile'] });
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
 
-      toast.success('Профиль создан! 🎉');
+      toast.success("Профиль создан! 🎉");
       onComplete();
     } catch (error) {
-      logger.error('Error saving profile', error instanceof Error ? error : new Error(String(error)), {
-        userId: user?.id
+      logger.error("Error saving profile", error instanceof Error ? error : new Error(String(error)), {
+        userId: user?.id,
       });
-      toast.error('Ошибка сохранения профиля');
+      toast.error("Ошибка сохранения профиля");
     } finally {
       setIsSaving(false);
     }
@@ -147,9 +147,9 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
 
   // Telegram MainButton integration
   const isLastStep = currentStep === STEPS.length;
-  const mainButtonText = isSaving ? 'Сохранение...' : (isLastStep ? 'ЗАВЕРШИТЬ' : 'ДАЛЕЕ');
+  const mainButtonText = isSaving ? "Сохранение..." : isLastStep ? "ЗАВЕРШИТЬ" : "ДАЛЕЕ";
   const mainButtonAction = isLastStep ? handleComplete : handleNext;
-  
+
   const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
     text: mainButtonText,
     onClick: mainButtonAction,
@@ -192,7 +192,7 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ type: 'spring', delay: 0.2 }}
+                transition={{ type: "spring", delay: 0.2 }}
                 className="p-2 sm:p-3 rounded-xl bg-primary/10 border border-primary/20"
               >
                 <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
@@ -204,44 +204,19 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
                 </p>
               </div>
             </div>
-            
-            <ProfileProgressIndicator 
-              steps={STEPS} 
-              currentStep={currentStep} 
-            />
+
+            <ProfileProgressIndicator steps={STEPS} currentStep={currentStep} />
           </div>
 
           <CardContent className="p-4 sm:p-6">
             <AnimatePresence mode="wait">
               {currentStep === 1 && (
-                <ProfileSetupStep1Basic
-                  key="step1"
-                  data={formData}
-                  onUpdate={updateFormData}
-                  userId={user?.id}
-                />
+                <ProfileSetupStep1Basic key="step1" data={formData} onUpdate={updateFormData} userId={user?.id} />
               )}
-              {currentStep === 2 && (
-                <ProfileSetupStep2About
-                  key="step2"
-                  data={formData}
-                  onUpdate={updateFormData}
-                />
-              )}
-              {currentStep === 3 && (
-                <ProfileSetupStep3Social
-                  key="step3"
-                  data={formData}
-                  onUpdate={updateFormData}
-                />
-              )}
+              {currentStep === 2 && <ProfileSetupStep2About key="step2" data={formData} onUpdate={updateFormData} />}
+              {currentStep === 3 && <ProfileSetupStep3Social key="step3" data={formData} onUpdate={updateFormData} />}
               {currentStep === 4 && (
-                <ProfileSetupStep4Banner
-                  key="step4"
-                  data={formData}
-                  onUpdate={updateFormData}
-                  userId={user?.id}
-                />
+                <ProfileSetupStep4Banner key="step4" data={formData} onUpdate={updateFormData} userId={user?.id} />
               )}
             </AnimatePresence>
 
@@ -249,40 +224,28 @@ export function EnhancedProfileSetup({ onComplete }: EnhancedProfileSetupProps) 
             {shouldShowUIButton && (
               <div className="flex gap-3 mt-6 pt-4 border-t border-border/50">
                 {currentStep > 1 && (
-                  <Button
-                    variant="outline"
-                    onClick={handleBack}
-                    className="gap-1"
-                  >
+                  <Button variant="outline" onClick={handleBack} className="gap-1">
                     <ChevronLeft className="w-4 h-4" />
                     Назад
                   </Button>
                 )}
-                
+
                 <div className="flex-1" />
-                
+
                 {currentStep < STEPS.length ? (
-                  <Button
-                    onClick={handleNext}
-                    disabled={!canProceed()}
-                    className="gap-1"
-                  >
+                  <Button onClick={handleNext} disabled={!canProceed()} className="gap-1">
                     Далее
                     <ChevronRight className="w-4 h-4" />
                   </Button>
                 ) : (
-                  <Button
-                    onClick={handleComplete}
-                    disabled={isSaving || !canProceed()}
-                    className="gap-2"
-                  >
+                  <Button onClick={handleComplete} disabled={isSaving || !canProceed()} className="gap-2">
                     {isSaving ? (
                       <>
                         <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                         Сохранение...
                       </>
                     ) : (
-                      'Завершить'
+                      "Завершить"
                     )}
                   </Button>
                 )}

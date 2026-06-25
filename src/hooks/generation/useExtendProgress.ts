@@ -1,14 +1,14 @@
 /**
  * useExtendProgress - Track extend audio task status with realtime updates
- * 
+ *
  * @deprecated Use useAudioProcessing().extendProgress instead
  * This hook is kept for backward compatibility and will be removed in a future version.
- * 
+ *
  * Migration:
  * ```tsx
  * // Old way
  * const { status, startTracking, ... } = useExtendProgress();
- * 
+ *
  * // New way
  * const { extend, extendProgress } = useAudioProcessing();
  * const result = await extend(params);
@@ -16,19 +16,12 @@
  * ```
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { useQueryClient } from "@tanstack/react-query";
 
-export type ExtendStatus = 
-  | 'idle'
-  | 'submitting'
-  | 'pending'
-  | 'processing'
-  | 'streaming_ready'
-  | 'completed'
-  | 'error';
+export type ExtendStatus = "idle" | "submitting" | "pending" | "processing" | "streaming_ready" | "completed" | "error";
 
 export interface ExtendProgressState {
   status: ExtendStatus;
@@ -47,13 +40,13 @@ export interface ExtendProgressState {
 }
 
 const STATUS_MESSAGES: Record<ExtendStatus, string> = {
-  idle: '',
-  submitting: 'Отправляем запрос...',
-  pending: 'В очереди на обработку...',
-  processing: 'AI расширяет трек...',
-  streaming_ready: 'Почти готово...',
-  completed: 'Трек расширен!',
-  error: 'Ошибка при расширении трека',
+  idle: "",
+  submitting: "Отправляем запрос...",
+  pending: "В очереди на обработку...",
+  processing: "AI расширяет трек...",
+  streaming_ready: "Почти готово...",
+  completed: "Трек расширен!",
+  error: "Ошибка при расширении трека",
 };
 
 const STATUS_PROGRESS: Record<ExtendStatus, number> = {
@@ -69,20 +62,20 @@ const STATUS_PROGRESS: Record<ExtendStatus, number> = {
 export function useExtendProgress() {
   const queryClient = useQueryClient();
   const [state, setState] = useState<ExtendProgressState>({
-    status: 'idle',
+    status: "idle",
     taskId: null,
     trackId: null,
     error: null,
     progress: 0,
-    message: '',
+    message: "",
     completedTrack: null,
   });
 
   // Start tracking a task
   const startTracking = useCallback((taskId: string, trackId: string) => {
-    logger.info('Start tracking extend task', { taskId, trackId });
+    logger.info("Start tracking extend task", { taskId, trackId });
     setState({
-      status: 'pending',
+      status: "pending",
       taskId,
       trackId,
       error: null,
@@ -94,9 +87,9 @@ export function useExtendProgress() {
 
   // Set submitting state (before API call)
   const setSubmitting = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      status: 'submitting',
+      status: "submitting",
       progress: STATUS_PROGRESS.submitting,
       message: STATUS_MESSAGES.submitting,
       error: null,
@@ -105,9 +98,9 @@ export function useExtendProgress() {
 
   // Set error state
   const setError = useCallback((error: string) => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
-      status: 'error',
+      status: "error",
       error,
       progress: 0,
       message: STATUS_MESSAGES.error,
@@ -117,80 +110,80 @@ export function useExtendProgress() {
   // Reset state
   const reset = useCallback(() => {
     setState({
-      status: 'idle',
+      status: "idle",
       taskId: null,
       trackId: null,
       error: null,
       progress: 0,
-      message: '',
+      message: "",
       completedTrack: null,
     });
   }, []);
 
   // Subscribe to task updates
   useEffect(() => {
-    if (!state.taskId || state.status === 'completed' || state.status === 'error') {
+    if (!state.taskId || state.status === "completed" || state.status === "error") {
       return;
     }
 
     const channel = supabase
       .channel(`extend-task-${state.taskId}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'generation_tasks',
+          event: "UPDATE",
+          schema: "public",
+          table: "generation_tasks",
           filter: `id=eq.${state.taskId}`,
         },
         async (payload) => {
-          const task = payload.new as { 
-            status: string; 
+          const task = payload.new as {
+            status: string;
             error_message?: string;
             track_id?: string;
           };
-          
-          logger.debug('Extend task update', { taskId: state.taskId, status: task.status });
 
-          if (task.status === 'failed' || task.status === 'error') {
-            setState(prev => ({
+          logger.debug("Extend task update", { taskId: state.taskId, status: task.status });
+
+          if (task.status === "failed" || task.status === "error") {
+            setState((prev) => ({
               ...prev,
-              status: 'error',
-              error: task.error_message || 'Ошибка генерации',
+              status: "error",
+              error: task.error_message || "Ошибка генерации",
               progress: 0,
               message: task.error_message || STATUS_MESSAGES.error,
             }));
             return;
           }
 
-          if (task.status === 'completed') {
+          if (task.status === "completed") {
             // Fetch the completed track
             const trackIdToFetch = task.track_id || state.trackId;
             if (trackIdToFetch) {
               const { data: track } = await supabase
-                .from('tracks')
-                .select('id, title, audio_url, cover_url, duration_seconds')
-                .eq('id', trackIdToFetch)
+                .from("tracks")
+                .select("id, title, audio_url, cover_url, duration_seconds")
+                .eq("id", trackIdToFetch)
                 .single();
 
               if (track) {
-                setState(prev => ({
+                setState((prev) => ({
                   ...prev,
-                  status: 'completed',
+                  status: "completed",
                   progress: 100,
                   message: STATUS_MESSAGES.completed,
                   completedTrack: {
                     id: track.id,
-                    title: track.title || 'Расширенный трек',
-                    audio_url: track.audio_url || '',
+                    title: track.title || "Расширенный трек",
+                    audio_url: track.audio_url || "",
                     cover_url: track.cover_url,
                     duration_seconds: track.duration_seconds || undefined,
                   },
                 }));
 
                 // Invalidate library queries to refresh
-                queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
-                queryClient.invalidateQueries({ queryKey: ['library'] });
+                queryClient.invalidateQueries({ queryKey: ["user-tracks"] });
+                queryClient.invalidateQueries({ queryKey: ["library"] });
               }
             }
             return;
@@ -199,14 +192,14 @@ export function useExtendProgress() {
           // Map status to our state
           const newStatus = task.status as ExtendStatus;
           if (STATUS_MESSAGES[newStatus]) {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
               status: newStatus,
               progress: STATUS_PROGRESS[newStatus] || prev.progress,
               message: STATUS_MESSAGES[newStatus],
             }));
           }
-        }
+        },
       )
       .subscribe();
 
@@ -215,46 +208,46 @@ export function useExtendProgress() {
       if (!state.taskId) return;
 
       const { data: task } = await supabase
-        .from('generation_tasks')
-        .select('status, error_message, track_id')
-        .eq('id', state.taskId)
+        .from("generation_tasks")
+        .select("status, error_message, track_id")
+        .eq("id", state.taskId)
         .single();
 
       if (!task) return;
 
-      if (task.status === 'completed' && state.status !== 'completed') {
+      if (task.status === "completed" && state.status !== "completed") {
         const trackIdToFetch = task.track_id || state.trackId;
         if (trackIdToFetch) {
           const { data: track } = await supabase
-            .from('tracks')
-            .select('id, title, audio_url, cover_url, duration_seconds')
-            .eq('id', trackIdToFetch)
+            .from("tracks")
+            .select("id, title, audio_url, cover_url, duration_seconds")
+            .eq("id", trackIdToFetch)
             .single();
 
           if (track) {
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
-              status: 'completed',
+              status: "completed",
               progress: 100,
               message: STATUS_MESSAGES.completed,
               completedTrack: {
                 id: track.id,
-                title: track.title || 'Расширенный трек',
-                audio_url: track.audio_url || '',
+                title: track.title || "Расширенный трек",
+                audio_url: track.audio_url || "",
                 cover_url: track.cover_url,
                 duration_seconds: track.duration_seconds || undefined,
               },
             }));
 
-            queryClient.invalidateQueries({ queryKey: ['user-tracks'] });
-            queryClient.invalidateQueries({ queryKey: ['library'] });
+            queryClient.invalidateQueries({ queryKey: ["user-tracks"] });
+            queryClient.invalidateQueries({ queryKey: ["library"] });
           }
         }
-      } else if (task.status === 'failed' || task.status === 'error') {
-        setState(prev => ({
+      } else if (task.status === "failed" || task.status === "error") {
+        setState((prev) => ({
           ...prev,
-          status: 'error',
-          error: task.error_message || 'Ошибка генерации',
+          status: "error",
+          error: task.error_message || "Ошибка генерации",
           progress: 0,
           message: task.error_message || STATUS_MESSAGES.error,
         }));
@@ -273,8 +266,8 @@ export function useExtendProgress() {
     startTracking,
     setError,
     reset,
-    isActive: state.status !== 'idle' && state.status !== 'completed' && state.status !== 'error',
-    isCompleted: state.status === 'completed',
-    isError: state.status === 'error',
+    isActive: state.status !== "idle" && state.status !== "completed" && state.status !== "error",
+    isCompleted: state.status === "completed",
+    isError: state.status === "error",
   };
 }

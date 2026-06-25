@@ -1,6 +1,6 @@
 /**
  * UnifiedTrackCard v2 - Single unified track card with 7 variants
- * 
+ *
  * Replaces:
  * - TrackCard
  * - MinimalTrackCard
@@ -9,7 +9,7 @@
  * - Old UnifiedTrackCard
  */
 
-import { memo } from 'react';
+import { memo } from "react";
 import {
   GridVariant,
   ListVariant,
@@ -17,34 +17,44 @@ import {
   MinimalVariant,
   ProfessionalVariant,
   EnhancedVariant,
-} from './variants';
-import type { UnifiedTrackCardProps, StandardTrackCardProps, ProfessionalTrackCardProps, EnhancedTrackCardProps } from './types';
+} from "./variants";
+import type {
+  UnifiedTrackCardProps,
+  StandardTrackCardProps,
+  ProfessionalTrackCardProps,
+  EnhancedTrackCardProps,
+} from "./types";
 
 export const UnifiedTrackCard = memo(function UnifiedTrackCard(props: UnifiedTrackCardProps) {
-  const variant = props.variant || 'default';
+  const variant = props.variant || "default";
 
   switch (variant) {
-    case 'enhanced':
+    case "enhanced":
       return <EnhancedVariant {...(props as EnhancedTrackCardProps)} />;
 
-    case 'professional':
+    case "professional":
       return <ProfessionalVariant {...(props as ProfessionalTrackCardProps)} />;
 
-    case 'list':
+    case "list":
       return <ListVariant {...(props as StandardTrackCardProps)} />;
 
-    case 'compact':
+    case "compact":
       return <CompactVariant {...(props as StandardTrackCardProps)} />;
 
-    case 'minimal':
+    case "minimal":
       return <MinimalVariant {...(props as StandardTrackCardProps)} />;
 
-    case 'grid':
-    case 'default':
+    case "grid":
+    case "default":
     default:
       return <GridVariant {...(props as StandardTrackCardProps)} />;
   }
 });
 
 // Re-export types
-export type { UnifiedTrackCardProps, StandardTrackCardProps, ProfessionalTrackCardProps, EnhancedTrackCardProps } from './types';
+export type {
+  UnifiedTrackCardProps,
+  StandardTrackCardProps,
+  ProfessionalTrackCardProps,
+  EnhancedTrackCardProps,
+} from "./types";

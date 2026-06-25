@@ -1,7 +1,7 @@
 /**
  * Sentry Error Tracking Integration
  * Conditionally initializes Sentry if DSN is configured
- * 
+ *
  * Extended with specialized capture functions for:
  * - Audio errors (playback, streaming, decoding)
  * - Studio errors (stems, mixing, effects)
@@ -10,11 +10,12 @@
  * - Custom breadcrumbs for detailed tracking
  */
 
-import * as Sentry from '@sentry/react';
+import * as Sentry from "@sentry/react";
 
 // DSN is safe to expose in client code - it only allows sending errors
-const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN || 
-  'https://c5b78ff8198243ead020079930e99dc0@o4510153936076800.ingest.de.sentry.io/4510651370242128';
+const SENTRY_DSN =
+  import.meta.env.VITE_SENTRY_DSN ||
+  "https://c5b78ff8198243ead020079930e99dc0@o4510153936076800.ingest.de.sentry.io/4510651370242128";
 
 export const isSentryEnabled = !!SENTRY_DSN;
 
@@ -27,7 +28,7 @@ export const isSentryEnabled = !!SENTRY_DSN;
  */
 export function initSentry(): void {
   if (!SENTRY_DSN) {
-    console.info('[Sentry] DSN not configured, error tracking disabled');
+    console.info("[Sentry] DSN not configured, error tracking disabled");
     return;
   }
 
@@ -39,7 +40,7 @@ export function initSentry(): void {
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.consoleLoggingIntegration({
-        levels: ['warn', 'error'],
+        levels: ["warn", "error"],
       }),
       Sentry.replayIntegration({
         maskAllText: false,
@@ -51,11 +52,11 @@ export function initSentry(): void {
     replaysOnErrorSampleRate: 1.0,
     beforeSend(event) {
       // Filter out non-actionable errors
-      if (event.exception?.values?.[0]?.value?.includes('ResizeObserver')) {
+      if (event.exception?.values?.[0]?.value?.includes("ResizeObserver")) {
         return null;
       }
       // Filter out startup audio errors (expected behavior)
-      if (event.exception?.values?.[0]?.value?.includes('NotAllowedError')) {
+      if (event.exception?.values?.[0]?.value?.includes("NotAllowedError")) {
         return null;
       }
       return event;
@@ -64,20 +65,16 @@ export function initSentry(): void {
       // Filter out noisy log messages
       // Drop logs from certain modules that are too verbose
       const logAny = log as unknown as { category?: string };
-      if (logAny.category?.includes('react-query') || logAny.category?.includes('zustand')) {
+      if (logAny.category?.includes("react-query") || logAny.category?.includes("zustand")) {
         // Only keep error and warning levels from these modules
-        if (log.level === 'info' || log.level === 'debug') {
+        if (log.level === "info" || log.level === "debug") {
           return null;
         }
       }
 
       // Drop logs that contain certain patterns
-      const message = log.message?.toLowerCase() || '';
-      if (
-        message.includes('resizeobserver') ||
-        message.includes('[sentry]') ||
-        message.includes('[boot]')
-      ) {
+      const message = log.message?.toLowerCase() || "";
+      if (message.includes("resizeobserver") || message.includes("[sentry]") || message.includes("[boot]")) {
         return null;
       }
 
@@ -85,7 +82,7 @@ export function initSentry(): void {
     },
   });
 
-  console.info('[Sentry] Error tracking initialized');
+  console.info("[Sentry] Error tracking initialized");
 }
 
 // ==========================================
@@ -94,14 +91,14 @@ export function initSentry(): void {
 
 function detectPlatform(): string {
   const ua = navigator.userAgent;
-  if (/Telegram/i.test(ua)) return 'telegram';
-  if (/iPhone|iPad|iPod/i.test(ua)) return 'ios';
-  if (/Android/i.test(ua)) return 'android';
-  return 'web';
+  if (/Telegram/i.test(ua)) return "telegram";
+  if (/iPhone|iPad|iPod/i.test(ua)) return "ios";
+  if (/Android/i.test(ua)) return "android";
+  return "web";
 }
 
 function getAudioStateString(element?: HTMLAudioElement): string {
-  if (!element) return 'no_element';
+  if (!element) return "no_element";
   return `ready:${element.readyState},paused:${element.paused},ended:${element.ended}`;
 }
 
@@ -114,7 +111,7 @@ function getAudioStateString(element?: HTMLAudioElement): string {
  */
 export function captureError(error: Error | unknown, context?: Record<string, unknown>): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.captureException(error, {
     extra: context,
   });
@@ -125,7 +122,7 @@ export function captureError(error: Error | unknown, context?: Record<string, un
  */
 export function setUser(userId: string | null, username?: string): void {
   if (!isSentryEnabled) return;
-  
+
   if (userId) {
     Sentry.setUser({ id: userId, username });
   } else {
@@ -138,9 +135,9 @@ export function setUser(userId: string | null, username?: string): void {
  */
 export function captureNavigationError(from: string, to: string, error: Error): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.captureException(error, {
-    tags: { type: 'navigation', from, to },
+    tags: { type: "navigation", from, to },
     extra: { fromRoute: from, toRoute: to },
   });
 }
@@ -155,13 +152,13 @@ export function captureGenerationError(
     mode?: string;
     model?: string;
     action?: string;
-  }
+  },
 ): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.captureException(error, {
-    tags: { 
-      type: 'generation', 
+    tags: {
+      type: "generation",
       mode: context.mode,
       action: context.action,
     },
@@ -176,7 +173,7 @@ export function captureGenerationError(
 // Specialized Audio Capture
 // ==========================================
 
-export type AudioAction = 'play' | 'pause' | 'seek' | 'load' | 'decode' | 'stream' | 'error';
+export type AudioAction = "play" | "pause" | "seek" | "load" | "decode" | "stream" | "error";
 
 /**
  * Capture audio-related errors with detailed context
@@ -193,18 +190,18 @@ export function captureAudioError(
     networkState?: number;
     duration?: number;
     currentTime?: number;
-  }
+  },
 ): void {
   if (!isSentryEnabled) return;
-  
+
   // Don't capture expected browser restrictions
-  if (error.name === 'NotAllowedError' || error.name === 'AbortError') {
+  if (error.name === "NotAllowedError" || error.name === "AbortError") {
     return;
   }
-  
+
   Sentry.captureException(error, {
-    tags: { 
-      type: 'audio',
+    tags: {
+      type: "audio",
       action: context.action,
       platform: context.platform || detectPlatform(),
     },
@@ -217,7 +214,7 @@ export function captureAudioError(
       duration: context.duration,
       currentTime: context.currentTime,
     },
-    level: 'warning',
+    level: "warning",
   });
 }
 
@@ -225,8 +222,8 @@ export function captureAudioError(
 // Specialized Studio Capture
 // ==========================================
 
-export type StudioOperation = 'load' | 'process' | 'export' | 'save' | 'effect' | 'mix' | 'separate';
-export type StemType = 'vocals' | 'instrumental' | 'drums' | 'bass' | 'other' | 'all';
+export type StudioOperation = "load" | "process" | "export" | "save" | "effect" | "mix" | "separate";
+export type StemType = "vocals" | "instrumental" | "drums" | "bass" | "other" | "all";
 
 /**
  * Capture studio/DAW-related errors
@@ -241,15 +238,15 @@ export function captureStudioError(
     stemsCount?: number;
     effectName?: string;
     processingTime?: number;
-  }
+  },
 ): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.captureException(error, {
-    tags: { 
-      type: 'studio',
+    tags: {
+      type: "studio",
       operation: context.operation,
-      stemType: context.stemType || 'unknown',
+      stemType: context.stemType || "unknown",
     },
     extra: {
       projectId: context.projectId,
@@ -258,7 +255,7 @@ export function captureStudioError(
       effectName: context.effectName,
       processingTime: context.processingTime,
     },
-    level: 'error',
+    level: "error",
   });
 }
 
@@ -266,8 +263,8 @@ export function captureStudioError(
 // Specialized Payment Capture
 // ==========================================
 
-export type PaymentProvider = 'stars' | 'tinkoff' | 'crypto' | 'stripe' | 'other';
-export type PaymentOperation = 'init' | 'process' | 'confirm' | 'refund' | 'webhook' | 'invoice';
+export type PaymentProvider = "stars" | "tinkoff" | "crypto" | "stripe" | "other";
+export type PaymentOperation = "init" | "process" | "confirm" | "refund" | "webhook" | "invoice";
 
 /**
  * Capture payment-related errors (high priority)
@@ -282,13 +279,13 @@ export function capturePaymentError(
     productId?: string;
     transactionId?: string;
     gatewayError?: string;
-  }
+  },
 ): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.captureException(error, {
-    tags: { 
-      type: 'payment',
+    tags: {
+      type: "payment",
       provider: context.provider,
       operation: context.operation,
     },
@@ -299,7 +296,7 @@ export function capturePaymentError(
       transactionId: context.transactionId,
       gatewayError: context.gatewayError,
     },
-    level: 'error', // Payment errors are always high priority
+    level: "error", // Payment errors are always high priority
   });
 }
 
@@ -307,8 +304,8 @@ export function capturePaymentError(
 // Reference Generation Capture
 // ==========================================
 
-export type ReferenceMode = 'cover' | 'extend' | 'stems' | 'analyze' | 'add_vocals';
-export type ReferenceStep = 'upload' | 'analyze' | 'generate' | 'callback' | 'save';
+export type ReferenceMode = "cover" | "extend" | "stems" | "analyze" | "add_vocals";
+export type ReferenceStep = "upload" | "analyze" | "generate" | "callback" | "save";
 
 /**
  * Capture reference audio generation errors
@@ -322,13 +319,13 @@ export function captureReferenceGenerationError(
     fileSize?: number;
     duration?: number;
     mimeType?: string;
-  }
+  },
 ): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.captureException(error, {
-    tags: { 
-      type: 'reference_generation',
+    tags: {
+      type: "reference_generation",
       mode: context.mode,
       step: context.step,
     },
@@ -338,7 +335,7 @@ export function captureReferenceGenerationError(
       duration: context.duration,
       mimeType: context.mimeType,
     },
-    level: 'error',
+    level: "error",
   });
 }
 
@@ -346,22 +343,22 @@ export function captureReferenceGenerationError(
 // Custom Breadcrumbs
 // ==========================================
 
-export type BreadcrumbCategory = 'ui' | 'audio' | 'generation' | 'studio' | 'payment' | 'navigation' | 'api' | 'state';
+export type BreadcrumbCategory = "ui" | "audio" | "generation" | "studio" | "payment" | "navigation" | "api" | "state";
 
 /**
  * Add user action breadcrumb for tracking user behavior before errors
  */
 export function addUserActionBreadcrumb(
-  action: string, 
-  category: BreadcrumbCategory = 'ui',
-  data?: Record<string, unknown>
+  action: string,
+  category: BreadcrumbCategory = "ui",
+  data?: Record<string, unknown>,
 ): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.addBreadcrumb({
     category,
     message: action,
-    level: 'info',
+    level: "info",
     data,
   });
 }
@@ -374,16 +371,16 @@ export function addApiCallBreadcrumb(
   method: string,
   status: number,
   durationMs: number,
-  errorMessage?: string
+  errorMessage?: string,
 ): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.addBreadcrumb({
-    category: 'api',
+    category: "api",
     message: `${method} ${endpoint}`,
-    level: status >= 400 ? 'error' : 'info',
-    data: { 
-      status, 
+    level: status >= 400 ? "error" : "info",
+    data: {
+      status,
       durationMs,
       error: errorMessage,
     },
@@ -393,17 +390,13 @@ export function addApiCallBreadcrumb(
 /**
  * Add state change breadcrumb for tracking Zustand store changes
  */
-export function addStateChangeBreadcrumb(
-  store: string,
-  action: string,
-  details?: Record<string, unknown>
-): void {
+export function addStateChangeBreadcrumb(store: string, action: string, details?: Record<string, unknown>): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.addBreadcrumb({
-    category: 'state',
+    category: "state",
     message: `[${store}] ${action}`,
-    level: 'info',
+    level: "info",
     data: details,
   });
 }
@@ -413,28 +406,24 @@ export function addStateChangeBreadcrumb(
  */
 export function addNavigationBreadcrumb(from: string, to: string): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.addBreadcrumb({
-    category: 'navigation',
+    category: "navigation",
     message: `Navigate: ${from} → ${to}`,
-    level: 'info',
+    level: "info",
   });
 }
 
 /**
  * Add audio event breadcrumb
  */
-export function addAudioBreadcrumb(
-  action: string,
-  trackId?: string,
-  details?: Record<string, unknown>
-): void {
+export function addAudioBreadcrumb(action: string, trackId?: string, details?: Record<string, unknown>): void {
   if (!isSentryEnabled) return;
-  
+
   Sentry.addBreadcrumb({
-    category: 'audio',
+    category: "audio",
     message: action,
-    level: 'info',
+    level: "info",
     data: { trackId, ...details },
   });
 }
@@ -446,15 +435,11 @@ export function addAudioBreadcrumb(
 /**
  * Start a performance span for monitoring
  */
-export function startSpan<T>(
-  name: string, 
-  op: string, 
-  callback: () => T | Promise<T>
-): T | Promise<T> {
+export function startSpan<T>(name: string, op: string, callback: () => T | Promise<T>): T | Promise<T> {
   if (!isSentryEnabled) {
     return callback();
   }
-  
+
   return Sentry.startSpan({ name, op }, callback);
 }
 
@@ -466,26 +451,26 @@ export function startSpan<T>(
  * Set user context with extended info
  */
 export function setUserContext(
-  userId: string | null, 
-  extra?: { 
-    email?: string; 
+  userId: string | null,
+  extra?: {
+    email?: string;
     telegramId?: number;
     tier?: string;
     username?: string;
-  }
+  },
 ): void {
   if (!isSentryEnabled) return;
-  
+
   if (userId) {
-    Sentry.setUser({ 
-      id: userId, 
+    Sentry.setUser({
+      id: userId,
       email: extra?.email,
       username: extra?.username || extra?.telegramId?.toString(),
     });
     if (extra?.tier) {
-      Sentry.setTag('user_tier', extra.tier);
+      Sentry.setTag("user_tier", extra.tier);
     }
-    Sentry.setTag('platform', detectPlatform());
+    Sentry.setTag("platform", detectPlatform());
   } else {
     Sentry.setUser(null);
   }

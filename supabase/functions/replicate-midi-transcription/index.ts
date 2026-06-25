@@ -22,10 +22,9 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-
 
   try {
     const REPLICATE_API_KEY = Deno.env.get("REPLICATE_API_KEY");
@@ -35,13 +34,13 @@ serve(async (req) => {
 
     const replicate = new Replicate({ auth: REPLICATE_API_KEY });
 
-    const { audioUrl, trackId, recordingId, stemId, model = 'basic-pitch' } = await req.json();
+    const { audioUrl, trackId, recordingId, stemId, model = "basic-pitch" } = await req.json();
 
     if (!audioUrl) {
-      return new Response(
-        JSON.stringify({ error: "audioUrl is required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "audioUrl is required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     console.log(`[replicate-midi] Starting transcription for: ${audioUrl}`);
@@ -56,7 +55,7 @@ serve(async (req) => {
     // Use Basic Pitch model - no duration limit, high quality polyphonic transcription
     // https://replicate.com/spotify/basic-pitch
     console.log("[replicate-midi] Using Spotify Basic Pitch model");
-    
+
     output = await replicate.run(
       "spotify/basic-pitch:df03c8fb52fd91d84a0e25aa33d2c2f8a40d7e1c4e28f0d53e3b95c019bd1e59",
       {
@@ -68,7 +67,7 @@ serve(async (req) => {
           save_model_outputs: true, // Get note data
           save_notes: true, // Get CSV note data
         },
-      }
+      },
     );
 
     console.log("[replicate-midi] Basic Pitch output:", JSON.stringify(output).slice(0, 2000));
@@ -76,7 +75,7 @@ serve(async (req) => {
     // Parse Basic Pitch output
     // Output format: { midi: "url", model_outputs: "url", notes: "url" }
     if (output) {
-      if (typeof output === 'string') {
+      if (typeof output === "string") {
         // Direct MIDI URL
         midiUrl = output;
       } else if (output.midi) {
@@ -118,27 +117,25 @@ serve(async (req) => {
       if (midiResponse.ok) {
         const midiBlob = await midiResponse.blob();
         const timestamp = Date.now();
-        const fileName = `midi/basic-pitch-${stemId || trackId || 'audio'}-${timestamp}.mid`;
-        
-        const { error: uploadError } = await supabase.storage
-          .from('project-assets')
-          .upload(fileName, midiBlob, {
-            contentType: 'audio/midi',
-            cacheControl: '31536000',
-          });
+        const fileName = `midi/basic-pitch-${stemId || trackId || "audio"}-${timestamp}.mid`;
+
+        const { error: uploadError } = await supabase.storage.from("project-assets").upload(fileName, midiBlob, {
+          contentType: "audio/midi",
+          cacheControl: "31536000",
+        });
 
         if (uploadError) {
-          console.error('[replicate-midi] Upload error:', uploadError);
+          console.error("[replicate-midi] Upload error:", uploadError);
         } else {
-          const { data: { publicUrl } } = supabase.storage
-            .from('project-assets')
-            .getPublicUrl(fileName);
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("project-assets").getPublicUrl(fileName);
           uploadedMidiUrl = publicUrl;
           console.log(`[replicate-midi] Uploaded MIDI to: ${uploadedMidiUrl}`);
         }
       }
     } catch (e) {
-      console.error('[replicate-midi] Failed to upload MIDI:', e);
+      console.error("[replicate-midi] Failed to upload MIDI:", e);
     }
 
     // If we have a trackId or recordingId, save the result to the database
@@ -162,7 +159,9 @@ serve(async (req) => {
     const authHeader = req.headers.get("Authorization");
     let userId = null;
     if (authHeader) {
-      const { data: { user } } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
+      const {
+        data: { user },
+      } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
       userId = user?.id;
     }
 
@@ -191,7 +190,7 @@ serve(async (req) => {
         model: "basic-pitch",
         message: "Full-length MIDI transcription completed successfully",
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("[replicate-midi] Transcription error:", error);
@@ -201,7 +200,7 @@ serve(async (req) => {
         success: false,
         error: errorMessage,
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });
@@ -209,24 +208,24 @@ serve(async (req) => {
 // Parse Basic Pitch notes CSV format
 // Format: start_time_s,end_time_s,pitch_midi,velocity,pitch_bend
 function parseNotesCsv(csv: string): MidiNote[] {
-  const lines = csv.trim().split('\n');
+  const lines = csv.trim().split("\n");
   if (lines.length < 2) return []; // Need header + at least one note
-  
+
   const notes: MidiNote[] = [];
-  
+
   // Skip header line
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim();
     if (!line) continue;
-    
-    const parts = line.split(',');
+
+    const parts = line.split(",");
     if (parts.length < 4) continue;
-    
+
     const startTime = parseFloat(parts[0]);
     const endTime = parseFloat(parts[1]);
     const pitch = parseInt(parts[2], 10);
     const velocity = Math.min(127, Math.max(1, Math.round(parseFloat(parts[3]) * 127)));
-    
+
     if (!isNaN(startTime) && !isNaN(endTime) && !isNaN(pitch)) {
       notes.push({
         pitch,
@@ -237,9 +236,9 @@ function parseNotesCsv(csv: string): MidiNote[] {
       });
     }
   }
-  
+
   // Sort by start time
   notes.sort((a, b) => a.startTime - b.startTime);
-  
+
   return notes;
 }

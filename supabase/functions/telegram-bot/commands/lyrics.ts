@@ -3,44 +3,32 @@
  * Display track lyrics in Telegram
  */
 
-import { getSupabaseClient } from '../core/supabase-client.ts';
-import { sendMessage, editMessageText } from '../telegram-api.ts';
-import { escapeMarkdown, splitText, cleanLyrics } from '../utils/index.ts';
+import { getSupabaseClient } from "../core/supabase-client.ts";
+import { sendMessage, editMessageText } from "../telegram-api.ts";
+import { escapeMarkdown, splitText, cleanLyrics } from "../utils/index.ts";
 
 const supabase = getSupabaseClient();
 
-export async function handleLyrics(
-  chatId: number,
-  trackId: string,
-  messageId?: number
-) {
+export async function handleLyrics(chatId: number, trackId: string, messageId?: number) {
   try {
     // Fetch track with lyrics
-    const { data: track, error } = await supabase
-      .from('tracks')
-      .select('id, title, lyrics')
-      .eq('id', trackId)
-      .single();
+    const { data: track, error } = await supabase.from("tracks").select("id, title, lyrics").eq("id", trackId).single();
 
     if (error || !track) {
-      await sendMessage(chatId, '❌ Трек не найден');
+      await sendMessage(chatId, "❌ Трек не найден");
       return;
     }
 
     if (!track.lyrics) {
-      const noLyricsMsg = `📝 *${escapeMarkdown(track.title || 'Трек')}*\n\n_Текст песни недоступен_`;
-      
+      const noLyricsMsg = `📝 *${escapeMarkdown(track.title || "Трек")}*\n\n_Текст песни недоступен_`;
+
       if (messageId) {
         await editMessageText(chatId, messageId, noLyricsMsg, {
-          inline_keyboard: [[
-            { text: '⬅️ Назад', callback_data: `track_details_${trackId}` }
-          ]]
+          inline_keyboard: [[{ text: "⬅️ Назад", callback_data: `track_details_${trackId}` }]],
         });
       } else {
         await sendMessage(chatId, noLyricsMsg, {
-          inline_keyboard: [[
-            { text: '⬅️ Назад', callback_data: `track_details_${trackId}` }
-          ]]
+          inline_keyboard: [[{ text: "⬅️ Назад", callback_data: `track_details_${trackId}` }]],
         });
       }
       return;
@@ -48,27 +36,23 @@ export async function handleLyrics(
 
     // Clean lyrics from Suno tags
     const cleanedLyrics = cleanLyrics(track.lyrics);
-    
+
     // Split if too long
     const chunks = splitText(cleanedLyrics, 3800);
-    
+
     // Send first chunk with header
-    const header = `📝 *${escapeMarkdown(track.title || 'Трек')}*\n\n`;
-    
+    const header = `📝 *${escapeMarkdown(track.title || "Трек")}*\n\n`;
+
     if (chunks.length === 1) {
       const fullMessage = header + cleanedLyrics;
-      
+
       if (messageId) {
         await editMessageText(chatId, messageId, fullMessage, {
-          inline_keyboard: [[
-            { text: '⬅️ Назад к треку', callback_data: `track_details_${trackId}` }
-          ]]
+          inline_keyboard: [[{ text: "⬅️ Назад к треку", callback_data: `track_details_${trackId}` }]],
         });
       } else {
         await sendMessage(chatId, fullMessage, {
-          inline_keyboard: [[
-            { text: '⬅️ Назад к треку', callback_data: `track_details_${trackId}` }
-          ]]
+          inline_keyboard: [[{ text: "⬅️ Назад к треку", callback_data: `track_details_${trackId}` }]],
         });
       }
     } else {
@@ -76,28 +60,24 @@ export async function handleLyrics(
       for (let i = 0; i < chunks.length; i++) {
         const isFirst = i === 0;
         const isLast = i === chunks.length - 1;
-        
+
         const message = isFirst ? header + chunks[i] : chunks[i];
-        
+
         if (isFirst && messageId) {
           await editMessageText(chatId, messageId, message + `\n\n_(часть ${i + 1}/${chunks.length})_`);
         } else {
-          const keyboard = isLast ? {
-            inline_keyboard: [[
-              { text: '⬅️ Назад к треку', callback_data: `track_details_${trackId}` }
-            ]]
-          } : undefined;
-          
-          await sendMessage(
-            chatId, 
-            message + (isLast ? '' : `\n\n_(часть ${i + 1}/${chunks.length})_`),
-            keyboard
-          );
+          const keyboard = isLast
+            ? {
+                inline_keyboard: [[{ text: "⬅️ Назад к треку", callback_data: `track_details_${trackId}` }]],
+              }
+            : undefined;
+
+          await sendMessage(chatId, message + (isLast ? "" : `\n\n_(часть ${i + 1}/${chunks.length})_`), keyboard);
         }
       }
     }
   } catch (error) {
-    console.error('Error handling lyrics:', error);
-    await sendMessage(chatId, '❌ Ошибка при загрузке текста');
+    console.error("Error handling lyrics:", error);
+    await sendMessage(chatId, "❌ Ошибка при загрузке текста");
   }
 }

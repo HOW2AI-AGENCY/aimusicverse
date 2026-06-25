@@ -1,25 +1,25 @@
 /**
  * FixedOverlay - Fixed position container with safe areas
  * For fullscreen overlays, modals, loading states
- * 
+ *
  * @example
  * ```tsx
  * <FixedOverlay center>
  *   <LoadingSpinner />
  * </FixedOverlay>
- * 
+ *
  * <FixedOverlay position="bottom">
  *   <FloatingControls />
  * </FixedOverlay>
  * ```
  */
 
-import { ReactNode, CSSProperties } from 'react';
-import { cn } from '@/lib/utils';
-import { backdrop } from '@/lib/overlay-colors';
-import { TELEGRAM_SAFE_AREA, getSafeAreaTop, getSafeAreaBottom } from '@/constants/safe-area';
+import { ReactNode, CSSProperties } from "react";
+import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
+import { TELEGRAM_SAFE_AREA, getSafeAreaTop, getSafeAreaBottom } from "@/constants/safe-area";
 
-type OverlayPosition = 'center' | 'top' | 'bottom' | 'fill';
+type OverlayPosition = "center" | "top" | "bottom" | "fill";
 
 interface FixedOverlayProps {
   children: ReactNode;
@@ -28,9 +28,9 @@ interface FixedOverlayProps {
   /** Center content (shorthand for position="center") */
   center?: boolean;
   /** Background style */
-  background?: 'none' | 'blur' | 'dim' | 'solid';
+  background?: "none" | "blur" | "dim" | "solid";
   /** Z-index level */
-  zIndex?: 'base' | 'dialog' | 'fullscreen' | 'critical';
+  zIndex?: "base" | "dialog" | "fullscreen" | "critical";
   /** Additional className */
   className?: string;
   /** Style overrides */
@@ -40,17 +40,17 @@ interface FixedOverlayProps {
 }
 
 const zIndexMap = {
-  base: 'z-40',
-  dialog: 'z-80',
-  fullscreen: 'z-90',
-  critical: 'z-100',
+  base: "z-40",
+  dialog: "z-80",
+  fullscreen: "z-90",
+  critical: "z-100",
 };
 
 const backgroundMap = {
-  none: '',
-  blur: backdrop.dark + ' backdrop-blur-md',
+  none: "",
+  blur: backdrop.dark + " backdrop-blur-md",
   dim: backdrop.medium,
-  solid: 'bg-background',
+  solid: "bg-background",
 };
 
 /**
@@ -58,23 +58,23 @@ const backgroundMap = {
  */
 export function FixedOverlay({
   children,
-  position = 'fill',
+  position = "fill",
   center = false,
-  background = 'none',
-  zIndex = 'dialog',
+  background = "none",
+  zIndex = "dialog",
   className,
   style,
   onClick,
 }: FixedOverlayProps) {
-  const actualPosition = center ? 'center' : position;
+  const actualPosition = center ? "center" : position;
 
   // For centered overlays, don't add safe area padding - it breaks flex centering
   // Instead, use fixed height with overflow protection to prevent visual glitches
-  const safeAreaStyle: CSSProperties = center 
+  const safeAreaStyle: CSSProperties = center
     ? {
-        height: 'var(--tg-viewport-stable-height, 100vh)',
-        maxHeight: 'var(--tg-viewport-stable-height, 100vh)',
-        overflow: 'hidden',
+        height: "var(--tg-viewport-stable-height, 100vh)",
+        maxHeight: "var(--tg-viewport-stable-height, 100vh)",
+        overflow: "hidden",
         ...style,
       }
     : {
@@ -84,21 +84,15 @@ export function FixedOverlay({
       };
 
   const positionClasses = {
-    fill: 'inset-0',
-    center: 'inset-0 flex items-center justify-center',
-    top: 'top-0 left-0 right-0',
-    bottom: 'bottom-0 left-0 right-0',
+    fill: "inset-0",
+    center: "inset-0 flex items-center justify-center",
+    top: "top-0 left-0 right-0",
+    bottom: "bottom-0 left-0 right-0",
   };
 
   return (
     <div
-      className={cn(
-        'fixed',
-        positionClasses[actualPosition],
-        zIndexMap[zIndex],
-        backgroundMap[background],
-        className
-      )}
+      className={cn("fixed", positionClasses[actualPosition], zIndexMap[zIndex], backgroundMap[background], className)}
       style={safeAreaStyle}
       onClick={onClick}
     >
@@ -125,13 +119,10 @@ export function BottomSheetContainer({
   extraBottom = 0,
 }: BottomSheetContainerProps) {
   const navHeight = withBottomNav ? 80 : 0;
-  
+
   return (
     <div
-      className={cn(
-        'fixed bottom-0 left-0 right-0 z-50',
-        className
-      )}
+      className={cn("fixed bottom-0 left-0 right-0 z-50", className)}
       style={{
         paddingBottom: getSafeAreaBottom(navHeight + extraBottom),
       }}

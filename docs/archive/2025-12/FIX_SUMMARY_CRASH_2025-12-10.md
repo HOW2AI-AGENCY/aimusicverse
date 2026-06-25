@@ -8,6 +8,7 @@
 Приложение не запускалось и вылетало при старте из-за ошибок компиляции.
 
 ### Симптомы:
+
 - Ошибка сборки: `Could not load /home/runner/work/aimusicverse/aimusicverse/src/lib/supabase`
 - Невозможность запустить приложение
 - Постоянный краш при старте
@@ -15,6 +16,7 @@
 ## Причина
 
 Два файла импортировали клиент Supabase из несуществующего пути `@/lib/supabase`:
+
 1. `src/pages/Pricing.tsx`
 2. `src/components/admin/StarsPaymentsPanel.tsx`
 
@@ -25,32 +27,36 @@
 ### Изменения в коде:
 
 **Файл: src/pages/Pricing.tsx**
+
 ```typescript
 // До:
-import { supabase } from '@/lib/supabase';
+import { supabase } from "@/lib/supabase";
 
 // После:
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 ```
 
 **Файл: src/components/admin/StarsPaymentsPanel.tsx**
+
 ```typescript
 // До:
-import { supabase } from '@/lib/supabase';
+import { supabase } from "@/lib/supabase";
 
 // После:
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 ```
 
 ## Тестирование
 
 ### Проверки:
+
 - ✅ Успешная сборка (`npm run build`)
 - ✅ Запуск dev-сервера без ошибок (`npm run dev`)
 - ✅ Приложение загружается и отображает UI
 - ✅ Отсутствие крашей при запуске
 
 ### Результаты:
+
 ```bash
 > aimusicverse@1.0.0 build
 > vite build
@@ -73,10 +79,10 @@ vite v5.4.21 building for production...
 
 ```typescript
 // ✅ ПРАВИЛЬНО
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 
 // ❌ НЕПРАВИЛЬНО
-import { supabase } from '@/lib/supabase';
+import { supabase } from "@/lib/supabase";
 ```
 
 Файл `@/lib/supabase` не существует в проекте. Клиент Supabase находится в директории `integrations`.

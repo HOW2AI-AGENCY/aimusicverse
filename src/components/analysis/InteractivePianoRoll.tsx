@@ -2,12 +2,12 @@
  * InteractivePianoRoll - Enhanced piano roll with zoom, scroll, velocity colors, and mini-map
  */
 
-import { memo, useMemo, useRef, useState, useCallback, useEffect } from 'react';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
-import { Music, ZoomIn, ZoomOut, Maximize2, RotateCcw, Keyboard, Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, useMemo, useRef, useState, useCallback, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
+import { Music, ZoomIn, ZoomOut, Maximize2, RotateCcw, Keyboard, Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 interface NoteInput {
   pitch?: number;
@@ -36,33 +36,33 @@ interface InteractivePianoRollProps {
   colorByVelocity?: boolean;
 }
 
-const NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 const ZOOM_LEVELS = [0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8];
 
 // Velocity-based colors (from blue/soft to red/loud)
 const getVelocityColor = (velocity: number, isBlackKey: boolean, isActive: boolean) => {
   const v = Math.max(0, Math.min(127, velocity)) / 127;
-  
+
   if (isActive) {
-    return 'hsl(var(--primary))';
+    return "hsl(var(--primary))";
   }
-  
+
   // Gradient from cool (soft) to warm (loud)
   if (v < 0.33) {
     // Soft: blue-ish
-    return isBlackKey ? 'hsl(210 70% 50% / 0.8)' : 'hsl(210 80% 60%)';
+    return isBlackKey ? "hsl(210 70% 50% / 0.8)" : "hsl(210 80% 60%)";
   } else if (v < 0.66) {
     // Medium: primary
-    return isBlackKey ? 'hsl(var(--primary) / 0.75)' : 'hsl(var(--primary))';
+    return isBlackKey ? "hsl(var(--primary) / 0.75)" : "hsl(var(--primary))";
   } else {
     // Loud: orange/red
-    return isBlackKey ? 'hsl(25 90% 50% / 0.85)' : 'hsl(25 95% 55%)';
+    return isBlackKey ? "hsl(25 90% 50% / 0.85)" : "hsl(25 95% 55%)";
   }
 };
 
-export const InteractivePianoRoll = memo(function InteractivePianoRoll({ 
-  notes, 
-  duration, 
+export const InteractivePianoRoll = memo(function InteractivePianoRoll({
+  notes,
+  duration,
   height = 280,
   className,
   currentTime = 0,
@@ -85,41 +85,44 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
     if (notes.length === 0) {
       return { minPitch: 48, maxPitch: 72, normalizedNotes: [], pitchRange: 24 };
     }
-    
-    const processed = notes.map(n => {
-      const pitch = n.pitch ?? n.midi ?? 60;
-      const startTime = n.startTime ?? n.start_time ?? n.time ?? 0;
-      const dur = n.duration ?? n.dur ?? 0.5;
-      const endTime = n.endTime ?? n.end_time ?? (startTime + dur);
-      return { 
-        pitch, 
-        startTime, 
-        endTime, 
-        duration: dur,
-        velocity: n.velocity ?? 100,
-        original: n,
-      };
-    }).filter(n => 
-      Number.isFinite(n.pitch) && 
-      Number.isFinite(n.startTime) && 
-      Number.isFinite(n.endTime) &&
-      n.endTime > n.startTime
-    );
+
+    const processed = notes
+      .map((n) => {
+        const pitch = n.pitch ?? n.midi ?? 60;
+        const startTime = n.startTime ?? n.start_time ?? n.time ?? 0;
+        const dur = n.duration ?? n.dur ?? 0.5;
+        const endTime = n.endTime ?? n.end_time ?? startTime + dur;
+        return {
+          pitch,
+          startTime,
+          endTime,
+          duration: dur,
+          velocity: n.velocity ?? 100,
+          original: n,
+        };
+      })
+      .filter(
+        (n) =>
+          Number.isFinite(n.pitch) &&
+          Number.isFinite(n.startTime) &&
+          Number.isFinite(n.endTime) &&
+          n.endTime > n.startTime,
+      );
 
     if (processed.length === 0) {
       return { minPitch: 48, maxPitch: 72, normalizedNotes: [], pitchRange: 24 };
     }
 
-    const pitches = processed.map(n => n.pitch);
+    const pitches = processed.map((n) => n.pitch);
     const min = Math.max(0, Math.min(...pitches) - 3);
     const max = Math.min(127, Math.max(...pitches) + 3);
     const range = max - min || 1;
-    
-    return { 
-      minPitch: min, 
+
+    return {
+      minPitch: min,
       maxPitch: max,
       pitchRange: range,
-      normalizedNotes: processed.map(n => ({
+      normalizedNotes: processed.map((n) => ({
         ...n,
         normalizedPitch: (n.pitch - min) / range,
       })),
@@ -134,7 +137,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
         lines.push({
           pitch,
           pos: (pitch - minPitch) / pitchRange,
-          label: `C${Math.floor(pitch / 12) - 1}`
+          label: `C${Math.floor(pitch / 12) - 1}`,
         });
       }
     }
@@ -164,14 +167,14 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
 
   // Zoom controls
   const handleZoomIn = useCallback(() => {
-    const currentIndex = ZOOM_LEVELS.findIndex(z => z >= zoom);
+    const currentIndex = ZOOM_LEVELS.findIndex((z) => z >= zoom);
     if (currentIndex < ZOOM_LEVELS.length - 1) {
       setZoom(ZOOM_LEVELS[currentIndex + 1]);
     }
   }, [zoom]);
 
   const handleZoomOut = useCallback(() => {
-    const currentIndex = ZOOM_LEVELS.findIndex(z => z >= zoom);
+    const currentIndex = ZOOM_LEVELS.findIndex((z) => z >= zoom);
     if (currentIndex > 0) {
       setZoom(ZOOM_LEVELS[currentIndex - 1]);
     }
@@ -203,15 +206,18 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
     setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
   }, []);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - (scrollContainerRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 1.5;
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-    }
-  }, [isDragging, startX, scrollLeft]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging) return;
+      e.preventDefault();
+      const x = e.pageX - (scrollContainerRef.current?.offsetLeft || 0);
+      const walk = (x - startX) * 1.5;
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+      }
+    },
+    [isDragging, startX, scrollLeft],
+  );
 
   const handleMouseUp = useCallback(() => {
     setIsDragging(false);
@@ -224,27 +230,33 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
     setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
   }, []);
 
-  const handleTouchMove = useCallback((e: React.TouchEvent) => {
-    if (!isDragging) return;
-    const x = e.touches[0].pageX - (scrollContainerRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 1.5;
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-    }
-  }, [isDragging, startX, scrollLeft]);
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (!isDragging) return;
+      const x = e.touches[0].pageX - (scrollContainerRef.current?.offsetLeft || 0);
+      const walk = (x - startX) * 1.5;
+      if (scrollContainerRef.current) {
+        scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+      }
+    },
+    [isDragging, startX, scrollLeft],
+  );
 
   // Click to seek
-  const handleCanvasClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!onSeek || isDragging) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const keysWidth = showKeys ? 44 : 0;
-    const clickX = e.clientX - rect.left - keysWidth + (scrollContainerRef.current?.scrollLeft || 0);
-    const contentWidth = duration * 12 * zoom;
-    const time = (clickX / contentWidth) * duration;
-    if (time >= 0 && time <= duration) {
-      onSeek(time);
-    }
-  }, [onSeek, isDragging, duration, zoom, showKeys]);
+  const handleCanvasClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (!onSeek || isDragging) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const keysWidth = showKeys ? 44 : 0;
+      const clickX = e.clientX - rect.left - keysWidth + (scrollContainerRef.current?.scrollLeft || 0);
+      const contentWidth = duration * 12 * zoom;
+      const time = (clickX / contentWidth) * duration;
+      if (time >= 0 && time <= duration) {
+        onSeek(time);
+      }
+    },
+    [onSeek, isDragging, duration, zoom, showKeys],
+  );
 
   // Scroll to playhead
   useEffect(() => {
@@ -253,11 +265,11 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
       const playheadX = currentTime * pixelsPerSecond;
       const containerWidth = scrollContainerRef.current.clientWidth;
       const currentScroll = scrollContainerRef.current.scrollLeft;
-      
+
       if (playheadX < currentScroll + 50 || playheadX > currentScroll + containerWidth - 80) {
         scrollContainerRef.current.scrollTo({
           left: playheadX - containerWidth / 3,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     }
@@ -267,18 +279,18 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      
-      if (e.key === '+' || e.key === '=') {
+
+      if (e.key === "+" || e.key === "=") {
         handleZoomIn();
-      } else if (e.key === '-') {
+      } else if (e.key === "-") {
         handleZoomOut();
-      } else if (e.key === '0') {
+      } else if (e.key === "0") {
         handleFitToScreen();
       }
     };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleZoomIn, handleZoomOut, handleFitToScreen]);
 
   const contentWidth = Math.max(300, duration * 12 * zoom);
@@ -287,10 +299,10 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
 
   if (notes.length === 0) {
     return (
-      <div 
+      <div
         className={cn(
           "rounded-xl bg-gradient-to-b from-muted/20 to-muted/40 flex flex-col items-center justify-center gap-3",
-          className
+          className,
         )}
         style={{ height }}
       >
@@ -301,10 +313,10 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
   }
 
   return (
-    <div 
+    <div
       className={cn(
         "relative rounded-xl bg-gradient-to-b from-background via-background to-muted/10 border overflow-hidden flex flex-col",
-        className
+        className,
       )}
       style={{ height }}
     >
@@ -335,7 +347,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
             <ZoomIn className="w-3.5 h-3.5" />
           </Button>
         </div>
-        
+
         <div className="flex items-center gap-0.5">
           <Button
             variant="ghost"
@@ -355,13 +367,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
           >
             <Maximize2 className="w-3.5 h-3.5" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7"
-            onClick={handleResetZoom}
-            title="Сбросить"
-          >
+          <Button variant="ghost" size="icon" className="h-7 w-7" onClick={handleResetZoom} title="Сбросить">
             <RotateCcw className="w-3.5 h-3.5" />
           </Button>
         </div>
@@ -382,19 +388,19 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
             {/* Piano keys visualization */}
             {Array.from({ length: pitchRange + 1 }, (_, i) => {
               const pitch = minPitch + i;
-              const isBlack = NOTE_NAMES[pitch % 12].includes('#');
+              const isBlack = NOTE_NAMES[pitch % 12].includes("#");
               const isC = pitch % 12 === 0;
               return (
                 <div
                   key={i}
                   className={cn(
                     "absolute left-0 right-0 border-b",
-                    isBlack 
-                      ? "bg-zinc-800/80 border-zinc-700" 
+                    isBlack
+                      ? "bg-zinc-800/80 border-zinc-700"
                       : "bg-background/90 border-zinc-200 dark:border-zinc-600",
-                    isC && "border-b-2 border-b-primary/30"
+                    isC && "border-b-2 border-b-primary/30",
                   )}
-                  style={{ 
+                  style={{
                     bottom: `${(i / pitchRange) * 100}%`,
                     height: `${Math.max(2, 100 / pitchRange)}%`,
                   }}
@@ -418,13 +424,13 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
             // Mobile-optimized scrolling
             "touch-pan-x touch-pan-y",
             "scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent",
-            isDragging ? "cursor-grabbing select-none" : "cursor-grab"
+            isDragging ? "cursor-grabbing select-none" : "cursor-grab",
           )}
           style={{
             // Enable smooth scrolling on touch devices
-            WebkitOverflowScrolling: 'touch',
+            WebkitOverflowScrolling: "touch",
             // Prevent overscroll bounce on iOS
-            overscrollBehavior: 'contain',
+            overscrollBehavior: "contain",
           }}
           onWheel={(e) => {
             if (!scrollContainerRef.current) return;
@@ -443,10 +449,7 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
           onTouchEnd={handleMouseUp}
           onClick={handleCanvasClick}
         >
-          <div 
-            className="relative"
-            style={{ width: contentWidth, height: rollHeight }}
-          >
+          <div className="relative" style={{ width: contentWidth, height: rollHeight }}>
             {/* Beat grid (subtle) */}
             {beatLines.map((t, i) => (
               <div
@@ -481,14 +484,14 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
             {/* Playhead */}
             <AnimatePresence>
               {currentTime >= 0 && currentTime <= duration && (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   className="absolute top-0 bottom-4 w-0.5 bg-primary z-20 pointer-events-none"
-                  style={{ 
+                  style={{
                     left: (currentTime / duration) * contentWidth,
-                    boxShadow: '0 0 12px 2px hsl(var(--primary) / 0.6)',
+                    boxShadow: "0 0 12px 2px hsl(var(--primary) / 0.6)",
                   }}
                 >
                   {/* Playhead head */}
@@ -499,35 +502,35 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
 
             {/* Notes */}
             {normalizedNotes.map((note, i) => {
-              const isBlackKey = NOTE_NAMES[note.pitch % 12].includes('#');
+              const isBlackKey = NOTE_NAMES[note.pitch % 12].includes("#");
               const isPast = note.endTime < currentTime;
               const isActive = note.startTime <= currentTime && note.endTime >= currentTime;
               const isHovered = hoveredNote === i;
               const noteName = NOTE_NAMES[note.pitch % 12] + Math.floor(note.pitch / 12 - 1);
-              
+
               const noteLeft = (note.startTime / duration) * contentWidth;
               const noteWidth = Math.max(4, ((note.endTime - note.startTime) / duration) * contentWidth);
               const noteBottom = note.normalizedPitch * (rollHeight - 20) + 16;
-              
-              const bgColor = showVelocity 
+
+              const bgColor = showVelocity
                 ? getVelocityColor(note.velocity, isBlackKey, isActive)
-                : isBlackKey 
-                  ? 'hsl(var(--primary) / 0.7)' 
-                  : 'hsl(var(--primary))';
-              
+                : isBlackKey
+                  ? "hsl(var(--primary) / 0.7)"
+                  : "hsl(var(--primary))";
+
               return (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ 
-                    opacity: isPast ? 0.4 : 1, 
+                  animate={{
+                    opacity: isPast ? 0.4 : 1,
                     scale: isActive ? 1.05 : 1,
                   }}
                   className={cn(
                     "absolute rounded-sm transition-shadow",
                     isActive && "ring-2 ring-white shadow-lg z-10",
                     isHovered && "ring-1 ring-white/50 z-10",
-                    onNoteClick && "cursor-pointer"
+                    onNoteClick && "cursor-pointer",
                   )}
                   style={{
                     left: noteLeft,
@@ -535,11 +538,11 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                     bottom: noteBottom,
                     height: noteHeight,
                     backgroundColor: bgColor,
-                    boxShadow: isActive 
-                      ? '0 0 16px hsl(var(--primary) / 0.5)' 
-                      : isHovered 
-                        ? '0 2px 8px rgba(0,0,0,0.3)' 
-                        : 'none',
+                    boxShadow: isActive
+                      ? "0 0 16px hsl(var(--primary) / 0.5)"
+                      : isHovered
+                        ? "0 2px 8px rgba(0,0,0,0.3)"
+                        : "none",
                   }}
                   onMouseEnter={() => setHoveredNote(i)}
                   onMouseLeave={() => setHoveredNote(null)}
@@ -550,12 +553,12 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                 >
                   {/* Velocity indicator bar */}
                   {showVelocity && noteWidth > 20 && (
-                    <div 
+                    <div
                       className="absolute bottom-0 left-0 right-0 bg-foreground/20 rounded-b-sm"
                       style={{ height: `${100 - (note.velocity / 127) * 100}%` }}
                     />
                   )}
-                  
+
                   {/* Note label on hover */}
                   {isHovered && noteWidth > 30 && (
                     <span className="absolute inset-0 flex items-center justify-center text-[8px] font-mono text-white font-bold drop-shadow-lg">
@@ -573,14 +576,14 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
       {showMiniMap && normalizedNotes.length > 0 && contentWidth > 400 && (
         <div className="h-4 border-t bg-muted/30 relative overflow-hidden">
           {/* Visible region indicator */}
-          <div 
+          <div
             className="absolute top-0 bottom-0 bg-primary/20 border-x border-primary/40"
             style={{
               left: `${((scrollContainerRef.current?.scrollLeft || 0) / contentWidth) * 100}%`,
               width: `${((scrollContainerRef.current?.clientWidth || 200) / contentWidth) * 100}%`,
             }}
           />
-          
+
           {/* Mini notes */}
           {normalizedNotes.map((note, i) => (
             <div
@@ -590,14 +593,14 @@ export const InteractivePianoRoll = memo(function InteractivePianoRoll({
                 left: `${(note.startTime / duration) * 100}%`,
                 width: `${Math.max(1, ((note.endTime - note.startTime) / duration) * 100)}%`,
                 bottom: `${note.normalizedPitch * 100}%`,
-                height: '2px',
+                height: "2px",
               }}
             />
           ))}
-          
+
           {/* Mini playhead */}
           {currentTime > 0 && (
-            <div 
+            <div
               className="absolute top-0 bottom-0 w-px bg-primary"
               style={{ left: `${(currentTime / duration) * 100}%` }}
             />

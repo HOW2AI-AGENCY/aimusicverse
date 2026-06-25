@@ -76,15 +76,15 @@ docs/
 
 ## 🔗 Связанные документы
 
-| Документ | Описание |
-|----------|----------|
-| [README.md](../README.md) | Главная страница проекта |
-| [PROJECT_STATUS.md](../PROJECT_STATUS.md) | Текущий статус |
-| [PROJECT_MANAGEMENT.md](PROJECT_MANAGEMENT.md) | Управление проектом |
-| [ROADMAP.md](../ROADMAP.md) | Дорожная карта |
-| [KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md) | База знаний |
-| [ADR/](../ADR/) | Архитектурные решения |
+| Документ                                       | Описание                 |
+| ---------------------------------------------- | ------------------------ |
+| [README.md](../README.md)                      | Главная страница проекта |
+| [PROJECT_STATUS.md](../PROJECT_STATUS.md)      | Текущий статус           |
+| [PROJECT_MANAGEMENT.md](PROJECT_MANAGEMENT.md) | Управление проектом      |
+| [ROADMAP.md](../ROADMAP.md)                    | Дорожная карта           |
+| [KNOWLEDGE_BASE.md](../KNOWLEDGE_BASE.md)      | База знаний              |
+| [ADR/](../ADR/)                                | Архитектурные решения    |
 
 ---
 
-*Обновлено: 2026-01-21*
+_Обновлено: 2026-01-21_

@@ -4,31 +4,18 @@
  * Integrates with studio audio coordination
  */
 
-import { memo, useState, useRef, useEffect, useId } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Cloud, 
-  Music2, 
-  Check, 
-  ChevronDown, 
-  ChevronUp, 
-  Loader2,
-  Play,
-  Pause,
-} from 'lucide-react';
-import { useReferenceAudio, type ReferenceAudio } from '@/hooks/useReferenceAudio';
-import { useAudioReference } from '@/hooks/useAudioReference';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
-import type { ReferenceMode } from '@/services/audio-reference';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
+import { memo, useState, useRef, useEffect, useId } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Cloud, Music2, Check, ChevronDown, ChevronUp, Loader2, Play, Pause } from "lucide-react";
+import { useReferenceAudio, type ReferenceAudio } from "@/hooks/useReferenceAudio";
+import { useAudioReference } from "@/hooks/useAudioReference";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
+import type { ReferenceMode } from "@/services/audio-reference";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface CloudAudioSelectorProps {
   onSelect?: (audio: ReferenceAudio, mode: ReferenceMode) => void;
@@ -40,7 +27,7 @@ interface CloudAudioSelectorProps {
 
 export const CloudAudioSelector = memo(function CloudAudioSelector({
   onSelect,
-  selectedMode = 'reference',
+  selectedMode = "reference",
   maxItems = 5,
   className,
   compact = false,
@@ -51,7 +38,7 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
   const [playingId, setPlayingId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sourceId = useId();
-  
+
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   // Register with studio audio coordinator
@@ -79,7 +66,7 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
   const handleSelect = (audio: ReferenceAudio) => {
     setFromCloud(audio, selectedMode);
     onSelect?.(audio, selectedMode);
-    
+
     // Stop any playing audio
     if (audioRef.current) {
       audioRef.current.pause();
@@ -89,7 +76,7 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
 
   const handlePlayPreview = (audio: ReferenceAudio, e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     if (playingId === audio.id) {
       // Stop playing
       audioRef.current?.pause();
@@ -149,13 +136,13 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
                 {displayList.map((item) => {
                   const isSelected = activeReference?.dbId === item.id;
                   const isPlaying = playingId === item.id;
-                  
+
                   return (
                     <button
                       key={item.id}
                       className={cn(
                         "w-full p-2 flex items-center gap-2 hover:bg-muted/50 transition-colors text-left",
-                        isSelected && "bg-primary/5 border-l-2 border-l-primary"
+                        isSelected && "bg-primary/5 border-l-2 border-l-primary",
                       )}
                       onClick={() => handleSelect(item)}
                     >
@@ -167,35 +154,25 @@ export const CloudAudioSelector = memo(function CloudAudioSelector({
                         className="h-7 w-7 shrink-0"
                         onClick={(e) => handlePlayPreview(item, e)}
                       >
-                        {isPlaying ? (
-                          <Pause className="w-3.5 h-3.5" />
-                        ) : (
-                          <Play className="w-3.5 h-3.5 ml-0.5" />
-                        )}
+                        {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 ml-0.5" />}
                       </Button>
-                      
+
                       {/* Info */}
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-medium truncate">{item.file_name}</p>
                         <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
-                          {item.duration_seconds && (
-                            <span>{formatTime(Math.floor(item.duration_seconds))}</span>
-                          )}
+                          {item.duration_seconds && <span>{formatTime(Math.floor(item.duration_seconds))}</span>}
                           {item.genre && (
                             <Badge variant="outline" className="text-[10px] h-4 px-1">
                               {item.genre}
                             </Badge>
                           )}
-                          {item.bpm && (
-                            <span>{item.bpm} BPM</span>
-                          )}
+                          {item.bpm && <span>{item.bpm} BPM</span>}
                         </div>
                       </div>
-                      
+
                       {/* Status indicators */}
-                      {item.analysis_status === 'completed' && (
-                        <Check className="w-3 h-3 text-green-500 shrink-0" />
-                      )}
+                      {item.analysis_status === "completed" && <Check className="w-3 h-3 text-green-500 shrink-0" />}
                       {isSelected && (
                         <Badge variant="secondary" className="text-[10px] h-4 px-1 shrink-0">
                           Выбрано

@@ -6,26 +6,26 @@
  * Shows as a gradient banner with engaging design
  */
 
-import { memo, useCallback, useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { MessageCircle, X, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { logger } from '@/lib/logger';
-import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
-import { interactive, surface } from '@/lib/overlay-colors';
+import { memo, useCallback, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { MessageCircle, X, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { logger } from "@/lib/logger";
+import { useAnalyticsTracking } from "@/hooks/useAnalyticsTracking";
+import { interactive, surface } from "@/lib/overlay-colors";
 
 interface FirstCommentCTAProps {
   trackId: string;
   trackTitle: string;
   onOpenComments: () => void;
   className?: string;
-  variant?: 'banner' | 'card' | 'compact';
+  variant?: "banner" | "card" | "compact";
 }
 
 // Storage key for dismissed CTAs
-const DISMISSED_CTAS_KEY = 'dismissed-comment-ctas';
+const DISMISSED_CTAS_KEY = "dismissed-comment-ctas";
 
 /**
  * Check if user has commented on a track
@@ -35,9 +35,7 @@ function useHasCommented(trackId: string) {
 
   useEffect(() => {
     // Check localStorage for comment history
-    const commentedTracks = JSON.parse(
-      localStorage.getItem('commented-tracks') || '[]'
-    );
+    const commentedTracks = JSON.parse(localStorage.getItem("commented-tracks") || "[]");
     setHasCommented(commentedTracks.includes(trackId));
   }, [trackId]);
 
@@ -51,9 +49,7 @@ function useIsDismissed(trackId: string) {
   const [isDismissed, setIsDismissed] = useState(false);
 
   useEffect(() => {
-    const dismissedCtas = JSON.parse(
-      localStorage.getItem(DISMISSED_CTAS_KEY) || '{}'
-    );
+    const dismissedCtas = JSON.parse(localStorage.getItem(DISMISSED_CTAS_KEY) || "{}");
     const dismissedAt = dismissedCtas[trackId];
 
     if (dismissedAt) {
@@ -86,7 +82,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
   trackTitle,
   onOpenComments,
   className,
-  variant = 'banner',
+  variant = "banner",
 }: FirstCommentCTAProps) {
   const { hapticFeedback } = useTelegram();
   const { trackEvent } = useAnalyticsTracking();
@@ -101,39 +97,40 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
   }
 
   const handleCommentClick = useCallback(() => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     trackEvent({
-      eventType: 'feature_used',
-      eventName: 'comment_cta_tapped',
+      eventType: "feature_used",
+      eventName: "comment_cta_tapped",
       metadata: { trackId, variant },
     });
 
-    logger.info('First comment CTA tapped', { trackId, trackTitle });
+    logger.info("First comment CTA tapped", { trackId, trackTitle });
 
     onOpenComments();
   }, [hapticFeedback, trackEvent, trackId, trackTitle, onOpenComments]);
 
-  const handleDismiss = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticFeedback?.('light');
+  const handleDismiss = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      hapticFeedback?.("light");
 
-    trackEvent({
-      eventType: 'feature_used',
-      eventName: 'comment_cta_dismissed',
-      metadata: { trackId, variant },
-    });
+      trackEvent({
+        eventType: "feature_used",
+        eventName: "comment_cta_dismissed",
+        metadata: { trackId, variant },
+      });
 
-    // Save dismissal to localStorage
-    const dismissedCtas = JSON.parse(
-      localStorage.getItem(DISMISSED_CTAS_KEY) || '{}'
-    );
-    dismissedCtas[trackId] = Date.now();
-    localStorage.setItem(DISMISSED_CTAS_KEY, JSON.stringify(dismissedCtas));
+      // Save dismissal to localStorage
+      const dismissedCtas = JSON.parse(localStorage.getItem(DISMISSED_CTAS_KEY) || "{}");
+      dismissedCtas[trackId] = Date.now();
+      localStorage.setItem(DISMISSED_CTAS_KEY, JSON.stringify(dismissedCtas));
 
-    setInternalDismissed(true);
+      setInternalDismissed(true);
 
-    logger.info('First comment CTA dismissed', { trackId });
-  }, [hapticFeedback, trackEvent, trackId]);
+      logger.info("First comment CTA dismissed", { trackId });
+    },
+    [hapticFeedback, trackEvent, trackId],
+  );
 
   const variants = {
     banner: (
@@ -143,11 +140,11 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
         exit={{ opacity: 0, y: -10 }}
         transition={{ duration: 0.2 }}
         className={cn(
-          'relative overflow-hidden rounded-xl',
-          'bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10',
-          'border border-purple-200/50 dark:border-purple-900/50',
-          'p-4',
-          className
+          "relative overflow-hidden rounded-xl",
+          "bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-orange-500/10",
+          "border border-purple-200/50 dark:border-purple-900/50",
+          "p-4",
+          className,
         )}
       >
         {/* Animated background */}
@@ -155,13 +152,13 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
           <motion.div
             className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20"
             animate={{
-              x: ['-100%', '100%'],
+              x: ["-100%", "100%"],
             }}
             transition={{
               duration: 3,
               repeat: Infinity,
               repeatDelay: 2,
-              ease: 'linear',
+              ease: "linear",
             }}
           />
         </div>
@@ -224,10 +221,10 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
         className={cn(
-          'relative overflow-hidden rounded-xl',
-          'bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500',
-          'p-4',
-          className
+          "relative overflow-hidden rounded-xl",
+          "bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500",
+          "p-4",
+          className,
         )}
       >
         {/* Close button */}
@@ -261,9 +258,7 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
               <Sparkles className="w-4 h-4" />
               Будьте первым!
             </p>
-            <p className="text-sm text-white/90 mt-0.5">
-              Оставьте первый комментарий к &quot;{trackTitle}&quot;
-            </p>
+            <p className="text-sm text-white/90 mt-0.5">Оставьте первый комментарий к &quot;{trackTitle}&quot;</p>
           </div>
 
           <Button
@@ -284,16 +279,14 @@ export const FirstCommentCTA = memo(function FirstCommentCTA({
         exit={{ opacity: 0, x: -10 }}
         transition={{ duration: 0.2 }}
         className={cn(
-          'flex items-center gap-2 p-2 rounded-lg',
-          'bg-purple-50 dark:bg-purple-950/20',
-          'border border-purple-200 dark:border-purple-900/50',
-          className
+          "flex items-center gap-2 p-2 rounded-lg",
+          "bg-purple-50 dark:bg-purple-950/20",
+          "border border-purple-200 dark:border-purple-900/50",
+          className,
         )}
       >
         <MessageCircle className="w-4 h-4 text-purple-500 dark:text-purple-400 shrink-0" />
-        <p className="text-xs text-purple-700 dark:text-purple-300 flex-1">
-          Будьте первым, кто прокомментирует!
-        </p>
+        <p className="text-xs text-purple-700 dark:text-purple-300 flex-1">Будьте первым, кто прокомментирует!</p>
         <Button
           onClick={handleCommentClick}
           size="sm"
@@ -326,12 +319,10 @@ export function useCommentCTA() {
   }, []);
 
   const markAsCommented = useCallback((trackId: string) => {
-    const commentedTracks = JSON.parse(
-      localStorage.getItem('commented-tracks') || '[]'
-    );
+    const commentedTracks = JSON.parse(localStorage.getItem("commented-tracks") || "[]");
     if (!commentedTracks.includes(trackId)) {
       commentedTracks.push(trackId);
-      localStorage.setItem('commented-tracks', JSON.stringify(commentedTracks));
+      localStorage.setItem("commented-tracks", JSON.stringify(commentedTracks));
     }
 
     setShownCtas((prev) => {

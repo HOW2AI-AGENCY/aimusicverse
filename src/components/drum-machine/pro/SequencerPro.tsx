@@ -1,11 +1,11 @@
-import React, { memo, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { Volume2, VolumeX } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { hardware, surface } from '@/lib/overlay-colors';
-import type { DrumSound } from '@/lib/drum-kits';
-import type { TrackEffects } from '@/hooks/useDrumMachine';
+import React, { memo, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { Volume2, VolumeX } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { hardware, surface } from "@/lib/overlay-colors";
+import type { DrumSound } from "@/lib/drum-kits";
+import type { TrackEffects } from "@/hooks/useDrumMachine";
 
 interface SequencerProProps {
   sounds: DrumSound[];
@@ -52,61 +52,61 @@ const TrackRow = memo(function TrackRow({
   onToggleStep,
   onToggleSolo,
   onToggleMute,
-  onVolumeChange
+  onVolumeChange,
 }: TrackRowProps) {
   const isAudible = (!hasSoloActive || isSolo) && !isMuted;
-  
+
   return (
-    <div className={cn(
-      'flex items-center gap-2 py-2 px-3 rounded-xl transition-all',
-      'hover:bg-muted/20',
-      !isAudible && 'opacity-40'
-    )}>
+    <div
+      className={cn(
+        "flex items-center gap-2 py-2 px-3 rounded-xl transition-all",
+        "hover:bg-muted/20",
+        !isAudible && "opacity-40",
+      )}
+    >
       {/* Track Controls */}
       <div className="flex items-center gap-1.5 w-32 shrink-0">
         {/* Color indicator */}
-        <div 
+        <div
           className="w-1.5 h-8 rounded-full shrink-0 shadow-sm"
-          style={{ 
+          style={{
             backgroundColor: sound.color,
-            boxShadow: `0 0 8px ${sound.color}40`
+            boxShadow: `0 0 8px ${sound.color}40`,
           }}
         />
-        
+
         {/* Solo */}
         <Button
           variant="ghost"
           size="icon"
           className={cn(
-            'h-8 w-8 text-xs font-bold rounded-lg transition-all',
-            isSolo 
-              ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30' 
-              : 'hover:bg-primary/20 text-muted-foreground'
+            "h-8 w-8 text-xs font-bold rounded-lg transition-all",
+            isSolo
+              ? "bg-primary text-primary-foreground shadow-md shadow-primary/30"
+              : "hover:bg-primary/20 text-muted-foreground",
           )}
           onClick={onToggleSolo}
         >
           S
         </Button>
-        
+
         {/* Mute */}
         <Button
           variant="ghost"
           size="icon"
           className={cn(
-            'h-8 w-8 rounded-lg transition-all',
-            isMuted 
-              ? 'bg-destructive text-destructive-foreground shadow-md shadow-destructive/30' 
-              : 'hover:bg-destructive/20 text-muted-foreground'
+            "h-8 w-8 rounded-lg transition-all",
+            isMuted
+              ? "bg-destructive text-destructive-foreground shadow-md shadow-destructive/30"
+              : "hover:bg-destructive/20 text-muted-foreground",
           )}
           onClick={onToggleMute}
         >
           {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
         </Button>
-        
+
         {/* Track name */}
-        <span className="text-sm font-semibold truncate flex-1">
-          {sound.shortName}
-        </span>
+        <span className="text-sm font-semibold truncate flex-1">{sound.shortName}</span>
       </div>
 
       {/* Volume Slider */}
@@ -129,28 +129,28 @@ const TrackRow = memo(function TrackRow({
           const isCurrentStep = isPlaying && step === currentStep;
           const isDownbeat = step % 4 === 0;
           const isGroupStart = step % 4 === 0;
-          
+
           return (
             <button
               key={step}
               type="button"
               onClick={() => onToggleStep(step)}
               className={cn(
-                'flex-1 min-w-[26px] h-9 rounded-md transition-all duration-75',
-                'hover:brightness-125',
-                isGroupStart && 'ml-1.5 first:ml-0',
-                !active && isDownbeat && 'bg-muted/50',
-                !active && !isDownbeat && 'bg-muted/25',
-                isCurrentStep && !active && 'ring-2 ring-primary/50'
+                "flex-1 min-w-[26px] h-9 rounded-md transition-all duration-75",
+                "hover:brightness-125",
+                isGroupStart && "ml-1.5 first:ml-0",
+                !active && isDownbeat && "bg-muted/50",
+                !active && !isDownbeat && "bg-muted/25",
+                isCurrentStep && !active && "ring-2 ring-primary/50",
               )}
               style={{
                 backgroundColor: active ? sound.color : undefined,
-                boxShadow: active 
-                  ? isCurrentStep 
-                    ? `0 0 16px ${sound.color}, inset 0 1px 0 rgba(255,255,255,0.4)` 
+                boxShadow: active
+                  ? isCurrentStep
+                    ? `0 0 16px ${sound.color}, inset 0 1px 0 rgba(255,255,255,0.4)`
                     : `inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.2)`
                   : undefined,
-                transform: active && isCurrentStep ? 'scale(1.05)' : undefined
+                transform: active && isCurrentStep ? "scale(1.05)" : undefined,
               }}
             />
           );
@@ -173,37 +173,33 @@ export const SequencerPro = memo(function SequencerPro({
   onToggleSolo,
   onToggleMute,
   onVolumeChange,
-  className
+  className,
 }: SequencerProProps) {
   const hasSoloActive = soloTracks.size > 0;
 
   return (
-    <div className={cn(
-      'flex flex-col rounded-2xl overflow-hidden',
-      'bg-gradient-to-b from-[hsl(var(--card)/0.6)] to-[hsl(var(--muted)/0.3)]',
-      'border border-border/30',
-      'shadow-inner',
-      className
-    )}>
+    <div
+      className={cn(
+        "flex flex-col rounded-2xl overflow-hidden",
+        "bg-gradient-to-b from-[hsl(var(--card)/0.6)] to-[hsl(var(--muted)/0.3)]",
+        "border border-border/30",
+        "shadow-inner",
+        className,
+      )}
+    >
       {/* Header with step numbers */}
       <div className={cn("flex items-center gap-2 px-3 py-3 border-b border-border/20", surface.medium)}>
-        <div className="w-32 shrink-0 text-xs font-medium text-muted-foreground pl-2">
-          TRACKS
-        </div>
+        <div className="w-32 shrink-0 text-xs font-medium text-muted-foreground pl-2">TRACKS</div>
         {onVolumeChange && (
-          <div className="w-20 shrink-0 text-[10px] text-muted-foreground text-center font-medium">
-            VOL
-          </div>
+          <div className="w-20 shrink-0 text-[10px] text-muted-foreground text-center font-medium">VOL</div>
         )}
         <div className="flex gap-0.5 flex-1">
           {Array.from({ length: stepLength }, (_, i) => (
             <div
               key={i}
               className={cn(
-                'flex-1 min-w-[26px] text-center text-[10px] font-mono',
-                i % 4 === 0 
-                  ? 'font-bold text-foreground ml-1.5 first:ml-0' 
-                  : 'text-muted-foreground'
+                "flex-1 min-w-[26px] text-center text-[10px] font-mono",
+                i % 4 === 0 ? "font-bold text-foreground ml-1.5 first:ml-0" : "text-muted-foreground",
               )}
             >
               {i + 1}
@@ -240,10 +236,7 @@ export const SequencerPro = memo(function SequencerPro({
         {onVolumeChange && <div className="w-20 shrink-0" />}
         <div className="flex gap-1.5 flex-1">
           {Array.from({ length: stepLength / 4 }, (_, beatGroup) => (
-            <div
-              key={beatGroup}
-              className="flex-1 flex gap-0.5"
-            >
+            <div key={beatGroup} className="flex-1 flex gap-0.5">
               {Array.from({ length: 4 }, (_, beat) => {
                 const step = beatGroup * 4 + beat;
                 const isActive = isPlaying && step === currentStep;
@@ -251,12 +244,12 @@ export const SequencerPro = memo(function SequencerPro({
                   <div
                     key={beat}
                     className={cn(
-                      'flex-1 h-2 rounded-full transition-all duration-100',
-                      isActive 
-                        ? 'bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]' 
-                        : beat === 0 
-                          ? 'bg-muted/50' 
-                          : 'bg-muted/30'
+                      "flex-1 h-2 rounded-full transition-all duration-100",
+                      isActive
+                        ? "bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.6)]"
+                        : beat === 0
+                          ? "bg-muted/50"
+                          : "bg-muted/30",
                     )}
                   />
                 );

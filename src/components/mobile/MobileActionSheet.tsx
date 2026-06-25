@@ -3,19 +3,19 @@
  * Clean, minimal, optimized for thumb reach
  */
 
-import { memo, ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { backdrop } from '@/lib/overlay-colors';
-import { useHaptic } from '@/hooks/useHaptic';
-import { X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { memo, ReactNode } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
+import { useHaptic } from "@/hooks/useHaptic";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface ActionSheetAction {
   label: string;
   icon?: ReactNode;
   onClick: () => void;
-  variant?: 'default' | 'destructive' | 'muted';
+  variant?: "default" | "destructive" | "muted";
   disabled?: boolean;
 }
 
@@ -41,7 +41,7 @@ export const MobileActionSheet = memo(function MobileActionSheet({
   description,
   groups,
   showCancel = true,
-  cancelLabel = 'Отмена',
+  cancelLabel = "Отмена",
 }: MobileActionSheetProps) {
   const { patterns } = useHaptic();
 
@@ -52,13 +52,13 @@ export const MobileActionSheet = memo(function MobileActionSheet({
 
   const handleAction = (action: ActionSheetAction) => {
     if (action.disabled) return;
-    
-    if (action.variant === 'destructive') {
+
+    if (action.variant === "destructive") {
       patterns.warning();
     } else {
       patterns.select();
     }
-    
+
     action.onClick();
     onOpenChange(false);
   };
@@ -75,21 +75,21 @@ export const MobileActionSheet = memo(function MobileActionSheet({
             className={cn("fixed inset-0 z-sheet-backdrop backdrop-blur-sm", backdrop.heavy)}
             onClick={handleClose}
           />
-          
+
           {/* Sheet */}
           <motion.div
-            initial={{ y: '100%' }}
+            initial={{ y: "100%" }}
             animate={{ y: 0 }}
-            exit={{ y: '100%' }}
+            exit={{ y: "100%" }}
             transition={{
-              type: 'spring',
+              type: "spring",
               damping: 30,
               stiffness: 300,
             }}
             className="fixed bottom-0 left-0 right-0 z-50 p-3"
             style={{
               // Telegram Mini App + iOS safe area
-              paddingBottom: 'max(0.75rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+              paddingBottom: "max(0.75rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
             }}
           >
             {/* Main Content */}
@@ -98,12 +98,8 @@ export const MobileActionSheet = memo(function MobileActionSheet({
               {(title || description) && (
                 <div className="relative flex items-center px-4 py-3 border-b border-border/50">
                   <div className="flex-1 min-w-0 pr-10">
-                    {title && (
-                      <p className="text-sm font-semibold">{title}</p>
-                    )}
-                    {description && (
-                      <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
-                    )}
+                    {title && <p className="text-sm font-semibold">{title}</p>}
+                    {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
                   </div>
                   <button
                     onClick={handleClose}
@@ -114,7 +110,7 @@ export const MobileActionSheet = memo(function MobileActionSheet({
                   </button>
                 </div>
               )}
-              
+
               {/* Action Groups */}
               {groups.map((group, groupIndex) => (
                 <div key={groupIndex}>
@@ -134,13 +130,11 @@ export const MobileActionSheet = memo(function MobileActionSheet({
                           "text-sm font-medium transition-colors",
                           "active:bg-muted/50",
                           action.disabled && "opacity-50 cursor-not-allowed",
-                          action.variant === 'destructive' && "text-destructive",
-                          action.variant === 'muted' && "text-muted-foreground"
+                          action.variant === "destructive" && "text-destructive",
+                          action.variant === "muted" && "text-muted-foreground",
                         )}
                       >
-                        {action.icon && (
-                          <span className="w-5 h-5">{action.icon}</span>
-                        )}
+                        {action.icon && <span className="w-5 h-5">{action.icon}</span>}
                         {action.label}
                       </button>
                     ))}
@@ -148,7 +142,7 @@ export const MobileActionSheet = memo(function MobileActionSheet({
                 </div>
               ))}
             </div>
-            
+
             {/* Cancel Button */}
             {showCancel && (
               <button

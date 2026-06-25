@@ -3,6 +3,7 @@
 ## Обзор
 
 Creative Tools — набор профессиональных инструментов для музыкантов, позволяющий:
+
 - **Realtime Chord Detection** — распознавание аккордов в реальном времени
 - **Guitar Tab Editor** — интерактивный редактор табулатур
 - **Melody Mixer** — DJ-style инструмент для создания мелодий-референсов
@@ -17,35 +18,35 @@ graph TB
         C[Tab Editor Tab]
         D[Melody Mixer Tab]
     end
-    
+
     subgraph "Chord Detection"
         E[useRealtimeChordDetection]
         F[RealtimeChordVisualizer]
         G[Web Audio API]
         H[Chromagram Analysis]
     end
-    
+
     subgraph "Tab Editor"
         I[useTabEditor]
         J[GuitarTabEditor]
         K[Canvas Rendering]
         L[MIDI Synth]
     end
-    
+
     subgraph "Melody Mixer"
         M[useMelodyMixer]
         N[MelodyMixer]
         O[StyleKnob]
         P[Tone.js Synth]
     end
-    
+
     A --> B --> E --> F
     E --> G --> H
-    
+
     A --> C --> I --> J
     J --> K
     J --> L
-    
+
     A --> D --> M --> N
     N --> O
     M --> P
@@ -56,9 +57,11 @@ graph TB
 ## 1. Realtime Chord Detection
 
 ### Описание
+
 Распознавание гитарных аккордов в реальном времени через микрофон с визуализацией хромаграммы.
 
 ### Технология
+
 - **Web Audio API** — захват аудио с микрофона
 - **Pitch Class Profile (PCP)** — анализ 12 нотных классов
 - **Chord Templates** — шаблоны major, minor, dim, aug, 7th
@@ -66,12 +69,13 @@ graph TB
 ### Компоненты
 
 #### `useRealtimeChordDetection.ts`
+
 ```typescript
 interface RealtimeChordState {
   isListening: boolean;
-  currentChord: string | null;  // "Am", "G", "F"
-  confidence: number;           // 0-1
-  chromagram: number[];         // 12 pitch classes
+  currentChord: string | null; // "Am", "G", "F"
+  confidence: number; // 0-1
+  chromagram: number[]; // 12 pitch classes
   rootNote: string;
   quality: string;
   history: ChordHistoryItem[];
@@ -79,6 +83,7 @@ interface RealtimeChordState {
 ```
 
 #### `RealtimeChordVisualizer.tsx`
+
 - Большой дисплей текущего аккорда с confidence
 - Хромаграмма (12 столбцов для каждой ноты)
 - История последних 8 аккордов
@@ -93,6 +98,7 @@ interface RealtimeChordState {
 5. Выбор аккорда с максимальным confidence (>0.6)
 
 ### Поддерживаемые аккорды
+
 - Major (C, D, E, F, G, A, B)
 - Minor (Cm, Dm, Em, Fm, Gm, Am, Bm)
 - Diminished (Cdim, Ddim, etc.)
@@ -104,9 +110,11 @@ interface RealtimeChordState {
 ## 2. Guitar Tab Editor
 
 ### Описание
+
 Интерактивный редактор гитарных табулатур с поддержкой редактирования, воспроизведения и экспорта.
 
 ### Возможности
+
 - Рисование нот на 6 струнах
 - Поддержка техник: hammer-on, pull-off, slide, bend
 - Undo/Redo
@@ -116,6 +124,7 @@ interface RealtimeChordState {
 ### Компоненты
 
 #### `useTabEditor.ts`
+
 ```typescript
 interface TabEditorState {
   notes: TabNote[];
@@ -123,7 +132,7 @@ interface TabEditorState {
   clipboard: TabNote[];
   history: TabNote[][];
   historyIndex: number;
-  currentTool: 'select' | 'draw' | 'erase';
+  currentTool: "select" | "draw" | "erase";
   bpm: number;
   isPlaying: boolean;
   playbackPosition: number;
@@ -131,27 +140,30 @@ interface TabEditorState {
 
 interface TabNote {
   id: string;
-  string: number;     // 0-5
-  fret: number;       // 0-24
-  position: number;   // timing
+  string: number; // 0-5
+  fret: number; // 0-24
+  position: number; // timing
   duration: number;
-  technique?: 'hammer-on' | 'pull-off' | 'slide' | 'bend';
+  technique?: "hammer-on" | "pull-off" | "slide" | "bend";
 }
 ```
 
 #### `GuitarTabEditor.tsx`
+
 - Toolbar: Select, Draw, Erase, Techniques
 - Canvas: 6 строк табулатуры
 - Controls: Play, Stop, BPM, Undo/Redo
 - Export: GP5, PDF, MIDI
 
 ### Управление
+
 - **Click** — добавить/редактировать ноту
 - **Drag** — перемещение ноты
 - **Delete/Backspace** — удалить ноту
 - **Ctrl+Z / Ctrl+Y** — Undo/Redo
 
 ### Воспроизведение
+
 Использует `useMidiSynth` с Tone.js Sampler для реалистичного звучания гитары.
 
 ---
@@ -159,9 +171,11 @@ interface TabNote {
 ## 3. Melody Mixer
 
 ### Описание
+
 DJ-style интерфейс для создания мелодий путём смешивания музыкальных стилей. Вдохновлён PromptDJ MIDI.
 
 ### Возможности
+
 - 8 слотов для стилей с регуляторами веса (0-100%)
 - Master controls: BPM, Key, Scale
 - Realtime preview через Tone.js
@@ -171,12 +185,13 @@ DJ-style интерфейс для создания мелодий путём с
 ### Компоненты
 
 #### `useMelodyMixer.ts`
+
 ```typescript
 interface MelodyMixerState {
   slots: StyleSlot[];
   bpm: number;
   key: string;
-  scale: 'major' | 'minor';
+  scale: "major" | "minor";
   isPlaying: boolean;
   isRecording: boolean;
   recordedBlob: Blob | null;
@@ -185,19 +200,22 @@ interface MelodyMixerState {
 interface StyleSlot {
   id: string;
   name: string;
-  weight: number;   // 0-1
+  weight: number; // 0-1
   color: string;
 }
 ```
 
 #### `StyleKnob.tsx`
+
 SVG-компонент поворотной ручки:
+
 - Визуализация веса 0-100%
 - Цветовое кодирование
 - Touch/Mouse управление
 - Анимация glow при активности
 
 #### `MelodyMixer.tsx`
+
 - Grid 4x2 со StyleKnob
 - Master Controls панель
 - Preview waveform
@@ -210,7 +228,7 @@ SVG-компонент поворотной ручки:
 const chords = generateChordProgression(key, scale);
 
 // Генерация мелодии с учётом стилей
-slots.forEach(slot => {
+slots.forEach((slot) => {
   if (slot.weight > 0) {
     applyStyleToMelody(melody, slot.name, slot.weight);
   }
@@ -221,6 +239,7 @@ synth.triggerAttackRelease(note, duration);
 ```
 
 ### Предустановленные стили
+
 1. Acoustic Guitar
 2. Electric Clean
 3. Fingerpicking
@@ -258,16 +277,8 @@ synth.triggerAttackRelease(note, duration);
 ### useRealtimeChordDetection
 
 ```typescript
-const {
-  isListening,
-  currentChord,
-  confidence,
-  chromagram,
-  history,
-  startListening,
-  stopListening,
-  clearHistory
-} = useRealtimeChordDetection();
+const { isListening, currentChord, confidence, chromagram, history, startListening, stopListening, clearHistory } =
+  useRealtimeChordDetection();
 ```
 
 ### useTabEditor
@@ -288,7 +299,7 @@ const {
   play,
   stop,
   exportMidi,
-  clear
+  clear,
 } = useTabEditor();
 ```
 
@@ -311,7 +322,7 @@ const {
   play,
   pause,
   startRecording,
-  stopRecording
+  stopRecording,
 } = useMelodyMixer();
 ```
 
@@ -320,6 +331,7 @@ const {
 ## Навигация
 
 Доступ к Creative Tools:
+
 - URL: `/creative-tools`
 - Homepage: Quick Action "Creative Tools"
 - Navigation Menu: Music → Creative Tools
@@ -329,11 +341,13 @@ const {
 ## Технические требования
 
 ### Браузер
+
 - Chrome 80+ / Firefox 75+ / Safari 14+
 - Web Audio API support
 - getUserMedia support (для микрофона)
 
 ### Зависимости
+
 - `tone` — синтез и MIDI
 - `@tonejs/midi` — MIDI parsing
 - Web Audio API — анализ аудио
@@ -342,22 +356,24 @@ const {
 
 ## Производительность
 
-| Метрика | Цель | Текущее |
-|---------|------|---------|
-| Chord Detection Latency | <100ms | ~50ms |
-| Tab Editor Response | <50ms | ~30ms |
-| Melody Preview Latency | <200ms | ~100ms |
+| Метрика                 | Цель   | Текущее |
+| ----------------------- | ------ | ------- |
+| Chord Detection Latency | <100ms | ~50ms   |
+| Tab Editor Response     | <50ms  | ~30ms   |
+| Melody Preview Latency  | <200ms | ~100ms  |
 
 ---
 
 ## Roadmap
 
 ### v1.1
+
 - [ ] Экспорт chord progression в генерацию
 - [ ] AI-assisted tab completion
 - [ ] MIDI controller support для Melody Mixer
 
 ### v1.2
+
 - [ ] Multi-track tab editor
 - [ ] Chord voicing suggestions
 - [ ] Style presets marketplace

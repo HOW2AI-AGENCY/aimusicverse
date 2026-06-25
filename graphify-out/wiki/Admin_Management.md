@@ -29,7 +29,7 @@
 - [supabaseUser1](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L19) (1 connections)
 - [supabaseUser2](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L20) (1 connections)
 - [testProductId](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L25) (1 connections)
-- *... and 8 more nodes in this community*
+- _... and 8 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

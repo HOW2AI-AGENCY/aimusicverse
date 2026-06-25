@@ -6,8 +6,8 @@
  * @module hooks/public-content/useGenrePlaylists
  */
 
-import type { PublicTrackWithCreator, GenrePlaylist } from './types';
-import { GENRE_PLAYLISTS } from './constants';
+import type { PublicTrackWithCreator, GenrePlaylist } from "./types";
+import { GENRE_PLAYLISTS } from "./constants";
 
 /**
  * Generates auto-playlists from pre-fetched public content
@@ -40,20 +40,22 @@ import { GENRE_PLAYLISTS } from './constants';
  */
 export function getGenrePlaylists(tracks: PublicTrackWithCreator[]): GenrePlaylist[] {
   return GENRE_PLAYLISTS.map(({ genre, title, description, keywords }) => {
-    const genreTracks = tracks.filter(track => {
-      // Priority 1: computed_genre (most reliable)
-      const computedGenre = (track.computed_genre || '').toLowerCase();
-      if (keywords.some(keyword => computedGenre.includes(keyword))) {
-        return true;
-      }
+    const genreTracks = tracks
+      .filter((track) => {
+        // Priority 1: computed_genre (most reliable)
+        const computedGenre = (track.computed_genre || "").toLowerCase();
+        if (keywords.some((keyword) => computedGenre.includes(keyword))) {
+          return true;
+        }
 
-      // Fallback: style and tags
-      const style = (track.style || '').toLowerCase();
-      const tags = (track.tags || '').toLowerCase();
-      const searchText = `${style} ${tags}`;
+        // Fallback: style and tags
+        const style = (track.style || "").toLowerCase();
+        const tags = (track.tags || "").toLowerCase();
+        const searchText = `${style} ${tags}`;
 
-      return keywords.some(keyword => searchText.includes(keyword));
-    }).slice(0, 25);
+        return keywords.some((keyword) => searchText.includes(keyword));
+      })
+      .slice(0, 25);
 
     return {
       id: `auto-${genre}`,
@@ -62,5 +64,5 @@ export function getGenrePlaylists(tracks: PublicTrackWithCreator[]): GenrePlayli
       description,
       tracks: genreTracks,
     };
-  }).filter(p => p.tracks.length >= 2);
+  }).filter((p) => p.tracks.length >= 2);
 }

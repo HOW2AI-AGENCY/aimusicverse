@@ -3,36 +3,36 @@
  * Aggregates data from tracks, stems, generation tasks, and user activity
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface UserStudioStats {
   // Track stats
   totalTracks: number;
   tracksThisWeek: number;
   tracksThisMonth: number;
-  
+
   // Stem stats
   totalStems: number;
   stemsThisWeek: number;
-  
+
   // Generation stats
   totalGenerations: number;
   successfulGenerations: number;
   generationSuccessRate: number;
-  
+
   // MIDI stats
   totalMidiFiles: number;
-  
+
   // Time stats
   totalStudioTime: number; // in minutes
   studioTimeThisWeek: number;
-  
+
   // Activity stats
   lastActiveAt: string | null;
   streakDays: number;
-  
+
   // Productivity metrics
   productivityScore: number;
   weeklyChange: {
@@ -68,7 +68,7 @@ export function useUserStudioStats() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['user-studio-stats', user?.id],
+    queryKey: ["user-studio-stats", user?.id],
     queryFn: async (): Promise<UserStudioStats> => {
       if (!user?.id) return defaultStats;
 
@@ -92,111 +92,98 @@ export function useUserStudioStats() {
         userCreditsResult,
       ] = await Promise.all([
         // Total tracks
-        supabase
-          .from('tracks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id),
-        
+        supabase.from("tracks").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+
         // Tracks this week
         supabase
-          .from('tracks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .gte('created_at', weekAgo.toISOString()),
-        
+          .from("tracks")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id)
+          .gte("created_at", weekAgo.toISOString()),
+
         // Tracks this month
         supabase
-          .from('tracks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .gte('created_at', monthAgo.toISOString()),
-        
+          .from("tracks")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id)
+          .gte("created_at", monthAgo.toISOString()),
+
         // Tracks previous week (for comparison)
         supabase
-          .from('tracks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .gte('created_at', twoWeeksAgo.toISOString())
-          .lt('created_at', weekAgo.toISOString()),
-        
+          .from("tracks")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id)
+          .gte("created_at", twoWeeksAgo.toISOString())
+          .lt("created_at", weekAgo.toISOString()),
+
         // Total stems
         supabase
-          .from('track_stems')
-          .select('id, tracks!inner(user_id)', { count: 'exact', head: true })
-          .eq('tracks.user_id' as any, user.id),
-        
+          .from("track_stems")
+          .select("id, tracks!inner(user_id)", { count: "exact", head: true })
+          .eq("tracks.user_id" as any, user.id),
+
         // Stems this week
         supabase
-          .from('track_stems')
-          .select('id, tracks!inner(user_id)', { count: 'exact', head: true })
-          .eq('tracks.user_id' as any, user.id)
-          .gte('created_at', weekAgo.toISOString()),
-        
+          .from("track_stems")
+          .select("id, tracks!inner(user_id)", { count: "exact", head: true })
+          .eq("tracks.user_id" as any, user.id)
+          .gte("created_at", weekAgo.toISOString()),
+
         // Stems previous week
         supabase
-          .from('track_stems')
-          .select('id, tracks!inner(user_id)', { count: 'exact', head: true })
-          .eq('tracks.user_id' as any, user.id)
-          .gte('created_at', twoWeeksAgo.toISOString())
-          .lt('created_at', weekAgo.toISOString()),
-        
+          .from("track_stems")
+          .select("id, tracks!inner(user_id)", { count: "exact", head: true })
+          .eq("tracks.user_id" as any, user.id)
+          .gte("created_at", twoWeeksAgo.toISOString())
+          .lt("created_at", weekAgo.toISOString()),
+
         // Total generations
-        supabase
-          .from('generation_tasks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id),
-        
+        supabase.from("generation_tasks").select("id", { count: "exact", head: true }).eq("user_id", user.id),
+
         // Successful generations
         supabase
-          .from('generation_tasks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .eq('status', 'completed'),
-        
+          .from("generation_tasks")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id)
+          .eq("status", "completed"),
+
         // MIDI files (from guitar_recordings table)
         supabase
-          .from('guitar_recordings')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id)
-          .not('midi_url', 'is', null),
-        
+          .from("guitar_recordings")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id)
+          .not("midi_url", "is", null),
+
         // User credits for streak info
-        supabase
-          .from('user_credits')
-          .select('current_streak, updated_at')
-          .eq('user_id', user.id)
-          .single(),
+        supabase.from("user_credits").select("current_streak, updated_at").eq("user_id", user.id).single(),
       ]);
 
       const totalTracks = tracksResult.count || 0;
       const tracksThisWeek = tracksWeekResult.count || 0;
       const tracksThisMonth = tracksMonthResult.count || 0;
       const tracksPrevWeek = tracksPrevWeekResult.count || 0;
-      
+
       const totalStems = stemsResult.count || 0;
       const stemsThisWeek = stemsWeekResult.count || 0;
       const stemsPrevWeek = stemsPrevWeekResult.count || 0;
-      
+
       const totalGenerations = generationsResult.count || 0;
       const successfulGenerations = successfulGenerationsResult.count || 0;
-      
+
       const totalMidiFiles = midiResult.count || 0;
-      
+
       const streakDays = userCreditsResult.data?.current_streak || 0;
       const lastActiveAt = userCreditsResult.data?.updated_at || null;
 
       // Calculate success rate
-      const generationSuccessRate = totalGenerations > 0 
-        ? Math.round((successfulGenerations / totalGenerations) * 100) 
-        : 0;
+      const generationSuccessRate =
+        totalGenerations > 0 ? Math.round((successfulGenerations / totalGenerations) * 100) : 0;
 
       // Calculate productivity score (0-100)
-      const productivityScore = Math.min(100, Math.round(
-        (tracksThisWeek * 10) + 
-        (stemsThisWeek * 2) + 
-        (streakDays * 5) + 
-        (generationSuccessRate * 0.3)
-      ));
+      const productivityScore = Math.min(
+        100,
+        Math.round(tracksThisWeek * 10 + stemsThisWeek * 2 + streakDays * 5 + generationSuccessRate * 0.3),
+      );
 
       // Calculate weekly changes
       const weeklyChange = {
@@ -206,8 +193,8 @@ export function useUserStudioStats() {
       };
 
       // Estimate studio time based on tracks and stems
-      const totalStudioTime = (totalTracks * 5) + (totalStems * 2) + (totalMidiFiles * 3);
-      const studioTimeThisWeek = (tracksThisWeek * 5) + (stemsThisWeek * 2);
+      const totalStudioTime = totalTracks * 5 + totalStems * 2 + totalMidiFiles * 3;
+      const studioTimeThisWeek = tracksThisWeek * 5 + stemsThisWeek * 2;
 
       return {
         totalTracks,
@@ -251,12 +238,12 @@ export function formatStudioTime(minutes: number): string {
 /**
  * Get change indicator for stats
  */
-export function getChangeIndicator(change: number): { sign: string; color: string; trend: 'up' | 'down' | 'neutral' } {
+export function getChangeIndicator(change: number): { sign: string; color: string; trend: "up" | "down" | "neutral" } {
   if (change > 0) {
-    return { sign: `+${change}`, color: 'text-green-400', trend: 'up' };
+    return { sign: `+${change}`, color: "text-green-400", trend: "up" };
   }
   if (change < 0) {
-    return { sign: `${change}`, color: 'text-red-400', trend: 'down' };
+    return { sign: `${change}`, color: "text-red-400", trend: "down" };
   }
-  return { sign: '0', color: 'text-muted-foreground', trend: 'neutral' };
+  return { sign: "0", color: "text-muted-foreground", trend: "neutral" };
 }

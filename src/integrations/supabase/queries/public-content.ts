@@ -1,21 +1,21 @@
 /**
  * Public Content Query Functions
- * 
+ *
  * Supabase queries for fetching public tracks, projects, and artists
  * Used by usePublicContent hook
  */
 
-import { supabase } from '../client';
-import type { Database } from '../types';
+import { supabase } from "../client";
+import type { Database } from "../types";
 
-type PublicTrack = Database['public']['Tables']['tracks']['Row'];
-type PublicProject = Database['public']['Tables']['music_projects']['Row'];
-type PublicArtist = Database['public']['Tables']['artists']['Row'];
+type PublicTrack = Database["public"]["Tables"]["tracks"]["Row"];
+type PublicProject = Database["public"]["Tables"]["music_projects"]["Row"];
+type PublicArtist = Database["public"]["Tables"]["artists"]["Row"];
 
 interface QueryFilters {
   genre?: string;
   mood?: string;
-  sortBy?: 'recent' | 'popular' | 'trending';
+  sortBy?: "recent" | "popular" | "trending";
   limit?: number;
   offset?: number;
 }
@@ -25,42 +25,44 @@ interface QueryFilters {
  * Optimized with idx_tracks_status_public index
  */
 export async function fetchPublicTracks(filters: QueryFilters = {}) {
-  const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
+  const { sortBy = "recent", limit = 20, offset = 0 } = filters;
 
   // Uses idx_tracks_status_public partial index for is_public + status filter
   let query = supabase
-    .from('tracks')
-    .select(`
+    .from("tracks")
+    .select(
+      `
       *,
       active_version:track_versions!active_version_id(audio_url, cover_url)
-    `)
-    .eq('is_public', true)
-    .eq('status', 'completed')
-    .not('audio_url', 'is', null);
+    `,
+    )
+    .eq("is_public", true)
+    .eq("status", "completed")
+    .not("audio_url", "is", null);
 
   // Apply filters
   if (filters.genre) {
     // Uses idx_tracks_computed_genre index
-    query = query.eq('computed_genre', filters.genre);
+    query = query.eq("computed_genre", filters.genre);
   }
 
   if (filters.mood) {
-    query = query.eq('computed_mood', filters.mood);
+    query = query.eq("computed_mood", filters.mood);
   }
 
   // Apply sorting using computed scores from database
   switch (sortBy) {
-    case 'recent':
+    case "recent":
       // Uses idx_tracks_user_created for ordering
-      query = query.order('created_at', { ascending: false });
+      query = query.order("created_at", { ascending: false });
       break;
-    case 'popular':
+    case "popular":
       // Order by quality_score (likes * 1.5 + plays * 0.05)
-      query = query.order('quality_score', { ascending: false, nullsFirst: false });
+      query = query.order("quality_score", { ascending: false, nullsFirst: false });
       break;
-    case 'trending':
+    case "trending":
       // Order by trending_score (likes * 2 + plays * 0.1 + recency boost)
-      query = query.order('trending_score', { ascending: false, nullsFirst: false });
+      query = query.order("trending_score", { ascending: false, nullsFirst: false });
       break;
   }
 
@@ -70,9 +72,9 @@ export async function fetchPublicTracks(filters: QueryFilters = {}) {
   const { data, error } = await query;
 
   if (error) throw error;
-  
+
   // Resolve audio URLs from active versions
-  return (data || []).map(track => {
+  return (data || []).map((track) => {
     const activeVersion = track.active_version as { audio_url?: string; cover_url?: string } | null;
     return {
       ...track,
@@ -87,29 +89,26 @@ export async function fetchPublicTracks(filters: QueryFilters = {}) {
  * Fetch public projects with filters
  */
 export async function fetchPublicProjects(filters: QueryFilters = {}) {
-  const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
+  const { sortBy = "recent", limit = 20, offset = 0 } = filters;
 
-  let query = supabase
-    .from('music_projects')
-    .select('*')
-    .eq('is_public', true);
+  let query = supabase.from("music_projects").select("*").eq("is_public", true);
 
   // Apply sorting - use approved_tracks_count as popularity proxy
   switch (sortBy) {
-    case 'recent':
-      query = query.order('created_at', { ascending: false });
+    case "recent":
+      query = query.order("created_at", { ascending: false });
       break;
-    case 'popular':
+    case "popular":
       // Order by number of approved tracks (more complete projects = more popular)
       query = query
-        .order('approved_tracks_count', { ascending: false, nullsFirst: false })
-        .order('created_at', { ascending: false });
+        .order("approved_tracks_count", { ascending: false, nullsFirst: false })
+        .order("created_at", { ascending: false });
       break;
-    case 'trending':
+    case "trending":
       // For trending: recently updated projects with tracks
       query = query
-        .order('updated_at', { ascending: false })
-        .order('approved_tracks_count', { ascending: false, nullsFirst: false });
+        .order("updated_at", { ascending: false })
+        .order("approved_tracks_count", { ascending: false, nullsFirst: false });
       break;
   }
 
@@ -127,38 +126,35 @@ export async function fetchPublicProjects(filters: QueryFilters = {}) {
  * Note: Artists table doesn't have popularity metrics yet, using updated_at as proxy
  */
 export async function fetchPublicArtists(filters: QueryFilters = {}) {
-  const { sortBy = 'recent', limit = 20, offset = 0 } = filters;
+  const { sortBy = "recent", limit = 20, offset = 0 } = filters;
 
-  let query = supabase
-    .from('artists')
-    .select('*')
-    .eq('is_public', true);
+  let query = supabase.from("artists").select("*").eq("is_public", true);
 
   // Apply genre filtering
   if (filters.genre) {
-    query = query.contains('genre_tags', [filters.genre]);
+    query = query.contains("genre_tags", [filters.genre]);
   }
 
   // Apply mood filtering
   if (filters.mood) {
-    query = query.contains('mood_tags', [filters.mood]);
+    query = query.contains("mood_tags", [filters.mood]);
   }
 
   // Apply sorting
   // TODO: Add popularity_score to artists table for proper sorting
   switch (sortBy) {
-    case 'recent':
-      query = query.order('created_at', { ascending: false });
+    case "recent":
+      query = query.order("created_at", { ascending: false });
       break;
-    case 'popular':
+    case "popular":
       // Order by AI generated status (AI artists tend to be more complete) then by date
       query = query
-        .order('is_ai_generated', { ascending: false, nullsFirst: false })
-        .order('updated_at', { ascending: false });
+        .order("is_ai_generated", { ascending: false, nullsFirst: false })
+        .order("updated_at", { ascending: false });
       break;
-    case 'trending':
+    case "trending":
       // Recently updated artists are "trending"
-      query = query.order('updated_at', { ascending: false });
+      query = query.order("updated_at", { ascending: false });
       break;
   }
 
@@ -178,31 +174,33 @@ export async function fetchPublicArtists(filters: QueryFilters = {}) {
 export async function fetchFeaturedContent() {
   // Fetch featured tracks with active version for resolved audio
   const { data: tracks, error: tracksError } = await supabase
-    .from('tracks')
-    .select(`
+    .from("tracks")
+    .select(
+      `
       *,
       active_version:track_versions!active_version_id(audio_url, cover_url)
-    `)
-    .eq('is_public', true)
-    .eq('status', 'completed')
-    .not('audio_url', 'is', null)
-    .order('created_at', { ascending: false })
+    `,
+    )
+    .eq("is_public", true)
+    .eq("status", "completed")
+    .not("audio_url", "is", null)
+    .order("created_at", { ascending: false })
     .limit(10);
 
   if (tracksError) throw tracksError;
 
   // Fetch featured projects - uses idx_music_projects_user_status index
   const { data: projects, error: projectsError } = await supabase
-    .from('music_projects')
-    .select('*')
-    .eq('is_public', true)
-    .order('created_at', { ascending: false })
+    .from("music_projects")
+    .select("*")
+    .eq("is_public", true)
+    .order("created_at", { ascending: false })
     .limit(5);
 
   if (projectsError) throw projectsError;
 
   // Resolve audio URLs from active versions
-  const resolvedTracks = (tracks || []).map(track => {
+  const resolvedTracks = (tracks || []).map((track) => {
     const activeVersion = track.active_version as { audio_url?: string; cover_url?: string } | null;
     return {
       ...track,
@@ -230,10 +228,10 @@ export async function searchPublicContent(searchQuery: string) {
 
   // Search tracks
   const { data: tracks, error: tracksError } = await supabase
-    .from('tracks')
-    .select('*')
-    .eq('is_public', true)
-    .eq('status', 'completed')
+    .from("tracks")
+    .select("*")
+    .eq("is_public", true)
+    .eq("status", "completed")
     .or(`title.ilike.${query},metadata->>style.ilike.${query}`)
     .limit(20);
 
@@ -241,9 +239,9 @@ export async function searchPublicContent(searchQuery: string) {
 
   // Search projects
   const { data: projects, error: projectsError } = await supabase
-    .from('music_projects')
-    .select('*')
-    .eq('is_public', true)
+    .from("music_projects")
+    .select("*")
+    .eq("is_public", true)
     .or(`name.ilike.${query},description.ilike.${query}`)
     .limit(10);
 
@@ -251,9 +249,9 @@ export async function searchPublicContent(searchQuery: string) {
 
   // Search artists
   const { data: artists, error: artistsError } = await supabase
-    .from('artists')
-    .select('*')
-    .eq('is_public', true)
+    .from("artists")
+    .select("*")
+    .eq("is_public", true)
     .or(`name.ilike.${query},bio.ilike.${query}`)
     .limit(10);
 
@@ -270,12 +268,7 @@ export async function searchPublicContent(searchQuery: string) {
  * Fetch single public track by ID
  */
 export async function fetchPublicTrack(trackId: string) {
-  const { data, error } = await supabase
-    .from('tracks')
-    .select('*')
-    .eq('id', trackId)
-    .eq('is_public', true)
-    .single();
+  const { data, error } = await supabase.from("tracks").select("*").eq("id", trackId).eq("is_public", true).single();
 
   if (error) throw error;
   return data as PublicTrack;
@@ -286,10 +279,10 @@ export async function fetchPublicTrack(trackId: string) {
  */
 export async function fetchPublicProject(projectId: string) {
   const { data, error } = await supabase
-    .from('music_projects')
-    .select('*')
-    .eq('id', projectId)
-    .eq('is_public', true)
+    .from("music_projects")
+    .select("*")
+    .eq("id", projectId)
+    .eq("is_public", true)
     .single();
 
   if (error) throw error;
@@ -300,12 +293,7 @@ export async function fetchPublicProject(projectId: string) {
  * Fetch single public artist by ID
  */
 export async function fetchPublicArtist(artistId: string) {
-  const { data, error } = await supabase
-    .from('artists')
-    .select('*')
-    .eq('id', artistId)
-    .eq('is_public', true)
-    .single();
+  const { data, error } = await supabase.from("artists").select("*").eq("id", artistId).eq("is_public", true).single();
 
   if (error) throw error;
   return data as PublicArtist;

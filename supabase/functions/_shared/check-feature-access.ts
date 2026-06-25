@@ -1,22 +1,22 @@
 /**
  * Server-side Feature Access Validation
- * 
+ *
  * Validates user access to features in Edge Functions
  * Checks subscription status and tier requirements
  */
 
-import { SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { createLogger } from './logger.ts';
+import { SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createLogger } from "./logger.ts";
 
-const logger = createLogger('check-feature-access');
+const logger = createLogger("check-feature-access");
 
 // Tier hierarchy for comparison
 const TIER_HIERARCHY: Record<string, number> = {
-  'free': 0,
-  'basic': 1,
-  'pro': 2,
-  'premium': 3,
-  'enterprise': 4,
+  free: 0,
+  basic: 1,
+  pro: 2,
+  premium: 3,
+  enterprise: 4,
 };
 
 interface FeatureAccessResult {
@@ -38,46 +38,40 @@ interface SubscriptionStatus {
 /**
  * Get user's subscription status from database
  */
-export async function getSubscriptionStatus(
-  supabase: SupabaseClient,
-  userId: string
-): Promise<SubscriptionStatus> {
+export async function getSubscriptionStatus(supabase: SupabaseClient, userId: string): Promise<SubscriptionStatus> {
   try {
     const { data, error } = await supabase
-      .from('profiles')
-      .select('subscription_tier, subscription_expires_at')
-      .eq('user_id', userId)
+      .from("profiles")
+      .select("subscription_tier, subscription_expires_at")
+      .eq("user_id", userId)
       .single();
 
     if (error || !data) {
-      logger.warn('Failed to get subscription status', { userId, error });
-      return { tier: 'free', isActive: false, expiresAt: null };
+      logger.warn("Failed to get subscription status", { userId, error });
+      return { tier: "free", isActive: false, expiresAt: null };
     }
 
     const expiresAt = data.subscription_expires_at;
     const isActive = expiresAt ? new Date(expiresAt) > new Date() : false;
-    const tier = data.subscription_tier || 'free';
+    const tier = data.subscription_tier || "free";
 
     return { tier, isActive, expiresAt };
   } catch (err) {
-    logger.error('Subscription status error', { userId, error: err });
-    return { tier: 'free', isActive: false, expiresAt: null };
+    logger.error("Subscription status error", { userId, error: err });
+    return { tier: "free", isActive: false, expiresAt: null };
   }
 }
 
 /**
  * Check if user is admin via user_roles table
  */
-export async function checkIsAdmin(
-  supabase: SupabaseClient,
-  userId: string
-): Promise<boolean> {
+export async function checkIsAdmin(supabase: SupabaseClient, userId: string): Promise<boolean> {
   try {
     const { data, error } = await supabase
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', userId)
-      .eq('role', 'admin')
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
       .maybeSingle();
 
     return !!data && !error;
@@ -91,13 +85,13 @@ export async function checkIsAdmin(
  */
 async function getFeaturePermission(
   supabase: SupabaseClient,
-  featureKey: string
+  featureKey: string,
 ): Promise<{ min_tier: string; is_admin_only: boolean; credits_per_use: number } | null> {
   try {
     const { data, error } = await supabase
-      .from('feature_permissions')
-      .select('min_tier, is_admin_only, credits_per_use')
-      .eq('feature_key', featureKey)
+      .from("feature_permissions")
+      .select("min_tier, is_admin_only, credits_per_use")
+      .eq("feature_key", featureKey)
       .single();
 
     if (error || !data) return null;
@@ -109,14 +103,14 @@ async function getFeaturePermission(
 
 /**
  * Validate user access to a specific feature (server-side)
- * 
+ *
  * CRITICAL: This function checks if subscription is ACTIVE before granting access.
  * Expired subscriptions are treated as 'free' tier.
  */
 export async function validateFeatureAccess(
   supabase: SupabaseClient,
   userId: string,
-  featureKey: string
+  featureKey: string,
 ): Promise<FeatureAccessResult> {
   try {
     // Check admin status first
@@ -124,7 +118,7 @@ export async function validateFeatureAccess(
     if (isAdmin) {
       return {
         hasAccess: true,
-        effectiveTier: 'admin',
+        effectiveTier: "admin",
         requiredTier: null,
         subscriptionExpired: false,
         isAdmin: true,
@@ -136,8 +130,8 @@ export async function validateFeatureAccess(
     const { tier, isActive, expiresAt } = await getSubscriptionStatus(supabase, userId);
 
     // CRITICAL: If subscription is not active, treat as 'free' tier
-    const subscriptionExpired = !isActive && tier !== 'free';
-    const effectiveTier = subscriptionExpired ? 'free' : tier;
+    const subscriptionExpired = !isActive && tier !== "free";
+    const effectiveTier = subscriptionExpired ? "free" : tier;
 
     // Get feature permission
     const permission = await getFeaturePermission(supabase, featureKey);
@@ -159,7 +153,7 @@ export async function validateFeatureAccess(
       return {
         hasAccess: false,
         effectiveTier,
-        requiredTier: 'admin',
+        requiredTier: "admin",
         subscriptionExpired,
         isAdmin: false,
         creditsPerUse: permission.credits_per_use,
@@ -171,7 +165,7 @@ export async function validateFeatureAccess(
     const requiredTierLevel = TIER_HIERARCHY[permission.min_tier] ?? 0;
     const hasAccess = userTierLevel >= requiredTierLevel;
 
-    logger.info('Feature access check', {
+    logger.info("Feature access check", {
       userId,
       featureKey,
       tier,
@@ -191,10 +185,10 @@ export async function validateFeatureAccess(
       creditsPerUse: permission.credits_per_use,
     };
   } catch (error: any) {
-    logger.error('Feature access validation error', { userId, featureKey, error: error.message });
+    logger.error("Feature access validation error", { userId, featureKey, error: error.message });
     return {
       hasAccess: false,
-      effectiveTier: 'free',
+      effectiveTier: "free",
       requiredTier: null,
       subscriptionExpired: false,
       isAdmin: false,
@@ -212,28 +206,28 @@ export async function requireFeatureAccess(
   supabase: SupabaseClient,
   userId: string,
   featureKey: string,
-  corsHeaders: Record<string, string> = {}
+  corsHeaders: Record<string, string> = {},
 ): Promise<Response | null> {
   const result = await validateFeatureAccess(supabase, userId, featureKey);
 
   if (!result.hasAccess) {
     const message = result.subscriptionExpired
-      ? 'Subscription expired. Please renew to access this feature.'
-      : result.requiredTier === 'admin'
-        ? 'This feature is admin-only.'
+      ? "Subscription expired. Please renew to access this feature."
+      : result.requiredTier === "admin"
+        ? "This feature is admin-only."
         : `This feature requires ${result.requiredTier} subscription.`;
 
     return new Response(
       JSON.stringify({
-        error: 'Access denied',
+        error: "Access denied",
         message,
         requiredTier: result.requiredTier,
         subscriptionExpired: result.subscriptionExpired,
       }),
       {
         status: 403,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
   }
 

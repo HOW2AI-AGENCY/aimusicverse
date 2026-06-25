@@ -1,20 +1,20 @@
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Play, Square, Loader2, Sparkles, Volume2, VolumeX, Download, Music, Trash2, Drum } from 'lucide-react';
-import { usePromptDJ, type PromptChannel, type GlobalSettings } from '@/hooks/usePromptDJ';
-import { ChannelCard } from './ChannelCard';
-import { StyleCrossfader } from './StyleCrossfader';
-import { ControlPanel } from './ControlPanel';
-import { LiveVisualizer } from './LiveVisualizer';
-import { VoiceInput } from './VoiceInput';
-import { QuickPresets } from './QuickPresets';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
-import { ReferenceManager } from '@/services/audio-reference';
-import { useCallback, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Play, Square, Loader2, Sparkles, Volume2, VolumeX, Download, Music, Trash2, Drum } from "lucide-react";
+import { usePromptDJ, type PromptChannel, type GlobalSettings } from "@/hooks/usePromptDJ";
+import { ChannelCard } from "./ChannelCard";
+import { StyleCrossfader } from "./StyleCrossfader";
+import { ControlPanel } from "./ControlPanel";
+import { LiveVisualizer } from "./LiveVisualizer";
+import { VoiceInput } from "./VoiceInput";
+import { QuickPresets } from "./QuickPresets";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { ReferenceManager } from "@/services/audio-reference";
+import { useCallback, useEffect } from "react";
 
 export function PromptDJMidi() {
   const navigate = useNavigate();
@@ -40,77 +40,83 @@ export function PromptDJMidi() {
     removeTrack,
   } = usePromptDJ();
 
-  const handleUseAsReference = (track: typeof generatedTracks[0]) => {
-    ReferenceManager.createFromCreativeTool('dj', track.audioUrl, {
+  const handleUseAsReference = (track: (typeof generatedTracks)[0]) => {
+    ReferenceManager.createFromCreativeTool("dj", track.audioUrl, {
       prompt: track.prompt,
     });
-    toast.success('Трек добавлен как референс');
-    navigate('/');
+    toast.success("Трек добавлен как референс");
+    navigate("/");
   };
 
-  const handleDownload = async (track: typeof generatedTracks[0]) => {
+  const handleDownload = async (track: (typeof generatedTracks)[0]) => {
     try {
       const response = await fetch(track.audioUrl);
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
       a.download = `promptdj-${track.createdAt.getTime()}.wav`;
       a.click();
       URL.revokeObjectURL(url);
-      toast.success('Трек скачан');
+      toast.success("Трек скачан");
     } catch (error) {
-      toast.error('Ошибка скачивания');
+      toast.error("Ошибка скачивания");
     }
   };
 
   // Handle voice input - update the custom channel
-  const handleVoiceTranscript = useCallback((text: string) => {
-    updateChannel('custom', { 
-      value: text, 
-      enabled: true,
-      weight: 1.2 
-    });
-    toast.success('Голос распознан', { description: text });
-  }, [updateChannel]);
+  const handleVoiceTranscript = useCallback(
+    (text: string) => {
+      updateChannel("custom", {
+        value: text,
+        enabled: true,
+        weight: 1.2,
+      });
+      toast.success("Голос распознан", { description: text });
+    },
+    [updateChannel],
+  );
 
   // Handle quick presets
-  const handleApplyPreset = useCallback((
-    channelUpdates: Array<{ id: string; updates: Partial<PromptChannel> }>,
-    settingsUpdates?: Partial<GlobalSettings>
-  ) => {
-    channelUpdates.forEach(({ id, updates }) => {
-      updateChannel(id, updates);
-    });
-    if (settingsUpdates) {
-      updateGlobalSettings(settingsUpdates);
-    }
-    toast.success('Пресет применён');
-  }, [updateChannel, updateGlobalSettings]);
+  const handleApplyPreset = useCallback(
+    (
+      channelUpdates: Array<{ id: string; updates: Partial<PromptChannel> }>,
+      settingsUpdates?: Partial<GlobalSettings>,
+    ) => {
+      channelUpdates.forEach(({ id, updates }) => {
+        updateChannel(id, updates);
+      });
+      if (settingsUpdates) {
+        updateGlobalSettings(settingsUpdates);
+      }
+      toast.success("Пресет применён");
+    },
+    [updateChannel, updateGlobalSettings],
+  );
 
   // Check for drum pattern from DrumMachine
   useEffect(() => {
-    const drumData = sessionStorage.getItem('drumPatternForDJ');
+    const drumData = sessionStorage.getItem("drumPatternForDJ");
     if (drumData) {
       try {
         const { description, bpm, kitName } = JSON.parse(drumData);
         // Update custom channel with drum pattern description
-        updateChannel('custom', {
+        updateChannel("custom", {
           value: description,
           enabled: true,
-          weight: 1.0
+          weight: 1.0,
         });
         // Update BPM to match drum pattern
         if (bpm) {
           updateGlobalSettings({ bpm });
         }
-        toast.success('Паттерн из драм-машины загружен', {
+        toast.success("Паттерн из драм-машины загружен", {
           description: `${kitName}, ${bpm} BPM`,
-          icon: <Drum className="h-4 w-4" />
+          icon: <Drum className="h-4 w-4" />,
         });
-        sessionStorage.removeItem('drumPatternForDJ');
+        sessionStorage.removeItem("drumPatternForDJ");
       } catch (e) {
-        logger.warn('Failed to parse drum pattern from sessionStorage', { error: e });
+        logger.warn("Failed to parse drum pattern from sessionStorage", { error: e });
       }
     }
   }, [updateChannel, updateGlobalSettings]);
@@ -126,32 +132,20 @@ export function PromptDJMidi() {
               PromptDJ MIDI
             </CardTitle>
             {/* Voice input button */}
-            <VoiceInput 
-              onTranscript={handleVoiceTranscript}
-              disabled={isGenerating}
-            />
+            <VoiceInput onTranscript={handleVoiceTranscript} disabled={isGenerating} />
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Quick presets */}
-          <QuickPresets 
-            onApply={handleApplyPreset}
-            disabled={isGenerating}
-          />
+          <QuickPresets onApply={handleApplyPreset} disabled={isGenerating} />
 
           {/* Visualizer */}
-          <LiveVisualizer
-            analyzerNode={analyzerNode}
-            isActive={isPlaying || isPreviewPlaying}
-            className="h-20"
-          />
-          
+          <LiveVisualizer analyzerNode={analyzerNode} isActive={isPlaying || isPreviewPlaying} className="h-20" />
+
           {/* Current prompt preview */}
           <div className="p-3 rounded-lg bg-muted/30 border border-border/50">
             <p className="text-xs text-muted-foreground mb-1">Текущий промпт:</p>
-            <p className="text-sm font-medium line-clamp-2">
-              {currentPrompt || 'Настройте каналы микшера...'}
-            </p>
+            <p className="text-sm font-medium line-clamp-2">{currentPrompt || "Настройте каналы микшера..."}</p>
           </div>
 
           {/* Transport controls */}
@@ -174,12 +168,8 @@ export function PromptDJMidi() {
                 </>
               )}
             </Button>
-            
-            <Button
-              onClick={generateMusic}
-              disabled={isGenerating || !currentPrompt}
-              className="min-w-32"
-            >
+
+            <Button onClick={generateMusic} disabled={isGenerating || !currentPrompt} className="min-w-32">
               {isGenerating ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -192,13 +182,9 @@ export function PromptDJMidi() {
                 </>
               )}
             </Button>
-            
+
             {isPlaying && (
-              <Button
-                variant="destructive"
-                size="sm"
-                onClick={stopPlayback}
-              >
+              <Button variant="destructive" size="sm" onClick={stopPlayback}>
                 <Square className="h-4 w-4 mr-2" />
                 Стоп
               </Button>
@@ -210,30 +196,19 @@ export function PromptDJMidi() {
       {/* Channels grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {channels.map((channel) => (
-          <ChannelCard
-            key={channel.id}
-            channel={channel}
-            onUpdate={(updates) => updateChannel(channel.id, updates)}
-          />
+          <ChannelCard key={channel.id} channel={channel} onUpdate={(updates) => updateChannel(channel.id, updates)} />
         ))}
       </div>
 
       {/* Crossfader */}
       <Card className="bg-card/50 backdrop-blur">
         <CardContent className="p-4">
-          <StyleCrossfader
-            position={crossfaderPosition}
-            onChange={setCrossfaderPosition}
-            disabled={isGenerating}
-          />
+          <StyleCrossfader position={crossfaderPosition} onChange={setCrossfaderPosition} disabled={isGenerating} />
         </CardContent>
       </Card>
 
       {/* Control panel */}
-      <ControlPanel
-        settings={globalSettings}
-        onUpdate={updateGlobalSettings}
-      />
+      <ControlPanel settings={globalSettings} onUpdate={updateGlobalSettings} />
 
       {/* Generated tracks history */}
       {generatedTracks.length > 0 && (
@@ -248,19 +223,15 @@ export function PromptDJMidi() {
                   <div
                     key={track.id}
                     className={cn(
-                      'p-3 rounded-lg',
-                      'bg-muted/30 hover:bg-muted/50 transition-colors',
-                      currentTrack?.id === track.id && 'ring-1 ring-primary'
+                      "p-3 rounded-lg",
+                      "bg-muted/30 hover:bg-muted/50 transition-colors",
+                      currentTrack?.id === track.id && "ring-1 ring-primary",
                     )}
                   >
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs text-muted-foreground truncate">
-                          {track.prompt}
-                        </p>
-                        <p className="text-[10px] text-muted-foreground/70">
-                          {track.createdAt.toLocaleTimeString()}
-                        </p>
+                        <p className="text-xs text-muted-foreground truncate">{track.prompt}</p>
+                        <p className="text-[10px] text-muted-foreground/70">{track.createdAt.toLocaleTimeString()}</p>
                       </div>
                       <Button
                         variant="ghost"
@@ -281,7 +252,7 @@ export function PromptDJMidi() {
                         )}
                       </Button>
                     </div>
-                    
+
                     {/* Action buttons */}
                     <div className="flex items-center gap-2">
                       <Button
@@ -293,12 +264,7 @@ export function PromptDJMidi() {
                         <Music className="h-3 w-3 mr-1" />
                         Референс
                       </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-8 text-xs"
-                        onClick={() => handleDownload(track)}
-                      >
+                      <Button variant="outline" size="sm" className="h-8 text-xs" onClick={() => handleDownload(track)}>
                         <Download className="h-3 w-3" />
                       </Button>
                       <Button

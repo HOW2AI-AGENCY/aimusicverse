@@ -1,33 +1,36 @@
 /**
  * RecentTracksSection - Shows user's recent tracks
  * Feature: 032-professional-ui
- * 
+ *
  * Uses design system glass tokens for consistent styling
  */
 
-import { useMemo, memo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Clock, Play, Music2, Disc3 } from 'lucide-react';
-import { useTracks } from '@/hooks/useTracks';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { cn } from '@/lib/utils';
-import { SectionHeader } from '@/components/common/SectionHeader';
-import { glass } from '@/lib/glass';
-import { surface } from '@/lib/overlay-colors';
+import { useMemo, memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Clock, Play, Music2, Disc3 } from "lucide-react";
+import { useTracks } from "@/hooks/useTracks";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { cn } from "@/lib/utils";
+import { SectionHeader } from "@/components/common/SectionHeader";
+import { glass } from "@/lib/glass";
+import { surface } from "@/lib/overlay-colors";
 
 interface RecentTracksSectionProps {
   className?: string;
   maxTracks?: number;
 }
 
-export const RecentTracksSection = memo(function RecentTracksSection({ className, maxTracks = 4 }: RecentTracksSectionProps) {
+export const RecentTracksSection = memo(function RecentTracksSection({
+  className,
+  maxTracks = 4,
+}: RecentTracksSectionProps) {
   const navigate = useNavigate();
-  const { tracks, isLoading } = useTracks({ sortBy: 'recent', pageSize: maxTracks });
+  const { tracks, isLoading } = useTracks({ sortBy: "recent", pageSize: maxTracks });
   const { activeTrack, isPlaying } = usePlayerStore();
 
-  const recentTracks = useMemo(() => 
-    (tracks || []).slice(0, maxTracks).filter(t => t.status === 'completed' && t.audio_url),
-    [tracks, maxTracks]
+  const recentTracks = useMemo(
+    () => (tracks || []).slice(0, maxTracks).filter((t) => t.status === "completed" && t.audio_url),
+    [tracks, maxTracks],
   );
 
   if (isLoading) {
@@ -42,9 +45,9 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
         </div>
         <div className="grid grid-cols-2 gap-3">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div 
-              key={i} 
-              className="h-[72px] bg-muted/30 rounded-xl animate-pulse" 
+            <div
+              key={i}
+              className="h-[72px] bg-muted/30 rounded-xl animate-pulse"
               style={{ animationDelay: `${i * 100}ms` }}
             />
           ))}
@@ -57,20 +60,20 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
     return null;
   }
 
-  const handlePlay = (track: typeof recentTracks[0]) => {
+  const handlePlay = (track: (typeof recentTracks)[0]) => {
     if (!track.audio_url) return;
-    
+
     const isCurrentTrack = activeTrack?.id === track.id;
-    
+
     if (isCurrentTrack) {
       usePlayerStore.setState({ isPlaying: !isPlaying });
     } else {
       usePlayerStore.setState({
         queue: recentTracks,
-        currentIndex: recentTracks.findIndex(t => t.id === track.id),
+        currentIndex: recentTracks.findIndex((t) => t.id === track.id),
         activeTrack: track,
         isPlaying: true,
-        playerMode: 'compact',
+        playerMode: "compact",
       });
     }
   };
@@ -92,7 +95,7 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
         {recentTracks.map((track) => {
           const isCurrentTrack = activeTrack?.id === track.id;
           const isTrackPlaying = isCurrentTrack && isPlaying;
-          
+
           return (
             <button
               key={track.id}
@@ -101,7 +104,7 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
                 "group flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-200",
                 glass.subtle,
                 "hover:border-primary/40 hover:scale-[1.01]",
-                isCurrentTrack && "border-primary/50 bg-primary/5 ring-1 ring-primary/20"
+                isCurrentTrack && "border-primary/50 bg-primary/5 ring-1 ring-primary/20",
               )}
             >
               {/* Cover */}
@@ -109,7 +112,7 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
                 {track.cover_url ? (
                   <img
                     src={track.cover_url}
-                    alt={track.title || 'Track'}
+                    alt={track.title || "Track"}
                     className="w-full h-full object-cover"
                     loading="lazy"
                   />
@@ -118,15 +121,17 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
                     <Music2 className="w-5 h-5 text-muted-foreground" />
                   </div>
                 )}
-                
+
                 {/* Play overlay */}
-                <div className={cn(
-                  "absolute inset-0 flex items-center justify-center transition-opacity",
-                  surface.imageDark,
-                  isCurrentTrack ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                )}>
+                <div
+                  className={cn(
+                    "absolute inset-0 flex items-center justify-center transition-opacity",
+                    surface.imageDark,
+                    isCurrentTrack ? "opacity-100" : "opacity-0 group-hover:opacity-100",
+                  )}
+                >
                   {isTrackPlaying ? (
-                    <Disc3 className="w-5 h-5 text-white animate-spin" style={{ animationDuration: '2s' }} />
+                    <Disc3 className="w-5 h-5 text-white animate-spin" style={{ animationDuration: "2s" }} />
                   ) : (
                     <Play className="w-4 h-4 text-white fill-white" />
                   )}
@@ -135,14 +140,11 @@ export const RecentTracksSection = memo(function RecentTracksSection({ className
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className={cn(
-                  "text-sm font-medium truncate",
-                  isCurrentTrack && "text-primary"
-                )}>
-                  {track.title || 'Без названия'}
+                <p className={cn("text-sm font-medium truncate", isCurrentTrack && "text-primary")}>
+                  {track.title || "Без названия"}
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
-                  {track.style?.slice(0, 20) || track.computed_genre || 'AI'}
+                  {track.style?.slice(0, 20) || track.computed_genre || "AI"}
                 </p>
               </div>
             </button>

@@ -1,14 +1,15 @@
 # MusicVerse AI Constitution
 
-<!--
-================================================================================
-SYNC IMPACT REPORT - Constitution Update
-================================================================================
+# <!--
+
+# SYNC IMPACT REPORT - Constitution Update
+
 Version Change: 2.0.0 → 3.0.0
 Rationale: MAJOR - Added Telegram Bot integration principles, mobile UX audit findings,
-  and post-generation flow requirements based on comprehensive UX/UI audit.
+and post-generation flow requirements based on comprehensive UX/UI audit.
 
 Modified Principles:
+
 - I. Mobile-First Development → Enhanced with Telegram Bot deep links, BotContextBanner
 - IV. Component Architecture → Added component size limits (500 lines max)
 - V. State Management → Added store size limits (500 lines max)
@@ -16,11 +17,13 @@ Modified Principles:
 - VIII. Unified Component Architecture → Added version unification rules, shared/ folder
 
 Added Sections:
+
 - XI. Telegram Bot Integration (NEW) - Bot commands, deep links, context banners
 - XII. Post-Generation Flow (NEW) - GenerationResultSheet, immediate A/B access
 - XIII. Component Unification Rules (NEW) - Single source of truth for versions
 
 Removed Sections:
+
 - None (all principles retained and enhanced)
 
 Templates Requiring Updates:
@@ -29,14 +32,14 @@ Templates Requiring Updates:
 ✅ tasks-template.md - Has task organization supporting parallel development
 
 Follow-up TODOs:
+
 - Implement GenerationResultSheet integration in App.tsx (CRITICAL)
 - Replace InlineVersionToggle/VersionSwitcher with UnifiedVersionSelector (CRITICAL)
 - Add BotContextBanner to Index.tsx (HIGH)
 - Split StudioShell (1835 lines) into subcomponents (HIGH)
 - Split useUnifiedStudioStore (1361 lines) into domain stores (HIGH)
-- Document deep link patterns in CLAUDE.md (MEDIUM)
-================================================================================
--->
+- # Document deep link patterns in CLAUDE.md (MEDIUM)
+  -->
 
 ## Core Principles
 
@@ -45,11 +48,13 @@ Follow-up TODOs:
 **NON-NEGOTIABLE**: MusicVerse AI is a native Telegram Mini App with integrated Telegram Bot, not a responsive web app.
 
 **Portrait Orientation as Primary:**
+
 - All UI layouts MUST be designed for portrait mode first (375×667px to 430×932px)
 - Landscape mode is secondary and MUST gracefully degrade or show orientation prompt
 - MainLayout MUST enforce portrait lock via CSS and viewport settings
 
 **Touch-First Interface:**
+
 - Touch targets MUST be 44-56px minimum (iOS HIG 44px, Material Design 48-56px)
 - Interactive elements MUST have visible touch states (active, hover, focus)
 - Swipe gestures MUST use @use-gesture/react for consistency
@@ -57,6 +62,7 @@ Follow-up TODOs:
 - Double-tap gestures MUST be debounced (300ms) to prevent accidental triggers
 
 **Telegram SDK Native Integration:**
+
 - MainButton MUST be used for primary actions (Generate, Save, Submit)
 - BackButton MUST handle navigation stack management
 - HapticFeedback MUST be triggered on: button clicks (light), errors (error), success (success), swipe actions (medium)
@@ -65,6 +71,7 @@ Follow-up TODOs:
 - initDataUnsafe.start_param MUST be parsed for bot context
 
 **Telegram Bot Deep Links:**
+
 - Format: `t.me/AIMusicVerseBot/app?startapp=PARAM`
 - Supported params:
   - `track_ID` - Open specific track
@@ -80,18 +87,21 @@ Follow-up TODOs:
 - Bot context MUST be parsed and displayed with gradient background matching action type
 
 **Safe Areas & Notch/Island Support:**
-- All fixed UI elements MUST respect safe-area-inset-* CSS variables
+
+- All fixed UI elements MUST respect safe-area-inset-\* CSS variables
 - Bottom navigation MUST use `safe-bottom` utility (env(safe-area-inset-bottom))
 - Top headers MUST use `safe-top` for notch/Dynamic Island clearance
 - Input forms MUST account for virtual keyboard height via visualViewport API
 
 **Keyboard Handling:**
+
 - Forms MUST use visualViewport.height to detect keyboard open/close
 - Focused input fields MUST scroll into view above keyboard
 - Submit buttons MUST remain accessible when keyboard is open
 - Keyboard-avoiding behavior MUST use @telegram-apps/sdk scrollByOffset
 
 **Responsive Breakpoints (Tailwind):**
+
 - xs: 375px (iPhone SE, small Android)
 - sm: 640px (Large phones landscape, small tablets)
 - md: 768px (Tablets portrait)
@@ -99,6 +109,7 @@ Follow-up TODOs:
 - xl: 1280px+ (Desktop only - rare use case)
 
 **Testing Requirements:**
+
 - MUST test on iOS Safari 15+ (WebKit quirks, audio element limits)
 - MUST test on Chrome Android 100+ (touch precision, viewport behavior)
 - MUST validate on Telegram iOS and Telegram Android native clients
@@ -149,6 +160,7 @@ Follow-up TODOs:
 - Props MUST be validated with Zod for runtime validation when accepting user input
 
 **Component Size Limits:**
+
 - Single component MUST NOT exceed 500 lines (split into subcomponents)
 - Hook files MUST NOT exceed 300 lines (split into smaller hooks)
 - StudioShell currently 1835 lines - MUST be split into:
@@ -165,6 +177,7 @@ Follow-up TODOs:
 **MANDATORY**: Use the appropriate state management solution for each use case.
 
 **Global UI State** - Zustand stores (MUST be under 500 lines each):
+
 - `playerStore` - Audio playback state, queue, current track
 - `useUnifiedStudioStore` - Complex studio state (currently 1361 lines - MUST be split)
   - Split into: useTrackStore (300), useMixingStore (250), useTimelineStore (300), useStudioSettings (200)
@@ -172,11 +185,13 @@ Follow-up TODOs:
 - `useMixerHistoryStore` - Mixer state history
 
 **Server State** - TanStack Query with optimized caching:
+
 - Default: `staleTime: 30s`, `gcTime: 10min`
 - Use `usePublicContentOptimized` for batched homepage queries
 - Optimistic updates for likes, plays, version switches
 
 **Form State** - React Hook Form + Zod validation:
+
 - Auto-save drafts to localStorage (30 min expiry)
 - Use `useGenerateDraft` for generation form persistence
 
@@ -203,12 +218,14 @@ Follow-up TODOs:
 **MANDATORY**: All interactive elements MUST meet WCAG AA accessibility standards and Telegram Mini App UX guidelines.
 
 **Touch Accessibility:**
+
 - Touch targets MUST be 44-56px minimum (iOS HIG 44px, Material Design 48-56px)
 - Touch targets MUST have 8px spacing between adjacent interactive elements
 - Touch states MUST provide visual feedback within 100ms (active, pressed, loading)
 - Haptic feedback MUST use Telegram SDK: light (buttons), medium (swipes), error/success (notifications)
 
 **Keyboard & Screen Reader Accessibility:**
+
 - Keyboard navigation MUST work for all interactive elements (Tab, Enter, Esc)
 - ARIA labels MUST be provided for icon-only buttons and complex widgets
 - Focus indicators MUST be visible (2px outline, high contrast)
@@ -216,18 +233,21 @@ Follow-up TODOs:
 - Form validation errors MUST be announced to screen readers (aria-live="polite")
 
 **Visual Accessibility:**
+
 - Color contrast MUST meet WCAG AA (4.5:1 for text, 3:1 for UI components)
 - Text MUST be resizable up to 200% without horizontal scrolling
 - Animations MUST respect prefers-reduced-motion media query
 - Color MUST NOT be the only indicator of state (use icons + text)
 
 **Loading & Error States:**
+
 - Loading states MUST use Skeleton loaders (200+ uses across app) with shimmer animation
 - Error messages MUST be descriptive ("Failed to load tracks" not "Error 500")
 - Error recovery MUST be actionable (Retry button, contact support link)
 - Empty states MUST provide clear next steps (CTA buttons, onboarding hints)
 
 **Telegram-Specific UX:**
+
 - Deep links MUST use t.me/BotName/app?startapp=PARAM format
 - Sharing MUST use native Telegram shareURL/Stories APIs
 - File downloads MUST use downloadFile API for in-Telegram preview
@@ -235,6 +255,7 @@ Follow-up TODOs:
 - Bot context MUST be shown via BotContextBanner when navigating from deep links
 
 **Post-Generation Flow (NON-NEGOTIABLE):**
+
 - GenerationResultSheet MUST show immediately after track generation
 - A/B versions MUST be playable and selectable without leaving sheet
 - User MUST be able to:
@@ -251,6 +272,7 @@ Follow-up TODOs:
 **NON-NEGOTIABLE**: All screens MUST use unified component system to eliminate code duplication and ensure consistent UX.
 
 **Layout System:**
+
 - **MainLayout** (`src/components/MainLayout.tsx`) - Root layout with:
   - Portrait orientation enforcement
   - Safe-area padding management
@@ -264,6 +286,7 @@ Follow-up TODOs:
   - Active generations counter on FAB
 
 **Page Header System:**
+
 - **MobileHeaderBar** (`src/components/mobile/MobileHeaderBar.tsx`) - Standardized page headers with:
   - Back button (when not root page)
   - Page title (centered or left-aligned)
@@ -272,6 +295,7 @@ Follow-up TODOs:
   - Sticky positioning with backdrop blur
 
 **Modal & Sheet System:**
+
 - **MobileBottomSheet** (`src/components/mobile/MobileBottomSheet.tsx`) - Primary modal pattern for:
   - Forms (generation, playlist creation)
   - Menus (track actions, settings)
@@ -289,6 +313,7 @@ Follow-up TODOs:
   - Use BottomSheet on mobile instead
 
 **List & Grid System:**
+
 - **VirtualizedTrackList** (`src/components/library/VirtualizedTrackList.tsx`) - react-virtuoso based list with:
   - Grid mode (2 columns on mobile, 3-6 on desktop)
   - List mode (single column with metadata)
@@ -303,6 +328,7 @@ Follow-up TODOs:
   - IntersectionObserver lazy loading
 
 **Studio System (Unified Mobile):**
+
 - **UnifiedStudioMobile** (`src/components/studio/unified/`) - Single window studio interface:
   - Tab-based navigation (Player, Sections, Vocals, Stems, MIDI, Mixer, Actions)
   - StudioShell (1835 lines - MUST be split into subcomponents)
@@ -311,6 +337,7 @@ Follow-up TODOs:
   - Gesture support (pinch-to-zoom waveforms, swipe between tabs)
 
 **Component Organization Rules:**
+
 - Base UI primitives → `src/components/ui/` (shadcn/ui + custom)
 - Feature components → `src/components/[feature-name]/` (player, library, stem-studio)
 - Shared unified components → `src/components/shared/` (cross-feature components like UnifiedVersionSelector)
@@ -325,6 +352,7 @@ Follow-up TODOs:
 **NON-NEGOTIABLE**: All new screens and features MUST follow these standardized development patterns.
 
 **Lazy Loading Pattern:**
+
 - Route-level components MUST use React.lazy() + Suspense
 - Suspense fallback MUST use skeleton loader matching target content
 - Heavy components (>50KB) MUST be code-split into `src/components/lazy/`
@@ -337,6 +365,7 @@ Follow-up TODOs:
   ```
 
 **Data Fetching Pattern (TanStack Query):**
+
 - ALL server data MUST use TanStack Query (no raw fetch/axios)
 - Query keys MUST follow convention: `['entity', id, 'relation']` (e.g., `['track', trackId, 'versions']`)
 - Optimized caching MUST be applied:
@@ -347,12 +376,14 @@ Follow-up TODOs:
 - Batch queries MUST be used on homepage: `usePublicContentOptimized()`
 
 **Global UI State Pattern (Zustand):**
+
 - Global state MUST use Zustand stores (NOT Context API)
 - Store files MUST be in `src/stores/[feature]Store.ts`
 - Stores MUST have TypeScript interfaces and persist middleware where needed
 - Stores MUST NOT exceed 500 lines (split if larger)
 
 **Animation Pattern (Framer Motion via @/lib/motion):**
+
 - ALL Framer Motion imports MUST use `@/lib/motion` wrapper for tree-shaking
 - Animations MUST respect `prefers-reduced-motion` media query
 - Common animations MUST reuse variants from `@/lib/motion-variants`
@@ -367,12 +398,14 @@ Follow-up TODOs:
   ```
 
 **UI Components Pattern (shadcn/ui + Radix UI):**
+
 - Base components MUST extend shadcn/ui (Button, Card, Dialog, Sheet)
 - Radix UI primitives MUST be used for complex widgets (Dropdown, Slider, Tabs)
 - Custom variants MUST use `cn()` utility for className merging
 - Mobile-specific components MUST be in `src/components/mobile/`
 
 **Form Handling Pattern:**
+
 - Forms MUST use React Hook Form + Zod validation
 - Auto-save MUST be implemented for long forms (>5 fields)
 - Validation errors MUST show inline (below field, aria-describedby)
@@ -385,6 +418,7 @@ Follow-up TODOs:
 **HARD LIMITS**: These performance budgets MUST NOT be exceeded without explicit approval from 2+ core maintainers.
 
 **Bundle Size Limits:**
+
 - **Total bundle (gzip): < 950KB** - Enforced by size-limit tool in pre-commit hook
 - Feature chunks MUST follow limits:
   - `feature-studio`: < 72KB (Stem Studio, MIDI transcription)
@@ -403,29 +437,34 @@ Follow-up TODOs:
   - `vendor-charts`: Recharts
 
 **Route-Level Code Splitting (MANDATORY):**
+
 - Every page in `src/pages/` MUST use React.lazy()
 - Heavy components (>50KB) MUST be in `src/components/lazy/`
 - Route suspense fallback MUST use skeleton loader (NOT spinner)
 
 **Image Optimization:**
+
 - All images MUST use LazyImage component (blur placeholder + shimmer)
 - Cover art MUST be WebP format, 512×512px max, quality 85%
 - Icons MUST use Lucide React (tree-shakeable) or inline SVG
 - Background images MUST be CSS gradients where possible
 
 **List Virtualization (MANDATORY for >50 items):**
+
 - Track lists MUST use VirtualizedTrackList (react-virtuoso)
 - Playlist tracks MUST be virtualized
 - Search results MUST be virtualized if >50 items
 - Infinite scroll MUST use TanStack Query's useInfiniteQuery
 
 **Animation Performance:**
+
 - 60 FPS MUST be maintained on iPhone 12 / Pixel 5 (mid-range devices)
 - Animations MUST use GPU-accelerated properties: transform, opacity, filter
 - Avoid animating: width, height, top, left, margin, padding
 - Long animations (>500ms) MUST be skipped on prefers-reduced-motion
 
 **Monitoring & Enforcement:**
+
 - `npm run size` MUST pass before every commit (pre-commit hook)
 - Lighthouse CI MUST run on PR with Performance score > 85
 - Bundle analysis MUST be reviewed monthly (`npm run size:why`)
@@ -438,6 +477,7 @@ Follow-up TODOs:
 **NON-NEGOTIABLE**: Telegram Bot MUST provide seamless navigation to Mini App with context preservation.
 
 **Bot Commands:**
+
 - `/generate` - Open generation form with optional prompt
 - `/cover [track_id]` - Open cover creation for specific track
 - `/extend [track_id]` - Open extend track flow
@@ -446,6 +486,7 @@ Follow-up TODOs:
 - `/start` - Show welcome message with deep link
 
 **Deep Link Format:**
+
 - Base URL: `t.me/AIMusicVerseBot/app?startapp=PARAM`
 - Parameters:
   - `generate_PROMPT` - Generate with prompt (e.g., `generate_pop rock about summer`)
@@ -458,6 +499,7 @@ Follow-up TODOs:
   - `library` - Navigate to library
 
 **BotContextBanner Component:**
+
 - MUST display when `webApp.initDataUnsafe.start_param` is present
 - Parse start_param to determine context type
 - Show context-specific icon, title, and description:
@@ -471,6 +513,7 @@ Follow-up TODOs:
 - MUST use gradient background matching context type
 
 **Edge Function Integration:**
+
 - `telegram-bot` Edge Function MUST handle incoming commands
 - `send-telegram-notification` Edge Function MUST send notifications for:
   - Generation complete (with deep link to result)
@@ -485,6 +528,7 @@ Follow-up TODOs:
 **MANDATORY**: After track generation, user MUST see immediate results with A/B version selection.
 
 **GenerationResultSheet Component:**
+
 - MUST open automatically after generation completes
 - MUST display both versions A/B with:
   - Version label (A/B)
@@ -500,17 +544,20 @@ Follow-up TODOs:
 - MUST use `useGenerationResult` hook with Supabase realtime subscription
 
 **expectGenerationResult() Function:**
+
 - MUST be called before starting generation
 - Sets sessionStorage flag to signal result expectation
 - Cleared after result is shown
 
 **useGenerationResult Hook:**
+
 - Listens to Supabase realtime for new tracks
 - Shows GenerationResultSheet when new track detected
 - Prevents duplicate shows for same track
 - 1 second delay to ensure versions are created
 
 **Integration Points:**
+
 - `useGenerateForm.ts` - Call `expectGenerationResult()` in `handleSubmit()`
 - `App.tsx` or `Index.tsx` - Render `GenerationResultSheet` with `useGenerationResult()`
 
@@ -521,6 +568,7 @@ Follow-up TODOs:
 **MANDATORY**: Eliminate component duplication to ensure single source of truth for each feature.
 
 **Version Selector Unification:**
+
 - ONLY `UnifiedVersionSelector` from `src/components/shared/UnifiedVersionSelector.tsx` MAY be used
 - Components to be DELETED:
   - `InlineVersionToggle` (243 lines) - replace with UnifiedVersionSelector variant="inline"
@@ -532,6 +580,7 @@ Follow-up TODOs:
   - `sheet` - Detailed list in bottom sheet
 
 **UnifiedVersionSelector Requirements:**
+
 - MUST handle version switching with optimistic updates
 - MUST update both `is_primary` AND `active_version_id` atomically
 - MUST update player if current track is affected
@@ -542,6 +591,7 @@ Follow-up TODOs:
 - MUST support preloaded versions prop for performance
 
 **Component Duplication Audit:**
+
 - BEFORE creating new component, search existing components
 - IF similar component exists, enhance it instead of creating new
 - IF feature needs variation, use variant prop instead of new component
@@ -557,6 +607,7 @@ Follow-up TODOs:
 ### Code Quality Requirements
 
 **Testing**:
+
 - Unit tests: Jest 30.2 with @testing-library/react
 - E2E tests: Playwright 1.57 for critical user flows
 - Test coverage: No specific percentage target, focus on critical paths
@@ -564,12 +615,14 @@ Follow-up TODOs:
 - Accessibility testing: axe-core for automated a11y checks
 
 **Code Review**:
+
 - All PRs MUST be reviewed before merge
 - PRs MUST pass CI checks (lint, type-check, tests, bundle size)
 - Breaking changes MUST be documented in CHANGELOG.md
 - Database migrations MUST be reviewed by two developers
 
 **Documentation**:
+
 - New features MUST update relevant docs in `docs/` or `SPRINTS/`
 - API changes MUST update `docs/SUNO_API.md` or relevant API docs
 - Architecture changes MUST update `docs/ARCHITECTURE_DIAGRAMS.md`
@@ -580,12 +633,14 @@ Follow-up TODOs:
 **MANDATORY**: Every music generation creates 2 versions (A/B).
 
 **Database Schema Requirements**:
+
 - `tracks` table MUST have `active_version_id` (FK to track_versions)
 - `track_versions` table MUST have `is_primary` (boolean), `version_label` ('A'/'B'), `clip_index` (0/1)
 - Version A (clip_index: 0) MUST be initially primary
 - Switching versions MUST update BOTH `is_primary` AND `active_version_id` atomically
 
 **Key Hooks**:
+
 - `useTrackVersions(trackId)` - Fetch all versions
 - `useVersionSwitcher(trackId)` - Switch primary version
 - `useActiveVersion(trackId)` - Get current active version
@@ -597,57 +652,31 @@ Follow-up TODOs:
 ## Common Pitfalls (MUST AVOID)
 
 **Audio & Playback:**
+
 1. **Don't create multiple audio elements** - ALWAYS use `useGlobalAudioPlayer()`, never instantiate `<audio>` directly
 2. **Don't create audio elements on iOS** - Use `audioElementPool` to prevent Safari crashes (>10 elements = crash)
 3. **Don't forget audio element pooling** - iOS Safari has hard limit of 10 simultaneous audio elements
 
-**Performance & Bundle:**
-4. **Don't import entire framer-motion** - ALWAYS use `@/lib/motion` wrapper for tree-shaking
-5. **Don't exceed bundle limit** - Run `npm run size` before committing (950KB hard limit)
-6. **Don't skip lazy loading** - All pages in `src/pages/` MUST use React.lazy()
-7. **Don't skip LazyImage** - ALL images MUST use LazyImage component with blur placeholder
-8. **Don't animate width/height** - Use transform: scale() instead for GPU acceleration
-9. **Don't render large lists without virtualization** - Use VirtualizedTrackList for >50 items
+**Performance & Bundle:** 4. **Don't import entire framer-motion** - ALWAYS use `@/lib/motion` wrapper for tree-shaking 5. **Don't exceed bundle limit** - Run `npm run size` before committing (950KB hard limit) 6. **Don't skip lazy loading** - All pages in `src/pages/` MUST use React.lazy() 7. **Don't skip LazyImage** - ALL images MUST use LazyImage component with blur placeholder 8. **Don't animate width/height** - Use transform: scale() instead for GPU acceleration 9. **Don't render large lists without virtualization** - Use VirtualizedTrackList for >50 items
 
-**Mobile & Touch:**
-10. **Don't forget mobile touch targets** - Minimum 44-56px (iOS HIG/Material Design)
-11. **Don't use Dialog on mobile** - Use MobileBottomSheet instead for native-like UX
-12. **Don't ignore safe areas** - Use `safe-bottom` utility for notch/island clearance
-13. **Don't skip haptic feedback** - Use Telegram SDK haptics for button clicks, swipes
-14. **Don't test only on desktop** - MUST validate on iOS Safari and Chrome Android
+**Mobile & Touch:** 10. **Don't forget mobile touch targets** - Minimum 44-56px (iOS HIG/Material Design) 11. **Don't use Dialog on mobile** - Use MobileBottomSheet instead for native-like UX 12. **Don't ignore safe areas** - Use `safe-bottom` utility for notch/island clearance 13. **Don't skip haptic feedback** - Use Telegram SDK haptics for button clicks, swipes 14. **Don't test only on desktop** - MUST validate on iOS Safari and Chrome Android
 
-**Component Architecture:**
-15. **Don't duplicate version selector components** - Use ONLY UnifiedVersionSelector (see Section XIII)
-16. **Don't create custom modals** - Use MobileBottomSheet (mobile) or Dialog (desktop)
-17. **Don't skip MobileHeaderBar** - Use standardized page header for consistency
-18. **Don't create components >500 lines** - Split into smaller subcomponents
-19. **Don't create stores >500 lines** - Split into domain-specific stores
+**Component Architecture:** 15. **Don't duplicate version selector components** - Use ONLY UnifiedVersionSelector (see Section XIII) 16. **Don't create custom modals** - Use MobileBottomSheet (mobile) or Dialog (desktop) 17. **Don't skip MobileHeaderBar** - Use standardized page header for consistency 18. **Don't create components >500 lines** - Split into smaller subcomponents 19. **Don't create stores >500 lines** - Split into domain-specific stores
 
-**State & Data:**
-20. **Don't use raw fetch/axios** - ALWAYS use TanStack Query for server state
-21. **Don't use Context API for global state** - Use Zustand stores instead
-22. **Don't batch version updates** - Update `is_primary` AND `active_version_id` atomically
-23. **Don't forget optimistic updates** - Use for likes, plays, version switches
+**State & Data:** 20. **Don't use raw fetch/axios** - ALWAYS use TanStack Query for server state 21. **Don't use Context API for global state** - Use Zustand stores instead 22. **Don't batch version updates** - Update `is_primary` AND `active_version_id` atomically 23. **Don't forget optimistic updates** - Use for likes, plays, version switches
 
-**Logging & Debugging:**
-24. **Don't use console.log** - Use `logger` utility from `@/lib/logger` (Sentry integration)
+**Logging & Debugging:** 24. **Don't use console.log** - Use `logger` utility from `@/lib/logger` (Sentry integration)
 
-**Security:**
-25. **Don't skip input validation** - Validate client-side (Zod) AND server-side (Edge Functions)
-26. **Don't expose secrets in frontend** - Secrets ONLY in Edge Functions
+**Security:** 25. **Don't skip input validation** - Validate client-side (Zod) AND server-side (Edge Functions) 26. **Don't expose secrets in frontend** - Secrets ONLY in Edge Functions
 
-**Post-Generation Flow:**
-27. **Don't redirect to library without showing result** - MUST use GenerationResultSheet
-28. **Don't skip expectGenerationResult()** - Call before starting generation
-29. **Don't forget to integrate GenerationResultSheet** - Add to App.tsx or Index.tsx
+**Post-Generation Flow:** 27. **Don't redirect to library without showing result** - MUST use GenerationResultSheet 28. **Don't skip expectGenerationResult()** - Call before starting generation 29. **Don't forget to integrate GenerationResultSheet** - Add to App.tsx or Index.tsx
 
-**Telegram Bot Integration:**
-30. **Don't ignore deep link parameters** - Parse start_param and show BotContextBanner
-31. **Don't skip bot context** - User should know why they're in the app
+**Telegram Bot Integration:** 30. **Don't ignore deep link parameters** - Parse start_param and show BotContextBanner 31. **Don't skip bot context** - User should know why they're in the app
 
 ## Governance
 
 **Amendment Process**:
+
 - Constitution changes MUST be proposed via pull request
 - Changes MUST include:
   - Version bump (MAJOR for breaking changes, MINOR for new principles, PATCH for clarifications)
@@ -656,6 +685,7 @@ Follow-up TODOs:
   - Approval from at least two core maintainers
 
 **Compliance Verification**:
+
 - All PRs MUST verify compliance with Core Principles
 - Complexity violations MUST be justified in plan.md Complexity Tracking section
 - Security principles MUST be verified via code review checklist
@@ -663,11 +693,13 @@ Follow-up TODOs:
 - Component unification MUST be verified (no duplicate components)
 
 **Template Consistency**:
+
 - plan-template.md Constitution Check section MUST reference current principles
 - spec-template.md requirements structure MUST align with Testing Strategy
 - tasks-template.md task organization MUST support parallel development patterns
 
 **Runtime Guidance**:
+
 - CLAUDE.md serves as runtime development guidance for AI agents and developers
 - All constitution principles MUST be reflected in CLAUDE.md Common Pitfalls section
 - Architecture decisions MUST be documented in ADR/ (Architecture Decision Records)

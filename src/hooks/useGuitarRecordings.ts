@@ -1,10 +1,10 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import type { GuitarAnalysisResult } from './useGuitarAnalysis';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import type { GuitarAnalysisResult } from "./useGuitarAnalysis";
 
-const log = logger.child({ module: 'GuitarRecordings' });
+const log = logger.child({ module: "GuitarRecordings" });
 
 export interface GuitarRecording {
   id: string;
@@ -42,19 +42,21 @@ export function useGuitarRecordings() {
   const queryClient = useQueryClient();
 
   const { data: recordings, isLoading } = useQuery({
-    queryKey: ['guitar-recordings'],
+    queryKey: ["guitar-recordings"],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return [];
 
       const { data, error } = await supabase
-        .from('guitar_recordings')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .from("guitar_recordings")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false });
 
       if (error) {
-        log.error('Failed to fetch guitar recordings', error);
+        log.error("Failed to fetch guitar recordings", error);
         throw error;
       }
 
@@ -74,13 +76,15 @@ export function useGuitarRecordings() {
       title?: string;
       durationSeconds?: number;
     }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('Not authenticated');
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("Not authenticated");
 
       const recording = {
         user_id: user.id,
         audio_url: audioUrl,
-        title: title || `Запись ${new Date().toLocaleDateString('ru-RU')}`,
+        title: title || `Запись ${new Date().toLocaleDateString("ru-RU")}`,
         duration_seconds: durationSeconds ?? analysis.totalDuration ?? null,
         bpm: analysis.bpm || null,
         time_signature: analysis.timeSignature || null,
@@ -98,26 +102,28 @@ export function useGuitarRecordings() {
         generated_tags: analysis.generatedTags || [],
         style_description: analysis.styleDescription || null,
         style_analysis: JSON.parse(JSON.stringify(analysis.style || {})),
-        analysis_status: JSON.parse(JSON.stringify(analysis.analysisComplete || { beats: false, chords: false, transcription: false })),
+        analysis_status: JSON.parse(
+          JSON.stringify(analysis.analysisComplete || { beats: false, chords: false, transcription: false }),
+        ),
       };
 
       const { data, error } = await supabase
-        .from('guitar_recordings')
+        .from("guitar_recordings")
         .insert([recording] as any)
         .select()
         .single();
 
       if (error) {
-        log.error('Failed to save guitar recording', error);
+        log.error("Failed to save guitar recording", error);
         throw error;
       }
 
-      log.info('Guitar recording saved', { id: data.id });
+      log.info("Guitar recording saved", { id: data.id });
       return data as unknown as GuitarRecording;
     },
     onSuccess: () => {
-      toast.success('Запись сохранена');
-      queryClient.invalidateQueries({ queryKey: ['guitar-recordings'] });
+      toast.success("Запись сохранена");
+      queryClient.invalidateQueries({ queryKey: ["guitar-recordings"] });
     },
     onError: (error: Error) => {
       toast.error(`Ошибка сохранения: ${error.message}`);
@@ -126,19 +132,16 @@ export function useGuitarRecordings() {
 
   const deleteRecording = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('guitar_recordings')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from("guitar_recordings").delete().eq("id", id);
 
       if (error) {
-        log.error('Failed to delete guitar recording', error);
+        log.error("Failed to delete guitar recording", error);
         throw error;
       }
     },
     onSuccess: () => {
-      toast.success('Запись удалена');
-      queryClient.invalidateQueries({ queryKey: ['guitar-recordings'] });
+      toast.success("Запись удалена");
+      queryClient.invalidateQueries({ queryKey: ["guitar-recordings"] });
     },
     onError: (error: Error) => {
       toast.error(`Ошибка удаления: ${error.message}`);
@@ -147,23 +150,18 @@ export function useGuitarRecordings() {
 
   const updateRecording = useMutation({
     mutationFn: async ({ id, title }: { id: string; title: string }) => {
-      const { data, error } = await supabase
-        .from('guitar_recordings')
-        .update({ title })
-        .eq('id', id)
-        .select()
-        .single();
+      const { data, error } = await supabase.from("guitar_recordings").update({ title }).eq("id", id).select().single();
 
       if (error) {
-        log.error('Failed to update guitar recording', error);
+        log.error("Failed to update guitar recording", error);
         throw error;
       }
 
       return data as unknown as GuitarRecording;
     },
     onSuccess: () => {
-      toast.success('Запись обновлена');
-      queryClient.invalidateQueries({ queryKey: ['guitar-recordings'] });
+      toast.success("Запись обновлена");
+      queryClient.invalidateQueries({ queryKey: ["guitar-recordings"] });
     },
     onError: (error: Error) => {
       toast.error(`Ошибка обновления: ${error.message}`);
@@ -175,11 +173,11 @@ export function useGuitarRecordings() {
     beats: recording.beats || [],
     downbeats: recording.downbeats || [],
     bpm: recording.bpm || 120,
-    timeSignature: recording.time_signature || '4/4',
+    timeSignature: recording.time_signature || "4/4",
     notes: recording.notes || [],
     midiUrl: recording.midi_url || undefined,
     chords: recording.chords || [],
-    key: recording.key || 'Unknown',
+    key: recording.key || "Unknown",
     strumming: recording.strumming || [],
     transcriptionFiles: {
       midiUrl: recording.midi_url || undefined,
@@ -189,7 +187,7 @@ export function useGuitarRecordings() {
       musicXmlUrl: recording.musicxml_url || undefined,
     },
     generatedTags: recording.generated_tags || [],
-    styleDescription: recording.style_description || '',
+    styleDescription: recording.style_description || "",
     style: recording.style_analysis || {},
     totalDuration: recording.duration_seconds || 0,
     audioUrl: recording.audio_url,

@@ -3,8 +3,8 @@
  * Shows Piano Roll, Staff Notation, PDF Notes, Guitar Tab (GP5), and MusicXML
  */
 
-import { useState, useCallback, useMemo, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { useState, useCallback, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
   Music2,
   Piano,
@@ -18,32 +18,21 @@ import {
   Maximize2,
   FileCode2,
   ListMusic,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { StemTranscription } from '@/hooks/useStemTranscription';
-import { InteractivePianoRoll } from '@/components/analysis/InteractivePianoRoll';
-import { MobileNotesViewer } from '@/components/analysis/MobileNotesViewer';
-import { useMidiFileParser, ParsedMidiNote } from '@/hooks/useMidiFileParser';
-import { useMusicXmlParser } from '@/hooks/useMusicXmlParser';
-import { useMidiSynth } from '@/hooks/useMidiSynth';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { StemTranscription } from "@/hooks/useStemTranscription";
+import { InteractivePianoRoll } from "@/components/analysis/InteractivePianoRoll";
+import { MobileNotesViewer } from "@/components/analysis/MobileNotesViewer";
+import { useMidiFileParser, ParsedMidiNote } from "@/hooks/useMidiFileParser";
+import { useMusicXmlParser } from "@/hooks/useMusicXmlParser";
+import { useMidiSynth } from "@/hooks/useMidiSynth";
 
 interface NotesViewerDialogProps {
   open: boolean;
@@ -58,12 +47,12 @@ export function NotesViewerDialog({
   open,
   onOpenChange,
   transcription,
-  stemType = 'Стем',
+  stemType = "Стем",
   currentTime = 0,
   isPlaying = false,
 }: NotesViewerDialogProps) {
   const isMobile = useIsMobile();
-  const [activeTab, setActiveTab] = useState<'piano' | 'pdf' | 'guitar' | 'xml'>('piano');
+  const [activeTab, setActiveTab] = useState<"piano" | "pdf" | "guitar" | "xml">("piano");
   const [localTime, setLocalTime] = useState(0);
   const [localPlaying, setLocalPlaying] = useState(false);
 
@@ -80,7 +69,7 @@ export function NotesViewerDialog({
 
   // Parse MusicXML when tab is active or dialog opens with mxml
   useEffect(() => {
-    if (open && transcription?.mxml_url && (activeTab === 'xml' || !transcription?.midi_url)) {
+    if (open && transcription?.mxml_url && (activeTab === "xml" || !transcription?.midi_url)) {
       parseMusicXmlFromUrl(transcription.mxml_url);
     }
   }, [open, transcription?.mxml_url, activeTab, parseMusicXmlFromUrl, transcription?.midi_url]);
@@ -107,7 +96,7 @@ export function NotesViewerDialog({
   // Notes for MusicXML visualization - convert to NoteInput format
   const xmlNotes = useMemo(() => {
     if (parsedXml?.notes) {
-      return parsedXml.notes.map(n => ({
+      return parsedXml.notes.map((n) => ({
         pitch: n.midiPitch ?? 60,
         startTime: n.startTime,
         duration: n.duration,
@@ -128,10 +117,10 @@ export function NotesViewerDialog({
 
   const handleDownload = useCallback((url: string | null, filename: string) => {
     if (!url) return;
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
     link.download = filename;
-    link.target = '_blank';
+    link.target = "_blank";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -139,27 +128,27 @@ export function NotesViewerDialog({
 
   const handleOpenExternal = useCallback((url: string | null) => {
     if (url) {
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     }
   }, []);
 
   // Determine available tabs
   const availableTabs = useMemo(() => {
-    const tabs: Array<{ id: 'piano' | 'pdf' | 'guitar' | 'xml'; label: string; icon: typeof Piano }> = [];
-    
+    const tabs: Array<{ id: "piano" | "pdf" | "guitar" | "xml"; label: string; icon: typeof Piano }> = [];
+
     if (transcription?.midi_url || notes.length > 0) {
-      tabs.push({ id: 'piano', label: 'Piano Roll', icon: Piano });
+      tabs.push({ id: "piano", label: "Piano Roll", icon: Piano });
     }
     if (transcription?.pdf_url) {
-      tabs.push({ id: 'pdf', label: 'Ноты (PDF)', icon: FileText });
+      tabs.push({ id: "pdf", label: "Ноты (PDF)", icon: FileText });
     }
     if (transcription?.gp5_url) {
-      tabs.push({ id: 'guitar', label: 'Табы (GP5)', icon: Guitar });
+      tabs.push({ id: "guitar", label: "Табы (GP5)", icon: Guitar });
     }
     if (transcription?.mxml_url) {
-      tabs.push({ id: 'xml', label: 'MusicXML', icon: FileCode2 });
+      tabs.push({ id: "xml", label: "MusicXML", icon: FileCode2 });
     }
-    
+
     return tabs;
   }, [transcription, notes]);
 
@@ -177,7 +166,7 @@ export function NotesViewerDialog({
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)} className="flex-1 flex flex-col">
         {availableTabs.length > 1 && (
           <TabsList className={cn("mb-4", isMobile ? "grid-cols-2" : `grid-cols-${availableTabs.length}`)}>
-            {availableTabs.map(tab => {
+            {availableTabs.map((tab) => {
               const Icon = tab.icon;
               return (
                 <TabsTrigger key={tab.id} value={tab.id} className="gap-1.5">
@@ -194,26 +183,10 @@ export function NotesViewerDialog({
           <div className="space-y-3">
             {/* Metadata badges */}
             <div className="flex items-center gap-2 flex-wrap">
-              {transcription.notes_count && (
-                <Badge variant="outline">
-                  {transcription.notes_count} нот
-                </Badge>
-              )}
-              {transcription.bpm && (
-                <Badge variant="outline">
-                  {Math.round(transcription.bpm)} BPM
-                </Badge>
-              )}
-              {transcription.key_detected && (
-                <Badge variant="outline">
-                  {transcription.key_detected}
-                </Badge>
-              )}
-              {transcription.time_signature && (
-                <Badge variant="outline">
-                  {transcription.time_signature}
-                </Badge>
-              )}
+              {transcription.notes_count && <Badge variant="outline">{transcription.notes_count} нот</Badge>}
+              {transcription.bpm && <Badge variant="outline">{Math.round(transcription.bpm)} BPM</Badge>}
+              {transcription.key_detected && <Badge variant="outline">{transcription.key_detected}</Badge>}
+              {transcription.time_signature && <Badge variant="outline">{transcription.time_signature}</Badge>}
             </div>
 
             {/* Interactive Piano Roll */}
@@ -225,7 +198,7 @@ export function NotesViewerDialog({
                 height={isMobile ? 220 : 320}
               />
             ) : isParsing ? (
-              <div 
+              <div
                 className="rounded-lg border bg-muted/20 flex items-center justify-center"
                 style={{ height: isMobile ? 220 : 320 }}
               >
@@ -235,7 +208,7 @@ export function NotesViewerDialog({
                 </div>
               </div>
             ) : (
-              <div 
+              <div
                 className="rounded-lg border bg-muted/20 flex items-center justify-center"
                 style={{ height: isMobile ? 220 : 320 }}
               >
@@ -273,17 +246,11 @@ export function NotesViewerDialog({
         <TabsContent value="pdf" className="flex-1 m-0">
           <div className="space-y-4">
             <div className="flex items-center justify-between flex-wrap gap-2">
-              <p className="text-sm text-muted-foreground">
-                Нотный лист в формате PDF
-              </p>
+              <p className="text-sm text-muted-foreground">Нотный лист в формате PDF</p>
               <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleOpenExternal(transcription.pdf_url)}
-                >
+                <Button variant="outline" size="sm" onClick={() => handleOpenExternal(transcription.pdf_url)}>
                   <ExternalLink className="w-4 h-4 mr-1" />
-                  {isMobile ? 'Открыть' : 'Открыть в новой вкладке'}
+                  {isMobile ? "Открыть" : "Открыть в новой вкладке"}
                 </Button>
                 <Button
                   variant="outline"
@@ -301,15 +268,16 @@ export function NotesViewerDialog({
               <>
                 {isMobile ? (
                   // Mobile: Show preview card with direct open button (iframe doesn't work in Telegram)
-                  <div className="rounded-lg overflow-hidden border bg-gradient-to-br from-muted/30 to-muted/10 p-6 flex flex-col items-center justify-center gap-4" style={{ minHeight: 280 }}>
+                  <div
+                    className="rounded-lg overflow-hidden border bg-gradient-to-br from-muted/30 to-muted/10 p-6 flex flex-col items-center justify-center gap-4"
+                    style={{ minHeight: 280 }}
+                  >
                     <div className="w-20 h-28 rounded-lg bg-card/90 dark:bg-foreground/10 border-2 border-primary/20 flex items-center justify-center shadow-lg">
                       <FileText className="w-10 h-10 text-primary" />
                     </div>
                     <div className="text-center space-y-1">
                       <p className="font-medium">Нотный лист готов</p>
-                      <p className="text-xs text-muted-foreground">
-                        PDF откроется в полноэкранном режиме
-                      </p>
+                      <p className="text-xs text-muted-foreground">PDF откроется в полноэкранном режиме</p>
                     </div>
                     <div className="flex flex-col gap-2 w-full max-w-xs">
                       <Button
@@ -361,13 +329,9 @@ export function NotesViewerDialog({
                     Табулатура + Ноты
                   </span>
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Содержит табулатуру и стандартную нотацию
-                </p>
+                <p className="text-xs text-muted-foreground">Содержит табулатуру и стандартную нотацию</p>
               </div>
-              <Button
-                onClick={() => handleDownload(transcription.gp5_url, `${stemType}_tabs.gp5`)}
-              >
+              <Button onClick={() => handleDownload(transcription.gp5_url, `${stemType}_tabs.gp5`)}>
                 <Download className="w-4 h-4 mr-2" />
                 Скачать GP5
               </Button>
@@ -377,18 +341,16 @@ export function NotesViewerDialog({
               <div className="text-center">
                 <Guitar className="w-12 h-12 text-amber-500 mx-auto mb-3" />
                 <p className="text-sm font-medium mb-1">Предпросмотр недоступен в браузере</p>
-                <p className="text-xs text-muted-foreground">
-                  Скачайте файл и откройте в одной из программ
-                </p>
+                <p className="text-xs text-muted-foreground">Скачайте файл и откройте в одной из программ</p>
               </div>
-              
+
               {/* Editor suggestions */}
               <div className="pt-4 border-t border-border/50">
                 <p className="text-xs font-medium text-muted-foreground mb-2">Бесплатные редакторы:</p>
                 <div className="flex flex-wrap gap-2">
-                  <a 
-                    href="https://tuxguitar.app" 
-                    target="_blank" 
+                  <a
+                    href="https://tuxguitar.app"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
                   >
@@ -396,9 +358,9 @@ export function NotesViewerDialog({
                     TuxGuitar
                     <span className="text-muted-foreground">(бесплатно)</span>
                   </a>
-                  <a 
-                    href="https://www.songsterr.com" 
-                    target="_blank" 
+                  <a
+                    href="https://www.songsterr.com"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
                   >
@@ -406,9 +368,9 @@ export function NotesViewerDialog({
                     Songsterr
                     <span className="text-muted-foreground">(онлайн)</span>
                   </a>
-                  <a 
-                    href="https://www.guitar-pro.com" 
-                    target="_blank" 
+                  <a
+                    href="https://www.guitar-pro.com"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
                   >
@@ -426,21 +388,9 @@ export function NotesViewerDialog({
           <div className="space-y-4">
             {/* Metadata badges */}
             <div className="flex items-center gap-2 flex-wrap">
-              {parsedXml?.notes && (
-                <Badge variant="outline">
-                  {parsedXml.notes.length} нот
-                </Badge>
-              )}
-              {parsedXml?.bpm && (
-                <Badge variant="outline">
-                  {Math.round(parsedXml.bpm)} BPM
-                </Badge>
-              )}
-              {parsedXml?.keySignature && (
-                <Badge variant="outline">
-                  {parsedXml.keySignature}
-                </Badge>
-              )}
+              {parsedXml?.notes && <Badge variant="outline">{parsedXml.notes.length} нот</Badge>}
+              {parsedXml?.bpm && <Badge variant="outline">{Math.round(parsedXml.bpm)} BPM</Badge>}
+              {parsedXml?.keySignature && <Badge variant="outline">{parsedXml.keySignature}</Badge>}
               {parsedXml?.timeSignature && (
                 <Badge variant="outline">
                   {parsedXml.timeSignature.numerator}/{parsedXml.timeSignature.denominator}
@@ -448,7 +398,7 @@ export function NotesViewerDialog({
               )}
               {parsedXml?.partNames && parsedXml.partNames.length > 0 && (
                 <Badge variant="secondary" className="text-[10px]">
-                  {parsedXml.partNames.join(', ')}
+                  {parsedXml.partNames.join(", ")}
                 </Badge>
               )}
             </div>
@@ -462,7 +412,7 @@ export function NotesViewerDialog({
                 height={isMobile ? 220 : 320}
               />
             ) : isParsingXml ? (
-              <div 
+              <div
                 className="rounded-lg border bg-muted/20 flex items-center justify-center"
                 style={{ height: isMobile ? 220 : 320 }}
               >
@@ -472,16 +422,16 @@ export function NotesViewerDialog({
                 </div>
               </div>
             ) : (
-              <div 
+              <div
                 className="rounded-lg border bg-gradient-to-br from-muted/30 to-muted/10 flex items-center justify-center"
                 style={{ height: isMobile ? 220 : 320 }}
               >
                 <div className="text-center">
                   <FileCode2 className="w-10 h-10 text-muted-foreground mx-auto mb-2" />
                   <p className="text-sm text-muted-foreground">Нажмите для загрузки визуализации</p>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="mt-2"
                     onClick={() => transcription?.mxml_url && parseMusicXmlFromUrl(transcription.mxml_url)}
                   >
@@ -498,9 +448,7 @@ export function NotesViewerDialog({
                   <FileCode2 className="w-4 h-4" />
                   MusicXML файл
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Универсальный формат для нотных редакторов
-                </p>
+                <p className="text-xs text-muted-foreground">Универсальный формат для нотных редакторов</p>
               </div>
               <Button
                 variant="outline"
@@ -515,9 +463,9 @@ export function NotesViewerDialog({
             <div className="p-4 rounded-lg border bg-muted/20">
               <p className="text-xs font-medium text-muted-foreground mb-2">Рекомендуемые редакторы:</p>
               <div className="flex flex-wrap gap-2">
-                <a 
-                  href="https://musescore.org" 
-                  target="_blank" 
+                <a
+                  href="https://musescore.org"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
                 >
@@ -525,9 +473,9 @@ export function NotesViewerDialog({
                   MuseScore
                   <span className="text-muted-foreground">(бесплатно)</span>
                 </a>
-                <a 
-                  href="https://flat.io" 
-                  target="_blank" 
+                <a
+                  href="https://flat.io"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
                 >
@@ -535,18 +483,18 @@ export function NotesViewerDialog({
                   Flat.io
                   <span className="text-muted-foreground">(онлайн)</span>
                 </a>
-                <a 
-                  href="https://www.finalemusic.com" 
-                  target="_blank" 
+                <a
+                  href="https://www.finalemusic.com"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
                 >
                   <ExternalLink className="w-3 h-3" />
                   Finale
                 </a>
-                <a 
-                  href="https://www.avid.com/sibelius" 
-                  target="_blank" 
+                <a
+                  href="https://www.avid.com/sibelius"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-background border text-xs hover:bg-muted transition-colors"
                 >
@@ -565,7 +513,7 @@ export function NotesViewerDialog({
   if (isMobile) {
     const mobileNotes = notes.length > 0 ? notes : xmlNotes;
     const mobileDuration = notes.length > 0 ? duration : xmlDuration;
-    
+
     return (
       <Sheet open={open} onOpenChange={onOpenChange}>
         <SheetContent side="bottom" className="h-[85vh] rounded-t-2xl flex flex-col p-0">
@@ -580,7 +528,7 @@ export function NotesViewerDialog({
               )}
             </SheetTitle>
           </SheetHeader>
-          
+
           <ScrollArea className="flex-1 px-4 py-3">
             {mobileNotes.length > 0 || isParsing || isParsingXml ? (
               <MobileNotesViewer
@@ -588,14 +536,9 @@ export function NotesViewerDialog({
                 duration={mobileDuration}
                 bpm={parsedMidi?.bpm ?? parsedXml?.bpm ?? transcription?.bpm ?? undefined}
                 timeSignature={
-                  parsedMidi?.timeSignature ?? 
-                  parsedXml?.timeSignature ?? 
-                  transcription?.time_signature ?? undefined
+                  parsedMidi?.timeSignature ?? parsedXml?.timeSignature ?? transcription?.time_signature ?? undefined
                 }
-                keySignature={
-                  parsedXml?.keySignature ?? 
-                  transcription?.key_detected ?? undefined
-                }
+                keySignature={parsedXml?.keySignature ?? transcription?.key_detected ?? undefined}
                 midiUrl={transcription?.midi_url}
                 pdfUrl={transcription?.pdf_url}
               />
@@ -603,11 +546,11 @@ export function NotesViewerDialog({
               <div className="flex flex-col items-center justify-center h-64 text-center">
                 <Music2 className="w-12 h-12 text-muted-foreground/40 mb-4" />
                 <p className="text-muted-foreground">
-                  {isParsing || isParsingXml ? 'Загрузка нот...' : 'Нет данных транскрипции'}
+                  {isParsing || isParsingXml ? "Загрузка нот..." : "Нет данных транскрипции"}
                 </p>
               </div>
             )}
-            
+
             {/* Additional downloads for mobile */}
             {(transcription?.gp5_url || transcription?.mxml_url) && (
               <div className="mt-4 pt-4 border-t space-y-2">
@@ -657,9 +600,7 @@ export function NotesViewerDialog({
             )}
           </DialogTitle>
         </DialogHeader>
-        <div className="flex-1 min-h-0 overflow-auto">
-          {renderContent()}
-        </div>
+        <div className="flex-1 min-h-0 overflow-auto">{renderContent()}</div>
       </DialogContent>
     </Dialog>
   );

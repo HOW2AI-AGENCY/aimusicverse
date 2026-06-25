@@ -3,12 +3,12 @@
  * Click to edit, supports keyboard navigation (Enter to save, Escape to cancel)
  */
 
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Check, X, PenLine } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Check, X, PenLine } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 interface EditableTitleProps {
   value: string;
@@ -19,19 +19,19 @@ interface EditableTitleProps {
   maxLength?: number;
   disabled?: boolean;
   showEditIcon?: boolean;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
 }
 
 export function EditableTitle({
   value,
   onChange,
-  placeholder = 'Введите название',
+  placeholder = "Введите название",
   className,
   inputClassName,
   maxLength = 200,
   disabled = false,
   showEditIcon = true,
-  size = 'md',
+  size = "md",
 }: EditableTitleProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(value);
@@ -67,15 +67,18 @@ export function EditableTitle({
     setIsEditing(false);
   }, [value]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSave();
-    } else if (e.key === 'Escape') {
-      e.preventDefault();
-      handleCancel();
-    }
-  }, [handleSave, handleCancel]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleSave();
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        handleCancel();
+      }
+    },
+    [handleSave, handleCancel],
+  );
 
   const handleClick = useCallback(() => {
     if (!disabled) {
@@ -84,19 +87,19 @@ export function EditableTitle({
   }, [disabled]);
 
   const sizeClasses = {
-    sm: 'text-sm h-7',
-    md: 'text-base h-8',
-    lg: 'text-lg h-9',
+    sm: "text-sm h-7",
+    md: "text-base h-8",
+    lg: "text-lg h-9",
   };
 
   const titleSizeClasses = {
-    sm: 'text-sm',
-    md: 'text-base sm:text-lg',
-    lg: 'text-lg sm:text-xl',
+    sm: "text-sm",
+    md: "text-base sm:text-lg",
+    lg: "text-lg sm:text-xl",
   };
 
   return (
-    <div className={cn('relative min-w-0', className)}>
+    <div className={cn("relative min-w-0", className)}>
       <AnimatePresence mode="wait">
         {isEditing ? (
           <motion.div
@@ -116,9 +119,9 @@ export function EditableTitle({
               placeholder={placeholder}
               maxLength={maxLength}
               className={cn(
-                'flex-1 font-semibold border-primary/50 focus-visible:ring-primary/30',
+                "flex-1 font-semibold border-primary/50 focus-visible:ring-primary/30",
                 sizeClasses[size],
-                inputClassName
+                inputClassName,
               )}
             />
             <Button
@@ -149,17 +152,16 @@ export function EditableTitle({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className={cn(
-              'flex items-center gap-1.5 cursor-pointer group',
-              disabled && 'cursor-default'
-            )}
+            className={cn("flex items-center gap-1.5 cursor-pointer group", disabled && "cursor-default")}
             onClick={handleClick}
           >
-            <h2 className={cn(
-              'font-bold truncate',
-              titleSizeClasses[size],
-              !disabled && 'group-hover:text-primary transition-colors'
-            )}>
+            <h2
+              className={cn(
+                "font-bold truncate",
+                titleSizeClasses[size],
+                !disabled && "group-hover:text-primary transition-colors",
+              )}
+            >
               {value || placeholder}
             </h2>
             {showEditIcon && !disabled && (

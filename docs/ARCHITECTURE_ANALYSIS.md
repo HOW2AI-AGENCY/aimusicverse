@@ -36,6 +36,7 @@ MusicVerse AI — SPA (Single Page Application) с бэкендом на Supabas
 ```
 
 **Принцип**: Каждый слой отвечает только за свою зону ответственности:
+
 - `components/` — только рендеринг, без логики
 - `hooks/` — логика, доступ к стору, API
 - `services/` — бизнес-операции (аудио, генерация)
@@ -46,8 +47,8 @@ MusicVerse AI — SPA (Single Page Application) с бэкендом на Supabas
 
 ```typescript
 // Branded types — защита от передачи неверного ID
-type TrackId = string & { readonly __brand: 'TrackId' };
-type UserId = string & { readonly __brand: 'UserId' };
+type TrackId = string & { readonly __brand: "TrackId" };
+type UserId = string & { readonly __brand: "UserId" };
 
 // Type-safe error handling
 const result = await tryCatch(() => fetchData());
@@ -62,6 +63,7 @@ const ctx = ensureAudioContext(); // Никаких `as any`
 ```
 
 **Реализация**:
+
 - Branded types в `src/types/branded.ts`
 - Error hierarchy: `AppError` ← `NetworkError`, `APIError`, `GenerationError`
 - Result type: `tryCatch<T>()` возвращает `Result<T, AppError>`
@@ -85,6 +87,7 @@ const ctx = ensureAudioContext(); // Никаких `as any`
 ```
 
 **Показатели**:
+
 - 15+ компонентов с динамическим импортом
 - React.memo на 4+ ключевых компонентах
 - Waveform cache: IndexedDB + LRU (20 entries, 7-day TTL)
@@ -170,6 +173,7 @@ components/
 ```
 
 **Ключевые паттерны**:
+
 - `React.memo` с custom comparison для списков
 - `Suspense` + `lazy()` для тяжелых компонентов
 - `forwardRef` для доступности
@@ -314,12 +318,12 @@ flowchart TB
 
 ### Почему Zustand, а не Redux?
 
-| Критерий | Zustand | Redux |
-|----------|---------|-------|
-| Размер | ~2KB | ~12KB |
-| Boilerplate | Минимум | Actions, Reducers, Types |
-| Простота | 0 config | Store setup |
-| TypeScript | Нативный | Доп. типизация |
+| Критерий    | Zustand  | Redux                    |
+| ----------- | -------- | ------------------------ |
+| Размер      | ~2KB     | ~12KB                    |
+| Boilerplate | Минимум  | Actions, Reducers, Types |
+| Простота    | 0 config | Store setup              |
+| TypeScript  | Нативный | Доп. типизация           |
 
 ### Почему React Query, а не RTK Query?
 
@@ -333,24 +337,24 @@ flowchart TB
 - Accessibility из коробки (WCAG 2.1 AA)
 - Tree-shaking (импортируем только нужное)
 - Кастомизация через Tailwind
-- Минимум зависимостей (только @radix-ui/*)
+- Минимум зависимостей (только @radix-ui/\*)
 
 ---
 
 ## 📈 Ключевые метрики архитектуры
 
-| Категория | Метрика | Значение |
-|-----------|---------|----------|
-| **Codebase** | Компонентов | 1,124+ |
-| **Codebase** | Хуков | 200+ |
-| **Codebase** | Pages | 40+ |
-| **Codebase** | Edge Functions | 99+ |
-| **Codebase** | Stores | 8 |
-| **Performance** | Bundle (gzip) | ~950KB |
-| **Performance** | Lazy components | 15+ |
-| **Performance** | Memoized components | 4+ |
-| **Testing** | Unit tests | 27+ |
-| **Testing** | E2E tests | 62+ |
+| Категория       | Метрика             | Значение |
+| --------------- | ------------------- | -------- |
+| **Codebase**    | Компонентов         | 1,124+   |
+| **Codebase**    | Хуков               | 200+     |
+| **Codebase**    | Pages               | 40+      |
+| **Codebase**    | Edge Functions      | 99+      |
+| **Codebase**    | Stores              | 8        |
+| **Performance** | Bundle (gzip)       | ~950KB   |
+| **Performance** | Lazy components     | 15+      |
+| **Performance** | Memoized components | 4+       |
+| **Testing**     | Unit tests          | 27+      |
+| **Testing**     | E2E tests           | 62+      |
 
 ---
 
@@ -358,29 +362,29 @@ flowchart TB
 
 ### 1. Архитектурные улучшения
 
-| Что | Почему | Приоритет |
-|-----|--------|-----------|
-| **Feature-Sliced Design** | Текущая структура смешивает UI и логику | P3 |
-| **Event-Driven для уведомлений** | Telegram + WebSocket + Email | P2 |
-| **Service Worker** | Offline-first experience | P2 |
-| **Monorepo (Turborepo)** | Если разделим frontend/backend | P3 |
+| Что                              | Почему                                  | Приоритет |
+| -------------------------------- | --------------------------------------- | --------- |
+| **Feature-Sliced Design**        | Текущая структура смешивает UI и логику | P3        |
+| **Event-Driven для уведомлений** | Telegram + WebSocket + Email            | P2        |
+| **Service Worker**               | Offline-first experience                | P2        |
+| **Monorepo (Turborepo)**         | Если разделим frontend/backend          | P3        |
 
 ### 2. Технический долг
 
-| Проблема | Решение | Приоритет |
-|----------|---------|-----------|
-| `as any` в edge functions | Strict mode audit | P1 |
-| npm bug на Windows | WSL / Codespaces | P1 |
-| Устаревшие зависимости | `npm audit` review | P2 |
+| Проблема                  | Решение            | Приоритет |
+| ------------------------- | ------------------ | --------- |
+| `as any` в edge functions | Strict mode audit  | P1        |
+| npm bug на Windows        | WSL / Codespaces   | P1        |
+| Устаревшие зависимости    | `npm audit` review | P2        |
 
 ### 3. Масштабирование
 
-| Что | Текущее | Цель |
-|-----|---------|------|
-| Bundle size | 950KB | <800KB |
-| TypeScript strict | 85% | 100% |
-| Test coverage | 70% | >80% |
-| Edge functions | 99 | <50 (merge similar) |
+| Что               | Текущее | Цель                |
+| ----------------- | ------- | ------------------- |
+| Bundle size       | 950KB   | <800KB              |
+| TypeScript strict | 85%     | 100%                |
+| Test coverage     | 70%     | >80%                |
+| Edge functions    | 99      | <50 (merge similar) |
 
 ---
 

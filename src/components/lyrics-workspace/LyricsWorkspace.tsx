@@ -1,44 +1,44 @@
 /**
  * Lyrics Workspace
- * 
- * Visual section editor for lyrics with notes, tags, 
+ *
+ * Visual section editor for lyrics with notes, tags,
  * audio recordings, and reference audio per section.
  * Optimized for mobile with larger touch targets and swipe actions.
- * 
+ *
  */
 
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Plus, 
-  GripVertical, 
-  Music2, 
-  Mic, 
-  FileAudio, 
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  Plus,
+  GripVertical,
+  Music2,
+  Mic,
+  FileAudio,
   MessageSquare,
   ChevronRight,
   Trash2,
   Play,
   Save,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { EditableLyricsContent } from './EditableLyricsContent';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { TagBadge } from '@/components/lyrics/shared/TagBadge';
-import { SectionTagSelector } from '@/components/lyrics/shared/SectionTagSelector';
-import { sectionColors } from '@/lib/design-colors';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { EditableLyricsContent } from "./EditableLyricsContent";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { TagBadge } from "@/components/lyrics/shared/TagBadge";
+import { SectionTagSelector } from "@/components/lyrics/shared/SectionTagSelector";
+import { sectionColors } from "@/lib/design-colors";
 
 export interface LyricsSection {
   id: string;
-  type: 'verse' | 'chorus' | 'bridge' | 'intro' | 'outro' | 'hook' | 'prechorus' | 'breakdown';
+  type: "verse" | "chorus" | "bridge" | "intro" | "outro" | "hook" | "prechorus" | "breakdown";
   content: string;
   notes?: string;
   tags?: string[];
@@ -52,14 +52,14 @@ export interface LyricsSection {
 }
 
 const SECTION_TYPES = [
-  { value: 'verse', label: 'Куплет', color: sectionColors.verse.dot },
-  { value: 'chorus', label: 'Припев', color: sectionColors.chorus.dot },
-  { value: 'bridge', label: 'Бридж', color: sectionColors.bridge.dot },
-  { value: 'intro', label: 'Интро', color: sectionColors.intro.dot },
-  { value: 'outro', label: 'Аутро', color: sectionColors.outro.dot },
-  { value: 'hook', label: 'Хук', color: sectionColors.hook.dot },
-  { value: 'prechorus', label: 'Пре-припев', color: sectionColors['pre-chorus'].dot },
-  { value: 'breakdown', label: 'Брейкдаун', color: sectionColors.breakdown.dot },
+  { value: "verse", label: "Куплет", color: sectionColors.verse.dot },
+  { value: "chorus", label: "Припев", color: sectionColors.chorus.dot },
+  { value: "bridge", label: "Бридж", color: sectionColors.bridge.dot },
+  { value: "intro", label: "Интро", color: sectionColors.intro.dot },
+  { value: "outro", label: "Аутро", color: sectionColors.outro.dot },
+  { value: "hook", label: "Хук", color: sectionColors.hook.dot },
+  { value: "prechorus", label: "Пре-припев", color: sectionColors["pre-chorus"].dot },
+  { value: "breakdown", label: "Брейкдаун", color: sectionColors.breakdown.dot },
 ] as const;
 
 interface LyricsWorkspaceProps {
@@ -71,79 +71,86 @@ interface LyricsWorkspaceProps {
   onSectionSelect?: (section: LyricsSection | null) => void;
 }
 
-export function LyricsWorkspace({ 
-  sections, 
-  onChange, 
-  onSave, 
-  isSaving, 
+export function LyricsWorkspace({
+  sections,
+  onChange,
+  onSave,
+  isSaving,
   hideSaveButton = false,
-  onSectionSelect 
+  onSectionSelect,
 }: LyricsWorkspaceProps) {
   const isMobile = useIsMobile();
   const [selectedSection, setSelectedSection] = useState<LyricsSection | null>(null);
   const [detailsOpen, setDetailsOpen] = useState(false);
-  
 
-  const addSection = useCallback((type: LyricsSection['type'] = 'verse') => {
-    hapticImpact('light');
-    const newSection: LyricsSection = {
-      id: `${type}-${Date.now()}`,
-      type,
-      content: '',
-      tags: [],
-    };
-    onChange([...sections, newSection]);
-  }, [sections, onChange]);
+  const addSection = useCallback(
+    (type: LyricsSection["type"] = "verse") => {
+      hapticImpact("light");
+      const newSection: LyricsSection = {
+        id: `${type}-${Date.now()}`,
+        type,
+        content: "",
+        tags: [],
+      };
+      onChange([...sections, newSection]);
+    },
+    [sections, onChange],
+  );
 
-  const updateSection = useCallback((id: string, updates: Partial<LyricsSection>) => {
-    onChange(sections.map(s => s.id === id ? { ...s, ...updates } : s));
-    if (selectedSection?.id === id) {
-      setSelectedSection(prev => prev ? { ...prev, ...updates } : null);
-    }
-  }, [sections, onChange, selectedSection]);
+  const updateSection = useCallback(
+    (id: string, updates: Partial<LyricsSection>) => {
+      onChange(sections.map((s) => (s.id === id ? { ...s, ...updates } : s)));
+      if (selectedSection?.id === id) {
+        setSelectedSection((prev) => (prev ? { ...prev, ...updates } : null));
+      }
+    },
+    [sections, onChange, selectedSection],
+  );
 
-  const deleteSection = useCallback((id: string) => {
-    hapticImpact('medium');
-    onChange(sections.filter(s => s.id !== id));
-    if (selectedSection?.id === id) {
-      setSelectedSection(null);
-      setDetailsOpen(false);
-    }
-  }, [sections, onChange, selectedSection]);
+  const deleteSection = useCallback(
+    (id: string) => {
+      hapticImpact("medium");
+      onChange(sections.filter((s) => s.id !== id));
+      if (selectedSection?.id === id) {
+        setSelectedSection(null);
+        setDetailsOpen(false);
+      }
+    },
+    [sections, onChange, selectedSection],
+  );
 
-  const openDetails = useCallback((section: LyricsSection) => {
-    hapticImpact('light');
-    setSelectedSection(section);
-    setDetailsOpen(true);
-    onSectionSelect?.(section);
-  }, [onSectionSelect]);
+  const openDetails = useCallback(
+    (section: LyricsSection) => {
+      hapticImpact("light");
+      setSelectedSection(section);
+      setDetailsOpen(true);
+      onSectionSelect?.(section);
+    },
+    [onSectionSelect],
+  );
 
-  const updateSectionTags = useCallback((id: string, tags: string[]) => {
-    updateSection(id, { tags });
-  }, [updateSection]);
+  const updateSectionTags = useCallback(
+    (id: string, tags: string[]) => {
+      updateSection(id, { tags });
+    },
+    [updateSection],
+  );
 
-  const getSectionTypeInfo = (type: string) => 
-    SECTION_TYPES.find(t => t.value === type) || SECTION_TYPES[0];
+  const getSectionTypeInfo = (type: string) => SECTION_TYPES.find((t) => t.value === type) || SECTION_TYPES[0];
 
   return (
     <div className="h-full flex flex-col">
       {/* Header - Hidden when embedded in LyricsStudio */}
       {!hideSaveButton && (
-        <div className={cn(
-          "flex items-center justify-between border-b border-border/50",
-          isMobile ? "p-3" : "p-4"
-        )}>
-          <h2 className={cn(
-            "font-semibold flex items-center gap-2",
-            isMobile ? "text-base" : "text-lg"
-          )}>
+        <div className={cn("flex items-center justify-between border-b border-border/50", isMobile ? "p-3" : "p-4")}>
+          <h2 className={cn("font-semibold flex items-center gap-2", isMobile ? "text-base" : "text-lg")}>
             <Music2 className="w-5 h-5 text-primary" />
             Редактор лирики
           </h2>
           {onSave && (
             <Button onClick={onSave} disabled={isSaving} size="sm">
               <Save className="w-4 h-4 mr-2" />
-              {isSaving ? 'Сохранение...' : 'Сохранить'}
+              {isSaving ? "Сохранение..." : "Сохранить"}
             </Button>
           )}
         </div>
@@ -178,13 +185,10 @@ export function LyricsWorkspace({
                       <div className="flex-1 min-w-0">
                         {/* Section type badge + Add tag button */}
                         <div className="flex items-center gap-2 mb-2 flex-wrap">
-                          <Badge 
-                            variant="outline" 
-                            className={cn("text-xs", typeInfo.color, "text-white border-0")}
-                          >
+                          <Badge variant="outline" className={cn("text-xs", typeInfo.color, "text-white border-0")}>
                             {typeInfo.label}
                           </Badge>
-                          
+
                           {/* Add tag button */}
                           <SectionTagSelector
                             selectedTags={section.tags || []}
@@ -209,15 +213,12 @@ export function LyricsWorkspace({
                         {/* Tags display with icons */}
                         {section.tags && section.tags.length > 0 && (
                           <div className="flex flex-wrap gap-1 mt-2">
-                            {section.tags.map(tag => (
+                            {section.tags.map((tag) => (
                               <TagBadge
                                 key={tag}
                                 tag={tag}
                                 onRemove={() => {
-                                  updateSectionTags(
-                                    section.id, 
-                                    section.tags?.filter(t => t !== tag) || []
-                                  );
+                                  updateSectionTags(section.id, section.tags?.filter((t) => t !== tag) || []);
                                 }}
                               />
                             ))}
@@ -227,12 +228,7 @@ export function LyricsWorkspace({
 
                       {/* Actions */}
                       <div className="flex flex-col gap-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8"
-                          onClick={() => openDetails(section)}
-                        >
+                        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openDetails(section)}>
                           <ChevronRight className="w-4 h-4" />
                         </Button>
                         <Button
@@ -255,12 +251,12 @@ export function LyricsWorkspace({
           <div className="pt-4 border-t border-border/30">
             <p className="text-xs text-muted-foreground mb-2">Добавить секцию:</p>
             <div className="flex flex-wrap gap-2">
-              {SECTION_TYPES.slice(0, 4).map(type => (
+              {SECTION_TYPES.slice(0, 4).map((type) => (
                 <Button
                   key={type.value}
                   variant="outline"
                   size="sm"
-                  onClick={() => addSection(type.value as LyricsSection['type'])}
+                  onClick={() => addSection(type.value as LyricsSection["type"])}
                   className="gap-1.5"
                 >
                   <Plus className="w-3.5 h-3.5" />
@@ -295,7 +291,7 @@ export function LyricsWorkspace({
                   Заметки
                 </label>
                 <Textarea
-                  value={selectedSection.notes || ''}
+                  value={selectedSection.notes || ""}
                   onChange={(e) => updateSection(selectedSection.id, { notes: e.target.value })}
                   placeholder="Заметки о секции, идеи, настроение..."
                   className="min-h-[100px]"
@@ -317,31 +313,27 @@ export function LyricsWorkspace({
                     }
                   />
                 </label>
-                
+
                 {selectedSection.tags && selectedSection.tags.length > 0 ? (
                   <div className="flex flex-wrap gap-1.5">
-                    {selectedSection.tags.map(tag => (
+                    {selectedSection.tags.map((tag) => (
                       <TagBadge
                         key={tag}
                         tag={tag}
                         size="md"
                         onRemove={() => {
                           updateSection(selectedSection.id, {
-                            tags: selectedSection.tags?.filter(t => t !== tag) || []
+                            tags: selectedSection.tags?.filter((t) => t !== tag) || [],
                           });
                         }}
                       />
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-muted-foreground">
-                    Нажмите "Добавить" для выбора тегов
-                  </p>
+                  <p className="text-sm text-muted-foreground">Нажмите "Добавить" для выбора тегов</p>
                 )}
-                
-                <p className="text-xs text-muted-foreground mt-2">
-                  Теги применяются в формате [Tag] к секции
-                </p>
+
+                <p className="text-xs text-muted-foreground mt-2">Теги применяются в формате [Tag] к секции</p>
               </div>
 
               {/* Audio note */}

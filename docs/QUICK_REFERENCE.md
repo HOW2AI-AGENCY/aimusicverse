@@ -33,6 +33,7 @@ flowchart LR
 ```
 
 **Чеклист:**
+
 - [ ] Создана ветка `feature/название-фичи`
 - [ ] Код соответствует стандартам (см. [constitution.md](../.specify/memory/constitution.md))
 - [ ] Добавлены TypeScript типы
@@ -62,6 +63,7 @@ src/components/
 ```
 
 **Шаблон:**
+
 ```typescript
 import { cn } from "@/lib/utils";
 
@@ -70,9 +72,9 @@ interface MyComponentProps {
   children: React.ReactNode;
 }
 
-export const MyComponent = ({ 
+export const MyComponent = ({
   variant = "default",
-  children 
+  children
 }: MyComponentProps) => {
   return (
     <div className={cn(
@@ -109,11 +111,8 @@ export const useMyFeature = (param: string) => {
     queryKey: ["myFeature", param],
     queryFn: async () => {
       try {
-        const { data, error } = await supabase
-          .from("table_name")
-          .select("*")
-          .eq("field", param);
-        
+        const { data, error } = await supabase.from("table_name").select("*").eq("field", param);
+
         if (error) throw error;
         return data;
       } catch (error) {
@@ -134,6 +133,7 @@ export const useMyFeature = (param: string) => {
 3. Деплой происходит автоматически при push
 
 **Шаблон:**
+
 ```typescript
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
@@ -141,23 +141,14 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 serve(async (req) => {
   try {
     const { param } = await req.json();
-    
-    const supabase = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-    );
-    
+
+    const supabase = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "");
+
     // Your logic here
-    
-    return new Response(
-      JSON.stringify({ success: true }),
-      { headers: { "Content-Type": "application/json" } }
-    );
+
+    return new Response(JSON.stringify({ success: true }), { headers: { "Content-Type": "application/json" } });
   } catch (error) {
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { status: 500 }
-    );
+    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
   }
 });
 ```
@@ -216,16 +207,16 @@ grep -r ": Track" src/
 CREATE INDEX idx_tracks_user_id ON tracks(user_id);
 
 -- Composite индекс
-CREATE INDEX idx_tracks_user_public 
+CREATE INDEX idx_tracks_user_public
 ON tracks(user_id, is_public, created_at DESC);
 
 -- Partial индекс
-CREATE INDEX idx_tracks_public 
-ON tracks(created_at DESC) 
+CREATE INDEX idx_tracks_public
+ON tracks(created_at DESC)
 WHERE is_public = true;
 
 -- GIN индекс для JSONB
-CREATE INDEX idx_metadata 
+CREATE INDEX idx_metadata
 ON table_name USING GIN(metadata);
 ```
 
@@ -238,7 +229,7 @@ tracks.forEach(async (track) => {
 });
 
 // ✅ GOOD: Batch query
-const trackIds = tracks.map(t => t.id);
+const trackIds = tracks.map((t) => t.id);
 const likes = await fetchLikesBatch(trackIds);
 ```
 
@@ -260,10 +251,10 @@ const likes = await fetchLikesBatch(trackIds);
 
 ```typescript
 <div className="
-  grid 
-  grid-cols-1 
-  md:grid-cols-2 
-  lg:grid-cols-3 
+  grid
+  grid-cols-1
+  md:grid-cols-2
+  lg:grid-cols-3
   gap-4
 ">
 ```
@@ -314,11 +305,11 @@ describe("TrackCard", () => {
     render(<TrackCard track={mockTrack} />);
     expect(screen.getByText("Track Title")).toBeInTheDocument();
   });
-  
+
   it("calls onPlay when clicked", async () => {
     const onPlay = vi.fn();
     render(<TrackCard track={mockTrack} onPlay={onPlay} />);
-    
+
     await userEvent.click(screen.getByRole("button"));
     expect(onPlay).toHaveBeenCalledWith(mockTrack);
   });

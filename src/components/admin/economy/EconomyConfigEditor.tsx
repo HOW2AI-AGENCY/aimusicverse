@@ -9,14 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { 
-  RefreshCw, 
-  Search, 
-  Settings2, 
-  AlertCircle,
-  CheckCircle2,
-  RotateCcw
-} from "lucide-react";
+import { RefreshCw, Search, Settings2, AlertCircle, CheckCircle2, RotateCcw } from "lucide-react";
 import { EconomyCategory } from "./EconomyCategory";
 import {
   useEconomyConfig,
@@ -64,7 +57,7 @@ const DEFAULT_VALUES: Record<string, number> = {
 
 export function EconomyConfigEditor() {
   const [searchQuery, setSearchQuery] = useState("");
-  
+
   const { data: configItems, isLoading, error, refetch } = useEconomyConfig();
   const updateConfig = useUpdateEconomyConfig();
 
@@ -78,9 +71,7 @@ export function EconomyConfigEditor() {
     const query = searchQuery.toLowerCase();
     const label = CONFIG_LABELS[item.key]?.toLowerCase() || "";
     return (
-      item.key.toLowerCase().includes(query) ||
-      label.includes(query) ||
-      item.description?.toLowerCase().includes(query)
+      item.key.toLowerCase().includes(query) || label.includes(query) || item.description?.toLowerCase().includes(query)
     );
   });
 
@@ -88,9 +79,9 @@ export function EconomyConfigEditor() {
   const categorizedItems = filteredItems ? getConfigByCategory(filteredItems) : new Map();
 
   // Count changed items
-  const totalChanged = configItems?.filter(
-    (item) => DEFAULT_VALUES[item.key] !== undefined && DEFAULT_VALUES[item.key] !== item.value
-  ).length || 0;
+  const totalChanged =
+    configItems?.filter((item) => DEFAULT_VALUES[item.key] !== undefined && DEFAULT_VALUES[item.key] !== item.value)
+      .length || 0;
 
   if (isLoading) {
     return (
@@ -120,9 +111,7 @@ export function EconomyConfigEditor() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground mb-4">
-            {error instanceof Error ? error.message : "Неизвестная ошибка"}
-          </p>
+          <p className="text-muted-foreground mb-4">{error instanceof Error ? error.message : "Неизвестная ошибка"}</p>
           <Button onClick={() => refetch()} variant="outline">
             <RefreshCw className="h-4 w-4 mr-2" />
             Повторить
@@ -146,12 +135,7 @@ export function EconomyConfigEditor() {
                 {totalChanged} изменено
               </Badge>
             )}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => refetch()}
-              disabled={isLoading}
-            >
+            <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isLoading}>
               <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
             </Button>
           </div>
@@ -221,11 +205,7 @@ export function EconomyConfigEditor() {
           <div className="text-center py-8 text-muted-foreground">
             <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
             <p>Параметры не найдены</p>
-            <Button
-              variant="link"
-              onClick={() => setSearchQuery("")}
-              className="mt-2"
-            >
+            <Button variant="link" onClick={() => setSearchQuery("")} className="mt-2">
               Сбросить поиск
             </Button>
           </div>

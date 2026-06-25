@@ -4,11 +4,11 @@
  * Improves performance and reduces memory usage
  */
 
-import { createClient, SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
-import { BOT_CONFIG } from '../config.ts';
-import { createLogger } from '../../_shared/logger.ts';
+import { createClient, SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { BOT_CONFIG } from "../config.ts";
+import { createLogger } from "../../_shared/logger.ts";
 
-const logger = createLogger('supabase-client');
+const logger = createLogger("supabase-client");
 
 // Singleton instance
 let _supabaseClient: SupabaseClient | null = null;
@@ -22,30 +22,26 @@ export function getSupabaseClient(): SupabaseClient {
     return _supabaseClient;
   }
 
-  logger.info('Creating new Supabase client instance');
+  logger.info("Creating new Supabase client instance");
 
-  _supabaseClient = createClient(
-    BOT_CONFIG.supabaseUrl,
-    BOT_CONFIG.supabaseServiceKey,
-    {
-      auth: {
-        persistSession: false, // Serverless environment
-        autoRefreshToken: false,
-        detectSessionInUrl: false,
+  _supabaseClient = createClient(BOT_CONFIG.supabaseUrl, BOT_CONFIG.supabaseServiceKey, {
+    auth: {
+      persistSession: false, // Serverless environment
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+    global: {
+      headers: {
+        "x-client-info": "telegram-bot/1.0",
       },
-      global: {
-        headers: {
-          'x-client-info': 'telegram-bot/1.0',
-        },
-        fetch: fetch.bind(globalThis),
-      },
-      db: {
-        schema: 'public',
-      },
-    }
-  );
+      fetch: fetch.bind(globalThis),
+    },
+    db: {
+      schema: "public",
+    },
+  });
 
-  logger.info('Supabase client created successfully');
+  logger.info("Supabase client created successfully");
 
   return _supabaseClient;
 }
@@ -55,7 +51,7 @@ export function getSupabaseClient(): SupabaseClient {
  * @internal
  */
 export function resetSupabaseClient(): void {
-  logger.warn('Resetting Supabase client instance');
+  logger.warn("Resetting Supabase client instance");
   _supabaseClient = null;
 }
 
@@ -65,10 +61,7 @@ export function resetSupabaseClient(): void {
  * @param maxRetries Maximum number of retry attempts
  * @returns Query result
  */
-export async function executeWithRetry<T>(
-  queryFn: (client: SupabaseClient) => Promise<T>,
-  maxRetries = 2
-): Promise<T> {
+export async function executeWithRetry<T>(queryFn: (client: SupabaseClient) => Promise<T>, maxRetries = 2): Promise<T> {
   const client = getSupabaseClient();
   let lastError: Error | null = null;
 
@@ -80,9 +73,10 @@ export async function executeWithRetry<T>(
 
       // Don't retry on application errors, only on network errors
       if (error instanceof Error) {
-        const isNetworkError = error.message.includes('fetch failed') ||
-          error.message.includes('network') ||
-          error.message.includes('timeout');
+        const isNetworkError =
+          error.message.includes("fetch failed") ||
+          error.message.includes("network") ||
+          error.message.includes("timeout");
 
         if (!isNetworkError || attempt === maxRetries) {
           throw error;
@@ -99,7 +93,7 @@ export async function executeWithRetry<T>(
         error: error instanceof Error ? error.message : String(error),
       });
 
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 

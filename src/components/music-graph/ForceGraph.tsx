@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import type { GraphData, GraphNode } from '@/hooks/useMusicGraph';
+import { useEffect, useRef, useState, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { ZoomIn, ZoomOut, RotateCcw } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import type { GraphData, GraphNode } from "@/hooks/useMusicGraph";
 
 interface ForceGraphProps {
   data: GraphData;
@@ -13,7 +13,7 @@ interface ForceGraphProps {
   filter?: {
     genres?: string[];
     categories?: string[];
-    nodeTypes?: ('genre' | 'style' | 'tag' | 'category')[];
+    nodeTypes?: ("genre" | "style" | "tag" | "category")[];
   };
 }
 
@@ -29,7 +29,7 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const positionsRef = useRef<Map<string, NodePosition>>(new Map<string, NodePosition>());
-  
+
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
@@ -42,31 +42,33 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
     if (!filter) return data;
 
     let nodes = data.nodes;
-    
+
     if (filter.nodeTypes && filter.nodeTypes.length > 0) {
-      nodes = nodes.filter(n => filter.nodeTypes!.includes(n.type));
+      nodes = nodes.filter((n) => filter.nodeTypes!.includes(n.type));
     }
-    
+
     if (filter.genres && filter.genres.length > 0) {
-      nodes = nodes.filter(n => 
-        n.type === 'genre' ? filter.genres!.includes(n.label) :
-        n.type === 'style' ? filter.genres!.includes(n.genre || '') :
-        true
-      );
-    }
-    
-    if (filter.categories && filter.categories.length > 0) {
-      nodes = nodes.filter(n => 
-        n.type === 'category' ? filter.categories!.includes(n.category || '') :
-        n.type === 'tag' ? filter.categories!.includes(n.category || '') :
-        true
+      nodes = nodes.filter((n) =>
+        n.type === "genre"
+          ? filter.genres!.includes(n.label)
+          : n.type === "style"
+            ? filter.genres!.includes(n.genre || "")
+            : true,
       );
     }
 
-    const nodeIds = new Set(nodes.map(n => n.id));
-    const edges = data.edges.filter(e => 
-      nodeIds.has(e.source) && nodeIds.has(e.target)
-    );
+    if (filter.categories && filter.categories.length > 0) {
+      nodes = nodes.filter((n) =>
+        n.type === "category"
+          ? filter.categories!.includes(n.category || "")
+          : n.type === "tag"
+            ? filter.categories!.includes(n.category || "")
+            : true,
+      );
+    }
+
+    const nodeIds = new Set(nodes.map((n) => n.id));
+    const edges = data.edges.filter((e) => nodeIds.has(e.source) && nodeIds.has(e.target));
 
     return { nodes, edges };
   }, [data, filter]);
@@ -76,7 +78,7 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
     const centerX = dimensions.width / 2;
     const centerY = dimensions.height / 2;
 
-    filteredData.nodes.forEach(node => {
+    filteredData.nodes.forEach((node) => {
       if (!positionsRef.current.has(node.id)) {
         const angle = Math.random() * Math.PI * 2;
         const radius = 100 + Math.random() * 200;
@@ -102,15 +104,15 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
     };
 
     updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    window.addEventListener("resize", updateDimensions);
+    return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
   // Animation
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const { nodes, edges } = filteredData;
@@ -118,14 +120,14 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
 
     const animate = () => {
       // Physics
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const pos = positions.get(node.id);
         if (!pos) return;
 
         pos.vx += (dimensions.width / 2 - pos.x) * 0.001;
         pos.vy += (dimensions.height / 2 - pos.y) * 0.001;
 
-        nodes.forEach(other => {
+        nodes.forEach((other) => {
           if (node.id === other.id) return;
           const otherPos = positions.get(other.id);
           if (!otherPos) return;
@@ -152,18 +154,18 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
       ctx.translate(pan.x, pan.y);
       ctx.scale(zoom, zoom);
 
-      edges.forEach(edge => {
+      edges.forEach((edge) => {
         const s = positions.get(edge.source);
         const t = positions.get(edge.target);
         if (!s || !t) return;
         ctx.beginPath();
         ctx.moveTo(s.x, s.y);
         ctx.lineTo(t.x, t.y);
-        ctx.strokeStyle = 'rgba(100,100,100,0.2)';
+        ctx.strokeStyle = "rgba(100,100,100,0.2)";
         ctx.stroke();
       });
 
-      nodes.forEach(node => {
+      nodes.forEach((node) => {
         const pos = positions.get(node.id);
         if (!pos) return;
         ctx.beginPath();
@@ -171,9 +173,9 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
         ctx.fillStyle = node.color;
         ctx.fill();
         if (zoom > 0.5) {
-          ctx.font = '10px sans-serif';
-          ctx.fillStyle = 'white';
-          ctx.textAlign = 'center';
+          ctx.font = "10px sans-serif";
+          ctx.fillStyle = "white";
+          ctx.textAlign = "center";
           ctx.fillText(node.label, pos.x, pos.y + node.size + 12);
         }
       });
@@ -183,7 +185,9 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
     };
 
     animate();
-    return () => { if (animationRef.current) cancelAnimationFrame(animationRef.current); };
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+    };
   }, [filteredData, zoom, pan, dimensions]);
 
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -202,7 +206,10 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
   };
 
   return (
-    <div ref={containerRef} className="relative w-full h-full min-h-[400px] bg-background/50 rounded-xl overflow-hidden border border-border/50">
+    <div
+      ref={containerRef}
+      className="relative w-full h-full min-h-[400px] bg-background/50 rounded-xl overflow-hidden border border-border/50"
+    >
       <canvas
         ref={canvasRef}
         width={dimensions.width}
@@ -213,12 +220,28 @@ export function ForceGraph({ data, onNodeClick, selectedNode, filter }: ForceGra
         onMouseUp={() => setIsDragging(false)}
         onMouseLeave={() => setIsDragging(false)}
         onClick={handleClick}
-        onWheel={(e) => { e.preventDefault(); setZoom(z => Math.max(0.2, Math.min(3, z * (e.deltaY > 0 ? 0.9 : 1.1)))); }}
+        onWheel={(e) => {
+          e.preventDefault();
+          setZoom((z) => Math.max(0.2, Math.min(3, z * (e.deltaY > 0 ? 0.9 : 1.1))));
+        }}
       />
       <div className="absolute top-4 right-4 flex flex-col gap-2">
-        <Button size="icon" variant="secondary" onClick={() => setZoom(z => Math.min(3, z * 1.2))}><ZoomIn className="w-4 h-4" /></Button>
-        <Button size="icon" variant="secondary" onClick={() => setZoom(z => Math.max(0.2, z * 0.8))}><ZoomOut className="w-4 h-4" /></Button>
-        <Button size="icon" variant="secondary" onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}><RotateCcw className="w-4 h-4" /></Button>
+        <Button size="icon" variant="secondary" onClick={() => setZoom((z) => Math.min(3, z * 1.2))}>
+          <ZoomIn className="w-4 h-4" />
+        </Button>
+        <Button size="icon" variant="secondary" onClick={() => setZoom((z) => Math.max(0.2, z * 0.8))}>
+          <ZoomOut className="w-4 h-4" />
+        </Button>
+        <Button
+          size="icon"
+          variant="secondary"
+          onClick={() => {
+            setZoom(1);
+            setPan({ x: 0, y: 0 });
+          }}
+        >
+          <RotateCcw className="w-4 h-4" />
+        </Button>
       </div>
       <div className="absolute top-4 left-4 text-xs text-muted-foreground bg-background/80 px-2 py-1 rounded">
         {filteredData.nodes.length} узлов · {filteredData.edges.length} связей

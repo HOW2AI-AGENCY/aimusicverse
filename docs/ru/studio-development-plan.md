@@ -1,4 +1,5 @@
 # 🎵 План развития и улучшения MusicVerse AI
+
 ## Комплексный анализ и стратегия развития платформы
 
 **Дата создания:** 25 декабря 2025  
@@ -24,6 +25,7 @@
 ### Ключевые показатели проекта
 
 **Масштаб проекта:**
+
 - 📄 **40 страниц** - полноценное веб-приложение
 - 🧩 **830+ компонентов** - сложная архитектура
 - ⚡ **94 Edge Functions** - мощный бэкенд
@@ -31,6 +33,7 @@
 - 🎨 **Mobile-First дизайн** - оптимизация под мобильные устройства
 
 **Текущий статус:**
+
 - ✅ **80% готовности** (20/25 спринтов)
 - ✅ **Health Score: 97/100** - отличное качество кода
 - ✅ **~500KB bundle** - хорошая производительность
@@ -77,6 +80,7 @@
 #### Структура страниц (40 страниц)
 
 **Основные разделы:**
+
 ```
 Главная (/)
 ├── Discover/Featured контент
@@ -194,6 +198,7 @@ Stem Studio (/studio/:trackId)
 ### 2. Технологический стек
 
 **Frontend:**
+
 ```typescript
 // Core
 React 19              // Latest features
@@ -221,6 +226,7 @@ Web Audio API         // Low-level control
 ```
 
 **Backend (Lovable Cloud):**
+
 ```typescript
 // Database
 PostgreSQL            // Main database
@@ -241,12 +247,14 @@ Klangio               // Audio analysis
 ### 3. Производительность
 
 **Текущие метрики:**
+
 - Bundle Size: ~500KB (хорошо)
 - TTI (4G Mobile): ~4.5s (можно улучшить → цель <3s)
 - List FPS: 45 (можно улучшить → цель >58)
 - Lighthouse: TBD (цель >90)
 
 **Оптимизации:**
+
 - ✅ Lazy loading страниц
 - ✅ Code splitting
 - ✅ Virtualized lists
@@ -292,6 +300,7 @@ journey
 **Цель:** Создать первый трек за 5 минут
 
 **Текущий флоу:**
+
 1. Открытие бота → Mini App (10 сек)
 2. Онбординг (2-3 мин)
 3. Навигация к Generate (5 сек)
@@ -302,11 +311,13 @@ journey
 **Итого:** 5-7 минут ✅
 
 **Проблемы:**
+
 - ⚠️ Онбординг может быть слишком длинным (9 шагов)
 - ⚠️ Новички не всегда понимают, что писать в prompt
 - ⚠️ Нет примеров или шаблонов для быстрого старта
 
 **Улучшения:**
+
 - 💡 Сократить онбординг до 5 ключевых шагов
 - 💡 Добавить Quick Start Templates (10-15 готовых промптов)
 - 💡 Показывать популярные стили в реальном времени
@@ -317,6 +328,7 @@ journey
 **Цель:** Создать 5-10 треков в день, организовать в проекты
 
 **Текущий флоу:**
+
 1. Quick Actions на главной → Generate
 2. Использует AI Lyrics Wizard для сложных треков
 3. Сохраняет в Projects
@@ -324,12 +336,14 @@ journey
 5. Экспортирует лучшие
 
 **Проблемы:**
+
 - ⚠️ Нет batch generation (создать несколько треков одновременно)
 - ⚠️ Lyrics Wizard теряет state при закрытии
 - ⚠️ Нет undo/redo в Lyrics Wizard
 - ⚠️ Счетчик символов включает структурные теги
 
 **Улучшения:**
+
 - 💡 Batch generation mode (очередь из 3-5 треков)
 - 💡 LocalStorage persistence для Lyrics Wizard
 - 💡 Undo/Redo история (последние 20 состояний)
@@ -341,6 +355,7 @@ journey
 **Цель:** Использовать Stem Studio для продвинутой обработки
 
 **Текущий флоу:**
+
 1. Библиотека → выбор трека
 2. Открыть Stem Studio
 3. Разделение на стемы (ждать 1-2 мин)
@@ -348,6 +363,7 @@ journey
 5. Экспорт результата
 
 **Проблемы:**
+
 - ⚠️ AudioContext не всегда корректно управляется (memory leaks)
 - ⚠️ Mobile ограничивает количество audio элементов (6-8)
 - ⚠️ Waveform generation блокирует UI
@@ -355,6 +371,7 @@ journey
 - ⚠️ Нет preset'ов для быстрого микширования
 
 **Улучшения:**
+
 - 💡 Audio element pooling для mobile
 - 💡 Web Worker для waveform generation
 - 💡 Keyboard shortcuts (S-solo, M-mute, числа-выбор стема)
@@ -367,6 +384,7 @@ journey
 **Цель:** Делиться музыкой, находить единомышленников
 
 **Текущий флоу:**
+
 1. Создание/поиск музыки
 2. Лайки и комментарии
 3. Добавление в плейлисты
@@ -374,12 +392,14 @@ journey
 5. Following других артистов
 
 **Проблемы:**
+
 - ⚠️ Нет collaborative editing (совместная работа)
 - ⚠️ Нет listening parties (синхронное прослушивание)
 - ⚠️ Нет challenges/contests
 - ⚠️ Ограниченные социальные функции
 
 **Улучшения:**
+
 - 💡 Real-time collaborative editing в Stem Studio
 - 💡 Live Listening Parties (синхронное прослушивание с друзьями)
 - 💡 Weekly challenges (тематические конкурсы)
@@ -393,6 +413,7 @@ journey
 ### Текущая навигация (Mobile-First)
 
 **Island Navigation** (Плавающая навигация внизу экрана)
+
 ```
 ┌──────────────────────────────────────┐
 │                                      │
@@ -406,6 +427,7 @@ journey
 ```
 
 **Структура навигации:**
+
 1. **Главная** - Discovery, Featured, Auto-playlists
 2. **Треки** - Библиотека (Grid/List view)
 3. **➕ Создать** - FAB (Floating Action Button)
@@ -413,6 +435,7 @@ journey
 5. **≡ Ещё** - MoreMenuSheet с дополнительными разделами
 
 **MoreMenuSheet содержит:**
+
 ```
 Студии
 ├── Music Lab
@@ -475,6 +498,7 @@ journey
 **Проблема:** Множество похожих компонентов для mobile
 
 Примеры:
+
 - `MobileActionsTab.tsx` [180 LOC]
 - `MobileLyricsTab.tsx` [210 LOC]
 - `MobilePlayerTab.tsx` [250 LOC]
@@ -482,6 +506,7 @@ journey
 - 7+ вариантов табов (всего ~1,340 LOC)
 
 **Решение:** Создать универсальный `MobileTabBar` компонент
+
 - Reduces code by ~59% (1,340 → 550 LOC)
 - Единый API для всех табов
 - Легче поддерживать
@@ -489,21 +514,25 @@ journey
 #### 2. Layout дублирование
 
 **Проблема:**
+
 - `TrackStudioMobileLayout.tsx` [450 LOC]
 - `MobileStudioLayout.tsx` [320 LOC]
 - Total: 770 LOC
 
 **Решение:** Unified `MobileStudio.tsx` [350 LOC]
+
 - Saves 420 LOC (-55%)
 - Consistent UX
 
 #### 3. Waveform блокирует UI
 
 **Проблема:** Генерация waveform на main thread
+
 - UI freezes на 200-500ms
 - Особенно заметно на mobile
 
 **Решение:** Web Worker для waveform
+
 - Offload в background thread
 - Показывать прогресс
 - Кэшировать в IndexedDB
@@ -511,10 +540,12 @@ journey
 #### 4. Audio ограничения на iOS
 
 **Проблема:** Safari ограничивает 6-8 audio элементов
+
 - В Stem Studio может быть 8+ стемов
 - Не все стемы воспроизводятся
 
 **Решение:** Audio element pooling
+
 - Динамическое создание/уничтожение
 - Приоритизация активных стемов
 - Virtualized audio elements
@@ -524,6 +555,7 @@ journey
 Уже есть подробный план: **MOBILE_OPTIMIZATION_SUMMARY.md**
 
 **Ключевые цели:**
+
 - Компоненты: 29 → 18 (-38%)
 - LOC: ~5,925 → ~4,225 (-29%)
 - Duplication: >15% → <5%
@@ -531,6 +563,7 @@ journey
 - FPS: 45 → >58 (+29%)
 
 **Timeline:** 4 недели
+
 - Week 1: Foundation & Design System
 - Week 2: Component consolidation
 - Week 3: UX polish & gestures
@@ -543,6 +576,7 @@ journey
 ### Текущее состояние Stem Studio
 
 **Функционал:**
+
 - ✅ Vocal/Instrumental separation
 - ✅ Multi-stem mode (drums, bass, guitar, keys, etc.)
 - ✅ Per-stem volume/mute controls
@@ -552,6 +586,7 @@ journey
 - ✅ Mobile-optimized layout
 
 **Архитектура:**
+
 - 60+ компонентов
 - Модульная структура (core/, panels/, tabs/)
 - Desktop & Mobile layouts
@@ -563,28 +598,30 @@ journey
 #### 1.1 Audio Engine стабильность
 
 **Проблемы:**
+
 - Memory leaks от orphaned audio nodes
 - Нет проверки AudioContext state
 - Mobile audio limits (6-8 элементов)
 
 **Решение:**
+
 ```typescript
 // 1. AudioContext state machine
 class AudioManager {
   private context: AudioContext | null = null;
   private nodes: Map<string, AudioNode> = new Map();
-  
+
   async init() {
-    if (this.context?.state === 'suspended') {
+    if (this.context?.state === "suspended") {
       await this.context.resume();
     }
     if (!this.context) {
       this.context = new AudioContext();
     }
   }
-  
+
   cleanup() {
-    this.nodes.forEach(node => node.disconnect());
+    this.nodes.forEach((node) => node.disconnect());
     this.nodes.clear();
     this.context?.close();
   }
@@ -595,7 +632,7 @@ class AudioPool {
   private pool: HTMLAudioElement[] = [];
   private active: Set<HTMLAudioElement> = new Set();
   private maxSize = 6; // iOS limit
-  
+
   acquire(): HTMLAudioElement {
     let audio = this.pool.pop();
     if (!audio && this.active.size < this.maxSize) {
@@ -604,10 +641,10 @@ class AudioPool {
     if (audio) this.active.add(audio);
     return audio;
   }
-  
+
   release(audio: HTMLAudioElement) {
     audio.pause();
-    audio.src = '';
+    audio.src = "";
     this.active.delete(audio);
     this.pool.push(audio);
   }
@@ -615,6 +652,7 @@ class AudioPool {
 ```
 
 **Файлы:**
+
 - `src/lib/audioManager.ts` (создать)
 - `src/lib/audioPool.ts` (создать)
 - `src/hooks/studio/useStemStudioAudio.ts` (обновить)
@@ -627,6 +665,7 @@ class AudioPool {
 **Проблема:** UI freezes при генерации waveform
 
 **Решение:**
+
 ```typescript
 // waveformGenerator.worker.ts
 self.onmessage = async (e) => {
@@ -638,9 +677,9 @@ self.onmessage = async (e) => {
 
 // useWaveform.ts
 const { data: waveform, isLoading } = useQuery({
-  queryKey: ['waveform', trackId],
+  queryKey: ["waveform", trackId],
   queryFn: async () => {
-    const worker = new Worker(new URL('./worker.ts', import.meta.url));
+    const worker = new Worker(new URL("./worker.ts", import.meta.url));
     return new Promise((resolve) => {
       worker.postMessage({ audioBuffer, width, height });
       worker.onmessage = (e) => {
@@ -659,6 +698,7 @@ const { data: waveform, isLoading } = useQuery({
 #### 1.3 Keyboard Shortcuts
 
 **Функционал:**
+
 ```typescript
 // Global shortcuts
 Space         → Play/Pause
@@ -680,13 +720,14 @@ Ctrl+S        → Save mix
 ```
 
 **Реализация:**
+
 ```typescript
-import { useHotkeys } from 'react-hotkeys-hook';
+import { useHotkeys } from "react-hotkeys-hook";
 
 export function useStemStudioShortcuts(stemId: string) {
-  useHotkeys('s', () => soloStem(stemId), { enableOnFormTags: false });
-  useHotkeys('m', () => muteStem(stemId), { enableOnFormTags: false });
-  useHotkeys('1-9', (e) => selectStem(e.key), { enableOnFormTags: false });
+  useHotkeys("s", () => soloStem(stemId), { enableOnFormTags: false });
+  useHotkeys("m", () => muteStem(stemId), { enableOnFormTags: false });
+  useHotkeys("1-9", (e) => selectStem(e.key), { enableOnFormTags: false });
   // ...
 }
 ```
@@ -701,6 +742,7 @@ export function useStemStudioShortcuts(stemId: string) {
 **Описание:** Автоматический мастеринг треков
 
 **Функционал:**
+
 - Анализ частотного спектра
 - Автоматическая EQ, компрессия, лимитинг
 - Presets: "Pop", "Rock", "EDM", "Cinematic", "Podcast"
@@ -708,6 +750,7 @@ export function useStemStudioShortcuts(stemId: string) {
 - Reference track matching
 
 **UI/UX:**
+
 ```
 ┌─────────────────────────────────────┐
 │  🎚️ AI Mastering                    │
@@ -726,6 +769,7 @@ export function useStemStudioShortcuts(stemId: string) {
 ```
 
 **Технологии:**
+
 - Tone.js для audio processing
 - ML model для анализа (TensorFlow.js)
 - Replicate API для AI processing
@@ -736,27 +780,29 @@ export function useStemStudioShortcuts(stemId: string) {
 #### 2.2 Mix Presets & Templates
 
 **Функционал:**
+
 - Готовые пресеты микширования
 - Save custom presets
 - Share presets с сообществом
 - Import/Export preset files
 
 **Presets:**
+
 ```typescript
 interface MixPreset {
   name: string;
   genre: string;
   stems: {
     [stemType: string]: {
-      volume: number;      // 0-100
-      pan: number;         // -100 to 100
+      volume: number; // 0-100
+      pan: number; // -100 to 100
       eq: {
-        low: number;       // -12 to +12 dB
+        low: number; // -12 to +12 dB
         mid: number;
         high: number;
       };
-      reverb: number;      // 0-100
-      delay: number;       // 0-100
+      reverb: number; // 0-100
+      delay: number; // 0-100
     };
   };
 }
@@ -770,11 +816,12 @@ const popMixPreset: MixPreset = {
     drums: { volume: 70, pan: 0, eq: { low: 2, mid: 0, high: 1 } },
     bass: { volume: 75, pan: 0, eq: { low: 4, mid: 0, high: -2 } },
     // ...
-  }
+  },
 };
 ```
 
 **UI:**
+
 ```
 ┌─────────────────────────────────────┐
 │  📚 Mix Presets                      │
@@ -795,6 +842,7 @@ const popMixPreset: MixPreset = {
 **Описание:** Совместная работа в реальном времени
 
 **Функционал:**
+
 - Создание shared session
 - Real-time sync изменений
 - Live cursors (видно действия других)
@@ -803,11 +851,13 @@ const popMixPreset: MixPreset = {
 - Version control
 
 **Технологии:**
+
 - Supabase Realtime
 - CRDT (Conflict-free Replicated Data Type)
 - WebRTC для audio streaming (optional)
 
 **UI:**
+
 ```
 ┌─────────────────────────────────────┐
 │  👥 Collaboration (3 active)         │
@@ -828,6 +878,7 @@ const popMixPreset: MixPreset = {
 **Описание:** Полноценный MIDI редактор
 
 **Функционал:**
+
 - Piano roll
 - Virtual instruments (piano, drums, synth, bass)
 - Quantization
@@ -836,6 +887,7 @@ const popMixPreset: MixPreset = {
 - Integration с Stem Studio
 
 **UI:**
+
 ```
 ┌─────────────────────────────────────┐
 │  🎹 MIDI Editor                      │
@@ -852,6 +904,7 @@ const popMixPreset: MixPreset = {
 ```
 
 **Технологии:**
+
 - Tone.js для синтеза
 - @tonejs/midi для parsing
 - Canvas для piano roll
@@ -862,6 +915,7 @@ const popMixPreset: MixPreset = {
 #### 2.5 Loop & Sample Library
 
 **Функционал:**
+
 - Библиотека готовых loops & samples
 - Фильтры (BPM, key, genre, mood)
 - Drag & drop в Studio
@@ -869,6 +923,7 @@ const popMixPreset: MixPreset = {
 - Community-generated content
 
 **Категории:**
+
 - Drum loops (kick, snare, hi-hat patterns)
 - Bass loops
 - Synth loops
@@ -877,6 +932,7 @@ const popMixPreset: MixPreset = {
 - Sound effects
 
 **UI:**
+
 ```
 ┌─────────────────────────────────────┐
 │  📚 Sample Library                   │
@@ -905,6 +961,7 @@ const popMixPreset: MixPreset = {
 #### 3.1 Улучшенная визуализация
 
 **Timeline с секциями:**
+
 ```
 [Intro] [Verse 1] [Chorus] [Verse 2] [Chorus] [Bridge] [Outro]
 ├───────┼─────────┼────────┼─────────┼────────┼────────┼──────┤
@@ -912,11 +969,13 @@ const popMixPreset: MixPreset = {
 ```
 
 **Frequency analyzer:**
+
 - Real-time spectrum analyzer
 - Separate для каждого стема
 - Identify frequency conflicts
 
 **Loudness meter:**
+
 - LUFS meter
 - Peak indicator
 - Dynamic range visualization
@@ -924,12 +983,14 @@ const popMixPreset: MixPreset = {
 #### 3.2 Undo/Redo система
 
 **Функционал:**
+
 - История всех действий (last 50)
 - Undo/Redo с Ctrl+Z/Ctrl+Shift+Z
 - Visual history timeline
 - Snapshot comparison
 
 **Реализация:**
+
 ```typescript
 interface HistoryEntry {
   id: string;
@@ -943,22 +1004,22 @@ class MixHistory {
   private entries: HistoryEntry[] = [];
   private currentIndex = -1;
   private maxSize = 50;
-  
+
   push(action: string, state: MixState) {
     // Remove entries after current index
     this.entries = this.entries.slice(0, this.currentIndex + 1);
-    
+
     // Add new entry
     this.entries.push({ id: uuid(), timestamp: Date.now(), action, state });
-    
+
     // Limit size
     if (this.entries.length > this.maxSize) {
       this.entries.shift();
     }
-    
+
     this.currentIndex = this.entries.length - 1;
   }
-  
+
   undo(): MixState | null {
     if (this.currentIndex > 0) {
       this.currentIndex--;
@@ -966,7 +1027,7 @@ class MixHistory {
     }
     return null;
   }
-  
+
   redo(): MixState | null {
     if (this.currentIndex < this.entries.length - 1) {
       this.currentIndex++;
@@ -980,11 +1041,13 @@ class MixHistory {
 #### 3.3 Context-aware tips
 
 **Адаптивные подсказки:**
+
 - Показывать tips в зависимости от действий пользователя
 - "You might want to..." suggestions
 - Learn mode (объяснения что делает каждый контрол)
 
 **Примеры:**
+
 - "Vocals sound muddy? Try reducing 200-500 Hz"
 - "Bass clashing with kick? Try high-pass filter at 80 Hz"
 - "Mix sounds narrow? Increase stereo width on pads"
@@ -992,6 +1055,7 @@ class MixHistory {
 #### 3.4 Quick Compare
 
 **A/B comparison:**
+
 - Быстрое сравнение "до/после"
 - Split view (left-right comparison)
 - Overlay mode (toggle between versions)
@@ -1003,21 +1067,25 @@ class MixHistory {
 ### Система приоритетов
 
 **P0 - Critical (Блокеры):**
+
 - Должны быть исправлены немедленно
 - Влияют на стабильность/безопасность
 - Блокируют основной функционал
 
 **P1 - High (Важные улучшения):**
+
 - Значительно улучшают UX
 - Killer features
 - Конкурентные преимущества
 
 **P2 - Medium (Улучшения):**
+
 - Nice to have
 - Улучшают определенные workflows
 - Не критичны
 
 **P3 - Low (Будущее):**
+
 - Долгосрочные планы
 - Инновационные идеи
 - Требуют больших ресурсов
@@ -1054,6 +1122,7 @@ class MixHistory {
 **Total effort:** 8-9 недель
 
 **Метрики успеха:**
+
 - Zero P0 bugs
 - Mobile performance: TTI <3s, FPS >58
 - User satisfaction: 4.5+/5
@@ -1105,6 +1174,7 @@ class MixHistory {
 **Total effort:** 10-12 недель
 
 **Метрики успеха:**
+
 - Collaborative sessions: 10% users
 - Subscription conversion: 5-10%
 - Export to streaming: 100+ tracks/month
@@ -1156,6 +1226,7 @@ class MixHistory {
 **Total effort:** 10-12 недель
 
 **Метрики успеха:**
+
 - Listening parties: 5% users
 - Challenge participation: 20% users
 - Social shares: 2x increase
@@ -1206,6 +1277,7 @@ class MixHistory {
 **Total effort:** 10-12 недель
 
 **Метрики успеха:**
+
 - B2B clients: 5-10
 - Global users: 50% outside primary region
 - Test coverage: 80%+
@@ -1218,6 +1290,7 @@ class MixHistory {
 ### Technical Metrics
 
 **Performance:**
+
 ```
 Bundle Size:          ~500KB → <450KB (-10%)
 TTI (4G Mobile):      ~4.5s → <3s (-33%)
@@ -1228,6 +1301,7 @@ Crash Rate:           TBD → <0.1%
 ```
 
 **Code Quality:**
+
 ```
 Components:           830 → TBD (после consolidation)
 LOC (Mobile):         ~5,925 → ~4,225 (-29%)
@@ -1237,6 +1311,7 @@ TypeScript Errors:    0 → 0 (maintain)
 ```
 
 **Infrastructure:**
+
 ```
 Edge Function Cold Start:  TBD → <300ms
 Database Query Time:       TBD → p95 <100ms
@@ -1247,6 +1322,7 @@ Uptime:                    TBD → 99.9%
 ### Product Metrics
 
 **User Growth:**
+
 ```
 MAU:                       TBD → +20% м/м
 User Retention (D1/D7/D30): TBD → 60%/30%/15%
@@ -1255,6 +1331,7 @@ New User Activation:       TBD → >70% (create first track)
 ```
 
 **Engagement:**
+
 ```
 Tracks Generated/User:     TBD → 10/month
 Listening Time:            TBD → 30 min/session
@@ -1264,6 +1341,7 @@ Daily Active Users:        TBD → 40% of MAU
 ```
 
 **Revenue:**
+
 ```
 Conversion to Paid:        TBD → 5-10%
 MRR Growth:                TBD → +15% м/м
@@ -1273,6 +1351,7 @@ Subscription Retention:    TBD → >80% monthly
 ```
 
 **Quality:**
+
 ```
 Generation Success Rate:   TBD → >95%
 App Crashes:               TBD → <0.1% sessions
@@ -1284,6 +1363,7 @@ NPS Score:                 TBD → >50
 ### Feature-Specific Metrics
 
 **Stem Studio:**
+
 ```
 Users Using Studio:        TBD → 25% of active users
 Avg. Stems per Track:      TBD → 4-6
@@ -1292,6 +1372,7 @@ Time in Studio:            TBD → 15 min/session
 ```
 
 **Collaborative Editing:**
+
 ```
 Collaborative Sessions:    Launch → 10% users in Q2
 Avg. Collaborators:        Launch → 2-3 per session
@@ -1300,6 +1381,7 @@ Conversion to Paid:        Launch → 15% (higher than avg)
 ```
 
 **AI Features:**
+
 ```
 AI Lyrics Wizard Usage:    TBD → 40% of generations
 Mastering Usage:           Launch → 20% of exports
@@ -1308,6 +1390,7 @@ AI Coach Engagement:       Launch → 10% weekly
 ```
 
 **Social:**
+
 ```
 Shares per Track:          TBD → 0.5 average
 Likes per Track:           TBD → 3 average
@@ -1322,6 +1405,7 @@ Following Ratio:           TBD → 10 following / 5 followers
 ### Week 1: Low-hanging fruit
 
 **Backend fixes:**
+
 1. ✅ Fix Lyrics Wizard character count (30 min)
    - Filter structural tags ([Verse], [Chorus])
    - Show real character count
@@ -1338,11 +1422,11 @@ Following Ratio:           TBD → 10 following / 5 followers
    - Check context.state before operations
    - Proper error handling
 
-**UI improvements:**
-5. ✅ Empty states для всех экранов (2-4 часа)
-   - Helpful messaging
-   - CTA buttons
-   - Illustrations
+**UI improvements:** 5. ✅ Empty states для всех экранов (2-4 часа)
+
+- Helpful messaging
+- CTA buttons
+- Illustrations
 
 6. ✅ Touch target audit (1-2 часа)
    - Ensure 44x44px minimum
@@ -1518,12 +1602,14 @@ Following Ratio:           TBD → 10 following / 5 followers
 MusicVerse AI - это **амбициозная и технически сложная платформа** с огромным потенциалом.
 
 **Ключевые сильные стороны:**
+
 - ✅ Современный tech stack
 - ✅ Отличная мобильная оптимизация
 - ✅ Уникальные AI функции
 - ✅ Глубокая Telegram интеграция
 
 **Ключевые области для улучшения:**
+
 - 🔧 Стабильность Stem Studio (audio engine)
 - 🚀 Collaborative features
 - 💰 Monetization strategy
@@ -1531,6 +1617,7 @@ MusicVerse AI - это **амбициозная и технически слож
 - 📊 Analytics & insights
 
 **Рекомендуемый фокус на 2026:**
+
 1. **Q1:** Стабилизация + Mobile optimization
 2. **Q2:** Killer features + Monetization
 3. **Q3:** Community + Social
@@ -1539,6 +1626,7 @@ MusicVerse AI - это **амбициозная и технически слож
 **Estimated total effort:** 40-50 недель (при команде 2-3 разработчика)
 
 **Приоритетный подход позволит:**
+
 - Быстро устранить критические проблемы (2-3 недели)
 - Внедрить ключевые улучшения (3 месяца)
 - Добавить killer features (6 месяцев)
@@ -1551,6 +1639,7 @@ MusicVerse AI - это **амбициозная и технически слож
 **Статус:** Ready for Review & Implementation
 
 **Связанные документы:**
+
 - [MOBILE_OPTIMIZATION_SUMMARY.md](MOBILE_OPTIMIZATION_SUMMARY.md)
 - [ПЛАН_ДОРАБОТКИ.md](ПЛАН_ДОРАБОТКИ.md)
 - [ROADMAP.md](ROADMAP.md)

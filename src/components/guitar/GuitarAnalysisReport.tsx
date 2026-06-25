@@ -1,28 +1,42 @@
-import { useState, useRef, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
-import { 
-  Play, Pause, Copy, Sparkles, ArrowRight, FileText,
-  Music2, Gauge, Key, Clock,
-  Guitar, Piano, Drum, ArrowUpDown, ChevronDown,
-  ChevronUp, Save, MicVocal
-} from 'lucide-react';
-import { ChordDiagramUnified as ChordDiagram } from './ChordDiagramUnified';
-import { WaveformWithChords } from './WaveformWithChords';
-import { ExportFilesPanel } from './ExportFilesPanel';
-import { PianoRollPreview } from '@/components/analysis/PianoRollPreview';
-import { BeatGridVisualization } from '@/components/analysis/BeatGridVisualization';
-import { GuitarTabVisualization } from '@/components/analysis/GuitarTabVisualization';
-import { StrummingPatternVisualization } from '@/components/analysis/StrummingPatternVisualization';
-import { AddVocalsToGuitarDialog } from './AddVocalsToGuitarDialog';
-import type { GuitarAnalysisResult } from '@/hooks/useGuitarAnalysis';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { formatDuration } from '@/lib/player-utils';
+import { useState, useRef, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import {
+  Play,
+  Pause,
+  Copy,
+  Sparkles,
+  ArrowRight,
+  FileText,
+  Music2,
+  Gauge,
+  Key,
+  Clock,
+  Guitar,
+  Piano,
+  Drum,
+  ArrowUpDown,
+  ChevronDown,
+  ChevronUp,
+  Save,
+  MicVocal,
+} from "lucide-react";
+import { ChordDiagramUnified as ChordDiagram } from "./ChordDiagramUnified";
+import { WaveformWithChords } from "./WaveformWithChords";
+import { ExportFilesPanel } from "./ExportFilesPanel";
+import { PianoRollPreview } from "@/components/analysis/PianoRollPreview";
+import { BeatGridVisualization } from "@/components/analysis/BeatGridVisualization";
+import { GuitarTabVisualization } from "@/components/analysis/GuitarTabVisualization";
+import { StrummingPatternVisualization } from "@/components/analysis/StrummingPatternVisualization";
+import { AddVocalsToGuitarDialog } from "./AddVocalsToGuitarDialog";
+import type { GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { formatDuration } from "@/lib/player-utils";
 
 interface GuitarAnalysisReportProps {
   analysis: GuitarAnalysisResult;
@@ -55,12 +69,12 @@ export function GuitarAnalysisReport({
       setCurrentTime(0);
     };
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("ended", handleEnded);
 
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
     };
   }, []);
 
@@ -75,24 +89,19 @@ export function GuitarAnalysisReport({
   };
 
   const handleCopyTags = () => {
-    navigator.clipboard.writeText(analysis.generatedTags.join(', '));
-    toast.success('Теги скопированы');
+    navigator.clipboard.writeText(analysis.generatedTags.join(", "));
+    toast.success("Теги скопированы");
   };
 
-  const uniqueChords = [...new Set(analysis.chords.map(c => c.chord))];
+  const uniqueChords = [...new Set(analysis.chords.map((c) => c.chord))];
   const displayedChords = showAllChords ? uniqueChords : uniqueChords.slice(0, 6);
-
 
   return (
     <div className={cn("space-y-4", className)}>
       <audio ref={audioRef} src={audioUrl} className="hidden" />
 
       {/* Hero Section with Waveform */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
         <Card className="overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5 border-primary/20">
           <CardContent className="p-4 sm:p-6">
             {/* Header Stats Grid */}
@@ -118,7 +127,7 @@ export function GuitarAnalysisReport({
               <StatCard
                 icon={<Guitar className="w-4 h-4" />}
                 label="Техника"
-                value={analysis.style.technique || 'Определяется'}
+                value={analysis.style.technique || "Определяется"}
                 color="text-orange-400"
               />
             </div>
@@ -143,7 +152,7 @@ export function GuitarAnalysisReport({
                 </Button>
                 <div className="flex-1">
                   <div className="h-2 bg-muted rounded-full overflow-hidden">
-                    <div 
+                    <div
                       className="h-full bg-primary transition-all"
                       style={{ width: `${(currentTime / analysis.totalDuration) * 100}%` }}
                     />
@@ -180,14 +189,18 @@ export function GuitarAnalysisReport({
                     className="h-7 text-xs"
                   >
                     {showAllChords ? (
-                      <>Свернуть <ChevronUp className="w-3 h-3 ml-1" /></>
+                      <>
+                        Свернуть <ChevronUp className="w-3 h-3 ml-1" />
+                      </>
                     ) : (
-                      <>Все ({uniqueChords.length}) <ChevronDown className="w-3 h-3 ml-1" /></>
+                      <>
+                        Все ({uniqueChords.length}) <ChevronDown className="w-3 h-3 ml-1" />
+                      </>
                     )}
                   </Button>
                 )}
               </div>
-              
+
               <div className="flex flex-wrap gap-3 justify-center">
                 <AnimatePresence>
                   {displayedChords.map((chord, i) => (
@@ -208,9 +221,7 @@ export function GuitarAnalysisReport({
               <Separator className="my-3" />
               <div className="flex items-center gap-2 overflow-x-auto pb-1">
                 <span className="text-xs text-muted-foreground shrink-0">Прогрессия:</span>
-                <p className="text-sm font-mono text-primary">
-                  {uniqueChords.join(' → ')}
-                </p>
+                <p className="text-sm font-mono text-primary">{uniqueChords.join(" → ")}</p>
               </div>
             </CardContent>
           </Card>
@@ -254,10 +265,7 @@ export function GuitarAnalysisReport({
           <TabsContent value="strum" className="mt-3">
             <Card>
               <CardContent className="p-4">
-                <StrummingPatternVisualization 
-                  strumming={analysis.strumming || []} 
-                  bpm={analysis.bpm} 
-                />
+                <StrummingPatternVisualization strumming={analysis.strumming || []} bpm={analysis.bpm} />
               </CardContent>
             </Card>
           </TabsContent>
@@ -302,9 +310,7 @@ export function GuitarAnalysisReport({
                 <Music2 className="w-4 h-4 text-primary" />
                 Описание стиля
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {analysis.styleDescription}
-              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{analysis.styleDescription}</p>
             </CardContent>
           </Card>
         </motion.div>
@@ -347,18 +353,15 @@ export function GuitarAnalysisReport({
       >
         <Card>
           <CardContent className="p-4">
-            <ExportFilesPanel
-              transcriptionFiles={analysis.transcriptionFiles}
-              midiUrl={analysis.midiUrl}
-            />
+            <ExportFilesPanel transcriptionFiles={analysis.transcriptionFiles} midiUrl={analysis.midiUrl} />
 
             <Separator className="my-4" />
 
             <div className="flex flex-col gap-2">
               {/* Add Vocals Button - NEW */}
-              <Button 
-                variant="outline" 
-                onClick={() => setAddVocalsOpen(true)} 
+              <Button
+                variant="outline"
+                onClick={() => setAddVocalsOpen(true)}
                 className="w-full gap-2 bg-gradient-to-r from-rose-500/10 to-pink-500/10 border-rose-500/30 hover:border-rose-500/50"
               >
                 <MicVocal className="w-4 h-4 text-rose-400" />
@@ -397,14 +400,14 @@ export function GuitarAnalysisReport({
 }
 
 // Helper Components
-function StatCard({ 
-  icon, 
-  label, 
-  value, 
-  color 
-}: { 
-  icon: React.ReactNode; 
-  label: string; 
+function StatCard({
+  icon,
+  label,
+  value,
+  color,
+}: {
+  icon: React.ReactNode;
+  label: string;
   value: string;
   color: string;
 }) {

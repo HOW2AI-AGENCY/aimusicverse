@@ -2,9 +2,4 @@
  * Message components index
  */
 
-export { 
-  LyricsGeneratedMessage, 
-  AnalysisMessage, 
-  ValidationMessage,
-  ProgressMessage 
-} from './EnhancedMessages';
+export { LyricsGeneratedMessage, AnalysisMessage, ValidationMessage, ProgressMessage } from "./EnhancedMessages";

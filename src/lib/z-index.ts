@@ -111,15 +111,15 @@ export function getNextZIndex(layer: keyof typeof zIndexLayers, offset = 10): nu
 /**
  * Get z-index for modal/backdrop combinations
  */
-export function getModalZIndex(type: 'backdrop' | 'content'): number {
-  return type === 'backdrop' ? zIndexLayers.dialog : zIndexLayers.dialog + 1;
+export function getModalZIndex(type: "backdrop" | "content"): number {
+  return type === "backdrop" ? zIndexLayers.dialog : zIndexLayers.dialog + 1;
 }
 
 /**
  * Get z-index for sheet/backdrop combinations
  */
-export function getSheetZIndex(type: 'backdrop' | 'content'): number {
-  return type === 'backdrop' ? zIndexLayers.sheetBackdrop : zIndexLayers.sheetContent;
+export function getSheetZIndex(type: "backdrop" | "content"): number {
+  return type === "backdrop" ? zIndexLayers.sheetBackdrop : zIndexLayers.sheetContent;
 }
 
 /**
@@ -178,25 +178,25 @@ export function isBelow(zIndex1: number, zIndex2: number): boolean {
 export type ZIndexLayer = keyof typeof zIndexLayers;
 
 export const zIndexDescriptions = {
-  base: 'Base content layer',
-  raised: 'Elevated content',
-  sticky: 'Sticky positioned elements',
-  floating: 'Floating elements',
-  overlay: 'Overlay content',
-  navigation: 'Navigation bars and menus',
-  player: 'Audio player overlay',
-  contextual: 'Context menus and dropdowns',
-  dialog: 'Modal dialogs',
-  fullscreen: 'Fullscreen overlays',
-  system: 'System-level notifications',
-  sheetBackdrop: 'Sheet backdrop',
-  sheetContent: 'Sheet content',
-  dropdown: 'Dropdown menus',
-  popover: 'Popover content',
-  tooltip: 'Tooltip overlays',
-  toast: 'Toast notifications',
-  notification: 'System notifications',
-  max: 'Maximum priority (emergency use only)',
+  base: "Base content layer",
+  raised: "Elevated content",
+  sticky: "Sticky positioned elements",
+  floating: "Floating elements",
+  overlay: "Overlay content",
+  navigation: "Navigation bars and menus",
+  player: "Audio player overlay",
+  contextual: "Context menus and dropdowns",
+  dialog: "Modal dialogs",
+  fullscreen: "Fullscreen overlays",
+  system: "System-level notifications",
+  sheetBackdrop: "Sheet backdrop",
+  sheetContent: "Sheet content",
+  dropdown: "Dropdown menus",
+  popover: "Popover content",
+  tooltip: "Tooltip overlays",
+  toast: "Toast notifications",
+  notification: "System notifications",
+  max: "Maximum priority (emergency use only)",
 } as const;
 
 // ============================================================================

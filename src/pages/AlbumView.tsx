@@ -1,30 +1,20 @@
 /**
  * Album view page - displays a published project with its tracks
  */
-import { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  ArrowLeft, 
-  Music, 
-  Play, 
-  Pause, 
-  Share2, 
-  User,
-  Calendar,
-  Clock,
-  Loader2
-} from 'lucide-react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useTelegramBackButton } from '@/hooks/telegram';
-import { SEOHead } from '@/components/SEOHead';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { format, ru } from '@/lib/date-utils';
-import { formatTime } from '@/lib/formatters';
+import { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Music, Play, Pause, Share2, User, Calendar, Clock, Loader2 } from "lucide-react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useTelegramBackButton } from "@/hooks/telegram";
+import { SEOHead } from "@/components/SEOHead";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { format, ru } from "@/lib/date-utils";
+import { formatTime } from "@/lib/formatters";
 
 interface AlbumTrack {
   id: string;
@@ -63,22 +53,22 @@ export default function AlbumView() {
   // Telegram BackButton - navigates back to library
   const { shouldShowUIButton: showUIBackButton } = useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   // Fetch album data with profile separately (no FK relationship)
   const { data: album, isLoading: albumLoading } = useQuery({
-    queryKey: ['album', id],
+    queryKey: ["album", id],
     queryFn: async () => {
-      if (!id) throw new Error('No album ID');
-      
+      if (!id) throw new Error("No album ID");
+
       // Fetch project first
       const { data: project, error } = await supabase
-        .from('music_projects')
-        .select('id, title, cover_url, description, concept, genre, mood, published_at, user_id')
-        .eq('id', id)
-        .eq('is_public', true)
-        .eq('status', 'published')
+        .from("music_projects")
+        .select("id, title, cover_url, description, concept, genre, mood, published_at, user_id")
+        .eq("id", id)
+        .eq("is_public", true)
+        .eq("status", "published")
         .single();
 
       if (error) throw error;
@@ -86,9 +76,9 @@ export default function AlbumView() {
 
       // Fetch profile separately
       const { data: profile } = await supabase
-        .from('profiles')
-        .select('username, display_name, photo_url')
-        .eq('user_id', project.user_id)
+        .from("profiles")
+        .select("username, display_name, photo_url")
+        .eq("user_id", project.user_id)
         .single();
 
       return {
@@ -102,15 +92,15 @@ export default function AlbumView() {
 
   // Fetch master tracks for this album
   const { data: tracks, isLoading: tracksLoading } = useQuery({
-    queryKey: ['album-tracks', id],
+    queryKey: ["album-tracks", id],
     queryFn: async () => {
-      if (!id) throw new Error('No album ID');
+      if (!id) throw new Error("No album ID");
       const { data, error } = await supabase
-        .from('tracks')
-        .select('id, title, audio_url, cover_url, duration_seconds, style, is_master, project_track_id')
-        .eq('project_id', id)
-        .eq('is_master', true)
-        .order('created_at', { ascending: true });
+        .from("tracks")
+        .select("id, title, audio_url, cover_url, duration_seconds, style, is_master, project_track_id")
+        .eq("project_id", id)
+        .eq("is_master", true)
+        .order("created_at", { ascending: true });
 
       if (error) throw error;
       return data as AlbumTrack[];
@@ -121,12 +111,12 @@ export default function AlbumView() {
 
   const handlePlayAll = () => {
     if (!tracks || tracks.length === 0) return;
-    
-    const firstTrack = tracks.find(t => t.audio_url);
+
+    const firstTrack = tracks.find((t) => t.audio_url);
     if (firstTrack && firstTrack.audio_url) {
       playTrack({
         id: firstTrack.id,
-        title: firstTrack.title || 'Без названия',
+        title: firstTrack.title || "Без названия",
         audio_url: firstTrack.audio_url,
         cover_url: firstTrack.cover_url || album?.cover_url || undefined,
         duration_seconds: firstTrack.duration_seconds,
@@ -137,15 +127,15 @@ export default function AlbumView() {
 
   const handlePlayTrack = (track: AlbumTrack) => {
     if (!track.audio_url) return;
-    
+
     const isCurrentTrack = activeTrack?.id === track.id;
-    
+
     if (isCurrentTrack && isPlaying) {
       pauseTrack();
     } else {
       playTrack({
         id: track.id,
-        title: track.title || 'Без названия',
+        title: track.title || "Без названия",
         audio_url: track.audio_url,
         cover_url: track.cover_url || album?.cover_url,
         duration_seconds: track.duration_seconds,
@@ -163,12 +153,12 @@ export default function AlbumView() {
       });
     } catch {
       await navigator.clipboard.writeText(url);
-      toast.success('Ссылка скопирована');
+      toast.success("Ссылка скопирована");
     }
   };
 
   const totalDuration = tracks?.reduce((acc, t) => acc + (t.duration_seconds || 0), 0) || 0;
-  const creatorName = album?.profiles?.display_name || album?.profiles?.username || 'Автор';
+  const creatorName = album?.profiles?.display_name || album?.profiles?.username || "Автор";
 
   if (albumLoading || tracksLoading) {
     return (
@@ -183,7 +173,7 @@ export default function AlbumView() {
       <div className="min-h-screen flex flex-col items-center justify-center p-4">
         <Music className="w-16 h-16 text-muted-foreground mb-4" />
         <h2 className="text-xl font-semibold mb-2">Альбом не найден</h2>
-        <Button variant="outline" onClick={() => navigate('/')}>
+        <Button variant="outline" onClick={() => navigate("/")}>
           <ArrowLeft className="w-4 h-4 mr-2" />
           На главную
         </Button>
@@ -192,47 +182,52 @@ export default function AlbumView() {
   }
 
   const albumUrl = `https://aimusicverse.lovable.app/album/${album.id}`;
-  const albumDescription = album.description || album.concept ||
-    `Альбом «${album.title || 'Без названия'}» от ${creatorName} — ${tracks?.length || 0} треков на MusicVerse AI.`;
+  const albumDescription =
+    album.description ||
+    album.concept ||
+    `Альбом «${album.title || "Без названия"}» от ${creatorName} — ${tracks?.length || 0} треков на MusicVerse AI.`;
 
   return (
     <div className="pb-24">
       <SEOHead
-        title={album.title || 'Альбом'}
+        title={album.title || "Альбом"}
         description={albumDescription}
         canonical={albumUrl}
         ogType="music.album"
         ogImage={album.cover_url || undefined}
         jsonLd={{
-          '@context': 'https://schema.org',
-          '@type': 'MusicAlbum',
-          name: album.title || 'Альбом',
+          "@context": "https://schema.org",
+          "@type": "MusicAlbum",
+          name: album.title || "Альбом",
           description: albumDescription,
           url: albumUrl,
           image: album.cover_url || undefined,
           numTracks: tracks?.length || 0,
           genre: album.genre || undefined,
-          byArtist: { '@type': 'Person', name: creatorName },
+          byArtist: { "@type": "Person", name: creatorName },
         }}
       />
       {/* Hero Section */}
       <div className="relative">
         {/* Background blur */}
-        <div 
+        <div
           className="absolute inset-0 h-64 bg-gradient-to-b from-primary/20 to-background"
           style={{
             backgroundImage: album.cover_url ? `url(${album.cover_url})` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            filter: 'blur(60px)',
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            filter: "blur(60px)",
             opacity: 0.5,
           }}
         />
 
         {/* Header */}
-        <div 
+        <div
           className="relative sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/30 px-4 py-3"
-          style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))' }}
+          style={{
+            paddingTop:
+              "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))",
+          }}
         >
           <div className="flex items-center gap-3">
             {showUIBackButton && (
@@ -253,7 +248,13 @@ export default function AlbumView() {
             {/* Cover */}
             <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-xl overflow-hidden shadow-2xl shrink-0 bg-secondary">
               {album.cover_url ? (
-                <img loading="lazy" decoding="async" src={album.cover_url} alt={album.title} className="w-full h-full object-cover" />
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src={album.cover_url}
+                  alt={album.title}
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <Music className="w-16 h-16 text-muted-foreground/40" />
@@ -263,17 +264,21 @@ export default function AlbumView() {
 
             {/* Info */}
             <div className="text-center sm:text-left space-y-3 flex-1">
-              <Badge variant="secondary" className="text-xs">Альбом</Badge>
+              <Badge variant="secondary" className="text-xs">
+                Альбом
+              </Badge>
               <h1 className="text-2xl sm:text-3xl font-bold">{album.title}</h1>
-              
+
               {/* Creator */}
-              <div 
+              <div
                 className="flex items-center gap-2 justify-center sm:justify-start cursor-pointer hover:opacity-80"
                 onClick={() => navigate(`/profile/${album.user_id}`)}
               >
                 {album.profiles?.photo_url ? (
-                  <img loading="lazy" decoding="async" 
-                    src={album.profiles.photo_url} 
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={album.profiles.photo_url}
                     alt={creatorName}
                     className="w-6 h-6 rounded-full object-cover"
                   />
@@ -285,9 +290,7 @@ export default function AlbumView() {
 
               {/* Meta */}
               <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground justify-center sm:justify-start">
-                {album.genre && (
-                  <Badge variant="outline">{album.genre}</Badge>
-                )}
+                {album.genre && <Badge variant="outline">{album.genre}</Badge>}
                 <span className="flex items-center gap-1">
                   <Music className="w-3.5 h-3.5" />
                   {tracks?.length || 0} треков
@@ -299,25 +302,18 @@ export default function AlbumView() {
                 {album.published_at && (
                   <span className="flex items-center gap-1">
                     <Calendar className="w-3.5 h-3.5" />
-                    {format(new Date(album.published_at), 'd MMM yyyy', { locale: ru })}
+                    {format(new Date(album.published_at), "d MMM yyyy", { locale: ru })}
                   </span>
                 )}
               </div>
 
-              {album.description && (
-                <p className="text-sm text-muted-foreground line-clamp-2">{album.description}</p>
-              )}
+              {album.description && <p className="text-sm text-muted-foreground line-clamp-2">{album.description}</p>}
             </div>
           </div>
 
           {/* Play All Button */}
           <div className="mt-6 flex justify-center sm:justify-start">
-            <Button 
-              size="lg" 
-              onClick={handlePlayAll}
-              disabled={!tracks || tracks.length === 0}
-              className="gap-2 px-8"
-            >
+            <Button size="lg" onClick={handlePlayAll} disabled={!tracks || tracks.length === 0} className="gap-2 px-8">
               <Play className="w-5 h-5 fill-current" />
               Слушать альбом
             </Button>
@@ -337,7 +333,7 @@ export default function AlbumView() {
               onClick={() => handlePlayTrack(track)}
               className={cn(
                 "flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors",
-                isCurrentTrack ? "bg-primary/10" : "hover:bg-secondary/50"
+                isCurrentTrack ? "bg-primary/10" : "hover:bg-secondary/50",
               )}
             >
               {/* Track number / Play indicator */}
@@ -354,9 +350,21 @@ export default function AlbumView() {
               {/* Cover */}
               <div className="w-10 h-10 rounded-md overflow-hidden bg-secondary shrink-0">
                 {track.cover_url ? (
-                  <img loading="lazy" decoding="async" src={track.cover_url} alt="" className="w-full h-full object-cover" />
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={track.cover_url}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
                 ) : album.cover_url ? (
-                  <img loading="lazy" decoding="async" src={album.cover_url} alt="" className="w-full h-full object-cover" />
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={album.cover_url}
+                    alt=""
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <Music className="w-4 h-4 text-muted-foreground/50" />
@@ -366,20 +374,15 @@ export default function AlbumView() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className={cn(
-                  "font-medium text-sm truncate",
-                  isCurrentTrack && "text-primary"
-                )}>
+                <p className={cn("font-medium text-sm truncate", isCurrentTrack && "text-primary")}>
                   {track.title || `Трек ${index + 1}`}
                 </p>
-                {track.style && (
-                  <p className="text-xs text-muted-foreground truncate">{track.style}</p>
-                )}
+                {track.style && <p className="text-xs text-muted-foreground truncate">{track.style}</p>}
               </div>
 
               {/* Duration */}
               <span className="text-xs text-muted-foreground shrink-0">
-                {track.duration_seconds ? formatTime(track.duration_seconds) : '--:--'}
+                {track.duration_seconds ? formatTime(track.duration_seconds) : "--:--"}
               </span>
             </div>
           );

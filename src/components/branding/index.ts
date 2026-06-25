@@ -2,4 +2,4 @@
  * Branding components - unified exports
  */
 
-export { AppLogo, AnimatedLogo } from './AppLogo';
+export { AppLogo, AnimatedLogo } from "./AppLogo";

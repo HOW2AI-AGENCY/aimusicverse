@@ -1,10 +1,10 @@
 // TrackCommentsSection - Comments UI for track detail/player
-import { useState } from 'react';
-import { MessageSquare, ChevronDown, ChevronUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { CommentsList } from '@/components/comments/CommentsList';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { useState } from "react";
+import { MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { CommentsList } from "@/components/comments/CommentsList";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 interface TrackCommentsSectionProps {
   trackId: string;
@@ -12,15 +12,11 @@ interface TrackCommentsSectionProps {
   defaultExpanded?: boolean;
 }
 
-export function TrackCommentsSection({ 
-  trackId, 
-  className,
-  defaultExpanded = false 
-}: TrackCommentsSectionProps) {
+export function TrackCommentsSection({ trackId, className, defaultExpanded = false }: TrackCommentsSectionProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   return (
-    <div className={cn('rounded-xl border border-border/50 bg-card/50 overflow-hidden', className)}>
+    <div className={cn("rounded-xl border border-border/50 bg-card/50 overflow-hidden", className)}>
       {/* Header - Always visible */}
       <Button
         variant="ghost"
@@ -45,7 +41,7 @@ export function TrackCommentsSection({
         {isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="overflow-hidden"

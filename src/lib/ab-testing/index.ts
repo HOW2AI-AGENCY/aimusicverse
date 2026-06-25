@@ -1,11 +1,11 @@
 /**
  * A/B Testing Infrastructure
- * 
+ *
  * Provides experiment management, variant assignment, and analytics integration.
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 // ============= Types =============
 
@@ -14,7 +14,7 @@ export interface Experiment {
   name: string;
   description?: string;
   variants: ExperimentVariant[];
-  status: 'draft' | 'running' | 'paused' | 'completed';
+  status: "draft" | "running" | "paused" | "completed";
   startDate?: string;
   endDate?: string;
   targetAudience?: TargetAudience;
@@ -31,7 +31,7 @@ export interface ExperimentVariant {
 export interface TargetAudience {
   percentage?: number; // What % of users to include
   userTiers?: string[];
-  platforms?: ('telegram' | 'web')[];
+  platforms?: ("telegram" | "web")[];
   isNewUser?: boolean;
 }
 
@@ -43,8 +43,8 @@ export interface UserAssignment {
 
 // ============= Storage Keys =============
 
-const ASSIGNMENTS_KEY = 'ab_experiment_assignments';
-const PARTICIPATION_KEY = 'ab_participation_enabled';
+const ASSIGNMENTS_KEY = "ab_experiment_assignments";
+const PARTICIPATION_KEY = "ab_participation_enabled";
 
 // ============= Core Functions =============
 
@@ -80,7 +80,7 @@ export function isInVariant(experimentId: string, variantId: string): boolean {
  */
 export function isControl(experimentId: string): boolean {
   const variant = getVariant(experimentId);
-  return variant === 'control' || variant === 'a';
+  return variant === "control" || variant === "a";
 }
 
 /**
@@ -88,20 +88,20 @@ export function isControl(experimentId: string): boolean {
  */
 export function assignToExperiment(experiment: Experiment, userId?: string): string {
   const assignments = getExperimentAssignments();
-  
+
   // Already assigned?
   if (assignments[experiment.id]) {
     return assignments[experiment.id].variantId;
   }
-  
+
   // Calculate assignment based on weights
   const seed = userId || crypto.randomUUID();
   const hash = simpleHash(seed + experiment.id);
   const bucket = hash % 100;
-  
+
   let cumulative = 0;
   let selectedVariant = experiment.variants[0];
-  
+
   for (const variant of experiment.variants) {
     cumulative += variant.weight;
     if (bucket < cumulative) {
@@ -109,22 +109,22 @@ export function assignToExperiment(experiment: Experiment, userId?: string): str
       break;
     }
   }
-  
+
   // Save assignment
   const assignment: UserAssignment = {
     experimentId: experiment.id,
     variantId: selectedVariant.id,
     assignedAt: new Date().toISOString(),
   };
-  
+
   assignments[experiment.id] = assignment;
   localStorage.setItem(ASSIGNMENTS_KEY, JSON.stringify(assignments));
-  
-  logger.debug('Assigned to experiment', {
+
+  logger.debug("Assigned to experiment", {
     experiment: experiment.name,
     variant: selectedVariant.name,
   });
-  
+
   return selectedVariant.id;
 }
 
@@ -139,7 +139,7 @@ export function clearAssignments(): void {
  * Check if user has opted out of experiments
  */
 export function isParticipationEnabled(): boolean {
-  return localStorage.getItem(PARTICIPATION_KEY) !== 'false';
+  return localStorage.getItem(PARTICIPATION_KEY) !== "false";
 }
 
 /**
@@ -157,25 +157,21 @@ export function setParticipationEnabled(enabled: boolean): void {
 export async function getExperimentOrFlag(
   experimentId: string,
   featureFlagKey: string,
-  defaultValue: boolean = false
+  defaultValue: boolean = false,
 ): Promise<{ variant: string | null; enabled: boolean }> {
   // Check experiment first
   const variant = getVariant(experimentId);
   if (variant) {
     return {
       variant,
-      enabled: variant !== 'control' && variant !== 'off',
+      enabled: variant !== "control" && variant !== "off",
     };
   }
-  
+
   // Fall back to feature flag
   try {
-    const { data } = await supabase
-      .from('feature_flags')
-      .select('enabled')
-      .eq('key', featureFlagKey)
-      .single();
-    
+    const { data } = await supabase.from("feature_flags").select("enabled").eq("key", featureFlagKey).single();
+
     return {
       variant: null,
       enabled: data?.enabled ?? defaultValue,
@@ -193,15 +189,15 @@ export async function getExperimentOrFlag(
 export async function trackExperimentEvent(
   experimentId: string,
   eventName: string,
-  metadata?: Record<string, unknown>
+  metadata?: Record<string, unknown>,
 ): Promise<void> {
   const variant = getVariant(experimentId);
   if (!variant) return;
-  
+
   try {
-    const { trackEvent } = await import('@/services/analytics');
+    const { trackEvent } = await import("@/services/analytics");
     await trackEvent({
-      eventType: 'feature_used',
+      eventType: "feature_used",
       eventName: `experiment_${eventName}`,
       metadata: {
         experiment_id: experimentId,
@@ -210,19 +206,15 @@ export async function trackExperimentEvent(
       },
     });
   } catch (error) {
-    logger.warn('Failed to track experiment event', { error });
+    logger.warn("Failed to track experiment event", { error });
   }
 }
 
 /**
  * Track experiment conversion (goal reached)
  */
-export async function trackExperimentConversion(
-  experimentId: string,
-  goalName: string,
-  value?: number
-): Promise<void> {
-  await trackExperimentEvent(experimentId, 'conversion', {
+export async function trackExperimentConversion(experimentId: string, goalName: string, value?: number): Promise<void> {
+  await trackExperimentEvent(experimentId, "conversion", {
     goal: goalName,
     value,
   });
@@ -237,42 +229,42 @@ export async function trackExperimentConversion(
 export const EXPERIMENTS = {
   // Example: New onboarding flow
   ONBOARDING_V2: {
-    id: 'onboarding_v2',
-    name: 'New Onboarding Flow',
-    description: 'Test new simplified onboarding experience',
+    id: "onboarding_v2",
+    name: "New Onboarding Flow",
+    description: "Test new simplified onboarding experience",
     variants: [
-      { id: 'control', name: 'Original', weight: 50 },
-      { id: 'treatment', name: 'New Flow', weight: 50 },
+      { id: "control", name: "Original", weight: 50 },
+      { id: "treatment", name: "New Flow", weight: 50 },
     ],
-    status: 'draft' as const,
-    metrics: ['onboarding_completion', 'first_generation', 'd7_retention'],
+    status: "draft" as const,
+    metrics: ["onboarding_completion", "first_generation", "d7_retention"],
   },
-  
+
   // Example: Generation UI
   GENERATION_UI: {
-    id: 'generation_ui',
-    name: 'Generation Form Layout',
-    description: 'Test different generation form layouts',
+    id: "generation_ui",
+    name: "Generation Form Layout",
+    description: "Test different generation form layouts",
     variants: [
-      { id: 'a', name: 'Current', weight: 34 },
-      { id: 'b', name: 'Compact', weight: 33 },
-      { id: 'c', name: 'Wizard', weight: 33 },
+      { id: "a", name: "Current", weight: 34 },
+      { id: "b", name: "Compact", weight: 33 },
+      { id: "c", name: "Wizard", weight: 33 },
     ],
-    status: 'draft' as const,
-    metrics: ['generation_started', 'generation_completed', 'generation_satisfaction'],
+    status: "draft" as const,
+    metrics: ["generation_started", "generation_completed", "generation_satisfaction"],
   },
-  
+
   // Example: Player UX
   PLAYER_EXPAND_CTA: {
-    id: 'player_expand_cta',
-    name: 'Player Expand CTA',
-    description: 'Test visibility of expand button in mini player',
+    id: "player_expand_cta",
+    name: "Player Expand CTA",
+    description: "Test visibility of expand button in mini player",
     variants: [
-      { id: 'control', name: 'Hidden', weight: 50 },
-      { id: 'visible', name: 'Always Visible', weight: 50 },
+      { id: "control", name: "Hidden", weight: 50 },
+      { id: "visible", name: "Always Visible", weight: 50 },
     ],
-    status: 'draft' as const,
-    metrics: ['player_expanded', 'fullscreen_time'],
+    status: "draft" as const,
+    metrics: ["player_expanded", "fullscreen_time"],
   },
 } as const;
 
@@ -285,7 +277,7 @@ function simpleHash(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash; // Convert to 32bit integer
   }
   return Math.abs(hash);

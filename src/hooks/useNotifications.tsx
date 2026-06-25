@@ -1,28 +1,28 @@
 // Unified notification hooks - re-export from context to avoid duplicate subscriptions
-import { useNotificationHub, NotificationItem } from '@/contexts/NotificationContext';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
-import { toast } from 'sonner';
-import { useMemo } from 'react';
+import { useNotificationHub, NotificationItem } from "@/contexts/NotificationContext";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./useAuth";
+import { toast } from "sonner";
+import { useMemo } from "react";
 
 // Re-export types
-export type { NotificationItem, GenerationProgress } from '@/contexts/NotificationContext';
+export type { NotificationItem, GenerationProgress } from "@/contexts/NotificationContext";
 
 /**
  * Main notifications hook - uses unified context
  * Avoids duplicate realtime subscriptions
  */
-export const useNotifications = (filter?: 'all' | 'unread') => {
+export const useNotifications = (filter?: "all" | "unread") => {
   const { notifications } = useNotificationHub();
-  
+
   const data = useMemo(() => {
-    if (filter === 'unread') {
-      return notifications.filter(n => !n.read);
+    if (filter === "unread") {
+      return notifications.filter((n) => !n.read);
     }
     return notifications;
   }, [notifications, filter]);
-  
+
   return {
     data,
     isLoading: false, // Context handles loading
@@ -51,7 +51,7 @@ export const useMarkAsRead = () => {
       await markAsRead(notificationId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["notifications", user?.id] });
     },
   });
 };
@@ -69,7 +69,7 @@ export const useMarkAllAsRead = () => {
       await markAllAsRead();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["notifications", user?.id] });
     },
   });
 };
@@ -85,13 +85,13 @@ export const useCreateNotification = () => {
     mutationFn: async (notification: {
       title: string;
       message: string;
-      type: 'info' | 'success' | 'warning' | 'error';
+      type: "info" | "success" | "warning" | "error";
       action_url?: string;
     }) => {
-      if (!user?.id) throw new Error('No user');
+      if (!user?.id) throw new Error("No user");
 
       const { data, error } = await supabase
-        .from('notifications')
+        .from("notifications")
         .insert({
           user_id: user.id,
           ...notification,
@@ -103,10 +103,10 @@ export const useCreateNotification = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notifications', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["notifications", user?.id] });
     },
     onError: (error) => {
-      toast.error('Ошибка создания уведомления', {
+      toast.error("Ошибка создания уведомления", {
         description: error.message,
       });
     },
@@ -114,4 +114,4 @@ export const useCreateNotification = () => {
 };
 
 // Re-export context hook for direct access
-export { useNotificationHub } from '@/contexts/NotificationContext';
+export { useNotificationHub } from "@/contexts/NotificationContext";

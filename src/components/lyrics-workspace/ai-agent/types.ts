@@ -2,67 +2,67 @@
  * AI Agent Types and Interfaces
  */
 
-import { LucideIcon } from 'lucide-react';
+import { LucideIcon } from "lucide-react";
 
 // Phase 4: Streamlined from 17 to 9 core tool IDs
-export type AIToolId = 
-  | 'write' 
-  | 'continue'
-  | 'analyze'
-  | 'producer'
-  | 'optimize'
-  | 'rhyme'
-  | 'structure'
-  | 'style_convert'
-  | 'translate';
+export type AIToolId =
+  | "write"
+  | "continue"
+  | "analyze"
+  | "producer"
+  | "optimize"
+  | "rhyme"
+  | "structure"
+  | "style_convert"
+  | "translate";
 
-export type BackendAction = 
-  | 'generate'
-  | 'improve'
-  | 'add_tags'
-  | 'suggest_structure'
-  | 'generate_section'
-  | 'continue_line'
-  | 'suggest_rhymes'
-  | 'analyze_lyrics'
-  | 'optimize_for_suno'
-  | 'smart_generate'
-  | 'chat'
-  | 'context_recommendations'
-  | 'generate_compound_tags'
-  | 'analyze_rhythm'
-  | 'fit_structure'
-  | 'full_analysis'
-  | 'deep_analysis'
-  | 'producer_review'
+export type BackendAction =
+  | "generate"
+  | "improve"
+  | "add_tags"
+  | "suggest_structure"
+  | "generate_section"
+  | "continue_line"
+  | "suggest_rhymes"
+  | "analyze_lyrics"
+  | "optimize_for_suno"
+  | "smart_generate"
+  | "chat"
+  | "context_recommendations"
+  | "generate_compound_tags"
+  | "analyze_rhythm"
+  | "fit_structure"
+  | "full_analysis"
+  | "deep_analysis"
+  | "producer_review"
   // Phase 2 actions
-  | 'style_convert'
-  | 'paraphrase'
-  | 'hook_generator'
-  | 'vocal_map'
-  | 'translate_adapt'
+  | "style_convert"
+  | "paraphrase"
+  | "hook_generator"
+  | "vocal_map"
+  | "translate_adapt"
   // Phase 3 V5 actions
-  | 'drill_prompt_builder'
-  | 'epic_prompt_builder'
-  | 'validate_suno_v5';
+  | "drill_prompt_builder"
+  | "epic_prompt_builder"
+  | "validate_suno_v5";
 
-export type OutputType = 
-  | 'lyrics' 
-  | 'tags' 
-  | 'rhymes' 
-  | 'analysis' 
-  | 'suggestions' 
-  | 'text' 
-  | 'full_analysis' 
-  | 'expanded_analysis' 
-  | 'producer_review'
+export type OutputType =
+  | "lyrics"
+  | "tags"
+  | "rhymes"
+  | "analysis"
+  | "suggestions"
+  | "text"
+  | "full_analysis"
+  | "expanded_analysis"
+  | "producer_review"
   // Phase 2 output types
-  | 'hooks'
-  | 'vocal_map'
-  | 'paraphrase'
-  | 'translation'
+  | "hooks"
+  | "vocal_map"
+  | "paraphrase"
+  | "translation"
   // Phase 3 V5 output types
-  | 'validation';
+  | "validation";
 
 export interface AITool {
   id: AIToolId;
@@ -80,7 +80,7 @@ export interface AITool {
 
 export interface AIMessage {
   id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   type?: OutputType;
   toolId?: AIToolId;
@@ -170,7 +170,7 @@ export interface FullAnalysisData {
   recommendations?: Array<{
     type: string;
     text: string;
-    priority: 'high' | 'medium' | 'low';
+    priority: "high" | "medium" | "low";
   }>;
   quickActions?: QuickAction[];
 }
@@ -246,7 +246,7 @@ export interface ProducerReviewData {
 }
 
 export interface AnalysisIssue {
-  type: 'warning' | 'error' | 'suggestion';
+  type: "warning" | "error" | "suggestion";
   message: string;
   line?: number;
   fix?: string;
@@ -308,7 +308,7 @@ export interface AIAgentContext {
   title?: string;
   genre?: string;
   mood?: string;
-  language?: 'ru' | 'en';
+  language?: "ru" | "en";
   // Project context for enhanced AI assistance
   projectContext?: {
     projectId: string;

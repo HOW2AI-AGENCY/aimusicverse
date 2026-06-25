@@ -108,73 +108,73 @@ docs/
 
 ### 🚀 Начало работы
 
-| Документ | Описание | Для кого |
-|----------|----------|----------|
-| **[QUICK_START.md](QUICK_START.md)** | Быстрый старт за 5 минут | Все |
-| **[ONBOARDING.md](ONBOARDING.md)** | Полный онбординг | Новые разработчики |
-| **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)** | Полный гайд разработчика | Разработчики |
-| **[DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md)** | Рабочий процесс | Разработчики |
+| Документ                                               | Описание                 | Для кого           |
+| ------------------------------------------------------ | ------------------------ | ------------------ |
+| **[QUICK_START.md](QUICK_START.md)**                   | Быстрый старт за 5 минут | Все                |
+| **[ONBOARDING.md](ONBOARDING.md)**                     | Полный онбординг         | Новые разработчики |
+| **[DEVELOPER_GUIDE.md](DEVELOPER_GUIDE.md)**           | Полный гайд разработчика | Разработчики       |
+| **[DEVELOPMENT_WORKFLOW.md](DEVELOPMENT_WORKFLOW.md)** | Рабочий процесс          | Разработчики       |
 
 ---
 
 ### 🏗️ Архитектура
 
-| Документ | Описание | Фокус |
-|----------|----------|-------|
-| **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)** | Визуальные диаграммы | Все слои |
-| **[ARCHITECTURE.md](ARCHITECTURE.md)** | Общая архитектура | Система |
-| **[COMPREHENSIVE_ARCHITECTURE.md](COMPREHENSIVE_ARCHITECTURE.md)** | Полная архитектура | Детали |
-| **[DATABASE.md](DATABASE.md)** | Схема БД и ERD | Backend |
-| **[PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md)** | Архитектура плеера | Аудио |
-| **[TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md)** | Архитектура бота | Telegram |
+| Документ                                                           | Описание             | Фокус    |
+| ------------------------------------------------------------------ | -------------------- | -------- |
+| **[ARCHITECTURE_DIAGRAMS.md](ARCHITECTURE_DIAGRAMS.md)**           | Визуальные диаграммы | Все слои |
+| **[ARCHITECTURE.md](ARCHITECTURE.md)**                             | Общая архитектура    | Система  |
+| **[COMPREHENSIVE_ARCHITECTURE.md](COMPREHENSIVE_ARCHITECTURE.md)** | Полная архитектура   | Детали   |
+| **[DATABASE.md](DATABASE.md)**                                     | Схема БД и ERD       | Backend  |
+| **[PLAYER_ARCHITECTURE.md](PLAYER_ARCHITECTURE.md)**               | Архитектура плеера   | Аудио    |
+| **[TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md)**   | Архитектура бота     | Telegram |
 
 ---
 
 ### 🎨 Дизайн и UI
 
-| Документ | Описание | Фокус |
-|----------|----------|-------|
-| **[DESIGN_SYSTEM_COMPREHENSIVE.md](DESIGN_SYSTEM_COMPREHENSIVE.md)** | Полная дизайн-система | UI/UX |
-| **[STYLES.md](STYLES.md)** | Стили и темы | Стилизация |
-| **[LAYOUT_SYSTEM.md](LAYOUT_SYSTEM.md)** | Layout система | Компоновка |
-| **[SAFE_AREA_GUIDELINES.md](SAFE_AREA_GUIDELINES.md)** | Safe Area (iOS) | Mobile |
-| **[MOBILE_COMPONENTS.md](MOBILE_COMPONENTS.md)** | Мобильные компоненты | Mobile UI |
+| Документ                                                             | Описание              | Фокус      |
+| -------------------------------------------------------------------- | --------------------- | ---------- |
+| **[DESIGN_SYSTEM_COMPREHENSIVE.md](DESIGN_SYSTEM_COMPREHENSIVE.md)** | Полная дизайн-система | UI/UX      |
+| **[STYLES.md](STYLES.md)**                                           | Стили и темы          | Стилизация |
+| **[LAYOUT_SYSTEM.md](LAYOUT_SYSTEM.md)**                             | Layout система        | Компоновка |
+| **[SAFE_AREA_GUIDELINES.md](SAFE_AREA_GUIDELINES.md)**               | Safe Area (iOS)       | Mobile     |
+| **[MOBILE_COMPONENTS.md](MOBILE_COMPONENTS.md)**                     | Мобильные компоненты  | Mobile UI  |
 
 ---
 
 ### 🎵 Функции
 
-| Документ | Описание | Статус |
-|----------|----------|--------|
-| **[SUNO_API.md](SUNO_API.md)** | Интеграция Suno AI | ✅ Актуален |
-| **[GENERATION_SYSTEM.md](GENERATION_SYSTEM.md)** | Система генерации | ✅ Активен |
-| **[STEM_STUDIO.md](STEM_STUDIO.md)** | Stem Studio | ✅ Обновлён |
-| **[AI_LYRICS_ASSISTANT.md](AI_LYRICS_ASSISTANT.md)** | AI Lyrics Assistant | ✅ Активен |
-| **[CREATIVE_TOOLS.md](CREATIVE_TOOLS.md)** | Креативные инструменты | ✅ Активен |
-| **[DEMO_MODE.md](DEMO_MODE.md)** | Гостевой режим | ✅ Активен |
+| Документ                                             | Описание               | Статус      |
+| ---------------------------------------------------- | ---------------------- | ----------- |
+| **[SUNO_API.md](SUNO_API.md)**                       | Интеграция Suno AI     | ✅ Актуален |
+| **[GENERATION_SYSTEM.md](GENERATION_SYSTEM.md)**     | Система генерации      | ✅ Активен  |
+| **[STEM_STUDIO.md](STEM_STUDIO.md)**                 | Stem Studio            | ✅ Обновлён |
+| **[AI_LYRICS_ASSISTANT.md](AI_LYRICS_ASSISTANT.md)** | AI Lyrics Assistant    | ✅ Активен  |
+| **[CREATIVE_TOOLS.md](CREATIVE_TOOLS.md)**           | Креативные инструменты | ✅ Активен  |
+| **[DEMO_MODE.md](DEMO_MODE.md)**                     | Гостевой режим         | ✅ Активен  |
 
 ---
 
 ### 🤖 Telegram
 
-| Документ | Описание | Для кого |
-|----------|----------|----------|
-| **[TELEGRAM_MINI_APP_FEATURES.md](TELEGRAM_MINI_APP_FEATURES.md)** | Mini App функции | Разработчики |
-| **[TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md)** | Архитектура бота | Backend |
-| **[TELEGRAM_BOT_COMMANDS_REFERENCE.md](TELEGRAM_BOT_COMMANDS_REFERENCE.md)** | Справочник команд | Все |
-| **[TELEGRAM_BOT_DEVELOPER_GUIDE.md](TELEGRAM_BOT_DEVELOPER_GUIDE.md)** | Гайд разработчика | Разработчики |
-| **[TELEGRAM_BOT_USER_GUIDE_RU.md](TELEGRAM_BOT_USER_GUIDE_RU.md)** | Гайд пользователя | Пользователи |
+| Документ                                                                     | Описание          | Для кого     |
+| ---------------------------------------------------------------------------- | ----------------- | ------------ |
+| **[TELEGRAM_MINI_APP_FEATURES.md](TELEGRAM_MINI_APP_FEATURES.md)**           | Mini App функции  | Разработчики |
+| **[TELEGRAM_BOT_ARCHITECTURE.md](TELEGRAM_BOT_ARCHITECTURE.md)**             | Архитектура бота  | Backend      |
+| **[TELEGRAM_BOT_COMMANDS_REFERENCE.md](TELEGRAM_BOT_COMMANDS_REFERENCE.md)** | Справочник команд | Все          |
+| **[TELEGRAM_BOT_DEVELOPER_GUIDE.md](TELEGRAM_BOT_DEVELOPER_GUIDE.md)**       | Гайд разработчика | Разработчики |
+| **[TELEGRAM_BOT_USER_GUIDE_RU.md](TELEGRAM_BOT_USER_GUIDE_RU.md)**           | Гайд пользователя | Пользователи |
 
 ---
 
 ### 🧪 Тестирование
 
-| Документ | Описание | Покрытие |
-|----------|----------|----------|
-| **[TESTING_INFRASTRUCTURE.md](TESTING_INFRASTRUCTURE.md)** | Полная инфраструктура | 62+ E2E, 27+ unit |
-| **[QUALITY_GATES.md](QUALITY_GATES.md)** | Стандарты качества | Все gates |
-| **[PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md)** | Оптимизация | Бюджеты |
-| **[ERROR_HANDLING_INFRASTRUCTURE.md](ERROR_HANDLING_INFRASTRUCTURE.md)** | Обработка ошибок | Полная |
+| Документ                                                                 | Описание              | Покрытие          |
+| ------------------------------------------------------------------------ | --------------------- | ----------------- |
+| **[TESTING_INFRASTRUCTURE.md](TESTING_INFRASTRUCTURE.md)**               | Полная инфраструктура | 62+ E2E, 27+ unit |
+| **[QUALITY_GATES.md](QUALITY_GATES.md)**                                 | Стандарты качества    | Все gates         |
+| **[PERFORMANCE_OPTIMIZATION.md](PERFORMANCE_OPTIMIZATION.md)**           | Оптимизация           | Бюджеты           |
+| **[ERROR_HANDLING_INFRASTRUCTURE.md](ERROR_HANDLING_INFRASTRUCTURE.md)** | Обработка ошибок      | Полная            |
 
 ---
 
@@ -185,7 +185,7 @@ docs/
 ```mermaid
 graph LR
     Root[📚 Документация]
-    
+
     Root --> Getting[🚀 Начало]
     Root --> Arch[🏗️ Архитектура]
     Root --> Design[🎨 Дизайн]
@@ -194,35 +194,35 @@ graph LR
     Root --> Test[🧪 Тесты]
     Root --> Mobile[📱 Mobile]
     Root --> Telegram[🤖 Telegram]
-    
+
     Getting --> G1[QUICK_START.md]
     Getting --> G2[ONBOARDING.md]
     Getting --> G3[DEVELOPER_GUIDE.md]
-    
+
     Arch --> A1[ARCHITECTURE.md]
     Arch --> A2[DATABASE.md]
     Arch --> A3[PLAYER_ARCHITECTURE.md]
-    
+
     Design --> D1[DESIGN_SYSTEM.md]
     Design --> D2[STYLES.md]
     Design --> D3[SAFE_AREA_GUIDELINES.md]
-    
+
     Features --> F1[SUNO_API.md]
     Features --> F2[STEM_STUDIO.md]
     Features --> F3[GENERATION_SYSTEM.md]
-    
+
     Dev --> DV1[DEVELOPMENT_WORKFLOW.md]
     Dev --> DV2[API.md]
-    
+
     Test --> T1[TESTING_INFRASTRUCTURE.md]
     Test --> T2[QUALITY_GATES.md]
-    
+
     Mobile --> M1[MOBILE_COMPONENTS.md]
     Mobile --> M2[mobile/]
-    
+
     Telegram --> TG1[TELEGRAM_BOT_ARCHITECTURE.md]
     Telegram --> TG2[TELEGRAM_MINI_APP_FEATURES.md]
-    
+
     style Root fill:#FFD700
     style Getting fill:#90EE90
     style Arch fill:#61DAFB
@@ -340,24 +340,24 @@ graph LR
 
 ### По технологии
 
-| Технология | Документы |
-|-----------|-----------|
-| **React** | DEVELOPMENT_WORKFLOW.md, CONTRIBUTING.md |
-| **TypeScript** | CONTRIBUTING.md, types/ |
-| **Tailwind** | DESIGN_SYSTEM_COMPREHENSIVE.md, STYLES.md |
-| **Supabase** | DATABASE.md, API.md |
-| **Telegram** | TELEGRAM_BOT_ARCHITECTURE.md, TELEGRAM_MINI_APP_FEATURES.md |
-| **Suno AI** | SUNO_API.md, GENERATION_SYSTEM.md |
+| Технология     | Документы                                                   |
+| -------------- | ----------------------------------------------------------- |
+| **React**      | DEVELOPMENT_WORKFLOW.md, CONTRIBUTING.md                    |
+| **TypeScript** | CONTRIBUTING.md, types/                                     |
+| **Tailwind**   | DESIGN_SYSTEM_COMPREHENSIVE.md, STYLES.md                   |
+| **Supabase**   | DATABASE.md, API.md                                         |
+| **Telegram**   | TELEGRAM_BOT_ARCHITECTURE.md, TELEGRAM_MINI_APP_FEATURES.md |
+| **Suno AI**    | SUNO_API.md, GENERATION_SYSTEM.md                           |
 
 ### По компоненту
 
-| Компонент | Документация | Код |
-|-----------|--------------|-----|
-| **Плеер** | PLAYER_ARCHITECTURE.md | src/components/player/ |
-| **Генерация** | SUNO_API.md, GENERATION_SYSTEM.md | src/components/generate/ |
-| **Библиотека** | GENERATION_SYSTEM.md | src/components/library/ |
-| **Студия** | STEM_STUDIO.md | src/components/studio/ |
-| **Геймификация** | CREATIVE_TOOLS.md | src/components/gamification/ |
+| Компонент        | Документация                      | Код                          |
+| ---------------- | --------------------------------- | ---------------------------- |
+| **Плеер**        | PLAYER_ARCHITECTURE.md            | src/components/player/       |
+| **Генерация**    | SUNO_API.md, GENERATION_SYSTEM.md | src/components/generate/     |
+| **Библиотека**   | GENERATION_SYSTEM.md              | src/components/library/      |
+| **Студия**       | STEM_STUDIO.md                    | src/components/studio/       |
+| **Геймификация** | CREATIVE_TOOLS.md                 | src/components/gamification/ |
 
 ---
 
@@ -365,33 +365,33 @@ graph LR
 
 ### Документация по языкам
 
-| Язык | Документов | Процент |
-|------|-----------|---------|
-| 🇷🇺 Русский | 90+ | 85% |
-| 🇬🇧 English | 10+ | 15% |
+| Язык       | Документов | Процент |
+| ---------- | ---------- | ------- |
+| 🇷🇺 Русский | 90+        | 85%     |
+| 🇬🇧 English | 10+        | 15%     |
 
 ### Документация по статусу
 
-| Статус | Документов | Процент |
-|--------|-----------|---------|
-| ✅ Актуальный | 80+ | 75% |
-| 🔄 В разработке | 15+ | 15% |
-| 📜 Архив | 10+ | 10% |
+| Статус          | Документов | Процент |
+| --------------- | ---------- | ------- |
+| ✅ Актуальный   | 80+        | 75%     |
+| 🔄 В разработке | 15+        | 15%     |
+| 📜 Архив        | 10+        | 10%     |
 
 ### Документация по типу
 
-| Тип | Документов |
-|-----|-----------|
-| Руководства | 15 |
-| Архитектура | 12 |
-| Дизайн | 8 |
-| Функции | 10 |
-| Telegram | 10 |
-| Тестирование | 8 |
-| Интеграции | 5 |
-| Mobile | 5 |
-| Спецификации | 5 |
-| Архив | 10 |
+| Тип          | Документов |
+| ------------ | ---------- |
+| Руководства  | 15         |
+| Архитектура  | 12         |
+| Дизайн       | 8          |
+| Функции      | 10         |
+| Telegram     | 10         |
+| Тестирование | 8          |
+| Интеграции   | 5          |
+| Mobile       | 5          |
+| Спецификации | 5          |
+| Архив        | 10         |
 
 ---
 
@@ -435,7 +435,7 @@ graph LR
 
 **Документация поддерживается командой MusicVerse AI**
 
-*Последнее обновление: 25 июня 2026*
+_Последнее обновление: 25 июня 2026_
 
 [🔝 В начало](#-документация-musicverse-ai)
 

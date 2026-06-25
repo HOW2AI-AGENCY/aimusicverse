@@ -1,9 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
-const analysisLogger = logger.child({ module: 'AudioAnalysis' });
+const analysisLogger = logger.child({ module: "AudioAnalysis" });
 
 export interface AudioAnalysis {
   id: string;
@@ -31,15 +31,15 @@ export interface AudioAnalysis {
 
 export function useAudioAnalysis(trackId: string | null) {
   return useQuery({
-    queryKey: ['audio-analysis', trackId],
+    queryKey: ["audio-analysis", trackId],
     queryFn: async () => {
       if (!trackId) return null;
 
       const { data, error } = await supabase
-        .from('audio_analysis')
-        .select('*')
-        .eq('track_id', trackId)
-        .order('created_at', { ascending: false })
+        .from("audio_analysis")
+        .select("*")
+        .eq("track_id", trackId)
+        .order("created_at", { ascending: false })
         .limit(1)
         .maybeSingle();
 
@@ -54,20 +54,20 @@ export function useAnalyzeAudio() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ 
-      trackId, 
-      audioUrl, 
-      analysisType = 'auto',
-      customPrompt 
-    }: { 
-      trackId: string; 
+    mutationFn: async ({
+      trackId,
+      audioUrl,
+      analysisType = "auto",
+      customPrompt,
+    }: {
+      trackId: string;
       audioUrl: string;
       analysisType?: string;
       customPrompt?: string;
     }) => {
-      analysisLogger.debug('Starting audio analysis', { trackId, analysisType });
-      
-      const { data, error } = await supabase.functions.invoke('analyze-audio-flamingo', {
+      analysisLogger.debug("Starting audio analysis", { trackId, analysisType });
+
+      const { data, error } = await supabase.functions.invoke("analyze-audio-flamingo", {
         body: {
           track_id: trackId,
           audio_url: audioUrl,
@@ -77,24 +77,24 @@ export function useAnalyzeAudio() {
       });
 
       if (error) {
-        analysisLogger.error('Audio analysis error', error);
+        analysisLogger.error("Audio analysis error", error);
         throw error;
       }
 
       if (!data.success) {
-        throw new Error(data.error || 'Analysis failed');
+        throw new Error(data.error || "Analysis failed");
       }
 
-      analysisLogger.info('Audio analysis completed', { trackId });
+      analysisLogger.info("Audio analysis completed", { trackId });
       return data;
     },
     onSuccess: (data, variables) => {
-      toast.success('Анализ аудио завершен');
-      queryClient.invalidateQueries({ queryKey: ['audio-analysis', variables.trackId] });
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
+      toast.success("Анализ аудио завершен");
+      queryClient.invalidateQueries({ queryKey: ["audio-analysis", variables.trackId] });
+      queryClient.invalidateQueries({ queryKey: ["tracks"] });
     },
     onError: (error: Error) => {
-      analysisLogger.error('Error analyzing audio', error);
+      analysisLogger.error("Error analyzing audio", error);
       toast.error(`Ошибка анализа: ${error.message}`);
     },
   });

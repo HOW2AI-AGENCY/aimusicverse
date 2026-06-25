@@ -1,12 +1,12 @@
-import React, { memo, useRef, useState, useEffect, useId } from 'react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Circle, Square, Download, Trash2, AudioLines, Upload } from 'lucide-react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import React, { memo, useRef, useState, useEffect, useId } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Circle, Square, Download, Trash2, AudioLines, Upload } from "lucide-react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface DrumRecorderProps {
-  recordingState: 'idle' | 'recording' | 'recorded';
+  recordingState: "idle" | "recording" | "recorded";
   recordedAudioUrl: string | null;
   recordedAudioBlob: Blob | null;
   isPlaying: boolean;
@@ -26,7 +26,7 @@ export const DrumRecorder = memo(function DrumRecorder({
   onStopRecording,
   onClearRecording,
   onUseAsReference,
-  className
+  className,
 }: DrumRecorderProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const sourceId = useId();
@@ -54,10 +54,10 @@ export const DrumRecorder = memo(function DrumRecorder({
 
   // Recording timer
   useEffect(() => {
-    if (recordingState === 'recording') {
+    if (recordingState === "recording") {
       setRecordingTime(0);
       timerRef.current = setInterval(() => {
-        setRecordingTime(prev => prev + 100);
+        setRecordingTime((prev) => prev + 100);
       }, 100);
     } else {
       if (timerRef.current) {
@@ -75,12 +75,12 @@ export const DrumRecorder = memo(function DrumRecorder({
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     const remainingMs = Math.floor((ms % 1000) / 100);
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}.${remainingMs}`;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}.${remainingMs}`;
   };
 
   const handleDownload = () => {
     if (!recordedAudioUrl) return;
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = recordedAudioUrl;
     a.download = `drum-recording-${Date.now()}.webm`;
     a.click();
@@ -93,44 +93,37 @@ export const DrumRecorder = memo(function DrumRecorder({
   };
 
   return (
-    <div className={cn('flex items-center gap-2 p-2 bg-muted/50 rounded-lg', className)}>
+    <div className={cn("flex items-center gap-2 p-2 bg-muted/50 rounded-lg", className)}>
       {/* Record controls */}
       <div className="flex items-center gap-1.5">
-        {recordingState === 'idle' && (
+        {recordingState === "idle" && (
           <Button
             variant="outline"
             size="sm"
             onClick={onStartRecording}
             disabled={!isPlaying}
             className="h-8 gap-1.5"
-            title={!isPlaying ? 'Запустите воспроизведение для записи' : 'Начать запись'}
+            title={!isPlaying ? "Запустите воспроизведение для записи" : "Начать запись"}
           >
             <Circle className="w-3.5 h-3.5 fill-destructive text-destructive" />
             <span className="text-xs">REC</span>
           </Button>
         )}
 
-        {recordingState === 'recording' && (
+        {recordingState === "recording" && (
           <>
-            <Button
-              variant="destructive"
-              size="sm"
-              onClick={onStopRecording}
-              className="h-8 gap-1.5 animate-pulse"
-            >
+            <Button variant="destructive" size="sm" onClick={onStopRecording} className="h-8 gap-1.5 animate-pulse">
               <Square className="w-3.5 h-3.5 fill-current" />
               <span className="text-xs">Стоп</span>
             </Button>
             <div className="flex items-center gap-1.5 px-2">
               <div className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
-              <span className="text-xs font-mono tabular-nums text-destructive">
-                {formatTime(recordingTime)}
-              </span>
+              <span className="text-xs font-mono tabular-nums text-destructive">{formatTime(recordingTime)}</span>
             </div>
           </>
         )}
 
-        {recordingState === 'recorded' && (
+        {recordingState === "recorded" && (
           <>
             <Button
               variant="outline"
@@ -142,12 +135,7 @@ export const DrumRecorder = memo(function DrumRecorder({
               <Circle className="w-3.5 h-3.5 fill-destructive text-destructive" />
               <span className="text-xs">REC</span>
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClearRecording}
-              className="h-8 w-8 p-0"
-            >
+            <Button variant="ghost" size="sm" onClick={onClearRecording} className="h-8 w-8 p-0">
               <Trash2 className="w-3.5 h-3.5" />
             </Button>
           </>
@@ -155,32 +143,17 @@ export const DrumRecorder = memo(function DrumRecorder({
       </div>
 
       {/* Playback & export */}
-      {recordingState === 'recorded' && recordedAudioUrl && (
+      {recordingState === "recorded" && recordedAudioUrl && (
         <div className="flex items-center gap-2 flex-1">
-          <audio
-            ref={audioRef}
-            src={recordedAudioUrl}
-            controls
-            className="h-8 flex-1 max-w-[200px]"
-          />
-          
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleDownload}
-            className="h-8 gap-1.5"
-          >
+          <audio ref={audioRef} src={recordedAudioUrl} controls className="h-8 flex-1 max-w-[200px]" />
+
+          <Button variant="outline" size="sm" onClick={handleDownload} className="h-8 gap-1.5">
             <Download className="w-3.5 h-3.5" />
             <span className="text-xs hidden sm:inline">WAV</span>
           </Button>
 
           {onUseAsReference && recordedAudioBlob && (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleUseAsReference}
-              className="h-8 gap-1.5"
-            >
+            <Button variant="secondary" size="sm" onClick={handleUseAsReference} className="h-8 gap-1.5">
               <Upload className="w-3.5 h-3.5" />
               <span className="text-xs hidden sm:inline">Референс</span>
             </Button>
@@ -189,10 +162,8 @@ export const DrumRecorder = memo(function DrumRecorder({
       )}
 
       {/* Idle state hint */}
-      {recordingState === 'idle' && !isPlaying && (
-        <span className="text-[10px] text-muted-foreground">
-          Запустите воспроизведение для записи
-        </span>
+      {recordingState === "idle" && !isPlaying && (
+        <span className="text-[10px] text-muted-foreground">Запустите воспроизведение для записи</span>
       )}
     </div>
   );

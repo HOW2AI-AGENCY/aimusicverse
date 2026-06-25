@@ -5,6 +5,7 @@
 ### 1. Реактивный интерфейс (Native App Style)
 
 Бот теперь работает как нативное приложение в чате:
+
 - ✅ **Одно активное сообщение** - обновляется без спама
 - ✅ **editMessageMedia** - плавная смена картинок
 - ✅ **editMessageCaption** - обновление текста без мерцания
@@ -28,6 +29,7 @@ telegram-bot/
 ### 3. Основные возможности
 
 #### Главное меню
+
 ```
 🏠 Главное меню
 ┌────────────────────────┐
@@ -38,6 +40,7 @@ telegram-bot/
 ```
 
 #### Плеер (Библиотека)
+
 ```
 🎧 Track Title
 👤 Artist
@@ -51,6 +54,7 @@ telegram-bot/
 ```
 
 #### Проекты
+
 ```
 📁 My Album
 📀 Тип: album
@@ -119,7 +123,7 @@ https://t.me/YourBot?start=generate_rock     # Создать рок-трек
 ### MusicService
 
 ```typescript
-import { musicService } from './core/services/music.ts';
+import { musicService } from "./core/services/music.ts";
 
 // Получить треки пользователя
 const tracks = await musicService.getUserTracks(telegramId);
@@ -139,29 +143,29 @@ const duration = musicService.formatDuration(track.duration_seconds);
 ### Navigation Handlers
 
 ```typescript
-import { handleNavigationCallback } from './handlers/navigation.ts';
+import { handleNavigationCallback } from "./handlers/navigation.ts";
 
 // Обработка навигационных callback-ов
 await handleNavigationCallback(
-  callbackData,  // 'nav_library', 'lib_page_1', etc.
+  callbackData, // 'nav_library', 'lib_page_1', etc.
   chatId,
   userId,
   messageId,
-  queryId
+  queryId,
 );
 ```
 
 ### Media Handlers
 
 ```typescript
-import { handleMediaCallback } from './handlers/media.ts';
+import { handleMediaCallback } from "./handlers/media.ts";
 
 // Обработка медиа callback-ов
 await handleMediaCallback(
-  callbackData,  // 'play_<id>', 'dl_<id>', etc.
+  callbackData, // 'play_<id>', 'dl_<id>', etc.
   chatId,
   messageId,
-  queryId
+  queryId,
 );
 ```
 
@@ -190,15 +194,15 @@ case 'mycommand':
 export function createMyCustomKeyboard() {
   return {
     inline_keyboard: [
-      [{ text: '🎯 Моя кнопка', callback_data: 'my_action' }],
-      [{ text: '🔙 Назад', callback_data: 'nav_main' }]
-    ]
+      [{ text: "🎯 Моя кнопка", callback_data: "my_action" }],
+      [{ text: "🔙 Назад", callback_data: "nav_main" }],
+    ],
   };
 }
 
 // Обработка в bot.ts
-if (data === 'my_action') {
-  await sendMessage(chatId, 'Вы нажали мою кнопку!');
+if (data === "my_action") {
+  await sendMessage(chatId, "Вы нажали мою кнопку!");
 }
 ```
 
@@ -209,12 +213,12 @@ await editMessageMedia(
   chatId,
   messageId,
   {
-    type: 'photo',
-    media: 'https://example.com/new-image.jpg',
-    caption: 'Обновленный текст',
-    parse_mode: 'Markdown'
+    type: "photo",
+    media: "https://example.com/new-image.jpg",
+    caption: "Обновленный текст",
+    parse_mode: "Markdown",
   },
-  createPlayerControls(trackId, page, total)
+  createPlayerControls(trackId, page, total),
 );
 ```
 
@@ -223,22 +227,29 @@ await editMessageMedia(
 ## 🔧 Troubleshooting
 
 ### Ошибка "message is not modified"
+
 **Решение**: Игнорируется автоматически в коде. Это нормально, когда контент не изменился.
 
 ### Ошибка "Bad Request: can't parse entities"
+
 **Решение**: Используйте `escapeMarkdown()` для всех динамических строк:
+
 ```typescript
 const title = musicService.escapeMarkdown(track.title);
 ```
 
 ### Картинка не обновляется
+
 **Решение**: Проверьте, что URL изображения доступен и валиден:
+
 ```typescript
 const coverUrl = musicService.getCoverUrl(track); // Возвращает fallback
 ```
 
 ### Кнопки не работают
+
 **Решение**: Убедитесь, что callback_data соответствует обработчикам:
+
 ```typescript
 // Кнопка
 { text: '▶️', callback_data: 'play_<uuid>' }
@@ -263,7 +274,9 @@ if (data?.startsWith('play_')) {
 ## 🔐 Security
 
 ### RLS Policies
+
 Все таблицы защищены Row Level Security:
+
 ```sql
 CREATE POLICY "Users can view own tracks"
   ON tracks FOR SELECT
@@ -271,12 +284,14 @@ CREATE POLICY "Users can view own tracks"
 ```
 
 ### Authentication
+
 ```typescript
 // Валидация Telegram initData через HMAC-SHA256
 const isValid = await validateTelegramAuth(initData, botToken);
 ```
 
 ### Rate Limiting
+
 ```typescript
 // Telegram Bot API автоматически ограничивает:
 // - 30 сообщений/секунду на группу
@@ -297,6 +312,7 @@ const isValid = await validateTelegramAuth(initData, botToken);
 ## 🎯 Следующие шаги
 
 ### Ближайшие улучшения:
+
 - [ ] Inline Mode (полный поиск треков)
 - [ ] Share to Stories
 - [ ] Emoji Status integration
@@ -304,6 +320,7 @@ const isValid = await validateTelegramAuth(initData, botToken);
 - [ ] AI Lyrics Assistant
 
 ### Оптимизация:
+
 - [ ] Redis для session storage
 - [ ] CDN для media files
 - [ ] Analytics dashboard

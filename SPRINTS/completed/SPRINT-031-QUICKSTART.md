@@ -28,11 +28,13 @@ This guide provides quick reference for implementing Sprint 031 optimization fea
 ### useUnifiedStudioStore
 
 **Import:**
+
 ```typescript
-import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
+import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 ```
 
 **Basic Usage:**
+
 ```typescript
 function StudioComponent() {
   // Subscribe to specific state (prevents re-renders)
@@ -52,43 +54,41 @@ function StudioComponent() {
 ```
 
 **Advanced Usage (Optimized Selectors):**
+
 ```typescript
-import { shallow } from 'zustand/shallow';
+import { shallow } from "zustand/shallow";
 
 // Select multiple values with shallow comparison
 const { isPlaying, currentTime, duration } = useUnifiedStudioStore(
-  state => ({
+  (state) => ({
     isPlaying: state.isPlaying,
     currentTime: state.currentTime,
     duration: state.duration,
   }),
-  shallow // Only re-render if one of these values changes
+  shallow, // Only re-render if one of these values changes
 );
 
 // Parameterized selector
-const stemState = useUnifiedStudioStore(
-  state => state.stemStates['vocals'] || defaultStemState
-);
+const stemState = useUnifiedStudioStore((state) => state.stemStates["vocals"] || defaultStemState);
 
 // Computed selector
-const effectiveVolume = useUnifiedStudioStore(
-  state => state.getEffectiveVolume('vocals')
-);
+const effectiveVolume = useUnifiedStudioStore((state) => state.getEffectiveVolume("vocals"));
 ```
 
 **Actions:**
+
 ```typescript
 // Playback
 play();
 pause();
 seek(10.5); // Seek to 10.5 seconds
-setLoopMode('track');
+setLoopMode("track");
 
 // Mixer
 setMasterVolume(0.8);
-setStemVolume('vocals', 0.5);
-toggleStemMute('vocals');
-toggleStemSolo('drums');
+setStemVolume("vocals", 0.5);
+toggleStemMute("vocals");
+toggleStemSolo("drums");
 
 // History
 undo();
@@ -103,11 +103,13 @@ resetAll();
 ### OptimizedLyricsLine
 
 **Import:**
+
 ```typescript
-import { OptimizedLyricsLine } from '@/components/lyrics/OptimizedLyricsLine';
+import { OptimizedLyricsLine } from "@/components/lyrics/OptimizedLyricsLine";
 ```
 
 **Usage:**
+
 ```typescript
 function LyricsPanel({ lyrics, currentLineIndex }: LyricsPanelProps) {
   return (
@@ -131,6 +133,7 @@ function LyricsPanel({ lyrics, currentLineIndex }: LyricsPanelProps) {
 ```
 
 **Props:**
+
 ```typescript
 interface OptimizedLyricsLineProps {
   line: LyricsLineData;
@@ -147,6 +150,7 @@ interface OptimizedLyricsLineProps {
 ```
 
 **Optimization Notes:**
+
 - Uses `React.memo` with custom comparison
 - Only re-renders when `line.id`, `line.text`, or boolean state changes
 - Parent must stabilize `onClick`/`onDoubleClick` with `useCallback`
@@ -156,11 +160,13 @@ interface OptimizedLyricsLineProps {
 ### OptimizedMixerChannel
 
 **Import:**
+
 ```typescript
-import { OptimizedMixerChannel } from '@/components/studio/unified/OptimizedMixerChannel';
+import { OptimizedMixerChannel } from "@/components/studio/unified/OptimizedMixerChannel";
 ```
 
 **Usage:**
+
 ```typescript
 function MixerPanel({ stems }: MixerPanelProps) {
   // Stabilize callbacks in parent
@@ -193,6 +199,7 @@ function MixerPanel({ stems }: MixerPanelProps) {
 ```
 
 **Props:**
+
 ```typescript
 interface OptimizedMixerChannelProps {
   id: string;
@@ -217,6 +224,7 @@ interface OptimizedMixerChannelProps {
 ```
 
 **Optimization Notes:**
+
 - Custom comparison focuses on `volume`, `muted`, `solo` (frequently changing)
 - Parent must stabilize all callbacks with `useCallback`
 - Only re-renders when mixer state changes, not on parent re-render
@@ -226,12 +234,14 @@ interface OptimizedMixerChannelProps {
 ### OptimizedPlaylistItem (Virtualized)
 
 **Import:**
+
 ```typescript
-import { OptimizedPlaylistItem } from '@/components/library/OptimizedPlaylistItem';
-import { VirtuosoGrid } from 'react-virtuoso';
+import { OptimizedPlaylistItem } from "@/components/library/OptimizedPlaylistItem";
+import { VirtuosoGrid } from "react-virtuoso";
 ```
 
 **Usage:**
+
 ```typescript
 function TrackList({ tracks, onPlay, onLike }: TrackListProps) {
   // Stabilize callbacks
@@ -263,6 +273,7 @@ function TrackList({ tracks, onPlay, onLike }: TrackListProps) {
 ```
 
 **Props:**
+
 ```typescript
 interface OptimizedPlaylistItemProps {
   track: Track;
@@ -276,6 +287,7 @@ interface OptimizedPlaylistItemProps {
 ```
 
 **Optimization Notes:**
+
 - Uses `React.memo` with shallow comparison
 - Virtualization reduces DOM nodes to ~20 visible items
 - Parent must stabilize callbacks
@@ -288,11 +300,13 @@ interface OptimizedPlaylistItemProps {
 ### detectBPM
 
 **Import:**
+
 ```typescript
-import { detectBPM, detectBPMFromUrl } from '@/lib/bpmDetection';
+import { detectBPM, detectBPMFromUrl } from "@/lib/bpmDetection";
 ```
 
 **Usage:**
+
 ```typescript
 // From AudioBuffer
 const audioBuffer = await decodeAudioData(arrayBuffer);
@@ -300,10 +314,11 @@ const result = await detectBPM(audioBuffer);
 console.log(`BPM: ${result.bpm}, Confidence: ${result.confidence}`);
 
 // From URL
-const result = await detectBPMFromUrl('https://cdn.example.com/track.mp3');
+const result = await detectBPMFromUrl("https://cdn.example.com/track.mp3");
 ```
 
 **Return Type:**
+
 ```typescript
 interface BPMDetectionResult {
   bpm: number | null;
@@ -318,27 +333,30 @@ interface BPMDetectionResult {
 ### snapToGrid
 
 **Import:**
+
 ```typescript
-import { snapToGrid } from '@/lib/beatSnap';
+import { snapToGrid } from "@/lib/beatSnap";
 ```
 
 **Usage:**
+
 ```typescript
 // Snap time to nearest beat (if BPM available)
 const { snappedTime, gridType, distanceToGrid } = snapToGrid(
   10.5, // Time to snap
   bpmResult, // BPMDetectionResult or null
-  { resolution: 'beat', fallbackGridSeconds: 1 }
+  { resolution: "beat", fallbackGridSeconds: 1 },
 );
 
 console.log(`Snapped to ${snappedTime}s using ${gridType} grid`);
 ```
 
 **Return Type:**
+
 ```typescript
 interface SnapResult {
   snappedTime: number;
-  gridType: 'beat' | 'seconds';
+  gridType: "beat" | "seconds";
   distanceToGrid: number;
 }
 ```
@@ -348,11 +366,13 @@ interface SnapResult {
 ### useBPMGrid Hook
 
 **Import:**
+
 ```typescript
-import { useBPMGrid } from '@/hooks/useBPMGrid';
+import { useBPMGrid } from "@/hooks/useBPMGrid";
 ```
 
 **Usage:**
+
 ```typescript
 function Timeline({ audioUrl, duration, onSeek }: TimelineProps) {
   const {
@@ -391,19 +411,21 @@ function Timeline({ audioUrl, duration, onSeek }: TimelineProps) {
 ### getCachedWaveform / saveWaveform
 
 **Import:**
+
 ```typescript
-import { getCachedWaveform, saveWaveform } from '@/lib/waveformCache';
+import { getCachedWaveform, saveWaveform } from "@/lib/waveformCache";
 ```
 
 **Usage:**
+
 ```typescript
 // Check cache first
 const cached = await getCachedWaveform(trackId);
 if (cached) {
-  console.log('Cache hit! Using cached waveform.');
+  console.log("Cache hit! Using cached waveform.");
   renderWaveform(cached);
 } else {
-  console.log('Cache miss. Generating waveform...');
+  console.log("Cache miss. Generating waveform...");
   const waveform = await generateWaveform(trackId);
   await saveWaveform(trackId, waveform);
   renderWaveform(waveform);
@@ -411,8 +433,9 @@ if (cached) {
 ```
 
 **Cache Metrics:**
+
 ```typescript
-import { getWaveformCacheMetrics } from '@/lib/waveformCache';
+import { getWaveformCacheMetrics } from "@/lib/waveformCache";
 
 const metrics = getWaveformCacheMetrics();
 console.log(`Hit rate: ${(metrics.hitRate * 100).toFixed(1)}%`);
@@ -426,11 +449,13 @@ console.log(`Avg retrieval: ${metrics.avgRetrievalTime.toFixed(2)}ms`);
 ### useRAFThrottle
 
 **Import:**
+
 ```typescript
-import { useRAFThrottle, usePlayheadDrag, usePinchZoom } from '@/hooks/studio/useRAFThrottle';
+import { useRAFThrottle, usePlayheadDrag, usePinchZoom } from "@/hooks/studio/useRAFThrottle";
 ```
 
 **Usage:**
+
 ```typescript
 function Playhead({ onPositionChange }: PlayheadProps) {
   // Use specialized hook for playhead
@@ -456,6 +481,7 @@ const throttledZoom = useRAFThrottle((scale: number) => {
 ```
 
 **Advanced Hook Signature:**
+
 ```typescript
 function useRAFThrottle<T extends (...args: any[]) => void>(
   fn: T,
@@ -464,7 +490,7 @@ function useRAFThrottle<T extends (...args: any[]) => void>(
     skipThreshold?: number; // Skip if value unchanged by this amount
     shouldUpdate?: (prev: any, curr: any) => boolean; // Custom comparison
     monitorPerformance?: boolean; // Log frame times
-  }
+  },
 ): T;
 ```
 
@@ -475,11 +501,13 @@ function useRAFThrottle<T extends (...args: any[]) => void>(
 ### Performance Profiling
 
 **Import:**
+
 ```typescript
-import { markPerformance } from '@/lib/performance-utils';
+import { markPerformance } from "@/lib/performance-utils";
 ```
 
 **Usage:**
+
 ```typescript
 function TestComponent() {
   const handleClick = () => {
@@ -503,6 +531,7 @@ function TestComponent() {
 ### React Profiler
 
 **Usage:**
+
 ```typescript
 import { Profiler } from 'react';
 
@@ -529,22 +558,23 @@ function onRenderCallback(
 ### Cache Testing
 
 **Mock IndexedDB:**
+
 ```typescript
-import { getCachedWaveform, saveWaveform } from '@/lib/waveformCache';
+import { getCachedWaveform, saveWaveform } from "@/lib/waveformCache";
 
 // Setup test
 const mockWaveform = new Array(1000).fill(0).map(() => Math.random());
 
 // Test save
-await saveWaveform('test-track', mockWaveform);
+await saveWaveform("test-track", mockWaveform);
 
 // Test retrieve
-const cached = await getCachedWaveform('test-track');
+const cached = await getCachedWaveform("test-track");
 expect(cached).toEqual(mockWaveform);
 
 // Test TTL (advance time by 8 days)
 vi.advanceTimersByTime(8 * 24 * 60 * 60 * 1000);
-const expired = await getCachedWaveform('test-track');
+const expired = await getCachedWaveform("test-track");
 expect(expired).toBeNull();
 ```
 
@@ -575,12 +605,12 @@ const handleVolumeChange = useCallback((id: string, volume: number) => {
 const store = useUnifiedStudioStore();
 
 // ✅ GOOD: Subscribes to specific values
-const isPlaying = useUnifiedStudioStore(state => state.isPlaying);
+const isPlaying = useUnifiedStudioStore((state) => state.isPlaying);
 
 // ✅ BETTER: Multiple values with shallow comparison
 const { isPlaying, currentTime } = useUnifiedStudioStore(
-  state => ({ isPlaying: state.isPlaying, currentTime: state.currentTime }),
-  shallow
+  (state) => ({ isPlaying: state.isPlaying, currentTime: state.currentTime }),
+  shallow,
 );
 ```
 
@@ -598,7 +628,7 @@ setState({ error: null });
 useUnifiedStudioStore.getState().setLoading(true);
 useUnifiedStudioStore.getState().resetAll();
 // Or use batched updates utility
-import { unstable_batchedUpdates } from 'react-dom';
+import { unstable_batchedUpdates } from "react-dom";
 unstable_batchedUpdates(() => {
   setLoading(true);
   resetAll();
@@ -612,6 +642,7 @@ unstable_batchedUpdates(() => {
 ### Issue: Component re-renders too frequently
 
 **Diagnosis:**
+
 ```typescript
 import { Profiler } from 'react';
 
@@ -623,6 +654,7 @@ import { Profiler } from 'react';
 ```
 
 **Solutions:**
+
 1. Check if parent is passing new function references (stabilize with `useCallback`)
 2. Verify `React.memo` comparison function includes all changing props
 3. Use shallow comparison for object/array selectors
@@ -633,13 +665,15 @@ import { Profiler } from 'react';
 ### Issue: Cache hit rate is low
 
 **Diagnosis:**
+
 ```typescript
 const metrics = getWaveformCacheMetrics();
-console.log('Hit rate:', metrics.hitRate);
-console.log('Total entries:', memoryCache.size);
+console.log("Hit rate:", metrics.hitRate);
+console.log("Total entries:", memoryCache.size);
 ```
 
 **Solutions:**
+
 1. Increase cache size (currently 20 entries for memory cache)
 2. Check if cache keys are consistent (trackId vs URL)
 3. Verify TTL isn't too short (7 days recommended)
@@ -650,12 +684,14 @@ console.log('Total entries:', memoryCache.size);
 ### Issue: RAF callbacks causing jank
 
 **Diagnosis:**
+
 ```typescript
 const throttled = useRAFThrottle(fn, { monitorPerformance: true });
 // Check console for warnings like "Frame exceeded budget (18.42ms)"
 ```
 
 **Solutions:**
+
 1. Keep RAF callbacks under 5ms
 2. Use CSS transforms (hardware accelerated) instead of width/height
 3. Batch DOM reads, then batch DOM writes
@@ -667,6 +703,7 @@ const throttled = useRAFThrottle(fn, { monitorPerformance: true });
 ## Performance Benchmarks
 
 **Target Metrics (Mid-range devices):**
+
 - TrackList scroll: 60 FPS
 - Mixer re-renders per volume change: 1 (from ~10)
 - Waveform load (cached): <50ms (from ~500ms)
@@ -674,6 +711,7 @@ const throttled = useRAFThrottle(fn, { monitorPerformance: true });
 - Memory (10 stems): <100MB (from ~150MB)
 
 **Measurement:**
+
 ```bash
 # Run bundle size check
 npm run size

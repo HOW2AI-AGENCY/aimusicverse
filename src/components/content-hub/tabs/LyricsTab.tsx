@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useLyricsTemplates, LyricsTemplate } from '@/hooks/useLyricsTemplates';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { FileText, Search, Trash2, PenLine } from 'lucide-react';
-import { EmptyState } from '@/components/common/EmptyState';
-import { toast } from 'sonner';
-import { VirtualizedLyricsList } from '@/components/content-hub/VirtualizedLyricsList';
-import { StructuredLyricsPreview } from '@/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useLyricsTemplates, LyricsTemplate } from "@/hooks/useLyricsTemplates";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { FileText, Search, Trash2, PenLine } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState";
+import { toast } from "sonner";
+import { VirtualizedLyricsList } from "@/components/content-hub/VirtualizedLyricsList";
+import { StructuredLyricsPreview } from "@/components/lyrics-workspace/ai-agent/results/StructuredLyricsPreview";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,19 +18,14 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
+} from "@/components/ui/alert-dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function LyricsTab() {
   const navigate = useNavigate();
   const { templates, isLoading, deleteTemplate } = useLyricsTemplates();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedTemplate, setSelectedTemplate] = useState<LyricsTemplate | null>(null);
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
@@ -38,10 +33,12 @@ export function LyricsTab() {
     navigate(`/lyrics-studio?template=${templateId}`);
   };
 
-  const filteredTemplates = templates?.filter((t) =>
-    t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    t.lyrics.toLowerCase().includes(searchQuery.toLowerCase())
-  ) || [];
+  const filteredTemplates =
+    templates?.filter(
+      (t) =>
+        t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.lyrics.toLowerCase().includes(searchQuery.toLowerCase()),
+    ) || [];
 
   const handleDelete = (id: string) => {
     deleteTemplate(id);
@@ -69,16 +66,14 @@ export function LyricsTab() {
             className="pl-9 h-9 text-sm"
           />
         </div>
-        <Button size="sm" onClick={() => navigate('/lyrics-studio')} className="gap-1.5 shrink-0">
+        <Button size="sm" onClick={() => navigate("/lyrics-studio")} className="gap-1.5 shrink-0">
           <PenLine className="w-4 h-4" />
           Создать
         </Button>
       </div>
 
       {/* Stats */}
-      <div className="text-xs text-muted-foreground">
-        {templates?.length || 0} сохраненных текстов
-      </div>
+      <div className="text-xs text-muted-foreground">{templates?.length || 0} сохраненных текстов</div>
 
       {/* Templates List */}
       {filteredTemplates.length > 0 ? (
@@ -90,7 +85,7 @@ export function LyricsTab() {
       ) : (
         <EmptyState
           icon={FileText}
-          title={searchQuery ? 'Ничего не найдено' : 'Нет сохраненных текстов'}
+          title={searchQuery ? "Ничего не найдено" : "Нет сохраненных текстов"}
           description="Сохраняйте тексты из AI Lyrics Assistant"
           variant="compact"
         />
@@ -108,18 +103,10 @@ export function LyricsTab() {
                 <div className="space-y-4 pb-8">
                   {/* Metadata */}
                   <div className="flex items-center gap-2 flex-wrap">
-                    {selectedTemplate.genre && (
-                      <Badge variant="secondary">{selectedTemplate.genre}</Badge>
-                    )}
-                    {selectedTemplate.mood && (
-                      <Badge variant="outline">{selectedTemplate.mood}</Badge>
-                    )}
-                    {selectedTemplate.structure && (
-                      <Badge variant="outline">{selectedTemplate.structure}</Badge>
-                    )}
-                    {selectedTemplate.style && (
-                      <Badge variant="outline">{selectedTemplate.style}</Badge>
-                    )}
+                    {selectedTemplate.genre && <Badge variant="secondary">{selectedTemplate.genre}</Badge>}
+                    {selectedTemplate.mood && <Badge variant="outline">{selectedTemplate.mood}</Badge>}
+                    {selectedTemplate.structure && <Badge variant="outline">{selectedTemplate.structure}</Badge>}
+                    {selectedTemplate.style && <Badge variant="outline">{selectedTemplate.style}</Badge>}
                   </div>
 
                   {/* Lyrics - Visual Display */}
@@ -127,7 +114,7 @@ export function LyricsTab() {
 
                   {/* Actions - icon buttons only */}
                   <div className="flex gap-2 pt-4">
-                    <Button 
+                    <Button
                       variant="default"
                       size="icon"
                       onClick={() => {
@@ -137,8 +124,8 @@ export function LyricsTab() {
                     >
                       <PenLine className="w-4 h-4" />
                     </Button>
-                    <Button 
-                      variant="destructive" 
+                    <Button
+                      variant="destructive"
                       size="icon"
                       onClick={() => {
                         setDeleteConfirmId(selectedTemplate.id);
@@ -160,9 +147,7 @@ export function LyricsTab() {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Удалить текст?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Это действие нельзя отменить.
-            </AlertDialogDescription>
+            <AlertDialogDescription>Это действие нельзя отменить.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>

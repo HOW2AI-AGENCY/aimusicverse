@@ -6,16 +6,16 @@
 
 - [MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L1) (1 connections)
 - [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleKeyDown,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
+  sheetOpen,
+  setSheetOpen,
+  isHovered,
+  isCurrentlyPlaying,
+  handlePlay,
+  handleCardClick,
+  handleKeyDown,
+  handleMouseEnter,
+  handleMouseLeave,
+  openSheet,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L39) (1 connections)
 
 ## Relationships
@@ -34,4 +34,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

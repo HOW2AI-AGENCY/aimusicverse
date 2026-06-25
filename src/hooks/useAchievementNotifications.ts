@@ -1,9 +1,9 @@
-import { useEffect, useState, useCallback } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
-import { useQueryClient } from '@tanstack/react-query';
-import { getSoundEffects } from '@/lib/sound-effects';
-import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import { useEffect, useState, useCallback } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import { getSoundEffects } from "@/lib/sound-effects";
+import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 interface Achievement {
   id: string;
@@ -29,26 +29,26 @@ export function useAchievementNotifications() {
     if (!user?.id) return;
 
     const channel = supabase
-      .channel('achievement-unlocks')
+      .channel("achievement-unlocks")
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'user_achievements',
+          event: "INSERT",
+          schema: "public",
+          table: "user_achievements",
           filter: `user_id=eq.${user.id}`,
         },
         async (payload) => {
           const achievementId = payload.new.achievement_id;
-          
+
           // Skip if already shown
           if (shownAchievements.has(achievementId)) return;
 
           // Fetch achievement details
           const { data: achievement } = await supabase
-            .from('achievements')
-            .select('*')
-            .eq('id', achievementId)
+            .from("achievements")
+            .select("*")
+            .eq("id", achievementId)
             .single();
 
           if (achievement) {
@@ -58,17 +58,17 @@ export function useAchievementNotifications() {
             };
 
             setPendingAchievement(unlocked);
-            setShownAchievements(prev => new Set([...prev, achievementId]));
-            
+            setShownAchievements((prev) => new Set([...prev, achievementId]));
+
             // Play sounds and haptic
             getSoundEffects().achievementUnlock();
-            triggerHapticFeedback('success');
+            triggerHapticFeedback("success");
 
             // Invalidate queries
-            queryClient.invalidateQueries({ queryKey: ['user-achievements'] });
-            queryClient.invalidateQueries({ queryKey: ['user-credits'] });
+            queryClient.invalidateQueries({ queryKey: ["user-achievements"] });
+            queryClient.invalidateQueries({ queryKey: ["user-credits"] });
           }
-        }
+        },
       )
       .subscribe();
 

@@ -2,12 +2,12 @@
  * TrackPromptSection - Prompt display with bookmark action
  */
 
-import { memo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Wand2, BookmarkPlus } from 'lucide-react';
-import { DetailSection } from '@/components/common/DetailSection';
-import { savePromptToBookmarks } from '@/components/generate-form/PromptHistory';
-import type { Track } from '@/types/track';
+import { memo } from "react";
+import { Button } from "@/components/ui/button";
+import { Wand2, BookmarkPlus } from "lucide-react";
+import { DetailSection } from "@/components/common/DetailSection";
+import { savePromptToBookmarks } from "@/components/generate-form/PromptHistory";
+import type { Track } from "@/types/track";
 
 interface TrackPromptSectionProps {
   track: Track;
@@ -15,9 +15,9 @@ interface TrackPromptSectionProps {
   promptAndLyricsSame?: boolean;
 }
 
-export const TrackPromptSection = memo(function TrackPromptSection({ 
-  track, 
-  promptAndLyricsSame = false 
+export const TrackPromptSection = memo(function TrackPromptSection({
+  track,
+  promptAndLyricsSame = false,
 }: TrackPromptSectionProps) {
   if (!track.prompt || promptAndLyricsSame) return null;
 
@@ -25,22 +25,17 @@ export const TrackPromptSection = memo(function TrackPromptSection({
     const promptName = track.title || track.prompt.substring(0, 30);
     savePromptToBookmarks({
       name: promptName,
-      mode: track.generation_mode === 'custom' ? 'custom' : 'simple',
-      description: track.generation_mode === 'simple' ? track.prompt : undefined,
+      mode: track.generation_mode === "custom" ? "custom" : "simple",
+      description: track.generation_mode === "simple" ? track.prompt : undefined,
       title: track.title || undefined,
       style: track.style || undefined,
       lyrics: track.lyrics || undefined,
-      model: track.suno_model || 'V4_5ALL',
+      model: track.suno_model || "V4_5ALL",
     });
   };
 
   const bookmarkAction = (
-    <Button
-      variant="outline"
-      size="sm"
-      className="gap-1.5"
-      onClick={handleBookmark}
-    >
+    <Button variant="outline" size="sm" className="gap-1.5" onClick={handleBookmark}>
       <BookmarkPlus className="w-4 h-4" />
       <span className="hidden sm:inline">В закладки</span>
     </Button>

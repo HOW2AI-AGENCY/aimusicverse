@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Loader2, Download, TrendingUp, Users, DollarSign, Star } from 'lucide-react';
-import { format, ru } from '@/lib/date-utils';
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Loader2, Download, TrendingUp, Users, DollarSign, Star } from "lucide-react";
+import { format, ru } from "@/lib/date-utils";
 
 interface Transaction {
   id: string;
@@ -33,40 +33,38 @@ interface Stats {
 }
 
 export function StarsPaymentsPanel() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   // Fetch stats
   const { data: stats, isLoading: statsLoading } = useQuery({
-    queryKey: ['stars-payment-stats'],
+    queryKey: ["stars-payment-stats"],
     queryFn: async (): Promise<Stats> => {
-      const { data, error } = await supabase.rpc('get_stars_payment_stats');
+      const { data, error } = await supabase.rpc("get_stars_payment_stats");
 
       if (error) throw error;
       const result = Array.isArray(data) ? data[0] : data;
-      return result || {
-        total_transactions: 0,
-        completed_transactions: 0,
-        total_stars_collected: 0,
-        total_credits_granted: 0,
-        active_subscriptions: 0,
-      };
+      return (
+        result || {
+          total_transactions: 0,
+          completed_transactions: 0,
+          total_stars_collected: 0,
+          total_credits_granted: 0,
+          active_subscriptions: 0,
+        }
+      );
     },
     refetchInterval: 30000,
   });
 
   // Fetch transactions
   const { data: transactions, isLoading: transactionsLoading } = useQuery({
-    queryKey: ['stars-transactions', statusFilter],
+    queryKey: ["stars-transactions", statusFilter],
     queryFn: async (): Promise<Transaction[]> => {
-      let query = supabase
-        .from('stars_transactions')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(100);
+      let query = supabase.from("stars_transactions").select("*").order("created_at", { ascending: false }).limit(100);
 
-      if (statusFilter !== 'all') {
-        query = query.eq('status', statusFilter);
+      if (statusFilter !== "all") {
+        query = query.eq("status", statusFilter);
       }
 
       const { data, error } = await query;
@@ -80,7 +78,7 @@ export function StarsPaymentsPanel() {
   // Filter transactions by search query
   const filteredTransactions = transactions?.filter((tx) => {
     if (!searchQuery) return true;
-    
+
     const query = searchQuery.toLowerCase();
     return (
       tx.telegram_payment_charge_id?.toLowerCase().includes(query) ||
@@ -93,15 +91,15 @@ export function StarsPaymentsPanel() {
     if (!filteredTransactions) return;
 
     const headers = [
-      'ID',
-      'Telegram User ID',
-      'Product Code',
-      'Stars Amount',
-      'Credits Granted',
-      'Status',
-      'Created At',
-      'Processed At',
-      'Payment ID',
+      "ID",
+      "Telegram User ID",
+      "Product Code",
+      "Stars Amount",
+      "Credits Granted",
+      "Status",
+      "Created At",
+      "Processed At",
+      "Payment ID",
     ];
 
     const rows = filteredTransactions.map((tx) => [
@@ -109,55 +107,53 @@ export function StarsPaymentsPanel() {
       tx.telegram_user_id,
       tx.product_code,
       tx.stars_amount,
-      tx.credits_granted || '',
+      tx.credits_granted || "",
       tx.status,
-      tx.created_at || '',
-      tx.processed_at || '',
-      tx.telegram_payment_charge_id || '',
+      tx.created_at || "",
+      tx.processed_at || "",
+      tx.telegram_payment_charge_id || "",
     ]);
 
-    const csv = [headers, ...rows]
-      .map((row) => row.join(','))
-      .join('\n');
+    const csv = [headers, ...rows].map((row) => row.join(",")).join("\n");
 
-    const blob = new Blob([csv], { type: 'text/csv' });
+    const blob = new Blob([csv], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    link.download = `stars-transactions-${format(new Date(), 'yyyy-MM-dd')}.csv`;
+    link.download = `stars-transactions-${format(new Date(), "yyyy-MM-dd")}.csv`;
     link.click();
     URL.revokeObjectURL(url);
   };
 
   const getStatusBadgeVariant = (status: string) => {
     switch (status) {
-      case 'completed':
-        return 'default';
-      case 'processing':
-        return 'secondary';
-      case 'pending':
-        return 'outline';
-      case 'failed':
-        return 'destructive';
+      case "completed":
+        return "default";
+      case "processing":
+        return "secondary";
+      case "pending":
+        return "outline";
+      case "failed":
+        return "destructive";
       default:
-        return 'outline';
+        return "outline";
     }
   };
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'completed':
-        return 'Завершён';
-      case 'processing':
-        return 'Обработка';
-      case 'pending':
-        return 'Ожидание';
-      case 'failed':
-        return 'Ошибка';
-      case 'cancelled':
-        return 'Отменён';
-      case 'refunded':
-        return 'Возврат';
+      case "completed":
+        return "Завершён";
+      case "processing":
+        return "Обработка";
+      case "pending":
+        return "Ожидание";
+      case "failed":
+        return "Ошибка";
+      case "cancelled":
+        return "Отменён";
+      case "refunded":
+        return "Возврат";
       default:
         return status;
     }
@@ -169,9 +165,7 @@ export function StarsPaymentsPanel() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Всего транзакций
-            </CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Всего транзакций</CardTitle>
           </CardHeader>
           <CardContent>
             {statsLoading ? (
@@ -187,9 +181,7 @@ export function StarsPaymentsPanel() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Успешных
-            </CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Успешных</CardTitle>
           </CardHeader>
           <CardContent>
             {statsLoading ? (
@@ -205,9 +197,7 @@ export function StarsPaymentsPanel() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Собрано Stars
-            </CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Собрано Stars</CardTitle>
           </CardHeader>
           <CardContent>
             {statsLoading ? (
@@ -223,9 +213,7 @@ export function StarsPaymentsPanel() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Выдано кредитов
-            </CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Выдано кредитов</CardTitle>
           </CardHeader>
           <CardContent>
             {statsLoading ? (
@@ -241,9 +229,7 @@ export function StarsPaymentsPanel() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-muted-foreground">
-              Активных подписок
-            </CardTitle>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Активных подписок</CardTitle>
           </CardHeader>
           <CardContent>
             {statsLoading ? (
@@ -262,9 +248,7 @@ export function StarsPaymentsPanel() {
       <Card>
         <CardHeader>
           <CardTitle>Транзакции Stars</CardTitle>
-          <CardDescription>
-            История платежей через Telegram Stars
-          </CardDescription>
+          <CardDescription>История платежей через Telegram Stars</CardDescription>
 
           {/* Filters */}
           <div className="flex flex-col sm:flex-row gap-4 mt-4">
@@ -288,12 +272,7 @@ export function StarsPaymentsPanel() {
               </SelectContent>
             </Select>
 
-            <Button
-              onClick={handleExportCSV}
-              variant="outline"
-              size="sm"
-              className="ml-auto"
-            >
+            <Button onClick={handleExportCSV} variant="outline" size="sm" className="ml-auto">
               <Download className="w-4 h-4 mr-2" />
               Экспорт CSV
             </Button>
@@ -306,28 +285,19 @@ export function StarsPaymentsPanel() {
               <Loader2 className="w-6 h-6 animate-spin" />
             </div>
           ) : !filteredTransactions || filteredTransactions.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">
-              Нет транзакций
-            </p>
+            <p className="text-center text-muted-foreground py-8">Нет транзакций</p>
           ) : (
             <ScrollArea className="h-[500px]">
               <div className="space-y-3">
                 {filteredTransactions.map((tx) => (
-                  <div
-                    key={tx.id}
-                    className="p-4 border rounded-lg hover:bg-accent/50 transition-colors"
-                  >
+                  <div key={tx.id} className="p-4 border rounded-lg hover:bg-accent/50 transition-colors">
                     <div className="flex items-start justify-between mb-2">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-medium">{tx.product_code}</span>
-                          <Badge variant={getStatusBadgeVariant(tx.status)}>
-                            {getStatusLabel(tx.status)}
-                          </Badge>
+                          <Badge variant={getStatusBadgeVariant(tx.status)}>{getStatusLabel(tx.status)}</Badge>
                         </div>
-                        <p className="text-sm text-muted-foreground">
-                          Telegram ID: {tx.telegram_user_id}
-                        </p>
+                        <p className="text-sm text-muted-foreground">Telegram ID: {tx.telegram_user_id}</p>
                       </div>
 
                       <div className="text-right">
@@ -336,21 +306,17 @@ export function StarsPaymentsPanel() {
                           <span>{tx.stars_amount}</span>
                         </div>
                         {tx.credits_granted && (
-                          <p className="text-sm text-muted-foreground">
-                            {tx.credits_granted} кредитов
-                          </p>
+                          <p className="text-sm text-muted-foreground">{tx.credits_granted} кредитов</p>
                         )}
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
                       <span>
-                        {tx.created_at && format(new Date(tx.created_at), 'dd MMM yyyy, HH:mm', { locale: ru })}
+                        {tx.created_at && format(new Date(tx.created_at), "dd MMM yyyy, HH:mm", { locale: ru })}
                       </span>
                       {tx.telegram_payment_charge_id && (
-                        <span className="font-mono truncate max-w-[200px]">
-                          {tx.telegram_payment_charge_id}
-                        </span>
+                        <span className="font-mono truncate max-w-[200px]">{tx.telegram_payment_charge_id}</span>
                       )}
                     </div>
                   </div>

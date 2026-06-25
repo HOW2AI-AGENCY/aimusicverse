@@ -3,15 +3,15 @@
  * Channel strips with volume, mute, solo for each track
  */
 
-import { memo, useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Volume2, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { cn } from '@/lib/utils';
-import { OptimizedMixerChannel } from './OptimizedMixerChannel';
-import { MIX_PRESETS } from '@/hooks/studio/mixPresetsConfig';
-import type { StudioProject } from '@/stores/useUnifiedStudioStore';
+import { memo, useState } from "react";
+import { motion } from "@/lib/motion";
+import { Volume2, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
+import { OptimizedMixerChannel } from "./OptimizedMixerChannel";
+import { MIX_PRESETS } from "@/hooks/studio/mixPresetsConfig";
+import type { StudioProject } from "@/stores/useUnifiedStudioStore";
 
 interface MobileMixerContentProps {
   project: StudioProject;
@@ -42,28 +42,36 @@ export const MobileMixerContent = memo(function MobileMixerContent({
 
   const getTrackIcon = (type: string) => {
     switch (type) {
-      case 'vocal': return '🎤';
-      case 'instrumental': return '🎸';
-      case 'drums': return '🥁';
-      case 'bass': return '🎸';
-      case 'guitar': return '🎸';
-      case 'piano': return '🎹';
-      case 'sfx': return '✨';
-      default: return '🎵';
+      case "vocal":
+        return "🎤";
+      case "instrumental":
+        return "🎸";
+      case "drums":
+        return "🥁";
+      case "bass":
+        return "🎸";
+      case "guitar":
+        return "🎸";
+      case "piano":
+        return "🎹";
+      case "sfx":
+        return "✨";
+      default:
+        return "🎵";
     }
   };
 
   const getShortName = (type: string) => {
     const nameMap: Record<string, string> = {
-      vocal: 'VOX',
-      instrumental: 'INS',
-      drums: 'DRM',
-      bass: 'BAS',
-      guitar: 'GTR',
-      piano: 'KEY',
-      main: 'MST',
-      sfx: 'SFX',
-      other: 'OTH',
+      vocal: "VOX",
+      instrumental: "INS",
+      drums: "DRM",
+      bass: "BAS",
+      guitar: "GTR",
+      piano: "KEY",
+      main: "MST",
+      sfx: "SFX",
+      other: "OTH",
     };
     return nameMap[type] || type.slice(0, 3).toUpperCase();
   };
@@ -74,9 +82,7 @@ export const MobileMixerContent = memo(function MobileMixerContent({
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold">Микшер</h3>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Управление громкостью дорожек
-          </p>
+          <p className="text-xs text-muted-foreground mt-0.5">Управление громкостью дорожек</p>
         </div>
         {onApplyPreset && (
           <Button
@@ -95,7 +101,7 @@ export const MobileMixerContent = memo(function MobileMixerContent({
       {showPresets && onApplyPreset && (
         <motion.div
           initial={{ height: 0, opacity: 0 }}
-          animate={{ height: 'auto', opacity: 1 }}
+          animate={{ height: "auto", opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
           className="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4"
         >
@@ -112,7 +118,7 @@ export const MobileMixerContent = memo(function MobileMixerContent({
               className={cn(
                 "flex flex-col items-center gap-1 p-3 rounded-xl border min-w-[80px]",
                 "bg-card/50 hover:bg-muted active:bg-muted/80 transition-colors",
-                "touch-manipulation"
+                "touch-manipulation",
               )}
             >
               <span className="text-xl">{preset.icon}</span>
@@ -144,7 +150,7 @@ export const MobileMixerContent = memo(function MobileMixerContent({
       {project.tracks.length > 0 ? (
         <div className="space-y-3">
           <h4 className="text-sm font-medium text-muted-foreground">Каналы</h4>
-          
+
           <div className="flex gap-3 overflow-x-auto pb-2 -mx-4 px-4">
             {project.tracks.map((track) => (
               <OptimizedMixerChannel
@@ -170,9 +176,7 @@ export const MobileMixerContent = memo(function MobileMixerContent({
           </div>
         </div>
       ) : (
-        <div className="text-center py-8 text-muted-foreground text-sm">
-          Добавьте дорожки для микширования
-        </div>
+        <div className="text-center py-8 text-muted-foreground text-sm">Добавьте дорожки для микширования</div>
       )}
 
       {/* Tips */}

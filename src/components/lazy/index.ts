@@ -1,92 +1,92 @@
 /**
  * Lazy-loaded components for bundle optimization
  * These components are loaded on-demand to reduce initial bundle size
- * 
+ *
  * Sprint 025 - Bundle Optimization Phase 1
  */
 
-import { lazy } from 'react';
+import { lazy } from "react";
 
 // ============================================
 // Heavy dialogs and sheets
 // ============================================
 
-export const LazyGenerateSheet = lazy(() => 
-  import('@/components/GenerateSheet').then(m => ({ default: m.GenerateSheet }))
+export const LazyGenerateSheet = lazy(() =>
+  import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })),
 );
 
-export const LazyLyricsChatAssistant = lazy(() => 
-  import('@/components/generate-form/LyricsChatAssistant').then(m => ({ default: m.LyricsChatAssistant }))
+export const LazyLyricsChatAssistant = lazy(() =>
+  import("@/components/generate-form/LyricsChatAssistant").then((m) => ({ default: m.LyricsChatAssistant })),
 );
 
-export const LazyTrackDetailSheet = lazy(() => 
-  import('@/components/TrackDetailSheet').then(m => ({ default: m.TrackDetailSheet }))
+export const LazyTrackDetailSheet = lazy(() =>
+  import("@/components/TrackDetailSheet").then((m) => ({ default: m.TrackDetailSheet })),
 );
 
-export const LazyAudioCoverDialog = lazy(() => 
-  import('@/components/AudioCoverDialog').then(m => ({ default: m.AudioCoverDialog }))
+export const LazyAudioCoverDialog = lazy(() =>
+  import("@/components/AudioCoverDialog").then((m) => ({ default: m.AudioCoverDialog })),
 );
 
-export const LazyAudioExtendDialog = lazy(() => 
-  import('@/components/AudioExtendDialog').then(m => ({ default: m.AudioExtendDialog }))
+export const LazyAudioExtendDialog = lazy(() =>
+  import("@/components/AudioExtendDialog").then((m) => ({ default: m.AudioExtendDialog })),
 );
 
 // ============================================
 // Studio components (heavy, load on demand)
 // ============================================
 
-export const LazyStudioActionsPanel = lazy(() => 
-  import('@/components/studio/panels/StudioActionsPanel').then(m => ({ default: m.StudioActionsPanel }))
+export const LazyStudioActionsPanel = lazy(() =>
+  import("@/components/studio/panels/StudioActionsPanel").then((m) => ({ default: m.StudioActionsPanel })),
 );
 
-export const LazyVersionTree = lazy(() => 
-  import('@/components/studio/shared/VersionTree').then(m => ({ default: m.VersionTree }))
+export const LazyVersionTree = lazy(() =>
+  import("@/components/studio/shared/VersionTree").then((m) => ({ default: m.VersionTree })),
 );
 
-export const LazyUnifiedDAWLayout = lazy(() => 
-  import('@/components/studio/unified/UnifiedDAWLayout').then(m => ({ default: m.UnifiedDAWLayout }))
+export const LazyUnifiedDAWLayout = lazy(() =>
+  import("@/components/studio/unified/UnifiedDAWLayout").then((m) => ({ default: m.UnifiedDAWLayout })),
 );
 
 // ============================================
 // Heavy visualizations
 // ============================================
 
-export const LazyAudioVisualizer = lazy(() => 
-  import('@/components/player/AudioVisualizer').then(m => ({ default: m.AudioVisualizer }))
+export const LazyAudioVisualizer = lazy(() =>
+  import("@/components/player/AudioVisualizer").then((m) => ({ default: m.AudioVisualizer })),
 );
 
-export const LazyMusicGraph = lazy(() => 
-  import('@/components/music-graph/ForceGraph').then(m => ({ default: m.ForceGraph }))
+export const LazyMusicGraph = lazy(() =>
+  import("@/components/music-graph/ForceGraph").then((m) => ({ default: m.ForceGraph })),
 );
 
-export const LazyInteractiveChordWheel = lazy(() => 
-  import('@/components/guitar/InteractiveChordWheel').then(m => ({ default: m.InteractiveChordWheel }))
+export const LazyInteractiveChordWheel = lazy(() =>
+  import("@/components/guitar/InteractiveChordWheel").then((m) => ({ default: m.InteractiveChordWheel })),
 );
 
-export const LazyNoteFlowVisualization = lazy(() => 
-  import('@/components/guitar/NoteFlowVisualization').then(m => ({ default: m.NoteFlowVisualization }))
+export const LazyNoteFlowVisualization = lazy(() =>
+  import("@/components/guitar/NoteFlowVisualization").then((m) => ({ default: m.NoteFlowVisualization })),
 );
 
 // ============================================
 // Onboarding & analytics (load later)
 // ============================================
 
-export const LazyOnboardingSlider = lazy(() => 
-  import('@/components/OnboardingSlider').then(m => ({ default: m.OnboardingSlider }))
+export const LazyOnboardingSlider = lazy(() =>
+  import("@/components/OnboardingSlider").then((m) => ({ default: m.OnboardingSlider })),
 );
 
 // TrackAnalytics removed - unused component
 
-export const LazyGamificationOnboarding = lazy(() => 
-  import('@/components/gamification/GamificationOnboarding').then(m => ({ default: m.GamificationOnboarding }))
+export const LazyGamificationOnboarding = lazy(() =>
+  import("@/components/gamification/GamificationOnboarding").then((m) => ({ default: m.GamificationOnboarding })),
 );
 
 // ============================================
 // Player components (load after initial render)
 // ============================================
 
-export const LazyDesktopFullscreenPlayer = lazy(() => 
-  import('@/components/player/DesktopFullscreenPlayer').then(m => ({ default: m.DesktopFullscreenPlayer }))
+export const LazyDesktopFullscreenPlayer = lazy(() =>
+  import("@/components/player/DesktopFullscreenPlayer").then((m) => ({ default: m.DesktopFullscreenPlayer })),
 );
 
 // LazyExpandedPlayer removed — replaced by unified FullscreenPlayer entry
@@ -94,103 +94,103 @@ export const LazyDesktopFullscreenPlayer = lazy(() =>
 // fullscreen lazies for direct preload use.
 
 export const LazyMobileFullscreenPlayer = lazy(() =>
-  import('@/components/player/MobileFullscreenPlayer').then(m => ({ default: m.MobileFullscreenPlayer }))
+  import("@/components/player/MobileFullscreenPlayer").then((m) => ({ default: m.MobileFullscreenPlayer })),
 );
 
 export const LazyFullscreenPlayer = lazy(() =>
-  import('@/components/player/FullscreenPlayer').then(m => ({ default: m.FullscreenPlayer }))
+  import("@/components/player/FullscreenPlayer").then((m) => ({ default: m.FullscreenPlayer })),
 );
 
 // ============================================
 // Studio dialogs (heavy, load on demand)
 // ============================================
 
-export const LazyTrimDialog = lazy(() => 
-  import('@/components/stem-studio/TrimDialog').then(m => ({ default: m.TrimDialog }))
+export const LazyTrimDialog = lazy(() =>
+  import("@/components/stem-studio/TrimDialog").then((m) => ({ default: m.TrimDialog })),
 );
 
-export const LazyRemixDialog = lazy(() => 
-  import('@/components/stem-studio/RemixDialog').then(m => ({ default: m.RemixDialog }))
+export const LazyRemixDialog = lazy(() =>
+  import("@/components/stem-studio/RemixDialog").then((m) => ({ default: m.RemixDialog })),
 );
 
-export const LazyExtendDialog = lazy(() => 
-  import('@/components/stem-studio/ExtendDialog').then(m => ({ default: m.ExtendDialog }))
+export const LazyExtendDialog = lazy(() =>
+  import("@/components/stem-studio/ExtendDialog").then((m) => ({ default: m.ExtendDialog })),
 );
 
-export const LazyStemMidiDrawer = lazy(() => 
-  import('@/components/studio/unified/StemMidiDrawer').then(m => ({ default: m.StemMidiDrawer }))
+export const LazyStemMidiDrawer = lazy(() =>
+  import("@/components/studio/unified/StemMidiDrawer").then((m) => ({ default: m.StemMidiDrawer })),
 );
 
-export const LazyStemEffectsDrawer = lazy(() => 
-  import('@/components/studio/unified/StemEffectsDrawer').then(m => ({ default: m.StemEffectsDrawer }))
+export const LazyStemEffectsDrawer = lazy(() =>
+  import("@/components/studio/unified/StemEffectsDrawer").then((m) => ({ default: m.StemEffectsDrawer })),
 );
 
-export const LazySectionEditorPanel = lazy(() => 
-  import('@/components/stem-studio/SectionEditorPanel').then(m => ({ default: m.SectionEditorPanel }))
+export const LazySectionEditorPanel = lazy(() =>
+  import("@/components/stem-studio/SectionEditorPanel").then((m) => ({ default: m.SectionEditorPanel })),
 );
 
-export const LazyAddTrackDrawer = lazy(() => 
-  import('@/components/studio/unified/AddTrackDrawer').then(m => ({ default: m.AddTrackDrawer }))
+export const LazyAddTrackDrawer = lazy(() =>
+  import("@/components/studio/unified/AddTrackDrawer").then((m) => ({ default: m.AddTrackDrawer })),
 );
 
-export const LazyStemSeparationModeDialog = lazy(() => 
-  import('@/components/studio/unified/StemSeparationModeDialog').then(m => ({ default: m.StemSeparationModeDialog }))
+export const LazyStemSeparationModeDialog = lazy(() =>
+  import("@/components/studio/unified/StemSeparationModeDialog").then((m) => ({ default: m.StemSeparationModeDialog })),
 );
 
-export const LazyKlangioAnalysisPanel = lazy(() => 
-  import('@/components/studio/unified/KlangioAnalysisPanel').then(m => ({ default: m.KlangioAnalysisPanel }))
+export const LazyKlangioAnalysisPanel = lazy(() =>
+  import("@/components/studio/unified/KlangioAnalysisPanel").then((m) => ({ default: m.KlangioAnalysisPanel })),
 );
 
-export const LazyAddVocalsDrawer = lazy(() => 
-  import('@/components/studio/unified/AddVocalsDrawer').then(m => ({ default: m.AddVocalsDrawer }))
+export const LazyAddVocalsDrawer = lazy(() =>
+  import("@/components/studio/unified/AddVocalsDrawer").then((m) => ({ default: m.AddVocalsDrawer })),
 );
 
 // ============================================
 // Generation form components (heavy, load on demand)
 // ============================================
 
-export const LazyGenerateFormCustom = lazy(() => 
-  import('@/components/generate-form/GenerateFormCustom').then(m => ({ default: m.GenerateFormCustom }))
+export const LazyGenerateFormCustom = lazy(() =>
+  import("@/components/generate-form/GenerateFormCustom").then((m) => ({ default: m.GenerateFormCustom })),
 );
 
-export const LazyGenerateFormSimple = lazy(() => 
-  import('@/components/generate-form/GenerateFormSimple').then(m => ({ default: m.GenerateFormSimple }))
+export const LazyGenerateFormSimple = lazy(() =>
+  import("@/components/generate-form/GenerateFormSimple").then((m) => ({ default: m.GenerateFormSimple })),
 );
 
-export const LazyLyricsVisualEditor = lazy(() => 
-  import('@/components/generate-form/LyricsVisualEditor').then(m => ({ default: m.LyricsVisualEditor }))
+export const LazyLyricsVisualEditor = lazy(() =>
+  import("@/components/generate-form/LyricsVisualEditor").then((m) => ({ default: m.LyricsVisualEditor })),
 );
 
-export const LazyTagBuilderPanel = lazy(() => 
-  import('@/components/generate-form/TagBuilderPanel').then(m => ({ default: m.TagBuilderPanel }))
+export const LazyTagBuilderPanel = lazy(() =>
+  import("@/components/generate-form/TagBuilderPanel").then((m) => ({ default: m.TagBuilderPanel })),
 );
 
-export const LazyAdvancedSettings = lazy(() => 
-  import('@/components/generate-form/AdvancedSettings').then(m => ({ default: m.AdvancedSettings }))
+export const LazyAdvancedSettings = lazy(() =>
+  import("@/components/generate-form/AdvancedSettings").then((m) => ({ default: m.AdvancedSettings })),
 );
 
 // ============================================
 // Lyrics workspace (heavy, load on demand)
 // ============================================
 
-export const LazyLyricsWorkspace = lazy(() => 
-  import('@/components/lyrics-workspace/LyricsWorkspace').then(m => ({ default: m.LyricsWorkspace }))
+export const LazyLyricsWorkspace = lazy(() =>
+  import("@/components/lyrics-workspace/LyricsWorkspace").then((m) => ({ default: m.LyricsWorkspace })),
 );
 
-export const LazyUnifiedLyricsView = lazy(() => 
-  import('@/components/lyrics/UnifiedLyricsView').then(m => ({ default: m.UnifiedLyricsView }))
+export const LazyUnifiedLyricsView = lazy(() =>
+  import("@/components/lyrics/UnifiedLyricsView").then((m) => ({ default: m.UnifiedLyricsView })),
 );
 
 // ============================================
 // Admin components (load only for admins)
 // ============================================
 
-export const LazyBroadcastPanel = lazy(() => 
-  import('@/components/admin/BroadcastPanel').then(m => ({ default: m.BroadcastPanel }))
+export const LazyBroadcastPanel = lazy(() =>
+  import("@/components/admin/BroadcastPanel").then((m) => ({ default: m.BroadcastPanel })),
 );
 
-export const LazyGenerationLogsPanel = lazy(() => 
-  import('@/components/admin/GenerationLogsPanel').then(m => ({ default: m.GenerationLogsPanel }))
+export const LazyGenerationLogsPanel = lazy(() =>
+  import("@/components/admin/GenerationLogsPanel").then((m) => ({ default: m.GenerationLogsPanel })),
 );
 
 // ============================================
@@ -204,7 +204,7 @@ export const LazyGenerationLogsPanel = lazy(() =>
 export function preloadComponent(component: React.LazyExoticComponent<any>) {
   // Trigger the lazy load
   const promise = (component as any)._payload?._result;
-  if (typeof promise === 'function') {
+  if (typeof promise === "function") {
     promise();
   }
 }

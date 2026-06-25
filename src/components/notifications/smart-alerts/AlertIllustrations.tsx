@@ -1,4 +1,4 @@
-import { motion } from '@/lib/motion';
+import { motion } from "@/lib/motion";
 
 interface IllustrationProps {
   className?: string;
@@ -8,16 +8,11 @@ export function ServerBusyIllustration({ className }: IllustrationProps) {
   return (
     <div className={`relative w-16 h-16 ${className}`}>
       {/* Gears */}
-      <motion.svg
-        viewBox="0 0 64 64"
-        className="w-full h-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
+      <motion.svg viewBox="0 0 64 64" className="w-full h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         <motion.g
           animate={{ rotate: 360 }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-          style={{ transformOrigin: '24px 24px' }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "24px 24px" }}
         >
           <path
             d="M24 16c-4.4 0-8 3.6-8 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 12c-2.2 0-4-1.8-4-4s1.8-4 4-4 4 1.8 4 4-1.8 4-4 4z"
@@ -32,8 +27,8 @@ export function ServerBusyIllustration({ className }: IllustrationProps) {
         </motion.g>
         <motion.g
           animate={{ rotate: -360 }}
-          transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-          style={{ transformOrigin: '44px 44px' }}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "44px 44px" }}
         >
           <path
             d="M44 38c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zm0 9c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z"
@@ -69,16 +64,9 @@ export function EmptyProjectsIllustration({ className }: IllustrationProps) {
           fill="currentColor"
           className="text-blue-400/30"
         />
-        <motion.path
-          d="M52 24H12v28h40V24z"
-          fill="currentColor"
-          className="text-blue-500/20"
-        />
+        <motion.path d="M52 24H12v28h40V24z" fill="currentColor" className="text-blue-500/20" />
         {/* Plus sign */}
-        <motion.g
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
+        <motion.g animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 2, repeat: Infinity }}>
           <rect x="30" y="32" width="4" height="16" rx="2" fill="currentColor" className="text-blue-500" />
           <rect x="24" y="38" width="16" height="4" rx="2" fill="currentColor" className="text-blue-500" />
         </motion.g>
@@ -90,24 +78,15 @@ export function EmptyProjectsIllustration({ className }: IllustrationProps) {
 export function ProfileSetupIllustration({ className }: IllustrationProps) {
   return (
     <div className={`relative w-16 h-16 ${className}`}>
-      <motion.svg
-        viewBox="0 0 64 64"
-        className="w-full h-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
+      <motion.svg viewBox="0 0 64 64" className="w-full h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         {/* Avatar circle */}
         <circle cx="32" cy="24" r="10" fill="currentColor" className="text-purple-400" />
-        <path
-          d="M32 36c-12 0-20 8-20 16v4h40v-4c0-8-8-16-20-16z"
-          fill="currentColor"
-          className="text-purple-500/50"
-        />
+        <path d="M32 36c-12 0-20 8-20 16v4h40v-4c0-8-8-16-20-16z" fill="currentColor" className="text-purple-500/50" />
         {/* Pencil */}
         <motion.g
           animate={{ rotate: [-5, 5, -5] }}
           transition={{ duration: 1, repeat: Infinity }}
-          style={{ transformOrigin: '50px 18px' }}
+          style={{ transformOrigin: "50px 18px" }}
         >
           <rect x="46" y="10" width="8" height="20" rx="1" fill="currentColor" className="text-amber-400" />
           <polygon points="50,30 46,38 54,38" fill="currentColor" className="text-amber-600" />
@@ -121,12 +100,7 @@ export function ProfileSetupIllustration({ className }: IllustrationProps) {
 export function StemsReadyIllustration({ className }: IllustrationProps) {
   return (
     <div className={`relative w-16 h-16 ${className}`}>
-      <motion.svg
-        viewBox="0 0 64 64"
-        className="w-full h-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
+      <motion.svg viewBox="0 0 64 64" className="w-full h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         {/* Audio tracks */}
         {[0, 1, 2, 3].map((i) => (
           <motion.rect
@@ -137,11 +111,11 @@ export function StemsReadyIllustration({ className }: IllustrationProps) {
             height="8"
             rx="2"
             fill="currentColor"
-            className={['text-green-500', 'text-blue-500', 'text-purple-500', 'text-orange-500'][i]}
+            className={["text-green-500", "text-blue-500", "text-purple-500", "text-orange-500"][i]}
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ delay: i * 0.1 }}
-            style={{ transformOrigin: 'left' }}
+            style={{ transformOrigin: "left" }}
           />
         ))}
         {/* Waveform overlay */}
@@ -171,17 +145,9 @@ export function StemsReadyIllustration({ className }: IllustrationProps) {
 export function ArtistCreateIllustration({ className }: IllustrationProps) {
   return (
     <div className={`relative w-16 h-16 ${className}`}>
-      <motion.svg
-        viewBox="0 0 64 64"
-        className="w-full h-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
+      <motion.svg viewBox="0 0 64 64" className="w-full h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         {/* Microphone */}
-        <motion.g
-          animate={{ y: [0, -2, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
+        <motion.g animate={{ y: [0, -2, 0] }} transition={{ duration: 2, repeat: Infinity }}>
           <rect x="26" y="8" width="12" height="24" rx="6" fill="currentColor" className="text-pink-500" />
           <rect x="24" y="20" width="16" height="2" fill="currentColor" className="text-pink-600" />
           <rect x="24" y="24" width="16" height="2" fill="currentColor" className="text-pink-600" />
@@ -195,14 +161,18 @@ export function ArtistCreateIllustration({ className }: IllustrationProps) {
         <rect x="24" y="52" width="16" height="4" rx="2" fill="currentColor" className="text-gray-600" />
         {/* AI sparkles */}
         <motion.circle
-          cx="48" cy="16" r="3"
+          cx="48"
+          cy="16"
+          r="3"
           fill="currentColor"
           className="text-cyan-400"
           animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
           transition={{ duration: 1.5, repeat: Infinity }}
         />
         <motion.circle
-          cx="52" cy="24" r="2"
+          cx="52"
+          cy="24"
+          r="2"
           fill="currentColor"
           className="text-cyan-300"
           animate={{ scale: [1, 1.3, 1], opacity: [1, 0.5, 1] }}
@@ -221,7 +191,7 @@ export function RewardIllustration({ className }: IllustrationProps) {
         className="w-full h-full"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ type: 'spring', stiffness: 200 }}
+        transition={{ type: "spring", stiffness: 200 }}
       >
         {/* Trophy */}
         <motion.path
@@ -261,17 +231,9 @@ export function RewardIllustration({ className }: IllustrationProps) {
 export function WelcomeBackIllustration({ className }: IllustrationProps) {
   return (
     <div className={`relative w-16 h-16 ${className}`}>
-      <motion.svg
-        viewBox="0 0 64 64"
-        className="w-full h-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-      >
+      <motion.svg viewBox="0 0 64 64" className="w-full h-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
         {/* Music note */}
-        <motion.g
-          animate={{ y: [0, -4, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
+        <motion.g animate={{ y: [0, -4, 0] }} transition={{ duration: 2, repeat: Infinity }}>
           <circle cx="20" cy="44" r="8" fill="currentColor" className="text-primary" />
           <rect x="26" y="16" width="4" height="28" fill="currentColor" className="text-primary" />
           <path d="M30 16c0 0 12-4 12 8v8c0-12-12-8-12-8z" fill="currentColor" className="text-primary/80" />
@@ -280,7 +242,7 @@ export function WelcomeBackIllustration({ className }: IllustrationProps) {
         <motion.g
           animate={{ rotate: [-10, 10, -10] }}
           transition={{ duration: 0.5, repeat: Infinity }}
-          style={{ transformOrigin: '50px 32px' }}
+          style={{ transformOrigin: "50px 32px" }}
         >
           <circle cx="50" cy="32" r="10" fill="currentColor" className="text-amber-300" />
           <rect x="48" y="22" width="4" height="8" rx="2" fill="currentColor" className="text-amber-300" />
@@ -293,11 +255,11 @@ export function WelcomeBackIllustration({ className }: IllustrationProps) {
 }
 
 export const illustrations: Record<string, React.FC<IllustrationProps>> = {
-  'server-busy': ServerBusyIllustration,
-  'empty-projects': EmptyProjectsIllustration,
-  'profile-setup': ProfileSetupIllustration,
-  'stems-ready': StemsReadyIllustration,
-  'artist-create': ArtistCreateIllustration,
-  'reward': RewardIllustration,
-  'welcome-back': WelcomeBackIllustration,
+  "server-busy": ServerBusyIllustration,
+  "empty-projects": EmptyProjectsIllustration,
+  "profile-setup": ProfileSetupIllustration,
+  "stems-ready": StemsReadyIllustration,
+  "artist-create": ArtistCreateIllustration,
+  reward: RewardIllustration,
+  "welcome-back": WelcomeBackIllustration,
 };

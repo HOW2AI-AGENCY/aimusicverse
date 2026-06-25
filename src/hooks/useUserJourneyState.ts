@@ -3,13 +3,13 @@
  * Tracks user's progression through the app for personalized experience
  */
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { useEffect, useMemo } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { supabase } from '@/integrations/supabase/client';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { useEffect, useMemo } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
-export type JourneyPhase = 'newcomer' | 'explorer' | 'creator' | 'pro';
+export type JourneyPhase = "newcomer" | "explorer" | "creator" | "pro";
 
 interface UserJourneyState {
   // Journey flags
@@ -21,12 +21,12 @@ interface UserJourneyState {
   hasVisitedProjects: boolean;
   completedOnboarding: boolean;
   completedQuickStart: boolean;
-  
+
   // Session tracking
   sessionCount: number;
   firstVisitAt: string | null;
   lastVisitAt: string | null;
-  
+
   // Actions
   markTrackGenerated: () => void;
   markTrackPlayed: () => void;
@@ -61,7 +61,7 @@ export const useUserJourneyStore = create<UserJourneyState>()(
       markProjectsVisited: () => set({ hasVisitedProjects: true }),
       markOnboardingCompleted: () => set({ completedOnboarding: true }),
       markQuickStartCompleted: () => set({ completedQuickStart: true, isNewUser: false }),
-      
+
       incrementSession: () => {
         const now = new Date().toISOString();
         set((state) => ({
@@ -71,24 +71,25 @@ export const useUserJourneyStore = create<UserJourneyState>()(
         }));
       },
 
-      resetJourney: () => set({
-        isNewUser: true,
-        hasGeneratedTrack: false,
-        hasPlayedTrack: false,
-        hasVisitedLibrary: false,
-        hasVisitedStudio: false,
-        hasVisitedProjects: false,
-        completedOnboarding: false,
-        completedQuickStart: false,
-        sessionCount: 0,
-        firstVisitAt: null,
-        lastVisitAt: null,
-      }),
+      resetJourney: () =>
+        set({
+          isNewUser: true,
+          hasGeneratedTrack: false,
+          hasPlayedTrack: false,
+          hasVisitedLibrary: false,
+          hasVisitedStudio: false,
+          hasVisitedProjects: false,
+          completedOnboarding: false,
+          completedQuickStart: false,
+          sessionCount: 0,
+          firstVisitAt: null,
+          lastVisitAt: null,
+        }),
     }),
     {
-      name: 'user-journey-state',
-    }
-  )
+      name: "user-journey-state",
+    },
+  ),
 );
 
 /**
@@ -100,10 +101,10 @@ export function useUserJourneyState() {
 
   // Increment session count on mount
   useEffect(() => {
-    const lastIncrement = sessionStorage.getItem('journey-session-incremented');
+    const lastIncrement = sessionStorage.getItem("journey-session-incremented");
     if (!lastIncrement) {
       store.incrementSession();
-      sessionStorage.setItem('journey-session-incremented', 'true');
+      sessionStorage.setItem("journey-session-incremented", "true");
     }
   }, []);
 
@@ -112,11 +113,11 @@ export function useUserJourneyState() {
     if (user && store.isNewUser) {
       const checkUserTracks = async () => {
         const { count } = await supabase
-          .from('tracks')
-          .select('id', { count: 'exact', head: true })
-          .eq('user_id', user.id)
+          .from("tracks")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", user.id)
           .limit(1);
-        
+
         if (count && count > 0) {
           store.markTrackGenerated();
         }
@@ -127,29 +128,24 @@ export function useUserJourneyState() {
 
   // Calculate journey phase
   const journeyPhase: JourneyPhase = useMemo(() => {
-    const { 
-      hasGeneratedTrack, 
-      hasVisitedStudio, 
-      hasVisitedProjects,
-      sessionCount 
-    } = store;
+    const { hasGeneratedTrack, hasVisitedStudio, hasVisitedProjects, sessionCount } = store;
 
     if (hasVisitedStudio && hasVisitedProjects && sessionCount > 10) {
-      return 'pro';
+      return "pro";
     }
     if (hasGeneratedTrack && sessionCount > 3) {
-      return 'creator';
+      return "creator";
     }
     if (hasGeneratedTrack || store.hasPlayedTrack) {
-      return 'explorer';
+      return "explorer";
     }
-    return 'newcomer';
+    return "newcomer";
   }, [
-    store.hasGeneratedTrack, 
-    store.hasVisitedStudio, 
+    store.hasGeneratedTrack,
+    store.hasVisitedStudio,
     store.hasVisitedProjects,
     store.hasPlayedTrack,
-    store.sessionCount
+    store.sessionCount,
   ]);
 
   // Should show quick start (new user who hasn't completed it)

@@ -5,8 +5,8 @@
  * API Contracts Reference: specs/031-mobile-studio-v2/contracts/api-contracts.md
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 // ==========================================
 // Types
@@ -105,17 +105,15 @@ export interface MidiApiError {
  * }
  * ```
  */
-export async function uploadMidiFile(
-  params: UploadMidiRequest
-): Promise<UploadMidiResponse> {
+export async function uploadMidiFile(params: UploadMidiRequest): Promise<UploadMidiResponse> {
   try {
     const { file, trackId } = params;
 
     // Validate file type
-    if (!file.type.includes('midi') && !file.name.endsWith('.mid')) {
+    if (!file.type.includes("midi") && !file.name.endsWith(".mid")) {
       return {
         success: false,
-        error: 'Invalid file type. Please upload a MIDI file (.mid)',
+        error: "Invalid file type. Please upload a MIDI file (.mid)",
       };
     }
 
@@ -124,27 +122,27 @@ export async function uploadMidiFile(
     if (file.size > MAX_FILE_SIZE) {
       return {
         success: false,
-        error: 'File size exceeds 10MB limit',
+        error: "File size exceeds 10MB limit",
       };
     }
 
     // Prepare form data
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
     if (trackId) {
-      formData.append('trackId', trackId);
+      formData.append("trackId", trackId);
     }
 
     // Invoke edge function
-    const { data, error } = await supabase.functions.invoke('midi-upload', {
+    const { data, error } = await supabase.functions.invoke("midi-upload", {
       body: formData,
     });
 
     if (error) {
-      logger.error('[midi.api] Upload error', error);
+      logger.error("[midi.api] Upload error", error);
       return {
         success: false,
-        error: error.message || 'Failed to upload MIDI file',
+        error: error.message || "Failed to upload MIDI file",
       };
     }
 
@@ -161,10 +159,10 @@ export async function uploadMidiFile(
       data: data as MidiFileMetadata,
     };
   } catch (err: unknown) {
-    logger.error('[midi.api] Upload exception', err instanceof Error ? err : new Error(String(err)));
+    logger.error("[midi.api] Upload exception", err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
-      error: err instanceof Error ? err.message : 'Unexpected error during upload',
+      error: err instanceof Error ? err.message : "Unexpected error during upload",
     };
   }
 }
@@ -186,28 +184,26 @@ export async function uploadMidiFile(
  * }
  * ```
  */
-export async function getMidiMetadata(
-  midiId: string
-): Promise<GetMidiMetadataResponse> {
+export async function getMidiMetadata(midiId: string): Promise<GetMidiMetadataResponse> {
   try {
     if (!midiId) {
       return {
         success: false,
-        error: 'MIDI ID is required',
+        error: "MIDI ID is required",
       };
     }
 
     // Query MIDI metadata from database
     // Note: This assumes a midi_files table exists or uses edge function
-    const { data, error } = await supabase.functions.invoke('midi-get-metadata', {
+    const { data, error } = await supabase.functions.invoke("midi-get-metadata", {
       body: { midiId },
     });
 
     if (error) {
-      logger.error('[midi.api] Get metadata error', error);
+      logger.error("[midi.api] Get metadata error", error);
       return {
         success: false,
-        error: error.message || 'Failed to get MIDI metadata',
+        error: error.message || "Failed to get MIDI metadata",
       };
     }
 
@@ -223,10 +219,10 @@ export async function getMidiMetadata(
       data: data as MidiFileRecord,
     };
   } catch (err: unknown) {
-    logger.error('[midi.api] Get metadata exception', err instanceof Error ? err : new Error(String(err)));
+    logger.error("[midi.api] Get metadata exception", err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
-      error: err instanceof Error ? err.message : 'Unexpected error fetching metadata',
+      error: err instanceof Error ? err.message : "Unexpected error fetching metadata",
     };
   }
 }
@@ -251,14 +247,12 @@ export async function getMidiMetadata(
  * }
  * ```
  */
-export async function downloadMidiFile(
-  midiId: string
-): Promise<DownloadMidiResponse> {
+export async function downloadMidiFile(midiId: string): Promise<DownloadMidiResponse> {
   try {
     if (!midiId) {
       return {
         success: false,
-        error: 'MIDI ID is required',
+        error: "MIDI ID is required",
       };
     }
 
@@ -267,7 +261,7 @@ export async function downloadMidiFile(
     if (!metadataResult.success || !metadataResult.data) {
       return {
         success: false,
-        error: metadataResult.error || 'Failed to get MIDI metadata',
+        error: metadataResult.error || "Failed to get MIDI metadata",
       };
     }
 
@@ -288,10 +282,10 @@ export async function downloadMidiFile(
       filename: metadataResult.data.fileName,
     };
   } catch (err: unknown) {
-    logger.error('[midi.api] Download exception', err instanceof Error ? err : new Error(String(err)));
+    logger.error("[midi.api] Download exception", err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
-      error: err instanceof Error ? err.message : 'Unexpected error downloading file',
+      error: err instanceof Error ? err.message : "Unexpected error downloading file",
     };
   }
 }
@@ -310,14 +304,12 @@ export async function downloadMidiFile(
  * }
  * ```
  */
-export async function getMidiPublicUrl(
-  midiId: string
-): Promise<string | null> {
+export async function getMidiPublicUrl(midiId: string): Promise<string | null> {
   try {
     const result = await getMidiMetadata(midiId);
     return result.success && result.data ? result.data.fileUrl : null;
   } catch (err: unknown) {
-    logger.error('[midi.api] Get public URL exception', err instanceof Error ? err : new Error(String(err)));
+    logger.error("[midi.api] Get public URL exception", err instanceof Error ? err : new Error(String(err)));
     return null;
   }
 }
@@ -338,27 +330,25 @@ export async function getMidiPublicUrl(
  * }
  * ```
  */
-export async function deleteMidiFile(
-  midiId: string
-): Promise<{ success: boolean; error?: string }> {
+export async function deleteMidiFile(midiId: string): Promise<{ success: boolean; error?: string }> {
   try {
     if (!midiId) {
       return {
         success: false,
-        error: 'MIDI ID is required',
+        error: "MIDI ID is required",
       };
     }
 
     // Invoke edge function to delete MIDI file
-    const { data, error } = await supabase.functions.invoke('midi-delete', {
+    const { data, error } = await supabase.functions.invoke("midi-delete", {
       body: { midiId },
     });
 
     if (error) {
-      logger.error('[midi.api] Delete error', error);
+      logger.error("[midi.api] Delete error", error);
       return {
         success: false,
-        error: error.message || 'Failed to delete MIDI file',
+        error: error.message || "Failed to delete MIDI file",
       };
     }
 
@@ -371,10 +361,10 @@ export async function deleteMidiFile(
 
     return { success: true };
   } catch (err: unknown) {
-    logger.error('[midi.api] Delete exception', err instanceof Error ? err : new Error(String(err)));
+    logger.error("[midi.api] Delete exception", err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
-      error: err instanceof Error ? err.message : 'Unexpected error during deletion',
+      error: err instanceof Error ? err.message : "Unexpected error during deletion",
     };
   }
 }
@@ -396,26 +386,26 @@ export async function deleteMidiFile(
  * ```
  */
 export async function listMidiFilesForTrack(
-  trackId: string
+  trackId: string,
 ): Promise<{ success: boolean; data?: MidiFileRecord[]; error?: string }> {
   try {
     if (!trackId) {
       return {
         success: false,
-        error: 'Track ID is required',
+        error: "Track ID is required",
       };
     }
 
     // Query MIDI files for the track
-    const { data, error } = await supabase.functions.invoke('midi-list', {
+    const { data, error } = await supabase.functions.invoke("midi-list", {
       body: { trackId },
     });
 
     if (error) {
-      logger.error('[midi.api] List error', error);
+      logger.error("[midi.api] List error", error);
       return {
         success: false,
-        error: error.message || 'Failed to list MIDI files',
+        error: error.message || "Failed to list MIDI files",
       };
     }
 
@@ -431,10 +421,10 @@ export async function listMidiFilesForTrack(
       data: data as MidiFileRecord[],
     };
   } catch (err: unknown) {
-    logger.error('[midi.api] List exception', err instanceof Error ? err : new Error(String(err)));
+    logger.error("[midi.api] List exception", err instanceof Error ? err : new Error(String(err)));
     return {
       success: false,
-      error: err instanceof Error ? err.message : 'Unexpected error listing files',
+      error: err instanceof Error ? err.message : "Unexpected error listing files",
     };
   }
 }
@@ -449,22 +439,18 @@ export async function listMidiFilesForTrack(
  * @param file - File to validate
  * @returns Validation result with error message if invalid
  */
-export function validateMidiFile(
-  file: File
-): { valid: boolean; error?: string } {
+export function validateMidiFile(file: File): { valid: boolean; error?: string } {
   // Check file type
-  const validTypes = ['audio/midi', 'audio/mid', 'audio/x-midi'];
-  const validExtensions = ['.mid', '.midi'];
+  const validTypes = ["audio/midi", "audio/mid", "audio/x-midi"];
+  const validExtensions = [".mid", ".midi"];
 
   const hasValidType = validTypes.includes(file.type);
-  const hasValidExtension = validExtensions.some(ext =>
-    file.name.toLowerCase().endsWith(ext)
-  );
+  const hasValidExtension = validExtensions.some((ext) => file.name.toLowerCase().endsWith(ext));
 
   if (!hasValidType && !hasValidExtension) {
     return {
       valid: false,
-      error: 'Invalid file type. Please upload a MIDI file (.mid)',
+      error: "Invalid file type. Please upload a MIDI file (.mid)",
     };
   }
 
@@ -473,7 +459,7 @@ export function validateMidiFile(
   if (file.size > MAX_FILE_SIZE) {
     return {
       valid: false,
-      error: 'File size exceeds 10MB limit',
+      error: "File size exceeds 10MB limit",
     };
   }
 
@@ -481,7 +467,7 @@ export function validateMidiFile(
   if (file.size === 0) {
     return {
       valid: false,
-      error: 'File is empty',
+      error: "File is empty",
     };
   }
 
@@ -504,7 +490,7 @@ export function formatMidiMetadata(metadata: MidiFileMetadata): string {
     `Tracks: ${metadata.trackCount}`,
   ];
 
-  return parts.join(' | ');
+  return parts.join(" | ");
 }
 
 /**
@@ -513,14 +499,10 @@ export function formatMidiMetadata(metadata: MidiFileMetadata): string {
  * @param filename - MIDI file name
  * @returns Parsed metadata object
  */
-export function parseMidiFileName(
-  filename: string
-): { name: string; extension: string } {
-  const lastDotIndex = filename.lastIndexOf('.');
+export function parseMidiFileName(filename: string): { name: string; extension: string } {
+  const lastDotIndex = filename.lastIndexOf(".");
   const name = lastDotIndex !== -1 ? filename.substring(0, lastDotIndex) : filename;
-  const extension = lastDotIndex !== -1
-    ? filename.substring(lastDotIndex + 1).toLowerCase()
-    : '';
+  const extension = lastDotIndex !== -1 ? filename.substring(lastDotIndex + 1).toLowerCase() : "";
 
   return { name, extension };
 }

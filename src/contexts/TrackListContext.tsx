@@ -1,12 +1,12 @@
 /**
  * Track List Context
- * 
+ *
  * Provides track list context for "Play From Here" functionality
  * in track action menus without prop drilling.
  */
 
-import { createContext, useContext, ReactNode, useMemo } from 'react';
-import type { Track } from '@/types/track';
+import { createContext, useContext, ReactNode, useMemo } from "react";
+import type { Track } from "@/types/track";
 
 interface TrackListContextValue {
   tracks: Track[];
@@ -25,16 +25,15 @@ interface TrackListProviderProps {
  * to enable "Play From Here" in child track menus
  */
 export function TrackListProvider({ tracks, children }: TrackListProviderProps) {
-  const value = useMemo(() => ({
-    tracks,
-    getTrackIndex: (trackId: string) => tracks.findIndex(t => t.id === trackId),
-  }), [tracks]);
-
-  return (
-    <TrackListContext.Provider value={value}>
-      {children}
-    </TrackListContext.Provider>
+  const value = useMemo(
+    () => ({
+      tracks,
+      getTrackIndex: (trackId: string) => tracks.findIndex((t) => t.id === trackId),
+    }),
+    [tracks],
   );
+
+  return <TrackListContext.Provider value={value}>{children}</TrackListContext.Provider>;
 }
 
 /**
@@ -51,13 +50,13 @@ export function useTrackListContext() {
  */
 export function useTrackInList(trackId: string) {
   const context = useContext(TrackListContext);
-  
+
   if (!context) {
     return { trackList: undefined, trackIndex: undefined };
   }
-  
+
   const trackIndex = context.getTrackIndex(trackId);
-  
+
   return {
     trackList: context.tracks,
     trackIndex: trackIndex >= 0 ? trackIndex : undefined,

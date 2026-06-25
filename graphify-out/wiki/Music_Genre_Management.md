@@ -12,23 +12,23 @@
 - [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L544) (1 connections)
 - [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L526) (1 connections)
 - [{
-    lyrics,
-    sections,
-    versions,
-    sectionNotes,
-    stats,
-    isDirty,
-    activeAITool,
-    isLoading,
-    isSaving,
-    isRestoring,
-    setLyrics,
-    save,
-    restoreVersion,
-    selectAITool,
-    closeAITool,
-    addNote,
-    deleteNote,
+  lyrics,
+  sections,
+  versions,
+  sectionNotes,
+  stats,
+  isDirty,
+  activeAITool,
+  isLoading,
+  isSaving,
+  isRestoring,
+  setLyrics,
+  save,
+  restoreVersion,
+  selectAITool,
+  closeAITool,
+  addNote,
+  deleteNote,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L492) (1 connections)
 - [[newNoteContent, setNewNoteContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L346) (1 connections)
 - [[newNoteSection, setNewNoteSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L345) (1 connections)
@@ -53,4 +53,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

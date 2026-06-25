@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
-import { Users } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { motion } from '@/lib/motion';
+import { useCallback } from "react";
+import { Users } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { motion } from "@/lib/motion";
 
 interface Artist {
   id: string;
@@ -32,7 +32,7 @@ export function VirtualizedArtistsList({ artists, onSelect }: VirtualizedArtists
           "relative group p-3 rounded-xl text-left",
           "bg-card/50 border border-border/50",
           "hover:bg-card hover:border-border",
-          "transition-all active:scale-[0.98] touch-manipulation"
+          "transition-all active:scale-[0.98] touch-manipulation",
         )}
       >
         {/* Avatar */}
@@ -55,7 +55,7 @@ export function VirtualizedArtistsList({ artists, onSelect }: VirtualizedArtists
         <h3 className="font-medium text-sm truncate">{artist.name}</h3>
         {artist.genre_tags && artist.genre_tags.length > 0 && (
           <p className="text-[10px] text-muted-foreground truncate mt-0.5">
-            {artist.genre_tags.slice(0, 2).join(', ')}
+            {artist.genre_tags.slice(0, 2).join(", ")}
           </p>
         )}
 
@@ -67,7 +67,7 @@ export function VirtualizedArtistsList({ artists, onSelect }: VirtualizedArtists
         )}
       </motion.button>
     ),
-    [onSelect]
+    [onSelect],
   );
 
   // Simple rendering without virtualization for better reliability

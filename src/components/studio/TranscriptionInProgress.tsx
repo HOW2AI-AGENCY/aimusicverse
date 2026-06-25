@@ -2,10 +2,10 @@
  * TranscriptionInProgress - Indicator shown when transcription is running
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { Music2, Loader2, Wand2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { Music2, Loader2, Wand2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface TranscriptionInProgressProps {
   stemType?: string;
@@ -13,7 +13,7 @@ interface TranscriptionInProgressProps {
 }
 
 export const TranscriptionInProgress = memo(function TranscriptionInProgress({
-  stemType = 'стема',
+  stemType = "стема",
   className,
 }: TranscriptionInProgressProps) {
   return (
@@ -25,7 +25,7 @@ export const TranscriptionInProgress = memo(function TranscriptionInProgress({
         "flex items-center gap-2 p-2 rounded-lg",
         "bg-gradient-to-r from-primary/10 to-amber-500/10",
         "border border-primary/20",
-        className
+        className,
       )}
     >
       <div className="relative">
@@ -33,17 +33,15 @@ export const TranscriptionInProgress = memo(function TranscriptionInProgress({
         <motion.div
           className="absolute -top-0.5 -right-0.5"
           animate={{ rotate: 360 }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
         >
           <Wand2 className="w-2.5 h-2.5 text-amber-500" />
         </motion.div>
       </div>
-      
+
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="text-[10px] font-medium text-foreground truncate">
-            Транскрипция...
-          </span>
+          <span className="text-[10px] font-medium text-foreground truncate">Транскрипция...</span>
           <Loader2 className="w-3 h-3 text-primary animate-spin shrink-0" />
         </div>
       </div>
@@ -73,7 +71,7 @@ export const TranscriptionPlaceholder = memo(function TranscriptionPlaceholder({
         "text-muted-foreground text-[10px]",
         "hover:bg-muted/50 hover:border-primary/30 hover:text-foreground",
         "transition-all cursor-pointer disabled:cursor-default disabled:hover:bg-muted/30",
-        className
+        className,
       )}
     >
       <Music2 className="w-3.5 h-3.5" />

@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback, useRef } from "react";
+import { logger } from "@/lib/logger";
 
-const DRAFT_KEY = 'generate_form_draft';
+const DRAFT_KEY = "generate_form_draft";
 const DRAFT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
 const DRAFT_VERSION = 1; // Version number for migration compatibility
 const AUTO_SAVE_DELAY_MS = 2000; // 2 seconds after user stops typing
 
-export type GenerationModeType = 'simple' | 'custom' | 'wizard';
+export type GenerationModeType = "simple" | "custom" | "wizard";
 
 export interface GenerateDraft {
   mode: GenerationModeType;
@@ -17,21 +17,21 @@ export interface GenerateDraft {
   hasVocals: boolean;
   model: string;
   negativeTags: string;
-  vocalGender: '' | 'm' | 'f';
+  vocalGender: "" | "m" | "f";
   savedAt: number;
   version: number;
 }
 
 const defaultDraft: GenerateDraft = {
-  mode: 'simple',
-  description: '',
-  title: '',
-  lyrics: '',
-  style: '',
+  mode: "simple",
+  description: "",
+  title: "",
+  lyrics: "",
+  style: "",
   hasVocals: true,
-  model: 'V4_5ALL',
-  negativeTags: '',
-  vocalGender: '',
+  model: "V4_5ALL",
+  negativeTags: "",
+  vocalGender: "",
   savedAt: 0,
   version: DRAFT_VERSION,
 };
@@ -48,17 +48,17 @@ export function useGenerateDraft() {
       const saved = localStorage.getItem(DRAFT_KEY);
       if (saved) {
         const parsed: GenerateDraft = JSON.parse(saved);
-        
+
         // Check version compatibility (in future we can migrate old drafts)
         if (parsed.version !== DRAFT_VERSION) {
-          logger.info('Draft version mismatch, clearing', { 
-            savedVersion: parsed.version, 
-            currentVersion: DRAFT_VERSION 
+          logger.info("Draft version mismatch, clearing", {
+            savedVersion: parsed.version,
+            currentVersion: DRAFT_VERSION,
           });
           localStorage.removeItem(DRAFT_KEY);
           return;
         }
-        
+
         // Check if draft is still valid (not expired)
         if (Date.now() - parsed.savedAt < DRAFT_EXPIRY_MS) {
           // Check if there's actual content
@@ -66,18 +66,18 @@ export function useGenerateDraft() {
           if (hasContent) {
             setDraft(parsed);
             setHasDraft(true);
-            logger.info('Draft loaded', { age: Date.now() - parsed.savedAt });
+            logger.info("Draft loaded", { age: Date.now() - parsed.savedAt });
           } else {
             localStorage.removeItem(DRAFT_KEY);
           }
         } else {
           // Draft expired, remove it
-          logger.info('Draft expired', { age: Date.now() - parsed.savedAt });
+          logger.info("Draft expired", { age: Date.now() - parsed.savedAt });
           localStorage.removeItem(DRAFT_KEY);
         }
       }
     } catch (e) {
-      logger.error('Failed to load draft', e);
+      logger.error("Failed to load draft", e);
       localStorage.removeItem(DRAFT_KEY);
     }
   }, []);
@@ -99,7 +99,7 @@ export function useGenerateDraft() {
       savedAt: Date.now(),
       version: DRAFT_VERSION,
     };
-    
+
     // Only save if there's actual content
     const hasContent = newDraft.description || newDraft.title || newDraft.lyrics || newDraft.style;
     if (hasContent) {
@@ -107,9 +107,9 @@ export function useGenerateDraft() {
         localStorage.setItem(DRAFT_KEY, JSON.stringify(newDraft));
         setDraft(newDraft);
         setHasDraft(true);
-        logger.debug('Draft saved', { hasContent });
+        logger.debug("Draft saved", { hasContent });
       } catch (e) {
-        logger.error('Failed to save draft', e);
+        logger.error("Failed to save draft", e);
       }
     }
   }, []);
@@ -132,7 +132,7 @@ export function useGenerateDraft() {
         savedAt: Date.now(),
         version: DRAFT_VERSION,
       };
-      
+
       // Only save if there's actual content
       const hasContent = newDraft.description || newDraft.title || newDraft.lyrics || newDraft.style;
       if (hasContent) {
@@ -141,9 +141,9 @@ export function useGenerateDraft() {
           setDraft(newDraft);
           setHasDraft(true);
           setIsAutoSaving(false);
-          logger.debug('Draft auto-saved', { delay: AUTO_SAVE_DELAY_MS });
+          logger.debug("Draft auto-saved", { delay: AUTO_SAVE_DELAY_MS });
         } catch (e) {
-          logger.error('Failed to auto-save draft', e);
+          logger.error("Failed to auto-save draft", e);
           setIsAutoSaving(false);
         }
       } else {
@@ -159,12 +159,12 @@ export function useGenerateDraft() {
       clearTimeout(autoSaveTimerRef.current);
       autoSaveTimerRef.current = null;
     }
-    
+
     localStorage.removeItem(DRAFT_KEY);
     setDraft(null);
     setHasDraft(false);
     setIsAutoSaving(false);
-    logger.info('Draft cleared');
+    logger.info("Draft cleared");
   }, []);
 
   return {

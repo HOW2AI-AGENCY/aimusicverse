@@ -1,23 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
-import { 
-  Dialog, DialogContent, DialogHeader, DialogTitle 
-} from '@/components/ui/dialog';
-import { 
-  Drawer, DrawerContent, DrawerHeader, DrawerTitle 
-} from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { 
-  Play, Pause, Scissors, Download, Save, 
-  RotateCcw, Volume2, VolumeX 
-} from 'lucide-react';
-import { TrimRegionSelector } from './TrimRegionSelector';
-import { useTrimExport } from '@/hooks/studio/useTrimExport';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { formatTimePrecise } from '@/lib/player-utils';
+import { useState, useEffect, useRef } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Play, Pause, Scissors, Download, Save, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { TrimRegionSelector } from "./TrimRegionSelector";
+import { useTrimExport } from "@/hooks/studio/useTrimExport";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { formatTimePrecise } from "@/lib/player-utils";
 
 interface TrimDialogProps {
   open: boolean;
@@ -39,49 +32,49 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [muted, setMuted] = useState(false);
-  const [previewMode, setPreviewMode] = useState<'full' | 'region'>('region');
-  
+  const [previewMode, setPreviewMode] = useState<"full" | "region">("region");
+
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  
+
   const { trimAudio, saveAsNewTrack, downloadTrimmed, isExporting, progress } = useTrimExport();
-  
+
   const duration = track.duration_seconds || 0;
 
   // Initialize audio
   useEffect(() => {
     if (!open || !track.audio_url) return;
-    
+
     const audio = new Audio(track.audio_url);
     audioRef.current = audio;
-    
+
     const handleEnded = () => {
       setIsPlaying(false);
-      if (region && previewMode === 'region') {
+      if (region && previewMode === "region") {
         audio.currentTime = region.start;
         setCurrentTime(region.start);
       }
     };
-    
+
     const handleTimeUpdate = () => {
       if (!audioRef.current) return;
       setCurrentTime(audioRef.current.currentTime);
     };
-    
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    
+
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+
     return () => {
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
       audio.pause();
-      audio.src = '';
+      audio.src = "";
     };
   }, [open, track.audio_url]);
 
   // Check region bounds during playback
   useEffect(() => {
-    if (!audioRef.current || !isPlaying || !region || previewMode !== 'region') return;
-    
+    if (!audioRef.current || !isPlaying || !region || previewMode !== "region") return;
+
     const checkBounds = () => {
       if (audioRef.current && audioRef.current.currentTime >= region.end) {
         audioRef.current.pause();
@@ -90,7 +83,7 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
         setIsPlaying(false);
       }
     };
-    
+
     const interval = setInterval(checkBounds, 100);
     return () => clearInterval(interval);
   }, [isPlaying, region, previewMode]);
@@ -104,12 +97,12 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
 
   const togglePlay = async () => {
     if (!audioRef.current) return;
-    
+
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
     } else {
-      if (region && previewMode === 'region') {
+      if (region && previewMode === "region") {
         audioRef.current.currentTime = region.start;
       }
       await audioRef.current.play();
@@ -143,36 +136,38 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
 
   const handleExport = async () => {
     if (!region || !track.audio_url) return;
-    
+
     const result = await trimAudio({
       audioUrl: track.audio_url,
       startTime: region.start,
       endTime: region.end,
       trackId: track.id,
     });
-    
+
     if (result) {
-      downloadTrimmed(result, track.title || 'track');
+      downloadTrimmed(result, track.title || "track");
       URL.revokeObjectURL(result.url);
     }
   };
 
   const handleSaveAsTrack = async () => {
     if (!region || !track.audio_url) return;
-    
-    const { data: { user } } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
-      toast.error('Необходима авторизация');
+      toast.error("Необходима авторизация");
       return;
     }
-    
+
     const result = await trimAudio({
       audioUrl: track.audio_url,
       startTime: region.start,
       endTime: region.end,
       trackId: track.id,
     });
-    
+
     if (result) {
       const newTrackId = await saveAsNewTrack(result, track, user.id);
       URL.revokeObjectURL(result.url);
@@ -190,8 +185,7 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
     <div className="space-y-6">
       {/* Instructions */}
       <div className="text-sm text-muted-foreground">
-        Выделите регион для обрезки, перетаскивая мышью по таймлайну. 
-        Используйте ручки для точной настройки.
+        Выделите регион для обрезки, перетаскивая мышью по таймлайну. Используйте ручки для точной настройки.
       </div>
 
       {/* Trim Region Selector */}
@@ -207,15 +201,15 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
         <div className="flex items-center justify-between p-3 bg-primary/10 rounded-lg">
           <div className="flex items-center gap-4 text-sm">
             <div>
-              <span className="text-muted-foreground">Начало:</span>{' '}
+              <span className="text-muted-foreground">Начало:</span>{" "}
               <span className="font-mono">{formatTime(region.start)}</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Конец:</span>{' '}
+              <span className="text-muted-foreground">Конец:</span>{" "}
               <span className="font-mono">{formatTime(region.end)}</span>
             </div>
             <div>
-              <span className="text-muted-foreground">Длительность:</span>{' '}
+              <span className="text-muted-foreground">Длительность:</span>{" "}
               <span className="font-mono font-semibold">{formatTime(region.end - region.start)}</span>
             </div>
           </div>
@@ -224,46 +218,30 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
 
       {/* Playback Controls */}
       <div className="flex items-center justify-center gap-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setMuted(!muted)}
-          className="h-10 w-10"
-        >
+        <Button variant="ghost" size="icon" onClick={() => setMuted(!muted)} className="h-10 w-10">
           {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
         </Button>
-        
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleReset}
-          className="h-10 w-10"
-          disabled={!region}
-        >
+
+        <Button variant="ghost" size="icon" onClick={handleReset} className="h-10 w-10" disabled={!region}>
           <RotateCcw className="w-5 h-5" />
         </Button>
-        
-        <Button
-          size="lg"
-          onClick={togglePlay}
-          className="h-14 w-14 rounded-full"
-          disabled={!track.audio_url}
-        >
+
+        <Button size="lg" onClick={togglePlay} className="h-14 w-14 rounded-full" disabled={!track.audio_url}>
           {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
         </Button>
-        
+
         <div className="flex gap-2">
           <Button
-            variant={previewMode === 'full' ? 'default' : 'outline'}
+            variant={previewMode === "full" ? "default" : "outline"}
             size="sm"
-            onClick={() => setPreviewMode('full')}
+            onClick={() => setPreviewMode("full")}
           >
             Весь трек
           </Button>
           <Button
-            variant={previewMode === 'region' ? 'default' : 'outline'}
+            variant={previewMode === "region" ? "default" : "outline"}
             size="sm"
-            onClick={() => setPreviewMode('region')}
+            onClick={() => setPreviewMode("region")}
             disabled={!region}
           >
             Только выбранное
@@ -283,24 +261,12 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
       )}
 
       {/* Action Buttons */}
-      <div className={cn(
-        "flex gap-3",
-        isMobile ? "flex-col" : "justify-end"
-      )}>
-        <Button
-          variant="outline"
-          onClick={handleExport}
-          disabled={!region || isExporting}
-          className="gap-2"
-        >
+      <div className={cn("flex gap-3", isMobile ? "flex-col" : "justify-end")}>
+        <Button variant="outline" onClick={handleExport} disabled={!region || isExporting} className="gap-2">
           <Download className="w-4 h-4" />
           Скачать WAV
         </Button>
-        <Button
-          onClick={handleSaveAsTrack}
-          disabled={!region || isExporting}
-          className="gap-2"
-        >
+        <Button onClick={handleSaveAsTrack} disabled={!region || isExporting} className="gap-2">
           <Save className="w-4 h-4" />
           Сохранить как новый трек
         </Button>
@@ -318,9 +284,7 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
               Обрезка трека
             </DrawerTitle>
           </DrawerHeader>
-          <div className="px-4 pb-6 overflow-y-auto">
-            {content}
-          </div>
+          <div className="px-4 pb-6 overflow-y-auto">{content}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -332,7 +296,7 @@ export const TrimDialog = ({ open, onOpenChange, track, onTrimComplete }: TrimDi
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Scissors className="w-5 h-5" />
-            Обрезка: {track.title || 'Трек'}
+            Обрезка: {track.title || "Трек"}
           </DialogTitle>
         </DialogHeader>
         {content}

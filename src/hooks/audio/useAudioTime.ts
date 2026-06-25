@@ -1,12 +1,12 @@
 /**
  * Audio Time Hook
- * 
+ *
  * Subscribes to current audio time updates from global audio element.
  * Optimized to avoid unnecessary re-renders.
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useState, useEffect, useCallback } from "react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 
 // Singleton reference to global audio
 let globalAudio: HTMLAudioElement | null = null;
@@ -30,7 +30,7 @@ export function useAudioTime() {
     // globalAudio is set once by GlobalAudioProvider and never changes, but capturing
     // it here follows React best practices for stable effect cleanup.
     const audio = globalAudio;
-    
+
     if (!audio) {
       // Reset state if audio not available
       setCurrentTime(0);
@@ -58,10 +58,10 @@ export function useAudioTime() {
       setDuration(audio.duration || 0);
     };
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('durationchange', handleDurationChange);
-    audio.addEventListener('progress', handleProgress);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("durationchange", handleDurationChange);
+    audio.addEventListener("progress", handleProgress);
 
     // Get initial values
     if (audio.duration) {
@@ -71,10 +71,10 @@ export function useAudioTime() {
 
     return () => {
       // Cleanup uses captured reference
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('durationchange', handleDurationChange);
-      audio.removeEventListener('progress', handleProgress);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("durationchange", handleDurationChange);
+      audio.removeEventListener("progress", handleProgress);
     };
   }, [activeTrack?.id]);
 

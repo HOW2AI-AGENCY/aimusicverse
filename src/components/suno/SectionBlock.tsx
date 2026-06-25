@@ -1,11 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import { GripVertical, Trash2, Edit, Check, ChevronUp, ChevronDown, Tag } from 'lucide-react';
-import { LyricSection, SECTION_LABELS } from './types';
-import { parseTags, translateTagsToRussian, countSyllables, insertTagAtCursor } from './utils';
+import { useState, useRef, useEffect } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { GripVertical, Trash2, Edit, Check, ChevronUp, ChevronDown, Tag } from "lucide-react";
+import { LyricSection, SECTION_LABELS } from "./types";
+import { parseTags, translateTagsToRussian, countSyllables, insertTagAtCursor } from "./utils";
 
 interface SectionBlockProps {
   section: LyricSection;
@@ -39,13 +39,13 @@ export const SectionBlock = ({
 
   const sectionLabel = SECTION_LABELS[section.type];
   const tags = parseTags(section.content);
-  const syllableCount = countSyllables(section.content.replace(/\[.*?\]/g, ''));
+  const syllableCount = countSyllables(section.content.replace(/\[.*?\]/g, ""));
 
   useEffect(() => {
     if (isEditing && textareaRef.current) {
       textareaRef.current.focus();
       // Auto-resize textarea
-      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = "auto";
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
     }
   }, [isEditing]);
@@ -91,16 +91,12 @@ export const SectionBlock = ({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-2">
                 <Badge className={sectionLabel.color}>{sectionLabel.ru}</Badge>
-                {syllableCount > 0 && (
-                  <span className="text-xs text-muted-foreground">
-                    {syllableCount} слогов
-                  </span>
-                )}
+                {syllableCount > 0 && <span className="text-xs text-muted-foreground">{syllableCount} слогов</span>}
               </div>
 
               {/* Text with inline tags */}
               <div className="text-sm space-y-1">
-                {section.content.split('\n').map((line, i) => {
+                {section.content.split("\n").map((line, i) => {
                   const lineTags = parseTags(line);
                   if (lineTags.length > 0) {
                     return (
@@ -157,7 +153,7 @@ export const SectionBlock = ({
                 size="sm"
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (confirm('Удалить эту секцию?')) {
+                  if (confirm("Удалить эту секцию?")) {
                     onDelete(section.id);
                   }
                 }}
@@ -188,12 +184,7 @@ export const SectionBlock = ({
           <div className="flex-1 space-y-2">
             <div className="flex items-center gap-2">
               <Badge className={sectionLabel.color}>{sectionLabel.ru}</Badge>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={handleOpenTagMenu}
-                className="gap-1 h-7"
-              >
+              <Button variant="ghost" size="sm" onClick={handleOpenTagMenu} className="gap-1 h-7">
                 <Tag className="w-3 h-3" />
                 Тег
               </Button>
@@ -204,7 +195,7 @@ export const SectionBlock = ({
               value={localContent}
               onChange={(e) => {
                 setLocalContent(e.target.value);
-                e.target.style.height = 'auto';
+                e.target.style.height = "auto";
                 e.target.style.height = `${e.target.scrollHeight}px`;
               }}
               onSelect={(e) => {
@@ -213,7 +204,7 @@ export const SectionBlock = ({
               }}
               placeholder="Введите текст..."
               className="min-h-[100px] resize-none text-base"
-              style={{ fontSize: '16px' }} // Prevent iOS zoom
+              style={{ fontSize: "16px" }} // Prevent iOS zoom
             />
 
             <div className="flex justify-end gap-2">

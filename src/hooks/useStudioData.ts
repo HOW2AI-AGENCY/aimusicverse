@@ -1,15 +1,15 @@
 /**
  * useStudioData - Consolidated studio data fetching
- * 
+ *
  * Combines stems, transcriptions, and waveform prefetching
  * in a single optimized hook to reduce DB queries
  */
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useMemo, useRef } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import { waveformWorkerPool } from '@/lib/waveformWorkerPool';
-import { logger } from '@/lib/logger';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useMemo, useRef } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { waveformWorkerPool } from "@/lib/waveformWorkerPool";
+import { logger } from "@/lib/logger";
 
 export interface TrackStem {
   id: string;
@@ -18,7 +18,7 @@ export interface TrackStem {
   audio_url: string;
   separation_mode: string | null;
   version_id: string | null;
-  source?: 'separated' | 'generated' | 'uploaded' | string | null;
+  source?: "separated" | "generated" | "uploaded" | string | null;
   generation_prompt?: string | null;
   generation_model?: string | null;
   created_at: string | null;
@@ -58,34 +58,30 @@ export interface StudioData {
 export function useStudioData(trackId: string | undefined) {
   const queryClient = useQueryClient();
   const prefetchedRef = useRef(false);
-  
+
   const query = useQuery({
-    queryKey: ['studio-data', trackId],
+    queryKey: ["studio-data", trackId],
     queryFn: async (): Promise<StudioData> => {
       if (!trackId) {
         return { stems: [], transcriptions: [], transcriptionsByStem: {} };
       }
-      
+
       // Fetch stems and transcriptions in parallel
       const [stemsResult, transcriptionsResult] = await Promise.all([
+        supabase.from("track_stems").select("*").eq("track_id", trackId).order("created_at", { ascending: false }),
         supabase
-          .from('track_stems')
-          .select('*')
-          .eq('track_id', trackId)
-          .order('created_at', { ascending: false }),
-        supabase
-          .from('stem_transcriptions')
-          .select('*')
-          .eq('track_id', trackId)
-          .order('created_at', { ascending: false }),
+          .from("stem_transcriptions")
+          .select("*")
+          .eq("track_id", trackId)
+          .order("created_at", { ascending: false }),
       ]);
-      
+
       if (stemsResult.error) throw stemsResult.error;
       if (transcriptionsResult.error) throw transcriptionsResult.error;
-      
+
       const stems = (stemsResult.data || []) as TrackStem[];
       const transcriptions = (transcriptionsResult.data || []) as StemTranscription[];
-      
+
       // Group transcriptions by stem_id (latest only)
       const transcriptionsByStem: Record<string, StemTranscription> = {};
       transcriptions.forEach((t) => {
@@ -93,49 +89,47 @@ export function useStudioData(trackId: string | undefined) {
           transcriptionsByStem[t.stem_id] = t;
         }
       });
-      
-      logger.debug('Studio data loaded', { 
-        trackId, 
-        stemsCount: stems.length, 
+
+      logger.debug("Studio data loaded", {
+        trackId,
+        stemsCount: stems.length,
         transcriptionsCount: transcriptions.length,
-        stemIds: stems.map(s => s.id),
+        stemIds: stems.map((s) => s.id),
         transcriptionStemIds: Object.keys(transcriptionsByStem),
       });
-      
+
       return { stems, transcriptions, transcriptionsByStem };
     },
     enabled: !!trackId,
     staleTime: 30000, // 30 seconds
     gcTime: 5 * 60 * 1000, // 5 minutes
   });
-  
+
   // Prefetch waveforms for all stems
   useEffect(() => {
     if (!query.data?.stems || prefetchedRef.current) return;
-    
-    const audioUrls = query.data.stems
-      .map(s => s.audio_url)
-      .filter(Boolean);
-    
+
+    const audioUrls = query.data.stems.map((s) => s.audio_url).filter(Boolean);
+
     if (audioUrls.length > 0) {
       prefetchedRef.current = true;
-      
+
       // Prefetch waveforms in background
       waveformWorkerPool.prefetchMany(audioUrls).catch((error) => {
-        logger.warn('Waveform prefetch failed', { error });
+        logger.warn("Waveform prefetch failed", { error });
       });
     }
   }, [query.data?.stems]);
-  
+
   // Reset prefetch flag when track changes
   useEffect(() => {
     prefetchedRef.current = false;
   }, [trackId]);
-  
+
   // Memoized stems sorted by priority - VOCALS ALWAYS FIRST
   const sortedStems = useMemo(() => {
     if (!query.data?.stems) return [];
-    
+
     const priority: Record<string, number> = {
       // Vocals always first (priority 0-1)
       vocals: 0,
@@ -158,26 +152,26 @@ export function useStudioData(trackId: string | undefined) {
       strings: 8,
       other: 99,
     };
-    
+
     return [...query.data.stems].sort((a, b) => {
       const typeA = a.stem_type.toLowerCase();
       const typeB = b.stem_type.toLowerCase();
-      
+
       // Check if either contains 'vocal' anywhere in the name
-      const isVocalA = typeA.includes('vocal') || typeA === 'voice';
-      const isVocalB = typeB.includes('vocal') || typeB === 'voice';
-      
+      const isVocalA = typeA.includes("vocal") || typeA === "voice";
+      const isVocalB = typeB.includes("vocal") || typeB === "voice";
+
       // Vocals always come first
       if (isVocalA && !isVocalB) return -1;
       if (!isVocalA && isVocalB) return 1;
-      
+
       // Then sort by priority
       const pA = priority[typeA] ?? 50;
       const pB = priority[typeB] ?? 50;
       return pA - pB;
     });
   }, [query.data?.stems]);
-  
+
   return {
     ...query,
     stems: query.data?.stems || [],

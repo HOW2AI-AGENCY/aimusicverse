@@ -6,16 +6,16 @@
  * Uses the UnifiedTrackCard with minimalist styling and design system tokens.
  */
 
-import { memo, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { TrendingUp, Loader2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { UnifiedTrackCard } from '@/components/shared/UnifiedTrackCard';
-import { Button } from '@/components/ui/button';
-import { SectionHeader } from '@/components/ui/Heading';
-import type { TrackData } from '@/components/track/track-card-new/types';
-import { homeSectionColors } from '@/lib/design-colors';
+import { memo, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { TrendingUp, Loader2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { UnifiedTrackCard } from "@/components/shared/UnifiedTrackCard";
+import { Button } from "@/components/ui/button";
+import { SectionHeader } from "@/components/ui/Heading";
+import type { TrackData } from "@/components/track/track-card-new/types";
+import { homeSectionColors } from "@/lib/design-colors";
 
 interface FeaturedSectionProps {
   tracks: TrackData[];
@@ -35,10 +35,7 @@ const SKELETON_COUNT = 4;
 // Lightweight skeleton component - optimized for scroll performance
 const TrackSkeleton = memo(function TrackSkeleton() {
   return (
-    <div 
-      className="flex-shrink-0 w-[155px] sm:w-[170px] lg:w-[190px] xl:w-[210px]"
-      style={{ contain: 'layout paint' }}
-    >
+    <div className="flex-shrink-0 w-[155px] sm:w-[170px] lg:w-[190px] xl:w-[210px]" style={{ contain: "layout paint" }}>
       <div className="aspect-square rounded-xl bg-muted/20 animate-pulse" />
       <div className="mt-2 space-y-1.5">
         <div className="h-3.5 w-4/5 bg-muted/15 rounded animate-pulse" />
@@ -64,13 +61,16 @@ export const FeaturedSection = memo(function FeaturedSection({
   // Limit to maxTracks if specified
   const displayTracks = maxTracks ? tracks.slice(0, maxTracks) : tracks;
 
-  const handleTrackClick = useCallback((trackId: string) => {
-    hapticFeedback('light');
-    onTrackClick?.(trackId);
-  }, [hapticFeedback, onTrackClick]);
+  const handleTrackClick = useCallback(
+    (trackId: string) => {
+      hapticFeedback("light");
+      onTrackClick?.(trackId);
+    },
+    [hapticFeedback, onTrackClick],
+  );
 
   const handleLoadMore = useCallback(() => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     onLoadMore?.();
   }, [hapticFeedback, onLoadMore]);
 
@@ -78,10 +78,7 @@ export const FeaturedSection = memo(function FeaturedSection({
   // No animations on skeleton to prevent scroll jank
   if (isLoading && displayTracks.length === 0) {
     return (
-      <section 
-        className={cn("space-y-3", className)}
-        style={{ contain: 'layout' }}
-      >
+      <section className={cn("space-y-3", className)} style={{ contain: "layout" }}>
         <div className="flex items-center gap-2 px-1">
           <div className="w-8 h-8 rounded-lg bg-muted/20" />
           <div className="space-y-1">
@@ -89,9 +86,9 @@ export const FeaturedSection = memo(function FeaturedSection({
             <div className="h-3 w-36 bg-muted/15 rounded" />
           </div>
         </div>
-        <div 
+        <div
           className="flex gap-3 overflow-x-auto pb-2 scroll-smooth touch-pan-x"
-          style={{ WebkitOverflowScrolling: 'touch' }}
+          style={{ WebkitOverflowScrolling: "touch" }}
         >
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
             <TrackSkeleton key={i} />
@@ -120,8 +117,11 @@ export const FeaturedSection = memo(function FeaturedSection({
         icon={TrendingUp}
         iconColor={homeSectionColors.trending.text}
         badge={
-          <motion.span 
-            className={cn("text-[9px] px-1.5 py-0.5 rounded-full font-semibold border", homeSectionColors.trending.badge)}
+          <motion.span
+            className={cn(
+              "text-[9px] px-1.5 py-0.5 rounded-full font-semibold border",
+              homeSectionColors.trending.badge,
+            )}
             animate={{ opacity: [1, 0.7, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
           >
@@ -131,15 +131,12 @@ export const FeaturedSection = memo(function FeaturedSection({
       />
 
       {/* Horizontal scroll container - responsive sizes */}
-      <div 
+      <div
         className="flex gap-3 lg:gap-4 overflow-x-auto pb-2 scroll-smooth touch-pan-x scrollbar-hide"
-        style={{ WebkitOverflowScrolling: 'touch' }}
+        style={{ WebkitOverflowScrolling: "touch" }}
       >
         {displayTracks.map((track) => (
-          <div
-            key={track.id}
-            className="flex-shrink-0 w-[155px] sm:w-[170px] lg:w-[190px] xl:w-[210px] group"
-          >
+          <div key={track.id} className="flex-shrink-0 w-[155px] sm:w-[170px] lg:w-[190px] xl:w-[210px] group">
             <UnifiedTrackCard
               track={track}
               variant="grid"
@@ -160,11 +157,7 @@ export const FeaturedSection = memo(function FeaturedSection({
               disabled={isLoadingMore}
               className="h-10 px-4 border-dashed"
             >
-              {isLoadingMore ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                "Ещё"
-              )}
+              {isLoadingMore ? <Loader2 className="h-4 w-4 animate-spin" /> : "Ещё"}
             </Button>
           </div>
         )}

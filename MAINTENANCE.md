@@ -14,7 +14,9 @@ This guide helps maintain the repository organization, documentation structure, 
 ## 🗂️ Repository Structure
 
 ### Root Level Files (36 total)
+
 **Critical files** (should always be present):
+
 - README.md
 - DOCUMENTATION_INDEX.md
 - NAVIGATION.md
@@ -30,20 +32,24 @@ This guide helps maintain the repository organization, documentation structure, 
 - constitution.md
 
 **Project management:**
+
 - SPRINT_MANAGEMENT.md
 - PROJECT_MANAGEMENT.md
 - SPRINT_DOCS_README.md
 
 **Reference:**
+
 - CRITICAL_FILES.md
 - INFRASTRUCTURE_NAMING_CONVENTIONS.md
 - MUSICVERSE_DATA_STRUCTURE_DIAGRAM.md
 
 **Audits and technical:**
+
 - REPOSITORY_AUDIT_2025-12-10.md
 - Various technical documentation
 
 ### Archive Structure
+
 ```
 docs/archive/
 ├── 2025-12/        # December 2025 audits (28 files)
@@ -52,6 +58,7 @@ docs/archive/
 ```
 
 ### Sprint Structure
+
 ```
 SPRINTS/
 ├── README.md           # Sprint system overview
@@ -67,6 +74,7 @@ SPRINTS/
 ## 📅 Monthly Maintenance Tasks
 
 ### Documentation Updates
+
 - [ ] Update RECENT_IMPROVEMENTS.md with monthly summary
 - [ ] Review and update SPRINT_STATUS.md
 - [ ] Archive dated audit files (>1 month old)
@@ -74,12 +82,14 @@ SPRINTS/
 - [ ] Review README.md for accuracy
 
 ### Sprint Management
+
 - [ ] Move completed sprints to SPRINTS/completed/
 - [ ] Update sprint status indicators
 - [ ] Review and update BACKLOG.md
 - [ ] Archive outdated sprint documentation
 
 ### File Organization
+
 - [ ] Move dated reports to docs/archive/YYYY-MM/
 - [ ] Remove duplicate files
 - [ ] Update documentation links
@@ -90,6 +100,7 @@ SPRINTS/
 ## 🔄 Quarterly Maintenance Tasks
 
 ### Major Reviews
+
 - [ ] Comprehensive documentation audit
 - [ ] Update DOCUMENTATION_INDEX.md
 - [ ] Review and consolidate archived files
@@ -97,6 +108,7 @@ SPRINTS/
 - [ ] Review and update ADR documents
 
 ### Repository Cleanup
+
 - [ ] Archive very old audit files (>3 months)
 - [ ] Consolidate similar documents
 - [ ] Update navigation guides
@@ -107,38 +119,45 @@ SPRINTS/
 ## 📝 Documentation Lifecycle
 
 ### Active Documents
+
 **Location:** Root or docs/  
 **Retention:** Permanent  
 **Updates:** As needed
 
 Examples:
+
 - README.md
 - DOCUMENTATION_INDEX.md
 - Architecture documents
 - Development guides
 
 ### Periodic Reports
+
 **Location:** Root initially  
 **Retention:** 1 month in root, then archive  
 **Updates:** Monthly consolidation
 
 Examples:
-- Audit reports (*_2025-12-*.md)
+
+- Audit reports (_\_2025-12-_.md)
 - Fix summaries
 - Optimization reports
 
 **Process:**
+
 1. Create dated report (e.g., AUDIT_NAME_2025-12-10.md)
 2. Keep in root for 1 month
 3. Move to docs/archive/YYYY-MM/
 4. Update consolidated summary (e.g., RECENT_IMPROVEMENTS.md)
 
 ### Sprint Documents
+
 **Location:** SPRINTS/  
 **Retention:** Permanent  
 **Updates:** During sprint lifecycle
 
 **Process:**
+
 1. Active sprints in SPRINTS/
 2. On completion, move to SPRINTS/completed/
 3. Update SPRINT_STATUS.md
@@ -151,39 +170,49 @@ Examples:
 ### When to Archive
 
 #### Audit Reports
+
 Archive when:
+
 - Report is >1 month old
 - New audit supersedes it
 - Content consolidated in summary document
 
 Keep in root:
+
 - Current month audits
 - Active improvement plans
 - Unresolved issues
 
 #### Sprint Documents
+
 Archive when:
+
 - All tasks completed
 - Deliverables accepted
 - Sprint retrospective done
 
 Never archive:
+
 - Active sprint documentation
 - Current backlog
 - Planning documents
 
 #### Specifications
+
 Archive when:
+
 - Implementation completed
 - Feature fully deployed
 - Superseded by new spec
 
 Keep active:
+
 - Current feature specs
 - Roadmap documents
 - Templates
 
 ### Archive Naming Convention
+
 ```
 docs/archive/
 ├── YYYY-MM/                    # Monthly archives
@@ -198,15 +227,18 @@ docs/archive/
 ## 📊 File Management Rules
 
 ### Dated Files Format
+
 ```
 DOCUMENT_NAME_YYYY-MM-DD.md
 ```
 
 Examples:
+
 - PLAYER_AUDIT_2025-12-10.md
 - BUGFIX_SUMMARY_2025-12-09.md
 
 ### Status Indicators in Documents
+
 - ✅ Completed
 - 🟢 In Progress / Active
 - ⏳ Planned
@@ -215,7 +247,9 @@ Examples:
 - ⚠️ Needs Update
 
 ### Link Management
+
 When moving files:
+
 1. Update all references in key documents
 2. Add redirect comment in old location
 3. Update DOCUMENTATION_INDEX.md
@@ -226,17 +260,20 @@ When moving files:
 ## 🔍 Regular Checks
 
 ### Weekly
+
 - [ ] Review new documentation
 - [ ] Check for duplicate files
 - [ ] Verify sprint status accuracy
 
 ### Monthly
+
 - [ ] Archive old dated reports
 - [ ] Update summary documents
 - [ ] Review repository structure
 - [ ] Update RECENT_IMPROVEMENTS.md
 
 ### Quarterly
+
 - [ ] Full documentation audit
 - [ ] Archive consolidation
 - [ ] Navigation review
@@ -247,6 +284,7 @@ When moving files:
 ## 🎯 Quality Standards
 
 ### Documentation Quality
+
 - Clear, concise writing
 - Up-to-date information
 - Working links
@@ -254,6 +292,7 @@ When moving files:
 - Proper categorization
 
 ### File Organization
+
 - Logical directory structure
 - Clear naming conventions
 - No orphaned files
@@ -261,6 +300,7 @@ When moving files:
 - Version control
 
 ### Navigation
+
 - Easy to find information
 - Multiple entry points
 - Clear hierarchy
@@ -274,18 +314,21 @@ When moving files:
 ### Responsibilities
 
 **Documentation Lead**
+
 - Maintain DOCUMENTATION_INDEX.md
 - Archive old reports
 - Update navigation guides
 - Review documentation quality
 
 **Sprint Manager**
+
 - Update SPRINT_STATUS.md
 - Move completed sprints
 - Maintain BACKLOG.md
 - Update sprint documentation
 
 **Development Lead**
+
 - Update CHANGELOG.md
 - Review technical documentation
 - Update architecture docs
@@ -304,6 +347,7 @@ When moving files:
 ## 🔄 Maintenance History
 
 ### 2025-12-10: Initial Cleanup
+
 - Created comprehensive documentation index
 - Archived 28 dated audit files
 - Moved 7 completed sprints
@@ -311,6 +355,7 @@ When moving files:
 - Established maintenance guidelines
 
 ### Future Updates
+
 Document major maintenance activities here.
 
 ---

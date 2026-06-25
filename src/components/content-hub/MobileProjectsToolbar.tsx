@@ -2,19 +2,19 @@
  * MobileProjectsToolbar - Compact mobile toolbar with expandable search and FAB
  */
 
-import { memo, useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Search, X, LayoutGrid, LayoutList, Plus } from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
+import { memo, useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Search, X, LayoutGrid, LayoutList, Plus } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
 
 interface MobileProjectsToolbarProps {
   searchQuery: string;
   onSearchChange: (query: string) => void;
-  viewMode: 'grid' | 'list';
-  onViewModeChange: (mode: 'grid' | 'list') => void;
+  viewMode: "grid" | "list";
+  onViewModeChange: (mode: "grid" | "list") => void;
   onCreateClick: () => void;
 }
 
@@ -38,12 +38,12 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
   const handleSearchToggle = () => {
     patterns.tap();
     if (isSearchExpanded && searchQuery) {
-      onSearchChange('');
+      onSearchChange("");
     }
     setIsSearchExpanded(!isSearchExpanded);
   };
 
-  const handleViewModeChange = (mode: 'grid' | 'list') => {
+  const handleViewModeChange = (mode: "grid" | "list") => {
     patterns.tap();
     onViewModeChange(mode);
   };
@@ -60,7 +60,7 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
           <motion.div
             key="search-expanded"
             initial={{ opacity: 0, width: 0 }}
-            animate={{ opacity: 1, width: '100%' }}
+            animate={{ opacity: 1, width: "100%" }}
             exit={{ opacity: 0, width: 0 }}
             transition={{ duration: 0.2 }}
             className="flex-1 flex items-center gap-2"
@@ -93,12 +93,7 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
             className="flex-1 flex items-center gap-2"
           >
             {/* Search button - 44x44 touch target */}
-            <Button
-              variant="outline"
-              size="icon"
-              className="h-11 w-11 shrink-0"
-              onClick={handleSearchToggle}
-            >
+            <Button variant="outline" size="icon" className="h-11 w-11 shrink-0" onClick={handleSearchToggle}>
               <Search className="w-5 h-5" />
             </Button>
 
@@ -108,24 +103,18 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
             {/* View mode toggle - larger touch targets */}
             <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-xl">
               <Button
-                variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+                variant={viewMode === "grid" ? "secondary" : "ghost"}
                 size="icon"
-                className={cn(
-                  "h-10 w-10 transition-all",
-                  viewMode === 'grid' && "shadow-sm"
-                )}
-                onClick={() => handleViewModeChange('grid')}
+                className={cn("h-10 w-10 transition-all", viewMode === "grid" && "shadow-sm")}
+                onClick={() => handleViewModeChange("grid")}
               >
                 <LayoutGrid className="w-5 h-5" />
               </Button>
               <Button
-                variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+                variant={viewMode === "list" ? "secondary" : "ghost"}
                 size="icon"
-                className={cn(
-                  "h-10 w-10 transition-all",
-                  viewMode === 'list' && "shadow-sm"
-                )}
-                onClick={() => handleViewModeChange('list')}
+                className={cn("h-10 w-10 transition-all", viewMode === "list" && "shadow-sm")}
+                onClick={() => handleViewModeChange("list")}
               >
                 <LayoutList className="w-5 h-5" />
               </Button>
@@ -136,16 +125,8 @@ export const MobileProjectsToolbar = memo(function MobileProjectsToolbar({
 
       {/* FAB Create Button - always visible */}
       {!isSearchExpanded && (
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Button
-            size="icon"
-            className="h-11 w-11 rounded-xl shadow-lg"
-            onClick={handleCreateClick}
-          >
+        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
+          <Button size="icon" className="h-11 w-11 rounded-xl shadow-lg" onClick={handleCreateClick}>
             <Plus className="w-5 h-5" />
           </Button>
         </motion.div>

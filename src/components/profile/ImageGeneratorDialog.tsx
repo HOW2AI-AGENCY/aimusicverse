@@ -1,19 +1,19 @@
-import { useState, useRef, useCallback } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Slider } from '@/components/ui/slider';
-import { Sparkles, Wand2, Crop, RotateCcw, Check, Loader2 } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
+import { useState, useRef, useCallback } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { Sparkles, Wand2, Crop, RotateCcw, Check, Loader2 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 interface ImageGeneratorDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  type: 'avatar' | 'banner' | 'cover';
+  type: "avatar" | "banner" | "cover";
   onGenerated: (imageUrl: string) => void;
   defaultPrompt?: string;
   context?: {
@@ -26,15 +26,18 @@ interface ImageGeneratorDialogProps {
 }
 
 const ASPECT_RATIOS = {
-  avatar: { width: 1, height: 1, label: '1:1 (Аватар)' },
-  banner: { width: 3, height: 1, label: '3:1 (Баннер)' },
-  cover: { width: 1, height: 1, label: '1:1 (Обложка)' },
+  avatar: { width: 1, height: 1, label: "1:1 (Аватар)" },
+  banner: { width: 3, height: 1, label: "3:1 (Баннер)" },
+  cover: { width: 1, height: 1, label: "1:1 (Обложка)" },
 };
 
 const DEFAULT_PROMPTS = {
-  avatar: 'Профессиональный, художественный аватар для музыкального продюсера. Современный стиль, креативный дизайн, яркие цвета.',
-  banner: 'Атмосферный баннер для профиля музыканта. Абстрактная визуализация звуковых волн, глубокие цвета, футуристический дизайн.',
-  cover: 'Стильная обложка музыкального трека. Абстрактное искусство, визуализация музыки, современный дизайн без текста.',
+  avatar:
+    "Профессиональный, художественный аватар для музыкального продюсера. Современный стиль, креативный дизайн, яркие цвета.",
+  banner:
+    "Атмосферный баннер для профиля музыканта. Абстрактная визуализация звуковых волн, глубокие цвета, футуристический дизайн.",
+  cover:
+    "Стильная обложка музыкального трека. Абстрактное искусство, визуализация музыки, современный дизайн без текста.",
 };
 
 export function ImageGeneratorDialog({
@@ -61,9 +64,9 @@ export function ImageGeneratorDialog({
     setGeneratedImage(null);
 
     try {
-      const { data, error } = await supabase.functions.invoke('generate-profile-image', {
+      const { data, error } = await supabase.functions.invoke("generate-profile-image", {
         body: {
-          type: type === 'cover' ? 'avatar' : type, // cover uses same aspect as avatar
+          type: type === "cover" ? "avatar" : type, // cover uses same aspect as avatar
           prompt,
           displayName: context?.displayName,
           bio: context?.bio,
@@ -72,13 +75,13 @@ export function ImageGeneratorDialog({
       });
 
       if (error) throw error;
-      if (!data?.imageUrl) throw new Error('No image generated');
+      if (!data?.imageUrl) throw new Error("No image generated");
 
       setGeneratedImage(data.imageUrl);
-      toast.success('Изображение сгенерировано!');
+      toast.success("Изображение сгенерировано!");
     } catch (error: unknown) {
-      logger.error('Generation error', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка генерации изображения');
+      logger.error("Generation error", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Ошибка генерации изображения");
     } finally {
       setIsGenerating(false);
     }
@@ -88,17 +91,17 @@ export function ImageGeneratorDialog({
     if (!generatedImage || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const img = new Image();
-    img.crossOrigin = 'anonymous';
-    
+    img.crossOrigin = "anonymous";
+
     img.onload = async () => {
       // Set canvas size based on type
-      const outputWidth = type === 'banner' ? 1200 : 512;
-      const outputHeight = type === 'banner' ? 400 : 512;
-      
+      const outputWidth = type === "banner" ? 1200 : 512;
+      const outputHeight = type === "banner" ? 400 : 512;
+
       canvas.width = outputWidth;
       canvas.height = outputHeight;
 
@@ -106,7 +109,7 @@ export function ImageGeneratorDialog({
       const scale = zoom[0];
       const scaledWidth = img.width * scale;
       const scaledHeight = img.height * scale;
-      
+
       const sourceX = Math.max(0, (scaledWidth - outputWidth) / 2 + cropPosition.x);
       const sourceY = Math.max(0, (scaledHeight - outputHeight) / 2 + cropPosition.y);
 
@@ -119,7 +122,7 @@ export function ImageGeneratorDialog({
         0,
         0,
         outputWidth,
-        outputHeight
+        outputHeight,
       );
 
       // Convert to blob and upload
@@ -127,25 +130,23 @@ export function ImageGeneratorDialog({
         if (!blob) return;
 
         const fileName = `${type}_cropped_${Date.now()}.png`;
-        const file = new File([blob], fileName, { type: 'image/png' });
+        const file = new File([blob], fileName, { type: "image/png" });
 
-        const { error: uploadError } = await supabase.storage
-          .from('avatars')
-          .upload(fileName, file, { upsert: true });
+        const { error: uploadError } = await supabase.storage.from("avatars").upload(fileName, file, { upsert: true });
 
         if (uploadError) {
-          toast.error('Ошибка сохранения');
+          toast.error("Ошибка сохранения");
           return;
         }
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('avatars')
-          .getPublicUrl(fileName);
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("avatars").getPublicUrl(fileName);
 
         onGenerated(publicUrl);
         onOpenChange(false);
-        toast.success('Изображение сохранено!');
-      }, 'image/png');
+        toast.success("Изображение сохранено!");
+      }, "image/png");
     };
 
     img.src = generatedImage;
@@ -171,11 +172,9 @@ export function ImageGeneratorDialog({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-primary" />
-            AI Генератор {type === 'avatar' ? 'аватара' : type === 'banner' ? 'баннера' : 'обложки'}
+            AI Генератор {type === "avatar" ? "аватара" : type === "banner" ? "баннера" : "обложки"}
           </DialogTitle>
-          <DialogDescription>
-            Опишите желаемое изображение или используйте промпт по умолчанию
-          </DialogDescription>
+          <DialogDescription>Опишите желаемое изображение или используйте промпт по умолчанию</DialogDescription>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -190,16 +189,14 @@ export function ImageGeneratorDialog({
               className="resize-none"
               disabled={isGenerating}
             />
-            <p className="text-xs text-muted-foreground">
-              Совет: чем подробнее описание, тем лучше результат
-            </p>
+            <p className="text-xs text-muted-foreground">Совет: чем подробнее описание, тем лучше результат</p>
           </div>
 
           {/* Preview Area */}
           <div
             className={cn(
               "relative rounded-lg overflow-hidden border-2 border-dashed border-border bg-muted/30",
-              type === 'banner' ? 'aspect-[3/1]' : 'aspect-square'
+              type === "banner" ? "aspect-[3/1]" : "aspect-square",
             )}
           >
             {generatedImage ? (
@@ -211,7 +208,7 @@ export function ImageGeneratorDialog({
                   className="w-full h-full object-cover"
                   style={{
                     transform: `scale(${zoom[0]}) translate(${-cropPosition.x}px, ${-cropPosition.y}px)`,
-                    transformOrigin: 'center',
+                    transformOrigin: "center",
                   }}
                 />
                 {cropMode && (
@@ -234,9 +231,7 @@ export function ImageGeneratorDialog({
                 ) : (
                   <>
                     <Wand2 className="w-8 h-8 text-muted-foreground mb-2" />
-                    <span className="text-sm text-muted-foreground">
-                      Нажмите "Сгенерировать"
-                    </span>
+                    <span className="text-sm text-muted-foreground">Нажмите "Сгенерировать"</span>
                   </>
                 )}
               </div>
@@ -247,14 +242,7 @@ export function ImageGeneratorDialog({
           {generatedImage && cropMode && (
             <div className="space-y-3">
               <Label>Масштаб</Label>
-              <Slider
-                value={zoom}
-                onValueChange={setZoom}
-                min={1}
-                max={2}
-                step={0.1}
-                className="w-full"
-              />
+              <Slider value={zoom} onValueChange={setZoom} min={1} max={2} step={0.1} className="w-full" />
             </div>
           )}
 
@@ -264,11 +252,7 @@ export function ImageGeneratorDialog({
           {/* Actions */}
           <div className="flex gap-2">
             {!generatedImage ? (
-              <Button
-                onClick={handleGenerate}
-                disabled={isGenerating || !prompt.trim()}
-                className="flex-1"
-              >
+              <Button onClick={handleGenerate} disabled={isGenerating || !prompt.trim()} className="flex-1">
                 {isGenerating ? (
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                 ) : (
@@ -282,16 +266,16 @@ export function ImageGeneratorDialog({
                   <RotateCcw className="w-4 h-4" />
                 </Button>
                 <Button
-                  variant={cropMode ? 'default' : 'outline'}
+                  variant={cropMode ? "default" : "outline"}
                   onClick={() => setCropMode(!cropMode)}
                   className="flex-1"
                 >
                   <Crop className="w-4 h-4 mr-2" />
-                  {cropMode ? 'Режим обрезки' : 'Обрезать'}
+                  {cropMode ? "Режим обрезки" : "Обрезать"}
                 </Button>
                 <Button onClick={cropMode ? handleCrop : handleAcceptWithoutCrop} className="flex-1">
                   <Check className="w-4 h-4 mr-2" />
-                  {cropMode ? 'Применить' : 'Использовать'}
+                  {cropMode ? "Применить" : "Использовать"}
                 </Button>
               </>
             )}

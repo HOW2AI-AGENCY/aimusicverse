@@ -2,9 +2,9 @@
  * ProducerResultCard - Display professional producer review
  */
 
-import { motion } from '@/lib/motion';
-import { 
-  Headphones, 
+import { motion } from "@/lib/motion";
+import {
+  Headphones,
   Target,
   Mic2,
   Music2,
@@ -16,14 +16,14 @@ import {
   Star,
   ThumbsUp,
   ThumbsDown,
-  FileText
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { ProducerReviewData, QuickAction } from '../types';
-import { useState } from 'react';
-import { toast } from 'sonner';
+  FileText,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { ProducerReviewData, QuickAction } from "../types";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface ProducerResultCardProps {
   review: ProducerReviewData;
@@ -34,30 +34,30 @@ interface ProducerResultCardProps {
 }
 
 function getScoreLabel(score: number) {
-  if (score >= 85) return { label: 'Hit potential', color: 'text-green-500', emoji: '🔥' };
-  if (score >= 70) return { label: 'High', color: 'text-green-400', emoji: '⭐' };
-  if (score >= 50) return { label: 'Medium', color: 'text-amber-500', emoji: '📈' };
-  return { label: 'Needs work', color: 'text-red-500', emoji: '📉' };
+  if (score >= 85) return { label: "Hit potential", color: "text-green-500", emoji: "🔥" };
+  if (score >= 70) return { label: "High", color: "text-green-400", emoji: "⭐" };
+  if (score >= 50) return { label: "Medium", color: "text-amber-500", emoji: "📈" };
+  return { label: "Needs work", color: "text-red-500", emoji: "📉" };
 }
 
-export function ProducerResultCard({ 
-  review, 
+export function ProducerResultCard({
+  review,
   onQuickAction,
   onApplyStylePrompt,
   onApplyTags,
-  className 
+  className,
 }: ProducerResultCardProps) {
   const [copiedStyle, setCopiedStyle] = useState(false);
   const score = review.overallScore ?? review.commercialScore ?? 0;
   const scoreInfo = getScoreLabel(score);
-  const stylePrompt = review.stylePrompt || '';
+  const stylePrompt = review.stylePrompt || "";
   const tags = review.suggestedTags || review.genreTags || [];
 
   const handleCopyStyle = async () => {
     if (!stylePrompt) return;
     await navigator.clipboard.writeText(stylePrompt);
     setCopiedStyle(true);
-    toast.success('Style Prompt скопирован');
+    toast.success("Style Prompt скопирован");
     setTimeout(() => setCopiedStyle(false), 2000);
   };
 
@@ -77,9 +77,7 @@ export function ProducerResultCard({
           <div className="flex items-center gap-2">
             <span className="text-lg">{scoreInfo.emoji}</span>
             <div className="text-right">
-              <span className={cn("text-xl font-bold", scoreInfo.color)}>
-                {score}%
-              </span>
+              <span className={cn("text-xl font-bold", scoreInfo.color)}>{score}%</span>
               <p className="text-[10px] text-muted-foreground">{scoreInfo.label}</p>
             </div>
           </div>
@@ -98,7 +96,7 @@ export function ProducerResultCard({
       )}
 
       {/* Strengths & Weaknesses */}
-      {(review.strengths?.length || review.weaknesses?.length) ? (
+      {review.strengths?.length || review.weaknesses?.length ? (
         <div className="p-3 border-b border-border/30 grid grid-cols-2 gap-3">
           {review.strengths && review.strengths.length > 0 && (
             <div>
@@ -108,7 +106,9 @@ export function ProducerResultCard({
               </div>
               <ul className="space-y-1">
                 {review.strengths.map((s, i) => (
-                  <li key={i} className="text-xs text-muted-foreground">• {s}</li>
+                  <li key={i} className="text-xs text-muted-foreground">
+                    • {s}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -121,7 +121,9 @@ export function ProducerResultCard({
               </div>
               <ul className="space-y-1">
                 {review.weaknesses.map((w, i) => (
-                  <li key={i} className="text-xs text-muted-foreground">• {w}</li>
+                  <li key={i} className="text-xs text-muted-foreground">
+                    • {w}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -171,11 +173,15 @@ export function ProducerResultCard({
           <div className="space-y-2">
             {review.vocalMap.map((item, i) => (
               <div key={i} className="flex items-start gap-2 text-xs">
-                <Badge variant="outline" className="text-[10px] shrink-0">{item.section}</Badge>
+                <Badge variant="outline" className="text-[10px] shrink-0">
+                  {item.section}
+                </Badge>
                 <div className="flex-1">
                   <div className="flex flex-wrap gap-1 mb-0.5">
                     {item.effects.map((eff, j) => (
-                      <span key={j} className="text-cyan-400">{eff}</span>
+                      <span key={j} className="text-cyan-400">
+                        {eff}
+                      </span>
                     ))}
                   </div>
                   <p className="text-muted-foreground">{item.note}</p>
@@ -199,7 +205,9 @@ export function ProducerResultCard({
                 <span className="text-green-500 shrink-0">+ Добавить:</span>
                 <div className="flex flex-wrap gap-1">
                   {review.arrangement.add.map((item, i) => (
-                    <Badge key={i} variant="secondary" className="text-[10px] bg-green-500/10 text-green-400">{item}</Badge>
+                    <Badge key={i} variant="secondary" className="text-[10px] bg-green-500/10 text-green-400">
+                      {item}
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -209,7 +217,9 @@ export function ProducerResultCard({
                 <span className="text-amber-500 shrink-0">⚡ Динамика:</span>
                 <div className="flex flex-wrap gap-1">
                   {review.arrangement.dynamics.map((item, i) => (
-                    <Badge key={i} variant="secondary" className="text-[10px] bg-amber-500/10 text-amber-400">{item}</Badge>
+                    <Badge key={i} variant="secondary" className="text-[10px] bg-amber-500/10 text-amber-400">
+                      {item}
+                    </Badge>
                   ))}
                 </div>
               </div>
@@ -226,18 +236,9 @@ export function ProducerResultCard({
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium">Style Prompt</span>
             </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-6 text-xs"
-              onClick={handleCopyStyle}
-            >
-              {copiedStyle ? (
-                <Check className="w-3 h-3 mr-1" />
-              ) : (
-                <Copy className="w-3 h-3 mr-1" />
-              )}
-              {copiedStyle ? 'Скопировано' : 'Копировать'}
+            <Button variant="ghost" size="sm" className="h-6 text-xs" onClick={handleCopyStyle}>
+              {copiedStyle ? <Check className="w-3 h-3 mr-1" /> : <Copy className="w-3 h-3 mr-1" />}
+              {copiedStyle ? "Скопировано" : "Копировать"}
             </Button>
           </div>
           <div className="p-2.5 rounded-lg bg-primary/10 border border-primary/20">
@@ -267,16 +268,13 @@ export function ProducerResultCard({
           </div>
           <div className="flex flex-wrap gap-1.5">
             {tags.map((tag, i) => (
-              <Badge key={i} variant="secondary" className="text-xs">{tag}</Badge>
+              <Badge key={i} variant="secondary" className="text-xs">
+                {tag}
+              </Badge>
             ))}
           </div>
           {onApplyTags && (
-            <Button
-              variant="outline"
-              size="sm"
-              className="w-full mt-2 text-xs"
-              onClick={() => onApplyTags(tags)}
-            >
+            <Button variant="outline" size="sm" className="w-full mt-2 text-xs" onClick={() => onApplyTags(tags)}>
               Добавить все теги
             </Button>
           )}
@@ -293,11 +291,8 @@ export function ProducerResultCard({
           <div className="space-y-2">
             {review.recommendations.map((rec, i) => (
               <div key={i} className="flex items-start gap-2 text-xs">
-                <Badge 
-                  variant={rec.priority === 'high' ? 'destructive' : 'secondary'}
-                  className="text-[9px] shrink-0"
-                >
-                  {rec.category || (typeof rec.priority === 'number' ? `#${rec.priority}` : rec.priority)}
+                <Badge variant={rec.priority === "high" ? "destructive" : "secondary"} className="text-[9px] shrink-0">
+                  {rec.category || (typeof rec.priority === "number" ? `#${rec.priority}` : rec.priority)}
                 </Badge>
                 <span>{rec.text}</span>
               </div>

@@ -3,20 +3,14 @@
  * Dialog for adding new tracks to the studio project
  */
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus } from 'lucide-react';
-import type { TrackType } from '@/stores/useUnifiedStudioStore';
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Plus } from "lucide-react";
+import type { TrackType } from "@/stores/useUnifiedStudioStore";
 
 interface AddTrackDialogProps {
   open: boolean;
@@ -26,26 +20,26 @@ interface AddTrackDialogProps {
 
 function getDefaultTrackName(type: TrackType): string {
   const names: Record<TrackType, string> = {
-    main: 'Main Track',
-    vocal: 'Вокал',
-    instrumental: 'Инструментал',
-    stem: 'Stem',
-    sfx: 'SFX',
-    drums: 'Ударные',
-    bass: 'Бас',
-    other: 'Дорожка',
+    main: "Main Track",
+    vocal: "Вокал",
+    instrumental: "Инструментал",
+    stem: "Stem",
+    sfx: "SFX",
+    drums: "Ударные",
+    bass: "Бас",
+    other: "Дорожка",
   };
   return names[type];
 }
 
 export function AddTrackDialog({ open, onOpenChange, onAdd }: AddTrackDialogProps) {
-  const [type, setType] = useState<TrackType>('instrumental');
-  const [name, setName] = useState('');
+  const [type, setType] = useState<TrackType>("instrumental");
+  const [name, setName] = useState("");
 
   useEffect(() => {
     if (open) {
-      setName('');
-      setType('instrumental');
+      setName("");
+      setType("instrumental");
     }
   }, [open]);
 
@@ -81,11 +75,7 @@ export function AddTrackDialog({ open, onOpenChange, onAdd }: AddTrackDialogProp
 
           <div className="space-y-2">
             <Label>Название</Label>
-            <Input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder={getDefaultTrackName(type)}
-            />
+            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={getDefaultTrackName(type)} />
           </div>
 
           <DialogFooter>

@@ -1,7 +1,7 @@
 /**
  * CollapsibleSection - Collapsible content section with animation
  * Feature: 032-professional-ui
- * 
+ *
  * Features:
  * - Smooth expand/collapse animation
  * - Persists state to localStorage
@@ -10,12 +10,12 @@
  * - Design system glass tokens
  */
 
-import { memo, useState, useCallback, useEffect, useId } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { ChevronDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { glass } from '@/lib/glass';
+import { memo, useState, useCallback, useEffect, useId } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { glass } from "@/lib/glass";
 
 interface CollapsibleSectionProps {
   /** Unique key for localStorage persistence */
@@ -56,10 +56,10 @@ export const CollapsibleSection = memo(function CollapsibleSection({
 
   // Load persisted state
   const [isCollapsed, setIsCollapsed] = useState(() => {
-    if (persistState && typeof window !== 'undefined') {
+    if (persistState && typeof window !== "undefined") {
       const stored = localStorage.getItem(`section-collapsed-${storageKey}`);
       if (stored !== null) {
-        return stored === 'true';
+        return stored === "true";
       }
     }
     return defaultCollapsed;
@@ -67,14 +67,14 @@ export const CollapsibleSection = memo(function CollapsibleSection({
 
   // Persist state changes
   useEffect(() => {
-    if (persistState && typeof window !== 'undefined') {
+    if (persistState && typeof window !== "undefined") {
       localStorage.setItem(`section-collapsed-${storageKey}`, String(isCollapsed));
     }
   }, [isCollapsed, storageKey, persistState]);
 
   const handleToggle = useCallback(() => {
-    hapticFeedback('light');
-    setIsCollapsed(prev => {
+    hapticFeedback("light");
+    setIsCollapsed((prev) => {
       const newState = !prev;
       onCollapsedChange?.(newState);
       return newState;
@@ -82,11 +82,7 @@ export const CollapsibleSection = memo(function CollapsibleSection({
   }, [hapticFeedback, onCollapsedChange]);
 
   return (
-    <motion.section
-      className={cn("space-y-2", className)}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <motion.section className={cn("space-y-2", className)} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {/* Header button */}
       <motion.button
         id={buttonId}
@@ -94,7 +90,7 @@ export const CollapsibleSection = memo(function CollapsibleSection({
         className={cn(
           "w-full flex items-center justify-between gap-2 p-2 rounded-lg",
           "hover:bg-muted/50 active:bg-muted transition-colors duration-200",
-          "touch-manipulation select-none"
+          "touch-manipulation select-none",
         )}
         aria-expanded={!isCollapsed}
         aria-controls={contentId}
@@ -102,11 +98,13 @@ export const CollapsibleSection = memo(function CollapsibleSection({
       >
         <div className="flex items-center gap-2 min-w-0">
           {icon && (
-            <div className={cn(
-              "flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center",
-              "bg-gradient-to-br from-primary/20 to-primary/5",
-              glass.subtle
-            )}>
+            <div
+              className={cn(
+                "flex-shrink-0 w-6 h-6 rounded-md flex items-center justify-center",
+                "bg-gradient-to-br from-primary/20 to-primary/5",
+                glass.subtle,
+              )}
+            >
               {icon}
             </div>
           )}
@@ -135,27 +133,25 @@ export const CollapsibleSection = memo(function CollapsibleSection({
             role="region"
             aria-labelledby={buttonId}
             initial={{ height: 0, opacity: 0 }}
-            animate={{ 
-              height: 'auto', 
+            animate={{
+              height: "auto",
               opacity: 1,
               transition: {
                 height: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-                opacity: { duration: 0.2, delay: 0.1 }
-              }
+                opacity: { duration: 0.2, delay: 0.1 },
+              },
             }}
-            exit={{ 
-              height: 0, 
+            exit={{
+              height: 0,
               opacity: 0,
               transition: {
                 height: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
-                opacity: { duration: 0.1 }
-              }
+                opacity: { duration: 0.1 },
+              },
             }}
             className="overflow-hidden"
           >
-            <div className="pt-1">
-              {children}
-            </div>
+            <div className="pt-1">{children}</div>
           </motion.div>
         )}
       </AnimatePresence>

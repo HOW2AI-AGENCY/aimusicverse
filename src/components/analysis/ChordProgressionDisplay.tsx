@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { chordColors, getChordColor as getDesignChordColor } from '@/lib/design-colors';
+import { useMemo } from "react";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { chordColors, getChordColor as getDesignChordColor } from "@/lib/design-colors";
 
 interface ChordData {
   chord: string;
@@ -30,23 +30,19 @@ export function ChordProgressionDisplay({
   showTimeline = true,
 }: ChordProgressionDisplayProps) {
   const uniqueChords = useMemo(() => {
-    return [...new Set(chords.map(c => c.chord))];
+    return [...new Set(chords.map((c) => c.chord))];
   }, [chords]);
 
   const progressionString = useMemo(() => {
-    return uniqueChords.join(' - ');
+    return uniqueChords.join(" - ");
   }, [uniqueChords]);
 
   const currentChord = useMemo(() => {
-    return chords.find(c => c.startTime <= currentTime && c.endTime > currentTime);
+    return chords.find((c) => c.startTime <= currentTime && c.endTime > currentTime);
   }, [chords, currentTime]);
 
   if (chords.length === 0) {
-    return (
-      <div className={cn("text-muted-foreground text-sm", className)}>
-        Аккорды не обнаружены
-      </div>
-    );
+    return <div className={cn("text-muted-foreground text-sm", className)}>Аккорды не обнаружены</div>;
   }
 
   return (
@@ -62,7 +58,7 @@ export function ChordProgressionDisplay({
               className={cn(
                 "text-sm font-mono transition-all",
                 getChordColor(chord),
-                currentChord?.chord === chord && "ring-2 ring-primary scale-110"
+                currentChord?.chord === chord && "ring-2 ring-primary scale-110",
               )}
             >
               {chord}
@@ -77,7 +73,7 @@ export function ChordProgressionDisplay({
           {chords.map((chord, i) => {
             const isActive = chord.startTime <= currentTime && chord.endTime > currentTime;
             const isPast = chord.endTime < currentTime;
-            
+
             return (
               <div
                 key={i}
@@ -86,26 +82,23 @@ export function ChordProgressionDisplay({
                   "border-r border-border/50 transition-all",
                   getChordColor(chord.chord),
                   isPast && "opacity-50",
-                  isActive && "ring-1 ring-inset ring-primary"
+                  isActive && "ring-1 ring-inset ring-primary",
                 )}
                 style={{
                   left: `${(chord.startTime / duration) * 100}%`,
                   width: `${((chord.endTime - chord.startTime) / duration) * 100}%`,
                 }}
               >
-                <span className={cn(
-                  "text-xs font-mono font-semibold truncate px-1",
-                  isActive && "text-primary"
-                )}>
+                <span className={cn("text-xs font-mono font-semibold truncate px-1", isActive && "text-primary")}>
                   {chord.chord}
                 </span>
               </div>
             );
           })}
-          
+
           {/* Playhead */}
           {currentTime > 0 && (
-            <div 
+            <div
               className="absolute top-0 bottom-0 w-0.5 bg-primary z-10"
               style={{ left: `${(currentTime / duration) * 100}%` }}
             />
@@ -117,21 +110,14 @@ export function ChordProgressionDisplay({
       {currentChord && (
         <div className="flex items-center gap-2">
           <span className="text-xs text-muted-foreground">Сейчас:</span>
-          <Badge 
-            className={cn(
-              "text-lg font-mono font-bold animate-pulse",
-              getChordColor(currentChord.chord)
-            )}
-          >
+          <Badge className={cn("text-lg font-mono font-bold animate-pulse", getChordColor(currentChord.chord))}>
             {currentChord.chord}
           </Badge>
         </div>
       )}
 
       {/* Progression text */}
-      <p className="text-xs text-muted-foreground font-mono">
-        {progressionString}
-      </p>
+      <p className="text-xs text-muted-foreground font-mono">{progressionString}</p>
     </div>
   );
 }

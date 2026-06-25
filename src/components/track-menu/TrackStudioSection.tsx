@@ -1,8 +1,8 @@
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Layers, Music2, AlertCircle } from 'lucide-react';
-import { Track } from '@/types/track';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Layers, Music2, AlertCircle } from "lucide-react";
+import { Track } from "@/types/track";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 interface TrackStudioSectionProps {
   track: Track;
@@ -15,8 +15,8 @@ export function TrackStudioSection({ track, stemCount }: TrackStudioSectionProps
   const handleOpenInStudio = () => {
     // Only allow studio for generated tracks with audio
     if (!track.audio_url) {
-      toast.error('Трек ещё не сгенерирован', {
-        description: 'Дождитесь завершения генерации'
+      toast.error("Трек ещё не сгенерирован", {
+        description: "Дождитесь завершения генерации",
       });
       return;
     }

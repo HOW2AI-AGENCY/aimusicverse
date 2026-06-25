@@ -1,21 +1,21 @@
 /**
  * Compact Studio Lyrics Panel
- * 
+ *
  * Optimized for mobile - collapsed by default, minimal height
  * Shows only 2 lines at a time with current line highlighted
  * Supports expand/collapse with custom scrollbar
  */
 
-import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Music2, ChevronDown, ChevronUp, Scissors, Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useTimestampedLyrics, AlignedWord } from '@/hooks/useTimestampedLyrics';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { SYNC_CONSTANTS } from '@/hooks/lyrics/useLyricsSynchronization';
-import '@/styles/lyrics-sync.css';
+import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Music2, ChevronDown, ChevronUp, Scissors, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTimestampedLyrics, AlignedWord } from "@/hooks/useTimestampedLyrics";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { SYNC_CONSTANTS } from "@/hooks/lyrics/useLyricsSynchronization";
+import "@/styles/lyrics-sync.css";
 
 interface StudioLyricsPanelCompactProps {
   taskId: string | null;
@@ -38,64 +38,75 @@ interface LyricLine {
 }
 
 // Section tag types for styling
-type SectionTagType = 'verse' | 'chorus' | 'bridge' | 'intro' | 'outro' | 'pre-chorus' | 'hook' | 'instrumental' | 'unknown';
+type SectionTagType =
+  | "verse"
+  | "chorus"
+  | "bridge"
+  | "intro"
+  | "outro"
+  | "pre-chorus"
+  | "hook"
+  | "instrumental"
+  | "unknown";
 
 const SECTION_TAG_COLORS: Record<SectionTagType, string> = {
-  'verse': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  'chorus': 'bg-purple-500/20 text-purple-400 border-purple-500/30',
-  'bridge': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-  'intro': 'bg-green-500/20 text-green-400 border-green-500/30',
-  'outro': 'bg-rose-500/20 text-rose-400 border-rose-500/30',
-  'pre-chorus': 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30',
-  'hook': 'bg-pink-500/20 text-pink-400 border-pink-500/30',
-  'instrumental': 'bg-orange-500/20 text-orange-400 border-orange-500/30',
-  'unknown': 'bg-muted/30 text-muted-foreground border-border',
+  verse: "bg-blue-500/20 text-blue-400 border-blue-500/30",
+  chorus: "bg-purple-500/20 text-purple-400 border-purple-500/30",
+  bridge: "bg-amber-500/20 text-amber-400 border-amber-500/30",
+  intro: "bg-green-500/20 text-green-400 border-green-500/30",
+  outro: "bg-rose-500/20 text-rose-400 border-rose-500/30",
+  "pre-chorus": "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
+  hook: "bg-pink-500/20 text-pink-400 border-pink-500/30",
+  instrumental: "bg-orange-500/20 text-orange-400 border-orange-500/30",
+  unknown: "bg-muted/30 text-muted-foreground border-border",
 };
 
 // Normalize tag to standard type
 function normalizeTag(tag: string): string {
   const lower = tag.toLowerCase();
-  if (lower === 'куплет') return 'verse';
-  if (lower === 'припев') return 'chorus';
-  if (lower === 'бридж') return 'bridge';
-  if (lower === 'интро') return 'intro';
-  if (lower === 'аутро') return 'outro';
-  if (lower.includes('пре') || lower.includes('pre')) return 'pre-chorus';
-  if (lower === 'хук') return 'hook';
-  if (lower === 'инструментал') return 'instrumental';
+  if (lower === "куплет") return "verse";
+  if (lower === "припев") return "chorus";
+  if (lower === "бридж") return "bridge";
+  if (lower === "интро") return "intro";
+  if (lower === "аутро") return "outro";
+  if (lower.includes("пре") || lower.includes("pre")) return "pre-chorus";
+  if (lower === "хук") return "hook";
+  if (lower === "инструментал") return "instrumental";
   return lower;
 }
 
 // Extract section tag type from text - handles both exact match and prefix match
 function extractSectionTag(text: string): string | null {
   const trimmed = text.trim();
-  
+
   // Pattern for section tags (captures the tag name)
-  const tagPattern = /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/i;
-  
+  const tagPattern =
+    /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/i;
+
   // 1. Exact match - whole text is just a tag
-  const exactMatch = trimmed.match(new RegExp(`^${tagPattern.source}$`, 'i'));
+  const exactMatch = trimmed.match(new RegExp(`^${tagPattern.source}$`, "i"));
   if (exactMatch) {
     return normalizeTag(exactMatch[1]);
   }
-  
+
   // 2. Prefix match - tag at the beginning (possibly with text after)
-  const prefixMatch = trimmed.match(new RegExp(`^${tagPattern.source}`, 'i'));
+  const prefixMatch = trimmed.match(new RegExp(`^${tagPattern.source}`, "i"));
   if (prefixMatch) {
     return normalizeTag(prefixMatch[1]);
   }
-  
+
   return null;
 }
 
 // Extract tag and remainder from text
 function extractSectionTagWithRemainder(text: string): { tag: string; type: string; remainder: string } | null {
   const trimmed = text.trim();
-  const tagPattern = /^([\[\(](?:verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)])\s*/i;
-  
+  const tagPattern =
+    /^([\[\(](?:verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)])\s*/i;
+
   const match = trimmed.match(tagPattern);
   if (match) {
-    const tagText = match[1].replace(/[\[\]\(\)]/g, '').trim();
+    const tagText = match[1].replace(/[\[\]\(\)]/g, "").trim();
     return {
       tag: match[1],
       type: normalizeTag(tagText),
@@ -108,19 +119,38 @@ function extractSectionTagWithRemainder(text: string): { tag: string; type: stri
 // Clean lyrics text from tags (but keep backing vocals)
 function cleanLyricsText(text: string): string {
   return text
-    .replace(/[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/gi, '')
+    .replace(
+      /[\[\(](verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал)(?:\s*\d+)?[\]\)]/gi,
+      "",
+    )
     .trim();
 }
 
 // Check if text in parentheses is a backing vocal (not a section tag)
 function isBackingVocal(text: string): boolean {
-  const content = text.replace(/[\(\)]/g, '').toLowerCase().trim();
+  const content = text
+    .replace(/[\(\)]/g, "")
+    .toLowerCase()
+    .trim();
   const structureTags = [
-    'verse', 'chorus', 'bridge', 'intro', 'outro', 'pre-chorus', 'hook',
-    'куплет', 'припев', 'бридж', 'интро', 'аутро', 'пре-припев', 'хук',
-    'instrumental', 'инструментал'
+    "verse",
+    "chorus",
+    "bridge",
+    "intro",
+    "outro",
+    "pre-chorus",
+    "hook",
+    "куплет",
+    "припев",
+    "бридж",
+    "интро",
+    "аутро",
+    "пре-припев",
+    "хук",
+    "instrumental",
+    "инструментал",
   ];
-  return !structureTags.some(tag => content.includes(tag));
+  return !structureTags.some((tag) => content.includes(tag));
 }
 
 // Extract backing vocal from word
@@ -145,13 +175,13 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
 
   const finishLine = () => {
     if (currentLineWords.length === 0) return;
-    
+
     const lineText = currentLineWords
-      .map(w => w.word.replace(/\n/g, '').trim())
+      .map((w) => w.word.replace(/\n/g, "").trim())
       .filter(Boolean)
-      .join(' ')
+      .join(" ")
       .trim();
-    
+
     if (lineText) {
       lines.push({
         words: [...currentLineWords],
@@ -167,50 +197,59 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
   for (let i = 0; i < words.length; i++) {
     const word = words[i];
     const wordText = word.word.trim();
-    
+
     // Check for tag with possible remainder text
     const tagResult = extractSectionTagWithRemainder(wordText);
     if (tagResult) {
       // Finish current line
       finishLine();
-      
+
       // Add section tag as its own line
       lines.push({
         words: [{ ...word, word: tagResult.tag }],
         startTime: word.startS,
         endTime: word.endS,
-        text: '',
+        text: "",
         sectionTag: tagResult.type,
       });
       currentSectionTag = tagResult.type;
-      
+
       // If there's remaining text after the tag, add it as a new word
       if (tagResult.remainder) {
         currentLineWords.push({ ...word, word: tagResult.remainder });
       }
       continue;
     }
-    
+
     // Check if this is just a section tag (no remainder)
     const tagMatch = extractSectionTag(wordText);
-    if (tagMatch && !wordText.replace(/[\[\]\(\)]/g, '').replace(/verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал|\d+/gi, '').trim()) {
+    if (
+      tagMatch &&
+      !wordText
+        .replace(/[\[\]\(\)]/g, "")
+        .replace(
+          /verse|chorus|bridge|intro|outro|pre-?chorus|hook|куплет|припев|бридж|интро|аутро|пре-?припев|хук|instrumental|инструментал|\d+/gi,
+          "",
+        )
+        .trim()
+    ) {
       finishLine();
-      
+
       lines.push({
         words: [word],
         startTime: word.startS,
         endTime: word.endS,
-        text: '',
+        text: "",
         sectionTag: tagMatch,
       });
       currentSectionTag = tagMatch;
       continue;
     }
-    
+
     currentLineWords.push(word);
 
     const nextWord = words[i + 1];
-    const hasNewline = word.word.includes('\n');
+    const hasNewline = word.word.includes("\n");
     const hasTimeGap = nextWord ? nextWord.startS - word.endS > 0.5 : true;
     const isLongLine = currentLineWords.length >= 10;
 
@@ -227,25 +266,24 @@ function groupWordsIntoLines(words: AlignedWord[]): LyricLine[] {
 
 // Section tag badge component
 function SectionTagBadge({ type }: { type: string }) {
-  const normalizedType = (type.toLowerCase() as SectionTagType) || 'unknown';
+  const normalizedType = (type.toLowerCase() as SectionTagType) || "unknown";
   const colors = SECTION_TAG_COLORS[normalizedType] || SECTION_TAG_COLORS.unknown;
-  
+
   const labels: Record<string, string> = {
-    'verse': 'Куплет',
-    'chorus': 'Припев',
-    'bridge': 'Бридж',
-    'intro': 'Интро',
-    'outro': 'Аутро',
-    'pre-chorus': 'Пре-припев',
-    'hook': 'Хук',
-    'instrumental': 'Инструментал',
+    verse: "Куплет",
+    chorus: "Припев",
+    bridge: "Бридж",
+    intro: "Интро",
+    outro: "Аутро",
+    "pre-chorus": "Пре-припев",
+    hook: "Хук",
+    instrumental: "Инструментал",
   };
-  
+
   return (
-    <span className={cn(
-      'inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono uppercase border',
-      colors
-    )}>
+    <span
+      className={cn("inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono uppercase border", colors)}
+    >
       {labels[normalizedType] || type}
     </span>
   );
@@ -273,16 +311,16 @@ export function StudioLyricsPanelCompact({
     if (!lyricsData?.alignedWords?.length) return [];
     return groupWordsIntoLines(lyricsData.alignedWords);
   }, [lyricsData]);
-  
+
   // Filter out section tag lines for display count
-  const contentLines = useMemo(() => lines.filter(l => !l.sectionTag || l.text), [lines]);
+  const contentLines = useMemo(() => lines.filter((l) => !l.sectionTag || l.text), [lines]);
 
   // Find active line based on current time
   useEffect(() => {
     if (!contentLines.length) return;
 
     const activeIdx = contentLines.findIndex(
-      line => currentTime >= line.startTime && currentTime <= line.endTime + 0.5
+      (line) => currentTime >= line.startTime && currentTime <= line.endTime + 0.5,
     );
 
     if (activeIdx !== -1 && activeIdx !== activeLineIndex) {
@@ -295,9 +333,9 @@ export function StudioLyricsPanelCompact({
     // Find the active line index in the full lines array
     const activeContentLine = contentLines[activeLineIndex];
     if (!activeContentLine) return null;
-    
-    const activeLineIdx = lines.findIndex(l => l === activeContentLine);
-    
+
+    const activeLineIdx = lines.findIndex((l) => l === activeContentLine);
+
     // Search backwards from current line for nearest section tag
     for (let i = activeLineIdx; i >= 0; i--) {
       if (lines[i]?.sectionTag) {
@@ -311,17 +349,20 @@ export function StudioLyricsPanelCompact({
   useEffect(() => {
     if (isExpanded && activeLineRef.current) {
       activeLineRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
+        behavior: "smooth",
+        block: "center",
       });
     }
   }, [activeLineIndex, isExpanded]);
 
-  const handleLineClick = useCallback((line: LyricLine) => {
-    if (onSeek && line.startTime > 0) {
-      onSeek(line.startTime);
-    }
-  }, [onSeek]);
+  const handleLineClick = useCallback(
+    (line: LyricLine) => {
+      if (onSeek && line.startTime > 0) {
+        onSeek(line.startTime);
+      }
+    },
+    [onSeek],
+  );
 
   // Get current and next line for compact view
   const currentLine = contentLines[activeLineIndex];
@@ -347,18 +388,16 @@ export function StudioLyricsPanelCompact({
   // No timestamped lyrics - show plain text preview (cleaned from tags)
   if (!lines.length && plainLyrics) {
     const cleanedLyrics = cleanLyricsText(plainLyrics);
-    const firstLine = cleanedLyrics.split('\n').find(l => l.trim()) || '';
-    
+    const firstLine = cleanedLyrics.split("\n").find((l) => l.trim()) || "";
+
     return (
       <div className="px-4 py-2 border-b border-border/30">
-        <button 
+        <button
           onClick={() => setIsExpanded(!isExpanded)}
           className="flex items-center gap-2 text-xs text-muted-foreground w-full"
         >
           <Music2 className="w-3.5 h-3.5" />
-          <span className="truncate flex-1 text-left">
-            {firstLine}...
-          </span>
+          <span className="truncate flex-1 text-left">{firstLine}...</span>
           {isExpanded ? (
             <ChevronUp className="w-3.5 h-3.5 shrink-0" />
           ) : (
@@ -369,14 +408,12 @@ export function StudioLyricsPanelCompact({
           {isExpanded && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
+              animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden mt-2"
             >
               <ScrollArea className="max-h-[200px]">
-                <p className="text-xs text-muted-foreground whitespace-pre-wrap pr-4">
-                  {cleanedLyrics}
-                </p>
+                <p className="text-xs text-muted-foreground whitespace-pre-wrap pr-4">{cleanedLyrics}</p>
               </ScrollArea>
             </motion.div>
           )}
@@ -386,35 +423,21 @@ export function StudioLyricsPanelCompact({
   }
 
   return (
-    <div className={cn(
-      'px-4 py-2 border-b border-border/30 transition-colors',
-      selectionMode && 'bg-amber-500/5'
-    )}>
+    <div className={cn("px-4 py-2 border-b border-border/30 transition-colors", selectionMode && "bg-amber-500/5")}>
       {/* Header with expand/collapse */}
       <div className="flex items-center justify-between mb-1">
         <div className="flex items-center gap-2">
           <Music2 className="w-3.5 h-3.5 text-primary" />
           <span className="text-xs font-medium text-muted-foreground">Текст песни</span>
           {/* Show current section in collapsed mode */}
-          {!isExpanded && currentSectionTag && (
-            <SectionTagBadge type={currentSectionTag} />
-          )}
+          {!isExpanded && currentSectionTag && <SectionTagBadge type={currentSectionTag} />}
         </div>
         <div className="flex items-center gap-2">
           <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4">
             {activeLineIndex + 1}/{contentLines.length}
           </Badge>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="h-6 w-6 p-0 shrink-0"
-          >
-            {isExpanded ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+          <Button variant="ghost" size="sm" onClick={() => setIsExpanded(!isExpanded)} className="h-6 w-6 p-0 shrink-0">
+            {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </div>
       </div>
@@ -428,64 +451,62 @@ export function StudioLyricsPanelCompact({
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0 }}
               onClick={() => handleLineClick(currentLine)}
-              className={cn(
-                'text-sm py-1 px-2 rounded-lg cursor-pointer',
-                'bg-primary/10 font-medium'
-              )}
+              className={cn("text-sm py-1 px-2 rounded-lg cursor-pointer", "bg-primary/10 font-medium")}
             >
-              {currentLine.sectionTag && !currentLine.text && (
-                <SectionTagBadge type={currentLine.sectionTag} />
-              )}
-              {currentLine.text && currentLine.words.map((word, wordIdx) => {
-                const adjustedTime = currentTime + SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS / 1000;
-                const endTolerance = SYNC_CONSTANTS.WORD_END_TOLERANCE_MS / 1000;
-                const isWordActive = isPlaying && 
-                  adjustedTime >= word.startS && 
-                  adjustedTime <= word.endS + endTolerance;
-                
-                const cleanWord = word.word.replace('\n', '').trim();
-                if (!cleanWord || extractSectionTag(cleanWord)) return null;
+              {currentLine.sectionTag && !currentLine.text && <SectionTagBadge type={currentLine.sectionTag} />}
+              {currentLine.text &&
+                currentLine.words.map((word, wordIdx) => {
+                  const adjustedTime = currentTime + SYNC_CONSTANTS.WORD_LOOK_AHEAD_MS / 1000;
+                  const endTolerance = SYNC_CONSTANTS.WORD_END_TOLERANCE_MS / 1000;
+                  const isWordActive =
+                    isPlaying && adjustedTime >= word.startS && adjustedTime <= word.endS + endTolerance;
 
-                // Check for backing vocals (text in parentheses)
-                const backingVocal = extractBackingVocal(cleanWord);
+                  const cleanWord = word.word.replace("\n", "").trim();
+                  if (!cleanWord || extractSectionTag(cleanWord)) return null;
 
-                if (backingVocal) {
-                  return (
-                    <span key={wordIdx} className="inline">
-                      {backingVocal.remainder && (
-                        <span className={cn(
-                          'transition-all duration-150',
-                          isWordActive && 'text-primary font-bold bg-gradient-to-r from-primary/20 to-transparent px-0.5 rounded'
-                        )}>
-                          {backingVocal.remainder}{' '}
+                  // Check for backing vocals (text in parentheses)
+                  const backingVocal = extractBackingVocal(cleanWord);
+
+                  if (backingVocal) {
+                    return (
+                      <span key={wordIdx} className="inline">
+                        {backingVocal.remainder && (
+                          <span
+                            className={cn(
+                              "transition-all duration-150",
+                              isWordActive &&
+                                "text-primary font-bold bg-gradient-to-r from-primary/20 to-transparent px-0.5 rounded",
+                            )}
+                          >
+                            {backingVocal.remainder}{" "}
+                          </span>
+                        )}
+                        <span className="text-muted-foreground italic text-[0.85em] opacity-75">
+                          ({backingVocal.backing}){" "}
                         </span>
-                      )}
-                      <span className="text-muted-foreground italic text-[0.85em] opacity-75">
-                        ({backingVocal.backing}){' '}
                       </span>
+                    );
+                  }
+
+                  return (
+                    <span
+                      key={wordIdx}
+                      className={cn(
+                        "inline transition-all duration-150",
+                        isWordActive && [
+                          "text-primary font-bold",
+                          "bg-gradient-to-r from-primary/20 to-transparent",
+                          "px-0.5 rounded",
+                        ],
+                      )}
+                    >
+                      {cleanWord}{" "}
                     </span>
                   );
-                }
-
-                return (
-                  <span
-                    key={wordIdx}
-                    className={cn(
-                      'inline transition-all duration-150',
-                      isWordActive && [
-                        'text-primary font-bold',
-                        'bg-gradient-to-r from-primary/20 to-transparent',
-                        'px-0.5 rounded'
-                      ]
-                    )}
-                  >
-                    {cleanWord}{' '}
-                  </span>
-                );
-              })}
+                })}
             </motion.div>
           )}
-          
+
           {nextLine && nextLine.text && (
             <motion.div
               key={nextLine.startTime}
@@ -505,7 +526,7 @@ export function StudioLyricsPanelCompact({
         {isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
@@ -514,7 +535,7 @@ export function StudioLyricsPanelCompact({
               <div className="space-y-1 pr-4">
                 {lines.map((line, idx) => {
                   const isTagLine = line.sectionTag && !line.text;
-                  const contentIdx = contentLines.findIndex(l => l.startTime === line.startTime);
+                  const contentIdx = contentLines.findIndex((l) => l.startTime === line.startTime);
                   const isActive = contentIdx === activeLineIndex;
                   const isPast = line.endTime < currentTime;
 
@@ -524,18 +545,14 @@ export function StudioLyricsPanelCompact({
                       ref={isActive ? activeLineRef : null}
                       onClick={() => handleLineClick(line)}
                       className={cn(
-                        'py-1.5 px-2 rounded-lg cursor-pointer text-xs transition-all',
-                        isTagLine && 'py-2',
-                        isActive && 'bg-primary/10 font-medium',
-                        !isActive && isPast && 'opacity-40',
-                        !isActive && !isPast && 'opacity-60 hover:opacity-80'
+                        "py-1.5 px-2 rounded-lg cursor-pointer text-xs transition-all",
+                        isTagLine && "py-2",
+                        isActive && "bg-primary/10 font-medium",
+                        !isActive && isPast && "opacity-40",
+                        !isActive && !isPast && "opacity-60 hover:opacity-80",
                       )}
                     >
-                      {isTagLine ? (
-                        <SectionTagBadge type={line.sectionTag!} />
-                      ) : (
-                        <span>{line.text}</span>
-                      )}
+                      {isTagLine ? <SectionTagBadge type={line.sectionTag!} /> : <span>{line.text}</span>}
                     </div>
                   );
                 })}

@@ -3,22 +3,22 @@
  * Mobile-optimized with larger touch targets and better UX
  */
 
-import { useState, useCallback, useEffect } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Cloud, 
-  Music, 
-  Mic, 
-  Drum, 
-  Radio, 
-  Guitar, 
-  Play, 
+import { useState, useCallback, useEffect } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Cloud,
+  Music,
+  Mic,
+  Drum,
+  Radio,
+  Guitar,
+  Play,
   Pause,
   X,
   Check,
@@ -29,16 +29,16 @@ import {
   FileAudio,
   Trash2,
   Upload,
-} from 'lucide-react';
-import { EmptyState } from '@/components/common/EmptyState';
-import { useAudioReference } from '@/hooks/useAudioReference';
-import { useReferenceAudio, ReferenceAudio } from '@/hooks/useReferenceAudio';
-import { useReferenceAudioPlayer } from '@/hooks/audio/useReferenceAudioPlayer';
-import { ReferenceMode } from '@/services/audio-reference';
-import { ReferenceAnalysisDisplay } from './ReferenceAnalysisDisplay';
-import { cn } from '@/lib/utils';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState";
+import { useAudioReference } from "@/hooks/useAudioReference";
+import { useReferenceAudio, ReferenceAudio } from "@/hooks/useReferenceAudio";
+import { useReferenceAudioPlayer } from "@/hooks/audio/useReferenceAudioPlayer";
+import { ReferenceMode } from "@/services/audio-reference";
+import { ReferenceAnalysisDisplay } from "./ReferenceAnalysisDisplay";
+import { cn } from "@/lib/utils";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
+import { toast } from "sonner";
 
 interface ReferenceDrawerProps {
   open: boolean;
@@ -69,14 +69,14 @@ function ReferenceItemSkeleton() {
   );
 }
 
-function ReferenceItem({ 
-  audio, 
-  isPlaying, 
-  onPlay, 
-  onSelect, 
-  onDelete 
-}: { 
-  audio: ReferenceAudio; 
+function ReferenceItem({
+  audio,
+  isPlaying,
+  onPlay,
+  onSelect,
+  onDelete,
+}: {
+  audio: ReferenceAudio;
   isPlaying: boolean;
   onPlay: () => void;
   onSelect: (mode: ReferenceMode) => void;
@@ -84,35 +84,55 @@ function ReferenceItem({
 }) {
   const getSourceIcon = (source: string) => {
     switch (source) {
-      case 'upload': return <Music className="h-4 w-4" />;
-      case 'record': return <Mic className="h-4 w-4" />;
-      case 'telegram': return <Cloud className="h-4 w-4" />;
-      case 'drums': return <Drum className="h-4 w-4" />;
-      case 'dj': return <Radio className="h-4 w-4" />;
-      case 'guitar': return <Guitar className="h-4 w-4" />;
-      case 'stem': return <Sparkles className="h-4 w-4" />;
-      default: return <FileAudio className="h-4 w-4" />;
+      case "upload":
+        return <Music className="h-4 w-4" />;
+      case "record":
+        return <Mic className="h-4 w-4" />;
+      case "telegram":
+        return <Cloud className="h-4 w-4" />;
+      case "drums":
+        return <Drum className="h-4 w-4" />;
+      case "dj":
+        return <Radio className="h-4 w-4" />;
+      case "guitar":
+        return <Guitar className="h-4 w-4" />;
+      case "stem":
+        return <Sparkles className="h-4 w-4" />;
+      default:
+        return <FileAudio className="h-4 w-4" />;
     }
   };
 
   const getAnalysisStatusBadge = (status: string | null) => {
     switch (status) {
-      case 'completed':
-        return <Badge variant="secondary" className="text-xs gap-1 bg-green-500/20 text-green-700 dark:text-green-400"><Check className="h-3 w-3" />Анализ</Badge>;
-      case 'processing':
-        return <Badge variant="outline" className="text-xs gap-1"><Loader2 className="h-3 w-3 animate-spin" />Анализ...</Badge>;
-      case 'pending':
-        return <Badge variant="outline" className="text-xs gap-1"><Clock className="h-3 w-3" />Ожидает</Badge>;
+      case "completed":
+        return (
+          <Badge variant="secondary" className="text-xs gap-1 bg-green-500/20 text-green-700 dark:text-green-400">
+            <Check className="h-3 w-3" />
+            Анализ
+          </Badge>
+        );
+      case "processing":
+        return (
+          <Badge variant="outline" className="text-xs gap-1">
+            <Loader2 className="h-3 w-3 animate-spin" />
+            Анализ...
+          </Badge>
+        );
+      case "pending":
+        return (
+          <Badge variant="outline" className="text-xs gap-1">
+            <Clock className="h-3 w-3" />
+            Ожидает
+          </Badge>
+        );
       default:
         return null;
     }
   };
 
   return (
-    <div className={cn(
-      "p-3 rounded-xl border bg-card transition-all",
-      "hover:border-primary/30 active:scale-[0.99]"
-    )}>
+    <div className={cn("p-3 rounded-xl border bg-card transition-all", "hover:border-primary/30 active:scale-[0.99]")}>
       <div className="flex items-start gap-3">
         {/* Play button - 44px touch target */}
         <Button
@@ -120,13 +140,9 @@ function ReferenceItem({
           size="icon"
           className="h-11 w-11 min-h-[44px] min-w-[44px] shrink-0 rounded-full bg-primary/10 hover:bg-primary/20"
           onClick={onPlay}
-          aria-label={isPlaying ? 'Пауза' : 'Воспроизвести'}
+          aria-label={isPlaying ? "Пауза" : "Воспроизвести"}
         >
-          {isPlaying ? (
-            <Pause className="h-4 w-4" />
-          ) : (
-            <Play className="h-4 w-4 ml-0.5" />
-          )}
+          {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
         </Button>
 
         {/* Info */}
@@ -135,17 +151,15 @@ function ReferenceItem({
             {getSourceIcon(audio.source)}
             <span className="font-medium text-sm truncate">{audio.file_name}</span>
           </div>
-          
+
           <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground flex-wrap">
-            {audio.duration_seconds && (
-              <span>{Math.round(audio.duration_seconds)}с</span>
-            )}
+            {audio.duration_seconds && <span>{Math.round(audio.duration_seconds)}с</span>}
             {audio.bpm && <span>{audio.bpm} BPM</span>}
             {audio.genre && <span>{audio.genre}</span>}
             <span>
-              {formatDistanceToNow(new Date(audio.created_at), { 
-                addSuffix: true, 
-                locale: ru 
+              {formatDistanceToNow(new Date(audio.created_at), {
+                addSuffix: true,
+                locale: ru,
               })}
             </span>
           </div>
@@ -154,10 +168,14 @@ function ReferenceItem({
           <div className="flex flex-wrap gap-1 mt-2">
             {getAnalysisStatusBadge(audio.analysis_status)}
             {audio.has_vocals && (
-              <Badge variant="outline" className="text-xs">Вокал</Badge>
+              <Badge variant="outline" className="text-xs">
+                Вокал
+              </Badge>
             )}
             {audio.mood && (
-              <Badge variant="outline" className="text-xs">{audio.mood}</Badge>
+              <Badge variant="outline" className="text-xs">
+                {audio.mood}
+              </Badge>
             )}
           </div>
         </div>
@@ -176,20 +194,10 @@ function ReferenceItem({
 
       {/* Actions - touch-friendly buttons */}
       <div className="flex gap-2 mt-3">
-        <Button
-          size="sm"
-          variant="outline"
-          className="flex-1 h-10 min-h-[40px]"
-          onClick={() => onSelect('cover')}
-        >
+        <Button size="sm" variant="outline" className="flex-1 h-10 min-h-[40px]" onClick={() => onSelect("cover")}>
           Кавер
         </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          className="flex-1 h-10 min-h-[40px]"
-          onClick={() => onSelect('extend')}
-        >
+        <Button size="sm" variant="outline" className="flex-1 h-10 min-h-[40px]" onClick={() => onSelect("extend")}>
           Расширить
         </Button>
       </div>
@@ -197,24 +205,13 @@ function ReferenceItem({
   );
 }
 
-export function ReferenceDrawer({ 
-  open, 
-  onOpenChange, 
-  onSelect,
-  defaultMode,
-}: ReferenceDrawerProps) {
-  const { 
-    activeReference, 
-    recentReferences, 
-    isLoading,
-    setFromCloud,
-    clearActive,
-    analysisStatus,
-  } = useAudioReference();
+export function ReferenceDrawer({ open, onOpenChange, onSelect, defaultMode }: ReferenceDrawerProps) {
+  const { activeReference, recentReferences, isLoading, setFromCloud, clearActive, analysisStatus } =
+    useAudioReference();
 
   const { deleteAudio } = useReferenceAudio();
 
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [playingUrl, setPlayingUrl] = useState<string | null>(null);
 
@@ -232,14 +229,17 @@ export function ReferenceDrawer({
     }
   }, [open, reset]);
 
-  const handlePlay = useCallback((url: string, id: string) => {
-    if (playingId === id) {
-      togglePlay();
-    } else {
-      setPlayingUrl(url);
-      setPlayingId(id);
-    }
-  }, [playingId, togglePlay]);
+  const handlePlay = useCallback(
+    (url: string, id: string) => {
+      if (playingId === id) {
+        togglePlay();
+      } else {
+        setPlayingUrl(url);
+        setPlayingId(id);
+      }
+    },
+    [playingId, togglePlay],
+  );
 
   // Auto-play when URL changes
   useEffect(() => {
@@ -251,37 +251,45 @@ export function ReferenceDrawer({
     }
   }, [playingUrl]);
 
-  const handleSelectCloud = useCallback((audio: ReferenceAudio, mode: ReferenceMode) => {
-    setFromCloud(audio, mode);
-    onSelect?.(mode);
-    onOpenChange(false);
-  }, [setFromCloud, onSelect, onOpenChange]);
+  const handleSelectCloud = useCallback(
+    (audio: ReferenceAudio, mode: ReferenceMode) => {
+      setFromCloud(audio, mode);
+      onSelect?.(mode);
+      onOpenChange(false);
+    },
+    [setFromCloud, onSelect, onOpenChange],
+  );
 
-  const handleDelete = useCallback(async (id: string) => {
-    try {
-      await deleteAudio(id);
-      toast.success('Референс удалён');
-    } catch (error) {
-      toast.error('Не удалось удалить');
-    }
-  }, [deleteAudio]);
+  const handleDelete = useCallback(
+    async (id: string) => {
+      try {
+        await deleteAudio(id);
+        toast.success("Референс удалён");
+      } catch (error) {
+        toast.error("Не удалось удалить");
+      }
+    },
+    [deleteAudio],
+  );
 
   // Filter references by search
   const filteredReferences = searchQuery
-    ? recentReferences.filter(audio => 
-        audio.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        audio.genre?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        audio.mood?.toLowerCase().includes(searchQuery.toLowerCase())
+    ? recentReferences.filter(
+        (audio) =>
+          audio.file_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          audio.genre?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          audio.mood?.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : recentReferences;
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent 
-        side="bottom" 
+      <SheetContent
+        side="bottom"
         className="h-[90vh] flex flex-col"
         style={{
-          paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))'
+          paddingBottom:
+            "calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))",
         }}
       >
         <SheetHeader className="pb-3 shrink-0">
@@ -299,11 +307,18 @@ export function ReferenceDrawer({
             <TabsTrigger value="recent" className="min-h-[40px]">
               Недавние
               {recentReferences.length > 0 && (
-                <Badge variant="secondary" className="ml-1.5 text-xs">{recentReferences.length}</Badge>
+                <Badge variant="secondary" className="ml-1.5 text-xs">
+                  {recentReferences.length}
+                </Badge>
               )}
             </TabsTrigger>
             <TabsTrigger value="active" disabled={!activeReference} className="min-h-[40px]">
-              Активный {activeReference && <Badge variant="default" className="ml-1.5 text-xs">1</Badge>}
+              Активный{" "}
+              {activeReference && (
+                <Badge variant="default" className="ml-1.5 text-xs">
+                  1
+                </Badge>
+              )}
             </TabsTrigger>
           </TabsList>
 
@@ -330,8 +345,12 @@ export function ReferenceDrawer({
               ) : filteredReferences.length === 0 ? (
                 <EmptyState
                   icon={searchQuery ? Search : Upload}
-                  title={searchQuery ? 'Ничего не найдено' : 'Нет сохранённых референсов'}
-                  description={!searchQuery ? 'Загрузите или запишите аудио для использования как референс' : 'Попробуйте другой запрос'}
+                  title={searchQuery ? "Ничего не найдено" : "Нет сохранённых референсов"}
+                  description={
+                    !searchQuery
+                      ? "Загрузите или запишите аудио для использования как референс"
+                      : "Попробуйте другой запрос"
+                  }
                   variant="compact"
                 />
               ) : (
@@ -381,8 +400,8 @@ export function ReferenceDrawer({
                     {activeReference.intendedMode && (
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">Режим</span>
-                        <Badge variant={activeReference.intendedMode === 'cover' ? 'default' : 'secondary'}>
-                          {activeReference.intendedMode === 'cover' ? 'Кавер' : 'Расширение'}
+                        <Badge variant={activeReference.intendedMode === "cover" ? "default" : "secondary"}>
+                          {activeReference.intendedMode === "cover" ? "Кавер" : "Расширение"}
                         </Badge>
                       </div>
                     )}
@@ -396,10 +415,7 @@ export function ReferenceDrawer({
                 </div>
 
                 {/* Analysis display */}
-                <ReferenceAnalysisDisplay
-                  analysis={activeReference.analysis}
-                  status={analysisStatus}
-                />
+                <ReferenceAnalysisDisplay analysis={activeReference.analysis} status={analysisStatus} />
 
                 <Button
                   className="w-full h-12 min-h-[48px]"

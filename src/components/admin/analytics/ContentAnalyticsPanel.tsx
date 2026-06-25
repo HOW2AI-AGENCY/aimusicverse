@@ -3,16 +3,25 @@
  * Displays popular genres, moods, styles, and content trends
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { 
-  BarChart, Bar, PieChart, Pie, Cell, Treemap,
-  XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer 
-} from 'recharts';
-import { Music, Palette, Hash, TrendingUp, Mic2, Disc3 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  Treemap,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { Music, Palette, Hash, TrendingUp, Mic2, Disc3 } from "lucide-react";
 
 interface ContentAnalyticsPanelProps {
   timePeriod: string;
@@ -33,67 +42,71 @@ interface ContentStats {
 
 export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps) {
   const { data, isLoading } = useQuery({
-    queryKey: ['content-analytics', timePeriod],
+    queryKey: ["content-analytics", timePeriod],
     queryFn: async (): Promise<ContentStats> => {
-      const periodDays = timePeriod === '24 hours' ? 1 : 
-                         timePeriod === '7 days' ? 7 : 
-                         timePeriod === '30 days' ? 30 : 90;
-      
+      const periodDays =
+        timePeriod === "24 hours" ? 1 : timePeriod === "7 days" ? 7 : timePeriod === "30 days" ? 30 : 90;
+
       const startDate = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
-      
+
       const { data: tracks } = await supabase
-        .from('tracks')
-        .select('computed_genre, computed_mood, style, tags, lyrics_language, duration_seconds, lyrics, is_public, status')
-        .gte('created_at', startDate.toISOString())
-        .eq('status', 'completed');
+        .from("tracks")
+        .select(
+          "computed_genre, computed_mood, style, tags, lyrics_language, duration_seconds, lyrics, is_public, status",
+        )
+        .gte("created_at", startDate.toISOString())
+        .eq("status", "completed");
 
       const allTracks = tracks || [];
-      
+
       // Count by genre
       const genreMap = new Map<string, number>();
       const moodMap = new Map<string, number>();
       const styleMap = new Map<string, number>();
       const languageMap = new Map<string, number>();
       const tagMap = new Map<string, number>();
-      
+
       let totalDuration = 0;
       let instrumentalCount = 0;
       let withLyricsCount = 0;
 
-      allTracks.forEach(track => {
+      allTracks.forEach((track) => {
         // Genre
         if (track.computed_genre) {
           genreMap.set(track.computed_genre, (genreMap.get(track.computed_genre) || 0) + 1);
         }
-        
+
         // Mood
         if (track.computed_mood) {
           moodMap.set(track.computed_mood, (moodMap.get(track.computed_mood) || 0) + 1);
         }
-        
+
         // Style
         if (track.style) {
           styleMap.set(track.style, (styleMap.get(track.style) || 0) + 1);
         }
-        
+
         // Language
         if (track.lyrics_language) {
           languageMap.set(track.lyrics_language, (languageMap.get(track.lyrics_language) || 0) + 1);
         }
-        
+
         // Tags - it's a string, not array, so parse it
         if (track.tags) {
-          const tagsArray = track.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
+          const tagsArray = track.tags
+            .split(",")
+            .map((t: string) => t.trim())
+            .filter(Boolean);
           tagsArray.forEach((tag: string) => {
             tagMap.set(tag, (tagMap.get(tag) || 0) + 1);
           });
         }
-        
+
         // Duration
         if (track.duration_seconds) {
           totalDuration += track.duration_seconds;
         }
-        
+
         // Instrumental vs Lyrics
         if (track.lyrics && track.lyrics.trim().length > 0) {
           withLyricsCount++;
@@ -102,7 +115,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
         }
       });
 
-      const mapToArray = (map: Map<string, number>) => 
+      const mapToArray = (map: Map<string, number>) =>
         Array.from(map.entries())
           .map(([name, count]) => ({ name, count }))
           .sort((a, b) => b.count - a.count)
@@ -110,7 +123,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
 
       return {
         total_tracks: allTracks.length,
-        public_tracks: allTracks.filter(t => t.is_public).length,
+        public_tracks: allTracks.filter((t) => t.is_public).length,
         avg_duration_sec: allTracks.length > 0 ? totalDuration / allTracks.length : 0,
         genres: mapToArray(genreMap),
         moods: mapToArray(moodMap),
@@ -135,27 +148,25 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
   if (!data) {
     return (
       <Card>
-        <CardContent className="p-6 text-center text-muted-foreground">
-          Нет данных о контенте
-        </CardContent>
+        <CardContent className="p-6 text-center text-muted-foreground">Нет данных о контенте</CardContent>
       </Card>
     );
   }
 
   const COLORS = [
-    'hsl(var(--primary))', 
-    'hsl(142, 76%, 36%)', 
-    'hsl(38, 92%, 50%)', 
-    'hsl(280, 87%, 65%)',
-    'hsl(200, 95%, 50%)',
-    'hsl(340, 82%, 52%)',
-    'hsl(166, 76%, 40%)',
-    'hsl(25, 95%, 53%)',
+    "hsl(var(--primary))",
+    "hsl(142, 76%, 36%)",
+    "hsl(38, 92%, 50%)",
+    "hsl(280, 87%, 65%)",
+    "hsl(200, 95%, 50%)",
+    "hsl(340, 82%, 52%)",
+    "hsl(166, 76%, 40%)",
+    "hsl(25, 95%, 53%)",
   ];
 
   const lyricsData = [
-    { name: 'С текстом', value: data.with_lyrics_ratio },
-    { name: 'Инструментал', value: data.instrumental_ratio },
+    { name: "С текстом", value: data.with_lyrics_ratio },
+    { name: "Инструментал", value: data.instrumental_ratio },
   ];
 
   return (
@@ -206,18 +217,13 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                   <BarChart data={data.genres.slice(0, 6)} layout="vertical">
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                     <XAxis type="number" tick={{ fontSize: 10 }} />
-                    <YAxis 
-                      type="category" 
-                      dataKey="name" 
-                      tick={{ fontSize: 10 }}
-                      width={60}
-                    />
+                    <YAxis type="category" dataKey="name" tick={{ fontSize: 10 }} width={60} />
                     <Tooltip
-                      formatter={(value: any) => [value, 'Треков']}
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        fontSize: '12px',
+                      formatter={(value: any) => [value, "Треков"]}
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        fontSize: "12px",
                       }}
                     />
                     <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
@@ -260,11 +266,11 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: any) => [value, 'Треков']}
-                      contentStyle={{ 
-                        backgroundColor: 'hsl(var(--card))', 
-                        border: '1px solid hsl(var(--border))',
-                        fontSize: '12px',
+                      formatter={(value: any) => [value, "Треков"]}
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        border: "1px solid hsl(var(--border))",
+                        fontSize: "12px",
                       }}
                     />
                   </PieChart>
@@ -290,12 +296,12 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
               <div className="space-y-1.5 sm:space-y-2">
                 {data.languages.slice(0, 6).map((lang, i) => (
                   <div key={lang.name} className="flex items-center gap-2">
-                    <div 
-                      className="h-1.5 sm:h-2 rounded-full" 
-                      style={{ 
+                    <div
+                      className="h-1.5 sm:h-2 rounded-full"
+                      style={{
                         width: `${(lang.count / data.languages[0].count) * 100}%`,
                         backgroundColor: COLORS[i % COLORS.length],
-                        minWidth: '16px',
+                        minWidth: "16px",
                       }}
                     />
                     <span className="text-xs sm:text-sm font-medium min-w-[50px]">{formatLanguage(lang.name)}</span>
@@ -334,10 +340,10 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                     <Cell fill="hsl(var(--secondary))" />
                   </Pie>
                   <Tooltip
-                    formatter={(value: any) => [`${value.toFixed(1)}%`, '']}
-                    contentStyle={{ 
-                      backgroundColor: 'hsl(var(--card))', 
-                      border: '1px solid hsl(var(--border))' 
+                    formatter={(value: any) => [`${value.toFixed(1)}%`, ""]}
+                    contentStyle={{
+                      backgroundColor: "hsl(var(--card))",
+                      border: "1px solid hsl(var(--border))",
                     }}
                   />
                 </PieChart>
@@ -359,11 +365,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
           <div className="flex flex-wrap gap-2">
             {data.top_tags.length > 0 ? (
               data.top_tags.map((tag, i) => (
-                <Badge 
-                  key={tag.tag} 
-                  variant={i < 5 ? 'default' : 'secondary'}
-                  className="gap-1"
-                >
+                <Badge key={tag.tag} variant={i < 5 ? "default" : "secondary"} className="gap-1">
                   {tag.tag}
                   <span className="text-xs opacity-70">({tag.count})</span>
                 </Badge>
@@ -381,19 +383,19 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
 function formatDuration(seconds: number): string {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
 function formatLanguage(code: string): string {
   const map: Record<string, string> = {
-    ru: 'Русский',
-    en: 'English',
-    es: 'Español',
-    de: 'Deutsch',
-    fr: 'Français',
-    ja: '日本語',
-    ko: '한국어',
-    zh: '中文',
+    ru: "Русский",
+    en: "English",
+    es: "Español",
+    de: "Deutsch",
+    fr: "Français",
+    ja: "日本語",
+    ko: "한국어",
+    zh: "中文",
   };
   return map[code] || code;
 }

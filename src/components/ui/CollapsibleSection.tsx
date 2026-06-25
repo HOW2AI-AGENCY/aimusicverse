@@ -1,15 +1,15 @@
 /**
  * Collapsible Section Component
  * Feature: 032-professional-ui
- * 
+ *
  * Animated collapsible sections with smooth transitions
  */
 
-import React, { ReactNode, useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { ChevronDown, ChevronRight, LucideIcon } from 'lucide-react';
-import { triggerHapticFeedback } from '@/lib/mobile-utils';
+import React, { ReactNode, useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { ChevronDown, ChevronRight, LucideIcon } from "lucide-react";
+import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 interface CollapsibleProps {
   title: string;
@@ -18,7 +18,7 @@ interface CollapsibleProps {
   icon?: LucideIcon;
   badge?: string | number;
   disabled?: boolean;
-  variant?: 'default' | 'card' | 'ghost';
+  variant?: "default" | "card" | "ghost";
   className?: string;
   headerClassName?: string;
   contentClassName?: string;
@@ -32,7 +32,7 @@ export function Collapsible({
   icon: Icon,
   badge,
   disabled = false,
-  variant = 'default',
+  variant = "default",
   className,
   headerClassName,
   contentClassName,
@@ -43,7 +43,7 @@ export function Collapsible({
 
   const toggle = () => {
     if (disabled) return;
-    triggerHapticFeedback('light');
+    triggerHapticFeedback("light");
     const newState = !isOpen;
     setIsOpen(newState);
     onToggle?.(newState);
@@ -51,19 +51,19 @@ export function Collapsible({
 
   const variantStyles = {
     default: {
-      container: 'border-b border-border',
-      header: 'py-3',
-      content: 'pb-4',
+      container: "border-b border-border",
+      header: "py-3",
+      content: "pb-4",
     },
     card: {
-      container: 'bg-card border border-border rounded-lg overflow-hidden',
-      header: 'p-4 bg-muted/30',
-      content: 'p-4 pt-0',
+      container: "bg-card border border-border rounded-lg overflow-hidden",
+      header: "p-4 bg-muted/30",
+      content: "p-4 pt-0",
     },
     ghost: {
-      container: '',
-      header: 'py-2',
-      content: 'pb-2',
+      container: "",
+      header: "py-2",
+      content: "pb-2",
     },
   };
 
@@ -83,7 +83,7 @@ export function Collapsible({
           styles.header,
           !disabled && "hover:bg-accent/50",
           disabled && "opacity-50 cursor-not-allowed",
-          headerClassName
+          headerClassName,
         )}
       >
         {/* Chevron */}
@@ -99,16 +99,11 @@ export function Collapsible({
         {Icon && <Icon className="w-5 h-5 text-muted-foreground" />}
 
         {/* Title */}
-        <span className="flex-1 font-medium text-foreground">
-          {title}
-        </span>
+        <span className="flex-1 font-medium text-foreground">{title}</span>
 
         {/* Badge */}
         {badge !== undefined && (
-          <span className={cn(
-            "px-2 py-0.5 rounded-full text-xs font-medium",
-            "bg-muted text-muted-foreground"
-          )}>
+          <span className={cn("px-2 py-0.5 rounded-full text-xs font-medium", "bg-muted text-muted-foreground")}>
             {badge}
           </span>
         )}
@@ -119,15 +114,12 @@ export function Collapsible({
         {isOpen && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: 'easeOut' }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div 
-              ref={contentRef}
-              className={cn(styles.content, contentClassName)}
-            >
+            <div ref={contentRef} className={cn(styles.content, contentClassName)}>
               {children}
             </div>
           </motion.div>
@@ -154,7 +146,7 @@ interface AccordionProps {
   items: AccordionItem[];
   defaultOpenId?: string;
   singleOpen?: boolean;
-  variant?: 'default' | 'card' | 'ghost';
+  variant?: "default" | "card" | "ghost";
   className?: string;
 }
 
@@ -162,12 +154,10 @@ export function Accordion({
   items,
   defaultOpenId,
   singleOpen = false,
-  variant = 'default',
+  variant = "default",
   className,
 }: AccordionProps) {
-  const [openIds, setOpenIds] = useState<Set<string>>(
-    defaultOpenId ? new Set([defaultOpenId]) : new Set()
-  );
+  const [openIds, setOpenIds] = useState<Set<string>>(defaultOpenId ? new Set([defaultOpenId]) : new Set());
 
   const handleToggle = (id: string, isOpen: boolean) => {
     if (singleOpen) {
@@ -213,11 +203,7 @@ interface ExpandableTextProps {
   className?: string;
 }
 
-export function ExpandableText({
-  text,
-  maxLines = 3,
-  className,
-}: ExpandableTextProps) {
+export function ExpandableText({ text, maxLines = 3, className }: ExpandableTextProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [needsExpansion, setNeedsExpansion] = useState(false);
   const textRef = useRef<HTMLParagraphElement>(null);
@@ -232,7 +218,7 @@ export function ExpandableText({
   }, [text, maxLines]);
 
   const toggle = () => {
-    triggerHapticFeedback('light');
+    triggerHapticFeedback("light");
     setIsExpanded(!isExpanded);
   };
 
@@ -242,7 +228,7 @@ export function ExpandableText({
         ref={textRef}
         className={cn(
           "text-muted-foreground transition-all duration-200",
-          !isExpanded && needsExpansion && `line-clamp-${maxLines}`
+          !isExpanded && needsExpansion && `line-clamp-${maxLines}`,
         )}
         style={{
           WebkitLineClamp: !isExpanded && needsExpansion ? maxLines : undefined,
@@ -250,14 +236,10 @@ export function ExpandableText({
       >
         {text}
       </p>
-      
+
       {needsExpansion && (
-        <button
-          type="button"
-          onClick={toggle}
-          className="text-sm text-primary font-medium mt-1 hover:underline"
-        >
-          {isExpanded ? 'Свернуть' : 'Показать ещё'}
+        <button type="button" onClick={toggle} className="text-sm text-primary font-medium mt-1 hover:underline">
+          {isExpanded ? "Свернуть" : "Показать ещё"}
         </button>
       )}
     </div>

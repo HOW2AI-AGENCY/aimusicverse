@@ -19,6 +19,7 @@
 ## Обзор
 
 MusicVerse использует **PostgreSQL** с **Row Level Security (RLS)** для управления:
+
 - Треками и версиями (A/B versioning)
 - Плейлистами пользователей
 - AI-артистами
@@ -31,13 +32,13 @@ MusicVerse использует **PostgreSQL** с **Row Level Security (RLS)** �
 
 ### Ключевые статистики
 
-| Метрика | Значение |
-|---------|----------|
-| Всего таблиц | 30+ |
-| RLS политик | 50+ |
-| Индексов | 60+ |
-| Триггеров | 15+ |
-| Edge Functions | 45+ |
+| Метрика        | Значение |
+| -------------- | -------- |
+| Всего таблиц   | 30+      |
+| RLS политик    | 50+      |
+| Индексов       | 60+      |
+| Триггеров      | 15+      |
+| Edge Functions | 45+      |
 
 ---
 
@@ -51,7 +52,7 @@ erDiagram
     profiles ||--o{ playlists : owns
     profiles ||--o{ artists : creates
     profiles ||--o{ generation_tasks : initiates
-    
+
     tracks ||--|| audio_analysis : "has"
     tracks ||--o{ track_versions : "has versions"
     tracks ||--o{ track_stems : "has stems"
@@ -59,18 +60,18 @@ erDiagram
     tracks ||--o{ track_change_log : "has changelog"
     tracks }o--o| artists : "by artist"
     tracks }o--o| music_projects : "belongs to"
-    
+
     track_versions ||--|| tracks : "is active version"
-    
+
     playlists ||--o{ playlist_tracks : contains
     playlist_tracks }o--|| tracks : references
-    
+
     generation_tasks ||--o| tracks : generates
     stem_separation_tasks ||--o{ track_stems : creates
-    
+
     suno_meta_tags ||--o{ generation_tag_usage : "used in"
     music_styles ||--o{ generation_tag_usage : "used in"
-    
+
     profiles {
         uuid id PK
         uuid user_id FK
@@ -79,7 +80,7 @@ erDiagram
         integer credits
         text app_role
     }
-    
+
     tracks {
         uuid id PK
         uuid user_id FK
@@ -91,7 +92,7 @@ erDiagram
         int play_count
         int likes_count
     }
-    
+
     track_versions {
         uuid id PK
         uuid track_id FK
@@ -100,7 +101,7 @@ erDiagram
         int clip_index
         text audio_url
     }
-    
+
     playlists {
         uuid id PK
         uuid user_id FK
@@ -108,7 +109,7 @@ erDiagram
         int track_count
         int total_duration
     }
-    
+
     artists {
         uuid id PK
         uuid user_id FK
@@ -127,11 +128,11 @@ flowchart TB
     C -->|version A| D[is_primary = true]
     C -->|version B| E[is_primary = false]
     D -->|points back| F[tracks.active_version_id]
-    
+
     B -->|optional| G[track_stems]
     B -->|creates| H[audio_analysis]
     B -->|logs changes| I[track_change_log]
-    
+
     style A fill:#FFE4B5
     style B fill:#90EE90
     style C fill:#87CEEB
@@ -144,6 +145,7 @@ flowchart TB
 ## Основные таблицы приложения
 
 ### tracks
+
 Основная таблица треков.
 
 ```sql
@@ -179,6 +181,7 @@ CREATE TABLE public.tracks (
 ```
 
 ### track_versions
+
 A/B версии треков. Каждая генерация создает 2 версии.
 
 ```sql
@@ -199,6 +202,7 @@ CREATE TABLE public.track_versions (
 ```
 
 ### track_stems
+
 Разделенные стемы трека.
 
 ```sql
@@ -214,6 +218,7 @@ CREATE TABLE public.track_stems (
 ```
 
 ### playlists
+
 Пользовательские плейлисты.
 
 ```sql
@@ -232,6 +237,7 @@ CREATE TABLE public.playlists (
 ```
 
 ### playlist_tracks
+
 Связь плейлистов и треков.
 
 ```sql
@@ -246,6 +252,7 @@ CREATE TABLE public.playlist_tracks (
 ```
 
 ### artists
+
 AI-артисты/персоны.
 
 ```sql
@@ -267,6 +274,7 @@ CREATE TABLE public.artists (
 ```
 
 ### profiles
+
 Профили пользователей (связаны с Telegram).
 
 ```sql
@@ -288,6 +296,7 @@ CREATE TABLE public.profiles (
 ```
 
 ### generation_tasks
+
 Отслеживание задач генерации.
 
 ```sql
@@ -311,6 +320,7 @@ CREATE TABLE public.generation_tasks (
 ```
 
 ### track_change_log
+
 Аудит изменений треков.
 
 ```sql
@@ -332,6 +342,7 @@ CREATE TABLE public.track_change_log (
 ```
 
 ### track_likes
+
 Лайки треков.
 
 ```sql
@@ -352,21 +363,21 @@ erDiagram
     suno_meta_tags ||--o{ style_tag_mappings : "used in"
     suno_meta_tags ||--o{ user_tag_preferences : "preferred by"
     suno_meta_tags ||--o{ generation_tag_usage : "used in"
-    
+
     music_styles ||--o{ style_tag_mappings : "contains"
     music_styles ||--o{ user_tag_preferences : "preferred by"
     music_styles ||--o{ generation_tag_usage : "used in"
     music_styles ||--o{ prompt_templates : "used in"
-    
+
     profiles ||--o{ user_tag_preferences : "owns"
     profiles ||--o{ prompt_templates : "creates"
     profiles ||--o{ generation_tag_usage : "generates"
     profiles ||--o{ music_projects : "creates"
     profiles ||--o{ tracks : "creates"
-    
+
     music_projects ||--o{ project_tracks : "contains"
     music_projects ||--o{ tracks : "contains"
-    
+
     tracks ||--o{ generation_tag_usage : "created from"
 ```
 
@@ -395,6 +406,7 @@ CREATE INDEX idx_suno_meta_tags_tag_name ON suno_meta_tags(tag_name);
 ```
 
 **Enum: tag_category**
+
 ```sql
 CREATE TYPE tag_category AS ENUM (
   'structure',              -- [Intro], [Verse], [Chorus]
@@ -411,6 +423,7 @@ CREATE TYPE tag_category AS ENUM (
 ```
 
 **Пример записи:**
+
 ```json
 {
   "id": "uuid-here",
@@ -448,6 +461,7 @@ CREATE INDEX idx_music_styles_style_name ON music_styles(style_name);
 ```
 
 **Пример записи:**
+
 ```json
 {
   "id": "uuid-here",
@@ -483,12 +497,14 @@ CREATE INDEX idx_tag_relationships_related_tag_id ON tag_relationships(related_t
 ```
 
 **Типы связей:**
+
 - `complements` - Дополняет (например, [Piano] + [Strings])
 - `conflicts` - Конфликтует ([Fast BPM] + [Slow Mood])
 - `enhances` - Усиливает ([Reverb] + [Wide Stereo])
 - `requires` - Требует ([Vocals] + [Language: English])
 
 **Пример записи:**
+
 ```json
 {
   "id": "uuid-here",
@@ -609,7 +625,7 @@ BEGIN
   RETURN QUERY
   WITH RECURSIVE tag_graph AS (
     -- Base: прямые связи
-    SELECT 
+    SELECT
       tr.related_tag_id AS tag_id,
       smt.tag_name,
       tr.relationship_type,
@@ -619,11 +635,11 @@ BEGIN
     JOIN suno_meta_tags smt ON smt.id = tr.related_tag_id
     WHERE tr.tag_id = _tag_id
       AND tr.relationship_type IN ('complements', 'enhances')
-    
+
     UNION
-    
+
     -- Recursive: обход графа
-    SELECT 
+    SELECT
       tr.related_tag_id,
       smt.tag_name,
       tr.relationship_type,
@@ -636,7 +652,7 @@ BEGIN
       AND tr.relationship_type IN ('complements', 'enhances')
       AND tr.related_tag_id != _tag_id
   )
-  SELECT DISTINCT 
+  SELECT DISTINCT
     tg.tag_id,
     tg.tag_name,
     tg.relationship_type,
@@ -649,6 +665,7 @@ $$;
 ```
 
 **Использование:**
+
 ```sql
 -- Найти совместимые теги для Piano
 SELECT * FROM get_complementary_tags('piano-tag-uuid', 2);
@@ -681,16 +698,16 @@ DECLARE
 BEGIN
   -- Добавить стиль
   IF _style_id IS NOT NULL THEN
-    SELECT style_name INTO _prompt 
-    FROM music_styles 
+    SELECT style_name INTO _prompt
+    FROM music_styles
     WHERE id = _style_id;
     _prompt := COALESCE(_prompt, '');
   END IF;
-  
+
   -- Добавить теги
-  FOR _tag IN 
-    SELECT tag_name, syntax_format 
-    FROM suno_meta_tags 
+  FOR _tag IN
+    SELECT tag_name, syntax_format
+    FROM suno_meta_tags
     WHERE id = ANY(_tag_ids)
     ORDER BY category, tag_name
   LOOP
@@ -700,13 +717,14 @@ BEGIN
       _prompt := _prompt || ' ' || _tag.tag_name;
     END IF;
   END LOOP;
-  
+
   RETURN TRIM(_prompt);
 END;
 $$;
 ```
 
 **Использование:**
+
 ```sql
 SELECT build_suno_prompt(
   ARRAY[
@@ -742,7 +760,7 @@ SET search_path = public
 AS $$
 BEGIN
   RETURN QUERY
-  SELECT 
+  SELECT
     ms.id AS style_id,
     ms.style_name,
     (
@@ -761,6 +779,7 @@ $$;
 ```
 
 **Использование:**
+
 ```sql
 -- Получить топ-10 рекомендаций для пользователя
 SELECT * FROM recommend_styles_for_user('user-uuid', 10);
@@ -815,6 +834,7 @@ USING (auth.uid() = user_id);
 ### Индексы
 
 Все критичные поля имеют индексы:
+
 - `category` для фильтрации тегов
 - `tag_name` для поиска
 - `primary_genre` для группировки стилей
@@ -824,6 +844,7 @@ USING (auth.uid() = user_id);
 ### Кэширование
 
 Рекомендуется кэшировать на уровне приложения:
+
 - Список всех тегов (обновляется редко)
 - Список стилей (обновляется редко)
 - Граф связей (статичен)
@@ -832,7 +853,7 @@ USING (auth.uid() = user_id);
 
 ```sql
 -- Топ используемых тегов
-SELECT 
+SELECT
   smt.tag_name,
   COUNT(*) as usage_count
 FROM generation_tag_usage gtu
@@ -843,7 +864,7 @@ ORDER BY usage_count DESC
 LIMIT 20;
 
 -- Топ стилей
-SELECT 
+SELECT
   ms.style_name,
   COUNT(*) as usage_count
 FROM generation_tag_usage gtu
@@ -868,6 +889,7 @@ supabase/migrations/
 ## Backup
 
 Автоматический backup через Supabase:
+
 - Ежедневный backup всей БД
 - Point-in-time recovery (7 дней)
 - Manual backup перед мажорными изменениями
@@ -886,10 +908,10 @@ stateDiagram-v2
     streaming_ready --> completed: Final audio ready
     processing --> failed: Generation error
     failed --> [*]
-    
+
     completed --> has_stems: User requests stems
     has_stems --> completed: Stems processed
-    
+
     completed --> extended: User extends track
     extended --> completed: Extension added
 ```
@@ -903,11 +925,11 @@ flowchart LR
     C --> D[Create Version A<br/>clip_index=0<br/>is_primary=true]
     C --> E[Create Version B<br/>clip_index=1<br/>is_primary=false]
     D --> F[Set active_version_id<br/>to Version A]
-    
+
     G[User switches to B] --> H[Update is_primary flags]
     H --> I[Update active_version_id]
     H --> J[Log change in<br/>track_change_log]
-    
+
     style D fill:#98FB98
     style E fill:#FFB6C1
     style F fill:#FFD700
@@ -920,16 +942,16 @@ flowchart TB
     A[User clicks like] --> B{Already liked?}
     B -->|No| C[INSERT track_likes]
     B -->|Yes| D[DELETE track_likes]
-    
+
     C --> E[Trigger: increment_likes_count]
     D --> F[Trigger: decrement_likes_count]
-    
+
     E --> G[UPDATE tracks<br/>SET likes_count = likes_count + 1]
     F --> H[UPDATE tracks<br/>SET likes_count = likes_count - 1]
-    
+
     G --> I[Optimistic UI update]
     H --> I
-    
+
     style C fill:#90EE90
     style D fill:#FFB6C1
     style I fill:#61DAFB
@@ -942,27 +964,27 @@ flowchart TB
     A[Client Query] --> B{Authenticated?}
     B -->|No| C[Anonymous Policy]
     B -->|Yes| D{Check table}
-    
+
     C --> E{is_public = true?}
     E -->|Yes| F[Allow SELECT]
     E -->|No| G[Deny]
-    
+
     D --> H{tracks}
     D --> I{playlists}
     D --> J{artists}
-    
+
     H --> K{user_id = auth.uid?}
     K -->|Yes| L[Full access]
     K -->|No| E
-    
+
     I --> M{user_id = auth.uid?}
     M -->|Yes| L
     M -->|No| E
-    
+
     J --> N{user_id = auth.uid?}
     N -->|Yes| L
     N -->|No| E
-    
+
     style B fill:#FFE4B5
     style L fill:#90EE90
     style G fill:#FFB6C1
@@ -990,8 +1012,8 @@ SELECT * FROM tracks WHERE user_id = 'user-uuid';
 SELECT * FROM track_versions WHERE track_id = 'track-uuid';
 
 -- ✅ GOOD: Batch операции
-UPDATE tracks 
-SET play_count = play_count + 1 
+UPDATE tracks
+SET play_count = play_count + 1
 WHERE id = ANY(ARRAY['id1', 'id2', 'id3']);
 
 -- ❌ BAD: Множественные UPDATE
@@ -1004,16 +1026,16 @@ UPDATE tracks SET play_count = play_count + 1 WHERE id = 'id3';
 
 ```sql
 -- Composite индексы для частых запросов
-CREATE INDEX idx_tracks_user_public_created 
+CREATE INDEX idx_tracks_user_public_created
 ON tracks(user_id, is_public, created_at DESC);
 
 -- Partial индексы для фильтрации
-CREATE INDEX idx_tracks_public 
-ON tracks(created_at DESC) 
+CREATE INDEX idx_tracks_public
+ON tracks(created_at DESC)
 WHERE is_public = true;
 
 -- GIN индексы для JSONB
-CREATE INDEX idx_audio_analysis_metadata 
+CREATE INDEX idx_audio_analysis_metadata
 ON audio_analysis USING GIN(metadata);
 ```
 
@@ -1024,21 +1046,23 @@ ON audio_analysis USING GIN(metadata);
 ### Часто встречающиеся проблемы
 
 1. **Несинхронизированные счётчики**
+
    ```sql
    -- Пересчитать likes_count
    UPDATE tracks t
    SET likes_count = (
-     SELECT COUNT(*) FROM track_likes 
+     SELECT COUNT(*) FROM track_likes
      WHERE track_id = t.id
    );
    ```
 
 2. **Потерянные active_version_id**
+
    ```sql
    -- Восстановить active_version_id
    UPDATE tracks t
    SET active_version_id = (
-     SELECT id FROM track_versions 
+     SELECT id FROM track_versions
      WHERE track_id = t.id AND is_primary = true
      LIMIT 1
    )
@@ -1048,10 +1072,10 @@ ON audio_analysis USING GIN(metadata);
 3. **Дублирующиеся is_primary флаги**
    ```sql
    -- Найти треки с несколькими primary версиями
-   SELECT track_id, COUNT(*) 
-   FROM track_versions 
+   SELECT track_id, COUNT(*)
+   FROM track_versions
    WHERE is_primary = true
-   GROUP BY track_id 
+   GROUP BY track_id
    HAVING COUNT(*) > 1;
    ```
 

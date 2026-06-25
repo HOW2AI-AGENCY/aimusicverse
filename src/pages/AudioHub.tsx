@@ -1,6 +1,6 @@
 /**
  * AudioHub - Centralized audio recording, upload, and analysis dashboard
- * 
+ *
  * Features:
  * - Quick recording with mode selection (vocal/guitar/instrument)
  * - File upload with drag & drop
@@ -8,25 +8,23 @@
  * - Recent recordings and uploads history
  */
 
-import React, { useState, memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Mic, Upload, AudioWaveform, Clock
-} from 'lucide-react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { DesktopToolsGridLayout } from '@/components/layout/desktop';
+import React, { useState, memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Mic, Upload, AudioWaveform, Clock } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { DesktopToolsGridLayout } from "@/components/layout/desktop";
 
 // Hub sections
-import { AudioHubRecorder } from '@/components/audio-hub/AudioHubRecorder';
-import { AudioHubUploader } from '@/components/audio-hub/AudioHubUploader';
-import { AudioHubHistory } from '@/components/audio-hub/AudioHubHistory';
-import { AudioHubQuickActions } from '@/components/audio-hub/AudioHubQuickActions';
+import { AudioHubRecorder } from "@/components/audio-hub/AudioHubRecorder";
+import { AudioHubUploader } from "@/components/audio-hub/AudioHubUploader";
+import { AudioHubHistory } from "@/components/audio-hub/AudioHubHistory";
+import { AudioHubQuickActions } from "@/components/audio-hub/AudioHubQuickActions";
 
-type HubTab = 'record' | 'upload' | 'history';
+type HubTab = "record" | "upload" | "history";
 
 const AudioHub = memo(function AudioHub() {
-  const [activeTab, setActiveTab] = useState<HubTab>('record');
+  const [activeTab, setActiveTab] = useState<HubTab>("record");
   const isMobile = useIsMobile();
 
   // Header component
@@ -37,9 +35,7 @@ const AudioHub = memo(function AudioHub() {
       </div>
       <div>
         <h1 className="text-xl font-bold">Audio Hub</h1>
-        <p className="text-sm text-muted-foreground">
-          Запись, загрузка и анализ аудио
-        </p>
+        <p className="text-sm text-muted-foreground">Запись, загрузка и анализ аудио</p>
       </div>
     </div>
   );
@@ -50,16 +46,10 @@ const AudioHub = memo(function AudioHub() {
       <div className="min-h-screen bg-background">
         {/* Sticky header */}
         <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b">
-          <div className="max-w-6xl mx-auto px-6 py-4">
-            {Header}
-          </div>
+          <div className="max-w-6xl mx-auto px-6 py-4">{Header}</div>
         </div>
 
-        <DesktopToolsGridLayout
-          maxWidth="wide"
-          quickActions={<AudioHubQuickActions />}
-          gridType="dashboard"
-        >
+        <DesktopToolsGridLayout maxWidth="wide" quickActions={<AudioHubQuickActions />} gridType="dashboard">
           {/* Left column - Record & Upload */}
           <div className="space-y-6">
             <div className="p-6 rounded-xl border bg-card">
@@ -69,7 +59,7 @@ const AudioHub = memo(function AudioHub() {
               </h2>
               <AudioHubRecorder />
             </div>
-            
+
             <div className="p-6 rounded-xl border bg-card">
               <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
                 <Upload className="h-5 w-5 text-primary" />
@@ -97,9 +87,7 @@ const AudioHub = memo(function AudioHub() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b">
-        <div className="container max-w-4xl mx-auto px-4 py-4">
-          {Header}
-        </div>
+        <div className="container max-w-4xl mx-auto px-4 py-4">{Header}</div>
       </div>
 
       <div className="container max-w-4xl mx-auto px-4 py-6 space-y-6">

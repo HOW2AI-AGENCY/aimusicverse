@@ -7,25 +7,28 @@
 ### 0. Loading Performance (NEW - 2026-01-07)
 
 #### Reduced Initial Data Load
+
 - **Library pageSize**: Reduced from 50 to 20 for faster initial load
 - **useTracks default pageSize**: Reduced from 30 to 20
 - **LoadingScreen timeout**: Increased from 8s to 15s with progress indicator
 
 #### Image Optimization
+
 ```typescript
 // AvatarImage optimization
 <AvatarImage src={url} size={80} /> // 2x for retina, quality 75
 
-// LazyImage optimization  
+// LazyImage optimization
 rootMargin: '50px' // Reduced from 200px for faster initial load
 ```
 
 #### Image Preloading
+
 ```typescript
 // Preload first 4 track covers on homepage
 useEffect(() => {
   if (tracks?.length) {
-    preloadImages(tracks.slice(0, 4).map(t => t.cover_url));
+    preloadImages(tracks.slice(0, 4).map((t) => t.cover_url));
   }
 }, [tracks]);
 ```
@@ -33,9 +36,11 @@ useEffect(() => {
 ### 1. Studio State Management (NEW - 2026-01-07)
 
 #### useStudioState
+
 Unified state management for studio with minimal re-renders:
+
 ```typescript
-import { useStudioState } from '@/hooks/studio/useStudioOptimizations';
+import { useStudioState } from "@/hooks/studio/useStudioOptimizations";
 
 const {
   stemStates,
@@ -43,12 +48,13 @@ const {
   setStemVolume,
   toggleMute,
   toggleSolo,
-  getEffectiveVolume,  // considers mute/solo/master
+  getEffectiveVolume, // considers mute/solo/master
   isStemEffectivelyMuted,
 } = useStudioState({ stems });
 ```
 
 **Features:**
+
 - Centralized mute/solo/volume/pan management
 - Effective volume calculation considering master and solo states
 - Memoized callbacks to prevent re-renders
@@ -57,9 +63,11 @@ const {
 ### 2. Waveform Caching (NEW - 2026-01-07)
 
 #### useWaveformCache
+
 IndexedDB + LRU memory cache for waveform peaks:
+
 ```typescript
-import { useWaveformCache } from '@/hooks/studio/useWaveformCache';
+import { useWaveformCache } from "@/hooks/studio/useWaveformCache";
 
 const { get, set, clear, clearExpired } = useWaveformCache();
 
@@ -74,6 +82,7 @@ await set(audioId, peaks, duration);
 ```
 
 **Features:**
+
 - IndexedDB for persistent storage
 - LRU memory cache (20 entries)
 - 7-day TTL with automatic cleanup
@@ -82,9 +91,11 @@ await set(audioId, peaks, duration);
 ### 3. Optimized Playback (NEW - 2026-01-07)
 
 #### useOptimizedPlayback
+
 Lightweight playback with RAF-based time updates:
+
 ```typescript
-import { useOptimizedPlayback } from '@/hooks/studio/useOptimizedPlayback';
+import { useOptimizedPlayback } from "@/hooks/studio/useOptimizedPlayback";
 
 const { state, play, pause, seek, isBuffering } = useOptimizedPlayback({
   audioRef,
@@ -96,16 +107,16 @@ const { state, play, pause, seek, isBuffering } = useOptimizedPlayback({
 ### 4. React.memo Usage
 
 #### OptimizedTrackCard
+
 ```typescript
 export const OptimizedTrackCard = memo(
-  (props) => { /* component */ },
+  (props) => {
+    /* component */
+  },
   (prevProps, nextProps) => {
     // Custom comparison - only re-render if critical props change
-    return (
-      prevProps.trackId === nextProps.trackId &&
-      prevProps.isPlaying === nextProps.isPlaying
-    );
-  }
+    return prevProps.trackId === nextProps.trackId && prevProps.isPlaying === nextProps.isPlaying;
+  },
 );
 ```
 
@@ -114,6 +125,7 @@ export const OptimizedTrackCard = memo(
 ### 5. Performance Utilities
 
 Created `src/lib/performance-utils.ts` with:
+
 - `useStableCallback` - Prevents callback re-creation
 - `useDebounce` - Debounces rapid updates
 - `useThrottle` - Throttles expensive operations
@@ -123,6 +135,7 @@ Created `src/lib/performance-utils.ts` with:
 ### 6. Component Optimization Checklist
 
 Apply to components with high render frequency:
+
 - [x] TrackCard (React.memo)
 - [x] OptimizedTrackCard (new, optimized version)
 - [x] VirtualizedTrackList (React.memo added)
@@ -136,6 +149,7 @@ Apply to components with high render frequency:
 ### 7. Lazy Loading Components (15+ components)
 
 Heavy components loaded on-demand via `src/components/lazy/index.ts`:
+
 - Dialogs: UploadAudioDialog, GenerateSheet, LyricsChatAssistant, TrackDetailSheet
 - Studio: StudioActionsPanel, VersionTree, MobileStudioLayout
 - Player: FullscreenPlayer, ExpandedPlayer, MobileFullscreenPlayer
@@ -151,6 +165,7 @@ Heavy components loaded on-demand via `src/components/lazy/index.ts`:
 ### 4. Best Practices
 
 #### Do:
+
 ✅ Use React.memo for components that re-render frequently
 ✅ Add custom comparison functions for complex props
 ✅ Use useCallback for event handlers passed to memoized components
@@ -158,6 +173,7 @@ Heavy components loaded on-demand via `src/components/lazy/index.ts`:
 ✅ Implement virtualization for long lists (already using react-virtuoso)
 
 #### Don't:
+
 ❌ Memo everything (adds overhead for infrequent renders)
 ❌ Use inline functions as props to memoized components
 ❌ Forget to profile before and after optimization
@@ -165,15 +181,16 @@ Heavy components loaded on-demand via `src/components/lazy/index.ts`:
 
 ## Performance Targets
 
-| Metric | Before | Target | Status |
-|--------|--------|--------|--------|
-| List scroll FPS | ~45 | >55 | 🔄 Testing |
-| Re-renders (100 items) | ~300 | <120 | 🔄 Testing |
-| Time to Interactive | 4.5s | <3.5s | ⏳ Pending |
+| Metric                 | Before | Target | Status     |
+| ---------------------- | ------ | ------ | ---------- |
+| List scroll FPS        | ~45    | >55    | 🔄 Testing |
+| Re-renders (100 items) | ~300   | <120   | 🔄 Testing |
+| Time to Interactive    | 4.5s   | <3.5s  | ⏳ Pending |
 
 ## Testing
 
 Run performance profiling:
+
 ```bash
 npm run dev
 # Open React DevTools Profiler

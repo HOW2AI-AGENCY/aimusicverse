@@ -13,17 +13,17 @@
 // ============================================================================
 
 export type GestureType =
-  | 'tap'
-  | 'doubleTap'
-  | 'longPress'
-  | 'swipeLeft'
-  | 'swipeRight'
-  | 'swipeUp'
-  | 'swipeDown'
-  | 'pinch'
-  | 'rotate'
-  | 'pan'
-  | 'scroll';
+  | "tap"
+  | "doubleTap"
+  | "longPress"
+  | "swipeLeft"
+  | "swipeRight"
+  | "swipeUp"
+  | "swipeDown"
+  | "pinch"
+  | "rotate"
+  | "pan"
+  | "scroll";
 
 export interface GestureConfig {
   type: GestureType;
@@ -246,31 +246,20 @@ export class GestureManager {
    * Check if two gesture types conflict
    */
   private areGesturesConflicting(type1: GestureType, type2: GestureType): boolean {
-    const swipeGestures: GestureType[] = [
-      'swipeLeft',
-      'swipeRight',
-      'swipeUp',
-      'swipeDown',
-    ];
+    const swipeGestures: GestureType[] = ["swipeLeft", "swipeRight", "swipeUp", "swipeDown"];
 
     // Swipes conflict with each other
-    if (
-      swipeGestures.includes(type1) &&
-      swipeGestures.includes(type2)
-    ) {
+    if (swipeGestures.includes(type1) && swipeGestures.includes(type2)) {
       return true;
     }
 
     // Pinch and rotate conflict
-    if (
-      (type1 === 'pinch' && type2 === 'rotate') ||
-      (type1 === 'rotate' && type2 === 'pinch')
-    ) {
+    if ((type1 === "pinch" && type2 === "rotate") || (type1 === "rotate" && type2 === "pinch")) {
       return true;
     }
 
     // Pan and scroll conflict
-    if ((type1 === 'pan' && type2 === 'scroll') || (type1 === 'scroll' && type2 === 'pan')) {
+    if ((type1 === "pan" && type2 === "scroll") || (type1 === "scroll" && type2 === "pan")) {
       return true;
     }
 

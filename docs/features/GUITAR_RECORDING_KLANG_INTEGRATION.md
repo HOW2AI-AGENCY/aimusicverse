@@ -48,22 +48,22 @@ MusicVerse AI integrates with [Klang.io](https://klangio.com) for advanced audio
 
 ### Klang.io Modes
 
-| Mode | Description | Outputs |
-|------|-------------|---------|
-| `drums` | Drum transcription | MIDI, PDF |
+| Mode     | Description               | Outputs                  |
+| -------- | ------------------------- | ------------------------ |
+| `drums`  | Drum transcription        | MIDI, PDF                |
 | `guitar` | Guitar/bass transcription | MIDI, GP5, PDF, MusicXML |
-| `piano` | Piano transcription | MIDI, PDF, MusicXML |
-| `melody` | Single melody line | MIDI, PDF |
-| `chords` | Chord detection only | Chord timeline |
+| `piano`  | Piano transcription       | MIDI, PDF, MusicXML      |
+| `melody` | Single melody line        | MIDI, PDF                |
+| `chords` | Chord detection only      | Chord timeline           |
 
 ### Request Format
 
 ```typescript
 interface KlangioRequest {
-  audioUrl: string;        // Public URL to audio file
-  mode: 'drums' | 'guitar' | 'piano' | 'melody' | 'chords';
-  outputs: string[];       // ['midi', 'pdf', 'gp5', 'musicxml']
-  vocabulary?: string;     // For guitar: 'guitar' | 'bass' | 'ukulele'
+  audioUrl: string; // Public URL to audio file
+  mode: "drums" | "guitar" | "piano" | "melody" | "chords";
+  outputs: string[]; // ['midi', 'pdf', 'gp5', 'musicxml']
+  vocabulary?: string; // For guitar: 'guitar' | 'bass' | 'ukulele'
 }
 ```
 
@@ -72,7 +72,7 @@ interface KlangioRequest {
 ```typescript
 interface KlangioResponse {
   jobId: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   files?: {
     midi_url?: string;
     midi_quant_url?: string;
@@ -100,14 +100,14 @@ import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
 
 function MyComponent() {
   const { startAnalysis, progress, result, isAnalyzing } = useGuitarAnalysis();
-  
+
   const handleRecord = async (audioBlob: Blob) => {
     await startAnalysis(audioBlob, {
       mode: 'guitar',
       outputs: ['midi', 'pdf', 'gp5'],
     });
   };
-  
+
   return (
     <div>
       {isAnalyzing && <p>Progress: {progress}%</p>}
@@ -120,18 +120,18 @@ function MyComponent() {
 ### With Recording
 
 ```typescript
-import { useAudioRecorder } from '@/hooks/useAudioRecorder';
-import { useGuitarAnalysis } from '@/hooks/useGuitarAnalysis';
+import { useAudioRecorder } from "@/hooks/useAudioRecorder";
+import { useGuitarAnalysis } from "@/hooks/useGuitarAnalysis";
 
 function RecordAndTranscribe() {
   const { startRecording, stopRecording, audioBlob } = useAudioRecorder();
   const { startAnalysis, result } = useGuitarAnalysis();
-  
+
   const handleStop = async () => {
     const blob = await stopRecording();
-    await startAnalysis(blob, { mode: 'guitar' });
+    await startAnalysis(blob, { mode: "guitar" });
   };
-  
+
   // ...
 }
 ```
@@ -139,6 +139,7 @@ function RecordAndTranscribe() {
 ## Supported Formats
 
 ### Input
+
 - MP3 (recommended)
 - WAV
 - M4A
@@ -146,6 +147,7 @@ function RecordAndTranscribe() {
 - OGG
 
 ### Output
+
 - **MIDI** (.mid): Standard MIDI file
 - **MIDI Quantized** (.mid): Beat-aligned MIDI
 - **PDF** (.pdf): Sheet music notation
@@ -161,7 +163,7 @@ CREATE TABLE guitar_recordings (
   track_id UUID REFERENCES tracks(id),
   audio_url TEXT NOT NULL,
   title TEXT,
-  
+
   -- Analysis results
   bpm NUMERIC,
   key TEXT,
@@ -169,19 +171,19 @@ CREATE TABLE guitar_recordings (
   beats JSONB,
   chords JSONB,
   notes JSONB,
-  
+
   -- Generated files
   midi_url TEXT,
   midi_quant_url TEXT,
   pdf_url TEXT,
   gp5_url TEXT,
   musicxml_url TEXT,
-  
+
   -- Status
   analysis_status JSONB,
   style_analysis JSONB,
   generated_tags TEXT[],
-  
+
   created_at TIMESTAMPTZ DEFAULT now(),
   updated_at TIMESTAMPTZ DEFAULT now()
 );
@@ -189,13 +191,13 @@ CREATE TABLE guitar_recordings (
 
 ## Error Handling
 
-| Error Code | Description | Solution |
-|------------|-------------|----------|
-| `AUDIO_TOO_SHORT` | Recording < 5 seconds | Record longer audio |
-| `AUDIO_TOO_LONG` | Recording > 10 minutes | Split into segments |
-| `UNSUPPORTED_FORMAT` | File format not supported | Convert to MP3 |
-| `ANALYSIS_FAILED` | Klang.io processing error | Retry or contact support |
-| `QUOTA_EXCEEDED` | API quota reached | Wait or upgrade plan |
+| Error Code           | Description               | Solution                 |
+| -------------------- | ------------------------- | ------------------------ |
+| `AUDIO_TOO_SHORT`    | Recording < 5 seconds     | Record longer audio      |
+| `AUDIO_TOO_LONG`     | Recording > 10 minutes    | Split into segments      |
+| `UNSUPPORTED_FORMAT` | File format not supported | Convert to MP3           |
+| `ANALYSIS_FAILED`    | Klang.io processing error | Retry or contact support |
+| `QUOTA_EXCEEDED`     | API quota reached         | Wait or upgrade plan     |
 
 ## Best Practices
 

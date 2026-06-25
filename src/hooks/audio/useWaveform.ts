@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
-import { logger } from '@/lib/logger';
+import { useEffect, useRef, useState, useCallback } from "react";
+import { logger } from "@/lib/logger";
 
-type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferCtor = typeof import("wavesurfer.js");
 type WaveSurferInstance = any;
 
 interface UseWaveformOptions {
@@ -32,8 +32,8 @@ export const useWaveform = ({
   audioUrl,
   container,
   height = 48,
-  waveColor = 'rgba(255, 255, 255, 0.3)',
-  progressColor = 'rgba(255, 255, 255, 0.6)',
+  waveColor = "rgba(255, 255, 255, 0.3)",
+  progressColor = "rgba(255, 255, 255, 0.6)",
   barWidth = 2,
   barGap = 1,
   barRadius = 2,
@@ -56,7 +56,7 @@ export const useWaveform = ({
       setIsReady(false);
 
       try {
-        const mod: WaveSurferCtor = await import('wavesurfer.js');
+        const mod: WaveSurferCtor = await import("wavesurfer.js");
         const WaveSurfer = (mod as any).default ?? (mod as any);
         if (!mounted) return;
 
@@ -70,7 +70,7 @@ export const useWaveform = ({
           barRadius,
           cursorWidth,
           normalize,
-          backend: 'WebAudio',
+          backend: "WebAudio",
           interact: false, // We handle interaction externally
           hideScrollbar: true,
           fillParent: true,
@@ -78,25 +78,25 @@ export const useWaveform = ({
 
         wavesurferRef.current = wavesurfer;
 
-        wavesurfer.on('ready', () => {
+        wavesurfer.on("ready", () => {
           if (!mounted) return;
           setIsReady(true);
           setIsLoading(false);
           setDuration(wavesurfer.getDuration());
         });
 
-        wavesurfer.on('error', (err: unknown) => {
-          logger.error('Waveform error', err);
+        wavesurfer.on("error", (err: unknown) => {
+          logger.error("Waveform error", err);
           if (mounted) setIsLoading(false);
         });
 
-        wavesurfer.on('timeupdate', (time: number) => {
+        wavesurfer.on("timeupdate", (time: number) => {
           if (mounted) setCurrentTime(time);
         });
 
         wavesurfer.load(audioUrl);
       } catch (e) {
-        logger.error('Failed to init WaveSurfer', e);
+        logger.error("Failed to init WaveSurfer", e);
         if (mounted) setIsLoading(false);
       }
     };
@@ -112,12 +112,15 @@ export const useWaveform = ({
     };
   }, [audioUrl, container, height, waveColor, progressColor, barWidth, barGap, barRadius, cursorWidth, normalize]);
 
-  const seek = useCallback((time: number) => {
-    if (wavesurferRef.current && isReady) {
-      const progress = time / wavesurferRef.current.getDuration();
-      wavesurferRef.current.seekTo(Math.max(0, Math.min(1, progress)));
-    }
-  }, [isReady]);
+  const seek = useCallback(
+    (time: number) => {
+      if (wavesurferRef.current && isReady) {
+        const progress = time / wavesurferRef.current.getDuration();
+        wavesurferRef.current.seekTo(Math.max(0, Math.min(1, progress)));
+      }
+    },
+    [isReady],
+  );
 
   const setMuted = useCallback((muted: boolean) => {
     if (wavesurferRef.current) {

@@ -17,10 +17,11 @@ MusicVerse реализует полноценный OAuth flow для безо�
 ### Frontend Layer
 
 #### TelegramContext (`src/contexts/TelegramContext.tsx`)
+
 - Инициализация Telegram Web App SDK (`window.Telegram.WebApp`)
 - Получение `initData` с подписанными данными пользователя
 - UI методы: `showAlert`, `showConfirm`, `close`, `expand`, haptic feedback
-- Автоопределение development mode (localhost, *.lovable.dev)
+- Автоопределение development mode (localhost, \*.lovable.dev)
 - Mock окружение для тестирования вне Telegram
 
 ```typescript
@@ -28,9 +29,11 @@ const { initData, user, isDevelopmentMode, showAlert } = useTelegram();
 ```
 
 #### useAuth Hook (`src/hooks/useAuth.tsx`)
+
 Централизованное управление аутентификацией с автоматическим выбором режима.
 
 **Production Mode:**
+
 ```typescript
 // OAuth flow через Edge Function
 const { user, session } = await authenticateWithTelegram();
@@ -38,6 +41,7 @@ const { user, session } = await authenticateWithTelegram();
 ```
 
 **Development Mode:**
+
 ```typescript
 // Email/password для локальной разработки
 // Автоматически создает тестового пользователя test@lovable.dev
@@ -45,6 +49,7 @@ const { user, session } = await authenticateWithTelegram();
 ```
 
 **Возможности:**
+
 - Управление состояния: `user`, `session`, `loading`, `isAuthenticated`
 - Автоматическое обновление токенов через `autoRefreshToken`
 - Сохранение сессии в `localStorage`
@@ -64,46 +69,44 @@ const { user, session } = await authenticateWithTelegram();
 async function validateTelegramData(initData: string, botToken: string) {
   // Парсинг URLSearchParams
   const urlParams = new URLSearchParams(initData);
-  const receivedHash = urlParams.get('hash');
-  
+  const receivedHash = urlParams.get("hash");
+
   // Удаление hash и signature (signature НЕ участвует в валидации Mini Apps)
-  urlParams.delete('hash');
-  urlParams.delete('signature');
-  
+  urlParams.delete("hash");
+  urlParams.delete("signature");
+
   // Сортировка параметров по алфавиту
   const sortedKeys = Array.from(urlParams.keys()).sort();
-  const dataCheckString = sortedKeys
-    .map(key => `${key}=${urlParams.get(key)}`)
-    .join('\n');
-  
+  const dataCheckString = sortedKeys.map((key) => `${key}=${urlParams.get(key)}`).join("\n");
+
   // HMAC-SHA256 валидация
   // secret_key = HMAC-SHA256("WebAppData", bot_token)
   const secretKey = HMAC_SHA256("WebAppData");
   const tokenSignature = HMAC_SHA256(secretKey, botToken);
-  
+
   // calculated_hash = HMAC-SHA256(token_signature, data_check_string)
   const calculatedHash = HMAC_SHA256(tokenSignature, dataCheckString);
-  
+
   if (calculatedHash !== receivedHash) {
-    throw new Error('Hash validation failed');
+    throw new Error("Hash validation failed");
   }
-  
+
   // Проверка timestamp (защита от replay атак, max 24 часа)
-  const authDate = parseInt(urlParams.get('auth_date'));
+  const authDate = parseInt(urlParams.get("auth_date"));
   const currentTime = Math.floor(Date.now() / 1000);
   if (currentTime - authDate > 86400) {
-    throw new Error('InitData too old');
+    throw new Error("InitData too old");
   }
-  
+
   // Возврат валидированных данных пользователя
-  return JSON.parse(urlParams.get('user'));
+  return JSON.parse(urlParams.get("user"));
 }
 
 // 2️⃣ Поиск существующего пользователя
 const { data: existingProfile } = await supabase
-  .from('profiles')
-  .select('user_id')
-  .eq('telegram_id', telegramUser.id)
+  .from("profiles")
+  .select("user_id")
+  .eq("telegram_id", telegramUser.id)
   .maybeSingle();
 
 // 3️⃣ Создание или обновление пользователя
@@ -111,12 +114,15 @@ if (existingProfile) {
   // Обновление существующего пользователя
   const newPassword = crypto.randomUUID();
   await supabase.auth.admin.updateUserById(userId, { password: newPassword });
-  await supabase.from('profiles').update({
-    first_name: telegramUser.first_name,
-    last_name: telegramUser.last_name,
-    username: telegramUser.username,
-    photo_url: telegramUser.photo_url,
-  }).eq('user_id', userId);
+  await supabase
+    .from("profiles")
+    .update({
+      first_name: telegramUser.first_name,
+      last_name: telegramUser.last_name,
+      username: telegramUser.username,
+      photo_url: telegramUser.photo_url,
+    })
+    .eq("user_id", userId);
 } else {
   // Создание нового пользователя
   const { data: authData } = await supabase.auth.admin.createUser({
@@ -130,8 +136,8 @@ if (existingProfile) {
       username: telegramUser.username,
     },
   });
-  
-  await supabase.from('profiles').insert({
+
+  await supabase.from("profiles").insert({
     user_id: authData.user.id,
     telegram_id: telegramUser.id,
     first_name: telegramUser.first_name,
@@ -159,6 +165,7 @@ return {
 ```
 
 **Улучшенная диагностика:**
+
 - ✅ Детальное логирование каждого шага валидации
 - ✅ Эмоджи-индикаторы для быстрого поиска проблем (🔐, ✅, ❌)
 - ✅ Вывод calculated vs received hash при несовпадении
@@ -191,6 +198,7 @@ return {
 ### 3. Добавление TELEGRAM_BOT_TOKEN в Lovable Cloud
 
 **Через UI:**
+
 1. Откройте чат Lovable
 2. Запросите "View Backend" или нажмите кнопку в чате
 3. Перейдите в **Secrets** раздел
@@ -200,10 +208,11 @@ return {
 5. Секрет автоматически будет доступен в Edge Functions через `Deno.env.get('TELEGRAM_BOT_TOKEN')`
 
 **Проверка:**
+
 ```typescript
 // В Edge Function автоматически доступен
-const botToken = Deno.env.get('TELEGRAM_BOT_TOKEN');
-console.log('Bot token configured:', !!botToken);
+const botToken = Deno.env.get("TELEGRAM_BOT_TOKEN");
+console.log("Bot token configured:", !!botToken);
 ```
 
 ## 🔄 Режимы работы
@@ -211,11 +220,13 @@ console.log('Bot token configured:', !!botToken);
 ### Development Mode 🔧
 
 **Автоматическая активация на:**
+
 - `*.lovable.dev` и `*.lovable.app`
 - `localhost:*`
 - При параметре `?dev=1` в URL
 
 **Особенности:**
+
 - ✅ Email/password аутентификация (`test@lovable.dev` / `testpassword123`)
 - ✅ Mock Telegram окружение с тестовыми данными
 - ✅ Автоматическое создание тестового пользователя при первом входе
@@ -223,30 +234,34 @@ console.log('Bot token configured:', !!botToken);
 - ✅ Не требуется настоящий Telegram Bot Token
 
 **Mock данные:**
+
 ```typescript
 const mockTelegramData = {
   telegram_id: 123456789,
-  first_name: 'Test',
-  last_name: 'User',
-  username: 'testuser',
-  language_code: 'ru',
-  photo_url: 'https://api.dicebear.com/7.x/avataaars/svg?seed=test',
+  first_name: "Test",
+  last_name: "User",
+  username: "testuser",
+  language_code: "ru",
+  photo_url: "https://api.dicebear.com/7.x/avataaars/svg?seed=test",
 };
 ```
 
 ### Production Mode 🚀
 
 **Активация:**
-- Кастомные домены (не *.lovable.dev)
+
+- Кастомные домены (не \*.lovable.dev)
 - Настоящее Telegram Mini App окружение
 
 **Требования:**
+
 - ✅ Реальный `TELEGRAM_BOT_TOKEN` в секретах
 - ✅ Настроенный Mini App в @BotFather
 - ✅ Открытие через Telegram клиент
 - ✅ Валидный `initData` от Telegram Web App SDK
 
 **Процесс:**
+
 1. Пользователь открывает Mini App в Telegram
 2. SDK генерирует подписанный `initData`
 3. Клиент отправляет `initData` на Edge Function
@@ -258,6 +273,7 @@ const mockTelegramData = {
 ## 🔐 Безопасность
 
 ### OAuth Token Flow
+
 - ✅ **Никогда не храним пароли** - используем одноразовые UUID для генерации сессий
 - ✅ **JWT токены с auto-refresh** - Supabase автоматически обновляет токены
 - ✅ **HMAC-SHA256 валидация** - проверка подписи Telegram на сервере
@@ -267,37 +283,37 @@ const mockTelegramData = {
 ### Валидация initData
 
 **✅ Правильная реализация:**
+
 ```typescript
 // 1. Удаляем hash и signature
-urlParams.delete('hash');
-urlParams.delete('signature'); // НЕ участвует в валидации Mini Apps!
+urlParams.delete("hash");
+urlParams.delete("signature"); // НЕ участвует в валидации Mini Apps!
 
 // 2. Сортируем параметры по алфавиту
 const sortedKeys = Array.from(urlParams.keys()).sort();
 
 // 3. Создаем data_check_string
-const dataCheckString = sortedKeys
-  .map(key => `${key}=${urlParams.get(key)}`)
-  .join('\n');
+const dataCheckString = sortedKeys.map((key) => `${key}=${urlParams.get(key)}`).join("\n");
 
 // 4. Вычисляем HMAC-SHA256
-const secretKey = HMAC_SHA256('WebAppData');
+const secretKey = HMAC_SHA256("WebAppData");
 const tokenSig = HMAC_SHA256(secretKey, botToken);
 const calculatedHash = HMAC_SHA256(tokenSig, dataCheckString);
 
 // 5. Сравниваем с полученным hash
 if (calculatedHash !== receivedHash) {
-  throw new Error('Invalid signature');
+  throw new Error("Invalid signature");
 }
 
 // 6. Проверяем timestamp
-const authDate = parseInt(urlParams.get('auth_date'));
+const authDate = parseInt(urlParams.get("auth_date"));
 if (Date.now() / 1000 - authDate > 86400) {
-  throw new Error('Expired initData');
+  throw new Error("Expired initData");
 }
 ```
 
 **❌ Типичные ошибки:**
+
 ```typescript
 // ❌ Включение signature в валидацию
 // signature НЕ используется для Mini Apps, только hash!
@@ -341,6 +357,7 @@ USING (auth.uid() = user_id);
 **Причина:** Несовпадение вычисленного и полученного hash
 
 **Диагностика:**
+
 ```bash
 # Проверьте логи Edge Function (автоматически в консоли)
 🔐 Calculated hash: abc123...
@@ -348,6 +365,7 @@ USING (auth.uid() = user_id);
 ```
 
 **Решение:**
+
 1. ✅ Убедитесь, что `TELEGRAM_BOT_TOKEN` установлен правильно в секретах
 2. ✅ Проверьте, что используется актуальная версия Edge Function (автодеплой)
 3. ✅ Убедитесь, что `signature` удаляется из параметров валидации
@@ -359,7 +377,8 @@ USING (auth.uid() = user_id);
 **Причина:** Приложение открыто не через Telegram Mini App
 
 **Решение:**
-- 🔧 **Development**: Используется автоматически на localhost и *.lovable.dev
+
+- 🔧 **Development**: Используется автоматически на localhost и \*.lovable.dev
 - 🚀 **Production**: Откройте приложение через Telegram:
   1. Найдите своего бота в Telegram
   2. Запустите бота командой `/start`
@@ -370,6 +389,7 @@ USING (auth.uid() = user_id);
 **Причина:** Поврежденный или устаревший initData
 
 **Решение:**
+
 1. Перезапустите Mini App в Telegram
 2. Проверьте timestamp в логах:
    ```bash
@@ -383,6 +403,7 @@ USING (auth.uid() = user_id);
 **Причина:** Проблема с Supabase Auth или профилем
 
 **Решение:**
+
 1. Проверьте логи Edge Function:
    ```bash
    ✅ Auth user created: [user_id]
@@ -398,6 +419,7 @@ USING (auth.uid() = user_id);
 **Причина:** Секрет не установлен в Lovable Cloud
 
 **Решение:**
+
 1. Откройте Backend через кнопку "View Backend"
 2. Перейдите в раздел **Secrets**
 3. Добавьте секрет `TELEGRAM_BOT_TOKEN` со значением от @BotFather
@@ -408,6 +430,7 @@ USING (auth.uid() = user_id);
 **Причина:** Ошибка в Edge Function или окружении
 
 **Диагностика:**
+
 ```bash
 # Проверьте логи в режиме реального времени
 🚀 Telegram Auth function invoked
@@ -418,6 +441,7 @@ USING (auth.uid() = user_id);
 ```
 
 **Решение:**
+
 1. Проверьте Browser Console (F12) для полного текста ошибки
 2. Проверьте Edge Function Logs в Backend → Functions → telegram-auth
 3. Убедитесь, что все environment variables установлены:
@@ -468,6 +492,7 @@ npm run dev
 ## Поддержка
 
 При возникновении проблем:
+
 1. Проверьте логи edge function в Lovable Cloud
 2. Проверьте browser console для frontend ошибок
 3. Убедитесь, что TELEGRAM_BOT_TOKEN установлен корректно

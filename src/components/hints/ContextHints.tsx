@@ -9,10 +9,10 @@
  * are all handled by `UnifiedTipCard` + `HintRegistry`.
  */
 
-import { memo, useMemo } from 'react';
-import { getHintsByContext, type HintContext } from './registry';
-import { useHintRegistry } from './HintRegistry';
-import { UnifiedTipCard } from './UnifiedTipCard';
+import { memo, useMemo } from "react";
+import { getHintsByContext, type HintContext } from "./registry";
+import { useHintRegistry } from "./HintRegistry";
+import { UnifiedTipCard } from "./UnifiedTipCard";
 
 interface ContextHintsProps {
   context: HintContext;
@@ -20,10 +20,7 @@ interface ContextHintsProps {
   delay?: number;
 }
 
-export const ContextHints = memo(function ContextHints({
-  context,
-  delay = 2500,
-}: ContextHintsProps) {
+export const ContextHints = memo(function ContextHints({ context, delay = 2500 }: ContextHintsProps) {
   const reg = useHintRegistry();
 
   // Re-evaluate on every render — the registry triggers a re-render

@@ -12,7 +12,7 @@ export interface Track {
   fileId?: string;
   tags: string | null;
   style: string | null;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   created_at: string;
   play_count: number | null;
   prompt: string;
@@ -32,7 +32,7 @@ export interface Project {
 
 export interface GenerationTask {
   id: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
   prompt: string;
   error_message: string | null;
   created_at: string;
@@ -46,7 +46,7 @@ export interface BotSession {
   currentTrackIndex: number;
   currentProjectIndex: number;
   lastMessageId?: number;
-  view: 'main' | 'library' | 'projects' | 'settings' | 'track_detail' | 'share';
+  view: "main" | "library" | "projects" | "settings" | "track_detail" | "share";
   selectedTrackId?: string;
   selectedProjectId?: string;
 }
@@ -65,8 +65,8 @@ export interface InlineKeyboardButton {
 }
 
 export interface InputMediaPhoto {
-  type: 'photo';
+  type: "photo";
   media: string;
   caption?: string;
-  parse_mode?: 'MarkdownV2' | 'HTML';
+  parse_mode?: "MarkdownV2" | "HTML";
 }

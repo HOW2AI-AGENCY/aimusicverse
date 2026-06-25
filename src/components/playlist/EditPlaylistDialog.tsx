@@ -1,20 +1,15 @@
-import { useState, useEffect } from 'react';
-import { ImagePlus, Loader2 } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { usePlaylists, type Playlist } from '@/hooks/usePlaylists';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useEffect } from "react";
+import { ImagePlus, Loader2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { usePlaylists, type Playlist } from "@/hooks/usePlaylists";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface EditPlaylistDialogProps {
   playlist: Playlist | null;
@@ -24,8 +19,8 @@ interface EditPlaylistDialogProps {
 
 export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylistDialogProps) {
   const { updatePlaylist } = usePlaylists();
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [coverUrl, setCoverUrl] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -34,7 +29,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
   useEffect(() => {
     if (playlist) {
       setTitle(playlist.title);
-      setDescription(playlist.description || '');
+      setDescription(playlist.description || "");
       setIsPublic(playlist.is_public ?? false);
       setCoverUrl(playlist.cover_url);
     }
@@ -42,14 +37,14 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
 
   const handleGenerateCover = async () => {
     if (!title.trim()) {
-      toast.error('Введите название плейлиста');
+      toast.error("Введите название плейлиста");
       return;
     }
 
     setIsGeneratingCover(true);
     try {
-      const { data, error } = await supabase.functions.invoke('generate-playlist-cover', {
-        body: { 
+      const { data, error } = await supabase.functions.invoke("generate-playlist-cover", {
+        body: {
           playlistTitle: title,
           trackCount: playlist?.track_count,
         },
@@ -58,11 +53,11 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
       if (error) throw error;
       if (data?.imageUrl) {
         setCoverUrl(data.imageUrl);
-        toast.success('Обложка сгенерирована');
+        toast.success("Обложка сгенерирована");
       }
     } catch (error) {
-      logger.error('Error generating cover', error);
-      toast.error('Ошибка генерации обложки');
+      logger.error("Error generating cover", error);
+      toast.error("Ошибка генерации обложки");
     } finally {
       setIsGeneratingCover(false);
     }
@@ -103,7 +98,13 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
             <div className="flex gap-3 items-center">
               <div className="w-20 h-20 rounded-lg overflow-hidden bg-muted shrink-0">
                 {coverUrl ? (
-                  <img loading="lazy" decoding="async" src={coverUrl} alt="Cover" className="w-full h-full object-cover" />
+                  <img
+                    loading="lazy"
+                    decoding="async"
+                    src={coverUrl}
+                    alt="Cover"
+                    className="w-full h-full object-cover"
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-muted-foreground">
                     <ImagePlus className="h-8 w-8" />
@@ -123,7 +124,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
                     Генерация...
                   </>
                 ) : (
-                  'Сгенерировать обложку'
+                  "Сгенерировать обложку"
                 )}
               </Button>
             </div>
@@ -154,15 +155,9 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label htmlFor="edit-public">Публичный</Label>
-              <p className="text-sm text-muted-foreground">
-                Другие пользователи смогут видеть плейлист
-              </p>
+              <p className="text-sm text-muted-foreground">Другие пользователи смогут видеть плейлист</p>
             </div>
-            <Switch
-              id="edit-public"
-              checked={isPublic}
-              onCheckedChange={setIsPublic}
-            />
+            <Switch id="edit-public" checked={isPublic} onCheckedChange={setIsPublic} />
           </div>
 
           <div className="flex justify-end gap-2 pt-2">
@@ -170,7 +165,7 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
               Отмена
             </Button>
             <Button type="submit" disabled={!title.trim() || isSubmitting}>
-              {isSubmitting ? 'Сохранение...' : 'Сохранить'}
+              {isSubmitting ? "Сохранение..." : "Сохранить"}
             </Button>
           </div>
         </form>

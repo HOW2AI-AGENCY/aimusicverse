@@ -3,7 +3,7 @@
  * Bundle size reduction and runtime performance helpers
  */
 
-import { lazy, ComponentType, LazyExoticComponent, Suspense, ReactNode } from 'react';
+import { lazy, ComponentType, LazyExoticComponent, Suspense, ReactNode } from "react";
 
 /**
  * Enhanced lazy loading with retry logic
@@ -12,7 +12,7 @@ import { lazy, ComponentType, LazyExoticComponent, Suspense, ReactNode } from 'r
 export function lazyWithRetry<T extends ComponentType<unknown>>(
   importFn: () => Promise<{ default: T }>,
   retries = 3,
-  delay = 1000
+  delay = 1000,
 ): LazyExoticComponent<T> {
   return lazy(async () => {
     let lastError: Error | null = null;
@@ -22,10 +22,10 @@ export function lazyWithRetry<T extends ComponentType<unknown>>(
         return await importFn();
       } catch (error) {
         lastError = error as Error;
-        
+
         // Wait before retry
         if (i < retries - 1) {
-          await new Promise(resolve => setTimeout(resolve, delay * (i + 1)));
+          await new Promise((resolve) => setTimeout(resolve, delay * (i + 1)));
         }
       }
     }
@@ -33,26 +33,26 @@ export function lazyWithRetry<T extends ComponentType<unknown>>(
     // After all retries failed, check if it's a chunk loading error
     if (lastError && isChunkLoadError(lastError)) {
       // Check if we've already tried reloading once to prevent infinite loops
-      const reloadKey = 'chunk_reload_attempted';
+      const reloadKey = "chunk_reload_attempted";
       const reloadAttempted = sessionStorage.getItem(reloadKey);
-      
+
       if (!reloadAttempted) {
         // Mark that we're attempting a reload
         sessionStorage.setItem(reloadKey, Date.now().toString());
-        
+
         // Clear the flag after 10 seconds (in case reload doesn't happen)
         setTimeout(() => {
           sessionStorage.removeItem(reloadKey);
         }, 10000);
-        
+
         // Reload the page to get the new chunk versions
         window.location.reload();
-        
+
         // Return a dummy component while reload is happening
         // This will never actually render but prevents the error from propagating
         return { default: (() => null) as unknown as T };
       }
-      
+
       // If we already tried reloading, clear the flag and let the error propagate
       // This prevents infinite reload loops if the chunk is genuinely missing
       sessionStorage.removeItem(reloadKey);
@@ -67,25 +67,23 @@ export function lazyWithRetry<T extends ComponentType<unknown>>(
  * Check if an error is a chunk loading error
  */
 function isChunkLoadError(error: Error): boolean {
-  const message = error.message || '';
-  const name = error.name || '';
-  
+  const message = error.message || "";
+  const name = error.name || "";
+
   // Detect various chunk loading error patterns
   return (
-    message.includes('Failed to fetch dynamically imported module') ||
-    message.includes('error loading dynamically imported module') ||
-    message.includes('Importing a module script failed') ||
-    message.includes('Failed to load module script') ||
-    name === 'ChunkLoadError'
+    message.includes("Failed to fetch dynamically imported module") ||
+    message.includes("error loading dynamically imported module") ||
+    message.includes("Importing a module script failed") ||
+    message.includes("Failed to load module script") ||
+    name === "ChunkLoadError"
   );
 }
 
 /**
  * Preload a lazy component
  */
-export function preloadComponent<T extends ComponentType<unknown>>(
-  importFn: () => Promise<{ default: T }>
-): void {
+export function preloadComponent<T extends ComponentType<unknown>>(importFn: () => Promise<{ default: T }>): void {
   importFn().catch(() => {
     // Silently fail preload - component will load when needed
   });
@@ -95,7 +93,7 @@ export function preloadComponent<T extends ComponentType<unknown>>(
  * Create a lazy component with preload capability
  */
 export function createLazyComponent<T extends ComponentType<unknown>>(
-  importFn: () => Promise<{ default: T }>
+  importFn: () => Promise<{ default: T }>,
 ): LazyExoticComponent<T> & { preload: () => void } {
   const LazyComponent = lazy(importFn) as LazyExoticComponent<T> & { preload: () => void };
   LazyComponent.preload = () => preloadComponent(importFn);
@@ -107,10 +105,10 @@ export function createLazyComponent<T extends ComponentType<unknown>>(
  */
 export function useLazyLoad(
   callback: () => void,
-  options: IntersectionObserverInit = {}
+  options: IntersectionObserverInit = {},
 ): (element: Element | null) => void {
   const defaultOptions: IntersectionObserverInit = {
-    rootMargin: '100px',
+    rootMargin: "100px",
     threshold: 0,
     ...options,
   };
@@ -125,7 +123,7 @@ export function useLazyLoad(
     if (!element) return;
 
     observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           callback();
           observer?.disconnect();
@@ -142,7 +140,7 @@ export function useLazyLoad(
  */
 export function debounce<T extends (...args: unknown[]) => unknown>(
   fn: T,
-  delay: number
+  delay: number,
 ): (...args: Parameters<T>) => void {
   let timeoutId: ReturnType<typeof setTimeout>;
 
@@ -157,7 +155,7 @@ export function debounce<T extends (...args: unknown[]) => unknown>(
  */
 export function throttle<T extends (...args: unknown[]) => unknown>(
   fn: T,
-  limit: number
+  limit: number,
 ): (...args: Parameters<T>) => void {
   let inThrottle = false;
 
@@ -176,34 +174,36 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
  * Request Idle Callback polyfill with fallback
  */
 export const requestIdleCallback =
-  typeof window !== 'undefined' && 'requestIdleCallback' in window
+  typeof window !== "undefined" && "requestIdleCallback" in window
     ? window.requestIdleCallback
-    : (cb: IdleRequestCallback) => setTimeout(() => cb({ 
-        didTimeout: false, 
-        timeRemaining: () => 50 
-      } as IdleDeadline), 1);
+    : (cb: IdleRequestCallback) =>
+        setTimeout(
+          () =>
+            cb({
+              didTimeout: false,
+              timeRemaining: () => 50,
+            } as IdleDeadline),
+          1,
+        );
 
 /**
  * Cancel Idle Callback polyfill
  */
 export const cancelIdleCallback =
-  typeof window !== 'undefined' && 'cancelIdleCallback' in window
+  typeof window !== "undefined" && "cancelIdleCallback" in window
     ? window.cancelIdleCallback
     : (id: number) => clearTimeout(id);
 
 /**
  * Run expensive computation during idle time
  */
-export function runWhenIdle<T>(
-  fn: () => T,
-  timeout = 2000
-): Promise<T> {
+export function runWhenIdle<T>(fn: () => T, timeout = 2000): Promise<T> {
   return new Promise((resolve) => {
     requestIdleCallback(
       () => {
         resolve(fn());
       },
-      { timeout }
+      { timeout },
     );
   });
 }
@@ -211,10 +211,7 @@ export function runWhenIdle<T>(
 /**
  * Memory-efficient memoization with LRU cache
  */
-export function memoizeWithLimit<T extends (...args: unknown[]) => unknown>(
-  fn: T,
-  maxSize = 100
-): T {
+export function memoizeWithLimit<T extends (...args: unknown[]) => unknown>(fn: T, maxSize = 100): T {
   const cache = new Map<string, ReturnType<T>>();
   const keys: string[] = [];
 
@@ -257,7 +254,7 @@ export async function processBatched<T, R>(
   items: T[],
   processor: (item: T) => R | Promise<R>,
   batchSize = 10,
-  delayBetweenBatches = 0
+  delayBetweenBatches = 0,
 ): Promise<R[]> {
   const chunks = chunkArray(items, batchSize);
   const results: R[] = [];
@@ -267,7 +264,7 @@ export async function processBatched<T, R>(
     results.push(...chunkResults);
 
     if (delayBetweenBatches > 0) {
-      await new Promise(resolve => setTimeout(resolve, delayBetweenBatches));
+      await new Promise((resolve) => setTimeout(resolve, delayBetweenBatches));
     }
   }
 
@@ -282,7 +279,7 @@ export function getVisibleRange(
   containerHeight: number,
   itemHeight: number,
   totalItems: number,
-  overscan = 3
+  overscan = 3,
 ): { start: number; end: number } {
   const start = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan);
   const visibleCount = Math.ceil(containerHeight / itemHeight);
@@ -300,12 +297,12 @@ export function createImageLoader(
     onLoad?: () => void;
     onError?: (error: Error) => void;
     priority?: boolean;
-  } = {}
+  } = {},
 ): HTMLImageElement {
   const img = new Image();
 
   if (options.priority) {
-    img.fetchPriority = 'high';
+    img.fetchPriority = "high";
   }
 
   img.onload = () => options.onLoad?.();
@@ -319,11 +316,11 @@ export function createImageLoader(
  * Prefetch resources during idle time
  */
 export function prefetchResources(urls: string[]): void {
-  if (typeof document === 'undefined') return;
+  if (typeof document === "undefined") return;
 
-  urls.forEach(url => {
-    const link = document.createElement('link');
-    link.rel = 'prefetch';
+  urls.forEach((url) => {
+    const link = document.createElement("link");
+    link.rel = "prefetch";
     link.href = url;
     document.head.appendChild(link);
   });
@@ -333,39 +330,43 @@ export function prefetchResources(urls: string[]): void {
  * Detect slow network connection
  */
 export function isSlowConnection(): boolean {
-  if (typeof navigator === 'undefined' || !('connection' in navigator)) {
+  if (typeof navigator === "undefined" || !("connection" in navigator)) {
     return false;
   }
 
-  const connection = (navigator as Navigator & { 
-    connection?: { 
-      effectiveType?: string;
-      saveData?: boolean;
-    } 
-  }).connection;
+  const connection = (
+    navigator as Navigator & {
+      connection?: {
+        effectiveType?: string;
+        saveData?: boolean;
+      };
+    }
+  ).connection;
 
   if (!connection) return false;
 
   // Check for save-data mode or slow connection types
   if (connection.saveData) return true;
 
-  const slowTypes = ['slow-2g', '2g', '3g'];
-  return slowTypes.includes(connection.effectiveType || '');
+  const slowTypes = ["slow-2g", "2g", "3g"];
+  return slowTypes.includes(connection.effectiveType || "");
 }
 
 /**
  * Adaptive quality based on connection
  */
-export function getAdaptiveQuality(): 'low' | 'medium' | 'high' {
-  if (isSlowConnection()) return 'low';
-  
-  if (typeof navigator !== 'undefined' && 'connection' in navigator) {
-    const connection = (navigator as Navigator & { 
-      connection?: { effectiveType?: string } 
-    }).connection;
-    
-    if (connection?.effectiveType === '4g') return 'high';
+export function getAdaptiveQuality(): "low" | "medium" | "high" {
+  if (isSlowConnection()) return "low";
+
+  if (typeof navigator !== "undefined" && "connection" in navigator) {
+    const connection = (
+      navigator as Navigator & {
+        connection?: { effectiveType?: string };
+      }
+    ).connection;
+
+    if (connection?.effectiveType === "4g") return "high";
   }
 
-  return 'medium';
+  return "medium";
 }

@@ -16,10 +16,9 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-
 
   try {
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
@@ -33,10 +32,10 @@ serve(async (req) => {
     const { trackId, audioUrl, analysisTypes } = await req.json();
 
     if (!trackId || !audioUrl) {
-      return new Response(
-        JSON.stringify({ error: "Missing trackId or audioUrl" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Missing trackId or audioUrl" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     console.log("Starting advanced music analysis:", { trackId, audioUrl, analysisTypes });
@@ -70,7 +69,7 @@ Important: Return ONLY valid JSON, no additional text or markdown.`;
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -90,7 +89,7 @@ Important: Return ONLY valid JSON, no additional text or markdown.`;
 
     const aiResponse = await response.json();
     const content = aiResponse.choices?.[0]?.message?.content || "";
-    
+
     console.log("AI response:", content);
 
     // Parse the JSON response
@@ -187,50 +186,48 @@ Important: Return ONLY valid JSON, no additional text or markdown.`;
         throw new Error("No authorization header");
       }
 
-      const { data: { user }, error: userError } = await supabase.auth.getUser(
-        authHeader.replace("Bearer ", "")
-      );
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
       if (userError || !user) {
         throw new Error("Unauthorized");
       }
 
-      const { error: insertError } = await supabase
-        .from("audio_analysis")
-        .insert({
-          track_id: trackId,
-          user_id: user.id,
-          analysis_type: "advanced_ai",
-          bpm: results.bpm,
-          beats_data: results.beats_data,
-          arousal: results.arousal,
-          valence: results.valence,
-          approachability: results.approachability,
-          engagement: results.engagement,
-          genre: results.genre,
-          mood: results.mood,
-          tempo: results.tempo,
-          key_signature: results.key_signature,
-          instruments: results.instruments,
-          structure: results.structure,
-          style_description: results.style_description,
-          analysis_metadata: results.analysis_metadata,
-        });
+      const { error: insertError } = await supabase.from("audio_analysis").insert({
+        track_id: trackId,
+        user_id: user.id,
+        analysis_type: "advanced_ai",
+        bpm: results.bpm,
+        beats_data: results.beats_data,
+        arousal: results.arousal,
+        valence: results.valence,
+        approachability: results.approachability,
+        engagement: results.engagement,
+        genre: results.genre,
+        mood: results.mood,
+        tempo: results.tempo,
+        key_signature: results.key_signature,
+        instruments: results.instruments,
+        structure: results.structure,
+        style_description: results.style_description,
+        analysis_metadata: results.analysis_metadata,
+      });
 
       if (insertError) throw insertError;
     }
 
-    return new Response(
-      JSON.stringify({ success: true, results }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ success: true, results }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Advanced music analysis error:", error);
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Unknown error" 
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

@@ -43,10 +43,10 @@ sequenceDiagram
     TelegramApp->>Frontend: Передаёт initData с подписью
     Frontend->>EdgeFunction: POST /telegram-auth {initData}
     EdgeFunction->>EdgeFunction: Валидация HMAC-SHA256
-    
+
     alt Подпись валидна
         EdgeFunction->>Database: Поиск профиля по telegram_id
-        
+
         alt Пользователь существует
             EdgeFunction->>SupabaseAuth: Обновление пароля
             EdgeFunction->>SupabaseAuth: signInWithPassword()
@@ -55,7 +55,7 @@ sequenceDiagram
             Note over Database: Триггер создаёт профиль автоматически
             EdgeFunction->>SupabaseAuth: signInWithPassword()
         end
-        
+
         SupabaseAuth->>EdgeFunction: JWT токен + Session
         EdgeFunction->>Frontend: {access_token, refresh_token, user}
         Frontend->>Frontend: Сохранение сессии в localStorage
@@ -80,13 +80,13 @@ interface TelegramContextType {
   initData: string;
   isInitialized: boolean;
   isDevelopmentMode: boolean;
-  
+
   // Methods
   showMainButton: (text: string, onClick: () => void) => void;
   hideMainButton: () => void;
   showBackButton: (onClick: () => void) => void;
   hideBackButton: () => void;
-  hapticFeedback: (type: 'light' | 'medium' | 'heavy') => void;
+  hapticFeedback: (type: "light" | "medium" | "heavy") => void;
   close: () => void;
   expand: () => void;
   ready: () => void;
@@ -94,6 +94,7 @@ interface TelegramContextType {
 ```
 
 **Ключевые возможности:**
+
 - Инициализация Telegram Web App SDK
 - Получение данных пользователя из `initDataUnsafe`
 - Поддержка Development Mode (без Telegram)
@@ -115,7 +116,7 @@ const useAuth = () => {
   const { user, session, loading, isAuthenticated } = useAuthState();
   const authenticateWithTelegram = async (): Promise<AuthResult>;
   const logout = async (): Promise<void>;
-  
+
   return {
     user,
     session,
@@ -133,7 +134,6 @@ const useAuth = () => {
   - Вызывает Edge Function `/telegram-auth`
   - Передаёт `initData` из Telegram
   - Получает JWT токен от Supabase
-  
 - **Development Mode** (на `*.lovable.dev` или `localhost`):
   - Использует email/password (`dev@test.com` / `devpassword123`)
   - Создаёт mock данные пользователя
@@ -150,41 +150,41 @@ export default async (req: Request) => {
   // 1. Валидация HMAC-SHA256
   const initData = await req.text();
   const isValid = validateTelegramData(initData, TELEGRAM_BOT_TOKEN);
-  if (!isValid) return new Response('Invalid signature', { status: 401 });
+  if (!isValid) return new Response("Invalid signature", { status: 401 });
 
   // 2. Парсинг данных пользователя
   const userData = parseInitData(initData);
-  
+
   // 3. Поиск существующего профиля
   const { data: existingProfile } = await supabase
-    .from('profiles')
-    .select('user_id')
-    .eq('telegram_id', userData.id)
+    .from("profiles")
+    .select("user_id")
+    .eq("telegram_id", userData.id)
     .single();
 
   // 4. Создание или обновление пользователя
   if (existingProfile) {
     // Обновление пароля существующего пользователя
     await supabase.auth.admin.updateUserById(existingProfile.user_id, {
-      password: generatedPassword
+      password: generatedPassword,
     });
   } else {
     // Создание нового пользователя (триггер создаст профиль)
     await supabase.auth.admin.createUser({
       email: `telegram_${userData.id}@telegram.user`,
       password: generatedPassword,
-      user_metadata: userData
+      user_metadata: userData,
     });
   }
 
   // 5. Вход и генерация JWT
   const { data: authData } = await supabase.auth.signInWithPassword({
     email: `telegram_${userData.id}@telegram.user`,
-    password: generatedPassword
+    password: generatedPassword,
   });
 
   return new Response(JSON.stringify(authData), {
-    headers: { 'Content-Type': 'application/json', ...corsHeaders }
+    headers: { "Content-Type": "application/json", ...corsHeaders },
   });
 };
 ```
@@ -194,24 +194,20 @@ export default async (req: Request) => {
 ```typescript
 function validateTelegramData(initData: string, botToken: string): boolean {
   const params = new URLSearchParams(initData);
-  const hash = params.get('hash');
-  params.delete('hash');
-  
+  const hash = params.get("hash");
+  params.delete("hash");
+
   // Сортировка параметров
   const sortedParams = Array.from(params.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, value]) => `${key}=${value}`)
-    .join('\n');
-  
+    .join("\n");
+
   // Вычисление HMAC-SHA256
-  const secretKey = createHmac('sha256', 'WebAppData')
-    .update(botToken)
-    .digest();
-  
-  const calculatedHash = createHmac('sha256', secretKey)
-    .update(sortedParams)
-    .digest('hex');
-  
+  const secretKey = createHmac("sha256", "WebAppData").update(botToken).digest();
+
+  const calculatedHash = createHmac("sha256", secretKey).update(sortedParams).digest("hex");
+
   return hash === calculatedHash;
 }
 ```
@@ -253,7 +249,7 @@ CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
   INSERT INTO public.profiles (
-    user_id, telegram_id, first_name, last_name, 
+    user_id, telegram_id, first_name, last_name,
     username, language_code, photo_url
   )
   VALUES (
@@ -333,29 +329,29 @@ const isExpanded = webApp.isExpanded;
 const themeParams = webApp.themeParams;
 
 // Доступные цвета:
-themeParams.bg_color            // Фон приложения
-themeParams.text_color          // Основной текст
-themeParams.hint_color          // Второстепенный текст
-themeParams.link_color          // Ссылки
-themeParams.button_color        // Кнопки
-themeParams.button_text_color   // Текст на кнопках
-themeParams.secondary_bg_color  // Вторичный фон
+themeParams.bg_color; // Фон приложения
+themeParams.text_color; // Основной текст
+themeParams.hint_color; // Второстепенный текст
+themeParams.link_color; // Ссылки
+themeParams.button_color; // Кнопки
+themeParams.button_text_color; // Текст на кнопках
+themeParams.secondary_bg_color; // Вторичный фон
 ```
 
 **Установка цветов:**
 
 ```typescript
 // Цвет header'а
-webApp.setHeaderColor('bg_color'); // или 'secondary_bg_color'
-webApp.setHeaderColor('#FF0000'); // Или hex (с v6.10)
+webApp.setHeaderColor("bg_color"); // или 'secondary_bg_color'
+webApp.setHeaderColor("#FF0000"); // Или hex (с v6.10)
 
 // Цвет фона
-webApp.setBackgroundColor('bg_color');
-webApp.setBackgroundColor('#FFFFFF'); // Или hex
+webApp.setBackgroundColor("bg_color");
+webApp.setBackgroundColor("#FFFFFF"); // Или hex
 
 // Цвет нижней панели (bottom bar)
-webApp.setBottomBarColor('bg_color');
-webApp.setBottomBarColor('#000000');
+webApp.setBottomBarColor("bg_color");
+webApp.setBottomBarColor("#000000");
 ```
 
 #### 3. MainButton (Главная кнопка)
@@ -366,7 +362,7 @@ webApp.setBottomBarColor('#000000');
 const MainButton = webApp.MainButton;
 
 // Установка текста
-MainButton.setText('Создать трек');
+MainButton.setText("Создать трек");
 
 // Показать/скрыть
 MainButton.show();
@@ -377,8 +373,8 @@ MainButton.enable();
 MainButton.disable();
 
 // Изменение цвета
-MainButton.color = '#FF0000';
-MainButton.textColor = '#FFFFFF';
+MainButton.color = "#FF0000";
+MainButton.textColor = "#FFFFFF";
 
 // Прогресс-индикатор
 MainButton.showProgress(false); // false = кнопка остаётся активной
@@ -386,7 +382,7 @@ MainButton.hideProgress();
 
 // Обработчик клика
 MainButton.onClick(() => {
-  console.log('MainButton clicked');
+  console.log("MainButton clicked");
 });
 
 // Удалить обработчик
@@ -430,22 +426,23 @@ BackButton.isVisible;
 const HapticFeedback = webApp.HapticFeedback;
 
 // Impact - удар (для кнопок, переключателей)
-HapticFeedback.impactOccurred('light');   // Лёгкий
-HapticFeedback.impactOccurred('medium');  // Средний
-HapticFeedback.impactOccurred('heavy');   // Сильный
-HapticFeedback.impactOccurred('rigid');   // Жёсткий
-HapticFeedback.impactOccurred('soft');    // Мягкий
+HapticFeedback.impactOccurred("light"); // Лёгкий
+HapticFeedback.impactOccurred("medium"); // Средний
+HapticFeedback.impactOccurred("heavy"); // Сильный
+HapticFeedback.impactOccurred("rigid"); // Жёсткий
+HapticFeedback.impactOccurred("soft"); // Мягкий
 
 // Notification - уведомление (для результатов действий)
-HapticFeedback.notificationOccurred('error');   // Ошибка
-HapticFeedback.notificationOccurred('success'); // Успех
-HapticFeedback.notificationOccurred('warning'); // Предупреждение
+HapticFeedback.notificationOccurred("error"); // Ошибка
+HapticFeedback.notificationOccurred("success"); // Успех
+HapticFeedback.notificationOccurred("warning"); // Предупреждение
 
 // Selection - изменение выбора (для прокрутки, свайпов)
 HapticFeedback.selectionChanged();
 ```
 
 **Рекомендации по использованию:**
+
 - `light/medium` - для обычных кнопок
 - `heavy` - для важных действий
 - `success` - после успешного завершения
@@ -458,37 +455,41 @@ HapticFeedback.selectionChanged();
 
 ```typescript
 // Простое уведомление
-webApp.showAlert('Трек успешно создан!', () => {
-  console.log('Alert closed');
+webApp.showAlert("Трек успешно создан!", () => {
+  console.log("Alert closed");
 });
 
 // Подтверждение
-webApp.showConfirm('Удалить этот трек?', (confirmed) => {
+webApp.showConfirm("Удалить этот трек?", (confirmed) => {
   if (confirmed) {
     // Удаление
   }
 });
 
 // Кастомное popup
-webApp.showPopup({
-  title: 'Выбор действия',
-  message: 'Что вы хотите сделать с треком?',
-  buttons: [
-    { id: 'edit', type: 'default', text: 'Редактировать' },
-    { id: 'share', type: 'default', text: 'Поделиться' },
-    { id: 'delete', type: 'destructive', text: 'Удалить' },
-    { type: 'cancel' }
-  ]
-}, (buttonId) => {
-  if (buttonId === 'delete') {
-    // Удаление
-  } else if (buttonId === 'share') {
-    // Шаринг
-  }
-});
+webApp.showPopup(
+  {
+    title: "Выбор действия",
+    message: "Что вы хотите сделать с треком?",
+    buttons: [
+      { id: "edit", type: "default", text: "Редактировать" },
+      { id: "share", type: "default", text: "Поделиться" },
+      { id: "delete", type: "destructive", text: "Удалить" },
+      { type: "cancel" },
+    ],
+  },
+  (buttonId) => {
+    if (buttonId === "delete") {
+      // Удаление
+    } else if (buttonId === "share") {
+      // Шаринг
+    }
+  },
+);
 ```
 
 **Типы кнопок:**
+
 - `default` - обычная кнопка
 - `destructive` - деструктивное действие (красная)
 - `ok` - подтверждение (синяя)
@@ -501,25 +502,25 @@ webApp.showPopup({
 
 ```typescript
 // Сохранить данные
-webApp.CloudStorage.setItem('key', 'value', (error, success) => {
+webApp.CloudStorage.setItem("key", "value", (error, success) => {
   if (success) {
-    console.log('Saved');
+    console.log("Saved");
   }
 });
 
 // Получить данные
-webApp.CloudStorage.getItem('key', (error, value) => {
+webApp.CloudStorage.getItem("key", (error, value) => {
   console.log(value);
 });
 
 // Получить несколько значений
-webApp.CloudStorage.getItems(['key1', 'key2'], (error, values) => {
+webApp.CloudStorage.getItems(["key1", "key2"], (error, values) => {
   console.log(values); // { key1: 'value1', key2: 'value2' }
 });
 
 // Удалить
-webApp.CloudStorage.removeItem('key', (error, success) => {
-  console.log('Removed');
+webApp.CloudStorage.removeItem("key", (error, success) => {
+  console.log("Removed");
 });
 
 // Получить все ключи
@@ -529,6 +530,7 @@ webApp.CloudStorage.getKeys((error, keys) => {
 ```
 
 **Лимиты:**
+
 - До 1024 ключей
 - До 4096 байт на значение
 - Синхронизация между устройствами пользователя
@@ -538,14 +540,17 @@ webApp.CloudStorage.getKeys((error, keys) => {
 **Сканирование QR-кодов:**
 
 ```typescript
-webApp.showScanQrPopup({
-  text: 'Отсканируйте QR-код'
-}, (data) => {
-  if (data) {
-    console.log('Scanned:', data);
-    webApp.closeScanQrPopup();
-  }
-});
+webApp.showScanQrPopup(
+  {
+    text: "Отсканируйте QR-код",
+  },
+  (data) => {
+    if (data) {
+      console.log("Scanned:", data);
+      webApp.closeScanQrPopup();
+    }
+  },
+);
 
 // Закрыть сканер
 webApp.closeScanQrPopup();
@@ -557,15 +562,15 @@ webApp.closeScanQrPopup();
 
 ```typescript
 // Открыть ссылку в браузере
-webApp.openLink('https://example.com');
+webApp.openLink("https://example.com");
 
 // Открыть Telegram ссылку
-webApp.openTelegramLink('https://t.me/channel');
+webApp.openTelegramLink("https://t.me/channel");
 
 // Открыть Invoice (счёт на оплату)
-webApp.openInvoice('invoice_link', (status) => {
-  if (status === 'paid') {
-    console.log('Payment successful');
+webApp.openInvoice("invoice_link", (status) => {
+  if (status === "paid") {
+    console.log("Payment successful");
   }
 });
 ```
@@ -576,12 +581,12 @@ webApp.openInvoice('invoice_link', (status) => {
 
 ```typescript
 // Поделиться URL в чат
-webApp.shareToStory('https://example.com/track/123', {
-  text: 'Послушайте мой новый трек!',
+webApp.shareToStory("https://example.com/track/123", {
+  text: "Послушайте мой новый трек!",
   widget_link: {
-    url: 'https://example.com/track/123',
-    name: 'Открыть трек'
-  }
+    url: "https://example.com/track/123",
+    name: "Открыть трек",
+  },
 });
 ```
 
@@ -608,22 +613,22 @@ webApp.disableClosingConfirmation();
 
 ```typescript
 // Изменение темы
-webApp.onEvent('themeChanged', () => {
-  console.log('Theme changed:', webApp.colorScheme);
+webApp.onEvent("themeChanged", () => {
+  console.log("Theme changed:", webApp.colorScheme);
 });
 
 // Изменение размера viewport
-webApp.onEvent('viewportChanged', () => {
-  console.log('Viewport changed:', webApp.viewportHeight);
+webApp.onEvent("viewportChanged", () => {
+  console.log("Viewport changed:", webApp.viewportHeight);
 });
 
 // Подтверждение закрытия
-webApp.onEvent('popupClosed', (event) => {
-  console.log('Popup closed:', event);
+webApp.onEvent("popupClosed", (event) => {
+  console.log("Popup closed:", event);
 });
 
 // Отписка от события
-webApp.offEvent('themeChanged', callback);
+webApp.offEvent("themeChanged", callback);
 ```
 
 ---
@@ -632,16 +637,16 @@ webApp.offEvent('themeChanged', callback);
 
 ### Доступные возможности по платформам
 
-| Функция | iOS | Android | Desktop |
-|---------|-----|---------|---------|
-| HapticFeedback | ✅ | ✅ | ❌ |
-| QR Scanner | ✅ | ✅ | ✅* |
-| CloudStorage | ✅ | ✅ | ✅ |
-| Safe Area | ✅ | ✅ | ❌ |
-| Biometry | ✅ | ✅ | ❌ |
-| Share to Story | ✅ | ✅ | ❌ |
+| Функция        | iOS | Android | Desktop |
+| -------------- | --- | ------- | ------- |
+| HapticFeedback | ✅  | ✅      | ❌      |
+| QR Scanner     | ✅  | ✅      | ✅\*    |
+| CloudStorage   | ✅  | ✅      | ✅      |
+| Safe Area      | ✅  | ✅      | ❌      |
+| Biometry       | ✅  | ✅      | ❌      |
+| Share to Story | ✅  | ✅      | ❌      |
 
-*✅* - Камера компьютера
+_✅_ - Камера компьютера
 
 ### Biometric Authentication (Touch ID / Face ID)
 
@@ -656,15 +661,18 @@ if (BiometricManager.isInited && BiometricManager.isBiometricAvailable) {
   BiometricManager.init(() => {
     if (BiometricManager.isBiometricAvailable) {
       // Аутентификация
-      BiometricManager.authenticate({
-        reason: 'Подтвердите доступ к треку'
-      }, (success) => {
-        if (success) {
-          console.log('Authenticated');
-        } else {
-          console.log('Failed');
-        }
-      });
+      BiometricManager.authenticate(
+        {
+          reason: "Подтвердите доступ к треку",
+        },
+        (success) => {
+          if (success) {
+            console.log("Authenticated");
+          } else {
+            console.log("Failed");
+          }
+        },
+      );
     }
   });
 }
@@ -673,11 +681,14 @@ if (BiometricManager.isInited && BiometricManager.isBiometricAvailable) {
 BiometricManager.biometricType; // 'finger' | 'face' | 'unknown'
 
 // Запрос доступа к биометрии
-BiometricManager.requestAccess({
-  reason: 'Для быстрого входа в приложение'
-}, (granted) => {
-  console.log('Access granted:', granted);
-});
+BiometricManager.requestAccess(
+  {
+    reason: "Для быстрого входа в приложение",
+  },
+  (granted) => {
+    console.log("Access granted:", granted);
+  },
+);
 ```
 
 ### Accelerometer & Gyroscope
@@ -687,22 +698,22 @@ BiometricManager.requestAccess({
 ```typescript
 // Запрос доступа к акселерометру
 webApp.requestAccelerometer(() => {
-  console.log('Accelerometer access granted');
+  console.log("Accelerometer access granted");
 });
 
 // Получение данных акселерометра
-webApp.onEvent('accelerometerChanged', (data) => {
-  console.log('Acceleration:', data.x, data.y, data.z);
+webApp.onEvent("accelerometerChanged", (data) => {
+  console.log("Acceleration:", data.x, data.y, data.z);
 });
 
 // Запрос доступа к гироскопу
 webApp.requestGyroscope(() => {
-  console.log('Gyroscope access granted');
+  console.log("Gyroscope access granted");
 });
 
 // Получение данных гироскопа
-webApp.onEvent('gyroscopeChanged', (data) => {
-  console.log('Rotation:', data.x, data.y, data.z);
+webApp.onEvent("gyroscopeChanged", (data) => {
+  console.log("Rotation:", data.x, data.y, data.z);
 });
 ```
 
@@ -733,7 +744,7 @@ webApp.onEvent('gyroscopeChanged', (data) => {
   padding-bottom: var(--safe-area-bottom);
   padding-left: var(--safe-area-left);
   padding-right: var(--safe-area-right);
-  
+
   /* Минимальные отступы для устройств без notch */
   padding-top: max(var(--safe-area-top), 12px);
   padding-bottom: max(var(--safe-area-bottom), 12px);
@@ -774,15 +785,15 @@ Telegram предоставляет собственные CSS переменн�
 ```css
 :root {
   /* Safe area insets */
-  --tg-safe-area-inset-top: 44px;    /* iOS notch */
+  --tg-safe-area-inset-top: 44px; /* iOS notch */
   --tg-safe-area-inset-bottom: 34px; /* iOS home indicator */
   --tg-safe-area-inset-left: 0px;
   --tg-safe-area-inset-right: 0px;
-  
+
   /* Viewport */
   --tg-viewport-height: 100vh;
   --tg-viewport-stable-height: 100vh;
-  
+
   /* Theme colors */
   --tg-theme-bg-color: #ffffff;
   --tg-theme-text-color: #000000;
@@ -800,23 +811,23 @@ Telegram предоставляет собственные CSS переменн�
 // В TelegramContext
 useEffect(() => {
   if (!webApp) return;
-  
+
   // Применить safe area через CSS переменные
   const root = document.documentElement;
-  
+
   // iOS safe areas
   const safeAreaTop = webApp.safeAreaInset?.top || 0;
   const safeAreaBottom = webApp.safeAreaInset?.bottom || 0;
-  
-  root.style.setProperty('--safe-top', `${safeAreaTop}px`);
-  root.style.setProperty('--safe-bottom', `${safeAreaBottom}px`);
-  
+
+  root.style.setProperty("--safe-top", `${safeAreaTop}px`);
+  root.style.setProperty("--safe-bottom", `${safeAreaBottom}px`);
+
   // Развернуть приложение на весь экран
   webApp.expand();
-  
+
   // Установить цвета
-  webApp.setHeaderColor('secondary_bg_color');
-  webApp.setBackgroundColor('bg_color');
+  webApp.setHeaderColor("secondary_bg_color");
+  webApp.setBackgroundColor("bg_color");
 }, [webApp]);
 ```
 
@@ -825,13 +836,13 @@ useEffect(() => {
 ```tsx
 export const AppLayout = ({ children }: { children: React.ReactNode }) => {
   const { webApp } = useTelegram();
-  
+
   useEffect(() => {
     if (webApp?.expand) {
       webApp.expand();
     }
   }, [webApp]);
-  
+
   return (
     <div className="app-layout">
       <style>{`
@@ -852,14 +863,10 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
           padding-bottom: calc(80px + env(safe-area-inset-bottom));
         }
       `}</style>
-      
-      <header className="app-header">
-        {/* Header content */}
-      </header>
-      
-      <main className="app-content">
-        {children}
-      </main>
+
+      <header className="app-header">{/* Header content */}</header>
+
+      <main className="app-content">{children}</main>
     </div>
   );
 };
@@ -892,6 +899,7 @@ export const AppLayout = ({ children }: { children: React.ReactNode }) => {
    - Добавить `TELEGRAM_BOT_TOKEN`
 
 2. **Проверить Edge Function:**
+
    ```bash
    # Edge Function автоматически развёрнута
    # URL: https://ygmvthybdrqymfsqifmj.supabase.co/functions/v1/telegram-auth
@@ -915,8 +923,8 @@ user = {
   id: 123456789,
   first_name: "Dev",
   last_name: "User",
-  username: "devuser"
-}
+  username: "devuser",
+};
 ```
 
 #### Production Mode (Telegram)
@@ -935,16 +943,17 @@ user = {
 **Причина:** Неверная подпись HMAC-SHA256
 
 **Решение:**
+
 - Проверить `TELEGRAM_BOT_TOKEN` в секретах
 - Убедиться, что `initData` не модифицирована
 - Проверить время на сервере (max 5 минут разница)
 
 ```typescript
 // Проверка в логах Edge Function
-console.log('Received initData:', initData);
-console.log('Bot token configured:', !!TELEGRAM_BOT_TOKEN);
-console.log('Hash from Telegram:', params.get('hash'));
-console.log('Calculated hash:', calculatedHash);
+console.log("Received initData:", initData);
+console.log("Bot token configured:", !!TELEGRAM_BOT_TOKEN);
+console.log("Hash from Telegram:", params.get("hash"));
+console.log("Calculated hash:", calculatedHash);
 ```
 
 ### 2. "No initData available"
@@ -952,6 +961,7 @@ console.log('Calculated hash:', calculatedHash);
 **Причина:** Приложение открыто не через Telegram
 
 **Решение:**
+
 - Использовать Development Mode для тестирования
 - Открыть через Telegram Mini App в production
 
@@ -960,6 +970,7 @@ console.log('Calculated hash:', calculatedHash);
 **Причина:** Конфликт при создании профиля (устранено в последней версии)
 
 **Решение:**
+
 - Обновлённая Edge Function удаляет orphaned profiles автоматически
 - Триггер `handle_new_user` создаёт профили без дублирования
 
@@ -968,6 +979,7 @@ console.log('Calculated hash:', calculatedHash);
 **Причина:** Приложение не развёрнуто на весь экран
 
 **Решение:**
+
 ```typescript
 useEffect(() => {
   if (window.Telegram?.WebApp) {
@@ -982,6 +994,7 @@ useEffect(() => {
 **Причина:** Контент перекрывает safe area
 
 **Решение:**
+
 ```css
 .clickable-area {
   padding-top: max(env(safe-area-inset-top), 12px);
@@ -994,6 +1007,7 @@ useEffect(() => {
 **Причина:** CSS переменные не используются
 
 **Решение:**
+
 ```css
 /* Использовать Telegram theme variables */
 background: var(--tg-theme-bg-color);
@@ -1009,16 +1023,16 @@ color: var(--tg-theme-text-color);
 ```typescript
 // При нажатии на кнопки
 button.onClick(() => {
-  webApp.HapticFeedback.impactOccurred('light');
+  webApp.HapticFeedback.impactOccurred("light");
   handleAction();
 });
 
 // При успехе/ошибке
 try {
   await createTrack();
-  webApp.HapticFeedback.notificationOccurred('success');
+  webApp.HapticFeedback.notificationOccurred("success");
 } catch (error) {
-  webApp.HapticFeedback.notificationOccurred('error');
+  webApp.HapticFeedback.notificationOccurred("error");
 }
 ```
 
@@ -1028,13 +1042,13 @@ try {
 // Показать MainButton только когда нужно
 useEffect(() => {
   if (canSubmit) {
-    webApp.MainButton.setText('Создать');
+    webApp.MainButton.setText("Создать");
     webApp.MainButton.show();
     webApp.MainButton.enable();
-    
+
     const handler = () => handleSubmit();
     webApp.MainButton.onClick(handler);
-    
+
     return () => {
       webApp.MainButton.offClick(handler);
       webApp.MainButton.hide();
@@ -1051,8 +1065,8 @@ webApp.expand();
 webApp.ready();
 
 // Применить тему
-webApp.setHeaderColor('secondary_bg_color');
-webApp.setBackgroundColor('bg_color');
+webApp.setHeaderColor("secondary_bg_color");
+webApp.setBackgroundColor("bg_color");
 ```
 
 ### 4. Обрабатывайте закрытие приложения
@@ -1071,10 +1085,10 @@ if (hasUnsavedChanges) {
 ```typescript
 const platform = webApp.platform;
 
-if (platform === 'ios') {
+if (platform === "ios") {
   // iOS-специфичная логика
   // Например, дополнительные отступы для notch
-} else if (platform === 'android') {
+} else if (platform === "android") {
   // Android-специфичная логика
 }
 ```
@@ -1083,10 +1097,10 @@ if (platform === 'ios') {
 
 ```typescript
 // Сохранить настройки пользователя
-webApp.CloudStorage.setItem('settings', JSON.stringify(settings));
+webApp.CloudStorage.setItem("settings", JSON.stringify(settings));
 
 // Восстановить при следующем запуске
-webApp.CloudStorage.getItem('settings', (error, value) => {
+webApp.CloudStorage.getItem("settings", (error, value) => {
   if (value) {
     setSettings(JSON.parse(value));
   }

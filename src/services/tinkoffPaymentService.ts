@@ -3,11 +3,11 @@
  * Handles card payments via Tinkoff Acquiring
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import type { CreatePaymentResponse, PaymentTransaction } from '@/types/payment';
-import { logger } from '@/lib/logger';
-import { trackConversionStage } from '@/lib/analytics/deeplink-tracker';
-import { trackButtonClick, trackFeatureUsed } from '@/services/analytics';
+import { supabase } from "@/integrations/supabase/client";
+import type { CreatePaymentResponse, PaymentTransaction } from "@/types/payment";
+import { logger } from "@/lib/logger";
+import { trackConversionStage } from "@/lib/analytics/deeplink-tracker";
+import { trackButtonClick, trackFeatureUsed } from "@/services/analytics";
 
 export interface CreateTinkoffPaymentParams {
   productCode: string;
@@ -22,7 +22,7 @@ export interface TinkoffSubscription {
   rebill_id: string;
   card_pan?: string;
   card_exp_date?: string;
-  status: 'active' | 'paused' | 'cancelled' | 'expired';
+  status: "active" | "paused" | "cancelled" | "expired";
   amount_cents: number;
   currency: string;
   billing_cycle_days: number;
@@ -44,20 +44,18 @@ export interface CancelSubscriptionResponse {
 /**
  * Create a Tinkoff payment
  */
-export async function createTinkoffPayment(
-  params: CreateTinkoffPaymentParams
-): Promise<CreatePaymentResponse> {
-  const timer = logger.startTimer('tinkoff:createPayment');
-  
+export async function createTinkoffPayment(params: CreateTinkoffPaymentParams): Promise<CreatePaymentResponse> {
+  const timer = logger.startTimer("tinkoff:createPayment");
+
   // Track payment initiation
-  trackButtonClick('tinkoff_payment_initiate', {
+  trackButtonClick("tinkoff_payment_initiate", {
     product_code: params.productCode,
   }).catch(() => {});
 
   try {
-    logger.info('Creating Tinkoff payment', { productCode: params.productCode });
+    logger.info("Creating Tinkoff payment", { productCode: params.productCode });
 
-    const { data, error } = await supabase.functions.invoke('tinkoff-create-payment', {
+    const { data, error } = await supabase.functions.invoke("tinkoff-create-payment", {
       body: {
         productCode: params.productCode,
         successUrl: params.successUrl || `${window.location.origin}/payment/success`,
@@ -68,29 +66,29 @@ export async function createTinkoffPayment(
     timer();
 
     if (error) {
-      logger.error('Tinkoff payment creation failed', error, { productCode: params.productCode });
-      
+      logger.error("Tinkoff payment creation failed", error, { productCode: params.productCode });
+
       // Track failure
-      trackFeatureUsed('tinkoff_payment_error', {
+      trackFeatureUsed("tinkoff_payment_error", {
         product_code: params.productCode,
         error: error.message,
       }).catch(() => {});
 
       return {
         success: false,
-        error: error.message || 'Failed to create payment',
+        error: error.message || "Failed to create payment",
       };
     }
 
     if (!data.success) {
-      logger.warn('Tinkoff payment rejected', { 
+      logger.warn("Tinkoff payment rejected", {
         productCode: params.productCode,
         error: data.error,
         errorCode: data.errorCode,
       });
 
       // Track rejection
-      trackFeatureUsed('tinkoff_payment_rejected', {
+      trackFeatureUsed("tinkoff_payment_rejected", {
         product_code: params.productCode,
         error: data.error,
         error_code: data.errorCode,
@@ -98,19 +96,19 @@ export async function createTinkoffPayment(
 
       return {
         success: false,
-        error: data.error || 'Payment initialization failed',
+        error: data.error || "Payment initialization failed",
         errorCode: data.errorCode,
       };
     }
 
-    logger.info('Tinkoff payment created', {
+    logger.info("Tinkoff payment created", {
       transactionId: data.transactionId,
       orderId: data.orderId,
       amount: data.amount,
     });
 
     // Track successful payment creation
-    trackFeatureUsed('tinkoff_payment_created', {
+    trackFeatureUsed("tinkoff_payment_created", {
       transaction_id: data.transactionId,
       order_id: data.orderId,
       amount: data.amount,
@@ -127,16 +125,16 @@ export async function createTinkoffPayment(
     };
   } catch (error) {
     timer();
-    logger.error('Tinkoff payment error', error as Error);
+    logger.error("Tinkoff payment error", error as Error);
 
-    trackFeatureUsed('tinkoff_payment_exception', {
+    trackFeatureUsed("tinkoff_payment_exception", {
       product_code: params.productCode,
       error: (error as Error).message,
     }).catch(() => {});
 
     return {
       success: false,
-      error: (error as Error).message || 'Unknown error',
+      error: (error as Error).message || "Unknown error",
     };
   }
 }
@@ -147,48 +145,46 @@ export async function createTinkoffPayment(
  * (column-level SELECT revoked from authenticated/anon for privacy).
  */
 const SAFE_PAYMENT_COLUMNS = [
-  'id',
-  'user_id',
-  'gateway',
-  'product_code',
-  'amount_cents',
-  'currency',
-  'status',
-  'gateway_transaction_id',
-  'gateway_payment_url',
-  'gateway_order_id',
-  'credits_granted',
-  'subscription_granted',
-  'metadata',
-  'error_message',
-  'created_at',
-  'updated_at',
-  'completed_at',
-  'subscription_id',
-  'is_recurrent',
-].join(', ');
+  "id",
+  "user_id",
+  "gateway",
+  "product_code",
+  "amount_cents",
+  "currency",
+  "status",
+  "gateway_transaction_id",
+  "gateway_payment_url",
+  "gateway_order_id",
+  "credits_granted",
+  "subscription_granted",
+  "metadata",
+  "error_message",
+  "created_at",
+  "updated_at",
+  "completed_at",
+  "subscription_id",
+  "is_recurrent",
+].join(", ");
 
 /**
  * Get payment transaction by ID
  */
-export async function getPaymentTransaction(
-  transactionId: string
-): Promise<PaymentTransaction | null> {
+export async function getPaymentTransaction(transactionId: string): Promise<PaymentTransaction | null> {
   try {
     const { data, error } = await supabase
-      .from('payment_transactions')
+      .from("payment_transactions")
       .select(SAFE_PAYMENT_COLUMNS)
-      .eq('id', transactionId)
+      .eq("id", transactionId)
       .single();
 
     if (error || !data) {
-      logger.warn('Payment transaction not found', { transactionId });
+      logger.warn("Payment transaction not found", { transactionId });
       return null;
     }
 
     return data as unknown as PaymentTransaction;
   } catch (error) {
-    logger.error('Failed to get payment transaction', error as Error);
+    logger.error("Failed to get payment transaction", error as Error);
     return null;
   }
 }
@@ -196,24 +192,22 @@ export async function getPaymentTransaction(
 /**
  * Get user's payment transactions
  */
-export async function getUserPaymentTransactions(
-  limit = 20
-): Promise<PaymentTransaction[]> {
+export async function getUserPaymentTransactions(limit = 20): Promise<PaymentTransaction[]> {
   try {
     const { data, error } = await supabase
-      .from('payment_transactions')
+      .from("payment_transactions")
       .select(SAFE_PAYMENT_COLUMNS)
-      .order('created_at', { ascending: false })
+      .order("created_at", { ascending: false })
       .limit(limit);
 
     if (error) {
-      logger.error('Failed to get payment transactions', error);
+      logger.error("Failed to get payment transactions", error);
       return [];
     }
 
     return (data || []) as unknown as PaymentTransaction[];
   } catch (error) {
-    logger.error('Failed to get payment transactions', error as Error);
+    logger.error("Failed to get payment transactions", error as Error);
     return [];
   }
 }
@@ -224,22 +218,22 @@ export async function getUserPaymentTransactions(
  * (see migration: tinkoff_subscriptions_hide_card_data).
  */
 const SAFE_SUBSCRIPTION_COLUMNS = [
-  'id',
-  'user_id',
-  'product_code',
-  'rebill_id',
-  'status',
-  'amount_cents',
-  'currency',
-  'billing_cycle_days',
-  'next_billing_date',
-  'last_payment_date',
-  'last_payment_id',
-  'failed_attempts',
-  'metadata',
-  'created_at',
-  'updated_at',
-].join(', ');
+  "id",
+  "user_id",
+  "product_code",
+  "rebill_id",
+  "status",
+  "amount_cents",
+  "currency",
+  "billing_cycle_days",
+  "next_billing_date",
+  "last_payment_date",
+  "last_payment_id",
+  "failed_attempts",
+  "metadata",
+  "created_at",
+  "updated_at",
+].join(", ");
 
 /**
  * Get user's active Tinkoff subscriptions
@@ -247,18 +241,18 @@ const SAFE_SUBSCRIPTION_COLUMNS = [
 export async function getUserTinkoffSubscriptions(): Promise<TinkoffSubscription[]> {
   try {
     const { data, error } = await supabase
-      .from('tinkoff_subscriptions')
+      .from("tinkoff_subscriptions")
       .select(SAFE_SUBSCRIPTION_COLUMNS)
-      .order('created_at', { ascending: false });
+      .order("created_at", { ascending: false });
 
     if (error) {
-      logger.error('Failed to get Tinkoff subscriptions', error);
+      logger.error("Failed to get Tinkoff subscriptions", error);
       return [];
     }
 
     return (data || []) as unknown as TinkoffSubscription[];
   } catch (error) {
-    logger.error('Failed to get Tinkoff subscriptions', error as Error);
+    logger.error("Failed to get Tinkoff subscriptions", error as Error);
     return [];
   }
 }
@@ -269,63 +263,60 @@ export async function getUserTinkoffSubscriptions(): Promise<TinkoffSubscription
 export async function getActiveSubscription(): Promise<TinkoffSubscription | null> {
   try {
     const { data, error } = await supabase
-      .from('tinkoff_subscriptions')
+      .from("tinkoff_subscriptions")
       .select(SAFE_SUBSCRIPTION_COLUMNS)
-      .eq('status', 'active')
-      .order('created_at', { ascending: false })
+      .eq("status", "active")
+      .order("created_at", { ascending: false })
       .limit(1)
       .maybeSingle();
 
     if (error) {
-      logger.error('Failed to get active subscription', error);
+      logger.error("Failed to get active subscription", error);
       return null;
     }
 
     return data as unknown as TinkoffSubscription | null;
   } catch (error) {
-    logger.error('Failed to get active subscription', error as Error);
+    logger.error("Failed to get active subscription", error as Error);
     return null;
   }
 }
 
-
 /**
  * Cancel a Tinkoff subscription
  */
-export async function cancelTinkoffSubscription(
-  subscriptionId: string
-): Promise<CancelSubscriptionResponse> {
-  const timer = logger.startTimer('tinkoff:cancelSubscription');
-  
-  try {
-    logger.info('Cancelling Tinkoff subscription', { subscriptionId });
+export async function cancelTinkoffSubscription(subscriptionId: string): Promise<CancelSubscriptionResponse> {
+  const timer = logger.startTimer("tinkoff:cancelSubscription");
 
-    const { data, error } = await supabase.functions.invoke('tinkoff-cancel-subscription', {
+  try {
+    logger.info("Cancelling Tinkoff subscription", { subscriptionId });
+
+    const { data, error } = await supabase.functions.invoke("tinkoff-cancel-subscription", {
       body: { subscriptionId },
     });
 
     timer();
 
     if (error) {
-      logger.error('Subscription cancellation failed', error, { subscriptionId });
+      logger.error("Subscription cancellation failed", error, { subscriptionId });
       return {
         success: false,
-        error: error.message || 'Failed to cancel subscription',
+        error: error.message || "Failed to cancel subscription",
       };
     }
 
     if (!data.success) {
-      logger.warn('Subscription cancellation rejected', { 
+      logger.warn("Subscription cancellation rejected", {
         subscriptionId,
         error: data.error,
       });
       return {
         success: false,
-        error: data.error || 'Cancellation failed',
+        error: data.error || "Cancellation failed",
       };
     }
 
-    logger.info('Subscription cancelled', {
+    logger.info("Subscription cancelled", {
       subscriptionId,
       expiresAt: data.expiresAt,
     });
@@ -337,10 +328,10 @@ export async function cancelTinkoffSubscription(
     };
   } catch (error) {
     timer();
-    logger.error('Cancel subscription error', error as Error);
+    logger.error("Cancel subscription error", error as Error);
     return {
       success: false,
-      error: (error as Error).message || 'Unknown error',
+      error: (error as Error).message || "Unknown error",
     };
   }
 }
@@ -350,13 +341,13 @@ export async function cancelTinkoffSubscription(
  */
 export function redirectToPayment(paymentUrl: string): void {
   // Store current URL for return
-  sessionStorage.setItem('payment_return_url', window.location.href);
-  
+  sessionStorage.setItem("payment_return_url", window.location.href);
+
   // Track redirect
-  trackFeatureUsed('tinkoff_payment_redirect', {
-    destination: 'tinkoff',
+  trackFeatureUsed("tinkoff_payment_redirect", {
+    destination: "tinkoff",
   }).catch(() => {});
-  
+
   // Redirect to Tinkoff payment page
   window.location.href = paymentUrl;
 }
@@ -367,18 +358,18 @@ export function redirectToPayment(paymentUrl: string): void {
 export async function trackTinkoffPaymentSuccess(
   transactionId: string,
   amount: number,
-  productCode: string
+  productCode: string,
 ): Promise<void> {
   // Track payment conversion
-  await trackConversionStage('payment', {
+  await trackConversionStage("payment", {
     transaction_id: transactionId,
     amount,
     product_code: productCode,
-    payment_method: 'tinkoff_card',
+    payment_method: "tinkoff_card",
   });
 
   // Track feature usage
-  await trackFeatureUsed('tinkoff_payment_completed', {
+  await trackFeatureUsed("tinkoff_payment_completed", {
     transaction_id: transactionId,
     amount,
     product_code: productCode,

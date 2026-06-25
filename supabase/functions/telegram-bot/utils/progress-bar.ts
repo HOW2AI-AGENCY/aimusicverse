@@ -5,24 +5,24 @@
 
 // Progress bar visual styles
 export const PROGRESS_STYLES = {
-  blocks: { empty: '░', filled: '▓' },
-  dots: { empty: '○', filled: '●' },
-  bars: { empty: '▱', filled: '▰' },
-  circles: { empty: '◯', filled: '◉' },
-  squares: { empty: '▫️', filled: '▪️' },
-  modern: { empty: '⬜', filled: '🟩' },
-  fire: { empty: '⬜', filled: '🔥' },
-  music: { empty: '⬜', filled: '🎵' },
+  blocks: { empty: "░", filled: "▓" },
+  dots: { empty: "○", filled: "●" },
+  bars: { empty: "▱", filled: "▰" },
+  circles: { empty: "◯", filled: "◉" },
+  squares: { empty: "▫️", filled: "▪️" },
+  modern: { empty: "⬜", filled: "🟩" },
+  fire: { empty: "⬜", filled: "🔥" },
+  music: { empty: "⬜", filled: "🎵" },
 } as const;
 
 // Spinner frames for animation
 export const SPINNERS = {
-  dots: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'],
-  clock: ['🕐', '🕑', '🕒', '🕓', '🕔', '🕕', '🕖', '🕗', '🕘', '🕙', '🕚', '🕛'],
-  moon: ['🌑', '🌒', '🌓', '🌔', '🌕', '🌖', '🌗', '🌘'],
-  arrows: ['←', '↖', '↑', '↗', '→', '↘', '↓', '↙'],
-  bounce: ['⠁', '⠂', '⠄', '⠂'],
-  music: ['🎵', '🎶', '🎵', '🎶'],
+  dots: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+  clock: ["🕐", "🕑", "🕒", "🕓", "🕔", "🕕", "🕖", "🕗", "🕘", "🕙", "🕚", "🕛"],
+  moon: ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"],
+  arrows: ["←", "↖", "↑", "↗", "→", "↘", "↓", "↙"],
+  bounce: ["⠁", "⠂", "⠄", "⠂"],
+  music: ["🎵", "🎶", "🎵", "🎶"],
 } as const;
 
 export type ProgressStyle = keyof typeof PROGRESS_STYLES;
@@ -43,35 +43,35 @@ interface ProgressBarOptions {
  */
 export function formatProgressBar(
   progress: number, // 0-100
-  options: ProgressBarOptions = {}
+  options: ProgressBarOptions = {},
 ): string {
   const {
     width = 10,
-    style = 'blocks',
+    style = "blocks",
     showPercent = true,
     showEta = false,
     etaSeconds,
-    prefix = '',
-    suffix = '',
+    prefix = "",
+    suffix = "",
   } = options;
-  
+
   const clampedProgress = Math.min(100, Math.max(0, progress));
   const filledCount = Math.round((clampedProgress / 100) * width);
   const emptyCount = width - filledCount;
-  
+
   const styleConfig = PROGRESS_STYLES[style];
   const bar = styleConfig.filled.repeat(filledCount) + styleConfig.empty.repeat(emptyCount);
-  
+
   let result = `${prefix}${bar}${suffix}`;
-  
+
   if (showPercent) {
     result += ` ${Math.round(clampedProgress)}%`;
   }
-  
+
   if (showEta && etaSeconds !== undefined && etaSeconds > 0) {
     result += ` (${formatEta(etaSeconds)})`;
   }
-  
+
   return result;
 }
 
@@ -85,20 +85,17 @@ export function formatEta(seconds: number): string {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   if (minutes < 60) {
-    return `~${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+    return `~${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   }
   const hours = Math.floor(minutes / 60);
   const remainingMinutes = minutes % 60;
-  return `~${hours}:${remainingMinutes.toString().padStart(2, '0')}`;
+  return `~${hours}:${remainingMinutes.toString().padStart(2, "0")}`;
 }
 
 /**
  * Get spinner frame for animation
  */
-export function getSpinnerFrame(
-  frameIndex: number,
-  style: SpinnerStyle = 'dots'
-): string {
+export function getSpinnerFrame(frameIndex: number, style: SpinnerStyle = "dots"): string {
   const frames = SPINNERS[style];
   return frames[frameIndex % frames.length];
 }
@@ -120,41 +117,41 @@ export function createProgressMessage(
   title: string,
   progress: number,
   status: string,
-  options: ProgressMessageOptions = {}
+  options: ProgressMessageOptions = {},
 ): string {
   const {
     showBar = true,
     showSpinner = true,
-    spinnerStyle = 'dots',
-    barStyle = 'blocks',
-    icon = '⏳',
+    spinnerStyle = "dots",
+    barStyle = "blocks",
+    icon = "⏳",
     showDetails = false,
     details,
   } = options;
-  
+
   const lines: string[] = [];
-  
+
   // Title with icon
-  const spinner = showSpinner ? getSpinnerFrame(Math.floor(progress / 5), spinnerStyle) : '';
+  const spinner = showSpinner ? getSpinnerFrame(Math.floor(progress / 5), spinnerStyle) : "";
   lines.push(`${icon} *${escapeMarkdown(title)}*`);
-  
+
   // Progress bar
   if (showBar) {
-    lines.push('');
+    lines.push("");
     lines.push(formatProgressBar(progress, { style: barStyle, showPercent: true }));
   }
-  
+
   // Status with spinner
-  lines.push('');
+  lines.push("");
   lines.push(`${spinner} _${escapeMarkdown(status)}_`);
-  
+
   // Additional details
   if (showDetails && details) {
-    lines.push('');
+    lines.push("");
     lines.push(`📋 ${escapeMarkdown(details)}`);
   }
-  
-  return lines.join('\n');
+
+  return lines.join("\n");
 }
 
 /**
@@ -163,25 +160,25 @@ export function createProgressMessage(
 export function createUploadProgressMessage(
   fileName: string,
   progress: number,
-  stage: 'uploading' | 'processing' | 'analyzing' | 'completing' | 'done' | 'error'
+  stage: "uploading" | "processing" | "analyzing" | "completing" | "done" | "error",
 ): string {
   const stageInfo: Record<typeof stage, { icon: string; status: string }> = {
-    uploading: { icon: '📤', status: 'Загрузка файла...' },
-    processing: { icon: '⚙️', status: 'Обработка...' },
-    analyzing: { icon: '🔍', status: 'Анализ аудио...' },
-    completing: { icon: '✨', status: 'Завершение...' },
-    done: { icon: '✅', status: 'Готово!' },
-    error: { icon: '❌', status: 'Ошибка!' },
+    uploading: { icon: "📤", status: "Загрузка файла..." },
+    processing: { icon: "⚙️", status: "Обработка..." },
+    analyzing: { icon: "🔍", status: "Анализ аудио..." },
+    completing: { icon: "✨", status: "Завершение..." },
+    done: { icon: "✅", status: "Готово!" },
+    error: { icon: "❌", status: "Ошибка!" },
   };
-  
+
   const info = stageInfo[stage];
-  const displayName = fileName.length > 25 ? fileName.slice(0, 22) + '...' : fileName;
-  
+  const displayName = fileName.length > 25 ? fileName.slice(0, 22) + "..." : fileName;
+
   return createProgressMessage(displayName, progress, info.status, {
     icon: info.icon,
-    showBar: stage !== 'done' && stage !== 'error',
-    showSpinner: stage !== 'done' && stage !== 'error',
-    barStyle: 'modern',
+    showBar: stage !== "done" && stage !== "error",
+    showSpinner: stage !== "done" && stage !== "error",
+    barStyle: "modern",
   });
 }
 
@@ -191,26 +188,26 @@ export function createUploadProgressMessage(
 export function createGenerationProgressMessage(
   prompt: string,
   progress: number,
-  stage: 'queued' | 'generating' | 'rendering' | 'finalizing' | 'done' | 'error'
+  stage: "queued" | "generating" | "rendering" | "finalizing" | "done" | "error",
 ): string {
   const stageInfo: Record<typeof stage, { icon: string; status: string }> = {
-    queued: { icon: '⏳', status: 'В очереди...' },
-    generating: { icon: '🎵', status: 'Генерация музыки...' },
-    rendering: { icon: '🎧', status: 'Рендеринг аудио...' },
-    finalizing: { icon: '✨', status: 'Финализация...' },
-    done: { icon: '✅', status: 'Трек готов!' },
-    error: { icon: '❌', status: 'Ошибка генерации' },
+    queued: { icon: "⏳", status: "В очереди..." },
+    generating: { icon: "🎵", status: "Генерация музыки..." },
+    rendering: { icon: "🎧", status: "Рендеринг аудио..." },
+    finalizing: { icon: "✨", status: "Финализация..." },
+    done: { icon: "✅", status: "Трек готов!" },
+    error: { icon: "❌", status: "Ошибка генерации" },
   };
-  
+
   const info = stageInfo[stage];
-  const displayPrompt = prompt.length > 30 ? prompt.slice(0, 27) + '...' : prompt;
-  
+  const displayPrompt = prompt.length > 30 ? prompt.slice(0, 27) + "..." : prompt;
+
   return createProgressMessage(displayPrompt, progress, info.status, {
     icon: info.icon,
-    showBar: stage !== 'done' && stage !== 'error',
-    showSpinner: stage !== 'done' && stage !== 'error',
-    spinnerStyle: 'music',
-    barStyle: 'music',
+    showBar: stage !== "done" && stage !== "error",
+    showSpinner: stage !== "done" && stage !== "error",
+    spinnerStyle: "music",
+    barStyle: "music",
   });
 }
 
@@ -218,7 +215,7 @@ export function createGenerationProgressMessage(
  * Escape special characters for MarkdownV2
  */
 function escapeMarkdown(text: string): string {
-  return text.replace(/([_*\[\]()~`>#+=|{}.!-])/g, '\\$1');
+  return text.replace(/([_*\[\]()~`>#+=|{}.!-])/g, "\\$1");
 }
 
 /**

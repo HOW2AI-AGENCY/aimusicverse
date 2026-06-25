@@ -3,24 +3,17 @@
  * 3-screen flow: Welcome → Choose Path → Quick Action
  */
 
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Sparkles, 
-  Headphones, 
-  BookOpen, 
-  ArrowRight,
-  Music2,
-  X
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useUserJourneyStore } from '@/hooks/useUserJourneyState';
-import { hapticImpact, hapticNotification } from '@/lib/haptic';
-import { cn } from '@/lib/utils';
-import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Sparkles, Headphones, BookOpen, ArrowRight, Music2, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useUserJourneyStore } from "@/hooks/useUserJourneyState";
+import { hapticImpact, hapticNotification } from "@/lib/haptic";
+import { cn } from "@/lib/utils";
+import { TELEGRAM_SAFE_AREA } from "@/constants/safe-area";
 
-type QuickStartStep = 'welcome' | 'choose-path' | 'quick-create';
-type UserPath = 'create' | 'listen' | 'tour';
+type QuickStartStep = "welcome" | "choose-path" | "quick-create";
+type UserPath = "create" | "listen" | "tour";
 
 interface QuickStartOverlayProps {
   isOpen: boolean;
@@ -31,10 +24,10 @@ interface QuickStartOverlayProps {
 }
 
 const QUICK_PRESETS = [
-  { label: '🎸 Рок', prompt: 'Энергичный рок с электрогитарами' },
-  { label: '💃 Поп', prompt: 'Танцевальный поп-трек с запоминающимся припевом' },
-  { label: '🎹 Пианино', prompt: 'Спокойная мелодия на фортепиано' },
-  { label: '🎤 R&B', prompt: 'Чувственный R&B с мягким бит' },
+  { label: "🎸 Рок", prompt: "Энергичный рок с электрогитарами" },
+  { label: "💃 Поп", prompt: "Танцевальный поп-трек с запоминающимся припевом" },
+  { label: "🎹 Пианино", prompt: "Спокойная мелодия на фортепиано" },
+  { label: "🎤 R&B", prompt: "Чувственный R&B с мягким бит" },
 ];
 
 export function QuickStartOverlay({
@@ -44,42 +37,48 @@ export function QuickStartOverlay({
   onStartListening,
   onStartTour,
 }: QuickStartOverlayProps) {
-  const [step, setStep] = useState<QuickStartStep>('welcome');
+  const [step, setStep] = useState<QuickStartStep>("welcome");
   const [selectedPath, setSelectedPath] = useState<UserPath | null>(null);
   const { markQuickStartCompleted } = useUserJourneyStore();
 
   const handleSkip = useCallback(() => {
-    hapticImpact('medium');
+    hapticImpact("medium");
     markQuickStartCompleted();
     onClose();
   }, [markQuickStartCompleted, onClose]);
 
-  const handlePathSelect = useCallback((path: UserPath) => {
-    hapticImpact('light');
-    setSelectedPath(path);
-    
-    if (path === 'listen') {
-      markQuickStartCompleted();
-      onStartListening();
-      onClose();
-    } else if (path === 'tour') {
-      markQuickStartCompleted();
-      onStartTour();
-      onClose();
-    } else {
-      setStep('quick-create');
-    }
-  }, [markQuickStartCompleted, onStartListening, onStartTour, onClose]);
+  const handlePathSelect = useCallback(
+    (path: UserPath) => {
+      hapticImpact("light");
+      setSelectedPath(path);
 
-  const handlePresetSelect = useCallback((prompt: string) => {
-    hapticNotification('success');
-    markQuickStartCompleted();
-    onStartGeneration();
-    onClose();
-  }, [markQuickStartCompleted, onStartGeneration, onClose]);
+      if (path === "listen") {
+        markQuickStartCompleted();
+        onStartListening();
+        onClose();
+      } else if (path === "tour") {
+        markQuickStartCompleted();
+        onStartTour();
+        onClose();
+      } else {
+        setStep("quick-create");
+      }
+    },
+    [markQuickStartCompleted, onStartListening, onStartTour, onClose],
+  );
+
+  const handlePresetSelect = useCallback(
+    (prompt: string) => {
+      hapticNotification("success");
+      markQuickStartCompleted();
+      onStartGeneration();
+      onClose();
+    },
+    [markQuickStartCompleted, onStartGeneration, onClose],
+  );
 
   const handleCustomCreate = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     markQuickStartCompleted();
     onStartGeneration();
     onClose();
@@ -87,8 +86,8 @@ export function QuickStartOverlay({
 
   // Auto-progress from welcome after delay
   const handleWelcomeComplete = useCallback(() => {
-    hapticImpact('light');
-    setStep('choose-path');
+    hapticImpact("light");
+    setStep("choose-path");
   }, []);
 
   if (!isOpen) return null;
@@ -116,7 +115,7 @@ export function QuickStartOverlay({
 
       <AnimatePresence mode="wait">
         {/* Step 1: Welcome */}
-        {step === 'welcome' && (
+        {step === "welcome" && (
           <motion.div
             key="welcome"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -128,7 +127,7 @@ export function QuickStartOverlay({
             <motion.div
               initial={{ scale: 0.5, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              transition={{ type: "spring", stiffness: 200, damping: 20 }}
               className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary to-generate flex items-center justify-center mb-6 shadow-xl"
             >
               <Music2 className="w-12 h-12 text-white" />
@@ -152,11 +151,7 @@ export function QuickStartOverlay({
               Создавай музыку с помощью AI
             </motion.p>
 
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
+            <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
               <Button
                 onClick={handleWelcomeComplete}
                 size="lg"
@@ -170,7 +165,7 @@ export function QuickStartOverlay({
         )}
 
         {/* Step 2: Choose Path */}
-        {step === 'choose-path' && (
+        {step === "choose-path" && (
           <motion.div
             key="choose-path"
             initial={{ opacity: 0, x: 50 }}
@@ -201,7 +196,7 @@ export function QuickStartOverlay({
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.1 }}
-                onClick={() => handlePathSelect('create')}
+                onClick={() => handlePathSelect("create")}
                 className="w-full p-4 rounded-2xl bg-gradient-to-r from-generate/20 to-generate/5 border border-generate/30 text-left hover:border-generate/50 transition-colors group"
               >
                 <div className="flex items-start gap-4">
@@ -209,9 +204,7 @@ export function QuickStartOverlay({
                     <Sparkles className="w-6 h-6 text-generate" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground mb-1">
-                      Создать с AI
-                    </h3>
+                    <h3 className="font-semibold text-foreground mb-1">Создать с AI</h3>
                     <p className="text-sm text-muted-foreground">
                       Опиши музыку текстом — AI сделает трек за 2-3 минуты
                     </p>
@@ -225,7 +218,7 @@ export function QuickStartOverlay({
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.15 }}
-                onClick={() => handlePathSelect('listen')}
+                onClick={() => handlePathSelect("listen")}
                 className="w-full p-4 rounded-2xl bg-gradient-to-r from-primary/20 to-primary/5 border border-primary/30 text-left hover:border-primary/50 transition-colors group"
               >
                 <div className="flex items-start gap-4">
@@ -233,12 +226,8 @@ export function QuickStartOverlay({
                     <Headphones className="w-6 h-6 text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground mb-1">
-                      Послушать примеры
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Узнай, что создают другие пользователи
-                    </p>
+                    <h3 className="font-semibold text-foreground mb-1">Послушать примеры</h3>
+                    <p className="text-sm text-muted-foreground">Узнай, что создают другие пользователи</p>
                   </div>
                   <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-3" />
                 </div>
@@ -249,7 +238,7 @@ export function QuickStartOverlay({
                 initial={{ x: -20, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
-                onClick={() => handlePathSelect('tour')}
+                onClick={() => handlePathSelect("tour")}
                 className="w-full p-4 rounded-2xl bg-muted/50 border border-border text-left hover:border-border/80 transition-colors group"
               >
                 <div className="flex items-start gap-4">
@@ -257,12 +246,8 @@ export function QuickStartOverlay({
                     <BookOpen className="w-6 h-6 text-muted-foreground" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground mb-1">
-                      Как это работает?
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      Быстрый тур по возможностям платформы
-                    </p>
+                    <h3 className="font-semibold text-foreground mb-1">Как это работает?</h3>
+                    <p className="text-sm text-muted-foreground">Быстрый тур по возможностям платформы</p>
                   </div>
                   <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-foreground transition-colors shrink-0 mt-3" />
                 </div>
@@ -272,7 +257,7 @@ export function QuickStartOverlay({
         )}
 
         {/* Step 3: Quick Create */}
-        {step === 'quick-create' && (
+        {step === "quick-create" && (
           <motion.div
             key="quick-create"
             initial={{ opacity: 0, x: 50 }}
@@ -348,7 +333,7 @@ export function QuickStartOverlay({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              onClick={() => setStep('choose-path')}
+              onClick={() => setStep("choose-path")}
               className="mt-4 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               ← Назад к выбору
@@ -359,16 +344,16 @@ export function QuickStartOverlay({
 
       {/* Progress indicator - moved higher to avoid keyboard overlap */}
       <div className="absolute bottom-16 left-0 right-0 flex justify-center gap-2 pb-safe">
-        {['welcome', 'choose-path', 'quick-create'].map((s, i) => (
+        {["welcome", "choose-path", "quick-create"].map((s, i) => (
           <button
             key={s}
             onClick={() => {
-              if (s === 'welcome') setStep('welcome');
-              else if (s === 'choose-path' && step !== 'welcome') setStep('choose-path');
+              if (s === "welcome") setStep("welcome");
+              else if (s === "choose-path" && step !== "welcome") setStep("choose-path");
             }}
             className={cn(
               "h-2 rounded-full transition-all duration-300 min-w-[44px] min-h-[44px] flex items-center justify-center",
-              step === s ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30"
+              step === s ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30",
             )}
             aria-label={`Шаг ${i + 1}`}
           />

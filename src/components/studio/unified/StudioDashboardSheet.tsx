@@ -10,12 +10,12 @@
  * @see src/hooks/useUserStudioStats.ts
  */
 
-import { memo } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Button } from '@/components/ui/button';
-import { StatsWidget, StatsSummaryCard } from '@/components/professional';
-import { BarChart3, X } from '@/lib/icons';
+import { memo } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { StatsWidget, StatsSummaryCard } from "@/components/professional";
+import { BarChart3, X } from "@/lib/icons";
 
 interface StudioDashboardSheetProps {
   open: boolean;
@@ -54,9 +54,7 @@ export const StudioDashboardSheet = memo(function StudioDashboardSheet({
 
             {/* Detailed metrics grid — real data */}
             <div className="space-y-2">
-              <h4 className="px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                Метрики
-              </h4>
+              <h4 className="px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Метрики</h4>
               <StatsWidget variant="grid" />
             </div>
           </div>

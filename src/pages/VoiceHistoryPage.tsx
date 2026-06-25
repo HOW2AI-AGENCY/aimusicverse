@@ -1,47 +1,62 @@
-import { useMemo, useState } from 'react';
-import { History, RefreshCw, CheckCircle2, AlertCircle, Clock, Filter, Trash2 } from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { useCustomVoices, type CustomVoice } from '@/hooks/voice/useCustomVoices';
-import { voiceCloneApi } from '@/api/voice-clone.api';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useMemo, useState } from "react";
+import { History, RefreshCw, CheckCircle2, AlertCircle, Clock, Filter, Trash2 } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { useCustomVoices, type CustomVoice } from "@/hooks/voice/useCustomVoices";
+import { voiceCloneApi } from "@/api/voice-clone.api";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
-type TypeFilter = 'all' | 'validation' | 'generation';
-type StatusFilter = 'all' | 'ready' | 'failed' | 'in_progress';
+type TypeFilter = "all" | "validation" | "generation";
+type StatusFilter = "all" | "ready" | "failed" | "in_progress";
 
 function statusBadge(v: CustomVoice) {
-  if (v.status === 'ready')
-    return <Badge variant="secondary" className="gap-1"><CheckCircle2 className="h-3 w-3 text-green-500" />Готов</Badge>;
-  if (v.status === 'failed')
-    return <Badge variant="destructive" className="gap-1"><AlertCircle className="h-3 w-3" />Ошибка</Badge>;
-  return <Badge variant="outline" className="gap-1"><Clock className="h-3 w-3 animate-pulse" />{v.status}</Badge>;
+  if (v.status === "ready")
+    return (
+      <Badge variant="secondary" className="gap-1">
+        <CheckCircle2 className="h-3 w-3 text-green-500" />
+        Готов
+      </Badge>
+    );
+  if (v.status === "failed")
+    return (
+      <Badge variant="destructive" className="gap-1">
+        <AlertCircle className="h-3 w-3" />
+        Ошибка
+      </Badge>
+    );
+  return (
+    <Badge variant="outline" className="gap-1">
+      <Clock className="h-3 w-3 animate-pulse" />
+      {v.status}
+    </Badge>
+  );
 }
 
-function typeLabel(v: CustomVoice): 'validation' | 'generation' {
-  return v.generate_task_id ? 'generation' : 'validation';
+function typeLabel(v: CustomVoice): "validation" | "generation" {
+  return v.generate_task_id ? "generation" : "validation";
 }
 
 function isInProgress(v: CustomVoice) {
-  return ['validating', 'phrase_ready', 'generating', 'pending'].includes(v.status);
+  return ["validating", "phrase_ready", "generating", "pending"].includes(v.status);
 }
 
 export default function VoiceHistoryPage() {
   const { voices, isLoading, deleteVoice } = useCustomVoices();
-  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
-  const [query, setQuery] = useState('');
+  const [typeFilter, setTypeFilter] = useState<TypeFilter>("all");
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+  const [query, setQuery] = useState("");
   const [retryingId, setRetryingId] = useState<string | null>(null);
 
   const filtered = useMemo(() => {
     return voices.filter((v) => {
-      if (typeFilter !== 'all' && typeLabel(v) !== typeFilter) return false;
-      if (statusFilter === 'ready' && v.status !== 'ready') return false;
-      if (statusFilter === 'failed' && v.status !== 'failed') return false;
-      if (statusFilter === 'in_progress' && !isInProgress(v)) return false;
+      if (typeFilter !== "all" && typeLabel(v) !== typeFilter) return false;
+      if (statusFilter === "ready" && v.status !== "ready") return false;
+      if (statusFilter === "failed" && v.status !== "failed") return false;
+      if (statusFilter === "in_progress" && !isInProgress(v)) return false;
       if (query && !v.voice_name.toLowerCase().includes(query.toLowerCase())) return false;
       return true;
     });
@@ -53,20 +68,20 @@ export default function VoiceHistoryPage() {
       if (!v.voice_id && v.validate_task_id) {
         // Validation failed before phrase — restart by re-polling current task
         const info = await voiceCloneApi.validateInfo(v.validate_task_id);
-        if (info.status === 'phrase_ready') {
-          toast.success('Фраза готова — откройте мастер для записи');
+        if (info.status === "phrase_ready") {
+          toast.success("Фраза готова — откройте мастер для записи");
         } else {
           toast.info(`Статус: ${info.status}`);
         }
       } else if (v.id && v.verify_path) {
         const res = await voiceCloneApi.regenerate(v.id, v.verify_path);
-        toast.success('Повторная генерация запущена', { description: `Task: ${res.taskId}` });
+        toast.success("Повторная генерация запущена", { description: `Task: ${res.taskId}` });
       } else {
-        toast.error('Невозможно повторить: нет данных верификации');
+        toast.error("Невозможно повторить: нет данных верификации");
       }
     } catch (e: any) {
-      logger.error('Retry failed', e);
-      toast.error(e?.message || 'Ошибка повтора');
+      logger.error("Retry failed", e);
+      toast.error(e?.message || "Ошибка повтора");
     } finally {
       setRetryingId(null);
     }
@@ -85,7 +100,9 @@ export default function VoiceHistoryPage() {
       <Card className="p-3 flex flex-wrap gap-2 items-center">
         <Filter className="h-4 w-4 text-muted-foreground" />
         <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as TypeFilter)}>
-          <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-[160px]">
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Все типы</SelectItem>
             <SelectItem value="validation">Валидация</SelectItem>
@@ -93,7 +110,9 @@ export default function VoiceHistoryPage() {
           </SelectContent>
         </Select>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as StatusFilter)}>
-          <SelectTrigger className="w-[160px]"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-[160px]">
+            <SelectValue />
+          </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Все статусы</SelectItem>
             <SelectItem value="ready">Готовые</SelectItem>
@@ -121,17 +140,20 @@ export default function VoiceHistoryPage() {
       <div className="space-y-2">
         {filtered.map((v) => {
           const t = typeLabel(v);
-          const taskId = t === 'generation' ? v.generate_task_id : v.validate_task_id;
+          const taskId = t === "generation" ? v.generate_task_id : v.validate_task_id;
           return (
             <Card key={v.id} className="p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold truncate">{v.voice_name}</h3>
-                    <Badge variant="outline" className="text-[10px]">{t === 'generation' ? 'Генерация' : 'Валидация'}</Badge>
+                    <Badge variant="outline" className="text-[10px]">
+                      {t === "generation" ? "Генерация" : "Валидация"}
+                    </Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    {new Date(v.created_at).toLocaleString('ru-RU')} · Task: <span className="font-mono">{taskId?.slice(0, 12) || '—'}</span>
+                    {new Date(v.created_at).toLocaleString("ru-RU")} · Task:{" "}
+                    <span className="font-mono">{taskId?.slice(0, 12) || "—"}</span>
                   </p>
                 </div>
                 {statusBadge(v)}
@@ -140,15 +162,21 @@ export default function VoiceHistoryPage() {
                 <p className="text-xs text-destructive bg-destructive/10 rounded p-2">{v.error_message}</p>
               )}
               <div className="flex gap-2">
-                {(v.status === 'failed' || isInProgress(v)) && (
+                {(v.status === "failed" || isInProgress(v)) && (
                   <Button size="sm" variant="outline" disabled={retryingId === v.id} onClick={() => retry(v)}>
-                    <RefreshCw className={`mr-2 h-3 w-3 ${retryingId === v.id ? 'animate-spin' : ''}`} />
+                    <RefreshCw className={`mr-2 h-3 w-3 ${retryingId === v.id ? "animate-spin" : ""}`} />
                     Повторить
                   </Button>
                 )}
-                <Button size="sm" variant="ghost"
-                  onClick={() => { if (confirm(`Удалить запись «${v.voice_name}»?`)) deleteVoice(v.id); }}>
-                  <Trash2 className="mr-2 h-3 w-3" />Удалить
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    if (confirm(`Удалить запись «${v.voice_name}»?`)) deleteVoice(v.id);
+                  }}
+                >
+                  <Trash2 className="mr-2 h-3 w-3" />
+                  Удалить
                 </Button>
               </div>
             </Card>

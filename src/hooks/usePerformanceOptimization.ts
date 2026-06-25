@@ -1,5 +1,5 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { logger } from '@/lib/logger';
+import { useEffect, useState, useCallback, useRef } from "react";
+import { logger } from "@/lib/logger";
 
 interface UseReducedMotionReturn {
   prefersReducedMotion: boolean;
@@ -12,19 +12,19 @@ interface UseReducedMotionReturn {
  */
 export function useReducedMotion(): UseReducedMotionReturn {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (typeof window === "undefined") return false;
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   });
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
     const handleChange = (event: MediaQueryListEvent) => {
       setPrefersReducedMotion(event.matches);
     };
 
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   // Determine if animations should run based on device performance
@@ -43,9 +43,9 @@ interface UseIntersectionObserverOptions {
  * Hook for lazy loading elements when they enter viewport
  */
 export function useIntersectionObserver(
-  options: UseIntersectionObserverOptions = {}
+  options: UseIntersectionObserverOptions = {},
 ): [React.RefCallback<HTMLElement>, boolean] {
-  const { threshold = 0, rootMargin = '50px', triggerOnce = true } = options;
+  const { threshold = 0, rootMargin = "50px", triggerOnce = true } = options;
   const [isIntersecting, setIsIntersecting] = useState(false);
   const [element, setElement] = useState<HTMLElement | null>(null);
 
@@ -67,7 +67,7 @@ export function useIntersectionObserver(
           setIsIntersecting(false);
         }
       },
-      { threshold, rootMargin }
+      { threshold, rootMargin },
     );
 
     observer.observe(element);
@@ -82,16 +82,18 @@ export function useIntersectionObserver(
  */
 export function usePrefetch<T>(
   fetchFn: () => Promise<T>,
-  enabled: boolean = true
+  enabled: boolean = true,
 ): { prefetch: () => void; data: T | null } {
   const [data, setData] = useState<T | null>(null);
   const [hasPrefetched, setHasPrefetched] = useState(false);
 
   const prefetch = useCallback(() => {
     if (!enabled || hasPrefetched) return;
-    
+
     setHasPrefetched(true);
-    fetchFn().then(setData).catch(() => setHasPrefetched(false));
+    fetchFn()
+      .then(setData)
+      .catch(() => setHasPrefetched(false));
   }, [enabled, hasPrefetched, fetchFn]);
 
   return { prefetch, data };
@@ -102,7 +104,7 @@ export function usePrefetch<T>(
  */
 export function useResizeObserver(
   callback: (entry: ResizeObserverEntry) => void,
-  debounceMs: number = 100
+  debounceMs: number = 100,
 ): React.RefCallback<HTMLElement> {
   const [element, setElement] = useState<HTMLElement | null>(null);
 
@@ -110,7 +112,7 @@ export function useResizeObserver(
     if (!element) return;
 
     let timeoutId: NodeJS.Timeout;
-    
+
     const observer = new ResizeObserver(([entry]) => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => callback(entry), debounceMs);
@@ -131,18 +133,19 @@ export function useResizeObserver(
  */
 export function usePerformanceMonitor(componentName: string) {
   useEffect(() => {
-    if (process.env.NODE_ENV !== 'development') return;
+    if (process.env.NODE_ENV !== "development") return;
 
     const startTime = performance.now();
-    
+
     return () => {
       const endTime = performance.now();
       const renderTime = endTime - startTime;
-      
-      if (renderTime > 16) { // More than one frame (60fps)
+
+      if (renderTime > 16) {
+        // More than one frame (60fps)
         logger.warn(`${componentName} took ${renderTime.toFixed(2)}ms to render`, {
           componentName,
-          renderTimeMs: renderTime
+          renderTimeMs: renderTime,
         });
       }
     };
@@ -154,12 +157,12 @@ export function usePerformanceMonitor(componentName: string) {
  */
 export function useLazyImage(
   src: string | undefined,
-  options: { threshold?: number; rootMargin?: string } = {}
+  options: { threshold?: number; rootMargin?: string } = {},
 ): { imgRef: React.RefCallback<HTMLImageElement>; isLoaded: boolean; shouldLoad: boolean } {
   const [isLoaded, setIsLoaded] = useState(false);
   const [imgRef, shouldLoad] = useIntersectionObserver({
     threshold: options.threshold ?? 0,
-    rootMargin: options.rootMargin ?? '100px',
+    rootMargin: options.rootMargin ?? "100px",
     triggerOnce: true,
   });
 
@@ -171,10 +174,10 @@ export function useLazyImage(
     }
   }, [shouldLoad, src]);
 
-  return { 
-    imgRef: imgRef as React.RefCallback<HTMLImageElement>, 
-    isLoaded, 
-    shouldLoad 
+  return {
+    imgRef: imgRef as React.RefCallback<HTMLImageElement>,
+    isLoaded,
+    shouldLoad,
   };
 }
 
@@ -182,12 +185,12 @@ export function useLazyImage(
  * Hook for batching state updates to reduce re-renders
  */
 export function useBatchedUpdates<T extends Record<string, unknown>>(
-  initialState: T
+  initialState: T,
 ): [T, (updates: Partial<T>) => void] {
   const [state, setState] = useState<T>(initialState);
 
   const batchUpdate = useCallback((updates: Partial<T>) => {
-    setState(prev => ({ ...prev, ...updates }));
+    setState((prev) => ({ ...prev, ...updates }));
   }, []);
 
   return [state, batchUpdate];
@@ -201,12 +204,15 @@ export function useThrottledValue<T>(value: T, limitMs: number = 100): T {
   const lastRan = useRef<number>(Date.now());
 
   useEffect(() => {
-    const handler = setTimeout(() => {
-      if (Date.now() - lastRan.current >= limitMs) {
-        setThrottledValue(value);
-        lastRan.current = Date.now();
-      }
-    }, limitMs - (Date.now() - lastRan.current));
+    const handler = setTimeout(
+      () => {
+        if (Date.now() - lastRan.current >= limitMs) {
+          setThrottledValue(value);
+          lastRan.current = Date.now();
+        }
+      },
+      limitMs - (Date.now() - lastRan.current),
+    );
 
     return () => clearTimeout(handler);
   }, [value, limitMs]);

@@ -2,14 +2,14 @@
  * TrackRemixToggle - Allow remix toggle for track owner
  */
 
-import { memo } from 'react';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { Lock, Unlock } from 'lucide-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
+import { memo } from "react";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Lock, Unlock } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface TrackRemixToggleProps {
   trackId: string;
@@ -25,22 +25,19 @@ export const TrackRemixToggle = memo(function TrackRemixToggle({
   isPublic,
 }: TrackRemixToggleProps) {
   const queryClient = useQueryClient();
-  
+
   const toggleRemixMutation = useMutation({
     mutationFn: async (newValue: boolean) => {
-      const { error } = await supabase
-        .from('tracks')
-        .update({ allow_remix: newValue })
-        .eq('id', trackId);
+      const { error } = await supabase.from("tracks").update({ allow_remix: newValue }).eq("id", trackId);
       if (error) throw error;
       return newValue;
     },
     onSuccess: (newValue) => {
-      queryClient.invalidateQueries({ queryKey: ['tracks'] });
-      toast.success(newValue ? 'Ремикс разрешён' : 'Ремикс запрещён');
+      queryClient.invalidateQueries({ queryKey: ["tracks"] });
+      toast.success(newValue ? "Ремикс разрешён" : "Ремикс запрещён");
     },
     onError: () => {
-      toast.error('Ошибка обновления настроек');
+      toast.error("Ошибка обновления настроек");
     },
   });
 
@@ -63,9 +60,7 @@ export const TrackRemixToggle = memo(function TrackRemixToggle({
             <Label htmlFor="allow-remix" className="text-sm font-medium">
               Разрешить ремиксы
             </Label>
-            <p className="text-xs text-muted-foreground">
-              Другие пользователи смогут создавать ремиксы
-            </p>
+            <p className="text-xs text-muted-foreground">Другие пользователи смогут создавать ремиксы</p>
           </div>
         </div>
         <Switch
