@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { PageSkeleton } from '@/components/PageSkeleton';
+import { PageSkeleton } from '@/components/skeletons/PageSkeleton';
 
 /**
  * AdminRoute - guards admin pages with server-validated role check.
