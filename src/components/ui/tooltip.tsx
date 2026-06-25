@@ -12,17 +12,23 @@ const TooltipTrigger = TooltipPrimitive.Trigger;
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
+>(({ className, sideOffset = 6, ...props }, ref) => (
   <TooltipPrimitive.Portal>
     <TooltipPrimitive.Content
       ref={ref}
       sideOffset={sideOffset}
       avoidCollisions
-      collisionPadding={16}
+      collisionPadding={12}
       sticky="always"
       className={cn(
-        "z-[9999] overflow-visible rounded-xl border border-border/50 bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-xl animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        "max-w-[calc(100vw-2rem)]",
+        // base: compact pill, aurora-tinted border, glassy surface
+        "z-[9999] rounded-lg border border-border/60 bg-popover/95 backdrop-blur-xl backdrop-saturate-150",
+        "px-2.5 py-1.5 text-[12px] font-medium leading-tight tracking-tight text-popover-foreground",
+        "shadow-[0_8px_24px_-10px_hsl(240_60%_2%/0.55),0_0_0_1px_hsl(var(--primary)/0.08)_inset]",
+        "max-w-[min(260px,calc(100vw-1.5rem))]",
+        // motion
+        "animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+        "data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1",
         className,
       )}
       {...props}
