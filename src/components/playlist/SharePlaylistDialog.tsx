@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Copy, Check, Share2, ExternalLink, Loader2 } from "lucide-react";
+import { Copy, Check, Share2, ExternalLink, Loader2 } from "@/lib/icons";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

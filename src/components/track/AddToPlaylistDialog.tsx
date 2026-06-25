@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import type { Track } from "@/types/track";
-import { ListMusic, Plus, Search, Check, Loader2 } from "lucide-react";
+import { ListMusic, Plus, Search, Check, Loader2 } from "@/lib/icons";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/lib/mobile-utils";

@@ -4,7 +4,7 @@
  */
 
 import { memo, useState } from "react";
-import { AlertCircle, Coins, ArrowRight, Zap, Crown } from "lucide-react";
+import { AlertCircle, Coins, ArrowRight, Zap, Crown } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";

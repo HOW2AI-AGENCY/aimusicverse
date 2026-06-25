@@ -7,7 +7,7 @@
  */
 
 import { Button } from "@/components/ui/button";
-import { Shield, RefreshCw } from "lucide-react";
+import { Shield, RefreshCw } from "@/lib/icons";
 
 interface AdminDashboardHeaderProps {
   /** Callback to refresh all data */

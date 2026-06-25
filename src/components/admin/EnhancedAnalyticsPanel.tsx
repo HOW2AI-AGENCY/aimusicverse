@@ -21,7 +21,7 @@ import {
   Music,
   DollarSign,
   Gauge,
-} from "lucide-react";
+} from "@/lib/icons";
 import {
   useModelUsageStats,
   useGenerationModeStats,

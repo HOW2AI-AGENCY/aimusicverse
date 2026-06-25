@@ -10,7 +10,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronDown, ListMusic, Maximize2, Minimize2 } from "lucide-react";
+import { ChevronDown, ListMusic, Maximize2, Minimize2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

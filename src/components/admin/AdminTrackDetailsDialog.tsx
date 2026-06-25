@@ -17,7 +17,7 @@ import {
   FileAudio,
   Upload,
   AudioWaveform,
-} from "lucide-react";
+} from "@/lib/icons";
 import { format, ru } from "@/lib/date-utils";
 import { useRef, useState } from "react";
 import { formatDuration } from "@/lib/player-utils";

@@ -6,7 +6,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CreditCard } from "lucide-react";
+import { CreditCard } from "@/lib/icons";
 import { EditableTierFields } from "@/hooks/admin/useSubscriptionTiers";
 
 interface TierPricingSectionProps {

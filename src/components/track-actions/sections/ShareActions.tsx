@@ -4,7 +4,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
-import { Share2, Video, Send, Link, ListMusic, Folder, Loader2, CheckCircle2 } from "lucide-react";
+import { Share2, Video, Send, Link, ListMusic, Folder, Loader2, CheckCircle2 } from "@/lib/icons";
 import { Track } from "@/types/track";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable, isActionDisabled, getActionLabel } from "@/lib/trackActionConditions";

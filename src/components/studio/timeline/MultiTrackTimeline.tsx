@@ -10,7 +10,7 @@ import { TimelineRuler } from "./TimelineRuler";
 import { Playhead } from "./Playhead";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Plus, ZoomIn, ZoomOut, Magnet } from "lucide-react";
+import { Plus, ZoomIn, ZoomOut, Magnet } from "@/lib/icons";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface MultiTrackTimelineProps {

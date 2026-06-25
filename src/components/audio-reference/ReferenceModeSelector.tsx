@@ -6,7 +6,7 @@
 import { memo } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Disc, ArrowRight, Music } from "lucide-react";
+import { Disc, ArrowRight, Music } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { ReferenceMode } from "@/services/audio-reference";
 

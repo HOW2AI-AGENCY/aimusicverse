@@ -6,7 +6,7 @@
  * @module components/admin/dashboard/tabs/OverviewTab
  */
 
-import { Users, Music, FolderKanban, ListMusic, Activity, TrendingUp } from "lucide-react";
+import { Users, Music, FolderKanban, ListMusic, Activity, TrendingUp } from "@/lib/icons";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { QuickActionsPanel } from "@/components/admin/QuickActionsPanel";
 import { HealthCheckPanel } from "@/components/admin/HealthCheckPanel";

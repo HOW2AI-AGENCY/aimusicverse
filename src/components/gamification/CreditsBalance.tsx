@@ -1,6 +1,6 @@
 import { motion } from "@/lib/motion";
 import { useUserCredits } from "@/hooks/useGamification";
-import { Coins, TrendingUp, Flame, Sparkles, Star } from "lucide-react";
+import { Coins, TrendingUp, Flame, Sparkles, Star } from "@/lib/icons";
 
 interface CreditsBalanceProps {
   compact?: boolean;

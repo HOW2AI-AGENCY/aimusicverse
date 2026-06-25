@@ -3,7 +3,7 @@ import { Track } from "@/types/track";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Clock, Calendar, Music, Mic, Volume2, Crown, ChevronDown, ChevronUp } from "lucide-react";
+import { Clock, Calendar, Music, Mic, Volume2, Crown, ChevronDown, ChevronUp } from "@/lib/icons";
 import { format } from "@/lib/date-utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { motion } from "@/lib/motion";

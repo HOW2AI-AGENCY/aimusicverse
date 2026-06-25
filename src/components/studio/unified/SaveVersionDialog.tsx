@@ -4,7 +4,7 @@
  */
 
 import { memo, useState, useCallback } from "react";
-import { Save, Loader2, Volume2, Layers, Download, Check, AlertCircle } from "lucide-react";
+import { Save, Loader2, Volume2, Layers, Download, Check, AlertCircle } from "@/lib/icons";
 import {
   Dialog,
   DialogContent,

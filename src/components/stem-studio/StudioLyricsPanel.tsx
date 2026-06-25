@@ -8,7 +8,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Music2, ChevronDown, ChevronUp, Scissors, Check, Wand2 } from "lucide-react";
+import { Music2, ChevronDown, ChevronUp, Scissors, Check, Wand2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTimestampedLyrics, AlignedWord } from "@/hooks/useTimestampedLyrics";
 import { Button } from "@/components/ui/button";

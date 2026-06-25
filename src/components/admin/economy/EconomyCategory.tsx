@@ -3,7 +3,7 @@
  */
 
 import { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { EconomyConfigItem } from "./EconomyConfigItem";
 import type { EconomyConfigItem as ConfigItem } from "@/hooks/admin/useEconomyConfig";

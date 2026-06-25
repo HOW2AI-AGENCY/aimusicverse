@@ -5,7 +5,7 @@
 import { memo, useState, useEffect, useRef } from "react";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
-import { Play, Square, MoreVertical, Save, Music, Download, Trash2, Loader2 } from "lucide-react";
+import { Play, Square, MoreVertical, Save, Music, Download, Trash2, Loader2 } from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,

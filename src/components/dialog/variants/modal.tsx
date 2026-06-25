@@ -27,7 +27,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { X } from "lucide-react";
+import { X } from "@/lib/icons";
 import { DialogBackdrop, DialogContainer } from "../unified-dialog";
 import { DIALOG_CONFIG } from "../unified-dialog.config";
 import type { ModalDialogProps } from "../unified-dialog.types";

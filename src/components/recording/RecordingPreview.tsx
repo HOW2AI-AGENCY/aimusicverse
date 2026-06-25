@@ -4,7 +4,7 @@
 
 import React, { memo, useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Play, Pause, RotateCcw, Download } from "lucide-react";
+import { Play, Pause, RotateCcw, Download } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

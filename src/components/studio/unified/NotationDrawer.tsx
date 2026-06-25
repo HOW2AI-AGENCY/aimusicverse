@@ -6,7 +6,7 @@
  */
 
 import { memo, useCallback, useMemo, useState } from "react";
-import { ChevronDown, Download, FileText, Loader2, Music2, X } from "lucide-react";
+import { ChevronDown, Download, FileText, Loader2, Music2, X } from "@/lib/icons";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";

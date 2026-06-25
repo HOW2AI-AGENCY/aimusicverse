@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
-import { Target, TrendingUp, Users, MousePointerClick, ChevronUp, ChevronDown } from "lucide-react";
+import { Target, TrendingUp, Users, MousePointerClick, ChevronUp, ChevronDown } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface Campaign {

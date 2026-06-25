@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, Sparkles, Star, Music2, TrendingUp } from "lucide-react";
+import { Users, Sparkles, Star, Music2, TrendingUp } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import type { PublicArtist } from "@/hooks/usePublicArtists";

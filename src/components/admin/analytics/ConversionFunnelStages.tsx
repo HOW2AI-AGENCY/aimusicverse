@@ -8,7 +8,7 @@
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, MousePointerClick, UserPlus, Play, Sparkles, CheckCircle, CreditCard, Heart } from "lucide-react";
+import { Eye, MousePointerClick, UserPlus, Play, Sparkles, CheckCircle, CreditCard, Heart } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 

@@ -20,7 +20,7 @@ import {
   Pie,
   Cell,
 } from "recharts";
-import { AlertTriangle, AlertCircle, Info, Server, ChevronDown, ChevronUp, Code } from "lucide-react";
+import { AlertTriangle, AlertCircle, Info, Server, ChevronDown, ChevronUp, Code } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 

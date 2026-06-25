@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { Music2, Disc3, Lock } from "lucide-react";
+import { Music2, Disc3, Lock } from "@/lib/icons";
 import type { Track } from "@/types/track";
 import { TrackDetailContent } from "./track-detail/TrackDetailContent";
 import { HeaderVersionSelector } from "./track-detail/HeaderVersionSelector";

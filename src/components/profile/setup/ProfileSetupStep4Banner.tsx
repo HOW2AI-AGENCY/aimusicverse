@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "@/lib/motion";
-import { ImageIcon, Upload, Sparkles, Check } from "lucide-react";
+import { ImageIcon, Upload, Sparkles, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";

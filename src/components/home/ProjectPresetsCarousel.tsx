@@ -9,7 +9,7 @@ import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Folder, ArrowRight, Sparkles } from "lucide-react";
+import { Folder, ArrowRight, Sparkles } from "@/lib/icons";
 import { PROJECT_PRESETS, type ProjectPreset, getProjectTypeLabel } from "@/constants/projectPresets";
 import { useTelegram } from "@/contexts/TelegramContext";
 

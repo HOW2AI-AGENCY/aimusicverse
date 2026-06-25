@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Mic, Square, Play, Pause, RotateCcw, Zap, Clock, Activity } from "lucide-react";
+import { Mic, Square, Play, Pause, RotateCcw, Zap, Clock, Activity } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

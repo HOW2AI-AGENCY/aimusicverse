@@ -9,7 +9,7 @@ import { TrackStem } from "@/hooks/useTrackStems";
 import { OptimizedWaveform } from "./OptimizedWaveform";
 import { OptimizedVolumeSlider } from "./OptimizedVolumeSlider";
 import { Button } from "@/components/ui/button";
-import { Volume2, VolumeX, Headphones, MoreVertical } from "lucide-react";
+import { Volume2, VolumeX, Headphones, MoreVertical } from "@/lib/icons";
 
 interface OptimizedStemTrackProps {
   stem: TrackStem;

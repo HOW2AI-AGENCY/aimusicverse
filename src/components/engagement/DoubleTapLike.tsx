@@ -1,6 +1,6 @@
 // DoubleTapLike - Instagram-style double-tap to like with heart animation
 import { useState, useRef, useCallback } from "react";
-import { Heart } from "lucide-react";
+import { Heart } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useLikeTrack } from "@/hooks/engagement/useLikeTrack";
 import { useAuth } from "@/hooks/useAuth";

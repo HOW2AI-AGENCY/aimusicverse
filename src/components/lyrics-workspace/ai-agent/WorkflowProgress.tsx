@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Check, Pause, Play, SkipForward, X, Loader2 } from "lucide-react";
+import { Check, Pause, Play, SkipForward, X, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";

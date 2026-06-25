@@ -2,7 +2,7 @@
  * ComingSoonModal - Beautiful modal for features not yet available
  */
 import { motion } from "@/lib/motion";
-import { Clock, Bell, Sparkles, ArrowRight, X } from "lucide-react";
+import { Clock, Bell, Sparkles, ArrowRight, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { UnifiedDialog } from "@/components/dialog";
 import { cn } from "@/lib/utils";

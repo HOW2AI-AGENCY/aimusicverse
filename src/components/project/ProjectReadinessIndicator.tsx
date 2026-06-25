@@ -4,7 +4,7 @@
  */
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { CheckCircle2, Clock, Star, AlertCircle } from "lucide-react";
+import { CheckCircle2, Clock, Star, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface ProjectReadinessIndicatorProps {

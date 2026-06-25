@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react";
+import { Plus } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { SECTION_TYPES, type SectionType } from "@/lib/lyrics/constants";
 import { Badge } from "@/components/ui/badge";

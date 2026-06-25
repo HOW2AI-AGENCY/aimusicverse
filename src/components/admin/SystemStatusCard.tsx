@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Activity, CheckCircle2, AlertTriangle, XCircle, RefreshCw, TestTube, Bell, Server } from "lucide-react";
+import { Activity, CheckCircle2, AlertTriangle, XCircle, RefreshCw, TestTube, Bell, Server } from "@/lib/icons";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 

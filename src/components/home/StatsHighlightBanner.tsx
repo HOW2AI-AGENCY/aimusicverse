@@ -7,7 +7,7 @@
 import { memo } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Music, Users, Sparkles, Headphones } from "lucide-react";
+import { Music, Users, Sparkles, Headphones } from "@/lib/icons";
 import { usePlatformStats } from "@/hooks/usePlatformStats";
 import { Skeleton } from "@/components/ui/skeleton";
 import { glass } from "@/lib/glass";

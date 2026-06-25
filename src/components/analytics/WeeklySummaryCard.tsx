@@ -5,7 +5,7 @@
  */
 
 import { memo } from "react";
-import { Music, Heart, Play, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { Music, Heart, Play, TrendingUp, TrendingDown, Minus } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { useAnalyticsData } from "@/hooks/useAnalyticsData";
 import { Skeleton } from "@/components/ui/skeleton";

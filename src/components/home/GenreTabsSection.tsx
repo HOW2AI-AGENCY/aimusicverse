@@ -16,7 +16,7 @@ import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { useInfiniteGenreTracks, flattenGenreTracksPages } from "@/hooks/useInfiniteGenreTracks";
 import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { cn } from "@/lib/utils";
-import { Music2, Disc3, Guitar, Waves, Leaf } from "lucide-react";
+import { Music2, Disc3, Guitar, Waves, Leaf } from "@/lib/icons";
 import { glass } from "@/lib/glass";
 
 interface GenreConfig {

@@ -4,7 +4,7 @@ import { useLyricsTemplates, LyricsTemplate } from "@/hooks/useLyricsTemplates";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Search, Trash2, PenLine } from "lucide-react";
+import { FileText, Search, Trash2, PenLine } from "@/lib/icons";
 import { EmptyState } from "@/components/common/EmptyState";
 import { toast } from "sonner";
 import { VirtualizedLyricsList } from "@/components/content-hub/VirtualizedLyricsList";

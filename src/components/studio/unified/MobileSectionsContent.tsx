@@ -10,7 +10,7 @@
 
 import { memo, useState, useCallback, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { Scissors, Loader2, Music, AlertTriangle } from "lucide-react";
+import { Scissors, Loader2, Music, AlertTriangle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { SectionEditorSheet } from "@/components/studio/editor/SectionEditorSheet";
 import { MobileSectionsView } from "./MobileSectionsView";

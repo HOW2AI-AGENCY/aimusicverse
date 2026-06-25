@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Sparkles, RefreshCw } from "lucide-react";
+import { Sparkles, RefreshCw } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 

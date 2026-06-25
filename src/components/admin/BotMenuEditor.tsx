@@ -21,7 +21,7 @@ import {
   ExternalLink,
   MousePointer,
   Folder,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useBotMenuItems, useToggleMenuItem, useDeleteMenuItem, type BotMenuItem } from "@/hooks/useBotMenuItems";
 import { BotMenuItemForm } from "./BotMenuItemForm";
 import { BotMenuPreview } from "./BotMenuPreview";

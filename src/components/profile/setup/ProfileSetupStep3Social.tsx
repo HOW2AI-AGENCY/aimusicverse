@@ -1,5 +1,5 @@
 import { motion } from "@/lib/motion";
-import { Instagram, Globe, Music2 } from "lucide-react";
+import { Instagram, Globe, Music2 } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import type { ProfileSetupData } from "./EnhancedProfileSetup";

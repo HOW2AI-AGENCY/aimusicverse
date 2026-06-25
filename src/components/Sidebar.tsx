@@ -23,7 +23,7 @@ import {
   Shield,
   Layers,
   CreditCard,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useUserRole } from "@/hooks/useUserRole";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";

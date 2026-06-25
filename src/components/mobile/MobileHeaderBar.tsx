@@ -4,7 +4,7 @@
  */
 
 import { memo, ReactNode } from "react";
-import { ArrowLeft, MoreVertical } from "lucide-react";
+import { ArrowLeft, MoreVertical } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useHaptic } from "@/hooks/useHaptic";
 import { Button } from "@/components/ui/button";

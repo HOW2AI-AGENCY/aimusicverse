@@ -11,7 +11,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Play, Pause, Share2, Music2, Plus, UserPlus } from "lucide-react";
+import { Play, Pause, Share2, Music2, Plus, UserPlus } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

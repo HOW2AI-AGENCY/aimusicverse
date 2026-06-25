@@ -4,7 +4,7 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { User, Palette, Shield, Bell, Lightbulb, Music, Send, CreditCard, BarChart3 } from "lucide-react";
+import { User, Palette, Shield, Bell, Lightbulb, Music, Send, CreditCard, BarChart3 } from "@/lib/icons";
 
 interface SettingsSidebarProps {
   activeTab: string;

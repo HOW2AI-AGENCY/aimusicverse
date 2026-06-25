@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";
-import { Music } from "lucide-react";
+import { Music } from "@/lib/icons";
 
 interface NoteInput {
   pitch?: number;

@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Sparkles, RefreshCw, Lightbulb, Music, Tag } from "lucide-react";
+import { Sparkles, RefreshCw, Lightbulb, Music, Tag } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 

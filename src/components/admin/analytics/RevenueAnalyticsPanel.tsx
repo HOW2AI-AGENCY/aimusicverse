@@ -23,7 +23,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
-import { DollarSign, TrendingUp, Star, CreditCard, Coins, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { DollarSign, TrendingUp, Star, CreditCard, Coins, ArrowUpRight, ArrowDownRight } from "@/lib/icons";
 
 interface RevenueAnalyticsPanelProps {
   timePeriod: string;

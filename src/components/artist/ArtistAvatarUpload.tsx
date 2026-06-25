@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Camera, Upload, Sparkles, Loader2, X, Image as ImageIcon } from "lucide-react";
+import { Camera, Upload, Sparkles, Loader2, X, Image as ImageIcon } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";

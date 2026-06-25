@@ -8,7 +8,7 @@
 
 import { memo, useEffect, useState } from "react";
 import { motion } from "@/lib/motion";
-import { Sparkles, ArrowRight, X } from "lucide-react";
+import { Sparkles, ArrowRight, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";

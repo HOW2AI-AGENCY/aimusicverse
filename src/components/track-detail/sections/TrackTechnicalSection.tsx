@@ -3,7 +3,7 @@
  */
 
 import { memo } from "react";
-import { Cpu } from "lucide-react";
+import { Cpu } from "@/lib/icons";
 import type { Track } from "@/types/track";
 
 interface TrackTechnicalSectionProps {

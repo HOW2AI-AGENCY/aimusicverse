@@ -18,7 +18,7 @@ import {
   Trash2,
   X,
   Clock,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { formatRelative } from "@/lib/date-utils";
 import { useNavigate } from "react-router-dom";

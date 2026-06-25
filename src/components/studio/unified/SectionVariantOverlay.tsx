@@ -7,7 +7,7 @@
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Play, Pause, Check, X, RotateCcw, Loader2, Volume2, SkipBack } from "lucide-react";
+import { Play, Pause, Check, X, RotateCcw, Loader2, Volume2, SkipBack } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";

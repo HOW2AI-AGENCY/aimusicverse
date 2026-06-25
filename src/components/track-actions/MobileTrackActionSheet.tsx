@@ -37,7 +37,7 @@ import {
   Drum,
   Guitar,
   Piano,
-} from "lucide-react";
+} from "@/lib/icons";
 
 interface StemInfo {
   id: string;

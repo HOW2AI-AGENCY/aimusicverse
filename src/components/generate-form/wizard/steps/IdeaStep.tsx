@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Lightbulb, Sparkles, Loader2, ArrowRight } from "lucide-react";
+import { Lightbulb, Sparkles, Loader2, ArrowRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";

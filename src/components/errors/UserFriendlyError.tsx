@@ -17,7 +17,7 @@ import {
   ChevronDown,
   MessageCircle,
   HelpCircle,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";

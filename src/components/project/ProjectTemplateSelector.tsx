@@ -3,7 +3,7 @@
  */
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Disc3, Album, Music, Headphones, Film, Radio, Sparkles } from "lucide-react";
+import { Disc3, Album, Music, Headphones, Film, Radio, Sparkles } from "@/lib/icons";
 
 export interface ProjectTemplate {
   id: string;

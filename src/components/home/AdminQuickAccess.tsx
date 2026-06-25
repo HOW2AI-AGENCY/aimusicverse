@@ -8,7 +8,7 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "@/lib/motion";
-import { Shield } from "lucide-react";
+import { Shield } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useTelegram } from "@/contexts/TelegramContext";

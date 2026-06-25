@@ -7,7 +7,7 @@
 
 import { useState, useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Edit2, Check, X } from "lucide-react";
+import { Edit2, Check, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";

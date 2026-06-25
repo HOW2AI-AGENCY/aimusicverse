@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Send, Loader2, Megaphone, Image, X, FileText, ChevronDown } from "lucide-react";
+import { Send, Loader2, Megaphone, Image, X, FileText, ChevronDown } from "@/lib/icons";
 import { useBroadcastNotification, useBroadcastTemplates, useSaveBroadcastTemplate } from "@/hooks/useBroadcast";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";

@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { LAYOUT_RATIOS, MAX_WIDTHS } from "@/lib/breakpoints";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, X } from "lucide-react";
+import { ChevronLeft, X } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 
 interface DesktopMasterDetailLayoutProps {

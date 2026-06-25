@@ -3,7 +3,7 @@
  * Defines available actions for different stem types
  */
 
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 import {
   Download,
   Sliders,
@@ -32,7 +32,7 @@ import {
   Share2,
   Scissors,
   ArrowRight,
-} from "lucide-react";
+} from "@/lib/icons";
 
 export type StemType =
   | "vocal"

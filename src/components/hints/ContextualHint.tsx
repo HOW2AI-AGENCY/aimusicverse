@@ -15,7 +15,7 @@
  */
 
 import { motion, AnimatePresence } from "@/lib/motion";
-import { X, ArrowRight, Lightbulb } from "lucide-react";
+import { X, ArrowRight, Lightbulb } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

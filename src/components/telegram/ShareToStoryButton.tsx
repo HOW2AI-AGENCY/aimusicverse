@@ -11,7 +11,7 @@
  */
 
 import { useState } from "react";
-import { Share2 } from "lucide-react";
+import { Share2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

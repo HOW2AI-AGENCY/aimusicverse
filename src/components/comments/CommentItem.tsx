@@ -1,7 +1,7 @@
 // CommentItem component - Sprint 011
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, Reply, MoreHorizontal, Flag, Trash2 } from "lucide-react";
+import { Heart, Reply, MoreHorizontal, Flag, Trash2 } from "@/lib/icons";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";

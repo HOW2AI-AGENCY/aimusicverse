@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MusicLabAudioProvider } from "@/contexts/MusicLabAudioContext";
 import { toast } from "sonner";
-import { Mic, Guitar, PenLine, Disc3, Music, ArrowLeft, AudioWaveform } from "lucide-react";
+import { Mic, Guitar, PenLine, Disc3, Music, ArrowLeft, AudioWaveform } from "@/lib/icons";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { FeatureGate, PremiumBadge } from "@/components/premium";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";

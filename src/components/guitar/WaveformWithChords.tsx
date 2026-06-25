@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, memo, useId } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Volume2 } from "lucide-react";
+import { Play, Pause, Volume2 } from "@/lib/icons";
 import type { ChordData } from "@/hooks/useGuitarAnalysis";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";

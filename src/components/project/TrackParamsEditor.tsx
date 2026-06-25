@@ -5,7 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Music, Gauge, Zap, Mic, Volume2, Link } from "lucide-react";
+import { Music, Gauge, Zap, Mic, Volume2, Link } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface TrackParams {

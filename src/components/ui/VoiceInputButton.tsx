@@ -1,4 +1,4 @@
-import { Mic, MicOff, Loader2 } from "lucide-react";
+import { Mic, MicOff, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useVoiceInput, VoiceInputContext } from "@/hooks/useVoiceInput";

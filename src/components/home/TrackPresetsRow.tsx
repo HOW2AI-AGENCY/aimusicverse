@@ -6,7 +6,7 @@
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Music, ArrowRight } from "lucide-react";
+import { Music, ArrowRight } from "@/lib/icons";
 import { useTelegram } from "@/contexts/TelegramContext";
 
 export interface TrackPreset {

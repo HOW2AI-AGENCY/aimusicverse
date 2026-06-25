@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, Gift, Share2, Copy, QrCode, Trophy, Sparkles, Crown, Medal, Link2 } from "lucide-react";
+import { Users, Gift, Share2, Copy, QrCode, Trophy, Sparkles, Crown, Medal, Link2 } from "@/lib/icons";
 import { useReferralStats, useShareReferral, useReferralLink } from "@/hooks/useReferrals";
 import { useReferralLeaderboard } from "@/hooks/useReferralLeaderboard";
 import { ECONOMY } from "@/lib/economy";

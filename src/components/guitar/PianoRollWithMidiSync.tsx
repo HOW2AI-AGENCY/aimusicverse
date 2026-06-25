@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Play, Pause, Volume2, VolumeX, Music, Piano, Settings2, Loader2 } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Music, Piano, Settings2, Loader2 } from "@/lib/icons";
 import { PianoRollPreview } from "@/components/analysis/PianoRollPreview";
 import { useMidiSync } from "@/hooks/studio/useMidiSync";
 import type { MidiNote } from "@/hooks/useMidiVisualization";

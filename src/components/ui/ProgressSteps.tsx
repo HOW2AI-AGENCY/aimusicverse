@@ -8,7 +8,7 @@
 import React, { ReactNode } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Check, LucideIcon } from "lucide-react";
+import { Check, LucideIcon } from "@/lib/icons";
 
 interface Step {
   id: string;

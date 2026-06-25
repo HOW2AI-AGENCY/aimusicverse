@@ -5,7 +5,7 @@
 
 import { memo, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { Wand2, RefreshCw, Sparkles, BarChart3, PenLine, Quote, Languages, Shuffle } from "lucide-react";
+import { Wand2, RefreshCw, Sparkles, BarChart3, PenLine, Quote, Languages, Shuffle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 import { AIToolId } from "./types";

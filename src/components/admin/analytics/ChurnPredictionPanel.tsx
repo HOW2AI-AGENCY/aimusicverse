@@ -22,7 +22,7 @@ import {
   MessageSquare,
   Heart,
   Zap,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useChurnPrediction, type ChurnRiskUser } from "@/hooks/analytics/useChurnPrediction";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";

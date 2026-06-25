@@ -5,7 +5,7 @@
 
 import React, { memo, useCallback, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Volume2, VolumeX, Volume1 } from "lucide-react";
+import { Volume2, VolumeX, Volume1 } from "@/lib/icons";
 
 interface OptimizedVolumeSliderProps {
   value: number; // 0-1

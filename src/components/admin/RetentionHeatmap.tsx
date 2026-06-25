@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Users, TrendingUp, TrendingDown, Minus, Calendar } from "lucide-react";
+import { Users, TrendingUp, TrendingDown, Minus, Calendar } from "@/lib/icons";
 import {
   useRetentionCohorts,
   calculateAverageRetention,

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { Copy, Plus, Mic2, Guitar, Music, FileMusic, Wand2, Sparkles } from "lucide-react";
+import { Copy, Plus, Mic2, Guitar, Music, FileMusic, Wand2, Sparkles } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { toast } from "sonner";
 import { useReferenceAnalysisData, type ReferenceAnalysisData } from "@/hooks/useReferenceAnalysisData";

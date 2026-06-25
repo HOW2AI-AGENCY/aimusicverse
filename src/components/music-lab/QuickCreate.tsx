@@ -4,7 +4,7 @@ import { PresetBrowser } from "./PresetBrowser";
 import { QuickCreatePreset } from "@/constants/quickCreatePresets";
 import { useNavigate } from "react-router-dom";
 import { logger } from "@/lib/logger";
-import { CheckCircle, Circle } from "lucide-react";
+import { CheckCircle, Circle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { glass } from "@/lib/glass";
 

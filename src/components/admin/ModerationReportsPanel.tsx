@@ -10,7 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AlertTriangle, CheckCircle, Clock, Eye, Flag, MoreVertical, Music, XCircle, Loader2 } from "lucide-react";
+import { AlertTriangle, CheckCircle, Clock, Eye, Flag, MoreVertical, Music, XCircle, Loader2 } from "@/lib/icons";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 import {
   useAdminModerationReports,

@@ -6,7 +6,7 @@ import { motion } from "@/lib/motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Download, FileMusic, FileText, FileCode, Music2, ExternalLink, Send, Loader2 } from "lucide-react";
+import { Download, FileMusic, FileText, FileCode, Music2, ExternalLink, Send, Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { TranscriptionFiles } from "@/hooks/useReplicateMidiTranscription";
 import { supabase } from "@/integrations/supabase/client";

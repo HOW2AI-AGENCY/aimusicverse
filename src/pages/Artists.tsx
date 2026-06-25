@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useSearchParams } from "react-router-dom";
-import { Users, Search, Plus, User, Sparkles, TrendingUp, Music2, Mic2 } from "lucide-react";
+import { Users, Search, Plus, User, Sparkles, TrendingUp, Music2, Mic2 } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

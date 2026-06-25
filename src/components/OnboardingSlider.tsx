@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Music, Sparkles, Mic, GitBranch, User, Wand2, ChevronLeft, ChevronRight, Check } from "lucide-react";
+import { Music, Sparkles, Mic, GitBranch, User, Wand2, ChevronLeft, ChevronRight, Check } from "@/lib/icons";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useTelegramMainButton } from "@/hooks/telegram";
 

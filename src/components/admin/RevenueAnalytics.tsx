@@ -18,7 +18,7 @@ import {
   CreditCard,
   Package,
   RefreshCw,
-} from "lucide-react";
+} from "@/lib/icons";
 import { usePaymentAnalytics, useGamificationAnalytics } from "@/hooks/usePaymentAnalytics";
 import {
   AreaChart,

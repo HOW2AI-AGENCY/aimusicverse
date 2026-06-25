@@ -4,7 +4,7 @@
 
 import { useCallback, useEffect } from "react";
 import { motion } from "@/lib/motion";
-import { Undo2, Redo2, History, Clock } from "lucide-react";
+import { Undo2, Redo2, History, Clock } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";

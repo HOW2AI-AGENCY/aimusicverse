@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight } from "lucide-react";
+import { Mic, Square, Play, Pause, Trash2, Music, MicVocal, Loader2, Cloud, Disc, ArrowRight } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { toast } from "sonner";

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Target, Music, Share2, Heart, Zap, Check, Gift, Loader2 } from "lucide-react";
+import { Target, Music, Share2, Heart, Zap, Check, Gift, Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";

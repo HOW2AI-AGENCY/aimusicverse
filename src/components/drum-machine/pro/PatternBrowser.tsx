@@ -1,6 +1,6 @@
 import React, { memo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { Music, Trash2, ChevronDown, ChevronUp } from "lucide-react";
+import { Music, Trash2, ChevronDown, ChevronUp } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";

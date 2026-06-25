@@ -32,7 +32,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { QrCode, Loader2 } from "lucide-react";
+import { QrCode, Loader2 } from "@/lib/icons";
 import { useTelegramQRScanner } from "@/hooks/telegram";
 import { toast } from "sonner";
 

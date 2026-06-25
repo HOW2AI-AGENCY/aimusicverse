@@ -5,12 +5,12 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
-import { Trash2 } from "lucide-react";
+import { Trash2 } from "@/lib/icons";
 import { ActionId } from "@/config/trackActionsConfig";
 import { Track } from "@/types/track";
 import { TrackActionState } from "@/lib/trackActionConditions";
 import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown } from "@/lib/icons";
 import { useState } from "react";
 
 interface DeleteActionsProps {

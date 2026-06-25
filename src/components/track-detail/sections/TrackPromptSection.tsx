@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
-import { Wand2, BookmarkPlus } from "lucide-react";
+import { Wand2, BookmarkPlus } from "@/lib/icons";
 import { DetailSection } from "@/components/common/DetailSection";
 import { savePromptToBookmarks } from "@/components/generate-form/PromptHistory";
 import type { Track } from "@/types/track";

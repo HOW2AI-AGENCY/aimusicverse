@@ -7,7 +7,7 @@
  */
 
 import { memo, ReactNode } from "react";
-import { LucideIcon, ArrowRight, ChevronRight } from "lucide-react";
+import { LucideIcon, ArrowRight, ChevronRight } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -34,13 +34,16 @@ interface SectionHeaderProps {
   onShowMore?: () => void;
   /** Whether to show the "See All" button */
   showShowMore?: boolean;
-  /** Badge to display next to title */
-  badge?: {
-    label: string | number;
-    icon?: LucideIcon;
-    variant?: "default" | "secondary" | "outline";
-    className?: string;
-  };
+  /** Badge to display next to title. Either an object descriptor or any ReactNode. */
+  badge?:
+    | {
+        label: string | number;
+        icon?: LucideIcon;
+        variant?: "default" | "secondary" | "outline";
+        className?: string;
+      }
+    | ReactNode;
+
   /** Custom right slot content */
   rightSlot?: ReactNode;
   /** Size variant */
@@ -124,15 +127,19 @@ export const SectionHeader = memo(function SectionHeader({
             <Heading level={headingLevel} className="truncate text-sm sm:text-base">
               {title}
             </Heading>
-            {badge && (
-              <Badge
-                variant={badge.variant || "secondary"}
-                className={cn("text-[10px] h-4 gap-0.5 shrink-0", badge.className)}
-              >
-                {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
-                {badge.label}
-              </Badge>
-            )}
+            {badge &&
+              (typeof badge === "object" && badge !== null && "label" in badge ? (
+                <Badge
+                  variant={badge.variant || "secondary"}
+                  className={cn("text-[10px] h-4 gap-0.5 shrink-0", badge.className)}
+                >
+                  {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
+                  {badge.label}
+                </Badge>
+              ) : (
+                badge
+              ))}
+
           </div>
           {subtitle && (
             <Text variant={textSize} className="truncate text-muted-foreground">

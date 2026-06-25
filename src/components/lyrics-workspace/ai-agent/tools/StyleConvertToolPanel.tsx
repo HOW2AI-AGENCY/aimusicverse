@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Shuffle, Music2, User, Sparkles } from "lucide-react";
+import { Shuffle, Music2, User, Sparkles } from "@/lib/icons";
 import { ToolPanelProps } from "../types";
 import { cn } from "@/lib/utils";
 

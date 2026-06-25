@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Music, Check, ArrowLeft, ArrowRight } from "lucide-react";
+import { Music, Check, ArrowLeft, ArrowRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useGenerationWizardStore } from "@/stores/generationWizardStore";

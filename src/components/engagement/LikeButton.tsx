@@ -1,5 +1,5 @@
 // LikeButton component - Sprint 011
-import { Heart } from "lucide-react";
+import { Heart } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useLikeTrack } from "@/hooks/engagement/useLikeTrack";
 import { cn } from "@/lib/utils";

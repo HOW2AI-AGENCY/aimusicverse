@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Languages, Music2 } from "lucide-react";
+import { Languages, Music2 } from "@/lib/icons";
 import { ToolPanelProps } from "../types";
 
 const LANGUAGES = [

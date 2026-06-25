@@ -1,7 +1,7 @@
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { motion } from "@/lib/motion";
-import { Check, Lightbulb, ArrowRight } from "lucide-react";
+import { Check, Lightbulb, ArrowRight } from "@/lib/icons";
 import { FEATURE_DESCRIPTIONS, FeatureKey } from "./FeatureDescriptions";
 import { cn } from "@/lib/utils";
 

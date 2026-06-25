@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useContextualHints, CONTEXTUAL_HINTS } from "@/hooks/useContextualHints";
-import { Lightbulb, RotateCcw, Eye, EyeOff, Sparkles } from "lucide-react";
+import { Lightbulb, RotateCcw, Eye, EyeOff, Sparkles } from "@/lib/icons";
 import { toast } from "sonner";
 import { motion } from "@/lib/motion";
 import { hintColors } from "@/lib/design-colors";

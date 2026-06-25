@@ -4,7 +4,7 @@
  */
 
 import { useState } from "react";
-import { FileText, Search, Clock, Tag, Check } from "lucide-react";
+import { FileText, Search, Clock, Tag, Check } from "@/lib/icons";
 import { EmptyState } from "@/components/common/EmptyState";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";

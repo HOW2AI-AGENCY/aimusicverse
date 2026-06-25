@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { ProBadge } from "@/components/ui/pro-badge";
-import { ArrowLeft, Mic, Guitar, Music, Zap, FileMusic, Sparkles, Drum, Disc3 } from "lucide-react";
+import { ArrowLeft, Mic, Guitar, Music, Zap, FileMusic, Sparkles, Drum, Disc3 } from "@/lib/icons";
 import { RealtimeChordVisualizer } from "@/components/chord-detection/RealtimeChordVisualizer";
 import { GuitarTabEditor } from "@/components/tab-editor/GuitarTabEditor";
 import { DrumMachineClean } from "@/components/drum-machine/pro";

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { History, RefreshCw, CheckCircle2, AlertCircle, Clock, Filter, Trash2 } from "lucide-react";
+import { History, RefreshCw, CheckCircle2, AlertCircle, Clock, Filter, Trash2 } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

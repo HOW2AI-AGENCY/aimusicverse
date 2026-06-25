@@ -5,7 +5,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { PenLine, BarChart3, Sparkles } from "lucide-react";
+import { PenLine, BarChart3, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 

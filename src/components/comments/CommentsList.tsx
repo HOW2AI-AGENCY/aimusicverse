@@ -10,7 +10,7 @@ import {
   type Comment as CommentType,
 } from "@/hooks/comments/useComments";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MessageSquare } from "lucide-react";
+import { MessageSquare } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 // Sprint 32: Comment engagement components
 import { FirstCommentCTA } from "@/components/comments/FirstCommentCTA";

@@ -18,7 +18,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
-import { Gauge, Zap, Clock, Monitor, Smartphone, Tablet, TrendingUp, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { Gauge, Zap, Clock, Monitor, Smartphone, Tablet, TrendingUp, AlertTriangle, CheckCircle2 } from "@/lib/icons";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 

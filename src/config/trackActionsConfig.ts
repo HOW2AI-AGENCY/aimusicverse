@@ -26,8 +26,8 @@ import {
   User,
   Mic2,
   Sparkles,
-} from "lucide-react";
-import { LucideIcon } from "lucide-react";
+} from "@/lib/icons";
+import { LucideIcon } from "@/lib/icons";
 
 export type ActionId =
   // Info

@@ -6,7 +6,7 @@
  */
 
 import { useState } from "react";
-import { Play, Pause, Volume2, VolumeX, Loader2, Music2, SkipBack } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Loader2, Music2, SkipBack } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";

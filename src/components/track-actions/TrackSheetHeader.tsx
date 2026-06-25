@@ -6,7 +6,7 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Track } from "@/types/track";
-import { Clock, Music2 } from "lucide-react";
+import { Clock, Music2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { pill } from "@/lib/overlay-colors";
 import { Badge } from "@/components/ui/badge";

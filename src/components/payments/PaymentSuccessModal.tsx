@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { CheckCircle2, Sparkles, X, Star, Zap, Music, Crown } from "lucide-react";
+import { CheckCircle2, Sparkles, X, Star, Zap, Music, Crown } from "@/lib/icons";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

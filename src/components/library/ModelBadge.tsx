@@ -1,4 +1,4 @@
-import { Crown, Sparkles, LucideIcon } from "lucide-react";
+import { Crown, Sparkles, LucideIcon } from "@/lib/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { SUNO_MODELS } from "@/constants/sunoModels";

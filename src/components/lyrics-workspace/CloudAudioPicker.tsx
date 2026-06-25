@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useRef, useId } from "react";
-import { Cloud, Search, Play, Pause, Check, Music2, Loader2, Clock, Tag } from "lucide-react";
+import { Cloud, Search, Play, Pause, Check, Music2, Loader2, Clock, Tag } from "@/lib/icons";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

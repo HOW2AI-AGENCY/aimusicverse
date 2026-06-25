@@ -4,7 +4,7 @@
 
 import { useState, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { ArrowRight, X, Sparkles, CornerDownRight } from "lucide-react";
+import { ArrowRight, X, Sparkles, CornerDownRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";

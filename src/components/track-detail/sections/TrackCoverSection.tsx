@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Music2 } from "lucide-react";
+import { Music2 } from "@/lib/icons";
 import type { Track } from "@/types/track";
 
 interface TrackCoverSectionProps {

@@ -10,7 +10,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Music2, Lock, Mic2, Drum, Guitar, Piano, Waves, Music } from "lucide-react";
+import { Music2, Lock, Mic2, Drum, Guitar, Piano, Waves, Music } from "@/lib/icons";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState } from "@/lib/trackActionConditions";
 import { useFeatureAccess } from "@/hooks/useFeatureAccess";

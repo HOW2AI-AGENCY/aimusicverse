@@ -9,7 +9,7 @@
 
 import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Music, Calendar, Globe } from "lucide-react";
+import { Music, Calendar, Globe } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { pill } from "@/lib/overlay-colors";
 import { format, ru } from "@/lib/date-utils";

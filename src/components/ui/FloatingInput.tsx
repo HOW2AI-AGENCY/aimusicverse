@@ -8,7 +8,7 @@
 import React, { useState, forwardRef, InputHTMLAttributes } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Check, AlertCircle, Eye, EyeOff } from "lucide-react";
+import { Check, AlertCircle, Eye, EyeOff } from "@/lib/icons";
 
 interface FloatingInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
   label: string;

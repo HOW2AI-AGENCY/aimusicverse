@@ -6,7 +6,7 @@
 import { memo, useState, useMemo, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";
-import { Music, Piano, ListMusic, FileText, Download, Zap } from "lucide-react";
+import { Music, Piano, ListMusic, FileText, Download, Zap } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";

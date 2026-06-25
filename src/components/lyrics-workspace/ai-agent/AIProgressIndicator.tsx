@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Loader2, PenLine, BarChart3, Tag, Wand2, Headphones, Quote, Brain } from "lucide-react";
+import { Loader2, PenLine, BarChart3, Tag, Wand2, Headphones, Quote, Brain } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface AIProgressIndicatorProps {

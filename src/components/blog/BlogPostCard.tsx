@@ -4,7 +4,7 @@ import { motion } from "@/lib/motion";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Edit, Trash2, Eye } from "lucide-react";
+import { Calendar, Clock, Edit, Trash2, Eye } from "@/lib/icons";
 import { formatDistanceToNow, format, ru } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 import type { BlogPost } from "@/hooks/useBlog";

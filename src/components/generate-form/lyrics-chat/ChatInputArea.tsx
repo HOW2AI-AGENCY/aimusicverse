@@ -1,6 +1,6 @@
 import { memo, useRef, useEffect, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Send, Sparkles, Mic, X } from "lucide-react";
+import { Send, Sparkles, Mic, X } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { glass } from "@/lib/glass";
 import { Button } from "@/components/ui/button";

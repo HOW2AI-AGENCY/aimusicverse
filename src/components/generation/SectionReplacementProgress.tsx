@@ -5,7 +5,7 @@
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Loader2, CheckCircle2, XCircle, Play, Pause, Check } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle, Play, Pause, Check } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useState, useRef, useEffect } from "react";

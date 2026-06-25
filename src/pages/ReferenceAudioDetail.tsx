@@ -30,7 +30,7 @@ import {
   FileText,
   Volume2,
   X,
-} from "lucide-react";
+} from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { ReferenceAudioPlayer } from "@/components/audio-reference/ReferenceAudioPlayer";
 import { ReferenceStemPlayer } from "@/components/audio-reference/ReferenceStemPlayer";

@@ -4,7 +4,7 @@
  */
 
 import { memo } from "react";
-import { Music2, Clock, Globe, Lock, Play, Pencil, Share2, Trash2 } from "lucide-react";
+import { Music2, Clock, Globe, Lock, Play, Pencil, Share2, Trash2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LazyImage } from "@/components/ui/lazy-image";

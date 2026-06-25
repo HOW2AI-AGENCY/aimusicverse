@@ -9,7 +9,7 @@ import type { AlignedWord } from "@/hooks/useTimestampedLyrics";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import type { DetectedSection } from "@/hooks/useSectionDetection";
-import { Check } from "lucide-react";
+import { Check } from "@/lib/icons";
 
 interface ReplacedRange {
   start: number;

@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Music, MessageSquare, UserPlus, ListMusic, ExternalLink } from "lucide-react";
+import { CheckCircle2, Music, MessageSquare, UserPlus, ListMusic, ExternalLink } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 import { useNavigate } from "react-router-dom";

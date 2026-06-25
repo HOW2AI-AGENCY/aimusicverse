@@ -4,7 +4,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Lock, Star, Sparkles, ChevronRight } from "lucide-react";
+import { Lock, Star, Sparkles, ChevronRight } from "@/lib/icons";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";

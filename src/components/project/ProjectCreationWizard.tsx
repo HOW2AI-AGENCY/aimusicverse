@@ -21,7 +21,7 @@ import {
   FileText,
   Lock,
   Globe,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useProjects } from "@/hooks/useProjects";
 import { useProjectTracks } from "@/hooks/useProjectTracks";
 import { useAuth } from "@/hooks/useAuth";

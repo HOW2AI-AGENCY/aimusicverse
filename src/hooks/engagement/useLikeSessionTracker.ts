@@ -7,7 +7,7 @@ import { useCallback, useRef } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ListMusic } from "lucide-react";
+import { ListMusic } from "@/lib/icons";
 
 const LIKES_THRESHOLD = 3;
 const SESSION_KEY = "session_like_count";

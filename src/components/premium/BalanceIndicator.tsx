@@ -5,7 +5,7 @@
 
 import { useState, memo } from "react";
 import { motion } from "@/lib/motion";
-import { Coins, TrendingDown, TrendingUp, Wallet } from "lucide-react";
+import { Coins, TrendingDown, TrendingUp, Wallet } from "@/lib/icons";
 import { useUserCredits } from "@/hooks/useUserCredits";
 import { useCreditsLimits } from "@/hooks/useCreditsLimits";
 import { useTelegram } from "@/contexts/TelegramContext";

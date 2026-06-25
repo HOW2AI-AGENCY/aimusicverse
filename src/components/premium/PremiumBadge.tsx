@@ -5,7 +5,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { Crown, Lock } from "lucide-react";
+import { Crown, Lock } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface PremiumBadgeProps {

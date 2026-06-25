@@ -18,7 +18,7 @@ import {
   ChevronLeft,
   Check,
   Rocket,
-} from "lucide-react";
+} from "@/lib/icons";
 
 interface OnboardingStep {
   id: string;

@@ -20,7 +20,7 @@ import {
   Loader2,
   ChevronDown,
   Sparkles,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useAudioReference } from "@/hooks/useAudioReference";
 import { useReferenceAudioPlayer } from "@/hooks/audio/useReferenceAudioPlayer";
 import { cn } from "@/lib/utils";

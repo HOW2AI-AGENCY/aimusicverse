@@ -6,7 +6,7 @@
 import { useState, useEffect } from "react";
 import { Navigate, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Zap, ArrowLeft, Shield, Clock, Loader2, CheckCircle2, Info } from "lucide-react";
+import { Zap, ArrowLeft, Shield, Clock, Loader2, CheckCircle2, Info } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useTinkoffPayment } from "@/hooks/useTinkoffPayment";

@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Palette, Type, Image, Sparkles, Plus, X, Save } from "lucide-react";
+import { Palette, Type, Image, Sparkles, Plus, X, Save } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface ColorPalette {

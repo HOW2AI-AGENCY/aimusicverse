@@ -11,7 +11,7 @@ import { MAX_WIDTHS } from "@/lib/breakpoints";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
+import { Filter } from "@/lib/icons";
 
 interface DesktopContentLayoutProps {
   /** Header section (full width) */

@@ -19,7 +19,7 @@ import {
   ListMusic,
   User,
   Mic2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { getBotMention } from "@/lib/telegram";

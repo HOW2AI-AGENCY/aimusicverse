@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Flame, Calendar } from "lucide-react";
+import { Flame, Calendar } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { streakColors } from "@/lib/design-colors";
 

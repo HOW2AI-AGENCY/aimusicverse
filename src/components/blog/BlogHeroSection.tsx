@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { BookOpen, Sparkles } from "lucide-react";
+import { BookOpen, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 
 interface BlogHeroSectionProps {

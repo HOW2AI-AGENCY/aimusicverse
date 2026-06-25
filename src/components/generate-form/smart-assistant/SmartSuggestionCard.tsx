@@ -5,7 +5,7 @@
 
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Sparkles, Music, Heart, TrendingUp, Shuffle, ChevronRight, X, Zap } from "lucide-react";
+import { Sparkles, Music, Heart, TrendingUp, Shuffle, ChevronRight, X, Zap } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

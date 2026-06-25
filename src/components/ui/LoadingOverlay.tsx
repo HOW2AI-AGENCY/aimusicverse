@@ -8,7 +8,7 @@
 import React, { ReactNode } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Loader2, Music, Sparkles } from "lucide-react";
+import { Loader2, Music, Sparkles } from "@/lib/icons";
 
 interface LoadingOverlayProps {
   visible: boolean;

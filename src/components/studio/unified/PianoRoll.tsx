@@ -33,7 +33,7 @@ import {
   ZoomIn,
   ZoomOut,
   Volume2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { toast } from "sonner";
 
 // MIDI note representation

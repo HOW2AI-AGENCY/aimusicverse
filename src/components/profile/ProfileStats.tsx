@@ -1,7 +1,7 @@
 // ProfileStats Component - Sprint 011 Task T022
 // Displays follower, following, and track counts
 
-import { Users, UserPlus, Music } from "lucide-react";
+import { Users, UserPlus, Music } from "@/lib/icons";
 import type { ProfileStats as Stats } from "@/types/profile";
 
 interface ProfileStatsProps {

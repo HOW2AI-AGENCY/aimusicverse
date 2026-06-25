@@ -12,7 +12,7 @@
 import { ReactNode } from "react";
 import { motion } from "@/lib/motion";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, MoreVertical } from "lucide-react";
+import { ChevronLeft, MoreVertical } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {

@@ -12,7 +12,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { MoreHorizontal, Volume2, Layers } from "lucide-react";
+import { MoreHorizontal, Volume2, Layers } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

@@ -3,7 +3,7 @@
  * Displays failed generation with error details and retry option
  */
 
-import { AlertCircle, RefreshCw, XCircle, Edit3 } from "lucide-react";
+import { AlertCircle, RefreshCw, XCircle, Edit3 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

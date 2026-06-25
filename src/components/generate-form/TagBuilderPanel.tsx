@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Plus, X, Sparkles, Music, Mic2, Zap, Settings2 } from "lucide-react";
+import { Copy, Plus, X, Sparkles, Music, Mic2, Zap, Settings2 } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";

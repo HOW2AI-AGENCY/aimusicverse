@@ -4,7 +4,7 @@
  */
 
 import { memo, useState } from "react";
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useHaptic } from "@/hooks/useHaptic";
 import { MobileBottomSheet } from "../MobileBottomSheet";

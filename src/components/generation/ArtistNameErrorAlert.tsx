@@ -4,7 +4,7 @@
  */
 
 import { memo, useMemo } from "react";
-import { AlertTriangle, Lightbulb, ArrowRight, Sparkles, X } from "lucide-react";
+import { AlertTriangle, Lightbulb, ArrowRight, Sparkles, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";

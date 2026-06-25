@@ -6,7 +6,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion } from "@/lib/motion";
-import { Mic, Square, Upload, Loader2, Check, X, Music2, AudioWaveform, Guitar, Volume2 } from "lucide-react";
+import { Mic, Square, Upload, Loader2, Check, X, Music2, AudioWaveform, Guitar, Volume2 } from "@/lib/icons";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";

@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { FileText, Search, Trash2, Copy, Check, ArrowRight, Plus, Sparkles, BookOpen } from "lucide-react";
+import { FileText, Search, Trash2, Copy, Check, ArrowRight, Plus, Sparkles, BookOpen } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

@@ -1,4 +1,4 @@
-import { Music2, Clock, Globe, Lock, MoreVertical, Play, Pencil, Trash2, Share2 } from "lucide-react";
+import { Music2, Clock, Globe, Lock, MoreVertical, Play, Pencil, Trash2, Share2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

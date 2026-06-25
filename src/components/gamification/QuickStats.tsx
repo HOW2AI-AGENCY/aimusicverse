@@ -4,7 +4,7 @@ import { useUserCredits } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Coins, Flame, Music, Trophy } from "lucide-react";
+import { Coins, Flame, Music, Trophy } from "@/lib/icons";
 
 interface StatItemProps {
   icon: React.ReactNode;

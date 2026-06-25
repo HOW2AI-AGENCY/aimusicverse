@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Wand2, X, AlertTriangle, CheckCircle2, FileText, Tag, Sparkles } from "lucide-react";
+import { Wand2, X, AlertTriangle, CheckCircle2, FileText, Tag, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ToolPanelProps } from "../types";

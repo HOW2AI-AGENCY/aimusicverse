@@ -12,7 +12,7 @@ import { PullToRefresh } from "@/components/ui/PullToRefresh";
 import { SwipeableListItem } from "@/components/ui/SwipeableListItem";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { hapticPatterns } from "./TelegramHaptics";
-import { Search, Music } from "lucide-react";
+import { Search, Music } from "@/lib/icons";
 
 interface TelegramListProps<T> {
   items: T[];

@@ -9,7 +9,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Save, Loader2, Zap, Star } from "lucide-react";
+import { Save, Loader2, Zap, Star } from "@/lib/icons";
 import { SubscriptionTier, EditableTierFields, getTierIcon } from "@/hooks/admin/useSubscriptionTiers";
 import { TierPricingSection } from "./TierPricingSection";
 import { TierCreditsSection } from "./TierCreditsSection";

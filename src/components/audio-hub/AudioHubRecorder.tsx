@@ -4,7 +4,7 @@
 
 import React, { useState, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Mic, Settings2, Sparkles, Loader2 } from "lucide-react";
+import { Mic, Settings2, Sparkles, Loader2 } from "@/lib/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

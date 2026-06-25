@@ -7,7 +7,7 @@ import { memo, useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Edit3, Check, X, Copy, Wand2 } from "lucide-react";
+import { Edit3, Check, X, Copy, Wand2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { glass } from "@/lib/glass";

@@ -16,7 +16,7 @@ import {
   History,
   AlertOctagon,
   TestTube,
-} from "lucide-react";
+} from "@/lib/icons";
 import { formatDistanceToNow, format, ru } from "@/lib/date-utils";
 import { toast } from "sonner";
 

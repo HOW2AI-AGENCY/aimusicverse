@@ -9,7 +9,7 @@ import { PricingCard, type StarsProduct } from "@/components/payment/PricingCard
 import { TierComparisonCard } from "@/components/premium/TierComparisonCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { Loader2, Coins, Crown } from "lucide-react";
+import { Loader2, Coins, Crown } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { logger } from "@/lib/logger";
 import { SEOHead } from "@/components/SEOHead";

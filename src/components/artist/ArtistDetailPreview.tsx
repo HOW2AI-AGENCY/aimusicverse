@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Users, Sparkles, Music2, Mic2, Play, ExternalLink, Edit2, Trash2, Globe } from "lucide-react";
+import { Users, Sparkles, Music2, Mic2, Play, ExternalLink, Edit2, Trash2, Globe } from "@/lib/icons";
 import type { Artist } from "@/hooks/useArtists";
 import { cn } from "@/lib/utils";
 import { ProBadge } from "@/components/ui/pro-badge";

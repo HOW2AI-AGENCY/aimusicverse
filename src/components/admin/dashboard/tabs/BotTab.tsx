@@ -8,7 +8,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle } from "@/lib/icons";
 
 interface BotTabProps {
   /** Bot metrics data */

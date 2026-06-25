@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { ProfessionalDashboard, QuickAccessPanel, StatsSummaryCard } from "@/components/professional";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft, Sparkles } from "@/lib/icons";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTelegram } from "@/contexts/TelegramContext";
 

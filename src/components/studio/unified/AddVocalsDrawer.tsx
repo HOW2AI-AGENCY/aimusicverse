@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Mic2, Loader2, Sparkles, Check, AlertCircle, Wand2 } from "lucide-react";
+import { Mic2, Loader2, Sparkles, Check, AlertCircle, Wand2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";

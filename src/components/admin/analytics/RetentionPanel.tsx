@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from "recharts";
-import { Users, UserCheck, UserMinus, TrendingUp, Calendar, Repeat } from "lucide-react";
+import { Users, UserCheck, UserMinus, TrendingUp, Calendar, Repeat } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface RetentionData {

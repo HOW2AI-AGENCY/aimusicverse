@@ -12,7 +12,7 @@ import { memo, useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
-import { GripVertical, History, Eye, EyeOff, Clock, Check } from "lucide-react";
+import { GripVertical, History, Eye, EyeOff, Clock, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Badge } from "@/components/ui/badge";

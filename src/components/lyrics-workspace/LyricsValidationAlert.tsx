@@ -5,7 +5,7 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { AlertTriangle, CheckCircle2, XCircle, Info, Wand2, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
+import { AlertTriangle, CheckCircle2, XCircle, Info, Wand2, ChevronDown, ChevronUp, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";

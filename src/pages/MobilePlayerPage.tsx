@@ -14,7 +14,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { FullscreenPlayer } from "@/components/player/FullscreenPlayer";
-import { Loader2, ChevronLeft, Music2 } from "lucide-react";
+import { Loader2, ChevronLeft, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import type { Track } from "@/types/track";
 import { logger } from "@/lib/logger";

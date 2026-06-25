@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Send, X } from "lucide-react";
+import { Send, X } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { cn } from "@/lib/utils";
 

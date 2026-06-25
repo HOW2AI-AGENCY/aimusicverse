@@ -5,7 +5,7 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Crown, Sparkles, ArrowRight } from "lucide-react";
+import { Crown, Sparkles, ArrowRight } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { FeatureKey } from "@/hooks/useFeatureAccess";
 

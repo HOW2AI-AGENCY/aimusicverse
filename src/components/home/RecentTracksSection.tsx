@@ -7,7 +7,7 @@
 
 import { useMemo, memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { Clock, Play, Music2, Disc3 } from "lucide-react";
+import { Clock, Play, Music2, Disc3 } from "@/lib/icons";
 import { useTracks } from "@/hooks/useTracks";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { cn } from "@/lib/utils";

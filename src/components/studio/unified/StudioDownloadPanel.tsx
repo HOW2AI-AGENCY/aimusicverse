@@ -5,7 +5,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Download, FileAudio, Archive, Check, Loader2, Volume2, Music2, Mic2, Drum, Guitar } from "lucide-react";
+import { Download, FileAudio, Archive, Check, Loader2, Volume2, Music2, Mic2, Drum, Guitar } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";

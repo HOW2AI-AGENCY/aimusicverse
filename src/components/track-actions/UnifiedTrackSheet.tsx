@@ -39,7 +39,7 @@ import {
   Sparkles,
   Check,
   Loader2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { isActionAvailable } from "@/lib/trackActionConditions";
 import { StemsActionButton } from "./sections/StemsActionButton";
 

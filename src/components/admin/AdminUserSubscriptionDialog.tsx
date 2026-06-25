@@ -13,7 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { Crown, Calendar, Loader2 } from "lucide-react";
+import { Crown, Calendar, Loader2 } from "@/lib/icons";
 import { format, addDays, addMonths } from "@/lib/date-utils";
 
 interface AdminUserSubscriptionDialogProps {

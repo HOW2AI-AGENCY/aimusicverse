@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Search } from "lucide-react";
+import { Search } from "@/lib/icons";
 import { PresetCard } from "./PresetCard";
 import { QUICK_CREATE_PRESETS, QuickCreatePreset } from "@/constants/quickCreatePresets";
 

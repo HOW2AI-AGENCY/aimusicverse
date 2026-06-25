@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { backdrop } from "@/lib/overlay-colors";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 
 interface ActionItem {
   id: string;

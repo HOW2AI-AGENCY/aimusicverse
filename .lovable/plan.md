@@ -1,143 +1,66 @@
-# План: Унификация UI MusicVerse AI
+## Контекст
 
-Цель — убрать накопленные дубли компонентов и стилей, оставить один источник правды для каждой UI-сущности, без изменения бизнес-логики и бэкенда. Работа разбита на фазы; каждая фаза самостоятельна, мержится отдельно и не ломает существующие экраны (через алиасы и переходный период).
+Большая часть UI-унификации (фазы 0, 1, 6, 7, 8 + EmptyState/Toast в фазе 3) и Sprint 031 Phase B завершены и стабильны. Остаются три класса работ: миграция оставшихся импортов на канонические компоненты, чистка `lucide-react`/legacy-диалогов и финальная заморозка через ESLint+удаление. Бизнес-логика, сторы, edge-функции и БД не трогаем.
 
-## Принципы
+Контрольные находки разведки:
+- `RefinedTrackCard`, `RefinedButton`, `GlowButton`, `InteractiveCard` уже без активных импортов в `src/` (можно удалять, не только депрекейтить).
+- `framer-motion` напрямую импортирует **1** файл (почти всё уже через `@/lib/motion`).
+- `lucide-react` напрямую импортируют **815** файлов — это нарушение Core-памяти (иконки только через `@/lib/icons`).
+- 8 одноразовых `*Dialog.tsx` в корне `src/components/` (`AddInstrumentalDialog`, `AddVocalsDialog`, `AudioCoverDialog`, `AudioExtendDialog`, `ConfirmationDialog`, `CreateArtistDialog`, `ExtendTrackDialog`, `NewArrangementDialog`) ещё на сыром `Dialog`, не на `ResponsiveOverlay`/`useConfirm`.
+- Главные секции (`FeaturedSection`, `RecentTracksSection`, `TracksGridSection`, `CreativePresetsSection`, `GenreTabsSection`, `CollapsibleSection`) ещё не приведены к каноничным `SectionHeader` + `UnifiedTrackCard`.
 
-- Меняем только presentation-слой. Хуки, сторы, edge-функции, API не трогаем.
-- Каждый дубль заменяется через codemod-replace: новый канонический компонент + ре-экспорт из старых путей `@deprecated`, чтобы PR не ломал ничего разом.
-- Никаких хардкод-цветов (`text-white`, `bg-[#...]`) — только семантические токены из `src/index.css` / `src/lib/design-tokens.ts` / `src/lib/glass.ts`.
-- Соблюдаем Core-память: иконки только через `src/lib/icons.ts`, лог через `logger`, безопасные зоны Telegram через `max(var(--tg-safe-area-inset-*), env(...))`.
+## План (по фазам, каждая — отдельный мерж)
 
----
+### Фаза A — Финал Phase 2/4 (атомы и TrackCard) ⏱ ~30 мин
+1. Удалить пустые/неиспользуемые файлы: `components/track/variants/index.ts`, `ui/RefinedTrackCard.tsx`, `ui/RefinedButton.tsx` (если есть), `ui/GlowButton.tsx`, `ui/InteractiveCard.tsx`, `ui/glass-card.tsx` — только те, где `rg` подтвердил 0 импортов.
+2. Перед удалением каждого — повторный `rg -l` по `src/` и `tests/`; при единичном остатке заменить на канон в той же фазе.
+3. Обновить `docs/UI_AUDIT.md` и `docs/UI_UNIFICATION_STATUS.md` (фазы 2 и 4 → ✅).
 
-## Фаза 0. Аудит и фиксация инвентаря (1 PR, без правок кода)
+### Фаза B — Phase 5: домашние секции ⏱ ~1 час
+1. Привести `components/home/{Featured,RecentTracks,TracksGrid,CreativePresets,GenreTabs,Collapsible}Section.tsx` к паттерну `<SectionHeader title subtitle action />` + сетка `UnifiedTrackCard variant=...`.
+2. Удалить локальные дубли заголовков/карточек внутри секций.
+3. Скриншот-проверка `/` и `/library` через Playwright (мобиль 424×783 + десктоп 1280×1800), сравнить с текущим состоянием.
 
-Создаём `docs/UI_AUDIT.md` — единая таблица «что есть → что станет каноном → что удалить».
+### Фаза C — Phase 6 финал: миграция диалогов ⏱ ~1.5 часа
+1. По одному перевести 8 диалогов на `ResponsiveOverlay` (mobile → `MobileBottomSheet`, desktop → `Dialog`).
+2. `ConfirmationDialog` заменить колл-сайтами на `useConfirm()` (хук уже есть).
+3. Прогнать сценарии: Extend, Cover, Add Vocals, Add Instrumental, Create Artist, New Arrangement — Playwright по каждому, проверить safe-area и хаптику.
 
-Зоны для инвентаризации (по результатам разведки уже видно дубли):
+### Фаза D — Иконки: миграция на `@/lib/icons` ⏱ ~1 час (codemod)
+1. Codemod-скрипт: заменить `from "lucide-react"` → `from "@/lib/icons"` во всех 815 файлах; недостающие иконки автоматически дописать в реэкспорт `src/lib/icons.ts`.
+2. Прогнать `tsgo` и сборку; точечно поправить отсутствующие иконки.
+3. Добавить ESLint-правило `no-restricted-imports` (lucide-react → error).
 
-- **Карточки трека**: `components/ui/RefinedTrackCard.tsx`, `components/track/variants/*`, `components/track/track-card-new/variants/*` (Professional/Minimal/List/Grid), `components/home/*Section.tsx` со своими карточками.
-- **Empty state**: `ui/EmptyState.tsx`, `ui/empty-state.tsx`, `ui/unified-empty-state.tsx`, `common/EmptyState.tsx`.
-- **Шапки/заголовки**: `common/UnifiedPageHeader.tsx`, `common/SectionHeader.tsx`, `ui/Heading.tsx`, `mobile/MobileHeaderBar.tsx`.
-- **Скелетоны**: `ui/skeletons/*`, `ui/skeleton/*`, `ui/skeleton-loader.tsx`, `ui/skeleton-components.tsx`, `ui/ContentSkeleton.tsx`.
-- **Лоадеры**: `ui/LoadingSpinner.tsx`, `ui/LoadingOverlay.tsx`, `ui/loading-state.tsx`, `GlobalGenerationIndicator.tsx`.
-- **Оверлеи**: `Dialog`, `Sheet`, `Drawer`, `MobileBottomSheet`, `ActionSheet`, кастомные `*Dialog.tsx` в корне `components/`.
-- **Кнопки/карточки/инпуты**: `RefinedButton`, `RefinedCard`, `InteractiveCard`, `GlowButton`, `glass-card`, plus shadcn `button/card/input`.
-- **Тосты/фидбек**: `FeedbackToast`, `sonner`, ad-hoc `toast.loading` степпер из формы генерации.
+### Фаза E — Phase 9: доступность ⏱ ~1 час
+1. Прогон `axe-core` через Playwright на `/`, `/library`, `/studio-v2`, `/projects`, `/profile`.
+2. Зафиксировать топ-нарушения (aria-label на icon-buttons, контраст, role на интерактивных div), починить блокеры.
+3. Включить `jsx-a11y/control-has-associated-label` как `warn`.
 
-Выход фазы: таблица замен + список файлов под удаление в финальной фазе.
+### Фаза F — Phase 10: заморозка ⏱ ~30 мин
+1. Удалить оставшиеся `@deprecated` шимы (`FeedbackToast`, шимы `EmptyState`) после финального `rg`-аудита.
+2. Поднять ESLint-правила (lucide-react, hardcoded colors) до `error`.
+3. Обновить `docs/UI_UNIFICATION_STATUS.md`, `docs/UI_AUDIT.md`, `SPRINTS/SPRINT_UI_UNIFICATION.md` → 100%.
 
-## Фаза 1. Дизайн-токены и утилиты — один источник
+## Гарантии безопасности
 
-- Перечитать `src/index.css`, `tailwind.config.ts`, `src/lib/design-tokens.ts`, `src/lib/glass.ts`. Свести расхождения (особенно радиусы, тени, blur, safe-area).
-- Добавить недостающие семантические токены (`--surface-1/2/3`, `--overlay-scrim`, `--ring-focus`, `--state-success/warning/danger`) в `index.css`, прокинуть в `tailwind.config.ts`.
-- Запретить хардкод цветов: добавить ESLint-правило `no-restricted-syntax` на классы `text-white|bg-black|bg-\\[#`. Поставить как `warn` сначала, затем `error` в фазе 6.
-- Документ `docs/DESIGN_TOKENS.md` с матрицей токен ↔ Tailwind-класс ↔ когда применять.
+- Никаких правок в `src/integrations/supabase/*`, `supabase/config.toml`, edge-функциях, сторах, бизнес-хуках.
+- Каждая фаза — отдельный коммит; после каждой проверяем сборку (`tsgo`) и preview-рендер.
+- Логирование — только через `logger`; иконки — только через `@/lib/icons`; цвета — только семантические токены.
+- Перед удалением любого файла — повторный `rg`-скан по `src/`, `tests/`, `supabase/` и активной документации.
 
-## Фаза 2. Базовые примитивы (atoms)
+## Что НЕ входит в этот план (вынесено в backlog)
 
-Канон выбирается из существующих, остальное превращается в реэкспорт.
-
-- **Button** = `components/ui/button.tsx` (shadcn) + варианты `premium`, `glass`, `icon-sm`. `RefinedButton`, `GlowButton` → реэкспорт + `@deprecated`.
-- **Card** = `components/ui/card.tsx` с вариантами `surface | glass | interactive`. `RefinedCard`, `InteractiveCard`, `glass-card` → варианты выше.
-- **Input/Textarea/Select** = shadcn. `FloatingInput`, `ChipInput` остаются как специализированные обёртки над базовым.
-- **Heading** = `components/ui/Heading.tsx` с пропсами `level`, `tone`. Все `<h1..h3 className="...">` приводятся к нему.
-- **Icon import** уже централизован — пройти codemod-ом по нарушителям `from "lucide-react"` и заменить на `@/lib/icons`.
-
-## Фаза 3. Молекулы и состояния
-
-- **EmptyState**: оставить `ui/unified-empty-state.tsx` как канон, переименовать в `ui/empty-state.tsx`, остальные 3 файла → реэкспорт. API: `{ icon, title, description, action }`.
-- **LoadingSpinner / Skeleton**: один `ui/spinner.tsx` и единый набор `ui/skeleton/*` (TrackCardSkeleton, ListSkeleton, GridSkeleton, TextSkeleton). Удалить `skeleton-loader.tsx`, `skeleton-components.tsx`, `ContentSkeleton.tsx`.
-- **StatusBadge / Tag / Chip** — оставить один `ui/StatusBadge.tsx` поверх `badge.tsx`, варианты по семантическим токенам.
-- **ProgressSteps**: переиспользовать для индикатора Custom/Extend/Cover вместо `toast.loading` цепочки; форма генерации перейдёт на него (UI-only).
-
-## Фаза 4. Карточки трека — единый компонент
-
-- Канон: `components/track/track-card-new/` с `variant: 'grid' | 'list' | 'minimal' | 'professional'` и `size: 'sm' | 'md' | 'lg'`.
-- `RefinedTrackCard`, `components/track/variants/*`, локальные карточки в `components/home/*Section.tsx` → переключение на канон с подбором варианта.
-- Унифицировать поведенческие пропсы: `onPlay`, `onOpen`, `onAction`. Действия — через единое меню `track-actions/UnifiedTrackActions`.
-- Скелетон карточки — один `TrackCardSkeleton` с тем же `variant`.
-
-## Фаза 5. Шапки, навигация, лейауты
-
-- **PageHeader**: канон `common/UnifiedPageHeader.tsx`, переименовать в `ui/PageHeader.tsx`. Параметры: `title`, `subtitle`, `back`, `actions`, `sticky`.
-- **SectionHeader**: канон `common/SectionHeader.tsx` (см. память «Section Headers»). Все домашние секции (`FeaturedSection`, `RecentTracksSection`, `TracksGridSection`, `TrackPresetsRow`) приводим к нему.
-- **MobileHeaderBar** оставляем для Telegram-экранов как обёртку над `PageHeader` с safe-area и Back-button proxy.
-- Прогнать лейауты `MainLayout`, `Sidebar`, `BottomNavigation` на единые spacing-токены и `z-index` семантику (см. память «Z-Index Semantics»).
-
-## Фаза 6. Оверлеи: Dialog / Sheet / Drawer / ActionSheet
-
-- Правило: на мобиле — `MobileBottomSheet` (vaul), на десктопе — `Dialog`. Хелпер `ui/ResponsiveOverlay` решает по breakpoint.
-- Все одноразовые `*Dialog.tsx` в корне `components/` (`AddInstrumentalDialog`, `AddVocalsDialog`, `AudioCoverDialog`, `AudioExtendDialog`, `ConfirmationDialog`, `CreateArtistDialog`, `ExtendTrackDialog`, `NewArrangementDialog`, `TrackDetailDialog/Sheet`) переводим на `ResponsiveOverlay`, единый header/footer паттерн, единые отступы и safe-area.
-- `ConfirmationDialog` → единый `useConfirm()` хук.
-
-## Фаза 7. Эффекты, движение, хаптика
-
-- Импорт motion только из `@/lib/motion` (codemod на нарушителях `from "framer-motion"`).
-- Унифицировать пресеты анимации: `fadeIn`, `slideUp`, `scaleIn`, `listStagger` в `lib/motion-presets.ts`. Использовать их в `AnimatedList`, `PageTransition`, `TouchFeedback`.
-- Hover/press-эффекты — только через `TouchFeedback` и варианты `Button`/`Card`. Удалить разрозненные inline `whileHover` со случайными значениями.
-- Хаптика — только через стандартизированный `impact()` API (см. память).
-- Глобальная семантика длительности: `--motion-fast: 120ms`, `--motion-base: 200ms`, `--motion-slow: 320ms` в `index.css`.
-
-## Фаза 8. Фидбек: тосты, прогресс, ошибки
-
-- Один `toast` адаптер поверх `sonner` в `lib/toast.ts` с методами `success | error | info | progress`. Удалить `FeedbackToast`.
-- Прогресс многошаговых операций — `ProgressSteps` в UI + параллельный `toast.progress` только как fallback.
-- Ошибки — единый `ErrorBanner` + хук `useErrorToast` поверх `lib/errorHandling`.
-
-## Фаза 9. Доступность и проверки
-
-- Все иконковые кнопки получают `aria-label` (lint-правило `jsx-a11y/control-has-associated-label`).
-- Touch target ≥44×44 (см. память) — добавить storybook-визуальный чек.
-- Контраст: прогнать `@axe-core/playwright` по ключевым роутам (`/`, `/library`, `/studio-v2`, `/projects`).
-
-## Фаза 10. Чистка и заморозка
-
-- Удалить файлы, помеченные `@deprecated` после миграции всех импортов (grep ноль ссылок → `rm`).
-- Поднять ESLint-правила `no-restricted-syntax` (цвета) и `no-restricted-imports` (`framer-motion`, `lucide-react` напрямую) до `error`.
-- Обновить `docs/UI_AUDIT.md` → `docs/UI_SYSTEM.md` как итоговую документацию.
-- Добавить раздел в `KNOWLEDGE_BASE.md` и память `mem://ui/unified-system` с правилами на будущее.
-
----
+- Sprint 031 US2/US4–US8 (мобильная Studio V2) — отдельная вертикаль, не блокирует UI-чистку.
+- Bundle-оптимизация и performance-бенчмарки — Sprint 032 уже закрыт; новый раунд оптимизаций после фазы D (иконки) даст естественный буст.
+- Рефакторинг сторов/хуков — вне рамок презентационного слоя.
 
 ## Технические детали
 
-### Стратегия миграции без поломок
+- **Codemod иконок (Фаза D)**: `node` + `ts-morph` или простой `rg --files-with-matches | xargs sed -i`; список используемых иконок собирается AST-проходом, дописывается в `src/lib/icons.ts` как `export { Foo, Bar } from "lucide-react"`.
+- **ResponsiveOverlay API**: `<ResponsiveOverlay open onOpenChange title description footer>{children}</ResponsiveOverlay>` — breakpoint `md` решает sheet vs dialog.
+- **`useConfirm`**: `const confirm = useConfirm(); if (await confirm({ title, description, destructive })) { ... }`.
+- **A11y прогон**: `await injectAxe(page); const violations = await getViolations(page);` сохранять в `tests/a11y/<route>.json`.
 
-Для каждой замены:
+## Дальнейшие шаги
 
-```text
-старый файл  ──►  тонкий реэкспорт + console.warn в dev
-                       │
-                       ▼
-                новый канонический файл
-```
-
-Этап `@deprecated` живёт 1 PR-цикл, затем удаление в Фазе 10.
-
-### Codemod-инструменты
-
-- `jscodeshift` / `ts-morph` скрипты в `scripts/codemods/` для:
-  - замены импортов компонентов;
-  - замены `from "lucide-react"` → `from "@/lib/icons"`;
-  - замены `from "framer-motion"` → `from "@/lib/motion"`;
-  - перевода литеральных Tailwind цветов в токены.
-
-### Метрики успеха
-
-- Кол-во файлов в `components/ui/` сокращается ориентировочно с 94 до ~60.
-- Один компонент `TrackCard` вместо 4 реализаций.
-- 0 импортов `framer-motion` и `lucide-react` вне `lib/motion.ts` / `lib/icons.ts`.
-- 0 хардкод цветовых классов в `components/` и `pages/`.
-- Bundle size не растёт; ожидается −30–60 KB за счёт удаления дублей.
-
-### Что НЕ входит в этот план
-
-- Изменения бизнес-логики, сторов, API, edge-функций.
-- Редизайн с новой визуальной концепцией — только унификация текущей.
-- Замена shadcn/ui на другую библиотеку.
-
-### Порядок мерджа
-
-Фазы 0 → 1 → 2 → 3 идут последовательно (фундамент). Фазы 4, 5, 6, 7, 8 можно параллелить разными PR после Фазы 3. Фазы 9 и 10 — финальные.
+После одобрения переключиться в build mode и идти фазами A → F, мерж после каждой.

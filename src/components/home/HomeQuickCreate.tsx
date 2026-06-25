@@ -9,7 +9,7 @@
 
 import { memo, useCallback, useState } from "react";
 import { motion } from "@/lib/motion";
-import { Sparkles, Plus } from "lucide-react";
+import { Sparkles, Plus } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";

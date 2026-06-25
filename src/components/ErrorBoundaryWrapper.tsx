@@ -1,7 +1,7 @@
 import { Component, ErrorInfo, ReactNode } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "@/lib/icons";
 import { logger } from "@/lib/logger";
 import { navigateTo, forceReload } from "@/hooks/useAppNavigate";
 import { captureError, isSentryEnabled, Sentry } from "@/lib/sentry";

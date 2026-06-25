@@ -8,7 +8,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { Sparkles, Music2, Headphones } from "lucide-react";
+import { Sparkles, Music2, Headphones } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { glass, gradientGlass } from "@/lib/glass";

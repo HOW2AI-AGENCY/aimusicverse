@@ -7,7 +7,7 @@ import { memo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Gift, Share2, Copy, Sparkles } from "lucide-react";
+import { Users, Gift, Share2, Copy, Sparkles } from "@/lib/icons";
 import { useReferralStats, useShareReferral } from "@/hooks/useReferrals";
 import { ECONOMY } from "@/lib/economy";
 import { cn } from "@/lib/utils";

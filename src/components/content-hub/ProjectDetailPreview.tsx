@@ -7,7 +7,7 @@ import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, Music2, ExternalLink, Play, Edit, MoreHorizontal, FolderOpen } from "lucide-react";
+import { Calendar, Music2, ExternalLink, Play, Edit, MoreHorizontal, FolderOpen } from "@/lib/icons";
 import { ProjectCover } from "@/components/project/ProjectCover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";

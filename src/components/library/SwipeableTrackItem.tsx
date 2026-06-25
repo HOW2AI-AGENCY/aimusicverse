@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from "react";
 import { motion, useMotionValue, useTransform, AnimatePresence } from "@/lib/motion";
 import type { PanInfo } from "@/lib/motion";
-import { ListPlus, RefreshCw, Check } from "lucide-react";
+import { ListPlus, RefreshCw, Check } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 import { useFeatureUsageTracking, FeatureEvents } from "@/hooks/analytics";

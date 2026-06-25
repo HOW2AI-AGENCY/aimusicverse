@@ -5,7 +5,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "@/lib/motion";
-import { Activity, AlertTriangle, Volume2 } from "lucide-react";
+import { Activity, AlertTriangle, Volume2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface AudioLevelMeterProps {

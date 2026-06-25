@@ -8,7 +8,7 @@
  */
 
 import React, { useState, useCallback } from "react";
-import { LucideIcon, X } from "lucide-react";
+import { LucideIcon, X } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

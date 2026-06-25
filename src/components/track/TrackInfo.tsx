@@ -8,7 +8,7 @@
  */
 
 import { memo } from "react";
-import { Volume2, Layers } from "lucide-react";
+import { Volume2, Layers } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { CreatorAvatar, CreatorLink } from "@/components/ui/creator-avatar";
 import type { Track } from "@/types/track";

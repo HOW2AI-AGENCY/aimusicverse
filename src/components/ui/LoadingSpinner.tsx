@@ -7,7 +7,7 @@
  */
 import { memo, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { Music2, Loader2 } from "lucide-react";
+import { Music2, Loader2 } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 
 interface LoadingSpinnerProps {

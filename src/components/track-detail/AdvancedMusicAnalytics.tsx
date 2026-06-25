@@ -1,7 +1,7 @@
 import { AudioAnalysis } from "@/hooks/useAudioAnalysis";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Activity, TrendingUp, Users, Zap, Music2 } from "lucide-react";
+import { Activity, TrendingUp, Users, Zap, Music2 } from "@/lib/icons";
 
 interface AdvancedMusicAnalyticsProps {
   analysis: AudioAnalysis;

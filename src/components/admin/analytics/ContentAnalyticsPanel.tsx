@@ -21,7 +21,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Music, Palette, Hash, TrendingUp, Mic2, Disc3 } from "lucide-react";
+import { Music, Palette, Hash, TrendingUp, Mic2, Disc3 } from "@/lib/icons";
 
 interface ContentAnalyticsPanelProps {
   timePeriod: string;

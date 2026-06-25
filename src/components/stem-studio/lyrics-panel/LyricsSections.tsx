@@ -12,7 +12,7 @@ import * as React from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Scissors, Wand2 } from "lucide-react";
+import { Scissors, Wand2 } from "@/lib/icons";
 import type { LyricLine } from "./LyricsRenderer";
 
 export interface DetectedSection {

@@ -4,7 +4,7 @@ import type { Track } from "@/types/track";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap, ChevronDown } from "lucide-react";
+import { Loader2, Sparkles, Music, Mic2, Activity, Key, Box, Zap, ChevronDown } from "@/lib/icons";
 import { Separator } from "@/components/ui/separator";
 import { AdvancedMusicAnalytics } from "./AdvancedMusicAnalytics";
 import { EmotionalMap } from "./EmotionalMap";

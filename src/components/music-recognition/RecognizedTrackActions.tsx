@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Edit3, Music2, Save, Copy, Loader2, Sparkles, CheckCircle2, AlertCircle } from "lucide-react";
+import { FileText, Edit3, Music2, Save, Copy, Loader2, Sparkles, CheckCircle2, AlertCircle } from "@/lib/icons";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useLyricsRecognition } from "@/hooks/useLyricsRecognition";
 import { RecognizedTrack } from "@/hooks/useMusicRecognition";

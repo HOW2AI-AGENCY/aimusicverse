@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Sparkles, ArrowLeft, Music, Mic, FileText, Settings, Check } from "lucide-react";
+import { Sparkles, ArrowLeft, Music, Mic, FileText, Settings, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

@@ -27,7 +27,7 @@ import {
   MoreHorizontal,
   Mic2,
   Guitar,
-} from "lucide-react";
+} from "@/lib/icons";
 import { TrackDetailsTab } from "@/components/track-detail/TrackDetailsTab";
 import { TrackVersionsTab } from "@/components/track-detail/TrackVersionsTab";
 import { TrackStemsTab } from "@/components/track-detail/TrackStemsTab";

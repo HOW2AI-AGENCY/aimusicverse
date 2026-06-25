@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { AudioAnalysis } from "@/hooks/useAudioAnalysis";
-import { Activity, TrendingUp } from "lucide-react";
+import { Activity, TrendingUp } from "@/lib/icons";
 import { emotionalColors } from "@/lib/design-colors";
 
 interface EmotionalMapProps {

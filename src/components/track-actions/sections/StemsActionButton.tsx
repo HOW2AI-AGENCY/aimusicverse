@@ -4,7 +4,7 @@
  */
 
 import { useState } from "react";
-import { Scissors, Wand2, Layers } from "lucide-react";
+import { Scissors, Wand2, Layers } from "@/lib/icons";
 import { IconGridButton } from "../IconGridButton";
 import { ActionId } from "@/config/trackActionsConfig";
 import {

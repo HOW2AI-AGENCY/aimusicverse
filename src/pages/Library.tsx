@@ -25,7 +25,7 @@ import {
   Library as LibraryIcon,
   Tag,
   X,
-} from "lucide-react";
+} from "@/lib/icons";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";

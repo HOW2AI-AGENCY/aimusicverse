@@ -5,7 +5,7 @@
 
 import { memo, useState } from "react";
 import { motion } from "@/lib/motion";
-import { Volume2, Sparkles } from "lucide-react";
+import { Volume2, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";

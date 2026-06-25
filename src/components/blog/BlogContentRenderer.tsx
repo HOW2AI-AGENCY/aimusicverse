@@ -1,7 +1,7 @@
 import React from "react";
 import DOMPurify from "dompurify";
 import { cn } from "@/lib/utils";
-import { Info, AlertTriangle, Lightbulb, CheckCircle } from "lucide-react";
+import { Info, AlertTriangle, Lightbulb, CheckCircle } from "@/lib/icons";
 
 interface BlogContentRendererProps {
   content: string;

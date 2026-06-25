@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Users, Search, MessageSquare } from "lucide-react";
+import { Users, Search, MessageSquare } from "@/lib/icons";
 import { AdminUserCard } from "@/components/admin/AdminUserCard";
 import { AdminUserCreditsDialog } from "@/components/admin/AdminUserCreditsDialog";
 import { AdminUserSubscriptionDialog } from "@/components/admin/AdminUserSubscriptionDialog";

@@ -24,7 +24,7 @@ import {
   PenLine,
   Globe,
   Headphones,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { useAuth } from "@/hooks/useAuth";

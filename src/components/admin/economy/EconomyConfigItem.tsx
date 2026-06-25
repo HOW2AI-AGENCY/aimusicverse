@@ -5,7 +5,7 @@
 import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Check, X, Edit2, RotateCcw } from "lucide-react";
+import { Check, X, Edit2, RotateCcw } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { CONFIG_LABELS } from "@/hooks/admin/useEconomyConfig";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";

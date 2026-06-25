@@ -4,7 +4,7 @@
  */
 
 import { useState, useMemo, memo } from "react";
-import { Music, ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
+import { Music, ChevronDown, ChevronUp, Copy, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";

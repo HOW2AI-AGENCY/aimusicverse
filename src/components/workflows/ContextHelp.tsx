@@ -4,7 +4,7 @@
  * Provides contextual hints and tips based on current workflow step
  */
 
-import { HelpCircle, Lightbulb } from "lucide-react";
+import { HelpCircle, Lightbulb } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "@/lib/motion";
 

@@ -8,7 +8,7 @@
 import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { ImageOff } from "lucide-react";
+import { ImageOff } from "@/lib/icons";
 import { interactive } from "@/lib/overlay-colors";
 
 interface ProgressiveImageProps {

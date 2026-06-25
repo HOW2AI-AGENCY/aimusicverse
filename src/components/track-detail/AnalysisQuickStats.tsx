@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Card } from "@/components/ui/card";
-import { Activity, Music, Key, Gauge, Heart, Zap } from "lucide-react";
+import { Activity, Music, Key, Gauge, Heart, Zap } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { UnifiedAnalysisResult } from "@/services/unified-analysis/types";
 

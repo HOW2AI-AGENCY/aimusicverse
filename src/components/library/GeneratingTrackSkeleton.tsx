@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Music2, Sparkles, Wand2, AudioWaveform, Zap } from "lucide-react";
+import { Loader2, Music2, Sparkles, Wand2, AudioWaveform, Zap } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 

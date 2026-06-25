@@ -13,7 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Calendar, TrendingUp, Percent } from "lucide-react";
+import { Users, Calendar, TrendingUp, Percent } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface CohortData {

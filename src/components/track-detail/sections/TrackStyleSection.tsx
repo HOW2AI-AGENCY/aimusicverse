@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Tag } from "lucide-react";
+import { Tag } from "@/lib/icons";
 import { DetailSection } from "@/components/common/DetailSection";
 import type { Track } from "@/types/track";
 

@@ -5,7 +5,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Gauge, TrendingUp, TrendingDown } from "lucide-react";
+import { Gauge, TrendingUp, TrendingDown } from "@/lib/icons";
 import { PerformanceMetric, PERFORMANCE_TARGETS } from "@/hooks/usePerformanceMetrics";
 
 interface LighthouseScoresCardProps {

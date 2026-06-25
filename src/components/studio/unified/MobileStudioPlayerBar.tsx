@@ -10,7 +10,7 @@ import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";
-import { Play, Pause, SkipBack, SkipForward, MoreHorizontal, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, MoreHorizontal, Volume2, VolumeX } from "@/lib/icons";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { glass } from "@/lib/glass";
 

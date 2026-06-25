@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, AlertTriangle, Globe, Lock, Music, ImageIcon } from "lucide-react";
+import { CheckCircle2, AlertTriangle, Globe, Lock, Music, ImageIcon } from "@/lib/icons";
 import { Project } from "@/hooks/useProjects";
 import { usePublishProject } from "@/hooks/useProjectGeneratedTracks";
 import { ProjectTrack } from "@/hooks/useProjectTracks";

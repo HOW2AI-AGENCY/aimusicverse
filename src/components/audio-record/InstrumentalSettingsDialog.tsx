@@ -6,7 +6,7 @@ import { Slider } from "@/components/ui/slider";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { Music, Zap, Sparkles, Settings2, ChevronDown, ChevronUp } from "lucide-react";
+import { Music, Zap, Sparkles, Settings2, ChevronDown, ChevronUp } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { GENRES, MOODS } from "@/lib/lyrics/constants";

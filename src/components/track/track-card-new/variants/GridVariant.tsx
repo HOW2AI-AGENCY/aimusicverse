@@ -10,7 +10,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion, PanInfo } from "@/lib/motion";
-import { Heart, Trash2, MoreHorizontal, Layers } from "lucide-react";
+import { Heart, Trash2, MoreHorizontal, Layers } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

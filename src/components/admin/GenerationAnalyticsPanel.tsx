@@ -4,7 +4,7 @@
  */
 
 import { useState } from "react";
-import { BarChart3, Clock, DollarSign, Music, Tag, TrendingUp, Loader2, RefreshCw, Cpu } from "lucide-react";
+import { BarChart3, Clock, DollarSign, Music, Tag, TrendingUp, Loader2, RefreshCw, Cpu } from "@/lib/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

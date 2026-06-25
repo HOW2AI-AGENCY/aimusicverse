@@ -5,7 +5,7 @@
 
 import { memo, useState } from "react";
 import { Track } from "@/types/track";
-import { Play, Pause, Heart, Share2, ListPlus, Music2 } from "lucide-react";
+import { Play, Pause, Heart, Share2, ListPlus, Music2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { pill } from "@/lib/overlay-colors";
 import { Badge } from "@/components/ui/badge";

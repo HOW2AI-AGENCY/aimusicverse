@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Tag, Plus } from "lucide-react";
+import { Tag, Plus } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { hapticImpact } from "@/lib/haptic";

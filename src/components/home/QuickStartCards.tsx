@@ -8,7 +8,7 @@
 
 import { memo, useCallback, useState, lazy, Suspense } from "react";
 import { motion } from "@/lib/motion";
-import { Music2, Guitar, Mic2, Sparkles } from "lucide-react";
+import { Music2, Guitar, Mic2, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { SectionHeading } from "@/components/ui/Heading";

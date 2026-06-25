@@ -20,7 +20,7 @@ import {
   Shuffle,
   RefreshCw,
   Languages,
-} from "lucide-react";
+} from "@/lib/icons";
 import { AITool } from "./types";
 
 /**

@@ -8,12 +8,13 @@
 
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { TrendingUp, Loader2 } from "lucide-react";
+import { TrendingUp, Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { UnifiedTrackCard } from "@/components/shared/UnifiedTrackCard";
+import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import { Button } from "@/components/ui/button";
-import { SectionHeader } from "@/components/ui/Heading";
+import { SectionHeader } from "@/components/common/SectionHeader";
+
 import type { TrackData } from "@/components/track/track-card-new/types";
 import { homeSectionColors } from "@/lib/design-colors";
 

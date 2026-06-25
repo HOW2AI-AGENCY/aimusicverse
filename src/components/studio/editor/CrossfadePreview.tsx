@@ -7,7 +7,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Play, Pause, RefreshCw, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, RefreshCw, Volume2, VolumeX } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";

@@ -8,7 +8,7 @@
 import React, { useState, useRef, useCallback, KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { X, Plus } from "lucide-react";
+import { X, Plus } from "@/lib/icons";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 interface ChipInputProps {

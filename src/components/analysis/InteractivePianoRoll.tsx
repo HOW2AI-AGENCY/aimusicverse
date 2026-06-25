@@ -5,7 +5,7 @@
 import { memo, useMemo, useRef, useState, useCallback, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";
-import { Music, ZoomIn, ZoomOut, Maximize2, RotateCcw, Keyboard, Eye, EyeOff } from "lucide-react";
+import { Music, ZoomIn, ZoomOut, Maximize2, RotateCcw, Keyboard, Eye, EyeOff } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "@/lib/motion";
 

@@ -5,7 +5,7 @@
 
 import { useState, useRef } from "react";
 import { motion, useMotionValue, useTransform, useSpring } from "@/lib/motion";
-import { CreditCard, Lock, Wifi } from "lucide-react";
+import { CreditCard, Lock, Wifi } from "@/lib/icons";
 
 interface Card3DProps {
   className?: string;

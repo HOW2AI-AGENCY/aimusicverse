@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMusicRecognition, RecognizedTrack } from "@/hooks/useMusicRecognition";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Mic, MicOff, Upload, Link, Loader2, Music2, ExternalLink, Disc3 } from "lucide-react";
+import { Mic, MicOff, Upload, Link, Loader2, Music2, ExternalLink, Disc3 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { RecognizedTrackActions } from "./RecognizedTrackActions";
 

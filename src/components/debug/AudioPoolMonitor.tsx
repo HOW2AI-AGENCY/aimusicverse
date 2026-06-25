@@ -15,7 +15,7 @@ import { useState, useEffect } from "react";
 import { audioElementPool, AudioPriority } from "@/lib/audioElementPool";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { AlertCircle, Activity, CheckCircle2 } from "lucide-react";
+import { AlertCircle, Activity, CheckCircle2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 export function AudioPoolMonitor() {

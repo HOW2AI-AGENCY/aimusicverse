@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTrackStems } from "@/hooks/useTrackStems";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, Download, Loader2, Mic, Volume2, Music } from "lucide-react";
+import { Play, Pause, Download, Loader2, Mic, Volume2, Music } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { getStemLabel } from "@/lib/stemLabels";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";

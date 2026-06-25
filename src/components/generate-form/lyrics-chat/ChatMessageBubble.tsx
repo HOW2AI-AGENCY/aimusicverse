@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { Loader2, ChevronRight } from "lucide-react";
+import { Loader2, ChevronRight } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { glass } from "@/lib/glass";
 import { buttonVariants } from "@/lib/lyrics/constants";

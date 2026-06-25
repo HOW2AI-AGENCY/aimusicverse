@@ -4,7 +4,7 @@
  */
 
 import { memo } from "react";
-import { Coins } from "lucide-react";
+import { Coins } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface CreditBalanceIndicatorProps {

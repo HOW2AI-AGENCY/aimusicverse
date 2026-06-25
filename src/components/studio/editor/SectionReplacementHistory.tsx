@@ -7,7 +7,7 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { History, Play, Pause, RotateCcw, Check, Clock, ChevronDown, ChevronUp, X, GitBranch } from "lucide-react";
+import { History, Play, Pause, RotateCcw, Check, Clock, ChevronDown, ChevronUp, X, GitBranch } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";

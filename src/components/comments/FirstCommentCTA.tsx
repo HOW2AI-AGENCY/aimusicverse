@@ -8,7 +8,7 @@
 
 import { memo, useCallback, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { MessageCircle, X, Sparkles } from "lucide-react";
+import { MessageCircle, X, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";

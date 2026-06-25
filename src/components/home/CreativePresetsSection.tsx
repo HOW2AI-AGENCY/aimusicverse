@@ -10,7 +10,7 @@
 import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Folder, PenTool, Music, Sparkles } from "lucide-react";
+import { Folder, PenTool, Music, Sparkles } from "@/lib/icons";
 import { ProjectPresetsCarousel } from "./ProjectPresetsCarousel";
 import { LyricsPresetsRow } from "./LyricsPresetsRow";
 import { TrackPresetsRow, type TrackPreset } from "./TrackPresetsRow";

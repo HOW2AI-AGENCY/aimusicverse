@@ -10,7 +10,7 @@
  */
 
 import { useState, useCallback, useMemo } from "react";
-import { Play, Pause, Check, Info } from "lucide-react";
+import { Play, Pause, Check, Info } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

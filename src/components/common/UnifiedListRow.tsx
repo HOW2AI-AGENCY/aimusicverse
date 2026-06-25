@@ -8,7 +8,7 @@
  */
 
 import React, { memo } from "react";
-import { LucideIcon, GripVertical, Music } from "lucide-react";
+import { LucideIcon, GripVertical, Music } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

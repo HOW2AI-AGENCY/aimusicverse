@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Upload, Loader2, Mic, ChevronDown, ChevronUp, Disc } from "lucide-react";
+import { Upload, Loader2, Mic, ChevronDown, ChevronUp, Disc } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";

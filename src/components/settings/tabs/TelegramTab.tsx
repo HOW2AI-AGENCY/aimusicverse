@@ -5,7 +5,7 @@
  */
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Send, CheckCircle2 } from "lucide-react";
+import { Send, CheckCircle2 } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { TelegramBotSetup } from "@/components/TelegramBotSetup";
 import { AddToHomeScreen } from "@/components/telegram/AddToHomeScreen";

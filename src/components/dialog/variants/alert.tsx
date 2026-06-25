@@ -24,7 +24,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { AlertTriangle, Info, CheckCircle } from "lucide-react";
+import { AlertTriangle, Info, CheckCircle } from "@/lib/icons";
 import { DialogBackdrop, DialogContainer } from "../unified-dialog";
 import { useHapticFeedback } from "@/lib/mobile-utils";
 import type { AlertDialogProps } from "../unified-dialog.types";

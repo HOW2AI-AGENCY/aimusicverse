@@ -3,7 +3,7 @@
  * Button with Telegram Stars icon for initiating payments
  */
 
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 

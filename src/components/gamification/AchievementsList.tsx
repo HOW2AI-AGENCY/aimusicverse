@@ -2,7 +2,7 @@ import { motion } from "@/lib/motion";
 import { useAchievements, useUserAchievements } from "@/hooks/useGamification";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Lock, Check, Coins, Sparkles } from "lucide-react";
+import { Lock, Check, Coins, Sparkles } from "@/lib/icons";
 
 const CATEGORY_LABELS: Record<string, string> = {
   streak: "Серии",

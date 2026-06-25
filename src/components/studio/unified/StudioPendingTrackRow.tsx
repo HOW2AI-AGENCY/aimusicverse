@@ -6,7 +6,7 @@
 import { memo, useEffect, useState } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Loader2, Music, XCircle, RefreshCw } from "lucide-react";
+import { Loader2, Music, XCircle, RefreshCw } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { supabase } from "@/integrations/supabase/client";

@@ -18,7 +18,7 @@ import {
   X,
   CheckCircle2,
   AlertCircle,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useGuitarRecordings, type GuitarRecording } from "@/hooks/useGuitarRecordings";
 import { cn } from "@/lib/utils";
 import { format, ru } from "@/lib/date-utils";

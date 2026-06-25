@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { RefreshCw, Copy, Check, ArrowRight, Sparkles } from "lucide-react";
+import { RefreshCw, Copy, Check, ArrowRight, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

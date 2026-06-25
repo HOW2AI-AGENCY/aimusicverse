@@ -11,7 +11,7 @@
 
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Sparkles, Music, Heart, Zap, Sun, Moon, Lightbulb, TrendingUp, ChevronRight } from "lucide-react";
+import { Sparkles, Music, Heart, Zap, Sun, Moon, Lightbulb, TrendingUp, ChevronRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

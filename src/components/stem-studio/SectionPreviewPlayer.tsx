@@ -6,7 +6,7 @@
 
 import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Play, Pause, RotateCcw, Volume2, VolumeX, Repeat } from "lucide-react";
+import { Play, Pause, RotateCcw, Volume2, VolumeX, Repeat } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Toggle } from "@/components/ui/toggle";

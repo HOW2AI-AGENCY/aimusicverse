@@ -6,7 +6,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Coins } from "lucide-react";
+import { Coins } from "@/lib/icons";
 import { EditableTierFields } from "@/hooks/admin/useSubscriptionTiers";
 
 interface TierCreditsSectionProps {

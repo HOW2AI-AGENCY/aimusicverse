@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import type { ChordData } from "@/hooks/useGuitarAnalysis";
 import { ChordDiagramEnhanced } from "./ChordDiagramEnhanced";
-import { Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, ChevronLeft, ChevronRight } from "@/lib/icons";
 
 interface ChordTimelineMobileProps {
   chords: ChordData[];

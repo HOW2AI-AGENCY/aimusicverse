@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, ArrowDown } from "lucide-react";
+import { Loader2, ArrowDown } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface PullToRefreshIndicatorProps {

@@ -11,7 +11,7 @@
 
 import { memo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, Music, Sparkles, CheckCircle2, XCircle } from "lucide-react";
+import { Loader2, Music, Sparkles, CheckCircle2, XCircle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Card } from "@/components/ui/card";

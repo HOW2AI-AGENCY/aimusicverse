@@ -3,7 +3,7 @@
  */
 
 import { motion, AnimatePresence } from "@/lib/motion";
-import { AlertTriangle, Check } from "lucide-react";
+import { AlertTriangle, Check } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 

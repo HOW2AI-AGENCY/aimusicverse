@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Settings2, Volume2, Waves, Gauge } from "lucide-react";
+import { Settings2, Volume2, Waves, Gauge } from "@/lib/icons";
 import type { TrackEffects } from "@/hooks/useDrumMachine";
 import type { DrumSound } from "@/lib/drum-kits";
 

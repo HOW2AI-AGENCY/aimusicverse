@@ -1,7 +1,7 @@
 import { motion } from "@/lib/motion";
 import { Progress } from "@/components/ui/progress";
 import { useUserCredits, getLevelProgress } from "@/hooks/useGamification";
-import { Star, TrendingUp } from "lucide-react";
+import { Star, TrendingUp } from "@/lib/icons";
 
 const LEVEL_TITLES: Record<number, string> = {
   1: "Новичок",

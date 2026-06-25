@@ -9,7 +9,7 @@
  */
 
 import { useState, useMemo } from "react";
-import { Plus, Search, Mic, Guitar, Volume2, Heart, Sliders, Layers, Zap, Check } from "lucide-react";
+import { Plus, Search, Mic, Guitar, Volume2, Heart, Sliders, Layers, Zap, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";

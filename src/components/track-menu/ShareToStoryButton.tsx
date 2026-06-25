@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Camera } from "lucide-react";
+import { Camera } from "@/lib/icons";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { canShareToStory, shareTrackToStory } from "@/services/telegram";
 import { toast } from "sonner";

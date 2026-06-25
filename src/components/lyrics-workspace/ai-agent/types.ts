@@ -2,7 +2,7 @@
  * AI Agent Types and Interfaces
  */
 
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 
 // Phase 4: Streamlined from 17 to 9 core tool IDs
 export type AIToolId =

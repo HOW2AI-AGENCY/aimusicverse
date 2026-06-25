@@ -1,4 +1,4 @@
-import { FolderOpen, Users, Trophy, Target, Music, User } from "lucide-react";
+import { FolderOpen, Users, Trophy, Target, Music, User } from "@/lib/icons";
 
 export interface FeatureDescription {
   title: string;

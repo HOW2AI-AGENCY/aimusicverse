@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { FileAudio, User, FolderOpen, Music2, Loader2, X } from "lucide-react";
+import { FileAudio, User, FolderOpen, Music2, Loader2, X } from "@/lib/icons";
 import { InlineReferencePreview } from "@/components/audio-reference";
 import { useAudioReference } from "@/hooks/useAudioReference";
 import { touchTargetClass } from "@/lib/design-tokens";

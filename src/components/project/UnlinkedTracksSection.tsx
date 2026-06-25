@@ -5,7 +5,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Music, Clock, Loader2, ChevronDown, ChevronUp, Link2, AlertCircle } from "lucide-react";
+import { Play, Pause, Music, Clock, Loader2, ChevronDown, ChevronUp, Link2, AlertCircle } from "@/lib/icons";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useProjectGeneratedTracks, ProjectGeneratedTrack } from "@/hooks/useProjectGeneratedTracks";
 import { ProjectTrack } from "@/hooks/useProjectTracks";

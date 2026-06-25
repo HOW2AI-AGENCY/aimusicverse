@@ -23,7 +23,7 @@ import {
   ChevronUp,
   Save,
   MicVocal,
-} from "lucide-react";
+} from "@/lib/icons";
 import { ChordDiagramUnified as ChordDiagram } from "./ChordDiagramUnified";
 import { WaveformWithChords } from "./WaveformWithChords";
 import { ExportFilesPanel } from "./ExportFilesPanel";

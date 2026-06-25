@@ -5,7 +5,7 @@
  */
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { ChevronDown, ChevronsLeftRight, MousePointerClick, Pointer } from "lucide-react";
+import { ChevronDown, ChevronsLeftRight, MousePointerClick, Pointer } from "@/lib/icons";
 
 const STORAGE_KEY = "mv:player-gesture-hints-seen";
 

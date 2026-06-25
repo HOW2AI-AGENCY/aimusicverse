@@ -5,7 +5,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Music, Mic, Guitar, Zap, Clock, Settings, FileText, Tag, Volume2, Gauge } from "lucide-react";
+import { Music, Mic, Guitar, Zap, Clock, Settings, FileText, Tag, Volume2, Gauge } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { ProjectTrack } from "@/hooks/useProjectTracks";
 

@@ -15,7 +15,7 @@ import {
   TrendingDown,
   AlertTriangle,
   Loader2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { format } from "@/lib/date-utils";
 import { useUserBalanceSummary, useUsersWithBalances } from "@/hooks/useUserBalanceSummary";
 import { useAdminBalance } from "@/hooks/useAdminBalance";

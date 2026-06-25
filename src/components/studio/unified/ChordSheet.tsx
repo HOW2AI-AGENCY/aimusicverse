@@ -6,7 +6,7 @@
 
 import { memo, useCallback, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { Guitar, X, Play, Clock, Download, Share2 } from "lucide-react";
+import { Guitar, X, Play, Clock, Download, Share2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";

@@ -5,7 +5,7 @@
 import { memo, useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, X, LayoutGrid, LayoutList, Plus } from "lucide-react";
+import { Search, X, LayoutGrid, LayoutList, Plus } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useHaptic } from "@/hooks/useHaptic";

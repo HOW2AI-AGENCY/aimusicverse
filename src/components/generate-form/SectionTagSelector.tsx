@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Tag, Plus, X, Music2, Mic, Zap, Heart, Check } from "lucide-react";
+import { Tag, Plus, X, Music2, Mic, Zap, Heart, Check } from "@/lib/icons";
 import { TagBadge } from "@/components/lyrics/shared/TagBadge";
 import { cn } from "@/lib/utils";
 

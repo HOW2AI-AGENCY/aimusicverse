@@ -1,6 +1,6 @@
 // LeaderboardWidget - Compact leaderboard for homepage
 import { useMemo, memo } from "react";
-import { Crown, ChevronRight, User, TrendingUp } from "lucide-react";
+import { Crown, ChevronRight, User, TrendingUp } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";

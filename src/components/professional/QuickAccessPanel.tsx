@@ -5,7 +5,7 @@
 
 import { motion } from "@/lib/motion";
 import { useNavigate } from "react-router-dom";
-import { Wand2, Scissors, FileMusic, Sparkles, Activity, ArrowRight, Zap, Clock, CheckCircle } from "lucide-react";
+import { Wand2, Scissors, FileMusic, Sparkles, Activity, ArrowRight, Zap, Clock, CheckCircle } from "@/lib/icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

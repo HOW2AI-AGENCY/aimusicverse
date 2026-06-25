@@ -25,7 +25,7 @@ import {
   AlertCircle,
   Wand2,
   Piano,
-} from "lucide-react";
+} from "@/lib/icons";
 import { format, ru } from "@/lib/date-utils";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";

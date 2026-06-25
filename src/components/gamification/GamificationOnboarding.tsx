@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Calendar, Star, Coins, Trophy, BarChart3, ChevronRight, ChevronLeft, X, Sparkles } from "lucide-react";
+import { Calendar, Star, Coins, Trophy, BarChart3, ChevronRight, ChevronLeft, X, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useTelegram } from "@/contexts/TelegramContext";

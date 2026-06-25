@@ -1,6 +1,6 @@
 // TrackCommentsSection - Comments UI for track detail/player
 import { useState } from "react";
-import { MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
+import { MessageSquare, ChevronDown, ChevronUp } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { CommentsList } from "@/components/comments/CommentsList";
 import { cn } from "@/lib/utils";

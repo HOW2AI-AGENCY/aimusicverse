@@ -6,7 +6,7 @@
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, GitBranch } from "lucide-react";
+import { Loader2, GitBranch } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

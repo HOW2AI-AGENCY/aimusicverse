@@ -27,7 +27,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Fingerprint, Scan, Settings, AlertCircle } from "lucide-react";
+import { Fingerprint, Scan, Settings, AlertCircle } from "@/lib/icons";
 import { useTelegramBiometric } from "@/hooks/telegram";
 import { toast } from "sonner";
 

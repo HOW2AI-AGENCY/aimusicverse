@@ -6,7 +6,7 @@ import { useEffect, useState, memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Crown, Zap, Check, Sparkles, Star } from "lucide-react";
+import { Crown, Zap, Check, Sparkles, Star } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import confetti from "canvas-confetti";
 

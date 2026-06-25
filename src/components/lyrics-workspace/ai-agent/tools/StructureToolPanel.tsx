@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { motion } from "@/lib/motion";
-import { LayoutGrid, X, Wand2 } from "lucide-react";
+import { LayoutGrid, X, Wand2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";

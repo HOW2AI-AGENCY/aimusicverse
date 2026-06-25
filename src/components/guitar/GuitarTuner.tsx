@@ -5,7 +5,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Music, Mic, Check, AlertCircle } from "lucide-react";
+import { Music, Mic, Check, AlertCircle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

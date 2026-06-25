@@ -6,7 +6,7 @@
 import React, { memo, useCallback, useRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Play, Pause, Square, SkipBack, SkipForward, Repeat, Repeat1 } from "lucide-react";
+import { Play, Pause, Square, SkipBack, SkipForward, Repeat, Repeat1 } from "@/lib/icons";
 import { formatTime } from "@/lib/formatters";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 

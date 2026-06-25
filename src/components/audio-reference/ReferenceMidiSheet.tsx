@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Mic2, Guitar, Drum, Music, FileAudio, Download, Loader2, CheckCircle2, XCircle } from "lucide-react";
+import { Mic2, Guitar, Drum, Music, FileAudio, Download, Loader2, CheckCircle2, XCircle } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";

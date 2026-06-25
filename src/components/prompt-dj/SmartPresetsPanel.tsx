@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sparkles, TrendingUp, Clock, Star, ChevronRight, Lightbulb, Zap } from "lucide-react";
+import { Sparkles, TrendingUp, Clock, Star, ChevronRight, Lightbulb, Zap } from "@/lib/icons";
 import { usePromptHistory } from "@/hooks/usePromptHistory";
 import { usePromptDJStore, selectPresets } from "@/hooks/usePromptDJStore";
 import { PromptChannel, CHANNEL_TYPES, ChannelType } from "@/hooks/usePromptDJEnhanced";

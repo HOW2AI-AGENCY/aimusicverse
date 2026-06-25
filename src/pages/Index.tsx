@@ -22,7 +22,7 @@ import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper"
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
 import { HeroSkeleton } from "@/components/ui/ContentSkeleton";
-import { Clock } from "lucide-react";
+import { Clock } from "@/lib/icons";
 import { homeSectionColors } from "@/lib/design-colors";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 

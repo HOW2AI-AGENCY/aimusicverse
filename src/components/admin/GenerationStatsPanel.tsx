@@ -27,7 +27,7 @@ import {
   CheckCircle,
   XCircle,
   BarChart3,
-} from "lucide-react";
+} from "@/lib/icons";
 import { format } from "@/lib/date-utils";
 
 interface AggregatedStats {

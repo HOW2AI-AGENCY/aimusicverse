@@ -1,4 +1,4 @@
-import { LogIn, X } from "lucide-react";
+import { LogIn, X } from "@/lib/icons";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";

@@ -1,5 +1,5 @@
 // PrivacySettings component - Sprint 011
-import { Globe, Lock, Users } from "lucide-react";
+import { Globe, Lock, Users } from "@/lib/icons";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";

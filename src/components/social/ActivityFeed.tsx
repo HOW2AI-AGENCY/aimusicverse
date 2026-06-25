@@ -1,7 +1,7 @@
 // ActivityFeed component - Sprint 011
 import { ActivityItem } from "./ActivityItem";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Activity } from "lucide-react";
+import { Activity } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { ActivityFeedItem } from "@/types/activity";
 

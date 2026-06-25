@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import type { DrumSound } from "@/lib/drum-kits";
 

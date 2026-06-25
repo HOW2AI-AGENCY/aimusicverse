@@ -4,7 +4,7 @@
  * Visual progress tracker for workflows
  */
 
-import { CheckCircle, Circle, Clock } from "lucide-react";
+import { CheckCircle, Circle, Clock } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 
 interface ProgressStep {

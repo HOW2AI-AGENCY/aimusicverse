@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Package, TrendingUp, TrendingDown } from "lucide-react";
+import { Package, TrendingUp, TrendingDown } from "@/lib/icons";
 import { PerformanceMetric, PERFORMANCE_TARGETS, getMetricStatus } from "@/hooks/usePerformanceMetrics";
 
 interface BundleSizeCardProps {

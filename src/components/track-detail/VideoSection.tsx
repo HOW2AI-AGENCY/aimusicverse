@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Download, Maximize2, Send, Loader2, Video, AlertCircle, RefreshCw } from "lucide-react";
+import { Play, Pause, Download, Maximize2, Send, Loader2, Video, AlertCircle, RefreshCw } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";

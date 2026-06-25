@@ -2,7 +2,7 @@ import { useTheme } from "@/contexts/ThemeContext";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Sun, Moon, Smartphone, Check, Sparkles } from "lucide-react";
+import { Sun, Moon, Smartphone, Check, Sparkles } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 

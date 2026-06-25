@@ -4,7 +4,7 @@
  */
 
 import { memo, useMemo } from "react";
-import { Zap, Settings2, Wand2, History, Coins, X, ChevronDown } from "lucide-react";
+import { Zap, Settings2, Wand2, History, Coins, X, ChevronDown } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

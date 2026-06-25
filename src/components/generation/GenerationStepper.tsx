@@ -1,5 +1,5 @@
 import { motion } from "@/lib/motion";
-import { Check, Circle, ChevronRight } from "lucide-react";
+import { Check, Circle, ChevronRight } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface Step {

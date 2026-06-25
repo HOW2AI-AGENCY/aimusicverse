@@ -17,7 +17,7 @@ import {
   Wand2,
   Mic2,
   ArrowRightFromLine,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";

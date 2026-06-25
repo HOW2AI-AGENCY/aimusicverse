@@ -12,7 +12,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-import { Layers, Scissors, Wand2, RefreshCw, Lock, Music2 } from "lucide-react";
+import { Layers, Scissors, Wand2, RefreshCw, Lock, Music2 } from "@/lib/icons";
 import { Track } from "@/types/track";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable } from "@/lib/trackActionConditions";

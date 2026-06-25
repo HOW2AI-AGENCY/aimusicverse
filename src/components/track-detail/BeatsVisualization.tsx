@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { AudioAnalysis } from "@/hooks/useAudioAnalysis";
-import { Music2, Play, Pause } from "lucide-react";
+import { Music2, Play, Pause } from "@/lib/icons";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 

@@ -5,7 +5,7 @@
  * settings for genre, mood, type, and description
  */
 
-import { Flame, Headphones, Mic, Film, Music, Radio } from "lucide-react";
+import { Flame, Headphones, Mic, Film, Music, Radio } from "@/lib/icons";
 
 export interface ProjectPreset {
   id: string;

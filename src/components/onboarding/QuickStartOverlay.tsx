@@ -5,7 +5,7 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Sparkles, Headphones, BookOpen, ArrowRight, Music2, X } from "lucide-react";
+import { Sparkles, Headphones, BookOpen, ArrowRight, Music2, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useUserJourneyStore } from "@/hooks/useUserJourneyState";
 import { hapticImpact, hapticNotification } from "@/lib/haptic";

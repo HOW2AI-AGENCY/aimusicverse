@@ -7,7 +7,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { RotateCcw, RotateCw } from "lucide-react";
+import { RotateCcw, RotateCw } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { media } from "@/lib/overlay-colors";
 

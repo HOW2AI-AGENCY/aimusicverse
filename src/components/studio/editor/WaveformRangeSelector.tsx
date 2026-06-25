@@ -12,7 +12,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
-import { GripVertical } from "lucide-react";
+import { GripVertical } from "@/lib/icons";
 
 interface WaveformRangeSelectorProps {
   audioUrl: string;

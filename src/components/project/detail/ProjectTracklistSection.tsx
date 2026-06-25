@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
-import { Music, Plus, Sparkles } from "lucide-react";
+import { Music, Plus, Sparkles } from "@/lib/icons";
 import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
 import { MinimalProjectTrackItem } from "@/components/project/MinimalProjectTrackItem";
 import { UnlinkedTracksSection } from "@/components/project/UnlinkedTracksSection";

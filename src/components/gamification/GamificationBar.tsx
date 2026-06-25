@@ -14,7 +14,7 @@ import {
 } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
 import { useRewardNotificationContext } from "@/contexts/RewardNotificationContext";
-import { Coins, Flame, Zap, Gift, Check, Sparkles, ChevronRight } from "lucide-react";
+import { Coins, Flame, Zap, Gift, Check, Sparkles, ChevronRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";

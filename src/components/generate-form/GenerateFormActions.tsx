@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Music, Mic2, FolderOpen } from "lucide-react";
+import { Music, Mic2, FolderOpen } from "@/lib/icons";
 
 interface GenerateFormActionsProps {
   onOpenAudioDialog: () => void;

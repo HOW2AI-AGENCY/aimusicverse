@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUp, ArrowDown, Music2 } from "lucide-react";
+import { ArrowUp, ArrowDown, Music2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 

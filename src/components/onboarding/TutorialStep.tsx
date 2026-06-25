@@ -1,5 +1,5 @@
 import { motion } from "@/lib/motion";
-import { Check, Play, ChevronRight, Info } from "lucide-react";
+import { Check, Play, ChevronRight, Info } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 

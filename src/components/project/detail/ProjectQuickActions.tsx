@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus, Sparkles, Image } from "lucide-react";
+import { Plus, Sparkles, Image } from "@/lib/icons";
 import { ShareProjectCard } from "@/components/project/ShareProjectCard";
 import { cn } from "@/lib/utils";
 

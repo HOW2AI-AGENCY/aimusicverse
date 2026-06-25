@@ -8,7 +8,7 @@ import { AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Square, Loader2, Settings2, Zap, Radio, HelpCircle, Rocket } from "lucide-react";
+import { Play, Square, Loader2, Settings2, Zap, Radio, HelpCircle, Rocket } from "@/lib/icons";
 import { EssentialsKnobGrid } from "./EssentialsKnobGrid";
 import { CompactVisualizer } from "./CompactVisualizer";
 import { EditablePromptPreview } from "./EditablePromptPreview";

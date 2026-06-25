@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { ChevronRight, X } from "lucide-react";
+import { ChevronRight, X } from "@/lib/icons";
 import { MOODS, badgeVariants, buttonVariants, type MoodOption } from "@/lib/lyrics/constants";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";

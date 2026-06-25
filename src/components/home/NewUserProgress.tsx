@@ -8,7 +8,7 @@
 
 import { memo, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { CheckCircle2, Circle, ChevronRight } from "lucide-react";
+import { CheckCircle2, Circle, ChevronRight } from "@/lib/icons";
 import { useUserJourneyStore } from "@/hooks/useUserJourneyState";
 import { cn } from "@/lib/utils";
 import { glass } from "@/lib/glass";

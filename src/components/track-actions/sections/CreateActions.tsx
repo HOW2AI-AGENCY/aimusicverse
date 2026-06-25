@@ -4,7 +4,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
-import { Plus, Music, ImagePlus, Disc, Sparkles, Mic2, Guitar, Video, Fingerprint, Wand2 } from "lucide-react";
+import { Plus, Music, ImagePlus, Disc, Sparkles, Mic2, Guitar, Video, Fingerprint, Wand2 } from "@/lib/icons";
 import { Track } from "@/types/track";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable } from "@/lib/trackActionConditions";

@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, Check, AlertCircle, Music, Mic2, Drum, Waves, Piano, Guitar } from "lucide-react";
+import { Loader2, Check, AlertCircle, Music, Mic2, Drum, Waves, Piano, Guitar } from "@/lib/icons";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

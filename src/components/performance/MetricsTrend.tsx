@@ -5,7 +5,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TrendingUp, TrendingDown, Minus, Activity, Package, Gauge, Clock, Eye, Layout } from "lucide-react";
+import { TrendingUp, TrendingDown, Minus, Activity, Package, Gauge, Clock, Eye, Layout } from "@/lib/icons";
 import { PerformanceMetric, PERFORMANCE_TARGETS, calculateTrend } from "@/hooks/usePerformanceMetrics";
 
 interface MetricsTrendProps {

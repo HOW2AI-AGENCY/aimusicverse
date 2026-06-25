@@ -8,7 +8,7 @@
 
 import { useState, useRef, useCallback, useEffect, useId } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Play, Pause, Check, X, Volume2 } from "lucide-react";
+import { Play, Pause, Check, X, Volume2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";

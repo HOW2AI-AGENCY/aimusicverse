@@ -19,7 +19,7 @@ import {
   Save,
   Loader2,
   GripVertical,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useBotConfig, useUpdateBotConfig, type BotCommand } from "@/hooks/useBotConfig";
 
 export function MobileTelegramBotSettings() {

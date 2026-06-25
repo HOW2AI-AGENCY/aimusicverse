@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Plus, Music2 } from "lucide-react";
+import { Plus, Music2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { usePlaylists } from "@/hooks/usePlaylists";
 import { PlaylistCard } from "@/components/playlist/PlaylistCard";

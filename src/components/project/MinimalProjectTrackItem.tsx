@@ -19,7 +19,7 @@ import {
   Wand2,
   Loader2,
   Music,
-} from "lucide-react";
+} from "@/lib/icons";
 import { ProjectTrack } from "@/hooks/useProjectTracks";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";

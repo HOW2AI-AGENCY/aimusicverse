@@ -8,7 +8,7 @@
 import { ReactNode } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Z_INDEX, getBottomSafeAreaWithNav } from "@/lib/toast-position";
 
