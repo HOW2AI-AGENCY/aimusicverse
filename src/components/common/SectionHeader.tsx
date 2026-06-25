@@ -137,7 +137,7 @@ export const SectionHeader = memo(function SectionHeader({
             <Heading level={headingLevel} className="truncate text-sm sm:text-base">
               {title}
             </Heading>
-            {badge && (
+            {badge != null && (isBadgeSpec(badge) ? (
               <Badge
                 variant={badge.variant || 'secondary'}
                 className={cn(
@@ -148,7 +148,10 @@ export const SectionHeader = memo(function SectionHeader({
                 {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
                 {badge.label}
               </Badge>
-            )}
+            ) : (
+              <span className="shrink-0">{badge}</span>
+            ))}
+
           </div>
           {subtitle && (
             <Text variant={textSize} className="truncate text-muted-foreground">
