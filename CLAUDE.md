@@ -58,9 +58,9 @@ The application follows a layered architecture:
 ┌─────────────────────────────────────────────┐
 │  Pages (40+)                                │  Route-level components with lazy loading
 ├─────────────────────────────────────────────┤
-│  Components (890+)                          │  Feature-specific & UI components
+│  Components (935+)                          │  Feature-specific & UI components
 ├─────────────────────────────────────────────┤
-│  Hooks (200+)                               │  Reusable React logic
+│  Hooks (340+)                               │  Reusable React logic
 ├─────────────────────────────────────────────┤
 │  Services (13)                              │  Business logic & data transformation
 ├─────────────────────────────────────────────┤
@@ -488,7 +488,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 **Current Status:**
 - Sprint: 030 (Unified Studio Mobile) - 60% complete
 - Health Score: 98/100
-- Components: 890+
+- Components: 935+
 - Bundle Size Target: 950 KB
 - Overall Progress: 95% (24/25 sprints complete)
 
@@ -574,4 +574,4 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 ---
 
-**Last Updated:** 2026-01-17 (Sprint 031 - Constitution v3.0.0 Compliance)
+**Last Updated:** 2026-06-25 (Phase 8 + Sprint 9A — Codebase Optimization)

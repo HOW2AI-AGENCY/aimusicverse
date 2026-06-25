@@ -3,7 +3,7 @@
 <div align="center">
 
 ![Building](https://img.shields.io/badge/статус-Production_Ready-brightgreen)
-![Health](https://img.shields.io/badge/здоровье-95%2F100-success)
+![Health](https://img.shields.io/badge/здоровье-97%2F100-success)
 ![Progress](https://img.shields.io/badge/прогресс-100%25-blue)
 
 **Последнее обновление**: 2026-06-25
@@ -65,6 +65,15 @@
 - [ ] Реализация UI Improvements
 - [ ] Platform integrations (Spotify, Apple Music)
 
+### Phase 8: Codebase Optimization ✅ COMPLETE (2026-06-25)
+- [x] Удаление 196 мёртвых файлов, 45,113 строк ([PR #283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283))
+- [x] Замена runtime console.log на logger в studio-компонентах
+
+### Phase 9A: Deduplication ✅ COMPLETE (2026-06-25)
+- [x] Аудит 30+ предполагаемых дубликатов
+- [x] Удалено 5 подтверждённых дубликатов (~1,350 строк)
+- [x] Очищены index.ts реэкспорты
+
 ---
 
 ## 📊 Ключевые метрики
@@ -120,8 +129,10 @@
 
 | Метрика | Значение |
 |---------|----------|
-| React Components | 1130+ |
-| Custom Hooks | 390+ |
+| Файлов .ts/.tsx | 1,783 |
+| Строк кода | ~380,000 |
+| React Components | 935+ |
+| Custom Hooks | 340+ |
 | Pages | 57+ |
 | Services | 42 |
 | API Modules | 21 |
@@ -131,15 +142,19 @@
 
 ---
 
-## 🎯 Следующие шаги (Q2 2026)
+## 🎯 Следующие шаги (Q2-Q3 2026)
 
 ### Приоритет P0 (критичный)
-1. **Platform Integrations** — Spotify, Apple Music, YouTube export
-2. **API Development** — Public API для third-party integrations
+1. **Sprint 9B: Split Giant Files** — Разбить 50+ файлов >500 строк
+2. **Sprint 9C: Consolidate Lyrics** — 30+ lyrics-компонентов из 6 директорий в одну
 
 ### Приоритет P1 (высокий)
-3. **Spec 032: Professional UI** — Enhanced visual hierarchy
-4. **Spec 031: Mobile Studio V2** — Advanced creative tools
+3. **Sprint 9D: Reorganize components/ui/** — Сгруппировать 90+ файлов
+4. **Spec 001: UI Improvements** — Реализация ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+
+### Приоритет P2 (средний)
+5. **Platform Integrations** — Spotify, Apple Music, YouTube export
+6. **API Development** — Public API для third-party integrations
 
 ---
 
@@ -151,8 +166,8 @@
 
 ### P2 — В процессе улучшения
 - 🔴 Generation failure rate ~12% → target <8%
-- 🟡 Bundle size optimisation pending (npm issue on Windows)
-- 🟡 TypeScript strict mode gaps
+- 🟡 50+ файлов >500 строк → рефакторинг (Sprint 9B)
+- 🟡 Bundle size optimisation pending
 
 ### P3 — Плановые
 - 📋 Platform integrations
@@ -189,6 +204,12 @@
 ---
 
 ## 🔄 Недавние обновления (июнь 2026)
+
+### 2026-06-25 — Phase 8 + Sprint 9A: Codebase Optimization
+
+- ✅ Удалено **201 неиспользуемый файл** (~46,400 строк, -10.9% кодовой базы)
+- ✅ Замена console.log → logger в 5 studio-компонентах
+- ✅ TypeScript: 0 ошибок после всех изменений
 
 ### 2026-06-25 — Sprint A: F1.1 — Улучшение надёжности генерации
 

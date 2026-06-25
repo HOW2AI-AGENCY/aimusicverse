@@ -4,7 +4,6 @@
 
 export { LyricsWorkspace } from './LyricsWorkspace';
 export type { LyricsSection } from './LyricsWorkspace';
-export { SectionNotesPanel } from './SectionNotesPanel';
 export { AudioReferenceRecorder, type RecordingType } from './AudioReferenceRecorder';
 export { SectionReferenceDisplay } from './SectionReferenceDisplay';
 export { LyricsAIChatAgent } from './LyricsAIChatAgent';
