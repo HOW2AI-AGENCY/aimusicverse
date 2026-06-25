@@ -196,8 +196,8 @@ All colors MUST be HSL.
     --popover: 226 41% 11%;
     --popover-foreground: 220 30% 96%;
 
-    /* Primary - Aurora green (signature accent) */
-    --primary: 142 71% 58%;          /* #4ade80 */
+    /* Primary - Aurora mint (signature accent, desaturated for Linear/Arc-style refinement) */
+    --primary: 152 42% 56%;          /* #62b48a — muted mint, no neon */
     --primary-foreground: 240 46% 5%;
 
     --secondary: 227 32% 16%;
@@ -207,40 +207,40 @@ All colors MUST be HSL.
     --muted-foreground: 222 16% 60%;
 
     --accent: 227 42% 18%;           /* #1a2240 */
-    --accent-foreground: 142 71% 65%;
+    --accent-foreground: 152 42% 66%;
 
     --destructive: 0 72% 56%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 226 30% 18%;
     --input: 226 30% 18%;
-    --ring: 142 71% 58%;
+    --ring: 152 42% 56%;
 
-    /* Section-specific accent colors (Midnight + Aurora) */
-    --generate: 142 71% 58%;          /* aurora green */
-    --generate-glow: 142 71% 45%;
-    --library: 199 89% 62%;           /* cyan companion */
-    --library-glow: 199 89% 48%;
-    --projects: 262 75% 68%;          /* indigo */
-    --projects-glow: 262 75% 55%;
-    --community: 330 75% 65%;
-    --community-glow: 330 75% 50%;
-    --success: 142 71% 58%;
-    --success-glow: 142 71% 45%;
-    --warning: 38 95% 60%;
-    --warning-glow: 38 95% 48%;
+    /* Section-specific accent colors (Midnight + Aurora, refined) */
+    --generate: 152 42% 56%;          /* aurora mint */
+    --generate-glow: 152 42% 44%;
+    --library: 199 70% 62%;           /* cyan companion, desaturated */
+    --library-glow: 199 70% 48%;
+    --projects: 262 55% 70%;          /* indigo, softer */
+    --projects-glow: 262 55% 56%;
+    --community: 330 55% 68%;
+    --community-glow: 330 55% 52%;
+    --success: 152 42% 56%;
+    --success-glow: 152 42% 44%;
+    --warning: 38 80% 62%;
+    --warning-glow: 38 80% 50%;
 
     /* Glassmorphism - Midnight glass */
     --glass-bg: 240 46% 5% / 0.72;
     --glass-border: 226 30% 22%;
     --glass-shadow: 0 8px 32px 0 hsl(240 60% 2% / 0.55);
 
-    --gradient-primary: linear-gradient(135deg, hsl(142 71% 58%), hsl(199 89% 60%));
+    --gradient-primary: linear-gradient(135deg, hsl(152 42% 56%), hsl(199 70% 62%));
     --gradient-card: linear-gradient(135deg, hsl(227 38% 12% / 0.85), hsl(240 46% 6% / 0.65));
-    --gradient-hero: linear-gradient(135deg, hsl(142 71% 58% / 0.12), hsl(262 75% 68% / 0.12));
-    --gradient-telegram: linear-gradient(135deg, hsl(199 89% 60%), hsl(262 75% 68%));
-    --gradient-generate: linear-gradient(135deg, hsl(142 71% 58%), hsl(199 89% 60%));
-    --gradient-success: linear-gradient(135deg, hsl(142 71% 58%), hsl(160 70% 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(152 42% 56% / 0.12), hsl(262 55% 70% / 0.12));
+    --gradient-telegram: linear-gradient(135deg, hsl(199 70% 62%), hsl(262 55% 70%));
+    --gradient-generate: linear-gradient(135deg, hsl(152 42% 56%), hsl(199 70% 62%));
+    --gradient-success: linear-gradient(135deg, hsl(152 42% 56%), hsl(160 45% 52%));
 
     --shadow-glass: 0 4px 24px 0 hsl(240 60% 2% / 0.5);
     --shadow-hover: 0 8px 32px 0 hsl(207 90% 54% / 0.2);
@@ -1969,7 +1969,7 @@ select:focus-visible,
   .aurora-surface {
     background:
       radial-gradient(120% 80% at 0% 0%, hsl(var(--primary) / 0.18) 0%, transparent 55%),
-      radial-gradient(120% 80% at 100% 100%, hsl(142 71% 58% / 0.14) 0%, transparent 60%),
+      radial-gradient(120% 80% at 100% 100%, hsl(152 42% 56% / 0.14) 0%, transparent 60%),
       hsl(var(--card) / 0.6);
     border: 1px solid hsl(var(--border) / 0.55);
     backdrop-filter: blur(18px) saturate(160%);
@@ -1979,7 +1979,7 @@ select:focus-visible,
     box-shadow:
       0 0 0 1px hsl(var(--primary) / 0.25) inset,
       0 8px 28px -6px hsl(var(--primary) / 0.45),
-      0 2px 8px -2px hsl(142 71% 58% / 0.35);
+      0 2px 8px -2px hsl(152 42% 56% / 0.35);
   }
   /* Subtle moving sheen for emphasis (CTAs, generating state) */
   .sheen {
