@@ -251,8 +251,10 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
   // Pull-to-refresh constants
   const PULL_THRESHOLD = 80; // Distance to trigger refresh
   const MAX_PULL = 120; // Maximum pull distance
-  
-  // Stable props for Virtuoso to avoid internal re-init loops
+
+  // Stable props for Virtuoso to avoid internal re-init / resize-recursion loops.
+  // Keep only ONE viewport-extension knob — combining overscan + increaseViewportBy
+  // with useWindowScroll triggers stack overflow in react-virtuoso's size loop.
   const increaseViewportBy = useMemo(() => ({ top: 200, bottom: 400 }), []);
 
   // Pull-to-refresh handlers
