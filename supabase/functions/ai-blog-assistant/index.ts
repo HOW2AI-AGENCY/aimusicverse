@@ -1,3 +1,4 @@
+import { authorize } from "../_shared/auth.ts";
 // Note: Supabase client not needed in this function
 
 const corsHeaders = {
@@ -12,6 +13,15 @@ Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
+
+  const __auth = await authorize(req, { requireAdmin: true });
+  if (!__auth.ok) {
+    return new Response(JSON.stringify({ error: __auth.error }), {
+      status: __auth.status,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
 
   try {
     const { action, prompt, content } = await req.json();

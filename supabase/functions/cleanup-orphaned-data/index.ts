@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
 
 const corsHeaders = {
@@ -17,6 +18,15 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
+
+  const __auth = await authorize(req, { requireAdmin: true });
+  if (!__auth.ok) {
+    return new Response(JSON.stringify({ error: __auth.error }), {
+      status: __auth.status,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
 
   try {
     const supabase = getSupabaseClient();

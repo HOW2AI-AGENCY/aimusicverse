@@ -22,6 +22,7 @@
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { authorize } from "../_shared/auth.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 import { encode as encodeBlurhash } from "https://esm.sh/blurhash@2.0.5";
 
@@ -82,6 +83,15 @@ serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
+
+  const __auth = await authorize(req, { requireAdmin: true });
+  if (!__auth.ok) {
+    return new Response(JSON.stringify({ error: __auth.error }), {
+      status: __auth.status,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+
 
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
