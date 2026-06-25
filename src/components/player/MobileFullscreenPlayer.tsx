@@ -33,6 +33,7 @@ import { UnifiedPlayerControls } from './UnifiedPlayerControls';
 import { PlayerActionsBar } from './PlayerActionsBar';
 import { KaraokeView } from './KaraokeView';
 import { DoubleTapSeekFeedback } from './DoubleTapSeekFeedback';
+import { PlayerGestureHints } from './PlayerGestureHints';
 import { cn } from '@/lib/utils';
 import { glass, glassButton } from '@/lib/glass';
 import { motion, AnimatePresence, PanInfo } from '@/lib/motion';
