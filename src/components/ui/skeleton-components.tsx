@@ -296,7 +296,7 @@ export function HorizontalScrollSkeleton({
         <div
           key={i}
           className="flex-shrink-0 space-y-2"
-          style={{ width: itemWidth }}
+          style={{ width: `${itemWidth}px` } as React.CSSProperties}
         >
           <Skeleton className={cn("w-full rounded-xl", aspectClasses[aspectRatio])} />
           <Skeleton className="h-3 w-3/4" />
@@ -438,7 +438,7 @@ export function WaveformSkeleton({ className }: { className?: string }) {
         <Skeleton
           key={i}
           className="flex-1 rounded-sm"
-          style={{ height }}
+          style={{ height } as React.CSSProperties}
         />
       ))}
     </div>
@@ -519,7 +519,7 @@ export function TextSkeleton({
   return (
     <Skeleton
       className={cn('rounded', className)}
-      style={{ width, height }}
+      style={{ width, height } as React.CSSProperties}
     />
   );
 }
