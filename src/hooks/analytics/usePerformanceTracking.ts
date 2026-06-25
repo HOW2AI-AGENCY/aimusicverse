@@ -7,6 +7,7 @@
 
 import { useCallback, useRef, useEffect } from 'react';
 import { trackEvent } from '@/services/analytics';
+import { logger } from '@/lib/logger';
 
 export interface PerformanceMetric {
   name: string;
@@ -147,12 +148,10 @@ export function usePerformanceTracking() {
 
     // Log in dev
     if (import.meta.env.DEV) {
-      const color = metric.rating === 'good' ? 'green' : 
-                    metric.rating === 'needs-improvement' ? 'orange' : 'red';
-      console.log(
-        `%c[WebVital] ${metric.name}: ${metric.value}ms (${metric.rating})`,
-        `color: ${color}`
-      );
+      logger.info(`[WebVital] ${metric.name}`, {
+        value: metric.value,
+        rating: metric.rating,
+      });
     }
 
     // Track poor metrics

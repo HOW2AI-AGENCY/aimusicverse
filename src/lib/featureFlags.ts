@@ -285,14 +285,12 @@ function simpleHash(str: string): number {
 export function logFeatureFlags() {
   if (import.meta.env.DEV) {
     const flags = getFeatureFlags();
-    console.group('🚩 Feature Flags');
-    Object.values(flags).forEach((flag) => {
-      console.log(
-        `${flag.enabled ? '✅' : '❌'} ${flag.name}`,
-        flag.rolloutPercentage ? `(${flag.rolloutPercentage}% rollout)` : '',
-        `- ${flag.description}`
-      );
-    });
-    console.groupEnd();
+    const summary = Object.values(flags).map((flag) => ({
+      name: flag.name,
+      enabled: flag.enabled,
+      rolloutPercentage: flag.rolloutPercentage,
+      description: flag.description,
+    }));
+    logger.info('Feature Flags', { flags: summary });
   }
 }

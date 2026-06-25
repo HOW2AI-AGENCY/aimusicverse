@@ -1,3 +1,5 @@
+import { logger } from '@/lib/logger';
+
 /**
  * T004: Touch Target Validation Utility
  * 
@@ -228,13 +230,13 @@ export function useTouchTargetValidation(
       });
       
       if (!result.valid) {
-        console.error('❌ Touch Target Validation Failed:', result.errors);
+        logger.error('Touch Target Validation Failed', undefined, { errors: result.errors });
       } else if (result.warnings.length > 0) {
-        console.warn('⚠️  Touch Target Warnings:', result.warnings);
+        logger.warn('Touch Target Warnings', { warnings: result.warnings });
       }
-      
+
       if (result.recommendations.length > 0) {
-        console.info('💡 Touch Target Recommendations:', result.recommendations);
+        logger.warn('Touch Target Recommendations', { recommendations: result.recommendations });
       }
     }, [ref, options]);
   }

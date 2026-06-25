@@ -8,6 +8,7 @@
  */
 
 import { useCallback } from 'react';
+import { logger } from '@/lib/logger';
 
 type HapticImpactStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
 type HapticNotificationType = 'error' | 'success' | 'warning';
@@ -43,7 +44,7 @@ export function useMobileHaptic(): HapticFeedback {
       hapticAPI?.impactOccurred(style);
     } catch (error) {
       // Silently fail - haptic feedback is not critical
-      console.debug('Haptic feedback not available:', error);
+      logger.warn('Haptic feedback not available', { error: String(error) });
     }
   }, [hapticAPI]);
 
@@ -51,7 +52,7 @@ export function useMobileHaptic(): HapticFeedback {
     try {
       hapticAPI?.notificationOccurred(type);
     } catch (error) {
-      console.debug('Haptic feedback not available:', error);
+      logger.warn('Haptic feedback not available', { error: String(error) });
     }
   }, [hapticAPI]);
 
@@ -59,7 +60,7 @@ export function useMobileHaptic(): HapticFeedback {
     try {
       hapticAPI?.selectionChanged();
     } catch (error) {
-      console.debug('Haptic feedback not available:', error);
+      logger.warn('Haptic feedback not available', { error: String(error) });
     }
   }, [hapticAPI]);
 
