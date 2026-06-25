@@ -331,39 +331,216 @@ export const ProfilePage = () => {
     );
   }
 
-  // Mobile layout (original)
+  // === Mobile layout — Linear/Arc native ============================
+  const mobileTierLabel =
+    profile?.subscription_tier === 'premium' ? 'Premium' :
+    profile?.subscription_tier === 'enterprise' ? 'Enterprise' : 'Free';
+  const displayName = [displayUser?.first_name, displayUser?.last_name]
+    .filter(Boolean).join(' ') || 'Гость';
+
   return (
-    <div 
-      className="container mx-auto max-w-4xl px-4 pb-24"
-      style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))' }}
+    <div
+      className="min-h-screen pb-bottom-stack-lg"
+      style={{
+        paddingTop:
+          'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 1.25rem), calc(env(safe-area-inset-top, 0px) + 1.25rem))',
+      }}
     >
-      {/* User Profile Card */}
-      <div className="mb-6">{ProfileCard}</div>
-
-      {/* Stats Grid */}
-      <div className="mb-6">{StatsGrid}</div>
-
-      {/* Quick Stats Row */}
-      <div className="mb-6">{QuickStatsRow}</div>
-
-      {/* Admin Panel Link */}
-      {AdminPanelLink && <div className="mb-4">{AdminPanelLink}</div>}
-
-      {/* Menu Items */}
-      <div className="mb-6">{MenuItemsGrid}</div>
-
-      {/* Invite Friends */}
+      {/* === Hero card: aurora ring + identity ============================ */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: -8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="mb-4"
+        className="px-4"
+      >
+        <div className="relative overflow-hidden rounded-3xl border border-border/60 bg-card/70 backdrop-blur-xl p-5">
+          {/* Aurora glow */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-16 -right-12 h-48 w-48 rounded-full blur-3xl opacity-40"
+            style={{ background: 'radial-gradient(circle, hsl(var(--primary)/0.55), transparent 65%)' }}
+          />
+          <div className="relative flex items-center gap-4">
+            <div className="relative shrink-0">
+              <div className="absolute inset-0 rounded-full bg-primary/30 blur-md opacity-70" />
+              <div className="relative w-[68px] h-[68px] rounded-full overflow-hidden ring-2 ring-primary/60 ring-offset-2 ring-offset-card">
+                {displayUser?.photo_url ? (
+                  <img src={displayUser.photo_url} alt={displayName} className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center">
+                    <User className="w-8 h-8 text-primary" />
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h1 className="font-display text-[22px] font-bold tracking-tight truncate leading-tight">
+                {displayName}
+              </h1>
+              {displayUser?.username && (
+                <p className="text-[13px] text-muted-foreground truncate">@{displayUser.username}</p>
+              )}
+              <div className="mt-2 flex items-center gap-1.5">
+                <span className="tag-chip border-primary/40 text-primary bg-primary/10">
+                  {mobileTierLabel}
+                </span>
+                {adminAuth?.isAdmin && (
+                  <span className="tag-chip border-destructive/40 text-destructive bg-destructive/10">
+                    Admin
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* === Stats grid (mono numerals, no rainbow icons) ============= */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="mt-4 px-4 grid grid-cols-2 gap-2.5"
+      >
+        {statItems.map((stat) => (
+          <div
+            key={stat.label}
+            className="rounded-2xl border border-border/50 bg-card/60 p-4 flex flex-col gap-1"
+          >
+            {statsLoading ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <>
+                <div className="flex items-center justify-between">
+                  <stat.icon className="w-4 h-4 text-muted-foreground/80" strokeWidth={2} />
+                  <TrendingUp className="w-3 h-3 text-primary/60" strokeWidth={2.5} />
+                </div>
+                <p className="font-display text-[26px] font-semibold leading-none tracking-tight tabular-nums">
+                  {stat.value.toLocaleString()}
+                </p>
+                <p className="text-[11px] text-muted-foreground/80 leading-none mt-1">
+                  {stat.label}
+                </p>
+              </>
+            )}
+          </div>
+        ))}
+      </motion.div>
+
+      {/* === Secondary quick stats — single horizontal pill row ========== */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.1 }}
+        className="mt-3 px-4"
+      >
+        <div className="rounded-2xl border border-border/50 bg-card/40 px-2 py-3 flex items-center justify-around">
+          {[
+            { icon: FolderOpen, value: stats?.totalProjects || 0, label: 'Проекты' },
+            { icon: ListMusic, value: stats?.totalPlaylists || 0, label: 'Плейлисты' },
+            { icon: Users, value: stats?.totalArtists || 0, label: 'Артисты' },
+            { icon: TrendingUp, value: stats?.publicTracks || 0, label: 'Публ.' },
+          ].map((s, i, arr) => (
+            <div key={s.label} className="relative flex-1 flex flex-col items-center gap-0.5">
+              <s.icon className="w-4 h-4 text-muted-foreground/70" strokeWidth={2} />
+              <p className="font-display text-[15px] font-semibold tabular-nums leading-none">{s.value}</p>
+              <p className="text-[10px] text-muted-foreground/70 leading-none">{s.label}</p>
+              {i < arr.length - 1 && (
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 h-7 w-px bg-border/60" />
+              )}
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* === Invite friends inline ============================ */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15 }}
+        className="mt-4 px-4"
       >
         <InviteFriendsCard variant="banner" />
       </motion.div>
 
-      {/* Action Cards */}
-      <div className="space-y-4">{ActionCards}</div>
+      {/* === Menu sections ==================================== */}
+      <div className="mt-6">
+        <p className="section-title px-5 mb-2">Управление</p>
+        <div className="px-4 space-y-1.5">
+          {AdminPanelLink && (
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => handleNavigate('/admin')}
+              className="row-64 cursor-pointer border-destructive/30 bg-destructive/5 hover:bg-destructive/10"
+            >
+              <div className="p-2 rounded-xl bg-destructive/15">
+                <Shield className="w-4.5 h-4.5 text-destructive" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-display text-[14px] font-semibold truncate">Админ-панель</p>
+                <p className="text-[11px] text-muted-foreground truncate">Метрики, пользователи</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
+            </div>
+          )}
+          {menuItems.map((item) => (
+            <div
+              key={item.path}
+              role="button"
+              tabIndex={0}
+              onClick={() => handleNavigate(item.path)}
+              className="row-64 cursor-pointer"
+            >
+              <div className="p-2 rounded-xl bg-primary/10">
+                <item.icon className="w-4.5 h-4.5 text-primary" strokeWidth={2} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-display text-[14px] font-semibold truncate">{item.title}</p>
+                <p className="text-[11px] text-muted-foreground truncate">{item.description}</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* === Account section ========================================== */}
+      <div className="mt-6">
+        <p className="section-title px-5 mb-2">Аккаунт</p>
+        <div className="px-4 space-y-1.5">
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleStartOnboarding}
+            className="row-64 cursor-pointer"
+          >
+            <div className="p-2 rounded-xl bg-accent/40">
+              <GraduationCap className="w-4.5 h-4.5 text-primary" strokeWidth={2} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-display text-[14px] font-semibold truncate">Обучение</p>
+              <p className="text-[11px] text-muted-foreground truncate">Тур по возможностям</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
+          </div>
+
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={handleLogout}
+            className="row-64 cursor-pointer border-destructive/25 hover:bg-destructive/[0.07]"
+          >
+            <div className="p-2 rounded-xl bg-destructive/15">
+              <LogOut className="w-4.5 h-4.5 text-destructive" strokeWidth={2} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-display text-[14px] font-semibold text-destructive truncate">Выйти</p>
+              <p className="text-[11px] text-muted-foreground truncate">Завершить сеанс</p>
+            </div>
+            <ChevronRight className="w-4 h-4 text-muted-foreground/70" />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
