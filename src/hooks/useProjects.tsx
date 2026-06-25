@@ -59,7 +59,7 @@ export const useProjects = () => {
     let debounceTimeout: NodeJS.Timeout | null = null;
 
     const channel = supabase
-      .channel(`projects-${user.id}`)
+      .channel(`projects-${user.id}-${Math.random().toString(36).slice(2)}`)
       .on(
         'postgres_changes',
         {
