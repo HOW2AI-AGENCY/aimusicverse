@@ -219,7 +219,7 @@ export function AnalyticsDashboard() {
         </TabsContent>
 
         <TabsContent value="generation">
-          <GenerationStatsPanel data={generationStats} isLoading={generationLoading} />
+          <GenerationStatsPanel />
         </TabsContent>
 
         <TabsContent value="content">
@@ -239,7 +239,7 @@ export function AnalyticsDashboard() {
         </TabsContent>
 
         <TabsContent value="deeplinks">
-          <DeeplinkAnalyticsPanel timeRange={deeplinkTimeRange as '24h' | '7d' | '30d'} />
+          <DeeplinkAnalyticsPanel />
         </TabsContent>
 
         <TabsContent value="retention">
