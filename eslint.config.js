@@ -25,7 +25,9 @@ const restrictedImports = {
 // in editors/CI logs without failing the build, so the gate reflects reality.
 // Burn-down tracked separately — re-promote to "error" as categories reach zero.
 const techDebtWarnRules = {
-  "no-restricted-imports": ["warn", restrictedImports],
+  // Promoted to "error" after the lucide-react/framer-motion codemod (814 files).
+  // Wrapper files src/lib/icons.ts and src/lib/motion.ts are exempted via override below.
+  "no-restricted-imports": ["error", restrictedImports],
   "@typescript-eslint/no-explicit-any": "warn",
   "@typescript-eslint/ban-ts-comment": "warn",
   "@typescript-eslint/no-unused-vars": "off",
