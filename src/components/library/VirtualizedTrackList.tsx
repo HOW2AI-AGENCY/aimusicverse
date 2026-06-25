@@ -448,7 +448,6 @@ export const VirtualizedTrackList = memo(function VirtualizedTrackList({
             <VirtuosoGrid
               useWindowScroll
               data={tracks}
-              overscan={150}
               computeItemKey={computeItemKey}
               components={gridComponents}
               endReached={handleGridEndReached}
