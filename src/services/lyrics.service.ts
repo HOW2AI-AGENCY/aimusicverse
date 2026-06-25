@@ -1,25 +1,25 @@
 // @ts-nocheck
 /**
- * Lyrics Service
- * Business logic layer for lyrics versioning and section notes operations
+ * Lyrics Service - Backward Compatibility Layer
  *
- * This service provides high-level functions for managing lyrics, including:
- * - Versioning system for tracking all changes to lyrics
- * - Section notes for annotations and collaboration
- * - Lyrics formatting and display utilities
- * - Data transformation and validation
+ * @deprecated This file now serves as a compatibility layer.
+ * All functionality has been moved to modular services:
+ * - @/services/lyrics - Main entry point with all exports
+ * - @/services/lyrics/lyrics-types.ts - Type definitions
+ * - @/services/lyrics/lyrics-validation.service.ts - Validation utilities
+ * - @/services/lyrics/lyrics-versioning.service.ts - Versioning operations
+ * - @/services/lyrics/lyrics-section-notes.service.ts - Section notes operations
+ * - @/services/lyrics/lyrics-formatting.service.ts - Formatting utilities
  *
- * Architecture:
- * API Layer (lyrics.api.ts) → Service Layer (lyrics.service.ts) → Hooks (useLyricVersions, useSectionNotes) → Components
+ * Migration Guide:
+ * Old: import { saveLyricsWithVersioning } from '@/services/lyrics.service'
+ * New: import { saveLyricsWithVersioning } from '@/services/lyrics'
  *
- * @see src/api/lyrics.api.ts for database operations
- * @see src/hooks/useLyricVersions.ts for lyric version hooks
- * @see src/hooks/useSectionNotes.ts for section notes hooks
- * @see src/types/studio-entities.ts for type definitions
+ * This file will be removed in a future update. Please update your imports.
  */
 
-import * as lyricsApi from '@/api/lyrics.api';
-import { logger } from '@/lib/logger';
+// Re-export everything from the new modular structure
+export * from './lyrics';
 
 // ============================================================================
 // TYPE DEFINITIONS
