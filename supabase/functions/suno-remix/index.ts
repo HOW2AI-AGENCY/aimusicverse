@@ -232,6 +232,7 @@ serve(async (req) => {
     if (styleWeight !== undefined) sunoPayload.styleWeight = styleWeight;
     if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
     if (personaId) sunoPayload.personaId = personaId;
+    if (voiceId) sunoPayload.voiceId = voiceId;
 
     console.log('[suno-remix] Sending to upload-cover endpoint:', {
       ...sunoPayload,
