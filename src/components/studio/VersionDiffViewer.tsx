@@ -6,6 +6,7 @@
  */
 
 import { useState, useMemo, useRef, useEffect } from 'react';
+import { logger } from '@/lib/logger';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -93,7 +94,7 @@ function SimpleWaveform({
         setWaveformData({ peaks: normalized });
         audioContext.close();
       } catch (error) {
-        console.error('Failed to generate waveform:', error);
+        logger.error('Failed to generate waveform:', { error });
       }
     };
 
