@@ -405,6 +405,17 @@ serve(async (req) => {
     if (effectivePersonaId) sunoPayload.personaId = effectivePersonaId;
     if (voiceId) sunoPayload.voiceId = voiceId;
 
+    logger.info('Suno generate payload prepared', {
+      tag: '[suno-music-generate]',
+      event: 'payload_prepared',
+      mode,
+      model: apiModel,
+      instrumental,
+      hasVoiceId: !!voiceId,
+      voiceIdHash: voiceId ? String(voiceId).slice(0, 8) : null,
+      hasPersonaId: !!effectivePersonaId,
+      userId: user.id,
+    });
     logger.apiCall('suno', '/api/v1/generate', { mode, model: apiModel, instrumental });
 
     // Call SunoAPI with enhanced retry logic:
