@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { SEOHead } from "@/components/SEOHead";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 import { useArtists, type Artist } from "@/hooks/useArtists";
@@ -263,6 +264,11 @@ export default function Artists() {
 
   return (
     <div className="min-h-screen bg-background pb-24">
+      <SEOHead
+        title="Артисты"
+        description="Виртуальные артисты MusicVerse AI: голоса, стили и образы для генерации треков."
+        canonical="https://aimusicverse.lovable.app/artists"
+      />
       {/* Compact Header */}
       <div className="relative overflow-hidden border-b border-border/30 bg-gradient-to-b from-primary/5 to-background">
         <div 

@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePublicContentBatch, PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
+import { SEOHead } from "@/components/SEOHead";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import { ActorCard } from "@/components/actors/ActorCard";
 import { motion, AnimatePresence } from '@/lib/motion';
@@ -248,6 +249,11 @@ export default function Community() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
+      <SEOHead
+        title="Сообщество"
+        description="Откройте публичные треки и артистов MusicVerse AI. Делитесь своей музыкой и вдохновляйтесь работами других авторов."
+        canonical="https://aimusicverse.lovable.app/community"
+      />
       <div 
         className="container max-w-6xl mx-auto px-4 pb-6"
         style={{ paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))' }}

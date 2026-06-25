@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Plus, Edit, Calendar, ArrowLeft, Trash2, Share2 } from "lucide-react";
 import { useBlogPosts, useBlogPost, useDeleteBlogPost, type BlogPost } from "@/hooks/useBlog";
+import { SEOHead } from "@/components/SEOHead";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { BlogEditor } from "@/components/admin/BlogEditor";
 import { BlogContentRenderer } from "@/components/blog/BlogContentRenderer";
@@ -173,6 +174,11 @@ export default function Blog() {
   // Blog list
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24">
+      <SEOHead
+        title="Блог"
+        description="Новости, гайды и истории о генерации музыки с ИИ в MusicVerse AI."
+        canonical="https://aimusicverse.lovable.app/blog"
+      />
       <div className="container max-w-4xl mx-auto px-4 py-6">
         {/* Hero section */}
         <BlogHeroSection 

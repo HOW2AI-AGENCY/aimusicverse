@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { usePlayerStore } from '@/hooks/audio/usePlayerState';
 import { useTelegramBackButton } from '@/hooks/telegram';
+import { SEOHead } from '@/components/SEOHead';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { format, ru } from '@/lib/date-utils';
@@ -190,8 +191,30 @@ export default function AlbumView() {
     );
   }
 
+  const albumUrl = `https://aimusicverse.lovable.app/album/${album.id}`;
+  const albumDescription = album.description || album.concept ||
+    `Альбом «${album.title || 'Без названия'}» от ${creatorName} — ${tracks?.length || 0} треков на MusicVerse AI.`;
+
   return (
     <div className="pb-24">
+      <SEOHead
+        title={album.title || 'Альбом'}
+        description={albumDescription}
+        canonical={albumUrl}
+        ogType="music.album"
+        ogImage={album.cover_url || undefined}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'MusicAlbum',
+          name: album.title || 'Альбом',
+          description: albumDescription,
+          url: albumUrl,
+          image: album.cover_url || undefined,
+          numTracks: tracks?.length || 0,
+          genre: album.genre || undefined,
+          byArtist: { '@type': 'Person', name: creatorName },
+        }}
+      />
       {/* Hero Section */}
       <div className="relative">
         {/* Background blur */}
