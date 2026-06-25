@@ -6591,6 +6591,10 @@ export type Database = {
         }
         Returns: string
       }
+      validate_promo_code: {
+        Args: { p_code: string; p_product_code: string; p_stars_price: number }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
