@@ -14,6 +14,17 @@
   --spacing-lg: 16px;   /* 1rem    - Standard */
   --spacing-xl: 24px;   /* 1.5rem  - Relaxed */
   --spacing-2xl: 32px;  /* 2rem    - Spacious */
+
+  /* Safe Area Insets (for notches/islands) */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-left: env(safe-area-inset-left, 0px);
+  --safe-area-right: env(safe-area-inset-right, 0px);
+
+  /* Touch Target Sizes (iOS HIG + WCAG) */
+  --touch-target-min: 44px;          /* iOS minimum */
+  --touch-target-comfortable: 48px;  /* WCAG 2.1 AAA */
+  --touch-target-large: 56px;        /* Enhanced accessibility */
 }
 
 /* Margin Utilities */
