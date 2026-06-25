@@ -116,8 +116,8 @@ export { FloatingInput, FloatingTextarea } from './FloatingInput';
 // ============================================================================
 // SHEETS & OVERLAYS
 // ============================================================================
-export { BottomSheet } from './BottomSheet';
 export { ActionSheet } from './ActionSheet';
+
 
 // ============================================================================
 // PROGRESS & STEPS
