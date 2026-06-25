@@ -694,10 +694,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
             transition={{ delay: 0.2 }}
           >
             <div className="flex items-center justify-center gap-1.5 mb-0.5">
-              <h2 className="font-bold text-lg truncate text-gradient">{track.title || 'Без названия'}</h2>
-              {/* VersionBadge removed - active_version_label not available on Track type */}
+              <h2 className="font-display font-semibold text-[17px] leading-tight truncate tracking-tight text-foreground">
+                {track.title || 'Без названия'}
+              </h2>
             </div>
-            <p className="text-sm text-muted-foreground truncate">{track.style || ''}</p>
+            <p className="text-[12px] text-muted-foreground/80 truncate tracking-tight">{track.style || ''}</p>
             {/* Version Switcher */}
             <div className="flex justify-center mt-2">
               <VersionSwitcher track={track} size="compact" />
