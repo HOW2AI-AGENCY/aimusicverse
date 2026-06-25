@@ -9,24 +9,24 @@
  * Desktop: top-center with safe area support
  */
 export function getToastStyles(isMobile: boolean, telegramOffset: number = 0) {
+  // Symmetric horizontal inset that honours iOS/Android notch + Telegram safe areas.
+  // Works in both LTR and RTL because left/right are mirrored equally.
+  const sideInset =
+    'max(1rem, env(safe-area-inset-left, 0px), env(safe-area-inset-right, 0px), var(--tg-safe-area-inset-left, 0px), var(--tg-safe-area-inset-right, 0px))';
+
   if (isMobile) {
-    // Symmetric gutters: position the toaster as a full-width container with
-    // 16px insets, then constrain each toast via Sonner's `--width` CSS var.
-    // This avoids Sonner's internal centering drifting on narrow viewports.
     return {
       bottom: `calc(var(--bottom-stack-h, 0px) + 1rem + ${telegramOffset}px)`,
-      left: '1rem',
-      right: '1rem',
+      left: sideInset,
+      right: sideInset,
       width: 'auto',
       transform: 'none',
-      // Each toast fills the container minus its own internal margins
-      ['--width' as string]: 'min(28rem, calc(100vw - 2rem))',
+      ['--width' as string]: `min(28rem, calc(100vw - 2 * ${sideInset}))`,
       ['--mobile-offset' as string]: '0px',
     };
   }
 
   return {
-    // Top positioning with Telegram safe area
     top: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
     left: '50%',
     right: 'auto',
