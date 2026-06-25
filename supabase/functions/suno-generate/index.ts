@@ -37,7 +37,16 @@ serve(async (req) => {
       voiceId,
     } = body;
 
-    console.log(`[suno-generate] Legacy proxy - action: ${action}`);
+    console.log(JSON.stringify({
+      tag: '[suno-generate]',
+      event: 'request_received',
+      action,
+      hasVoiceId: !!voiceId,
+      voiceIdHash: voiceId ? voiceId.slice(0, 8) : null,
+      hasExtendAudioUrl: !!extendAudioUrl,
+      hasCoverAudioUrl: !!coverAudioUrl,
+      hasTrackId: !!trackId,
+    }));
 
     // Map legacy actions to modern endpoints
     let targetFunction = 'suno-music-generate';
@@ -115,7 +124,15 @@ serve(async (req) => {
         throw new Error(`Unknown action: ${action}. Use suno-music-generate directly.`);
     }
 
-    console.log(`[suno-generate] Forwarding to ${targetFunction}`, { hasAudioUrl: !!extendAudioUrl, hasTrackId: !!trackId });
+    console.log(JSON.stringify({
+      tag: '[suno-generate]',
+      event: 'forwarding',
+      targetFunction,
+      action,
+      voiceIdPropagated: !!mappedBody.voiceId,
+      hasAudioUrl: !!extendAudioUrl,
+      hasTrackId: !!trackId,
+    }));
 
     // Forward the request with original auth header
     const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY') || '';

@@ -669,8 +669,22 @@ export function useGenerateForm({
       !!(audioFile || activeReference?.audioUrl)
     );
 
-    const toastId = toast.loading('Отправка запроса...', {
-      description: 'Подключаемся к серверу генерации',
+    const submissionMode: 'custom' | 'extend' | 'cover' =
+      activeReference?.intendedMode === 'extend' ? 'extend'
+      : activeReference?.intendedMode === 'cover' ? 'cover'
+      : 'custom';
+
+    const toastId = toast.loading('Шаг 1/3 · Подготовка запроса', {
+      description: customVoiceId ? 'Проверяем кастомный голос…' : 'Подключаемся к серверу генерации',
+    });
+
+    logger.info('Generation submission started', {
+      submissionMode,
+      mode,
+      model: finalModel,
+      hasCustomVoice: !!customVoiceId,
+      hasAudioReference: !!activeReference?.audioUrl,
+      hasAudioFile: !!audioFile,
     });
 
     try {
@@ -681,21 +695,48 @@ export function useGenerateForm({
       // Pre-check custom voice availability before consuming credits
       if (customVoiceId) {
         try {
-          const { voiceCloneApi } = await import('@/api/voice-clone.api');
+          const { voiceCloneApi, VoiceApiError } = await import('@/api/voice-clone.api');
           const r = await voiceCloneApi.checkVoice(customVoiceId);
+          logger.info('Voice pre-check result', {
+            voiceIdHash: customVoiceId.slice(0, 8),
+            available: r?.available,
+            submissionMode,
+          });
           if (!r?.available) {
             toast.dismiss(toastId);
-            toast.error('Выбранный кастомный голос недоступен. Выберите другой или удалите его.');
+            toast.error('Кастомный голос недоступен', {
+              description:
+                'Этот голос был отозван Suno или ещё не готов. Откройте «Кастомные голоса», ' +
+                'проверьте статус или выберите другой голос. Кредиты не списаны.',
+              duration: 8000,
+            });
             setLoading(false);
             return;
           }
         } catch (e) {
+          const err = e as { code?: string; message?: string };
+          logger.error('Voice pre-check failed', e, {
+            voiceIdHash: customVoiceId.slice(0, 8),
+            code: err?.code,
+          });
           toast.dismiss(toastId);
-          toast.error('Не удалось проверить кастомный голос. Попробуйте ещё раз.');
+          toast.error('Не удалось проверить кастомный голос', {
+            description: `${err?.message || 'Сетевая ошибка'}${err?.code ? ` (код: ${err.code})` : ''}. Попробуйте ещё раз — кредиты не списаны.`,
+            duration: 8000,
+          });
           setLoading(false);
           return;
         }
       }
+
+      toast.loading('Шаг 2/3 · Отправляем в Suno', {
+        id: toastId,
+        description:
+          submissionMode === 'extend' ? 'Готовим продолжение трека'
+          : submissionMode === 'cover' ? 'Готовим кавер-версию'
+          : 'Создаём новые треки (A/B)',
+      });
+
 
       let data, error;
 
@@ -835,8 +876,14 @@ export function useGenerateForm({
       });
 
       toast.dismiss(toastId);
-      toast.success('Генерация началась! 🎵', {
-        description: 'Отслеживайте прогресс в библиотеке',
+      toast.success('Шаг 3/3 · Генерация запущена 🎵', {
+        description: `${customVoiceId ? 'С кастомным голосом. ' : ''}Отслеживайте прогресс в библиотеке (~30–90 сек).`,
+        duration: 5000,
+      });
+      logger.info('Generation enqueued successfully', {
+        submissionMode,
+        hasCustomVoice: !!customVoiceId,
+        model: finalModel,
       });
 
       // Check if generation came from Quick Create flow
