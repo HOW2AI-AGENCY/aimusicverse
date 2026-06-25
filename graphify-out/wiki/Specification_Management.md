@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.specify command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.specify.md) (0 connections)
+- [Bot Settings Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/settings.jpg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.roo/commands/speckit.specify.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.specify.md)
+- [public/images/bot/settings.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/settings.jpg)
 
 ## Audit Trail
 

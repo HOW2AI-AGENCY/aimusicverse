@@ -1,23 +1,22 @@
 # Media Configuration
 
-> 14 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [generationConstants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L1) (13 connections)
-- [AUDIO_SYNC_DRIFT_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L23) (1 connections)
-- [BOOST_STYLE_MAX_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L10) (1 connections)
-- [DEFAULT_AUDIO_WEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L20) (1 connections)
-- [DEFAULT_STYLE_WEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L18) (1 connections)
-- [DEFAULT_WEIRDNESS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L19) (1 connections)
-- [DRAFT_AUTO_SAVE_DELAY](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L13) (1 connections)
-- [FILE_READER_TIMEOUT](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L15) (1 connections)
-- [LYRICS_MAX_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L7) (1 connections)
-- [LYRICS_MIN_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L8) (1 connections)
-- [LYRICS_VALIDATION_DEBOUNCE](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L14) (1 connections)
-- [MAX_MOBILE_AUDIO_ELEMENTS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L26) (1 connections)
-- [SIMPLE_DESCRIPTION_MAX_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L6) (1 connections)
-- [TITLE_MAX_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts#L9) (1 connections)
+- [CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L1) (12 connections)
+- [addComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L26) (1 connections)
+- [{ data: comments = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L25) (1 connections)
+- [deleteComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L27) (1 connections)
+- [formInput](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L115) (1 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L51) (1 connections)
+- [handleReply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L41) (1 connections)
+- [handleReport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L55) (1 connections)
+- [handleSubmitComment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L36) (1 connections)
+- [mappedComments](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L67) (1 connections)
+- [[replyTo, setReplyTo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L29) (1 connections)
+- [[reportTarget, setReportTarget]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L30) (1 connections)
+- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -25,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\generationConstants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/generationConstants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

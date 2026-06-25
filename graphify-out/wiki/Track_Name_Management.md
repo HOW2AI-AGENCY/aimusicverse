@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Long Track Names Truncation Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [Codebase Chunk Information](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_INFO.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CHUNK_INFO.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_INFO.md)
 
 ## Audit Trail
 

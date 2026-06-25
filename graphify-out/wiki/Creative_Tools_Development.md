@@ -1,47 +1,34 @@
 # Creative Tools Development
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [Sprint 031 Optimization Phase 2 & Integration](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-OPTIMIZATION-PHASE2.md) (3 connections)
-- [Sprint 031 Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-PLAN.md) (3 connections)
-- [Optimization Sprint](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-025-OPTIMIZATION.md) (2 connections)
-- [UX Unification](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-026-UX-UNIFICATION.md) (2 connections)
-- [Unified Studio Mobile Integration](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) (2 connections)
-- [Sprint 031 Data Model](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-DATA-MODEL.md) (2 connections)
-- [Sprint 031 Tasks](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-TASKS.md) (2 connections)
-- [Sprint 031 Validation Report](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-VALIDATION-REPORT.md) (2 connections)
-- [Sprint 032 Final Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-032-FINAL-SUMMARY.md) (2 connections)
-- [Creative Tools Implementation](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-024-CREATIVE-TOOLS.md) (1 connections)
-- [Sprint 031 Quickstart Guide](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-QUICKSTART.md) (1 connections)
-- [Sprint 031 Research & Technical Decisions](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-RESEARCH.md) (1 connections)
-- [Sprint 032 Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-032-IMPLEMENTATION-SUMMARY.md) (1 connections)
+- [DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L1) (11 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L41) (1 connections)
+- [campaignData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L89) (1 connections)
+- [{ data: events, isLoading: eventsLoading, refetch: refetchEvents }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L44) (1 connections)
+- [{ data: stats, isLoading: statsLoading, refetch: refetchStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L43) (1 connections)
+- [{ data: summary, isLoading: summaryLoading, refetch: refetchSummary }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L47) (1 connections)
+- [funnelData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L102) (1 connections)
+- [heatmapData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L72) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L59) (1 connections)
+- [refetch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L53) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L40) (1 connections)
+- [trendData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L62) (1 connections)
 
 ## Relationships
 
-- [[Music Settings]] (24 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [SPRINTS/completed/SPRINT-024-CREATIVE-TOOLS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-024-CREATIVE-TOOLS.md)
-- [SPRINTS/completed/SPRINT-025-OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-025-OPTIMIZATION.md)
-- [SPRINTS/completed/SPRINT-026-UX-UNIFICATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-026-UX-UNIFICATION.md)
-- [SPRINTS/completed/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-030-UNIFIED-STUDIO-MOBILE.md)
-- [SPRINTS/completed/SPRINT-031-DATA-MODEL.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-DATA-MODEL.md)
-- [SPRINTS/completed/SPRINT-031-OPTIMIZATION-PHASE2.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-OPTIMIZATION-PHASE2.md)
-- [SPRINTS/completed/SPRINT-031-PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-PLAN.md)
-- [SPRINTS/completed/SPRINT-031-QUICKSTART.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-QUICKSTART.md)
-- [SPRINTS/completed/SPRINT-031-RESEARCH.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-RESEARCH.md)
-- [SPRINTS/completed/SPRINT-031-TASKS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-TASKS.md)
-- [SPRINTS/completed/SPRINT-031-VALIDATION-REPORT.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-031-VALIDATION-REPORT.md)
-- [SPRINTS/completed/SPRINT-032-FINAL-SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-032-FINAL-SUMMARY.md)
-- [SPRINTS/completed/SPRINT-032-IMPLEMENTATION-SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-032-IMPLEMENTATION-SUMMARY.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (75%)
-- INFERRED: 6 (25%)
+- EXTRACTED: 22 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

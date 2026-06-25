@@ -1,13 +1,13 @@
 # Client Permissions
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.83
 
 ## Key Concepts
 
-- [TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L1) (3 connections)
-- [isAllowed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L50) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L27) (1 connections)
-- [toggleRemixMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L29) (1 connections)
+- [TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L1) (3 connections)
+- [TelegramSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L39) (3 connections)
+- [getTelegramSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L35) (2 connections)
+- [getTelegramSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L31) (2 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

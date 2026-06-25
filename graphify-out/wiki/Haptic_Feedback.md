@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L1) (2 connections)
-- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L11) (1 connections)
-- [useHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L13) (1 connections)
+- [unified-empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L1) (2 connections)
+- [emptyStateConfigs](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L47) (1 connections)
+- [UnifiedEmptyState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L138) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\unified-empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx)
 
 ## Audit Trail
 

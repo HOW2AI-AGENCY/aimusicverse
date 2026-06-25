@@ -1,19 +1,19 @@
 # Media Attributes
 
-> 10 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L1) (9 connections)
-- [hasAnyIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L46) (1 connections)
-- [hasModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L44) (1 connections)
-- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L33) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L30) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L52) (1 connections)
-- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L36) (1 connections)
-- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L39) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L32) (1 connections)
-- [model](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx#L43) (1 connections)
+- [TagRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L1) (9 connections)
+- [handleCopyTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L66) (3 connections)
+- [handleTagClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L73) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L31) (1 connections)
+- [[copiedTag, setCopiedTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L53) (1 connections)
+- [{ data: combinations, isLoading: loadingCombinations }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L57) (1 connections)
+- [{ data: popularity, isLoading: loadingPopularity }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L56) (1 connections)
+- [[expandedSections, setExpandedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L48) (1 connections)
+- [recommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L55) (1 connections)
+- [toggleSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L59) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackTypeIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackTypeIcons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\TagRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

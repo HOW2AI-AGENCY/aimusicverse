@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L1) (2 connections)
-- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L28) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx#L29) (1 connections)
+- [input-otp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L1) (2 connections)
+- [{ char, hasFakeCaret, isActive }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L29) (1 connections)
+- [inputOTPContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\workflows\ProgressTracker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/ProgressTracker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\input-otp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx)
 
 ## Audit Trail
 

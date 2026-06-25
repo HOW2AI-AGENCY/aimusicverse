@@ -1,23 +1,36 @@
 # Music Arrangement
 
-> 14 nodes · cohesion 0.25
+> 14 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [ReferenceActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L1) (13 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L64) (6 connections)
-- [prepareAnalysisData()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L73) (6 connections)
-- [handleNewArrangement()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L109) (5 connections)
-- [handleNewVocal()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L126) (5 connections)
-- [handleCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L95) (4 connections)
-- [handleExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L102) (4 connections)
-- [handleOpenPromptDJ()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L142) (4 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L149) (1 connections)
-- [hasInstrumentalStem](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L69) (1 connections)
-- [hasStemsReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L70) (1 connections)
-- [hasVocalStem](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L68) (1 connections)
-- [[midiSheetOpen, setMidiSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L66) (1 connections)
-- [{ saveAnalysisData, buildTitleFromFileName }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx#L65) (1 connections)
+- [QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L1) (14 connections)
+- [getRepeatIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L172) (2 connections)
+- [getRepeatLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L177) (2 connections)
+- [handleClearQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L107) (2 connections)
+- [handleToggleVersionMode()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L115) (2 connections)
+- [{ currentTrack, upNextTracks, remainingDuration }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L63) (1 connections)
+- [formatTotalDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L72) (1 connections)
+- [handleDragEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L92) (1 connections)
+- [{ isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L45) (1 connections)
+- [[isSaving, setIsSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L42) (1 connections)
+- [{ 
+    queue, 
+    currentIndex, 
+    reorderQueue, 
+    removeFromQueue, 
+    clearQueue, 
+    versionMode, 
+    toggleVersionMode,
+    shuffle,
+    repeat,
+    toggleShuffle,
+    toggleRepeat,
+    activeTrack
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L47) (1 connections)
+- [sensors](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L81) (1 connections)
+- [totalDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L71) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -25,12 +38,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceActionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (87%)
-- INFERRED: 7 (13%)
+- EXTRACTED: 29 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

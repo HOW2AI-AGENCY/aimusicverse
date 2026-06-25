@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [menubar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx#L1) (6 connections)
-- [Menubar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx#L17) (1 connections)
-- [MenubarGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx#L9) (1 connections)
-- [MenubarMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx#L7) (1 connections)
-- [MenubarPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx#L11) (1 connections)
-- [MenubarRadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx#L15) (1 connections)
-- [MenubarSub](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx#L13) (1 connections)
+- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L1) (6 connections)
+- [displayCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L40) (1 connections)
+- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L42) (1 connections)
+- [showBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L39) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L49) (1 connections)
+- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L137) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\menubar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/menubar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx)
 
 ## Audit Trail
 

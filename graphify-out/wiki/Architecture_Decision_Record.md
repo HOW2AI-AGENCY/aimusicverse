@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [ADR Template](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR_TEMPLATE.md) (0 connections)
+- [/speckit.constitution command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.constitution.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [ADR/ADR_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/ADR/ADR_TEMPLATE.md)
+- [.claude/commands/speckit.constitution.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.constitution.md)
 
 ## Audit Trail
 

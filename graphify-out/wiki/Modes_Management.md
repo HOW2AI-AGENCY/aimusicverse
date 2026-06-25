@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L1) (1 connections)
-- [modes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L26) (1 connections)
+- [ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L1) (1 connections)
+- [ProfileSetupStep1Basic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx)
 
 ## Audit Trail
 

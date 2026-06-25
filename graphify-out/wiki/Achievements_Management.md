@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L1) (6 connections)
-- [category](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L38) (1 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L7) (1 connections)
-- [{ data: achievements, isLoading: loadingAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L20) (1 connections)
-- [{ data: userAchievements, isLoading: loadingUserAchievements }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L21) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L23) (1 connections)
-- [isUnlocked](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx#L68) (1 connections)
+- [CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L1) (6 connections)
+- [buttonId](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L55) (1 connections)
+- [contentId](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L54) (1 connections)
+- [handleToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L75) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L52) (1 connections)
+- [id](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L53) (1 connections)
+- [[isCollapsed, setIsCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\AchievementsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementsList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useAutoPlaylists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L1) (2 connections)
-- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L13) (1 connections)
-- [useAutoPlaylists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L22) (1 connections)
+- [scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L1) (2 connections)
+- [ScrollArea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L6) (1 connections)
+- [ScrollBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAutoPlaylists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx)
 
 ## Audit Trail
 

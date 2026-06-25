@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L1) (6 connections)
-- [[expandedUsers, setExpandedUsers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L197) (1 connections)
-- [getColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L50) (1 connections)
-- [RISK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L35) (1 connections)
-- [RISK_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L42) (1 connections)
-- [toggleUser()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L199) (1 connections)
-- [{ users, summary, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L192) (1 connections)
+- [CommentSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L1) (6 connections)
+- [COMMENT_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L20) (1 connections)
+- [getSuggestionsForGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L127) (1 connections)
+- [handleSuggestionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L185) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L179) (1 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L183) (1 connections)
+- [{ trackEvent }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L180) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx)
 
 ## Audit Trail
 

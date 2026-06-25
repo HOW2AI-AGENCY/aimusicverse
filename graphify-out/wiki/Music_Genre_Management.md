@@ -4,25 +4,38 @@
 
 ## Key Concepts
 
-- [GenreTabsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L1) (13 connections)
-- [activeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L156) (1 connections)
-- [[activeGenre, setActiveGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L103) (1 connections)
-- [activeGenreTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L119) (1 connections)
+- [StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L1) (13 connections)
+- [AI_TOOL_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L84) (1 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L173) (1 connections)
+- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L174) (1 connections)
+- [handleAddNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L348) (1 connections)
+- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L544) (1 connections)
+- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L526) (1 connections)
 - [{
-    data: infiniteData,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L106) (1 connections)
-- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L33) (1 connections)
-- [handleLoadMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L162) (1 connections)
-- [handleTabChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L158) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L180) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L181) (1 connections)
-- [{ preferredGenres }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L84) (1 connections)
-- [sortedGenres](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L87) (1 connections)
-- [trackCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L182) (1 connections)
-- [tracksByGenre](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L126) (1 connections)
+    lyrics,
+    sections,
+    versions,
+    sectionNotes,
+    stats,
+    isDirty,
+    activeAITool,
+    isLoading,
+    isSaving,
+    isRestoring,
+    setLyrics,
+    save,
+    restoreVersion,
+    selectAITool,
+    closeAITool,
+    addNote,
+    deleteNote,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L492) (1 connections)
+- [[newNoteContent, setNewNoteContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L346) (1 connections)
+- [[newNoteSection, setNewNoteSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L345) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L134) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L73) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L490) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L489) (1 connections)
 
 ## Relationships
 
@@ -30,7 +43,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\GenreTabsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx)
 
 ## Audit Trail
 

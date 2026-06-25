@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Tooltips Not Working on Mobile Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [CLAUDE.md](file:///D:/.MUSICVERSE/aimusicverse/CLAUDE.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CLAUDE.md](file:///D:/.MUSICVERSE/aimusicverse/CLAUDE.md)
 
 ## Audit Trail
 

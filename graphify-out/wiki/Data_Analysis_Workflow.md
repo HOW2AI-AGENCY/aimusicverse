@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Analyze Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.analyze.md) (0 connections)
+- [Performance Issue Template](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/performance.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.kilocode/workflows/speckit.analyze.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.analyze.md)
+- [.github/ISSUE_TEMPLATE/performance.md](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/performance.md)
 
 ## Audit Trail
 

@@ -4,28 +4,20 @@
 
 ## Key Concepts
 
-- [LyricsAIChatAgent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L1) (13 connections)
-- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L88) (1 connections)
-- [handleApplyRecommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L153) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L142) (1 connections)
-- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L149) (1 connections)
-- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L136) (1 connections)
-- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L131) (1 connections)
-- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L125) (1 connections)
-- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L84) (1 connections)
-- [{
-    messages,
-    isLoading,
-    activeTool,
-    executeTool,
-    sendChatMessage,
-    clearMessages,
-    setActiveTool,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L103) (1 connections)
-- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L85) (1 connections)
-- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L158) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L86) (1 connections)
-- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L120) (1 connections)
+- [StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L1) (13 connections)
+- [handleLockedClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L66) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L43) (1 connections)
+- [{ hasAccess: canReplaceSection, requiredTier: replaceTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L53) (1 connections)
+- [{ hasAccess: canStemDetailed, requiredTier: stemDetailedTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L54) (1 connections)
+- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L62) (1 connections)
+- [[lockedFeature, setLockedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L45) (1 connections)
+- [showMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L60) (1 connections)
+- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L48) (1 connections)
+- [showStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L57) (1 connections)
+- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L50) (1 connections)
+- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L49) (1 connections)
+- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L47) (1 connections)
+- [[upgradePopupOpen, setUpgradePopupOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -33,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsAIChatAgent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx)
 
 ## Audit Trail
 

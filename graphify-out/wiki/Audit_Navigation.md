@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Audit Navigation Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_NAVIGATION_2025-12-09.md) (0 connections)
+- [Telegram Mini App Mobile Optimization](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/AUDIT_NAVIGATION_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_NAVIGATION_2025-12-09.md)
+- [SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md)
 
 ## Audit Trail
 

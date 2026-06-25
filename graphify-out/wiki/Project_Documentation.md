@@ -1,29 +1,28 @@
 # Project Documentation
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [DOCUMENTATION_INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (3 connections)
-- [ARCHIVE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
-- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
-- [SPRINTS/SPRINT-PROGRESS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
-- [docs/archive/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
-- [docs/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
-- [specs/sprint-011-social-features/spec.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
+- [generation.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L1) (6 connections)
+- [analyzeGenerationDurations()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L124) (2 connections)
+- [analyzeFailedLogs()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L76) (1 connections)
+- [calculateSuccessTrend()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L99) (1 connections)
+- [filterLogsByStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L66) (1 connections)
+- [mergeRealtimeLogs()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L164) (1 connections)
 
 ## Relationships
 
-- [[Project Management]] (12 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md)
+- [D:\.MUSICVERSE\aimusicverse\src\services\generation.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 11 (92%)
+- INFERRED: 1 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

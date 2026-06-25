@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L1) (9 connections)
-- [drumKits](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L130) (1 connections)
-- [getKitById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L132) (1 connections)
-- [kit808](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L23) (1 connections)
-- [kit909](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L41) (1 connections)
-- [kitAcoustic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L59) (1 connections)
-- [kitEthnic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L113) (1 connections)
-- [kitLoFi](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L77) (1 connections)
-- [kitTrap](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L95) (1 connections)
-- [presetPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L143) (1 connections)
+- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L33) (2 connections)
+- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
+- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L42) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
+- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L25) (1 connections)
+- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
+- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

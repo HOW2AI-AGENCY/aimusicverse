@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Chunk 22: Mobile, Platform Integration & Special Features - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_22_FILES.md) (0 connections)
+- [Speckit Tasks Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.tasks.prompt.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [CHUNK_22_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_22_FILES.md)
+- [.github/prompts/speckit.tasks.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.tasks.prompt.md)
 
 ## Audit Trail
 

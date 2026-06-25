@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [MusicVerse AI Implementation Plan Execution Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PLAN_EXECUTION_SUMMARY_2025-12-11.md) (0 connections)
+- [React Hooks Undefined Error - Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/implementation-reports/IMPLEMENTATION_PLAN_EXECUTION_SUMMARY_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PLAN_EXECUTION_SUMMARY_2025-12-11.md)
+- [docs/archive/2025-12/FIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md)
 
 ## Audit Trail
 

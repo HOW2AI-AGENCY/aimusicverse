@@ -4,46 +4,55 @@
 
 ## Key Concepts
 
-- [VirtualizedTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L1) (27 connections)
-- [TrackItemErrorBoundary](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L17) (6 connections)
-- [.componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L30) (2 connections)
-- [canPull](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L249) (1 connections)
-- [computeItemKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L335) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L241) (1 connections)
-- [GridContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L83) (1 connections)
-- [GridItemWrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L98) (1 connections)
-- [handleGridEndReached](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L403) (1 connections)
-- [handleScroll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L322) (1 connections)
-- [handleTouchEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L294) (1 connections)
-- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L272) (1 connections)
-- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L259) (1 connections)
-- [increaseViewportBy](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L256) (1 connections)
-- [[isPulling, setIsPulling]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L246) (1 connections)
-- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L166) (1 connections)
-- [[isRefreshing, setIsRefreshing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L245) (1 connections)
-- [loadingRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L240) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L14) (1 connections)
-- [MAX_PULL](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L253) (1 connections)
-- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L379) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L165) (1 connections)
-- [PULL_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L252) (1 connections)
-- [[pullDistance, setPullDistance]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L244) (1 connections)
-- [renderTrackItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx#L337) (1 connections)
+- [PromptDJMixer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L1) (32 connections)
+- [applyPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L161) (1 connections)
+- [{
+    channels,
+    updateChannel,
+    globalSettings,
+    updateGlobalSettings,
+    isGenerating,
+    generatedTracks,
+    generateMusic,
+    previewWithSynth,
+    stopPreview,
+    isPreviewPlaying,
+    isPlaying,
+    currentTrack,
+    playTrack,
+    stopPlayback,
+    currentPrompt,
+    analyzerNode,
+    removeTrack,
+    isLiveMode,
+    liveStatus,
+    startLiveMode,
+    stopLiveMode,
+    forceRegenerateInLive,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L65) (1 connections)
+- [customChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L282) (1 connections)
+- [{ description, bpm }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L281) (1 connections)
+- [[dismissedSuggestions, setDismissedSuggestions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L60) (1 connections)
+- [drumData](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L278) (1 connections)
+- [getLiveStatusText()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L300) (1 connections)
+- [handleApplyQuickStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L175) (1 connections)
+- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L137) (1 connections)
+- [handleDismissSuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L156) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L261) (1 connections)
+- [handleKnobChangeEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L128) (1 connections)
+- [handleKnobChangeStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L123) (1 connections)
+- [handleSaveToCloud](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L204) (1 connections)
+- [handleSelectChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L199) (1 connections)
+- [handleTypeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L194) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L249) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L54) (1 connections)
+- [{ hasPrediction }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L91) (1 connections)
+- [hasSeenQuickStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L115) (1 connections)
+- [[isKnobAdjusting, setIsKnobAdjusting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L59) (1 connections)
+- [isKnobsActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L294) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L52) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L51) (1 connections)
 - *... and 8 more nodes in this community*
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class TrackItemErrorBoundary {
-        +VirtualizedTrackList.tsx()
-        +.constructor()
-        +.getDerivedStateFromError()
-        +.componentDidCatch()
-        +.componentDidUpdate()
-        +.render()
-    }
-```
 
 ## Relationships
 
@@ -51,12 +60,12 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\VirtualizedTrackList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VirtualizedTrackList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJMixer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 64 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 64 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

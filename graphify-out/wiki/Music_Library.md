@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [GenreTracksRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTracksRow.tsx#L1) (1 connections)
-- [GenreTracksRow](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTracksRow.tsx#L22) (1 connections)
+- [DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L1) (1 connections)
+- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\GenreTracksRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTracksRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx)
 
 ## Audit Trail
 

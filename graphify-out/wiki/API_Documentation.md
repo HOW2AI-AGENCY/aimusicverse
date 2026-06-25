@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [API Feature Spec Template](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/spec-template-api.md) (0 connections)
+- [/speckit.analyze command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.analyze.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.specify/templates/spec-template-api.md](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/spec-template-api.md)
+- [.claude/commands/speckit.analyze.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.analyze.md)
 
 ## Audit Trail
 

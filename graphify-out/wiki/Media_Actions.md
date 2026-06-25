@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [CreateActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L1) (8 connections)
-- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L27) (1 connections)
-- [showAddVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L21) (1 connections)
-- [showCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L18) (1 connections)
-- [showExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L19) (1 connections)
-- [showGenerateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L17) (1 connections)
-- [showGenerateSimilar](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L25) (1 connections)
-- [showRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L20) (1 connections)
-- [showVideo](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx#L23) (1 connections)
+- [dropdown-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L1) (8 connections)
+- [DropdownMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L7) (1 connections)
+- [DropdownMenuGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L11) (1 connections)
+- [DropdownMenuPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L13) (1 connections)
+- [DropdownMenuRadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L17) (1 connections)
+- [DropdownMenuSub](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L15) (1 connections)
+- [DropdownMenuSubContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L40) (1 connections)
+- [DropdownMenuSubTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L19) (1 connections)
+- [DropdownMenuTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L9) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\CreateActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/CreateActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\dropdown-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx)
 
 ## Audit Trail
 

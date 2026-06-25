@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Agent File Template](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/agent-file-template.md) (0 connections)
+- [github-repo-auditor agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/github-repo-auditor.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.specify/templates/agent-file-template.md](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/agent-file-template.md)
+- [.claude/agents/github-repo-auditor.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/github-repo-auditor.md)
 
 ## Audit Trail
 

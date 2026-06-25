@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Fix Summary: Dependency Conflicts and Import Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md) (0 connections)
+- [MIDI Transcription Model Errors Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

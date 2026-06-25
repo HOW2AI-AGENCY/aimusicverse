@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [Heading.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L1) (4 connections)
-- [classes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L69) (1 connections)
-- [levelStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L35) (1 connections)
-- [Tag](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L67) (1 connections)
-- [truncateStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx#L43) (1 connections)
+- [glass-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L1) (4 connections)
+- [GlassCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L32) (1 connections)
+- [hoverClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L25) (1 connections)
+- [paddingClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L12) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Heading.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Heading.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\glass-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx)
 
 ## Audit Trail
 

@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L1) (5 connections)
-- [button](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L53) (1 connections)
-- [mockClearError](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L153) (1 connections)
-- [mockCreateInvoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L17) (1 connections)
-- [mockOpenInvoice](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L18) (1 connections)
-- [retryButton](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx#L144) (1 connections)
+- [studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L1) (5 connections)
+- [chordColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L85) (1 connections)
+- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L139) (1 connections)
+- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L158) (1 connections)
+- [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L99) (1 connections)
+- [studioAnimations](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L5) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\StarsPaymentButton.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/StarsPaymentButton.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts)
 
 ## Audit Trail
 

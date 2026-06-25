@@ -4,19 +4,24 @@
 
 ## Key Concepts
 
-- [ScoreViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L1) (13 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L43) (1 connections)
-- [availableFormats](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L77) (1 connections)
-- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L278) (1 connections)
-- [handleZoomIn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L74) (1 connections)
-- [handleZoomOut()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L75) (1 connections)
-- [hasAnyScore](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L50) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L117) (1 connections)
-- [[isFullscreen, setIsFullscreen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L45) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L277) (1 connections)
-- [[pdfLoading, setPdfLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L46) (1 connections)
-- [{ pdfUrl, musicXmlUrl, gp5Url, midiUrl, midiQuantUrl }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L48) (1 connections)
-- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L44) (1 connections)
+- [MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L1) (12 connections)
+- [{ data: lyricsData, isLoading: lyricsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L72) (1 connections)
+- [{ data: replacedSections }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L85) (1 connections)
+- [{ data: sourceTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L57) (1 connections)
+- [detectedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L78) (1 connections)
+- [handleCloseEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L106) (1 connections)
+- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L98) (1 connections)
+- [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L53) (1 connections)
+- [replacedRanges](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L88) (1 connections)
+- [{
+    selectedSection,
+    selectedSectionIndex,
+    selectSection,
+    clearSelection,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L45) (1 connections)
+- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L42) (1 connections)
+- [[showEditor, setShowEditor]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L43) (1 connections)
+- [sourceTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -24,11 +29,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ScoreViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 25 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L1) (3 connections)
-- [calculateRMS()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L35) (1 connections)
-- [DEFAULT_LEVELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L26) (1 connections)
-- [useStemAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L46) (1 connections)
+- [useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L1) (3 connections)
+- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L22) (1 connections)
+- [useBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L42) (1 connections)
+- [useUpdateBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L70) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts)
 
 ## Audit Trail
 

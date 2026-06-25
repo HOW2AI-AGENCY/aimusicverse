@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L1) (7 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L121) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L128) (1 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L46) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L35) (1 connections)
-- [StemControls](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L74) (1 connections)
-- [StemLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L56) (1 connections)
-- [waveformColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L123) (1 connections)
+- [BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L1) (7 connections)
+- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L28) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L24) (1 connections)
+- [handleBeatClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L56) (1 connections)
+- [handleTimelineClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L45) (1 connections)
+- [[hoveredBeat, setHoveredBeat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L25) (1 connections)
+- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L38) (1 connections)
+- [trackDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx)
 
 ## Audit Trail
 

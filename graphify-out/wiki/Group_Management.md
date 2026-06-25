@@ -4,15 +4,40 @@
 
 ## Key Concepts
 
-- [NotificationSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L1) (8 connections)
-- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L140) (1 connections)
-- [[expandedGroups, setExpandedGroups]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L126) (1 connections)
-- [groupEnabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L198) (1 connections)
-- [handleToggleAll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L145) (1 connections)
-- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L197) (1 connections)
-- [NOTIFICATION_GROUPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L46) (1 connections)
-- [toggleGroup()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L128) (1 connections)
-- [totalCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L143) (1 connections)
+- [SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L1) (9 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L30) (1 connections)
+- [handleApplyComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L150) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L144) (1 connections)
+- [handleDiscardComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L158) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L52) (1 connections)
+- [[replacedSections, setReplacedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L87) (1 connections)
+- [{ 
+    selectedSection, 
+    customRange, 
+    clearSelection, 
+    latestCompletion,
+    setLatestCompletion,
+    editMode,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L78) (1 connections)
+- [{
+    startTime,
+    endTime,
+    sectionDuration,
+    maxDuration,
+    hasSelection,
+    isValidDuration,
+    isSubmitting,
+    prompt,
+    setPrompt,
+    tags,
+    setTags,
+    lyrics,
+    setLyrics,
+    updateRange,
+    addPreset,
+    executeReplacement,
+    reset,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L89) (1 connections)
 
 ## Relationships
 
@@ -20,11 +45,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\NotificationSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 17 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

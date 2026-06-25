@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [QuickLikeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L1) (10 connections)
-- [currentIsLiked](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L48) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L50) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L39) (1 connections)
-- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L85) (1 connections)
-- [[isAnimating, setIsAnimating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L41) (1 connections)
-- [{ isLiked: hookIsLiked, isLoading, toggleLike }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L45) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L79) (1 connections)
-- [{ trackLike }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L42) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L40) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx#L91) (1 connections)
+- [form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L1) (10 connections)
+- [Form](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L9) (1 connections)
+- [FormControl](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L85) (1 connections)
+- [FormDescription](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L102) (1 connections)
+- [FormField](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L20) (1 connections)
+- [FormFieldContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L18) (1 connections)
+- [FormItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L62) (1 connections)
+- [FormItemContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L60) (1 connections)
+- [FormLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L75) (1 connections)
+- [FormMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L111) (1 connections)
+- [useFormField()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\QuickLikeButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/QuickLikeButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx)
 
 ## Audit Trail
 

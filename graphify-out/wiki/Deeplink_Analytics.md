@@ -1,17 +1,17 @@
 # Deeplink Analytics
 
-> 8 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.32
 
 ## Key Concepts
 
-- [useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L1) (4 connections)
-- [DeeplinkAnalyticsPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkAnalyticsPanel.tsx#L19) (3 connections)
-- [DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkAnalyticsPanel.tsx#L1) (2 connections)
-- [useDeeplinkEvents()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L63) (2 connections)
-- [useDeeplinkStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L45) (2 connections)
-- [QuickStatCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkAnalyticsPanel.tsx#L190) (1 connections)
-- [useDeeplinkAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L11) (1 connections)
-- [useTrackDeeplink()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts#L75) (1 connections)
+- [alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L1) (7 connections)
+- [triggerSelectionHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L45) (3 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L65) (2 connections)
+- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L54) (2 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L99) (1 connections)
+- [[isConfirming, setIsConfirming]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L43) (1 connections)
+- [severityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L72) (1 connections)
+- [triggerWarningHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -19,13 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkAnalyticsPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDeeplinkAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDeeplinkAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (75%)
-- INFERRED: 4 (25%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

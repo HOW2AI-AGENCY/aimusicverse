@@ -1,25 +1,29 @@
 # Music Structure
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L1) (2 connections)
-- [beatsPerMeasure](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L30) (1 connections)
-- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx#L35) (1 connections)
+- [Performance Optimization Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION.md) (3 connections)
+- [Performance Monitoring Setup](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_MONITORING_SETUP.md) (2 connections)
+- [Quality Gates Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md) (2 connections)
+- [Performance Optimization Guide (Summary)](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION_GUIDE.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Performance Management]] (8 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\BeatGridVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/BeatGridVisualization.tsx)
+- [docs/PERFORMANCE_MONITORING_SETUP.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_MONITORING_SETUP.md)
+- [docs/PERFORMANCE_OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION.md)
+- [docs/PERFORMANCE_OPTIMIZATION_GUIDE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION_GUIDE.md)
+- [docs/QUALITY_GATES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 0 (0%)
+- INFERRED: 8 (100%)
 - AMBIGUOUS: 0 (0%)
 
 ---

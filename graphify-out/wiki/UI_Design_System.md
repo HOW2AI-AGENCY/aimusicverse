@@ -1,38 +1,29 @@
 # UI Design System
 
-> 9 nodes · cohesion 0.25
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [Professional & Stylish UI Enhancement Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/plan.md) (8 connections)
-- [Professional & Stylish UI Enhancement Research Document](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/research.md) (2 connections)
-- [Professional & Stylish UI Enhancement Feature Specification](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/spec.md) (2 connections)
-- [Professional UI Animation Contract](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/animation-contract.md) (1 connections)
-- [Professional UI Color Contract](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/color-contract.md) (1 connections)
-- [Professional UI Component Contract](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/component-contract.md) (1 connections)
-- [Professional UI Typography Contract](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/typography-contract.md) (1 connections)
-- [Professional UI Design System Data Model](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/data-model.md) (1 connections)
-- [Professional UI Design System Quickstart Guide](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/quickstart.md) (1 connections)
+- [ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L1) (8 connections)
+- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L174) (1 connections)
+- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L175) (1 connections)
+- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L133) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L84) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L173) (1 connections)
+- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L144) (1 connections)
+- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L90) (1 connections)
 
 ## Relationships
 
-- [[User Account Management]] (18 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/032-professional-ui/contracts/animation-contract.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/animation-contract.md)
-- [specs/032-professional-ui/contracts/color-contract.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/color-contract.md)
-- [specs/032-professional-ui/contracts/component-contract.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/component-contract.md)
-- [specs/032-professional-ui/contracts/typography-contract.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/contracts/typography-contract.md)
-- [specs/032-professional-ui/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/data-model.md)
-- [specs/032-professional-ui/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/plan.md)
-- [specs/032-professional-ui/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/quickstart.md)
-- [specs/032-professional-ui/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/research.md)
-- [specs/032-professional-ui/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/spec.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

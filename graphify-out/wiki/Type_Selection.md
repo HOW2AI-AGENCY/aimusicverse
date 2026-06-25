@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AddTrackDialog.tsx#L1) (3 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AddTrackDialog.tsx#L70) (1 connections)
-- [[selectedType, setSelectedType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AddTrackDialog.tsx#L68) (1 connections)
-- [trackTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AddTrackDialog.tsx#L32) (1 connections)
+- [StyleCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L1) (3 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L14) (1 connections)
+- [handleDoubleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L20) (1 connections)
+- [sliderValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AddTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\StyleCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx)
 
 ## Audit Trail
 

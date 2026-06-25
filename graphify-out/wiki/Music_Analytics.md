@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackStatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx#L1) (1 connections)
-- [TrackStatsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx#L16) (1 connections)
+- [UnifiedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx#L1) (1 connections)
+- [UnifiedTrackCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackStatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\UnifiedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/UnifiedTrackCard.tsx)
 
 ## Audit Trail
 

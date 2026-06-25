@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [MIDI Transcription Model Errors Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [Chunk 18: Lyrics & Content Creation - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_18_FILES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CHUNK_18_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_18_FILES.md)
 
 ## Audit Trail
 

@@ -1,47 +1,47 @@
 # User Moderation
 
-> 48 nodes · cohesion 0.04
+> 49 nodes · cohesion 0.04
 
 ## Key Concepts
 
-- [Sprint 011 Phase 9 Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L1) (14 connections)
-- [Components Implemented](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L22) (6 connections)
-- [Integration Needs](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L234) (5 connections)
-- [Code Quality Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L137) (4 connections)
-- [Database Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L162) (4 connections)
-- [Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L349) (4 connections)
-- [Next Steps](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L372) (4 connections)
-- [Production Readiness](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L317) (4 connections)
-- [Recommendations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L390) (4 connections)
-- [Remaining Phase 9 Work](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L181) (4 connections)
-- [Testing Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L284) (4 connections)
-- [SPRINT_011_PHASE9_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L1) (1 connections)
-- [1. PrivacySettings Component ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L24) (1 connections)
-- [2. BlockUserButton Component ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L42) (1 connections)
-- [3. ReportCommentButton Component ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L64) (1 connections)
-- [4. BlockedUsersPage Component ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L87) (1 connections)
-- [5. ModerationDashboard Component ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L111) (1 connections)
-- [After Code Review:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L139) (1 connections)
-- [Code Patterns:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L151) (1 connections)
-- [Code Statistics:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L351) (1 connections)
-- [Comment Menu Integration:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L270) (1 connections)
-- [Conclusion](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L412) (1 connections)
-- [🚨 Critical for Production:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L335) (1 connections)
-- [E2E Tests Needed:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L299) (1 connections)
-- [Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md#L10) (1 connections)
-- *... and 23 more nodes in this community*
+- [Player System Audit & Optimization Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L1) (12 connections)
+- [Part 1: Critical Bug Fixes](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L18) (7 connections)
+- [Part 2: New Features](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L259) (7 connections)
+- [Appendices](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L860) (4 connections)
+- [Part 3: Performance Optimizations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L516) (4 connections)
+- [Part 4: Code Quality Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L580) (4 connections)
+- [Part 5: Testing & Validation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L624) (4 connections)
+- [Part 6: Migration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L682) (4 connections)
+- [Part 8: Future Recommendations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L764) (4 connections)
+- [Part 9: Conclusion](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L819) (4 connections)
+- [Part 7: Performance Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L737) (3 connections)
+- [Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L6) (2 connections)
+- [PLAYER_SYSTEM_AUDIT_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L1) (1 connections)
+- [1.1 RAF Cleanup Leak in `useDebouncedAudioTime`](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L20) (1 connections)
+- [1.2 Crossfade Memory Leak in `useOptimizedAudioPlayer`](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L67) (1 connections)
+- [1.3 Race Condition in `GlobalAudioProvider`](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L109) (1 connections)
+- [1.4 Queue Restoration Validation Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L156) (1 connections)
+- [1.5 Stem Audio Sync Invalid Audio Handling](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L190) (1 connections)
+- [1.6 Stem Playback Partial Failure Handling](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L224) (1 connections)
+- [2.1 Playback Position Persistence (`usePlaybackPosition`)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L261) (1 connections)
+- [2.2 Buffer Monitoring (`useBufferMonitor`)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L299) (1 connections)
+- [2.3 Queue History (`useQueueHistory`)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L353) (1 connections)
+- [2.4 Smart Shuffle Algorithm](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L398) (1 connections)
+- [2.5 Enhanced Repeat-One Mode](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L432) (1 connections)
+- [2.6 Improved Solo/Mute Logic](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L480) (1 connections)
+- *... and 24 more nodes in this community*
 
 ## Relationships
 
-- [[Lyrics Management]] (94 shared connections)
+- [[Audio Playback]] (96 shared connections)
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_PHASE9_SUMMARY.md)
+- [docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md)
 
 ## Audit Trail
 
-- EXTRACTED: 94 (100%)
+- EXTRACTED: 96 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

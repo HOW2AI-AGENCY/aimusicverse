@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [cardVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L5) (1 connections)
-- [card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx#L1) (1 connections)
+- [DeleteActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/DeleteActions.tsx#L1) (1 connections)
+- [DeleteActions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/DeleteActions.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/card.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\DeleteActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/DeleteActions.tsx)
 
 ## Audit Trail
 

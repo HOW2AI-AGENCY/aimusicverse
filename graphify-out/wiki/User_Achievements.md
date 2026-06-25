@@ -1,67 +1,81 @@
 # User Achievements
 
-> 661 nodes · cohesion 0.00
+> 518 nodes · cohesion 0.00
 
 ## Key Concepts
 
-- [Project Progress Tracker](file:///D:/.MUSICVERSE/aimusicverse/docs/PROGRESS.md) (86 connections)
-- [ProjectCreationWizard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCreationWizard.tsx#L1) (28 connections)
-- [ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L1) (24 connections)
-- [StudioTranscriptionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTranscriptionPanel.tsx#L1) (21 connections)
-- [TaskProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TaskProgress.tsx#L1) (20 connections)
-- [ReferenceMidiSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx#L1) (19 connections)
-- [MultiTrackUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/upload/MultiTrackUpload.tsx#L1) (18 connections)
-- [AudioHubUploader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubUploader.tsx#L1) (17 connections)
-- [TranscriptionExportPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TranscriptionExportPanel.tsx#L1) (16 connections)
-- [MonitoringHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx#L1) (15 connections)
-- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/StructuredLyricsDisplay.tsx#L1) (15 connections)
-- [ArrangementReplacementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ArrangementReplacementDialog.tsx#L1) (15 connections)
-- [BatchStemProcessingPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/BatchStemProcessingPanel.tsx#L1) (15 connections)
-- [ReplacementProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/ReplacementProgressIndicator.tsx#L1) (15 connections)
-- [ExportMixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L1) (15 connections)
-- [GamificationOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationOnboarding.tsx#L1) (14 connections)
-- [FullAnalysisResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/FullAnalysisResultCard.tsx#L1) (14 connections)
-- [ProfessionalArchiveExport.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/ProfessionalArchiveExport.tsx#L1) (14 connections)
-- [StudioDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDownloadPanel.tsx#L1) (14 connections)
-- [ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx#L1) (13 connections)
-- [DailyMissions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyMissions.tsx#L1) (13 connections)
-- [EnhancedGenerationIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/EnhancedGenerationIndicator.tsx#L1) (13 connections)
-- [AudioDetailPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/AudioDetailPanel.tsx#L1) (12 connections)
-- [WeeklyChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/WeeklyChallenges.tsx#L1) (12 connections)
-- [ProfessionalDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/ProfessionalDashboard.tsx#L1) (12 connections)
-- *... and 636 more nodes in this community*
+- [.pause()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useOptimizedPlayback.test.ts#L51) (50 connections)
+- [.play()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useOptimizedPlayback.test.ts#L45) (38 connections)
+- [WaveformWithChords.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/WaveformWithChords.tsx#L1) (33 connections)
+- [SectionVariantOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionVariantOverlay.tsx#L1) (27 connections)
+- [pauseTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerActionsBar.tsx#L61) (27 connections)
+- [ABCompareOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/ABCompareOverlay.tsx#L1) (26 connections)
+- [MinimalProjectTrackItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/MinimalProjectTrackItem.tsx#L1) (25 connections)
+- [BeatGridVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/BeatGridVisualizer.tsx#L1) (23 connections)
+- [TrimDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimDialog.tsx#L1) (22 connections)
+- [CreateArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateArtistDialog.tsx#L1) (21 connections)
+- [PlayerActionsBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerActionsBar.tsx#L1) (21 connections)
+- [pauseAllStudioAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts#L52) (21 connections)
+- [GuitarAnalysisReportSimplified.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportSimplified.tsx#L1) (20 connections)
+- [SectionEditorSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionEditorSheet.tsx#L1) (19 connections)
+- [PianoRollWithMidiSync.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/PianoRollWithMidiSync.tsx#L1) (18 connections)
+- [AudioTrimSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AudioTrimSelector.tsx#L1) (17 connections)
+- [GuitarAnalysisReportImproved.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportImproved.tsx#L1) (17 connections)
+- [SavedRecordingsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/SavedRecordingsList.tsx#L1) (17 connections)
+- [InstrumentalGeneratorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/InstrumentalGeneratorPanel.tsx#L1) (16 connections)
+- [CloudAudioPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/CloudAudioPicker.tsx#L1) (14 connections)
+- [SFXGeneratorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/SFXGeneratorPanel.tsx#L1) (14 connections)
+- [StudioTransport.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioTransport.tsx#L1) (14 connections)
+- [AlbumView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AlbumView.tsx#L1) (14 connections)
+- [CloudAudioSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/CloudAudioSelector.tsx#L1) (13 connections)
+- [EnhancedVersionTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/EnhancedVersionTimeline.tsx#L1) (13 connections)
+- *... and 493 more nodes in this community*
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class MockAudioElement {
+        +useOptimizedPlayback.test.ts()
+        +.addEventListener()
+        +.removeEventListener()
+        +.triggerEvent()
+        +.play()
+        +.pause()
+    }
+```
 
 ## Relationships
 
-- [[Timer Management]] (65 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\EnhancedAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/EnhancedAnalyticsPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\FunnelCohortAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelCohortAnalysis.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\GenerationAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationAnalyticsPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\HealthCheckPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/HealthCheckPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\MonitoringHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/MonitoringHub.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\PerformanceDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/PerformanceDashboard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\CampaignPerformance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/CampaignPerformance.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ExperimentsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ExperimentsPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/GenerationStatsPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\UnifiedAnalysisCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/UnifiedAnalysisCard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubUploader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubUploader.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceAnalysisDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAnalysisDisplay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceMidiSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceMidiSheet.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\chord-detection\RealtimeChordVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/chord-detection/RealtimeChordVisualizer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\cloud\AudioDetailPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/AudioDetailPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\AchievementProgressWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/AchievementProgressWidget.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DailyMissions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyMissions.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\GamificationOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationOnboarding.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LevelProgressCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LevelProgressCard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\SpecialChallenges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SpecialChallenges.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\CreateArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateArtistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminTrackDetailsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminTrackDetailsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\ReferenceAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\CloudAudioPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/CloudAudioPicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\CloudAudioSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/CloudAudioSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio\AudioReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio/AudioReferencePreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AudioActionDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AudioActionDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AudioReferenceUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AudioReferenceUpload.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AudioTrimSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AudioTrimSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AudioUploadActionDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AudioUploadActionDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GuitarModeRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GuitarModeRecorder.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GuitarRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GuitarRecordDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\RecordMelodyDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/RecordMelodyDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\SectionReplacementProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/SectionReplacementProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\BeatGridVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/BeatGridVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordProgressionTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordProgressionTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarAnalysisReport.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReport.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarAnalysisReportImproved.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportImproved.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarAnalysisReportSimplified.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportSimplified.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarRecordingStudio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarRecordingStudio.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 1370 (99%)
-- INFERRED: 13 (1%)
+- EXTRACTED: 999 (78%)
+- INFERRED: 286 (22%)
 - AMBIGUOUS: 0 (0%)
 
 ---

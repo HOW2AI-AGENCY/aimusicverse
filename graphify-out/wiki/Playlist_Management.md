@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L1) (6 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L24) (2 connections)
-- [{ createPlaylist, isCreating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L18) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L21) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L19) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L22) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L20) (1 connections)
+- [PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L1) (6 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L64) (1 connections)
+- [CategoryIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L243) (1 connections)
+- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L56) (1 connections)
+- [genrePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L72) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L220) (1 connections)
+- [PresetsManager()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L81) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\professional\PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (92%)
-- INFERRED: 1 (8%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,57 +4,32 @@
 
 ## Key Concepts
 
-- [DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L1) (13 connections)
-- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L93) (1 connections)
-- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L28) (1 connections)
-- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L70) (1 connections)
-- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L78) (1 connections)
-- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L104) (1 connections)
-- [handleRecord](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L118) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L113) (1 connections)
-- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L149) (1 connections)
-- [handleTrackVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L130) (1 connections)
-- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L135) (1 connections)
-- [{
-    isReady,
-    isPlaying,
-    currentStep,
-    bpm,
-    swing,
+- [UnifiedPlayerControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L1) (13 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L77) (1 connections)
+- [{ currentTime, duration, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L75) (1 connections)
+- [handleNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L93) (1 connections)
+- [handlePlayPause](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L79) (1 connections)
+- [handlePrevious](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L88) (1 connections)
+- [handleRepeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L103) (1 connections)
+- [handleSeekBackward](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L112) (1 connections)
+- [handleSeekForward](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L117) (1 connections)
+- [handleShuffle](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L98) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L108) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L122) (1 connections)
+- [{ 
+    isPlaying, 
+    playTrack, 
+    pauseTrack, 
+    nextTrack, 
+    previousTrack,
+    repeat,
+    shuffle,
+    toggleRepeat,
+    toggleShuffle,
     volume,
-    currentKit,
-    pattern,
-    soloTracks,
-    mutedTracks,
-    stepLength,
-    recordingState,
-    recordedAudioUrl,
-    recordedAudioBlob,
-    trackEffects,
-    initialize,
-    play,
-    stop,
-    toggleStep,
-    triggerSound,
-    setBpm,
-    setSwing,
     setVolume,
-    setKit,
-    loadPattern,
-    clearPattern,
-    toggleSolo,
-    toggleMute,
-    getAvailableKits,
-    getPresetPatterns,
-    setStepLength,
-    startRecording,
-    stopRecording,
-    clearRecording,
-    setTrackEffect,
-    exportToMidi,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L30) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L26) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L27) (1 connections)
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L61) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -62,7 +37,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\UnifiedPlayerControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx)
 
 ## Audit Trail
 

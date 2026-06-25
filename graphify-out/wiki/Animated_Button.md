@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [animated-icon.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L1) (10 connections)
-- [{ animate: animateProps, transition }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L149) (1 connections)
-- [AnimatedIconButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L217) (1 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L51) (1 connections)
-- [getAnimationVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L62) (1 connections)
-- [getHoverAnimationVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L109) (1 connections)
-- [hoverAnimateProps](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L150) (1 connections)
-- [isInteractive](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L152) (1 connections)
-- [roundedStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L210) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L42) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx#L148) (1 connections)
+- [optimized-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L1) (10 connections)
+- [finalQuality](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L61) (1 connections)
+- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L179) (1 connections)
+- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L71) (1 connections)
+- [optimizedWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L69) (1 connections)
+- [pixelSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L180) (1 connections)
+- [placeholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L63) (1 connections)
+- [{ qualityPercent, maxWidth }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L60) (1 connections)
+- [{ ref, isLoaded, currentSrc }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L239) (1 connections)
+- [{ ref, isLoaded, isError, currentSrc }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L81) (1 connections)
+- [srcSet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L76) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\animated-icon.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/animated-icon.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\optimized-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx)
 
 ## Audit Trail
 

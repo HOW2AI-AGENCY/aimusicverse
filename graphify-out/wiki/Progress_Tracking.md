@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [progress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress.tsx#L1) (1 connections)
-- [Progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress.tsx#L6) (1 connections)
+- [TrackReferencesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx#L1) (1 connections)
+- [hasReferences](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\progress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackReferencesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx)
 
 ## Audit Trail
 

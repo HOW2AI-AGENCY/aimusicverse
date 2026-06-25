@@ -1,15 +1,15 @@
 # Animation Timing
 
-> 6 nodes · cohesion 0.33
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useStemAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L1) (5 connections)
-- [ANIMATION_FRAME_INTERVAL](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L31) (1 connections)
-- [CRITICAL_DRIFT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L28) (1 connections)
-- [DRIFT_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L25) (1 connections)
-- [MAX_CORRECTION_ATTEMPTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L34) (1 connections)
-- [useStemAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts#L36) (1 connections)
+- [useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L1) (6 connections)
+- [useFeatureFlags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L44) (2 connections)
+- [useIsFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L149) (2 connections)
+- [FLAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L35) (1 connections)
+- [useToggleFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L62) (1 connections)
+- [useUpdateFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L111) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 13 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

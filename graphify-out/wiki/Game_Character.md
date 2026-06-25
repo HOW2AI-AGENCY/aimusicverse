@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [HeroSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ContentSkeleton.tsx#L14) (1 connections)
-- [ContentSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ContentSkeleton.tsx#L1) (1 connections)
+- [EmotionalMap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/EmotionalMap.tsx#L1) (1 connections)
+- [EmotionalMap()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/EmotionalMap.tsx#L10) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ContentSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ContentSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\EmotionalMap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/EmotionalMap.tsx)
 
 ## Audit Trail
 

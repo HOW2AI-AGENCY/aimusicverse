@@ -4,16 +4,29 @@
 
 ## Key Concepts
 
-- [ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L151) (1 connections)
-- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L128) (1 connections)
-- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L71) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L126) (1 connections)
-- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L66) (1 connections)
-- [overallConversion](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L89) (1 connections)
-- [STAGE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L46) (1 connections)
-- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L58) (1 connections)
-- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx#L127) (1 connections)
+- [AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L1) (9 connections)
+- [[analysisResult, setAnalysisResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L25) (1 connections)
+- [{ analyze, isAnalyzing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L42) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L77) (1 connections)
+- [handleAnalyze](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L62) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L57) (1 connections)
+- [handleStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L44) (1 connections)
+- [handleStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L52) (1 connections)
+- [{
+    isRecording,
+    isPaused,
+    audioUrl,
+    audioBlob,
+    duration,
+    audioLevel,
+    waveformData,
+    startRecording,
+    stopRecording,
+    pauseRecording,
+    resumeRecording,
+    resetRecording,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L27) (1 connections)
+- [[recordingMode, setRecordingMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -21,7 +34,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelStages.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelStages.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx)
 
 ## Audit Trail
 

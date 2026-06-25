@@ -4,22 +4,22 @@
 
 ## Key Concepts
 
-- [User Flow 2: Продвинутый пользователь → Stem Studio](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/user-scenarios.md) (2 connections)
-- [User Flow 1: Новый пользователь → Первый трек](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/user-scenarios.md) (1 connections)
-- [User Flow 3: Collaborative Editing (Будущая функция)](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/user-scenarios.md) (1 connections)
+- [useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L1) (2 connections)
+- [lyricsLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L17) (1 connections)
+- [useLyricsStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L46) (1 connections)
 
 ## Relationships
 
-- [[History Management]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/ru/user-scenarios.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/user-scenarios.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
-- INFERRED: 4 (100%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

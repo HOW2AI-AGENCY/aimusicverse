@@ -4,19 +4,8 @@
 
 ## Key Concepts
 
-- [MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L1) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleKeyDown,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L39) (1 connections)
+- [UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L1) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -24,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx)
 
 ## Audit Trail
 

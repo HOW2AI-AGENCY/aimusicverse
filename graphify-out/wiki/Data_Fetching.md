@@ -4,17 +4,9 @@
 
 ## Key Concepts
 
-- [PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L1) (2 connections)
-- [LoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L25) (1 connections)
-- [{ 
-    transactions, 
-    isLoading, 
-    hasMore, 
-    loadMore, 
-    isLoadingMore,
-    refetch,
-    isRefetching
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx#L53) (1 connections)
+- [AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L1) (2 connections)
+- [AIProgressIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L30) (1 connections)
+- [STEP_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -22,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx)
 
 ## Audit Trail
 

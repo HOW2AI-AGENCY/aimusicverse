@@ -1,17 +1,17 @@
 # User Confirmation
 
-> 8 nodes · cohesion 0.32
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L1) (7 connections)
-- [triggerSelectionHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L45) (3 connections)
-- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L65) (2 connections)
-- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L54) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L99) (1 connections)
-- [[isConfirming, setIsConfirming]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L43) (1 connections)
-- [severityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L72) (1 connections)
-- [triggerWarningHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L44) (1 connections)
+- [LinkToTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L1) (8 connections)
+- [filteredTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L54) (1 connections)
+- [[isSaving, setIsSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L50) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L154) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L52) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L48) (1 connections)
+- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L49) (1 connections)
+- [{ tracks, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\LinkToTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

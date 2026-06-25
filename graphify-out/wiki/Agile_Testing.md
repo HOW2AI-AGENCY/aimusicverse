@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 2 Test Plan](file:///D:/.MUSICVERSE/aimusicverse/SPRINT_002_TEST_PLAN.md) (0 connections)
+- [useUnifiedStudioStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useUnifiedStudioStore.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [SPRINT_002_TEST_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINT_002_TEST_PLAN.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\useUnifiedStudioStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useUnifiedStudioStore.ts)
 
 ## Audit Trail
 

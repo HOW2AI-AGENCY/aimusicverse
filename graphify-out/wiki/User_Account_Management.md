@@ -1,19 +1,35 @@
 # User Account Management
 
-> 10 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [QuickBuyButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L1) (9 connections)
-- [{ balance, isLoading, isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L27) (1 connections)
-- [balanceColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L56) (1 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L45) (1 connections)
-- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L50) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L29) (1 connections)
-- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L31) (1 connections)
-- [{ isFreeUser, isBalanceLimitReached }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L28) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L30) (1 connections)
-- [showButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx#L39) (1 connections)
+- [IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L1) (9 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L96) (2 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L104) (2 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L25) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L141) (1 connections)
+- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L68) (1 connections)
+- [isVisible](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L113) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L41) (1 connections)
+- [{ selectedSection, customRange, editMode, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L67) (1 connections)
+- [{
+    startTime,
+    endTime,
+    sectionDuration,
+    maxDuration,
+    isValidDuration,
+    isSubmitting,
+    prompt,
+    setPrompt,
+    tags,
+    setTags,
+    lyrics,
+    setLyrics,
+    addPreset,
+    executeReplacement,
+    reset,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L70) (1 connections)
 
 ## Relationships
 
@@ -21,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\QuickBuyButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/QuickBuyButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

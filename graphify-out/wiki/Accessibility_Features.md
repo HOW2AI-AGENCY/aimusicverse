@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [visually-hidden.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx#L1) (1 connections)
-- [VisuallyHidden](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx#L4) (1 connections)
+- [HeroSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ContentSkeleton.tsx#L14) (1 connections)
+- [ContentSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ContentSkeleton.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\visually-hidden.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/visually-hidden.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ContentSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ContentSkeleton.tsx)
 
 ## Audit Trail
 

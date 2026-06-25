@@ -4,22 +4,21 @@
 
 ## Key Concepts
 
-- [Telegram Bot Enhancement Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TELEGRAM_BOT_ENHANCEMENT_SUMMARY.md) (1 connections)
-- [Telegram Stars Payment System Implementation Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TELEGRAM_STARS_IMPLEMENTATION_COMPLETE.md) (1 connections)
+- [track.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/track.ts#L1) (1 connections)
+- [isPlayableTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/types/track.ts#L87) (1 connections)
 
 ## Relationships
 
-- [[Dialog Management]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/implementation-reports/TELEGRAM_BOT_ENHANCEMENT_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TELEGRAM_BOT_ENHANCEMENT_SUMMARY.md)
-- [docs/archive/implementation-reports/TELEGRAM_STARS_IMPLEMENTATION_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TELEGRAM_STARS_IMPLEMENTATION_COMPLETE.md)
+- [D:\.MUSICVERSE\aimusicverse\src\types\track.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/track.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
-- INFERRED: 2 (100%)
+- EXTRACTED: 2 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

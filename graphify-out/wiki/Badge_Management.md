@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L6) (1 connections)
-- [badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx#L1) (1 connections)
+- [RenameTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/RenameTrackDialog.tsx#L1) (1 connections)
+- [RenameTrackDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/RenameTrackDialog.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/badge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\RenameTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/RenameTrackDialog.tsx)
 
 ## Audit Trail
 

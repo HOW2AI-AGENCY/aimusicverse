@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L1) (6 connections)
-- [advancedChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L48) (1 connections)
-- [ESSENTIAL_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L27) (1 connections)
-- [essentialChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L43) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L40) (1 connections)
-- [knobSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L52) (1 connections)
-- [[showAll, setShowAll]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx#L39) (1 connections)
+- [AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L1) (8 connections)
+- [displayUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L111) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L20) (1 connections)
+- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L112) (1 connections)
+- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L18) (1 connections)
+- [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L19) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EssentialsKnobGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EssentialsKnobGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Placeholder SVG](file:///D:/.MUSICVERSE/aimusicverse/public/placeholder.svg) (0 connections)
+- [Mobile Interface Optimization Roadmap 2026](file:///D:/.MUSICVERSE/aimusicverse/docs/mobile/OPTIMIZATION_ROADMAP_2026.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/placeholder.svg](file:///D:/.MUSICVERSE/aimusicverse/public/placeholder.svg)
+- [docs/mobile/OPTIMIZATION_ROADMAP_2026.md](file:///D:/.MUSICVERSE/aimusicverse/docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
 
 ## Audit Trail
 

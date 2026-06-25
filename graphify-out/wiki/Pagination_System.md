@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L1) (7 connections)
-- [Pagination()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L7) (1 connections)
-- [PaginationContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L17) (1 connections)
-- [PaginationEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L65) (1 connections)
-- [PaginationItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L24) (1 connections)
-- [PaginationLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L34) (1 connections)
-- [PaginationNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L57) (1 connections)
-- [PaginationPrevious()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L49) (1 connections)
+- [useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L1) (7 connections)
+- [cacheHits](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L50) (1 connections)
+- [cacheMisses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L51) (1 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L40) (1 connections)
+- [formatCacheSize()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L275) (1 connections)
+- [globalCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L48) (1 connections)
+- [totalCacheSize](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L49) (1 connections)
+- [useAudioBufferCache()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L53) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts)
 
 ## Audit Trail
 

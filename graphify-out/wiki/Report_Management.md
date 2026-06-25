@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L1) (9 connections)
-- [{ data: reports, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L57) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L58) (1 connections)
-- [handleQuickAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L61) (1 connections)
-- [REASON_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L47) (1 connections)
-- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L40) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L139) (1 connections)
-- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L56) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L140) (1 connections)
-- [updateStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L59) (1 connections)
+- [ErrorTrendsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L1) (10 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L84) (1 connections)
+- [edgeFn](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L307) (1 connections)
+- [[expandedError, setExpandedError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L87) (1 connections)
+- [extractEdgeFunction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L61) (1 connections)
+- [groupByEdgeFunction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L73) (1 connections)
+- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L308) (1 connections)
+- [parseStackTrace()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L45) (1 connections)
+- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L382) (1 connections)
+- [stackInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L306) (1 connections)
 
 ## Relationships
 
@@ -21,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ErrorTrendsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 19 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

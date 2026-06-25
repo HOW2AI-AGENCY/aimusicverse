@@ -1,25 +1,29 @@
 # Stroke Analysis
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L1) (2 connections)
-- [analysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L24) (1 connections)
-- [displayStrokes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx#L87) (1 connections)
+- [React Hooks Undefined Error Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_UNDEFINED_FIX.md) (3 connections)
+- [React Hooks Module Initialization Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_MODULE_INIT_FIX.md) (1 connections)
+- [React Loading Order Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_LOADING_ORDER_FIX.md) (1 connections)
+- [TanStack Query Chunking Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TANSTACK_QUERY_CHUNKING_FIX.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[React Error Handling]] (6 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\StrummingPatternVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/StrummingPatternVisualization.tsx)
+- [docs/archive/implementation-reports/REACT_HOOKS_MODULE_INIT_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_MODULE_INIT_FIX.md)
+- [docs/archive/implementation-reports/REACT_HOOKS_UNDEFINED_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_UNDEFINED_FIX.md)
+- [docs/archive/implementation-reports/REACT_LOADING_ORDER_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_LOADING_ORDER_FIX.md)
+- [docs/archive/implementation-reports/TANSTACK_QUERY_CHUNKING_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TANSTACK_QUERY_CHUNKING_FIX.md)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 0 (0%)
+- INFERRED: 6 (100%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [AudioPoolMonitor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L1) (8 connections)
-- [[activeElements, setActiveElements]](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L23) (1 connections)
-- [getPriorityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L52) (1 connections)
-- [getPriorityLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L39) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L27) (1 connections)
-- [isAtLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L37) (1 connections)
-- [isNearLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L36) (1 connections)
-- [[stats, setStats]](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L22) (1 connections)
-- [utilizationPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L35) (1 connections)
+- [UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L1) (8 connections)
+- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L24) (1 connections)
+- [ErrorIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L39) (1 connections)
+- [handleContactSupport](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L52) (1 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L45) (1 connections)
+- [handleFaqClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L58) (1 connections)
+- [handleRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L41) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L49) (1 connections)
+- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\debug\AudioPoolMonitor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\errors\UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx)
 
 ## Audit Trail
 

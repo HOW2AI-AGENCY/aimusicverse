@@ -4,19 +4,17 @@
 
 ## Key Concepts
 
-- [Music Player Architecture](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_ARCHITECTURE.md) (2 connections)
-- [Music Player Quick Start Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md) (1 connections)
-- [Music Player Troubleshooting Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_TROUBLESHOOTING.md) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L1) (2 connections)
+- [DEFAULT_PROVIDER_FOR_TYPE](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L205) (1 connections)
+- [PROVIDER_CAPABILITIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L194) (1 connections)
 
 ## Relationships
 
-- [[File Management]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/PLAYER_ARCHITECTURE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_ARCHITECTURE.md)
-- [docs/PLAYER_README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_README.md)
-- [docs/PLAYER_TROUBLESHOOTING.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PLAYER_TROUBLESHOOTING.md)
+- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts)
 
 ## Audit Trail
 

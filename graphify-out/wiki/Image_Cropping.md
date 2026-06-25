@@ -4,21 +4,21 @@
 
 ## Key Concepts
 
-- [ImageGeneratorDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L1) (15 connections)
-- [ASPECT_RATIOS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L28) (1 connections)
-- [aspectRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L57) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L54) (1 connections)
-- [[cropMode, setCropMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L51) (1 connections)
-- [[cropPosition, setCropPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L52) (1 connections)
-- [DEFAULT_PROMPTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L34) (1 connections)
-- [[generatedImage, setGeneratedImage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L50) (1 connections)
-- [handleAcceptWithoutCrop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L154) (1 connections)
-- [handleCrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L87) (1 connections)
-- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L161) (1 connections)
-- [imageRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L55) (1 connections)
-- [[isGenerating, setIsGenerating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L49) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L48) (1 connections)
-- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx#L53) (1 connections)
+- [chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L1) (14 connections)
+- [ChartContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L32) (1 connections)
+- [ChartContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L20) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L77) (1 connections)
+- [colorConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L62) (1 connections)
+- [{ config }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L127) (1 connections)
+- [configLabelKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L295) (1 connections)
+- [indicatorColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L172) (1 connections)
+- [itemConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L171) (1 connections)
+- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L170) (1 connections)
+- [nestLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L157) (1 connections)
+- [payloadPayload](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L290) (1 connections)
+- [THEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L7) (1 connections)
+- [tooltipLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L129) (1 connections)
+- [useChart()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -26,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ImageGeneratorDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ImageGeneratorDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 29 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

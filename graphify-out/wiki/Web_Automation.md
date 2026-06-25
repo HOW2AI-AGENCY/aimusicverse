@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L1) (6 connections)
-- [{ AxePuppeteer }](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L8) (1 connections)
-- [fs](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L10) (1 connections)
-- [pages](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L13) (1 connections)
-- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L11) (1 connections)
-- [puppeteer](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L9) (1 connections)
+- [ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L1) (5 connections)
+- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L34) (2 connections)
+- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L25) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L30) (1 connections)
+- [isDev](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L81) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx#L9) (1 connections)
 
 ## Relationships
 
@@ -17,12 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ErrorBoundaryWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundaryWrapper.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 11 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (91%)
+- INFERRED: 1 (9%)
 - AMBIGUOUS: 0 (0%)
 
 ---

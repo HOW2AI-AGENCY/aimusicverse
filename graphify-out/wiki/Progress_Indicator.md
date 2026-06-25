@@ -1,34 +1,34 @@
 # Progress Indicator
 
-> 26 nodes · cohesion 0.08
+> 26 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [RealisticKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L1) (25 connections)
-- [activeColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L62) (1 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L59) (1 connections)
-- [arcProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L60) (1 connections)
-- [calculateNewValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L75) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L41) (1 connections)
-- [createArcPath()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L152) (1 connections)
-- [DISABLED_COLOR](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L25) (1 connections)
-- [handleDoubleTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L136) (1 connections)
-- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L94) (1 connections)
-- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L109) (1 connections)
-- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L123) (1 connections)
-- [inner](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L224) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L42) (1 connections)
-- [lastExternalValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L49) (1 connections)
-- [lastTapRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L135) (1 connections)
-- [motionValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L47) (1 connections)
-- [NOTCH_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L26) (1 connections)
-- [notches](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L146) (1 connections)
-- [outer](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L225) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L52) (1 connections)
-- [springValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L48) (1 connections)
-- [startValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L44) (1 connections)
-- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L43) (1 connections)
-- [tickAngle](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx#L223) (1 connections)
+- [TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L1) (13 connections)
+- [styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L1) (11 connections)
+- [parseStyleTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L76) (4 connections)
+- [getDisplayTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L185) (3 connections)
+- [parseTrackTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L166) (3 connections)
+- [cleanTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L42) (2 connections)
+- [isValidTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L54) (2 connections)
+- [addTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L67) (2 connections)
+- [detectCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L27) (1 connections)
+- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L21) (1 connections)
+- [MOOD_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L18) (1 connections)
+- [STRUCTURE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L22) (1 connections)
+- [TEMPO_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L20) (1 connections)
+- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L19) (1 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L65) (1 connections)
+- [addBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L77) (1 connections)
+- [ADVANCED_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L56) (1 connections)
+- [BACK_VOCAL_EFFECTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L50) (1 connections)
+- [[backVocals, setBackVocals]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L64) (1 connections)
+- [clearAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L114) (1 connections)
+- [copyToClipboard](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L105) (1 connections)
+- [generateCompoundTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L87) (1 connections)
+- [removeBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L83) (1 connections)
+- [removeTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L73) (1 connections)
+- [[selectedTags, setSelectedTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L63) (1 connections)
 - *... and 1 more nodes in this community*
 
 ## Relationships
@@ -37,12 +37,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\RealisticKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/RealisticKnob.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 50 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 54 (93%)
+- INFERRED: 4 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

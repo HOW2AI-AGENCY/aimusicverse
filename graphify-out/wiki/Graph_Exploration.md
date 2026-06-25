@@ -1,42 +1,42 @@
 # Graph Exploration
 
-> 20 nodes · cohesion 0.10
+> 20 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [MusicGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L1) (19 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L29) (1 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L37) (1 connections)
-- [categoryTags](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L249) (1 connections)
-- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L63) (1 connections)
-- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L32) (1 connections)
-- [genreStyles](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L290) (1 connections)
-- [{ graphData, isLoading, tags, styles }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L21) (1 connections)
-- [graphFilter](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L43) (1 connections)
-- [handleNodeClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L81) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L20) (1 connections)
-- [relatedNodes](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L50) (1 connections)
-- [resetFilters()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L85) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L25) (1 connections)
-- [[selectedCategories, setSelectedCategories]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L27) (1 connections)
-- [[selectedGenres, setSelectedGenres]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L26) (1 connections)
-- [[selectedNode, setSelectedNode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L24) (1 connections)
-- [[selectedNodeTypes, setSelectedNodeTypes]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L28) (1 connections)
-- [selectedTags](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L75) (1 connections)
-- [{ showOnboarding, setShowOnboarding, resetOnboarding }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx#L22) (1 connections)
+- [ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L1) (21 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L99) (5 connections)
+- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L112) (2 connections)
+- [handleGenerateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L177) (2 connections)
+- [handleGenerateExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L181) (2 connections)
+- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L111) (2 connections)
+- [handleOpenStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L185) (2 connections)
+- [analysisComplete](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L239) (1 connections)
+- [buildStemsArray()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L74) (1 connections)
+- [{ close }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L103) (1 connections)
+- [{ data: reference, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L115) (1 connections)
+- [deleteMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L133) (1 connections)
+- [hasStemUrls](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L240) (1 connections)
+- [{ id }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L97) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L102) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L101) (1 connections)
+- [reanalyzeMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L153) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L98) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L106) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L100) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Achievements]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\MusicGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/MusicGraph.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 38 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 48 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

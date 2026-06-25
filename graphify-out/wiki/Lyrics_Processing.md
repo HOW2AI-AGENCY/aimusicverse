@@ -1,88 +1,72 @@
 # Lyrics Processing
 
-> 73 nodes · cohesion 0.04
+> 79 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [LyricsParser](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L93) (23 connections)
-- [LyricsValidator](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L102) (17 connections)
-- [LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L1) (10 connections)
-- [LyricsParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L1) (8 connections)
-- [.validateForSuno()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L152) (8 connections)
-- [.professionalAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L722) (7 connections)
-- [LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L1) (6 connections)
-- [.extractInlineTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L197) (6 connections)
-- [LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L1) (5 connections)
-- [LyricsFormatter](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L90) (5 connections)
-- [.validate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L106) (5 connections)
-- [.extractSections()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L118) (4 connections)
-- [handleAutoFix()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx#L45) (4 connections)
-- [.findInvalidSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L409) (4 connections)
-- [.analyzeSyllables()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L415) (3 connections)
-- [.detectRhymeScheme()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L622) (3 connections)
-- [.extractAllTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L326) (3 connections)
-- [.suggestStylePrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L806) (3 connections)
-- [.validateStructure()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L471) (3 connections)
-- [.validateTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L355) (3 connections)
-- [isValidSectionTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L81) (3 connections)
-- [.calculateValidationScore()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L348) (3 connections)
-- [.validateTagInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L512) (3 connections)
-- [.calculateCharCount()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L164) (2 connections)
-- [.formatFinal()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L94) (2 connections)
-- *... and 48 more nodes in this community*
+- [imageOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L1) (20 connections)
+- [performance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts#L1) (18 connections)
+- [route-preloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L1) (10 connections)
+- [AudioBufferPool](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L32) (9 connections)
+- [useAudioBufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L1) (7 connections)
+- [usePromptDJEnhanced.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJEnhanced.ts#L1) (7 connections)
+- [requestIdleCallback](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts#L178) (6 connections)
+- [.dispose()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L125) (5 connections)
+- [.evictOldest()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L66) (4 connections)
+- [.preload()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L87) (4 connections)
+- [.set()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L47) (4 connections)
+- [getOptimizedImageUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L266) (3 connections)
+- [processBatched()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts#L256) (3 connections)
+- [.scheduleProcess()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/prefetchManager.ts#L137) (3 connections)
+- [preloadCriticalRoutes()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L120) (3 connections)
+- [preloadRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L87) (3 connections)
+- [processQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L48) (3 connections)
+- [.get()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L38) (3 connections)
+- [.processQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L107) (3 connections)
+- [.queuePreload()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L101) (3 connections)
+- [useAudioBufferPool()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L162) (3 connections)
+- [.clear()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L117) (2 connections)
+- [.stopCleanupTimer()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L172) (2 connections)
+- [usePredictiveGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePredictiveGeneration.ts#L1) (2 connections)
+- [generateSrcSet()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L192) (2 connections)
+- *... and 54 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class LyricsFormatter {
-        +LyricsFormatter.ts()
-        +.formatFinal()
-        +.calculateCharCount()
-        +.extractSections()
-        +.validateStructure()
-    }
-    class LyricsParser {
-        +LyricsParser.ts()
-        +.parse()
-        +.extractSections()
-        +.detectSectionType()
-        +.extractInlineTags()
-        +.detectTagType()
-        +.extractAllTags()
-        +.validateTags()
-        +.analyzeSyllables()
-        +.countSyllables()
-    }
-    class LyricsValidator {
-        +LyricsValidator.ts()
-        +.validate()
-        +.validateForSuno()
-        +.checkMissingEndTag()
-        +.checkRussianTags()
-        +.checkConflictingTags()
-        +.checkTagOverload()
-        +.checkWrongBrackets()
-        +.checkStructureTags()
-        +.calculateValidationScore()
+    class AudioBufferPool {
+        +useAudioBufferPool.ts()
+        +.get()
+        +.set()
+        +.evictOldest()
+        +.preload()
+        +.queuePreload()
+        +.processQueue()
+        +.clear()
+        +.getStats()
     }
 ```
 
 ## Relationships
 
-- [[Timer Management]] (1 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsValidationAlert.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioBufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePredictiveGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePredictiveGeneration.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJEnhanced.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJEnhanced.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\bufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\prefetchManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/prefetchManager.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\imageOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\performance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\route-preloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 189 (90%)
-- INFERRED: 20 (10%)
+- EXTRACTED: 170 (85%)
+- INFERRED: 30 (15%)
 - AMBIGUOUS: 0 (0%)
 
 ---

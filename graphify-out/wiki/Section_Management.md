@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [SectionReplacementHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L1) (7 connections)
-- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L62) (1 connections)
-- [{ data: sections, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L39) (1 connections)
-- [[expandedSection, setExpandedSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L41) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L229) (1 connections)
-- [groupedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L45) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L40) (1 connections)
-- [[playingId, setPlayingId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L42) (1 connections)
+- [StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L1) (7 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L83) (2 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L70) (1 connections)
+- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L88) (1 connections)
+- [{ impact, select }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L68) (1 connections)
+- [MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L32) (1 connections)
+- [[selectedMode, setSelectedMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L67) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L75) (1 connections)
 
 ## Relationships
 
@@ -19,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SectionReplacementHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

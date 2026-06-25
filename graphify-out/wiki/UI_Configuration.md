@@ -4,18 +4,18 @@
 
 ## Key Concepts
 
-- [CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L1) (11 connections)
-- [availableModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L76) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L119) (1 connections)
-- [CurrentIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L79) (1 connections)
-- [currentModeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L78) (1 connections)
-- [currentModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L77) (1 connections)
-- [handleHistoryClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L71) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L120) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L121) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L69) (1 connections)
-- [MODE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L41) (1 connections)
-- [MODE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L57) (1 connections)
+- [StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L1) (11 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L42) (1 connections)
+- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L74) (1 connections)
+- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L45) (1 connections)
+- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L57) (1 connections)
+- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L67) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L34) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L36) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L37) (1 connections)
+- [knobRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L35) (1 connections)
+- [startValueRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L39) (1 connections)
+- [startYRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -23,7 +23,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\melody-mixer\StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx)
 
 ## Audit Trail
 

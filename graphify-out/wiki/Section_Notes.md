@@ -1,13 +1,13 @@
 # Section Notes
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L1) (3 connections)
-- [useSectionNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L168) (2 connections)
-- [useSectionNotesData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L107) (2 connections)
-- [sectionNotesKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L44) (1 connections)
+- [MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L1) (3 connections)
+- [MusicLabAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L18) (1 connections)
+- [MusicLabAudioProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L20) (1 connections)
+- [useMusicLabAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

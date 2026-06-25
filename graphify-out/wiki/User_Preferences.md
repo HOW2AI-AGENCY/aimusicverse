@@ -1,22 +1,22 @@
 # User Preferences
 
-> 13 nodes · cohesion 0.17
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L1) (4 connections)
-- [useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L1) (4 connections)
-- [useCloudStorage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L37) (3 connections)
-- [useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L1) (2 connections)
-- [HintsSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L29) (2 connections)
-- [isAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L136) (2 connections)
-- [useCloudStorageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L114) (2 connections)
-- [useContextualHints()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L317) (2 connections)
-- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L27) (1 connections)
-- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L17) (1 connections)
-- [CONTEXTUAL_HINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L43) (1 connections)
-- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L314) (1 connections)
-- [VISITS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L315) (1 connections)
+- [HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L1) (12 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L188) (1 connections)
+- [displayValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L89) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L61) (1 connections)
+- [handlePosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L48) (1 connections)
+- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L84) (1 connections)
+- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L78) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L45) (1 connections)
+- [normalizedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L47) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L112) (1 connections)
+- [trackRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L44) (1 connections)
+- [updateValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L50) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L91) (1 connections)
 
 ## Relationships
 
@@ -24,14 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (85%)
-- INFERRED: 4 (15%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L1) (3 connections)
-- [OPERATION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L56) (1 connections)
-- [STEM_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L54) (1 connections)
-- [useStudioOperationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L68) (1 connections)
+- [useStemMidi.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L1) (3 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L7) (1 connections)
+- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L27) (1 connections)
+- [useStemMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L69) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStemMidi.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts)
 
 ## Audit Trail
 

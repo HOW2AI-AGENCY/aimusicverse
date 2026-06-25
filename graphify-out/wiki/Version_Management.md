@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [VersionsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/VersionsSection.tsx#L1) (1 connections)
-- [VersionsSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/VersionsSection.tsx#L15) (1 connections)
+- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L1) (1 connections)
+- [exportTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L75) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\VersionsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/VersionsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx)
 
 ## Audit Trail
 

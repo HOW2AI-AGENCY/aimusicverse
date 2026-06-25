@@ -4,18 +4,18 @@
 
 ## Key Concepts
 
-- [PopularCreatorsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L1) (11 connections)
-- [handleCreatorClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L103) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L43) (2 connections)
-- [{ data: creators, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L46) (1 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L187) (1 connections)
-- [getRankConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L192) (1 connections)
-- [handleFollowClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L201) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L44) (1 connections)
-- [{ isFollowing, toggleFollow, isLoading: isFollowLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L185) (1 connections)
-- [isOwnProfile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L184) (1 connections)
-- [rankConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L199) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L182) (1 connections)
+- [MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L1) (11 connections)
+- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L113) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L99) (2 connections)
+- [adminSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L85) (1 connections)
+- [allItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L109) (1 connections)
+- [allSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L106) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L103) (1 connections)
+- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L128) (1 connections)
+- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L102) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L100) (1 connections)
+- [menuSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L47) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L101) (1 connections)
 
 ## Relationships
 
@@ -23,7 +23,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\PopularCreatorsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx)
 
 ## Audit Trail
 

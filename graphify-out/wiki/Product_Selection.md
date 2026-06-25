@@ -1,24 +1,23 @@
 # Product Selection
 
-> 15 nodes · cohesion 0.14
+> 14 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [MobilePaymentScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L1) (8 connections)
-- [useStarsProducts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L1) (5 connections)
-- [featured](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L65) (2 connections)
-- [useFeaturedProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L44) (2 connections)
-- [useGroupedProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L70) (2 connections)
-- [useStarsProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L31) (2 connections)
-- [autoSelect](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L55) (1 connections)
-- [base](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L92) (1 connections)
-- [baseRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L98) (1 connections)
-- [product](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L58) (1 connections)
-- [productCode](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L54) (1 connections)
-- [savings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L103) (1 connections)
-- [selectedRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L99) (1 connections)
-- [starsProductsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L20) (1 connections)
-- [useProductsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L57) (1 connections)
+- [LyricsVisualEditorCompact.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L1) (14 connections)
+- [updateSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L114) (7 connections)
+- [addSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L119) (3 connections)
+- [applyTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L141) (3 connections)
+- [changeSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L133) (3 connections)
+- [sectionsToLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L97) (3 connections)
+- [deleteSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L137) (2 connections)
+- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L52) (2 connections)
+- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L151) (1 connections)
+- [parsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L108) (1 connections)
+- [QUICK_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L46) (1 connections)
+- [SECTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L34) (1 connections)
+- [[sections, setSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L105) (1 connections)
+- [typeInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L159) (1 connections)
 
 ## Relationships
 
@@ -26,13 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStarsProducts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\MobilePaymentScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\LyricsVisualEditorCompact.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (93%)
-- INFERRED: 2 (7%)
+- EXTRACTED: 38 (88%)
+- INFERRED: 5 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

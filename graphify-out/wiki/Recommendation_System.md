@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L1) (2 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L211) (1 connections)
-- [SUGGESTIONS_RULES](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx#L36) (1 connections)
+- [GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L1) (2 connections)
+- [GenerationBridge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L13) (1 connections)
+- [usePresetToParams()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartSuggestions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx)
 
 ## Audit Trail
 

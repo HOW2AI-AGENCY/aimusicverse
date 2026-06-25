@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [FollowingFeed.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L1) (6 connections)
-- [allTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L39) (1 connections)
-- [{ data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L36) (1 connections)
-- [feedSummary](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L37) (1 connections)
-- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L35) (1 connections)
-- [filterOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L27) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L34) (1 connections)
+- [EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L1) (6 connections)
+- [activeEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L32) (1 connections)
+- [EFFECT_COLOR_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L21) (1 connections)
+- [eqActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L40) (1 connections)
+- [eqDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L42) (1 connections)
+- [ratio](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L58) (1 connections)
+- [wetDryPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\social\FollowingFeed.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx)
 
 ## Audit Trail
 

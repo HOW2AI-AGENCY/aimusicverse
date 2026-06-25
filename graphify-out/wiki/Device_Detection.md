@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L1) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L46) (1 connections)
+- [QuickStartSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx#L1) (1 connections)
+- [QUICK_START_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\QuickStartSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickStartSheet.tsx)
 
 ## Audit Trail
 

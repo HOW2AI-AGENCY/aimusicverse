@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Testing Results for Bug Fix PR](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TESTING_RESULTS.md) (0 connections)
+- [Optimization Session Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/implementation-reports/TESTING_RESULTS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TESTING_RESULTS.md)
+- [docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/OPTIMIZATION_SESSION_2025-12-09.md)
 
 ## Audit Trail
 

@@ -1,13 +1,13 @@
 # Track Navigation
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L46) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (2 connections)
-- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L21) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L1) (3 connections)
+- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L68) (1 connections)
+- [TAG_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L82) (1 connections)
+- [UI_TRANSLATIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

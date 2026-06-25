@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L1) (3 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L49) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L59) (1 connections)
-- [useExtendProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L69) (1 connections)
+- [useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L1) (3 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L22) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L30) (1 connections)
+- [useMidiSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts)
 
 ## Audit Trail
 

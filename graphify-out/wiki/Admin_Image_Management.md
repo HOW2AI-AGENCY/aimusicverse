@@ -4,18 +4,18 @@
 
 ## Key Concepts
 
-- [AdminBotImagesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L1) (13 connections)
-- [accessHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L108) (1 connections)
-- [canManage](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L106) (1 connections)
-- [{ data: adminAuth, isLoading: adminAuthLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L105) (1 connections)
-- [{ data: imageConfig, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L115) (1 connections)
-- [fileInputRefs](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L102) (1 connections)
-- [getImageUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L252) (1 connections)
-- [isCustomImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L257) (1 connections)
-- [MENU_IMAGE_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L27) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L103) (1 connections)
-- [saveConfigMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L132) (1 connections)
-- [[uploadingKey, setUploadingKey]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L101) (1 connections)
+- [CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L1) (11 connections)
+- [availableModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L76) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L119) (1 connections)
+- [CurrentIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L79) (1 connections)
+- [currentModeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L78) (1 connections)
+- [currentModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L77) (1 connections)
+- [handleHistoryClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L71) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L120) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L121) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L69) (1 connections)
+- [MODE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L41) (1 connections)
+- [MODE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L57) (1 connections)
 
 ## Relationships
 
@@ -23,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminBotImagesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

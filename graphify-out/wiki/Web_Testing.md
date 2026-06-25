@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Browser Tests Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md) (0 connections)
+- [MusicVerse Description](file:///D:/.MUSICVERSE/aimusicverse/docs/MUSICVERSE_DESCRIPTION.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md)
+- [docs/MUSICVERSE_DESCRIPTION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/MUSICVERSE_DESCRIPTION.md)
 
 ## Audit Trail
 

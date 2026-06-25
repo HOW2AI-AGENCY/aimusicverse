@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Аудит проекта MusicVerse AI - 2025-12-12](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_2025-12-12.md) (0 connections)
+- [Generation Form Too Bulky Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/AUDIT_2025-12-12.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_2025-12-12.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

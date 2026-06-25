@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Система контекстных подсказок](file:///D:/.MUSICVERSE/aimusicverse/docs/CONTEXTUAL_HINTS_SYSTEM.md) (0 connections)
+- [Speckit TasksToIssues Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.taskstoissues.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/CONTEXTUAL_HINTS_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/CONTEXTUAL_HINTS_SYSTEM.md)
+- [.kilocode/workflows/speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.taskstoissues.md)
 
 ## Audit Trail
 

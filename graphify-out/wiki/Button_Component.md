@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
-- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L41) (1 connections)
-- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L39) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L31) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L45) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L40) (1 connections)
-- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
+- [TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L1) (6 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L56) (1 connections)
+- [handleOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L50) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L47) (1 connections)
+- [[sheetOpen, setSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L48) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L60) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx)
 
 ## Audit Trail
 

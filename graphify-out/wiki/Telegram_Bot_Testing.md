@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Telegram Bot Testing Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/guides/TELEGRAM_BOT_TESTING_GUIDE.md) (0 connections)
+- [/speckit.checklist command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.checklist.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/guides/TELEGRAM_BOT_TESTING_GUIDE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/guides/TELEGRAM_BOT_TESTING_GUIDE.md)
+- [.roo/commands/speckit.checklist.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.checklist.md)
 
 ## Audit Trail
 

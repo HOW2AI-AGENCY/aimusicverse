@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L1) (4 connections)
-- [Accordion](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L7) (1 connections)
-- [AccordionContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L37) (1 connections)
-- [AccordionItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L9) (1 connections)
-- [AccordionTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx#L17) (1 connections)
+- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
+- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
+- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
+- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
+- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\accordion.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/accordion.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
 
 ## Audit Trail
 

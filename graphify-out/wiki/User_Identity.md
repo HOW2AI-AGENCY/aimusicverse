@@ -1,12 +1,12 @@
 # User Identity
 
-> 3 nodes · cohesion 0.67
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L1) (2 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L23) (1 connections)
-- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L24) (1 connections)
+- [ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L1) (2 connections)
+- [getScoreLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L36) (2 connections)
+- [ProducerResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L43) (2 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

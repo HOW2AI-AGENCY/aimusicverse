@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L1) (8 connections)
-- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L29) (1 connections)
-- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L53) (1 connections)
-- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L58) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L45) (1 connections)
-- [handleStartEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L39) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L28) (1 connections)
-- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L64) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L30) (1 connections)
+- [SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L1) (8 connections)
+- [{ analytics, getRecommendations, topRated, history }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L37) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L86) (1 connections)
+- [deletePreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L45) (1 connections)
+- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L55) (1 connections)
+- [handleApplyRecommendation](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L51) (1 connections)
+- [loadPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L41) (1 connections)
+- [recommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L49) (1 connections)
+- [userPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx)
 
 ## Audit Trail
 

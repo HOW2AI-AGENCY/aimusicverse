@@ -4,54 +4,17 @@
 
 ## Key Concepts
 
-- [DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L1) (10 connections)
-- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L89) (1 connections)
-- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L26) (1 connections)
-- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L68) (1 connections)
-- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L75) (1 connections)
-- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L99) (1 connections)
-- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L124) (1 connections)
-- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L108) (1 connections)
-- [{
-    isReady,
-    isPlaying,
-    currentStep,
-    bpm,
-    swing,
-    volume,
-    currentKit,
-    pattern,
-    soloTracks,
-    mutedTracks,
-    stepLength,
-    recordingState,
-    recordedAudioUrl,
-    recordedAudioBlob,
-    trackEffects,
-    initialize,
-    play,
-    stop,
-    toggleStep,
-    triggerSound,
-    setBpm,
-    setSwing,
-    setVolume,
-    setKit,
-    loadPattern,
-    clearPattern,
-    toggleSolo,
-    toggleMute,
-    getAvailableKits,
-    getPresetPatterns,
-    setStepLength,
-    startRecording,
-    stopRecording,
-    clearRecording,
-    setTrackEffect,
-    exportToMidi,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L28) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L24) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L25) (1 connections)
+- [AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L1) (11 connections)
+- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L48) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L46) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L47) (1 connections)
+- [[lyrics, setLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L51) (1 connections)
+- [[mood, setMood]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L55) (1 connections)
+- [moodPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L32) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L53) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L52) (1 connections)
+- [vocalStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L25) (1 connections)
+- [[vocalType, setVocalType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -59,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 21 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

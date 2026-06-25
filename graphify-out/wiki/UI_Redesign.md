@@ -4,26 +4,23 @@
 
 ## Key Concepts
 
-- [Mobile-First Minimalist UI Redesign Specification](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/spec.md) (3 connections)
-- [Mobile-First Minimalist UI Redesign Requirements Checklist](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/checklists/requirements.md) (1 connections)
-- [Mobile-First Minimalist UI Redesign API Contracts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/contracts/api-contracts.md) (1 connections)
-- [Mobile-First Minimalist UI Redesign Tasks](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/tasks.md) (1 connections)
+- [typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L1) (3 connections)
+- [studioProjectToDAWProject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L56) (2 connections)
+- [dawTrackToStudioTrackUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L68) (1 connections)
+- [studioTrackToDAWTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L40) (1 connections)
 
 ## Relationships
 
-- [[UI Components]] (6 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-mobile-ui-redesign/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/checklists/requirements.md)
-- [specs/001-mobile-ui-redesign/contracts/api-contracts.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/contracts/api-contracts.md)
-- [specs/001-mobile-ui-redesign/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/spec.md)
-- [specs/001-mobile-ui-redesign/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\studio\typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

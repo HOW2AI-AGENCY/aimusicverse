@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Player Fixes Summary (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_SUMMARY_RU.md) (0 connections)
+- [/speckit.taskstoissues command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/implementation-reports/PLAYER_FIXES_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_SUMMARY_RU.md)
+- [.roo/commands/speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.taskstoissues.md)
 
 ## Audit Trail
 

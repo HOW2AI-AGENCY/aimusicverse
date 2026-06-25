@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [stemReferenceStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L1) (2 connections)
-- [EXPIRY_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L24) (1 connections)
-- [useStemReferenceStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L26) (1 connections)
+- [useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L18) (1 connections)
+- [useTelegramOrientationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\stemReferenceStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts)
 
 ## Audit Trail
 

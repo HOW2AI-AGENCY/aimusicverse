@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [LyricsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L1) (6 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L45) (1 connections)
-- [lyricsValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L40) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L34) (1 connections)
-- [[saveDialogOpen, setSaveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L36) (1 connections)
-- [[showVisualEditor, setShowVisualEditor]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L35) (1 connections)
-- [[templateSelectorOpen, setTemplateSelectorOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L37) (1 connections)
+- [FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L1) (6 connections)
+- [displayTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L65) (1 connections)
+- [handleLoadMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L72) (1 connections)
+- [handleTrackClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L67) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L62) (1 connections)
+- [SKELETON_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L33) (1 connections)
+- [TrackSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\LyricsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx)
 
 ## Audit Trail
 

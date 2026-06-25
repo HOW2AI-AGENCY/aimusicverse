@@ -1,24 +1,24 @@
 # MIDI Controller
 
-> 15 nodes · cohesion 0.14
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L1) (8 connections)
-- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L1) (7 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L180) (2 connections)
-- [stemType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L47) (2 connections)
-- [emojiMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L237) (1 connections)
-- [groupedActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L48) (1 connections)
-- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L50) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L46) (1 connections)
-- [isDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L179) (1 connections)
-- [isGuitar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L103) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L95) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L42) (1 connections)
-- [midiModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L102) (1 connections)
-- [[selectedMidiModel, setSelectedMidiModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L96) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L73) (1 connections)
+- [usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L1) (12 connections)
+- [usePromptDJStore](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L161) (2 connections)
+- [usePromptHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L27) (2 connections)
+- [usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L1) (1 connections)
+- [dbPromise](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L57) (1 connections)
+- [DEFAULT_CHANNELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L80) (1 connections)
+- [DEFAULT_SETTINGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L92) (1 connections)
+- [indexedDBStorage](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L11) (1 connections)
+- [openDB()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L58) (1 connections)
+- [selectChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L272) (1 connections)
+- [selectHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L274) (1 connections)
+- [selectPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L275) (1 connections)
+- [selectRecentPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L283) (1 connections)
+- [selectSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L273) (1 connections)
+- [selectTopRatedPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L278) (1 connections)
 
 ## Relationships
 
@@ -26,13 +26,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\actions\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 26 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

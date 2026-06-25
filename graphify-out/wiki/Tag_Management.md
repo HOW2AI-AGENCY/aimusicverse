@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L21) (1 connections)
-- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L37) (1 connections)
+- [RecordingVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L1) (2 connections)
+- [barHeights](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L31) (1 connections)
+- [getLevelColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx)
 
 ## Audit Trail
 

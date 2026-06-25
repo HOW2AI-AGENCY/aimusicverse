@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [ProgressiveImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L1) (10 connections)
-- [aspectClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L66) (1 connections)
-- [avatarFallback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L186) (1 connections)
-- [handleError](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L61) (1 connections)
-- [handleLoad](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L56) (1 connections)
-- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L54) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L53) (1 connections)
-- [objectFitClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L90) (1 connections)
-- [roundedClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L73) (1 connections)
-- [showFallback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L96) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx#L83) (1 connections)
+- [accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L1) (10 connections)
+- [ariaUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L343) (1 connections)
+- [contrastUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L259) (1 connections)
+- [focusUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L188) (1 connections)
+- [getSkipLinkProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L401) (1 connections)
+- [keyboardUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L300) (1 connections)
+- [srUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L232) (1 connections)
+- [TOUCH_TARGET](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L12) (1 connections)
+- [useFocusTrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L95) (1 connections)
+- [useKeyboardNavigation()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L21) (1 connections)
+- [useLiveAnnounce()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L147) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ProgressiveImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressiveImage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts)
 
 ## Audit Trail
 

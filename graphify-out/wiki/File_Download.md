@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StemDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L1) (2 connections)
-- [sanitizeFilename()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L23) (1 connections)
-- [StemDownloadPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L27) (1 connections)
+- [KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L1) (2 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L41) (1 connections)
+- [visibleLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx)
 
 ## Audit Trail
 

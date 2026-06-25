@@ -4,30 +4,20 @@
 
 ## Key Concepts
 
-- [EnrichmentStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L1) (14 connections)
-- [applyAllSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L163) (2 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L66) (1 connections)
-- [{
-    concept,
-    writing,
-    enrichment,
-    setVocalTags,
-    setInstrumentTags,
-    setDynamicTags,
-    setEmotionalCues,
-    isGenerating,
-    setIsGenerating,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L47) (1 connections)
-- [DYNAMIC_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L34) (1 connections)
-- [EMOTIONAL_CUES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L40) (1 connections)
-- [getSuggestedForCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L171) (1 connections)
-- [INSTRUMENT_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L28) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L257) (1 connections)
-- [isSuggested](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L258) (1 connections)
-- [suggested](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L218) (1 connections)
-- [[suggestedTags, setSuggestedTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L59) (1 connections)
-- [toggleTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L101) (1 connections)
-- [VOCAL_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx#L22) (1 connections)
+- [SectionLyricsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L1) (13 connections)
+- [acceptPendingLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L98) (1 connections)
+- [AI_MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L37) (1 connections)
+- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L55) (1 connections)
+- [handleAIEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L68) (1 connections)
+- [handleAutoRegenerate](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L118) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L56) (1 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L59) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L52) (1 connections)
+- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L53) (1 connections)
+- [lyricsChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L58) (1 connections)
+- [[pendingLyrics, setPendingLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L54) (1 connections)
+- [rejectPendingLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L106) (1 connections)
+- [resetToOriginal](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L111) (1 connections)
 
 ## Relationships
 
@@ -35,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-wizard\EnrichmentStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-wizard/EnrichmentStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionLyricsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 27 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 26 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

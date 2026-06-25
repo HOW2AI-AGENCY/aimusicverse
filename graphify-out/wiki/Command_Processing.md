@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.clarify command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md) (0 connections)
+- [MusicVerse AI Professional DAW Studio](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_RU.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.claude/commands/speckit.clarify.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md)
+- [docs/archive/implementation-reports/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_RU.md)
 
 ## Audit Trail
 

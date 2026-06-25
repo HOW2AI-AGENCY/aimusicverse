@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L1) (1 connections)
-- [DrumKitSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L13) (1 connections)
+- [UsersTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/UsersTab.tsx#L1) (1 connections)
+- [UsersTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/UsersTab.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\UsersTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/UsersTab.tsx)
 
 ## Audit Trail
 

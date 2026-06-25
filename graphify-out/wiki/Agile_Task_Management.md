@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 009 Task List](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TASK-LIST.md) (0 connections)
+- [/speckit.specify command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.specify.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [SPRINTS/completed/SPRINT-009-TASK-LIST.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-009-TASK-LIST.md)
+- [.claude/commands/speckit.specify.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.specify.md)
 
 ## Audit Trail
 

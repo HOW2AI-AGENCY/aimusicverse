@@ -4,25 +4,25 @@
 
 ## Key Concepts
 
-- [auth.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L1) (18 connections)
-- [authButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L21) (1 connections)
-- [authCookies](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L139) (1 connections)
-- [authCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L25) (1 connections)
-- [authState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L95) (1 connections)
-- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L188) (1 connections)
-- [cookies](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L138) (1 connections)
-- [emailInput](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L69) (1 connections)
-- [errorCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L82) (1 connections)
-- [formCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L163) (1 connections)
-- [forms](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L162) (1 connections)
-- [hasEmailInput](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L70) (1 connections)
-- [hasForm](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L56) (1 connections)
-- [loginForm](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L52) (1 connections)
-- [protectedRoutes](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L173) (1 connections)
-- [sensitiveData](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L112) (1 connections)
-- [text](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L115) (1 connections)
-- [url](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L39) (1 connections)
-- [validationError](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts#L78) (1 connections)
+- [SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L1) (10 connections)
+- [use-realtime-track-updates.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L1) (7 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L60) (2 connections)
+- [onUpdate](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L72) (2 connections)
+- [[cursorPosition, setCursorPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L37) (1 connections)
+- [handleOpenTagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L65) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L35) (1 connections)
+- [lineTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L104) (1 connections)
+- [[localContent, setLocalContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L36) (1 connections)
+- [sectionLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L40) (1 connections)
+- [syllableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L42) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L41) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L38) (1 connections)
+- [defaultParams](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L38) (1 connections)
+- [params](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L60) (1 connections)
+- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L158) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L79) (1 connections)
+- [{ unmount }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L98) (1 connections)
+- [updateTypes](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L130) (1 connections)
 
 ## Relationships
 
@@ -30,12 +30,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\auth.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/auth.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\use-realtime-track-updates.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 34 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

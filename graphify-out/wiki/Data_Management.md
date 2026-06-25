@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Backend & Database Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/backend.agent.md) (0 connections)
+- [Phase 0 Research Unified Interface Audit & Analysis](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/research.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/agents/backend.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/backend.agent.md)
+- [specs/001-unified-interface/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/research.md)
 
 ## Audit Trail
 

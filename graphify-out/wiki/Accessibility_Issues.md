@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Touch Targets Too Small Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [KNOWLEDGE_BASE.md](file:///D:/.MUSICVERSE/aimusicverse/KNOWLEDGE_BASE.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [KNOWLEDGE_BASE.md](file:///D:/.MUSICVERSE/aimusicverse/KNOWLEDGE_BASE.md)
 
 ## Audit Trail
 

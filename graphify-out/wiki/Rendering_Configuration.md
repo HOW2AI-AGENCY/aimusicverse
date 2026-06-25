@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L1) (5 connections)
-- [MAX_RENDER_SAMPLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L24) (1 connections)
-- [MEMORY_WARNING_THRESHOLD_MB](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L23) (1 connections)
-- [useCustomDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L147) (1 connections)
-- [useStudioPerformance()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L26) (1 connections)
-- [useThrottledCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts#L115) (1 connections)
+- [useStemTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L1) (5 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L11) (1 connections)
+- [useDeleteTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L240) (1 connections)
+- [useSaveTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L158) (1 connections)
+- [useStemTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L56) (1 connections)
+- [useTrackTranscriptions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L111) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioPerformance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioPerformance.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStemTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts)
 
 ## Audit Trail
 

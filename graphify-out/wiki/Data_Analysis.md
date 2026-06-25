@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.analyze command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.analyze.md) (0 connections)
+- [Data Model UI Component Unification Phase 2](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/data-model.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.roo/commands/speckit.analyze.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.analyze.md)
+- [specs/002-ui-component-unification/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/data-model.md)
 
 ## Audit Trail
 

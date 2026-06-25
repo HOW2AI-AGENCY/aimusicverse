@@ -4,13 +4,22 @@
 
 ## Key Concepts
 
-- [home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L1) (6 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L52) (1 connections)
-- [dupes](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L36) (1 connections)
-- [EXPECTED_ORDER](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L11) (1 connections)
-- [sectionIds](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L26) (1 connections)
-- [seen](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L42) (1 connections)
-- [sortedByExpected](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L43) (1 connections)
+- [social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L1) (6 connections)
+- [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L192) (1 connections)
+- [{
+    isLiked,
+    likesCount,
+    toggleLike,
+    isLikePending,
+    isFollowing,
+    toggleFollow,
+    share,
+    isSharing,
+  }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L66) (1 connections)
+- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L142) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L101) (1 connections)
+- [shareButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L160) (1 connections)
+- [user](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L133) (1 connections)
 
 ## Relationships
 
@@ -18,7 +27,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx)
 
 ## Audit Trail
 

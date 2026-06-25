@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L1) (2 connections)
-- [FormDivider](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L39) (1 connections)
-- [FormSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx#L18) (1 connections)
+- [ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L1) (2 connections)
+- [isDevEnvironment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L15) (1 connections)
+- [ProtectedRoute](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\FormSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/FormSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx)
 
 ## Audit Trail
 

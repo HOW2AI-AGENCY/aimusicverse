@@ -1,17 +1,17 @@
 # Music Metadata
 
-> 8 nodes · cohesion 0.39
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L1) (7 connections)
-- [useMusicGraphData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L155) (5 connections)
-- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L96) (2 connections)
-- [useMusicStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L112) (2 connections)
-- [useStyleTagMappings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L127) (2 connections)
-- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L141) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L70) (1 connections)
-- [GENRE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L83) (1 connections)
+- [useWaveformCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L1) (7 connections)
+- [accessOrder](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L21) (1 connections)
+- [CACHE_MAX_AGE_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L16) (1 connections)
+- [CACHE_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L15) (1 connections)
+- [MEMORY_CACHE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L17) (1 connections)
+- [memoryCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L20) (1 connections)
+- [updateAccessOrder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L23) (1 connections)
+- [useWaveformCache()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L42) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useWaveformCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

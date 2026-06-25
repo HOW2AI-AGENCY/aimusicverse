@@ -1,13 +1,13 @@
 # Payment Management
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L1) (3 connections)
-- [usePaymentHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L24) (2 connections)
-- [useRecentTransactions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L61) (2 connections)
-- [paymentHistoryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L10) (1 connections)
+- [TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L1) (4 connections)
+- [shimmer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L194) (1 connections)
+- [shimmerClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L195) (1 connections)
+- [TrackRowSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeletons\TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

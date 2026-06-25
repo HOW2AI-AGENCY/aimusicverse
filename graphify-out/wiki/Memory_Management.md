@@ -1,35 +1,35 @@
 # Memory Management
 
-> 27 nodes · cohesion 0.07
+> 26 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [memory-usage.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L1) (26 connections)
-- [afterClear](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L172) (1 connections)
-- [baseMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L137) (1 connections)
-- [beforeClear](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L168) (1 connections)
-- [finalMeasurement](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L53) (1 connections)
-- [finalMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L284) (1 connections)
-- [growth](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L312) (1 connections)
-- [hasLeak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L213) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L125) (1 connections)
-- [initialMeasurement](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L38) (1 connections)
-- [initialMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L245) (1 connections)
-- [largeArray](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L307) (1 connections)
-- [measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L134) (1 connections)
-- [memoryGrowth](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L58) (1 connections)
-- [memoryReleased](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L174) (1 connections)
-- [memoryRetained](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L103) (1 connections)
-- [memoryTracker](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L13) (1 connections)
-- [memoryUsed](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L138) (1 connections)
-- [peakMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L136) (1 connections)
-- [phase1Measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L89) (1 connections)
-- [phase1Peak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L101) (1 connections)
-- [phase2Measurements](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L99) (1 connections)
-- [phase2Peak](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L102) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L42) (1 connections)
-- [{ result, unmount }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts#L80) (1 connections)
-- *... and 2 more nodes in this community*
+- [ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L1) (26 connections)
+- [barHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L125) (1 connections)
+- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L117) (1 connections)
+- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L103) (1 connections)
+- [canvasHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L116) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L37) (1 connections)
+- [clampedContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L46) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L36) (1 connections)
+- [continuePercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L47) (1 connections)
+- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L106) (1 connections)
+- [cutPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L118) (1 connections)
+- [cutX](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L143) (1 connections)
+- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L109) (1 connections)
+- [effectiveMaxTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L43) (1 connections)
+- [extensionLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L175) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L162) (1 connections)
+- [handleSliderChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L156) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L40) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L39) (1 connections)
+- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L53) (1 connections)
+- [percent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L127) (1 connections)
+- [rect](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L110) (1 connections)
+- [[waveformData, setWaveformData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L38) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L115) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L124) (1 connections)
+- *... and 1 more nodes in this community*
 
 ## Relationships
 
@@ -37,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\performance\memory-usage.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/memory-usage.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 52 (100%)
+- EXTRACTED: 51 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

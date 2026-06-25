@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L1) (1 connections)
-- [ProjectSettingsSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx#L28) (1 connections)
+- [OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L1) (1 connections)
+- [OnboardingStepCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectSettingsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectSettingsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx)
 
 ## Audit Trail
 

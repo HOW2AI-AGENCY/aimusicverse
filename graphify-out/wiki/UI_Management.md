@@ -1,35 +1,35 @@
 # UI Management
 
-> 111 nodes · cohesion 0.02
+> 134 nodes · cohesion 0.02
 
 ## Key Concepts
 
-- [UnifiedStudioContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx#L1) (81 connections)
-- [sorter.js](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L1) (13 connections)
-- [PromptDJErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L1) (11 connections)
-- [togglePlay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx#L475) (11 connections)
-- [.addEventListener()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useOptimizedPlayback.test.ts#L25) (9 connections)
-- [enableUI()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L165) (6 connections)
-- [getNthColumn()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L23) (5 connections)
-- [getTableHeader()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L15) (4 connections)
-- [handleSkip()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx#L599) (4 connections)
-- [addSortIndicators()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L159) (3 connections)
-- [getTable()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L11) (3 connections)
-- [getTableBody()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L19) (3 connections)
-- [loadData()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L111) (3 connections)
-- [removeSortIndicators()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L151) (3 connections)
-- [checkAllLoaded()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx#L264) (3 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx#L835) (3 connections)
-- [loadStemAsync()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx#L276) (3 connections)
-- [trapFocus()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/a11y-utils.ts#L87) (2 connections)
-- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L70) (2 connections)
-- [componentDidMount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L77) (2 connections)
-- [componentWillUnmount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx#L85) (2 connections)
-- [loadColumns()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L67) (2 connections)
-- [loadRowData()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L92) (2 connections)
-- [sortByIndex()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js#L120) (2 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx#L585) (2 connections)
-- *... and 86 more nodes in this community*
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts#L19) (35 connections)
+- [GuitarTuner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarTuner.tsx#L1) (17 connections)
+- [performance-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance-utils.ts#L1) (14 connections)
+- [migrate-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L1) (13 connections)
+- [OfflineIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/OfflineIndicator.tsx#L1) (11 connections)
+- [prettify.js](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/prettify.js#L1) (10 connections)
+- [dashboard.api.example.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L1) (9 connections)
+- [track-bundle-size.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/track-bundle-size.js#L1) (8 connections)
+- [dashboard.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L1) (8 connections)
+- [formatters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/formatters.ts#L1) (8 connections)
+- [storage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/storage.ts#L1) (8 connections)
+- [validate-sprint-002.ts](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L1) (8 connections)
+- [testDashboardAPI()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L219) (8 connections)
+- [analyzeBundleSizes()](file:///D:/.MUSICVERSE/aimusicverse/scripts/track-bundle-size.js#L70) (7 connections)
+- [main()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L475) (7 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/debug/index.ts#L1) (6 connections)
+- [D()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/prettify.js#L2) (5 connections)
+- [g()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/prettify.js#L2) (5 connections)
+- [Q()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/prettify.js#L2) (5 connections)
+- [addResult()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L31) (5 connections)
+- [checkLinks()](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-links.js#L36) (4 connections)
+- [startTuner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarTuner.tsx#L127) (4 connections)
+- [migrateFile()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L92) (4 connections)
+- [y()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/prettify.js#L2) (4 connections)
+- [printResults()](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts#L413) (4 connections)
+- *... and 109 more nodes in this community*
 
 ## Relationships
 
@@ -37,17 +37,26 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\coverage\lcov-report\sorter.js](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/sorter.js)
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJErrorBoundary.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedStudioContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioContent.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudio.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\a11y-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/a11y-utils.ts)
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useOptimizedPlayback.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useOptimizedPlayback.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\coverage\lcov-report\prettify.js](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/prettify.js)
+- [D:\.MUSICVERSE\aimusicverse\scripts\check-links.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/check-links.js)
+- [D:\.MUSICVERSE\aimusicverse\scripts\migrate-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js)
+- [D:\.MUSICVERSE\aimusicverse\scripts\track-bundle-size.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/track-bundle-size.js)
+- [D:\.MUSICVERSE\aimusicverse\src\api\dashboard.api.example.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\api\dashboard.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarTuner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarTuner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\OfflineIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/OfflineIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\debug\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/debug/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\formatters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/formatters.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\performance-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\storage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/storage.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\AudioAnalysisService.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/AudioAnalysisService.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\klangio-analyze\index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/klangio-analyze/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\verification\validate-sprint-002.ts](file:///D:/.MUSICVERSE/aimusicverse/verification/validate-sprint-002.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 250 (90%)
-- INFERRED: 27 (10%)
+- EXTRACTED: 306 (79%)
+- INFERRED: 83 (21%)
 - AMBIGUOUS: 0 (0%)
 
 ---

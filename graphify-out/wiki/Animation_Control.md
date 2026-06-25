@@ -4,8 +4,19 @@
 
 ## Key Concepts
 
-- [AnimatedCounter](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx#L29) (1 connections)
-- [AnimatedCounter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx#L1) (1 connections)
+- [MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L1) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -13,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\AnimatedCounter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx)
 
 ## Audit Trail
 

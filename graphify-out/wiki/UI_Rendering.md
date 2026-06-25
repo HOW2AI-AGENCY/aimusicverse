@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L1) (2 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L41) (1 connections)
-- [visibleLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx#L44) (1 connections)
+- [ContextIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/ContextIndicator.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/ContextIndicator.tsx#L49) (1 connections)
+- [ContextIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/ContextIndicator.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\KaraokeView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/KaraokeView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\ContextIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/ContextIndicator.tsx)
 
 ## Audit Trail
 

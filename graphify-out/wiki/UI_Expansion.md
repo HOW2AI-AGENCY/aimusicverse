@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [MobileSectionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L61) (1 connections)
-- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L45) (1 connections)
-- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L47) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx#L44) (1 connections)
+- [AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L1) (4 connections)
+- [ANALYSIS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L12) (1 connections)
+- [AnalyzeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L19) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L101) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L102) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSectionCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSectionCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx)
 
 ## Audit Trail
 

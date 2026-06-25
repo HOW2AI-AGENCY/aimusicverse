@@ -1,18 +1,18 @@
 # UI Component State
 
-> 9 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L1) (8 connections)
-- [handleStepClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L40) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L59) (1 connections)
-- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L58) (1 connections)
-- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L38) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L56) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L57) (1 connections)
-- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L37) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L174) (1 connections)
+- [usePerformanceOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L1) (8 connections)
+- [useIntersectionObserver()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L45) (2 connections)
+- [useLazyImage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L155) (2 connections)
+- [useThrottledValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L199) (2 connections)
+- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L184) (1 connections)
+- [usePerformanceMonitor()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L132) (1 connections)
+- [usePrefetch()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L83) (1 connections)
+- [useReducedMotion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L13) (1 connections)
+- [useResizeObserver()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L103) (1 connections)
 
 ## Relationships
 
@@ -20,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePerformanceOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

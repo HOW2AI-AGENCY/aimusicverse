@@ -1,13 +1,13 @@
 # Telegram UI
 
-> 4 nodes · cohesion 0.83
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L1) (3 connections)
-- [TelegramSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L39) (3 connections)
-- [getTelegramSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L35) (2 connections)
-- [getTelegramSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L31) (2 connections)
+- [MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L1) (3 connections)
+- [getShortName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L56) (1 connections)
+- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L43) (1 connections)
+- [[showPresets, setShowPresets]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

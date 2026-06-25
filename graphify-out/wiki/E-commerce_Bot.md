@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Bot Shop Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/shop.jpg) (0 connections)
+- [Global Components and UX](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/images/bot/shop.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/shop.jpg)
+- [docs/archive/audits-2025-12/UI_UX_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md)
 
 ## Audit Trail
 

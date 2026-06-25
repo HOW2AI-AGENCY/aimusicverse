@@ -1,23 +1,23 @@
 # Feature Access Control
 
-> 14 nodes · cohesion 0.14
+> 14 nodes · cohesion 0.24
 
 ## Key Concepts
 
-- [StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L1) (13 connections)
-- [handleLockedClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L66) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L43) (1 connections)
-- [{ hasAccess: canReplaceSection, requiredTier: replaceTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L53) (1 connections)
-- [{ hasAccess: canStemDetailed, requiredTier: stemDetailedTier }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L54) (1 connections)
-- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L62) (1 connections)
-- [[lockedFeature, setLockedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L45) (1 connections)
-- [showMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L60) (1 connections)
-- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L48) (1 connections)
-- [showStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L57) (1 connections)
-- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L50) (1 connections)
-- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L49) (1 connections)
-- [showStudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L47) (1 connections)
-- [[upgradePopupOpen, setUpgradePopupOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx#L44) (1 connections)
+- [advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L1) (13 connections)
+- [parseTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L136) (5 connections)
+- [detectTagType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L86) (4 connections)
+- [isStructuralTagValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L72) (4 connections)
+- [parseFullLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L283) (4 connections)
+- [parseLine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L170) (4 connections)
+- [extractTagFromWord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L374) (2 connections)
+- [extractTimingDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L125) (2 connections)
+- [getSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L356) (2 connections)
+- [DYNAMIC_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L55) (1 connections)
+- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L60) (1 connections)
+- [STRUCTURAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L33) (1 connections)
+- [TIMED_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L67) (1 connections)
+- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L49) (1 connections)
 
 ## Relationships
 
@@ -25,12 +25,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\StudioActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StudioActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 44 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L1) (3 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L54) (1 connections)
-- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L33) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L27) (1 connections)
+- [ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L1) (4 connections)
+- [isRealMiniApp](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L28) (1 connections)
+- [[isSharing, setIsSharing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L26) (1 connections)
+- [{ shareToStory, shareURL, platform, isDevelopmentMode, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

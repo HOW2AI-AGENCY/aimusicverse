@@ -1,24 +1,24 @@
 # Notification System
 
-> 15 nodes · cohesion 0.13
+> 15 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L1) (14 connections)
-- [background](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L81) (1 connections)
-- [containerClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L58) (1 connections)
-- [defaultMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L67) (1 connections)
-- [[dismissed, setDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L222) (1 connections)
-- [displayMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L75) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L225) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L43) (1 connections)
-- [[loadingTime, setLoadingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L220) (1 connections)
-- [retryTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L230) (1 connections)
-- [shouldReduceMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L42) (1 connections)
-- [[showRetry, setShowRetry]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L221) (1 connections)
-- [simulatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L238) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L48) (1 connections)
-- [zIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L82) (1 connections)
+- [MidiExportPanelMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L1) (15 connections)
+- [getFileUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L102) (3 connections)
+- [handleShare()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L136) (3 connections)
+- [handleDownloadAll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L158) (2 connections)
+- [availableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L178) (1 connections)
+- [availableFormats](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L177) (1 connections)
+- [[downloaded, setDownloaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L99) (1 connections)
+- [[downloading, setDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L98) (1 connections)
+- [[expandedFormat, setExpandedFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L100) (1 connections)
+- [FORMATS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L39) (1 connections)
+- [isAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L203) (1 connections)
+- [isDownloaded](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L205) (1 connections)
+- [isDownloading](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L204) (1 connections)
+- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L206) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L202) (1 connections)
 
 ## Relationships
 
@@ -26,12 +26,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\MidiExportPanelMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

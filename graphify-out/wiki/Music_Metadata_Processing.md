@@ -1,34 +1,34 @@
 # Music Metadata Processing
 
-> 32 nodes · cohesion 0.10
+> 32 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [track-naming.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L1) (20 connections)
-- [telegram-metadata.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L1) (12 connections)
-- [track-name-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts#L1) (12 connections)
-- [buildTelegramMetadata()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L102) (9 connections)
-- [sanitizeAndCleanTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L133) (7 connections)
-- [.extractBaseTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts#L119) (6 connections)
-- [capitalizeTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L118) (5 connections)
-- [extractTitleFromFileName()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L166) (4 connections)
-- [generateFallbackTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L229) (4 connections)
-- [buildSimpleCaption()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L175) (3 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L33) (3 connections)
-- [removeNoiseWords()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L62) (3 connections)
-- [sanitizeTrackTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/suno-music-callback/index.ts#L42) (2 connections)
-- [buildHashtags()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L74) (2 connections)
-- [buildVersionCaption()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L201) (2 connections)
-- [getModeEmoji()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L46) (2 connections)
-- [getModeLabel()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts#L60) (2 connections)
-- [buildTrackName()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts#L236) (2 connections)
-- [getPerformerName()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts#L246) (2 connections)
-- [applyPatterns()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L87) (2 connections)
-- [cleanGenreTags()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L103) (2 connections)
-- [escapeRegex()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L80) (2 connections)
-- [sanitizeForTelegram()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts#L214) (2 connections)
-- [APP_HANDLE](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts#L84) (1 connections)
-- [APP_NAME](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts#L79) (1 connections)
+- [ai-assistant.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L1) (31 connections)
+- [ariaLabels](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L221) (1 connections)
+- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L250) (1 connections)
+- [bodyBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L254) (1 connections)
+- [buttonBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L280) (1 connections)
+- [buttonCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L73) (1 connections)
+- [buttons](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L274) (1 connections)
+- [criticalErrors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L56) (1 connections)
+- [currentUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L81) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L25) (1 connections)
+- [firstButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L279) (1 connections)
+- [focusedElement](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L209) (1 connections)
+- [formInputs](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L101) (1 connections)
+- [generateButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L67) (1 connections)
+- [hasAIFeatures](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L112) (1 connections)
+- [hasContext](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L164) (1 connections)
+- [hasDialog](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L86) (1 connections)
+- [hasFocus](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L210) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L309) (1 connections)
+- [inputCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L102) (1 connections)
+- [isOnGeneratePage](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L85) (1 connections)
+- [labelCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L222) (1 connections)
+- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L299) (1 connections)
+- [pages](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L177) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts#L33) (1 connections)
 - *... and 7 more nodes in this community*
 
 ## Relationships
@@ -37,15 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\telegram-metadata.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\track-name-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\track-naming.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\suno-music-callback\index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/suno-music-callback/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\ai-assistant.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/ai-assistant.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 99 (83%)
-- INFERRED: 20 (17%)
+- EXTRACTED: 62 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L1) (5 connections)
-- [{ anomalies, criticalCount, warningCount, hasAnomalies, hasCritical }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L119) (1 connections)
-- [AnomalyCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L68) (1 connections)
-- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L118) (1 connections)
-- [severityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L31) (1 connections)
-- [typeIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx#L57) (1 connections)
+- [ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L1) (5 connections)
+- [change](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L166) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L30) (1 connections)
+- [days](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L28) (1 connections)
+- [isNeutral](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L170) (1 connections)
+- [isPositive](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L169) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AnomalyDetectionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AnomalyDetectionPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx)
 
 ## Audit Trail
 

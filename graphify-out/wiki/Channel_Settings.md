@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [ChannelCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L1) (3 connections)
-- [CHANNEL_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L18) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L50) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L51) (1 connections)
+- [ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L1) (3 connections)
+- [displayBio](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L20) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L13) (1 connections)
+- [shouldTruncate](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\ChannelCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx)
 
 ## Audit Trail
 

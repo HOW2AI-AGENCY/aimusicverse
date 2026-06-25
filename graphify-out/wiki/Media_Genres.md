@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L1) (4 connections)
-- [getAvailableGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L395) (2 connections)
-- [getTemplateById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L388) (1 connections)
-- [getTemplatesByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L381) (1 connections)
-- [SUNO_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L18) (1 connections)
+- [quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L1) (4 connections)
+- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L151) (1 connections)
+- [getPresetsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L158) (1 connections)
+- [QUICK_CREATE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L25) (1 connections)
+- [searchPresetsByTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L165) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

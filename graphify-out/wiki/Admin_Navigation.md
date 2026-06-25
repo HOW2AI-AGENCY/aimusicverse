@@ -1,21 +1,21 @@
 # Admin Navigation
 
-> 12 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L1) (11 connections)
-- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L113) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L99) (2 connections)
-- [adminSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L85) (1 connections)
-- [allItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L109) (1 connections)
-- [allSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L106) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L103) (1 connections)
-- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L128) (1 connections)
-- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L102) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L100) (1 connections)
-- [menuSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L47) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L101) (1 connections)
+- [AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L1) (11 connections)
+- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L77) (2 connections)
+- [AUDIO_ERROR_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L28) (1 connections)
+- [audioElements](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L114) (1 connections)
+- [{ children, fallbackMessage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L135) (1 connections)
+- [errorType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L138) (1 connections)
+- [getAudioErrorType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L36) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L73) (1 connections)
+- [getRecoveryHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L48) (1 connections)
+- [handleAudioError](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L217) (1 connections)
+- [{ hasError, error, isRecovering }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L134) (1 connections)
+- [recoveryHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L139) (1 connections)
 
 ## Relationships
 
@@ -23,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

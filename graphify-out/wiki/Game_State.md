@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L325) (1 connections)
-- [GenerationResultSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L49) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L235) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L234) (1 connections)
+- [ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L1) (4 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L33) (1 connections)
+- [currentArtists](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L41) (1 connections)
+- [{ data: publicArtists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L34) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx)
 
 ## Audit Trail
 

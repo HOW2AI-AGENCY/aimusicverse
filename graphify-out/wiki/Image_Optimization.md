@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [optimized-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L1) (10 connections)
-- [finalQuality](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L61) (1 connections)
-- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L179) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L71) (1 connections)
-- [optimizedWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L69) (1 connections)
-- [pixelSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L180) (1 connections)
-- [placeholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L63) (1 connections)
-- [{ qualityPercent, maxWidth }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L60) (1 connections)
-- [{ ref, isLoaded, currentSrc }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L239) (1 connections)
-- [{ ref, isLoaded, isError, currentSrc }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L81) (1 connections)
-- [srcSet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L76) (1 connections)
+- [RefinedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L1) (10 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L84) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L79) (1 connections)
+- [handleLike](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L66) (1 connections)
+- [handleOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L73) (1 connections)
+- [handlePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L60) (1 connections)
+- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L57) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L91) (1 connections)
+- [isFeatured](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L92) (1 connections)
+- [[isHovered, setIsHovered]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L56) (1 connections)
+- [[localLiked, setLocalLiked]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\optimized-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\RefinedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx)
 
 ## Audit Trail
 

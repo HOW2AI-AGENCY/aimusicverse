@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L1) (3 connections)
-- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L134) (1 connections)
-- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L142) (1 connections)
-- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L123) (1 connections)
+- [NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L1) (3 connections)
+- [GAMIFICATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L37) (1 connections)
+- [GENERATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L23) (1 connections)
+- [SOCIAL_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx)
 
 ## Audit Trail
 

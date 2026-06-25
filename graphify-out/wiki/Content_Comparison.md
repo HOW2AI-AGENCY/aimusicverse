@@ -4,40 +4,15 @@
 
 ## Key Concepts
 
-- [SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L1) (9 connections)
-- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L30) (1 connections)
-- [handleApplyComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L150) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L144) (1 connections)
-- [handleDiscardComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L158) (1 connections)
-- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L52) (1 connections)
-- [[replacedSections, setReplacedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L87) (1 connections)
-- [{ 
-    selectedSection, 
-    customRange, 
-    clearSelection, 
-    latestCompletion,
-    setLatestCompletion,
-    editMode,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L78) (1 connections)
-- [{
-    startTime,
-    endTime,
-    sectionDuration,
-    maxDuration,
-    hasSelection,
-    isValidDuration,
-    isSubmitting,
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    updateRange,
-    addPreset,
-    executeReplacement,
-    reset,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L89) (1 connections)
+- [ChordOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L1) (8 connections)
+- [CHORD_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L29) (1 connections)
+- [chordPositions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L82) (1 connections)
+- [colorClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L119) (1 connections)
+- [currentChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L93) (1 connections)
+- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L52) (1 connections)
+- [handleChordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L98) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L79) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L118) (1 connections)
 
 ## Relationships
 
@@ -45,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ChordOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Итоговый отчет: Улучшение документации и репозитория](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md) (0 connections)
+- [Onboarding Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/ONBOARDING.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md)
+- [docs/ONBOARDING.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ONBOARDING.md)
 
 ## Audit Trail
 

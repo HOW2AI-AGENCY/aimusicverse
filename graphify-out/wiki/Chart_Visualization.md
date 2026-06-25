@@ -1,24 +1,31 @@
 # Chart Visualization
 
-> 15 nodes · cohesion 0.13
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L1) (14 connections)
-- [ChartContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L32) (1 connections)
-- [ChartContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L20) (1 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L77) (1 connections)
-- [colorConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L62) (1 connections)
-- [{ config }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L127) (1 connections)
-- [configLabelKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L295) (1 connections)
-- [indicatorColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L172) (1 connections)
-- [itemConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L171) (1 connections)
-- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L170) (1 connections)
-- [nestLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L157) (1 connections)
-- [payloadPayload](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L290) (1 connections)
-- [THEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L7) (1 connections)
-- [tooltipLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L129) (1 connections)
-- [useChart()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L22) (1 connections)
+- [InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L1) (13 connections)
+- [{ activeReference, clearActive, analysisStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L50) (1 connections)
+- [defaultContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L99) (1 connections)
+- [effectiveDur](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L98) (1 connections)
+- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L142) (1 connections)
+- [getModeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L129) (1 connections)
+- [getModeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L123) (1 connections)
+- [getSourceIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L109) (1 connections)
+- [handleContinueAtChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L86) (1 connections)
+- [handleModeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L71) (1 connections)
+- [handleRemove](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L66) (1 connections)
+- [hasAnalysisData](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L135) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L52) (1 connections)
+- [{
+    isPlaying,
+    currentTime,
+    duration,
+    isLoading,
+    isBuffering,
+    togglePlay,
+    seek,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -26,11 +33,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

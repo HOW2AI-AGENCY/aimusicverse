@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 027 User Experience and Analytics Improvements Implementation Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_027_IMPLEMENTATION_GUIDE.md) (0 connections)
+- [Long Track Names Truncation Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2026-01-04-cleanup/SPRINT_027_IMPLEMENTATION_GUIDE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_027_IMPLEMENTATION_GUIDE.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

@@ -1,23 +1,31 @@
 # Admin Dashboard
 
-> 14 nodes · cohesion 0.18
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [admin.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L1) (8 connections)
-- [admin.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L1) (6 connections)
-- [getAdminDashboardData()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L53) (4 connections)
-- [getCurrentUserAdminStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L68) (3 connections)
-- [checkAdminRole()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L55) (2 connections)
-- [fetchBotMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L145) (2 connections)
-- [fetchUserBalanceSummary()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L83) (2 connections)
-- [getLowBalanceUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L82) (2 connections)
-- [getZeroBalanceUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L90) (2 connections)
-- [isCurrentUserAdmin()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L70) (2 connections)
-- [analyzeBotHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L119) (1 connections)
-- [calculateChurnRisk()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L98) (1 connections)
-- [getIntervalFromTimeRange()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L36) (1 connections)
-- [TIME_RANGES](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L29) (1 connections)
+- [LyricsAIChatAgent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L1) (13 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L88) (1 connections)
+- [handleApplyRecommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L153) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L142) (1 connections)
+- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L149) (1 connections)
+- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L136) (1 connections)
+- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L131) (1 connections)
+- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L125) (1 connections)
+- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L84) (1 connections)
+- [{
+    messages,
+    isLoading,
+    activeTool,
+    executeTool,
+    sendChatMessage,
+    clearMessages,
+    setActiveTool,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L103) (1 connections)
+- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L85) (1 connections)
+- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L158) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L86) (1 connections)
+- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L120) (1 connections)
 
 ## Relationships
 
@@ -25,13 +33,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\admin.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\services\admin.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsAIChatAgent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (76%)
-- INFERRED: 9 (24%)
+- EXTRACTED: 26 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

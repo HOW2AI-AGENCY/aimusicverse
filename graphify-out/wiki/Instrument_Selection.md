@@ -1,27 +1,33 @@
 # Instrument Selection
 
-> 18 nodes · cohesion 0.11
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [AddInstrumentalDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L1) (17 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L65) (1 connections)
-- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L74) (1 connections)
-- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L69) (1 connections)
-- [effectiveStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L81) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L152) (1 connections)
-- [handleInstrumentSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L86) (1 connections)
-- [handleSubmit](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L95) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L62) (1 connections)
-- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L46) (1 connections)
-- [[instrumentType, setInstrumentType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L68) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L209) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L64) (1 connections)
-- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L71) (1 connections)
-- [preset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L208) (1 connections)
-- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L78) (1 connections)
-- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L75) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L70) (1 connections)
+- [SubscriptionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L1) (17 connections)
+- [[cancelling, setCancelling]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L140) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L68) (1 connections)
+- [{ data: activeSubscription, isLoading: subLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L154) (1 connections)
+- [{ data: transactions = [], isLoading: txLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L160) (1 connections)
+- [date](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L84) (1 connections)
+- [formattedDate](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L85) (1 connections)
+- [formattedTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L90) (1 connections)
+- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L139) (1 connections)
+- [{ 
+    isActive, 
+    tier, 
+    expiresAt, 
+    daysRemaining, 
+    autoRenew,
+    isLoading: statusLoading 
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L142) (1 connections)
+- [isCancelled](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L201) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L166) (1 connections)
+- [LoadingSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L48) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L138) (1 connections)
+- [showExpirationWarning](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L200) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L137) (1 connections)
+- [variants](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -29,11 +35,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddInstrumentalDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\SubscriptionManagement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/SubscriptionManagement.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 33 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

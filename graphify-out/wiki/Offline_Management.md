@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [OfflineBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L10) (2 connections)
-- [useOffline()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L18) (2 connections)
-- [OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L1) (1 connections)
-- [useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L1) (1 connections)
+- [MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L1) (3 connections)
+- [MobileFadeTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L56) (1 connections)
+- [MobilePageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L15) (1 connections)
+- [MobileSlideUpTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L97) (1 connections)
 
 ## Relationships
 
@@ -15,13 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\offline\OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (67%)
-- INFERRED: 2 (33%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,19 +1,29 @@
 # Layout Configuration
 
-> 10 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.27
 
 ## Key Concepts
 
-- [breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L1) (9 connections)
-- [BREAKPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L15) (1 connections)
-- [GAPS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L89) (1 connections)
-- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L36) (1 connections)
-- [hideBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L140) (1 connections)
-- [LAYOUT_RATIOS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L103) (1 connections)
-- [matchesBreakpoint()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L154) (1 connections)
-- [MAX_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L67) (1 connections)
-- [showBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L147) (1 connections)
-- [SIDEBAR_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L126) (1 connections)
+- [suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L1) (8 connections)
+- [mapSunoError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L413) (4 connections)
+- [detectErrorCode()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L359) (3 connections)
+- [createSunoError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L483) (2 connections)
+- [getRetryDelay()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L461) (2 connections)
+- [isRetryableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L453) (2 connections)
+- [SunoError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L469) (2 connections)
+- [ERROR_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L92) (1 connections)
+- [FAQ_URLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L80) (1 connections)
+- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L470) (1 connections)
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class SunoError {
+        +suno-error-mapper.ts()
+        +.constructor()
+    }
+```
 
 ## Relationships
 
@@ -21,12 +31,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 24 (92%)
+- INFERRED: 2 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

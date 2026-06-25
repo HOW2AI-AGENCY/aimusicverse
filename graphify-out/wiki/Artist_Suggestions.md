@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L1) (4 connections)
-- [artistMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L27) (1 connections)
-- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L34) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L25) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L29) (1 connections)
+- [GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L325) (1 connections)
+- [GenerationResultSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L49) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L235) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx#L234) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationResultSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationResultSheet.tsx)
 
 ## Audit Trail
 

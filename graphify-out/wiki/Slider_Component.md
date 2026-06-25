@@ -1,22 +1,22 @@
 # Slider Component
 
-> 13 nodes · cohesion 0.15
+> 13 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L1) (12 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L188) (1 connections)
-- [displayValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L89) (1 connections)
-- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L61) (1 connections)
-- [handlePosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L48) (1 connections)
-- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L84) (1 connections)
-- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L78) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L45) (1 connections)
-- [normalizedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L47) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L112) (1 connections)
-- [trackRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L44) (1 connections)
-- [updateValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L50) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L91) (1 connections)
+- [sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L1) (12 connections)
+- [sanitizeText()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L29) (5 connections)
+- [validatePrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L50) (3 connections)
+- [isSpamPattern()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L200) (2 connections)
+- [validateDescription()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L135) (2 connections)
+- [validateMessage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L163) (2 connections)
+- [validateTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L100) (2 connections)
+- [escapeSQLLike()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L309) (1 connections)
+- [isValidTelegramUserId()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L286) (1 connections)
+- [isValidUrl()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L295) (1 connections)
+- [maskSensitiveData()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L269) (1 connections)
+- [MAX_LENGTHS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L15) (1 connections)
+- [sanitizeHTML()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L240) (1 connections)
 
 ## Relationships
 
@@ -24,11 +24,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 34 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

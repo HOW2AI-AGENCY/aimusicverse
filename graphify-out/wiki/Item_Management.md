@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L1) (9 connections)
-- [categorizedItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L88) (1 connections)
-- [{ data: configItems, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L68) (1 connections)
-- [DEFAULT_VALUES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L31) (1 connections)
-- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L76) (1 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L71) (1 connections)
-- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L187) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L66) (1 connections)
-- [totalChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L91) (1 connections)
-- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L69) (1 connections)
+- [ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L1) (9 connections)
+- [handleNotify()](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L36) (2 connections)
+- [[currentFeature, setCurrentFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L191) (1 connections)
+- [description](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L33) (1 connections)
+- [hideComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L217) (1 connections)
+- [icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L34) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L190) (1 connections)
+- [metadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L30) (1 connections)
+- [showComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L198) (1 connections)
+- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\beta\ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

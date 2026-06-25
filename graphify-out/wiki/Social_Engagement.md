@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Chunk 20: Social, Community & Engagement - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_20_FILES.md) (0 connections)
+- [Speckit Plan Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.plan.prompt.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [CHUNK_20_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_20_FILES.md)
+- [.github/prompts/speckit.plan.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.plan.prompt.md)
 
 ## Audit Trail
 

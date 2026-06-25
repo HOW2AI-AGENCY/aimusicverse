@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [WaveformProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L1) (6 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L44) (1 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L53) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L41) (1 connections)
-- [[isHovering, setIsHovering]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L43) (1 connections)
-- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L42) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx#L65) (1 connections)
+- [SubscriptionSuccessPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L1) (7 connections)
+- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L88) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L54) (1 connections)
+- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L53) (1 connections)
+- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L52) (1 connections)
+- [TIER_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L20) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\WaveformProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/WaveformProgressBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\popups\SubscriptionSuccessPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 13 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useReferenceAnalysisData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L1) (2 connections)
-- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L32) (1 connections)
-- [useReferenceAnalysisData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L34) (1 connections)
+- [useAutoPlaylists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L1) (2 connections)
+- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L13) (1 connections)
+- [useAutoPlaylists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReferenceAnalysisData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAutoPlaylists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Technical Debt Closure and Interface Improvement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TECH_DEBT_CLOSURE_2025-12-10.md) (0 connections)
+- [Fix Summary: Dependency Conflicts and Import Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/implementation-reports/TECH_DEBT_CLOSURE_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TECH_DEBT_CLOSURE_2025-12-10.md)
+- [docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_DEPENDENCY_CONFLICTS_2025-12-09.md)
 
 ## Audit Trail
 

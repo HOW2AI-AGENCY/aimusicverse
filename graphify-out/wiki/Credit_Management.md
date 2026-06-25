@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [{ data: credits, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx#L11) (1 connections)
-- [CreditsBalance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx#L1) (1 connections)
+- [WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L1) (1 connections)
+- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\CreditsBalance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx)
 
 ## Audit Trail
 

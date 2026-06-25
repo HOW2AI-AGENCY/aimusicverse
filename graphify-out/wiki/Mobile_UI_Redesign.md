@@ -4,21 +4,18 @@
 
 ## Key Concepts
 
-- [Implementation Plan: Mobile-First Minimalist UI Redesign](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/plan.md) (3 connections)
-- [Data Model: Mobile-First Minimalist UI Redesign](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/data-model.md) (1 connections)
-- [Quickstart: Mobile-First Minimalist UI Redesign](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/quickstart.md) (1 connections)
-- [Research: Mobile-First Minimalist UI Redesign](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/research.md) (1 connections)
+- [NotFound.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L1) (3 connections)
+- [getNotFoundContent()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L27) (1 connections)
+- [glitchInterval](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L211) (1 connections)
+- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx#L133) (1 connections)
 
 ## Relationships
 
-- [[User Statistics]] (6 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-mobile-ui-redesign/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/data-model.md)
-- [specs/001-mobile-ui-redesign/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/plan.md)
-- [specs/001-mobile-ui-redesign/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/quickstart.md)
-- [specs/001-mobile-ui-redesign/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/research.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\NotFound.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/NotFound.tsx)
 
 ## Audit Trail
 

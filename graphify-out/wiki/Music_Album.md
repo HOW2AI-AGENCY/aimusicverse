@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [CreditPackageCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L1) (4 connections)
-- [description](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L32) (1 connections)
-- [name](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L28) (1 connections)
-- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L37) (1 connections)
-- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L36) (1 connections)
+- [MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L1) (4 connections)
+- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L34) (1 connections)
+- [handleClear()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L44) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L48) (1 connections)
+- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\CreditPackageCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx)
 
 ## Audit Trail
 

@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [dropdown-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L1) (8 connections)
-- [DropdownMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L7) (1 connections)
-- [DropdownMenuGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L11) (1 connections)
-- [DropdownMenuPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L13) (1 connections)
-- [DropdownMenuRadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L17) (1 connections)
-- [DropdownMenuSub](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L15) (1 connections)
-- [DropdownMenuSubContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L40) (1 connections)
-- [DropdownMenuSubTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L19) (1 connections)
-- [DropdownMenuTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx#L9) (1 connections)
+- [ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L1) (8 connections)
+- [handleStepClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L40) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L59) (1 connections)
+- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L58) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L38) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L56) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L57) (1 connections)
+- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L37) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L174) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\dropdown-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dropdown-menu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx)
 
 ## Audit Trail
 

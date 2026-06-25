@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [EditableTrackTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx#L1) (1 connections)
-- [EditableTrackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx#L21) (1 connections)
+- [Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L1) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\EditableTrackTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx)
 
 ## Audit Trail
 

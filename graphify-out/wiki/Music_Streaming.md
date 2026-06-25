@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [MusicVerse Description](file:///D:/.MUSICVERSE/aimusicverse/docs/MUSICVERSE_DESCRIPTION.md) (0 connections)
+- [KNOWN_ISSUES_TRACKED.md](file:///D:/.MUSICVERSE/aimusicverse/KNOWN_ISSUES_TRACKED.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/MUSICVERSE_DESCRIPTION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/MUSICVERSE_DESCRIPTION.md)
+- [KNOWN_ISSUES_TRACKED.md](file:///D:/.MUSICVERSE/aimusicverse/KNOWN_ISSUES_TRACKED.md)
 
 ## Audit Trail
 

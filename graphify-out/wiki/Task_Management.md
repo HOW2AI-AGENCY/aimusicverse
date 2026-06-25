@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Tasks Template](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/tasks-template.md) (0 connections)
+- [/speckit.clarify command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.specify/templates/tasks-template.md](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/tasks-template.md)
+- [.claude/commands/speckit.clarify.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md)
 
 ## Audit Trail
 

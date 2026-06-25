@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L1) (1 connections)
-- [WebVitalsReporter](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx#L23) (1 connections)
+- [ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L1) (1 connections)
+- [ExtendTrackDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WebVitalsReporter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WebVitalsReporter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx)
 
 ## Audit Trail
 

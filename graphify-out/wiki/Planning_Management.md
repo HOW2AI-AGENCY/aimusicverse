@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Plan Template](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/plan-template.md) (0 connections)
+- [ux-ui-mobile-designer agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/ux-ui-mobile-designer.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.specify/templates/plan-template.md](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/plan-template.md)
+- [.claude/agents/ux-ui-mobile-designer.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/ux-ui-mobile-designer.md)
 
 ## Audit Trail
 

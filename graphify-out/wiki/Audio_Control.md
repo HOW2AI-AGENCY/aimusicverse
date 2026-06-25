@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [voice-input-button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/voice-input-button.tsx#L1) (1 connections)
-- [{ isRecording, isProcessing, toggleRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/voice-input-button.tsx#L27) (1 connections)
+- [input.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.tsx#L1) (1 connections)
+- [getInputMode()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\voice-input-button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/voice-input-button.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\input.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.tsx)
 
 ## Audit Trail
 

@@ -1,12 +1,12 @@
 # Track Data Management
 
-> 3 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useTrackEnhancedData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts#L1) (2 connections)
-- [useSingleTrackEnhancedData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts#L181) (2 connections)
-- [useTrackEnhancedData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts#L33) (2 connections)
+- [useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L7) (1 connections)
+- [useGuitarRecordings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L41) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackEnhancedData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackEnhancedData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

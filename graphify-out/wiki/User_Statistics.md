@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L1) (6 connections)
-- [{ data: dailyStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L137) (1 connections)
-- [{ data: stats, isLoading: statsLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L84) (1 connections)
-- [{ data: topUsers }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L190) (1 connections)
-- [[days, setDays]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L81) (1 connections)
-- [successRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L243) (1 connections)
-- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx#L73) (1 connections)
+- [CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L1) (6 connections)
+- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L54) (1 connections)
+- [handleLike()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L61) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L53) (1 connections)
+- [likeComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L51) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L56) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\GenerationStatsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/GenerationStatsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx)
 
 ## Audit Trail
 

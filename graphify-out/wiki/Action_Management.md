@@ -1,14 +1,14 @@
 # Action Management
 
-> 5 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [trackActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L1) (4 connections)
-- [getActionsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L396) (2 connections)
-- [getActionsByPriority()](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L391) (2 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L380) (1 connections)
-- [TRACK_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts#L53) (1 connections)
+- [app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L1) (4 connections)
+- [getComingSoonFeatures()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L65) (2 connections)
+- [APP_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L6) (1 connections)
+- [FEATURE_METADATA](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L74) (1 connections)
+- [isFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L58) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\config\trackActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/trackActionsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\config\app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,13 +4,19 @@
 
 ## Key Concepts
 
-- [TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L1) (6 connections)
-- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L33) (1 connections)
-- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L27) (1 connections)
-- [LANGUAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L13) (1 connections)
-- [[preserveSyllables, setPreserveSyllables]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L25) (1 connections)
-- [sourceLanguage](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L30) (1 connections)
-- [[targetLanguage, setTargetLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L24) (1 connections)
+- [NetworkStatusIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L1) (6 connections)
+- [getStatusConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L65) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L107) (1 connections)
+- [{ isOnline, isSlowConnection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L174) (1 connections)
+- [{
+    isOnline,
+    isSlowConnection,
+    connectionType,
+    isSuitableForStreaming,
+    networkInfo,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L39) (1 connections)
+- [[showIndicator, setShowIndicator]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L47) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L106) (1 connections)
 
 ## Relationships
 
@@ -18,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\NetworkStatusIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L1) (4 connections)
-- [aWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L37) (1 connections)
-- [bWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L38) (1 connections)
-- [genreA](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L40) (1 connections)
-- [genreB](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L41) (1 connections)
+- [ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L1) (4 connections)
+- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L38) (1 connections)
+- [hasMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L37) (1 connections)
+- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L36) (1 connections)
+- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx)
 
 ## Audit Trail
 

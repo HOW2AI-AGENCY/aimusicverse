@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Clarify Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.clarify.prompt.md) (0 connections)
+- [supabase_functions_telegram_bot_telegram_api](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/telegram-api.ts) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/prompts/speckit.clarify.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.clarify.prompt.md)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\telegram-api.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/telegram-api.ts)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Generation Form Too Bulky Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [CONTRIBUTING.md](file:///D:/.MUSICVERSE/aimusicverse/CONTRIBUTING.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CONTRIBUTING.md](file:///D:/.MUSICVERSE/aimusicverse/CONTRIBUTING.md)
 
 ## Audit Trail
 

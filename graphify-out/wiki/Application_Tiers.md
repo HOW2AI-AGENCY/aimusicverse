@@ -1,23 +1,26 @@
 # Application Tiers
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SubscriptionTiersManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SubscriptionTiersManager.tsx#L1) (1 connections)
-- [tiers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SubscriptionTiersManager.tsx#L19) (1 connections)
+- [UI/UX Audit Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/plan.md) (2 connections)
+- [UI/UX Audit Research Document](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/research.md) (1 connections)
+- [UI/UX Audit Tasks Breakdown](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[UI/UX Audit]] (4 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\SubscriptionTiersManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SubscriptionTiersManager.tsx)
+- [specs/001-ui-ux-audit/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/plan.md)
+- [specs/001-ui-ux-audit/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/research.md)
+- [specs/001-ui-ux-audit/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

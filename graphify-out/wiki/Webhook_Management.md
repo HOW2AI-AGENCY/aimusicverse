@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [TelegramBotSetup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TelegramBotSetup.tsx#L1) (5 connections)
-- [botLogger](file:///D:/.MUSICVERSE/aimusicverse/src/components/TelegramBotSetup.tsx#L10) (1 connections)
-- [isWebhookActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/TelegramBotSetup.tsx#L49) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/TelegramBotSetup.tsx#L25) (1 connections)
-- [[webhookInfo, setWebhookInfo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/TelegramBotSetup.tsx#L26) (1 connections)
+- [SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L1) (4 connections)
+- [BASE_DESCRIPTION](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L18) (1 connections)
+- [BASE_TITLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L17) (1 connections)
+- [SEO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L95) (1 connections)
+- [SEOHead()](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\TelegramBotSetup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TelegramBotSetup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 9 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

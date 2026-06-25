@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L1) (4 connections)
-- [canSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L63) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L44) (1 connections)
-- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L36) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L32) (1 connections)
+- [QuickGenerateMode.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L1) (4 connections)
+- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L47) (1 connections)
+- [isOverLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L49) (1 connections)
+- [maxChars](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L48) (1 connections)
+- [QUICK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\QuickGenerateMode.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx)
 
 ## Audit Trail
 

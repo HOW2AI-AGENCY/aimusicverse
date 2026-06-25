@@ -1,18 +1,18 @@
 # Drag and Motion
 
-> 9 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [touch-friendly.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L64) (1 connections)
-- [[dragX, setDragX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L106) (1 connections)
-- [handleDragEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L109) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L107) (1 connections)
-- [patterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L178) (1 connections)
-- [shouldReduceMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L105) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L48) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L54) (1 connections)
+- [useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L1) (8 connections)
+- [useTagRecommendations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L114) (5 connections)
+- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L283) (2 connections)
+- [useTagPopularity()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L56) (2 connections)
+- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L94) (2 connections)
+- [useTagUsageHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L35) (2 connections)
+- [getCurrentUser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L6) (1 connections)
+- [useSuccessfulCombinations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L299) (1 connections)
+- [useTrackTagUsage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L242) (1 connections)
 
 ## Relationships
 
@@ -20,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-friendly.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 027: Architecture Cleanup - Initial Audit](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_027_AUDIT.md) (0 connections)
+- [Sprint Planning Work Summary December 12 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_027_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_027_AUDIT.md)
+- [docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md)
 
 ## Audit Trail
 

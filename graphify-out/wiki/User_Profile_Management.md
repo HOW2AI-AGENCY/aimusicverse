@@ -1,28 +1,28 @@
 # User Profile Management
 
-> 19 nodes · cohesion 0.11
+> 19 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [PublicProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L1) (18 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L63) (1 connections)
-- [{ data: artists, isLoading: artistsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L157) (1 connections)
-- [{ data: playlists, isLoading: playlistsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L176) (1 connections)
-- [{ data: profile, isLoading: profileLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L75) (1 connections)
-- [{ data: projects, isLoading: projectsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L138) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L92) (1 connections)
-- [{ data: tracks, isLoading: tracksLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L118) (1 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L204) (1 connections)
-- [formatValue()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L606) (1 connections)
-- [handleShare()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L194) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L62) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L66) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L60) (1 connections)
-- [{ shouldShowUIButton: showUIBackButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L69) (1 connections)
-- [[showFullBio, setShowFullBio]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L64) (1 connections)
-- [socialLinks](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L209) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L61) (1 connections)
-- [{ userId }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx#L59) (1 connections)
+- [telemetry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L1) (24 connections)
+- [flushMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L250) (6 connections)
+- [getSessionDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L236) (3 connections)
+- [getErrorStats()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L243) (2 connections)
+- [ERROR_RATE_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L150) (1 connections)
+- [errorCounts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L51) (1 connections)
+- [errorRateWindow](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L154) (1 connections)
+- [featureTimers](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L52) (1 connections)
+- [flushIntervalId](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L57) (1 connections)
+- [generationAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L349) (1 connections)
+- [isInitialized](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L58) (1 connections)
+- [metricsBuffer](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L50) (1 connections)
+- [navigationAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L403) (1 connections)
+- [playerAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L378) (1 connections)
+- [sessionId](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L55) (1 connections)
+- [sessionStartTime](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L56) (1 connections)
+- [studioAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L324) (1 connections)
+- [TELEMETRY_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L41) (1 connections)
+- [withTiming()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L304) (1 connections)
 
 ## Relationships
 
@@ -30,12 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\PublicProfilePage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/PublicProfilePage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\telemetry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (92%)
+- INFERRED: 4 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

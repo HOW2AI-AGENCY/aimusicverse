@@ -4,11 +4,16 @@
 
 ## Key Concepts
 
-- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L86) (1 connections)
-- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
-- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
-- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
+- [NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L1) (4 connections)
+- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L49) (1 connections)
+- [{
+    hasGeneratedTrack,
+    hasPlayedTrack,
+    hasVisitedLibrary,
+    completedOnboarding,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L24) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L50) (1 connections)
+- [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -16,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx)
 
 ## Audit Trail
 

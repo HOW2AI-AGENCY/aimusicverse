@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L1) (2 connections)
-- [formatModelName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L14) (1 connections)
-- [TechInfoItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L32) (1 connections)
+- [StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L1) (2 connections)
+- [hasActiveEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L58) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\effects\StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx)
 
 ## Audit Trail
 

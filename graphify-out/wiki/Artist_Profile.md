@@ -4,24 +4,24 @@
 
 ## Key Concepts
 
-- [EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L1) (18 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L104) (2 connections)
-- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L60) (1 connections)
-- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L67) (1 connections)
-- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L39) (1 connections)
-- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L33) (1 connections)
-- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L35) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L28) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L43) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L40) (1 connections)
-- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L36) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L32) (1 connections)
-- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L37) (1 connections)
-- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L38) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L41) (1 connections)
-- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L34) (1 connections)
-- [{ updateArtist, isUpdating, deleteArtist, isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L30) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx#L29) (1 connections)
+- [LyricsAIAssistantSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L1) (17 connections)
+- [AI_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L125) (1 connections)
+- [[customPrompt, setCustomPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L190) (1 connections)
+- [[enhancedLyrics, setEnhancedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L192) (1 connections)
+- [getCurrentPrompt](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L208) (1 connections)
+- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L309) (1 connections)
+- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L336) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L328) (1 connections)
+- [handleCustomPromptChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L239) (1 connections)
+- [handleGenerate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L252) (1 connections)
+- [handlePresetChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L227) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L186) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L395) (1 connections)
+- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L191) (1 connections)
+- [isPromptValid](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L219) (1 connections)
+- [MAX_PROMPT_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L172) (1 connections)
+- [MIN_PROMPT_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L171) (1 connections)
+- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L189) (1 connections)
 
 ## Relationships
 
@@ -29,12 +29,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\artist\EditArtistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/EditArtistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\LyricsAIAssistantSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 35 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 34 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [StructureResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L1) (4 connections)
-- [parseStructureContent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L22) (2 connections)
-- [getSectionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L89) (1 connections)
-- [getSectionIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L68) (1 connections)
-- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx#L119) (1 connections)
+- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (4 connections)
+- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L68) (1 connections)
+- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L79) (1 connections)
+- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L114) (1 connections)
+- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L116) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\StructureResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructureResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

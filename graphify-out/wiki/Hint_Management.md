@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L1) (4 connections)
-- [getHintsByContext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L220) (1 connections)
-- [HINT_ALIASES](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L203) (1 connections)
-- [HINT_REGISTRY](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L28) (1 connections)
-- [resolveHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L213) (1 connections)
+- [GenerationErrorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L1) (4 connections)
+- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L23) (1 connections)
+- [iconColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L45) (1 connections)
+- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L44) (1 connections)
+- [needsEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationErrorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx)
 
 ## Audit Trail
 

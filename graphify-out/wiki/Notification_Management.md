@@ -1,23 +1,22 @@
 # Notification Management
 
-> 14 nodes · cohesion 0.24
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [notificationManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L1) (14 connections)
-- [createNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L37) (13 connections)
-- [cleanupExpiredNotifications()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L116) (3 connections)
-- [notifyTranscriptionComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L285) (3 connections)
-- [deleteNotificationsByGroup()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L72) (2 connections)
-- [notifyAchievement()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L244) (2 connections)
-- [notifyFeatureAnnouncement()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L308) (2 connections)
-- [notifyGenerationComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L165) (2 connections)
-- [notifyGenerationFailed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L186) (2 connections)
-- [notifyGenerationProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L143) (2 connections)
-- [notifyProjectChange()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L328) (2 connections)
-- [notifySocialEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L206) (2 connections)
-- [notifySystem()](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L264) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts#L9) (1 connections)
+- [GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L1) (12 connections)
+- [balance](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L63) (1 connections)
+- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L36) (1 connections)
+- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L293) (1 connections)
+- [{ data: canCheckin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L35) (1 connections)
+- [{ data: credits, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L34) (1 connections)
+- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L39) (1 connections)
+- [level](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L60) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L32) (1 connections)
+- [{ progress, current: currentXP, next: nextLevelXP }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L61) (1 connections)
+- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L37) (1 connections)
+- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L62) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -25,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\notificationManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/notificationManager.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 45 (87%)
-- INFERRED: 7 (13%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

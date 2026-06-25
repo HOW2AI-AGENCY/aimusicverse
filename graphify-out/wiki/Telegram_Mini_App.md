@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Telegram Mini App Black Screen Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [CHANGELOG.md](file:///D:/.MUSICVERSE/aimusicverse/CHANGELOG.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CHANGELOG.md](file:///D:/.MUSICVERSE/aimusicverse/CHANGELOG.md)
 
 ## Audit Trail
 

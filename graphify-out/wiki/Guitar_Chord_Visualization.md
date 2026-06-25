@@ -4,24 +4,24 @@
 
 ## Key Concepts
 
-- [ChordDiagramEnhanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L1) (17 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L14) (1 connections)
-- [chordData](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L159) (1 connections)
-- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L99) (1 connections)
-- [fingerColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L316) (1 connections)
-- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L160) (1 connections)
-- [fingerNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L315) (1 connections)
-- [fingers](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L161) (1 connections)
-- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L172) (1 connections)
-- [MotionWrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L176) (1 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L107) (1 connections)
-- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L158) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L163) (1 connections)
-- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L173) (1 connections)
-- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L174) (1 connections)
-- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L171) (1 connections)
-- [{ width, height, fontSize, dotSize, labelSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L170) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx#L314) (1 connections)
+- [UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L1) (17 connections)
+- [dawProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L108) (1 connections)
+- [engineId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L115) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L131) (1 connections)
+- [handlers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L87) (1 connections)
+- [handleVersionSaved](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L140) (1 connections)
+- [id](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L49) (1 connections)
+- [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L70) (1 connections)
+- [mainTrackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L72) (1 connections)
+- [mainTrackUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L71) (1 connections)
+- [modalHandlers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L61) (1 connections)
+- [modals](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L60) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L48) (1 connections)
+- [operationLock](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L64) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L57) (1 connections)
+- [{ separate, isSeparating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L67) (1 connections)
+- [studio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L56) (1 connections)
+- [trackForSeparation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L75) (1 connections)
 
 ## Relationships
 
@@ -29,7 +29,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagramEnhanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramEnhanced.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx)
 
 ## Audit Trail
 

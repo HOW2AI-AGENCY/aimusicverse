@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Chunk 17: Studio & Stem Processing - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_17_FILES.md) (0 connections)
+- [Speckit Clarify Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.clarify.prompt.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [CHUNK_17_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_17_FILES.md)
+- [.github/prompts/speckit.clarify.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.clarify.prompt.md)
 
 ## Audit Trail
 

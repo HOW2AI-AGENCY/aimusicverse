@@ -1,31 +1,39 @@
 # Timestamp Management
 
-> 9 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.31
 
 ## Key Concepts
 
-- [useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L1) (8 connections)
-- [defaultProps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L19) (1 connections)
-- [largeTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L243) (1 connections)
-- [lineIndex](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L183) (1 connections)
-- [mockTimestamps](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L11) (1 connections)
-- [onActiveLineChange](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L199) (1 connections)
-- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L201) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L32) (1 connections)
-- [seekTime](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts#L163) (1 connections)
+- [Итоговый отчет: Анализ проекта MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/analysis-report.md) (5 connections)
+- [Specification & Tasks Work Summary 2026-01-05](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/WORK-SUMMARY-2026-01-05.md) (5 connections)
+- [План доработки, улучшения и расширения MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md) (3 connections)
+- [План развития и улучшения MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/studio-development-plan.md) (3 connections)
+- [Анализ проекта MusicVerse AI - Навигация](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/project-analysis.md) (2 connections)
+- [Отчет об улучшении системы AI-помощника для написания текстов песен](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/lyrics-assistant-improvements.md) (1 connections)
+- [Bundle Size Baseline Report](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/bundle-baseline.md) (1 connections)
+- [Specification Quality Checklist: UI Component Unification Phase 2](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/checklists/requirements.md) (1 connections)
+- [Specification Quality Checklist: Professional & Stylish UI Enhancement](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/checklists/requirements.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[MusicVerse AI]] (22 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\lyrics\useLyricsSync.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/lyrics/useLyricsSync.test.ts)
+- [docs/ru/analysis-report.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/analysis-report.md)
+- [docs/ru/improvement-plan.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md)
+- [docs/ru/lyrics-assistant-improvements.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/lyrics-assistant-improvements.md)
+- [docs/ru/project-analysis.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/project-analysis.md)
+- [docs/ru/studio-development-plan.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/studio-development-plan.md)
+- [specs/001-unified-interface/WORK-SUMMARY-2026-01-05.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/WORK-SUMMARY-2026-01-05.md)
+- [specs/001-unified-interface/bundle-baseline.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/bundle-baseline.md)
+- [specs/002-ui-component-unification/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/checklists/requirements.md)
+- [specs/032-professional-ui/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/checklists/requirements.md)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (82%)
+- INFERRED: 4 (18%)
 - AMBIGUOUS: 0 (0%)
 
 ---

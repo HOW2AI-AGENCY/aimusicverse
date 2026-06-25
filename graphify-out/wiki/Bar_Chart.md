@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [RecordingVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L1) (2 connections)
-- [barHeights](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L31) (1 connections)
-- [getLevelColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx#L47) (1 connections)
+- [FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L1) (2 connections)
+- [feature](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L25) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingVisualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingVisualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx)
 
 ## Audit Trail
 

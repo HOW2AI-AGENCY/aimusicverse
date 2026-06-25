@@ -4,14 +4,27 @@
 
 ## Key Concepts
 
-- [RemixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L1) (8 connections)
-- [handlePresetClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L45) (1 connections)
-- [[isInstrumental, setIsInstrumental]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L42) (1 connections)
-- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L43) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L41) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L27) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L40) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx#L39) (1 connections)
+- [OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L1) (7 connections)
+- [enrichedStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L50) (1 connections)
+- [handleMasterMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L73) (1 connections)
+- [handleMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L65) (1 connections)
+- [handleSoloToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L69) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L61) (1 connections)
+- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L77) (1 connections)
+- [{
+    stemStates,
+    masterVolume,
+    masterMuted,
+    setMasterVolume,
+    setMasterMuted,
+    setStemVolume,
+    toggleMute,
+    toggleSolo,
+    hasSoloStems,
+    resetToDefaults,
+    getEffectiveVolume,
+    isStemEffectivelyMuted,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -19,11 +32,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\RemixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/RemixDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

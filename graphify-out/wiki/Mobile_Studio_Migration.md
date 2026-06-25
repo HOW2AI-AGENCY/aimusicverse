@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [API Contracts: Mobile Studio V2 - Legacy Feature Migration](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/contracts/api-contracts.md) (1 connections)
-- [Specification Quality Checklist: Mobile Studio V2 - Legacy Feature Migration](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/checklists/requirements.md) (1 connections)
+- [Design Token Inconsistency Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (1 connections)
+- [Layout System](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYOUT_SYSTEM.md) (1 connections)
 
 ## Relationships
 
-- [[Timer Management]] (2 shared connections)
+- [[UI Consistency]] (2 shared connections)
 
 ## Source Files
 
-- [specs/031-mobile-studio-v2/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/checklists/requirements.md)
-- [specs/031-mobile-studio-v2/contracts/api-contracts.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/contracts/api-contracts.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [docs/LAYOUT_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYOUT_SYSTEM.md)
 
 ## Audit Trail
 

@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [EnhancedTooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L1) (7 connections)
-- [handleMouseEnter()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L76) (1 connections)
-- [handleMouseLeave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L81) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L72) (1 connections)
-- [positionConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L74) (1 connections)
-- [positionStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L27) (1 connections)
-- [timeoutRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L73) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx#L54) (1 connections)
+- [useBotMenuItems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L1) (8 connections)
+- [useBotMenuItems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L57) (1 connections)
+- [useBotMenuItemsByParent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L76) (1 connections)
+- [useCreateMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L102) (1 connections)
+- [useDeleteMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L161) (1 connections)
+- [useReorderMenuItems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L188) (1 connections)
+- [useToggleMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L222) (1 connections)
+- [useUpdateMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L131) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\EnhancedTooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EnhancedTooltip.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotMenuItems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

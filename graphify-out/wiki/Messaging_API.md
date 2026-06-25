@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Telegram Desktop Limited API Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [Chunk 22: Mobile, Platform Integration & Special Features - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_22_FILES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CHUNK_22_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_22_FILES.md)
 
 ## Audit Trail
 

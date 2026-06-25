@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [usePromptBuilder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L1) (4 connections)
-- [getCacheKey()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L13) (2 connections)
-- [MAX_CACHE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L11) (1 connections)
-- [promptCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L10) (1 connections)
-- [usePromptBuilder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L22) (1 connections)
+- [usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L1) (4 connections)
+- [analyticsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L71) (1 connections)
+- [useGamificationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L117) (1 connections)
+- [usePaymentAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L80) (1 connections)
+- [useQuickPaymentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L159) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptBuilder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

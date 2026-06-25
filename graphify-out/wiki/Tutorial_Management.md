@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L1) (8 connections)
-- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L19) (1 connections)
-- [handleCardClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L101) (1 connections)
-- [handleTutorialAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L110) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L96) (1 connections)
-- [[pendingPreset, setPendingPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L99) (1 connections)
-- [presets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L117) (1 connections)
-- [[selectedTutorial, setSelectedTutorial]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L98) (1 connections)
-- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx#L97) (1 connections)
+- [EditPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L1) (9 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L71) (2 connections)
+- [[coverUrl, setCoverUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L30) (1 connections)
+- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L28) (1 connections)
+- [[isGeneratingCover, setIsGeneratingCover]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L32) (1 connections)
+- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L29) (1 connections)
+- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L31) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L27) (1 connections)
+- [{ updatePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -20,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\QuickStartCards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/QuickStartCards.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\EditPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 17 (94%)
+- INFERRED: 1 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Specify Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.specify.md) (0 connections)
+- [Speckit Specify Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.specify.agent.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.kilocode/workflows/speckit.specify.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.specify.md)
+- [.github/agents/speckit.specify.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.specify.agent.md)
 
 ## Audit Trail
 

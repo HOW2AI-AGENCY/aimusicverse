@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (4 connections)
-- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L68) (1 connections)
-- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L79) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L114) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L116) (1 connections)
+- [TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L1) (4 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L18) (1 connections)
+- [categoryInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L38) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L39) (1 connections)
+- [resolvedCategory](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx)
 
 ## Audit Trail
 

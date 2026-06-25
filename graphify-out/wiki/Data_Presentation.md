@@ -1,12 +1,12 @@
 # Data Presentation
 
-> 3 nodes · cohesion 0.67
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [table.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx#L1) (2 connections)
-- [Table](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx#L5) (1 connections)
-- [TableHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx#L14) (1 connections)
+- [handleOpenInStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L15) (3 connections)
+- [TrackStudioSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L1) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L13) (2 connections)
 
 ## Relationships
 
@@ -14,12 +14,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\table.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/table.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\TrackStudioSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

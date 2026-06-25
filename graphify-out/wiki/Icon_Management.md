@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [GenerationErrorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L1) (4 connections)
-- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L23) (1 connections)
-- [iconColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L45) (1 connections)
-- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L44) (1 connections)
-- [needsEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L47) (1 connections)
+- [ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L1) (4 connections)
+- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L53) (1 connections)
+- [examples](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L73) (1 connections)
+- [extractArtistFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L32) (1 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationErrorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx)
 
 ## Audit Trail
 

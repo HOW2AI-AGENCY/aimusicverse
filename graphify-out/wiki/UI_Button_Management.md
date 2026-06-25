@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Copy/Delete Buttons Always Active Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [CODE_OF_CONDUCT.md](file:///D:/.MUSICVERSE/aimusicverse/CODE_OF_CONDUCT.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CODE_OF_CONDUCT.md](file:///D:/.MUSICVERSE/aimusicverse/CODE_OF_CONDUCT.md)
 
 ## Audit Trail
 

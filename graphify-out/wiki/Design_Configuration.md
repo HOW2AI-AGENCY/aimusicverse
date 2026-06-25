@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L1) (10 connections)
-- [colorPalette](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L77) (1 connections)
-- [hasBasicInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L80) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L82) (1 connections)
-- [hasVisualStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L81) (1 connections)
-- [IMAGE_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L46) (1 connections)
-- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L76) (1 connections)
-- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L24) (1 connections)
-- [PROJECT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L35) (1 connections)
-- [TYPOGRAPHY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L59) (1 connections)
-- [visualKeywords](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L78) (1 connections)
+- [TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L1) (10 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L25) (1 connections)
+- [[dragStartRegion, setDragStartRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L24) (1 connections)
+- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L23) (1 connections)
+- [getPositionFromTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L34) (1 connections)
+- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L27) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L39) (1 connections)
+- [handleMouseMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L66) (1 connections)
+- [handleMouseUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L99) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L22) (1 connections)
+- [[region, setRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx)
 
 ## Audit Trail
 

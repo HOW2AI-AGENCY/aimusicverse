@@ -1,13 +1,13 @@
 # Collapsible UI
 
-> 4 nodes · cohesion 0.50
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L1) (3 connections)
-- [Collapsible](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L3) (1 connections)
-- [CollapsibleContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L7) (1 connections)
-- [CollapsibleTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L5) (1 connections)
+- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L46) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (2 connections)
+- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

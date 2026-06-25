@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Project Improvements Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_IMPROVEMENTS_SUMMARY.md) (0 connections)
+- [Comprehensive Audit Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_COMPLETE.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/PROJECT_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_IMPROVEMENTS_SUMMARY.md)
+- [docs/archive/2025-12/AUDIT_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_COMPLETE.md)
 
 ## Audit Trail
 

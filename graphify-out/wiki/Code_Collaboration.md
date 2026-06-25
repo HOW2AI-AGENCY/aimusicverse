@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [GitHub Pull Request Template](file:///D:/.MUSICVERSE/aimusicverse/.github/PULL_REQUEST_TEMPLATE.md) (0 connections)
+- [Unified Interface Developer Quick Start](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/quickstart.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/PULL_REQUEST_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/.github/PULL_REQUEST_TEMPLATE.md)
+- [specs/001-unified-interface/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/quickstart.md)
 
 ## Audit Trail
 

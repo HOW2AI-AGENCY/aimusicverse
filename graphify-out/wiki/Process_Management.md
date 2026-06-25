@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L1) (1 connections)
-- [STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx#L21) (1 connections)
+- [DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L1) (1 connections)
+- [DrumKitSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FirstTimeHeroCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FirstTimeHeroCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx)
 
 ## Audit Trail
 

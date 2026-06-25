@@ -1,26 +1,26 @@
 # Analytics Reporting
 
-> 17 nodes · cohesion 0.14
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [AnalyticsDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L1) (9 connections)
-- [exportUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L1) (6 connections)
-- [exportAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L55) (6 connections)
-- [handleExport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L60) (4 connections)
-- [toCSV()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L17) (4 connections)
-- [downloadFile()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L38) (2 connections)
-- [formatDeeplinksForExport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L136) (2 connections)
-- [formatErrorsForExport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L113) (2 connections)
-- [formatTelemetryForExport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts#L77) (2 connections)
-- [ALL_TIME_INTERVAL](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L41) (1 connections)
-- [{ data: errorTrends, isLoading: errorsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L49) (1 connections)
-- [{ data: generationStats, isLoading: generationLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L50) (1 connections)
-- [{ data: telemetry, isLoading: telemetryLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L48) (1 connections)
-- [deeplinkTimeRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L57) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L54) (1 connections)
-- [rpcPeriod](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L46) (1 connections)
-- [[timePeriod, setTimePeriod]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx#L44) (1 connections)
+- [track-card-gestures.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L1) (16 connections)
+- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L39) (1 connections)
+- [centerX](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L92) (1 connections)
+- [centerY](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L93) (1 connections)
+- [initialLikeCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L36) (1 connections)
+- [initialLikeState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L87) (1 connections)
+- [likeBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L160) (1 connections)
+- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L151) (1 connections)
+- [MOBILE_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L18) (1 connections)
+- [MOBILE_WIDTH](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L17) (1 connections)
+- [moreBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L165) (1 connections)
+- [moreButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L152) (1 connections)
+- [newLikeCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L54) (1 connections)
+- [newLikeState](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L102) (1 connections)
+- [playBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L155) (1 connections)
+- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L150) (1 connections)
+- [trackCard](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts#L33) (1 connections)
 
 ## Relationships
 
@@ -28,13 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\AnalyticsDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AnalyticsDashboard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\analytics\exportUtils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/exportUtils.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\mobile\track-card-gestures.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/mobile/track-card-gestures.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (76%)
-- INFERRED: 11 (24%)
+- EXTRACTED: 32 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

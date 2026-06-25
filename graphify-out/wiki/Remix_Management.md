@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [TrackDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx#L1) (5 connections)
-- [setRemixData()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/remix-storage.ts#L18) (4 connections)
-- [RemixButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/RemixButton.tsx#L1) (3 connections)
-- [handleRemixClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/RemixButton.tsx#L26) (3 connections)
-- [handleRemixClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx#L27) (3 connections)
-- [canRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/RemixButton.tsx#L24) (1 connections)
-- [[generateOpen, setGenerateOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/RemixButton.tsx#L21) (1 connections)
-- [canRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx#L25) (1 connections)
-- [[generateOpen, setGenerateOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx#L22) (1 connections)
-- [[selectedVersionId, setSelectedVersionId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx#L21) (1 connections)
-- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx#L55) (1 connections)
+- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
+- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
+- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
+- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
+- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
+- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
+- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
+- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
+- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -22,14 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\RemixButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/RemixButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\remix-storage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/remix-storage.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (71%)
-- INFERRED: 7 (29%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

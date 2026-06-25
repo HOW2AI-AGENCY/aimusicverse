@@ -4,19 +4,17 @@
 
 ## Key Concepts
 
-- [Graphify](file:///D:/.MUSICVERSE/aimusicverse/AGENTS.md) (2 connections)
-- [Footer Template](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/FOOTER_TEMPLATE.md) (1 connections)
-- [Header Template](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/HEADER_TEMPLATE.md) (1 connections)
+- [useViewStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L1) (2 connections)
+- [useViewStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L63) (1 connections)
+- [viewLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L32) (1 connections)
 
 ## Relationships
 
-- [[UI Toggle]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/AGENTS.md)
-- [docs/templates/FOOTER_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/FOOTER_TEMPLATE.md)
-- [docs/templates/HEADER_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/HEADER_TEMPLATE.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useViewStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts)
 
 ## Audit Trail
 

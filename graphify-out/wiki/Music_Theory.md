@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TrackParamsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackParamsEditor.tsx#L1) (3 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackParamsEditor.tsx#L63) (1 connections)
-- [KEY_SIGNATURES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackParamsEditor.tsx#L39) (1 connections)
-- [VOCAL_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackParamsEditor.tsx#L49) (1 connections)
+- [UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L1) (3 connections)
+- [FEATURE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L19) (1 connections)
+- [TIER_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L36) (1 connections)
+- [UpgradePrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\TrackParamsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/TrackParamsEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [iOS Safari Audio Autoplay Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [Chunk 21: Admin, Analytics & Professional Features - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_21_FILES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CHUNK_21_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_21_FILES.md)
 
 ## Audit Trail
 

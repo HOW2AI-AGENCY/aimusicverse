@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L1) (12 connections)
-- [finalTranscript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L86) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L89) (1 connections)
-- [interim](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L87) (1 connections)
-- [[interimTranscript, setInterimTranscript]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L60) (1 connections)
-- [[isListening, setIsListening]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L57) (1 connections)
-- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L58) (1 connections)
-- [isSupported](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L144) (1 connections)
-- [recognition](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L75) (1 connections)
-- [recognitionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L59) (1 connections)
-- [SpeechRecognitionClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L64) (1 connections)
-- [toggleListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L127) (1 connections)
-- [transcript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L90) (1 connections)
+- [StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L1) (12 connections)
+- [bgClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L130) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L126) (1 connections)
+- [displayLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L128) (1 connections)
+- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L133) (1 connections)
+- [isCustomIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L134) (1 connections)
+- [isSpinning](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L135) (1 connections)
+- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L152) (1 connections)
+- [shouldPulse](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L129) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L137) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L221) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L43) (1 connections)
+- [textClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L131) (1 connections)
 
 ## Relationships
 
@@ -24,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx)
 
 ## Audit Trail
 

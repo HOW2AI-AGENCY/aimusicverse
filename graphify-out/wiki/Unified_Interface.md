@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Unified Interface Developer Quick Start](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/quickstart.md) (0 connections)
+- [Sprint 028 UI/UX Optimization Completion Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_COMPLETION_REPORT.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [specs/001-unified-interface/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/quickstart.md)
+- [docs/archive/2026-01-04-cleanup/SPRINT_028_COMPLETION_REPORT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_COMPLETION_REPORT.md)
 
 ## Audit Trail
 

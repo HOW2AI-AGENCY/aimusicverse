@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L144) (1 connections)
-- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L222) (1 connections)
-- [filteredJourneys](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L224) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L174) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L117) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L175) (1 connections)
-- [JOURNEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L45) (1 connections)
-- [OUTCOME_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L106) (1 connections)
-- [outcomeStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L118) (1 connections)
+- [EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L1) (9 connections)
+- [categorizedItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L88) (1 connections)
+- [{ data: configItems, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L68) (1 connections)
+- [DEFAULT_VALUES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L31) (1 connections)
+- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L76) (1 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L71) (1 connections)
+- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L187) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L66) (1 connections)
+- [totalChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L91) (1 connections)
+- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigEditor.tsx)
 
 ## Audit Trail
 

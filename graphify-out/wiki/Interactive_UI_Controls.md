@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [PromptKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L1) (12 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L46) (1 connections)
-- [handleLabelBlur](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L74) (1 connections)
-- [handleLabelClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L70) (1 connections)
-- [handleLabelKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L80) (1 connections)
-- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L48) (1 connections)
-- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L57) (1 connections)
-- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L65) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L33) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L34) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L39) (1 connections)
-- [startValueRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L36) (1 connections)
-- [startYRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx#L35) (1 connections)
+- [lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L1) (12 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L138) (1 connections)
+- [element](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L55) (1 connections)
+- [handleError](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L91) (1 connections)
+- [handleLoad](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L87) (1 connections)
+- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L33) (1 connections)
+- [imgRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L34) (1 connections)
+- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L32) (1 connections)
+- [observerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L35) (1 connections)
+- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L39) (1 connections)
+- [[shouldLoad, setShouldLoad]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L36) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L47) (1 connections)
+- [srcSet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -24,7 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptKnob.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx)
 
 ## Audit Trail
 

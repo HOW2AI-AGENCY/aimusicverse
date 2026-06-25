@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L1) (4 connections)
-- [[expandedTrack, setExpandedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L51) (1 connections)
-- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L57) (1 connections)
-- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L162) (1 connections)
-- [toggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L53) (1 connections)
+- [MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L1) (4 connections)
+- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L67) (1 connections)
+- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L57) (1 connections)
+- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L62) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx)
 
 ## Audit Trail
 

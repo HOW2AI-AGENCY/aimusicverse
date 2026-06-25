@@ -4,9 +4,21 @@
 
 ## Key Concepts
 
-- [label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L1) (2 connections)
-- [Label](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L9) (1 connections)
-- [labelVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L7) (1 connections)
+- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L1) (2 connections)
+- [audioTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L148) (1 connections)
+- [{
+    isMobile,
+    projectId,
+    projectName,
+    sourceTrackId,
+    tracks,
+    masterVolume,
+    duration,
+    currentTime,
+    isPlaying,
+    detectedSections,
+    TRACK_COLORS,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx#L133) (1 connections)
 
 ## Relationships
 
@@ -14,7 +26,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioDialogs.tsx)
 
 ## Audit Trail
 

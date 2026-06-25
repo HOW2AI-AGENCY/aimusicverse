@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [PlaylistCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L1) (2 connections)
-- [lastOne](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L125) (1 connections)
-- [lastTwo](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx#L124) (1 connections)
+- [useAITools.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L1) (2 connections)
+- [cleanLyricsFromSyllableCounts()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L18) (1 connections)
+- [useAITools()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L37) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\PlaylistCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/PlaylistCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useAITools.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts)
 
 ## Audit Trail
 

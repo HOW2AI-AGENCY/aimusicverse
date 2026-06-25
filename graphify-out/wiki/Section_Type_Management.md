@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L1) (3 connections)
-- [SectionNotesPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L82) (1 connections)
-- [sectionTypeColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L70) (1 connections)
-- [sectionTypeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L58) (1 connections)
+- [TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L1) (3 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L128) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L126) (1 connections)
+- [TRACK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx)
 
 ## Audit Trail
 

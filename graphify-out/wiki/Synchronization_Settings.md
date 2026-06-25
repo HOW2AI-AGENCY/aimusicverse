@@ -1,13 +1,13 @@
 # Synchronization Settings
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L1) (3 connections)
-- [useAudioSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L23) (2 connections)
-- [useAutoSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L103) (2 connections)
-- [DEFAULT_SYNC_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts#L21) (1 connections)
+- [OfflineBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L10) (2 connections)
+- [useOffline()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L18) (2 connections)
+- [OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L1) (1 connections)
+- [useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L1) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioSync.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\offline\OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

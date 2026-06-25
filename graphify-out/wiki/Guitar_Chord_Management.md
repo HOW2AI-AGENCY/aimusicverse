@@ -1,18 +1,18 @@
 # Guitar Chord Management
 
-> 9 nodes · cohesion 0.31
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L1) (8 connections)
-- [getAllChords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L157) (3 connections)
-- [getChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L142) (3 connections)
-- [getChordsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L164) (2 connections)
-- [hasChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L150) (2 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L120) (2 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L13) (1 connections)
-- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L102) (1 connections)
-- [STRING_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L111) (1 connections)
+- [home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L1) (8 connections)
+- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L22) (1 connections)
+- [header](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L12) (1 connections)
+- [headerBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L38) (1 connections)
+- [overflow](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L29) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L20) (1 connections)
+- [tablist](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L15) (1 connections)
+- [tablistBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L39) (1 connections)
+- [WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L3) (1 connections)
 
 ## Relationships
 
@@ -20,12 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 16 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

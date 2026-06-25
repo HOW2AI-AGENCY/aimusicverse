@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [LCDDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L1) (7 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L77) (1 connections)
-- [fontSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L142) (1 connections)
-- [formattedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L138) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L62) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L46) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L61) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx#L19) (1 connections)
+- [useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L1) (7 connections)
+- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L11) (1 connections)
+- [useDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L107) (1 connections)
+- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L55) (1 connections)
+- [useRenderTracker()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L156) (1 connections)
+- [useShallowMemo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L86) (1 connections)
+- [useStableCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L141) (1 connections)
+- [useStableObject()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L188) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\LCDDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LCDDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts)
 
 ## Audit Trail
 

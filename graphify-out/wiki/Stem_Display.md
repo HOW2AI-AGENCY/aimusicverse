@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [QuickStemsButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QuickStemsButton.tsx#L1) (2 connections)
-- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QuickStemsButton.tsx#L31) (1 connections)
-- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QuickStemsButton.tsx#L30) (1 connections)
+- [StemDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L1) (2 connections)
+- [sanitizeFilename()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L23) (1 connections)
+- [StemDownloadPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\QuickStemsButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QuickStemsButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx)
 
 ## Audit Trail
 

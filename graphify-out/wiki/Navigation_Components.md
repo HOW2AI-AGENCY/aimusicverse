@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L1) (2 connections)
-- [Breadcrumb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L7) (1 connections)
-- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L42) (1 connections)
+- [SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L1) (2 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L27) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx)
 
 ## Audit Trail
 

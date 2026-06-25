@@ -1,16 +1,16 @@
 # Statistical Analysis
 
-> 7 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useAnomalyDetection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts#L1) (6 connections)
-- [calculateStdDev()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts#L75) (3 connections)
-- [detectZScoreAnomalies()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts#L87) (3 connections)
-- [detectThresholdAnomalies()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts#L132) (1 connections)
-- [detectTrendAnomalies()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts#L174) (1 connections)
-- [METRIC_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts#L41) (1 connections)
-- [useAnomalyDetection()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts#L223) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L1) (6 connections)
+- [BATCH_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L115) (1 connections)
+- [GENRE_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L120) (1 connections)
+- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L27) (1 connections)
+- [GENRE_QUERIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L16) (1 connections)
+- [PUBLIC_CONTENT_GC_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L110) (1 connections)
+- [PUBLIC_CONTENT_STALE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L105) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useAnomalyDetection.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAnomalyDetection.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (88%)
-- INFERRED: 2 (12%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

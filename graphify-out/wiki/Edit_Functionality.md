@@ -1,18 +1,18 @@
 # Edit Functionality
 
-> 9 nodes · cohesion 0.28
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L1) (8 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L64) (3 connections)
-- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L53) (2 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L45) (2 connections)
-- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L33) (1 connections)
-- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L58) (1 connections)
-- [hasChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L43) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L32) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L42) (1 connections)
+- [AudioPoolMonitor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L1) (8 connections)
+- [[activeElements, setActiveElements]](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L23) (1 connections)
+- [getPriorityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L52) (1 connections)
+- [getPriorityLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L39) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L27) (1 connections)
+- [isAtLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L37) (1 connections)
+- [isNearLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L36) (1 connections)
+- [[stats, setStats]](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L22) (1 connections)
+- [utilizationPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -20,11 +20,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\debug\AudioPoolMonitor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/debug/AudioPoolMonitor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

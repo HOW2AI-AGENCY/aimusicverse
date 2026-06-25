@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L1) (6 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L35) (1 connections)
-- [hasFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L59) (1 connections)
-- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L28) (1 connections)
-- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L72) (1 connections)
-- [toggleGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L64) (1 connections)
-- [toggleNodeType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L80) (1 connections)
+- [PlayerErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L1) (7 connections)
+- [{ children, fallback, showDetails = false }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L140) (1 connections)
+- [componentWillUnmount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L84) (1 connections)
+- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L38) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L49) (1 connections)
+- [{ hasError, error, errorInfo, errorCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L139) (1 connections)
+- [isRepeatingError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L149) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\PlayerErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 13 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

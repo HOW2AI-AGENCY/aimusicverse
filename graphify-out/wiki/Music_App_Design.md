@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [AIMusicVerse - Professional UX/UI Audit & Mobile Studio Design](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/UX_AUDIT_MOBILE_STUDIO_DESIGN.md) (0 connections)
+- [Bug Fix Summary: Stem Studio, Section Detection, and Synchronized Lyrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits/UX_AUDIT_MOBILE_STUDIO_DESIGN.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/UX_AUDIT_MOBILE_STUDIO_DESIGN.md)
+- [docs/archive/2025-12/BUGFIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md)
 
 ## Audit Trail
 

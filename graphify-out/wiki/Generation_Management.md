@@ -4,22 +4,22 @@
 
 ## Key Concepts
 
-- [BottomNavigation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L1) (15 connections)
-- [activeGenCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L41) (1 connections)
-- [{ data: activeGenerations = [] }](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L40) (1 connections)
-- [frame](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L45) (1 connections)
-- [[generateOpen, setGenerateOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L38) (1 connections)
-- [GenerateSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L13) (1 connections)
-- [handleGenerateClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L58) (1 connections)
-- [handleNavigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L49) (1 connections)
-- [handlePreload](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L63) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L36) (1 connections)
-- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L68) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L39) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L35) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L34) (1 connections)
-- [navItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L25) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx#L37) (1 connections)
+- [SyntaxHighlightedEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L1) (15 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L91) (1 connections)
+- [countSyllables()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L43) (1 connections)
+- [currentLineSyllables](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L133) (1 connections)
+- [[cursorLine, setCursorLine]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L125) (1 connections)
+- [handleScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L149) (1 connections)
+- [handleSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L157) (1 connections)
+- [highlightRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L127) (1 connections)
+- [highlightSyntax()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L56) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L124) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L130) (1 connections)
+- [syllables](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L255) (1 connections)
+- [syllableStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L141) (1 connections)
+- [SYNTAX_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L19) (1 connections)
+- [TAG_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L31) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L126) (1 connections)
 
 ## Relationships
 
@@ -27,7 +27,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\BottomNavigation.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/BottomNavigation.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\SyntaxHighlightedEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx)
 
 ## Audit Trail
 

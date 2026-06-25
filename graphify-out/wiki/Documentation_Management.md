@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Documentation Index](file:///D:/.MUSICVERSE/aimusicverse/docs/INDEX.md) (0 connections)
+- [Backend & Database Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/backend.agent.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/INDEX.md)
+- [.github/agents/backend.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/backend.agent.md)
 
 ## Audit Trail
 

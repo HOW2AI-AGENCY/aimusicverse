@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L1) (3 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L79) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L80) (1 connections)
-- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L44) (1 connections)
+- [PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L1) (3 connections)
+- [{ minPitch, maxPitch, normalizedNotes, pitchRange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L34) (1 connections)
+- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L25) (1 connections)
+- [octaveLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx)
 
 ## Audit Trail
 

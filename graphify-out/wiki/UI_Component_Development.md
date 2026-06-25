@@ -4,17 +4,16 @@
 
 ## Key Concepts
 
-- [Sprint 028 New Components and Hooks](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_NEW_COMPONENTS.md) (1 connections)
-- [Sprint 028 UI/UX Interface Optimization and Enhancement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_UI_UX_OPTIMIZATION.md) (1 connections)
+- [AdminTariffs()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L7) (1 connections)
+- [AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L1) (1 connections)
 
 ## Relationships
 
-- [[Change Log]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/2026-01-04-cleanup/SPRINT_028_NEW_COMPONENTS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_NEW_COMPONENTS.md)
-- [docs/archive/2026-01-04-cleanup/SPRINT_028_UI_UX_OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_UI_UX_OPTIMIZATION.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx)
 
 ## Audit Trail
 

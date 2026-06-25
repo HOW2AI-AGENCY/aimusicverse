@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L1) (3 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L102) (1 connections)
-- [shimmer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L16) (1 connections)
-- [shimmerClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L17) (1 connections)
+- [hover-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L1) (3 connections)
+- [HoverCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L6) (1 connections)
+- [HoverCardContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L10) (1 connections)
+- [HoverCardTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeletons\TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hover-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx)
 
 ## Audit Trail
 

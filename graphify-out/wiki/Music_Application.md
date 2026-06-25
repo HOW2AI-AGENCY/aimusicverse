@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Bug Fix Summary: Stem Studio, Section Detection, and Synchronized Lyrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md) (0 connections)
+- [Система контекстных подсказок](file:///D:/.MUSICVERSE/aimusicverse/docs/CONTEXTUAL_HINTS_SYSTEM.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/BUGFIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md)
+- [docs/CONTEXTUAL_HINTS_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/CONTEXTUAL_HINTS_SYSTEM.md)
 
 ## Audit Trail
 

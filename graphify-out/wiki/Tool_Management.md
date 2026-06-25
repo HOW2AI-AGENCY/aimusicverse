@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L1) (9 connections)
-- [activeButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L49) (1 connections)
-- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L43) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L122) (1 connections)
-- [PRIMARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L32) (1 connections)
-- [primaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L54) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L44) (1 connections)
-- [SECONDARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L34) (1 connections)
-- [secondaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L55) (1 connections)
-- [toolsToShow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L56) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L1) (9 connections)
+- [ALERT_COOLDOWNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L51) (1 connections)
+- [ALERT_PRIORITIES](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L60) (1 connections)
+- [LAST_ALERT_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L72) (1 connections)
+- [MAX_ALERTS_ON_PAGE_LOAD](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L46) (1 connections)
+- [MAX_ALERTS_PER_SESSION](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L45) (1 connections)
+- [MIN_ALERT_INTERVAL](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L44) (1 connections)
+- [QUIET_ROUTES](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L49) (1 connections)
+- [SESSION_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L71) (1 connections)
+- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts#L70) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/types.ts)
 
 ## Audit Trail
 

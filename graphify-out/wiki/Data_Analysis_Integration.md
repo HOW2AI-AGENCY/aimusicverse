@@ -1,37 +1,29 @@
 # Data Analysis Integration
 
-> 8 nodes · cohesion 0.32
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [Telegram Integration Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md) (5 connections)
-- [Telegram Mini App Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md) (3 connections)
-- [Advanced Telegram Mini Apps Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/telegram_mini_apps_integration.md) (3 connections)
-- [Telegram Mini Apps Advanced Examples](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/mini_apps_advanced_examples.md) (2 connections)
-- [Telegram Mini Apps Quick Methods Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/methods_quick_reference.md) (2 connections)
-- [Chart of Data Analysis](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/analysis.jpg) (1 connections)
-- [Cloud Storage Concept Image](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/cloud.jpg) (1 connections)
-- [Music Generation AI Concept Image](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/generator.jpg) (1 connections)
+- [ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L1) (6 connections)
+- [availableModes](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L39) (1 connections)
+- [cfg](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L53) (1 connections)
+- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L74) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L86) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L54) (1 connections)
+- [modeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L21) (1 connections)
 
 ## Relationships
 
-- [[Data Visualization]] (18 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md)
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md)
-- [docs/TELEGRAM_MINI_APP/methods_quick_reference.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/methods_quick_reference.md)
-- [docs/TELEGRAM_MINI_APP/mini_apps_advanced_examples.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/mini_apps_advanced_examples.md)
-- [docs/TELEGRAM_MINI_APP/telegram_mini_apps_integration.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/telegram_mini_apps_integration.md)
-- [public/images/bot/analysis.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/analysis.jpg)
-- [public/images/bot/cloud.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/cloud.jpg)
-- [public/images/bot/generator.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/generator.jpg)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (67%)
-- INFERRED: 6 (33%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

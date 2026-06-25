@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L1) (1 connections)
-- [TitleSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L11) (1 connections)
+- [DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L1) (1 connections)
+- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx)
 
 ## Audit Trail
 

@@ -1,24 +1,24 @@
 # Tip Management
 
-> 15 nodes · cohesion 0.13
+> 15 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [EnhancedContextTips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L1) (14 connections)
-- [dismissTip()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L189) (2 connections)
-- [actualState](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L60) (1 connections)
-- [allTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L84) (1 connections)
-- [availableTips](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L174) (1 connections)
-- [canReplace](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L81) (1 connections)
-- [canSeparate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L80) (1 connections)
-- [currentTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L210) (1 connections)
-- [[currentTipIndex, setCurrentTipIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L56) (1 connections)
-- [[dismissedTips, setDismissedTips]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L55) (1 connections)
-- [{ editMode, latestCompletion }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L57) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L82) (1 connections)
-- [nextTip()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L202) (1 connections)
-- [saved](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L70) (1 connections)
-- [TipIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L211) (1 connections)
+- [MobilePaymentScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L1) (8 connections)
+- [useStarsProducts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L1) (5 connections)
+- [featured](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L65) (2 connections)
+- [useFeaturedProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L44) (2 connections)
+- [useGroupedProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L70) (2 connections)
+- [useStarsProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L31) (2 connections)
+- [autoSelect](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L55) (1 connections)
+- [base](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L92) (1 connections)
+- [baseRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L98) (1 connections)
+- [product](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L58) (1 connections)
+- [productCode](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L54) (1 connections)
+- [savings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L103) (1 connections)
+- [selectedRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L99) (1 connections)
+- [starsProductsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L20) (1 connections)
+- [useProductsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L57) (1 connections)
 
 ## Relationships
 
@@ -26,12 +26,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\shared\EnhancedContextTips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStarsProducts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\MobilePaymentScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 28 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---

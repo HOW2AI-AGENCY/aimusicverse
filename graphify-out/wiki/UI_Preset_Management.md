@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [ReverbControl.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx#L1) (6 connections)
-- [handlePresetChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx#L43) (1 connections)
-- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx#L48) (1 connections)
-- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx#L53) (1 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx#L114) (1 connections)
-- [presetLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx#L27) (1 connections)
-- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx#L41) (1 connections)
+- [MobileStudioQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L1) (6 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L66) (1 connections)
+- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L60) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L53) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L123) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L52) (1 connections)
+- [toggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L55) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\effects\ReverbControl.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/ReverbControl.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileStudioQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx)
 
 ## Audit Trail
 

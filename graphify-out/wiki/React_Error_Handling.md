@@ -4,26 +4,23 @@
 
 ## Key Concepts
 
-- [React Hooks Undefined Error Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_UNDEFINED_FIX.md) (3 connections)
-- [React Hooks Module Initialization Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_MODULE_INIT_FIX.md) (1 connections)
-- [React Loading Order Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_LOADING_ORDER_FIX.md) (1 connections)
-- [TanStack Query Chunking Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TANSTACK_QUERY_CHUNKING_FIX.md) (1 connections)
+- [client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L1) (3 connections)
+- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L11) (1 connections)
+- [SUPABASE_PUBLISHABLE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L6) (1 connections)
+- [SUPABASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L5) (1 connections)
 
 ## Relationships
 
-- [[Error Handling]] (6 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/implementation-reports/REACT_HOOKS_MODULE_INIT_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_MODULE_INIT_FIX.md)
-- [docs/archive/implementation-reports/REACT_HOOKS_UNDEFINED_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_HOOKS_UNDEFINED_FIX.md)
-- [docs/archive/implementation-reports/REACT_LOADING_ORDER_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/REACT_LOADING_ORDER_FIX.md)
-- [docs/archive/implementation-reports/TANSTACK_QUERY_CHUNKING_FIX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/TANSTACK_QUERY_CHUNKING_FIX.md)
+- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
-- INFERRED: 6 (100%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

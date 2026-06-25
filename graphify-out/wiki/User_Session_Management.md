@@ -1,20 +1,19 @@
 # User Session Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [subscriptionStatus.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L1) (11 connections)
-- [currentExpiry](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L146) (1 connections)
-- [{ data }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L68) (1 connections)
-- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L43) (1 connections)
-- [{ data: user }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L26) (1 connections)
-- [expiredAt](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L102) (1 connections)
-- [expiresAt](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L55) (1 connections)
-- [supabase](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L16) (1 connections)
-- [supabaseKey](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L21) (1 connections)
-- [supabaseUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L20) (1 connections)
-- [testUserId](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L17) (1 connections)
+- [UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L144) (1 connections)
+- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L222) (1 connections)
+- [filteredJourneys](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L224) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L174) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L117) (1 connections)
+- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L175) (1 connections)
+- [JOURNEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L45) (1 connections)
+- [OUTCOME_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L106) (1 connections)
+- [outcomeStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L118) (1 connections)
 
 ## Relationships
 
@@ -22,11 +21,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\subscriptionStatus.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

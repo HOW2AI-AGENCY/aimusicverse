@@ -1,48 +1,48 @@
 # Lyrics Scrolling
 
-> 44 nodes · cohesion 0.05
+> 45 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [UnifiedLyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L1) (44 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L34) (3 connections)
-- [[activeWordIndex, setActiveWordIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L92) (1 connections)
-- [AUTO_SCROLL_DISTANCE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L13) (1 connections)
-- [AUTO_SCROLL_RESUME_DELAY](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L12) (1 connections)
-- [container](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L139) (1 connections)
-- [containerRect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L187) (1 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L91) (1 connections)
-- [currentLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L373) (1 connections)
-- [currentPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L190) (1 connections)
-- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L183) (1 connections)
-- [elementRect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L188) (1 connections)
-- [globalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L286) (1 connections)
-- [handleScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L110) (1 connections)
-- [handleWordClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L224) (1 connections)
-- [hasDoubleNewline](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L386) (1 connections)
-- [hasNewline](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L385) (1 connections)
-- [hasTimeGap](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L390) (1 connections)
-- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L107) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L375) (1 connections)
-- [idx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L166) (1 connections)
-- [isLineActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L262) (1 connections)
-- [isLinePast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L263) (1 connections)
-- [isProgrammaticScrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L97) (1 connections)
-- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L287) (1 connections)
-- *... and 19 more nodes in this community*
+- [Sprint 026 Execution Tracking](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L1) (18 connections)
+- [🎓 Sprint Learnings](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L254) (6 connections)
+- [✅ Completed Tasks (26 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L26) (5 connections)
+- [📝 Daily Progress Log](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L606) (5 connections)
+- [🚀 Next Actions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L301) (4 connections)
+- [⏳ Pending Tasks (16 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L400) (4 connections)
+- [✅ Completed Tasks (10 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L336) (3 connections)
+- [📈 Sprint Metrics Dashboard](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L164) (3 connections)
+- [📊 Definition of Done](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L555) (2 connections)
+- [🔄 In Progress (0 SP currently active)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L381) (2 connections)
+- [🎯 Sprint Health](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L192) (2 connections)
+- [🔬 Technical Progress](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L206) (2 connections)
+- [US-026-002: Quick Create Presets (6 SP) ✅ 100%](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L28) (2 connections)
+- [SPRINT_026_EXECUTION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L1) (1 connections)
+- [Architecture Decisions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L208) (1 connections)
+- [Areas for Future Improvement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L282) (1 connections)
+- [Day 1 (Dec 30, 2025)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L608) (1 connections)
+- [Day 2 (Dec 31, 2025)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L614) (1 connections)
+- [Day 3 (Jan 1, 2026)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L620) (1 connections)
+- [Day 4 (Jan 2, 2026)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L627) (1 connections)
+- [🔗 Dependencies](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L651) (1 connections)
+- [Documentation (4 SP estimated) ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L370) (1 connections)
+- [📁 Files Created (5 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L471) (1 connections)
+- [Immediate (Days 4-5)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L538) (1 connections)
+- [💡 Key Decisions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L238) (1 connections)
+- *... and 20 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Project Management]] (90 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\UnifiedLyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx)
+- [docs/archive/sprint-reports/SPRINT_026_EXECUTION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md)
 
 ## Audit Trail
 
-- EXTRACTED: 87 (98%)
-- INFERRED: 2 (2%)
+- EXTRACTED: 90 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useStarsPayment.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx#L1) (2 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx#L18) (1 connections)
-- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx#L30) (1 connections)
+- [CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L1) (2 connections)
+- [CoreProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L48) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\useStarsPayment.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/useStarsPayment.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\providers\CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx)
 
 ## Audit Trail
 

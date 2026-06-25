@@ -1,12 +1,13 @@
 # Authentication Control
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L1) (2 connections)
-- [isDevEnvironment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L15) (1 connections)
-- [ProtectedRoute](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L33) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L1) (3 connections)
+- [createDefaultViewSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L156) (1 connections)
+- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L154) (1 connections)
+- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L141) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

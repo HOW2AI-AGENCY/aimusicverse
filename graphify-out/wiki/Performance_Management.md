@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Performance Issue Template](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/performance.md) (0 connections)
+- [activity.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/activity.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/ISSUE_TEMPLATE/performance.md](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/performance.md)
+- [D:\.MUSICVERSE\aimusicverse\src\types\activity.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/activity.ts)
 
 ## Audit Trail
 

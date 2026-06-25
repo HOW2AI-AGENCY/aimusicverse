@@ -4,10 +4,17 @@
 
 ## Key Concepts
 
-- [ProjectProgressRing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectProgressRing.tsx#L1) (3 connections)
-- [circumference](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectProgressRing.tsx#L22) (1 connections)
-- [offset](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectProgressRing.tsx#L23) (1 connections)
-- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectProgressRing.tsx#L21) (1 connections)
+- [QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L1) (3 connections)
+- [{
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L19) (1 connections)
+- [hasVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L34) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -15,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectProgressRing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectProgressRing.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx)
 
 ## Audit Trail
 

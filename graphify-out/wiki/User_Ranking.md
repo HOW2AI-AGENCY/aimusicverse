@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L1) (10 connections)
-- [{ data: leaderboard, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L22) (1 connections)
-- [{ data: userCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L23) (1 connections)
-- [isCurrentUser](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L66) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L21) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L65) (1 connections)
-- [RANK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L13) (1 connections)
-- [topThree](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L43) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L20) (1 connections)
-- [userPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L26) (1 connections)
-- [xpToNextRank](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L33) (1 connections)
+- [ExportFilesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L1) (11 connections)
+- [getFileUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L80) (2 connections)
+- [availableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L109) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L151) (1 connections)
+- [[downloaded, setDownloaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L78) (1 connections)
+- [[downloading, setDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L77) (1 connections)
+- [EXPORT_FILES](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L23) (1 connections)
+- [isAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L127) (1 connections)
+- [isDownloaded](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L129) (1 connections)
+- [isDownloading](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L128) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L126) (1 connections)
 
 ## Relationships
 
@@ -22,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ExportFilesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L1) (9 connections)
-- [autoMidiEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L59) (1 connections)
-- [autoMidiModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L60) (1 connections)
-- [autoMidiStemsOnly](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L61) (1 connections)
-- [handleChangeModel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L69) (1 connections)
-- [handleToggleAutoMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L65) (1 connections)
-- [handleToggleStemsOnly()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L73) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L11) (1 connections)
-- [selectedModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L63) (1 connections)
-- [{ settings, updateSettings, isUpdating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx#L57) (1 connections)
+- [VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L1) (9 connections)
+- [DESKTOP_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L19) (1 connections)
+- [MOBILE_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L18) (1 connections)
+- [props](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L83) (1 connections)
+- [rowHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L74) (1 connections)
+- [shouldVirtualize](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L73) (1 connections)
+- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L80) (1 connections)
+- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L79) (1 connections)
+- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L81) (1 connections)
+- [VIRTUALIZATION_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\MidiSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/MidiSettingsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx)
 
 ## Audit Trail
 

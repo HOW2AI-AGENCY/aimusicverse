@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [CompactFilterBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L1) (9 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L183) (1 connections)
-- [FILTERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L39) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L182) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L70) (1 connections)
-- [[isSearchFocused, setIsSearchFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L71) (1 connections)
-- [[showFilterModal, setShowFilterModal]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L73) (1 connections)
-- [[showSortMenu, setShowSortMenu]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L72) (1 connections)
-- [SORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L46) (1 connections)
-- [STATUS_FILTERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx#L52) (1 connections)
+- [AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L1) (9 connections)
+- [activeButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L49) (1 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L43) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L122) (1 connections)
+- [PRIMARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L32) (1 connections)
+- [primaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L54) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L44) (1 connections)
+- [SECONDARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L34) (1 connections)
+- [secondaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L55) (1 connections)
+- [toolsToShow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L56) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\CompactFilterBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/CompactFilterBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx)
 
 ## Audit Trail
 

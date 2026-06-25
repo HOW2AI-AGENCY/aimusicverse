@@ -4,22 +4,16 @@
 
 ## Key Concepts
 
-- [TrackLaneRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L1) (9 connections)
-- [controlsWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L47) (1 connections)
-- [handleDragOver](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L63) (1 connections)
-- [handleDrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L52) (1 connections)
-- [hasSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L49) (1 connections)
-- [isEffectivelyMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L50) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L36) (1 connections)
-- [laneRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L35) (1 connections)
-- [{
-    toggleTrackMute,
-    toggleTrackSolo,
-    setTrackVolume,
-    removeTrack,
-    currentProject,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L38) (1 connections)
-- [trackHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L46) (1 connections)
+- [UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L146) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L117) (1 connections)
+- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L134) (1 connections)
+- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L124) (1 connections)
+- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L129) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L115) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L121) (1 connections)
+- [isMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L122) (1 connections)
+- [STEM_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -27,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\TrackLaneRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx)
 
 ## Audit Trail
 

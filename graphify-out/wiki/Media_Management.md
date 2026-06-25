@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L1) (4 connections)
-- [mockPlayerStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L11) (1 connections)
-- [mockStudioStore](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L20) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L61) (1 connections)
-- [tracks](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts#L408) (1 connections)
+- [Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L1) (4 connections)
+- [AnimatedIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L23) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L87) (1 connections)
+- [isTelegramApp](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L86) (1 connections)
+- [{ webApp }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L85) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useUnifiedStudio.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useUnifiedStudio.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx)
 
 ## Audit Trail
 

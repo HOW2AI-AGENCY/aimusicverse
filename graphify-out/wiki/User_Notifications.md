@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [ProactiveUpsellBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L1) (9 connections)
-- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L52) (2 connections)
-- [dismissed](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L36) (1 connections)
-- [handleUpgrade()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L58) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L30) (1 connections)
-- [[isDismissed, setIsDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L31) (1 connections)
-- [{ isFreeUser }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L29) (1 connections)
-- [[isPopupOpen, setIsPopupOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L32) (1 connections)
-- [MIN_GENERATIONS_TO_SHOW](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L16) (1 connections)
-- [SESSION_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx#L15) (1 connections)
+- [EnhancedMixPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L1) (9 connections)
+- [handleClearSaved()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L75) (2 connections)
+- [handleLoadPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L51) (2 connections)
+- [handleLoadSaved()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L59) (2 connections)
+- [availablePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L48) (1 connections)
+- [{ getAvailablePresets, loadSavedMix, clearSavedMix }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L46) (1 connections)
+- [handleShowDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L80) (1 connections)
+- [savedMix](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L49) (1 connections)
+- [[showPresetDetails, setShowPresetDetails]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L45) (1 connections)
+- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L190) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\ProactiveUpsellBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\EnhancedMixPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 18 (86%)
+- INFERRED: 3 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

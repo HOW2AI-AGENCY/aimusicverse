@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L1) (9 connections)
-- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L200) (1 connections)
-- [hasValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L41) (1 connections)
-- [inputPaddingTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L57) (1 connections)
-- [isFloating](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L42) (1 connections)
-- [[isFocused, setIsFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L38) (1 connections)
-- [isPassword](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L43) (1 connections)
-- [labelSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L51) (1 connections)
-- [[showPassword, setShowPassword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L39) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L45) (1 connections)
+- [breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L1) (9 connections)
+- [BREAKPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L15) (1 connections)
+- [GAPS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L89) (1 connections)
+- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L36) (1 connections)
+- [hideBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L140) (1 connections)
+- [LAYOUT_RATIOS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L103) (1 connections)
+- [matchesBreakpoint()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L154) (1 connections)
+- [MAX_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L67) (1 connections)
+- [showBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L147) (1 connections)
+- [SIDEBAR_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L126) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts)
 
 ## Audit Trail
 

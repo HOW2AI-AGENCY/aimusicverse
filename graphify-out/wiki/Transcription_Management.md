@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L1) (2 connections)
-- [TranscriptionInProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L15) (1 connections)
-- [TranscriptionPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L57) (1 connections)
+- [ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L1) (2 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L19) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx)
 
 ## Audit Trail
 

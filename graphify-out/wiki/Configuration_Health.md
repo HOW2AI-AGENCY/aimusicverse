@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L1) (9 connections)
-- [checkConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L219) (1 connections)
-- [CheckIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L220) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L119) (1 connections)
-- [{ data: healthStatus, isLoading, refetch, dataUpdatedAt }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L69) (1 connections)
-- [[isSendingTest, setIsSendingTest]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L67) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L42) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L123) (1 connections)
+- [useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L1) (3 connections)
+- [getTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L213) (3 connections)
+- [TierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L21) (2 connections)
+- [EditorTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L35) (2 connections)
+- [SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L1) (1 connections)
+- [SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L1) (1 connections)
+- [formatPeriod()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L224) (1 connections)
+- [useSubscriptionTiers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L79) (1 connections)
 
 ## Relationships
 
@@ -19,12 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (71%)
+- INFERRED: 4 (29%)
 - AMBIGUOUS: 0 (0%)
 
 ---

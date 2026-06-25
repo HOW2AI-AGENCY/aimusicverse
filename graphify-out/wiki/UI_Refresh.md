@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [PullToRefreshWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/PullToRefreshWrapper.tsx#L1) (1 connections)
-- [PullToRefreshWrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/PullToRefreshWrapper.tsx#L18) (1 connections)
+- [PrivacyToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx#L1) (1 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\PullToRefreshWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/PullToRefreshWrapper.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\PrivacyToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx)
 
 ## Audit Trail
 

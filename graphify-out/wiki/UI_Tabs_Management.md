@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
-- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
-- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
-- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
-- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
+- [IconGridButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L56) (1 connections)
+- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L25) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L43) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\IconGridButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx)
 
 ## Audit Trail
 

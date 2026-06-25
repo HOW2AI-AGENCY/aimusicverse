@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L1) (3 connections)
-- [GAMIFICATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L37) (1 connections)
-- [GENERATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L23) (1 connections)
-- [SOCIAL_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L30) (1 connections)
+- [ChannelCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L1) (3 connections)
+- [CHANNEL_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L18) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L50) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\ChannelCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx)
 
 ## Audit Trail
 

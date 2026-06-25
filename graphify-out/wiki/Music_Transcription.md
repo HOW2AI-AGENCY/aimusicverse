@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Klang.io Music Transcription API](file:///D:/.MUSICVERSE/aimusicverse/docs/KLANG_IO_API_GUIDE_RU.md) (0 connections)
+- [Plan: Fix BottomNav/Player Overlap + e2e Quick Start](file:///D:/.MUSICVERSE/aimusicverse/.lovable/plan.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KLANG_IO_API_GUIDE_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KLANG_IO_API_GUIDE_RU.md)
+- [.lovable/plan.md](file:///D:/.MUSICVERSE/aimusicverse/.lovable/plan.md)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Implement Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.implement.agent.md) (0 connections)
+- [profile.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/profile.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/agents/speckit.implement.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.implement.agent.md)
+- [D:\.MUSICVERSE\aimusicverse\src\types\profile.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/profile.ts)
 
 ## Audit Trail
 

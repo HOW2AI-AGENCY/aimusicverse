@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L1) (5 connections)
-- [chordColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L85) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L139) (1 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L158) (1 connections)
-- [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L99) (1 connections)
-- [studioAnimations](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L5) (1 connections)
+- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L1) (5 connections)
+- [DEFAULT_TITLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L80) (1 connections)
+- [INVALIDATE_QUERY_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L91) (1 connections)
+- [OPERATION_ENDPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L69) (1 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L12) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts)
 
 ## Audit Trail
 

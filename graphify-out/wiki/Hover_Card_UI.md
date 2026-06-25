@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [hover-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L1) (3 connections)
-- [HoverCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L6) (1 connections)
-- [HoverCardContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L10) (1 connections)
-- [HoverCardTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx#L8) (1 connections)
+- [AnimatedList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L1) (3 connections)
+- [containerStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L61) (1 connections)
+- [gridCols](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L134) (1 connections)
+- [shouldAnimate](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L66) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hover-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hover-card.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\AnimatedList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx)
 
 ## Audit Trail
 

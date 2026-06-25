@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Checklist Template](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/checklist-template.md) (0 connections)
+- [spec-driven-developer agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/spec-driven-developer.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.specify/templates/checklist-template.md](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/checklist-template.md)
+- [.claude/agents/spec-driven-developer.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/spec-driven-developer.md)
 
 ## Audit Trail
 

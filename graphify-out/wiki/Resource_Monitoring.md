@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [CreditBalanceIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CreditBalanceIndicator.tsx#L1) (3 connections)
-- [isInsufficient](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CreditBalanceIndicator.tsx#L22) (1 connections)
-- [isLow](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CreditBalanceIndicator.tsx#L21) (1 connections)
-- [remaining](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CreditBalanceIndicator.tsx#L23) (1 connections)
+- [DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L1) (3 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L79) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L80) (1 connections)
+- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\CreditBalanceIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CreditBalanceIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx)
 
 ## Audit Trail
 

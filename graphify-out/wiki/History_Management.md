@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L1) (4 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L75) (1 connections)
-- [groupedHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L81) (1 connections)
-- [mockHistory](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L40) (1 connections)
-- [renderSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx#L216) (1 connections)
+- [WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L1) (4 connections)
+- [ChangeIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L15) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L41) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L54) (1 connections)
+- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubHistory.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx)
 
 ## Audit Trail
 

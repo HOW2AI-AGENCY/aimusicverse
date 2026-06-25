@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Player System Audit Summary (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_AUDIT_SUMMARY_RU.md) (0 connections)
+- [iOS Safari Audio Autoplay Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/PLAYER_AUDIT_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_AUDIT_SUMMARY_RU.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

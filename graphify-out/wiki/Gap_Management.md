@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L1) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx#L29) (1 connections)
+- [isAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L15) (1 connections)
+- [ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopDashboardLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopDashboardLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx)
 
 ## Audit Trail
 

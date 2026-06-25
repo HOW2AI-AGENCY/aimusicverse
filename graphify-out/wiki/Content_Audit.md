@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Audit System for Content Deposition](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIT_SYSTEM.md) (0 connections)
+- [Speckit Tasks Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.tasks.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/AUDIT_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIT_SYSTEM.md)
+- [.kilocode/workflows/speckit.tasks.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.tasks.md)
 
 ## Audit Trail
 

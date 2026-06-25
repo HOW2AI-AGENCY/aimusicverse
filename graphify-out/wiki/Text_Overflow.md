@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Russian Text Overflow on Mobile Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [DOCUMENTATION_INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/DOCUMENTATION_INDEX.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [DOCUMENTATION_INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/DOCUMENTATION_INDEX.md)
 
 ## Audit Trail
 

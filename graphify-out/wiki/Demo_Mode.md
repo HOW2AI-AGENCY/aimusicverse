@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Demo Mode](file:///D:/.MUSICVERSE/aimusicverse/docs/DEMO_MODE.md) (0 connections)
+- [GitHub Pull Request Template](file:///D:/.MUSICVERSE/aimusicverse/.github/PULL_REQUEST_TEMPLATE.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/DEMO_MODE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/DEMO_MODE.md)
+- [.github/PULL_REQUEST_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/.github/PULL_REQUEST_TEMPLATE.md)
 
 ## Audit Trail
 

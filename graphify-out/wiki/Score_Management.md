@@ -1,12 +1,12 @@
 # Score Management
 
-> 3 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L1) (2 connections)
-- [getScoreLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L36) (2 connections)
-- [ProducerResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L43) (2 connections)
+- [ProviderSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx#L1) (2 connections)
+- [PROVIDERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx#L17) (1 connections)
+- [ProviderSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx#L11) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProviderSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

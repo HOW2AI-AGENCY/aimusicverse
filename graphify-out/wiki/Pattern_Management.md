@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L1) (1 connections)
-- [PatternBank](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx#L14) (1 connections)
+- [TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L1) (1 connections)
+- [TierDisplaySection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\PatternBank.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/PatternBank.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx)
 
 ## Audit Trail
 

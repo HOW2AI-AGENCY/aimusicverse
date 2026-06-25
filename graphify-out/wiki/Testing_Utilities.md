@@ -1,30 +1,37 @@
 # Testing Utilities
 
-> 8 nodes · cohesion 0.25
+> 8 nodes · cohesion 0.32
 
 ## Key Concepts
 
-- [useStudioPerformance.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L1) (7 connections)
-- [callback](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L186) (1 connections)
-- [{ logger }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L155) (1 connections)
-- [mockMemory](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L111) (1 connections)
-- [mockNow](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L26) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L39) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L68) (1 connections)
-- [returnValue](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts#L192) (1 connections)
+- [Telegram Integration Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md) (5 connections)
+- [Telegram Mini App Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md) (3 connections)
+- [Advanced Telegram Mini Apps Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/telegram_mini_apps_integration.md) (3 connections)
+- [Telegram Mini Apps Advanced Examples](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/mini_apps_advanced_examples.md) (2 connections)
+- [Telegram Mini Apps Quick Methods Reference](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/methods_quick_reference.md) (2 connections)
+- [Chart of Data Analysis](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/analysis.jpg) (1 connections)
+- [Cloud Storage Concept Image](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/cloud.jpg) (1 connections)
+- [Music Generation AI Concept Image](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/generator.jpg) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Data Analysis Integration]] (18 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\hooks\useStudioPerformance.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useStudioPerformance.test.ts)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SUMMARY.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md)
+- [docs/TELEGRAM_MINI_APP/methods_quick_reference.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/methods_quick_reference.md)
+- [docs/TELEGRAM_MINI_APP/mini_apps_advanced_examples.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/mini_apps_advanced_examples.md)
+- [docs/TELEGRAM_MINI_APP/telegram_mini_apps_integration.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/telegram_mini_apps_integration.md)
+- [public/images/bot/analysis.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/analysis.jpg)
+- [public/images/bot/cloud.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/cloud.jpg)
+- [public/images/bot/generator.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/generator.jpg)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (67%)
+- INFERRED: 6 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

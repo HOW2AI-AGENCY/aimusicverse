@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L1) (2 connections)
-- [MAX_HISTORY](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L53) (1 connections)
-- [useLyricsHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts#L55) (1 connections)
+- [useTelegramQRScanner.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L32) (1 connections)
+- [useTelegramQRScanner()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts#L41) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\useLyricsHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useLyricsHistoryStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramQRScanner.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramQRScanner.ts)
 
 ## Audit Trail
 

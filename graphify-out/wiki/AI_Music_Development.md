@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [aimusicverse Development Guidelines](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/copilot-instructions.md) (0 connections)
+- [Feature Specification Unified Interface Application](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/spec.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/agents/copilot-instructions.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/copilot-instructions.md)
+- [specs/001-unified-interface/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/spec.md)
 
 ## Audit Trail
 

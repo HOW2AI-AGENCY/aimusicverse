@@ -1,32 +1,27 @@
 # Mobile Studio V2
 
-> 6 nodes · cohesion 0.40
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [Mobile Studio V2 Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/plan.md) (5 connections)
-- [Mobile Studio V2 Research Document](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/research.md) (2 connections)
-- [Mobile Studio V2 Feature Specification](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/spec.md) (2 connections)
-- [Mobile Studio V2 Data Model](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/data-model.md) (1 connections)
-- [Mobile Studio V2 Quickstart Guide](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/quickstart.md) (1 connections)
-- [Mobile Studio V2 Tasks](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/tasks.md) (1 connections)
+- [layout.bottomnav-overlap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L1) (5 connections)
+- [lastBottom](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L31) (1 connections)
+- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L18) (1 connections)
+- [nav](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L23) (1 connections)
+- [navBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L25) (1 connections)
+- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L3) (1 connections)
 
 ## Relationships
 
-- [[Data Formatting]] (12 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/031-mobile-studio-v2/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/data-model.md)
-- [specs/031-mobile-studio-v2/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/plan.md)
-- [specs/031-mobile-studio-v2/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/quickstart.md)
-- [specs/031-mobile-studio-v2/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/research.md)
-- [specs/031-mobile-studio-v2/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/spec.md)
-- [specs/031-mobile-studio-v2/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/031-mobile-studio-v2/tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.bottomnav-overlap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

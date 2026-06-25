@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Black Screen Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md) (0 connections)
+- [Audit System for Content Deposition](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIT_SYSTEM.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md)
+- [docs/AUDIT_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIT_SYSTEM.md)
 
 ## Audit Trail
 

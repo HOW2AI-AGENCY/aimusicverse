@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L1) (3 connections)
-- [CREDITS_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L26) (1 connections)
-- [SUBSCRIPTION_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L27) (1 connections)
-- [useStarsPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L29) (1 connections)
+- [useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L1) (3 connections)
+- [useAdminModerationReports()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L32) (1 connections)
+- [useModerationStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L112) (1 connections)
+- [useUpdateReportStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L77) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts)
 
 ## Audit Trail
 

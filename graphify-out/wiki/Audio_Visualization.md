@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [AudioWaveform Component](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (1 connections)
-- [Waveform Height Inconsistency Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (1 connections)
+- [AdminAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L9) (1 connections)
+- [AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L1) (1 connections)
 
 ## Relationships
 
-- [[Referral Sharing]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx)
 
 ## Audit Trail
 

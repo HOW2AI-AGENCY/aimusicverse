@@ -1,21 +1,21 @@
 # Music Notation
 
-> 12 nodes · cohesion 0.17
+> 12 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L1) (11 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L274) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L135) (1 connections)
-- [handleNoteClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L130) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L50) (1 connections)
-- [NOTE_NAMES_RU](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L51) (1 connections)
-- [parsedTimeSignature](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L78) (1 connections)
-- [parseTimeSignature()](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L53) (1 connections)
-- [processedNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L81) (1 connections)
-- [[selectedNoteIndex, setSelectedNoteIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L76) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L105) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx#L75) (1 connections)
+- [PopularCreatorsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L1) (11 connections)
+- [handleCreatorClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L103) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L43) (2 connections)
+- [{ data: creators, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L46) (1 connections)
+- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L187) (1 connections)
+- [getRankConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L192) (1 connections)
+- [handleFollowClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L201) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L44) (1 connections)
+- [{ isFollowing, toggleFollow, isLoading: isFollowLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L185) (1 connections)
+- [isOwnProfile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L184) (1 connections)
+- [rankConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L199) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L182) (1 connections)
 
 ## Relationships
 
@@ -23,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\MobileNotesViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/MobileNotesViewer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\PopularCreatorsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

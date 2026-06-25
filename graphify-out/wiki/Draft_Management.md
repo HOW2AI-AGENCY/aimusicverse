@@ -1,30 +1,30 @@
 # Draft Management
 
-> 21 nodes · cohesion 0.09
+> 21 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [ContinueDraftCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L1) (12 connections)
-- [GraphOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L1) (7 connections)
-- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L70) (2 connections)
-- [resetOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L206) (2 connections)
-- [[dismissed, setDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L39) (1 connections)
-- [DRAFT_EXPIRY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L26) (1 connections)
-- [DRAFT_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L25) (1 connections)
-- [[draft, setDraft]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L38) (1 connections)
-- [handleContinue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L65) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L37) (1 connections)
-- [parsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L45) (1 connections)
-- [preview](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L62) (1 connections)
-- [saved](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L43) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L61) (1 connections)
-- [truncatedPreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L63) (1 connections)
-- [completed](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L198) (1 connections)
-- [GraphOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L77) (1 connections)
-- [[showOnboarding, setShowOnboarding]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L195) (1 connections)
-- [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L18) (1 connections)
-- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L16) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx#L201) (1 connections)
+- [SectionTagSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L1) (14 connections)
+- [SectionTagSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionTagSelector.tsx#L1) (8 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L65) (2 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L166) (2 connections)
+- [toggleTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L94) (2 connections)
+- [addCustomTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionTagSelector.tsx#L84) (1 connections)
+- [allSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L198) (1 connections)
+- [applyPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L102) (1 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L107) (1 connections)
+- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L40) (1 connections)
+- [categoryInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L167) (1 connections)
+- [clearAll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionTagSelector.tsx#L95) (1 connections)
+- [[customTag, setCustomTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionTagSelector.tsx#L73) (1 connections)
+- [filteredTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L67) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L142) (1 connections)
+- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L143) (1 connections)
+- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L63) (1 connections)
+- [removeTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionTagSelector.tsx#L91) (1 connections)
+- [[search, setSearch]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L64) (1 connections)
+- [TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionTagSelector.tsx#L21) (1 connections)
+- [tagsByCategory](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx#L77) (1 connections)
 
 ## Relationships
 
@@ -32,13 +32,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\ContinueDraftCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SectionTagSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SectionTagSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\SectionTagSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTagSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 38 (95%)
-- INFERRED: 2 (5%)
+- EXTRACTED: 44 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

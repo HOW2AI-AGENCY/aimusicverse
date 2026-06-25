@@ -1,21 +1,21 @@
 # User Retention
 
-> 12 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L1) (11 connections)
-- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L35) (2 connections)
-- [RetentionCell()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L63) (2 connections)
-- [AverageCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L94) (1 connections)
-- [averages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L123) (1 connections)
-- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L121) (1 connections)
-- [dateRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L112) (1 connections)
-- [formatDate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L48) (1 connections)
-- [RETENTION_COLUMNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L25) (1 connections)
-- [TIME_RANGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L18) (1 connections)
-- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L110) (1 connections)
-- [totalUsers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L128) (1 connections)
+- [DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L1) (11 connections)
+- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L78) (1 connections)
+- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L19) (1 connections)
+- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L106) (1 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L111) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L90) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L104) (1 connections)
+- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L100) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L103) (1 connections)
+- [TIPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L28) (1 connections)
+- [todaysTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L93) (1 connections)
+- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L101) (1 connections)
 
 ## Relationships
 
@@ -23,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

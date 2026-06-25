@@ -4,10 +4,20 @@
 
 ## Key Concepts
 
-- [avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L1) (3 connections)
-- [Avatar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L6) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L27) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L30) (1 connections)
+- [ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L1) (3 connections)
+- [handleMenuClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L56) (1 connections)
+- [handlePlayClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L50) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -15,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx)
 
 ## Audit Trail
 

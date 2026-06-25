@@ -1,14 +1,14 @@
 # AI Assistant
 
-> 5 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L1) (4 connections)
-- [useAIAssistant()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L175) (2 connections)
-- [useIsAIAssistantEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L186) (2 connections)
-- [AIAssistantContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L49) (1 connections)
-- [AIAssistantProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L60) (1 connections)
+- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L1) (4 connections)
+- [getZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L109) (1 connections)
+- [Z_INDEX](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L30) (1 connections)
+- [Z_INDEX_VARS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L117) (1 connections)
+- [zIndexUtilities](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L136) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

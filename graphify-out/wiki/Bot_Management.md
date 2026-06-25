@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Bot Projects Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/projects.jpg) (0 connections)
+- [GenerateWizard Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/images/bot/projects.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/projects.jpg)
+- [docs/archive/audits-2025-12/UI_UX_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md)
 
 ## Audit Trail
 

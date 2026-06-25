@@ -1,46 +1,45 @@
 # Subscription Notifications
 
-> 23 nodes · cohesion 0.08
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [UnifiedRewardNotification.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L1) (16 connections)
-- [SubscriptionSuccessPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L1) (7 connections)
-- [generateParticlePositions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L127) (2 connections)
-- [confettiTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L88) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L54) (1 connections)
-- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L53) (1 connections)
-- [[showContent, setShowContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L52) (1 connections)
-- [TIER_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L20) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L58) (1 connections)
-- [confettiVariant](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L264) (1 connections)
-- [DEFAULT_AUTO_CLOSE_DELAY](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L118) (1 connections)
-- [delay](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L271) (1 connections)
-- [FloatingParticles](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L172) (1 connections)
-- [getLevelGradient()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L122) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L249) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L608) (1 connections)
-- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L607) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L247) (1 connections)
-- [level](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L355) (1 connections)
-- [LEVEL_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L92) (1 connections)
-- [SUBSCRIPTION_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L105) (1 connections)
-- [tier](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L606) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L272) (1 connections)
+- [ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L1) (24 connections)
+- [ACCEPTED_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L52) (1 connections)
+- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L62) (1 connections)
+- [[audioUrl, setAudioUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L66) (1 connections)
+- [[duration, setDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L67) (1 connections)
+- [[file, setFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L65) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L61) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L89) (1 connections)
+- [handleDragLeave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L139) (1 connections)
+- [handleDragOver](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L133) (1 connections)
+- [handleDrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L145) (1 connections)
+- [handleFileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L96) (1 connections)
+- [handleInputChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L156) (1 connections)
+- [[isComplete, setIsComplete]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L72) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L64) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L60) (1 connections)
+- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L70) (1 connections)
+- [MAX_FILE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L51) (1 connections)
+- [resetState](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L74) (1 connections)
+- [TRACK_TYPE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L42) (1 connections)
+- [[trackName, setTrackName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L68) (1 connections)
+- [[trackType, setTrackType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L69) (1 connections)
+- [[uploadProgress, setUploadProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L71) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Achievements]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\UnifiedRewardNotification.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\popups\SubscriptionSuccessPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 46 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

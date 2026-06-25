@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Feature Specification Unified Interface Application](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/spec.md) (0 connections)
+- [Аудит проекта MusicVerse AI - 2025-12-12](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_2025-12-12.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [specs/001-unified-interface/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/spec.md)
+- [docs/archive/audits-2025-12/AUDIT_2025-12-12.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_2025-12-12.md)
 
 ## Audit Trail
 

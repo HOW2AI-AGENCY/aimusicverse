@@ -1,21 +1,21 @@
 # Analytics Dashboard
 
-> 12 nodes · cohesion 0.17
+> 12 nodes · cohesion 0.23
 
 ## Key Concepts
 
-- [DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L1) (11 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L41) (1 connections)
-- [campaignData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L89) (1 connections)
-- [{ data: events, isLoading: eventsLoading, refetch: refetchEvents }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L44) (1 connections)
-- [{ data: stats, isLoading: statsLoading, refetch: refetchStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L43) (1 connections)
-- [{ data: summary, isLoading: summaryLoading, refetch: refetchSummary }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L47) (1 connections)
-- [funnelData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L102) (1 connections)
-- [heatmapData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L72) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L59) (1 connections)
-- [refetch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L53) (1 connections)
-- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L40) (1 connections)
-- [trendData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L62) (1 connections)
+- [UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L1) (11 connections)
+- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L70) (3 connections)
+- [handleNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L76) (3 connections)
+- [markSeen()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L53) (3 connections)
+- [release()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L52) (3 connections)
+- [hasSeen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L49) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L48) (1 connections)
+- [{ isMobile, className: positionClass }](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L46) (1 connections)
+- [overlayOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L50) (1 connections)
+- [reg](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L47) (1 connections)
+- [request()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L51) (1 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx#L59) (1 connections)
 
 ## Relationships
 
@@ -23,11 +23,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\UnifiedTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/UnifiedTipCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

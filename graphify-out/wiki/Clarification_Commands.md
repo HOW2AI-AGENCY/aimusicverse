@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.clarify command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.clarify.md) (0 connections)
+- [Bot Library Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/library.jpg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.roo/commands/speckit.clarify.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.clarify.md)
+- [public/images/bot/library.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/library.jpg)
 
 ## Audit Trail
 

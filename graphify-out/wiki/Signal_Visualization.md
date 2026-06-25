@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [WaveformCanvas.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx#L1) (1 connections)
-- [WaveformCanvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx#L23) (1 connections)
+- [long-press-tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/long-press-tooltip.tsx#L1) (1 connections)
+- [LongPressTooltip()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/long-press-tooltip.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\WaveformCanvas.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/WaveformCanvas.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\long-press-tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/long-press-tooltip.tsx)
 
 ## Audit Trail
 

@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [ChordOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L1) (8 connections)
-- [CHORD_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L29) (1 connections)
-- [chordPositions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L82) (1 connections)
-- [colorClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L119) (1 connections)
-- [currentChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L93) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L52) (1 connections)
-- [handleChordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L98) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L79) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L118) (1 connections)
+- [StemsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L1) (8 connections)
+- [{ data: stems, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L36) (1 connections)
+- [generateStemsMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L50) (1 connections)
+- [[generatingStems, setGeneratingStems]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L34) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L145) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L146) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L33) (1 connections)
+- [stemIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L16) (1 connections)
+- [stemLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ChordOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\StemsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx)
 
 ## Audit Trail
 

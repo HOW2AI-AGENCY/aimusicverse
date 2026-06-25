@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [context-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L1) (7 connections)
-- [ContextMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L7) (1 connections)
-- [ContextMenuGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L11) (1 connections)
-- [ContextMenuPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L13) (1 connections)
-- [ContextMenuRadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L17) (1 connections)
-- [ContextMenuSub](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L15) (1 connections)
-- [ContextMenuSubTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L19) (1 connections)
-- [ContextMenuTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx#L9) (1 connections)
+- [pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L1) (7 connections)
+- [Pagination()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L7) (1 connections)
+- [PaginationContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L17) (1 connections)
+- [PaginationEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L65) (1 connections)
+- [PaginationItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L24) (1 connections)
+- [PaginationLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L34) (1 connections)
+- [PaginationNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L57) (1 connections)
+- [PaginationPrevious()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\context-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/context-menu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Specification Quality Checklist Sprint Management System](file:///D:/.MUSICVERSE/aimusicverse/docs/checklists/sprint-management.md) (0 connections)
+- [API Integration Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/api-agent.agent.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/checklists/sprint-management.md](file:///D:/.MUSICVERSE/aimusicverse/docs/checklists/sprint-management.md)
+- [.github/api-agent.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/api-agent.agent.md)
 
 ## Audit Trail
 

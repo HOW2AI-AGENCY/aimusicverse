@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [Visualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/Visualizer.tsx#L1) (1 connections)
-- [Visualizer](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/Visualizer.tsx#L19) (1 connections)
+- [ProfileStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx#L1) (1 connections)
+- [ProfileStats()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\Visualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/Visualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileStats.tsx)
 
 ## Audit Trail
 

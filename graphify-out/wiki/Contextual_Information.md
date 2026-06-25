@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [ContextHints](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L23) (1 connections)
-- [ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L1) (1 connections)
+- [SubscriptionRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialogs/SubscriptionRequiredDialog.tsx#L1) (1 connections)
+- [SubscriptionRequiredDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialogs/SubscriptionRequiredDialog.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialogs\SubscriptionRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialogs/SubscriptionRequiredDialog.tsx)
 
 ## Audit Trail
 

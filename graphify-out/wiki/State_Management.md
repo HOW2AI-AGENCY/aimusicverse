@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L1) (2 connections)
-- [DEFAULT_STEM_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L61) (1 connections)
-- [useStudioState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts#L68) (1 connections)
+- [useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L1) (2 connections)
+- [useUserBalanceSummary()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L5) (1 connections)
+- [useUsersWithBalances()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L13) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts)
 
 ## Audit Trail
 

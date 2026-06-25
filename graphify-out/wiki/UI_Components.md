@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [TrackCardSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCardSkeleton.tsx#L1) (2 connections)
-- [gridClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCardSkeleton.tsx#L82) (1 connections)
-- [TrackCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCardSkeleton.tsx#L16) (1 connections)
+- [MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L1) (2 connections)
+- [mood](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L40) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCardSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCardSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx)
 
 ## Audit Trail
 

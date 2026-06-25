@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L1) (8 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L51) (1 connections)
-- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L36) (1 connections)
-- [handleLabelClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L58) (1 connections)
-- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L62) (1 connections)
-- [handlePresetSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L66) (1 connections)
-- [handleToggleEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L71) (1 connections)
-- [handleTypeChangeClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L75) (1 connections)
-- [handleWeightChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx#L54) (1 connections)
+- [NotificationSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L1) (8 connections)
+- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L140) (1 connections)
+- [[expandedGroups, setExpandedGroups]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L126) (1 connections)
+- [groupEnabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L198) (1 connections)
+- [handleToggleAll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L145) (1 connections)
+- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L197) (1 connections)
+- [NOTIFICATION_GROUPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L46) (1 connections)
+- [toggleGroup()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L128) (1 connections)
+- [totalCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L143) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\KnobCell.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/KnobCell.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\NotificationSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx)
 
 ## Audit Trail
 

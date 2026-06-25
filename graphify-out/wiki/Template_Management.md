@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L1) (2 connections)
-- [STRUCTURE_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L13) (1 connections)
-- [StructureToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx#L52) (1 connections)
+- [CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L1) (2 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L17) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\StructureToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/StructureToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\loading\CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx)
 
 ## Audit Trail
 

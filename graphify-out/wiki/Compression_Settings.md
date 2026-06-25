@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [StemStateIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemStateIndicator.tsx#L1) (4 connections)
-- [COMPRESSION_COMPARISON_TOLERANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemStateIndicator.tsx#L20) (1 connections)
-- [COMPRESSION_DISPLAY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemStateIndicator.tsx#L16) (1 connections)
-- [compressionDiff](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemStateIndicator.tsx#L109) (1 connections)
-- [showCompression](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemStateIndicator.tsx#L35) (1 connections)
+- [InlineStemNotes.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L1) (4 connections)
+- [handleToggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L41) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L38) (1 connections)
+- [{ latestTranscription, hasTranscription, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L39) (1 connections)
+- [metadataText](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemStateIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemStateIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\InlineStemNotes.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx)
 
 ## Audit Trail
 

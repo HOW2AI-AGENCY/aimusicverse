@@ -4,9 +4,20 @@
 
 ## Key Concepts
 
-- [loading-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx#L1) (2 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx#L33) (1 connections)
-- [textSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx#L39) (1 connections)
+- [CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L54) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -14,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\loading-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/loading-state.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\CompactVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/CompactVariant.tsx)
 
 ## Audit Trail
 

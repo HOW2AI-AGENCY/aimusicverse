@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Audit Executive Summary (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_SUMMARY_RU_2025-12-03.md) (0 connections)
+- [Archive Index](file:///D:/.MUSICVERSE/aimusicverse/docs/ARCHIVE.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/AUDIT_SUMMARY_RU_2025-12-03.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_SUMMARY_RU_2025-12-03.md)
+- [docs/ARCHIVE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ARCHIVE.md)
 
 ## Audit Trail
 

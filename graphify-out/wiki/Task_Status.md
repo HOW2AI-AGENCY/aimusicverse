@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L1) (2 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L19) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L20) (1 connections)
+- [ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L1) (2 connections)
+- [CONTINUE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L14) (1 connections)
+- [ContinueToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx)
 
 ## Audit Trail
 

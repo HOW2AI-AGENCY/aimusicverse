@@ -4,34 +4,22 @@
 
 ## Key Concepts
 
-- [MultiTrackTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L1) (15 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L22) (1 connections)
-- [containerWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L52) (1 connections)
-- [{
-    currentProject,
-    currentTime,
-    isPlaying,
-    zoom,
-    snapToGrid,
-    selectedClipId,
-    setCurrentTime,
-    setZoom,
-    setSnapToGrid,
-    selectClip,
-    moveClip,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L26) (1 connections)
-- [[dragClipId, setDragClipId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L41) (1 connections)
-- [[dragOffset, setDragOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L42) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L44) (1 connections)
-- [handleClipDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L82) (1 connections)
-- [handleClipDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L71) (1 connections)
-- [handleTimelineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L60) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L40) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L24) (1 connections)
-- [playheadPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L50) (1 connections)
-- [scrollLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L51) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L23) (1 connections)
-- [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx#L45) (1 connections)
+- [GuitarTabEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L1) (15 connections)
+- [absolutePos](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L441) (1 connections)
+- [BEATS_PER_MEASURE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L74) (1 connections)
+- [GuitarTabEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L77) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L448) (1 connections)
+- [isMeasureStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L449) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L447) (1 connections)
+- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L442) (1 connections)
+- [MEASURES_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L73) (1 connections)
+- [note](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L446) (1 connections)
+- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L443) (1 connections)
+- [POSITIONS_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L75) (1 connections)
+- [STRING_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L51) (1 connections)
+- [STRING_MIDI_NOTES](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L52) (1 connections)
+- [TECHNIQUE_SYMBOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L63) (1 connections)
+- [TOOL_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -39,7 +27,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\MultiTrackTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/MultiTrackTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\tab-editor\GuitarTabEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx)
 
 ## Audit Trail
 

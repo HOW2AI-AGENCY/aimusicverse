@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L114) (1 connections)
-- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L165) (1 connections)
-- [TelegramMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L28) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L159) (1 connections)
+- [MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L1) (4 connections)
+- [[expandedTrack, setExpandedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L51) (1 connections)
+- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L57) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L162) (1 connections)
+- [toggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx)
 
 ## Audit Trail
 

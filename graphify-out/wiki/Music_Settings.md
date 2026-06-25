@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [InstrumentalSettingsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L1) (10 connections)
-- [[bpm, setBpm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L38) (1 connections)
-- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L39) (1 connections)
-- [DEFAULT_BPM](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L28) (1 connections)
-- [[genre, setGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L36) (1 connections)
-- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L42) (1 connections)
-- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L46) (1 connections)
-- [[mood, setMood]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L37) (1 connections)
-- [selectedGenre](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L53) (1 connections)
-- [selectedMood](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L54) (1 connections)
-- [[showAdvanced, setShowAdvanced]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L40) (1 connections)
+- [LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L1) (10 connections)
+- [{ data: leaderboard, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L22) (1 connections)
+- [{ data: userCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L23) (1 connections)
+- [isCurrentUser](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L66) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L21) (1 connections)
+- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L65) (1 connections)
+- [RANK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L13) (1 connections)
+- [topThree](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L43) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L20) (1 connections)
+- [userPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L26) (1 connections)
+- [xpToNextRank](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\InstrumentalSettingsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx)
 
 ## Audit Trail
 

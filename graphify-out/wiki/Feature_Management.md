@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Feature Specification Template](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/spec-template.md) (0 connections)
+- [/speckit.checklist command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.checklist.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.specify/templates/spec-template.md](file:///D:/.MUSICVERSE/aimusicverse/.specify/templates/spec-template.md)
+- [.claude/commands/speckit.checklist.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.checklist.md)
 
 ## Audit Trail
 

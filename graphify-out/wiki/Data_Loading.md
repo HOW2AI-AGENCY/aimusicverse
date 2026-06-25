@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L1) (1 connections)
-- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L26) (1 connections)
+- [ProfileSetupStep4Banner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx#L1) (1 connections)
+- [ProfileSetupStep4Banner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep4Banner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep4Banner.tsx)
 
 ## Audit Trail
 

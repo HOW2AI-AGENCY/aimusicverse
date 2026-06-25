@@ -4,19 +4,13 @@
 
 ## Key Concepts
 
-- [NetworkStatusIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L1) (6 connections)
-- [getStatusConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L65) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L107) (1 connections)
-- [{ isOnline, isSlowConnection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L174) (1 connections)
-- [{
-    isOnline,
-    isSlowConnection,
-    connectionType,
-    isSuitableForStreaming,
-    networkInfo,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L39) (1 connections)
-- [[showIndicator, setShowIndicator]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L47) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L106) (1 connections)
+- [CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L1) (6 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L24) (2 connections)
+- [{ createPlaylist, isCreating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L18) (1 connections)
+- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L21) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L19) (1 connections)
+- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L22) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -24,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\NetworkStatusIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (92%)
+- INFERRED: 1 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---

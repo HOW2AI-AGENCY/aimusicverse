@@ -1,18 +1,18 @@
 # Watermark Management
 
-> 9 nodes · cohesion 0.31
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L1) (5 connections)
-- [WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L1) (4 connections)
-- [applyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L55) (3 connections)
-- [detectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L62) (3 connections)
-- [watermarkAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L29) (3 connections)
-- [handleApplyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L20) (2 connections)
-- [handleDetectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L26) (2 connections)
-- [{ applyWatermark, detectWatermark, isApplying, isDetecting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L18) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L32) (1 connections)
+- [ArtistAvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L1) (11 connections)
+- [cameraInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L29) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L28) (1 connections)
+- [[isGenerating, setIsGenerating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L33) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L121) (1 connections)
+- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L32) (1 connections)
+- [[referenceImage, setReferenceImage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L34) (1 connections)
+- [referenceInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L30) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -20,13 +20,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\ArtistAvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/ArtistAvatarUpload.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (83%)
-- INFERRED: 4 (17%)
+- EXTRACTED: 19 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

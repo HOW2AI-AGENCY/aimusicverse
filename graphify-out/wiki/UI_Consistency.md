@@ -4,17 +4,16 @@
 
 ## Key Concepts
 
-- [Design Token Inconsistency Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (1 connections)
-- [Layout System](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYOUT_SYSTEM.md) (1 connections)
+- [AdminBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx#L10) (1 connections)
+- [AdminBroadcast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx#L1) (1 connections)
 
 ## Relationships
 
-- [[Template Management]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
-- [docs/LAYOUT_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYOUT_SYSTEM.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminBroadcast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminBroadcast.tsx)
 
 ## Audit Trail
 

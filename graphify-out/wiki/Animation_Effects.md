@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L1) (5 connections)
-- [PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L1) (4 connections)
-- [PageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L68) (2 connections)
-- [AnimatedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L108) (1 connections)
-- [FadeIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L144) (1 connections)
-- [getVariants()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L26) (1 connections)
-- [ScaleIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx#L165) (1 connections)
-- [StaggerContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L67) (1 connections)
-- [StaggerItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L91) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx#L18) (1 connections)
+- [drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L1) (9 connections)
+- [drumKits](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L130) (1 connections)
+- [getKitById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L132) (1 connections)
+- [kit808](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L23) (1 connections)
+- [kit909](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L41) (1 connections)
+- [kitAcoustic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L59) (1 connections)
+- [kitEthnic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L113) (1 connections)
+- [kitLoFi](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L77) (1 connections)
+- [kitTrap](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L95) (1 connections)
+- [presetPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L143) (1 connections)
 
 ## Relationships
 
@@ -21,8 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/PageTransition.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\PageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PageTransition.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [toggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L1) (2 connections)
-- [Toggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L28) (1 connections)
-- [toggleVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx#L7) (1 connections)
+- [breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L1) (2 connections)
+- [Breadcrumb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L7) (1 connections)
+- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\toggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/toggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx)
 
 ## Audit Trail
 

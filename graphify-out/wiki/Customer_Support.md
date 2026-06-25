@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Clarify Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.clarify.agent.md) (0 connections)
+- [comment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/comment.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/agents/speckit.clarify.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.clarify.agent.md)
+- [D:\.MUSICVERSE\aimusicverse\src\types\comment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/comment.ts)
 
 ## Audit Trail
 

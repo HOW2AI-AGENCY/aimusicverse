@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L1) (9 connections)
-- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L37) (1 connections)
-- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L65) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L80) (1 connections)
-- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L70) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L55) (1 connections)
-- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L38) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L36) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L86) (1 connections)
-- [titleSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx#L92) (1 connections)
+- [progress-ring.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L1) (9 connections)
+- [circumference](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L41) (1 connections)
+- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L44) (1 connections)
+- [dimension](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L38) (1 connections)
+- [gradientId](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L52) (1 connections)
+- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L40) (1 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L16) (1 connections)
+- [stroke](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L39) (1 connections)
+- [strokeDashoffset](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L42) (1 connections)
+- [strokeWidthMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\editable-title.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/editable-title.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\progress-ring.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx)
 
 ## Audit Trail
 

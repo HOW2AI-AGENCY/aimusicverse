@@ -4,21 +4,21 @@
 
 ## Key Concepts
 
-- [ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L1) (14 connections)
-- [baseFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L217) (1 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L10) (1 connections)
-- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L184) (1 connections)
-- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L194) (1 connections)
-- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L216) (1 connections)
-- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L215) (1 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L139) (1 connections)
-- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L183) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L186) (1 connections)
-- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L195) (1 connections)
-- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L196) (1 connections)
-- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L193) (1 connections)
-- [{ width, height, fontSize, dotSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L192) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L284) (1 connections)
+- [ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L1) (17 connections)
+- [buildPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L132) (2 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L128) (1 connections)
+- [ASSET_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L51) (1 connections)
+- [[assetType, setAssetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L99) (1 connections)
+- [currentMediaUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L125) (1 connections)
+- [[customPrompt, setCustomPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L100) (1 connections)
+- [entityTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L113) (1 connections)
+- [[generatedUrl, setGeneratedUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L103) (1 connections)
+- [getCurrentMediaUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L116) (1 connections)
+- [[isGenerating, setIsGenerating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L102) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L98) (1 connections)
+- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L101) (1 connections)
+- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L81) (1 connections)
+- [targetEntity](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L112) (1 connections)
 
 ## Relationships
 
@@ -26,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

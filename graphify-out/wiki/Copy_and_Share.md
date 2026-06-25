@@ -1,16 +1,16 @@
 # Copy and Share
 
-> 7 nodes · cohesion 0.38
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [MusicToProfile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx#L1) (6 connections)
-- [handleCopyLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx#L34) (4 connections)
-- [triggerHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx#L26) (3 connections)
-- [handleOpenTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx#L46) (2 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx#L23) (1 connections)
-- [[open, setOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx#L24) (1 connections)
-- [{ webApp, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx#L22) (1 connections)
+- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
+- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L41) (1 connections)
+- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L39) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L31) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L45) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L40) (1 connections)
+- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\MusicToProfile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/MusicToProfile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (89%)
-- INFERRED: 2 (11%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

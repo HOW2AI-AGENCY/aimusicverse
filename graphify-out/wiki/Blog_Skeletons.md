@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L1) (3 connections)
-- [BlogCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L5) (1 connections)
-- [BlogFeaturedSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L24) (1 connections)
-- [BlogListSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L41) (1 connections)
+- [RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L1) (3 connections)
+- [MOCK_COHORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L55) (1 connections)
+- [MOCK_RETENTION_TREND](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L47) (1 connections)
+- [summaryStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx)
 
 ## Audit Trail
 

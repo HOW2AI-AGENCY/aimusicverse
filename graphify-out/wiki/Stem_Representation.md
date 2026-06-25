@@ -1,19 +1,19 @@
 # Stem Representation
 
-> 10 nodes · cohesion 0.29
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L1) (9 connections)
-- [getStemDisplayInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L186) (5 connections)
-- [getStemLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L146) (3 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L156) (2 connections)
-- [getStemEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L166) (2 connections)
-- [getStemIconName()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L176) (2 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L55) (1 connections)
-- [STEM_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L84) (1 connections)
-- [STEM_ICON_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L113) (1 connections)
-- [STEM_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L9) (1 connections)
+- [AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L1) (9 connections)
+- [handleTabChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L62) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L50) (2 connections)
+- [activeTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L56) (1 connections)
+- [CurrentTabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L83) (1 connections)
+- [{ data: auth, isLoading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L53) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L52) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L51) (1 connections)
+- [TAB_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L28) (1 connections)
+- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L116) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

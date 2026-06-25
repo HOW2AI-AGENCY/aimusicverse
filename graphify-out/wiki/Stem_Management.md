@@ -1,18 +1,18 @@
 # Stem Management
 
-> 9 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.31
 
 ## Key Concepts
 
-- [StemsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L1) (8 connections)
-- [{ data: stems, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L36) (1 connections)
-- [generateStemsMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L50) (1 connections)
-- [[generatingStems, setGeneratingStems]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L34) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L145) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L146) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L33) (1 connections)
-- [stemIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L16) (1 connections)
-- [stemLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L24) (1 connections)
+- [audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L1) (5 connections)
+- [WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L1) (4 connections)
+- [applyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L55) (3 connections)
+- [detectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L62) (3 connections)
+- [watermarkAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L29) (3 connections)
+- [handleApplyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L20) (2 connections)
+- [handleDetectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L26) (2 connections)
+- [{ applyWatermark, detectWatermark, isApplying, isDetecting }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L18) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -20,12 +20,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\StemsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\api\audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\WatermarkActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/WatermarkActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (83%)
+- INFERRED: 4 (17%)
 - AMBIGUOUS: 0 (0%)
 
 ---

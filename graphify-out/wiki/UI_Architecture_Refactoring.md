@@ -1,38 +1,29 @@
 # UI Architecture Refactoring
 
-> 9 nodes · cohesion 0.31
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [UI Architecture Refactoring Phase 3 MVP Complete](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE3_MVP_COMPLETE.md) (5 connections)
-- [UI Architecture Refactoring Research Report](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/research.md) (4 connections)
-- [UI Architecture Refactoring Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/plan.md) (3 connections)
-- [UI Architecture Refactoring Data Model](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/data-model.md) (2 connections)
-- [UI Architecture Refactoring Quickstart Guide](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/quickstart.md) (2 connections)
-- [UI Architecture Refactoring Specification](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/spec.md) (2 connections)
-- [UI Architecture Refactoring Tasks](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/tasks.md) (2 connections)
-- [UI Architecture Refactoring Requirements Checklist](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/checklists/requirements.md) (1 connections)
-- [UI Architecture Refactoring Phase 1 Complete](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE1_COMPLETE.md) (1 connections)
+- [TelemetryDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L1) (7 connections)
+- [{ data: errors, isLoading: errorsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L26) (1 connections)
+- [{ data: telemetry, isLoading: telemetryLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L25) (1 connections)
+- [getPlatformIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L31) (1 connections)
+- [getSeverityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L44) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L28) (1 connections)
+- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L16) (1 connections)
+- [[timePeriod, setTimePeriod]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L24) (1 connections)
 
 ## Relationships
 
-- [[Track Management]] (22 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-ui-refactor/PHASE1_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE1_COMPLETE.md)
-- [specs/001-ui-refactor/PHASE3_MVP_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE3_MVP_COMPLETE.md)
-- [specs/001-ui-refactor/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/checklists/requirements.md)
-- [specs/001-ui-refactor/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/data-model.md)
-- [specs/001-ui-refactor/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/plan.md)
-- [specs/001-ui-refactor/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/quickstart.md)
-- [specs/001-ui-refactor/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/research.md)
-- [specs/001-ui-refactor/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/spec.md)
-- [specs/001-ui-refactor/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\TelemetryDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

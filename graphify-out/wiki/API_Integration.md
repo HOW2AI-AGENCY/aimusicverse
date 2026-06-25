@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [API Integration Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/api-agent.agent.md) (0 connections)
+- [Implementation Completion Report UI Component Unification Phase 2](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/IMPLEMENTATION_COMPLETE.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/api-agent.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/api-agent.agent.md)
+- [specs/002-ui-component-unification/IMPLEMENTATION_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/IMPLEMENTATION_COMPLETE.md)
 
 ## Audit Trail
 

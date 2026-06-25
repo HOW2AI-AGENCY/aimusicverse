@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L1) (2 connections)
-- [trackLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L22) (1 connections)
-- [useTrackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L67) (1 connections)
+- [Privacy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L1) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L12) (1 connections)
+- [{ showBackButton, hideBackButton, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Privacy.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Privacy.tsx)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L1) (3 connections)
-- [getShortName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L56) (1 connections)
-- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L43) (1 connections)
-- [[showPresets, setShowPresets]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L41) (1 connections)
+- [SettingsSidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L1) (3 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L41) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L42) (1 connections)
+- [settingsTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\SettingsSidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx)
 
 ## Audit Trail
 

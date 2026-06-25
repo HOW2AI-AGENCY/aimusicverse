@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L1) (3 connections)
-- [handleMore()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L62) (2 connections)
-- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L56) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L54) (1 connections)
+- [OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L1) (3 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L31) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L49) (1 connections)
+- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

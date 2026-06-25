@@ -4,15 +4,31 @@
 
 ## Key Concepts
 
-- [PianoKeyboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L1) (10 connections)
-- [getNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L21) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L99) (1 connections)
-- [isBlack](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L98) (1 connections)
-- [isBlackKey()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L16) (1 connections)
-- [isC](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L101) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L14) (1 connections)
-- [noteName](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L100) (1 connections)
-- [pitch](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx#L97) (1 connections)
+- [SmartSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L1) (8 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L27) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L124) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L101) (1 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L316) (1 connections)
+- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L73) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L43) (1 connections)
+- [{ selectedSection, customRange, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L72) (1 connections)
+- [{
+    startTime,
+    endTime,
+    sectionDuration,
+    maxDuration,
+    isValidDuration,
+    isSubmitting,
+    prompt,
+    setPrompt,
+    tags,
+    setTags,
+    lyrics,
+    setLyrics,
+    addPreset,
+    executeReplacement,
+    reset,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L75) (1 connections)
 
 ## Relationships
 
@@ -20,11 +36,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\PianoKeyboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/PianoKeyboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SmartSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

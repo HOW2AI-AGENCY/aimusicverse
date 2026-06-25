@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
-- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L132) (1 connections)
-- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
-- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L166) (1 connections)
-- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L93) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L76) (1 connections)
+- [skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L1) (6 connections)
+- [ListItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L201) (1 connections)
+- [PlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L159) (1 connections)
+- [TrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L33) (1 connections)
+- [TrackCardSkeletonCompact()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L140) (1 connections)
+- [WAVEFORM_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 11 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

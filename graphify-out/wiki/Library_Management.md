@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Library Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md) (0 connections)
+- [Audit Executive Summary (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_SUMMARY_RU_2025-12-03.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/UI_UX_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_AUDIT.md)
+- [docs/archive/2025-12/AUDIT_SUMMARY_RU_2025-12-03.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_SUMMARY_RU_2025-12-03.md)
 
 ## Audit Trail
 

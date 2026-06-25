@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Chunk 18: Lyrics & Content Creation - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_18_FILES.md) (0 connections)
+- [Speckit Constitution Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.constitution.prompt.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [CHUNK_18_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_18_FILES.md)
+- [.github/prompts/speckit.constitution.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.constitution.prompt.md)
 
 ## Audit Trail
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L1) (4 connections)
-- [ANALYSIS_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L6) (1 connections)
-- [PRODUCER_REVIEW_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L164) (1 connections)
-- [SUNO_TAGS_REFERENCE](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L222) (1 connections)
-- [WRITING_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L101) (1 connections)
+- [FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L1) (4 connections)
+- [DeferredProviders()](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L34) (1 connections)
+- [FeatureProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L78) (1 connections)
+- [GamificationProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L22) (1 connections)
+- [PaywallProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\providers\FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L1) (3 connections)
-- [{ minPitch, maxPitch, normalizedNotes, pitchRange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L34) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L25) (1 connections)
-- [octaveLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx#L69) (1 connections)
+- [ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L1) (3 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L145) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L35) (1 connections)
+- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L156) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\PianoRollPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/PianoRollPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx)
 
 ## Audit Trail
 

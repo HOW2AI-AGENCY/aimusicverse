@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L1) (3 connections)
-- [displayBio](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L20) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L13) (1 connections)
-- [shouldTruncate](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx#L19) (1 connections)
+- [NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L1) (3 connections)
+- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L32) (1 connections)
+- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L20) (1 connections)
+- [NotificationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileBio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileBio.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx)
 
 ## Audit Trail
 

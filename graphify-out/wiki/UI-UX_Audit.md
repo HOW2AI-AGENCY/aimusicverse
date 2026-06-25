@@ -4,19 +4,17 @@
 
 ## Key Concepts
 
-- [UI/UX Audit Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/plan.md) (2 connections)
-- [UI/UX Audit Research Document](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/research.md) (1 connections)
-- [UI/UX Audit Tasks Breakdown](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md) (1 connections)
+- [useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L1) (2 connections)
+- [trackLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L22) (1 connections)
+- [useTrackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L67) (1 connections)
 
 ## Relationships
 
-- [[Media Playback]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-ui-ux-audit/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/plan.md)
-- [specs/001-ui-ux-audit/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/research.md)
-- [specs/001-ui-ux-audit/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts)
 
 ## Audit Trail
 

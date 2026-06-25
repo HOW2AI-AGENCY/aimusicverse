@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [InstrumentalResultHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L1) (9 connections)
-- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L59) (1 connections)
-- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L106) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L117) (1 connections)
-- [handlePlayVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L81) (1 connections)
-- [hasExisting](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L127) (1 connections)
-- [hasMultipleVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L128) (1 connections)
-- [[playingVersion, setPlayingVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L58) (1 connections)
-- [[saveAction, setSaveAction]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L55) (1 connections)
-- [[selectedVersion, setSelectedVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx#L54) (1 connections)
+- [StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L1) (9 connections)
+- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L27) (1 connections)
+- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L75) (1 connections)
+- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L72) (1 connections)
+- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L79) (1 connections)
+- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L76) (1 connections)
+- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L77) (1 connections)
+- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L73) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L37) (1 connections)
+- [trackAny](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L70) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\InstrumentalResultHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/InstrumentalResultHandler.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx)
 
 ## Audit Trail
 

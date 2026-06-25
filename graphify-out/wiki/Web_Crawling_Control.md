@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Robots.txt](file:///D:/.MUSICVERSE/aimusicverse/public/robots.txt) (0 connections)
+- [Screenshots MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/images/README.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/robots.txt](file:///D:/.MUSICVERSE/aimusicverse/public/robots.txt)
+- [docs/images/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/images/README.md)
 
 ## Audit Trail
 

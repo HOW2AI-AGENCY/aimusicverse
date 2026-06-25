@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Comprehensive Application Audit](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/COMPREHENSIVE_APPLICATION_AUDIT_2025-12-03.md) (0 connections)
+- [Klang.io Music Transcription API](file:///D:/.MUSICVERSE/aimusicverse/docs/KLANG_IO_API_GUIDE_RU.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/COMPREHENSIVE_APPLICATION_AUDIT_2025-12-03.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/COMPREHENSIVE_APPLICATION_AUDIT_2025-12-03.md)
+- [docs/KLANG_IO_API_GUIDE_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KLANG_IO_API_GUIDE_RU.md)
 
 ## Audit Trail
 

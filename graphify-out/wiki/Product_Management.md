@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [mockProduct](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/CreditPackageCard.test.tsx#L13) (1 connections)
-- [CreditPackageCard.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/CreditPackageCard.test.tsx#L1) (1 connections)
+- [AudioHub](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx#L28) (1 connections)
+- [AudioHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\CreditPackageCard.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/CreditPackageCard.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\AudioHub.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AudioHub.tsx)
 
 ## Audit Trail
 

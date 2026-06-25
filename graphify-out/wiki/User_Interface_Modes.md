@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L1) (6 connections)
-- [availableModes](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L39) (1 connections)
-- [cfg](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L53) (1 connections)
-- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L74) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L86) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L54) (1 connections)
-- [modeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L21) (1 connections)
+- [unified-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L1) (6 connections)
+- [AlertVariant](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L55) (1 connections)
+- [handleEscape()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L77) (1 connections)
+- [isMobile()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L60) (1 connections)
+- [ModalVariant](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L53) (1 connections)
+- [{ open, onOpenChange }](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L71) (1 connections)
+- [SheetVariant](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.tsx)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackPromptSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx#L1) (1 connections)
-- [TrackPromptSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx#L18) (1 connections)
+- [TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L1) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackPromptSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackPromptSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx)
 
 ## Audit Trail
 

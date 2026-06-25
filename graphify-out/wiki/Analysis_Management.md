@@ -4,20 +4,10 @@
 
 ## Key Concepts
 
-- [SmartAssistantPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx#L1) (3 connections)
-- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx#L61) (1 connections)
-- [handleRefresh](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx#L65) (1 connections)
-- [{
-    suggestions,
-    userContext,
-    isAnalyzing,
-    lastAnalyzedAt,
-    error,
-    analyze,
-    dismissSuggestion,
-    setProjectContext,
-    hasContext,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx#L44) (1 connections)
+- [unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L1) (3 connections)
+- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L177) (1 connections)
+- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L159) (1 connections)
+- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L168) (1 connections)
 
 ## Relationships
 
@@ -25,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\smart-assistant\SmartAssistantPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/smart-assistant/SmartAssistantPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts)
 
 ## Audit Trail
 

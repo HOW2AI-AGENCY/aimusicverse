@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L1) (7 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L83) (2 connections)
-- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L70) (1 connections)
-- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L88) (1 connections)
-- [{ impact, select }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L68) (1 connections)
-- [MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L32) (1 connections)
-- [[selectedMode, setSelectedMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L67) (1 connections)
-- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L75) (1 connections)
+- [BottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L115) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L40) (1 connections)
+- [contentRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L41) (1 connections)
+- [currentHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L43) (1 connections)
+- [[currentSnap, setCurrentSnap]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L39) (1 connections)
+- [dismissThreshold](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L44) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -19,12 +19,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\BottomSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/BottomSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (93%)
-- INFERRED: 1 (7%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L1) (4 connections)
-- [getZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L109) (1 connections)
-- [Z_INDEX](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L30) (1 connections)
-- [Z_INDEX_VARS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L117) (1 connections)
-- [zIndexUtilities](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L136) (1 connections)
+- [sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L1) (4 connections)
+- [getAvailableGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L395) (2 connections)
+- [getTemplateById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L388) (1 connections)
+- [getTemplatesByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L381) (1 connections)
+- [SUNO_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

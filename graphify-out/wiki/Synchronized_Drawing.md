@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [SynchronizedLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedLine.tsx#L1) (2 connections)
-- [isStructuralTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedLine.tsx#L116) (1 connections)
-- [SynchronizedLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedLine.tsx#L26) (1 connections)
+- [SoundToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx#L30) (1 connections)
+- [SoundToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\SynchronizedLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedLine.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\SoundToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx)
 
 ## Audit Trail
 

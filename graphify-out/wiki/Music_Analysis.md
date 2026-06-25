@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [MusicVerse AI - Аудит и Улучшения - 2025-12-02](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md) (0 connections)
+- [Touch Targets Too Small Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

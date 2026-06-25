@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L36) (1 connections)
-- [AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L1) (1 connections)
+- [AdminUserCreditsDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L26) (1 connections)
+- [AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx)
 
 ## Audit Trail
 

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L1) (1 connections)
-- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L36) (1 connections)
+- [ContextHints](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L23) (1 connections)
+- [ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\ContextHints.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/ContextHints.tsx)
 
 ## Audit Trail
 

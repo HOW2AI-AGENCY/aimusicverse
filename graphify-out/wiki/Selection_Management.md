@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [OptimizeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/OptimizeToolPanel.tsx#L1) (3 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/OptimizeToolPanel.tsx#L132) (1 connections)
-- [OPTIMIZE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/OptimizeToolPanel.tsx#L12) (1 connections)
-- [OptimizeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/OptimizeToolPanel.tsx#L18) (1 connections)
+- [TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L1) (3 connections)
+- [CATEGORY_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L15) (1 connections)
+- [categoryStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L84) (1 connections)
+- [{ visible, hiddenCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\OptimizeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/OptimizeToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx)
 
 ## Audit Trail
 

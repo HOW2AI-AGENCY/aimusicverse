@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
-- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
-- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L114) (1 connections)
+- [TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L1) (2 connections)
+- [formatModelName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L14) (1 connections)
+- [TechInfoItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx)
 
 ## Audit Trail
 

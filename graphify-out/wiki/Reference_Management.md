@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackReferencesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx#L1) (1 connections)
-- [hasReferences](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx#L53) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L1) (1 connections)
+- [VARIANT_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L177) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackReferencesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackReferencesSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts)
 
 ## Audit Trail
 

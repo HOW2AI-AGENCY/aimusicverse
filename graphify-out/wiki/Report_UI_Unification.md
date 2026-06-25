@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Implementation Completion Report UI Component Unification Phase 2](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/IMPLEMENTATION_COMPLETE.md) (0 connections)
+- [MusicVerse AI - Аудит и Улучшения - 2025-12-02](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [specs/002-ui-component-unification/IMPLEMENTATION_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/IMPLEMENTATION_COMPLETE.md)
+- [docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md)
 
 ## Audit Trail
 

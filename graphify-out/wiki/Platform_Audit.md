@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Visual Summary: Professional Platform Audit](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md) (0 connections)
+- [Audio Upload and Processing Flow Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIO_UPLOAD_FLOW.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md)
+- [docs/AUDIO_UPLOAD_FLOW.md](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIO_UPLOAD_FLOW.md)
 
 ## Audit Trail
 

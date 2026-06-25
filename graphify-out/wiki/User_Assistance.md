@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Bot Help Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/help.jpg) (0 connections)
+- [Итоговый отчет: Улучшение документации и репозитория](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/images/bot/help.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/help.jpg)
+- [docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md)
 
 ## Audit Trail
 

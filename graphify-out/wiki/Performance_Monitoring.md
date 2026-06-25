@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Performance Monitoring Workflow](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/performance.yml) (0 connections)
+- [Bug Report Issue Template](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/bug_report.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/workflows/performance.yml](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/performance.yml)
+- [.github/ISSUE_TEMPLATE/bug_report.md](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/bug_report.md)
 
 ## Audit Trail
 

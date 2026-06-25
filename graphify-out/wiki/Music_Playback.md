@@ -4,19 +4,21 @@
 
 ## Key Concepts
 
-- [QueuePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueuePanel.tsx#L1) (4 connections)
-- [{ currentTrack, upcomingTracks, previousTracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueuePanel.tsx#L35) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueuePanel.tsx#L63) (1 connections)
-- [handleReorder()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueuePanel.tsx#L43) (1 connections)
+- [PerformanceChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L1) (4 connections)
+- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L46) (1 connections)
 - [{
-    queue,
-    currentIndex,
-    activeTrack,
-    playTrack,
-    removeFromQueue,
-    clearQueue,
-    reorderQueue
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueuePanel.tsx#L24) (1 connections)
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    ResponsiveContainer,
+    ReferenceLine,
+    Legend,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L86) (1 connections)
+- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L37) (1 connections)
+- [[recharts, setRecharts]](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -24,7 +26,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueuePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueuePanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\performance\PerformanceChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx)
 
 ## Audit Trail
 

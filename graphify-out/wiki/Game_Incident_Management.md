@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Player Crash Fix Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md) (0 connections)
+- [Telegram Desktop Limited API Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

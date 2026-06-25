@@ -1,27 +1,26 @@
 # Feedback Management
 
-> 18 nodes · cohesion 0.11
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [Feedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L1) (21 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L60) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L68) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L245) (1 connections)
-- [[detailSheetOpen, setDetailSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L70) (1 connections)
-- [[feedback, setFeedback]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L63) (1 connections)
-- [[isAdmin, setIsAdmin]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L69) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L61) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L64) (1 connections)
-- [[replyText, setReplyText]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L66) (1 connections)
-- [[selectedFeedback, setSelectedFeedback]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L65) (1 connections)
-- [selectFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L200) (1 connections)
-- [[sending, setSending]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L67) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L405) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L53) (1 connections)
-- [typeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L46) (1 connections)
-- [TypeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L246) (1 connections)
-- [{ user, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx#L62) (1 connections)
+- [BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L1) (17 connections)
+- [CreditInfoItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L48) (1 connections)
+- [{ data: groupedProducts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L85) (1 connections)
+- [displayProducts](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L110) (1 connections)
+- [handleProductClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L112) (1 connections)
+- [handlePurchase()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L117) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L80) (1 connections)
+- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L79) (1 connections)
+- [isBestValue](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L267) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L123) (1 connections)
+- [{ pay: payWithTinkoff, isLoading: isTinkoffLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L86) (1 connections)
+- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L263) (1 connections)
+- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L82) (1 connections)
+- [[showPurchasePanel, setShowPurchasePanel]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L83) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L125) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L78) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L81) (1 connections)
 
 ## Relationships
 
@@ -29,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\Feedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/Feedback.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 39 (100%)
+- EXTRACTED: 33 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

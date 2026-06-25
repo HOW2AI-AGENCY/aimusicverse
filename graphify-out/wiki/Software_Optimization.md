@@ -4,22 +4,21 @@
 
 ## Key Concepts
 
-- [Recent Improvements December 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/RECENT_IMPROVEMENTS.md) (1 connections)
-- [Stem Studio Audit and Optimization Phase 1](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/STEM_STUDIO_PHASE1_SUMMARY.md) (1 connections)
+- [Page.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.tsx#L1) (1 connections)
+- [[user, setUser]](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.tsx#L11) (1 connections)
 
 ## Relationships
 
-- [[User Interface]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/implementation-reports/RECENT_IMPROVEMENTS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/RECENT_IMPROVEMENTS.md)
-- [docs/archive/implementation-reports/STEM_STUDIO_PHASE1_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/STEM_STUDIO_PHASE1_SUMMARY.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Page.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
-- INFERRED: 2 (100%)
+- EXTRACTED: 2 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

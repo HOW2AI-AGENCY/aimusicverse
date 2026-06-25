@@ -1,12 +1,13 @@
 # Product Information
 
-> 3 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L1) (2 connections)
-- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L24) (1 connections)
-- [detailedDescriptionRu](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L25) (1 connections)
+- [vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L1) (3 connections)
+- [originalError](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L140) (1 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L125) (1 connections)
+- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L126) (1 connections)
 
 ## Relationships
 
@@ -14,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

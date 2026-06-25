@@ -4,21 +4,18 @@
 
 ## Key Concepts
 
-- [Klang.io Integration - Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_IMPLEMENTATION_SUMMARY.md) (3 connections)
-- [Klangio Integration - Diagnostic Logging Enhancement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md) (1 connections)
-- [Klang.io Integration Fix - MIME Type Support](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md) (1 connections)
-- [Klang.io Transcription Feature Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md) (1 connections)
+- [Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L1) (3 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L41) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L40) (1 connections)
+- [settings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L39) (1 connections)
 
 ## Relationships
 
-- [[Audio Effects]] (6 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md)
-- [docs/archive/implementation-reports/KLANG_IO_IMPLEMENTATION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_IMPLEMENTATION_SUMMARY.md)
-- [docs/archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
-- [docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx)
 
 ## Audit Trail
 

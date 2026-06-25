@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L1) (4 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L147) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L34) (1 connections)
-- [isPositiveChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L145) (1 connections)
-- [revenueChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx#L142) (1 connections)
+- [FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L1) (4 connections)
+- [getBarColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L52) (1 connections)
+- [STEP_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L25) (1 connections)
+- [TIME_RANGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L33) (1 connections)
+- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RevenueAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RevenueAnalyticsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx)
 
 ## Audit Trail
 

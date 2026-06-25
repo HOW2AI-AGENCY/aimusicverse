@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Audio Architecture Analysis (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md) (0 connections)
+- [Black Screen Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md)
+- [docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md)
 
 ## Audit Trail
 

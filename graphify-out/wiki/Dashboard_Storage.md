@@ -1,28 +1,28 @@
 # Dashboard Storage
 
-> 19 nodes · cohesion 0.15
+> 19 nodes · cohesion 0.11
 
 ## Key Concepts
 
-- [dashboard.api.example.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L1) (9 connections)
-- [dashboard.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L1) (8 connections)
-- [testDashboardAPI()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L219) (8 connections)
-- [calculateStoragePercentage()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L217) (3 connections)
-- [getDashboardWithInsights()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L135) (3 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L194) (3 connections)
-- [useDashboardStats()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L42) (3 connections)
-- [getDashboardStats()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L90) (3 connections)
-- [DashboardStatsComponent()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L63) (2 connections)
-- [formatBytes()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L94) (2 connections)
-- [getStorageStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L170) (2 connections)
-- [formatBytes()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L157) (2 connections)
-- [isStorageNearLimit()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L239) (2 connections)
-- [DASHBOARD_CACHE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L276) (1 connections)
-- [DASHBOARD_STALE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L271) (1 connections)
-- [dashboardQueryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L254) (1 connections)
-- [storageStatus](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L195) (1 connections)
-- [storageWarning](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx#L78) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts#L181) (1 connections)
+- [AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L1) (18 connections)
+- [analyser](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L45) (1 connections)
+- [analyserRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L25) (1 connections)
+- [animationFrameRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L26) (1 connections)
+- [audioContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L44) (1 connections)
+- [audioContextRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L24) (1 connections)
+- [dataArray](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L56) (1 connections)
+- [getColorClass()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L98) (1 connections)
+- [getLevelStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L105) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L127) (1 connections)
+- [isPeak](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L128) (1 connections)
+- [[level, setLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L22) (1 connections)
+- [[peakLevel, setPeakLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L23) (1 connections)
+- [segmentLevel](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L126) (1 connections)
+- [source](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L46) (1 connections)
+- [sourceRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L27) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L113) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L114) (1 connections)
+- [updateLevel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx#L59) (1 connections)
 
 ## Relationships
 
@@ -30,13 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\dashboard.api.example.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.example.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\api\dashboard.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/dashboard.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AudioLevelMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AudioLevelMeter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (79%)
-- INFERRED: 12 (21%)
+- EXTRACTED: 36 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

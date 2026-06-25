@@ -1,14 +1,14 @@
 # Analytics Management
 
-> 5 nodes · cohesion 0.40
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L1) (4 connections)
-- [analyticsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L71) (1 connections)
-- [useGamificationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L117) (1 connections)
-- [usePaymentAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L80) (1 connections)
-- [useQuickPaymentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L159) (1 connections)
+- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
+- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
+- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L71) (3 connections)
+- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
+- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (67%)
+- INFERRED: 4 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

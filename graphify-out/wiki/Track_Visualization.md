@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L1) (3 connections)
-- [createDefaultViewSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L156) (1 connections)
-- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L154) (1 connections)
-- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L141) (1 connections)
+- [mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L1) (3 connections)
+- [getMixPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L229) (1 connections)
+- [getPresetStemSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L236) (1 connections)
+- [MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts)
 
 ## Audit Trail
 

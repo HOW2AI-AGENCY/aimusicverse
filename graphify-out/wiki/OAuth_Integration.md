@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Telegram OAuth Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md) (0 connections)
+- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/PROJECT_STATUS.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md)
+- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/PROJECT_STATUS.md)
 
 ## Audit Trail
 

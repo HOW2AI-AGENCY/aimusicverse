@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L1) (10 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L25) (1 connections)
-- [[dragStartRegion, setDragStartRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L24) (1 connections)
-- [[dragStartX, setDragStartX]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L23) (1 connections)
-- [getPositionFromTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L34) (1 connections)
-- [getTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L27) (1 connections)
-- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L39) (1 connections)
-- [handleMouseMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L66) (1 connections)
-- [handleMouseUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L99) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L22) (1 connections)
-- [[region, setRegion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx#L21) (1 connections)
+- [WaveformAnalysisOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L1) (10 connections)
+- [CHORD_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L30) (1 connections)
+- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L40) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L76) (1 connections)
+- [isNear](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L108) (1 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L107) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L77) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L74) (1 connections)
+- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L106) (1 connections)
+- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L56) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L75) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\TrimRegionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/TrimRegionSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\WaveformAnalysisOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx)
 
 ## Audit Trail
 

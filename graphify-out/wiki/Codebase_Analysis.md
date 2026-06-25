@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [codebase-analyzer agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/codebase-analyzer.md) (0 connections)
+- [UI/UX Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_IMPLEMENTATION_PLAN.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.claude/agents/codebase-analyzer.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/codebase-analyzer.md)
+- [docs/archive/audits-2025-12/UI_UX_IMPLEMENTATION_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/UI_UX_IMPLEMENTATION_PLAN.md)
 
 ## Audit Trail
 

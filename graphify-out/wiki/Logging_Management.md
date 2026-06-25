@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Console.log Cleanup Progress Tracker](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CONSOLE_LOG_CLEANUP_TRACKER.md) (0 connections)
+- [Comprehensive Improvement Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/COMPREHENSIVE_IMPROVEMENT_PLAN_2025-12-09.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/implementation-reports/CONSOLE_LOG_CLEANUP_TRACKER.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/CONSOLE_LOG_CLEANUP_TRACKER.md)
+- [docs/archive/2025-12/COMPREHENSIVE_IMPROVEMENT_PLAN_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/COMPREHENSIVE_IMPROVEMENT_PLAN_2025-12-09.md)
 
 ## Audit Trail
 

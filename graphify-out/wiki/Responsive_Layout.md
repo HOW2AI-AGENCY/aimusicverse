@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L1) (4 connections)
-- [GAP_SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L43) (1 connections)
-- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L33) (1 connections)
-- [GRID_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L101) (1 connections)
-- [ResponsiveGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx#L52) (1 connections)
+- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L1) (4 connections)
+- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L227) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L131) (1 connections)
+- [Container](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L35) (1 connections)
+- [containerProps](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\ResponsiveGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/ResponsiveGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx)
 
 ## Audit Trail
 

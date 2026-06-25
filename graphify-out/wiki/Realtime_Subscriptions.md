@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Realtime Subscription Memory Leak Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [Chunk 20: Social, Community & Engagement - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_20_FILES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CHUNK_20_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_20_FILES.md)
 
 ## Audit Trail
 

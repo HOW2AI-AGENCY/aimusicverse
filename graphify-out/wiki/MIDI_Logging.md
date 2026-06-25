@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStemMidi.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L1) (3 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L7) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L27) (1 connections)
-- [useStemMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L69) (1 connections)
+- [useAssistantForm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAssistantForm.ts#L1) (3 connections)
+- [INITIAL_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAssistantForm.ts#L17) (1 connections)
+- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAssistantForm.ts#L30) (1 connections)
+- [useAssistantForm()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAssistantForm.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStemMidi.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAssistantForm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAssistantForm.ts)
 
 ## Audit Trail
 

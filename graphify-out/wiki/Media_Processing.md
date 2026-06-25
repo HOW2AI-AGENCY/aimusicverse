@@ -1,58 +1,48 @@
 # Media Processing
 
-> 31 nodes · cohesion 0.06
+> 31 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L1) (25 connections)
-- [AudioUpscaleButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioUpscaleButton.tsx#L1) (6 connections)
-- [checkStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioUpscaleButton.tsx#L38) (3 connections)
-- [hasHdAudio](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L120) (2 connections)
-- [handleUpscale()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioUpscaleButton.tsx#L49) (1 connections)
-- [[hasHd, setHasHd]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioUpscaleButton.tsx#L33) (1 connections)
-- [[status, setStatus]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioUpscaleButton.tsx#L34) (1 connections)
-- [{ upscale, isLoading, progress }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioUpscaleButton.tsx#L32) (1 connections)
-- [{
-    actionState,
-    isProcessing,
-    dialogs,
-    closeDialog,
-    executeAction,
-    handleConfirmDelete,
-    stems,
-    enableVideoStatusFetch,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L52) (1 connections)
-- [isUpscaling](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L121) (1 connections)
-- [showAddInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L103) (1 connections)
-- [showAddVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L102) (1 connections)
-- [showCopyLink](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L112) (1 connections)
-- [showCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L99) (1 connections)
-- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L115) (1 connections)
-- [showDownloadStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L110) (1 connections)
-- [showExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L100) (1 connections)
-- [showGenerateCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L98) (1 connections)
-- [showMp3](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L108) (1 connections)
-- [showPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L113) (1 connections)
-- [showProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L114) (1 connections)
-- [showRemix](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L101) (1 connections)
-- [showReplaceSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L105) (1 connections)
-- [showStemsDetailed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L107) (1 connections)
-- [showStemsSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx#L106) (1 connections)
+- [sunoMetaTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L1) (30 connections)
+- [getAllSunoMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L413) (3 connections)
+- [extractTagsFromLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L436) (2 connections)
+- [findSunoMetaTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L420) (2 connections)
+- [getMissingCriticalTags()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L451) (2 connections)
+- [getTagsByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L486) (2 connections)
+- [hasEndTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L444) (2 connections)
+- [parseCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L470) (2 connections)
+- [ALL_SUNO_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L405) (1 connections)
+- [ANTI_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L203) (1 connections)
+- [BEST_PRACTICES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L195) (1 connections)
+- [buildCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L479) (1 connections)
+- [COMPOUND_TAG_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L298) (1 connections)
+- [CONFLICTING_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L214) (1 connections)
+- [DRILL_TRAP_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L345) (1 connections)
+- [DYNAMICS_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L125) (1 connections)
+- [formatMetaTagForInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L428) (1 connections)
+- [isValidCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L462) (1 connections)
+- [PRODUCTION_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L155) (1 connections)
+- [SFX_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L139) (1 connections)
+- [SILENCE_CONTROL_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L335) (1 connections)
+- [SOLO_DESCRIPTOR_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L312) (1 connections)
+- [SOLO_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L102) (1 connections)
+- [STRUCTURE_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L38) (1 connections)
+- [SUNO_META_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L228) (1 connections)
 - *... and 6 more nodes in this community*
 
 ## Relationships
 
-- [[Timer Management]] (1 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioUpscaleButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioUpscaleButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoMetaTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 60 (95%)
-- INFERRED: 3 (5%)
+- EXTRACTED: 66 (97%)
+- INFERRED: 2 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

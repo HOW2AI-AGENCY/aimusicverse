@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [VirtualizedCloudList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L1) (3 connections)
-- [isPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L51) (1 connections)
-- [mins](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L45) (1 connections)
-- [secs](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L46) (1 connections)
+- [BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L1) (3 connections)
+- [BlogCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L5) (1 connections)
+- [BlogFeaturedSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L24) (1 connections)
+- [BlogListSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedCloudList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx)
 
 ## Audit Trail
 

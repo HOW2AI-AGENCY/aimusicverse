@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 028 UI/UX Optimization Completion Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_COMPLETION_REPORT.md) (0 connections)
+- [Tooltips Not Working on Mobile Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2026-01-04-cleanup/SPRINT_028_COMPLETION_REPORT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/SPRINT_028_COMPLETION_REPORT.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

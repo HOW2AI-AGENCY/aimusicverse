@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Bot Main Menu Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/main-menu.jpg) (0 connections)
+- [Project Audit MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_AUDIT.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [public/images/bot/main-menu.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/main-menu.jpg)
+- [docs/archive/audits-2025-12/PROJECT_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_AUDIT.md)
 
 ## Audit Trail
 

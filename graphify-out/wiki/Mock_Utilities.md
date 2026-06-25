@@ -4,24 +4,33 @@
 
 ## Key Concepts
 
-- [use-social-interactions.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L1) (9 connections)
-- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L42) (1 connections)
-- [mockEq](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L74) (1 connections)
-- [mockImpact](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L396) (1 connections)
-- [mockInsert](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L133) (1 connections)
-- [mockMaybeSingle](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L75) (1 connections)
-- [mockOpenTelegramLink](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L331) (1 connections)
-- [mockSelect](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L73) (1 connections)
-- [mockSingle](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L203) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts#L86) (1 connections)
+- [Work Completed Summary - UI/UX Audit & Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md) (8 connections)
+- [Mobile Optimization Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md) (2 connections)
+- [Guitar Studio Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/GUITAR_STUDIO_IMPLEMENTATION.md) (1 connections)
+- [Immediate Improvements Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md) (1 connections)
+- [MusicVerse AI - Professional Studio Implementation Roadmap](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md) (1 connections)
+- [Interface Work Summary - 10 December 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md) (1 connections)
+- [Lyrics Interface Improvements (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md) (1 connections)
+- [Mobile Interface Optimization Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/MOBILE_INTERFACE_OPTIMIZATION_PLAN.md) (1 connections)
+- [Project Optimization Summary - 2025-12-10](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/OPTIMIZATION_SUMMARY_2025-12-10.md) (1 connections)
+- [Итоги комплексного аудита и улучшения плеера](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/%D0%98%D0%A2%D0%9E%D0%93%D0%98_%D0%90%D0%A3%D0%94%D0%98%D0%A2%D0%90_%D0%9F%D0%9B%D0%95%D0%95%D0%A0%D0%90_2025-12-10.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Music Production]] (18 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\use-social-interactions.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-social-interactions.test.ts)
+- [docs/archive/2026-01-04-cleanup/MOBILE_INTERFACE_OPTIMIZATION_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/MOBILE_INTERFACE_OPTIMIZATION_PLAN.md)
+- [docs/archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/MOBILE_OPTIMIZATION_SUMMARY.md)
+- [docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/WORK_COMPLETED_SUMMARY.md)
+- [docs/archive/audits/ИТОГИ_АУДИТА_ПЛЕЕРА_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/%D0%98%D0%A2%D0%9E%D0%93%D0%98_%D0%90%D0%A3%D0%94%D0%98%D0%A2%D0%90_%D0%9F%D0%9B%D0%95%D0%95%D0%A0%D0%90_2025-12-10.md)
+- [docs/archive/implementation-reports/GUITAR_STUDIO_IMPLEMENTATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/GUITAR_STUDIO_IMPLEMENTATION.md)
+- [docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMMEDIATE_IMPROVEMENTS_CHECKLIST.md)
+- [docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_ROADMAP.md)
+- [docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/INTERFACE_WORK_SUMMARY_2025-12-10.md)
+- [docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/LYRICS_INTERFACE_IMPROVEMENTS_RU.md)
+- [docs/archive/implementation-reports/OPTIMIZATION_SUMMARY_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/OPTIMIZATION_SUMMARY_2025-12-10.md)
 
 ## Audit Trail
 

@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [TelemetryDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L1) (7 connections)
-- [{ data: errors, isLoading: errorsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L26) (1 connections)
-- [{ data: telemetry, isLoading: telemetryLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L25) (1 connections)
-- [getPlatformIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L31) (1 connections)
-- [getSeverityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L44) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L28) (1 connections)
-- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L16) (1 connections)
-- [[timePeriod, setTimePeriod]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L24) (1 connections)
+- [AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L1) (8 connections)
+- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L44) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L41) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L47) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L42) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L43) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L45) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\TelemetryDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 15 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [MobileTextarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L1) (10 connections)
-- [actualRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L47) (1 connections)
-- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L77) (1 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L66) (1 connections)
-- [lineHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L58) (1 connections)
-- [maxHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L60) (1 connections)
-- [minHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L59) (1 connections)
-- [newHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L61) (1 connections)
-- [remaining](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L78) (1 connections)
-- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L51) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L46) (1 connections)
+- [PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L1) (10 connections)
+- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L43) (1 connections)
+- [creditsAmount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L75) (1 connections)
+- [discount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L74) (1 connections)
+- [getBestValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L24) (1 connections)
+- [getDiscount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L53) (1 connections)
+- [getProductLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L46) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L72) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L73) (1 connections)
+- [priceRub](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L76) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L77) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileTextarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx)
 
 ## Audit Trail
 

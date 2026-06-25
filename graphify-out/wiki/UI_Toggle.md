@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L1) (6 connections)
-- [buttonId](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L55) (1 connections)
-- [contentId](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L54) (1 connections)
-- [handleToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L75) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L52) (1 connections)
-- [id](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L53) (1 connections)
-- [[isCollapsed, setIsCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L58) (1 connections)
+- [ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L1) (6 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L23) (1 connections)
+- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L46) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L38) (1 connections)
+- [contentRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L39) (1 connections)
+- [[isOverflowing, setIsOverflowing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L40) (1 connections)
+- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx)
 
 ## Audit Trail
 

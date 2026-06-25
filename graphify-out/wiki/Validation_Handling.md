@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [StyleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L1) (2 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L30) (1 connections)
-- [styleValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L25) (1 connections)
+- [TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L1) (2 connections)
+- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L24) (1 connections)
+- [detailedDescriptionRu](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\StyleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx)
 
 ## Audit Trail
 

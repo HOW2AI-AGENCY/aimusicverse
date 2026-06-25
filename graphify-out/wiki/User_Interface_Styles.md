@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L1) (2 connections)
-- [CONTINUE_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L14) (1 connections)
-- [ContinueToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx#L21) (1 connections)
+- [DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L1) (2 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L51) (1 connections)
+- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ContinueToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ContinueToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx)
 
 ## Audit Trail
 

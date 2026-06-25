@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.implement command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.implement.md) (0 connections)
+- [Bot Profile Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/profile.jpg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.roo/commands/speckit.implement.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.implement.md)
+- [public/images/bot/profile.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/profile.jpg)
 
 ## Audit Trail
 

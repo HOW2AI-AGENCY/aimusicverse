@@ -4,43 +4,25 @@
 
 ## Key Concepts
 
-- [TrackLanesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L1) (18 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L434) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L34) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L52) (1 connections)
-- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L342) (1 connections)
-- [handleTimelineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L57) (1 connections)
-- [handleZoomIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L66) (1 connections)
-- [handleZoomOut](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L70) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L412) (1 connections)
-- [isMajor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L418) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L35) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L344) (1 connections)
-- [markers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L409) (1 connections)
-- [{
-    project,
-    currentTime,
-    isPlaying,
-    zoom,
-    snapToGrid,
-    selectedTrackId,
-    selectedClipId,
-    setZoom,
-    setSnapToGrid,
-    selectTrack,
-    selectClip,
-    seek,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L37) (1 connections)
-- [{
-    setTrackVolume,
-    toggleTrackMute,
-    toggleTrackSolo,
-    removeTrack,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L206) (1 connections)
-- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L417) (1 connections)
-- [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L53) (1 connections)
-- [trackHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L54) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L343) (1 connections)
+- [query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L1) (9 connections)
+- [use-player-controls.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L1) (8 connections)
+- [prefetchTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L120) (2 connections)
+- [track](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L50) (2 connections)
+- [createOptimisticLikeUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L139) (1 connections)
+- [GC_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L32) (1 connections)
+- [invalidatePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L111) (1 connections)
+- [invalidateTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L102) (1 connections)
+- [invalidateUserTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L92) (1 connections)
+- [queryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L42) (1 connections)
+- [rollbackOptimisticUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L184) (1 connections)
+- [STALE_TIMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts#L12) (1 connections)
+- [invalidTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L472) (1 connections)
+- [originalOrder](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L372) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L48) (1 connections)
+- [track1](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L273) (1 connections)
+- [track2](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L279) (1 connections)
+- [tracks](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L360) (1 connections)
+- [validTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts#L495) (1 connections)
 
 ## Relationships
 
@@ -48,12 +30,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\TrackLanesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\query-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/query-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\use-player-controls.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-player-controls.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 34 (94%)
+- INFERRED: 2 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---

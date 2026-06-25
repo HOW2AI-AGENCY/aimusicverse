@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L1) (3 connections)
-- [TelegramThemeContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L29) (1 connections)
-- [TelegramThemeProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L37) (1 connections)
-- [useTelegramTheme()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L147) (1 connections)
+- [OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L1) (3 connections)
+- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L134) (1 connections)
+- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L142) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L123) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx)
 
 ## Audit Trail
 

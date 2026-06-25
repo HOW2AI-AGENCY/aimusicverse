@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [AI Lyrics Agent Tools](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-027-AI-LYRICS-TOOLS.md) (0 connections)
+- [Speckit Clarify Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.clarify.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [SPRINTS/completed/SPRINT-027-AI-LYRICS-TOOLS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-027-AI-LYRICS-TOOLS.md)
+- [.kilocode/workflows/speckit.clarify.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.clarify.md)
 
 ## Audit Trail
 

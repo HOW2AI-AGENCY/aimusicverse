@@ -1,27 +1,22 @@
 # Lyrics Editor
 
-> 13 nodes · cohesion 0.15
+> 13 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L1) (12 connections)
-- [{ data: lyricsData, isLoading: lyricsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L72) (1 connections)
-- [{ data: replacedSections }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L85) (1 connections)
-- [{ data: sourceTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L57) (1 connections)
-- [detectedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L78) (1 connections)
-- [handleCloseEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L106) (1 connections)
-- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L98) (1 connections)
-- [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L53) (1 connections)
-- [replacedRanges](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L88) (1 connections)
-- [{
-    selectedSection,
-    selectedSectionIndex,
-    selectSection,
-    clearSelection,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L45) (1 connections)
-- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L42) (1 connections)
-- [[showEditor, setShowEditor]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L43) (1 connections)
-- [sourceTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L54) (1 connections)
+- [HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L1) (4 connections)
+- [useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L1) (4 connections)
+- [useCloudStorage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L37) (3 connections)
+- [useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L1) (2 connections)
+- [HintsSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L29) (2 connections)
+- [isAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L136) (2 connections)
+- [useCloudStorageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts#L114) (2 connections)
+- [useContextualHints()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L317) (2 connections)
+- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L27) (1 connections)
+- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx#L17) (1 connections)
+- [CONTEXTUAL_HINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L43) (1 connections)
+- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L314) (1 connections)
+- [VISITS_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts#L315) (1 connections)
 
 ## Relationships
 
@@ -29,12 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\HintsSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/HintsSettings.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useCloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useCloudStorage.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useContextualHints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useContextualHints.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (85%)
+- INFERRED: 4 (15%)
 - AMBIGUOUS: 0 (0%)
 
 ---

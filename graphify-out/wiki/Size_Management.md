@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L1) (2 connections)
-- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L17) (1 connections)
-- [VerificationBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L23) (1 connections)
+- [TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L1) (2 connections)
+- [getLanguageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L80) (1 connections)
+- [TranslateResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx)
 
 ## Audit Trail
 

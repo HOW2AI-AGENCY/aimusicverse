@@ -1,21 +1,20 @@
 # Design Spacing
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [spacing-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L1) (11 connections)
-- [getGapClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L50) (1 connections)
-- [getHorizontalSpacingClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L104) (1 connections)
-- [getInlineClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L140) (1 connections)
-- [getPaddingClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L68) (1 connections)
-- [getSafeAreaClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L158) (1 connections)
-- [getSpacingRem()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L39) (1 connections)
-- [getSpacingValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L29) (1 connections)
-- [getStackClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L122) (1 connections)
-- [getTouchTargetSpacingClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L175) (1 connections)
-- [getVerticalSpacingClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L86) (1 connections)
-- [SPACING_SCALE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts#L12) (1 connections)
+- [wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L1) (10 connections)
+- [attempt](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L28) (1 connections)
+- [host](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L15) (1 connections)
+- [intervalMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L19) (1 connections)
+- [lastError](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L29) (1 connections)
+- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L17) (1 connections)
+- [port](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L16) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L34) (1 connections)
+- [start](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L27) (1 connections)
+- [timeoutMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L18) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L21) (1 connections)
 
 ## Relationships
 
@@ -23,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\spacing-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/spacing-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\scripts\wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

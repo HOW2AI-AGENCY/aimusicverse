@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L1) (2 connections)
-- [AIProgressIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L30) (1 connections)
-- [STEP_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L16) (1 connections)
+- [AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L1) (2 connections)
+- [getAudioWeightDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L22) (1 connections)
+- [getAudioWeightLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx)
 
 ## Audit Trail
 

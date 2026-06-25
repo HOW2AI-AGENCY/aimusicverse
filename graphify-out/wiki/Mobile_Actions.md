@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [MobileActionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx#L1) (1 connections)
-- [MobileActionsContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx#L37) (1 connections)
+- [UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L1) (1 connections)
+- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileActionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileActionsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\UserStatsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/UserStatsSection.tsx)
 
 ## Audit Trail
 

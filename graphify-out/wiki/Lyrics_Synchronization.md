@@ -1,38 +1,34 @@
 # Lyrics Synchronization
 
-> 37 nodes · cohesion 0.05
+> 37 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [LyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L1) (36 connections)
-- [activeLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L234) (1 connections)
-- [{
-    activeLineIndex,
-    currentTime: syncedTime,
-    constants,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L163) (1 connections)
-- [activeLineRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L59) (1 connections)
-- [adjustedTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L333) (1 connections)
-- [cleanLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L39) (1 connections)
-- [container](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L174) (1 connections)
-- [containerRect](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L237) (1 connections)
-- [currentLinePos](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L243) (1 connections)
-- [{ data: lyricsData }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L65) (1 connections)
-- [endTolerance](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L334) (1 connections)
-- [flattenedWords](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L157) (1 connections)
-- [handleScroll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L177) (1 connections)
-- [handleTouchEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L205) (1 connections)
-- [handleTouchStart()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L198) (1 connections)
-- [handleWordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L260) (1 connections)
-- [isActiveLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L307) (1 connections)
-- [isActiveWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L335) (1 connections)
-- [isInView](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L244) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L265) (1 connections)
-- [isPastLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L308) (1 connections)
-- [isPastWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L336) (1 connections)
-- [{ isPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L54) (1 connections)
-- [isProgrammaticScrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L62) (1 connections)
-- [isStructuralTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx#L33) (1 connections)
+- [trackEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L13) (17 connections)
+- [SmartPaywallDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L1) (11 connections)
+- [events.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L1) (10 connections)
+- [TrialBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx#L1) (8 connections)
+- [useAppNavigate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L1) (6 connections)
+- [navigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L111) (5 connections)
+- [handleStartTrial()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L138) (4 connections)
+- [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L159) (4 connections)
+- [navigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx#L35) (4 connections)
+- [trackButtonClick()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L126) (3 connections)
+- [trackGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L43) (3 connections)
+- [trackGenerationMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L66) (3 connections)
+- [getGlobalNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L39) (3 connections)
+- [trackOnboardingStep()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L92) (2 connections)
+- [trackPageView()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L27) (2 connections)
+- [trackTrackLiked()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L156) (2 connections)
+- [trackTrackPlayed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L141) (2 connections)
+- [trackTrackShared()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L172) (2 connections)
+- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L170) (2 connections)
+- [globalNavigate](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L33) (2 connections)
+- [navigateTo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L47) (2 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L121) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L107) (1 connections)
+- [MESSAGING](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L41) (1 connections)
+- [PRO_BENEFITS](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L85) (1 connections)
 - *... and 12 more nodes in this community*
 
 ## Relationships
@@ -41,12 +37,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\LyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/LyricsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\SmartPaywallDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\TrialBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAppNavigate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\events.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 72 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 92 (81%)
+- INFERRED: 21 (19%)
 - AMBIGUOUS: 0 (0%)
 
 ---

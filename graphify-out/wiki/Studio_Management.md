@@ -4,17 +4,16 @@
 
 ## Key Concepts
 
-- [Unified Studio Analysis and Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/UNIFIED_STUDIO_ANALYSIS_AND_PLAN.md) (1 connections)
-- [Unified Studio Completion Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/UNIFIED_STUDIO_COMPLETION_REPORT.md) (1 connections)
+- [AdminTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L8) (1 connections)
+- [AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L1) (1 connections)
 
 ## Relationships
 
-- [[Error Handling]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/2026-01-04-cleanup/UNIFIED_STUDIO_ANALYSIS_AND_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/UNIFIED_STUDIO_ANALYSIS_AND_PLAN.md)
-- [docs/archive/2026-01-04-cleanup/UNIFIED_STUDIO_COMPLETION_REPORT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01-04-cleanup/UNIFIED_STUDIO_COMPLETION_REPORT.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx)
 
 ## Audit Trail
 

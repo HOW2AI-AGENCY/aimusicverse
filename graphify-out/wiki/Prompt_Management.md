@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Implement Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.implement.prompt.md) (0 connections)
+- [supabase_functions_telegram_bot_commands_generate](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/commands/generate.ts) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/prompts/speckit.implement.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.implement.prompt.md)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\commands\generate.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/commands/generate.ts)
 
 ## Audit Trail
 

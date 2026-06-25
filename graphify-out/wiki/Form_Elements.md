@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [input.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L1) (7 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L26) (1 connections)
-- [Disabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L40) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L5) (1 connections)
-- [Password](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L32) (1 connections)
-- [Search](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L74) (1 connections)
-- [WithButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L60) (1 connections)
-- [WithLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L48) (1 connections)
+- [stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L1) (7 connections)
+- [compressorPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L59) (1 connections)
+- [defaultCompressorSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L28) (1 connections)
+- [defaultEQSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L20) (1 connections)
+- [defaultReverbSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L37) (1 connections)
+- [defaultStemEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L43) (1 connections)
+- [eqPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L50) (1 connections)
+- [reverbPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\input.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts)
 
 ## Audit Trail
 

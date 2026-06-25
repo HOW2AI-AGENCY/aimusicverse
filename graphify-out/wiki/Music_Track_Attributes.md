@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L1) (9 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L27) (1 connections)
-- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L75) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L72) (1 connections)
-- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L79) (1 connections)
-- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L76) (1 connections)
-- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L77) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L73) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L37) (1 connections)
-- [trackAny](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L70) (1 connections)
+- [FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L1) (9 connections)
+- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L200) (1 connections)
+- [hasValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L41) (1 connections)
+- [inputPaddingTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L57) (1 connections)
+- [isFloating](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L42) (1 connections)
+- [[isFocused, setIsFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L38) (1 connections)
+- [isPassword](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L43) (1 connections)
+- [labelSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L51) (1 connections)
+- [[showPassword, setShowPassword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L39) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L1) (2 connections)
-- [useStudioKeyboardShortcuts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L27) (2 connections)
-- [useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioKeyboardShortcuts.ts#L1) (1 connections)
-- [formatShortcut()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts#L75) (1 connections)
+- [useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L1) (3 connections)
+- [CREDITS_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L26) (1 connections)
+- [SUBSCRIPTION_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L27) (1 connections)
+- [useStarsPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -15,8 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioKeyboardShortcuts.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioKeyboardShortcuts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioKeyboardShortcuts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts)
 
 ## Audit Trail
 

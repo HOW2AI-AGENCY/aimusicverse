@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [github-repo-auditor agent](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/github-repo-auditor.md) (0 connections)
+- [Audio Architecture Analysis (Russian)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.claude/agents/github-repo-auditor.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/agents/github-repo-auditor.md)
+- [docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits/AUDIO_ARCHITECTURE_ANALYSIS_RU.md)
 
 ## Audit Trail
 

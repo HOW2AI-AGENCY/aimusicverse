@@ -1,80 +1,111 @@
 # Audio Context Management
 
-> 101 nodes · cohesion 0.02
+> 121 nodes · cohesion 0.02
 
 ## Key Concepts
 
-- [WaveformWithChords.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/WaveformWithChords.tsx#L1) (33 connections)
-- [SoundEffects](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sound-effects.ts#L11) (19 connections)
-- [.playTone()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sound-effects.ts#L35) (16 connections)
-- [audioContextHelper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/audioContextHelper.ts#L1) (9 connections)
-- [useMobileAudioFallback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMobileAudioFallback.ts#L1) (7 connections)
-- [createAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/audioContextHelper.ts#L31) (6 connections)
-- [useStudioOptimizations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOptimizations.ts#L95) (6 connections)
-- [generateWaveform()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/WaveformWithChords.tsx#L57) (6 connections)
-- [safeCloseAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/audioContextHelper.ts#L84) (5 connections)
-- [useStudioAudioSetup()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioAudioSetup.ts#L34) (5 connections)
-- [.getContext()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sound-effects.ts#L15) (4 connections)
-- [detectAudioCapabilities()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMobileAudioFallback.ts#L68) (4 connections)
-- [useStudioAudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudioEngine.ts#L170) (4 connections)
-- [useStudioMixer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioMixer.ts#L122) (4 connections)
-- [getAudioContextClass()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/audioContextHelper.ts#L23) (3 connections)
-- [.getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/AudioManager.ts#L330) (3 connections)
-- [useDebouncedStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useDebouncedStemControls.ts#L1) (3 connections)
-- [useMasterClock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMasterClock.ts#L1) (3 connections)
-- [useStemAudioCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioCache.ts#L1) (3 connections)
-- [sound-effects.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sound-effects.ts#L1) (3 connections)
-- [.isEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sound-effects.ts#L27) (3 connections)
-- [useMobileAudioFallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMobileAudioFallback.ts#L104) (3 connections)
-- [useStudioEffectsEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioEffectsEngine.ts#L94) (3 connections)
-- [closeStudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/audioContextHelper.ts#L100) (2 connections)
-- [ensureAudioContextRunning()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/audioContextHelper.ts#L75) (2 connections)
-- *... and 76 more nodes in this community*
+- [AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L1) (26 connections)
+- [AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L1) (17 connections)
+- [errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L1) (14 connections)
+- [AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L1) (13 connections)
+- [errorReporting.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L1) (13 connections)
+- [toAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L428) (11 connections)
+- [reportError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L65) (11 connections)
+- [retry.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L1) (8 connections)
+- [retryWithBackoff()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L77) (8 connections)
+- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L177) (7 connections)
+- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L138) (6 connections)
+- [retry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/retry.ts#L1) (6 connections)
+- [getEnhancedErrorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L242) (6 connections)
+- [displayError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L117) (6 connections)
+- [tryCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L402) (5 connections)
+- [tryCatchSync()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L416) (5 connections)
+- [showErrorWithRecovery()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L571) (5 connections)
+- [CircuitBreaker](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L226) (5 connections)
+- [.isRetryable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L175) (4 connections)
+- [.toUserMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L363) (4 connections)
+- [getRecoveryAction()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L364) (4 connections)
+- [isRetriableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L308) (4 connections)
+- [validatePromptForGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L549) (4 connections)
+- [shouldReport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L54) (4 connections)
+- [retryFetch()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L139) (4 connections)
+- *... and 96 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class SoundEffects {
-        +sound-effects.ts()
-        +.getContext()
-        +.setEnabled()
-        +.isEnabled()
-        +.playTone()
-        +.playChord()
-        +.creditEarned()
-        +.xpEarned()
-        +.levelUp()
-        +.achievementUnlock()
+    class APIError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class AppError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+        +.isRetryable()
+        +.getRetryDelayMs()
+        +.toJSON()
+    }
+    class AudioError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class GenerationError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class InsufficientCreditsError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class NetworkError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class StorageError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class ValidationError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class CircuitBreaker {
+        +retry.ts()
+        +.constructor()
+        +.execute()
+        +.getState()
+        +.reset()
     }
 ```
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Achievements]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\WaveformWithChords.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/WaveformWithChords.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioAudioSetup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioAudioSetup.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useDebouncedStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useDebouncedStemControls.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMasterClock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMasterClock.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMobileAudioFallback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMobileAudioFallback.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioCache.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioAudioEngine.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioEffectsEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioEffectsEngine.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioMixer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioMixer.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioOptimizations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOptimizations.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioPlayer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioPlayer.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOfflineStatus.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOfflineStatus.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\AudioManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/AudioManager.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\audioContextHelper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/audioContextHelper.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\sound-effects.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sound-effects.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errorReporting.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errors\AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errors\useErrorRecovery.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/useErrorRecovery.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\retry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/retry.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\retry.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 210 (82%)
-- INFERRED: 47 (18%)
+- EXTRACTED: 290 (85%)
+- INFERRED: 51 (15%)
 - AMBIGUOUS: 0 (0%)
 
 ---

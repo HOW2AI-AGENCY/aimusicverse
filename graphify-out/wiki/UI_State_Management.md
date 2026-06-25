@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L1) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L20) (1 connections)
+- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx#L1) (1 connections)
+- [KeyboardShortcutsDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx)
 
 ## Audit Trail
 

@@ -1,30 +1,30 @@
 # Telegram Payments
 
-> 5 nodes · cohesion 0.60
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [Telegram Stars Payment System - Implementation Progress](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT.md) (3 connections)
-- [Telegram Stars Payment System - Phase 3 Implementation Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE3.md) (3 connections)
-- [Telegram Stars Payment System - Phase 4 Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE4.md) (2 connections)
-- [Telegram Stars Payment System - Phase 5 Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE5.md) (2 connections)
-- [Implementation Summary - Critical Telegram Integration Fixes](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_SUMMARY_TELEGRAM_FIXES.md) (2 connections)
+- [Telegram Integration Quick Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md) (2 connections)
+- [Telegram Integration Sprint Plan](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (2 connections)
+- [Telegram Integration Sprint 3 & 4](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md) (2 connections)
+- [Telegram Integration Quick Start Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md) (1 connections)
+- [Telegram Integration Sprints 5-6](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_5_6.md) (1 connections)
 
 ## Relationships
 
-- [[Form State Management]] (12 shared connections)
+- [[Telegram Integration]] (8 shared connections)
 
 ## Source Files
 
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE3.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE3.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE4.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE4.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE5.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE5.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_SUMMARY_TELEGRAM_FIXES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_SUMMARY_TELEGRAM_FIXES.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_CHECKLIST.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_5_6.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_5_6.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

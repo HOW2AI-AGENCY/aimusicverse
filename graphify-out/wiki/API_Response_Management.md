@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L1) (5 connections)
-- [DEFAULT_TITLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L80) (1 connections)
-- [INVALIDATE_QUERY_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L91) (1 connections)
-- [OPERATION_ENDPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L69) (1 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L12) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L55) (1 connections)
+- [useTrackDetails.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L1) (5 connections)
+- [useTrackAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L101) (1 connections)
+- [useTrackChangelog()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L117) (1 connections)
+- [useTrackDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L19) (1 connections)
+- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L85) (1 connections)
+- [useTrackVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L69) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackDetails.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts)
 
 ## Audit Trail
 

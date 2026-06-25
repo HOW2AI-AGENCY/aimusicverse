@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [input-otp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L1) (2 connections)
-- [{ char, hasFakeCaret, isActive }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L29) (1 connections)
-- [inputOTPContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L28) (1 connections)
+- [TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L1) (2 connections)
+- [TranscriptionInProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L15) (1 connections)
+- [TranscriptionPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L57) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\input-otp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx)
 
 ## Audit Trail
 

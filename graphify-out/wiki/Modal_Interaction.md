@@ -4,15 +4,20 @@
 
 ## Key Concepts
 
-- [MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L109) (1 connections)
-- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L33) (1 connections)
-- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L66) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L61) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L49) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L46) (1 connections)
-- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L34) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L47) (1 connections)
+- [UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L1) (8 connections)
+- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L40) (1 connections)
+- [handleLinkTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L59) (1 connections)
+- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L72) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L41) (1 connections)
+- [isTrackPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L73) (1 connections)
+- [selectedSlot](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L74) (1 connections)
+- [[selectedSlots, setSelectedSlots]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L42) (1 connections)
+- [{ 
+    unlinkedTracks,
+    isLoading,
+    linkTrackToSlot,
+    isLinking
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -20,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnlinkedTracksSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnlinkedTracksSection.tsx)
 
 ## Audit Trail
 

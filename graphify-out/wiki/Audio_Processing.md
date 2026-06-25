@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Audio Architecture - Before and After Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIO_ARCHITECTURE_DIAGRAM.md) (0 connections)
+- [Speckit Plan Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.plan.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/AUDIO_ARCHITECTURE_DIAGRAM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/AUDIO_ARCHITECTURE_DIAGRAM.md)
+- [.kilocode/workflows/speckit.plan.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.plan.md)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [MobileSlider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSlider.tsx#L1) (3 connections)
-- [handleValueCommit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSlider.tsx#L49) (2 connections)
-- [handleValueChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSlider.tsx#L45) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSlider.tsx#L43) (1 connections)
+- [WorkflowPresets.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowPresets.tsx#L1) (3 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowPresets.tsx#L106) (1 connections)
+- [WorkflowPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowPresets.tsx#L78) (1 connections)
+- [WORKFLOWS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowPresets.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileSlider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSlider.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\WorkflowPresets.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/WorkflowPresets.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

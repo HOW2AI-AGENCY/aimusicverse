@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [ProjectAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L1) (12 connections)
-- [[aiDialogOpen, setAiDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L37) (1 connections)
-- [[analysis, setAnalysis]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L36) (1 connections)
-- [applyImprovement()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L104) (1 connections)
-- [contextData](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L43) (1 connections)
-- [[isAnalyzing, setIsAnalyzing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L34) (1 connections)
-- [[isApplying, setIsApplying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L35) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L32) (1 connections)
-- [savedAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L44) (1 connections)
-- [[selectedField, setSelectedField]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L38) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L33) (1 connections)
+- [UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L1) (10 connections)
+- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L60) (1 connections)
+- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L62) (1 connections)
+- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L69) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L93) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L101) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L176) (1 connections)
+- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L91) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L87) (1 connections)
+- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L90) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L89) (1 connections)
 
 ## Relationships
 
@@ -22,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

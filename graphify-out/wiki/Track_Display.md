@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L1) (6 connections)
-- [displayTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L65) (1 connections)
-- [handleLoadMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L72) (1 connections)
-- [handleTrackClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L67) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L62) (1 connections)
-- [SKELETON_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L33) (1 connections)
-- [TrackSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L36) (1 connections)
+- [VersionPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx#L1) (8 connections)
+- [[activeVersion, setActiveVersion]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx#L43) (1 connections)
+- [channel](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx#L77) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx#L41) (1 connections)
+- [[isUpdating, setIsUpdating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx#L42) (1 connections)
+- [versionLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx#L137) (1 connections)
+- [[versions, setVersions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\VersionPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/VersionPicker.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

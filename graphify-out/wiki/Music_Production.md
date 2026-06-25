@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [MusicVerse AI Professional DAW Studio](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_RU.md) (0 connections)
+- [App Crash Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/implementation-reports/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PROFESSIONAL_STUDIO_ENHANCEMENT_GUIDE_RU.md)
+- [docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md)
 
 ## Audit Trail
 

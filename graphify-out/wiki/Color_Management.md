@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L1) (1 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx#L29) (1 connections)
+- [jest.config.js](file:///D:/.MUSICVERSE/aimusicverse/jest.config.js#L1) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/jest.config.js#L3) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\TelemetryOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/TelemetryOverview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\jest.config.js](file:///D:/.MUSICVERSE/aimusicverse/jest.config.js)
 
 ## Audit Trail
 

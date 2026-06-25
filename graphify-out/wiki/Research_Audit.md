@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Phase 0 Research Unified Interface Audit & Analysis](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/research.md) (0 connections)
+- [Archive Readme](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/README.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [specs/001-unified-interface/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/research.md)
+- [docs/archive/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/README.md)
 
 ## Audit Trail
 

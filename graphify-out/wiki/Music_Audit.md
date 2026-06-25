@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Итоговый Отчет: Комплексный Аудит MusicVerse AI (русский)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (0 connections)
+- [Russian Text Overflow on Mobile Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

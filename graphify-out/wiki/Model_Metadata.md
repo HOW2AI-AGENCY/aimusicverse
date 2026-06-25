@@ -1,15 +1,15 @@
 # Model Metadata
 
-> 6 nodes · cohesion 0.33
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [transcription-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L1) (5 connections)
-- [getFormatDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L146) (1 connections)
-- [getFormatLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L132) (1 connections)
-- [getTranscriptionConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L28) (1 connections)
-- [MODEL_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L168) (1 connections)
-- [stemSupportsTableture()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts#L160) (1 connections)
+- [stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L1) (5 connections)
+- [getActionsForStemType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L261) (2 connections)
+- [getGroupedActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L276) (2 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L291) (1 connections)
+- [normalizeTrackType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L302) (1 connections)
+- [STEM_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L31) (1 connections)
 
 ## Relationships
 
@@ -17,11 +17,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\transcription-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/transcription-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -1,25 +1,24 @@
 # Rendering Metrics
 
-> 16 nodes · cohesion 0.12
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L1) (15 connections)
-- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L125) (1 connections)
-- [finalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L42) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L185) (1 connections)
-- [initialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L34) (1 connections)
-- [renderCounter](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L12) (1 connections)
-- [reRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L43) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L26) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L147) (1 connections)
-- [stem1FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L101) (1 connections)
-- [stem1InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L93) (1 connections)
-- [stem1ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L104) (1 connections)
-- [stem2FinalRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L102) (1 connections)
-- [stem2InitialRenderCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L94) (1 connections)
-- [stem2ReRenders](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L105) (1 connections)
-- [stems](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts#L19) (1 connections)
+- [ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L1) (14 connections)
+- [baseFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L217) (1 connections)
+- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L10) (1 connections)
+- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L184) (1 connections)
+- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L194) (1 connections)
+- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L216) (1 connections)
+- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L215) (1 connections)
+- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L139) (1 connections)
+- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L183) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L186) (1 connections)
+- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L195) (1 connections)
+- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L196) (1 connections)
+- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L193) (1 connections)
+- [{ width, height, fontSize, dotSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L192) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L284) (1 connections)
 
 ## Relationships
 
@@ -27,11 +26,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\performance\mixer-renders.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/mixer-renders.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

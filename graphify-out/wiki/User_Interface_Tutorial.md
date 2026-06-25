@@ -4,18 +4,18 @@
 
 ## Key Concepts
 
-- [DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L1) (11 connections)
-- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L78) (1 connections)
-- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L19) (1 connections)
-- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L106) (1 connections)
-- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L111) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L90) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L104) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L100) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L103) (1 connections)
-- [TIPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L28) (1 connections)
-- [todaysTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L93) (1 connections)
-- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L101) (1 connections)
+- [RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L1) (11 connections)
+- [handleCopyLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L65) (2 connections)
+- [handleRecognizeLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L41) (2 connections)
+- [handleUseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L71) (2 connections)
+- [apiLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L38) (1 connections)
+- [[editedLyrics, setEditedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L32) (1 connections)
+- [handleCreateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L80) (1 connections)
+- [handleUseApiLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L56) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L30) (1 connections)
+- [{ isRecognizing, result, recognizeLyrics, clearResult }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L35) (1 connections)
+- [[lyricsSource, setLyricsSource]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L33) (1 connections)
+- [[showLyricsDialog, setShowLyricsDialog]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -23,12 +23,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-recognition\RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (88%)
+- INFERRED: 3 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -1,35 +1,35 @@
 # Artist Project Management
 
-> 43 nodes · cohesion 0.05
+> 44 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [CreateProjectSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L1) (35 connections)
-- [projects.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L1) (8 connections)
-- [generateProjectConcept()](file:///D:/.MUSICVERSE/aimusicverse/src/api/projects.api.ts#L112) (3 connections)
-- [handleAIGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L242) (2 connections)
-- [checkPremiumStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/projects.api.ts#L86) (2 connections)
-- [createProject()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L120) (2 connections)
-- [generateConcept()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L169) (2 connections)
-- [getProjectProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L192) (2 connections)
-- [updateVisualStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts#L153) (2 connections)
-- [{ artists, createArtist, isCreating: isCreatingArtist }](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L54) (1 connections)
-- [[concept, setConcept]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L64) (1 connections)
-- [[coverUrl, setCoverUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L68) (1 connections)
-- [{ createProject, generateProjectConcept, isCreating, isGenerating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L53) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L63) (1 connections)
-- [FieldHelp()](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L283) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L76) (1 connections)
-- [[genre, setGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L61) (1 connections)
-- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L38) (1 connections)
-- [[isGeneratingCover, setIsGeneratingCover]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L73) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L56) (1 connections)
-- [[isPremiumUser, setIsPremiumUser]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L70) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L69) (1 connections)
-- [[isUploadingCover, setIsUploadingCover]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L72) (1 connections)
-- [[language, setLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L71) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx#L57) (1 connections)
-- *... and 18 more nodes in this community*
+- [UnifiedLyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L1) (44 connections)
+- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L34) (3 connections)
+- [[activeWordIndex, setActiveWordIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L92) (1 connections)
+- [AUTO_SCROLL_DISTANCE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L13) (1 connections)
+- [AUTO_SCROLL_RESUME_DELAY](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L12) (1 connections)
+- [container](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L139) (1 connections)
+- [containerRect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L187) (1 connections)
+- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L91) (1 connections)
+- [currentLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L373) (1 connections)
+- [currentPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L190) (1 connections)
+- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L183) (1 connections)
+- [elementRect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L188) (1 connections)
+- [globalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L286) (1 connections)
+- [handleScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L110) (1 connections)
+- [handleWordClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L224) (1 connections)
+- [hasDoubleNewline](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L386) (1 connections)
+- [hasNewline](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L385) (1 connections)
+- [hasTimeGap](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L390) (1 connections)
+- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L107) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L375) (1 connections)
+- [idx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L166) (1 connections)
+- [isLineActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L262) (1 connections)
+- [isLinePast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L263) (1 connections)
+- [isProgrammaticScrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L97) (1 connections)
+- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L287) (1 connections)
+- *... and 19 more nodes in this community*
 
 ## Relationships
 
@@ -37,14 +37,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\projects.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/projects.api.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\CreateProjectSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/CreateProjectSheet.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\services\projects.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/projects.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\UnifiedLyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 84 (91%)
-- INFERRED: 8 (9%)
+- EXTRACTED: 87 (98%)
+- INFERRED: 2 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L1) (2 connections)
-- [ScrollArea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L6) (1 connections)
-- [ScrollBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L28) (1 connections)
+- [InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L1) (2 connections)
+- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L17) (1 connections)
+- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx)
 
 ## Audit Trail
 

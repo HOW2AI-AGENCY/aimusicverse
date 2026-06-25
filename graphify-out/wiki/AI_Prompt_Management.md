@@ -1,27 +1,26 @@
 # AI Prompt Management
 
-> 18 nodes · cohesion 0.11
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [LyricsAIAssistantSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L1) (17 connections)
-- [AI_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L125) (1 connections)
-- [[customPrompt, setCustomPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L190) (1 connections)
-- [[enhancedLyrics, setEnhancedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L192) (1 connections)
-- [getCurrentPrompt](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L208) (1 connections)
-- [handleApply](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L309) (1 connections)
-- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L336) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L328) (1 connections)
-- [handleCustomPromptChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L239) (1 connections)
-- [handleGenerate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L252) (1 connections)
-- [handlePresetChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L227) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L186) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L395) (1 connections)
-- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L191) (1 connections)
-- [isPromptValid](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L219) (1 connections)
-- [MAX_PROMPT_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L172) (1 connections)
-- [MIN_PROMPT_LENGTH](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L171) (1 connections)
-- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx#L189) (1 connections)
+- [ProfileEmojiPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L1) (16 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L69) (1 connections)
+- [clearEmojiStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L153) (1 connections)
+- [emojiCategories](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L71) (1 connections)
+- [[hasAccess, setHasAccess]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L66) (1 connections)
+- [isEmojiStatusAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L78) (1 connections)
+- [[isRequesting, setIsRequesting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L67) (1 connections)
+- [[isSettingEmoji, setIsSettingEmoji]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L68) (1 connections)
+- [isTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L63) (1 connections)
+- [isTelegramPremium](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L81) (1 connections)
+- [MOOD_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L31) (1 connections)
+- [MUSIC_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L18) (1 connections)
+- [requestAccess](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L84) (1 connections)
+- [[selectedEmoji, setSelectedEmoji]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L65) (1 connections)
+- [setEmojiStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L116) (1 connections)
+- [STATUS_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L44) (1 connections)
+- [webApp](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -29,11 +28,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\LyricsAIAssistantSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/LyricsAIAssistantSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\ProfileEmojiPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

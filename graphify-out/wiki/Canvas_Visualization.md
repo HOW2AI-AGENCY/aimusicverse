@@ -4,31 +4,31 @@
 
 ## Key Concepts
 
-- [ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L1) (26 connections)
-- [barHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L125) (1 connections)
-- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L117) (1 connections)
-- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L103) (1 connections)
-- [canvasHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L116) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L37) (1 connections)
-- [clampedContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L46) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L36) (1 connections)
-- [continuePercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L47) (1 connections)
-- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L106) (1 connections)
-- [cutPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L118) (1 connections)
-- [cutX](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L143) (1 connections)
-- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L109) (1 connections)
-- [effectiveMaxTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L43) (1 connections)
-- [extensionLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L175) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L162) (1 connections)
-- [handleSliderChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L156) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L40) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L39) (1 connections)
-- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L53) (1 connections)
-- [percent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L127) (1 connections)
-- [rect](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L110) (1 connections)
-- [[waveformData, setWaveformData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L38) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L115) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L124) (1 connections)
+- [TranscriptionPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L1) (25 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L45) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L374) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L421) (1 connections)
+- [[currentPage, setCurrentPage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L49) (1 connections)
+- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L47) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L382) (1 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L74) (1 connections)
+- [handleNextPage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L70) (1 connections)
+- [handlePrevPage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L66) (1 connections)
+- [handleZoomIn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L58) (1 connections)
+- [handleZoomOut()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L62) (1 connections)
+- [hasMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L53) (1 connections)
+- [hasSheetMusic](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L51) (1 connections)
+- [hasTablature](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L52) (1 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L417) (1 connections)
+- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L46) (1 connections)
+- [maxPitch](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L378) (1 connections)
+- [minPitch](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L377) (1 connections)
+- [opacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L420) (1 connections)
+- [pitchRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L379) (1 connections)
+- [totalPages](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L56) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L415) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L414) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L398) (1 connections)
 - *... and 1 more nodes in this community*
 
 ## Relationships
@@ -37,11 +37,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\TranscriptionPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 51 (100%)
+- EXTRACTED: 50 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

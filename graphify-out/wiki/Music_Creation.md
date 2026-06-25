@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L1) (11 connections)
-- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L48) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L46) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L47) (1 connections)
-- [[lyrics, setLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L51) (1 connections)
-- [[mood, setMood]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L55) (1 connections)
-- [moodPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L32) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L53) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L52) (1 connections)
-- [vocalStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L25) (1 connections)
-- [[vocalType, setVocalType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx#L54) (1 connections)
+- [AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L1) (10 connections)
+- [addToPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L59) (1 connections)
+- [createPlaylistMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L103) (1 connections)
+- [{ data: playlists, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L28) (1 connections)
+- [{ data: trackInPlaylists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L44) (1 connections)
+- [handleCreatePlaylist()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L136) (1 connections)
+- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L25) (1 connections)
+- [isInPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L223) (1 connections)
+- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L24) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L23) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -22,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\AddVocalsToGuitarDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/AddVocalsToGuitarDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\AddToPlaylistSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AddToPlaylistSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

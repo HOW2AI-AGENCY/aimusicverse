@@ -1,12 +1,12 @@
 # Stem Type Management
 
-> 3 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useTrackStemTypes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStemTypes.ts#L1) (2 connections)
-- [useStemTypeFlags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStemTypes.ts#L33) (2 connections)
-- [useTrackStemTypes()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStemTypes.ts#L11) (2 connections)
+- [useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L1) (2 connections)
+- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L11) (1 connections)
+- [useHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L13) (1 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStemTypes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStemTypes.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

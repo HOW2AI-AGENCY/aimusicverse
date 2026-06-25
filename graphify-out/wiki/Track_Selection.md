@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L1) (1 connections)
-- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx#L187) (1 connections)
+- [TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L1) (1 connections)
+- [TracksTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumEffects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumEffects.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\TracksTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/TracksTab.tsx)
 
 ## Audit Trail
 

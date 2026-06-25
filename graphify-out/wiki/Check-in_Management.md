@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L1) (10 connections)
-- [checkinDates](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L49) (1 connections)
-- [{ data: checkins, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L19) (1 connections)
-- [dayNames](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L52) (1 connections)
-- [dayNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L78) (1 connections)
-- [dayOfWeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L77) (1 connections)
-- [isCheckedIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L75) (1 connections)
-- [isToday](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L76) (1 connections)
-- [last7Days](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L43) (1 connections)
-- [today](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L50) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L17) (1 connections)
+- [GuitarAnalysisReportMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L1) (10 connections)
+- [handleCopyTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L64) (2 connections)
+- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L46) (1 connections)
+- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L48) (1 connections)
+- [displayedChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L71) (1 connections)
+- [[expandedSections, setExpandedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L51) (1 connections)
+- [[fullscreenView, setFullscreenView]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L50) (1 connections)
+- [[showAllChords, setShowAllChords]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L49) (1 connections)
+- [{ tap, selectionChanged }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L45) (1 connections)
+- [toggleSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L59) (1 connections)
+- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L70) (1 connections)
 
 ## Relationships
 
@@ -22,12 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarAnalysisReportMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---

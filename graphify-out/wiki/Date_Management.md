@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [KaraokeWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L1) (10 connections)
-- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L39) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L53) (1 connections)
-- [isFuture](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L55) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L54) (1 connections)
-- [nextActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L112) (1 connections)
-- [nextPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L124) (1 connections)
-- [prevActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L111) (1 connections)
-- [prevPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L123) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L43) (1 connections)
-- [showProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx#L58) (1 connections)
+- [MobileTextarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L1) (10 connections)
+- [actualRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L47) (1 connections)
+- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L77) (1 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L66) (1 connections)
+- [lineHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L58) (1 connections)
+- [maxHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L60) (1 connections)
+- [minHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L59) (1 connections)
+- [newHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L61) (1 connections)
+- [remaining](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L78) (1 connections)
+- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L51) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\KaraokeWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/KaraokeWord.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileTextarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileTextarea.tsx)
 
 ## Audit Trail
 

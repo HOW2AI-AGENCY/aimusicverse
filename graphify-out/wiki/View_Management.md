@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useViewStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L1) (2 connections)
-- [useViewStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L63) (1 connections)
-- [viewLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L32) (1 connections)
+- [Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L1) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L12) (1 connections)
+- [{ showBackButton, hideBackButton, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useViewStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx)
 
 ## Audit Trail
 

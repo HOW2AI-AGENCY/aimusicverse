@@ -4,14 +4,14 @@
 
 ## Key Concepts
 
-- [PerformanceMetricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L1) (7 connections)
-- [days](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L28) (1 connections)
-- [getPerformanceTips()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L261) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L115) (1 connections)
-- [rating](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L114) (1 connections)
-- [{ stats, dailyTrend, deviceBreakdown, performanceScore, isLoading, thresholds }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L29) (1 connections)
-- [vital](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L113) (1 connections)
-- [VITALS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx#L19) (1 connections)
+- [PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L1) (7 connections)
+- [density](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L44) (1 connections)
+- [genreColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L37) (1 connections)
+- [genreColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L17) (1 connections)
+- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L112) (1 connections)
+- [hasHit](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L61) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L109) (1 connections)
+- [totalSteps](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -19,7 +19,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\PerformanceMetricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/PerformanceMetricsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx)
 
 ## Audit Trail
 

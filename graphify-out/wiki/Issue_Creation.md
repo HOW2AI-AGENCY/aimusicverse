@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Create Issues from TODOs Workflow](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/todo-scanner.yml) (0 connections)
+- [Feature Request Issue Template](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/feature_request.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/workflows/todo-scanner.yml](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/todo-scanner.yml)
+- [.github/ISSUE_TEMPLATE/feature_request.md](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/feature_request.md)
 
 ## Audit Trail
 

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [ProjectCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L1) (2 connections)
-- [VARIANT_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L34) (1 connections)
-- [variantConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx#L59) (1 connections)
+- [RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L1) (2 connections)
+- [COMMON_ENDINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L15) (1 connections)
+- [RhymeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectCover.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx)
 
 ## Audit Trail
 

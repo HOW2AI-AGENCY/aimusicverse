@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [DeepLinkHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L1) (5 connections)
-- [DEEP_LINK_DESCRIPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L111) (1 connections)
-- [DEEP_LINK_ROUTES](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L20) (1 connections)
-- [DeepLinkHandler()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L154) (1 connections)
-- [getDeepLinkDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L150) (1 connections)
-- [telegramLogger](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx#L17) (1 connections)
+- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
+- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L132) (1 connections)
+- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
+- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L166) (1 connections)
+- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L93) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L76) (1 connections)
 
 ## Relationships
 
@@ -17,7 +17,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\DeepLinkHandler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/DeepLinkHandler.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
 
 ## Audit Trail
 

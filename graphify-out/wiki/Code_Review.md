@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Claude Code Review Workflow](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/claude-code-review.yml) (0 connections)
+- [e2e_test_player](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/player.spec.ts) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/workflows/claude-code-review.yml](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/claude-code-review.yml)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\player.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/player.spec.ts)
 
 ## Audit Trail
 

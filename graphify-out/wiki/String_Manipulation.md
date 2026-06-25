@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L1) (2 connections)
-- [COMMON_ENDINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L15) (1 connections)
-- [RhymeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx#L21) (1 connections)
+- [MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L1) (2 connections)
+- [MarqueeTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L69) (1 connections)
+- [MarqueeTitleComponent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\RhymeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/RhymeToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx)
 
 ## Audit Trail
 

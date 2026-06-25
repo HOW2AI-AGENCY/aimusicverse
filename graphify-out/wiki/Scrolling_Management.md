@@ -1,27 +1,37 @@
 # Scrolling Management
 
-> 18 nodes · cohesion 0.14
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [scroll-fps.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L1) (13 connections)
-- [makeCurrent()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js#L31) (5 connections)
-- [toggleClass()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js#L24) (4 connections)
-- [block-navigation.js](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js#L1) (4 connections)
-- [item](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L23) (3 connections)
-- [goToNext()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js#L52) (2 connections)
-- [goToPrevious()](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js#L41) (2 connections)
-- [avgFPS](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L36) (1 connections)
-- [benchmarkResult](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L65) (1 connections)
-- [fpsSamples](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L84) (1 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L153) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L22) (1 connections)
-- [maxScrolls](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L83) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L42) (1 connections)
-- [samples](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L35) (1 connections)
-- [scrollContainer](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L12) (1 connections)
-- [scrollCount](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L82) (1 connections)
-- [scrollInterval](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts#L97) (1 connections)
+- [Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L1) (17 connections)
+- [BenefitItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L65) (1 connections)
+- [benefits](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L164) (1 connections)
+- [bestValueProduct](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L117) (1 connections)
+- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L32) (1 connections)
+- [{
+    data: subscriptionProducts,
+    isLoading: isLoadingProducts,
+    error: productsError,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L96) (1 connections)
+- [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L149) (1 connections)
+- [{ initiatePayment, flowState, resetFlow }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L114) (1 connections)
+- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L91) (1 connections)
+- [isCurrentTier()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L156) (1 connections)
+- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L42) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L92) (1 connections)
+- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L94) (1 connections)
+- [showExpirationWarning](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L161) (1 connections)
+- [showTrialHighlight](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L93) (1 connections)
+- [{
+    subscription,
+    isLoading: isLoadingStatus,
+    isActive,
+    tier,
+    expiresAt,
+    daysRemaining,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L102) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L90) (1 connections)
 
 ## Relationships
 
@@ -29,13 +39,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\coverage\lcov-report\block-navigation.js](file:///D:/.MUSICVERSE/aimusicverse/coverage/lcov-report/block-navigation.js)
-- [D:\.MUSICVERSE\aimusicverse\tests\performance\scroll-fps.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/performance/scroll-fps.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\Subscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 39 (89%)
-- INFERRED: 5 (11%)
+- EXTRACTED: 33 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

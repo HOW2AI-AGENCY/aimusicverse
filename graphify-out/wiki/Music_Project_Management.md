@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Project Audit MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_AUDIT.md) (0 connections)
+- [Architecture and Naming Conventions Audit Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_ARCHITECTURE_NAMING_2025-12-04.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/PROJECT_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_AUDIT.md)
+- [docs/archive/2025-12/AUDIT_ARCHITECTURE_NAMING_2025-12-04.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_ARCHITECTURE_NAMING_2025-12-04.md)
 
 ## Audit Trail
 

@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [BotMenuPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L1) (12 connections)
-- [currentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L27) (1 connections)
-- [[currentMenu, setCurrentMenu]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L18) (1 connections)
-- [currentMenuItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L22) (1 connections)
-- [getButtonTextLength()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L37) (1 connections)
-- [getCaption()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L108) (1 connections)
-- [getImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L102) (1 connections)
-- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L92) (1 connections)
-- [handleButtonClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L85) (1 connections)
-- [MAX_CHARS_FOR_PAIRING](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L34) (1 connections)
-- [[navigationStack, setNavigationStack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L19) (1 connections)
-- [renderCaption()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L117) (1 connections)
-- [rows](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx#L43) (1 connections)
+- [OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L1) (12 connections)
+- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L26) (2 connections)
+- [activeLineIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L91) (1 connections)
+- [findActiveLine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L44) (1 connections)
+- [handleLineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L111) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L129) (1 connections)
+- [isNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L130) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L131) (1 connections)
+- [lastActiveLineRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L73) (1 connections)
+- [line](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L126) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L76) (1 connections)
+- [linesWithTimestamps](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L79) (1 connections)
+- [virtuosoRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L72) (1 connections)
 
 ## Relationships
 
@@ -24,12 +24,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BotMenuPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BotMenuPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 24 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L1) (4 connections)
-- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L34) (1 connections)
-- [handleClear()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L44) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L48) (1 connections)
-- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L32) (1 connections)
+- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
+- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
+- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L87) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
+- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
 
 ## Audit Trail
 

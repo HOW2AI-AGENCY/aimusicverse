@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L1) (2 connections)
-- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L17) (1 connections)
-- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L18) (1 connections)
+- [SectionComparePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx#L1) (2 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx#L149) (1 connections)
+- [SectionComparePanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionComparePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx)
 
 ## Audit Trail
 

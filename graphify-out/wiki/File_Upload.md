@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L1) (8 connections)
-- [displayUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L111) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L20) (1 connections)
-- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L112) (1 connections)
-- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L18) (1 connections)
-- [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L19) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L17) (1 connections)
+- [FollowingFeed.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L1) (6 connections)
+- [allTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L39) (1 connections)
+- [{ data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L36) (1 connections)
+- [feedSummary](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L37) (1 connections)
+- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L35) (1 connections)
+- [filterOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L27) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -18,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\social\FollowingFeed.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

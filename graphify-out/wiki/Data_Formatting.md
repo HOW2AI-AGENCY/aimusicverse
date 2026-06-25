@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L1) (1 connections)
-- [Separator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L6) (1 connections)
+- [AnimatedCounter](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx#L29) (1 connections)
+- [AnimatedCounter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\AnimatedCounter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx)
 
 ## Audit Trail
 

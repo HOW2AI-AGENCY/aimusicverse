@@ -1,35 +1,28 @@
 # Software Development
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [Sprint Template](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/SPRINT_TEMPLATE.md) (6 connections)
-- [Sprint 001: Project Setup](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-001-SETUP.md) (1 connections)
-- [Sprint 002: Audit Improvements](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-002-AUDIT-IMPROVEMENTS.md) (1 connections)
-- [Sprint 003: Automation](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-003-AUTOMATION.md) (1 connections)
-- [Sprint 004: Optimization and Technical Debt](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-004-OPTIMIZATION.md) (1 connections)
-- [Sprint 005: Production Hardening](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-005-PRODUCTION-HARDENING.md) (1 connections)
-- [Sprint 006: UI/UX Audit and Planning](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-006-UI-UX-IMPROVEMENTS.md) (1 connections)
+- [accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L1) (6 connections)
+- [{ AxePuppeteer }](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L8) (1 connections)
+- [fs](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L10) (1 connections)
+- [pages](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L13) (1 connections)
+- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L11) (1 connections)
+- [puppeteer](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L9) (1 connections)
 
 ## Relationships
 
-- [[Responsive Design]] (12 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [SPRINTS/SPRINT_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/SPRINT_TEMPLATE.md)
-- [SPRINTS/completed/SPRINT-001-SETUP.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-001-SETUP.md)
-- [SPRINTS/completed/SPRINT-002-AUDIT-IMPROVEMENTS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-002-AUDIT-IMPROVEMENTS.md)
-- [SPRINTS/completed/SPRINT-003-AUTOMATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-003-AUTOMATION.md)
-- [SPRINTS/completed/SPRINT-004-OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-004-OPTIMIZATION.md)
-- [SPRINTS/completed/SPRINT-005-PRODUCTION-HARDENING.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-005-PRODUCTION-HARDENING.md)
-- [SPRINTS/completed/SPRINT-006-UI-UX-IMPROVEMENTS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-006-UI-UX-IMPROVEMENTS.md)
+- [D:\.MUSICVERSE\aimusicverse\scripts\accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
-- INFERRED: 12 (100%)
+- EXTRACTED: 11 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

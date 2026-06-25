@@ -1,34 +1,28 @@
 # Interface Management
 
-> 7 nodes · cohesion 0.48
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [Unified Interface Specification Documentation Index](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/README.md) (5 connections)
-- [Unified Interface Analysis Remediation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/ANALYSIS-REMEDIATION.md) (3 connections)
-- [Unified Component Data Models](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/data-model.md) (3 connections)
-- [T070 Emergency Bundle Size Optimization](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/T070-BUNDLE-OPTIMIZATION.md) (3 connections)
-- [Functional Requirements to Tasks Mapping](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/FR-TO-TASK-MAPPING.md) (2 connections)
-- [Implementation Summary: T018-T019](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/implementation-summary-t018-t019.md) (2 connections)
-- [Implementation Summary: T021 VirtualizedTrackList on Community Page](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/implementation-summary-t021.md) (2 connections)
+- [DOCUMENTATION_INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (3 connections)
+- [ARCHIVE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
+- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
+- [SPRINTS/SPRINT-PROGRESS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
+- [docs/archive/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
+- [docs/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
+- [specs/sprint-011-social-features/spec.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
 
 ## Relationships
 
-- [[UI Component State]] (20 shared connections)
+- [[Project Documentation]] (12 shared connections)
 
 ## Source Files
 
-- [specs/001-unified-interface/ANALYSIS-REMEDIATION.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/ANALYSIS-REMEDIATION.md)
-- [specs/001-unified-interface/FR-TO-TASK-MAPPING.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/FR-TO-TASK-MAPPING.md)
-- [specs/001-unified-interface/README.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/README.md)
-- [specs/001-unified-interface/T070-BUNDLE-OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/T070-BUNDLE-OPTIMIZATION.md)
-- [specs/001-unified-interface/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/data-model.md)
-- [specs/001-unified-interface/implementation-summary-t018-t019.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/implementation-summary-t018-t019.md)
-- [specs/001-unified-interface/implementation-summary-t021.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/implementation-summary-t021.md)
+- [docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

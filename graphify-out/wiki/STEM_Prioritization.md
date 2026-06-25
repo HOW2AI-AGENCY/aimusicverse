@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useStemAudioLoader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioLoader.ts#L1) (2 connections)
-- [STEM_PRIORITY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioLoader.ts#L17) (1 connections)
-- [useStemAudioLoader()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioLoader.ts#L45) (1 connections)
+- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
+- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
+- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L57) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioLoader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioLoader.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Waveform Black Color Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [Chunk 16: Player & Audio Components - File List](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_16_FILES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [CHUNK_16_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_16_FILES.md)
 
 ## Audit Trail
 

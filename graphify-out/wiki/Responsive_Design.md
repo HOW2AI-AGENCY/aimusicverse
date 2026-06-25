@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [use-mobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-mobile.tsx#L1) (2 connections)
-- [MOBILE_BREAKPOINT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-mobile.tsx#L10) (1 connections)
-- [useIsMobile()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-mobile.tsx#L12) (1 connections)
+- [radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L1) (2 connections)
+- [RadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L7) (1 connections)
+- [RadioGroupItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\use-mobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/use-mobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx)
 
 ## Audit Trail
 

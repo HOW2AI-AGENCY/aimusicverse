@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L1) (4 connections)
-- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L53) (1 connections)
-- [examples](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L73) (1 connections)
-- [extractArtistFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L32) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L56) (1 connections)
+- [ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L1) (4 connections)
+- [canSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L63) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L44) (1 connections)
+- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L36) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx)
 
 ## Audit Trail
 

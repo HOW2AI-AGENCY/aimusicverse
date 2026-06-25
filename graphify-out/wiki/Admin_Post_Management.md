@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L1) (10 connections)
-- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L29) (1 connections)
-- [{ data: posts, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L32) (1 connections)
-- [{ data: selectedPost, isLoading: isLoadingPost }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L33) (1 connections)
-- [deletePost](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L34) (1 connections)
-- [[editingPost, setEditingPost]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L36) (1 connections)
-- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L30) (1 connections)
-- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L37) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L25) (1 connections)
-- [postSlug](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L27) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L26) (1 connections)
+- [subscriptionStatus.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L1) (11 connections)
+- [currentExpiry](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L146) (1 connections)
+- [{ data }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L68) (1 connections)
+- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L43) (1 connections)
+- [{ data: user }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L26) (1 connections)
+- [expiredAt](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L102) (1 connections)
+- [expiresAt](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L55) (1 connections)
+- [supabase](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L16) (1 connections)
+- [supabaseKey](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L21) (1 connections)
+- [supabaseUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L20) (1 connections)
+- [testUserId](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts#L17) (1 connections)
 
 ## Relationships
 
@@ -22,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\subscriptionStatus.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/subscriptionStatus.test.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 21 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

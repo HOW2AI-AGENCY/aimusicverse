@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L1) (4 connections)
-- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L40) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L42) (1 connections)
-- [StatItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L18) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L39) (1 connections)
+- [SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L1) (4 connections)
+- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L178) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L249) (1 connections)
+- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L57) (1 connections)
+- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L248) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx)
 
 ## Audit Trail
 

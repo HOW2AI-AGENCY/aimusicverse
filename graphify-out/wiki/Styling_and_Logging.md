@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L1) (6 connections)
-- [generateStyleDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L99) (2 connections)
-- [generateTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L123) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L6) (1 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L92) (1 connections)
-- [NOTE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L90) (1 connections)
-- [useGuitarAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts#L166) (1 connections)
+- [usePromptDJFromReference.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L1) (6 connections)
+- [energyToWeight()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L25) (1 connections)
+- [normalizeEnergy()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L106) (1 connections)
+- [normalizeGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L35) (1 connections)
+- [normalizeInstrument()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L119) (1 connections)
+- [normalizeMood()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L73) (1 connections)
+- [usePromptDJFromReference()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L151) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarAnalysis.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJFromReference.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (86%)
-- INFERRED: 2 (14%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

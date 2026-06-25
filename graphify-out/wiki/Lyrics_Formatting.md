@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L1) (9 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L59) (2 connections)
-- [DEFAULT_STYLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L47) (1 connections)
-- [emoji](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L237) (1 connections)
-- [getSectionStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L153) (1 connections)
-- [getTagEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L158) (1 connections)
-- [SECTION_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L32) (1 connections)
-- [StructuredLyricsDisplay()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L166) (1 connections)
-- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L218) (1 connections)
-- [TAG_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx#L50) (1 connections)
+- [VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L1) (9 connections)
+- [{ activeTrack, isPlaying, playTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L24) (1 connections)
+- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L44) (1 connections)
+- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L37) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L109) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L110) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L108) (1 connections)
+- [originalTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L27) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L31) (1 connections)
+- [versionTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L88) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\StructuredLyricsDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/StructuredLyricsDisplay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

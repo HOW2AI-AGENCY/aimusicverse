@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/PROJECT_STATUS.md) (0 connections)
+- [Speckit Analyze Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.analyze.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/PROJECT_STATUS.md)
+- [.kilocode/workflows/speckit.analyze.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.analyze.md)
 
 ## Audit Trail
 

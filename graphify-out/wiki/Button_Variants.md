@@ -1,23 +1,23 @@
 # Button Variants
 
-> 14 nodes · cohesion 0.15
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [button.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L1) (9 connections)
-- [Button.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L1) (5 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L7) (2 connections)
-- [Secondary](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L35) (2 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L27) (1 connections)
-- [Destructive](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L33) (1 connections)
-- [Ghost](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L54) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L68) (1 connections)
-- [Large](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L41) (1 connections)
-- [Link](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L61) (1 connections)
-- [Outline](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L40) (1 connections)
-- [Primary](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L28) (1 connections)
-- [Small](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts#L48) (1 connections)
-- [WithIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx#L75) (1 connections)
+- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
+- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
+- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
+- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
+- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
+- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
+- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
+- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
+- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
+- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
+- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
+- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
+- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
 
 ## Relationships
 
@@ -25,12 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\button.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.stories.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\stories\Button.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.stories.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

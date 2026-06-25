@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
-- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L87) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
-- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
+- [PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L1) (4 connections)
+- [[activeCategory, setActiveCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L15) (1 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L27) (1 connections)
+- [filteredPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L17) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx)
 
 ## Audit Trail
 

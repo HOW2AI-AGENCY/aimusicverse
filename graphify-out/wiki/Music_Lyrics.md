@@ -1,25 +1,26 @@
 # Music Lyrics
 
-> 4 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L1) (3 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L145) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L35) (1 connections)
-- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L156) (1 connections)
+- [DOCUMENTATION_INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md) (2 connections)
+- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md) (2 connections)
+- [specs/SDD-016-Player-Improvements.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md) (2 connections)
+- [SPRINT-029-TELEGRAM-MOBILE-OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md) (2 connections)
+- [SPRINTS/SPRINT-PROGRESS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md) (2 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Project Management]] (10 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx)
+- [docs/archive/2026-01/SESSION_REPORT_2026-01-04.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/SESSION_REPORT_2026-01-04.md)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

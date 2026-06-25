@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Claude Code Workflow](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/claude.yml) (0 connections)
+- [unified-store.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/stores/unified-store.test.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/workflows/claude.yml](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/claude.yml)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\stores\unified-store.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/stores/unified-store.test.ts)
 
 ## Audit Trail
 

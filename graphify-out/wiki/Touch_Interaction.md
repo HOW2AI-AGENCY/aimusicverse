@@ -4,19 +4,19 @@
 
 ## Key Concepts
 
-- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
-- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
-- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (2 connections)
-- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L256) (1 connections)
-- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L219) (1 connections)
-- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
-- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L173) (1 connections)
-- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
-- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
-- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L84) (1 connections)
-- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L130) (1 connections)
-- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L320) (1 connections)
-- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
+- [useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L1) (12 connections)
+- [formatted](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L186) (1 connections)
+- [lines](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L162) (1 connections)
+- [mockAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L26) (1 connections)
+- [mockBPMResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L39) (1 connections)
+- [mockDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L27) (1 connections)
+- [mockNearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L127) (1 connections)
+- [mockPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L145) (1 connections)
+- [mockSnapResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L101) (1 connections)
+- [nearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L136) (1 connections)
+- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L42) (1 connections)
+- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L221) (1 connections)
+- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L116) (1 connections)
 
 ## Relationships
 
@@ -24,8 +24,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts)
 
 ## Audit Trail
 

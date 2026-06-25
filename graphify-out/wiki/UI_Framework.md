@@ -1,17 +1,16 @@
 # UI Framework
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L1) (7 connections)
-- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L28) (1 connections)
-- [observerSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L181) (1 connections)
-- [providers](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L64) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L35) (1 connections)
-- [support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L160) (1 connections)
-- [timing](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L269) (1 connections)
-- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts#L196) (1 connections)
+- [ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L1) (6 connections)
+- [[expandedUsers, setExpandedUsers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L197) (1 connections)
+- [getColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L50) (1 connections)
+- [RISK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L35) (1 connections)
+- [RISK_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L42) (1 connections)
+- [toggleUser()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L199) (1 connections)
+- [{ users, summary, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L192) (1 connections)
 
 ## Relationships
 
@@ -19,11 +18,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\cdn.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/cdn.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

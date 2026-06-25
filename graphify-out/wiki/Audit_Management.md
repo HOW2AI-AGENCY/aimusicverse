@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Interface Audit Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INTERFACE_AUDIT_COMPLETE.md) (0 connections)
+- [Telegram OAuth Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/INTERFACE_AUDIT_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INTERFACE_AUDIT_COMPLETE.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md)
 
 ## Audit Trail
 

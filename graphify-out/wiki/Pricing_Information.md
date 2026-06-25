@@ -4,18 +4,18 @@
 
 ## Key Concepts
 
-- [PackageComparisonTable.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L1) (11 connections)
-- [baseCredits](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L62) (1 connections)
-- [basePricePerCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L63) (1 connections)
-- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L47) (1 connections)
-- [currentPricePerCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L66) (1 connections)
-- [getBestValueId()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L27) (1 connections)
-- [isBestValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L53) (1 connections)
-- [isFeatured](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L54) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L52) (1 connections)
-- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L57) (1 connections)
-- [savingsPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L69) (1 connections)
-- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx#L56) (1 connections)
+- [MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L1) (11 connections)
+- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L142) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L141) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L140) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L201) (1 connections)
+- [getSectionStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L84) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L138) (1 connections)
+- [isActiveSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L79) (1 connections)
+- [playSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L93) (1 connections)
+- [replacement](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L139) (1 connections)
+- [SECTION_BG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L53) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -23,7 +23,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PackageComparisonTable.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PackageComparisonTable.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx)
 
 ## Audit Trail
 

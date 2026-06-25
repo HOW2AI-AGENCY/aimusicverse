@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Critical System Files](file:///D:/.MUSICVERSE/aimusicverse/docs/CRITICAL_FILES.md) (0 connections)
+- [/speckit.taskstoissues command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.taskstoissues.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/CRITICAL_FILES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/CRITICAL_FILES.md)
+- [.claude/commands/speckit.taskstoissues.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.taskstoissues.md)
 
 ## Audit Trail
 

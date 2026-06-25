@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Plan: Fix BottomNav/Player Overlap + e2e Quick Start](file:///D:/.MUSICVERSE/aimusicverse/.lovable/plan.md) (0 connections)
+- [Testing & Quality Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/testing-quality.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.lovable/plan.md](file:///D:/.MUSICVERSE/aimusicverse/.lovable/plan.md)
+- [.github/agents/testing-quality.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/testing-quality.md)
 
 ## Audit Trail
 

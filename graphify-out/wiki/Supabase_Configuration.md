@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L1) (3 connections)
-- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L11) (1 connections)
-- [SUPABASE_PUBLISHABLE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L6) (1 connections)
-- [SUPABASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L5) (1 connections)
+- [useRealTimeAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L1) (3 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L35) (1 connections)
+- [useMultiTrackLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L209) (1 connections)
+- [useRealTimeAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L44) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useRealTimeAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts)
 
 ## Audit Trail
 

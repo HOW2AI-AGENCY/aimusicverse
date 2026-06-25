@@ -4,13 +4,20 @@
 
 ## Key Concepts
 
-- [empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L1) (6 connections)
-- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L89) (1 connections)
-- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L90) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L88) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L59) (1 connections)
-- [Wrapper](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L81) (1 connections)
-- [wrapperProps](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L82) (1 connections)
+- [FeedbackToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L89) (1 connections)
+- [hapticMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L46) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L77) (1 connections)
+- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L30) (1 connections)
+- [iconStyleMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L38) (1 connections)
+- [{
+    type = 'info',
+    haptic = true,
+    action,
+    duration,
+    description,
+    ...rest
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L63) (1 connections)
 
 ## Relationships
 
@@ -18,7 +25,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FeedbackToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx)
 
 ## Audit Trail
 

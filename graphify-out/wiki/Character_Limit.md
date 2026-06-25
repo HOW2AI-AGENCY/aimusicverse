@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [QuickGenerateMode.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L1) (4 connections)
-- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L47) (1 connections)
-- [isOverLimit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L49) (1 connections)
-- [maxChars](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L48) (1 connections)
-- [QUICK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx#L28) (1 connections)
+- [PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L1) (4 connections)
+- [artistMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L27) (1 connections)
+- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L34) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L25) (1 connections)
+- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\QuickGenerateMode.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/QuickGenerateMode.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx)
 
 ## Audit Trail
 

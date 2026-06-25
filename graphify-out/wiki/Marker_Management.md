@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TimelineRuler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx#L1) (1 connections)
-- [markers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx#L17) (1 connections)
+- [RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L1) (1 connections)
+- [modes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\TimelineRuler.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TimelineRuler.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx)
 
 ## Audit Trail
 

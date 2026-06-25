@@ -1,24 +1,60 @@
 # Animation Management
 
-> 15 nodes · cohesion 0.18
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [useReducedMotion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L1) (11 connections)
-- [useReducedMotion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L34) (6 connections)
-- [useStaggerDelay()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L165) (3 connections)
-- [optimized-animations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-animations.tsx#L1) (2 connections)
-- [AnimatedList()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-animations.tsx#L75) (2 connections)
-- [getStaggerStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L153) (2 connections)
-- [useMotionDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L124) (2 connections)
-- [useMotionPreference()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L76) (2 connections)
-- [useMotionSafe()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L115) (2 connections)
-- [LazyComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-animations.tsx#L21) (1 connections)
-- [getInitialState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L26) (1 connections)
-- [instantTransition](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L64) (1 connections)
-- [QUERY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L24) (1 connections)
-- [reducedMotionVariants](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L67) (1 connections)
-- [safeAnimationClasses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts#L136) (1 connections)
+- [DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L1) (13 connections)
+- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L93) (1 connections)
+- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L28) (1 connections)
+- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L70) (1 connections)
+- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L78) (1 connections)
+- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L104) (1 connections)
+- [handleRecord](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L118) (1 connections)
+- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L113) (1 connections)
+- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L149) (1 connections)
+- [handleTrackVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L130) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L135) (1 connections)
+- [{
+    isReady,
+    isPlaying,
+    currentStep,
+    bpm,
+    swing,
+    volume,
+    currentKit,
+    pattern,
+    soloTracks,
+    mutedTracks,
+    stepLength,
+    recordingState,
+    recordedAudioUrl,
+    recordedAudioBlob,
+    trackEffects,
+    initialize,
+    play,
+    stop,
+    toggleStep,
+    triggerSound,
+    setBpm,
+    setSwing,
+    setVolume,
+    setKit,
+    loadPattern,
+    clearPattern,
+    toggleSolo,
+    toggleMute,
+    getAvailableKits,
+    getPresetPatterns,
+    setStepLength,
+    startRecording,
+    stopRecording,
+    clearRecording,
+    setTrackEffect,
+    exportToMidi,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L30) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L26) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -26,13 +62,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\optimized-animations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-animations.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReducedMotion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReducedMotion.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumMachinePro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumMachinePro.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (95%)
-- INFERRED: 2 (5%)
+- EXTRACTED: 26 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

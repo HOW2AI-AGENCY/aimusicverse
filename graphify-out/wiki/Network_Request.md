@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L1) (10 connections)
-- [attempt](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L28) (1 connections)
-- [host](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L15) (1 connections)
-- [intervalMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L19) (1 connections)
-- [lastError](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L29) (1 connections)
-- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L17) (1 connections)
-- [port](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L16) (1 connections)
-- [res](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L34) (1 connections)
-- [start](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L27) (1 connections)
-- [timeoutMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L18) (1 connections)
-- [url](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L21) (1 connections)
+- [InstrumentalSettingsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L1) (10 connections)
+- [[bpm, setBpm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L38) (1 connections)
+- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L39) (1 connections)
+- [DEFAULT_BPM](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L28) (1 connections)
+- [[genre, setGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L36) (1 connections)
+- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L42) (1 connections)
+- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L46) (1 connections)
+- [[mood, setMood]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L37) (1 connections)
+- [selectedGenre](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L53) (1 connections)
+- [selectedMood](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L54) (1 connections)
+- [[showAdvanced, setShowAdvanced]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -22,7 +22,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\InstrumentalSettingsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/InstrumentalSettingsDialog.tsx)
 
 ## Audit Trail
 

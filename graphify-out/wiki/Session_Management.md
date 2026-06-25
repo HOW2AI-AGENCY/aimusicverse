@@ -4,23 +4,19 @@
 
 ## Key Concepts
 
-- [Sprint 011 Implementation Session Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_IMPLEMENTATION_SESSION_2025-12-13.md) (2 connections)
-- [Sprint 011 Session Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_SESSION_SUMMARY.md) (2 connections)
-- [Sprint 011 Session Summary December 13, 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_SESSION_SUMMARY_2025-12-13.md) (2 connections)
-- [Session Summary - Migration Audit & Sprint Continuation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SESSION_SUMMARY_2025-12-13_AUDIT.md) (1 connections)
-- [Sprint 011 Continuation Session](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_SESSION_2025-12-13_CONTINUATION.md) (1 connections)
+- [ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L1) (4 connections)
+- [ANALYSIS_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L6) (1 connections)
+- [PRODUCER_REVIEW_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L164) (1 connections)
+- [SUNO_TAGS_REFERENCE](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L222) (1 connections)
+- [WRITING_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L101) (1 connections)
 
 ## Relationships
 
-- [[Version Management]] (8 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/session-summaries/SESSION_SUMMARY_2025-12-13_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SESSION_SUMMARY_2025-12-13_AUDIT.md)
-- [docs/archive/session-summaries/SPRINT_011_IMPLEMENTATION_SESSION_2025-12-13.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_IMPLEMENTATION_SESSION_2025-12-13.md)
-- [docs/archive/session-summaries/SPRINT_011_SESSION_2025-12-13_CONTINUATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_SESSION_2025-12-13_CONTINUATION.md)
-- [docs/archive/session-summaries/SPRINT_011_SESSION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_SESSION_SUMMARY.md)
-- [docs/archive/session-summaries/SPRINT_011_SESSION_SUMMARY_2025-12-13.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/session-summaries/SPRINT_011_SESSION_SUMMARY_2025-12-13.md)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
 
 ## Audit Trail
 

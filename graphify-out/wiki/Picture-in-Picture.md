@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [usePictureInPicture.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L1) (2 connections)
-- [checkPiPSupport()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L55) (2 connections)
-- [usePictureInPicture()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts#L78) (2 connections)
+- [usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L1) (3 connections)
+- [formatCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L26) (2 connections)
+- [usePlatformStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L70) (2 connections)
 
 ## Relationships
 
@@ -14,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\usePictureInPicture.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePictureInPicture.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [WizardProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L1) (6 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L31) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L39) (1 connections)
-- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L38) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L36) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L37) (1 connections)
-- [STEPS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L17) (1 connections)
+- [LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L1) (6 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L112) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L110) (1 connections)
+- [LyricsCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L54) (1 connections)
+- [LyricsChip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L22) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L109) (1 connections)
+- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L119) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\WizardProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx)
 
 ## Audit Trail
 

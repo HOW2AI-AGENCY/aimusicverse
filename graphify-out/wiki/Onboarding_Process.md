@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Onboarding Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/ONBOARDING.md) (0 connections)
+- [MAINTENANCE.md](file:///D:/.MUSICVERSE/aimusicverse/MAINTENANCE.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/ONBOARDING.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ONBOARDING.md)
+- [MAINTENANCE.md](file:///D:/.MUSICVERSE/aimusicverse/MAINTENANCE.md)
 
 ## Audit Trail
 

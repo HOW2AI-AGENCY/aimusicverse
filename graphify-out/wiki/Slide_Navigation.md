@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L1) (10 connections)
-- [[currentIndex, setCurrentIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L58) (1 connections)
-- [currentSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L61) (1 connections)
-- [[direction, setDirection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L59) (1 connections)
-- [goNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L66) (1 connections)
-- [goPrev](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L76) (1 connections)
-- [goToSlide](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L84) (1 connections)
-- [isFirst](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L62) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L63) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L64) (1 connections)
-- [slideVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx#L90) (1 connections)
+- [ProjectAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L1) (12 connections)
+- [[aiDialogOpen, setAiDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L37) (1 connections)
+- [[analysis, setAnalysis]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L36) (1 connections)
+- [applyImprovement()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L104) (1 connections)
+- [contextData](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L43) (1 connections)
+- [[isAnalyzing, setIsAnalyzing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L34) (1 connections)
+- [[isApplying, setIsApplying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L35) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L32) (1 connections)
+- [savedAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L44) (1 connections)
+- [[selectedField, setSelectedField]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L38) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -22,11 +22,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\FeatureTutorialDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureTutorialDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L1) (4 connections)
-- [TABLET_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L24) (1 connections)
-- [TABLET_MIN](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L23) (1 connections)
-- [useIsTablet()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L26) (1 connections)
-- [useResponsive()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L61) (1 connections)
+- [usePromptBuilder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L1) (4 connections)
+- [getCacheKey()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L13) (2 connections)
+- [MAX_CACHE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L11) (1 connections)
+- [promptCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L10) (1 connections)
+- [usePromptBuilder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -16,12 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptBuilder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 8 (89%)
+- INFERRED: 1 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---

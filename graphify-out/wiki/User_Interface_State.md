@@ -4,13 +4,24 @@
 
 ## Key Concepts
 
-- [StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L1) (6 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L70) (1 connections)
-- [handlePresetChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L73) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L93) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L69) (1 connections)
-- [[isHardwareMode, setIsHardwareMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L71) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx#L68) (1 connections)
+- [StudioMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L1) (6 connections)
+- [handleChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L293) (1 connections)
+- [handlePanChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L126) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L122) (1 connections)
+- [masterVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L53) (1 connections)
+- [{
+    project,
+    selectedTrackId,
+    selectTrack,
+    setMasterVolume,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L38) (1 connections)
+- [{
+    setTrackVolume,
+    setTrackPan,
+    toggleTrackMute,
+    toggleTrackSolo,
+    removeTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L114) (1 connections)
 
 ## Relationships
 
@@ -18,7 +29,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemEffectsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemEffectsDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx)
 
 ## Audit Trail
 

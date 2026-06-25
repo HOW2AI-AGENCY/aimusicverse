@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L35) (1 connections)
-- [useTelegramSensors()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L79) (1 connections)
+- [useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L1) (2 connections)
+- [stemTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L127) (1 connections)
+- [useContextualGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts)
 
 ## Audit Trail
 

@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [EnhancedLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L1) (9 connections)
-- [[customInstruction, setCustomInstruction]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L71) (1 connections)
-- [[editedStyle, setEditedStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L69) (1 connections)
-- [[editedTitle, setEditedTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L68) (1 connections)
-- [[editMode, setEditMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L67) (1 connections)
-- [handleCustomEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L78) (1 connections)
-- [handleQuickEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L73) (1 connections)
-- [handleSaveMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L86) (1 connections)
-- [QUICK_EDIT_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L39) (1 connections)
-- [[showQuickEdits, setShowQuickEdits]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx#L70) (1 connections)
+- [StudioHubPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L1) (8 connections)
+- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx#L24) (2 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L70) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L43) (2 connections)
+- [EmptyLibraryState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx#L1) (1 connections)
+- [[deleteId, setDeleteId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L46) (1 connections)
+- [{ deleteProject, isLoading: isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L47) (1 connections)
+- [getTrackCount()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L79) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L45) (1 connections)
+- [[projects, setProjects]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -21,12 +21,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\EnhancedLyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/EnhancedLyricsPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\EmptyLibraryState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\studio-v2\StudioHubPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 17 (85%)
+- INFERRED: 3 (15%)
 - AMBIGUOUS: 0 (0%)
 
 ---

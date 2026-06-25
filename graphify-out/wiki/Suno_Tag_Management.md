@@ -1,16 +1,16 @@
 # Suno Tag Management
 
-> 7 nodes · cohesion 0.38
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L1) (6 connections)
-- [findSunoTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L235) (3 connections)
-- [getAllSunoTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L228) (2 connections)
-- [getTagLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L260) (2 connections)
-- [parseTagsFromText()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L252) (2 connections)
-- [formatTagForInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L243) (1 connections)
-- [SUNO_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts#L29) (1 connections)
+- [useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L1) (6 connections)
+- [EXCLUDED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L17) (1 connections)
+- [historyLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L14) (1 connections)
+- [selectCanRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L101) (1 connections)
+- [selectCanUndo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L96) (1 connections)
+- [selectHistoryState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L86) (1 connections)
+- [useStudioHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -18,12 +18,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\sunoTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/sunoTags.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (94%)
-- INFERRED: 1 (6%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L1) (2 connections)
-- [audioLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L23) (1 connections)
-- [useAudioPlayer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L44) (1 connections)
+- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
+- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
 
 ## Audit Trail
 

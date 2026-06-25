@@ -4,13 +4,13 @@
 
 ## Key Concepts
 
-- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L1) (6 connections)
-- [isBottomSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L68) (1 connections)
-- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L67) (1 connections)
-- [Sheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L10) (1 connections)
-- [SheetClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L14) (1 connections)
-- [SheetPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L16) (1 connections)
-- [SheetTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L12) (1 connections)
+- [HardwareSwitch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L1) (6 connections)
+- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L28) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L49) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L48) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L51) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L178) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -18,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareSwitch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx)
 
 ## Audit Trail
 

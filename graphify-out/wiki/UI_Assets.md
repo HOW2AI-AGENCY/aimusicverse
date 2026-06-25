@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L1) (3 connections)
-- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L32) (1 connections)
-- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L20) (1 connections)
-- [NotificationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L44) (1 connections)
+- [MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L1) (3 connections)
+- [handleMore()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L62) (2 connections)
+- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L56) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

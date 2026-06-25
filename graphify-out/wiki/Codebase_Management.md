@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Codebase Chunk Information](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_INFO.md) (0 connections)
+- [Speckit TasksToIssues Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.taskstoissues.prompt.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [CHUNK_INFO.md](file:///D:/.MUSICVERSE/aimusicverse/CHUNK_INFO.md)
+- [.github/prompts/speckit.taskstoissues.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.taskstoissues.prompt.md)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 012 Audit Improvements](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-012-AUDIT-IMPROVEMENTS.md) (0 connections)
+- [/speckit.tasks command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [SPRINTS/completed/SPRINT-012-AUDIT-IMPROVEMENTS.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINTS/completed/SPRINT-012-AUDIT-IMPROVEMENTS.md)
+- [.claude/commands/speckit.tasks.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.tasks.md)
 
 ## Audit Trail
 

@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [PublishProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L1) (9 connections)
-- [[bannerDialogOpen, setBannerDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L38) (1 connections)
-- [completedTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L40) (1 connections)
-- [handlePublish()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L45) (1 connections)
-- [handlePublishWithoutBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L59) (1 connections)
-- [hasBanner](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L43) (1 connections)
-- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L108) (1 connections)
-- [isReadyToPublish](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L42) (1 connections)
-- [{ mutate: publishProject, isPending }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L37) (1 connections)
-- [totalTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L41) (1 connections)
+- [SectionQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L1) (9 connections)
+- [availableTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L54) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L63) (1 connections)
+- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L62) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L64) (1 connections)
+- [priorityTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L53) (1 connections)
+- [SECTION_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L15) (1 connections)
+- [{ section, index, isTooLong }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L68) (1 connections)
+- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L22) (1 connections)
+- [sectionsByType](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -21,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\PublishProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx)
 
 ## Audit Trail
 

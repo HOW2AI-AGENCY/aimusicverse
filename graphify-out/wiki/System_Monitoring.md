@@ -1,23 +1,26 @@
 # System Monitoring
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [{ currentMetrics, activeAlerts, healthStatus, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx#L18) (1 connections)
-- [AlertsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx#L1) (1 connections)
+- [Graphify](file:///D:/.MUSICVERSE/aimusicverse/AGENTS.md) (2 connections)
+- [Footer Template](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/FOOTER_TEMPLATE.md) (1 connections)
+- [Header Template](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/HEADER_TEMPLATE.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Web Page Layout]] (4 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\AlertsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx)
+- [AGENTS.md](file:///D:/.MUSICVERSE/aimusicverse/AGENTS.md)
+- [docs/templates/FOOTER_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/FOOTER_TEMPLATE.md)
+- [docs/templates/HEADER_TEMPLATE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/templates/HEADER_TEMPLATE.md)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

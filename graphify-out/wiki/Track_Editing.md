@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L1) (1 connections)
-- [EditTrackDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L34) (1 connections)
+- [SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L1) (1 connections)
+- [SmartAlertProviderWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx)
 
 ## Audit Trail
 

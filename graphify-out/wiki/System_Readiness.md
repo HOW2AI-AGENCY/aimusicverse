@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [pull-to-refresh-indicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pull-to-refresh-indicator.tsx#L1) (1 connections)
-- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pull-to-refresh-indicator.tsx#L26) (1 connections)
+- [TrackStatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx#L1) (1 connections)
+- [TrackStatsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pull-to-refresh-indicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pull-to-refresh-indicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackStatsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackStatsGrid.tsx)
 
 ## Audit Trail
 

@@ -1,27 +1,26 @@
 # Digital Audio Workstation
 
-> 18 nodes · cohesion 0.11
+> 17 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L1) (17 connections)
-- [dawProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L108) (1 connections)
-- [engineId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L115) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L131) (1 connections)
-- [handlers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L87) (1 connections)
-- [handleVersionSaved](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L140) (1 connections)
-- [id](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L49) (1 connections)
-- [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L70) (1 connections)
-- [mainTrackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L72) (1 connections)
-- [mainTrackUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L71) (1 connections)
-- [modalHandlers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L61) (1 connections)
-- [modals](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L60) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L48) (1 connections)
-- [operationLock](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L64) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L57) (1 connections)
-- [{ separate, isSeparating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L67) (1 connections)
-- [studio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L56) (1 connections)
-- [trackForSeparation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L75) (1 connections)
+- [VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L1) (16 connections)
+- [handleVersionSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L56) (2 connections)
+- [activeVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L53) (1 connections)
+- [buildTree()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L75) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L114) (1 connections)
+- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L49) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L51) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L112) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L47) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L48) (1 connections)
+- [letter](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L200) (1 connections)
+- [{ setPrimaryVersionAsync, isSettingPrimary }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L50) (1 connections)
+- [TypeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L115) (1 connections)
+- [versionCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L54) (1 connections)
+- [versionTree](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L83) (1 connections)
+- [versionType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L113) (1 connections)
+- [versionTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -29,12 +28,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\shared\VersionTree.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/VersionTree.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 32 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---

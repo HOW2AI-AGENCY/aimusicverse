@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [AILyricsAssistantDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AILyricsAssistantDialog.tsx#L1) (4 connections)
-- [AILyricsAssistantDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AILyricsAssistantDialog.tsx#L51) (1 connections)
-- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AILyricsAssistantDialog.tsx#L22) (1 connections)
-- [MOODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AILyricsAssistantDialog.tsx#L33) (1 connections)
-- [STRUCTURES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AILyricsAssistantDialog.tsx#L44) (1 connections)
+- [QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L1) (4 connections)
+- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L40) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L42) (1 connections)
+- [StatItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L18) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -16,7 +16,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AILyricsAssistantDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AILyricsAssistantDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx)
 
 ## Audit Trail
 

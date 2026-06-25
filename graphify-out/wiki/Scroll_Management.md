@@ -1,17 +1,17 @@
 # Scroll Management
 
-> 8 nodes · cohesion 0.25
+> 8 nodes · cohesion 0.39
 
 ## Key Concepts
 
-- [horizontal-scroll-fade.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L1) (7 connections)
-- [[canScrollLeft, setCanScrollLeft]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L24) (1 connections)
-- [[canScrollRight, setCanScrollRight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L25) (1 connections)
-- [checkScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L27) (1 connections)
-- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L36) (1 connections)
-- [resizeObserver](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L42) (1 connections)
-- [scrollBy()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L51) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx#L23) (1 connections)
+- [useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L1) (7 connections)
+- [useMusicGraphData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L155) (5 connections)
+- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L96) (2 connections)
+- [useMusicStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L112) (2 connections)
+- [useStyleTagMappings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L127) (2 connections)
+- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L141) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L70) (1 connections)
+- [GENRE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L83) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\horizontal-scroll-fade.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/horizontal-scroll-fade.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

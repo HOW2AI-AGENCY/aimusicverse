@@ -4,19 +4,17 @@
 
 ## Key Concepts
 
-- [UI/UX Audit and Optimization Project README](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/README.md) (2 connections)
-- [MusicVerse AI Project Logic and Interface Audit Summary (English)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md) (1 connections)
-- [MusicVerse AI Project Logic and Interface Audit Summary (Russian)](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_RU.md) (1 connections)
+- [useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L1) (2 connections)
+- [projectLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L24) (1 connections)
+- [useProjectStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L53) (1 connections)
 
 ## Relationships
 
-- [[Subscription Management]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_EN.md)
-- [specs/001-ui-ux-audit/AUDIT_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/AUDIT_SUMMARY_RU.md)
-- [specs/001-ui-ux-audit/README.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/README.md)
+- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts)
 
 ## Audit Trail
 

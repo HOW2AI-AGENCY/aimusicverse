@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.constitution command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.constitution.md) (0 connections)
+- [Bot Main Menu Screenshot](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/main-menu.jpg) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.roo/commands/speckit.constitution.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.constitution.md)
+- [public/images/bot/main-menu.jpg](file:///D:/.MUSICVERSE/aimusicverse/public/images/bot/main-menu.jpg)
 
 ## Audit Trail
 

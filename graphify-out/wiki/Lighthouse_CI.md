@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Lighthouse CI Workflow](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/lighthouse-ci.yml) (0 connections)
+- [Sprint 2 Test Plan](file:///D:/.MUSICVERSE/aimusicverse/SPRINT_002_TEST_PLAN.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/workflows/lighthouse-ci.yml](file:///D:/.MUSICVERSE/aimusicverse/.github/workflows/lighthouse-ci.yml)
+- [SPRINT_002_TEST_PLAN.md](file:///D:/.MUSICVERSE/aimusicverse/SPRINT_002_TEST_PLAN.md)
 
 ## Audit Trail
 

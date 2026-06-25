@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L1) (2 connections)
-- [DEFAULT_STATE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L35) (1 connections)
-- [useOptimizedPlayback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts#L43) (1 connections)
+- [useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L1) (2 connections)
+- [useScrollReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L44) (1 connections)
+- [useStaggeredReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L120) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useOptimizedPlayback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useOptimizedPlayback.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts)
 
 ## Audit Trail
 

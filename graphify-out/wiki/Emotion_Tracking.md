@@ -1,13 +1,13 @@
 # Emotion Tracking
 
-> 4 nodes · cohesion 0.83
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [EmotionBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmotionBadge.tsx#L1) (3 connections)
-- [getEmotionInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmotionBadge.tsx#L19) (3 connections)
-- [EmotionBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmotionBadge.tsx#L54) (2 connections)
-- [EmotionIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmotionBadge.tsx#L85) (2 connections)
+- [TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L1) (3 connections)
+- [isAllowed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L50) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L27) (1 connections)
+- [toggleRemixMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -15,11 +15,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\EmotionBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/EmotionBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

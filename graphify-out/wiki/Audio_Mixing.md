@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L1) (3 connections)
-- [getMixPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L229) (1 connections)
-- [getPresetStemSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L236) (1 connections)
-- [MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L27) (1 connections)
+- [useMidiVisualization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L1) (3 connections)
+- [generateNoteId()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L72) (2 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L64) (1 connections)
+- [useMidiVisualization()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts#L76) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiVisualization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiVisualization.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---

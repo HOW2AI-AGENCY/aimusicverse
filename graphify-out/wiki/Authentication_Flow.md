@@ -1,14 +1,14 @@
 # Authentication Flow
 
-> 5 nodes · cohesion 0.50
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L1) (4 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L38) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L29) (2 connections)
-- [{ data: adminAuth, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L31) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L30) (1 connections)
+- [registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L1) (4 connections)
+- [getHintsByContext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L220) (1 connections)
+- [HINT_ALIASES](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L203) (1 connections)
+- [HINT_REGISTRY](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L28) (1 connections)
+- [resolveHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L213) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

@@ -4,12 +4,12 @@
 
 ## Key Concepts
 
-- [useRoutePreloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L1) (3 connections)
-- [NavigationProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx#L13) (2 connections)
-- [useRoutePreloader()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L23) (2 connections)
-- [NavigationProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx#L1) (1 connections)
-- [adjacentRoutes](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L11) (1 connections)
-- [usePreloadOnHover()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts#L53) (1 connections)
+- [useAutoTagDiscovery.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L1) (5 connections)
+- [useAddStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L135) (1 connections)
+- [useAddTag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L108) (1 connections)
+- [useAddTagRelationship()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L162) (1 connections)
+- [useAutoTagDiscovery()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L23) (1 connections)
+- [useLearnFromGenerations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L199) (1 connections)
 
 ## Relationships
 
@@ -17,13 +17,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\NavigationProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NavigationProvider.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useRoutePreloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useRoutePreloader.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAutoTagDiscovery.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (80%)
-- INFERRED: 2 (20%)
+- EXTRACTED: 10 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [React Hooks Undefined Error - Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md) (0 connections)
+- [Waveform Black Color Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/FIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY.md)
+- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
 
 ## Audit Trail
 

@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L1) (3 connections)
-- [columnClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L150) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L156) (1 connections)
-- [handleItemPress](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx#L54) (1 connections)
+- [useStudioTrackState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L38) (2 connections)
+- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L17) (2 connections)
+- [useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L1) (1 connections)
+- [useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,12 +15,13 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\hooks\useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---

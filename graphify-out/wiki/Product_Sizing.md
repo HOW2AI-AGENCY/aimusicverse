@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [AppLogo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L1) (3 connections)
-- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L22) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L48) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L31) (1 connections)
+- [AnalysisResultsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L1) (3 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L44) (1 connections)
+- [availableTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L48) (1 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\branding\AppLogo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\AnalysisResultsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx)
 
 ## Audit Trail
 

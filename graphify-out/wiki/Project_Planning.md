@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.plan command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.plan.md) (0 connections)
+- [Specification Quality Checklist Unified Interface Application](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/checklists/requirements.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.claude/commands/speckit.plan.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.plan.md)
+- [specs/001-unified-interface/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/checklists/requirements.md)
 
 ## Audit Trail
 

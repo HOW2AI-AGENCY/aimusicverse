@@ -1,17 +1,17 @@
 # Caching System
 
-> 8 nodes · cohesion 0.25
+> 8 nodes · cohesion 0.32
 
 ## Key Concepts
 
-- [useWaveformCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L1) (7 connections)
-- [accessOrder](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L21) (1 connections)
-- [CACHE_MAX_AGE_MS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L16) (1 connections)
-- [CACHE_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L15) (1 connections)
-- [MEMORY_CACHE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L17) (1 connections)
-- [memoryCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L20) (1 connections)
-- [updateAccessOrder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L23) (1 connections)
-- [useWaveformCache()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts#L42) (1 connections)
+- [ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L1) (7 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L17) (3 connections)
+- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L49) (2 connections)
+- [handleGoHome()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L44) (2 connections)
+- [errorDetails](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L21) (1 connections)
+- [errorMessage](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L20) (1 connections)
+- [handleRefresh()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L39) (1 connections)
+- [{ hapticFeedback, showBackButton, hideBackButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -19,11 +19,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useWaveformCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useWaveformCache.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

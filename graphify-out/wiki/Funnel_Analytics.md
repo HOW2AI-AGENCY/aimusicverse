@@ -1,13 +1,13 @@
 # Funnel Analytics
 
-> 4 nodes · cohesion 0.67
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [fetchFunnelDropoffStats()](file:///D:/.MUSICVERSE/aimusicverse/src/api/analytics.api.ts#L246) (4 connections)
-- [funnel.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts#L1) (2 connections)
-- [analyzeFunnelDropoff()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts#L19) (2 connections)
-- [getFunnelDropoffStats()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts#L62) (2 connections)
+- [useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L1) (3 connections)
+- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L49) (1 connections)
+- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L59) (1 connections)
+- [useExtendProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L69) (1 connections)
 
 ## Relationships
 
@@ -15,13 +15,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\analytics.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/analytics.api.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\funnel.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 5 (50%)
-- INFERRED: 5 (50%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

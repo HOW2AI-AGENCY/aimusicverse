@@ -1,34 +1,34 @@
 # Music Production Agents
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [Available Agents](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L5) (8 connections)
-- [GitHub Copilot Agents for MusicVerse](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L1) (4 connections)
-- [README.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L1) (1 connections)
-- [Agent Selection Guide](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L82) (1 connections)
-- [🔌 API Integration Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L15) (1 connections)
-- [🎵 Audio & DAW Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L23) (1 connections)
-- [🗄️ Backend & Database Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L7) (1 connections)
-- [🐛 Error Debugger Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L47) (1 connections)
-- [How to Use](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L63) (1 connections)
-- [📱 Mobile & Telegram Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L39) (1 connections)
-- [⚛️ React & TypeScript Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L31) (1 connections)
-- [✅ Testing & Quality Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md#L55) (1 connections)
+- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
+- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
+- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L19) (3 connections)
+- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
+- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
+- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L233) (1 connections)
+- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L258) (1 connections)
+- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L153) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L132) (1 connections)
+- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
 
 ## Relationships
 
-- [[User Interface Actions]] (22 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [.github/agents/README.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/README.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (87%)
+- INFERRED: 3 (13%)
 - AMBIGUOUS: 0 (0%)
 
 ---

@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [TrackBadges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/TrackBadges.tsx#L1) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/TrackBadges.tsx#L40) (1 connections)
+- [VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L1) (1 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\shared\TrackBadges.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/shared/TrackBadges.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx)
 
 ## Audit Trail
 

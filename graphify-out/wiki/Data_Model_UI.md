@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Data Model UI Component Unification Phase 2](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/data-model.md) (0 connections)
+- [Browser Tests Implementation Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [specs/002-ui-component-unification/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/data-model.md)
+- [docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/BROWSER_TESTS_SUMMARY.md)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Implementation Summary Sprint 2 T028-T032](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/implementation-summary-t028-t032.md) (0 connections)
+- [Player Crash Fix Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [specs/001-unified-interface/implementation-summary-t028-t032.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/implementation-summary-t028-t032.md)
+- [docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_CRASH_FIX_2025-12-09.md)
 
 ## Audit Trail
 

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Specification Quality Checklist MusicVerse AI Platform](file:///D:/.MUSICVERSE/aimusicverse/docs/checklists/requirements_quality.md) (0 connections)
+- [/speckit.analyze agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.analyze.agent.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/checklists/requirements_quality.md](file:///D:/.MUSICVERSE/aimusicverse/docs/checklists/requirements_quality.md)
+- [.github/agents/speckit.analyze.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.analyze.agent.md)
 
 ## Audit Trail
 

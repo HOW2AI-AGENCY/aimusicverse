@@ -1,23 +1,28 @@
 # File Migration
 
-> 14 nodes · cohesion 0.16
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [migrate-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L1) (13 connections)
-- [migrateFile()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L92) (4 connections)
-- [getFilesToMigrate()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L39) (2 connections)
-- [isPascalCase()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L34) (2 connections)
-- [toKebabCase()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L26) (2 connections)
-- [__dirname](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L20) (1 connections)
-- [DRY_RUN](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L23) (1 connections)
-- [failed](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L157) (1 connections)
-- [__filename](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L19) (1 connections)
-- [files](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L147) (1 connections)
-- [migrated](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L156) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L160) (1 connections)
-- [SRC_DIR](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L22) (1 connections)
-- [updateImports()](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js#L76) (1 connections)
+- [GenreTabsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L1) (13 connections)
+- [activeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L156) (1 connections)
+- [[activeGenre, setActiveGenre]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L103) (1 connections)
+- [activeGenreTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L119) (1 connections)
+- [{
+    data: infiniteData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L106) (1 connections)
+- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L33) (1 connections)
+- [handleLoadMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L162) (1 connections)
+- [handleTabChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L158) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L180) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L181) (1 connections)
+- [{ preferredGenres }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L84) (1 connections)
+- [sortedGenres](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L87) (1 connections)
+- [trackCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L182) (1 connections)
+- [tracksByGenre](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx#L126) (1 connections)
 
 ## Relationships
 
@@ -25,12 +30,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\migrate-filenames.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/migrate-filenames.js)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\GenreTabsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/GenreTabsSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (94%)
-- INFERRED: 2 (6%)
+- EXTRACTED: 26 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

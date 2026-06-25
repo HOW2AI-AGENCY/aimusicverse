@@ -1,11 +1,12 @@
 # Shadow Management
 
-> 2 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L1) (1 connections)
-- [shadows](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts#L6) (1 connections)
+- [paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L1) (2 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L15) (1 connections)
+- [wrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -13,11 +14,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tailwind.config.ts](file:///D:/.MUSICVERSE/aimusicverse/tailwind.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\integration\paymentFlow.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/paymentFlow.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

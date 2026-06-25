@@ -4,17 +4,10 @@
 
 ## Key Concepts
 
-- [SwipeableListItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L1) (3 connections)
-- [hasLeft](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L52) (1 connections)
-- [hasRight](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L53) (1 connections)
-- [{
-    offset,
-    isOpen,
-    activeAction,
-    handlers,
-    executeAction,
-    close,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx#L38) (1 connections)
+- [collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L1) (3 connections)
+- [Collapsible](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L3) (1 connections)
+- [CollapsibleContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L7) (1 connections)
+- [CollapsibleTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx#L5) (1 connections)
 
 ## Relationships
 
@@ -22,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\SwipeableListItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/SwipeableListItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\collapsible.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/collapsible.tsx)
 
 ## Audit Trail
 

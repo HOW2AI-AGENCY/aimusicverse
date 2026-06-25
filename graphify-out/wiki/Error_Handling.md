@@ -4,10 +4,10 @@
 
 ## Key Concepts
 
-- [vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L1) (3 connections)
-- [originalError](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L140) (1 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L125) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L126) (1 connections)
+- [useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L1) (3 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L36) (1 connections)
+- [useMultiStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L205) (1 connections)
+- [useStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L42) (1 connections)
 
 ## Relationships
 
@@ -15,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\__tests__\vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts)
 
 ## Audit Trail
 

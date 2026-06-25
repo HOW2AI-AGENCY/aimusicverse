@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L1) (2 connections)
-- [RadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L7) (1 connections)
-- [RadioGroupItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L15) (1 connections)
+- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L21) (1 connections)
+- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
 
 ## Audit Trail
 

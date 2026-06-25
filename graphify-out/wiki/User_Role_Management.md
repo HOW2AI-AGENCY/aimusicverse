@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [isAssistant](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L15) (1 connections)
-- [ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx#L1) (1 connections)
+- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L36) (1 connections)
+- [AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatMessageBubble.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatMessageBubble.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx)
 
 ## Audit Trail
 

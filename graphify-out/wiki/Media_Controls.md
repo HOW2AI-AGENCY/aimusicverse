@@ -4,20 +4,10 @@
 
 ## Key Concepts
 
-- [ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L1) (3 connections)
-- [handleMenuClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L56) (1 connections)
-- [handlePlayClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L50) (1 connections)
-- [{
-    sheetOpen,
-    setSheetOpen,
-    isHovered,
-    isCurrentlyPlaying,
-    handlePlay,
-    handleCardClick,
-    handleMouseEnter,
-    handleMouseLeave,
-    openSheet,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L38) (1 connections)
+- [AddTrackDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx#L41) (2 connections)
+- [AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx#L1) (2 connections)
+- [getDefaultTrackName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx#L27) (1 connections)
+- [AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AddTrackDialog.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -25,7 +15,8 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AddTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx)
 
 ## Audit Trail
 

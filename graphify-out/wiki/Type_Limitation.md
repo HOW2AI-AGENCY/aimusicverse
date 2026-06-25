@@ -4,9 +4,9 @@
 
 ## Key Concepts
 
-- [MobileAudioWarning.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MobileAudioWarning.tsx#L1) (2 connections)
-- [limitedTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MobileAudioWarning.tsx#L31) (1 connections)
-- [moreCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MobileAudioWarning.tsx#L36) (1 connections)
+- [VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L1) (2 connections)
+- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L17) (1 connections)
+- [VerificationBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -14,7 +14,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\MobileAudioWarning.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MobileAudioWarning.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx)
 
 ## Audit Trail
 

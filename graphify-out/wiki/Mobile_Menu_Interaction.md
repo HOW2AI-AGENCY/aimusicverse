@@ -4,15 +4,15 @@
 
 ## Key Concepts
 
-- [HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L1) (8 connections)
-- [getGreeting()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L35) (1 connections)
-- [handleMenuClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L72) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L69) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L70) (1 connections)
-- [[menuOpen, setMenuOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L67) (1 connections)
-- [MoreMenuSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L26) (1 connections)
-- [{ text, icon, gradient }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L66) (1 connections)
-- [unreadCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L68) (1 connections)
+- [MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L1) (8 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L109) (1 connections)
+- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L33) (1 connections)
+- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L66) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L61) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L49) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L46) (1 connections)
+- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L34) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -20,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx)
 
 ## Audit Trail
 

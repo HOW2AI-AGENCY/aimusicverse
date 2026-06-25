@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint Planning Work Summary December 12 2025](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md) (0 connections)
+- [aimusicverse Development Guidelines](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/copilot-instructions.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_PLANNING_WORK_SUMMARY_2025-12-12.md)
+- [.github/agents/copilot-instructions.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/copilot-instructions.md)
 
 ## Audit Trail
 

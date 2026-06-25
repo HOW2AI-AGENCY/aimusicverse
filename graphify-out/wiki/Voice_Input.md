@@ -4,11 +4,11 @@
 
 ## Key Concepts
 
-- [VoiceInputButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx#L1) (2 connections)
-- [useVoiceInput()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts#L15) (2 connections)
-- [VoiceInputButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx#L16) (2 connections)
-- [useVoiceInput.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts#L1) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx#L48) (1 connections)
+- [useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L1) (4 connections)
+- [TABLET_MAX](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L24) (1 connections)
+- [TABLET_MIN](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L23) (1 connections)
+- [useIsTablet()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L26) (1 connections)
+- [useResponsive()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -16,13 +16,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\VoiceInputButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/VoiceInputButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useVoiceInput.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useVoiceInput.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTablet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTablet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (75%)
-- INFERRED: 2 (25%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---

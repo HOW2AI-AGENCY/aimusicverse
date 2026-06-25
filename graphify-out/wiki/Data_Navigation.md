@@ -4,25 +4,43 @@
 
 ## Key Concepts
 
-- [MobileGraphView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L1) (18 connections)
-- [handleBack](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L114) (2 connections)
-- [handleSwipe()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L135) (2 connections)
-- [currentItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L98) (1 connections)
-- [[drillLevel, setDrillLevel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L41) (1 connections)
-- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L47) (1 connections)
-- [GroupCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L409) (1 connections)
-- [groupedData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L76) (1 connections)
-- [groups](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L186) (1 connections)
-- [handleClusterSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L125) (1 connections)
-- [handleGroupSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L130) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L319) (1 connections)
-- [NODE_TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L26) (1 connections)
-- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L33) (1 connections)
-- [related](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L345) (1 connections)
-- [relatedId](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L344) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L44) (1 connections)
-- [[selectedCluster, setSelectedCluster]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L42) (1 connections)
-- [[selectedGroup, setSelectedGroup]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx#L43) (1 connections)
+- [TrackLanesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L1) (18 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L434) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L34) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L52) (1 connections)
+- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L342) (1 connections)
+- [handleTimelineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L57) (1 connections)
+- [handleZoomIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L66) (1 connections)
+- [handleZoomOut](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L70) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L412) (1 connections)
+- [isMajor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L418) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L35) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L344) (1 connections)
+- [markers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L409) (1 connections)
+- [{
+    project,
+    currentTime,
+    isPlaying,
+    zoom,
+    snapToGrid,
+    selectedTrackId,
+    selectedClipId,
+    setZoom,
+    setSnapToGrid,
+    selectTrack,
+    selectClip,
+    seek,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L37) (1 connections)
+- [{
+    setTrackVolume,
+    toggleTrackMute,
+    toggleTrackSolo,
+    removeTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L206) (1 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L417) (1 connections)
+- [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L53) (1 connections)
+- [trackHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L54) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L343) (1 connections)
 
 ## Relationships
 
@@ -30,11 +48,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\MobileGraphView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/MobileGraphView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\TrackLanesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 38 (100%)
+- EXTRACTED: 36 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

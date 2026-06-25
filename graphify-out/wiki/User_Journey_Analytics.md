@@ -4,17 +4,17 @@
 
 ## Key Concepts
 
-- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
-- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
-- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L19) (3 connections)
-- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
-- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
-- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L233) (1 connections)
-- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L258) (1 connections)
-- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L153) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L132) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
+- [mention-parser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L1) (10 connections)
+- [getUniqueMentionedUserIds()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L81) (4 connections)
+- [generateMentionNotifications()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L59) (2 connections)
+- [validateMentionLimit()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L157) (2 connections)
+- [countMentions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L148) (1 connections)
+- [createMentionClickHandler()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L132) (1 connections)
+- [extractMentions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L10) (1 connections)
+- [formatMentionsAsLinks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L101) (1 connections)
+- [getMentionSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L178) (1 connections)
+- [isUserMentioned()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L89) (1 connections)
+- [validateMentions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -22,13 +22,12 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\mention-parser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (87%)
-- INFERRED: 3 (13%)
+- EXTRACTED: 22 (88%)
+- INFERRED: 3 (12%)
 - AMBIGUOUS: 0 (0%)
 
 ---

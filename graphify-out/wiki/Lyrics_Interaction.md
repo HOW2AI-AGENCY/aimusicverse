@@ -1,16 +1,23 @@
 # Lyrics Interaction
 
-> 7 nodes · cohesion 0.29
+> 7 nodes · cohesion 0.38
 
 ## Key Concepts
 
-- [LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L1) (6 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L112) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L110) (1 connections)
-- [LyricsCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L54) (1 connections)
-- [LyricsChip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L22) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L109) (1 connections)
-- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L119) (1 connections)
+- [LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L1) (6 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L57) (3 connections)
+- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L45) (2 connections)
+- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L35) (2 connections)
+- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L89) (1 connections)
+- [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L88) (1 connections)
+- [{ 
+    undo, 
+    redo, 
+    canUndo, 
+    canRedo, 
+    getHistoryLength, 
+    getHistoryIndex 
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -18,11 +25,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 

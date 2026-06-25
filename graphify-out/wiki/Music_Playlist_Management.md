@@ -1,14 +1,14 @@
 # Music Playlist Management
 
-> 5 nodes · cohesion 0.40
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L1) (4 connections)
-- [TrackListContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L16) (1 connections)
-- [TrackListProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L27) (1 connections)
-- [useTrackInList()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L52) (1 connections)
-- [useTrackListContext()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx#L44) (1 connections)
+- [AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L1) (4 connections)
+- [useAIAssistant()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L175) (2 connections)
+- [useIsAIAssistantEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L186) (2 connections)
+- [AIAssistantContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L49) (1 connections)
+- [AIAssistantProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -16,11 +16,11 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\TrackListContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TrackListContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
