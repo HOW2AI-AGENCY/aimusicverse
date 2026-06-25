@@ -25,6 +25,7 @@ import {
   FileText,
   FlaskConical,
   Layers,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { glass } from '@/lib/glass';
@@ -46,6 +47,8 @@ interface StudioActionsSheetProps {
   onOpenMusicLab?: () => void;
   /** Open Lyrics editor (unified interface) */
   onOpenLyrics?: () => void;
+  /** Open Presets library (apply/save mixer & effects presets) */
+  onOpenPresets?: () => void;
   /** Open Batch Processing panel */
   onOpenBatchProcessing?: () => void;
 }
@@ -120,6 +123,7 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
   onBack,
   onOpenMusicLab,
   onOpenLyrics,
+  onOpenPresets,
   onOpenBatchProcessing,
 }: StudioActionsSheetProps) {
   const handleAction = (action: () => void) => {
@@ -136,7 +140,7 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
 
         <div className="space-y-1">
           {/* Creative tools - MusicLab and Lyrics (unified interface) */}
-          {(onOpenMusicLab || onOpenLyrics) && (
+          {(onOpenMusicLab || onOpenLyrics || onOpenPresets) && (
             <div className="space-y-1 pb-3 border-b border-border/50">
               {onOpenMusicLab && (
                 <ActionItem
@@ -153,6 +157,14 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
                   label="Редактор текста"
                   description="AI помощник, версии"
                   onClick={() => handleAction(onOpenLyrics)}
+                />
+              )}
+              {onOpenPresets && (
+                <ActionItem
+                  icon={<SlidersHorizontal className="w-5 h-5" />}
+                  label="Пресеты"
+                  description="Применить или сохранить настройки"
+                  onClick={() => handleAction(onOpenPresets)}
                 />
               )}
             </div>
