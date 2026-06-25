@@ -28,10 +28,13 @@ export interface StudioShellMobileNavProps {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
+  masterVolume: number;
   onPlayPause: () => void;
   onSeek: (time: number) => void;
-  onSeekBackward: () => void;
-  onSeekForward: () => void;
+  onSkipBack: () => void;
+  onSkipForward: () => void;
+  onMasterMuteToggle: () => void;
+  onOpenActions: () => void;
 
   // Layout
   className?: string;
@@ -49,10 +52,13 @@ export const StudioShellMobileNav = React.forwardRef<
   isPlaying,
   currentTime,
   duration,
+  masterVolume,
   onPlayPause,
   onSeek,
-  onSeekBackward,
-  onSeekForward,
+  onSkipBack,
+  onSkipForward,
+  onMasterMuteToggle,
+  onOpenActions,
   className,
 }, ref) => {
   return (
@@ -72,10 +78,13 @@ export const StudioShellMobileNav = React.forwardRef<
         isPlaying={isPlaying}
         currentTime={currentTime}
         duration={duration}
+        masterVolume={masterVolume}
         onPlayPause={onPlayPause}
         onSeek={onSeek}
-        onSeekBackward={onSeekBackward}
-        onSeekForward={onSeekForward}
+        onSkipBack={onSkipBack}
+        onSkipForward={onSkipForward}
+        onMasterMuteToggle={onMasterMuteToggle}
+        onOpenActions={onOpenActions}
       />
     </div>
   );
