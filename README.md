@@ -105,15 +105,15 @@
 
 | Метрика | Текущее | Цель | Прогресс |
 |---------|---------|------|----------|
-| 👥 Пользователи | 574 | 1,000+ | 🟡 57% |
-| 🎵 Треков создано | 1,666+ | 5,000+ | 🟡 33% |
-| 📈 Месячных генераций | 1,217 | 2,000+ | 🟡 61% |
-| ✅ Успешность | ~88% | >92% | 🔴 Улучшается |
+| 👥 Пользователи | 574+ | 1,000+ | 🟡 57% |
+| 🎵 Треков создано | 1,800+ | 5,000+ | 🟡 36% |
+| 📈 Месячных генераций | 1,217+ | 2,000+ | 🟡 61% |
+| ✅ Успешность генерации | ~88% | >92% | 🟡 Улучшается |
 | 📱 DAU | ~25 | 50+ | 🟡 50% |
 
 **Общее состояние**: 🟢 **95/100** — Production Ready
 
-**Текущий спринт**: [Sprint A — Надёжность и стабильность](docs/SPRINT_A_PROGRESS.md)
+**Текущий фокус**: Voice Cloning Integration + UI Improvements (Spec 001)
 
 ---
 
@@ -132,55 +132,30 @@
 
 ### ✅ Реализованные улучшения (2026)
 
-#### ✅ Фаза 1: Немедленные действия (Завершено)
-- 🛠️ Внедрён commitlint для Conventional Commits
-- 🔍 Выявлено 211 устаревших веток (215 → 211)
-- 🔒 Добавлены скрипты безопасности (npm audit, SAST/DAST)
-- 📚 Создана документация безопасности
-
-#### ✅ Фаза 2: Краткосрочные улучшения (Завершено)
-- 🏗️ **Рефакторинг сервисов**: Разбиты на модульные файлы (<500 строк)
-- 📋 **Анализ TODO**: 23 элемента проанализированы (0 критичных проблем)
-- 🚀 **Руководства**: 5 новых документов (200+ страниц)
-- 🔧 **Troubleshooting**: Комплексные руководства
-- 📊 **Система кодов ошибок**: Стандартизированная обработка
-
-#### ✅ Фаза 3: Voice Cloning Integration (НОВОЕ!)
-- 🎙️ **Voice Cloning Studio**: 6-шаговый процесс клонирования голосов
-- 🔌 **Suno Voice API**: Полная интеграция с Suno Voice API
-- 🎤 **Custom Voices**: Создание собственных AI голосов
-- 📊 **Voice Library**: Библиотека кастомных голосов
-- 🔄 **Webhook Handlers**: Автоматические оповещения от Suno API
-- 🗄️ **Database Schema**: Новые таблицы для голосов и задач
-
-**Здоровье репозитория**: 68/100 → **95/100** 🟢  
-**Функциональность**: Достигнута 100% → **105%** (с voice cloning)  
-
-### 🔄 Текущие улучшения
-- 🔄 Выполнение cleanup-stale-branches.sh (созидание и безопасность)
-- 📋 Увеличение покрытия тестами (70% → 80%)
-- 🧪 Тестирование voice cloning workflow
-- 📝 Документация voice cloning API
-
-**План действий**: [Подробнее](commitlint.config.js) | [Скрипт очистки](scripts/cleanup-stale-branches.sh)
-
-### 🎉 Завершённые улучшения (Июнь 2026)
-
 #### ✅ Фаза 1: Немедленные действия
 - 🛠️ Внедрён commitlint для Conventional Commits
-- 🔍 Выявлено 211 устаревших веток (215 → 211 устаревших)
-- 🔒 Добавлены скрипты безопасности (npm audit, SAST/DAST)
-- 📚 Создана документация безопасности (SECURITY_OPERATIONS.md)
+- 🔍 Очистка устаревших веток (215 → 211)
+- 🔒 Скрипты безопасности (npm audit, SAST/DAST)
+- 📚 Документация безопасности (SECURITY_OPERATIONS.md)
 
-#### ✅ Фаза 2: Краткосрочные улучшения (Завершено)
-- 🏗️ **Рефакторинг сервисов**: Разбиты на модульные файлы (<500 строк)
-- 📋 **Анализ TODO**: 23 элемента проанализированы (0 критичных проблем)
-- 🚀 **Руководства по развёртыванию**: 5 новых документов (200+ страниц)
-- 🔧 **Troubleshooting**: Комплексные руководства по устранению проблем
-- 📊 **Система кодов ошибок**: Стандартизированная обработка ошибок
+#### ✅ Фаза 2: Краткосрочные улучшения
+- 🏗️ **Рефакторинг сервисов**: Модульные файлы (<500 строк)
+- 📋 **Анализ TODO**: 23 элемента (0 критичных)
+- 🚀 **Руководства**: 5 документов (200+ страниц)
+- 🔧 **Troubleshooting & Error Codes**: Стандартизированная обработка
 
-**Здоровье репозитория**: 68/100 → **85/100** 🟢  
-**Следующий шаг**: Фаза 3 - Долгосрочная оптимизация (5-8 недель)
+#### ✅ Фаза 3: Voice Cloning Integration
+- 🎙️ **Voice Cloning Studio**: 6-шаговый процесс клонирования голосов
+- 🔌 **Suno Voice API**: Полная интеграция с webhook-обработкой
+- 🎤 **Custom Voices**: Создание и библиотека собственных AI голосов
+- 🗄️ **Database Schema**: Новые таблицы для голосов и задач
+
+#### 🔄 Фаза 4: UI Improvements (В процессе)
+- 📋 **Spec 001**: UI Improvements — спецификация, план, задачи ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+- 🧪 Тестирование voice cloning workflow
+- 📋 Увеличение покрытия тестами (70% → 80%)
+
+**Здоровье репозитория**: 68/100 → **95/100** 🟢
 
 ---
 
@@ -211,9 +186,8 @@
 MusicVerse AI/
 ├── src/
 │   ├── api/              # API-клиенты и интеграции
-│   │   ├── voices.api.ts         # Voice cloning API ⭐ НОВОЕ
-│   │   └── ... (13 API modules)
-│   ├── components/       # 180+ React-компонентов
+│   │   └── ... (21 API modules)
+│   ├── components/       # 1130+ React-компонентов
 │   │   ├── ui/          # Базовые UI-компоненты (shadcn)
 │   │   ├── studio/      # Студия: микшер, timeline, editor
 │   │   │   └── voice-cloning/   # Voice cloning studio ⭐ НОВОЕ
@@ -227,13 +201,13 @@ MusicVerse AI/
 │   │   │   ├── voice-types.ts           # Типы и интерфейсы
 │   │   │   └── index.ts                  # Экспорты
 │   │   ├── lyrics/      # Lyrics сервисы (рефакторинг)
-│   │   └── ... (11 сервисов)
-│   ├── hooks/           # 200+ кастомных хуков
-│   │   ├── useVoiceCloning.ts   # Voice cloning хук ⭐ НОВОЕ
+│   │   └── ... (42 сервисных файла)
+│   ├── hooks/           # 390+ кастомных хуков
+│   │   ├── useVoiceCloning.ts   # Voice cloning хук
 │   │   ├── studio/      # Студийные хуки
 │   │   ├── generation/  # Хуки генерации
 │   │   └── ui/          # UI-хуки
-│   ├── pages/           # 38+ страниц
+│   ├── pages/           # 57+ страниц
 │   │   ├── Studio.tsx
 │   │   ├── StemStudio.tsx
 │   │   ├── LyricsStudio.tsx
@@ -251,7 +225,7 @@ MusicVerse AI/
 │   │   └── audio.ts     # Audio-типы
 │   └── workers/         # Web Workers
 ├── supabase/
-│   ├── functions/       # 110+ Edge Functions (Deno)
+│   ├── functions/       # 120+ Edge Functions (Deno)
 │   │   ├── suno-music-generate/     # Основная генерация
 │   │   ├── suno-callbacks/          # Обработка callback
 │   │   ├── klangio-*/               # Анализ аудио
@@ -259,7 +233,7 @@ MusicVerse AI/
 │   │   └── telegram-*/              # Telegram Bot
 │   ├── migrations/      # Database schema
 │   └── config.toml
-├── docs/                # 65+ документов
+├── docs/                # 305+ документов
 ├── tests/               # Unit и E2E тесты
 └── graphify-out/        # Knowledge graph
 ```
@@ -401,10 +375,11 @@ npm run size:why         # Подробный анализ состава
 
 | Sprint | Статус | Документ |
 |--------|--------|----------|
-| **Sprint A** | 🟢 In Progress | [Reliability & Stability](docs/SPRINT_A_PROGRESS.md) |
-| **Sprint B** | ⏳ Planned | Performance Scaling |
-| **Sprint C** | 📋 Q2 2026 | Platform Integrations |
-| **Sprint D** | 📋 Q2 2026 | Monitoring & Alerts |
+| **Sprints 001-032** | ✅ Завершены | [Архив](SPRINTS/completed/) |
+| **Voice Cloning** | ✅ Завершён | [Документация](docs/VOICE_CLONING_INTEGRATION.md) |
+| **Spec 001: UI Improvements** | 🔄 В процессе | [Спецификация](specs/001-ui-improvements/spec.md) |
+| **Sprint B** | ⏳ Запланирован | Performance Scaling |
+| **Sprint C** | 📋 Q3 2026 | Platform Integrations |
 
 ---
 
@@ -569,39 +544,34 @@ bun run dev
 
 ## 📈 Дорожная карта
 
-### Q2 2026 (Апрель-Июнь)
+### Q2 2026 (Апрель-Июнь) — Завершается
 
-#### Sprint A: Надёжность и стабильность 🔄
+#### Voice Cloning Integration ✅
+- [x] Voice Cloning Studio (6-шаговый процесс)
+- [x] Suno Voice API интеграция + webhook handlers
+- [x] Voice Library + Voice History страницы
+- [x] Database migrations для voice cloning
+
+#### Reliability & Stability ✅
 - [x] Улучшение reliability генерации (retry + backoff + model fallback)
+- [x] CI/CD pipeline обновление
+
+#### Spec 001: UI Improvements 🔄 В процессе
+- [x] Спецификация, план, задачи, контракты
+- [ ] Реализация UI компонентов
 - [ ] Bundle анализ и оптимизация
-- [ ] TypeScript strict mode аудит
-- [ ] Мониторинг и алертинг
-
-#### Sprint B: Performance Scaling ⏳
-- [ ] Оптимизация компонентов (PlaylistTrackItem, LyricsLine)
-- [ ] Database query оптимизация
-- [ ] Advanced caching (Service Worker)
-- [ ] CDN интеграция
-
-#### Q2 Goals
-- [ ] Spec 032: Professional UI enhancements
-- [ ] Spec 031: Mobile Studio V2
-- [ ] Platform integrations (Spotify, Apple Music)
-- [ ] Public API development
 
 ### Q3 2026 (Июль-Сентябрь)
 
-#### Sprint C: Platform Integrations 📋
+#### Performance Scaling ⏳
+- [ ] Оптимизация компонентов (PlaylistTrackItem, LyricsLine)
+- [ ] Database query оптимизация
+- [ ] Advanced caching (Service Worker)
+
+#### Platform Integrations 📋
 - [ ] Spotify / Apple Music / YouTube export
 - [ ] OAuth 2.0 flows
-- [ ] Release scheduling
-- [ ] Distribution tracking
-
-#### Sprint D: Analytics & Monitoring 📋
-- [ ] Business metrics dashboard
-- [ ] Real-time success rate monitoring
-- [ ] Automated alerting
-- [ ] On-call runbooks
+- [ ] Public API development
 
 ---
 
@@ -612,14 +582,14 @@ bun run dev
 - ✅ Generation reliability improved (F1.1 complete)
 
 ### P2 — В процессе улучшения
-- 🔴 Generation failure rate ~12% → target <8%
-- 🟡 Bundle size optimisation pending (npm issue on Windows)
-- 🟡 TypeScript strict mode gaps
+- 🟡 Generation failure rate ~12% → target <8% (model fallback добавлен)
+- 🟡 Bundle size optimisation pending
+- 🟡 Spec 001: UI Improvements — в реализации
 
 ### P3 — Плановые
-- 📋 Platform integrations
+- 📋 Platform integrations (Spotify, Apple Music)
 - 📋 Public API
-- 📋 Advanced studio features
+- 📋 Performance Scaling (Q3 2026)
 
 ---
 

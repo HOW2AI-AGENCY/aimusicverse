@@ -80,11 +80,21 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 - Deep linking
 - Push notifications
 
+### Voice Cloning Integration ✅ (Июнь 2026)
+- Voice Cloning Studio (6-шаговый процесс, Suno Voice API)
+- Voice Library + Voice History страницы
+- VoiceCloneService + useVoiceCloning hook
+- Webhook handlers + Database migrations
+- [Документация](../docs/VOICE_CLONING_INTEGRATION.md)
+
+### Spec 001: UI Improvements 🔄 (PR #280, Июнь 2026)
+- Спецификация, план, задачи, контракты
+- [Спецификация](../specs/001-ui-improvements/spec.md)
+
 ### Next Steps
-- Review Q2 2026 goals
+- Реализация Spec 001: UI Improvements
+- Performance Scaling (Q3 2026)
 - Platform integrations (Spotify, Apple Music)
-- Spec 032: Professional UI enhancements
-- Spec 031: Mobile Studio V2
 
 ---
 
@@ -218,8 +228,8 @@ All active and in-progress sprints have been completed as of June 25, 2026:
 ### Project Achievements
 - ✅ 100% core functionality delivered
 - ✅ 32 sprints completed
-- ✅ 1,124+ React components
-- ✅ 99+ Edge Functions
+- ✅ 1,130+ React components
+- ✅ 120+ Edge Functions
 - ✅ 62+ E2E tests
 - ✅ Production-ready platform
 - ✅ Comprehensive documentation
