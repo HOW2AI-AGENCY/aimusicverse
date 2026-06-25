@@ -66,6 +66,7 @@ serve(async (req) => {
             style: style,
             title: title,
             defaultParamFlag: defaultParamFlag ?? true, // Default to using original params
+            voiceId,
           };
         } else {
           targetFunction = 'suno-music-extend';
@@ -76,6 +77,7 @@ serve(async (req) => {
             style: style,
             title: title,
             defaultParamFlag: false,
+            voiceId,
           };
         }
         break;
@@ -89,6 +91,7 @@ serve(async (req) => {
           title: title,
           instrumental: makeInstrumental,
           audioWeight: body.audioWeight ?? 0.5, // Pass through audioWeight
+          voiceId,
         };
         break;
 
