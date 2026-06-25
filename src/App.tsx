@@ -2,6 +2,8 @@ import { lazy, Suspense, memo, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { AdminRoute } from "@/components/AdminRoute";
+
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
 import { MainLayout } from "@/components/MainLayout";
