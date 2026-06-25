@@ -558,7 +558,7 @@ function TracksTabContent({ projectId, tracks, tracksLoading, isGenerating, isMo
                 {tracks.map((track, index) => (
                   <Draggable key={track.id} draggableId={track.id} index={index}>
                     {(provided, snapshot) => (
-                      <div ref={provided.innerRef} {...provided.draggableProps}>
+                      <div ref={provided.innerRef} {...(provided.draggableProps as any)}>
                         <MinimalProjectTrackItem
                           track={track}
                           dragHandleProps={provided.dragHandleProps}

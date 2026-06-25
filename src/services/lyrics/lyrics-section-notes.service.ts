@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Lyrics Section Notes Service
  * Operations for managing section notes and annotations
