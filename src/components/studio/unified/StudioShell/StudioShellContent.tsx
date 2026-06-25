@@ -126,9 +126,10 @@ export const StudioShellContent = React.forwardRef<
       {/* Synchronized Lyrics Panel (collapsible) */}
       {sourceTrack && (
         <StudioLyricsPanelCompact
-          taskId={sourceTrack.suno_task_id}
-          audioId={sourceTrack.suno_id}
-          plainLyrics={sourceTrack.lyrics}
+          taskId={sourceTrack.suno_task_id ?? null}
+          audioId={sourceTrack.suno_id ?? null}
+          plainLyrics={sourceTrack.lyrics ?? null}
+
           currentTime={currentTime}
           isPlaying={isPlaying}
           onSeek={onSeek}
