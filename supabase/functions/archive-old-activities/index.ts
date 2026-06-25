@@ -4,6 +4,7 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { authorize } from '../_shared/auth.ts';
 
 const DAYS_TO_KEEP = 30;
 const BATCH_SIZE = 1000;
@@ -22,14 +23,14 @@ interface ActivityArchive {
 
 serve(async (req) => {
   try {
-    // Verify this is a scheduled job (check authorization)
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
+    const auth = await authorize(req, { requireAdmin: true });
+    if (!auth.ok) {
       return new Response(
-        JSON.stringify({ error: 'Missing authorization' }),
-        { status: 401, headers: { 'Content-Type': 'application/json' } }
+        JSON.stringify({ error: auth.error }),
+        { status: auth.status, headers: { 'Content-Type': 'application/json' } }
       );
     }
+
 
     // Create Supabase client
     const supabase = getSupabaseClient();
