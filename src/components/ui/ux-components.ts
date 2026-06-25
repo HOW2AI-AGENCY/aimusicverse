@@ -19,9 +19,10 @@ export { PullToRefresh } from './PullToRefresh';
 // ============================================================================
 // ANIMATIONS
 // ============================================================================
-export { AnimatedList, AnimatedGrid } from './AnimatedList';
 export { PageTransition, AnimatedSection, FadeIn, ScaleIn } from './PageTransition';
-export { AnimatedCounter } from './AnimatedCounter';
+// Removed during UI unification (Phase 3): AnimatedList, AnimatedGrid, AnimatedCounter.
+// Use motion presets from `@/lib/motion-presets` directly.
+
 
 // ============================================================================
 // LOADING STATES
@@ -89,9 +90,8 @@ export {
 export { Skeleton } from './skeleton';
 
 // ============================================================================
-// INTERACTIVE COMPONENTS
+// INTERACTIVE COMPONENTS (removed in unification — use TouchFeedback/PressableCard)
 // ============================================================================
-export { InteractiveCard, InteractiveListItem, InteractiveButton } from './InteractiveCard';
 
 // ============================================================================
 // SHIMMER EFFECTS
@@ -99,9 +99,10 @@ export { InteractiveCard, InteractiveListItem, InteractiveButton } from './Inter
 export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from './Shimmer';
 
 // ============================================================================
-// FEEDBACK & NOTIFICATIONS
+// FEEDBACK & NOTIFICATIONS — canonical entry point is `@/lib/toast`
 // ============================================================================
-export { showToast, toast } from './FeedbackToast';
+export { notify, notify as showToast } from '@/lib/toast';
+export { toast } from 'sonner';
 
 // ============================================================================
 // BADGES & INDICATORS
@@ -135,14 +136,13 @@ export { Collapsible as CollapsibleSection, Accordion, ExpandableText } from './
 export { ChipInput, ChipSelector } from './ChipInput';
 
 // ============================================================================
-// REFINED COMPONENTS
+// REFINED COMPONENTS — RefinedButton/RefinedTrackCard/EnhancedTooltip removed
+// during unification. Use Button (shadcn), UnifiedTrackCard and Tooltip instead.
 // ============================================================================
-export { RefinedButton, IconButton, ButtonGroup } from './RefinedButton';
 export { RefinedCard, CardHeader, CardContent, CardFooter, FeatureCard, StatCard } from './RefinedCard';
-export { RefinedTrackCard } from './RefinedTrackCard';
-export { EnhancedTooltip, Shortcut, TooltipWithShortcut } from './EnhancedTooltip';
 export { LoadingOverlay, ProgressOverlay, SkeletonOverlay } from './LoadingOverlay';
 export { StatusBadge, StatusDot } from './StatusBadge';
+
 
 // ============================================================================
 // HOOKS RE-EXPORTS

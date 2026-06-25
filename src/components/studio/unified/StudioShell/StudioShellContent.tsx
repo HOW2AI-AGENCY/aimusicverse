@@ -16,7 +16,7 @@ import { SortableTrackList } from '../SortableTrackList';
 import { MobileAudioWarning } from '@/components/studio/MobileAudioWarning';
 import { cn } from '@/lib/utils';
 import { Plus } from 'lucide-react';
-import type { DetectedSection, ReplacedRange } from '@/types/section';
+import type { DetectedSection, ReplacedRange } from '@/types/sections';
 
 export interface StudioShellContentProps {
   // Timeline data
@@ -41,9 +41,6 @@ export interface StudioShellContentProps {
 
   // Tracks
   tracks: any[];
-  isPlaying: boolean;
-  currentTime: number;
-  duration: number;
   hasSoloTracks: boolean;
   sourceTrackId: string | null;
   stemsExist: boolean;
@@ -53,7 +50,6 @@ export interface StudioShellContentProps {
   onToggleMute: (trackId: string) => void;
   onToggleSolo: (trackId: string) => void;
   onVolumeChange: (trackId: string, volume: number) => void;
-  onSeek: (time: number) => void;
   onRemove: (trackId: string) => void;
   onVersionChange: (trackId: string, versionLabel: string) => void;
   onTrackAction: (trackId: string, action: string) => void;
@@ -71,6 +67,7 @@ export interface StudioShellContentProps {
   isMobile: boolean;
   className?: string;
 }
+
 
 export const StudioShellContent = React.forwardRef<
   HTMLDivElement,
@@ -129,9 +126,10 @@ export const StudioShellContent = React.forwardRef<
       {/* Synchronized Lyrics Panel (collapsible) */}
       {sourceTrack && (
         <StudioLyricsPanelCompact
-          taskId={sourceTrack.suno_task_id}
-          audioId={sourceTrack.suno_id}
-          plainLyrics={sourceTrack.lyrics}
+          taskId={sourceTrack.suno_task_id ?? null}
+          audioId={sourceTrack.suno_id ?? null}
+          plainLyrics={sourceTrack.lyrics ?? null}
+
           currentTime={currentTime}
           isPlaying={isPlaying}
           onSeek={onSeek}
@@ -158,7 +156,7 @@ export const StudioShellContent = React.forwardRef<
             currentTime={currentTime}
             duration={duration}
             hasSoloTracks={hasSoloTracks}
-            sourceTrackId={sourceTrackId}
+            sourceTrackId={sourceTrackId ?? undefined}
             stemsExist={stemsExist}
             onReorder={onReorder}
             onToggleMute={onToggleMute}

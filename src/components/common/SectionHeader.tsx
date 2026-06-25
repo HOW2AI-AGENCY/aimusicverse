@@ -16,12 +16,13 @@ import { useNavigate } from 'react-router-dom';
 import { Heading, Text } from '@/components/ui/typography';
 
 interface SectionHeaderProps {
-  /** Icon component from lucide-react */
-  icon: LucideIcon;
+  /** Icon component from lucide-react. Optional — can be replaced by `customIcon`. */
+  icon?: LucideIcon;
   /** Icon color class (e.g., "text-primary", "text-amber-500") */
   iconColor?: string;
   /** Gradient classes for icon background */
   iconGradient?: string;
+
   /** Main title */
   title: string;
   /** Optional subtitle/description */
@@ -34,15 +35,19 @@ interface SectionHeaderProps {
   onShowMore?: () => void;
   /** Whether to show the "See All" button */
   showShowMore?: boolean;
-  /** Badge to display next to title */
-  badge?: {
-    label: string | number;
-    icon?: LucideIcon;
-    variant?: 'default' | 'secondary' | 'outline';
-    className?: string;
-  };
+  /** Badge to display next to title. Either an object spec or a pre-built ReactNode. */
+  badge?:
+    | ReactNode
+    | {
+        label: string | number;
+        icon?: LucideIcon;
+        variant?: 'default' | 'secondary' | 'outline';
+        className?: string;
+      };
   /** Custom right slot content */
   rightSlot?: ReactNode;
+  /** Alias for `rightSlot` (legacy `ui/Heading` SectionHeader API). */
+  action?: ReactNode;
   /** Size variant */
   variant?: 'default' | 'compact' | 'large';
   /** Animation variant for icon */
@@ -52,6 +57,13 @@ interface SectionHeaderProps {
   /** Additional className */
   className?: string;
 }
+
+function isBadgeSpec(
+  b: SectionHeaderProps['badge']
+): b is { label: string | number; icon?: LucideIcon; variant?: 'default' | 'secondary' | 'outline'; className?: string } {
+  return !!b && typeof b === 'object' && 'label' in (b as object);
+}
+
 
 const ICON_SIZES = {
   default: { container: 'w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl', icon: 'w-4 h-4 sm:w-5 sm:h-5' },
@@ -71,11 +83,14 @@ export const SectionHeader = memo(function SectionHeader({
   showShowMore = true,
   badge,
   rightSlot,
+  action,
   variant = 'default',
   iconAnimation = 'hover',
   customIcon,
   className,
 }: SectionHeaderProps) {
+  const slot = rightSlot ?? action;
+
   const navigate = useNavigate();
   const sizes = ICON_SIZES[variant];
 
@@ -90,9 +105,10 @@ export const SectionHeader = memo(function SectionHeader({
   const shouldShowMoreButton = showShowMore && (showMoreLink || onShowMore);
   const ArrowIcon = variant === 'compact' ? ChevronRight : ArrowRight;
 
-  const iconElement = customIcon || (
+  const iconElement = customIcon || (Icon ? (
     <Icon className={cn(sizes.icon, iconColor)} />
-  );
+  ) : null);
+
 
   const iconWrapper = iconAnimation === 'rotate' ? (
     <motion.div
@@ -126,7 +142,7 @@ export const SectionHeader = memo(function SectionHeader({
             <Heading level={headingLevel} className="truncate text-sm sm:text-base">
               {title}
             </Heading>
-            {badge && (
+            {badge != null && (isBadgeSpec(badge) ? (
               <Badge
                 variant={badge.variant || 'secondary'}
                 className={cn(
@@ -137,7 +153,10 @@ export const SectionHeader = memo(function SectionHeader({
                 {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
                 {badge.label}
               </Badge>
-            )}
+            ) : (
+              <span className="shrink-0">{badge}</span>
+            ))}
+
           </div>
           {subtitle && (
             <Text variant={textSize} className="truncate text-muted-foreground">
@@ -147,8 +166,9 @@ export const SectionHeader = memo(function SectionHeader({
         </div>
       </div>
 
-      {rightSlot ? (
-        rightSlot
+      {slot ? (
+        slot
+
       ) : shouldShowMoreButton ? (
         <Button
           variant="ghost"
