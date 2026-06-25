@@ -53,7 +53,7 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
       "react-hooks/refs": "off",
       "no-restricted-imports": ["error", restrictedImports],
-      "no-console": ["warn", { allow: [] }],
+      "no-console": ["warn", { allow: ["warn", "error"] }],
     },
   },
   // Файлы, которым разрешены console.* (инфраструктура логирования / отладки)
