@@ -1028,6 +1028,9 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
         </motion.div>
       </div>
 
+      {/* First-run gesture cheatsheet */}
+      <PlayerGestureHints />
+
       {/* Queue Sheet */}
       <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />
       
