@@ -41,7 +41,22 @@ serve(async (req) => {
       throw new Error('reference_id and vocal_stem_url are required');
     }
 
-    console.log('🎤 Extracting lyrics from vocal stem:', reference_id);
+    // Ownership check: caller must own the reference_audio row
+    if (!__auth.isService) {
+      const { data: refRow, error: refErr } = await supabase
+        .from('reference_audio')
+        .select('user_id')
+        .eq('id', reference_id)
+        .single();
+      if (refErr || !refRow || refRow.user_id !== __auth.user?.id) {
+        return new Response(JSON.stringify({ error: 'Forbidden' }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    }
+
+
 
     // Run Whisper on vocal stem
     const whisperOutput = await replicate.run(
