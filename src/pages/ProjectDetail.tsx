@@ -24,6 +24,7 @@ import { cn } from '@/lib/utils';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { useTelegramMainButton } from '@/hooks/telegram/useTelegramMainButton';
 import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
+import { SEOHead } from '@/components/SEOHead';
 import { 
   useProjectDetailData, 
   useProjectDetailDialogs, 
