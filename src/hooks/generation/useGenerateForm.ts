@@ -756,6 +756,7 @@ export function useGenerateForm({
                   style: mode === 'custom' ? style : undefined,
                   title: mode === 'custom' ? title : undefined,
                   defaultParamFlag: !prompt && !style, // Use original params if no custom input
+                  voiceId: customVoiceId || undefined,
                 }
               : {
                   action: 'cover',
@@ -764,6 +765,7 @@ export function useGenerateForm({
                   style: mode === 'custom' ? style : undefined,
                   title: mode === 'custom' ? title : undefined,
                   audioWeight: audioWeight[0], // Pass audioWeight for cover control
+                  voiceId: customVoiceId || undefined,
                 },
           });
           data = result.data;
