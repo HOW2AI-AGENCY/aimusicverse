@@ -219,7 +219,7 @@ export function AnalyticsDashboard() {
         </TabsContent>
 
         <TabsContent value="generation">
-          <GenerationStatsPanel data={generationStats} isLoading={generationLoading} />
+          <GenerationStatsPanel />
         </TabsContent>
 
         <TabsContent value="content">
