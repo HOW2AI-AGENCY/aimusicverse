@@ -132,10 +132,8 @@ export { ChipInput, ChipSelector } from "./ChipInput";
 // ============================================================================
 // REFINED COMPONENTS
 // ============================================================================
-export { RefinedButton, IconButton, ButtonGroup } from "./RefinedButton";
 export { RefinedCard, CardHeader, CardContent, CardFooter, FeatureCard, StatCard } from "./RefinedCard";
-export { RefinedTrackCard } from "./RefinedTrackCard";
-export { EnhancedTooltip, Shortcut, TooltipWithShortcut } from "./EnhancedTooltip";
+
 export { LoadingOverlay, ProgressOverlay, SkeletonOverlay } from "./LoadingOverlay";
 export { StatusBadge, StatusDot } from "./StatusBadge";
 
