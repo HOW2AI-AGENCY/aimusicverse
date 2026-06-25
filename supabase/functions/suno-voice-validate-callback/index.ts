@@ -44,6 +44,14 @@ serve(async (req) => {
 
     // Idempotency: ignore late callbacks once we've moved past validation
     if (row.status === 'ready' || row.status === 'generating' || row.status === 'phrase_ready') {
+      console.log(JSON.stringify({
+        tag: '[suno-voice-validate-callback]',
+        event: 'idempotency_hit',
+        reason: 'already_advanced',
+        currentStatus: row.status,
+        voiceRowId: row.id,
+        taskId,
+      }));
       return json({ ok: true, ignored: 'already_advanced' });
     }
 
