@@ -125,6 +125,25 @@ serve(async (req) => {
     }
 
     const { productCode, userId: requestUserId }: InvoiceRequest = body;
+
+    // Ownership enforcement: only admins may create invoices on behalf of other users.
+    if (requestUserId && requestUserId !== user.id) {
+      const { data: isAdmin } = await supabase.rpc('has_role', {
+        _user_id: user.id,
+        _role: 'admin',
+      });
+      if (!isAdmin) {
+        logger.warn('User attempted to create invoice for another user', {
+          callerId: user.id,
+          targetId: requestUserId,
+        });
+        return new Response(
+          JSON.stringify({ error: 'Forbidden: cannot create invoice for another user' }),
+          { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+    }
+
     const userId = requestUserId || user.id;
 
     logger.info('Creating invoice', { productCode, userId });
