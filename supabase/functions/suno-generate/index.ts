@@ -37,7 +37,16 @@ serve(async (req) => {
       voiceId,
     } = body;
 
-    console.log(`[suno-generate] Legacy proxy - action: ${action}`);
+    console.log(JSON.stringify({
+      tag: '[suno-generate]',
+      event: 'request_received',
+      action,
+      hasVoiceId: !!voiceId,
+      voiceIdHash: voiceId ? voiceId.slice(0, 8) : null,
+      hasExtendAudioUrl: !!extendAudioUrl,
+      hasCoverAudioUrl: !!coverAudioUrl,
+      hasTrackId: !!trackId,
+    }));
 
     // Map legacy actions to modern endpoints
     let targetFunction = 'suno-music-generate';
