@@ -14,7 +14,8 @@
       "Bash(chmod +x .husky/commit-msg)",
       "Bash(git branch *)",
       "Bash(chmod +x scripts/cleanup-stale-branches.sh)",
-      "Bash(./cleanup-stale-branches.sh --dry-run)"
+      "Bash(./cleanup-stale-branches.sh --dry-run)",
+      "Bash(gh pr *)"
     ]
   }
 }
