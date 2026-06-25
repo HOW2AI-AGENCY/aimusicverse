@@ -5,7 +5,7 @@
  *
  * Interactive Card Component
  * Feature: 032-professional-ui
- */
+ *
  * Uses GPU-accelerated animations for smooth interactions.
  */
 
