@@ -32,12 +32,10 @@ export function useProfileStats(userId: string | undefined) {
           .from('user_follows')
           .select('id', { count: 'exact', head: true })
           .eq('following_id', userId)
-          .eq('status', 'active'),
         supabase
           .from('user_follows')
           .select('id', { count: 'exact', head: true })
           .eq('follower_id', userId)
-          .eq('status', 'active'),
         Promise.resolve({ count: userTracks?.length || 0 }),
         trackIds.length > 0
           ? supabase
