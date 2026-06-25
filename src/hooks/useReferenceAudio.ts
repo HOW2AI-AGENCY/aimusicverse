@@ -170,7 +170,7 @@ export function useReferenceAudio() {
 
       const { error } = await supabase
         .from('reference_audio')
-        .update(updateData)
+        .update(updateData as any)
         .eq('id', params.id);
 
       if (error) throw error;

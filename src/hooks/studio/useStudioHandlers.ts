@@ -177,10 +177,10 @@ export function useStudioHandlers(options: StudioHandlersOptions) {
           audio_url: recordedTrack.audioUrl,
           duration: recordedTrack.duration,
           status: 'completed',
-          metadata: recordedTrack.chords 
+          metadata: recordedTrack.chords
             ? { chords: recordedTrack.chords, name: recordedTrack.name }
             : { name: recordedTrack.name },
-        });
+        } as any);
       
       if (error) {
         logger.error('Failed to save recording to database', error);

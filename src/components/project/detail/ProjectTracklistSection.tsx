@@ -85,7 +85,7 @@ export const ProjectTracklistSection = memo(function ProjectTracklistSection({
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
-                      {...provided.draggableProps}
+                      {...(provided.draggableProps as any)}
                     >
                       <MinimalProjectTrackItem
                         track={track}

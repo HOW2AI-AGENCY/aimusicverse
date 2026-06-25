@@ -766,6 +766,93 @@ export type Database = {
         }
         Relationships: []
       }
+      custom_voices: {
+        Row: {
+          created_at: string
+          description: string | null
+          error_code: number | null
+          error_message: string | null
+          generate_task_id: string | null
+          id: string
+          is_available: boolean
+          language: string | null
+          last_polled_at: string | null
+          phrase_expires_at: string | null
+          skill_level: string | null
+          source_audio_url: string | null
+          source_path: string | null
+          status: string
+          style: string | null
+          updated_at: string
+          usage_count: number
+          user_id: string
+          validate_phrase: string | null
+          validate_task_id: string | null
+          verify_audio_url: string | null
+          verify_path: string | null
+          vocal_end_s: number | null
+          vocal_start_s: number | null
+          voice_id: string | null
+          voice_name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          error_code?: number | null
+          error_message?: string | null
+          generate_task_id?: string | null
+          id?: string
+          is_available?: boolean
+          language?: string | null
+          last_polled_at?: string | null
+          phrase_expires_at?: string | null
+          skill_level?: string | null
+          source_audio_url?: string | null
+          source_path?: string | null
+          status?: string
+          style?: string | null
+          updated_at?: string
+          usage_count?: number
+          user_id: string
+          validate_phrase?: string | null
+          validate_task_id?: string | null
+          verify_audio_url?: string | null
+          verify_path?: string | null
+          vocal_end_s?: number | null
+          vocal_start_s?: number | null
+          voice_id?: string | null
+          voice_name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          error_code?: number | null
+          error_message?: string | null
+          generate_task_id?: string | null
+          id?: string
+          is_available?: boolean
+          language?: string | null
+          last_polled_at?: string | null
+          phrase_expires_at?: string | null
+          skill_level?: string | null
+          source_audio_url?: string | null
+          source_path?: string | null
+          status?: string
+          style?: string | null
+          updated_at?: string
+          usage_count?: number
+          user_id?: string
+          validate_phrase?: string | null
+          validate_task_id?: string | null
+          verify_audio_url?: string | null
+          verify_path?: string | null
+          vocal_end_s?: number | null
+          vocal_start_s?: number | null
+          voice_id?: string | null
+          voice_name?: string
+        }
+        Relationships: []
+      }
       deeplink_analytics: {
         Row: {
           campaign: string | null
@@ -5738,6 +5825,38 @@ export type Database = {
           },
         ]
       }
+      voice_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          payload: Json | null
+          voice_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          payload?: Json | null
+          voice_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          payload?: Json | null
+          voice_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voice_events_voice_id_fkey"
+            columns: ["voice_id"]
+            isOneToOne: false
+            referencedRelation: "custom_voices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       my_tinkoff_subscriptions: {
@@ -6530,6 +6649,7 @@ export type Database = {
         Args: { track_uuid: string }
         Returns: undefined
       }
+      increment_voice_usage: { Args: { _voice_id: string }; Returns: undefined }
       is_premium_or_admin: { Args: { _user_id: string }; Returns: boolean }
       is_user_blocked: {
         Args: { p_blocked_id: string; p_blocker_id: string }

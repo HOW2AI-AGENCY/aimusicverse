@@ -31,13 +31,11 @@ export function useProfileStats(userId: string | undefined) {
         supabase
           .from('user_follows')
           .select('id', { count: 'exact', head: true })
-          .eq('following_id', userId)
-          .eq('status', 'active'),
+          .eq('following_id', userId),
         supabase
           .from('user_follows')
           .select('id', { count: 'exact', head: true })
-          .eq('follower_id', userId)
-          .eq('status', 'active'),
+          .eq('follower_id', userId),
         Promise.resolve({ count: userTracks?.length || 0 }),
         trackIds.length > 0
           ? supabase

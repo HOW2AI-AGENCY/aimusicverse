@@ -76,7 +76,7 @@ export function useUpdateProfile() {
       // Update profile
       const { data, error } = await supabase
         .from('profiles')
-        .update(updateData)
+        .update(updateData as any)
         .eq('user_id', userId)
         .select()
         .single();

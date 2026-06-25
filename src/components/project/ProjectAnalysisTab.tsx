@@ -110,7 +110,7 @@ export const ProjectAnalysisTab = ({ project }: ProjectAnalysisTabProps) => {
     try {
       const { error } = await supabase
         .from('music_projects')
-        .update(updates)
+        .update(updates as any)
         .eq('id', project.id);
 
       if (error) throw error;

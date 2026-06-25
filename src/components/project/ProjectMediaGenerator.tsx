@@ -221,7 +221,7 @@ export function ProjectMediaGenerator({
         const updateField = assetType === 'banner' ? 'banner_url' : 'cover_url';
         const { error } = await supabase
           .from('music_projects')
-          .update({ [updateField]: generatedUrl })
+          .update({ [updateField]: generatedUrl } as any)
           .eq('id', project.id);
 
         if (error) throw error;

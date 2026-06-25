@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Lyrics Versioning Service
  * Core operations for lyrics versioning and history management

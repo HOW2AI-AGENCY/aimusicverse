@@ -5,6 +5,7 @@
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { isServiceRoleToken } from '../_shared/auth.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -31,6 +32,18 @@ interface RewardRequest {
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // SECURITY: Only callable internally by trusted service-role contexts
+  // (e.g. stars-webhook). Never expose to authenticated user tokens — this
+  // function grants XP, credits, achievements, and referral rewards to
+  // arbitrary userIds passed in the request body.
+  if (!isServiceRoleToken(req)) {
+    console.warn('reward-purchase: rejected non-service-role call');
+    return new Response(
+      JSON.stringify({ success: false, error: 'Forbidden' }),
+      { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
   }
 
   try {

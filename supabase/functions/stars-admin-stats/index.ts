@@ -40,14 +40,13 @@ async function verifyAdminAccess(supabase: any, token: string | null): Promise<{
     return { isAdmin: false, userId: null, error: 'Unauthorized' };
   }
 
-  // Check if user is admin
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('is_admin')
-    .eq('user_id', user.id)
-    .single();
+  // Canonical admin check via has_role() against user_roles table
+  const { data: isAdmin, error: roleError } = await supabase.rpc('has_role', {
+    _user_id: user.id,
+    _role: 'admin',
+  });
 
-  if (!profile?.is_admin) {
+  if (roleError || !isAdmin) {
     logger.warn('Non-admin attempted to access admin stats', { userId: user.id });
     return { isAdmin: false, userId: user.id, error: 'Forbidden: admin access required' };
   }

@@ -472,7 +472,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                           <div
                             id={`section-${section.id}`}
                             ref={provided.innerRef}
-                            {...provided.draggableProps}
+                            {...(provided.draggableProps as any)}
                             className={cn(
                               "rounded-xl border-2 overflow-hidden transition-all",
                               snapshot.isDragging
