@@ -45,6 +45,13 @@ serve(async (req) => {
 
     // Idempotency: do not overwrite an already-ready voice
     if (row.status === 'ready' && row.voice_id) {
+      console.log(JSON.stringify({
+        tag: '[suno-voice-generate-callback]',
+        event: 'idempotency_hit',
+        reason: 'already_ready',
+        voiceRowId: row.id,
+        taskId,
+      }));
       return json({ ok: true, ignored: 'already_ready' });
     }
 
