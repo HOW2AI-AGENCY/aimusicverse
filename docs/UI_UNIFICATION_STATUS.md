@@ -1,24 +1,26 @@
 # Статус: Унификация UI MusicVerse AI
 
-Обновлено: 2026-06-25
+Обновлено: 2026-06-25 (итерация D — иконки + чистка legacy)
 
 Подробный план — `.lovable/plan.md`. Карта замен — `docs/UI_AUDIT.md`.
 
 ## Сводка по фазам
 
-| Фаза | Тема                      | Статус           | Артефакты                                                                                                                                                               |
-| ---- | ------------------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0    | Аудит и инвентарь         | ✅ Готово        | `docs/UI_AUDIT.md`                                                                                                                                                      |
-| 1    | Дизайн-токены             | ✅ Готово        | `src/index.css`, `tailwind.config.ts`, `docs/DESIGN_TOKENS.md`                                                                                                          |
-| 2    | Базовые примитивы (atoms) | 🟡 Частично      | `RefinedButton`, `RefinedCard`, `InteractiveCard`, `glass-card` помечены `@deprecated`; миграция импортов — Фаза 10                                                     |
-| 3    | Молекулы и состояния      | 🟢 Большая часть | `UnifiedEmptyState` расширен (icon: ReactNode, `action`/`secondaryAction`, `size`); 3 legacy `EmptyState` свёрнуты в тонкие шимы; `FeedbackToast` → шим над `lib/toast` |
-| 4    | TrackCard                 | 🟡 Канон выбран  | `UnifiedTrackCard`; `RefinedTrackCard`, `track/variants` помечены `@deprecated`                                                                                         |
-| 5    | Шапки / лейауты           | ⏳ В очереди     | —                                                                                                                                                                       |
-| 6    | Оверлеи                   | ✅ Канон готов   | `src/components/ui/ResponsiveOverlay.tsx`, `src/hooks/useConfirm.ts`                                                                                                    |
-| 7    | Motion / эффекты          | ✅ Канон готов   | `src/lib/motion-presets.ts`, токены `--motion-fast/base/slow`                                                                                                           |
-| 8    | Тосты / прогресс / ошибки | ✅ Канон готов   | `src/lib/toast.ts` (`notify`); `FeedbackToast` — тонкий шим                                                                                                             |
-| 9    | Доступность               | ⏳ В очереди     | —                                                                                                                                                                       |
-| 10   | Чистка и заморозка        | ⏳ В очереди     | —                                                                                                                                                                       |
+| Фаза | Тема                      | Статус            | Артефакты                                                                                                                                                               |
+| ---- | ------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 0    | Аудит и инвентарь         | ✅ Готово         | `docs/UI_AUDIT.md`                                                                                                                                                      |
+| 1    | Дизайн-токены             | ✅ Готово         | `src/index.css`, `tailwind.config.ts`, `docs/DESIGN_TOKENS.md`                                                                                                          |
+| 2    | Базовые примитивы (atoms) | ✅ Готово         | `RefinedTrackCard`, `RefinedButton`, `GlowButton`, `InteractiveCard`, `glass-card`, `track/variants/` удалены (0 импортов)                                              |
+| 3    | Молекулы и состояния      | 🟢 Большая часть  | `UnifiedEmptyState` канон + 3 шима; `FeedbackToast` → шим над `lib/toast`                                                                                              |
+| 4    | TrackCard                 | ✅ Готово         | `UnifiedTrackCard` единственный канон; домашние секции мигрированы                                                                                                     |
+| 5    | Шапки / лейауты           | 🟢 Большая часть  | `FeaturedSection`, `RecentTracksSection`, `TracksGridSection` приведены к `SectionHeader` (`common/SectionHeader`); `badge` поддерживает `ReactNode` для LIVE-индикаторов |
+| 6    | Оверлеи                   | ✅ Канон готов    | `src/components/dialog/UnifiedDialog` (modal/sheet/alert), `src/hooks/useConfirm.ts`; миграция 8 legacy-диалогов — отдельный спринт                                     |
+| 7    | Motion / эффекты          | ✅ Канон готов    | `src/lib/motion-presets.ts`, токены `--motion-fast/base/slow`; прямых импортов `framer-motion` в `src/` — 0                                                            |
+| 8    | Тосты / прогресс / ошибки | ✅ Канон готов    | `src/lib/toast.ts` (`notify`); `FeedbackToast` — тонкий шим                                                                                                            |
+| 9    | Доступность               | ⏳ В очереди      | axe-core прогон по `/`, `/library`, `/studio-v2`, `/projects`                                                                                                          |
+| 10   | Чистка и заморозка        | 🟡 Иконки сделаны | 814 файлов переведены с `lucide-react` → `@/lib/icons`; финальный hard-delete шимов и ESLint-error — следующий шаг                                                     |
+
+
 
 ## Что сделано в последней итерации
 
