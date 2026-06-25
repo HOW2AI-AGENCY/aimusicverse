@@ -1,14 +1,22 @@
-# Ignore artifacts:
+# Ignore build artifacts:
 build
 dist
 coverage
+storybook-static
+.storybook
 
 # Ignore dependencies:
 node_modules
 
-# Ignore docs and markdown files for now
-*.md
-docs/
+# Ignore lock files (optional, uncomment if needed):
+# package-lock.json
+# bun.lockb
 
 # Ignore Supabase generated files
 supabase/functions/suno-api/index.ts
+
+# Ignore graphify cache (auto-generated)
+graphify-out/cache/
+
+# Note: Markdown files (*.md) are formatted by Prettier
+# to ensure consistent documentation style
