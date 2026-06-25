@@ -979,6 +979,8 @@ export function useGenerateForm({
     audioFile,
     setAudioFile: handleSetAudioFile,
     planTrackId,
+    customVoiceId,
+    setCustomVoiceId,
     isPublic,
     setIsPublic,
     canMakePrivate: isAdmin || (userBalance ?? 0) >= 0, // For now, allow private for admins; later: check subscription
