@@ -163,6 +163,11 @@ export function GenerateFormSimple({
       <FormDivider />
 
       {/* ========== DESCRIPTION SECTION ========== */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.08 }}
+      >
       <FormSection>
         <div className="space-y-2 lg:space-y-3">
           {/* Header row */}
