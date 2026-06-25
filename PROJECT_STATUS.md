@@ -66,34 +66,10 @@
 - [ ] Platform integrations (Spotify, Apple Music)
 
 ### Phase 8: Codebase Optimization ✅ COMPLETE (2026-06-25)
+- [x] Аудит кодовой базы (1,981 файл, 426K строк)
 - [x] Удаление 196 мёртвых файлов, 45,113 строк ([PR #283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283))
 - [x] Замена runtime console.log на logger в studio-компонентах
-
-### Phase 9A: Deduplication ✅ COMPLETE (2026-06-25)
-- [x] Аудит 30+ предполагаемых дубликатов
-- [x] Удалено 5 подтверждённых дубликатов (~1,350 строк)
-- [x] Очищены index.ts реэкспорты
-
-### Sprint 9B: Deprecated Compat Layers ✅ COMPLETE (2026-06-25)
-- [x] Удалён lyrics.service.ts (1,079 строк) — deprecated re-export layer ([PR #285](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/285))
-- [x] Удалён analytics.service.ts (16 строк) — deprecated re-export layer
-- [x] Обновлён импорт LyricsPanel.tsx на модульный путь
-- [x] Аудит 24 файлов с @deprecated маркерами
-
-### Sprint 9C: Lyrics Dead Code ✅ COMPLETE (2026-06-25)
-- [x] Удалено 10 мёртвых lyrics-файлов (~3,530 строк) ([PR #286](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/286))
-- [x] Очищены 7 barrel export файлов
-- [x] TypeScript: 0 ошибок
-
-### Sprint 9D: Dead Code Sweep ✅ COMPLETE (2026-06-25)
-- [x] Удалено 34 мёртвых файла (~10,360 строк) ([PR #287](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/287))
-- [x] 30 компонентов + 4 хука с 0 импортёров
-- [x] TypeScript: 0 ошибок
-
-### Sprint 9E: Verification ✅ COMPLETE (2026-06-25)
-- [x] Исправлены битые barrel exports и импорты ([PR #288](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/288))
-- [x] Vite production build проходит (46s)
-- [x] TypeScript: 0 ошибок
+- [x] Верификация: tsc --noEmit, grep-аудит импортов, проверка index-реэкспортов
 
 ---
 
@@ -166,16 +142,18 @@
 ## 🎯 Следующие шаги (Q2-Q3 2026)
 
 ### Приоритет P0 (критичный)
-1. **Spec 001: UI Improvements** — Реализация ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
-2. **Bundle Size Optimization** — Анализ и оптимизация бандла
+1. **Deduplicate Components** — Объединить 30+ дублирующихся компонентов (EmptyState ×2, BottomSheet ×2, AddTrackDialog ×3, VersionSelector ×3, StudioActionsPanel ×5)
+2. **Split Giant Files** — Разбить 50+ файлов >500 строк (StudioShell 1852, UnifiedStudioContent 1477, MobileFullscreenPlayer 1052)
 
 ### Приоритет P1 (высокий)
-3. **Reorganize components/ui/** — Сгруппировать 90+ файлов по категориям
-4. **@ts-nocheck cleanup** — Убрать @ts-nocheck из файлов и исправить типы
+3. **Consolidate Lyrics** — Собрать 30+ lyrics-компонентов из 6 директорий в одну структуру
+4. **Reorganize components/ui/** — Сгруппировать 90+ файлов по типу (forms, layout, feedback)
+5. **Spec 001: UI Improvements** — Реализация ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
 
 ### Приоритет P2 (средний)
-5. **Platform Integrations** — Spotify, Apple Music, YouTube export
-6. **API Development** — Public API для third-party integrations
+6. **Platform Integrations** — Spotify, Apple Music, YouTube export
+7. **API Development** — Public API для third-party integrations
+8. **Bundle Optimization** — Анализ и оптимизация размера бандла
 
 ---
 
@@ -187,7 +165,8 @@
 
 ### P2 — В процессе улучшения
 - 🔴 Generation failure rate ~12% → target <8%
-- 🟡 50+ файлов >500 строк → рефакторинг (Sprint 9B)
+- 🟡 30+ дубликатов компонентов → объединение
+- 🟡 50+ файлов >500 строк → рефакторинг
 - 🟡 Bundle size optimisation pending
 
 ### P3 — Плановые
@@ -226,11 +205,22 @@
 
 ## 🔄 Недавние обновления (июнь 2026)
 
-### 2026-06-25 — Phase 8 + Sprint 9A: Codebase Optimization
+### 2026-06-25 — Phase 9A: Deduplication
 
-- ✅ Удалено **201 неиспользуемый файл** (~46,400 строк, -10.9% кодовой базы)
+**Достижения**:
+- ✅ Аудит 30+ предполагаемых дубликатов — большинство оказались разными компонентами
+- ✅ Удалено 4 настоящих дубликата: ui/BottomSheet, admin/analytics/DeeplinkAnalyticsPanel, admin/analytics/GenerationStatsPanel, studio/AddTrackDialog, lyrics-workspace/SectionNotesPanel (~1,200 строк)
+- ✅ Очищены index.ts реэкспорты
+
+### 2026-06-25 — Phase 8: Codebase Optimization
+
+**Достижения**:
+- ✅ Удалено **196 неиспользуемых файлов** (45,113 строк, -10.6% кодовой базы)
+- ✅ 47 мёртвых хуков, 85 мёртвых компонентов, 19 утилит, 4 тест-сироты
 - ✅ Замена console.log → logger в 5 studio-компонентах
-- ✅ TypeScript: 0 ошибок после всех изменений
+- ✅ TypeScript: 0 ошибок после удаления
+
+**PR**: [#283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283)
 
 ### 2026-06-25 — Sprint A: F1.1 — Улучшение надёжности генерации
 
