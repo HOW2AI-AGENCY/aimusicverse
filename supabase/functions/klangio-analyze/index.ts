@@ -755,11 +755,11 @@ serve(async (req) => {
             // Determine file extension
             const extension = format === 'mxml' ? 'xml' : format === 'midi_quant' ? 'mid' : format === 'midi' ? 'mid' : format;
             const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_${format}.${extension}`;
-            
-            console.log(`[klangio] Uploading ${format} to project-assets/${fileName} (${correctMimeType})`);
+
+            console.log(`[klangio] Uploading ${format} to project-assets-private/${fileName} (${correctMimeType})`);
 
             const { error: uploadError } = await supabase.storage
-              .from("project-assets")
+              .from("project-assets-private")
               .upload(fileName, typedBlob, {
                 contentType: correctMimeType,
                 upsert: true,
@@ -769,11 +769,17 @@ serve(async (req) => {
               uploadErrors[format] = JSON.stringify(uploadError);
               console.error(`[klangio] ❌ Upload error for ${format}:`, uploadError);
             } else {
-              const { data: { publicUrl } } = supabase.storage
-                .from("project-assets")
-                .getPublicUrl(fileName);
-              files[format] = publicUrl;
-              console.log(`[klangio] ✅ ${format} uploaded: ${publicUrl}`);
+              // Issue a long-lived (1 year) signed URL; bucket is private.
+              const { data: signed, error: signError } = await supabase.storage
+                .from("project-assets-private")
+                .createSignedUrl(fileName, 60 * 60 * 24 * 365);
+              if (signError || !signed?.signedUrl) {
+                uploadErrors[format] = `sign-failed: ${signError?.message || 'unknown'}`;
+                console.error(`[klangio] ❌ Failed to sign URL for ${format}:`, signError);
+              } else {
+                files[format] = signed.signedUrl;
+                console.log(`[klangio] ✅ ${format} uploaded and signed`);
+              }
             }
           } else {
             if (fileResponse) {
@@ -800,20 +806,24 @@ serve(async (req) => {
           console.log(`[klangio] Generated MIDI blob size: ${midiBlob.size} bytes from ${notes.length} notes`);
           
           const fileName = `${user_id || 'anonymous'}/klangio/${jobId}_midi_generated.mid`;
-          
+
           const { error: uploadError } = await supabase.storage
-            .from("project-assets")
+            .from("project-assets-private")
             .upload(fileName, midiBlob, {
               contentType: 'audio/midi',
               upsert: true,
             });
-          
+
           if (!uploadError) {
-            const { data: { publicUrl } } = supabase.storage
-              .from("project-assets")
-              .getPublicUrl(fileName);
-            files['midi'] = publicUrl;
-            console.log(`[klangio] ✅ Generated MIDI uploaded: ${publicUrl} (${midiBlob.size} bytes)`);
+            const { data: signed, error: signError } = await supabase.storage
+              .from("project-assets-private")
+              .createSignedUrl(fileName, 60 * 60 * 24 * 365);
+            if (signed?.signedUrl) {
+              files['midi'] = signed.signedUrl;
+              console.log(`[klangio] ✅ Generated MIDI uploaded and signed (${midiBlob.size} bytes)`);
+            } else {
+              console.error(`[klangio] ❌ Failed to sign generated MIDI URL:`, signError);
+            }
           } else {
             console.error(`[klangio] ❌ Failed to upload generated MIDI:`, uploadError);
           }
