@@ -166,8 +166,9 @@ export const SectionHeader = memo(function SectionHeader({
         </div>
       </div>
 
-      {rightSlot ? (
-        rightSlot
+      {slot ? (
+        slot
+
       ) : shouldShowMoreButton ? (
         <Button
           variant="ghost"
