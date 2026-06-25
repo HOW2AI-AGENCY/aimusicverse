@@ -16,35 +16,23 @@ function reactPriorityPlugin(): Plugin {
     name: "react-priority-plugin",
     enforce: "post",
     transformIndexHtml(html) {
-      // Parse HTML and extract modulepreload links
       const modulePreloadRegex = /<link\s+rel="modulepreload"\s+crossorigin\s+href="[^"]+"\s*\/?>/g;
       const matches = html.match(modulePreloadRegex) || [];
-      
       if (matches.length === 0) return html;
-
-      // Separate React preload from others
       const reactPreload = matches.filter(link => link.includes('vendor-react'));
       const otherPreloads = matches.filter(link => !link.includes('vendor-react'));
-
-      // Remove all modulepreload links from HTML (with surrounding whitespace)
       let modifiedHtml = html;
       matches.forEach(link => {
         modifiedHtml = modifiedHtml.replace(new RegExp(`\\s*${link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*`, 'g'), '\n');
       });
-
-      // Clean up multiple consecutive newlines
       modifiedHtml = modifiedHtml.replace(/\n{3,}/g, '\n');
-
-      // Insert React preload first, then others, right before </head>
       const allPreloads = [...reactPreload, ...otherPreloads].join('\n  ');
       modifiedHtml = modifiedHtml.replace('</head>', `  ${allPreloads}\n</head>`);
-
       return modifiedHtml;
     }
   };
 }
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
@@ -63,7 +51,7 @@ export default defineConfig(({ mode }) => ({
     mode === "production" && viteCompression({
       algorithm: "gzip",
       ext: ".gz",
-      threshold: 10240, // Only compress files larger than 10kb
+      threshold: 10240,
     }),
     mode === "production" && viteCompression({
       algorithm: "brotliCompress",
@@ -85,13 +73,12 @@ export default defineConfig(({ mode }) => ({
         drop_console: mode === "production",
         drop_debugger: true,
         pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug", "console.trace"] : [],
-        passes: 3, // Increased from 2 to 3 for better compression
-        unsafe: false, // Keep safe for production
+        passes: 3,
+        unsafe: false,
         unsafe_comps: false,
         unsafe_math: false,
-        // Additional aggressive optimizations
         arguments: true,
-        booleans_as_integers: false, // Keep false for compatibility
+        booleans_as_integers: false,
         computed_props: true,
         conditionals: true,
         dead_code: true,
@@ -99,11 +86,11 @@ export default defineConfig(({ mode }) => ({
         evaluate: true,
         hoist_funs: true,
         hoist_props: true,
-        hoist_vars: false, // Keep false to avoid var hoisting issues
+        hoist_vars: false,
         if_return: true,
         join_vars: true,
-        keep_fargs: false, // Remove unused function arguments
-        keep_infinity: false, // Convert Infinity to 1/0
+        keep_fargs: false,
+        keep_infinity: false,
         loops: true,
         negate_iife: true,
         properties: true,
@@ -117,47 +104,40 @@ export default defineConfig(({ mode }) => ({
       },
       mangle: {
         safari10: true,
-        toplevel: false, // Don't mangle top-level names
-        properties: false, // Don't mangle properties (can break things)
+        toplevel: false,
+        properties: false,
       },
       format: {
-        comments: false, // Remove all comments
+        comments: false,
         ecma: 2020,
       },
     },
     rollupOptions: {
       treeshake: {
-        // Use 'no-external' instead of false to prevent breaking module initialization
         moduleSideEffects: 'no-external',
         preset: "recommended",
       },
       output: {
         manualChunks: (id) => {
-          // Vendor chunks for better caching
           if (id.includes("node_modules")) {
-            // CRITICAL: React MUST be checked first and kept separate
-            // This ensures React loads before any libraries that depend on it
-            if (id.includes("/react/") || id.includes("/react-dom/") || 
-                id.includes("/react-is/") || id.includes("/scheduler/")) {
+            // React MUST be first for proper loading order
+            if (id.includes("/react/") || id.includes("/react-dom/") ||
+              id.includes("/react-is/") || id.includes("/scheduler/")) {
               return "vendor-react";
             }
-            // React Router - depends on React
-            if (id.includes("react-router")) {
+            if (id.includes("react-router") || id.includes("zustand") ||
+              id.includes("use-sync-external-store") || id.includes("react-redux")) {
               return "vendor-react";
             }
-            // State management libraries that use React hooks during initialization
-            // MUST be in vendor-react to prevent "Cannot read properties of undefined" errors
-            // use-sync-external-store is a React 18 shim that MUST be with React
-            if (id.includes("react-redux") || id.includes("zustand") || 
-                id.includes("use-sync-external-store")) {
-              return "vendor-react";
+            // opensheetmusicdisplay - ENORMOUS (1.2MB), always lazy loaded
+            if (id.includes("opensheetmusicdisplay")) {
+              return "vendor-osmd";
             }
-            // Framer Motion (large animation library)
+            // Framer Motion
             if (id.includes("framer-motion")) {
               return "vendor-framer";
             }
-            // Audio/Media libraries
-            // IMPORTANT: keep these in SEPARATE chunks to avoid circular init/TDZ errors.
+            // Audio/Media
             if (id.includes("tone")) {
               return "vendor-tone";
             }
@@ -167,28 +147,22 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("audiomotion")) {
               return "vendor-audiomotion";
             }
-            // Sheet music display - very heavy, always lazy loaded
-            if (id.includes("opensheetmusicdisplay")) {
-              return "vendor-osmd";
-            }
-            // TanStack Query - MUST include both react-query AND query-core
-            // query-core utilities must be with react-query to prevent circular dependencies
+            // TanStack Query
             if (id.includes("@tanstack/react-query") || id.includes("@tanstack/query-core")) {
               return "vendor-query";
             }
-            // UI libraries (shadcn dependencies) - all Radix UI components depend on React
-            // CRITICAL: Include react-remove-scroll and related libraries that use hooks at module level
-            if (id.includes("@radix-ui") || id.includes("cmdk") || id.includes("vaul") || 
-                id.includes("sonner") || id.includes("next-themes") ||
-                id.includes("react-remove-scroll") || id.includes("use-callback-ref") || 
-                id.includes("use-sidecar") || id.includes("detect-node-es")) {
+            // Radix UI + ecosystem
+            if (id.includes("@radix-ui") || id.includes("cmdk") || id.includes("vaul") ||
+              id.includes("sonner") || id.includes("next-themes") ||
+              id.includes("react-remove-scroll") || id.includes("use-callback-ref") ||
+              id.includes("use-sidecar") || id.includes("detect-node-es")) {
               return "vendor-radix";
             }
-            // Icons - separate chunk for tree-shaking optimization
+            // Icons
             if (id.includes("lucide-react")) {
               return "vendor-icons";
             }
-            // Date utilities - dayjs is much smaller than date-fns
+            // Date
             if (id.includes("dayjs")) {
               return "vendor-date";
             }
@@ -196,56 +170,56 @@ export default defineConfig(({ mode }) => ({
             if (id.includes("@supabase")) {
               return "vendor-supabase";
             }
-            // DnD libraries
+            // DnD
             if (id.includes("@dnd-kit") || id.includes("@hello-pangea/dnd")) {
               return "vendor-dnd";
             }
-            // Form libraries
+            // Forms
             if (id.includes("react-hook-form") || id.includes("@hookform") || id.includes("zod")) {
               return "vendor-forms";
             }
-            // Other React-dependent libraries
-            if (id.includes("react-virtuoso") || id.includes("embla-carousel-react") || 
-                id.includes("react-day-picker") || id.includes("react-resizable-panels")) {
+            // React UI (must be in same chunk to avoid circular deps)
+            if (id.includes("react-virtuoso") || id.includes("embla-carousel-react") ||
+              id.includes("react-day-picker") || id.includes("react-resizable-panels")) {
               return "vendor-react-ui";
             }
-            // Charts and visualization
-            if (id.includes("recharts") || id.includes("d3")) {
+            // Charts - always lazy, keep together
+            if (id.includes("recharts") || id.includes("d3") || id.includes("victory")) {
               return "vendor-charts";
             }
-            // All other node_modules - split by size
+            // Other utilities
             if (id.includes("lodash") || id.includes("immer")) {
               return "vendor-utils";
             }
-            // All other node_modules
+            // Everything else - but Sentry + large libs go to vendor-other
+            if (id.includes("@sentry") || id.includes("canvas-confetti") ||
+              id.includes("qrcode") || id.includes("dompurify") ||
+              id.includes("use-debounce") || id.includes("@use-gesture") ||
+              id.includes("class-variance-authority") || id.includes("tailwind-merge") ||
+              id.includes("clsx") || id.includes("input-otp") ||
+              id.includes("lovable-tagger") || id.includes("@tonejs") ||
+              id.includes("fast-check") || id.includes("jszip") ||
+              id.includes("lamejs") || id.includes("web-audio-beat-detector")) {
+              return "vendor-other";
+            }
+            // Catch-all for any missed node_modules
             return "vendor-other";
           }
-          
-          // Feature-based code splitting
-          // Pages - separate chunks for each major page
-          if (id.includes("/pages/StemStudio")) {
-            return "page-stem-studio";
-          }
-          if (id.includes("/pages/AdminDashboard")) {
-            return "page-admin";
-          }
-          if (id.includes("/pages/MusicGraph")) {
-            return "page-music-graph";
-          }
-          if (id.includes("/pages/Studio")) {
-            return "page-studio";
-          }
-          if (id.includes("/pages/LyricsStudio") || id.includes("/pages/LyricsWorkspace")) {
-            return "page-lyrics-studio";
-          }
-          if (id.includes("/pages/Projects")) {
-            return "page-projects";
-          }
-          if (id.includes("/pages/Analytics")) {
-            return "page-analytics";
-          }
-          
-          // Feature components - split heavy feature sets
+
+          // Feature-based code splitting - avoid circular dependencies
+          // by ensuring shared imports stay in same chunk
+
+          // Pages
+          if (id.includes("/pages/StemStudio")) return "page-stem-studio";
+          if (id.includes("/pages/AdminDashboard")) return "page-admin";
+          if (id.includes("/pages/MusicGraph")) return "page-music-graph";
+          if (id.includes("/pages/Studio") && !id.includes("/pages/StudioHub")) return "page-studio";
+          if (id.includes("/pages/StudioHub")) return "page-studio-hub";
+          if (id.includes("/pages/LyricsStudio") || id.includes("/pages/LyricsWorkspace")) return "page-lyrics-studio";
+          if (id.includes("/pages/Projects")) return "page-projects";
+          if (id.includes("/pages/Analytics")) return "page-analytics";
+
+          // Feature components - grouped to avoid circular deps
           if (id.includes("/components/stem-studio/") || id.includes("/components/audio-reference/")) {
             return "feature-stem-studio";
           }
@@ -255,18 +229,13 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("/components/generate-form/")) {
             return "feature-generation-form";
           }
-          // Studio components - split more granularly
+          // Studio - merged to avoid circular deps
+          if (id.includes("/components/studio/mixer/") || id.includes("/components/studio/editor/") ||
+            id.includes("/components/studio/timeline/")) {
+            return "feature-studio";
+          }
           if (id.includes("/components/studio/unified/")) {
             return "feature-studio-unified";
-          }
-          if (id.includes("/components/studio/timeline/")) {
-            return "feature-studio-timeline";
-          }
-          if (id.includes("/components/studio/editor/")) {
-            return "feature-studio-editor";
-          }
-          if (id.includes("/components/studio/mixer/")) {
-            return "feature-studio-mixer";
           }
           if (id.includes("/components/studio/")) {
             return "feature-studio";
@@ -274,10 +243,11 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("/components/analytics/")) {
             return "feature-analytics";
           }
-          // Split studio stores
+          // Stores
           if (id.includes("/stores/studio/")) {
             return "store-studio";
           }
+          // Default: let vite decide the chunk
         },
         chunkFileNames: "assets/[name]-[hash].js",
         entryFileNames: "assets/[name]-[hash].js",
@@ -297,8 +267,5 @@ export default defineConfig(({ mode }) => ({
       "@radix-ui/react-dialog",
       "@radix-ui/react-dropdown-menu",
     ],
-    // Note: Audio libraries (tone, wavesurfer.js) are NOT excluded.
-    // They must be pre-bundled together to avoid TDZ errors.
-    // The manualChunks above separates them into different chunks for production.
   },
 }));
