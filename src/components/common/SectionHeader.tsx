@@ -83,11 +83,14 @@ export const SectionHeader = memo(function SectionHeader({
   showShowMore = true,
   badge,
   rightSlot,
+  action,
   variant = 'default',
   iconAnimation = 'hover',
   customIcon,
   className,
 }: SectionHeaderProps) {
+  const slot = rightSlot ?? action;
+
   const navigate = useNavigate();
   const sizes = ICON_SIZES[variant];
 
