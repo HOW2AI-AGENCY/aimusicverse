@@ -7,8 +7,6 @@
  * Architecture:
  * - lyrics-types.ts - Shared type definitions
  * - lyrics-validation.service.ts - Validation utilities
- * - lyrics-versioning.service.ts - Versioning operations
- * - lyrics-section-notes.service.ts - Section notes operations
  * - lyrics-formatting.service.ts - Formatting and display utilities
  *
  * Migration Guide:
@@ -52,32 +50,6 @@ export type {
   ValidationResult,
   ContentQualityMetrics
 } from './lyrics-validation.service';
-
-// ============================================================================
-// VERSIONING EXPORTS
-// ============================================================================
-
-export {
-  saveLyricsWithVersioning,
-  getLyricsHistory,
-  restoreLyricsVersion,
-  compareLyricVersions,
-  batchSaveLyrics,
-  batchGetLyricsHistory
-} from './lyrics-versioning.service';
-
-// ============================================================================
-// SECTION NOTES EXPORTS
-// ============================================================================
-
-export {
-  addSectionNote,
-  editSectionNote,
-  deleteSectionNote,
-  getSectionNotesEnriched,
-  batchAddSectionNotes,
-  getSectionNotesForRange
-} from './lyrics-section-notes.service';
 
 // ============================================================================
 // FORMATTING EXPORTS
