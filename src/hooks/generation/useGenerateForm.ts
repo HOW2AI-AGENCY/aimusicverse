@@ -127,6 +127,7 @@ export function useGenerateForm({
     setAudioDuration(null);
     clearDraft();
     setPlanTrackId(undefined);
+    setCustomVoiceId(null);
     setIsPublic(true);
   }, [initialProjectId, clearDraft]);
 
