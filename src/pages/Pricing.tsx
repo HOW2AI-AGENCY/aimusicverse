@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { Loader2, Coins, Crown } from 'lucide-react';
 import { motion } from '@/lib/motion';
 import { logger } from '@/lib/logger';
+import { SEOHead } from '@/components/SEOHead';
 
 interface DBProduct {
   id: string;
@@ -82,9 +83,16 @@ export default function Pricing() {
   // Admin users don't need to purchase - redirect to home (after hooks)
   if (roleLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
+      <>
+        <SEOHead
+          title="Тарифы и кредиты"
+          description="Цены и пакеты кредитов MusicVerse AI. Оплата через Telegram Stars. Подберите тариф под ваши задачи генерации музыки."
+          canonical="https://aimusicverse.lovable.app/pricing"
+        />
+        <div className="flex items-center justify-center min-h-screen">
+          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        </div>
+      </>
     );
   }
 
@@ -175,6 +183,11 @@ export default function Pricing() {
         paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
       }}
     >
+      <SEOHead
+        title="Тарифы и кредиты"
+        description="Цены и пакеты кредитов MusicVerse AI. Оплата через Telegram Stars. Подберите тариф под ваши задачи генерации музыки."
+        canonical="https://aimusicverse.lovable.app/pricing"
+      />
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}

@@ -23,6 +23,7 @@ import { useTelegram } from '@/contexts/TelegramContext';
 import { useTelegramBackButton } from '@/hooks/telegram';
 import { UnifiedTrackCard } from '@/components/track/track-card-new';
 import { FollowButton } from '@/components/social/FollowButton';
+import { SEOHead } from '@/components/SEOHead';
 import { cn } from '@/lib/utils';
 
 interface PublicProfile {
@@ -236,8 +237,27 @@ export default function PublicProfilePage() {
     );
   }
 
+  const profileUrl = `https://aimusicverse.lovable.app/profile/${userId}`;
+  const profileDescription = profile.bio ||
+    `Профиль ${displayName} на MusicVerse AI — публичные треки, проекты и плейлисты.`;
+
   return (
     <div className="min-h-screen bg-background pb-24">
+      <SEOHead
+        title={displayName}
+        description={profileDescription}
+        canonical={profileUrl}
+        ogType="article"
+        ogImage={profile.photo_url || undefined}
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Person',
+          name: displayName,
+          description: profileDescription,
+          url: profileUrl,
+          image: profile.photo_url || undefined,
+        }}
+      />
       {/* Header */}
       <div 
         className="sticky top-0 z-30 backdrop-blur-md bg-background/80 border-b border-border/50"

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { usePlaylists } from '@/hooks/usePlaylists';
 import { PlaylistCard } from '@/components/playlist/PlaylistCard';
 import { PlaylistDetailPreview } from '@/components/playlist/PlaylistDetailPreview';
+import { SEOHead } from '@/components/SEOHead';
 import { CreatePlaylistDialog } from '@/components/playlist/CreatePlaylistDialog';
 import { EditPlaylistDialog } from '@/components/playlist/EditPlaylistDialog';
 import { SharePlaylistDialog } from '@/components/playlist/SharePlaylistDialog';
@@ -178,6 +179,11 @@ export default function Playlists() {
   // Mobile: Original layout
   return (
     <div className="min-h-screen bg-background pb-24">
+      <SEOHead
+        title="Плейлисты"
+        description="Создавайте и слушайте плейлисты в MusicVerse AI. Сохраняйте подборки треков и делитесь с друзьями."
+        canonical="https://aimusicverse.lovable.app/playlists"
+      />
       {/* Header */}
       <div 
         className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border px-4 pb-3"
