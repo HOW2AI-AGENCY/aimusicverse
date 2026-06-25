@@ -66,6 +66,7 @@ const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Rewards = lazy(() => import("./pages/Rewards"));
 const Referral = lazy(() => import("./pages/Referral"));
 const VoiceLibraryPage = lazy(() => import("./pages/VoiceLibraryPage"));
+const VoiceHistoryPage = lazy(() => import("./pages/VoiceHistoryPage"));
 
 // Heavy pages - load on demand
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
