@@ -163,14 +163,16 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
 
   return (
     <>
-      <div 
+      <div
         className={cn(
           'flex items-center',
-          isVertical ? 'flex-col gap-2' : 'gap-1 md:gap-2',
-          className
+          isVertical
+            ? 'flex-col gap-2 p-1.5 rounded-2xl bg-foreground/[0.04] border border-border/40'
+            : 'gap-1.5 md:gap-2 p-1.5 rounded-2xl bg-foreground/[0.04] border border-border/40 justify-between',
+          className,
         )}
       >
-        <TooltipProvider delayDuration={300}>
+        <TooltipProvider delayDuration={250}>
           {actions.map((action) => (
             <Tooltip key={action.id}>
               <TooltipTrigger asChild>
@@ -181,16 +183,19 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
                   disabled={action.disabled}
                   className={cn(
                     config.button,
-                    'touch-manipulation rounded-full hover:bg-muted/50',
-                    action.active && action.activeClass
+                    'touch-manipulation rounded-xl transition-all duration-150',
+                    'hover:bg-foreground/[0.08] active:scale-92',
+                    action.active && 'bg-primary/15 ring-1 ring-primary/35',
+                    action.active && action.activeClass,
                   )}
                   aria-label={action.label}
                 >
-                  <action.icon 
+                  <action.icon
                     className={cn(
                       config.icon,
-                      action.fill && 'fill-current'
-                    )} 
+                      'transition-transform',
+                      action.fill && 'fill-current scale-110',
+                    )}
                   />
                   {showLabels && (
                     <span className="sr-only md:not-sr-only md:ml-2 text-xs">
@@ -199,8 +204,8 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
                   )}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side={isVertical ? 'left' : 'bottom'}>
-                <p>{action.label}</p>
+              <TooltipContent side={isVertical ? 'left' : 'top'}>
+                {action.label}
               </TooltipContent>
             </Tooltip>
           ))}
@@ -208,13 +213,11 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
           {/* More Actions - UnifiedTrackMenu */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <div>
+              <div className={cn(config.button, 'flex items-center justify-center')}>
                 <UnifiedTrackMenu track={track} />
               </div>
             </TooltipTrigger>
-            <TooltipContent side={isVertical ? 'left' : 'bottom'}>
-              <p>More Actions</p>
-            </TooltipContent>
+            <TooltipContent side={isVertical ? 'left' : 'top'}>Ещё</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </div>
