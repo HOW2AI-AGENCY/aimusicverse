@@ -22,34 +22,29 @@
 
 
 
-## Что сделано в последней итерации
+## Что сделано в последней итерации (фазы A→D плана)
 
-1. **`UnifiedEmptyState` расширен** — теперь принимает:
-   - `icon: LucideIcon | ReactNode` (поддержка JSX-иконок и эмодзи);
-   - `action`/`secondaryAction` объектные API (label + onClick + icon);
-   - `size: 'sm' | 'md' | 'lg'` как алиас к `compact`.
-2. **3 legacy `EmptyState`** превращены в тонкие шимы, делегирующие в `UnifiedEmptyState`:
-   - `src/components/ui/EmptyState.tsx` (≈ 65 строк вместо 243);
-   - `src/components/ui/empty-state.tsx` (≈ 65 строк вместо 239);
-   - `src/components/common/EmptyState.tsx` (≈ 50 строк вместо 252).
-   - Удалено ~550 строк дублирующейся разметки. Все колл-сайты продолжают работать без изменений API.
-3. **`FeedbackToast.tsx`** → тонкий шим над `notify` из `@/lib/toast` (≈ 30 строк вместо 200+). `showToast(...)` оставлен для обратной совместимости.
-4. Поправлен барель `src/components/ui/ux-components.ts` (убран несуществующий `InlineEmpty`).
+1. **Hard-delete legacy-атомов** (Фаза 2 → ✅): удалены `src/components/ui/glass-card.tsx`, `src/components/track/variants/index.ts` (директория целиком). `RefinedTrackCard`, `RefinedButton`, `GlowButton`, `InteractiveCard` — отсутствовали в `src/` ещё с предыдущей чистки; `ux-components.ts` приведён в порядок.
+2. **Канонические импорты в домашних секциях** (Фаза 5 → 🟢): `FeaturedSection` переключён с `@/components/shared/UnifiedTrackCard` и `@/components/ui/Heading` на `@/components/track/track-card-new` + `@/components/common/SectionHeader`.
+3. **`SectionHeader.badge` поддерживает `ReactNode`**: помимо объектного API `{label, icon, variant, className}` теперь можно передать произвольный `ReactNode` (например, анимированный LIVE-индикатор).
+4. **Icon codemod** (Фаза 10 → 🟡): **814 файлов** переведены с `from "lucide-react"` на `from "@/lib/icons"`. В `src/lib/icons.ts` добавлен catch-all `export * from "lucide-react"`, чтобы покрыть все 272 уникальные иконки без ручного редактирования реэкспортов.
+5. **Восстановлен `src/hooks/useBPMGrid.ts`** (275 строк) — был ошибочно удалён cleanup-коммитом `28c1e5aa9` несмотря на ссылку из теста; подтверждено отдельным аудитом в `SPRINTS/completed/SPRINT-031-VALIDATION-REPORT.md`.
 
 ## Что осталось
 
-- **Фаза 4 → миграция импортов**: заменить `RefinedTrackCard` и `components/track/variants/*` на `UnifiedTrackCard` (variant=professional).
-- **Фаза 5**: привести домашние секции (`FeaturedSection`, `RecentTracksSection`, `TracksGridSection`, `TrackPresetsRow`) к `SectionHeader` + `UnifiedTrackCard`.
-- **Фаза 6 → миграция**: 9 одноразовых `*Dialog.tsx` в `components/` → `ResponsiveOverlay`.
-- **Фаза 9**: `axe-core` прогон по `/`, `/library`, `/studio-v2`, `/projects`.
-- **Фаза 10**: codemod для импортов, удаление `@deprecated`, поднятие ESLint-правил до `error`.
+- **Фаза 6 — миграция диалогов**: 8 одноразовых `*Dialog.tsx` (`AddInstrumentalDialog`, `AddVocalsDialog`, `AudioCoverDialog`, `AudioExtendDialog`, `ConfirmationDialog`, `CreateArtistDialog`, `ExtendTrackDialog`, `NewArrangementDialog`) → `UnifiedDialog` (canon найден в `@/components/dialog`, не `ResponsiveOverlay` как было в раннем плане). Каждый — отдельный PR с e2e-проверкой соответствующего сценария (Extend, Cover, Add Vocals, …).
+- **Фаза 9 — a11y**: прогон `axe-core` через Playwright по `/`, `/library`, `/studio-v2`, `/projects`, `/profile`; фикс aria-label на icon-кнопках, role на интерактивных div.
+- **Фаза 10 — заморозка**: ESLint `no-restricted-imports` на `lucide-react` и хардкод-цвета поднять до `error`; удалить шимы `FeedbackToast` и `EmptyState` после финального `rg`-аудита колл-сайтов.
 
 ## Метрики
 
-| Метрика                           | Цель | Текущее                                                                        |
-| --------------------------------- | ---- | ------------------------------------------------------------------------------ |
-| Файлов в `components/ui/`         | ~60  | 94 (без сокращения; legacy схлопнуты, но файлы пока живы — удаление в Фазе 10) |
-| Реализаций `EmptyState`           | 1    | 1 канон + 3 шима (готовы к удалению)                                           |
-| Реализаций `TrackCard`            | 1    | `UnifiedTrackCard` (канон) + `RefinedTrackCard` шим                            |
+| Метрика                                      | Цель | Текущее                                                                                       |
+| -------------------------------------------- | ---- | --------------------------------------------------------------------------------------------- |
+| Реализаций `EmptyState`                      | 1    | 1 канон + 3 шима                                                                              |
+| Реализаций `TrackCard`                       | 1    | `UnifiedTrackCard` (legacy `RefinedTrackCard` удалён)                                         |
+| Импортов `framer-motion` напрямую            | 0    | 0 в `src/` (только `lib/motion`)                                                              |
+| Импортов `lucide-react` напрямую             | 0    | 1 (`src/lib/icons.ts` — намеренный реэкспорт), все 814 потребителей переведены на `@/lib/icons` |
+| Legacy-диалогов в корне `src/components/`    | 0    | 8 — задача Фазы 6 (после)                                                                     |
+
 | Импортов `framer-motion` напрямую | 0    | проверяется в Фазе 10                                                          |
 | Импортов `lucide-react` напрямую  | 0    | проверяется в Фазе 10                                                          |
