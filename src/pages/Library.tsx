@@ -442,7 +442,7 @@ export default function Library() {
           </div>
 
           {/* Desktop: Track Detail Panel */}
-          {!isMobile && selectedTrackId && (
+          {!isMobile && selectedTrack && (
             <div className="w-[40%] min-w-[320px] max-w-[480px] bg-card/50 border-l border-border/30 flex-shrink-0">
               <TrackDetailPanel
                 track={selectedTrack}
