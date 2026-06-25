@@ -119,7 +119,7 @@ export const StudioTranscriptionPanel = memo(function StudioTranscriptionPanel({
           .eq('stem_type', normalizedStemType)
           .maybeSingle();
         if (data) {
-          console.log('[StudioTranscriptionPanel] Resolved stem by type:', normalizedStemType, '->', data.id);
+          logger.debug('[StudioTranscriptionPanel] Resolved stem by type:', normalizedStemType, '->', data.id);
           return { stemId: data.id, stemType: data.stem_type };
         }
       }

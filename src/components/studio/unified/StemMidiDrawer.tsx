@@ -243,7 +243,7 @@ export function StemMidiDrawer({
         // Save transcription if we have files OR notes
         if (hasAnyFiles || hasNotes) {
           try {
-            console.log('[StemMidiDrawer] Saving transcription:', {
+            logger.debug('[StemMidiDrawer] Saving transcription:', {
               stemId: stem.id,
               files: Object.keys(files),
               notesCount: transcriptionResult.notes?.length || 0,
@@ -268,7 +268,7 @@ export function StemMidiDrawer({
               durationSeconds: null,
             });
             
-            console.log('[StemMidiDrawer] Transcription saved successfully');
+            logger.debug('[StemMidiDrawer] Transcription saved successfully');
             
             // If we have notes but no MIDI file, show appropriate message
             if (hasNotes && !hasAnyFiles) {
