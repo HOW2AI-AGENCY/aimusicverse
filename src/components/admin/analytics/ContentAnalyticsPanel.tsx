@@ -213,7 +213,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                       width={60}
                     />
                     <Tooltip
-                      formatter={(value: number) => [value, 'Треков']}
+                      formatter={(value: any) => [value, 'Треков']}
                       contentStyle={{ 
                         backgroundColor: 'hsl(var(--card))', 
                         border: '1px solid hsl(var(--border))',
@@ -260,7 +260,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                       ))}
                     </Pie>
                     <Tooltip
-                      formatter={(value: number) => [value, 'Треков']}
+                      formatter={(value: any) => [value, 'Треков']}
                       contentStyle={{ 
                         backgroundColor: 'hsl(var(--card))', 
                         border: '1px solid hsl(var(--border))',
@@ -334,7 +334,7 @@ export function ContentAnalyticsPanel({ timePeriod }: ContentAnalyticsPanelProps
                     <Cell fill="hsl(var(--secondary))" />
                   </Pie>
                   <Tooltip
-                    formatter={(value: number) => [`${value.toFixed(1)}%`, '']}
+                    formatter={(value: any) => [`${value.toFixed(1)}%`, '']}
                     contentStyle={{ 
                       backgroundColor: 'hsl(var(--card))', 
                       border: '1px solid hsl(var(--border))' 

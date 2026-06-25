@@ -143,7 +143,7 @@ export function DeeplinkTrendsChart({
                   fontSize: '12px',
                 }}
                 labelStyle={{ color: 'hsl(var(--popover-foreground))' }}
-                formatter={(value: number, name: string) => {
+                formatter={(value: any, name: string) => {
                   const labels: Record<string, string> = {
                     visits: 'Визитов',
                     conversions: 'Конверсий',

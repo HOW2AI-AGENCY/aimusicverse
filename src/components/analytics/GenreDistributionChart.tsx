@@ -87,7 +87,7 @@ export function GenreDistributionChart() {
                   borderRadius: '8px',
                   fontSize: '12px',
                 }}
-                formatter={(value: number, name: string) => [
+                formatter={(value: any, name: string) => [
                   `${value} треков`,
                   name
                 ]}

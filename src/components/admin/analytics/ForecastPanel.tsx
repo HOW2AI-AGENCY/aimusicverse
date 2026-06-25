@@ -285,7 +285,7 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
                 <YAxis fontSize={10} tickLine={false} axisLine={false} width={30} />
                 <Tooltip 
                   contentStyle={{ fontSize: 11 }}
-                  formatter={(v: number) => [v, 'Новых']}
+                  formatter={(v: any) => [v, 'Новых']}
                 />
                 <Line 
                   type="monotone" 
@@ -313,7 +313,7 @@ export function ForecastPanel({ timePeriod }: ForecastPanelProps) {
                 <YAxis fontSize={10} tickLine={false} axisLine={false} width={30} />
                 <Tooltip 
                   contentStyle={{ fontSize: 11 }}
-                  formatter={(v: number) => [`⭐ ${v}`, 'Stars']}
+                  formatter={(v: any) => [`⭐ ${v}`, 'Stars']}
                 />
                 <Line 
                   type="monotone" 
