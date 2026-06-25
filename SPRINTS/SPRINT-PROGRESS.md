@@ -13,7 +13,8 @@
 | Sprint 9A: Deduplication | ✅ ЗАВЕРШЁН | 5 дубликатов, 1.35K строк |
 | Sprint 9B: Deprecated Compat Layers | ✅ ЗАВЕРШЁН | 1,095 строк удалено |
 | Sprint 9C: Lyrics Dead Code | ✅ ЗАВЕРШЁН | 10 файлов, 3,530 строк |
-| Sprint 9D-E: Refactor | 📋 ЗАПЛАНИРОВАН | 0% |
+| Sprint 9D: Dead Code Sweep | ✅ ЗАВЕРШЁН | 34 файла, 10,360 строк |
+| Sprint 9E: Verification | 📋 ЗАПЛАНИРОВАН | 0% |
 
 ---
 
@@ -126,7 +127,7 @@ All sprints 001-032 are completed and archived in `SPRINTS/completed/`.
 |---------|---------|------|
 | Users | 574+ | 1,000+ |
 | Tracks | 1,800+ | 5,000+ |
-| Files .ts/.tsx | 1,770 | — |
+| Files .ts/.tsx | 1,736 | — |
 | Components | 935+ | — |
 | Hooks | 340+ | — |
 | Pages | 57+ | — |
