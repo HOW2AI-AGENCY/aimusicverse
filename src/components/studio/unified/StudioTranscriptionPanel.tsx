@@ -4,7 +4,7 @@
  */
 
 import { memo, useState, useCallback, useMemo } from "react";
-import { Music2, FileMusic, FileText, Loader2, Zap, Settings2, Check } from "lucide-react";
+import { Music2, FileMusic, FileText, Loader2, Zap, Settings2, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";

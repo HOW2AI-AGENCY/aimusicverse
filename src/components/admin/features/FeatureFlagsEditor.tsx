@@ -11,7 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RefreshCw, Settings2, AlertCircle, ChevronDown, ChevronRight, Zap, Shield, Users } from "lucide-react";
+import { RefreshCw, Settings2, AlertCircle, ChevronDown, ChevronRight, Zap, Shield, Users } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import {
   useFeatureFlags,

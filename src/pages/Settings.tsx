@@ -9,7 +9,7 @@
  */
 
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import {
   User,
   Bell,
@@ -21,7 +21,7 @@ import {
   BarChart3,
   CreditCard,
   Settings as SettingsIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";

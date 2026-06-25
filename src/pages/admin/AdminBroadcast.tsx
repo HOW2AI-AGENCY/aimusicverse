@@ -4,7 +4,7 @@
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen } from "lucide-react";
+import { BookOpen } from "@/lib/icons";
 import { BroadcastPanel } from "@/components/admin/BroadcastPanel";
 
 export default function AdminBroadcast() {

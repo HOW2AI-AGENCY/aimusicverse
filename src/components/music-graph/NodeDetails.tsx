@@ -1,5 +1,5 @@
 import { motion } from "@/lib/motion";
-import { X, Music, Tag, Folder, Disc, Copy, Check, Sparkles } from "lucide-react";
+import { X, Music, Tag, Folder, Disc, Copy, Check, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";

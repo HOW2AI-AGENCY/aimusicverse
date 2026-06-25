@@ -4,7 +4,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "@/lib/icons";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { DetectedSection } from "@/hooks/useSectionDetection";
 import { cn } from "@/lib/utils";

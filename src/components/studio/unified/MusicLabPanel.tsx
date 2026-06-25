@@ -35,7 +35,7 @@ import {
   Play,
   Pause,
   RotateCcw,
-} from "lucide-react";
+} from "@/lib/icons";
 
 interface MusicLabPanelProps {
   projectId: string;

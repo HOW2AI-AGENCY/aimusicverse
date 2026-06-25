@@ -22,7 +22,7 @@ import {
   EyeOff,
   Wand2,
   AlignLeft,
-} from "lucide-react";
+} from "@/lib/icons";
 import { toast } from "sonner";
 import {
   DropdownMenu,

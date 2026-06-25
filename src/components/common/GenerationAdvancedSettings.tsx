@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Badge } from "@/components/ui/badge";
-import { Settings2, ChevronDown, Zap, Target, Sparkles } from "lucide-react";
+import { Settings2, ChevronDown, Zap, Target, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 export interface GenerationSettings {

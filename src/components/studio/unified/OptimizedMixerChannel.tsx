@@ -4,7 +4,7 @@
  */
 
 import { memo, useCallback } from "react";
-import { Volume2, VolumeX, Headphones } from "lucide-react";
+import { Volume2, VolumeX, Headphones } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SimpleMeter } from "./AudioMeter";

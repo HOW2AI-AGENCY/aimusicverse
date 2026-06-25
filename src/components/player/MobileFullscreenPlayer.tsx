@@ -12,7 +12,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight, Mic2 } from "lucide-react";
+import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight, Mic2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { WaveformProgressBar } from "./WaveformProgressBar";
 import { Track } from "@/types/track";

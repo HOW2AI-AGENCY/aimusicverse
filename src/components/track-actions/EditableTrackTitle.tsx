@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { hapticImpact } from "@/lib/haptic";
 import { cn } from "@/lib/utils";
-import { Pencil } from "lucide-react";
+import { Pencil } from "@/lib/icons";
 import { logger } from "@/lib/logger";
 
 interface EditableTrackTitleProps {

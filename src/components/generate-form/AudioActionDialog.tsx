@@ -21,7 +21,7 @@ import {
   Check,
   Rocket,
   Guitar,
-} from "lucide-react";
+} from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";

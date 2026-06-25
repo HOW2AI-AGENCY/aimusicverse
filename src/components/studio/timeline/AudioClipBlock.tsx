@@ -5,7 +5,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import { StudioClip, useStudioProjectStore } from "@/stores/useStudioProjectStore";
 import { cn } from "@/lib/utils";
-import { GripVertical } from "lucide-react";
+import { GripVertical } from "@/lib/icons";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 interface AudioClipBlockProps {

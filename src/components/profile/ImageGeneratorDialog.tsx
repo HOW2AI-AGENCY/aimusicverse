@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Sparkles, Wand2, Crop, RotateCcw, Check, Loader2 } from "lucide-react";
+import { Sparkles, Wand2, Crop, RotateCcw, Check, Loader2 } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";

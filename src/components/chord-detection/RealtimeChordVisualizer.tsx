@@ -5,7 +5,7 @@
 
 import { memo, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Mic, MicOff, Trash2, Copy, Volume2 } from "lucide-react";
+import { Mic, MicOff, Trash2, Copy, Volume2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

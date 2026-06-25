@@ -5,7 +5,7 @@
 
 import { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Crown, X, Sparkles, ChevronRight } from "lucide-react";
+import { Crown, X, Sparkles, ChevronRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useCreditsLimits } from "@/hooks/useCreditsLimits";
 import { useTelegram } from "@/contexts/TelegramContext";

@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useProjectTracks } from "@/hooks/useProjectTracks";
 import { toast } from "sonner";
-import { Plus } from "lucide-react";
+import { Plus } from "@/lib/icons";
 
 interface AddTrackDialogProps {
   open: boolean;

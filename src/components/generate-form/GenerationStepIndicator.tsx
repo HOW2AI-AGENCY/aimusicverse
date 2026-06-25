@@ -1,6 +1,6 @@
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
+import { Check } from "@/lib/icons";
 
 export interface StepDef {
   label: string;

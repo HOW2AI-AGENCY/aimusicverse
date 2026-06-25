@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
-import { User, Settings, Gift, Bell, CreditCard } from "lucide-react";
+import { User, Settings, Gift, Bell, CreditCard } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";

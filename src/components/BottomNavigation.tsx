@@ -1,6 +1,6 @@
 import { useState, lazy, Suspense, memo, useCallback, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home, Plus, Library, FolderOpen, User } from "lucide-react";
+import { Home, Plus, Library, FolderOpen, User } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useAuth } from "@/hooks/useAuth";

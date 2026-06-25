@@ -7,7 +7,7 @@ import { StudioTrack, StudioClip, useStudioProjectStore } from "@/stores/useStud
 import { AudioClipBlock } from "./AudioClipBlock";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Volume2, VolumeX, Headphones, Trash2 } from "lucide-react";
+import { Volume2, VolumeX, Headphones, Trash2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 

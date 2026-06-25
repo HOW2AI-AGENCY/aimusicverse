@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { BarChart3, X, FileText, Music2, Mic2, LayoutGrid, CheckCircle2 } from "lucide-react";
+import { BarChart3, X, FileText, Music2, Mic2, LayoutGrid, CheckCircle2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ToolPanelProps } from "../types";

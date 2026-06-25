@@ -17,7 +17,7 @@ import {
   Check,
   Radio,
   Loader2,
-} from "lucide-react";
+} from "@/lib/icons";
 import {
   DndContext,
   closestCenter,

@@ -6,7 +6,7 @@
 
 import React, { Component, ErrorInfo, ReactNode } from "react";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, RefreshCw, Home, Volume2 } from "lucide-react";
+import { AlertTriangle, RefreshCw, Home, Volume2 } from "@/lib/icons";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 

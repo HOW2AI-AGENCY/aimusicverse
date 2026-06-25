@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { Music2, Loader2, Wand2 } from "lucide-react";
+import { Music2, Loader2, Wand2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface TranscriptionInProgressProps {

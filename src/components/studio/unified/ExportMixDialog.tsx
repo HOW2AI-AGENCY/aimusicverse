@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Progress } from "@/components/ui/progress";
 import { Switch } from "@/components/ui/switch";
-import { Download, X, FileAudio, Loader2 } from "lucide-react";
+import { Download, X, FileAudio, Loader2 } from "@/lib/icons";
 import { useMixExport, ExportFormat, ExportQuality, Mp3Bitrate } from "@/hooks/studio/useMixExport";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";

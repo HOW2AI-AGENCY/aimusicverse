@@ -27,7 +27,7 @@ import {
   ExternalLink,
   Copy,
   Check,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useTelegram } from "@/contexts/TelegramContext";

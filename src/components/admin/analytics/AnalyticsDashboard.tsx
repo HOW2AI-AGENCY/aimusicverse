@@ -43,7 +43,7 @@ import {
   Route,
   TrendingDown,
   Filter,
-} from "lucide-react";
+} from "@/lib/icons";
 import { exportAnalytics, formatTelemetryForExport } from "@/lib/analytics/exportUtils";
 import { toast } from "sonner";
 

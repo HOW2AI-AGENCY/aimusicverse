@@ -6,7 +6,7 @@
 import { memo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Pause, RotateCcw, Volume2, VolumeX, Loader2, AlertCircle } from "lucide-react";
+import { Play, Pause, RotateCcw, Volume2, VolumeX, Loader2, AlertCircle } from "@/lib/icons";
 import { MiniWaveform } from "./MiniWaveform";
 import { useReferenceAudioPlayer } from "@/hooks/audio/useReferenceAudioPlayer";
 import { cn } from "@/lib/utils";

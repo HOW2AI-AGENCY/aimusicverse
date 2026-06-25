@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Home, Check, X } from "lucide-react";
+import { Home, Check, X } from "@/lib/icons";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { toast } from "sonner";
 

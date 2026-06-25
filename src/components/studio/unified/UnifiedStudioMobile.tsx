@@ -23,7 +23,7 @@ import { useStudioHandlers } from "@/hooks/studio/useStudioHandlers";
 import { registerStudioAudio, unregisterStudioAudio } from "@/hooks/studio/useStudioAudio";
 import { studioProjectToDAWProject } from "@/lib/studio/typeAdapters";
 import { useHaptic } from "@/hooks/useHaptic";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

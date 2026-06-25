@@ -4,7 +4,7 @@
 
 import React, { useState, useCallback, useRef, memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Upload, FileAudio, X, Sparkles, Check, AlertCircle, Play, Pause, Trash2 } from "lucide-react";
+import { Upload, FileAudio, X, Sparkles, Check, AlertCircle, Play, Pause, Trash2 } from "@/lib/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

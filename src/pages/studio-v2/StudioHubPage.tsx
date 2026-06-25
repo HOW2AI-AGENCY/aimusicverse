@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, Music2, Clock, Layers, MoreVertical, Trash2 } from "lucide-react";
+import { Plus, Music2, Clock, Layers, MoreVertical, Trash2 } from "@/lib/icons";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 import { useStudioProject } from "@/hooks/studio/useStudioProject";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";

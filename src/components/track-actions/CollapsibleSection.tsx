@@ -5,7 +5,7 @@
 
 import { memo, useState, ReactNode } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 

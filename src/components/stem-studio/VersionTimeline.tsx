@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Check, Clock, GitBranch, ChevronDown, Star, Scissors, Wand2 } from "lucide-react";
+import { Check, Clock, GitBranch, ChevronDown, Star, Scissors, Wand2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";

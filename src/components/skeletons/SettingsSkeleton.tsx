@@ -4,7 +4,7 @@
  */
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { Settings as SettingsIcon } from "lucide-react";
+import { Settings as SettingsIcon } from "@/lib/icons";
 
 export function SettingsSkeleton() {
   return (

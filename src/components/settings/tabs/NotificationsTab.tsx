@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Music, Clock, Heart, MessageCircle, Users } from "lucide-react";
+import { Music, Clock, Heart, MessageCircle, Users } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 
 interface NotificationSetting {

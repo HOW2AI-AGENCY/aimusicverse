@@ -5,7 +5,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { Check, X, Crown, Zap, Sparkles } from "lucide-react";
+import { Check, X, Crown, Zap, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface TierFeature {

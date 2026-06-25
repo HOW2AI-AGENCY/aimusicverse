@@ -16,7 +16,7 @@ import {
   User,
   Music,
   Loader2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { formatDistanceToNow, format, ru } from "@/lib/date-utils";
 import { useGenerationLogs, useGenerationStats } from "@/hooks/useGenerationLogs";
 

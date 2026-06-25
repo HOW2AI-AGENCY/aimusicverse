@@ -24,7 +24,7 @@ import {
   Volume2,
   VolumeX,
   Volume1,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGestures } from "@/hooks/useGestures";

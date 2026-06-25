@@ -5,7 +5,7 @@ import { Sheet, SheetContent, SheetFooter } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Sparkles, Loader2 } from "lucide-react";
+import { Sparkles, Loader2 } from "@/lib/icons";
 import { notify } from "@/lib/notifications";
 import { useProjects } from "@/hooks/useProjects";
 import { useArtists } from "@/hooks/useArtists";

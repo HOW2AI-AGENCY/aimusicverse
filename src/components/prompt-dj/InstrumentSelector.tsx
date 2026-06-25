@@ -4,7 +4,7 @@
 
 import { memo, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import { Check, X } from "lucide-react";
+import { Check, X } from "@/lib/icons";
 import { INSTRUMENT_PRESETS, PresetItem } from "@/lib/prompt-dj-presets";
 import { Badge } from "@/components/ui/badge";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";

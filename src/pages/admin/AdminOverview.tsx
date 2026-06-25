@@ -5,7 +5,7 @@ import { useAdminStats } from "@/hooks/useAdminUsers";
 import { StatCard, StatGrid } from "@/components/admin/StatCard";
 import { QuickActionsPanel } from "@/components/admin/QuickActionsPanel";
 import { HealthCheckPanel } from "@/components/admin/HealthCheckPanel";
-import { Users, Music, FolderKanban, ListMusic, TrendingUp, Activity } from "lucide-react";
+import { Users, Music, FolderKanban, ListMusic, TrendingUp, Activity } from "@/lib/icons";
 
 export default function AdminOverview() {
   const { data: stats } = useAdminStats();

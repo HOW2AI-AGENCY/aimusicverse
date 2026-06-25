@@ -6,7 +6,7 @@
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
-import { X, Sparkles, Music, Zap, Moon, Sun, Flame, Waves } from "lucide-react";
+import { X, Sparkles, Music, Zap, Moon, Sun, Flame, Waves } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { PromptChannel, GlobalSettings } from "@/hooks/usePromptDJEnhanced";
 

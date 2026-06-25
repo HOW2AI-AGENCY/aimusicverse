@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX } from "@/lib/icons";
 import { getSoundEffects } from "@/lib/sound-effects";
 import { cn } from "@/lib/utils";
 

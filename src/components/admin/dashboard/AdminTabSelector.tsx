@@ -35,7 +35,7 @@ import {
   ChevronDown,
   Menu,
   LucideIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 import { ADMIN_TAB_OPTIONS, type AdminTabType } from "@/hooks/admin/useAdminDashboard";
 
 // ============================================================================

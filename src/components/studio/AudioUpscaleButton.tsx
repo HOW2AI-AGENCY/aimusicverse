@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Loader2, Check } from "lucide-react";
+import { Sparkles, Loader2, Check } from "@/lib/icons";
 import { useAudioUpscale } from "@/hooks/useAudioUpscale";
 import { getUpscaleStatus, hasHdAudio } from "@/api/audio-upscale.api";
 import { cn } from "@/lib/utils";

@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { FileText, Edit, Sparkles, Save, X, Music, StickyNote, CheckCircle } from "lucide-react";
+import { FileText, Edit, Sparkles, Save, X, Music, StickyNote, CheckCircle } from "@/lib/icons";
 import { ProjectTrack } from "@/hooks/useProjectTracks";
 import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
 import { cn } from "@/lib/utils";

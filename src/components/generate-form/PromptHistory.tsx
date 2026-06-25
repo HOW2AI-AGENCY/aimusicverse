@@ -21,7 +21,7 @@ import {
   X,
   TrendingUp,
   Loader2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { toast } from "sonner";
 import { format, ru } from "@/lib/date-utils";
 import { INSPIRATION_PROMPTS, getPromptUsageCount, incrementPromptUsage } from "./inspirationPrompts";

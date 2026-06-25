@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Trophy, Clock, Star, Flame, Sparkles } from "lucide-react";
+import { Trophy, Clock, Star, Flame, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { differenceInDays, endOfWeek, startOfWeek, format, ru } from "@/lib/date-utils";
 

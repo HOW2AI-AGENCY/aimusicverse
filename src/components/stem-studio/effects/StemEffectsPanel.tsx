@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import { ChevronDown, Sliders } from "lucide-react";
+import { ChevronDown, Sliders } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";

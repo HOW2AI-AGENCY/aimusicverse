@@ -8,7 +8,7 @@
 import React, { useEffect, ReactNode } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { hapticPatterns } from "./TelegramHaptics";
 

@@ -1,4 +1,4 @@
-import { Music2, Library, Sparkles, Trophy, Wand2 } from "lucide-react";
+import { Music2, Library, Sparkles, Trophy, Wand2 } from "@/lib/icons";
 
 export interface OnboardingStep {
   id: string;

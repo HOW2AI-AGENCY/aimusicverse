@@ -13,7 +13,7 @@ import {
 import { VirtuosoGrid } from "react-virtuoso";
 import type { Track } from "@/types/track";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw } from "@/lib/icons";
 import { GridSkeleton, TrackCardSkeletonCompact } from "@/components/ui/skeleton-components";
 import { TrackListProvider } from "@/contexts/TrackListContext";
 import { logger } from "@/lib/logger";

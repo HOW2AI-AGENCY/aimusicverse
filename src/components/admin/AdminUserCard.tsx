@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Crown, Coins, MessageSquare, Shield, ShieldOff, MoreVertical } from "lucide-react";
+import { Crown, Coins, MessageSquare, Shield, ShieldOff, MoreVertical } from "@/lib/icons";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 interface UserWithRoles {

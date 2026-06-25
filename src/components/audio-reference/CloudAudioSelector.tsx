@@ -8,7 +8,7 @@ import { memo, useState, useRef, useEffect, useId } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Cloud, Music2, Check, ChevronDown, ChevronUp, Loader2, Play, Pause } from "lucide-react";
+import { Cloud, Music2, Check, ChevronDown, ChevronUp, Loader2, Play, Pause } from "@/lib/icons";
 import { useReferenceAudio, type ReferenceAudio } from "@/hooks/useReferenceAudio";
 import { useAudioReference } from "@/hooks/useAudioReference";
 import { cn } from "@/lib/utils";

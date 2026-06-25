@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Sparkles, ChevronRight, ChevronLeft } from "lucide-react";
+import { Sparkles, ChevronRight, ChevronLeft } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";

@@ -1,4 +1,4 @@
-import { Bell } from "lucide-react";
+import { Bell } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useNotificationHub } from "@/contexts/NotificationContext";

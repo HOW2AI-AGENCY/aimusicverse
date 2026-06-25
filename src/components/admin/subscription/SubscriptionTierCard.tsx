@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Edit2, Zap, Star } from "lucide-react";
+import { Edit2, Zap, Star } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { SubscriptionTier, getTierIcon, formatPeriod } from "@/hooks/admin/useSubscriptionTiers";
 

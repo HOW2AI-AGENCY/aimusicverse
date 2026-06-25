@@ -1,7 +1,7 @@
 import { motion } from "@/lib/motion";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Music2, Wand2, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { Sparkles, Music2, Wand2, CheckCircle2, Loader2, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface GenerationProgressStageProps {

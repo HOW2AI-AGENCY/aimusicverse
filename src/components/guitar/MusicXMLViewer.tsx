@@ -6,7 +6,7 @@
 
 import { useRef, useEffect, useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
-import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw, Maximize2, Minimize2 } from "lucide-react";
+import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw, Maximize2, Minimize2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useMusicXML } from "@/hooks/useMusicXML";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";

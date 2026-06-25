@@ -6,7 +6,7 @@
 import { memo, useRef, useEffect, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
-import { Loader2, ChevronDown, ChevronUp } from "lucide-react";
+import { Loader2, ChevronDown, ChevronUp } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { AITool, AIToolId } from "./types";
 import { AI_TOOLS } from "./constants";

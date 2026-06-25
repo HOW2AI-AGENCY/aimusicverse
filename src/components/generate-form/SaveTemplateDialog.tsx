@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useLyricsTemplates } from "@/hooks/useLyricsTemplates";
-import { Loader2, FileText, Music, Tag } from "lucide-react";
+import { Loader2, FileText, Music, Tag } from "@/lib/icons";
 
 interface SaveTemplateDialogProps {
   open: boolean;

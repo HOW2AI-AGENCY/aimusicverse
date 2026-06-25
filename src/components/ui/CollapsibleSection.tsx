@@ -8,7 +8,7 @@
 import React, { ReactNode, useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { ChevronDown, ChevronRight, LucideIcon } from "lucide-react";
+import { ChevronDown, ChevronRight, LucideIcon } from "@/lib/icons";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 
 interface CollapsibleProps {

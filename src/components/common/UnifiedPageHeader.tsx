@@ -9,7 +9,7 @@
 
 import React, { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, LucideIcon } from "lucide-react";
+import { ChevronLeft, LucideIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { touchTarget } from "@/lib/touch-target";

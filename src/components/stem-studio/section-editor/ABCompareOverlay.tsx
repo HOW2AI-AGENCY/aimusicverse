@@ -11,7 +11,7 @@ import { memo, useId, useState, useRef, useEffect, useCallback, useMemo } from "
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
-import { Play, Pause, RotateCcw, Volume2, VolumeX, ArrowLeftRight, Check, X, Sparkles, Wand2 } from "lucide-react";
+import { Play, Pause, RotateCcw, Volume2, VolumeX, ArrowLeftRight, Check, X, Sparkles, Wand2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";

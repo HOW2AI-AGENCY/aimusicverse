@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Mic, Music2 } from "lucide-react";
+import { Mic, Music2 } from "@/lib/icons";
 import { SectionLabel, SECTION_HINTS } from "../SectionLabel";
 import { cn } from "@/lib/utils";
 

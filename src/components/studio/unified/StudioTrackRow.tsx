@@ -25,7 +25,7 @@ import {
   ArrowRight,
   FileMusic,
   Music2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";

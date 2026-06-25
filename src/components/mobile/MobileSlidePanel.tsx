@@ -4,7 +4,7 @@
  */
 
 import { memo, ReactNode, useCallback } from "react";
-import { X } from "lucide-react";
+import { X } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { backdrop } from "@/lib/overlay-colors";
 import { useHaptic } from "@/hooks/useHaptic";

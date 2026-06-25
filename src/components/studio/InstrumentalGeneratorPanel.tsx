@@ -13,7 +13,7 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, Music, Play, Pause, Plus, Sparkles, RefreshCw } from "lucide-react";
+import { Loader2, Music, Play, Pause, Plus, Sparkles, RefreshCw } from "@/lib/icons";
 import { toast } from "sonner";
 import { useStudioProjectStore } from "@/stores/useStudioProjectStore";
 import { cn } from "@/lib/utils";

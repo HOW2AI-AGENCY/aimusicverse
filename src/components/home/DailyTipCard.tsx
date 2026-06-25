@@ -10,7 +10,7 @@
 import { memo, useMemo, useState, useCallback, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { X, ChevronRight, Sparkles, Music2, Scissors, Wand2, PenTool } from "lucide-react";
+import { X, ChevronRight, Sparkles, Music2, Scissors, Wand2, PenTool } from "@/lib/icons";
 import { glass, gradientGlass } from "@/lib/glass";
 import { useTelegram } from "@/contexts/TelegramContext";
 import type { TutorialType } from "./FeatureTutorialDialog";

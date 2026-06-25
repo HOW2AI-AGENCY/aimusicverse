@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import type { PanInfo } from "@/lib/motion";
-import { ChevronRight, Disc, Music, Tag, Folder, X, Search, ArrowLeft } from "lucide-react";
+import { ChevronRight, Disc, Music, Tag, Folder, X, Search, ArrowLeft } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Rocket, Crown, Gem, Zap, Lock, Gift, Timer } from "lucide-react";
+import { Rocket, Crown, Gem, Zap, Lock, Gift, Timer } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { differenceInHours } from "@/lib/date-utils";
 

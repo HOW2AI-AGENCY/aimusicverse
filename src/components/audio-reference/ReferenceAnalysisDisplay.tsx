@@ -7,7 +7,7 @@ import { memo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Music, Mic2, Gauge, Heart, Zap, Globe, Loader2, CheckCircle2, XCircle, Clock, Sparkles } from "lucide-react";
+import { Music, Mic2, Gauge, Heart, Zap, Globe, Loader2, CheckCircle2, XCircle, Clock, Sparkles } from "@/lib/icons";
 import { AudioAnalysis } from "@/services/audio-reference/types";
 import { cn } from "@/lib/utils";
 

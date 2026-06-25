@@ -10,7 +10,7 @@
 
 import React, { useState, memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Mic, Upload, AudioWaveform, Clock } from "lucide-react";
+import { Mic, Upload, AudioWaveform, Clock } from "@/lib/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { DesktopToolsGridLayout } from "@/components/layout/desktop";

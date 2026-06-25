@@ -5,7 +5,7 @@
 import { memo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Loader2, Check, AlertCircle } from "lucide-react";
+import { Sparkles, Loader2, Check, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface GenerateButtonProps {

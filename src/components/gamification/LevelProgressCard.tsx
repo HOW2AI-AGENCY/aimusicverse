@@ -5,7 +5,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Star, Zap, TrendingUp } from "lucide-react";
+import { Star, Zap, TrendingUp } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { getLevelProgress, getExperienceForLevel } from "@/services/credits.service";
 import { cn } from "@/lib/utils";

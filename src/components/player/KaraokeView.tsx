@@ -7,7 +7,7 @@
 
 import { useMemo, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { X, Mic2 } from "lucide-react";
+import { X, Mic2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { KaraokeWord } from "@/components/lyrics/KaraokeWord";
 import { cn } from "@/lib/utils";

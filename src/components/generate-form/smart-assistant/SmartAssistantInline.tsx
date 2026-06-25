@@ -5,7 +5,7 @@
 
 import { memo, useCallback, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Sparkles, ChevronRight, X, Brain } from "lucide-react";
+import { Sparkles, ChevronRight, X, Brain } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

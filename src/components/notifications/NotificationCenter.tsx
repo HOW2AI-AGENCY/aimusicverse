@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from "lucide-react";
+import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +11,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 import { useNotificationHub, NotificationItem } from "@/contexts/NotificationContext";
-import { Info, CheckCircle, AlertTriangle, XCircle, Music2, FileMusic, Trophy, Users, Settings } from "lucide-react";
+import { Info, CheckCircle, AlertTriangle, XCircle, Music2, FileMusic, Trophy, Users, Settings } from "@/lib/icons";
 
 const iconMap = {
   info: Info,

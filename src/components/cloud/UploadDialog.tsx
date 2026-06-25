@@ -4,7 +4,7 @@
 
 import { useRef, useState } from "react";
 import { format } from "@/lib/date-utils";
-import { Mic, Upload } from "lucide-react";
+import { Mic, Upload } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";

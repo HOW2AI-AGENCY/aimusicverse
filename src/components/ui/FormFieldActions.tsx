@@ -5,7 +5,7 @@
  */
 
 import { memo, useState } from "react";
-import { Copy, X, Save, Check, Loader2, Sparkles, Palette, FileText, ExternalLink, LucideIcon } from "lucide-react";
+import { Copy, X, Save, Check, Loader2, Sparkles, Palette, FileText, ExternalLink, LucideIcon } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Separator } from "@/components/ui/separator";

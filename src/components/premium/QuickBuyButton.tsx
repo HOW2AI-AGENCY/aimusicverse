@@ -5,7 +5,7 @@
 
 import { useState, memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Coins, Sparkles, X } from "lucide-react";
+import { Coins, Sparkles, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useUserCredits } from "@/hooks/useUserCredits";
 import { useCreditsLimits } from "@/hooks/useCreditsLimits";

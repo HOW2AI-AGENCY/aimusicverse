@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, memo } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Square, Grid3X3, ListMusic, Volume2, Download, Music, Send } from "lucide-react";
+import { Play, Square, Grid3X3, ListMusic, Volume2, Download, Music, Send } from "@/lib/icons";
 import { useDrumMachine } from "@/hooks/useDrumMachine";
 import { DrumPadGrid } from "./DrumPadGrid";
 import { DrumSequencer } from "./DrumSequencer";

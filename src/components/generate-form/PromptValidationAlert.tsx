@@ -4,7 +4,7 @@
  */
 
 import { memo, useMemo, useCallback } from "react";
-import { AlertTriangle, Sparkles, ArrowRight, X } from "lucide-react";
+import { AlertTriangle, Sparkles, ArrowRight, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { findArtistReplacement, getGenreSuggestions, type ArtistReplacement } from "@/lib/artistReplacements";

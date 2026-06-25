@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Play, Pause, Volume2, VolumeX, Music, Piano, Loader2, Download, Music2 } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Music, Piano, Loader2, Download, Music2 } from "@/lib/icons";
 import { PianoRollPreview } from "@/components/analysis/PianoRollPreview";
 import { MusicXMLViewer } from "@/components/guitar/MusicXMLViewer";
 import { useMidiFileParser, type ParsedMidiNote } from "@/hooks/useMidiFileParser";

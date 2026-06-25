@@ -14,7 +14,7 @@ import {
   FileText,
   ChevronDown,
   ChevronUp,
-} from "lucide-react";
+} from "@/lib/icons";
 import { AIActionsDialog } from "@/components/project/AIActionsDialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { MinimalProjectTrackItem } from "@/components/project/MinimalProjectTrackItem";

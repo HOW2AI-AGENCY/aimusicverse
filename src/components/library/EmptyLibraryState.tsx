@@ -6,7 +6,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from "lucide-react";
+import { Sparkles, Music2, Wand2, Upload, ArrowRight, Zap, Star } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

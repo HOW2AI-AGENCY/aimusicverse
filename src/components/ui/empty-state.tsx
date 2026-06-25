@@ -3,7 +3,7 @@
  * Thin compatibility shim. Removed in Phase 10 of `docs/UI_AUDIT.md`.
  */
 import { memo, type ReactNode } from "react";
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "@/lib/icons";
 import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 
 export type EmptyStateVariant = "default" | "search" | "error" | "success" | "music" | "loading";

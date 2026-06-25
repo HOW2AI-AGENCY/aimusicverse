@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
-import { Music2, Mic, Volume2, Layers, Clock, TrendingUp, Heart, CheckCircle2, AlertCircle } from "lucide-react";
+import { Music2, Mic, Volume2, Layers, Clock, TrendingUp, Heart, CheckCircle2, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 

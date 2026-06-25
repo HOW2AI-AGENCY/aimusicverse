@@ -6,7 +6,7 @@
  */
 
 import { memo, useState, useEffect } from "react";
-import { Cloud, CloudOff, Download, HardDrive, Loader2 } from "lucide-react";
+import { Cloud, CloudOff, Download, HardDrive, Loader2 } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

@@ -1,7 +1,7 @@
 // SocialLinks Component - Sprint 011 Task T024
 // Displays social media links with icons
 
-import { Instagram, Twitter, Music2, Youtube, Globe } from "lucide-react";
+import { Instagram, Twitter, Music2, Youtube, Globe } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import type { SocialLinks as Links } from "@/types/profile";
 

@@ -12,7 +12,7 @@
  */
 
 import { memo, useCallback } from "react";
-import { MoreHorizontal, Play, Pause } from "lucide-react";
+import { MoreHorizontal, Play, Pause } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

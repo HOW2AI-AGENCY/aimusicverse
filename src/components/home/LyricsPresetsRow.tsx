@@ -9,7 +9,7 @@ import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Sparkles, PenTool, ArrowRight } from "lucide-react";
+import { Sparkles, PenTool, ArrowRight } from "@/lib/icons";
 import { LYRICS_PRESETS, type LyricsPreset, getQuickLyricsPresets } from "@/constants/lyricsPresets";
 import { useTelegram } from "@/contexts/TelegramContext";
 

@@ -6,7 +6,7 @@
 
 import { memo, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Scissors, Check, Clock, Play, Pause, Music2, ChevronRight, Sparkles } from "lucide-react";
+import { Scissors, Check, Clock, Play, Pause, Music2, ChevronRight, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";

@@ -24,7 +24,7 @@ import {
   Download,
   Share2,
   MoreHorizontal,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

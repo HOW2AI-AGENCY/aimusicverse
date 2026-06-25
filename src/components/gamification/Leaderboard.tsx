@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Crown, Medal, Award, Flame, Star, Music, Share2, Heart, Headphones } from "lucide-react";
+import { Crown, Medal, Award, Flame, Star, Music, Share2, Heart, Headphones } from "@/lib/icons";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { getRankColor } from "@/lib/design-colors";
 

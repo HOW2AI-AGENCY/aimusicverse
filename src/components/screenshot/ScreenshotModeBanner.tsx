@@ -1,4 +1,4 @@
-import { Camera, X } from "lucide-react";
+import { Camera, X } from "@/lib/icons";
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";

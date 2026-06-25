@@ -4,7 +4,7 @@
  */
 
 import { memo, useState, useRef, useEffect, forwardRef } from "react";
-import { Search, X } from "lucide-react";
+import { Search, X } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useHaptic } from "@/hooks/useHaptic";
 import { Input } from "@/components/ui/input";

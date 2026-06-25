@@ -7,7 +7,7 @@ import { memo, useState, useCallback, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { LAYOUT_RATIOS, MAX_WIDTHS } from "@/lib/breakpoints";
 import { Button } from "@/components/ui/button";
-import { X, FolderOpen } from "lucide-react";
+import { X, FolderOpen } from "@/lib/icons";
 
 interface DesktopContentHubLayoutProps {
   /** Main content (tabs with lists) */

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Image, Sparkles, ArrowRight, X, AlertTriangle } from "lucide-react";
+import { Image, Sparkles, ArrowRight, X, AlertTriangle } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 

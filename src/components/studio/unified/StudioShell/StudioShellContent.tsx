@@ -15,7 +15,7 @@ import { StudioLyricsPanelCompact } from "@/components/stem-studio/StudioLyricsP
 import { SortableTrackList } from "../SortableTrackList";
 import { MobileAudioWarning } from "@/components/studio/MobileAudioWarning";
 import { cn } from "@/lib/utils";
-import { Plus } from "lucide-react";
+import { Plus } from "@/lib/icons";
 import type { DetectedSection, ReplacedRange } from "@/types/sections";
 
 export interface StudioShellContentProps {

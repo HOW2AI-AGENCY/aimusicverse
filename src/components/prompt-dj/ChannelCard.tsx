@@ -5,7 +5,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Music, Guitar, Heart, MessageSquare } from "lucide-react";
+import { Music, Guitar, Heart, MessageSquare } from "@/lib/icons";
 import type { PromptChannel } from "@/hooks/usePromptDJ";
 import { GENRE_PRESETS, INSTRUMENT_PRESETS, MOOD_PRESETS } from "@/lib/prompt-dj-presets";
 import { cn } from "@/lib/utils";

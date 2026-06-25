@@ -11,7 +11,7 @@
 
 import { useState, lazy, Suspense } from "react";
 import { motion } from "@/lib/motion";
-import { User, Sun, Moon, Sunrise, Sunset, Menu } from "lucide-react";
+import { User, Sun, Moon, Sunrise, Sunset, Menu } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useUnreadCount } from "@/hooks/useNotifications";
 import { useTelegram } from "@/contexts/TelegramContext";

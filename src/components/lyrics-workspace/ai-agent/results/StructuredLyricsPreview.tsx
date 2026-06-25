@@ -4,7 +4,7 @@
 
 import { useState, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { Copy, Check, ChevronDown, ChevronUp, RefreshCw, PenLine } from "lucide-react";
+import { Copy, Check, ChevronDown, ChevronUp, RefreshCw, PenLine } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";

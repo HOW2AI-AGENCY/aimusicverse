@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Sparkles, X } from "lucide-react";
+import { Sparkles, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DetectedSection } from "@/hooks/useSectionDetection";

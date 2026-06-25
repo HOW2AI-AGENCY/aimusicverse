@@ -5,7 +5,7 @@
 
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Send, Loader2, Bot, User, Trash2, X, Sparkles, Tag, Mic, MicOff } from "lucide-react";
+import { Send, Loader2, Bot, User, Trash2, X, Sparkles, Tag, Mic, MicOff } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";

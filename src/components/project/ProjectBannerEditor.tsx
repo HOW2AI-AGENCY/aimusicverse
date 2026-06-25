@@ -22,7 +22,7 @@ import {
   RotateCcw,
   Crop,
   X,
-} from "lucide-react";
+} from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";

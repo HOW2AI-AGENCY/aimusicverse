@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Radio, Sliders, Zap, Music2, Settings2, Sparkles, ChevronRight, ChevronLeft, X } from "lucide-react";
+import { Radio, Sliders, Zap, Music2, Settings2, Sparkles, ChevronRight, ChevronLeft, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { backdrop } from "@/lib/overlay-colors";
 import { cn } from "@/lib/utils";

@@ -4,7 +4,7 @@
  */
 
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Zap, Check, TrendingUp, Crown } from "lucide-react";
+import { Zap, Check, TrendingUp, Crown } from "@/lib/icons";
 import type { StarsProduct } from "@/services/starsPaymentService";
 import { formatRubles } from "@/types/payment";
 import { cn } from "@/lib/utils";

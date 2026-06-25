@@ -18,7 +18,7 @@ import {
   Zap,
   ArrowUpRight,
   ArrowDownRight,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 

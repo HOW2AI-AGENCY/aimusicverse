@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Network, Music, Tag, Folder, Disc, Search, Info, Sparkles, HelpCircle } from "lucide-react";
+import { Network, Music, Tag, Folder, Disc, Search, Info, Sparkles, HelpCircle } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

@@ -8,7 +8,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Sparkles, Send, MessageCircle, Tag, Lightbulb, X, Bot, User, Loader2, Trash2, PenLine } from "lucide-react";
+import { Sparkles, Send, MessageCircle, Tag, Lightbulb, X, Bot, User, Loader2, Trash2, PenLine } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";

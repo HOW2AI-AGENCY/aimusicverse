@@ -5,7 +5,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Calendar, CheckCircle2, Clock, XCircle, RefreshCw, Ban, Sparkles, Zap, Crown } from "lucide-react";
+import { Calendar, CheckCircle2, Clock, XCircle, RefreshCw, Ban, Sparkles, Zap, Crown } from "@/lib/icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

@@ -6,7 +6,7 @@
 import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp, Sliders } from "lucide-react";
+import { ChevronDown, ChevronUp, Sliders } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { KnobCell } from "./KnobCell";
 import type { PromptChannel, ChannelType } from "@/hooks/usePromptDJEnhanced";

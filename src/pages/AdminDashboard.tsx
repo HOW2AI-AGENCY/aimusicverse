@@ -36,7 +36,7 @@
 import { Navigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, MessageSquare } from "lucide-react";
+import { BookOpen, MessageSquare } from "@/lib/icons";
 
 // Dashboard components
 import {

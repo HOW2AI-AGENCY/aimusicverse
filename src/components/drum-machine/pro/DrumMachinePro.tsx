@@ -1,7 +1,7 @@
 import React, { memo, useState, useCallback, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Grid3X3, ListMusic, Download, Send, Music, Mic, Layers, Sparkles } from "lucide-react";
+import { Grid3X3, ListMusic, Download, Send, Music, Mic, Layers, Sparkles } from "@/lib/icons";
 import { useDrumMachine } from "@/hooks/useDrumMachine";
 import { TransportBar } from "./TransportBar";
 import { DrumPadsPro } from "./DrumPadsPro";

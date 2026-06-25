@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { UnifiedDialog } from "@/components/dialog/unified-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Zap, Send, Coins, Gift, CheckCircle2, RefreshCw } from "lucide-react";
+import { Zap, Send, Coins, Gift, CheckCircle2, RefreshCw } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useMutation } from "@tanstack/react-query";

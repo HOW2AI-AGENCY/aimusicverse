@@ -20,7 +20,7 @@ import {
   ArrowRight,
   Mic2,
   Guitar,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";

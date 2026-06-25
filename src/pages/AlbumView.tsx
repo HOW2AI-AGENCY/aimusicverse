@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Music, Play, Pause, Share2, User, Calendar, Clock, Loader2 } from "lucide-react";
+import { ArrowLeft, Music, Play, Pause, Share2, User, Calendar, Clock, Loader2 } from "@/lib/icons";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useTelegramBackButton } from "@/hooks/telegram";
 import { SEOHead } from "@/components/SEOHead";

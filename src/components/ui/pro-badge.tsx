@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Zap, Crown } from "lucide-react";
+import { Sparkles, Zap, Crown } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 type ProBadgeVariant = "default" | "premium" | "elite";

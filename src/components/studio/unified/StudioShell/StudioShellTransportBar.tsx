@@ -12,7 +12,7 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
-import { Volume2, VolumeX, Upload, Plus } from "lucide-react";
+import { Volume2, VolumeX, Upload, Plus } from "@/lib/icons";
 import { OptimizedTransport } from "../OptimizedTransport";
 
 export interface StudioShellTransportBarProps {

@@ -2,7 +2,7 @@
  * Share Project Card - generates shareable card for Telegram Stories
  */
 import { useState } from "react";
-import { Share2, Loader2 } from "lucide-react";
+import { Share2, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { toast } from "sonner";

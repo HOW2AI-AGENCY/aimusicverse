@@ -2,7 +2,7 @@ import { useState, useRef, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Image as ImageIcon, Upload, RefreshCw, Trash2, ExternalLink, ShieldAlert } from "lucide-react";
+import { Image as ImageIcon, Upload, RefreshCw, Trash2, ExternalLink, ShieldAlert } from "@/lib/icons";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";

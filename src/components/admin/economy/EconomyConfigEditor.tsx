@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RefreshCw, Search, Settings2, AlertCircle, CheckCircle2, RotateCcw } from "lucide-react";
+import { RefreshCw, Search, Settings2, AlertCircle, CheckCircle2, RotateCcw } from "@/lib/icons";
 import { EconomyCategory } from "./EconomyCategory";
 import {
   useEconomyConfig,

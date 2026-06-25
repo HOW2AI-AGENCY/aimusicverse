@@ -26,7 +26,7 @@ import {
   Clock,
   Save,
   FolderOpen,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ProBadge } from "@/components/ui/pro-badge";

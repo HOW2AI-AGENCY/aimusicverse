@@ -1,6 +1,6 @@
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useEffect, useState } from "react";
-import { X, Sparkles, Music, Mic, Layers } from "lucide-react";
+import { X, Sparkles, Music, Mic, Layers } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

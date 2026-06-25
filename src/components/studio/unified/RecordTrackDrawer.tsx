@@ -23,7 +23,7 @@ import { useHaptic } from "@/hooks/useHaptic";
 import { useRealtimeChordDetection } from "@/hooks/useRealtimeChordDetection";
 import { useHintTracking } from "@/hooks/useHintTracking";
 import { ChordDiagram } from "@/components/guitar/ChordDiagram";
-import { Mic, Guitar, Music2, Square, Loader2, CircleDot, AlertCircle, Info } from "lucide-react";
+import { Mic, Guitar, Music2, Square, Loader2, CircleDot, AlertCircle, Info } from "@/lib/icons";
 
 export type RecordingType = "vocal" | "guitar" | "instrument";
 

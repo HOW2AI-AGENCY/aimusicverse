@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Music, Search, Globe, Lock } from "lucide-react";
+import { Music, Search, Globe, Lock } from "@/lib/icons";
 
 interface Track {
   id: string;

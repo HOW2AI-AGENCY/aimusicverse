@@ -1,7 +1,7 @@
 import React, { memo, useRef, useState, useEffect, useId } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Circle, Square, Download, Trash2, AudioLines, Upload } from "lucide-react";
+import { Circle, Square, Download, Trash2, AudioLines, Upload } from "@/lib/icons";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 

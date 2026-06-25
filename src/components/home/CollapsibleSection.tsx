@@ -12,7 +12,7 @@
 
 import { memo, useState, useCallback, useEffect, useId } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { glass } from "@/lib/glass";

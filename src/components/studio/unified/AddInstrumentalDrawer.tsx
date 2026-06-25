@@ -6,7 +6,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Guitar, Music2, Wand2, Sparkles, Loader2, X, ChevronDown, Settings2, AlertCircle } from "lucide-react";
+import { Guitar, Music2, Wand2, Sparkles, Loader2, X, ChevronDown, Settings2, AlertCircle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Edit, X, Plus, Lock, Globe, AlertTriangle } from "lucide-react";
+import { Edit, X, Plus, Lock, Globe, AlertTriangle } from "@/lib/icons";
 import { ArtistAvatarUpload } from "./ArtistAvatarUpload";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@/hooks/useAuth";

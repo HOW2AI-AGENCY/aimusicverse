@@ -6,7 +6,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence, Variants } from "@/lib/motion";
-import { X, Wand2, Zap, Music2, Sparkles, ChevronDown, ChevronUp, Tag, MessageSquare, Loader2 } from "lucide-react";
+import { X, Wand2, Zap, Music2, Sparkles, ChevronDown, ChevronUp, Tag, MessageSquare, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";

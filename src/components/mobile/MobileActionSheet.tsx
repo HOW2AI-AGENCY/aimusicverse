@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { backdrop } from "@/lib/overlay-colors";
 import { useHaptic } from "@/hooks/useHaptic";
-import { X } from "lucide-react";
+import { X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 
 interface ActionSheetAction {

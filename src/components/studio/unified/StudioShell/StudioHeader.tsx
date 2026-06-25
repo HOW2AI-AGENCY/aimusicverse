@@ -23,7 +23,7 @@ import {
   Cloud,
   CloudOff,
   Sparkles,
-} from "lucide-react";
+} from "@/lib/icons";
 import type { ViewMode } from "@/stores/useUnifiedStudioStore";
 
 interface StudioHeaderProps {

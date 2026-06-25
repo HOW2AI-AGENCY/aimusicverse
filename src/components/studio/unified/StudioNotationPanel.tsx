@@ -8,7 +8,7 @@
  */
 
 import { memo, useCallback, useMemo, useState } from "react";
-import { AlertCircle, ChevronDown, Download, FileText, Loader2, Music2, RefreshCw } from "lucide-react";
+import { AlertCircle, ChevronDown, Download, FileText, Loader2, Music2, RefreshCw } from "@/lib/icons";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 

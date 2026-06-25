@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Sparkles, Check, Loader2 } from "lucide-react";
+import { Sparkles, Check, Loader2 } from "@/lib/icons";
 import { Track } from "@/types/track";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable } from "@/lib/trackActionConditions";

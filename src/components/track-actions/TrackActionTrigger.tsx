@@ -9,7 +9,7 @@
  */
 
 import { memo, useState, useCallback } from "react";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { UnifiedTrackMenu } from "./UnifiedTrackMenu";
 import { UnifiedTrackSheet } from "./UnifiedTrackSheet";

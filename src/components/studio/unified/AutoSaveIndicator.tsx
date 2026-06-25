@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Cloud, CloudOff, Loader2, Check, AlertCircle } from "lucide-react";
+import { Cloud, CloudOff, Loader2, Check, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { AutoSaveStatus } from "@/hooks/studio/useAutoSave";
 

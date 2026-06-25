@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RotateCcw, Activity } from "lucide-react";
+import { RotateCcw, Activity } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { CompressorSettings, compressorPresets, defaultCompressorSettings } from "@/hooks/studio/stemEffectsConfig";
 

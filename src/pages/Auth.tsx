@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useGuestMode } from "@/contexts/GuestModeContext";
-import { Loader2, Music, Eye } from "lucide-react";
+import { Loader2, Music, Eye } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { LoadingScreen } from "@/components/UnifiedSplashScreen";

@@ -85,7 +85,7 @@ import {
   Sparkles,
   FileText,
   FlaskConical,
-} from "lucide-react";
+} from "@/lib/icons";
 import { toast } from "sonner";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { formatTime } from "@/lib/formatters";

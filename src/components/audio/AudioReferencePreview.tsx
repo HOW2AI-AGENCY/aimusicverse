@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef, useId, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Play, Pause, Loader2, Music, X, FileAudio, AlertTriangle } from "lucide-react";
+import { Play, Pause, Loader2, Music, X, FileAudio, AlertTriangle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { logger } from "@/lib/logger";

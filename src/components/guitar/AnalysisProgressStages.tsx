@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Upload, Activity, Music, FileMusic, CheckCircle2, Loader2, Clock, Zap } from "lucide-react";
+import { Upload, Activity, Music, FileMusic, CheckCircle2, Loader2, Clock, Zap } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 export type AnalysisStage =

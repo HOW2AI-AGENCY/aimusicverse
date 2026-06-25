@@ -3,7 +3,7 @@
  */
 
 import { useEffect, useState, useCallback } from "react";
-import { Heart, Sparkles, Music2, X } from "lucide-react";
+import { Heart, Sparkles, Music2, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { useAuth } from "@/hooks/useAuth";

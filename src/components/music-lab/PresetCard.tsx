@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { QuickCreatePreset } from "@/constants/quickCreatePresets";
-import { Play } from "lucide-react";
+import { Play } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface PresetCardProps {

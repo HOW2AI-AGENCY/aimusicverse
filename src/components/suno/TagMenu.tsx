@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tag, X } from "lucide-react";
+import { Tag, X } from "@/lib/icons";
 import { TAG_CONFIGS, TagConfig } from "./types";
 import { tagColors } from "@/lib/design-colors";
 

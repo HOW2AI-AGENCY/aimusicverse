@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { Check, Lightbulb, Music, Mic, FileText, Settings, Sparkles } from "lucide-react";
+import { Check, Lightbulb, Music, Mic, FileText, Settings, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { WizardStep } from "@/stores/generationWizardStore";
 

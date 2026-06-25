@@ -7,7 +7,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Music, Mic2, Drum, Guitar, Piano, Waves, Check, Loader2 } from "lucide-react";
+import { Music, Mic2, Drum, Guitar, Piano, Waves, Check, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";

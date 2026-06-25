@@ -19,7 +19,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Music2, Replace, GitBranch, PlusCircle, Volume2, Check } from "lucide-react";
+import { Play, Pause, Music2, Replace, GitBranch, PlusCircle, Volume2, Check } from "@/lib/icons";
 import { StudioTrackVersion } from "@/stores/useUnifiedStudioStore";
 
 export interface InstrumentalResultData {

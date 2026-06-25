@@ -6,7 +6,7 @@
 
 import { memo, ReactNode } from "react";
 import { Label } from "@/components/ui/label";
-import { HelpCircle } from "lucide-react";
+import { HelpCircle } from "@/lib/icons";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 

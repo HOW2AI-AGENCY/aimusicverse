@@ -1,7 +1,7 @@
 // VerificationBadge Component - Sprint 011 Task T025
 // Displays verified artist badge with tooltip
 
-import { BadgeCheck } from "lucide-react";
+import { BadgeCheck } from "@/lib/icons";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface VerificationBadgeProps {

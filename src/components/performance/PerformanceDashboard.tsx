@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Activity, Package, Gauge, TrendingUp, TrendingDown, RefreshCw, Plus, Calendar } from "lucide-react";
+import { Activity, Package, Gauge, TrendingUp, TrendingDown, RefreshCw, Plus, Calendar } from "@/lib/icons";
 import { usePerformanceMetrics, useAddPerformanceMetric, collectWebVitals } from "@/hooks/usePerformanceMetrics";
 import { CoreWebVitalsCard } from "./CoreWebVitalsCard";
 import { LighthouseScoresCard } from "./LighthouseScoresCard";

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { User, Music, Users, Sparkles } from "lucide-react";
+import { User, Music, Users, Sparkles } from "@/lib/icons";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
 
 interface Artist {

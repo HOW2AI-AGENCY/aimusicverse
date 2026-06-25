@@ -7,7 +7,7 @@ import { useEffect, useState, memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Gift, PartyPopper } from "lucide-react";
+import { Sparkles, Gift, PartyPopper } from "@/lib/icons";
 import { ECONOMY } from "@/lib/economy";
 import confetti from "canvas-confetti";
 

@@ -13,7 +13,7 @@ import {
   type PageTransition,
   type JourneyNode,
 } from "@/hooks/analytics/useUserJourneyAnalytics";
-import { ArrowRight, TrendingUp, Users, MousePointerClick } from "lucide-react";
+import { ArrowRight, TrendingUp, Users, MousePointerClick } from "@/lib/icons";
 import { useMemo } from "react";
 
 interface UserJourneyPanelProps {

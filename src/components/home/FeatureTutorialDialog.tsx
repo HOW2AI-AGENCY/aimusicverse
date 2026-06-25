@@ -24,7 +24,7 @@ import {
   Mic2,
   Play,
   Check,
-} from "lucide-react";
+} from "@/lib/icons";
 import { typographyClass } from "@/lib/design-tokens";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { glass } from "@/lib/glass";

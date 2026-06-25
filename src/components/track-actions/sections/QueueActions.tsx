@@ -7,7 +7,7 @@
  * - Add to Queue (add to end of queue)
  */
 
-import { Play, PlayCircle, ListEnd, ListMusic } from "lucide-react";
+import { Play, PlayCircle, ListEnd, ListMusic } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { usePlaybackQueue } from "@/hooks/audio/usePlaybackQueue";

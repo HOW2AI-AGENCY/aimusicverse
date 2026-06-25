@@ -6,7 +6,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, ListPlus, Download, Share2, Layers, MoreHorizontal, PictureInPicture2 } from "lucide-react";
+import { Heart, ListPlus, Download, Share2, Layers, MoreHorizontal, PictureInPicture2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useTracks } from "@/hooks/useTracks";

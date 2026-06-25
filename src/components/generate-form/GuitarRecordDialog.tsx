@@ -23,7 +23,7 @@ import {
   Save,
   FolderOpen,
   FileMusic,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useGuitarAnalysis, type GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";
 import { useGuitarRecordings } from "@/hooks/useGuitarRecordings";
 import { GuitarAnalysisReport } from "@/components/guitar/GuitarAnalysisReport";

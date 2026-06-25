@@ -6,7 +6,7 @@
 
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Settings } from "lucide-react";
+import { Settings } from "@/lib/icons";
 import { EditableTierFields } from "@/hooks/admin/useSubscriptionTiers";
 
 interface TierFeaturesSectionProps {

@@ -6,7 +6,7 @@
 
 import { forwardRef, useCallback } from "react";
 import { cn } from "@/lib/utils";
-import { LucideIcon, Loader2 } from "lucide-react";
+import { LucideIcon, Loader2 } from "@/lib/icons";
 import { hapticImpact } from "@/lib/haptic";
 
 interface IconGridButtonProps {

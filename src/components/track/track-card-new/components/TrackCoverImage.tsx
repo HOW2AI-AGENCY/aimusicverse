@@ -4,7 +4,7 @@
 
 import { memo, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Play, Pause, Disc3 } from "lucide-react";
+import { Play, Pause, Disc3 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { LazyImage } from "@/components/ui/lazy-image";
 import { cn } from "@/lib/utils";

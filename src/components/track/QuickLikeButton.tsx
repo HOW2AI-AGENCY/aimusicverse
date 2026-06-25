@@ -5,7 +5,7 @@
  */
 
 import { memo, useCallback, useState } from "react";
-import { Heart } from "lucide-react";
+import { Heart } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, CheckCircle2, XCircle, Clock, Sparkles, RefreshCw, Eye } from "lucide-react";
+import { Loader2, CheckCircle2, XCircle, Clock, Sparkles, RefreshCw, Eye } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";

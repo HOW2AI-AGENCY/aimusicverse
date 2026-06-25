@@ -6,7 +6,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Gauge, Zap, Clock, MousePointer, Move, TrendingUp, TrendingDown, AlertCircle } from "lucide-react";
+import { Gauge, Zap, Clock, MousePointer, Move, TrendingUp, TrendingDown, AlertCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { usePerformanceMetrics } from "@/hooks/admin/usePerformanceMetrics";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";

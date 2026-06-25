@@ -5,7 +5,7 @@
 
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Flame } from "lucide-react";
+import { Flame } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useUserCredits } from "@/hooks/useUserCredits";
 import { useTelegram } from "@/contexts/TelegramContext";

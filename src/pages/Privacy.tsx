@@ -3,7 +3,7 @@ import { useTelegram } from "@/contexts/TelegramContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { ArrowLeft, Shield } from "lucide-react";
+import { ArrowLeft, Shield } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { useEffect } from "react";
 import { getBotMention } from "@/lib/telegram";

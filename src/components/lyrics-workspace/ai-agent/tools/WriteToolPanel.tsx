@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { motion } from "@/lib/motion";
-import { PenLine, Sparkles, X, Music2, Target, ListMusic, Info, Languages, Sliders, FileText } from "lucide-react";
+import { PenLine, Sparkles, X, Music2, Target, ListMusic, Info, Languages, Sliders, FileText } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

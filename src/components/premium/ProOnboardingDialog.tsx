@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Crown, Wand2, Music, Headphones, Download, Zap, ArrowRight, ArrowLeft, Check, Sparkles } from "lucide-react";
+import { Crown, Wand2, Music, Headphones, Download, Zap, ArrowRight, ArrowLeft, Check, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface ProOnboardingDialogProps {

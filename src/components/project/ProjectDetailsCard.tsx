@@ -18,7 +18,7 @@ import {
   Image,
   Calendar,
   Users,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { Database } from "@/integrations/supabase/types";
 

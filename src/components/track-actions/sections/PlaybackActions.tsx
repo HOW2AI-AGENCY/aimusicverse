@@ -10,7 +10,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
-import { Repeat, Gauge } from "lucide-react";
+import { Repeat, Gauge } from "@/lib/icons";
 import { Track } from "@/types/track";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { hapticImpact } from "@/lib/haptic";

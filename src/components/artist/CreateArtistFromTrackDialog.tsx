@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
-import { Sparkles, X, Plus, Music2, Check } from "lucide-react";
+import { Sparkles, X, Plus, Music2, Check } from "@/lib/icons";
 import { useArtists } from "@/hooks/useArtists";
 import { useTracks } from "@/hooks/useTracks";
 import type { Track } from "@/types/track";

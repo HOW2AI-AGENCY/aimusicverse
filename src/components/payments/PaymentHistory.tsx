@@ -6,7 +6,7 @@
 
 import { Virtuoso } from "react-virtuoso";
 import { motion } from "@/lib/motion";
-import { Sparkles, Receipt, RefreshCw } from "lucide-react";
+import { Sparkles, Receipt, RefreshCw } from "@/lib/icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";

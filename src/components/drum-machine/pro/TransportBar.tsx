@@ -1,6 +1,6 @@
 import React, { memo, useState, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
-import { Play, Square, Circle, SkipBack, Volume2, VolumeX, Gauge } from "lucide-react";
+import { Play, Square, Circle, SkipBack, Volume2, VolumeX, Gauge } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";

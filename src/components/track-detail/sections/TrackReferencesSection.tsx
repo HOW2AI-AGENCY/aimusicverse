@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
-import { FileAudio, User, FolderOpen, Headphones, Link2 } from "lucide-react";
+import { FileAudio, User, FolderOpen, Headphones, Link2 } from "@/lib/icons";
 import { DetailSection } from "@/components/common/DetailSection";
 import { formatDuration } from "@/lib/player-utils";
 

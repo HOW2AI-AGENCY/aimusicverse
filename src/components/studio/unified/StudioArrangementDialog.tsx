@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
-import { Guitar, Wand2, Loader2, Music, Sliders, ChevronRight } from "lucide-react";
+import { Guitar, Wand2, Loader2, Music, Sliders, ChevronRight } from "@/lib/icons";
 import { StudioTrack } from "@/stores/useUnifiedStudioStore";
 
 interface StudioArrangementDialogProps {

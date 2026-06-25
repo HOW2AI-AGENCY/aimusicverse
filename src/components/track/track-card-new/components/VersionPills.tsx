@@ -8,7 +8,7 @@ import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
-import { Layers, Hammer } from "lucide-react";
+import { Layers, Hammer } from "@/lib/icons";
 
 interface VersionPillsProps {
   count: number;

@@ -1,6 +1,6 @@
 // BlockedUsersPage - Sprint 011
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, UserX, Loader2 } from "lucide-react";
+import { ArrowLeft, UserX, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Wand2, Loader2, X } from "lucide-react";
+import { Wand2, Loader2, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 
 interface SectionActionsProps {

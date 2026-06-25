@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { motion } from "@/lib/motion";
-import { Mic2, Search, X } from "lucide-react";
+import { Mic2, Search, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

@@ -4,7 +4,7 @@
  */
 
 import { memo } from "react";
-import { Plus, Sparkles, Share2, Wand2 } from "lucide-react";
+import { Plus, Sparkles, Share2, Wand2 } from "@/lib/icons";
 import { IconGridButton } from "@/components/track-actions/IconGridButton";
 import { cn } from "@/lib/utils";
 

@@ -4,7 +4,7 @@
 
 import React, { memo, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { Clock, Mic, Upload, Play, MoreVertical, Trash2, Download, Share2, Sparkles, FileAudio } from "lucide-react";
+import { Clock, Mic, Upload, Play, MoreVertical, Trash2, Download, Share2, Sparkles, FileAudio } from "@/lib/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, Play, Pause, Music, Mic, Cloud, Check } from "lucide-react";
+import { Search, Play, Pause, Music, Mic, Cloud, Check } from "@/lib/icons";
 import { EmptyState } from "@/components/common/EmptyState";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";

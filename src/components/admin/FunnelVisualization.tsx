@@ -18,7 +18,7 @@ import {
   TrendingUp,
   ArrowDown,
   AlertTriangle,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useFunnelAnalytics, calculateFunnelMetrics, type FunnelStep } from "@/hooks/admin/useFunnelAnalytics";
 import { cn } from "@/lib/utils";
 

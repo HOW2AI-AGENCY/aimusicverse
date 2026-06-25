@@ -24,7 +24,7 @@ import {
   FileText,
   Download,
   ExternalLink,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { surface } from "@/lib/overlay-colors";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";

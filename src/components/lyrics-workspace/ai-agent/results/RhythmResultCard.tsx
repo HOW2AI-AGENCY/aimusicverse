@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Music2, AlertTriangle, CheckCircle2, Sparkles } from "lucide-react";
+import { Music2, AlertTriangle, CheckCircle2, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";

@@ -8,7 +8,7 @@
  */
 
 import { memo, ReactNode } from "react";
-import { Disc } from "lucide-react";
+import { Disc } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 

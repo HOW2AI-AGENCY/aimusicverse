@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/formatters";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { Scissors, ArrowRight } from "lucide-react";
+import { Scissors, ArrowRight } from "@/lib/icons";
 
 interface ExtendRangeSelectorProps {
   audioUrl: string;

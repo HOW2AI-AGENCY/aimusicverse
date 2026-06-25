@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Upload, Loader2, Mic, ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
+import { Upload, Loader2, Mic, ChevronDown, ChevronUp, ArrowRight } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";

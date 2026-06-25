@@ -4,7 +4,7 @@
  */
 
 import { cn } from "@/lib/utils";
-import { Check, CreditCard, Sparkles, Zap, Crown } from "lucide-react";
+import { Check, CreditCard, Sparkles, Zap, Crown } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { glass } from "@/lib/glass";
 import type { StarsProduct } from "@/services/starsPaymentService";

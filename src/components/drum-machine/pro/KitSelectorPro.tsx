@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { cn } from "@/lib/utils";
-import { ChevronDown, Check } from "lucide-react";
+import { ChevronDown, Check } from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,

@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { GitCompare, Play, Pause, SkipBack, Clock, Music, Layers } from "lucide-react";
+import { GitCompare, Play, Pause, SkipBack, Clock, Music, Layers } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { formatDuration } from "@/lib/formatters";
 

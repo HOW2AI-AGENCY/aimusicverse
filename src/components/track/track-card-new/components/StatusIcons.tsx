@@ -6,7 +6,7 @@
 
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Mic2, Guitar, Layers, Music2, FileText, Copy, ArrowRightFromLine } from "lucide-react";
+import { Mic2, Guitar, Layers, Music2, FileText, Copy, ArrowRightFromLine } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { TrackData, MidiStatus } from "../types";
 

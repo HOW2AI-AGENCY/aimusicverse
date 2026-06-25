@@ -1,5 +1,5 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Info, Globe, Lock, Pencil } from "lucide-react";
+import { Info, Globe, Lock, Pencil } from "@/lib/icons";
 import { Track } from "@/types/track";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable } from "@/lib/trackActionConditions";

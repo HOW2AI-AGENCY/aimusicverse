@@ -20,7 +20,7 @@ import {
   Zap,
   Gift,
   Infinity,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useStarsPayment } from "@/hooks/useStarsPayment";

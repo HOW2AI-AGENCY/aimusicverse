@@ -29,7 +29,7 @@ import {
   MoreVertical,
   Music2,
   Mic2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";

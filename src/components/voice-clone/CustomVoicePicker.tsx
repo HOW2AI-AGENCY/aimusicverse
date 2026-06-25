@@ -1,4 +1,4 @@
-import { Mic2, CheckCircle2 } from "lucide-react";
+import { Mic2, CheckCircle2 } from "@/lib/icons";
 import { useCustomVoices, type CustomVoice } from "@/hooks/voice/useCustomVoices";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";

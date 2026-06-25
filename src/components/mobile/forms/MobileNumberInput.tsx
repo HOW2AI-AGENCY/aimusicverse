@@ -4,7 +4,7 @@
  */
 
 import { memo } from "react";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useHaptic } from "@/hooks/useHaptic";
 import { Button } from "@/components/ui/button";

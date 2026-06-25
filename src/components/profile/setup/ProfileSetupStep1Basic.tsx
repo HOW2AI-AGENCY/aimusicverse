@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "@/lib/motion";
-import { User, Camera, AtSign, Sparkles } from "lucide-react";
+import { User, Camera, AtSign, Sparkles } from "@/lib/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";

@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Plus, Edit, Calendar, ArrowLeft, Trash2, Share2 } from "lucide-react";
+import { BookOpen, Plus, Edit, Calendar, ArrowLeft, Trash2, Share2 } from "@/lib/icons";
 import { useBlogPosts, useBlogPost, useDeleteBlogPost, type BlogPost } from "@/hooks/useBlog";
 import { SEOHead } from "@/components/SEOHead";
 import { useAdminAuth } from "@/hooks/useAdminAuth";

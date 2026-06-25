@@ -9,7 +9,7 @@ import { useUnifiedStudioStore, StudioTrack, TRACK_COLORS } from "@/stores/useUn
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
-import { Volume2, VolumeX, Headphones, Plus, MoreVertical } from "lucide-react";
+import { Volume2, VolumeX, Headphones, Plus, MoreVertical } from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,

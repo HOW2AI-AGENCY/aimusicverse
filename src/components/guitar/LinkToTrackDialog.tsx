@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Link2, Music2, Search, Check, Loader2, ExternalLink } from "lucide-react";
+import { Link2, Music2, Search, Check, Loader2, ExternalLink } from "@/lib/icons";
 import { useTracks } from "@/hooks/useTracks";
 import { saveGuitarAnalysisForTrack } from "@/hooks/useTrackGuitarAnalysis";
 import type { GuitarAnalysisResult } from "@/hooks/useGuitarAnalysis";

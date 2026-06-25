@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useUserGenerationStats } from "@/hooks/useUserGenerationStats";
-import { Activity, Music, Mic, Guitar, TrendingUp, Scissors, Layers, Coins, CheckCircle, Calendar } from "lucide-react";
+import { Activity, Music, Mic, Guitar, TrendingUp, Scissors, Layers, Coins, CheckCircle, Calendar } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 
 export function UserStatsSection() {

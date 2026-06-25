@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { triggerHapticFeedback } from "@/lib/mobile-utils";
 import { surface } from "@/lib/overlay-colors";

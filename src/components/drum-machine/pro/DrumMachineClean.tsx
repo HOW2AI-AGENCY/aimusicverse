@@ -2,7 +2,7 @@ import React, { memo, useCallback } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Play, Square, Circle, Volume2, ChevronDown, Trash2, Download, Send } from "lucide-react";
+import { Play, Square, Circle, Volume2, ChevronDown, Trash2, Download, Send } from "@/lib/icons";
 import { useDrumMachine } from "@/hooks/useDrumMachine";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";

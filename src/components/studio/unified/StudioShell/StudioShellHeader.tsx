@@ -23,7 +23,7 @@ import {
   CloudOff,
   Sparkles,
   Rows3,
-} from "lucide-react";
+} from "@/lib/icons";
 import type { ViewMode } from "@/stores/useUnifiedStudioStore";
 import type { AutoSaveStatus } from "@/hooks/studio/useAutoSave";
 

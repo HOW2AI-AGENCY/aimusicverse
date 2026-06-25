@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Zap, Copy, Check, Star, ArrowRight } from "lucide-react";
+import { Zap, Copy, Check, Star, ArrowRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

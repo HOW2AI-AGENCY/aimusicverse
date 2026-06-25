@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { FileText, Edit3, Copy, Check, Music, PenLine, Sparkles } from "lucide-react";
+import { FileText, Edit3, Copy, Check, Music, PenLine, Sparkles } from "@/lib/icons";
 import { ProjectTrack } from "@/hooks/useProjectTracks";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";

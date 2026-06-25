@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Users } from "lucide-react";
+import { Users } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { motion } from "@/lib/motion";
 

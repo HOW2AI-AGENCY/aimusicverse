@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Crown, Zap, Check, Sparkles, Music, TrendingUp, Gift, Star, Loader2, X } from "lucide-react";
+import { Crown, Zap, Check, Sparkles, Music, TrendingUp, Gift, Star, Loader2, X } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { toast } from "sonner";

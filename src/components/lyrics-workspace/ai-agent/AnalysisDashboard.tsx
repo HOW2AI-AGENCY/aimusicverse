@@ -13,7 +13,7 @@ import {
   XCircle,
   Lightbulb,
   TrendingUp,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";

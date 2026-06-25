@@ -5,7 +5,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
-import { CreditCard, Check, ShieldCheck, Sparkles } from "lucide-react";
+import { CreditCard, Check, ShieldCheck, Sparkles } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { glass, gradientGlass } from "@/lib/glass";
 import { formatRubles } from "@/types/payment";

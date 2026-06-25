@@ -3,7 +3,7 @@
  */
 
 import { memo } from "react";
-import { Clock, Play, Heart, Mic } from "lucide-react";
+import { Clock, Play, Heart, Mic } from "@/lib/icons";
 import { StatsGrid, StatItem as StatItemType } from "@/components/common/StatsGrid";
 import { formatDuration } from "@/lib/player-utils";
 import type { Track } from "@/types/track";

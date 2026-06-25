@@ -11,7 +11,7 @@
 
 import { useEffect } from "react";
 import { AnimatePresence, motion } from "@/lib/motion";
-import { X, ChevronRight } from "lucide-react";
+import { X, ChevronRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useHintRegistry } from "./HintRegistry";

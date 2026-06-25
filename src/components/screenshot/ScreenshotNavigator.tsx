@@ -22,7 +22,7 @@ import {
   Trophy,
   Settings,
   Coins,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useGuestMode } from "@/contexts/GuestModeContext";
 import { screenshotScreens } from "@/lib/screenshotMockData";

@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Sparkles, Play, Pause, Plus, Volume2 } from "lucide-react";
+import { Loader2, Sparkles, Play, Pause, Plus, Volume2 } from "@/lib/icons";
 import { toast } from "sonner";
 import { useStudioProjectStore } from "@/stores/useStudioProjectStore";
 import { cn } from "@/lib/utils";

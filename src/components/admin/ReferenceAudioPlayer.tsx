@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, Volume2, VolumeX, Download, Upload, Music, Clock } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Download, Upload, Music, Clock } from "@/lib/icons";
 import { formatDuration } from "@/lib/player-utils";
 import { cn } from "@/lib/utils";
 

@@ -17,7 +17,7 @@ import {
   User,
   FolderOpen,
   Sparkles,
-} from "lucide-react";
+} from "@/lib/icons";
 
 const ACTION_ICONS: Record<string, React.ReactNode> = {
   checkin: <Gift className="w-4 h-4" />,

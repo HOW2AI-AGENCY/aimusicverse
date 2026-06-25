@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileMusic, FileText, File, Check, ExternalLink, Loader2, Music2, FileCode } from "lucide-react";
+import { Download, FileMusic, FileText, File, Check, ExternalLink, Loader2, Music2, FileCode } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";

@@ -5,7 +5,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Activity, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { Activity, TrendingUp, TrendingDown, Minus } from "@/lib/icons";
 import { PerformanceMetric, PERFORMANCE_TARGETS, getMetricStatus } from "@/hooks/usePerformanceMetrics";
 
 interface CoreWebVitalsCardProps {

@@ -1,5 +1,5 @@
 // FollowButton component - Sprint 011
-import { UserPlus, UserMinus, Loader2 } from "lucide-react";
+import { UserPlus, UserMinus, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useFollow } from "@/hooks/social/useFollow";
 import { useAuth } from "@/hooks/useAuth";

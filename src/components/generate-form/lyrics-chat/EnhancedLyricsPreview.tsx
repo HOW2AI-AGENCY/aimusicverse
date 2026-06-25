@@ -15,7 +15,7 @@ import {
   ChevronDown,
   ChevronUp,
   Sparkles,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { glass } from "@/lib/glass";
 import { Button } from "@/components/ui/button";

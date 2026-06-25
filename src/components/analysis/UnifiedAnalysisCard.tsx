@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Music, Gauge, Key, Heart, Zap, Activity, Mic2, Guitar, Drum, Piano, Sparkles } from "lucide-react";
+import { Music, Gauge, Key, Heart, Zap, Activity, Mic2, Guitar, Drum, Piano, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { UnifiedAnalysisResult } from "@/services/unified-analysis/types";
 

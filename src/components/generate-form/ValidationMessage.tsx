@@ -6,7 +6,7 @@
  */
 
 import { memo, useState } from "react";
-import { AlertCircle, AlertTriangle, Info, ChevronDown, ChevronUp, Lightbulb } from "lucide-react";
+import { AlertCircle, AlertTriangle, Info, ChevronDown, ChevronUp, Lightbulb } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { checkForBlockedArtists } from "@/lib/errorHandling";
 import { Button } from "@/components/ui/button";

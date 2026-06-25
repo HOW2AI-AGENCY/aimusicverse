@@ -2,7 +2,7 @@ import { memo, useState, useRef, useEffect } from "react";
 import { useTrackVersions } from "@/hooks/useTrackVersions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Music2, Clock, Play, Pause, Download, Check, Trash2, Plus } from "lucide-react";
+import { Music2, Clock, Play, Pause, Download, Check, Trash2, Plus } from "@/lib/icons";
 import { format, ru } from "@/lib/date-utils";
 import { useTrackVersionManagement } from "@/hooks/useTrackVersionManagement";
 import { supabase } from "@/integrations/supabase/client";

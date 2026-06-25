@@ -16,7 +16,7 @@ import {
   TrendingUp,
   Sparkles,
   Gift,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useProfile } from "@/hooks/useProfile";

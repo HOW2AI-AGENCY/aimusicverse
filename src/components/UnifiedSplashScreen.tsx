@@ -7,7 +7,7 @@
  */
 import { useEffect, useState, memo } from "react";
 import { useReducedMotion } from "@/lib/motion";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { APP_CONFIG } from "@/config/app.config";
 import { FixedOverlay } from "@/components/layout/FixedOverlay";

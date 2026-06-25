@@ -3,7 +3,7 @@
  */
 
 import React, { memo } from "react";
-import { Mic2, Guitar, Music } from "lucide-react";
+import { Mic2, Guitar, Music } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { RecordingMode } from "@/hooks/audio/useUnifiedRecording";
 

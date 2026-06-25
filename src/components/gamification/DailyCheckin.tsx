@@ -3,7 +3,7 @@ import { useState, memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCheckin, useCanCheckinToday, useUserCredits, ACTION_REWARDS } from "@/hooks/useGamification";
-import { Flame, Gift, Sparkles, Check, Calendar } from "lucide-react";
+import { Flame, Gift, Sparkles, Check, Calendar } from "@/lib/icons";
 import { useRewardNotificationContext } from "@/contexts/RewardNotificationContext";
 import { cn } from "@/lib/utils";
 

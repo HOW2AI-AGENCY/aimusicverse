@@ -4,7 +4,7 @@
  */
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { FolderOpen } from "lucide-react";
+import { FolderOpen } from "@/lib/icons";
 
 export function ProjectsSkeleton() {
   return (

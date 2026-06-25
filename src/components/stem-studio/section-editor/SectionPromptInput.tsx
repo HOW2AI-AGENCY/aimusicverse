@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { motion } from "@/lib/motion";
-import { FileText, ChevronDown, Tag } from "lucide-react";
+import { FileText, ChevronDown, Tag } from "@/lib/icons";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";

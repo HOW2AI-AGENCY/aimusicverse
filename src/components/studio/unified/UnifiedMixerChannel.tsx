@@ -7,7 +7,7 @@
 
 import { memo, useCallback, useMemo } from "react";
 import { motion } from "@/lib/motion";
-import { Mic2, Guitar, Drum, Music, Piano, Radio, Waves, Volume2, VolumeX, Headphones, Sliders } from "lucide-react";
+import { Mic2, Guitar, Drum, Music, Piano, Radio, Waves, Volume2, VolumeX, Headphones, Sliders } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";

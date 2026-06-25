@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sparkles, ChevronDown, Music, Gauge, Heart, FileMusic, AudioWaveform, Loader2, Check } from "lucide-react";
+import { Sparkles, ChevronDown, Music, Gauge, Heart, FileMusic, AudioWaveform, Loader2, Check } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useUnifiedAnalysis } from "@/hooks/useUnifiedAnalysis";
 import type { AnalysisType } from "@/services/unified-analysis/types";

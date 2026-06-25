@@ -9,7 +9,7 @@
 import { memo, ReactNode } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Music2, FileText, Sparkles, GitBranch, History, MessageSquare } from "lucide-react";
+import { Music2, FileText, Sparkles, GitBranch, History, MessageSquare } from "@/lib/icons";
 import type { Track } from "@/types/track";
 import { TrackDetailsTab } from "./TrackDetailsTab";
 import { TrackAnalysisTab } from "./TrackAnalysisTab";

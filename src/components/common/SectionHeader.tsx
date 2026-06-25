@@ -7,7 +7,7 @@
  */
 
 import { memo, ReactNode } from "react";
-import { LucideIcon, ArrowRight, ChevronRight } from "lucide-react";
+import { LucideIcon, ArrowRight, ChevronRight } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";

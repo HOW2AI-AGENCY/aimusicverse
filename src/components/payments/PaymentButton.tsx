@@ -4,7 +4,7 @@
  */
 
 import { motion, AnimatePresence } from "@/lib/motion";
-import { CreditCard, Loader2, Lock, Check, ArrowRight, Sparkles, ShieldCheck } from "lucide-react";
+import { CreditCard, Loader2, Lock, Check, ArrowRight, Sparkles, ShieldCheck } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { glass } from "@/lib/glass";
 import { surface } from "@/lib/overlay-colors";

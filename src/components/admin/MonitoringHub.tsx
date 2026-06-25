@@ -26,7 +26,7 @@ import {
   Clock,
   ArrowRight,
   RefreshCw,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface QuickStatProps {

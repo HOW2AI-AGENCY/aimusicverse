@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Track } from "@/types/track";
-import { Music2 } from "lucide-react";
+import { Music2 } from "@/lib/icons";
 import { TrackDetailContent } from "./track-detail/TrackDetailContent";
 import { TrackDetailSheet } from "./TrackDetailSheet";
 import { useIsMobile } from "@/hooks/use-mobile";

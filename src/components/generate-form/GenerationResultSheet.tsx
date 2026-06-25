@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Play, Pause, Check, Sliders, Library, Sparkles, Volume2 } from "lucide-react";
+import { Play, Pause, Check, Sliders, Library, Sparkles, Volume2 } from "@/lib/icons";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { supabase } from "@/integrations/supabase/client";

@@ -7,7 +7,7 @@ import React, { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ExternalLink, Smartphone } from "lucide-react";
+import { ChevronLeft, ExternalLink, Smartphone } from "@/lib/icons";
 import type { BotMenuItem } from "@/hooks/useBotMenuItems";
 import DOMPurify from "dompurify";
 

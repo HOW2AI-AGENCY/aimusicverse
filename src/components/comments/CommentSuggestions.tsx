@@ -8,7 +8,7 @@
 
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Lightbulb, Wand2 } from "lucide-react";
+import { Lightbulb, Wand2 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { logger } from "@/lib/logger";

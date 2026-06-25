@@ -4,7 +4,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
-import { Download, FileAudio, FileMusic, Archive } from "lucide-react";
+import { Download, FileAudio, FileMusic, Archive } from "@/lib/icons";
 import { Track } from "@/types/track";
 import { ActionId } from "@/config/trackActionsConfig";
 import { TrackActionState, isActionAvailable, getActionLabel } from "@/lib/trackActionConditions";

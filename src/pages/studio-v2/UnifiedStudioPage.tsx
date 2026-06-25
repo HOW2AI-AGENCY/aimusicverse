@@ -5,7 +5,7 @@ import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { StudioShell } from "@/components/studio/unified/StudioShell";
 import { ContextHints } from "@/components/hints";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 
 export default function UnifiedStudioPage() {

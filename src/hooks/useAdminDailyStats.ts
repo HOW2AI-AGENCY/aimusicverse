@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useAdminStats } from "@/hooks/useAdminUsers";
 import { toast } from "sonner";
-import { Users, Music, FolderOpen, Mic } from "lucide-react";
+import { Users, Music, FolderOpen, Mic } from "@/lib/icons";
 
 const ADMIN_STATS_STORAGE_KEY = "admin_daily_stats_shown";
 

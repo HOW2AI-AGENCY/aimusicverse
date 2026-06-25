@@ -27,7 +27,7 @@ import {
   Music,
   ExternalLink,
   MicVocal,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 

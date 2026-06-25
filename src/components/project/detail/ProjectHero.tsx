@@ -5,7 +5,7 @@
 import { memo } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, Settings, Disc, Music, Globe, Calendar } from "lucide-react";
+import { ChevronLeft, Settings, Disc, Music, Globe, Calendar } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { format, ru } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";

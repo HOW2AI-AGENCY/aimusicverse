@@ -8,7 +8,7 @@
  */
 
 import { Button } from "@/components/ui/button";
-import { Loader2, RefreshCw } from "lucide-react";
+import { Loader2, RefreshCw } from "@/lib/icons";
 import { useSubscriptionTiers } from "@/hooks/admin/useSubscriptionTiers";
 import { SubscriptionTierCard, SubscriptionTierEditor } from "./subscription";
 

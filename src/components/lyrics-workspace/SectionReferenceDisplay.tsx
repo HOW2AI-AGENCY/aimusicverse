@@ -3,7 +3,7 @@
  * SectionReferenceDisplay - Show analysis results from audio reference for lyrics sections
  */
 
-import { Music2, Gauge, Key, Palette, Zap, Guitar, Tag, Mic } from "lucide-react";
+import { Music2, Gauge, Key, Palette, Zap, Guitar, Tag, Mic } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { ReferenceAnalysis } from "@/hooks/useSectionNotes";
 import { cn } from "@/lib/utils";

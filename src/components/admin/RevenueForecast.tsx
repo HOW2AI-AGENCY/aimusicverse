@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePaymentAnalytics } from "@/hooks/usePaymentAnalytics";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
-import { TrendingUp, TrendingDown, Target, AlertCircle, Calculator } from "lucide-react";
+import { TrendingUp, TrendingDown, Target, AlertCircle, Calculator } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface ForecastPoint {

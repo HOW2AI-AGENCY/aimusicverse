@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, Music2, ChevronDown, ChevronUp, AlertCircle, Trash2, X } from "lucide-react";
+import { Loader2, Music2, ChevronDown, ChevronUp, AlertCircle, Trash2, X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

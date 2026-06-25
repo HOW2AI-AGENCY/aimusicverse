@@ -25,7 +25,7 @@ import { StudioActionsSheet } from "../StudioActionsSheet";
 import { AddTrackDialog } from "./AddTrackDialog";
 import { LazyAddVocalsDrawer, LazyGenerateSheet } from "@/components/lazy";
 import { cn } from "@/lib/utils";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/lib/icons";
 import type { StudioTrack, TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import type { StemEffects } from "@/hooks/studio/types";
 import type { Track } from "@/types/track";

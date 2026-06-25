@@ -8,7 +8,7 @@
 import React, { forwardRef, ReactNode } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { RefreshCw, ArrowDown } from "lucide-react";
+import { RefreshCw, ArrowDown } from "@/lib/icons";
 import { usePullToRefresh } from "@/hooks/usePullToRefresh";
 
 interface PullToRefreshProps {

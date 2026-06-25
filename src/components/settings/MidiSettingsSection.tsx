@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Music2, Wand2, Info } from "lucide-react";
+import { Music2, Wand2, Info } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { useNotificationSettings } from "@/hooks/useNotificationSettings";
 

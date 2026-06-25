@@ -33,7 +33,7 @@ import {
   Music2,
   Mic2,
   FileText,
-} from "lucide-react";
+} from "@/lib/icons";
 
 interface LyricsSectionAdvancedProps {
   lyrics: string;

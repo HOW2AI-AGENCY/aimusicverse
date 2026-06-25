@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { Track } from "@/types/track";
-import { Share2, Copy, Check, ExternalLink, Download, Camera, Gift } from "lucide-react";
+import { Share2, Copy, Check, ExternalLink, Download, Camera, Gift } from "@/lib/icons";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { hapticNotification } from "@/lib/haptic";

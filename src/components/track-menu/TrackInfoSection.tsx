@@ -1,5 +1,5 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Info, FileText } from "lucide-react";
+import { Info, FileText } from "@/lib/icons";
 import { Track } from "@/types/track";
 
 interface TrackInfoSectionProps {

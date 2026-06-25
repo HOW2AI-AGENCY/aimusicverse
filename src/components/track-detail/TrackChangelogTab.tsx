@@ -1,6 +1,6 @@
 import { useTrackChangelog } from "@/hooks/useTrackChangelog";
 import { Badge } from "@/components/ui/badge";
-import { FileEdit, Sparkles, Upload, Download, Music2, User } from "lucide-react";
+import { FileEdit, Sparkles, Upload, Download, Music2, User } from "@/lib/icons";
 import { format, ru } from "@/lib/date-utils";
 
 interface TrackChangelogTabProps {

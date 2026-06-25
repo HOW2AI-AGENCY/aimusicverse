@@ -9,7 +9,7 @@
  */
 
 import { memo, ReactNode, useState } from "react";
-import { LucideIcon, ChevronDown, ChevronUp } from "lucide-react";
+import { LucideIcon, ChevronDown, ChevronUp } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

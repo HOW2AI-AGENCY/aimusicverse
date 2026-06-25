@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Sparkles, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { Sparkles, ChevronLeft, ChevronRight, Loader2 } from "@/lib/icons";
 import { toast } from "sonner";
 import { useProjects } from "@/hooks/useProjects";
 import { useArtists } from "@/hooks/useArtists";

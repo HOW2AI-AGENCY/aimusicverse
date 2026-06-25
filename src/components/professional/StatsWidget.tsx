@@ -14,7 +14,7 @@ import {
   Zap,
   ArrowUpRight,
   ArrowDownRight,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";

@@ -25,7 +25,7 @@ import {
   Target,
   Zap,
   Filter,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useDeeplinkStats, useDeeplinkEvents, type DeeplinkEvent } from "@/hooks/useDeeplinkAnalytics";
 import { DeeplinkTrendsChart } from "./analytics/DeeplinkTrendsChart";
 import { SourcesHeatmap } from "./analytics/SourcesHeatmap";

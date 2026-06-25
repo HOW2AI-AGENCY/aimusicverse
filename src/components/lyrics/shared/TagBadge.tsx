@@ -7,7 +7,7 @@
  * - Delete button for removing tags
  */
 
-import { X, Mic, Guitar, Volume2, Heart, Sliders, Layers } from "lucide-react";
+import { X, Mic, Guitar, Volume2, Heart, Sliders, Layers } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

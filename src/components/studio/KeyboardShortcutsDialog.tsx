@@ -6,7 +6,7 @@
  */
 
 import { memo } from "react";
-import { Keyboard, Command } from "lucide-react";
+import { Keyboard, Command } from "@/lib/icons";
 import {
   Dialog,
   DialogContent,

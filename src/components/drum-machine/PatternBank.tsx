@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Music, Trash2 } from "lucide-react";
+import { Music, Trash2 } from "@/lib/icons";
 import type { DrumPattern } from "@/lib/drum-kits";
 
 interface PatternBankProps {

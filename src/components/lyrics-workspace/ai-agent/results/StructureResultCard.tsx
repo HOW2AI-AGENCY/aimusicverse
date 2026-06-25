@@ -4,7 +4,7 @@
 
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { Music, Sparkles, Tag, Volume2, Guitar, Zap } from "lucide-react";
+import { Music, Sparkles, Tag, Volume2, Guitar, Zap } from "@/lib/icons";
 import { Badge } from "@/components/ui/badge";
 
 interface StructureSection {

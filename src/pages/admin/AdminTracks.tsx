@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
-import { Music, Search, Globe, Lock } from "lucide-react";
+import { Music, Search, Globe, Lock } from "@/lib/icons";
 import { AdminTrackDetailsDialog } from "@/components/admin/AdminTrackDetailsDialog";
 import { useIsMobile } from "@/hooks/use-mobile";
 

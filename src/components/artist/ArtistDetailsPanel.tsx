@@ -7,7 +7,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
-import { User, Music2, Sparkles, Play, Edit, Settings, Clock, ChevronRight, Lock, Globe } from "lucide-react";
+import { User, Music2, Sparkles, Play, Edit, Settings, Clock, ChevronRight, Lock, Globe } from "@/lib/icons";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";

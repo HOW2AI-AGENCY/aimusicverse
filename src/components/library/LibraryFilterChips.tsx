@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Music2, Mic, Volume2, Layers, Sparkles } from "lucide-react";
+import { Music2, Mic, Volume2, Layers, Sparkles } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Badge } from "@/components/ui/badge";
 import { surface } from "@/lib/overlay-colors";

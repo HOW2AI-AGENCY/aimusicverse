@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Check, Star, Play, Pause, Loader2 } from "lucide-react";
+import { Check, Star, Play, Pause, Loader2 } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";

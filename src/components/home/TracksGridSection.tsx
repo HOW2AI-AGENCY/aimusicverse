@@ -12,7 +12,7 @@
  */
 
 import { memo } from "react";
-import { LucideIcon, Loader2 } from "lucide-react";
+import { LucideIcon, Loader2 } from "@/lib/icons";
 import { UnifiedTrackCard } from "@/components/track/track-card-new";
 import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
 import { cn } from "@/lib/utils";

@@ -6,7 +6,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TrendingUp, TrendingDown, Users, DollarSign, Music, Zap, Target } from "lucide-react";
+import { TrendingUp, TrendingDown, Users, DollarSign, Music, Zap, Target } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";

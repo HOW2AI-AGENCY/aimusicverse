@@ -20,7 +20,7 @@ import { formatTime } from "@/lib/formatters";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { snapToGrid, type SnapOptions } from "@/lib/audio/beatSnap";
 import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
-import { Volume2, VolumeX, Headphones, Mic2, Music, Drum, Guitar, Piano, Waves } from "lucide-react";
+import { Volume2, VolumeX, Headphones, Mic2, Music, Drum, Guitar, Piano, Waves } from "@/lib/icons";
 import { UnifiedWaveform, type StemType } from "@/components/waveform/UnifiedWaveform";
 
 interface SectionMarker {

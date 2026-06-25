@@ -6,7 +6,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Sliders, RotateCcw, Volume2, Waves, Settings2, Sparkles, Gauge } from "lucide-react";
+import { Sliders, RotateCcw, Volume2, Waves, Settings2, Sparkles, Gauge } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";

@@ -21,7 +21,7 @@ import {
   Music,
   Trash2,
   RotateCcw,
-} from "lucide-react";
+} from "@/lib/icons";
 import { usePromptDJ } from "@/hooks/usePromptDJ";
 import { PromptKnob } from "./PromptKnob";
 import { LiveVisualizer } from "./LiveVisualizer";

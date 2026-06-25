@@ -5,7 +5,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Music2, ExternalLink, Disc3 } from "lucide-react";
+import { Music2, ExternalLink, Disc3 } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 

@@ -16,7 +16,7 @@ import {
   ArrowRight,
   ChevronRight,
   Filter,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

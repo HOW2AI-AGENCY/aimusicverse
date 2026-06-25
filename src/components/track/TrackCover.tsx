@@ -9,7 +9,7 @@
  */
 
 import { memo, useState } from "react";
-import { Play, Pause, Music2 } from "lucide-react";
+import { Play, Pause, Music2 } from "@/lib/icons";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { LazyImage } from "@/components/ui/lazy-image";

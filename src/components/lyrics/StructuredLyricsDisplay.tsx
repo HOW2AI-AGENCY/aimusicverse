@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Copy, Check, Music2, Tag, Info, List, FileText, BarChart3, AlertTriangle, Sparkles } from "lucide-react";
+import { Copy, Check, Music2, Tag, Info, List, FileText, BarChart3, AlertTriangle, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { LyricsParser, type ParsedLyrics, type LyricsSection } from "@/lib/lyrics/LyricsParser";

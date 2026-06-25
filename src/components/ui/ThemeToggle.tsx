@@ -1,4 +1,4 @@
-import { Sun, Moon, Monitor } from "lucide-react";
+import { Sun, Moon, Monitor } from "@/lib/icons";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";

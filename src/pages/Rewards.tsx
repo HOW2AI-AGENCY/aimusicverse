@@ -14,7 +14,7 @@ import { QuickStats } from "@/components/gamification/QuickStats";
 import { CreditsBalance } from "@/components/gamification/CreditsBalance";
 import { SoundToggle } from "@/components/gamification/SoundToggle";
 import { DesktopRewardsLayout } from "@/components/gamification/DesktopRewardsLayout";
-import { Trophy, Crown, History, Target, Gift, Calendar, Gem, Sparkles, Info } from "lucide-react";
+import { Trophy, Crown, History, Target, Gift, Calendar, Gem, Sparkles, Info } from "@/lib/icons";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useIsMobile } from "@/hooks/use-is-mobile";

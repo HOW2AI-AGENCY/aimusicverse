@@ -18,7 +18,7 @@ import {
   AreaChart,
   Area,
 } from "recharts";
-import { TrendingUp, PieChart as PieChartIcon, BarChart3, Clock, AlertTriangle } from "lucide-react";
+import { TrendingUp, PieChart as PieChartIcon, BarChart3, Clock, AlertTriangle } from "@/lib/icons";
 import { format, startOfDay, subDays, differenceInMinutes, ru } from "@/lib/date-utils";
 
 const COLORS = {

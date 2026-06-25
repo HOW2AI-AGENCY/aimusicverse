@@ -8,7 +8,7 @@
  */
 
 import React, { memo, useRef, useState, useEffect } from "react";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { touchTarget } from "@/lib/touch-target";

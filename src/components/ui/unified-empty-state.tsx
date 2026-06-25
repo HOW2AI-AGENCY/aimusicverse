@@ -19,7 +19,7 @@ import {
   Sparkles,
   Plus,
   type LucideIcon,
-} from "lucide-react";
+} from "@/lib/icons";
 
 export type EmptyStateType =
   | "tracks"

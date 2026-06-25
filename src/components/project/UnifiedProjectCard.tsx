@@ -12,7 +12,7 @@ import { memo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FolderOpen, MoreVertical, Trash2, Music, Calendar, ChevronRight, Globe, Disc } from "lucide-react";
+import { FolderOpen, MoreVertical, Trash2, Music, Calendar, ChevronRight, Globe, Disc } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { pill } from "@/lib/overlay-colors";
 import { format, ru } from "@/lib/date-utils";

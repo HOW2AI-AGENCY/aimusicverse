@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { GripVertical, Trash2, Edit, Check, ChevronUp, ChevronDown, Tag } from "lucide-react";
+import { GripVertical, Trash2, Edit, Check, ChevronUp, ChevronDown, Tag } from "@/lib/icons";
 import { LyricSection, SECTION_LABELS } from "./types";
 import { parseTags, translateTagsToRussian, countSyllables, insertTagAtCursor } from "./utils";
 

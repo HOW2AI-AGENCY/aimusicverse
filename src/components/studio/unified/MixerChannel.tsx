@@ -5,7 +5,7 @@
 
 import { memo, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Volume2, VolumeX, Headphones, Sliders } from "lucide-react";
+import { Volume2, VolumeX, Headphones, Sliders } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";

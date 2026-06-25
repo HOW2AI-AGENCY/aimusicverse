@@ -5,7 +5,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Check, Crown, Sparkles, Zap, Star, Infinity } from "lucide-react";
+import { Check, Crown, Sparkles, Zap, Star, Infinity } from "@/lib/icons";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StarsPaymentButton } from "./StarsPaymentButton";

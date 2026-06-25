@@ -6,7 +6,7 @@ import { memo, useState } from "react";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Gift, Sparkles, ArrowRight, Loader2, X } from "lucide-react";
+import { Gift, Sparkles, ArrowRight, Loader2, X } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { useTrialEligibility, activateTrial } from "@/hooks/useTrialEligibility";
 import { useAuth } from "@/hooks/useAuth";

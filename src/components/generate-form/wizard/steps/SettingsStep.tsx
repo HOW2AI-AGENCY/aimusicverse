@@ -4,7 +4,7 @@
 
 import { useState, useCallback } from "react";
 import { motion } from "@/lib/motion";
-import { Settings, ArrowLeft, ArrowRight, Globe, Lock } from "lucide-react";
+import { Settings, ArrowLeft, ArrowRight, Globe, Lock } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";

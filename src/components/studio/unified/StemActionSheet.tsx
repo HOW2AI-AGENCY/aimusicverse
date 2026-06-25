@@ -5,7 +5,7 @@
 
 import { memo, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { X } from "lucide-react";
+import { X } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";

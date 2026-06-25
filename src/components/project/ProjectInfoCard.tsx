@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Globe, Music, Palette, FileText, Target } from "lucide-react";
+import { Edit, Globe, Music, Palette, FileText, Target } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface Project {

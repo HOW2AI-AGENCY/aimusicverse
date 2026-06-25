@@ -3,7 +3,7 @@
  */
 
 import { motion } from "@/lib/motion";
-import { Sparkles, PenLine, RefreshCw, Tag, Music2, Lightbulb } from "lucide-react";
+import { Sparkles, PenLine, RefreshCw, Tag, Music2, Lightbulb } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";

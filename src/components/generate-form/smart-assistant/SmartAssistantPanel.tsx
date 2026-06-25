@@ -5,7 +5,7 @@
 
 import { memo, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Sparkles, RefreshCw, Brain, History, Folder, ChevronDown, Loader2 } from "lucide-react";
+import { Sparkles, RefreshCw, Brain, History, Folder, ChevronDown, Loader2 } from "@/lib/icons";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

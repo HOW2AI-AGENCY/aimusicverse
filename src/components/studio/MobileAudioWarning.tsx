@@ -6,7 +6,7 @@
  */
 
 import { memo } from "react";
-import { AlertTriangle, X, Volume2 } from "lucide-react";
+import { AlertTriangle, X, Volume2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { motion, AnimatePresence } from "@/lib/motion";

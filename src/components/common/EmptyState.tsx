@@ -3,7 +3,7 @@
  * Thin compatibility shim — preserved API, delegates rendering to the canonical
  * `UnifiedEmptyState`. Will be removed in Phase 10 of `docs/UI_AUDIT.md`.
  */
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "@/lib/icons";
 import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 
 interface EmptyStateAction {

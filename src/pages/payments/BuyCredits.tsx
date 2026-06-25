@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Zap, LayoutGrid, List, CreditCard, Loader2, Sparkles, Music, ArrowRight, Shield } from "lucide-react";
+import { Zap, LayoutGrid, List, CreditCard, Loader2, Sparkles, Music, ArrowRight, Shield } from "@/lib/icons";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserRole } from "@/hooks/useUserRole";
 import { useTinkoffPayment } from "@/hooks/useTinkoffPayment";

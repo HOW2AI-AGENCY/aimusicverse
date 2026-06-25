@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Search, Palette, Sparkles, Music, Check, TrendingUp } from "lucide-react";
+import { Search, Palette, Sparkles, Music, Check, TrendingUp } from "@/lib/icons";
 import { EmptyState } from "@/components/common/EmptyState";
 import { cn } from "@/lib/utils";
 import { useSavedStylePresets } from "@/hooks/usePromptHistorySync";

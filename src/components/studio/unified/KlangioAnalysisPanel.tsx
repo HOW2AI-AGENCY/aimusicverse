@@ -24,7 +24,7 @@ import {
   ChevronDown,
   ChevronUp,
   Save,
-} from "lucide-react";
+} from "@/lib/icons";
 import { useKlangioAnalysis, ChordResult, BeatResult } from "@/hooks/useKlangioAnalysis";
 import { useKlangioSaveAnalysis } from "@/hooks/useKlangioSaveAnalysis";
 import { ChordProgressionDisplay } from "@/components/analysis/ChordProgressionDisplay";

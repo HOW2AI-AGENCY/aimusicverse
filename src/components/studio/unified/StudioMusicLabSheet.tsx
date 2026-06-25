@@ -41,7 +41,7 @@ import {
   Sparkles,
   AlertCircle,
   FlaskConical,
-} from "lucide-react";
+} from "@/lib/icons";
 
 interface StudioMusicLabSheetProps {
   open: boolean;

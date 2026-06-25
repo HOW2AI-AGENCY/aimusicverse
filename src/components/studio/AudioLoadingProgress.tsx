@@ -7,7 +7,7 @@
 
 import { memo, useMemo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { Loader2, CheckCircle2, AlertCircle } from "@/lib/icons";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 

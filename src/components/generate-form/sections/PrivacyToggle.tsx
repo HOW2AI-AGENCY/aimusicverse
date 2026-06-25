@@ -4,7 +4,7 @@
 
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Lock, Globe, Crown, HelpCircle } from "lucide-react";
+import { Lock, Globe, Crown, HelpCircle } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SECTION_HINTS } from "../SectionLabel";

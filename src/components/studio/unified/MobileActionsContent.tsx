@@ -17,7 +17,7 @@ import {
   FolderOpen,
   Settings,
   Trash2,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";

@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { CheckCircle, ArrowRight, Music, ExternalLink, Sparkles, Star, Zap, Crown } from "lucide-react";
+import { CheckCircle, ArrowRight, Music, ExternalLink, Sparkles, Star, Zap, Crown } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { logger } from "@/lib/logger";

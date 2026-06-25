@@ -21,7 +21,7 @@ import {
   BarChart3,
   Settings,
   RefreshCw,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { EXPERIMENTS, type Experiment, type ExperimentVariant } from "@/lib/ab-testing";
 

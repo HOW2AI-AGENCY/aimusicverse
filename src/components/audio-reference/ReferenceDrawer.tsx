@@ -29,7 +29,7 @@ import {
   FileAudio,
   Trash2,
   Upload,
-} from "lucide-react";
+} from "@/lib/icons";
 import { EmptyState } from "@/components/common/EmptyState";
 import { useAudioReference } from "@/hooks/useAudioReference";
 import { useReferenceAudio, ReferenceAudio } from "@/hooks/useReferenceAudio";

@@ -19,7 +19,7 @@ import {
   XCircle,
   ChevronLeft,
   RefreshCw,
-} from "lucide-react";
+} from "@/lib/icons";
 import { logger } from "@/lib/logger";
 import { format, ru } from "@/lib/date-utils";
 import { ScrollArea } from "@/components/ui/scroll-area";

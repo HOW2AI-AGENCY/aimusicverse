@@ -32,7 +32,7 @@ import {
   Crown,
   ChevronDown,
   Menu,
-} from "lucide-react";
+} from "@/lib/icons";
 import { Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";

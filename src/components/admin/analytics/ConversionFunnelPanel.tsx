@@ -13,7 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
-import { TrendingUp, TrendingDown, Users, Music, Star, CreditCard } from "lucide-react";
+import { TrendingUp, TrendingDown, Users, Music, Star, CreditCard } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface FunnelStage {

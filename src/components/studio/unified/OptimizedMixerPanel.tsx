@@ -12,7 +12,7 @@ import { useStudioState, StemStates } from "@/hooks/studio/useStudioState";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
-import { RotateCcw, Volume2 } from "lucide-react";
+import { RotateCcw, Volume2 } from "@/lib/icons";
 
 interface OptimizedMixerPanelProps {
   stems: TrackStem[];

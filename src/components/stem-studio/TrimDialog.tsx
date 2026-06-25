@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { Play, Pause, Scissors, Download, Save, RotateCcw, Volume2, VolumeX } from "lucide-react";
+import { Play, Pause, Scissors, Download, Save, RotateCcw, Volume2, VolumeX } from "@/lib/icons";
 import { TrimRegionSelector } from "./TrimRegionSelector";
 import { useTrimExport } from "@/hooks/studio/useTrimExport";
 import { useIsMobile } from "@/hooks/use-mobile";

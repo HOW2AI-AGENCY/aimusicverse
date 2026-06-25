@@ -4,7 +4,7 @@
  */
 
 import { useState, memo } from "react";
-import { FileText, ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
+import { FileText, ChevronDown, ChevronUp, Copy, Check } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";

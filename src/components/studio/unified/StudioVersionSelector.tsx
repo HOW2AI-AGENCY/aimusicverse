@@ -7,7 +7,7 @@ import { memo, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
-import { Check } from "lucide-react";
+import { Check } from "@/lib/icons";
 
 export interface TrackVersion {
   label: string;

@@ -28,7 +28,7 @@ import {
   X,
   PartyPopper,
   Check,
-} from "lucide-react";
+} from "@/lib/icons";
 import confetti from "canvas-confetti";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";

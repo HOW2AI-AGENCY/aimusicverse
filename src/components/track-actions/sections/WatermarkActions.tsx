@@ -4,7 +4,7 @@
  * Actions for applying and detecting audio watermarks
  */
 
-import { Shield, ShieldCheck, Loader2 } from "lucide-react";
+import { Shield, ShieldCheck, Loader2 } from "@/lib/icons";
 import { DropdownMenuItem, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
 import { useAudioWatermark } from "@/hooks/useAudioWatermark";
 import type { Track } from "@/types/track";

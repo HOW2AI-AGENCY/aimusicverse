@@ -7,7 +7,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Eye } from "lucide-react";
+import { Eye } from "@/lib/icons";
 import { EditableTierFields } from "@/hooks/admin/useSubscriptionTiers";
 
 interface TierDisplaySectionProps {

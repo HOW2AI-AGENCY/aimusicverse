@@ -23,7 +23,7 @@ import {
   Pause,
   ChevronDown,
   ChevronUp,
-} from "lucide-react";
+} from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { ChordProgressionDisplay } from "./ChordProgressionDisplay";
 import { BeatGridVisualization } from "./BeatGridVisualization";

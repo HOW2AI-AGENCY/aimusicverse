@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Plus, Loader2, Music2, Sparkles, Wand2, RefreshCw, Check, AlertCircle } from "lucide-react";
+import { Plus, Loader2, Music2, Sparkles, Wand2, RefreshCw, Check, AlertCircle } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";

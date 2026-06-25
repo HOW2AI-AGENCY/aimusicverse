@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Sparkles } from "lucide-react";
+import { Sparkles } from "@/lib/icons";
 import type { PromptChannel, GlobalSettings } from "@/hooks/usePromptDJ";
 
 interface QuickPreset {
