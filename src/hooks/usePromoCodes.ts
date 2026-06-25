@@ -71,7 +71,7 @@ export function useValidatePromoCode() {
         return { valid: false, error: error.message };
       }
 
-      const result = (data ?? {}) as {
+      const result = (data ?? {}) as unknown as {
         valid: boolean;
         error?: string;
         promo?: PromoCode;
@@ -79,6 +79,7 @@ export function useValidatePromoCode() {
         bonus_credits?: number;
         final_price?: number;
       };
+
 
       if (!result.valid) {
         return { valid: false, error: result.error ?? 'Промокод недействителен' };
