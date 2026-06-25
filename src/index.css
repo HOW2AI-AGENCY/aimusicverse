@@ -279,6 +279,21 @@ All colors MUST be HSL.
     --sidebar-accent-foreground: 220 10% 95%;
     --sidebar-border: 220 15% 18%;
     --sidebar-ring: 207 90% 54%;
+
+    /* Dark-theme overrides for the Phase 1 semantic surfaces */
+    --surface-1: 226 41% 10%;
+    --surface-2: 227 32% 13%;
+    --surface-3: 227 28% 16%;
+    --overlay-scrim: 240 46% 5% / 0.7;
+    --ring-focus: hsl(152 42% 56% / 0.55);
+    --state-success: 152 42% 56%;
+    --state-success-foreground: 240 46% 5%;
+    --state-warning: 38 95% 60%;
+    --state-warning-foreground: 240 46% 5%;
+    --state-danger: 0 72% 56%;
+    --state-danger-foreground: 0 0% 100%;
+    --state-info: 207 90% 60%;
+    --state-info-foreground: 0 0% 100%;
   }
 }
 
