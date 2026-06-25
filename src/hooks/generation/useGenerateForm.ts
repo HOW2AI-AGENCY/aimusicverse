@@ -678,6 +678,25 @@ export function useGenerateForm({
         ? artists?.find(a => a.id === selectedArtistId)?.suno_persona_id
         : undefined;
 
+      // Pre-check custom voice availability before consuming credits
+      if (customVoiceId) {
+        try {
+          const { voiceCloneApi } = await import('@/api/voice-clone.api');
+          const r = await voiceCloneApi.checkVoice(customVoiceId);
+          if (!r?.available) {
+            toast.dismiss(toastId);
+            toast.error('Выбранный кастомный голос недоступен. Выберите другой или удалите его.');
+            setLoading(false);
+            return;
+          }
+        } catch (e) {
+          toast.dismiss(toastId);
+          toast.error('Не удалось проверить кастомный голос. Попробуйте ещё раз.');
+          setLoading(false);
+          return;
+        }
+      }
+
       let data, error;
 
       if (audioFile) {
