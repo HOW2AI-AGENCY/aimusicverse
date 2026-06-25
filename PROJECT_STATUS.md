@@ -205,6 +205,13 @@
 
 ## 🔄 Недавние обновления (июнь 2026)
 
+### 2026-06-25 — Phase 9A: Deduplication
+
+**Достижения**:
+- ✅ Аудит 30+ предполагаемых дубликатов — большинство оказались разными компонентами
+- ✅ Удалено 4 настоящих дубликата: ui/BottomSheet, admin/analytics/DeeplinkAnalyticsPanel, admin/analytics/GenerationStatsPanel, studio/AddTrackDialog, lyrics-workspace/SectionNotesPanel (~1,200 строк)
+- ✅ Очищены index.ts реэкспорты
+
 ### 2026-06-25 — Phase 8: Codebase Optimization
 
 **Достижения**:

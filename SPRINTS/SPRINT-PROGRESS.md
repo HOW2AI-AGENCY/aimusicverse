@@ -10,7 +10,8 @@
 | Sprint 030-032 | ✅ ЗАВЕРШЕНЫ | 100% |
 | Q1 2026 Plan | 🔄 АКТИВЕН | Phase 1-4 Complete, Sprints A-E Complete |
 | Phase 8: Codebase Optimization | ✅ ЗАВЕРШЁН | 100% — удалено 196 файлов, 45K строк |
-| Phase 9: Deduplication & Refactor | 📋 ЗАПЛАНИРОВАН | 0% |
+| Phase 9A: Deduplication | ✅ ЗАВЕРШЁН | 100% — удалено 4 дубликата, 1.2K строк |
+| Phase 9B-E: Refactor & Consolidation | 📋 ЗАПЛАНИРОВАН | 0% |
 
 ---
 
