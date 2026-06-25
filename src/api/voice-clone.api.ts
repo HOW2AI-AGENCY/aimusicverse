@@ -3,10 +3,20 @@ import type { Tables } from '@/integrations/supabase/types';
 
 export type CustomVoice = Tables<'custom_voices'>;
 
+export class VoiceApiError extends Error {
+  code: string;
+  constructor(message: string, code = 'UNKNOWN') {
+    super(message);
+    this.code = code;
+  }
+}
+
 async function invoke<T = any>(name: string, body?: any): Promise<T> {
   const { data, error } = await supabase.functions.invoke(name, { body });
-  if (error) throw error;
-  if ((data as any)?.error) throw new Error((data as any).error);
+  if (error) throw new VoiceApiError(error.message || 'Сетевая ошибка', 'NETWORK');
+  if ((data as any)?.error) {
+    throw new VoiceApiError((data as any).error, (data as any).code || 'SUNO_ERROR');
+  }
   return data as T;
 }
 

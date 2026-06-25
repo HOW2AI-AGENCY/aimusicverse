@@ -408,6 +408,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                     hasReferenceAudio={!!form.audioFile || !!activeReference}
                     hasPersona={!!form.selectedArtistId}
                     onOpenStyles={() => setStylesOpen(true)}
+                    customVoiceId={form.customVoiceId}
+                    onCustomVoiceIdChange={form.setCustomVoiceId}
                   />
                 )}
               </AnimatePresence>

@@ -2,6 +2,7 @@ import { motion } from '@/lib/motion';
 import { TitleSection, StyleSection, VocalsToggle, LyricsSectionAdvanced, PrivacyToggle } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
 import { FormSection, FormDivider } from './FormSection';
+import { CustomVoicePicker } from '@/components/voice-clone/CustomVoicePicker';
 
 interface GenerateFormCustomProps {
   title: string;
@@ -39,6 +40,9 @@ interface GenerateFormCustomProps {
   mood?: string;
   // Style presets
   onOpenStyles?: () => void;
+  // Custom voice
+  customVoiceId?: string | null;
+  onCustomVoiceIdChange?: (id: string | null) => void;
 }
 
 export function GenerateFormCustom({
@@ -73,6 +77,8 @@ export function GenerateFormCustom({
   genre,
   mood,
   onOpenStyles,
+  customVoiceId,
+  onCustomVoiceIdChange,
 }: GenerateFormCustomProps) {
   return (
     <motion.div
@@ -122,6 +128,11 @@ export function GenerateFormCustom({
               mood={mood}
             />
           </FormSection>
+          {onCustomVoiceIdChange && (
+            <FormSection>
+              <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceIdChange} />
+            </FormSection>
+          )}
         </>
       )}
 

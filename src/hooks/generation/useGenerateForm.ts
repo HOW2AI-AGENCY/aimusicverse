@@ -106,6 +106,7 @@ export function useGenerateForm({
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [planTrackId, setPlanTrackId] = useState<string | undefined>();
+  const [customVoiceId, setCustomVoiceId] = useState<string | null>(null);
   const [isPublic, setIsPublic] = useState(true); // Track visibility - default public
 
   // Reset form
@@ -126,6 +127,7 @@ export function useGenerateForm({
     setAudioDuration(null);
     clearDraft();
     setPlanTrackId(undefined);
+    setCustomVoiceId(null);
     setIsPublic(true);
   }, [initialProjectId, clearDraft]);
 
@@ -785,6 +787,7 @@ export function useGenerateForm({
               projectId: selectedProjectId || initialProjectId,
               planTrackId: planTrackId,
               parentTrackId: parentTrackId,
+              voiceId: customVoiceId || undefined,
               isPublic, // Track visibility
             },
           });
@@ -881,7 +884,7 @@ export function useGenerateForm({
     mode, description, title, lyrics, style, hasVocals, model,
     negativeTags, vocalGender, styleWeight, weirdnessConstraint, audioWeight,
     audioFile, audioDuration, selectedArtistId, selectedProjectId, initialProjectId, planTrackId,
-    artists, navigate, onOpenChange, resetForm, activeReference, clearAudioReference,
+    customVoiceId, artists, navigate, onOpenChange, resetForm, activeReference, clearAudioReference,
     trackGeneration, generationCost, userBalance, canGenerate, invalidateCredits, loading,
   ]);
 
@@ -976,6 +979,8 @@ export function useGenerateForm({
     audioFile,
     setAudioFile: handleSetAudioFile,
     planTrackId,
+    customVoiceId,
+    setCustomVoiceId,
     isPublic,
     setIsPublic,
     canMakePrivate: isAdmin || (userBalance ?? 0) >= 0, // For now, allow private for admins; later: check subscription

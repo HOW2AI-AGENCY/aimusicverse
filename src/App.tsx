@@ -66,6 +66,7 @@ const Onboarding = lazy(() => import("./pages/Onboarding"));
 const Rewards = lazy(() => import("./pages/Rewards"));
 const Referral = lazy(() => import("./pages/Referral"));
 const VoiceLibraryPage = lazy(() => import("./pages/VoiceLibraryPage"));
+const VoiceHistoryPage = lazy(() => import("./pages/VoiceHistoryPage"));
 
 // Heavy pages - load on demand
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
@@ -213,6 +214,7 @@ const App = () => (
                         <Route path="/subscription" element={<Subscription />} />
                         <Route path="/payments/subscription" element={<Navigate to="/subscription" replace />} />
                         <Route path="/voices" element={<VoiceLibraryPage />} />
+                        <Route path="/voices/history" element={<VoiceHistoryPage />} />
                       </Route>
 
                       {/* Routes without BottomNavigation */}

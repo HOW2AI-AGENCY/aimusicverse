@@ -178,6 +178,7 @@ serve(async (req) => {
       weirdnessConstraint,
       audioWeight,
       personaId,
+      voiceId,
       projectId,
       artistId,
       planTrackId, // Link to project_tracks for status update
@@ -397,6 +398,7 @@ serve(async (req) => {
     if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
     if (effectivePersonaId) sunoPayload.personaId = effectivePersonaId;
+    if (voiceId) sunoPayload.voiceId = voiceId;
 
     logger.apiCall('suno', '/api/v1/generate', { mode, model: apiModel, instrumental });
 
