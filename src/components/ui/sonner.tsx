@@ -61,7 +61,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
             "group-[.toaster]:bg-popover/95 group-[.toaster]:text-popover-foreground",
             "group-[.toaster]:backdrop-blur-xl group-[.toaster]:backdrop-saturate-150",
             "group-[.toaster]:shadow-[0_10px_30px_-12px_hsl(240_60%_2%/0.55),0_0_0_1px_hsl(var(--primary)/0.08)_inset]",
-            "group-[.toaster]:min-h-[52px] group-[.toaster]:min-w-[260px] group-[.toaster]:max-w-full",
+            "group-[.toaster]:min-h-[52px] group-[.toaster]:w-full group-[.toaster]:max-w-full",
             "group-[.toaster]:px-3.5 group-[.toaster]:py-3 sm:group-[.toaster]:px-4",
             "group-[.toaster]:gap-2.5",
             "group-[.toaster]:text-[13.5px] group-[.toaster]:font-medium group-[.toaster]:leading-tight",

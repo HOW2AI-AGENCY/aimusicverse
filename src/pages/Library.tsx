@@ -341,7 +341,7 @@ export default function Library() {
             <PullToRefreshWrapper
               onRefresh={async () => { await refetchTracks(); }}
               disabled={!isMobile}
-              className="py-2 sm:py-3 flex-1"
+              className="px-4 py-2 sm:py-3 flex-1"
             >
               {!isMobile && <div className="mb-2" />}
 
