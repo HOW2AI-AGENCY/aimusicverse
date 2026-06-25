@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import { Loader2, Coins, Crown } from 'lucide-react';
 import { motion } from '@/lib/motion';
 import { logger } from '@/lib/logger';
+import { SEOHead } from '@/components/SEOHead';
 
 interface DBProduct {
   id: string;
