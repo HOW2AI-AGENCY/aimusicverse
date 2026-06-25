@@ -1,3 +1,8 @@
+/**
+ * @deprecated Use shadcn `Card` from `@/components/ui/card` together with the
+ * glass presets from `@/lib/glass`. Will be removed in Phase 10 of the UI
+ * unification (`docs/UI_AUDIT.md`).
+ */
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { motion, type HTMLMotionProps } from '@/lib/motion';

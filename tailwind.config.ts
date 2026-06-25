@@ -126,6 +126,31 @@ export default {
           DEFAULT: "hsl(var(--warning))",
           glow: "hsl(var(--warning-glow))",
         },
+        // Phase 1 UI unification — semantic surfaces & state tokens
+        surface: {
+          1: "hsl(var(--surface-1))",
+          2: "hsl(var(--surface-2))",
+          3: "hsl(var(--surface-3))",
+        },
+        scrim: "hsl(var(--overlay-scrim))",
+        state: {
+          success: {
+            DEFAULT: "hsl(var(--state-success))",
+            foreground: "hsl(var(--state-success-foreground))",
+          },
+          warning: {
+            DEFAULT: "hsl(var(--state-warning))",
+            foreground: "hsl(var(--state-warning-foreground))",
+          },
+          danger: {
+            DEFAULT: "hsl(var(--state-danger))",
+            foreground: "hsl(var(--state-danger-foreground))",
+          },
+          info: {
+            DEFAULT: "hsl(var(--state-info))",
+            foreground: "hsl(var(--state-info-foreground))",
+          },
+        },
       },
       spacing: {
         // Semantic spacing tokens

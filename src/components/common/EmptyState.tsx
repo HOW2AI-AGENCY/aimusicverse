@@ -1,5 +1,9 @@
 /**
- * EmptyState - Reusable animated empty state component
+ * @deprecated Use `UnifiedEmptyState` from `@/components/ui/unified-empty-state`.
+ * Kept temporarily for backwards compatibility — will be removed in Phase 10
+ * of the UI unification (`docs/UI_AUDIT.md`).
+ *
+ * EmptyState - Animated empty state with `default | compact | card` variants.
  */
 import { motion } from '@/lib/motion';
 import { LucideIcon } from 'lucide-react';

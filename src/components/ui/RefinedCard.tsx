@@ -1,9 +1,11 @@
 /**
+ * @deprecated Use shadcn `Card` from `@/components/ui/card` with the
+ * `surface` / `glass` / `interactive` variant where needed.
+ * Kept temporarily for backwards compatibility — will be removed in Phase 10
+ * of the UI unification (`docs/UI_AUDIT.md`).
+ *
  * Refined Card Component
  * Feature: 032-professional-ui
- * 
- * Enhanced card with hover states, variants, and polish.
- * Uses unified glassmorphism from src/lib/glass.ts
  */
 
 import React, { forwardRef, ReactNode, HTMLAttributes, memo } from 'react';

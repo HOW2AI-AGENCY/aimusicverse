@@ -1,6 +1,9 @@
 /**
+ * @deprecated Use `LoadingSpinner` from `@/components/ui/LoadingSpinner` or
+ * `UnifiedEmptyState` for the empty/error branches.
+ * Will be removed in Phase 10 of the UI unification (`docs/UI_AUDIT.md`).
+ *
  * LoadingState - Unified loading state component
- * Provides consistent loading UI across the app
  */
 
 import { memo, ReactNode } from 'react';

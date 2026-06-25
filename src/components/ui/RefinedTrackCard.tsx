@@ -1,7 +1,11 @@
 /**
+ * @deprecated Use `UnifiedTrackCard` from
+ * `@/components/track/track-card-new` with `variant="professional"`.
+ * Will be removed in Phase 10 of the UI unification (`docs/UI_AUDIT.md`).
+ *
  * RefinedTrackCard - Premium track card with glassmorphism and micro-interactions
  * Phase 5 Professional UI (Spec 032)
- * 
+ *
  * Features:
  * - Glassmorphism effects
  * - Smooth hover animations

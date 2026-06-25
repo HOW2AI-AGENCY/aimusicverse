@@ -1,8 +1,10 @@
 /**
+ * @deprecated Import directly from `@/components/ui/skeleton/*` and
+ * `@/components/ui/skeleton-components`. This file is a thin pass-through
+ * kept for backwards compatibility — will be removed in Phase 10
+ * of the UI unification (`docs/UI_AUDIT.md`).
+ *
  * Skeleton Loader - Domain-specific skeletons
- * 
- * Re-exports unified skeletons from skeleton-components.tsx
- * Plus domain-specific skeletons for complex pages
  */
 
 import { Skeleton } from "./skeleton";

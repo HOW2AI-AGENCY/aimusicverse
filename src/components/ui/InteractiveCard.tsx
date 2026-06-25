@@ -1,8 +1,11 @@
 /**
+ * @deprecated Use shadcn `Card` from `@/components/ui/card` with the
+ * `interactive` variant. Will be removed in Phase 10 of the UI unification
+ * (`docs/UI_AUDIT.md`).
+ *
  * Interactive Card Component
  * Feature: 032-professional-ui
- * 
- * Enhanced card with professional hover/press states.
+ *
  * Uses GPU-accelerated animations for smooth interactions.
  */
 
