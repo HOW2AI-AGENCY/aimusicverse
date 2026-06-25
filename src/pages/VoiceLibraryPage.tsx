@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
