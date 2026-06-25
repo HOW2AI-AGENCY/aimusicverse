@@ -73,10 +73,12 @@ export function ResponsiveOverlay({
         open={open}
         onOpenChange={onOpenChange}
         title={title}
-        description={description}
         snapPoints={snapPoints}
         className={className}
       >
+        {description ? (
+          <p className="text-sm text-muted-foreground mb-3 px-1">{description}</p>
+        ) : null}
         {children}
       </UnifiedDialog>
     );
