@@ -34,6 +34,16 @@ export interface ParsedSection {
   index: number;
 }
 
+/**
+ * A time range within a track that has been (or is being) replaced/regenerated.
+ * Shared shape used by studio timeline/section components.
+ */
+export interface ReplacedRange {
+  start: number;
+  end: number;
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+}
+
 export interface TimestampMatch {
   startTime: number;
   endTime: number;
