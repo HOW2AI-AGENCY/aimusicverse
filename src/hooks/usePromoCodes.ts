@@ -60,90 +60,38 @@ export function useValidatePromoCode() {
         return { valid: false, error: 'Требуется авторизация' };
       }
 
-      // Fetch promo code
-      const { data: promo, error } = await supabase
-        .from('promo_codes')
-        .select('*')
-        .eq('code', code.toUpperCase())
-        .eq('is_active', true)
-        .single();
+      // Server-side validation: avoids exposing the promo catalog to clients
+      const { data, error } = await supabase.rpc('validate_promo_code', {
+        p_code: code,
+        p_product_code: productCode,
+        p_stars_price: starsPrice,
+      });
 
-      if (error || !promo) {
-        return { valid: false, error: 'Промокод не найден' };
+      if (error) {
+        return { valid: false, error: error.message };
       }
 
-      // Check validity period
-      const now = new Date();
-      if (promo.valid_from && new Date(promo.valid_from) > now) {
-        return { valid: false, error: 'Промокод ещё не активен' };
-      }
-      if (promo.valid_until && new Date(promo.valid_until) < now) {
-        return { valid: false, error: 'Промокод истёк' };
-      }
-
-      // Check max uses
-      if (promo.max_uses && (promo.current_uses ?? 0) >= promo.max_uses) {
-        return { valid: false, error: 'Промокод исчерпан' };
-      }
-
-      // Check user usage limit
-      const { count: userUsage } = await supabase
-        .from('promo_code_usage')
-        .select('*', { count: 'exact', head: true })
-        .eq('promo_code_id', promo.id)
-        .eq('user_id', user.id);
-
-      const maxUsesPerUser = promo.max_uses_per_user ?? 1;
-      if (userUsage && userUsage >= maxUsesPerUser) {
-        return { valid: false, error: 'Вы уже использовали этот промокод' };
-      }
-
-      // Check product restrictions
-      const productCodes = promo.product_codes ?? [];
-      if (productCodes.length > 0 && !productCodes.includes(productCode)) {
-        return { valid: false, error: 'Промокод не применим к этому продукту' };
-      }
-
-      // Check minimum purchase
-      const minPurchase = promo.min_purchase_stars ?? 0;
-      if (starsPrice < minPurchase) {
-        return { 
-          valid: false, 
-          error: `Минимальная сумма покупки: ${minPurchase} Stars` 
-        };
-      }
-
-      // Calculate discount
-      let discountStars = 0;
-      if (promo.discount_percent) {
-        discountStars = Math.floor(starsPrice * (promo.discount_percent / 100));
-      } else if (promo.discount_stars) {
-        discountStars = Math.min(promo.discount_stars, starsPrice - 1);
-      }
-
-      const promoResult: PromoCode = {
-        id: promo.id,
-        code: promo.code,
-        discount_percent: promo.discount_percent,
-        discount_stars: promo.discount_stars,
-        bonus_credits: promo.bonus_credits ?? 0,
-        max_uses: promo.max_uses,
-        current_uses: promo.current_uses ?? 0,
-        max_uses_per_user: maxUsesPerUser,
-        valid_from: promo.valid_from ?? '',
-        valid_until: promo.valid_until,
-        product_codes: productCodes,
-        min_purchase_stars: minPurchase,
-        is_active: promo.is_active ?? true,
+      const result = (data ?? {}) as {
+        valid: boolean;
+        error?: string;
+        promo?: PromoCode;
+        discount_stars?: number;
+        bonus_credits?: number;
+        final_price?: number;
       };
+
+      if (!result.valid) {
+        return { valid: false, error: result.error ?? 'Промокод недействителен' };
+      }
 
       return {
         valid: true,
-        promo: promoResult,
-        discount_stars: discountStars,
-        bonus_credits: promo.bonus_credits ?? 0,
-        final_price: starsPrice - discountStars,
+        promo: result.promo,
+        discount_stars: result.discount_stars ?? 0,
+        bonus_credits: result.bonus_credits ?? 0,
+        final_price: result.final_price ?? starsPrice,
       };
+
     },
   });
 }
