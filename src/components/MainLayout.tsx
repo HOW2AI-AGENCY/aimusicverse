@@ -73,10 +73,14 @@ export const MainLayout = () => {
     const showBottomNav = !isDesktop && !isMobileLandscape && !hasOwnBottomNav;
     const navH = showBottomNav ? 64 : 0; // BottomNav ~64px (safe-area added in padding calc)
     const playerH = hasActiveTrack ? (isDesktop ? 96 : 72) : 0;
+    // Publish BOTH legacy and canonical names so old call-sites + new
+    // `--bottom-stack-h` math both resolve correctly.
     root.style.setProperty('--nav-h', `${navH}px`);
+    root.style.setProperty('--bottom-nav-h', `${navH}px`);
     root.style.setProperty('--player-h', `${playerH}px`);
     return () => {
       root.style.removeProperty('--nav-h');
+      root.style.removeProperty('--bottom-nav-h');
       root.style.removeProperty('--player-h');
     };
   }, [hasActiveTrack, isDesktop, isMobileLandscape, hasOwnBottomNav]);
