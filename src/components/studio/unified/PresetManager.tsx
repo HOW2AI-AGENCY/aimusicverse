@@ -27,14 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-} from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Textarea } from "@/components/ui/textarea";
 import { usePresets, useCreatePreset, useDeletePreset, useApplyPreset, useClonePreset } from "@/hooks/usePresets";
 import { useAuth } from "@/contexts/AuthContext";
@@ -305,22 +298,23 @@ export function PresetManager({ trackId, currentSettings, defaultCategory = "cus
       />
 
       {/* Delete confirmation */}
-      <Dialog open={!!pendingDelete} onOpenChange={(o) => !o && setPendingDelete(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Удалить пресет?</DialogTitle>
-            <DialogDescription>«{pendingDelete?.name}» будет удалён без возможности восстановления.</DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
+      <UnifiedDialog
+        variant="modal"
+        open={!!pendingDelete}
+        onOpenChange={(o) => !o && setPendingDelete(null)}
+        title="Удалить пресет?"
+        description={`«${pendingDelete?.name}» будет удалён без возможности восстановления.`}
+        footer={
+          <div className="flex justify-end gap-2">
             <Button variant="ghost" onClick={() => setPendingDelete(null)}>
               Отмена
             </Button>
             <Button variant="destructive" disabled={isDeleting} onClick={handleDelete}>
               {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : "Удалить"}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </div>
+        }
+      />
     </div>
   );
 }
@@ -369,57 +363,54 @@ function SavePresetDialog({ open, onOpenChange, settings, defaultCategory }: Sav
   };
 
   return (
-    <Dialog
+    <UnifiedDialog
+      variant="modal"
       open={open}
       onOpenChange={(o) => {
         if (!o) reset();
         onOpenChange(o);
       }}
-    >
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Сохранить пресет</DialogTitle>
-          <DialogDescription>Текущие настройки студии будут сохранены как пресет.</DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-3">
-          <Input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Название пресета"
-            className="h-11"
-            maxLength={100}
-            autoFocus
-          />
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Описание (необязательно)"
-            rows={2}
-          />
-          <Tabs value={category} onValueChange={(v) => setCategory(v as PresetCategory)}>
-            <ScrollArea className="w-full">
-              <TabsList className="inline-flex w-max">
-                {CATEGORIES.filter((c) => c.value !== "all").map((c) => (
-                  <TabsTrigger key={c.value} value={c.value} className="text-xs">
-                    {c.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </ScrollArea>
-          </Tabs>
-        </div>
-
-        <DialogFooter>
+      title="Сохранить пресет"
+      description="Текущие настройки студии будут сохранены как пресет."
+      footer={
+        <div className="flex justify-end gap-2">
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             Отмена
           </Button>
           <Button disabled={!name.trim() || isCreating} onClick={handleSave}>
             {isCreating ? <Loader2 className="h-4 w-4 animate-spin" /> : "Сохранить"}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </div>
+      }
+    >
+      <div className="space-y-3">
+        <Input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Название пресета"
+          className="h-11"
+          maxLength={100}
+          autoFocus
+        />
+        <Textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          placeholder="Описание (необязательно)"
+          rows={2}
+        />
+        <Tabs value={category} onValueChange={(v) => setCategory(v as PresetCategory)}>
+          <ScrollArea className="w-full">
+            <TabsList className="inline-flex w-max">
+              {CATEGORIES.filter((c) => c.value !== "all").map((c) => (
+                <TabsTrigger key={c.value} value={c.value} className="text-xs">
+                  {c.label}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </ScrollArea>
+        </Tabs>
+      </div>
+    </UnifiedDialog>
   );
 }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -66,33 +66,34 @@ export function RenameTrackDialog({ track, open, onOpenChange }: RenameTrackDial
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Переименовать трек</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-3 py-3">
-            <Label htmlFor="track-title">Название</Label>
-            <Input
-              id="track-title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Название трека"
-              autoFocus
-              maxLength={200}
-            />
-          </div>
-          <DialogFooter className="gap-2 sm:gap-0">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
-              Отмена
-            </Button>
-            <Button type="submit" disabled={isLoading || !title.trim()}>
-              {isLoading ? "Сохранение..." : "Сохранить"}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Переименовать трек"
+      size="md"
+    >
+      <form onSubmit={handleSubmit}>
+        <div className="space-y-3 py-3">
+          <Label htmlFor="track-title">Название</Label>
+          <Input
+            id="track-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Название трека"
+            autoFocus
+            maxLength={200}
+          />
+        </div>
+        <div className="flex justify-end gap-2 sm:gap-0">
+          <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
+            Отмена
+          </Button>
+          <Button type="submit" disabled={isLoading || !title.trim()}>
+            {isLoading ? "Сохранение..." : "Сохранить"}
+          </Button>
+        </div>
+      </form>
+    </UnifiedDialog>
   );
 }

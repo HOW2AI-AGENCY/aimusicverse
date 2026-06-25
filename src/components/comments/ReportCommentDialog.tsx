@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { AlertTriangle, Flag, Loader2 } from "@/lib/icons";
@@ -34,7 +32,6 @@ export function ReportCommentDialog({
   commentUserId,
   commentPreview,
 }: ReportCommentDialogProps) {
-  const isMobile = useIsMobile();
   const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -128,35 +125,15 @@ export function ReportCommentDialog({
     </div>
   );
 
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="px-4 pb-6">
-          <DrawerHeader className="text-left px-0">
-            <DrawerTitle className="flex items-center gap-2">
-              <Flag className="h-5 w-5 text-destructive" />
-              Пожаловаться
-            </DrawerTitle>
-            <DrawerDescription>Сообщите о нарушении правил сообщества</DrawerDescription>
-          </DrawerHeader>
-          {content}
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Flag className="h-5 w-5 text-destructive" />
-            Пожаловаться
-          </DialogTitle>
-          <DialogDescription>Сообщите о нарушении правил сообщества</DialogDescription>
-        </DialogHeader>
-        {content}
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Пожаловаться"
+      description="Сообщите о нарушении правил сообщества"
+    >
+      {content}
+    </UnifiedDialog>
   );
 }

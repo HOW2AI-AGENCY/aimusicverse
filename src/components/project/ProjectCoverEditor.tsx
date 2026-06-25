@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
 import { surface } from "@/lib/overlay-colors";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { CoverPromptSuggester } from "@/components/cover/CoverPromptSuggester";
 
 interface ProjectCoverEditorProps {
@@ -141,7 +141,7 @@ export function ProjectCoverEditor({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <>
       <Card className="glass-card border-primary/20">
         <CardHeader>
           <CardTitle className="text-lg flex items-center gap-2">
@@ -159,12 +159,10 @@ export function ProjectCoverEditor({
                   surface.heavy,
                 )}
               >
-                <DialogTrigger asChild>
-                  <Button size="sm" variant="secondary">
-                    <Upload className="w-4 h-4 mr-2" />
-                    Изменить
-                  </Button>
-                </DialogTrigger>
+                <Button size="sm" variant="secondary" onClick={() => setIsOpen(true)}>
+                  <Upload className="w-4 h-4 mr-2" />
+                  Изменить
+                </Button>
                 <Button size="sm" variant="destructive" onClick={handleRemoveCover}>
                   <X className="w-4 h-4 mr-2" />
                   Удалить
@@ -173,22 +171,22 @@ export function ProjectCoverEditor({
             </div>
           ) : (
             <div className="aspect-square rounded-lg border-2 border-dashed border-border bg-muted/30 flex items-center justify-center">
-              <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                  <ImageIcon className="w-4 h-4" />
-                  Добавить обложку
-                </Button>
-              </DialogTrigger>
+              <Button variant="outline" className="gap-2" onClick={() => setIsOpen(true)}>
+                <ImageIcon className="w-4 h-4" />
+                Добавить обложку
+              </Button>
             </div>
           )}
         </CardContent>
       </Card>
 
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
-          <DialogTitle>Обложка проекта</DialogTitle>
-        </DialogHeader>
-
+      <UnifiedDialog
+        variant="modal"
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        title="Обложка проекта"
+        size="xl"
+      >
         <div className="space-y-6">
           {/* Upload Section */}
           <div className="space-y-3">
@@ -271,7 +269,7 @@ export function ProjectCoverEditor({
             </p>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </UnifiedDialog>
+    </>
   );
 }

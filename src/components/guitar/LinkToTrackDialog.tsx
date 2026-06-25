@@ -5,14 +5,7 @@
 
 import { useState } from "react";
 import { motion } from "@/lib/motion";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -80,17 +73,34 @@ export function LinkToTrackDialog({ open, onOpenChange, analysisResult }: LinkTo
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Link2 className="w-5 h-5" />
-            Привязать к треку
-          </DialogTitle>
-          <DialogDescription>Сохраните анализ гитары для использования в Stem Studio</DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-4">
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Привязать к треку"
+      description="Сохраните анализ гитары для использования в Stem Studio"
+      footer={
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
+            Отмена
+          </Button>
+          <Button onClick={handleLink} disabled={!selectedTrackId || isSaving}>
+            {isSaving ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Сохранение...
+              </>
+            ) : (
+              <>
+                <Link2 className="w-4 h-4 mr-2" />
+                Привязать
+              </>
+            )}
+          </Button>
+        </div>
+      }
+    >
+      <div className="space-y-4">
           {/* Analysis Summary */}
           {analysisResult && (
             <Card className="p-3 bg-gradient-to-br from-orange-500/5 to-red-500/5 border-orange-500/20">
@@ -203,25 +213,6 @@ export function LinkToTrackDialog({ open, onOpenChange, analysisResult }: LinkTo
           </ScrollArea>
         </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
-            Отмена
-          </Button>
-          <Button onClick={handleLink} disabled={!selectedTrackId || isSaving}>
-            {isSaving ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Сохранение...
-              </>
-            ) : (
-              <>
-                <Link2 className="w-4 h-4 mr-2" />
-                Привязать
-              </>
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    </UnifiedDialog>
   );
 }

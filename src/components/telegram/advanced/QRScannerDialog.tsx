@@ -24,14 +24,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { QrCode, Loader2 } from "@/lib/icons";
 import { useTelegramQRScanner } from "@/hooks/telegram";
 import { toast } from "sonner";
@@ -74,22 +67,19 @@ export const QRScannerDialog = ({
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant={buttonVariant} size={buttonSize} className="gap-2">
-          <QrCode className="h-4 w-4" />
-          {buttonSize !== "icon" && buttonText}
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="max-w-sm">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <QrCode className="h-5 w-5" />
-            Сканирование QR-кода
-          </DialogTitle>
-          <DialogDescription>Камера откроется для сканирования QR-кода</DialogDescription>
-        </DialogHeader>
-
+    <>
+      <Button variant={buttonVariant} size={buttonSize} className="gap-2" onClick={() => setOpen(true)}>
+        <QrCode className="h-4 w-4" />
+        {buttonSize !== "icon" && buttonText}
+      </Button>
+      <UnifiedDialog
+        variant="modal"
+        open={open}
+        onOpenChange={setOpen}
+        title="Сканирование QR-кода"
+        description="Камера откроется для сканирования QR-кода"
+        size="sm"
+      >
         <div className="flex flex-col gap-4 py-4">
           <div className="flex justify-center">
             <div className="relative">
@@ -118,7 +108,7 @@ export const QRScannerDialog = ({
 
           {validate && <p className="text-xs text-muted-foreground text-center">QR-код будет проверен автоматически</p>}
         </div>
-      </DialogContent>
-    </Dialog>
+      </UnifiedDialog>
+    </>
   );
 };

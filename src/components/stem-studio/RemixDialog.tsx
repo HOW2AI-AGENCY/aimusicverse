@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -86,15 +86,13 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Shuffle className="w-5 h-5 text-primary" />
-            Создать ремикс
-          </DialogTitle>
-          <DialogDescription>AI создаст новую версию трека в выбранном стиле</DialogDescription>
-        </DialogHeader>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Создать ремикс"
+      description="AI создаст новую версию трека в выбранном стиле"
+    >
 
         <div className="space-y-4 py-2">
           {/* Original Track */}
@@ -190,7 +188,6 @@ export function RemixDialog({ open, onOpenChange, track }: RemixDialogProps) {
             )}
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+    </UnifiedDialog>
   );
 }

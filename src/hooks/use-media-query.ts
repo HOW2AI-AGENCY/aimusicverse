@@ -66,10 +66,11 @@ export function useMediaQuery(query: string, defaultValue: boolean = false): boo
  */
 
 /**
- * Match mobile breakpoint (max-width: 767px)
+ * Match mobile breakpoint (max-width: 639px)
+ * Aligned with Tailwind's sm: breakpoint (640px) for consistency
  */
 export function useIsMobile(): boolean {
-  return useMediaQuery("(max-width: 767px)");
+  return useMediaQuery("(max-width: 639px)");
 }
 
 /**

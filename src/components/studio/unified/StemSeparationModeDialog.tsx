@@ -5,11 +5,11 @@
  * Integrates with Telegram SecondaryButton for native cancel action
  */
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Music, Mic2, Drum, Guitar, Piano, Waves, Check, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 import { useTelegramSecondaryButton } from "@/hooks/telegram/useTelegramSecondaryButton";
@@ -85,71 +85,14 @@ export function StemSeparationModeDialog({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Разделение на стемы</DialogTitle>
-          <DialogDescription>Выберите режим разделения трека на отдельные дорожки</DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-3 py-4">
-          {(Object.entries(MODES) as [SeparationMode, typeof MODES.simple][]).map(([mode, config]) => (
-            <motion.button
-              key={mode}
-              whileTap={{ scale: 0.98 }}
-              onClick={() => handleSelect(mode)}
-              disabled={isProcessing}
-              className={cn(
-                "w-full p-4 rounded-xl border-2 transition-all text-left",
-                "bg-gradient-to-r",
-                config.bgGradient,
-                selectedMode === mode
-                  ? "border-primary ring-2 ring-primary/20"
-                  : "border-border hover:border-primary/50",
-              )}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div>
-                  <h3 className="font-semibold">{config.label}</h3>
-                  <p className="text-sm text-muted-foreground">{config.description}</p>
-                </div>
-                <AnimatePresence mode="wait">
-                  {selectedMode === mode && (
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      exit={{ scale: 0 }}
-                      className="w-6 h-6 rounded-full bg-primary flex items-center justify-center"
-                    >
-                      <Check className="w-4 h-4 text-primary-foreground" />
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {config.stems.map((stem, idx) => (
-                  <div
-                    key={idx}
-                    className={cn(
-                      "flex items-center gap-1.5 px-2 py-1 rounded-full",
-                      "bg-background/50 border border-border/50",
-                    )}
-                  >
-                    <stem.icon className={cn("w-3.5 h-3.5", stem.color)} />
-                    <span className="text-xs">{stem.label}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex items-center justify-between mt-2">
-                <p className="text-xs text-muted-foreground">Примерное время: {config.time}</p>
-                <span className="text-xs font-medium text-primary">{config.cost} 💎</span>
-              </div>
-            </motion.button>
-          ))}
-        </div>
-
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Разделение на стемы"
+      description="Выберите режим разделения трека на отдельные дорожки"
+      size="sm"
+      footer={
         <div className="flex gap-2">
           {/* Show UI cancel button only when native SecondaryButton is not available */}
           {shouldShowUIButton && (
@@ -172,7 +115,65 @@ export function StemSeparationModeDialog({
             )}
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      }
+    >
+      <div className="space-y-3 py-4">
+        {(Object.entries(MODES) as [SeparationMode, typeof MODES.simple][]).map(([mode, config]) => (
+          <motion.button
+            key={mode}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => handleSelect(mode)}
+            disabled={isProcessing}
+            className={cn(
+              "w-full p-4 rounded-xl border-2 transition-all text-left",
+              "bg-gradient-to-r",
+              config.bgGradient,
+              selectedMode === mode
+                ? "border-primary ring-2 ring-primary/20"
+                : "border-border hover:border-primary/50",
+            )}
+          >
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h3 className="font-semibold">{config.label}</h3>
+                <p className="text-sm text-muted-foreground">{config.description}</p>
+              </div>
+              <AnimatePresence mode="wait">
+                {selectedMode === mode && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="w-6 h-6 rounded-full bg-primary flex items-center justify-center"
+                  >
+                    <Check className="w-4 h-4 text-primary-foreground" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {config.stems.map((stem, idx) => (
+                <div
+                  key={idx}
+                  className={cn(
+                    "flex items-center gap-1.5 px-2 py-1 rounded-full",
+                    "bg-background/50 border border-border/50",
+                  )}
+                >
+                  <stem.icon className={cn("w-3.5 h-3.5", stem.color)} />
+                  <span className="text-xs">{stem.label}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center justify-between mt-2">
+              <p className="text-xs text-muted-foreground">Примерное время: {config.time}</p>
+              <span className="text-xs font-medium text-primary">{config.cost} 💎</span>
+            </div>
+          </motion.button>
+        ))}
+      </div>
+    </UnifiedDialog>
   );
 }

@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from "@/components/ui/drawer";
+import { UnifiedDialog } from "@/components/dialog";
 import { Badge } from "@/components/ui/badge";
 import { FileText, Edit3, Music2, Save, Copy, Loader2, Sparkles, CheckCircle2, AlertCircle } from "@/lib/icons";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useLyricsRecognition } from "@/hooks/useLyricsRecognition";
 import { RecognizedTrack } from "@/hooks/useMusicRecognition";
 import { toast } from "sonner";
@@ -19,7 +17,6 @@ interface RecognizedTrackActionsProps {
 }
 
 export function RecognizedTrackActions({ track, audioUrl, onUseLyrics, onCreateCover }: RecognizedTrackActionsProps) {
-  const isMobile = useIsMobile();
   const [showLyricsDialog, setShowLyricsDialog] = useState(false);
   const [editedLyrics, setEditedLyrics] = useState("");
   const [lyricsSource, setLyricsSource] = useState<"api" | "recognized" | "manual">("api");
@@ -186,39 +183,16 @@ export function RecognizedTrackActions({ track, audioUrl, onUseLyrics, onCreateC
       </div>
 
       {/* Lyrics dialog */}
-      {isMobile ? (
-        <Drawer open={showLyricsDialog} onOpenChange={setShowLyricsDialog}>
-          <DrawerContent className="max-h-[90vh]">
-            <DrawerHeader>
-              <DrawerTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Текст песни: {track.title}
-              </DrawerTitle>
-            </DrawerHeader>
-            <div className="px-4 pb-4 overflow-y-auto">
-              <LyricsDialogContent />
-            </div>
-            <DrawerFooter>
-              <LyricsDialogFooterContent />
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        <Dialog open={showLyricsDialog} onOpenChange={setShowLyricsDialog}>
-          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                Текст песни: {track.title}
-              </DialogTitle>
-            </DialogHeader>
-            <LyricsDialogContent />
-            <DialogFooter>
-              <LyricsDialogFooterContent />
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      )}
+      <UnifiedDialog
+        variant="modal"
+        open={showLyricsDialog}
+        onOpenChange={setShowLyricsDialog}
+        title={`Текст песни: ${track.title}`}
+        size="lg"
+        footer={<LyricsDialogFooterContent />}
+      >
+        <LyricsDialogContent />
+      </UnifiedDialog>
     </>
   );
 }

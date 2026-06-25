@@ -5,18 +5,15 @@
 
 import { useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Upload, FileAudio, Loader2, Check, X, Music } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
 import { logger } from "@/lib/logger";
 
@@ -40,7 +37,6 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 const ACCEPTED_TYPES = ["audio/mpeg", "audio/wav", "audio/ogg", "audio/mp4", "audio/webm", "audio/flac"];
 
 export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: ImportAudioDialogProps) {
-  const isMobile = useIsMobile();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -355,35 +351,16 @@ export function ImportAudioDialog({ open, onOpenChange, onImport, projectId }: I
     </div>
   );
 
-  if (isMobile) {
-    return (
-      <Sheet open={open} onOpenChange={handleClose}>
-        <SheetContent side="bottom" className="h-auto max-h-[85vh]">
-          <SheetHeader className="text-left pb-4">
-            <SheetTitle className="flex items-center gap-2">
-              <Music className="w-5 h-5 text-primary" />
-              Импорт аудио
-            </SheetTitle>
-            <SheetDescription>Загрузите аудиофайл для добавления в проект</SheetDescription>
-          </SheetHeader>
-          {content}
-        </SheetContent>
-      </Sheet>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Music className="w-5 h-5 text-primary" />
-            Импорт аудио
-          </DialogTitle>
-          <DialogDescription>Загрузите аудиофайл для добавления в проект</DialogDescription>
-        </DialogHeader>
-        {content}
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={handleClose}
+      title="Импорт аудио"
+      description="Загрузите аудиофайл для добавления в проект"
+      size="sm"
+    >
+      {content}
+    </UnifiedDialog>
   );
 }

@@ -2,14 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Music, Wand2, Loader2 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { TrackStem } from "@/hooks/useTrackStems";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -73,19 +66,18 @@ export const StemReferenceDialog = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2">
-          <Wand2 className="w-4 h-4" />
-          Использовать как референс
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Выберите стем для генерации</DialogTitle>
-          <DialogDescription>Используйте отдельный стем как аудио-референс для создания нового трека</DialogDescription>
-        </DialogHeader>
-
+    <>
+      <Button variant="outline" className="gap-2" onClick={() => setOpen(true)}>
+        <Wand2 className="w-4 h-4" />
+        Использовать как референс
+      </Button>
+      <UnifiedDialog
+        variant="modal"
+        open={open}
+        onOpenChange={setOpen}
+        title="Выберите стем для генерации"
+        description="Используйте отдельный стем как аудио-референс для создания нового трека"
+      >
         <div className="grid gap-2 py-4">
           {stems.map((stem) => (
             <button
@@ -118,7 +110,7 @@ export const StemReferenceDialog = ({
             Создать трек
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      </UnifiedDialog>
+    </>
   );
 };

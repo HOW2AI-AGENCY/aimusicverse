@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +10,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Edit, X, Plus, Lock, Globe, AlertTriangle } from "@/lib/icons";
 import { ArtistAvatarUpload } from "./ArtistAvatarUpload";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useAuth } from "@/hooks/useAuth";
 import { useArtists, type Artist } from "@/hooks/useArtists";
 import { toast } from "sonner";
@@ -25,7 +23,6 @@ interface EditArtistDialogProps {
 }
 
 export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = false }: EditArtistDialogProps) {
-  const isMobile = useIsMobile();
   const { user } = useAuth();
   const { updateArtist, isUpdating, deleteArtist, isDeleting } = useArtists();
 
@@ -300,37 +297,15 @@ export function EditArtistDialog({ artist, open, onOpenChange, canMakePrivate = 
     </div>
   );
 
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[90vh]">
-          <DrawerHeader>
-            <DrawerTitle className="flex items-center gap-2">
-              <Edit className="w-5 h-5 text-primary" />
-              Редактировать артиста
-            </DrawerTitle>
-          </DrawerHeader>
-          <div className="px-4 pb-6 flex-1 flex flex-col min-h-0">
-            {content}
-            {footer}
-          </div>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[85vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Edit className="w-5 h-5 text-primary" />
-            Редактировать артиста
-          </DialogTitle>
-        </DialogHeader>
-        {content}
-        {footer}
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Редактировать артиста"
+      footer={footer}
+    >
+      {content}
+    </UnifiedDialog>
   );
 }

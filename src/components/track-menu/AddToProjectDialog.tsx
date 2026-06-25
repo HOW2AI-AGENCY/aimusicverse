@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -89,93 +82,15 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
 
   return (
     <>
-      <Dialog open={open} onOpenChange={handleOpenChange}>
-        <DialogContent className="sm:max-w-[500px] max-h-[80vh]">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Folder className="h-5 w-5 text-primary" />
-              Добавить в проект
-            </DialogTitle>
-            <DialogDescription>Выберите проект для трека "{track.title}"</DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-4 py-4">
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Поиск проектов..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
-                disabled={loading}
-              />
-            </div>
-
-            {/* Projects List */}
-            <ScrollArea className="h-[300px] pr-4">
-              {projectsLoading ? (
-                <div className="flex items-center justify-center h-40">
-                  <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                </div>
-              ) : filteredProjects.length === 0 ? (
-                <div className="flex flex-col items-center justify-center h-40 text-center">
-                  <Folder className="h-12 w-12 text-muted-foreground/50 mb-2" />
-                  <p className="text-muted-foreground">{searchQuery ? "Проекты не найдены" : "Пока нет проектов"}</p>
-                  <p className="text-sm text-muted-foreground mt-1">Создайте проект, чтобы организовать треки</p>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  {filteredProjects.map((project) => (
-                    <button
-                      key={project.id}
-                      onClick={() => setSelectedProjectId(project.id)}
-                      disabled={loading}
-                      className={cn(
-                        "w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all",
-                        "hover:bg-accent/50 focus:outline-none focus:ring-2 focus:ring-primary",
-                        selectedProjectId === project.id
-                          ? "border-primary bg-primary/5"
-                          : "border-transparent bg-muted/50",
-                      )}
-                    >
-                      <div
-                        className={cn(
-                          "h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0",
-                          selectedProjectId === project.id ? "bg-primary text-primary-foreground" : "bg-muted",
-                        )}
-                      >
-                        {selectedProjectId === project.id ? (
-                          <Check className="h-5 w-5" />
-                        ) : (
-                          <Folder className="h-5 w-5" />
-                        )}
-                      </div>
-                      <div className="flex-1 text-left min-w-0">
-                        <p className="font-medium truncate">{project.title}</p>
-                        {project.description && (
-                          <p className="text-sm text-muted-foreground truncate">{project.description}</p>
-                        )}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </ScrollArea>
-
-            {/* Create New Project Button */}
-            <Button
-              variant="outline"
-              className="w-full gap-2"
-              onClick={() => setCreateProjectOpen(true)}
-              disabled={loading}
-            >
-              <Plus className="h-4 w-4" />
-              Создать новый проект
-            </Button>
-          </div>
-
-          <DialogFooter className="gap-2 sm:gap-0">
+      <UnifiedDialog
+        variant="modal"
+        open={open}
+        onOpenChange={handleOpenChange}
+        title="Добавить в проект"
+        description={`Выберите проект для трека "${track.title}"`}
+        size="lg"
+        footer={
+          <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={loading}>
               Отмена
             </Button>
@@ -192,9 +107,85 @@ export function AddToProjectDialog({ open, onOpenChange, track }: AddToProjectDi
                 </>
               )}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </div>
+        }
+      >
+        <div className="space-y-4 py-4">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Поиск проектов..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+              disabled={loading}
+            />
+          </div>
+
+          {/* Projects List */}
+          <ScrollArea className="h-[300px] pr-4">
+            {projectsLoading ? (
+              <div className="flex items-center justify-center h-40">
+                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              </div>
+            ) : filteredProjects.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-40 text-center">
+                <Folder className="h-12 w-12 text-muted-foreground/50 mb-2" />
+                <p className="text-muted-foreground">{searchQuery ? "Проекты не найдены" : "Пока нет проектов"}</p>
+                <p className="text-sm text-muted-foreground mt-1">Создайте проект, чтобы организовать треки</p>
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {filteredProjects.map((project) => (
+                  <button
+                    key={project.id}
+                    onClick={() => setSelectedProjectId(project.id)}
+                    disabled={loading}
+                    className={cn(
+                      "w-full flex items-center gap-3 p-3 rounded-lg border-2 transition-all",
+                      "hover:bg-accent/50 focus:outline-none focus:ring-2 focus:ring-primary",
+                      selectedProjectId === project.id
+                        ? "border-primary bg-primary/5"
+                        : "border-transparent bg-muted/50",
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "h-10 w-10 rounded-full flex items-center justify-center flex-shrink-0",
+                        selectedProjectId === project.id ? "bg-primary text-primary-foreground" : "bg-muted",
+                      )}
+                    >
+                      {selectedProjectId === project.id ? (
+                        <Check className="h-5 w-5" />
+                      ) : (
+                        <Folder className="h-5 w-5" />
+                      )}
+                    </div>
+                    <div className="flex-1 text-left min-w-0">
+                      <p className="font-medium truncate">{project.title}</p>
+                      {project.description && (
+                        <p className="text-sm text-muted-foreground truncate">{project.description}</p>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </ScrollArea>
+
+          {/* Create New Project Button */}
+          <Button
+            variant="outline"
+            className="w-full gap-2"
+            onClick={() => setCreateProjectOpen(true)}
+            disabled={loading}
+          >
+            <Plus className="h-4 w-4" />
+            Создать новый проект
+          </Button>
+        </div>
+      </UnifiedDialog>
 
       {/* Create Project Wizard */}
       <ProjectCreationWizard open={createProjectOpen} onOpenChange={setCreateProjectOpen} />

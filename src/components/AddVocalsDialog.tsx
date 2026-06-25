@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -125,15 +125,13 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Mic2 className="w-5 h-5" />
-            Добавить вокал
-          </DialogTitle>
-        </DialogHeader>
-
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Добавить вокал"
+      size="lg"
+    >
         <div className="space-y-4">
           {/* Info block */}
           <div className="p-3 bg-muted rounded-lg">
@@ -218,7 +216,6 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+    </UnifiedDialog>
   );
 };

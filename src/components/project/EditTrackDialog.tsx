@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -82,70 +82,69 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[85vh] flex flex-col p-0">
-        <DialogHeader className="px-6 pt-6 pb-2 shrink-0">
-          <DialogTitle>Редактировать трек</DialogTitle>
-        </DialogHeader>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Редактировать трек"
+      size="md"
+      footer={
+        <Button onClick={handleSubmit} className="w-full gap-2">
+          <Save className="w-4 h-4" />
+          Сохранить
+        </Button>
+      }
+    >
+      <Tabs defaultValue="basic" className="flex-1 flex flex-col overflow-hidden">
+        <TabsList className="grid w-full grid-cols-2 mb-2">
+          <TabsTrigger value="basic" className="gap-1.5 text-xs">
+            <FileText className="w-3.5 h-3.5" />
+            Основные
+          </TabsTrigger>
+          <TabsTrigger value="params" className="gap-1.5 text-xs">
+            <Sliders className="w-3.5 h-3.5" />
+            Параметры
+          </TabsTrigger>
+        </TabsList>
 
-        <Tabs defaultValue="basic" className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="grid w-full grid-cols-2 mx-6 mb-2" style={{ width: "calc(100% - 3rem)" }}>
-            <TabsTrigger value="basic" className="gap-1.5 text-xs">
-              <FileText className="w-3.5 h-3.5" />
-              Основные
-            </TabsTrigger>
-            <TabsTrigger value="params" className="gap-1.5 text-xs">
-              <Sliders className="w-3.5 h-3.5" />
-              Параметры
-            </TabsTrigger>
-          </TabsList>
+        <ScrollArea className="flex-1">
+          <TabsContent value="basic" className="mt-0 space-y-4 pb-4">
+            <div className="space-y-2">
+              <Label htmlFor="title">Название</Label>
+              <Input
+                id="title"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              />
+            </div>
 
-          <ScrollArea className="flex-1 px-6">
-            <TabsContent value="basic" className="mt-0 space-y-4 pb-4">
-              <div className="space-y-2">
-                <Label htmlFor="title">Название</Label>
-                <Input
-                  id="title"
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="style">Стиль / Теги</Label>
+              <Input
+                id="style"
+                value={formData.style_prompt}
+                onChange={(e) => setFormData({ ...formData, style_prompt: e.target.value })}
+                placeholder="Pop, энергичный, гитара..."
+              />
+            </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="style">Стиль / Теги</Label>
-                <Input
-                  id="style"
-                  value={formData.style_prompt}
-                  onChange={(e) => setFormData({ ...formData, style_prompt: e.target.value })}
-                  placeholder="Pop, энергичный, гитара..."
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="notes">Заметки</Label>
+              <Textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                rows={4}
+                placeholder="Идеи, комментарии..."
+              />
+            </div>
+          </TabsContent>
 
-              <div className="space-y-2">
-                <Label htmlFor="notes">Заметки</Label>
-                <Textarea
-                  id="notes"
-                  value={formData.notes}
-                  onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  rows={4}
-                  placeholder="Идеи, комментарии..."
-                />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="params" className="mt-0 pb-4">
-              <TrackParamsEditor params={trackParams} onChange={setTrackParams} compact />
-            </TabsContent>
-          </ScrollArea>
-
-          <div className="px-6 pb-6 pt-2 shrink-0 border-t">
-            <Button onClick={handleSubmit} className="w-full gap-2">
-              <Save className="w-4 h-4" />
-              Сохранить
-            </Button>
-          </div>
-        </Tabs>
-      </DialogContent>
-    </Dialog>
+          <TabsContent value="params" className="mt-0 pb-4">
+            <TrackParamsEditor params={trackParams} onChange={setTrackParams} compact />
+          </TabsContent>
+        </ScrollArea>
+      </Tabs>
+    </UnifiedDialog>
   );
 };

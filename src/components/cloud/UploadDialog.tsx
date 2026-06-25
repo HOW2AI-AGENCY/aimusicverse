@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import { format } from "@/lib/date-utils";
 import { Mic, Upload } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { cn } from "@/lib/utils";
 import { formatTime } from "@/lib/player-utils";
 import { toast } from "sonner";
@@ -146,7 +146,8 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
   };
 
   return (
-    <Dialog
+    <UnifiedDialog
+      variant="modal"
       open={open}
       onOpenChange={(o) => {
         if (isRecording) {
@@ -154,11 +155,8 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
         }
         onOpenChange(o);
       }}
+      title="Добавить аудио"
     >
-      <DialogContent className="max-w-sm">
-        <DialogHeader>
-          <DialogTitle>Добавить аудио</DialogTitle>
-        </DialogHeader>
         <div className="space-y-4">
           <input ref={fileInputRef} type="file" accept="audio/*" onChange={handleFileSelect} className="hidden" />
 
@@ -219,7 +217,6 @@ export function UploadDialog({ open, onOpenChange }: UploadDialogProps) {
 
           <p className="text-xs text-muted-foreground text-center">Поддерживаются MP3, WAV, M4A</p>
         </div>
-      </DialogContent>
-    </Dialog>
+    </UnifiedDialog>
   );
 }

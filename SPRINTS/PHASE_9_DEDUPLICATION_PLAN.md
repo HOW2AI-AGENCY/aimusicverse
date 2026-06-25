@@ -1,7 +1,7 @@
 # Phase 9: Deduplication & Refactoring Plan
 
 **Дата:** 2026-06-25
-**Статус:** Sprint 9A ✅ ЗАВЕРШЁН
+**Статус:** Sprint 9A ✅ ЗАВЕРШЁН | Sprint 9A+ (Mobile UX) ✅ ЗАВЕРШЁН
 **Предыдущая фаза:** Phase 8 — Удалено 196 мёртвых файлов, 45K строк ([PR #283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283))
 
 ---
@@ -56,6 +56,26 @@
 | `components/studio/unified/SectionNotesPanel.tsx` (954) | `components/lyrics-workspace/SectionNotesPanel.tsx` (611) — ревью и объединить                  |
 
 **Ожидаемая экономия Sprint 9A:** ~2,000-3,000 строк
+
+---
+
+## Sprint 9A+: Mobile UX & Dialog Migration ✅ ЗАВЕРШЁН (2026-06-25)
+
+**Effort:** 1 день | **Risk:** Низкий
+
+### Результаты
+
+1. **MobileHeaderBar touch targets** — исправлен с 40px на 44px (WCAG/iOS HIG)
+2. **Mobile detection hooks** — унифицированы 3 хука (use-mobile.tsx, use-is-mobile.ts, use-media-query.ts) на единый брейкпоинт 640px
+3. **Dialog→UnifiedDialog миграция** — 15+ компонентов мигрированы:
+   - AddVocalsDialog, AddInstrumentalDialog, ExtendTrackDialog, SaveTemplateDialog
+   - RenameTrackDialog, UploadDialog, EditPlaylistDialog, SharePlaylistDialog
+   - AddTrackDialog (project), EditTrackDialog, ExtendDialog (stem-studio)
+   - RemixDialog, ExportMixDialog, ImportAudioDialog, StudioArrangementDialog
+   - StemSeparationModeDialog
+4. **Удалены 3 мёртвых gesture-хука** — use-gestures.ts, useSwipeGesture.ts, useBottomSheetGestures.ts (~633 строки)
+
+**Экономия:** ~725 строк нетто (23 файла изменено)
 
 ---
 
@@ -156,15 +176,17 @@ components/ui/
 
 ## Суммарные ожидания
 
-| Спринт                  | Экономия строк   | Файлов затронуто | Сложность |
-| ----------------------- | ---------------- | ---------------- | --------- |
-| 9A: Дедупликация        | ~3,000           | ~30              | Средняя   |
-| 9B: Разбиение гигантов  | ~0 (рефакторинг) | ~50              | Высокая   |
-| 9C: Lyrics консолидация | ~500             | ~30              | Высокая   |
-| 9D: UI реорганизация    | ~0 (структура)   | ~90              | Низкая    |
-| 9E: Верификация         | —                | —                | Низкая    |
+| Спринт                  | Экономия строк   | Файлов затронуто | Сложность | Статус |
+| ----------------------- | ---------------- | ---------------- | --------- | ------ |
+| 9A: Дедупликация        | ~1,200           | ~10              | Средняя   | ✅     |
+| 9A+: Mobile UX & Dialog | ~725             | ~23              | Низкая    | ✅     |
+| 9B: Разбиение гигантов  | ~0 (рефакторинг) | ~50              | Высокая   | ⏳     |
+| 9C: Lyrics консолидация | ~500             | ~30              | Высокая   | ⏳     |
+| 9D: UI реорганизация    | ~0 (структура)   | ~90              | Низкая    | ⏳     |
+| 9E: Верификация         | —                | —                | Низкая    | ⏳     |
 
-**Итого:** ~3,500 строк экономии + значительное улучшение maintainability
+**Итого выполнено:** ~1,925 строк экономии (9A + 9A+)
+**Итого ожидается:** ~2,425+ строк + значительное улучшение maintainability
 
 ---
 

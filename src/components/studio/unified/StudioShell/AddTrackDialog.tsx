@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -50,46 +50,47 @@ export function AddTrackDialog({ open, onOpenChange, onAdd }: AddTrackDialogProp
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Добавить дорожку</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label>Тип дорожки</Label>
-            <Select value={type} onValueChange={(v) => setType(v as TrackType)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="vocal">🎤 Вокал</SelectItem>
-                <SelectItem value="instrumental">🎸 Инструментал</SelectItem>
-                <SelectItem value="drums">🥁 Ударные</SelectItem>
-                <SelectItem value="bass">🎸 Бас</SelectItem>
-                <SelectItem value="sfx">✨ SFX / Эффекты</SelectItem>
-                <SelectItem value="other">📁 Другое</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Добавить дорожку"
+      footer={
+        <div className="flex justify-end gap-2">
+          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            Отмена
+          </Button>
+          <Button type="submit" form="add-track-form">
+            <Plus className="h-4 w-4 mr-1" />
+            Добавить
+          </Button>
+        </div>
+      }
+    >
+      <form id="add-track-form" onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label>Тип дорожки</Label>
+          <Select value={type} onValueChange={(v) => setType(v as TrackType)}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="vocal">🎤 Вокал</SelectItem>
+              <SelectItem value="instrumental">🎸 Инструментал</SelectItem>
+              <SelectItem value="drums">🥁 Ударные</SelectItem>
+              <SelectItem value="bass">🎸 Бас</SelectItem>
+              <SelectItem value="sfx">✨ SFX / Эффекты</SelectItem>
+              <SelectItem value="other">📁 Другое</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
-          <div className="space-y-2">
-            <Label>Название</Label>
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={getDefaultTrackName(type)} />
-          </div>
-
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Отмена
-            </Button>
-            <Button type="submit">
-              <Plus className="h-4 w-4 mr-1" />
-              Добавить
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+        <div className="space-y-2">
+          <Label>Название</Label>
+          <Input value={name} onChange={(e) => setName(e.target.value)} placeholder={getDefaultTrackName(type)} />
+        </div>
+      </form>
+    </UnifiedDialog>
   );
 }
 
