@@ -136,12 +136,14 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
     swipeThreshold: 40,
   });
 
-  // Bottom offset:
-  //  - desktop / mobile-landscape (edge-rail, no BottomNav)  → 1rem
-  //  - mobile portrait / tablet portrait (BottomNav present) → 5rem
-  const bottomBase = isDesktop || isMobileLandscape ? '1rem' : '5rem';
+  // Bottom offset uses the canonical `--bottom-nav-h` published by MainLayout
+  // so the player always sits above the TabBar without re-deriving heights.
+  // On desktop / mobile-landscape the nav var is 0 and we fall back to 1rem.
+  const bottomBase = isDesktop || isMobileLandscape
+    ? '1rem'
+    : 'calc(var(--bottom-nav-h, 64px) + 0.5rem)';
   const bottomStyle: React.CSSProperties = {
-    bottom: `calc(${bottomBase} + max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px), 0.5rem))`,
+    bottom: `calc(${bottomBase} + max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px), 0.25rem))`,
   };
 
   // Like state from track (may not be loaded in queue items)
