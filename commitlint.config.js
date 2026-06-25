@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
     // Define allowed commit types
@@ -41,8 +41,8 @@ module.exports = {
     // Require type to be lowercase
     'type-case': [2, 'always', 'lower-case'],
 
-    // Header must start with type
-    'header-case': [2, 'always', 'lower-case']
+    // Header max line length
+    'header-max-length': [2, 'always', 100]
   },
   parserPreset: {
     parserOpts: {
