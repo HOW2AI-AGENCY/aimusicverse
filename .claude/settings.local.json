@@ -26,7 +26,12 @@
       "Bash(mkdir -p .husky/_)",
       "Bash(python -c \"import graphify; print\\('graphify is installed'\\)\")",
       "Bash(python -c \"import sys; open\\('graphify-out/.graphify_python', 'w', encoding='utf-8'\\).write\\(sys.executable\\)\")",
-      "Bash(python -c \"import sys; open\\('graphify-out/.graphify_root', 'w', encoding='utf-8'\\).write\\(sys.stdin.read\\(\\).strip\\(\\)\\)\")"
+      "Bash(python -c \"import sys; open\\('graphify-out/.graphify_root', 'w', encoding='utf-8'\\).write\\(sys.stdin.read\\(\\).strip\\(\\)\\)\")",
+      "Bash(git status *)",
+      "Bash(git push *)",
+      "Bash(printf 'C:\\\\\\\\Users\\\\\\\\oat70\\\\\\\\AppData\\\\\\\\Roaming\\\\\\\\uv\\\\\\\\tools\\\\\\\\graphifyy\\\\\\\\Scripts\\\\\\\\python.exe')",
+      "Bash(git pull *)",
+      "Bash(git stash *)"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
