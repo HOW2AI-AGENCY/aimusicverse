@@ -678,6 +678,25 @@ export function useGenerateForm({
         ? artists?.find(a => a.id === selectedArtistId)?.suno_persona_id
         : undefined;
 
+      // Pre-check custom voice availability before consuming credits
+      if (customVoiceId) {
+        try {
+          const { voiceCloneApi } = await import('@/api/voice-clone.api');
+          const r = await voiceCloneApi.checkVoice(customVoiceId);
+          if (!r?.available) {
+            toast.dismiss(toastId);
+            toast.error('Выбранный кастомный голос недоступен. Выберите другой или удалите его.');
+            setLoading(false);
+            return;
+          }
+        } catch (e) {
+          toast.dismiss(toastId);
+          toast.error('Не удалось проверить кастомный голос. Попробуйте ещё раз.');
+          setLoading(false);
+          return;
+        }
+      }
+
       let data, error;
 
       if (audioFile) {
@@ -756,6 +775,7 @@ export function useGenerateForm({
                   style: mode === 'custom' ? style : undefined,
                   title: mode === 'custom' ? title : undefined,
                   defaultParamFlag: !prompt && !style, // Use original params if no custom input
+                  voiceId: customVoiceId || undefined,
                 }
               : {
                   action: 'cover',
@@ -764,6 +784,7 @@ export function useGenerateForm({
                   style: mode === 'custom' ? style : undefined,
                   title: mode === 'custom' ? title : undefined,
                   audioWeight: audioWeight[0], // Pass audioWeight for cover control
+                  voiceId: customVoiceId || undefined,
                 },
           });
           data = result.data;
