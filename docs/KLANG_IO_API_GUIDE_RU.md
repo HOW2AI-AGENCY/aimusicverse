@@ -588,6 +588,7 @@ a.click();
 };
 
 return (
+
 <div className="transcription-container">
 <h1>Music Transcription Tool</h1>
 

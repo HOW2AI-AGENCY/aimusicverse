@@ -191,9 +191,7 @@ export async function setPendingAudio(
 /**
  * Get and consume pending audio file_id
  */
-export async function consumePendingAudio(
-  telegramUserId: number,
-): Promise<{
+export async function consumePendingAudio(telegramUserId: number): Promise<{
   fileId: string;
   fileType: string;
   analysisResult?: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean };
@@ -232,9 +230,7 @@ export async function consumePendingAudio(
 /**
  * Get pending audio without consuming it (for show_lyrics etc.)
  */
-export async function getPendingAudioWithoutConsuming(
-  telegramUserId: number,
-): Promise<{
+export async function getPendingAudioWithoutConsuming(telegramUserId: number): Promise<{
   fileId: string;
   fileType: string;
   analysisResult?: { style?: string; genre?: string; mood?: string; lyrics?: string; hasVocals?: boolean };

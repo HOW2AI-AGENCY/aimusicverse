@@ -91,7 +91,7 @@ Feature implementation progress, bug fixes, and technical improvements:
 
 - Bug fixes (BUG*FIXES*_, FIXES*SUMMARY*_, CRITICAL*FIXES*\*)
 - Implementation progress (IMPLEMENTATION*PROGRESS*\*)
-- Feature summaries (KLANG*IO*_, TELEGRAM\__, PLAYER\_\*)
+- Feature summaries (KLANG*IO*\_, TELEGRAM\_\_, PLAYER\_\*)
 - Technical fixes (REACT*\*\_FIX, TANSTACK*\*\_FIX)
 - Optimization reports (OPTIMIZATION*\*, MOBILE_OPTIMIZATION*\*)
 - Guide documents (PROFESSIONAL*STUDIO*_, LYRICS*INTERFACE*_)
@@ -118,7 +118,7 @@ Completed sprint status updates, execution reports, and closure documents:
 - Sprint continuation reports (SPRINT*\*\_CONTINUATION*\*)
 - Sprint final reports (SPRINT*\*\_FINAL*\*)
 - Sprint implementation summaries (SPRINT*\*\_IMPLEMENTATION*\*)
-- Phase reports (SPRINT**\_PHASE*, SPRINT*_\_DAY_)
+- Phase reports (SPRINT\*_\_PHASE_, SPRINT\*_\_DAY_)
 - Overall status snapshots (OVERALL*SPRINT_STATUS*\*)
 - Final closure docs (FINAL*SPRINT*\*)
 - Russian language reports (ИТОГОВЫЙ*ОТЧЕТ*\*)
