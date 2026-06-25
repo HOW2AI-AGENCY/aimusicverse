@@ -876,8 +876,14 @@ export function useGenerateForm({
       });
 
       toast.dismiss(toastId);
-      toast.success('Генерация началась! 🎵', {
-        description: 'Отслеживайте прогресс в библиотеке',
+      toast.success('Шаг 3/3 · Генерация запущена 🎵', {
+        description: `${customVoiceId ? 'С кастомным голосом. ' : ''}Отслеживайте прогресс в библиотеке (~30–90 сек).`,
+        duration: 5000,
+      });
+      logger.info('Generation enqueued successfully', {
+        submissionMode,
+        hasCustomVoice: !!customVoiceId,
+        model: finalModel,
       });
 
       // Check if generation came from Quick Create flow
