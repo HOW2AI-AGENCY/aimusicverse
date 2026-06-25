@@ -84,6 +84,7 @@ serve(async (req) => {
       weirdnessConstraint,
       audioWeight,
       personaId,
+      voiceId,
     } = body;
 
     if (!audioUrl) {
