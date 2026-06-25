@@ -82,6 +82,7 @@ serve(async (req) => {
       styleWeight,
       weirdnessConstraint,
       personaId,
+      voiceId,
     } = body;
 
     // Need either audioId (for existing tracks) or audioUrl (for reference audio)
