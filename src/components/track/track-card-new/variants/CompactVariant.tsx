@@ -11,7 +11,6 @@
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { MoreHorizontal } from 'lucide-react';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { formatDuration } from '@/lib/player-utils';
@@ -46,16 +45,14 @@ export const CompactVariant = memo(function CompactVariant({
   return (
     <>
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
+        initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: index * 0.02, duration: 0.2 }}
+        transition={{ delay: index * 0.02, duration: 0.18 }}
       >
-        <Card
+        <div
+          data-active={isCurrentlyPlaying ? 'true' : undefined}
           className={cn(
-            'group flex items-center gap-2.5 p-2 transition-all cursor-pointer touch-manipulation duration-200',
-            'hover:bg-muted/60 active:bg-muted rounded-xl border-0 bg-card/40 backdrop-blur-sm',
-            'hover:shadow-sm hover:scale-[1.01] hover:ring-1 hover:ring-primary/20',
-            isCurrentlyPlaying && 'bg-primary/5 ring-1 ring-primary/30',
+            'row-64 group cursor-pointer touch-manipulation select-none',
             className
           )}
           onClick={handleCardClick}
@@ -76,26 +73,32 @@ export const CompactVariant = memo(function CompactVariant({
             showPlayingGlow={false}
           />
 
-          <div className="flex-1 min-w-0">
-            <h3 className="font-medium text-sm truncate">
+          <div className="flex-1 min-w-0 flex flex-col justify-center gap-0.5">
+            <h3
+              className={cn(
+                'font-display text-[14px] leading-tight truncate tracking-tight',
+                isCurrentlyPlaying ? 'text-primary font-semibold' : 'text-foreground font-medium'
+              )}
+            >
               {track.title || 'Без названия'}
             </h3>
-            <p className="text-xs text-muted-foreground truncate">
-              {track.style || track.tags?.split(',')[0] || '--'}
-            </p>
+            <div className="flex items-center gap-1.5 min-w-0">
+              {track.style && (
+                <span className="tag-chip shrink-0 max-w-[140px] truncate">
+                  {track.style.split(',')[0]}
+                </span>
+              )}
+              <span className="text-[11px] text-muted-foreground/80 tabular-nums shrink-0">
+                {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
+              </span>
+            </div>
           </div>
 
-          {/* Duration */}
-          <span className="text-xs text-muted-foreground tabular-nums flex-shrink-0">
-            {track.duration_seconds ? formatDuration(track.duration_seconds) : '--:--'}
-          </span>
-
-          {/* Menu button */}
           {showActions && (
             <Button
               size="icon"
               variant="ghost"
-              className="w-11 h-11 min-h-[44px] min-w-[44px] opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 -mr-2"
+              className="w-10 h-10 rounded-full opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hover:bg-foreground/[0.06]"
               onClick={(e) => {
                 e.stopPropagation();
                 openSheet();
@@ -105,7 +108,7 @@ export const CompactVariant = memo(function CompactVariant({
               <MoreHorizontal className="w-5 h-5" />
             </Button>
           )}
-        </Card>
+        </div>
       </motion.div>
 
       <UnifiedTrackSheet

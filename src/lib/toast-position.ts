@@ -10,9 +10,10 @@
  */
 export function getToastStyles(isMobile: boolean, telegramOffset: number = 0) {
   if (isMobile) {
+    // Use the unified `--bottom-stack-h` CSS var (BottomNav + Player + safe-area)
+    // published by MainLayout, plus a small extra gap and Telegram-specific offset.
     return {
-      // Bottom positioning - account for nav bar (5rem) + mini-player gap + safe area
-      bottom: `max(calc(var(--tg-safe-area-inset-bottom, 0px) + 7rem + ${telegramOffset}px), calc(env(safe-area-inset-bottom, 0px) + 7rem))`,
+      bottom: `calc(var(--bottom-stack-h, 0px) + 1rem + ${telegramOffset}px)`,
 
       // Force true centering on mobile (Sonner's internal layout can drift in Telegram)
       left: '50%',
