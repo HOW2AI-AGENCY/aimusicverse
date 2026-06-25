@@ -1,7 +1,7 @@
-import React from 'react';
-import DOMPurify from 'dompurify';
-import { cn } from '@/lib/utils';
-import { Info, AlertTriangle, Lightbulb, CheckCircle } from 'lucide-react';
+import React from "react";
+import DOMPurify from "dompurify";
+import { cn } from "@/lib/utils";
+import { Info, AlertTriangle, Lightbulb, CheckCircle } from "lucide-react";
 
 interface BlogContentRendererProps {
   content: string;
@@ -10,11 +10,11 @@ interface BlogContentRendererProps {
 
 export function BlogContentRenderer({ content, className }: BlogContentRendererProps) {
   const renderContent = () => {
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     const elements: React.ReactNode[] = [];
     let inCodeBlock = false;
     let codeBlockContent: string[] = [];
-    let codeBlockLang = '';
+    let codeBlockLang = "";
     let listItems: React.ReactNode[] = [];
     let inList = false;
     let tableRows: string[][] = [];
@@ -27,7 +27,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
         elements.push(
           <ul key={`list-${elements.length}`} className="list-disc list-inside space-y-1 mb-4 ml-2">
             {listItems}
-          </ul>
+          </ul>,
         );
         listItems = [];
         inList = false;
@@ -61,7 +61,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
                 ))}
               </tbody>
             </table>
-          </div>
+          </div>,
         );
         tableRows = [];
         inTable = false;
@@ -71,26 +71,48 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
     const flushCallout = () => {
       if (calloutType && calloutContent.length > 0) {
         const calloutConfig = {
-          info: { icon: Info, bg: 'bg-blue-500/10', border: 'border-blue-500/30', text: 'text-blue-600 dark:text-blue-400' },
-          warning: { icon: AlertTriangle, bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', text: 'text-yellow-600 dark:text-yellow-400' },
-          tip: { icon: Lightbulb, bg: 'bg-green-500/10', border: 'border-green-500/30', text: 'text-green-600 dark:text-green-400' },
-          success: { icon: CheckCircle, bg: 'bg-green-500/10', border: 'border-green-500/30', text: 'text-green-600 dark:text-green-400' },
+          info: {
+            icon: Info,
+            bg: "bg-blue-500/10",
+            border: "border-blue-500/30",
+            text: "text-blue-600 dark:text-blue-400",
+          },
+          warning: {
+            icon: AlertTriangle,
+            bg: "bg-yellow-500/10",
+            border: "border-yellow-500/30",
+            text: "text-yellow-600 dark:text-yellow-400",
+          },
+          tip: {
+            icon: Lightbulb,
+            bg: "bg-green-500/10",
+            border: "border-green-500/30",
+            text: "text-green-600 dark:text-green-400",
+          },
+          success: {
+            icon: CheckCircle,
+            bg: "bg-green-500/10",
+            border: "border-green-500/30",
+            text: "text-green-600 dark:text-green-400",
+          },
         };
         const config = calloutConfig[calloutType as keyof typeof calloutConfig] || calloutConfig.info;
         const Icon = config.icon;
 
         elements.push(
-          <div key={`callout-${elements.length}`} className={cn(
-            'my-6 p-4 rounded-lg border flex gap-3',
-            config.bg, config.border
-          )}>
-            <Icon className={cn('w-5 h-5 flex-shrink-0 mt-0.5', config.text)} />
+          <div
+            key={`callout-${elements.length}`}
+            className={cn("my-6 p-4 rounded-lg border flex gap-3", config.bg, config.border)}
+          >
+            <Icon className={cn("w-5 h-5 flex-shrink-0 mt-0.5", config.text)} />
             <div className="flex-1 space-y-2">
               {calloutContent.map((line, i) => (
-                <p key={i} className="text-sm text-foreground/90">{parseInlineFormatting(line)}</p>
+                <p key={i} className="text-sm text-foreground/90">
+                  {parseInlineFormatting(line)}
+                </p>
               ))}
             </div>
-          </div>
+          </div>,
         );
         calloutType = null;
         calloutContent = [];
@@ -108,7 +130,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       }
 
       // Callout end
-      if (line.trim() === ':::' && calloutType) {
+      if (line.trim() === ":::" && calloutType) {
         flushCallout();
         return;
       }
@@ -120,11 +142,11 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       }
 
       // Table row detection
-      if (line.startsWith('|') && line.endsWith('|')) {
+      if (line.startsWith("|") && line.endsWith("|")) {
         flushList();
-        const cells = line.slice(1, -1).split('|');
+        const cells = line.slice(1, -1).split("|");
         // Skip separator row (|---|---|)
-        if (cells.every(cell => cell.trim().match(/^[-:]+$/))) {
+        if (cells.every((cell) => cell.trim().match(/^[-:]+$/))) {
           return;
         }
         tableRows.push(cells);
@@ -135,7 +157,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       }
 
       // Code block handling
-      if (line.startsWith('```')) {
+      if (line.startsWith("```")) {
         if (!inCodeBlock) {
           flushList();
           inCodeBlock = true;
@@ -148,15 +170,13 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
               className="bg-muted/50 border border-border/50 rounded-lg p-4 overflow-x-auto mb-4 text-sm font-mono"
             >
               {codeBlockLang && (
-                <div className="text-xs text-muted-foreground mb-2 pb-2 border-b border-border/30">
-                  {codeBlockLang}
-                </div>
+                <div className="text-xs text-muted-foreground mb-2 pb-2 border-b border-border/30">{codeBlockLang}</div>
               )}
-              <code className="text-foreground/90">{codeBlockContent.join('\n')}</code>
-            </pre>
+              <code className="text-foreground/90">{codeBlockContent.join("\n")}</code>
+            </pre>,
           );
           inCodeBlock = false;
-          codeBlockLang = '';
+          codeBlockLang = "";
         }
         return;
       }
@@ -180,71 +200,65 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
               loading="lazy"
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
+                target.style.display = "none";
               }}
             />
-            {alt && (
-              <figcaption className="text-center text-sm text-muted-foreground mt-2 italic">
-                {alt}
-              </figcaption>
-            )}
-          </figure>
+            {alt && <figcaption className="text-center text-sm text-muted-foreground mt-2 italic">{alt}</figcaption>}
+          </figure>,
         );
         return;
       }
 
       // Horizontal rule
-      if (line.trim() === '---' || line.trim() === '***') {
+      if (line.trim() === "---" || line.trim() === "***") {
         flushList();
-        elements.push(
-          <hr key={`hr-${index}`} className="my-8 border-border/50" />
-        );
+        elements.push(<hr key={`hr-${index}`} className="my-8 border-border/50" />);
         return;
       }
 
       // Headers
-      if (line.startsWith('# ')) {
+      if (line.startsWith("# ")) {
         flushList();
         elements.push(
           <h1 key={`h1-${index}`} className="text-2xl sm:text-3xl font-bold mt-8 mb-4 text-foreground">
             {parseInlineFormatting(line.slice(2))}
-          </h1>
+          </h1>,
         );
         return;
       }
 
-      if (line.startsWith('## ')) {
+      if (line.startsWith("## ")) {
         flushList();
         elements.push(
           <h2 key={`h2-${index}`} className="text-xl sm:text-2xl font-bold mt-6 mb-3 text-foreground">
             {parseInlineFormatting(line.slice(3))}
-          </h2>
+          </h2>,
         );
         return;
       }
 
-      if (line.startsWith('### ')) {
+      if (line.startsWith("### ")) {
         flushList();
         elements.push(
           <h3 key={`h3-${index}`} className="text-lg sm:text-xl font-semibold mt-5 mb-2 text-foreground">
             {parseInlineFormatting(line.slice(4))}
-          </h3>
+          </h3>,
         );
         return;
       }
 
-      if (line.startsWith('#### ')) {
+      if (line.startsWith("#### ")) {
         flushList();
         elements.push(
           <h4 key={`h4-${index}`} className="text-base font-semibold mt-4 mb-2 text-foreground">
             {parseInlineFormatting(line.slice(5))}
-          </h4>
+          </h4>,
         );
         return;
       }
 
       // Blockquote
-      if (line.startsWith('> ')) {
+      if (line.startsWith("> ")) {
         flushList();
         elements.push(
           <blockquote
@@ -252,7 +266,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
             className="border-l-4 border-primary/50 pl-4 py-2 my-4 bg-primary/5 rounded-r-lg italic text-muted-foreground"
           >
             {parseInlineFormatting(line.slice(2))}
-          </blockquote>
+          </blockquote>,
         );
         return;
       }
@@ -263,7 +277,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
         listItems.push(
           <li key={`li-${index}`} className="text-foreground/90">
             {parseInlineFormatting(line.slice(2))}
-          </li>
+          </li>,
         );
         return;
       }
@@ -271,18 +285,18 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       // Numbered list
       if (line.match(/^\d+\. /)) {
         flushList();
-        const content = line.replace(/^\d+\. /, '');
+        const content = line.replace(/^\d+\. /, "");
         elements.push(
           <div key={`ol-${index}`} className="flex gap-2 mb-2 ml-2">
             <span className="text-primary font-medium">{line.match(/^\d+/)?.[0]}.</span>
             <span className="text-foreground/90">{parseInlineFormatting(content)}</span>
-          </div>
+          </div>,
         );
         return;
       }
 
       // Empty line
-      if (line.trim() === '') {
+      if (line.trim() === "") {
         flushList();
         return;
       }
@@ -292,7 +306,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
       elements.push(
         <p key={`p-${index}`} className="mb-4 text-foreground/90 leading-relaxed">
           {parseInlineFormatting(line)}
-        </p>
+        </p>,
       );
     });
 
@@ -304,11 +318,7 @@ export function BlogContentRenderer({ content, className }: BlogContentRendererP
     return elements;
   };
 
-  return (
-    <div className={cn('prose prose-invert max-w-none', className)}>
-      {renderContent()}
-    </div>
-  );
+  return <div className={cn("prose prose-invert max-w-none", className)}>{renderContent()}</div>;
 }
 
 // Parse inline formatting: **bold**, *italic*, `code`, [link](url), ~~strikethrough~~
@@ -324,7 +334,7 @@ function parseInlineFormatting(text: string): React.ReactNode {
       elements.push(
         <del key={`strike-${keyIndex++}`} className="text-muted-foreground">
           {strikeMatch[1]}
-        </del>
+        </del>,
       );
       remaining = remaining.slice(strikeMatch[0].length);
       continue;
@@ -336,7 +346,7 @@ function parseInlineFormatting(text: string): React.ReactNode {
       elements.push(
         <strong key={`bold-${keyIndex++}`} className="font-bold text-foreground">
           {boldMatch[1]}
-        </strong>
+        </strong>,
       );
       remaining = remaining.slice(boldMatch[0].length);
       continue;
@@ -348,7 +358,7 @@ function parseInlineFormatting(text: string): React.ReactNode {
       elements.push(
         <em key={`italic-${keyIndex++}`} className="italic">
           {italicMatch[1]}
-        </em>
+        </em>,
       );
       remaining = remaining.slice(italicMatch[0].length);
       continue;
@@ -358,12 +368,9 @@ function parseInlineFormatting(text: string): React.ReactNode {
     const codeMatch = remaining.match(/^`([^`]+)`/);
     if (codeMatch) {
       elements.push(
-        <code
-          key={`code-${keyIndex++}`}
-          className="bg-muted/70 px-1.5 py-0.5 rounded text-sm font-mono text-primary"
-        >
+        <code key={`code-${keyIndex++}`} className="bg-muted/70 px-1.5 py-0.5 rounded text-sm font-mono text-primary">
           {codeMatch[1]}
-        </code>
+        </code>,
       );
       remaining = remaining.slice(codeMatch[0].length);
       continue;
@@ -381,7 +388,7 @@ function parseInlineFormatting(text: string): React.ReactNode {
           className="text-primary hover:underline"
         >
           {linkMatch[1]}
-        </a>
+        </a>,
       );
       remaining = remaining.slice(linkMatch[0].length);
       continue;

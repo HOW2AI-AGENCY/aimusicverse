@@ -32,9 +32,7 @@ export function EconomyCategory({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   // Count how many items have changed from defaults
-  const changedCount = defaultValues
-    ? items.filter((item) => defaultValues[item.key] !== item.value).length
-    : 0;
+  const changedCount = defaultValues ? items.filter((item) => defaultValues[item.key] !== item.value).length : 0;
 
   return (
     <div className="rounded-lg border bg-card overflow-hidden">
@@ -43,7 +41,7 @@ export function EconomyCategory({
         className={cn(
           "w-full flex items-center gap-3 p-4 text-left transition-colors",
           "hover:bg-accent/50 active:bg-accent",
-          "min-h-[56px]" // Touch-friendly
+          "min-h-[56px]", // Touch-friendly
         )}
       >
         <span className="text-xl flex-shrink-0">{icon}</span>
@@ -51,11 +49,7 @@ export function EconomyCategory({
           <div className="font-medium">{label}</div>
           <div className="text-xs text-muted-foreground">
             {items.length} параметров
-            {changedCount > 0 && (
-              <span className="text-amber-500 ml-2">
-                • {changedCount} изменено
-              </span>
-            )}
+            {changedCount > 0 && <span className="text-amber-500 ml-2">• {changedCount} изменено</span>}
           </div>
         </div>
         {isExpanded ? (

@@ -1,6 +1,6 @@
 /**
  * useKeyboardShortcuts - Studio keyboard shortcuts
- * 
+ *
  * Provides professional DAW-like keyboard controls:
  * - Space: Play/Pause
  * - M: Mute selected track
@@ -9,8 +9,8 @@
  * - Number keys: Select track by index
  */
 
-import { useEffect, useCallback, useRef } from 'react';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { useEffect, useCallback, useRef } from "react";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 interface KeyboardShortcutAction {
   key: string;
@@ -19,7 +19,7 @@ interface KeyboardShortcutAction {
   alt?: boolean;
   action: () => void;
   description: string;
-  category: 'playback' | 'track' | 'navigation' | 'edit';
+  category: "playback" | "track" | "navigation" | "edit";
 }
 
 interface UseKeyboardShortcutsOptions {
@@ -70,141 +70,141 @@ export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}) 
 
     if (onPlayPause) {
       actions.push({
-        key: ' ',
+        key: " ",
         action: onPlayPause,
-        description: 'Play/Pause',
-        category: 'playback',
+        description: "Play/Pause",
+        category: "playback",
       });
     }
 
     if (onStop) {
       actions.push({
-        key: 'Escape',
+        key: "Escape",
         action: onStop,
-        description: 'Stop',
-        category: 'playback',
+        description: "Stop",
+        category: "playback",
       });
     }
 
     if (onSeekForward) {
       actions.push({
-        key: 'ArrowRight',
+        key: "ArrowRight",
         action: onSeekForward,
-        description: 'Seek forward',
-        category: 'playback',
+        description: "Seek forward",
+        category: "playback",
       });
     }
 
     if (onSeekBackward) {
       actions.push({
-        key: 'ArrowLeft',
+        key: "ArrowLeft",
         action: onSeekBackward,
-        description: 'Seek backward',
-        category: 'playback',
+        description: "Seek backward",
+        category: "playback",
       });
     }
 
     if (onMuteSelected) {
       actions.push({
-        key: 'm',
+        key: "m",
         action: onMuteSelected,
-        description: 'Mute selected track',
-        category: 'track',
+        description: "Mute selected track",
+        category: "track",
       });
     }
 
     if (onSoloSelected) {
       actions.push({
-        key: 's',
+        key: "s",
         action: onSoloSelected,
-        description: 'Solo selected track',
-        category: 'track',
+        description: "Solo selected track",
+        category: "track",
       });
     }
 
     if (onSelectNext) {
       actions.push({
-        key: 'ArrowDown',
+        key: "ArrowDown",
         action: onSelectNext,
-        description: 'Select next track',
-        category: 'navigation',
+        description: "Select next track",
+        category: "navigation",
       });
     }
 
     if (onSelectPrevious) {
       actions.push({
-        key: 'ArrowUp',
+        key: "ArrowUp",
         action: onSelectPrevious,
-        description: 'Select previous track',
-        category: 'navigation',
+        description: "Select previous track",
+        category: "navigation",
       });
     }
 
     if (onUndo) {
       actions.push({
-        key: 'z',
+        key: "z",
         ctrl: true,
         action: onUndo,
-        description: 'Undo',
-        category: 'edit',
+        description: "Undo",
+        category: "edit",
       });
     }
 
     if (onRedo) {
       actions.push({
-        key: 'z',
+        key: "z",
         ctrl: true,
         shift: true,
         action: onRedo,
-        description: 'Redo',
-        category: 'edit',
+        description: "Redo",
+        category: "edit",
       });
       actions.push({
-        key: 'y',
+        key: "y",
         ctrl: true,
         action: onRedo,
-        description: 'Redo',
-        category: 'edit',
+        description: "Redo",
+        category: "edit",
       });
     }
 
     if (onSave) {
       actions.push({
-        key: 's',
+        key: "s",
         ctrl: true,
         action: onSave,
-        description: 'Save',
-        category: 'edit',
+        description: "Save",
+        category: "edit",
       });
     }
 
     if (onZoomIn) {
       actions.push({
-        key: '=',
+        key: "=",
         ctrl: true,
         action: onZoomIn,
-        description: 'Zoom in',
-        category: 'navigation',
+        description: "Zoom in",
+        category: "navigation",
       });
     }
 
     if (onZoomOut) {
       actions.push({
-        key: '-',
+        key: "-",
         ctrl: true,
         action: onZoomOut,
-        description: 'Zoom out',
-        category: 'navigation',
+        description: "Zoom out",
+        category: "navigation",
       });
     }
 
     if (onResetZoom) {
       actions.push({
-        key: '0',
+        key: "0",
         ctrl: true,
         action: onResetZoom,
-        description: 'Reset zoom',
-        category: 'navigation',
+        description: "Reset zoom",
+        category: "navigation",
       });
     }
 
@@ -215,7 +215,7 @@ export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}) 
           key: String(i),
           action: () => onSelectTrack(i - 1),
           description: `Select track ${i}`,
-          category: 'navigation',
+          category: "navigation",
         });
       }
     }
@@ -246,19 +246,14 @@ export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}) 
     const handleKeyDown = (e: KeyboardEvent) => {
       // Skip if typing in input/textarea
       const target = e.target as HTMLElement;
-      if (
-        target.tagName === 'INPUT' ||
-        target.tagName === 'TEXTAREA' ||
-        target.contentEditable === 'true'
-      ) {
+      if (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.contentEditable === "true") {
         return;
       }
 
       const shortcutList = shortcuts();
-      
+
       for (const shortcut of shortcutList) {
-        const keyMatch = e.key.toLowerCase() === shortcut.key.toLowerCase() || 
-                         e.key === shortcut.key;
+        const keyMatch = e.key.toLowerCase() === shortcut.key.toLowerCase() || e.key === shortcut.key;
         const ctrlMatch = !!shortcut.ctrl === (e.ctrlKey || e.metaKey);
         const shiftMatch = !!shortcut.shift === e.shiftKey;
         const altMatch = !!shortcut.alt === e.altKey;
@@ -272,19 +267,21 @@ export function useKeyboardShortcuts(options: UseKeyboardShortcutsOptions = {}) 
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [enabled, shortcuts, haptic]);
 
   // Get all shortcuts for help display
   const getShortcutsList = useCallback(() => {
     return shortcuts().map(({ key, ctrl, shift, alt, description, category }) => ({
       keys: [
-        ctrl && (navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'),
-        shift && 'Shift',
-        alt && 'Alt',
-        key === ' ' ? 'Space' : key,
-      ].filter(Boolean).join(' + '),
+        ctrl && (navigator.platform.includes("Mac") ? "⌘" : "Ctrl"),
+        shift && "Shift",
+        alt && "Alt",
+        key === " " ? "Space" : key,
+      ]
+        .filter(Boolean)
+        .join(" + "),
       description,
       category,
     }));
@@ -308,7 +305,7 @@ export function useStudioKeyboardShortcuts(
     onToggleSolo: (id: string) => void;
     tracks: { id: string }[];
     onSelectTrack: (id: string) => void;
-  }
+  },
 ) {
   return useKeyboardShortcuts({
     onPlayPause: controls.toggle,
@@ -328,18 +325,14 @@ export function useStudioKeyboardShortcuts(
       : undefined,
     onSelectNext: trackControls
       ? () => {
-          const currentIndex = trackControls.tracks.findIndex(
-            (t) => t.id === trackControls.selectedTrackId
-          );
+          const currentIndex = trackControls.tracks.findIndex((t) => t.id === trackControls.selectedTrackId);
           const nextTrack = trackControls.tracks[currentIndex + 1];
           if (nextTrack) trackControls.onSelectTrack(nextTrack.id);
         }
       : undefined,
     onSelectPrevious: trackControls
       ? () => {
-          const currentIndex = trackControls.tracks.findIndex(
-            (t) => t.id === trackControls.selectedTrackId
-          );
+          const currentIndex = trackControls.tracks.findIndex((t) => t.id === trackControls.selectedTrackId);
           const prevTrack = trackControls.tracks[currentIndex - 1];
           if (prevTrack) trackControls.onSelectTrack(prevTrack.id);
         }

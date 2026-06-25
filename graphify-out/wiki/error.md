@@ -1924,6 +1924,7 @@ sequenceDiagram
 ## Connections by Relation
 
 ### calls
+
 - [[handleDeepLink()]] `INFERRED`
 - [[handleDashboard()]] `INFERRED`
 - [[uploadAndShowActions()]] `INFERRED`
@@ -1946,6 +1947,7 @@ sequenceDiagram
 - [[handleCheckTask()]] `INFERRED`
 
 ### contains
+
 - [[index.ts]] `EXTRACTED`
 - [[index.ts]] `EXTRACTED`
 - [[index.ts]] `EXTRACTED`
@@ -1954,4 +1956,4 @@ sequenceDiagram
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

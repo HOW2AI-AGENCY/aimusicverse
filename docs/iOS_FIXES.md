@@ -13,11 +13,13 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: iOS Safari automatically zooms in on input fields with font-size < 16px when focused.
 
 **Solution**:
+
 - All input components use `text-base` (16px) on mobile
 - Global CSS rule forces 16px font-size for all form inputs on iOS
 - Added `touch-manipulation` to prevent double-tap zoom
 
 **Files affected**:
+
 - `src/components/ui/input.tsx`
 - `src/components/ui/textarea.tsx`
 - `src/components/ui/select.tsx`
@@ -30,10 +32,12 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: Vertical swipes on iOS can accidentally close the Telegram Mini App.
 
 **Solution**:
+
 - Call `tg.disableVerticalSwipes()` during initialization
 - Set `overscroll-behavior: none` on html/body to prevent bounce effect
 
 **Files affected**:
+
 - `src/contexts/TelegramContext.tsx`
 - `src/index.css`
 
@@ -44,12 +48,14 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: iOS virtual keyboard overlaps content, hiding input fields.
 
 **Solution**:
+
 - Use `visualViewport` API to detect keyboard height
 - Set `--keyboard-height` CSS variable dynamically
 - Apply `scroll-padding-bottom` to html for proper scroll behavior
 - Add `keyboard-open` class to body for additional styling control
 
 **Files affected**:
+
 - `src/main.tsx`
 - `src/index.css`
 
@@ -60,10 +66,12 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: Scroll areas feel sluggish on iOS without native momentum.
 
 **Solution**:
+
 - Apply `-webkit-overflow-scrolling: touch` to all scrollable areas
 - Set `overscroll-behavior: contain` to prevent scroll chaining
 
 **Files affected**:
+
 - `src/components/ui/scroll-area.tsx`
 - `src/index.css`
 
@@ -74,10 +82,12 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: iOS requires minimum 44x44px touch targets for usability.
 
 **Solution**:
+
 - All interactive elements have `min-h-[44px]` minimum height
 - Select and Input components enforce minimum touch target size
 
 **Files affected**:
+
 - `src/components/ui/input.tsx`
 - `src/components/ui/select.tsx`
 - `src/index.css`
@@ -89,12 +99,14 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: iOS shows wrong keyboard type for number/email/tel inputs.
 
 **Solution**:
+
 - Dynamically set `inputMode` based on input `type`
 - `number` → `decimal` keyboard
 - `tel` → telephone keyboard
 - `email` → email keyboard with @ symbol
 
 **Files affected**:
+
 - `src/components/ui/input.tsx`
 
 ---
@@ -104,10 +116,12 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: Long press shows iOS context menu on interactive elements, disrupting UX.
 
 **Solution**:
+
 - Apply `-webkit-touch-callout: none` on buttons, links, and interactive elements
 - Use `-webkit-user-select: none` to prevent text selection
 
 **Files affected**:
+
 - `src/index.css`
 
 ---
@@ -117,10 +131,12 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: `100vh` on iOS includes the address bar, causing content overflow.
 
 **Solution**:
+
 - Use `-webkit-fill-available` as fallback for `100vh`
 - Use CSS custom property `--vh` calculated from `window.innerHeight`
 
 **Files affected**:
+
 - `src/main.tsx`
 - `src/index.css`
 
@@ -131,9 +147,11 @@ iOS Safari and Telegram Mini Apps have several known issues that require specifi
 **Problem**: `backdrop-filter` requires `-webkit-` prefix on iOS Safari.
 
 **Solution**:
+
 - Apply `-webkit-backdrop-filter` alongside `backdrop-filter`
 
 **Files affected**:
+
 - `src/index.css`
 
 ---
@@ -169,6 +187,7 @@ To debug iOS issues:
 **Problem**: Modal/Sheet components need native Telegram integration.
 
 **Solution**:
+
 - Telegram safe area padding (`--tg-safe-area-inset-bottom`)
 - Haptic feedback on open/close via `HapticFeedback.impactOccurred('light')`
 - 44px minimum touch targets for header close button
@@ -176,6 +195,7 @@ To debug iOS issues:
 - Drag handle for bottom sheet interactions
 
 **Files affected**:
+
 - `src/components/dialog/variants/sheet.tsx`
 - `src/components/dialog/variants/modal.tsx`
 
@@ -189,4 +209,4 @@ To debug iOS issues:
 
 ---
 
-*Last Updated: 2026-01-19*
+_Last Updated: 2026-01-19_

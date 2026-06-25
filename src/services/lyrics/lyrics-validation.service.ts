@@ -11,11 +11,8 @@
  * @see src/services/lyrics/lyrics-types.ts for type definitions
  */
 
-import { logger } from '@/lib/logger';
-import type {
-  SaveLyricsRequest,
-  LyricsStatistics
-} from './lyrics-types';
+import { logger } from "@/lib/logger";
+import type { SaveLyricsRequest, LyricsStatistics } from "./lyrics-types";
 
 // ============================================================================
 // VALIDATION CONFIGURATION
@@ -66,15 +63,13 @@ export interface ContentQualityMetrics {
  * @param content - The lyrics content to validate
  * @returns ValidationResult with errors and warnings
  */
-export function validateLyricsContent(
-  content: string
-): ValidationResult {
+export function validateLyricsContent(content: string): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   // Check if content exists
   if (!content || content.trim().length === 0) {
-    errors.push('Lyrics content cannot be empty');
+    errors.push("Lyrics content cannot be empty");
     return { isValid: false, errors, warnings };
   }
 
@@ -88,7 +83,10 @@ export function validateLyricsContent(
   }
 
   // Word count validation
-  const words = content.trim().split(/\s+/).filter(w => w.length > 0);
+  const words = content
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0);
   const wordCount = words.length;
 
   if (wordCount < LYRICS_CONSTRAINTS.MIN_WORDS) {
@@ -100,8 +98,8 @@ export function validateLyricsContent(
   }
 
   // Line length validation
-  const lines = content.split('\n');
-  const longLines = lines.filter(line => line.length > LYRICS_CONSTRAINTS.MAX_LINE_LENGTH);
+  const lines = content.split("\n");
+  const longLines = lines.filter((line) => line.length > LYRICS_CONSTRAINTS.MAX_LINE_LENGTH);
 
   if (longLines.length > 0) {
     warnings.push(`Found ${longLines.length} lines longer than ${LYRICS_CONSTRAINTS.MAX_LINE_LENGTH} characters`);
@@ -110,19 +108,19 @@ export function validateLyricsContent(
   // Check for suspicious patterns
   const hasRepetitiveContent = detectRepetitiveContent(content);
   if (hasRepetitiveContent) {
-    warnings.push('Lyrics contain highly repetitive content, consider adding variety');
+    warnings.push("Lyrics contain highly repetitive content, consider adding variety");
   }
 
   // Check for structure
   const hasStructure = detectLyricsStructure(content);
   if (!hasStructure) {
-    warnings.push('Lyrics lack clear structure (verses, choruses, etc.)');
+    warnings.push("Lyrics lack clear structure (verses, choruses, etc.)");
   }
 
   const isValid = errors.length === 0;
 
   if (!isValid) {
-    logger.warn('Lyrics validation failed', { errors, wordCount, contentLength: content.length });
+    logger.warn("Lyrics validation failed", { errors, wordCount, contentLength: content.length });
   }
 
   return { isValid, errors, warnings };
@@ -134,15 +132,13 @@ export function validateLyricsContent(
  * @param content - The section note content to validate
  * @returns ValidationResult with errors and warnings
  */
-export function validateSectionNoteContent(
-  content: string
-): ValidationResult {
+export function validateSectionNoteContent(content: string): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   // Check if content exists
   if (!content || content.trim().length === 0) {
-    errors.push('Section note content cannot be empty');
+    errors.push("Section note content cannot be empty");
     return { isValid: false, errors, warnings };
   }
 
@@ -156,7 +152,10 @@ export function validateSectionNoteContent(
   }
 
   // Word count validation
-  const words = content.trim().split(/\s+/).filter(w => w.length > 0);
+  const words = content
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0);
   const wordCount = words.length;
 
   if (wordCount > SECTION_NOTE_CONSTRAINTS.MAX_WORDS) {
@@ -166,7 +165,7 @@ export function validateSectionNoteContent(
   const isValid = errors.length === 0;
 
   if (!isValid) {
-    logger.warn('Section note validation failed', { errors, wordCount });
+    logger.warn("Section note validation failed", { errors, wordCount });
   }
 
   return { isValid, errors, warnings };
@@ -178,23 +177,21 @@ export function validateSectionNoteContent(
  * @param request - The save lyrics request to validate
  * @returns ValidationResult with errors and warnings
  */
-export function validateSaveLyricsRequest(
-  request: SaveLyricsRequest
-): ValidationResult {
+export function validateSaveLyricsRequest(request: SaveLyricsRequest): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   // Validate required fields
   if (!request.trackId || request.trackId.trim().length === 0) {
-    errors.push('Track ID is required');
+    errors.push("Track ID is required");
   }
 
   if (!request.authorId || request.authorId.trim().length === 0) {
-    errors.push('Author ID is required');
+    errors.push("Author ID is required");
   }
 
   if (!request.content) {
-    errors.push('Lyrics content is required');
+    errors.push("Lyrics content is required");
     return { isValid: false, errors, warnings };
   }
 
@@ -206,10 +203,10 @@ export function validateSaveLyricsRequest(
   const isValid = errors.length === 0;
 
   if (!isValid) {
-    logger.warn('Save lyrics request validation failed', {
+    logger.warn("Save lyrics request validation failed", {
       errors,
       trackId: request.trackId,
-      authorId: request.authorId
+      authorId: request.authorId,
     });
   }
 
@@ -226,26 +223,23 @@ export function validateSaveLyricsRequest(
  * @param content - The lyrics content to analyze
  * @returns ContentQualityMetrics with various quality indicators
  */
-export function analyzeContentQuality(
-  content: string
-): ContentQualityMetrics {
-  const lines = content.split('\n').filter(line => line.trim().length > 0);
-  const words = content.trim().split(/\s+/).filter(w => w.length > 0);
+export function analyzeContentQuality(content: string): ContentQualityMetrics {
+  const lines = content.split("\n").filter((line) => line.trim().length > 0);
+  const words = content
+    .trim()
+    .split(/\s+/)
+    .filter((w) => w.length > 0);
 
   const characterCount = content.length;
   const wordCount = words.length;
   const lineCount = lines.length;
 
-  const averageLineLength = lines.length > 0
-    ? lines.reduce((sum, line) => sum + line.length, 0) / lines.length
-    : 0;
+  const averageLineLength = lines.length > 0 ? lines.reduce((sum, line) => sum + line.length, 0) / lines.length : 0;
 
   const hasStructure = detectLyricsStructure(content);
 
   // Simple readability score (based on average word length and sentence length)
-  const avgWordLength = words.length > 0
-    ? words.reduce((sum, word) => sum + word.length, 0) / words.length
-    : 0;
+  const avgWordLength = words.length > 0 ? words.reduce((sum, word) => sum + word.length, 0) / words.length : 0;
 
   const readabilityScore = calculateReadabilityScore(avgWordLength, averageLineLength, lineCount);
 
@@ -255,7 +249,7 @@ export function analyzeContentQuality(
     characterCount,
     hasStructure,
     averageLineLength,
-    readabilityScore
+    readabilityScore,
   };
 }
 
@@ -280,7 +274,7 @@ export function getLyricsStatistics(content: string): LyricsStatistics {
     characterCount: quality.characterCount,
     estimatedDuration,
     hasStructuredSections: quality.hasStructure,
-    sectionsCount
+    sectionsCount,
   };
 }
 
@@ -292,7 +286,7 @@ export function getLyricsStatistics(content: string): LyricsStatistics {
  * Detects if lyrics have repetitive content
  */
 function detectRepetitiveContent(content: string): boolean {
-  const lines = content.split('\n').filter(line => line.trim().length > 0);
+  const lines = content.split("\n").filter((line) => line.trim().length > 0);
 
   if (lines.length < 4) return false;
 
@@ -324,7 +318,7 @@ function detectLyricsStructure(content: string): boolean {
     /\n\s*\n\s*\n/, // Multiple blank lines suggest structure
   ];
 
-  return structurePatterns.some(pattern => pattern.test(content));
+  return structurePatterns.some((pattern) => pattern.test(content));
 }
 
 /**
@@ -338,11 +332,7 @@ function countStructuredSections(content: string): number {
 /**
  * Calculates readability score (0-100, higher is better)
  */
-function calculateReadabilityScore(
-  avgWordLength: number,
-  avgLineLength: number,
-  lineCount: number
-): number {
+function calculateReadabilityScore(avgWordLength: number, avgLineLength: number, lineCount: number): number {
   // Simple readability formula (not Flesch, but suitable for lyrics)
   const wordLengthScore = Math.max(0, 100 - (avgWordLength - 4) * 10);
   const lineLengthScore = Math.max(0, 100 - (avgLineLength - 50) * 0.5);

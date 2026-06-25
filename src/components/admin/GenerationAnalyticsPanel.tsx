@@ -3,39 +3,30 @@
  * Displays comprehensive generation statistics with charts
  */
 
-import { useState } from 'react';
-import { 
-  BarChart3, Clock, DollarSign, Music, Tag, 
-  TrendingUp, Loader2, RefreshCw, Cpu
-} from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { useGenerationAnalytics, type GenerationAnalytics } from '@/hooks/useGenerationAnalytics';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { BarChart3, Clock, DollarSign, Music, Tag, TrendingUp, Loader2, RefreshCw, Cpu } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useGenerationAnalytics, type GenerationAnalytics } from "@/hooks/useGenerationAnalytics";
+import { cn } from "@/lib/utils";
 
-type TimePeriod = '7 days' | '30 days' | '90 days' | '365 days';
+type TimePeriod = "7 days" | "30 days" | "90 days" | "365 days";
 
-function StatCard({ 
-  title, 
-  value, 
-  icon: Icon, 
+function StatCard({
+  title,
+  value,
+  icon: Icon,
   description,
   trend,
   className,
-}: { 
-  title: string; 
-  value: string | number; 
+}: {
+  title: string;
+  value: string | number;
   icon: React.ElementType;
   description?: string;
   trend?: { value: number; positive: boolean };
@@ -48,21 +39,22 @@ function StatCard({
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground font-medium">{title}</p>
             <p className="text-2xl font-bold">{value}</p>
-            {description && (
-              <p className="text-xs text-muted-foreground">{description}</p>
-            )}
+            {description && <p className="text-xs text-muted-foreground">{description}</p>}
           </div>
           <div className="p-2 rounded-lg bg-primary/10">
             <Icon className="w-5 h-5 text-primary" />
           </div>
         </div>
         {trend && (
-          <div className={cn(
-            "mt-2 text-xs font-medium flex items-center gap-1",
-            trend.positive ? "text-green-500" : "text-red-500"
-          )}>
+          <div
+            className={cn(
+              "mt-2 text-xs font-medium flex items-center gap-1",
+              trend.positive ? "text-green-500" : "text-red-500",
+            )}
+          >
             <TrendingUp className={cn("w-3 h-3", !trend.positive && "rotate-180")} />
-            {trend.positive ? '+' : ''}{trend.value}%
+            {trend.positive ? "+" : ""}
+            {trend.value}%
           </div>
         )}
       </CardContent>
@@ -70,9 +62,9 @@ function StatCard({
   );
 }
 
-function StylesChart({ styles }: { styles: GenerationAnalytics['top_styles'] }) {
-  const maxCount = Math.max(...styles.map(s => s.count), 1);
-  
+function StylesChart({ styles }: { styles: GenerationAnalytics["top_styles"] }) {
+  const maxCount = Math.max(...styles.map((s) => s.count), 1);
+
   return (
     <div className="space-y-3">
       {styles.slice(0, 10).map((style, i) => (
@@ -86,23 +78,28 @@ function StylesChart({ styles }: { styles: GenerationAnalytics['top_styles'] }) 
           <Progress value={(style.count / maxCount) * 100} className="h-2" />
         </div>
       ))}
-      {styles.length === 0 && (
-        <p className="text-sm text-muted-foreground text-center py-4">
-          Нет данных о стилях
-        </p>
-      )}
+      {styles.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">Нет данных о стилях</p>}
     </div>
   );
 }
 
-function GenresChart({ genres }: { genres: GenerationAnalytics['top_genres'] }) {
+function GenresChart({ genres }: { genres: GenerationAnalytics["top_genres"] }) {
   const colors = [
-    'bg-primary', 'bg-blue-500', 'bg-green-500', 'bg-yellow-500',
-    'bg-purple-500', 'bg-pink-500', 'bg-orange-500', 'bg-cyan-500',
-    'bg-red-500', 'bg-indigo-500', 'bg-teal-500', 'bg-amber-500',
+    "bg-primary",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-yellow-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-orange-500",
+    "bg-cyan-500",
+    "bg-red-500",
+    "bg-indigo-500",
+    "bg-teal-500",
+    "bg-amber-500",
   ];
   const total = genres.reduce((sum, g) => sum + g.count, 0);
-  
+
   return (
     <div className="space-y-4">
       {/* Simple bar visualization */}
@@ -116,7 +113,7 @@ function GenresChart({ genres }: { genres: GenerationAnalytics['top_genres'] }) 
           />
         ))}
       </div>
-      
+
       {/* Legend */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
         {genres.map((genre, i) => (
@@ -133,9 +130,9 @@ function GenresChart({ genres }: { genres: GenerationAnalytics['top_genres'] }) 
   );
 }
 
-function TagsCloud({ tags }: { tags: GenerationAnalytics['top_tags'] }) {
-  const maxUsage = Math.max(...tags.map(t => t.usage_count), 1);
-  
+function TagsCloud({ tags }: { tags: GenerationAnalytics["top_tags"] }) {
+  const maxUsage = Math.max(...tags.map((t) => t.usage_count), 1);
+
   return (
     <div className="flex flex-wrap gap-2">
       {tags.map((tag) => {
@@ -149,7 +146,7 @@ function TagsCloud({ tags }: { tags: GenerationAnalytics['top_tags'] }) {
               intensity > 0.7 && "bg-primary/20 text-primary",
               intensity > 0.4 && intensity <= 0.7 && "bg-primary/10",
             )}
-            style={{ 
+            style={{
               fontSize: `${0.75 + intensity * 0.25}rem`,
             }}
           >
@@ -158,16 +155,14 @@ function TagsCloud({ tags }: { tags: GenerationAnalytics['top_tags'] }) {
           </Badge>
         );
       })}
-      {tags.length === 0 && (
-        <p className="text-sm text-muted-foreground">Нет данных о тегах</p>
-      )}
+      {tags.length === 0 && <p className="text-sm text-muted-foreground">Нет данных о тегах</p>}
     </div>
   );
 }
 
-function ModelDistribution({ models }: { models: GenerationAnalytics['model_distribution'] }) {
+function ModelDistribution({ models }: { models: GenerationAnalytics["model_distribution"] }) {
   const total = models.reduce((sum, m) => sum + m.count, 0);
-  
+
   return (
     <div className="space-y-3">
       {models.map((model) => {
@@ -185,38 +180,34 @@ function ModelDistribution({ models }: { models: GenerationAnalytics['model_dist
             </div>
             <div className="grid grid-cols-2 gap-4 text-xs text-muted-foreground">
               <div>
-                Успешность: <span className={cn(
-                  "font-medium",
-                  successRate >= 90 ? "text-green-500" : 
-                  successRate >= 70 ? "text-yellow-500" : "text-red-500"
-                )}>{successRate.toFixed(1)}%</span>
+                Успешность:{" "}
+                <span
+                  className={cn(
+                    "font-medium",
+                    successRate >= 90 ? "text-green-500" : successRate >= 70 ? "text-yellow-500" : "text-red-500",
+                  )}
+                >
+                  {successRate.toFixed(1)}%
+                </span>
               </div>
               <div>
-                Ср. время: <span className="font-medium text-foreground">
-                  {model.avg_time_seconds?.toFixed(1) || 0}с
-                </span>
+                Ср. время:{" "}
+                <span className="font-medium text-foreground">{model.avg_time_seconds?.toFixed(1) || 0}с</span>
               </div>
             </div>
           </div>
         );
       })}
-      {models.length === 0 && (
-        <p className="text-sm text-muted-foreground text-center py-4">
-          Нет данных о моделях
-        </p>
-      )}
+      {models.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">Нет данных о моделях</p>}
     </div>
   );
 }
 
-function CostBreakdown({ costs }: { costs: GenerationAnalytics['cost_by_service'] }) {
+function CostBreakdown({ costs }: { costs: GenerationAnalytics["cost_by_service"] }) {
   return (
     <div className="space-y-2">
       {costs.map((service) => (
-        <div 
-          key={service.service} 
-          className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
-        >
+        <div key={service.service} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
           <div>
             <p className="font-medium text-sm">{service.service}</p>
             <p className="text-xs text-muted-foreground">
@@ -228,11 +219,7 @@ function CostBreakdown({ costs }: { costs: GenerationAnalytics['cost_by_service'
           </div>
         </div>
       ))}
-      {costs.length === 0 && (
-        <p className="text-sm text-muted-foreground text-center py-4">
-          Нет данных о затратах
-        </p>
-      )}
+      {costs.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">Нет данных о затратах</p>}
     </div>
   );
 }
@@ -240,7 +227,7 @@ function CostBreakdown({ costs }: { costs: GenerationAnalytics['cost_by_service'
 function HourlyDistribution({ hours }: { hours: Record<string, number> }) {
   const maxValue = Math.max(...Object.values(hours), 1);
   const hourLabels = Array.from({ length: 24 }, (_, i) => i);
-  
+
   return (
     <div className="space-y-2">
       <p className="text-xs text-muted-foreground">Активность по часам (UTC)</p>
@@ -268,7 +255,7 @@ function HourlyDistribution({ hours }: { hours: Record<string, number> }) {
 }
 
 export function GenerationAnalyticsPanel() {
-  const [timePeriod, setTimePeriod] = useState<TimePeriod>('30 days');
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>("30 days");
   const { data, isLoading, error, refetch, isRefetching } = useGenerationAnalytics(timePeriod);
 
   if (isLoading) {
@@ -292,9 +279,7 @@ export function GenerationAnalyticsPanel() {
 
   if (!data) return null;
 
-  const successRate = data.total_generations > 0 
-    ? (data.successful_generations / data.total_generations) * 100 
-    : 0;
+  const successRate = data.total_generations > 0 ? (data.successful_generations / data.total_generations) * 100 : 0;
 
   return (
     <div className="space-y-6">
@@ -313,12 +298,7 @@ export function GenerationAnalyticsPanel() {
               <SelectItem value="365 days">1 год</SelectItem>
             </SelectContent>
           </Select>
-          <Button 
-            variant="outline" 
-            size="icon"
-            onClick={() => refetch()}
-            disabled={isRefetching}
-          >
+          <Button variant="outline" size="icon" onClick={() => refetch()} disabled={isRefetching}>
             <RefreshCw className={cn("w-4 h-4", isRefetching && "animate-spin")} />
           </Button>
         </div>
@@ -385,7 +365,7 @@ export function GenerationAnalyticsPanel() {
                 </ScrollArea>
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">Распределение жанров</CardTitle>
@@ -406,7 +386,7 @@ export function GenerationAnalyticsPanel() {
               <TagsCloud tags={data.top_tags} />
             </CardContent>
           </Card>
-          
+
           {data.tag_combinations.length > 0 && (
             <Card>
               <CardHeader className="pb-2">
@@ -436,7 +416,7 @@ export function GenerationAnalyticsPanel() {
                 <ModelDistribution models={data.model_distribution} />
               </CardContent>
             </Card>
-            
+
             <Card>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium">Активность по времени</CardTitle>

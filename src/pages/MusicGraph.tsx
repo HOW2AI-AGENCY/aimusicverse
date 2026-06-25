@@ -1,91 +1,96 @@
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Network, Music, Tag, Folder, Disc, Search, Info, Sparkles, HelpCircle } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
-import { ForceGraph } from '@/components/music-graph/ForceGraph';
-import { MobileGraphView } from '@/components/music-graph/MobileGraphView';
-import { NodeDetails } from '@/components/music-graph/NodeDetails';
-import { GraphFilters } from '@/components/music-graph/GraphFilters';
-import { GraphOnboarding, useGraphOnboarding } from '@/components/music-graph/GraphOnboarding';
-import { TagRecommendations } from '@/components/music-graph/TagRecommendations';
-import { useMusicGraphData, type GraphNode } from '@/hooks/useMusicGraph';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Network, Music, Tag, Folder, Disc, Search, Info, Sparkles, HelpCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ForceGraph } from "@/components/music-graph/ForceGraph";
+import { MobileGraphView } from "@/components/music-graph/MobileGraphView";
+import { NodeDetails } from "@/components/music-graph/NodeDetails";
+import { GraphFilters } from "@/components/music-graph/GraphFilters";
+import { GraphOnboarding, useGraphOnboarding } from "@/components/music-graph/GraphOnboarding";
+import { TagRecommendations } from "@/components/music-graph/TagRecommendations";
+import { useMusicGraphData, type GraphNode } from "@/hooks/useMusicGraph";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function MusicGraph() {
   const isMobile = useIsMobile();
   const { graphData, isLoading, tags, styles } = useMusicGraphData();
   const { showOnboarding, setShowOnboarding, resetOnboarding } = useGraphOnboarding();
-  
+
   const [selectedNode, setSelectedNode] = useState<GraphNode | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [selectedNodeTypes, setSelectedNodeTypes] = useState<('genre' | 'style' | 'tag' | 'category')[]>(['genre', 'style', 'tag', 'category']);
-  const [activeTab, setActiveTab] = useState<'graph' | 'list' | 'recommendations'>('graph');
+  const [selectedNodeTypes, setSelectedNodeTypes] = useState<("genre" | "style" | "tag" | "category")[]>([
+    "genre",
+    "style",
+    "tag",
+    "category",
+  ]);
+  const [activeTab, setActiveTab] = useState<"graph" | "list" | "recommendations">("graph");
 
   // Get unique genres and categories
-  const genres = useMemo(() => 
-    [...new Set((styles || []).map(s => s.primary_genre).filter((g): g is string => !!g))],
-    [styles]
+  const genres = useMemo(
+    () => [...new Set((styles || []).map((s) => s.primary_genre).filter((g): g is string => !!g))],
+    [styles],
   );
 
-  const categories = useMemo(() => 
-    [...new Set((tags || []).map(t => t.category))],
-    [tags]
-  );
+  const categories = useMemo(() => [...new Set((tags || []).map((t) => t.category))], [tags]);
 
   // Filter for graph
-  const graphFilter = useMemo(() => ({
-    genres: selectedGenres.length > 0 ? selectedGenres : undefined,
-    categories: selectedCategories.length > 0 ? selectedCategories : undefined,
-    nodeTypes: selectedNodeTypes,
-  }), [selectedGenres, selectedCategories, selectedNodeTypes]);
+  const graphFilter = useMemo(
+    () => ({
+      genres: selectedGenres.length > 0 ? selectedGenres : undefined,
+      categories: selectedCategories.length > 0 ? selectedCategories : undefined,
+      nodeTypes: selectedNodeTypes,
+    }),
+    [selectedGenres, selectedCategories, selectedNodeTypes],
+  );
 
   // Get related nodes for selected node
   const relatedNodes = useMemo(() => {
     if (!selectedNode) return [];
-    
+
     const connectedIds = new Set<string>();
-    graphData.edges.forEach(edge => {
+    graphData.edges.forEach((edge) => {
       if (edge.source === selectedNode.id) connectedIds.add(edge.target);
       if (edge.target === selectedNode.id) connectedIds.add(edge.source);
     });
-    
-    return graphData.nodes.filter(n => connectedIds.has(n.id));
+
+    return graphData.nodes.filter((n) => connectedIds.has(n.id));
   }, [selectedNode, graphData]);
 
   // Filtered list for list view
   const filteredItems = useMemo(() => {
     let items = graphData.nodes;
-    
+
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      items = items.filter(n => n.label.toLowerCase().includes(query));
+      items = items.filter((n) => n.label.toLowerCase().includes(query));
     }
-    
+
     return items;
   }, [graphData.nodes, searchQuery]);
 
   // Selected tags for recommendations
   const selectedTags = useMemo(() => {
     if (!selectedNode) return [];
-    if (selectedNode.type === 'tag') return [selectedNode.label];
+    if (selectedNode.type === "tag") return [selectedNode.label];
     return [];
   }, [selectedNode]);
 
   const handleNodeClick = (node: GraphNode) => {
-    setSelectedNode(prev => prev?.id === node.id ? null : node);
+    setSelectedNode((prev) => (prev?.id === node.id ? null : node));
   };
 
   const resetFilters = () => {
     setSelectedGenres([]);
     setSelectedCategories([]);
-    setSelectedNodeTypes(['genre', 'style', 'tag', 'category']);
+    setSelectedNodeTypes(["genre", "style", "tag", "category"]);
   };
 
   if (isLoading) {
@@ -104,10 +109,7 @@ export default function MusicGraph() {
       {/* Onboarding */}
       <AnimatePresence>
         {showOnboarding && (
-          <GraphOnboarding 
-            onComplete={() => setShowOnboarding(false)}
-            onSkip={() => setShowOnboarding(false)}
-          />
+          <GraphOnboarding onComplete={() => setShowOnboarding(false)} onSkip={() => setShowOnboarding(false)} />
         )}
       </AnimatePresence>
 
@@ -133,12 +135,7 @@ export default function MusicGraph() {
 
             <div className="flex items-center gap-2">
               {/* Help button */}
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={resetOnboarding}
-                className="gap-2"
-              >
+              <Button variant="outline" size="sm" onClick={resetOnboarding} className="gap-2">
                 <HelpCircle className="w-4 h-4" />
                 <span className="hidden sm:inline">Как использовать</span>
               </Button>
@@ -162,7 +159,7 @@ export default function MusicGraph() {
           </motion.div>
 
           {/* Tabs */}
-          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'graph' | 'list' | 'recommendations')}>
+          <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "graph" | "list" | "recommendations")}>
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
               <TabsList>
                 <TabsTrigger value="graph" className="gap-2">
@@ -179,7 +176,7 @@ export default function MusicGraph() {
                 </TabsTrigger>
               </TabsList>
 
-              {activeTab === 'list' && (
+              {activeTab === "list" && (
                 <div className="relative w-full sm:w-64">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
@@ -193,7 +190,7 @@ export default function MusicGraph() {
             </div>
 
             {/* Filters (only for graph and list) */}
-            {activeTab !== 'recommendations' && (
+            {activeTab !== "recommendations" && (
               <div className="mb-4">
                 <GraphFilters
                   genres={genres}
@@ -245,13 +242,11 @@ export default function MusicGraph() {
             <TabsContent value="list" className="mt-0">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {/* Tags by Category */}
-                {categories.map(category => {
-                  const categoryTags = filteredItems.filter(n => 
-                    n.type === 'tag' && n.category === category
-                  );
-                  
+                {categories.map((category) => {
+                  const categoryTags = filteredItems.filter((n) => n.type === "tag" && n.category === category);
+
                   if (categoryTags.length === 0) return null;
-                  
+
                   return (
                     <motion.div
                       key={category}
@@ -261,19 +256,19 @@ export default function MusicGraph() {
                     >
                       <h3 className="font-semibold mb-3 flex items-center gap-2">
                         <Folder className="w-4 h-4 text-primary" />
-                        {category.replace(/_/g, ' ')}
+                        {category.replace(/_/g, " ")}
                         <Badge variant="secondary" className="ml-auto text-[10px]">
                           {categoryTags.length}
                         </Badge>
                       </h3>
                       <ScrollArea className="h-48">
                         <div className="flex flex-wrap gap-1">
-                          {categoryTags.map(tag => (
+                          {categoryTags.map((tag) => (
                             <Badge
                               key={tag.id}
                               variant="outline"
                               className="cursor-pointer hover:bg-primary/10 transition-colors text-xs"
-                              style={{ borderColor: tag.color + '50' }}
+                              style={{ borderColor: tag.color + "50" }}
                               onClick={() => handleNodeClick(tag)}
                             >
                               {tag.label}
@@ -286,13 +281,11 @@ export default function MusicGraph() {
                 })}
 
                 {/* Styles by Genre */}
-                {genres.map(genre => {
-                  const genreStyles = filteredItems.filter(n => 
-                    n.type === 'style' && n.genre === genre
-                  );
-                  
+                {genres.map((genre) => {
+                  const genreStyles = filteredItems.filter((n) => n.type === "style" && n.genre === genre);
+
                   if (genreStyles.length === 0) return null;
-                  
+
                   return (
                     <motion.div
                       key={genre}
@@ -309,16 +302,13 @@ export default function MusicGraph() {
                       </h3>
                       <ScrollArea className="h-48">
                         <div className="space-y-1">
-                          {genreStyles.map(style => (
+                          {genreStyles.map((style) => (
                             <div
                               key={style.id}
                               className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
                               onClick={() => handleNodeClick(style)}
                             >
-                              <div 
-                                className="w-2 h-2 rounded-full"
-                                style={{ backgroundColor: style.color }}
-                              />
+                              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: style.color }} />
                               <span className="text-sm">{style.label}</span>
                             </div>
                           ))}
@@ -340,13 +330,10 @@ export default function MusicGraph() {
                       <h3 className="font-semibold">AI-рекомендации тегов</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Система анализирует историю ваших генераций, популярность тегов 
-                      и их связи для персональных рекомендаций.
+                      Система анализирует историю ваших генераций, популярность тегов и их связи для персональных
+                      рекомендаций.
                     </p>
-                    <TagRecommendations 
-                      currentTags={selectedTags}
-                      genre={selectedGenres[0]}
-                    />
+                    <TagRecommendations currentTags={selectedTags} genre={selectedGenres[0]} />
                   </div>
                 </div>
 
@@ -358,10 +345,19 @@ export default function MusicGraph() {
                       <div>
                         <h4 className="font-medium mb-2">Советы по использованию</h4>
                         <ul className="text-sm text-muted-foreground space-y-2">
-                          <li>• <strong>Комбинируйте категории</strong> — используйте теги из разных категорий для уникального звучания</li>
-                          <li>• <strong>Следите за популярностью</strong> — популярные теги часто дают лучшие результаты</li>
-                          <li>• <strong>Экспериментируйте</strong> — успешные комбинации показывают проверенные сочетания</li>
-                          <li>• <strong>Сохраняйте любимые</strong> — запоминайте теги, которые работают для вас</li>
+                          <li>
+                            • <strong>Комбинируйте категории</strong> — используйте теги из разных категорий для
+                            уникального звучания
+                          </li>
+                          <li>
+                            • <strong>Следите за популярностью</strong> — популярные теги часто дают лучшие результаты
+                          </li>
+                          <li>
+                            • <strong>Экспериментируйте</strong> — успешные комбинации показывают проверенные сочетания
+                          </li>
+                          <li>
+                            • <strong>Сохраняйте любимые</strong> — запоминайте теги, которые работают для вас
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -376,10 +372,7 @@ export default function MusicGraph() {
                     >
                       <h4 className="font-medium mb-2">Выбранный элемент</h4>
                       <div className="flex items-center gap-2 mb-3">
-                        <div 
-                          className="w-4 h-4 rounded-full"
-                          style={{ backgroundColor: selectedNode.color }}
-                        />
+                        <div className="w-4 h-4 rounded-full" style={{ backgroundColor: selectedNode.color }} />
                         <span className="font-semibold">{selectedNode.label}</span>
                         <Badge variant="outline" className="text-xs">
                           {selectedNode.type}

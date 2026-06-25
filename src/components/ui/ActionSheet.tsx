@@ -1,22 +1,22 @@
 /**
  * Action Sheet Component
  * Feature: 032-professional-ui
- * 
+ *
  * iOS-style action sheet for mobile actions
  */
 
-import React, { ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { triggerHapticFeedback } from '@/lib/mobile-utils';
-import { backdrop } from '@/lib/overlay-colors';
-import { LucideIcon } from 'lucide-react';
+import React, { ReactNode } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { triggerHapticFeedback } from "@/lib/mobile-utils";
+import { backdrop } from "@/lib/overlay-colors";
+import { LucideIcon } from "lucide-react";
 
 interface ActionItem {
   id: string;
   label: string;
   icon?: LucideIcon;
-  variant?: 'default' | 'destructive' | 'primary';
+  variant?: "default" | "destructive" | "primary";
   disabled?: boolean;
   onSelect: () => void;
 }
@@ -37,19 +37,19 @@ export function ActionSheet({
   title,
   description,
   actions,
-  cancelLabel = 'Отмена',
+  cancelLabel = "Отмена",
   className,
 }: ActionSheetProps) {
   const handleSelect = (action: ActionItem) => {
     if (action.disabled) return;
-    
-    triggerHapticFeedback('medium');
+
+    triggerHapticFeedback("medium");
     action.onSelect();
     onClose();
   };
 
   const handleCancel = () => {
-    triggerHapticFeedback('light');
+    triggerHapticFeedback("light");
     onClose();
   };
 
@@ -69,42 +69,30 @@ export function ActionSheet({
 
           {/* Sheet */}
           <motion.div
-            initial={{ y: '100%', opacity: 0 }}
+            initial={{ y: "100%", opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: '100%', opacity: 0 }}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className={cn(
-              "fixed inset-x-0 bottom-0 z-50 p-2",
-              "safe-area-inset-bottom",
-              className
-            )}
+            exit={{ y: "100%", opacity: 0 }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className={cn("fixed inset-x-0 bottom-0 z-50 p-2", "safe-area-inset-bottom", className)}
           >
             {/* Actions group */}
             <div className="bg-card rounded-xl overflow-hidden mb-2 shadow-lg">
               {/* Header */}
               {(title || description) && (
                 <div className="px-4 py-3 text-center border-b border-border">
-                  {title && (
-                    <p className="text-sm font-medium text-muted-foreground">
-                      {title}
-                    </p>
-                  )}
-                  {description && (
-                    <p className="text-xs text-muted-foreground/70 mt-1">
-                      {description}
-                    </p>
-                  )}
+                  {title && <p className="text-sm font-medium text-muted-foreground">{title}</p>}
+                  {description && <p className="text-xs text-muted-foreground/70 mt-1">{description}</p>}
                 </div>
               )}
 
               {/* Action items */}
               {actions.map((action, index) => {
                 const Icon = action.icon;
-                
+
                 return (
                   <motion.button
                     key={action.id}
-                    whileTap={{ scale: 0.98, backgroundColor: 'hsl(var(--accent))' }}
+                    whileTap={{ scale: 0.98, backgroundColor: "hsl(var(--accent))" }}
                     onClick={() => handleSelect(action)}
                     disabled={action.disabled}
                     className={cn(
@@ -114,12 +102,12 @@ export function ActionSheet({
                       "transition-colors",
                       "border-b border-border last:border-b-0",
                       // Variants
-                      action.variant === 'destructive' && "text-destructive",
-                      action.variant === 'primary' && "text-primary",
-                      action.variant === 'default' && "text-foreground",
+                      action.variant === "destructive" && "text-destructive",
+                      action.variant === "primary" && "text-primary",
+                      action.variant === "default" && "text-foreground",
                       !action.variant && "text-primary",
                       // Disabled
-                      action.disabled && "opacity-50 cursor-not-allowed"
+                      action.disabled && "opacity-50 cursor-not-allowed",
                     )}
                   >
                     {Icon && <Icon className="w-5 h-5" />}
@@ -137,7 +125,7 @@ export function ActionSheet({
                 "w-full px-4 py-3.5",
                 "bg-card rounded-xl",
                 "text-base font-semibold text-primary",
-                "shadow-lg"
+                "shadow-lg",
               )}
             >
               {cancelLabel}

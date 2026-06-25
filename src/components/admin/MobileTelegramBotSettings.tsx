@@ -8,9 +8,9 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { 
-  Send, 
-  Check, 
+import {
+  Send,
+  Check,
   RefreshCw,
   Terminal,
   Globe,
@@ -18,14 +18,14 @@ import {
   MessageSquare,
   Save,
   Loader2,
-  GripVertical
+  GripVertical,
 } from "lucide-react";
 import { useBotConfig, useUpdateBotConfig, type BotCommand } from "@/hooks/useBotConfig";
 
 export function MobileTelegramBotSettings() {
   const { data: config, isLoading } = useBotConfig();
   const updateConfig = useUpdateBotConfig();
-  
+
   const [localCommands, setLocalCommands] = useState<BotCommand[]>([]);
   const [localMessages, setLocalMessages] = useState({
     welcome_message: "",
@@ -123,7 +123,7 @@ export function MobileTelegramBotSettings() {
               <Terminal className="h-4 w-4" />
               <span>Команды</span>
               <Badge variant="secondary" className="ml-2">
-                {commands.filter(c => c.enabled).length}/{commands.length}
+                {commands.filter((c) => c.enabled).length}/{commands.length}
               </Badge>
             </div>
           </AccordionTrigger>
@@ -132,34 +132,20 @@ export function MobileTelegramBotSettings() {
               <ScrollArea className="h-[250px]">
                 <div className="space-y-2 pr-4">
                   {commands.map((cmd, index) => (
-                    <div
-                      key={cmd.command}
-                      className="flex items-center justify-between p-3 rounded-lg border bg-card"
-                    >
+                    <div key={cmd.command} className="flex items-center justify-between p-3 rounded-lg border bg-card">
                       <div className="flex items-center gap-2 min-w-0">
                         <GripVertical className="h-4 w-4 text-muted-foreground flex-shrink-0" />
                         <div className="min-w-0">
-                          <code className="font-mono text-sm font-medium block truncate">
-                            {cmd.command}
-                          </code>
-                          <span className="text-xs text-muted-foreground block truncate">
-                            {cmd.description}
-                          </span>
+                          <code className="font-mono text-sm font-medium block truncate">{cmd.command}</code>
+                          <span className="text-xs text-muted-foreground block truncate">{cmd.description}</span>
                         </div>
                       </div>
-                      <Switch
-                        checked={cmd.enabled}
-                        onCheckedChange={() => toggleCommand(index)}
-                      />
+                      <Switch checked={cmd.enabled} onCheckedChange={() => toggleCommand(index)} />
                     </div>
                   ))}
                 </div>
               </ScrollArea>
-              <Button 
-                onClick={saveCommands} 
-                className="w-full"
-                disabled={updateConfig.isPending}
-              >
+              <Button onClick={saveCommands} className="w-full" disabled={updateConfig.isPending}>
                 {updateConfig.isPending ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (
@@ -184,60 +170,52 @@ export function MobileTelegramBotSettings() {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-sm">Генерация</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Треки после генерации
-                  </p>
+                  <p className="text-xs text-muted-foreground">Треки после генерации</p>
                 </div>
-                <Switch 
+                <Switch
                   checked={localNotifications.notifications_enabled}
-                  onCheckedChange={(v) => setLocalNotifications(prev => ({ ...prev, notifications_enabled: v }))}
+                  onCheckedChange={(v) => setLocalNotifications((prev) => ({ ...prev, notifications_enabled: v }))}
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-sm">Ошибки</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Неудачные генерации
-                  </p>
+                  <p className="text-xs text-muted-foreground">Неудачные генерации</p>
                 </div>
-                <Switch 
+                <Switch
                   checked={localNotifications.error_notifications_enabled}
-                  onCheckedChange={(v) => setLocalNotifications(prev => ({ ...prev, error_notifications_enabled: v }))}
+                  onCheckedChange={(v) =>
+                    setLocalNotifications((prev) => ({ ...prev, error_notifications_enabled: v }))
+                  }
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-sm">Системные</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Технические уведомления
-                  </p>
+                  <p className="text-xs text-muted-foreground">Технические уведомления</p>
                 </div>
-                <Switch 
+                <Switch
                   checked={localNotifications.system_notifications_enabled}
-                  onCheckedChange={(v) => setLocalNotifications(prev => ({ ...prev, system_notifications_enabled: v }))}
+                  onCheckedChange={(v) =>
+                    setLocalNotifications((prev) => ({ ...prev, system_notifications_enabled: v }))
+                  }
                 />
               </div>
 
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label className="text-sm">Rate limiting</Label>
-                  <p className="text-xs text-muted-foreground">
-                    Ограничение частоты
-                  </p>
+                  <p className="text-xs text-muted-foreground">Ограничение частоты</p>
                 </div>
-                <Switch 
+                <Switch
                   checked={localNotifications.rate_limiting_enabled}
-                  onCheckedChange={(v) => setLocalNotifications(prev => ({ ...prev, rate_limiting_enabled: v }))}
+                  onCheckedChange={(v) => setLocalNotifications((prev) => ({ ...prev, rate_limiting_enabled: v }))}
                 />
               </div>
 
-              <Button 
-                onClick={saveNotifications} 
-                className="w-full"
-                disabled={updateConfig.isPending}
-              >
+              <Button onClick={saveNotifications} className="w-full" disabled={updateConfig.isPending}>
                 {updateConfig.isPending ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (
@@ -263,7 +241,7 @@ export function MobileTelegramBotSettings() {
                 <Label className="text-sm">Приветствие</Label>
                 <Textarea
                   value={localMessages.welcome_message || config?.welcome_message || ""}
-                  onChange={(e) => setLocalMessages(prev => ({ ...prev, welcome_message: e.target.value }))}
+                  onChange={(e) => setLocalMessages((prev) => ({ ...prev, welcome_message: e.target.value }))}
                   className="font-mono text-sm min-h-[80px]"
                   placeholder="🎵 Добро пожаловать..."
                 />
@@ -273,7 +251,7 @@ export function MobileTelegramBotSettings() {
                 <Label className="text-sm">Трек готов</Label>
                 <Input
                   value={localMessages.track_ready_message || config?.track_ready_message || ""}
-                  onChange={(e) => setLocalMessages(prev => ({ ...prev, track_ready_message: e.target.value }))}
+                  onChange={(e) => setLocalMessages((prev) => ({ ...prev, track_ready_message: e.target.value }))}
                   className="font-mono text-sm"
                   placeholder="🎉 Ваш трек готов!"
                 />
@@ -283,17 +261,13 @@ export function MobileTelegramBotSettings() {
                 <Label className="text-sm">Ошибка</Label>
                 <Input
                   value={localMessages.error_message || config?.error_message || ""}
-                  onChange={(e) => setLocalMessages(prev => ({ ...prev, error_message: e.target.value }))}
+                  onChange={(e) => setLocalMessages((prev) => ({ ...prev, error_message: e.target.value }))}
                   className="font-mono text-sm"
                   placeholder="😔 Не удалось..."
                 />
               </div>
 
-              <Button 
-                onClick={saveMessages} 
-                className="w-full"
-                disabled={updateConfig.isPending}
-              >
+              <Button onClick={saveMessages} className="w-full" disabled={updateConfig.isPending}>
                 {updateConfig.isPending ? (
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : (

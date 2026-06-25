@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Crown, Coins, MessageSquare, Shield, ShieldOff, MoreVertical } from "lucide-react";
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 interface UserWithRoles {
   id: string;
@@ -59,18 +59,12 @@ export function AdminUserCard({
       {/* Top row: checkbox, avatar, name, actions */}
       <div className="flex items-center gap-2 w-full">
         {/* Checkbox */}
-        <Checkbox
-          checked={isSelected}
-          onCheckedChange={onSelect}
-          className="flex-shrink-0 h-4 w-4"
-        />
+        <Checkbox checked={isSelected} onCheckedChange={onSelect} className="flex-shrink-0 h-4 w-4" />
 
         {/* Avatar */}
         <Avatar className="h-8 w-8 flex-shrink-0">
           <AvatarImage src={user.photo_url || undefined} />
-          <AvatarFallback className="text-xs">
-            {user.first_name?.[0]?.toUpperCase() || "?"}
-          </AvatarFallback>
+          <AvatarFallback className="text-xs">{user.first_name?.[0]?.toUpperCase() || "?"}</AvatarFallback>
         </Avatar>
 
         {/* User Info */}
@@ -81,33 +75,32 @@ export function AdminUserCard({
             </span>
             {/* Badges */}
             <div className="flex items-center gap-0.5">
-              {isAdmin && (
-                <Badge className="h-4 px-1 text-[9px]">A</Badge>
-              )}
+              {isAdmin && <Badge className="h-4 px-1 text-[9px]">A</Badge>}
               {isModerator && (
-                <Badge variant="secondary" className="h-4 px-1 text-[9px]">M</Badge>
+                <Badge variant="secondary" className="h-4 px-1 text-[9px]">
+                  M
+                </Badge>
               )}
-              {hasPremium && (
-                <Crown className="h-3 w-3 text-yellow-500" />
-              )}
+              {hasPremium && <Crown className="h-3 w-3 text-yellow-500" />}
             </div>
           </div>
-          <div className="text-[10px] text-muted-foreground truncate">
-            @{user.username || "—"}
-          </div>
+          <div className="text-[10px] text-muted-foreground truncate">@{user.username || "—"}</div>
         </div>
 
         {/* Balance - visible on all screens */}
         <div className="text-right flex-shrink-0 px-1 sm:px-2">
-          <div className={`text-xs sm:text-sm font-bold ${
-            (user.balance || 0) === 0 ? 'text-muted-foreground' : 
-            (user.balance || 0) < 10 ? 'text-amber-500' : 'text-primary'
-          }`}>
+          <div
+            className={`text-xs sm:text-sm font-bold ${
+              (user.balance || 0) === 0
+                ? "text-muted-foreground"
+                : (user.balance || 0) < 10
+                  ? "text-amber-500"
+                  : "text-primary"
+            }`}
+          >
             {user.balance || 0} ₵
           </div>
-          <div className="text-[9px] text-muted-foreground">
-            Lvl {user.level || 1}
-          </div>
+          <div className="text-[9px] text-muted-foreground">Lvl {user.level || 1}</div>
         </div>
 
         {/* Actions Dropdown */}
@@ -143,10 +136,7 @@ export function AdminUserCard({
                 Назначить админом
               </DropdownMenuItem>
             ) : (
-              <DropdownMenuItem 
-                onClick={() => onToggleAdmin("remove")}
-                className="text-destructive"
-              >
+              <DropdownMenuItem onClick={() => onToggleAdmin("remove")} className="text-destructive">
                 <ShieldOff className="h-4 w-4 mr-2" />
                 Убрать админа
               </DropdownMenuItem>

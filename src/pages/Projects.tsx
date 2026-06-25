@@ -1,32 +1,32 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { ContentHubTabs } from '@/components/content-hub/ContentHubTabs';
-import { SEOHead, SEO_PRESETS } from '@/components/SEOHead';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { MobileHeaderBar } from '@/components/mobile/MobileHeaderBar';
-import { safeAreaClasses } from '@/hooks/useTelegramSafeArea';
-import { DesktopContentHubLayout } from '@/components/content-hub/DesktopContentHubLayout';
-import { ProjectDetailPreview } from '@/components/content-hub/ProjectDetailPreview';
-import { useProjects } from '@/hooks/useProjects';
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { ContentHubTabs } from "@/components/content-hub/ContentHubTabs";
+import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { MobileHeaderBar } from "@/components/mobile/MobileHeaderBar";
+import { safeAreaClasses } from "@/hooks/useTelegramSafeArea";
+import { DesktopContentHubLayout } from "@/components/content-hub/DesktopContentHubLayout";
+import { ProjectDetailPreview } from "@/components/content-hub/ProjectDetailPreview";
+import { useProjects } from "@/hooks/useProjects";
 
-const VALID_TABS = ['projects', 'lyrics'];
+const VALID_TABS = ["projects", "lyrics"];
 
 const statusLabels: Record<string, { label: string; color: string }> = {
-  draft: { label: 'Черновик', color: 'bg-muted text-muted-foreground' },
-  in_progress: { label: 'В работе', color: 'bg-blue-500/20 text-blue-500' },
-  completed: { label: 'Завершен', color: 'bg-green-500/20 text-green-500' },
-  released: { label: 'Выпущен', color: 'bg-purple-500/20 text-purple-500' },
-  published: { label: 'Опубликован', color: 'bg-emerald-500/20 text-emerald-500' },
+  draft: { label: "Черновик", color: "bg-muted text-muted-foreground" },
+  in_progress: { label: "В работе", color: "bg-blue-500/20 text-blue-500" },
+  completed: { label: "Завершен", color: "bg-green-500/20 text-green-500" },
+  released: { label: "Выпущен", color: "bg-purple-500/20 text-purple-500" },
+  published: { label: "Опубликован", color: "bg-emerald-500/20 text-emerald-500" },
 };
 
 const typeLabels: Record<string, string> = {
-  single: 'Сингл',
-  ep: 'EP',
-  album: 'Альбом',
-  compilation: 'Сборник',
+  single: "Сингл",
+  ep: "EP",
+  album: "Альбом",
+  compilation: "Сборник",
 };
 
 export default function Projects() {
@@ -35,20 +35,20 @@ export default function Projects() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { projects } = useProjects();
-  
+
   // Get initial tab from URL or default to 'projects'
-  const urlTab = searchParams.get('tab');
-  const initialTab = urlTab && VALID_TABS.includes(urlTab) ? urlTab : 'projects';
+  const urlTab = searchParams.get("tab");
+  const initialTab = urlTab && VALID_TABS.includes(urlTab) ? urlTab : "projects";
   const [activeTab, setActiveTab] = useState(initialTab);
-  
+
   // Selected project for desktop preview
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
-  
-  const selectedProject = projects?.find(p => p.id === selectedProjectId) || null;
-  
+
+  const selectedProject = projects?.find((p) => p.id === selectedProjectId) || null;
+
   // Sync tab with URL changes
   useEffect(() => {
-    const tab = searchParams.get('tab');
+    const tab = searchParams.get("tab");
     if (tab && VALID_TABS.includes(tab) && tab !== activeTab) {
       setActiveTab(tab);
     }
@@ -57,7 +57,7 @@ export default function Projects() {
   // Telegram BackButton - returns to home
   const { shouldShowUIButton } = useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   if (authLoading) {
@@ -75,25 +75,16 @@ export default function Projects() {
   // Mobile layout
   if (isMobile) {
     return (
-      <div
-        className={cn(
-          safeAreaClasses.fullHeight,
-          safeAreaClasses.containerWithNav
-        )}
-      >
+      <div className={cn(safeAreaClasses.fullHeight, safeAreaClasses.containerWithNav)}>
         <SEOHead {...SEO_PRESETS.projects} />
         <MobileHeaderBar
           title="Мой контент"
-          onBack={shouldShowUIButton ? () => navigate('/') : undefined}
+          onBack={shouldShowUIButton ? () => navigate("/") : undefined}
           showBack={shouldShowUIButton}
           sticky
         />
         <div className="px-4 py-3">
-          <ContentHubTabs 
-            defaultTab={initialTab} 
-            onTabChange={setActiveTab}
-            onProjectSelect={setSelectedProjectId}
-          />
+          <ContentHubTabs defaultTab={initialTab} onTabChange={setActiveTab} onProjectSelect={setSelectedProjectId} />
         </div>
       </div>
     );
@@ -113,21 +104,17 @@ export default function Projects() {
 
       <div className="max-w-7xl mx-auto px-4">
         <DesktopContentHubLayout
-          hasSelection={!!selectedProject && activeTab === 'projects'}
+          hasSelection={!!selectedProject && activeTab === "projects"}
           onCloseDetail={() => setSelectedProjectId(null)}
           detailTitle="Превью проекта"
           detailContent={
             selectedProject ? (
-              <ProjectDetailPreview
-                project={selectedProject}
-                statusLabels={statusLabels}
-                typeLabels={typeLabels}
-              />
+              <ProjectDetailPreview project={selectedProject} statusLabels={statusLabels} typeLabels={typeLabels} />
             ) : null
           }
         >
-          <ContentHubTabs 
-            defaultTab={initialTab} 
+          <ContentHubTabs
+            defaultTab={initialTab}
             onTabChange={setActiveTab}
             onProjectSelect={setSelectedProjectId}
             selectedProjectId={selectedProjectId}

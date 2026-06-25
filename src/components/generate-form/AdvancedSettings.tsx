@@ -1,19 +1,19 @@
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Slider } from '@/components/ui/slider';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Button } from '@/components/ui/button';
-import { ChevronDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { glass } from '@/lib/glass';
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Slider } from "@/components/ui/slider";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Button } from "@/components/ui/button";
+import { ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { glass } from "@/lib/glass";
 
 /**
  * Get audio weight label based on reference type
  */
 const getAudioWeightLabel = (hasReferenceAudio: boolean, hasPersona: boolean): string => {
-  if (hasReferenceAudio && hasPersona) return 'Сила аудио / персоны';
-  if (hasReferenceAudio) return 'Вес референс аудио';
-  return 'Сила персоны';
+  if (hasReferenceAudio && hasPersona) return "Сила аудио / персоны";
+  if (hasReferenceAudio) return "Вес референс аудио";
+  return "Сила персоны";
 };
 
 /**
@@ -21,12 +21,12 @@ const getAudioWeightLabel = (hasReferenceAudio: boolean, hasPersona: boolean): s
  */
 const getAudioWeightDescription = (hasReferenceAudio: boolean, hasPersona: boolean): string => {
   if (hasReferenceAudio && hasPersona) {
-    return 'Влияние референс аудио и персоны на результат (0 - слабое, 1 - сильное)';
+    return "Влияние референс аудио и персоны на результат (0 - слабое, 1 - сильное)";
   }
   if (hasReferenceAudio) {
-    return 'Влияние референс аудио на результат (0 - слабое, 1 - сильное)';
+    return "Влияние референс аудио на результат (0 - слабое, 1 - сильное)";
   }
-  return 'Влияние персоны на стиль вокала (0 - слабое, 1 - сильное)';
+  return "Влияние персоны на стиль вокала (0 - слабое, 1 - сильное)";
 };
 
 interface AdvancedSettingsProps {
@@ -34,8 +34,8 @@ interface AdvancedSettingsProps {
   onOpenChange: (open: boolean) => void;
   negativeTags: string;
   onNegativeTagsChange: (value: string) => void;
-  vocalGender: 'm' | 'f' | '';
-  onVocalGenderChange: (value: 'm' | 'f' | '') => void;
+  vocalGender: "m" | "f" | "";
+  onVocalGenderChange: (value: "m" | "f" | "") => void;
   styleWeight: number[];
   onStyleWeightChange: (value: number[]) => void;
   weirdnessConstraint: number[];
@@ -72,7 +72,9 @@ export function AdvancedSettings({
           className="w-full justify-center gap-2 border-dashed border-muted-foreground/30 hover:border-primary/50 hover:bg-primary/5"
         >
           <span className="text-xs text-muted-foreground">⚙️ Продвинутые настройки</span>
-          <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground transition-transform ${open ? 'rotate-180' : ''}`} />
+          <ChevronDown
+            className={`w-3.5 h-3.5 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+          />
         </Button>
       </CollapsibleTrigger>
 
@@ -86,9 +88,7 @@ export function AdvancedSettings({
             onChange={(e) => onNegativeTagsChange(e.target.value)}
             className="mt-2"
           />
-          <p className="text-xs text-muted-foreground mt-1">
-            Укажите стили/инструменты, которые нужно исключить
-          </p>
+          <p className="text-xs text-muted-foreground mt-1">Укажите стили/инструменты, которые нужно исключить</p>
         </div>
 
         <div>
@@ -98,37 +98,32 @@ export function AdvancedSettings({
           <div className="grid grid-cols-4 gap-2 mt-2">
             <Button
               type="button"
-              variant={vocalGender === '' ? 'default' : 'outline'}
+              variant={vocalGender === "" ? "default" : "outline"}
               size="sm"
-              onClick={() => onVocalGenderChange('')}
+              onClick={() => onVocalGenderChange("")}
               className="text-xs"
             >
               Любой
             </Button>
             <Button
               type="button"
-              variant={vocalGender === 'f' ? 'default' : 'outline'}
+              variant={vocalGender === "f" ? "default" : "outline"}
               size="sm"
-              onClick={() => onVocalGenderChange('f')}
+              onClick={() => onVocalGenderChange("f")}
               className="text-xs"
             >
               Женский
             </Button>
             <Button
               type="button"
-              variant={vocalGender === 'm' ? 'default' : 'outline'}
+              variant={vocalGender === "m" ? "default" : "outline"}
               size="sm"
-              onClick={() => onVocalGenderChange('m')}
+              onClick={() => onVocalGenderChange("m")}
               className="text-xs"
             >
               Мужской
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="text-xs"
-            >
+            <Button type="button" variant="outline" size="sm" className="text-xs">
               Без вокала
             </Button>
           </div>

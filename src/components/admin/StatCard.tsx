@@ -14,24 +14,16 @@ interface StatCardProps {
   className?: string;
 }
 
-export function StatCard({
-  title,
-  value,
-  icon,
-  variant = "default",
-  active,
-  onClick,
-  className,
-}: StatCardProps) {
+export function StatCard({ title, value, icon, variant = "default", active, onClick, className }: StatCardProps) {
   const isClickable = !!onClick;
-  
+
   return (
-    <Card 
+    <Card
       className={cn(
         "transition-all",
         isClickable && "cursor-pointer hover:border-primary/50",
         active && "border-primary bg-primary/5",
-        className
+        className,
       )}
       onClick={onClick}
     >
@@ -59,10 +51,6 @@ export function StatGrid({ children, columns = 4, className }: StatGridProps) {
     4: "grid-cols-2 md:grid-cols-4",
     6: "grid-cols-2 md:grid-cols-3 lg:grid-cols-6",
   };
-  
-  return (
-    <div className={cn("grid gap-2 md:gap-3", colsClass[columns], className)}>
-      {children}
-    </div>
-  );
+
+  return <div className={cn("grid gap-2 md:gap-3", colsClass[columns], className)}>{children}</div>;
 }

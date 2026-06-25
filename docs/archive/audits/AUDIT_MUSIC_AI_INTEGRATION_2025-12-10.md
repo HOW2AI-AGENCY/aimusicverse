@@ -92,6 +92,7 @@
 **MusicVerse AI** - это AI-платформа для создания музыки в Telegram, построенная как Telegram Mini App с интеграцией Suno AI v5 для генерации музыки.
 
 **Технологический стек:**
+
 ```
 Frontend:
 ├── React 19 + TypeScript 5 + Vite
@@ -118,17 +119,17 @@ External Services:
 
 ### 1.2 Ключевые метрики
 
-| Метрика | Значение |
-|---------|----------|
-| Мета-теги Suno | 174+ |
-| Музыкальные стили | 277+ |
-| Языки | 75+ |
-| Edge Functions | 45+ |
-| Таблиц в БД | 30+ |
-| React компонентов | 150+ |
-| Кастомных хуков | 60+ |
-| RLS политик | 50+ |
-| Документов | 50+ |
+| Метрика           | Значение |
+| ----------------- | -------- |
+| Мета-теги Suno    | 174+     |
+| Музыкальные стили | 277+     |
+| Языки             | 75+      |
+| Edge Functions    | 45+      |
+| Таблиц в БД       | 30+      |
+| React компонентов | 150+     |
+| Кастомных хуков   | 60+      |
+| RLS политик       | 50+      |
+| Документов        | 50+      |
 
 ### 1.3 Основные возможности
 
@@ -171,6 +172,7 @@ External Services:
 **Паттерны и практики:**
 
 ✅ **Single Audio Source Pattern**
+
 ```typescript
 // GlobalAudioProvider обеспечивает единственный источник звука
 <GlobalAudioProvider>
@@ -179,6 +181,7 @@ External Services:
 ```
 
 ✅ **Optimized Caching**
+
 ```typescript
 // TanStack Query с оптимизированными настройками
 staleTime: 30s
@@ -187,21 +190,24 @@ refetchOnWindowFocus: false
 ```
 
 ✅ **Batch Queries**
+
 ```typescript
 // usePublicContentOptimized объединяет запросы
 const { tracks, artists, playlists } = usePublicContentOptimized();
 ```
 
 ✅ **Lazy Loading**
+
 ```typescript
 // Тяжелые компоненты в src/components/lazy/
-const StemStudio = lazy(() => import('@/components/lazy/StemStudio'));
+const StemStudio = lazy(() => import("@/components/lazy/StemStudio"));
 ```
 
 ✅ **Optimized Motion**
+
 ```typescript
 // @/lib/motion для tree-shaking framer-motion
-import { motion } from '@/lib/motion';
+import { motion } from "@/lib/motion";
 ```
 
 ### 2.2 State Management
@@ -224,6 +230,7 @@ import { motion } from '@/lib/motion';
    - Track relationships
 
 **TanStack Query** для server state:
+
 - Tracks
 - Playlists
 - Artists
@@ -235,26 +242,31 @@ import { motion } from '@/lib/motion';
 **Edge Functions (45+):**
 
 **Генерация музыки:**
+
 - `suno-music-generate` - Запуск генерации
 - `suno-music-callback` - Webhook от Suno
 - `generate-track-cover` - AI обложки
 
 **AI ассистенты:**
+
 - `ai-lyrics-assistant` - Генерация текстов (10 режимов)
 - `ai-blog-assistant` - Блог-статьи
 - `generate-artist-portrait` - AI портреты
 
 **Telegram интеграция:**
+
 - `telegram-bot` - Обработка команд
 - `broadcast-notification` - Рассылки
 - `send-telegram-notification` - Уведомления
 
 **Аналитика:**
+
 - `analyze-audio-flamingo` - Аудио анализ
 - `analyze-music-emotion` - Эмоциональный анализ
 - `detect-beats` - BPM detection
 
 **Утилиты:**
+
 - `cleanup-orphaned-data` - Очистка данных
 - `cleanup-stale-tasks` - Очистка задач
 - `health-check` - Мониторинг
@@ -265,18 +277,21 @@ import { motion } from '@/lib/motion';
 **PostgreSQL с 30+ таблицами:**
 
 **Core:**
+
 - `profiles` - Пользователи
 - `tracks` - Треки
 - `track_versions` - A/B версии
 - `generation_tasks` - Задачи генерации
 
 **Social:**
+
 - `playlists` - Плейлисты
 - `playlist_tracks` - Связи треков
 - `track_likes` - Лайки
 - `artists` - AI артисты
 
 **Advanced:**
+
 - `track_stems` - Стемы
 - `audio_analysis` - AI анализ
 - `track_change_log` - История изменений
@@ -285,6 +300,7 @@ import { motion } from '@/lib/motion';
 - `tag_relationships` - 500+ связей
 
 **RLS (Row Level Security):**
+
 - 50+ политик для защиты данных
 - Поддержка `is_public` флагов
 - User-based и role-based доступ
@@ -327,6 +343,7 @@ import { motion } from '@/lib/motion';
 **Ключевые особенности:**
 
 ✅ **Multi-source priority**
+
 ```typescript
 // Автоматический fallback
 1. streaming_url (CDN, preferred)
@@ -335,16 +352,19 @@ import { motion } from '@/lib/motion';
 ```
 
 ✅ **Memory management**
+
 - Proper cleanup on unmount
 - Event listener removal
 - Source reset для освобождения памяти
 
 ✅ **Queue persistence**
+
 - localStorage для очереди
 - Telegram CloudStorage для кросс-девайс
 - Validation на restore
 
 ✅ **Player modes**
+
 ```typescript
 type PlayerMode = 'minimized' | 'compact' | 'expanded' | 'fullscreen';
 
@@ -375,6 +395,7 @@ expanded → fullscreen (user tap)
 6. 🆕 Improved Solo/Mute - better stem control
 
 **Результаты:**
+
 - ⚡ 80% reduction в re-renders
 - 🎯 IndexedDB caching (500MB, LRU)
 - 🎨 Swipeable mini-player с gestures
@@ -402,33 +423,39 @@ expanded → fullscreen (user tap)
 **Возможности:**
 
 ✅ **Stem Separation**
+
 - 6 типов: vocals, drums, bass, guitar, piano, other
 - Suno API integration
 - Full/Basic режимы
 
 ✅ **Mixing**
+
 - Per-stem volume control
 - Mute/Solo для каждой дорожки
 - Master volume
 - Real-time effects
 
 ✅ **Synchronization**
+
 ```typescript
 const SYNC_THRESHOLD = 0.1; // 100ms drift detection
 // Автокоррекция при превышении threshold
 ```
 
 ✅ **MIDI Transcription**
+
 - 4 модели: MT3, ByteDance Piano, Basic Pitch, ISMIR2021
 - Автовыбор модели по типу стема
 - Supabase Storage для MIDI файлов
 
 ✅ **Section Replacement**
+
 - Автоопределение секций (Levenshtein distance)
 - A/B сравнение
 - История версий
 
 **Performance:**
+
 - ⚡ Throttled waveform updates
 - ⚡ Custom memo comparison
 - ⚡ Drift detection с precise correction
@@ -436,6 +463,7 @@ const SYNC_THRESHOLD = 0.1; // 100ms drift detection
 ### 3.4 Audio System Enhancements
 
 **IndexedDB Caching:**
+
 ```typescript
 interface AudioCache {
   maxSize: 500MB;
@@ -446,6 +474,7 @@ interface AudioCache {
 ```
 
 **Crossfade System:**
+
 ```typescript
 const crossfade = {
   duration: 0.3s;
@@ -455,6 +484,7 @@ const crossfade = {
 ```
 
 **Performance Monitor:**
+
 ```typescript
 - Real-time metrics
 - Buffer health
@@ -467,6 +497,7 @@ const crossfade = {
 **Точность:** ±0.05s
 
 **Features:**
+
 - 📜 Auto-scroll с распознаванием user scroll
 - 🎯 5s resume delay после user scroll
 - ✨ Smooth animations
@@ -502,6 +533,7 @@ const crossfade = {
 **174+ мета-тегов в БД:**
 
 **Категории:**
+
 ```typescript
 - structure: [Verse], [Chorus], [Bridge], [Intro], [Outro]
 - vocal: [Male Vocal], [Female Vocal], [Falsetto], [Whisper]
@@ -513,6 +545,7 @@ const crossfade = {
 ```
 
 **Профили жанров:**
+
 ```typescript
 GENRE_TAG_PROFILES = {
   'pop': {
@@ -528,6 +561,7 @@ GENRE_TAG_PROFILES = {
 ```
 
 **Профили настроений:**
+
 ```typescript
 MOOD_TAG_PROFILES = {
   'romantic': {
@@ -544,11 +578,12 @@ MOOD_TAG_PROFILES = {
 ### 4.3 Умные рекомендации
 
 **Алгоритм:**
+
 ```typescript
 // 1. Fetch all 174+ tags from database
 const { data: metaTags } = await supabase
-  .from('suno_meta_tags')
-  .select('tag_name, category, description, syntax_format, usage_examples');
+  .from("suno_meta_tags")
+  .select("tag_name, category, description, syntax_format, usage_examples");
 
 // 2. Get genre + mood profiles
 const genreProfile = GENRE_TAG_PROFILES[genre];
@@ -559,7 +594,7 @@ const recommendedTags = {
   vocal: [...genreProfile.vocal, ...moodProfile.vocal].slice(0, 4),
   instruments: genreProfile.instruments,
   dynamics: [...genreProfile.dynamics, ...moodProfile.dynamics].slice(0, 4),
-  emotions: [...genreProfile.emotions, ...moodProfile.emotions].slice(0, 4)
+  emotions: [...genreProfile.emotions, ...moodProfile.emotions].slice(0, 4),
 };
 
 // 4. User custom tags (если указаны)
@@ -574,6 +609,7 @@ if (useAdvancedTags) {
 **Особенность:** Интерактивная работа с контекстом
 
 **Context structure:**
+
 ```typescript
 interface ChatContext {
   projectContext?: {
@@ -594,13 +630,12 @@ interface ChatContext {
 ```
 
 **Response format:**
+
 ```json
 {
   "lyrics": "текст песни (если создаёшь/меняешь)",
   "response": "текстовый ответ пользователю",
-  "suggestions": [
-    {"label": "🎵 Предложение", "value": "действие"}
-  ]
+  "suggestions": [{ "label": "🎵 Предложение", "value": "действие" }]
 }
 ```
 
@@ -614,6 +649,7 @@ interface ChatContext {
 4. **Примеры** - Образцовые форматированные тексты
 
 **Пример prompt для generate:**
+
 ```
 Создай профессиональный текст песни с продуманным использованием тегов.
 
@@ -631,20 +667,22 @@ interface ChatContext {
 ```
 
 **Quality control:**
+
 ```typescript
 // Character limits
 if (!customMode && prompt.length > 500) {
-  return error('Описание слишком длинное (500 символов max)');
+  return error("Описание слишком длинное (500 символов max)");
 }
 
 if (customMode && lyrics.length > 5000) {
-  return error('Текст слишком длинный (5000 символов max)');
+  return error("Текст слишком длинный (5000 символов max)");
 }
 ```
 
 ### 4.6 Интеграция с UI
 
 **Frontend компонент:**
+
 ```typescript
 // src/components/generate-form/lyrics-chat/LyricsChatAssistant.tsx
 - Responsive: Drawer на mobile, Dialog на desktop
@@ -657,6 +695,7 @@ if (customMode && lyrics.length > 5000) {
 ```
 
 **Хук:**
+
 ```typescript
 // src/hooks/useLyricsChat.ts
 - История диалога
@@ -673,14 +712,15 @@ if (customMode && lyrics.length > 5000) {
 
 **Общая статистика:**
 
-| Категория | Количество | % |
-|-----------|------------|---|
-| 📋 Total Sprints | 24 | 100% |
-| ✅ Completed | 7 | 29% |
-| 🟢 Active | 1 | 4% |
-| 📅 Planned | 16 | 67% |
+| Категория        | Количество | %    |
+| ---------------- | ---------- | ---- |
+| 📋 Total Sprints | 24         | 100% |
+| ✅ Completed     | 7          | 29%  |
+| 🟢 Active        | 1          | 4%   |
+| 📅 Planned       | 16         | 67%  |
 
 **Завершенные спринты:**
+
 1. ✅ Sprint 001: Setup
 2. ✅ Sprint 002: Audit & Improvements
 3. ✅ Sprint 003: Automation
@@ -690,6 +730,7 @@ if (customMode && lyrics.length > 5000) {
 7. ✅ Sprint 021: API Model Update
 
 **Текущий спринт:**
+
 - 🟢 **Sprint 013:** Advanced Audio Features (Dec 7-21)
   - Phase 1 ✅ Complete (Waveform + MIDI)
   - Phase 2 🔄 In Progress (Advanced mixing + effects)
@@ -697,14 +738,17 @@ if (customMode && lyrics.length > 5000) {
 ### 5.2 Запланированные спринты
 
 **Q4 2025:**
+
 - Sprint 008: Library & Player MVP (22 SP)
 - Sprint 009: Track Details & Actions (19 SP)
 
 **Q1 2026:**
+
 - Sprint 010-012: Feature Expansion
 - Sprint 014-015: Additional Features
 
 **Q2 2026:**
+
 - Sprint 016-020: Infrastructure & Quality
 - Sprint 022-024: Optimization & Polish
 
@@ -728,6 +772,7 @@ if (customMode && lyrics.length > 5000) {
 **Total:** 123 Story Points, 22 задачи
 
 **Breakdown:**
+
 - Code Quality: 47 SP (6 задач, 38%)
 - Documentation: 24 SP (6 задач, 20%)
 - Infrastructure: 16 SP (4 задачи, 13%)
@@ -800,18 +845,21 @@ if (customMode && lyrics.length > 5000) {
 ### 5.5 Процессы разработки
 
 **Git workflow:**
+
 - Feature branches: `claude/<description>-<session-id>`
 - Pull requests с шаблонами
 - Code review обязателен
 - CI/CD на каждый push
 
 **Code quality:**
+
 - ESLint + Prettier configured
 - TypeScript strict mode
 - No `any` policy (почти везде удалено)
 - Custom logger вместо console.log
 
 **Testing strategy:**
+
 - Unit tests (Jest)
 - Integration tests (в планах)
 - E2E tests (Playwright, в планах)
@@ -826,6 +874,7 @@ if (customMode && lyrics.length > 5000) {
 **Статус:** ✅ Хорошо
 
 **Положительное:**
+
 - ✅ Strict mode включен
 - ✅ Comprehensive type definitions
 - ✅ Minimal use of `any` (почти везде удалено в Sprint 005)
@@ -848,23 +897,23 @@ interface PlayerState {
   isMuted: boolean;
 }
 
-type RepeatMode = 'off' | 'all' | 'one';
-type PlayerMode = 'minimized' | 'compact' | 'expanded' | 'fullscreen';
+type RepeatMode = "off" | "all" | "one";
+type PlayerMode = "minimized" | "compact" | "expanded" | "fullscreen";
 ```
 
 ```typescript
 // supabase/functions/ai-lyrics-assistant/index.ts
 type LyricsAction =
-  | 'generate'
-  | 'improve'
-  | 'add_tags'
-  | 'suggest_structure'
-  | 'generate_section'
-  | 'continue_line'
-  | 'suggest_rhymes'
-  | 'analyze_lyrics'
-  | 'optimize_for_suno'
-  | 'chat';
+  | "generate"
+  | "improve"
+  | "add_tags"
+  | "suggest_structure"
+  | "generate_section"
+  | "continue_line"
+  | "suggest_rhymes"
+  | "analyze_lyrics"
+  | "optimize_for_suno"
+  | "chat";
 
 interface LyricsRequest {
   action: LyricsAction;
@@ -877,6 +926,7 @@ interface LyricsRequest {
 ```
 
 **Области для улучшения:**
+
 - ⚠️ Некоторые хуки могут иметь более строгие типы
 - ⚠️ Edge Functions могут использовать shared types
 
@@ -885,6 +935,7 @@ interface LyricsRequest {
 **ESLint errors:**
 
 По данным из BACKLOG.md:
+
 - hooks/: ~50 errors (To Do - CQ-001, 5 SP)
 - pages/: ~116 errors (To Do - CQ-002, 8 SP)
 - **Total: ~166 errors**
@@ -892,6 +943,7 @@ interface LyricsRequest {
 **TODO/FIXME в коде:**
 
 По результатам grep:
+
 - **Total: 2 вхождения**
 - Локация: `src/integrations/supabase/queries/public-content.ts`
 
@@ -902,6 +954,7 @@ interface LyricsRequest {
 **Статус:** ✅ Отлично
 
 **Структура:**
+
 ```
 src/
 ├── components/           # React components
@@ -954,36 +1007,37 @@ try {
 
   if (!result.ok) {
     if (result.status === 429) {
-      return error('Rate limit exceeded');
+      return error("Rate limit exceeded");
     }
     if (result.status === 402) {
-      return error('Insufficient credits');
+      return error("Insufficient credits");
     }
-    throw new Error('API error');
+    throw new Error("API error");
   }
 
   return success(result.data);
 } catch (error: any) {
-  logger.error('Generation failed', error);
+  logger.error("Generation failed", error);
 
   // Notify user
-  await supabase.from('notifications').insert({
+  await supabase.from("notifications").insert({
     user_id: user.id,
-    type: 'generation_error',
-    message: error.message
+    type: "generation_error",
+    message: error.message,
   });
 
-  return error('Unknown error');
+  return error("Unknown error");
 }
 ```
 
 **Graceful degradation:**
+
 ```typescript
 // Multi-source audio fallback
 const sources = [
-  track.streaming_url,  // Preferred
+  track.streaming_url, // Preferred
   track.local_audio_url, // Cached
-  track.audio_url        // Original
+  track.audio_url, // Original
 ].filter(Boolean);
 
 for (const source of sources) {
@@ -1001,18 +1055,20 @@ for (const source of sources) {
 **Статус:** ✅ Отлично
 
 **Custom Logger:**
+
 ```typescript
 // supabase/functions/_shared/logger.ts
-const logger = createLogger('service-name');
+const logger = createLogger("service-name");
 
-logger.info('Message', metadata);
-logger.warn('Warning', metadata);
-logger.error('Error', error, metadata);
-logger.success('Success', metadata);
-logger.apiCall('service', 'endpoint', metadata);
+logger.info("Message", metadata);
+logger.warn("Warning", metadata);
+logger.error("Error", error, metadata);
+logger.success("Success", metadata);
+logger.apiCall("service", "endpoint", metadata);
 ```
 
 **Structured logging:**
+
 - ✅ Timestamp
 - ✅ Service name
 - ✅ Log level
@@ -1057,22 +1113,26 @@ CREATE POLICY "Users can like tracks"
 ```
 
 **Недавние исправления (Sprint 020):**
+
 - ✅ Fixed profiles RLS (is_public field)
 - ✅ Fixed track_likes RLS policies
 
 ### 7.2 Аутентификация
 
 **Telegram OAuth:**
+
 - ✅ HMAC signature validation
 - ✅ initData verification
 - ✅ Token-based auth для API
 - ✅ User session management
 
 **Supabase Auth:**
+
 ```typescript
-const { data: { user }, error } = await supabase.auth.getUser(
-  authHeader.replace('Bearer ', '')
-);
+const {
+  data: { user },
+  error,
+} = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
 if (error || !user) {
   return unauthorized();
@@ -1082,31 +1142,35 @@ if (error || !user) {
 ### 7.3 Input Validation
 
 **Edge Functions:**
+
 ```typescript
 // Required fields validation
 if (!prompt) {
-  return error('Prompt is required');
+  return error("Prompt is required");
 }
 
 // Length validation
 if (!customMode && prompt.length > 500) {
-  return error('Prompt too long (500 max)');
+  return error("Prompt too long (500 max)");
 }
 
 // Type validation
 if (customMode && !style) {
-  return error('Style required in custom mode');
+  return error("Style required in custom mode");
 }
 ```
 
 **SQL Injection Protection:**
+
 - ✅ Parameterized queries через Supabase Client
 - ✅ No raw SQL в клиентском коде
 
 **XSS Protection:**
+
 - ✅ DOMPurify для санитизации HTML
+
 ```typescript
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 const sanitized = DOMPurify.sanitize(userInput);
 ```
@@ -1114,19 +1178,22 @@ const sanitized = DOMPurify.sanitize(userInput);
 ### 7.4 API Security
 
 **Rate Limiting:**
+
 - ⚠️ **Отсутствует** (SEC-002 в бэклоге, 3 SP)
 - Suno API имеет rate limiting на стороне сервиса
 - Требуется user/IP based limits
 
 **CORS Headers:**
+
 ```typescript
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 ```
 
 **Secrets Management:**
+
 - ✅ Environment variables для всех ключей
 - ✅ SUNO_API_KEY
 - ✅ LOVABLE_API_KEY
@@ -1174,13 +1241,15 @@ const corsHeaders = {
 **Оптимизации (Sprint 022):**
 
 ✅ **Tree-shaking:**
+
 ```typescript
 // @/lib/motion wrapper
-export { motion, AnimatePresence } from 'framer-motion';
+export { motion, AnimatePresence } from "framer-motion";
 // Target: esnext for better tree-shaking
 ```
 
 ✅ **date-fns chunking:**
+
 ```typescript
 // Manual chunks
 manualChunks: {
@@ -1190,19 +1259,22 @@ manualChunks: {
 ```
 
 ✅ **Lazy loading:**
+
 ```typescript
 // src/components/lazy/
-const StemStudio = lazy(() => import('./StemStudio'));
-const ChordDetector = lazy(() => import('./ChordDetector'));
+const StemStudio = lazy(() => import("./StemStudio"));
+const ChordDetector = lazy(() => import("./ChordDetector"));
 ```
 
 **Bundle Analyzer:**
+
 ```bash
 npm run build
 # Creates dist/stats.html
 ```
 
 **Задачи в бэклоге:**
+
 - CQ-005: Bundle Size Optimization (5 SP)
 - Target: <800 KB total
 - Remove unused deps
@@ -1213,6 +1285,7 @@ npm run build
 **Achievements:**
 
 ✅ **80% reduction в re-renders** благодаря:
+
 ```typescript
 // useDebouncedAudioTime
 const debouncedTime = useDebouncedAudioTime(currentTime, 500ms);
@@ -1230,6 +1303,7 @@ const StemChannel = React.memo(Component, (prev, next) => {
 ```
 
 ✅ **Optimized caching:**
+
 ```typescript
 // TanStack Query
 staleTime: 30s     // Don't refetch immediately
@@ -1237,6 +1311,7 @@ gcTime: 10min      // Keep in memory
 ```
 
 ✅ **Virtualization:**
+
 ```typescript
 // react-virtuoso for large lists
 <Virtuoso
@@ -1253,6 +1328,7 @@ gcTime: 10min      // Keep in memory
 - 📊 Memory leaks: ✅ Fixed (6 critical)
 
 **Задачи в бэклоге:**
+
 - CQ-006: Performance Profiling (8 SP)
 - Lighthouse audit
 - React DevTools profiling
@@ -1261,16 +1337,18 @@ gcTime: 10min      // Keep in memory
 ### 8.3 Audio Performance
 
 **IndexedDB Caching:**
+
 ```typescript
 interface CacheStats {
-  maxSize: '500MB',
-  evictionPolicy: 'LRU',
-  ttl: '7 days',
-  hitRate: '~70%' // Estimated
+  maxSize: "500MB";
+  evictionPolicy: "LRU";
+  ttl: "7 days";
+  hitRate: "~70%"; // Estimated
 }
 ```
 
 **Prefetch System:**
+
 ```typescript
 // Prefetch next 2 tracks in queue
 const prefetchQueue = queue.slice(currentIndex + 1, currentIndex + 3);
@@ -1280,19 +1358,21 @@ for (const track of prefetchQueue) {
 ```
 
 **Crossfade:**
+
 ```typescript
 const crossfade = {
   duration: 0.3,
-  curve: 'exponential',
-  overlap: true
+  curve: "exponential",
+  overlap: true,
 };
 ```
 
 **Sync Performance:**
+
 ```typescript
 // Stem drift detection
 const SYNC_THRESHOLD = 0.1; // 100ms
-const CHECK_INTERVAL = 500;  // Check every 500ms
+const CHECK_INTERVAL = 500; // Check every 500ms
 
 // Precise correction when drift > threshold
 if (drift > SYNC_THRESHOLD) {
@@ -1303,6 +1383,7 @@ if (drift > SYNC_THRESHOLD) {
 ### 8.4 Database Performance
 
 **Indexes:**
+
 ```sql
 -- 60+ indexes for optimal queries
 CREATE INDEX idx_tracks_user_id ON tracks(user_id);
@@ -1313,6 +1394,7 @@ CREATE INDEX idx_generation_tasks_status ON generation_tasks(status);
 ```
 
 **Denormalized counters:**
+
 ```sql
 -- tracks.likes_count updated by triggers
 CREATE TRIGGER update_track_likes_count
@@ -1324,47 +1406,55 @@ UPDATE tracks SET play_count = play_count + 1 WHERE id = track_id;
 ```
 
 **Query optimization:**
+
 ```typescript
 // Batch queries
 const { tracks, artists, playlists } = await usePublicContentOptimized();
 
 // Pagination
 const { data, hasNextPage, fetchNextPage } = useInfiniteQuery({
-  queryKey: ['tracks'],
+  queryKey: ["tracks"],
   queryFn: ({ pageParam = 0 }) => fetchTracks(pageParam),
-  getNextPageParam: (lastPage) => lastPage.nextCursor
+  getNextPageParam: (lastPage) => lastPage.nextCursor,
 });
 ```
 
 ### 8.5 Network Optimization
 
 **API Calls:**
+
 ```typescript
 // Structured logging for monitoring
-await supabase.from('api_usage_logs').insert({
-  service: 'suno',
-  endpoint: 'generate',
+await supabase.from("api_usage_logs").insert({
+  service: "suno",
+  endpoint: "generate",
   duration_ms: duration,
   response_status: status,
-  estimated_cost: 0.05
+  estimated_cost: 0.05,
 });
 ```
 
 **Realtime Subscriptions:**
+
 ```typescript
 // Selective subscriptions
 const channel = supabase
-  .channel('track-updates')
-  .on('postgres_changes', {
-    event: 'UPDATE',
-    schema: 'public',
-    table: 'tracks',
-    filter: `id=eq.${trackId}`  // Only this track
-  }, handleUpdate)
+  .channel("track-updates")
+  .on(
+    "postgres_changes",
+    {
+      event: "UPDATE",
+      schema: "public",
+      table: "tracks",
+      filter: `id=eq.${trackId}`, // Only this track
+    },
+    handleUpdate,
+  )
   .subscribe();
 ```
 
 **CDN:**
+
 - ✅ Streaming URL (CDN delivery)
 - ✅ Cover images via CDN
 - ✅ Audio files via Supabase Storage
@@ -1380,10 +1470,12 @@ const channel = supabase
 **Проблема:** Блокер для следующих спринтов
 
 **Задачи:**
+
 - INF-001: Setup Supabase Dev Environment (3 SP)
 - INF-002: Database Migrations for Versioning (5 SP)
 
 **Action Items:**
+
 ```bash
 # 1. Install Supabase CLI
 npm install -g supabase
@@ -1411,10 +1503,12 @@ supabase db seed
 **Проблема:** 166 lint errors в codebase
 
 **Задачи:**
+
 - CQ-001: Fix ~50 errors in hooks/ (5 SP)
 - CQ-002: Fix ~116 errors in pages/ (8 SP)
 
 **Approach:**
+
 1. Автоматические исправления: `npm run lint -- --fix`
 2. Ручные исправления для сложных случаев
 3. Обновить правила ESLint если нужно
@@ -1427,9 +1521,11 @@ supabase db seed
 **Проблема:** Отсутствует комплексный security audit
 
 **Задачи:**
+
 - SEC-001: Security Audit (5 SP)
 
 **Action Items:**
+
 ```bash
 # 1. Dependency audit
 npm audit fix
@@ -1457,10 +1553,12 @@ npm run lint:security
 **Target:** 80%
 
 **Задачи:**
+
 - CQ-003: Test Coverage (13 SP)
 - CQ-004: E2E Tests (8 SP)
 
 **Strategy:**
+
 ```typescript
 // Unit tests for hooks
 describe('usePlayerState', () => {
@@ -1493,9 +1591,11 @@ test('Music generation flow', async ({ page }) => {
 **Target:** <800 KB
 
 **Задачи:**
+
 - CQ-005: Bundle Optimization (5 SP)
 
 **Action Items:**
+
 ```javascript
 // 1. Analyze bundle
 npm run build
@@ -1523,6 +1623,7 @@ vite-plugin-compression
 #### 6. Complete Documentation
 
 **Missing docs:**
+
 - Quick Start Guide (DOC-001, 3 SP)
 - API Documentation (DOC-002, 5 SP)
 - Testing Guide (DOC-003, 3 SP)
@@ -1530,26 +1631,31 @@ vite-plugin-compression
 - FAQ & Troubleshooting (DOC-005, 2 SP)
 
 **Template:**
+
 ```markdown
 # Quick Start Guide
 
 ## Prerequisites
+
 - Node.js 18+
 - npm 8+
 
 ## Installation
+
 1. Clone repository
 2. Install dependencies
 3. Configure environment
 4. Run development server
 
 ## First Track Generation
+
 1. Open /generate
 2. Fill the form
 3. Submit and wait
 4. Check /library
 
 ## Next Steps
+
 - Explore Stem Studio
 - Create playlists
 - Try AI Lyrics Assistant
@@ -1562,9 +1668,11 @@ vite-plugin-compression
 #### 7. Performance Profiling
 
 **Задачи:**
+
 - CQ-006: Performance Optimization (8 SP)
 
 **Metrics to track:**
+
 - Lighthouse Score (target: >90)
 - FCP (target: <2s на 3G)
 - TTI (target: <5s на 3G)
@@ -1573,6 +1681,7 @@ vite-plugin-compression
 - CPU usage
 
 **Tools:**
+
 ```bash
 # Lighthouse
 npx lighthouse https://app-url --view
@@ -1586,9 +1695,11 @@ npm run build:analyze
 #### 8. Rate Limiting
 
 **Задачи:**
+
 - SEC-002: Rate Limiting (3 SP)
 
 **Implementation:**
+
 ```typescript
 // Edge Function middleware
 const rateLimit = {
@@ -1620,9 +1731,11 @@ if (!allowed) {
 #### 9. Content Security Policy
 
 **Задачи:**
+
 - SEC-003: CSP (2 SP)
 
 **Implementation:**
+
 ```typescript
 const cspHeader = `
   default-src 'self';
@@ -1643,9 +1756,11 @@ headers: {
 #### 10. Accessibility Improvements
 
 **Задачи:**
+
 - UI-001: Accessibility Audit (8 SP)
 
 **WCAG 2.1 AA Compliance:**
+
 ```typescript
 // 1. Keyboard navigation
 <button
@@ -1676,6 +1791,7 @@ useEffect(() => {
 ```
 
 **Tools:**
+
 ```bash
 # WAVE browser extension
 # axe DevTools
@@ -1777,12 +1893,14 @@ npx lighthouse https://app-url --only-categories=accessibility
 ### 10.3 Метрики успеха
 
 **Краткосрочные (1 месяц):**
+
 - ✅ Sprint 008 prerequisites done
 - ✅ Lint errors < 50
 - ✅ Core docs completed
 - ✅ Security audit passed
 
 **Среднесрочные (3 месяца):**
+
 - ✅ Lint errors = 0
 - ✅ Test coverage > 80%
 - ✅ Bundle size < 800 KB
@@ -1790,6 +1908,7 @@ npx lighthouse https://app-url --only-categories=accessibility
 - ✅ E2E tests implemented
 
 **Долгосрочные (6 месяцев):**
+
 - ✅ WCAG AA compliance
 - ✅ Monitoring operational
 - ✅ Rate limiting active
@@ -1883,23 +2002,27 @@ DOCUMENTATION_INDEX.md
 ### C. Ссылки
 
 **Документация:**
+
 - [README](README.md)
 - [Documentation Index](DOCUMENTATION_INDEX.md)
 - [Sprint Status](SPRINT_STATUS.md)
 - [Recent Improvements](RECENT_IMPROVEMENTS.md)
 
 **Архитектура:**
+
 - [Player Architecture](docs/PLAYER_ARCHITECTURE.md)
 - [Database Schema](docs/DATABASE.md)
 - [Generation System](docs/GENERATION_SYSTEM.md)
 - [Stem Studio](docs/STEM_STUDIO.md)
 
 **Features:**
+
 - [AI Lyrics Assistant](docs/AI_LYRICS_ASSISTANT.md)
 - [Section Replacement](docs/SECTION_REPLACEMENT.md)
 - [Demo Mode](docs/DEMO_MODE.md)
 
 **Спринты:**
+
 - [Backlog](SPRINTS/BACKLOG.md)
 - [Sprint 013](SPRINTS/SPRINT-013-OUTLINE.md)
 - [Completed Sprints](SPRINTS/completed/)
@@ -1913,4 +2036,4 @@ DOCUMENTATION_INDEX.md
 
 ---
 
-*Этот аудит был подготовлен на основе детального анализа кодовой базы, документации, спринтов и архитектуры проекта MusicVerse AI.*
+_Этот аудит был подготовлен на основе детального анализа кодовой базы, документации, спринтов и архитектуры проекта MusicVerse AI._

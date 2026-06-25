@@ -1,13 +1,13 @@
 /**
  * MarqueeTitle - Animated scrolling title for long text
- * 
+ *
  * Shows static text if it fits, or applies a subtle marquee animation
  * when the text overflows its container.
  */
 
-import { memo, useRef, useState, useEffect } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { memo, useRef, useState, useEffect } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface MarqueeTitleProps {
   title: string;
@@ -32,7 +32,7 @@ function MarqueeTitleComponent({ title, className }: MarqueeTitleProps) {
     };
 
     checkOverflow();
-    
+
     // Recheck on resize
     const observer = new ResizeObserver(checkOverflow);
     if (containerRef.current) {
@@ -43,24 +43,29 @@ function MarqueeTitleComponent({ title, className }: MarqueeTitleProps) {
   }, [title]);
 
   return (
-    <div 
-      ref={containerRef}
-      className={cn("overflow-hidden flex-1 min-w-0", className)}
-    >
+    <div ref={containerRef} className={cn("overflow-hidden flex-1 min-w-0", className)}>
       <motion.span
         ref={textRef}
         className="font-medium text-sm leading-tight whitespace-nowrap inline-block"
-        animate={shouldAnimate ? {
-          x: [0, -overflow, 0],
-        } : { x: 0 }}
-        transition={shouldAnimate ? {
-          duration: Math.max(3, overflow / 30), // Speed based on overflow
-          repeat: Infinity,
-          ease: "linear",
-          repeatDelay: 2,
-        } : {}}
+        animate={
+          shouldAnimate
+            ? {
+                x: [0, -overflow, 0],
+              }
+            : { x: 0 }
+        }
+        transition={
+          shouldAnimate
+            ? {
+                duration: Math.max(3, overflow / 30), // Speed based on overflow
+                repeat: Infinity,
+                ease: "linear",
+                repeatDelay: 2,
+              }
+            : {}
+        }
       >
-        {title || 'Без названия'}
+        {title || "Без названия"}
       </motion.span>
     </div>
   );

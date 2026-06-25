@@ -3,12 +3,12 @@
  * React hooks wrapping playlists API/service
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '@/hooks/useAuth';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import * as playlistsApi from '@/api/playlists.api';
-import * as playlistsService from '@/services/playlists.service';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import * as playlistsApi from "@/api/playlists.api";
+import * as playlistsService from "@/services/playlists.service";
 
 // Interfaces for backward compatibility (matching old usePlaylists types)
 export interface Playlist {
@@ -37,8 +37,12 @@ export function usePlaylists() {
   const queryClient = useQueryClient();
 
   // Fetch user's playlists
-  const { data: playlists, isLoading, error } = useQuery({
-    queryKey: ['playlists', user?.id],
+  const {
+    data: playlists,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["playlists", user?.id],
     queryFn: async () => {
       if (!user) return [];
       return playlistsApi.fetchUserPlaylists(user.id);
@@ -52,43 +56,38 @@ export function usePlaylists() {
   // Create playlist
   const createPlaylistMutation = useMutation({
     mutationFn: async (input: { title: string; description?: string; is_public?: boolean }) => {
-      if (!user) throw new Error('Необходимо авторизоваться');
-      return playlistsService.createPlaylist(
-        user.id,
-        input.title,
-        input.description,
-        input.is_public
-      );
+      if (!user) throw new Error("Необходимо авторизоваться");
+      return playlistsService.createPlaylist(user.id, input.title, input.description, input.is_public);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['playlists'] });
-      toast.success('Плейлист создан');
+      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+      toast.success("Плейлист создан");
     },
     onError: (error: Error) => {
-      logger.error('Error creating playlist', error);
-      toast.error(error.message || 'Ошибка создания плейлиста');
+      logger.error("Error creating playlist", error);
+      toast.error(error.message || "Ошибка создания плейлиста");
     },
   });
 
   // Update playlist
   const updatePlaylistMutation = useMutation({
-    mutationFn: async (input: { 
-      id: string; 
-      title?: string; 
-      description?: string; 
-      cover_url?: string; 
-      is_public?: boolean 
+    mutationFn: async (input: {
+      id: string;
+      title?: string;
+      description?: string;
+      cover_url?: string;
+      is_public?: boolean;
     }) => {
       const { id, ...updates } = input;
       return playlistsApi.updatePlaylist(id, updates);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['playlists'] });
-      toast.success('Плейлист обновлён');
+      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+      toast.success("Плейлист обновлён");
     },
     onError: (error) => {
-      logger.error('Error updating playlist', error);
-      toast.error('Ошибка обновления плейлиста');
+      logger.error("Error updating playlist", error);
+      toast.error("Ошибка обновления плейлиста");
     },
   });
 
@@ -96,12 +95,12 @@ export function usePlaylists() {
   const deletePlaylistMutation = useMutation({
     mutationFn: playlistsApi.deletePlaylist,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['playlists'] });
-      toast.success('Плейлист удалён');
+      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+      toast.success("Плейлист удалён");
     },
     onError: (error) => {
-      logger.error('Error deleting playlist', error);
-      toast.error('Ошибка удаления плейлиста');
+      logger.error("Error deleting playlist", error);
+      toast.error("Ошибка удаления плейлиста");
     },
   });
 
@@ -111,15 +110,15 @@ export function usePlaylists() {
       return playlistsService.addTrackToPlaylist(input.playlistId, input.trackId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['playlists'] });
-      toast.success('Трек добавлен в плейлист');
+      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+      toast.success("Трек добавлен в плейлист");
     },
     onError: (error: Error) => {
-      logger.error('Error adding track to playlist', error);
-      if (error.message.includes('duplicate') || error.message.includes('23505')) {
-        toast.error('Трек уже в плейлисте');
+      logger.error("Error adding track to playlist", error);
+      if (error.message.includes("duplicate") || error.message.includes("23505")) {
+        toast.error("Трек уже в плейлисте");
       } else {
-        toast.error(error.message || 'Ошибка добавления трека');
+        toast.error(error.message || "Ошибка добавления трека");
       }
     },
   });
@@ -130,12 +129,12 @@ export function usePlaylists() {
       return playlistsApi.removeTrackFromPlaylist(input.playlistId, input.trackId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['playlists'] });
-      toast.success('Трек удалён из плейлиста');
+      queryClient.invalidateQueries({ queryKey: ["playlists"] });
+      toast.success("Трек удалён из плейлиста");
     },
     onError: (error) => {
-      logger.error('Error removing track from playlist', error);
-      toast.error('Ошибка удаления трека');
+      logger.error("Error removing track from playlist", error);
+      toast.error("Ошибка удаления трека");
     },
   });
 
@@ -145,11 +144,11 @@ export function usePlaylists() {
       return playlistsApi.reorderPlaylistTracks(input.playlistId, input.trackIds);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['playlist-tracks'] });
+      queryClient.invalidateQueries({ queryKey: ["playlist-tracks"] });
     },
     onError: (error) => {
-      logger.error('Error reordering tracks', error);
-      toast.error('Ошибка изменения порядка');
+      logger.error("Error reordering tracks", error);
+      toast.error("Ошибка изменения порядка");
     },
   });
 
@@ -171,7 +170,7 @@ export function usePlaylists() {
 // Hook to get playlist tracks
 export function usePlaylistTracks(playlistId: string | null) {
   return useQuery({
-    queryKey: ['playlist-tracks', playlistId],
+    queryKey: ["playlist-tracks", playlistId],
     queryFn: async () => {
       if (!playlistId) return [];
       return playlistsApi.fetchPlaylistTracksWithDetails(playlistId);

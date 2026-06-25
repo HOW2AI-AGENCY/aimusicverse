@@ -3,32 +3,26 @@
  * Enhanced with glassmorphism, premium animations and celebration effects
  */
 
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { CheckCircle2, Sparkles, X, Star, Zap, Music, Crown } from 'lucide-react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { glass, gradientGlass } from '@/lib/glass';
-import type { StarsProduct } from '@/services/starsPaymentService';
-import confetti from 'canvas-confetti';
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { CheckCircle2, Sparkles, X, Star, Zap, Music, Crown } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { glass, gradientGlass } from "@/lib/glass";
+import type { StarsProduct } from "@/services/starsPaymentService";
+import confetti from "canvas-confetti";
 
 interface PaymentSuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
   product?: StarsProduct;
-  language?: 'en' | 'ru';
+  language?: "en" | "ru";
 }
 
 // Enhanced confetti particle
 function ConfettiParticle({ delay, index }: { delay: number; index: number }) {
-  const colors = ['#10b981', '#34d399', '#6ee7b7', '#fbbf24', '#f59e0b', '#8b5cf6', '#ec4899'];
+  const colors = ["#10b981", "#34d399", "#6ee7b7", "#fbbf24", "#f59e0b", "#8b5cf6", "#ec4899"];
   const randomColor = colors[index % colors.length];
   const randomX = Math.random() * 300 - 150;
   const randomRotate = Math.random() * 720 - 360;
@@ -48,12 +42,12 @@ function ConfettiParticle({ delay, index }: { delay: number; index: number }) {
       transition={{
         duration: 2.5,
         delay,
-        ease: 'easeOut',
+        ease: "easeOut",
       }}
     >
       <div
         className="rounded-sm"
-        style={{ 
+        style={{
           backgroundColor: randomColor,
           width: size,
           height: size,
@@ -70,7 +64,7 @@ function FloatingStar({ delay, x, y }: { delay: number; x: string; y: string }) 
       className="absolute pointer-events-none"
       style={{ left: x, top: y }}
       initial={{ opacity: 0, scale: 0 }}
-      animate={{ 
+      animate={{
         opacity: [0, 1, 0],
         scale: [0.5, 1.2, 0.5],
         rotate: [0, 180, 360],
@@ -87,59 +81,58 @@ function FloatingStar({ delay, x, y }: { delay: number; x: string; y: string }) 
   );
 }
 
-export function PaymentSuccessModal({
-  isOpen,
-  onClose,
-  product,
-  language = 'ru',
-}: PaymentSuccessModalProps) {
+export function PaymentSuccessModal({ isOpen, onClose, product, language = "ru" }: PaymentSuccessModalProps) {
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setShowConfetti(true);
-      
+
       // Launch canvas-confetti burst
       setTimeout(() => {
         confetti({
           particleCount: 80,
           spread: 70,
           origin: { y: 0.6, x: 0.5 },
-          colors: ['#10b981', '#34d399', '#fbbf24', '#8b5cf6'],
+          colors: ["#10b981", "#34d399", "#fbbf24", "#8b5cf6"],
         });
       }, 200);
-      
+
       const timer = setTimeout(() => setShowConfetti(false), 3000);
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
 
   const getText = () => {
-    if (language === 'ru') {
+    if (language === "ru") {
       return {
-        title: 'Оплата успешна!',
-        creditsAdded: 'Кредиты добавлены',
-        subscriptionActivated: 'Подписка активирована',
-        description: product?.product_type === 'credits'
-          ? `${product.credits_amount} кредитов добавлено на ваш счет`
-          : `Подписка ${product?.subscription_tier} активирована`,
-        close: 'Отлично!',
-        tracksInfo: product?.product_type === 'credits' && product?.credits_amount
-          ? `≈ ${Math.floor(product.credits_amount / 12)} AI-треков`
-          : null,
+        title: "Оплата успешна!",
+        creditsAdded: "Кредиты добавлены",
+        subscriptionActivated: "Подписка активирована",
+        description:
+          product?.product_type === "credits"
+            ? `${product.credits_amount} кредитов добавлено на ваш счет`
+            : `Подписка ${product?.subscription_tier} активирована`,
+        close: "Отлично!",
+        tracksInfo:
+          product?.product_type === "credits" && product?.credits_amount
+            ? `≈ ${Math.floor(product.credits_amount / 12)} AI-треков`
+            : null,
       };
     }
     return {
-      title: 'Payment Successful!',
-      creditsAdded: 'Credits Added',
-      subscriptionActivated: 'Subscription Activated',
-      description: product?.product_type === 'credits'
-        ? `${product.credits_amount} credits added to your account`
-        : `${product?.subscription_tier} subscription activated`,
-      close: 'Awesome!',
-      tracksInfo: product?.product_type === 'credits' && product?.credits_amount
-        ? `≈ ${Math.floor(product.credits_amount / 12)} AI tracks`
-        : null,
+      title: "Payment Successful!",
+      creditsAdded: "Credits Added",
+      subscriptionActivated: "Subscription Activated",
+      description:
+        product?.product_type === "credits"
+          ? `${product.credits_amount} credits added to your account`
+          : `${product?.subscription_tier} subscription activated`,
+      close: "Awesome!",
+      tracksInfo:
+        product?.product_type === "credits" && product?.credits_amount
+          ? `≈ ${Math.floor(product.credits_amount / 12)} AI tracks`
+          : null,
     };
   };
 
@@ -147,20 +140,22 @@ export function PaymentSuccessModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className={cn(
-        "sm:max-w-md relative overflow-hidden border-0",
-        "bg-background/95 backdrop-blur-2xl",
-        "shadow-2xl shadow-success/20"
-      )}>
+      <DialogContent
+        className={cn(
+          "sm:max-w-md relative overflow-hidden border-0",
+          "bg-background/95 backdrop-blur-2xl",
+          "shadow-2xl shadow-success/20",
+        )}
+      >
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-success/10 via-transparent to-transparent pointer-events-none" />
-        
+
         {/* Floating stars */}
         <FloatingStar delay={0.5} x="15%" y="10%" />
         <FloatingStar delay={0.8} x="80%" y="15%" />
         <FloatingStar delay={1.1} x="25%" y="60%" />
         <FloatingStar delay={1.4} x="75%" y="55%" />
-        
+
         {/* Confetti Animation */}
         <AnimatePresence>
           {showConfetti && (
@@ -187,7 +182,7 @@ export function PaymentSuccessModal({
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{
-              type: 'spring',
+              type: "spring",
               stiffness: 200,
               damping: 15,
               delay: 0.1,
@@ -212,16 +207,16 @@ export function PaymentSuccessModal({
                 }}
                 transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
               />
-              
+
               {/* Main icon */}
               <motion.div
                 className="relative flex items-center justify-center w-24 h-24 bg-gradient-to-br from-success to-emerald-600 rounded-full shadow-xl shadow-success/40"
                 whileHover={{ scale: 1.05 }}
                 animate={{
                   boxShadow: [
-                    '0 10px 40px -10px rgba(16, 185, 129, 0.4)',
-                    '0 10px 60px -10px rgba(16, 185, 129, 0.6)',
-                    '0 10px 40px -10px rgba(16, 185, 129, 0.4)',
+                    "0 10px 40px -10px rgba(16, 185, 129, 0.4)",
+                    "0 10px 60px -10px rgba(16, 185, 129, 0.6)",
+                    "0 10px 40px -10px rgba(16, 185, 129, 0.4)",
                   ],
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -238,22 +233,19 @@ export function PaymentSuccessModal({
                 transition={{
                   duration: 8,
                   repeat: Infinity,
-                  ease: 'linear',
+                  ease: "linear",
                 }}
               >
                 <Sparkles className="h-6 w-6 text-amber-400" aria-hidden="true" />
               </motion.div>
-              
+
               <motion.div
                 className="absolute -bottom-1 -left-1"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: 0.5, type: 'spring' }}
+                transition={{ delay: 0.5, type: "spring" }}
               >
-                <motion.div
-                  animate={{ y: [0, -3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
+                <motion.div animate={{ y: [0, -3, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
                   <Crown className="h-5 w-5 text-amber-500" />
                 </motion.div>
               </motion.div>
@@ -285,11 +277,11 @@ export function PaymentSuccessModal({
                 <motion.div
                   className={cn(
                     "inline-flex items-center gap-2 px-4 py-2 rounded-xl font-semibold",
-                    gradientGlass.success
+                    gradientGlass.success,
                   )}
                   whileHover={{ scale: 1.02 }}
                 >
-                  {product.product_type === 'credits' ? (
+                  {product.product_type === "credits" ? (
                     <>
                       <Zap className="w-5 h-5 text-success" />
                       <span className="text-lg text-foreground">+{product.credits_amount}</span>
@@ -302,7 +294,7 @@ export function PaymentSuccessModal({
                     </>
                   )}
                 </motion.div>
-                
+
                 {/* Additional info */}
                 {text.tracksInfo && (
                   <motion.div
@@ -337,7 +329,7 @@ export function PaymentSuccessModal({
                 "bg-gradient-to-r from-success to-emerald-600",
                 "hover:from-success/90 hover:to-emerald-600/90",
                 "shadow-lg shadow-success/30",
-                "transition-all duration-300"
+                "transition-all duration-300",
               )}
             >
               <Sparkles className="w-4 h-4" />

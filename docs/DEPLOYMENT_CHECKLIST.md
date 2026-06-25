@@ -13,6 +13,7 @@ Use this checklist before every production deployment.
 ### Code & Testing ✅
 
 #### Quality Checks
+
 - [ ] All tests passing: `npm test`
 - [ ] Type check passing: `npm run typecheck`
 - [ ] Linting passing: `npm run lint`
@@ -22,6 +23,7 @@ Use this checklist before every production deployment.
 - [ ] No console errors in production build
 
 #### Code Review
+
 - [ ] Code reviewed by at least one team member
 - [ ] Security-focused review completed
 - [ ] Performance impact assessed
@@ -31,6 +33,7 @@ Use this checklist before every production deployment.
 ### Security 🔒
 
 #### Vulnerability Scanning
+
 - [ ] `npm audit` run with no critical/high vulnerabilities
 - [ ] Dependencies updated to latest secure versions
 - [ ] No hardcoded secrets in code
@@ -39,6 +42,7 @@ Use this checklist before every production deployment.
 - [ ] Security documentation updated
 
 #### Configuration
+
 - [ ] Production environment variables set correctly
 - [ ] No development/debug tools in production
 - [ ] CORS configuration correct
@@ -52,6 +56,7 @@ Use this checklist before every production deployment.
 ### Performance 🚀
 
 #### Optimization
+
 - [ ] Images optimized and compressed
 - [ ] Bundle size minimized
 - [ ] Code splitting enabled
@@ -61,6 +66,7 @@ Use this checklist before every production deployment.
 - [ ] Compression enabled (gzip/brotli)
 
 #### Monitoring Setup
+
 - [ ] Sentry error tracking configured
 - [ ] Performance monitoring enabled
 - [ ] Analytics tracking set up
@@ -70,6 +76,7 @@ Use this checklist before every production deployment.
 ### Database & Backend 💾
 
 #### Supabase Configuration
+
 - [ ] Database migrations applied: `supabase db push`
 - [ ] Edge Functions deployed: `supabase functions deploy`
 - [ ] Storage buckets created and configured
@@ -78,6 +85,7 @@ Use this checklist before every production deployment.
 - [ ] Connection pooling configured
 
 #### Data Safety
+
 - [ ] Database backups enabled
 - [ ] Recovery procedures documented
 - [ ] Data migration plan ready (if applicable)
@@ -87,6 +95,7 @@ Use this checklist before every production deployment.
 ### External Integrations 🔗
 
 #### Third-Party Services
+
 - [ ] Suno AI API key valid and configured
 - [ ] Tinkoff payment integration tested (if enabled)
 - [ ] Telegram Mini App URL updated
@@ -95,6 +104,7 @@ Use this checklist before every production deployment.
 - [ ] Fallback procedures documented
 
 #### Communication
+
 - [ ] Stakeholders notified of deployment
 - [ ] Maintenance window communicated (if applicable)
 - [ ] User notifications prepared (if breaking changes)
@@ -140,6 +150,7 @@ git tag backup-before-deploy-$(date +%Y%m%d-%H%M%S)
 ### Step 3: Deployment Execution
 
 #### For Vercel:
+
 ```bash
 # Deploy to production
 vercel --prod
@@ -149,6 +160,7 @@ vercel logs
 ```
 
 #### For Docker:
+
 ```bash
 # Build new image
 docker build -t musicverse-ai:new .
@@ -162,6 +174,7 @@ docker-compose up -d
 ```
 
 #### For Manual Deployment:
+
 ```bash
 # Build on server
 ssh user@server "cd /var/www/musicverse && npm run build"
@@ -173,6 +186,7 @@ pm2 restart musicverse-ai
 ### Step 4: Post-Deployment Verification (15 minutes after)
 
 #### Health Checks
+
 ```bash
 # Test application
 curl https://your-app.vercel.app/health
@@ -194,6 +208,7 @@ curl https://your-project.supabase.co/rest/v1/
 - [ ] Telegram Mini App loads
 
 #### Monitoring Verification
+
 - [ ] Sentry receiving data
 - [ ] Error rates within baseline
 - [ ] Performance metrics normal
@@ -235,6 +250,7 @@ curl https://your-project.supabase.co/rest/v1/
 ### When to Rollback
 
 Rollback immediately if:
+
 - Critical errors affecting >20% of users
 - Security vulnerability detected
 - Data loss or corruption
@@ -244,6 +260,7 @@ Rollback immediately if:
 ### Rollback Steps
 
 #### Vercel Rollback
+
 ```bash
 # List deployments
 vercel ls
@@ -253,6 +270,7 @@ vercel rollback [deployment-url]
 ```
 
 #### Docker Rollback
+
 ```bash
 # Stop current container
 docker-compose down
@@ -262,6 +280,7 @@ docker-compose up -d --scale app=1
 ```
 
 #### Manual Rollback
+
 ```bash
 # Restore from backup tag
 git checkout backup-before-deploy-[timestamp]
@@ -272,6 +291,7 @@ pm2 restart musicverse-ai
 ```
 
 ### Rollback Verification
+
 - [ ] Previous version restored
 - [ ] Functionality verified
 - [ ] Data integrity checked
@@ -324,6 +344,7 @@ Next Steps:
 A deployment is considered successful when:
 
 ### Technical Criteria
+
 - [ ] All pre-deployment checks passing
 - [ ] Deployment completed without errors
 - [ ] All health checks passing
@@ -331,6 +352,7 @@ A deployment is considered successful when:
 - [ ] Performance metrics acceptable
 
 ### User Experience Criteria
+
 - [ ] No critical user-facing issues
 - [ ] Key user flows functional
 - [ ] No significant performance degradation
@@ -338,6 +360,7 @@ A deployment is considered successful when:
 - [ ] Positive initial user feedback
 
 ### Operational Criteria
+
 - [ ] Monitoring systems operational
 - [ ] Alert systems configured
 - [ ] Support team prepared
@@ -349,17 +372,20 @@ A deployment is considered successful when:
 ## 🚨 Emergency Contacts
 
 ### Primary Contacts
+
 - **DevOps Lead**: [contact information]
 - **Backend Lead**: [contact information]
 - **Frontend Lead**: [contact information]
 - **Database Administrator**: [contact information]
 
 ### Escalation Contacts
+
 - **CTO**: [contact information]
 - **Product Manager**: [contact information]
 - **Customer Support**: [contact information]
 
 ### External Contacts
+
 - **Supabase Support**: support@supabase.com
 - **Vercel Support**: support@vercel.com
 - **Sentry Support**: support@sentry.io
@@ -368,6 +394,6 @@ A deployment is considered successful when:
 
 **Last Updated**: 2026-06-25  
 **Next Review**: 2026-09-25  
-**Maintained By**: DevOps Team  
+**Maintained By**: DevOps Team
 
 **Usage**: This checklist must be completed for every production deployment. Keep copies for audit purposes.

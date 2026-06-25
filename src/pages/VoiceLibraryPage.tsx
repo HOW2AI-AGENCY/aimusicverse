@@ -1,16 +1,33 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle, History } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { useCustomVoices, type CustomVoice } from '@/hooks/voice/useCustomVoices';
-import { VoiceCloneWizard } from '@/components/voice-clone/VoiceCloneWizard';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { Mic2, Plus, Trash2, CheckCircle2, Clock, AlertCircle, History } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { useCustomVoices, type CustomVoice } from "@/hooks/voice/useCustomVoices";
+import { VoiceCloneWizard } from "@/components/voice-clone/VoiceCloneWizard";
 
 function statusBadge(v: CustomVoice) {
-  if (v.status === 'ready') return <Badge variant="secondary" className="gap-1"><CheckCircle2 className="h-3 w-3 text-green-500" />готов</Badge>;
-  if (v.status === 'failed') return <Badge variant="destructive" className="gap-1"><AlertCircle className="h-3 w-3" />ошибка</Badge>;
-  return <Badge variant="outline" className="gap-1"><Clock className="h-3 w-3" />{v.status}</Badge>;
+  if (v.status === "ready")
+    return (
+      <Badge variant="secondary" className="gap-1">
+        <CheckCircle2 className="h-3 w-3 text-green-500" />
+        готов
+      </Badge>
+    );
+  if (v.status === "failed")
+    return (
+      <Badge variant="destructive" className="gap-1">
+        <AlertCircle className="h-3 w-3" />
+        ошибка
+      </Badge>
+    );
+  return (
+    <Badge variant="outline" className="gap-1">
+      <Clock className="h-3 w-3" />
+      {v.status}
+    </Badge>
+  );
 }
 
 export default function VoiceLibraryPage() {
@@ -21,14 +38,23 @@ export default function VoiceLibraryPage() {
     <div className="container mx-auto p-4 max-w-4xl space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold flex items-center gap-2"><Mic2 className="h-6 w-6" />Голоса</h1>
+          <h1 className="text-2xl font-bold flex items-center gap-2">
+            <Mic2 className="h-6 w-6" />
+            Голоса
+          </h1>
           <p className="text-sm text-muted-foreground">Создавайте кастомные голоса и используйте их в генерации</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild>
-            <Link to="/voices/history"><History className="mr-2 h-4 w-4" />История</Link>
+            <Link to="/voices/history">
+              <History className="mr-2 h-4 w-4" />
+              История
+            </Link>
           </Button>
-          <Button onClick={() => setWizardOpen(true)}><Plus className="mr-2 h-4 w-4" />Новый голос</Button>
+          <Button onClick={() => setWizardOpen(true)}>
+            <Plus className="mr-2 h-4 w-4" />
+            Новый голос
+          </Button>
         </div>
       </div>
 
@@ -38,7 +64,9 @@ export default function VoiceLibraryPage() {
         <Card className="p-8 text-center text-muted-foreground">
           <Mic2 className="h-12 w-12 mx-auto mb-3 opacity-50" />
           <p>У вас пока нет кастомных голосов</p>
-          <Button className="mt-4" onClick={() => setWizardOpen(true)}>Создать первый</Button>
+          <Button className="mt-4" onClick={() => setWizardOpen(true)}>
+            Создать первый
+          </Button>
         </Card>
       )}
 
@@ -58,9 +86,16 @@ export default function VoiceLibraryPage() {
               <div>Использован: {v.usage_count} раз</div>
             </div>
             {v.error_message && <p className="text-xs text-destructive">{v.error_message}</p>}
-            <Button size="sm" variant="ghost" disabled={isDeleting}
-              onClick={() => { if (confirm(`Удалить голос «${v.voice_name}»?`)) deleteVoice(v.id); }}>
-              <Trash2 className="mr-2 h-3 w-3" />Удалить
+            <Button
+              size="sm"
+              variant="ghost"
+              disabled={isDeleting}
+              onClick={() => {
+                if (confirm(`Удалить голос «${v.voice_name}»?`)) deleteVoice(v.id);
+              }}
+            >
+              <Trash2 className="mr-2 h-3 w-3" />
+              Удалить
             </Button>
           </Card>
         ))}

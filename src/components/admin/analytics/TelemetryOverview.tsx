@@ -3,9 +3,9 @@
  * Shows event distribution and platform stats
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 
 interface TelemetryData {
   total_events: number;
@@ -26,7 +26,7 @@ interface TelemetryOverviewProps {
   isLoading: boolean;
 }
 
-const COLORS = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', '#10b981', '#f59e0b', '#ef4444'];
+const COLORS = ["hsl(var(--primary))", "hsl(var(--secondary))", "hsl(var(--accent))", "#10b981", "#f59e0b", "#ef4444"];
 
 export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
   if (isLoading) {
@@ -46,9 +46,7 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
   if (!data) {
     return (
       <Card>
-        <CardContent className="p-6 text-center text-muted-foreground">
-          Нет данных за выбранный период
-        </CardContent>
+        <CardContent className="p-6 text-center text-muted-foreground">Нет данных за выбранный период</CardContent>
       </Card>
     );
   }
@@ -60,8 +58,10 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
     .slice(0, 8);
 
   // Transform platform distribution for pie chart
-  const platformData = Object.entries(data.platform_distribution || {})
-    .map(([name, value]) => ({ name: formatPlatformName(name), value }));
+  const platformData = Object.entries(data.platform_distribution || {}).map(([name, value]) => ({
+    name: formatPlatformName(name),
+    value,
+  }));
 
   return (
     <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2">
@@ -76,13 +76,13 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
               <BarChart data={eventsByTypeData} layout="vertical">
                 <XAxis type="number" fontSize={10} />
                 <YAxis type="category" dataKey="name" width={80} fontSize={9} className="sm:text-[12px]" />
-                <Tooltip 
-                  formatter={(value: any) => [value.toLocaleString(), 'Событий']}
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--popover))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '8px',
-                    fontSize: '12px',
+                <Tooltip
+                  formatter={(value: any) => [value.toLocaleString(), "Событий"]}
+                  contentStyle={{
+                    backgroundColor: "hsl(var(--popover))",
+                    border: "1px solid hsl(var(--border))",
+                    borderRadius: "8px",
+                    fontSize: "12px",
                   }}
                 />
                 <Bar dataKey="count" fill="hsl(var(--primary))" radius={[0, 4, 4, 0]} />
@@ -111,9 +111,7 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
                   outerRadius={60}
                   paddingAngle={2}
                   dataKey="value"
-                  label={({ name, percent }) => 
-                    `${String(name || '')} ${((percent || 0) * 100).toFixed(0)}%`
-                  }
+                  label={({ name, percent }) => `${String(name || "")} ${((percent || 0) * 100).toFixed(0)}%`}
                   labelLine={false}
                 >
                   {platformData.map((_, index) => (
@@ -137,7 +135,10 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
         <CardContent>
           <div className="space-y-1.5 sm:space-y-2">
             {data.top_events?.slice(0, 6).map((event, i) => (
-              <div key={i} className="flex items-center justify-between py-1.5 sm:py-2 border-b border-border/50 last:border-0">
+              <div
+                key={i}
+                className="flex items-center justify-between py-1.5 sm:py-2 border-b border-border/50 last:border-0"
+              >
                 <span className="text-xs sm:text-sm truncate max-w-[100px] sm:max-w-[150px]">
                   {formatEventName(event.event_name)}
                 </span>
@@ -172,9 +173,7 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
             </div>
             <div>
               <p className="text-lg sm:text-2xl font-bold">
-                {data.avg_session_duration_sec 
-                  ? formatDuration(data.avg_session_duration_sec)
-                  : '—'}
+                {data.avg_session_duration_sec ? formatDuration(data.avg_session_duration_sec) : "—"}
               </p>
               <p className="text-[10px] sm:text-sm text-muted-foreground">Ср. длит.</p>
             </div>
@@ -187,17 +186,17 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
 
 function formatEventName(name: string): string {
   return name
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, l => l.toUpperCase())
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (l) => l.toUpperCase())
     .slice(0, 20);
 }
 
 function formatPlatformName(name: string): string {
   const map: Record<string, string> = {
-    'telegram': 'Telegram',
-    'web': 'Web',
-    'ios': 'iOS',
-    'android': 'Android',
+    telegram: "Telegram",
+    web: "Web",
+    ios: "iOS",
+    android: "Android",
   };
   return map[name.toLowerCase()] || name;
 }

@@ -115,18 +115,18 @@ export function getZIndex(type: keyof typeof Z_INDEX): number {
  * Add these to :root in index.css if needed for dynamic values
  */
 export const Z_INDEX_VARS = {
-  '--z-base': Z_INDEX.base,
-  '--z-raised': Z_INDEX.raised,
-  '--z-sticky': Z_INDEX.sticky,
-  '--z-floating': Z_INDEX.floating,
-  '--z-overlay': Z_INDEX.overlay,
-  '--z-navigation': Z_INDEX.navigation,
-  '--z-player': Z_INDEX.player,
-  '--z-contextual': Z_INDEX.contextual,
-  '--z-dialog': Z_INDEX.dialog,
-  '--z-fullscreen': Z_INDEX.fullscreen,
-  '--z-system': Z_INDEX.system,
-  '--z-dropdown': Z_INDEX.dropdown,
+  "--z-base": Z_INDEX.base,
+  "--z-raised": Z_INDEX.raised,
+  "--z-sticky": Z_INDEX.sticky,
+  "--z-floating": Z_INDEX.floating,
+  "--z-overlay": Z_INDEX.overlay,
+  "--z-navigation": Z_INDEX.navigation,
+  "--z-player": Z_INDEX.player,
+  "--z-contextual": Z_INDEX.contextual,
+  "--z-dialog": Z_INDEX.dialog,
+  "--z-fullscreen": Z_INDEX.fullscreen,
+  "--z-system": Z_INDEX.system,
+  "--z-dropdown": Z_INDEX.dropdown,
 } as const;
 
 /**
@@ -134,18 +134,18 @@ export const Z_INDEX_VARS = {
  * Usage: className="z-player" instead of className="z-60"
  */
 export const zIndexUtilities = [
-  'z-base',
-  'z-raised',
-  'z-sticky',
-  'z-floating',
-  'z-overlay',
-  'z-navigation',
-  'z-player',
-  'z-contextual',
-  'z-dialog',
-  'z-fullscreen',
-  'z-system',
-  'z-dropdown',
+  "z-base",
+  "z-raised",
+  "z-sticky",
+  "z-floating",
+  "z-overlay",
+  "z-navigation",
+  "z-player",
+  "z-contextual",
+  "z-dialog",
+  "z-fullscreen",
+  "z-system",
+  "z-dropdown",
 ] as const;
 
 export type ZIndexKey = keyof typeof Z_INDEX;

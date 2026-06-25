@@ -1,2 +1,2 @@
 // Beta components
-export { ComingSoonModal, useComingSoon } from './ComingSoonModal';
+export { ComingSoonModal, useComingSoon } from "./ComingSoonModal";

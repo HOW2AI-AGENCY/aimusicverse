@@ -1,17 +1,17 @@
 /**
  * FeatureGate - Conditionally render features based on user access
- * 
+ *
  * Usage:
  * <FeatureGate feature="model_v5" fallback={<UpgradePrompt tier="pro" />}>
  *   <PremiumFeature />
  * </FeatureGate>
  */
 
-import { ReactNode } from 'react';
-import { useFeatureAccess, FeatureKey } from '@/hooks/useFeatureAccess';
-import { UpgradePrompt } from './UpgradePrompt';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { ReactNode } from "react";
+import { useFeatureAccess, FeatureKey } from "@/hooks/useFeatureAccess";
+import { UpgradePrompt } from "./UpgradePrompt";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface FeatureGateProps {
   feature: FeatureKey;
@@ -25,9 +25,9 @@ interface FeatureGateProps {
   className?: string;
 }
 
-export function FeatureGate({ 
-  feature, 
-  children, 
+export function FeatureGate({
+  feature,
+  children,
   fallback,
   showLoading = false,
   hideIfNoAccess = false,
@@ -57,11 +57,7 @@ export function FeatureGate({
 
   return (
     <div className={className}>
-      <UpgradePrompt 
-        feature={feature} 
-        requiredTier={requiredTier || 'pro'} 
-        compact 
-      />
+      <UpgradePrompt feature={feature} requiredTier={requiredTier || "pro"} compact />
     </div>
   );
 }
@@ -72,17 +68,19 @@ export function FeatureGate({
 interface PremiumBadgeProps {
   tier?: string;
   className?: string;
-  size?: 'sm' | 'md';
+  size?: "sm" | "md";
 }
 
-export function PremiumBadge({ tier = 'PRO', className, size = 'sm' }: PremiumBadgeProps) {
+export function PremiumBadge({ tier = "PRO", className, size = "sm" }: PremiumBadgeProps) {
   return (
-    <span className={cn(
-      "inline-flex items-center font-semibold uppercase tracking-wide",
-      "bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full",
-      size === 'sm' ? "px-1.5 py-0.5 text-[9px]" : "px-2 py-0.5 text-[10px]",
-      className
-    )}>
+    <span
+      className={cn(
+        "inline-flex items-center font-semibold uppercase tracking-wide",
+        "bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-full",
+        size === "sm" ? "px-1.5 py-0.5 text-[9px]" : "px-2 py-0.5 text-[10px]",
+        className,
+      )}
+    >
       {tier}
     </span>
   );
@@ -94,16 +92,11 @@ export function PremiumBadge({ tier = 'PRO', className, size = 'sm' }: PremiumBa
 interface FeatureWithBadgeProps {
   feature: FeatureKey;
   children: ReactNode;
-  badgePosition?: 'top-right' | 'inline';
+  badgePosition?: "top-right" | "inline";
   className?: string;
 }
 
-export function FeatureWithBadge({ 
-  feature, 
-  children, 
-  badgePosition = 'top-right',
-  className 
-}: FeatureWithBadgeProps) {
+export function FeatureWithBadge({ feature, children, badgePosition = "top-right", className }: FeatureWithBadgeProps) {
   const { hasAccess, requiredTier } = useFeatureAccess(feature);
 
   if (hasAccess) {
@@ -112,16 +105,11 @@ export function FeatureWithBadge({
 
   return (
     <div className={cn("relative", className)}>
-      <div className="opacity-50 pointer-events-none">
-        {children}
-      </div>
-      {badgePosition === 'top-right' ? (
-        <PremiumBadge 
-          tier={requiredTier?.toUpperCase() || 'PRO'} 
-          className="absolute -top-1 -right-1" 
-        />
+      <div className="opacity-50 pointer-events-none">{children}</div>
+      {badgePosition === "top-right" ? (
+        <PremiumBadge tier={requiredTier?.toUpperCase() || "PRO"} className="absolute -top-1 -right-1" />
       ) : (
-        <PremiumBadge tier={requiredTier?.toUpperCase() || 'PRO'} className="ml-2" />
+        <PremiumBadge tier={requiredTier?.toUpperCase() || "PRO"} className="ml-2" />
       )}
     </div>
   );

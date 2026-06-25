@@ -3,13 +3,13 @@
  * Raw Supabase database operations for playlists
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
-export type PlaylistRow = Database['public']['Tables']['playlists']['Row'];
-export type PlaylistInsert = Database['public']['Tables']['playlists']['Insert'];
-export type PlaylistUpdate = Database['public']['Tables']['playlists']['Update'];
-export type PlaylistTrackRow = Database['public']['Tables']['playlist_tracks']['Row'];
+export type PlaylistRow = Database["public"]["Tables"]["playlists"]["Row"];
+export type PlaylistInsert = Database["public"]["Tables"]["playlists"]["Insert"];
+export type PlaylistUpdate = Database["public"]["Tables"]["playlists"]["Update"];
+export type PlaylistTrackRow = Database["public"]["Tables"]["playlist_tracks"]["Row"];
 
 export interface PlaylistWithTracks extends PlaylistRow {
   tracks?: PlaylistTrackRow[];
@@ -20,10 +20,10 @@ export interface PlaylistWithTracks extends PlaylistRow {
  */
 export async function fetchUserPlaylists(userId: string): Promise<PlaylistRow[]> {
   const { data, error } = await supabase
-    .from('playlists')
-    .select('*')
-    .eq('user_id', userId)
-    .order('updated_at', { ascending: false });
+    .from("playlists")
+    .select("*")
+    .eq("user_id", userId)
+    .order("updated_at", { ascending: false });
 
   if (error) throw new Error(error.message);
   return data || [];
@@ -33,11 +33,7 @@ export async function fetchUserPlaylists(userId: string): Promise<PlaylistRow[]>
  * Fetch single playlist by ID
  */
 export async function fetchPlaylistById(playlistId: string): Promise<PlaylistRow | null> {
-  const { data, error } = await supabase
-    .from('playlists')
-    .select('*')
-    .eq('id', playlistId)
-    .maybeSingle();
+  const { data, error } = await supabase.from("playlists").select("*").eq("id", playlistId).maybeSingle();
 
   if (error) throw new Error(error.message);
   return data;
@@ -47,11 +43,7 @@ export async function fetchPlaylistById(playlistId: string): Promise<PlaylistRow
  * Create a new playlist
  */
 export async function createPlaylist(playlist: PlaylistInsert): Promise<PlaylistRow> {
-  const { data, error } = await supabase
-    .from('playlists')
-    .insert(playlist)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("playlists").insert(playlist).select().single();
 
   if (error) throw new Error(error.message);
   return data;
@@ -61,12 +53,7 @@ export async function createPlaylist(playlist: PlaylistInsert): Promise<Playlist
  * Update playlist
  */
 export async function updatePlaylist(playlistId: string, updates: PlaylistUpdate): Promise<PlaylistRow> {
-  const { data, error } = await supabase
-    .from('playlists')
-    .update(updates)
-    .eq('id', playlistId)
-    .select()
-    .single();
+  const { data, error } = await supabase.from("playlists").update(updates).eq("id", playlistId).select().single();
 
   if (error) throw new Error(error.message);
   return data;
@@ -76,10 +63,7 @@ export async function updatePlaylist(playlistId: string, updates: PlaylistUpdate
  * Delete playlist
  */
 export async function deletePlaylist(playlistId: string): Promise<void> {
-  const { error } = await supabase
-    .from('playlists')
-    .delete()
-    .eq('id', playlistId);
+  const { error } = await supabase.from("playlists").delete().eq("id", playlistId);
 
   if (error) throw new Error(error.message);
 }
@@ -89,10 +73,10 @@ export async function deletePlaylist(playlistId: string): Promise<void> {
  */
 export async function fetchPlaylistTracks(playlistId: string): Promise<PlaylistTrackRow[]> {
   const { data, error } = await supabase
-    .from('playlist_tracks')
-    .select('*')
-    .eq('playlist_id', playlistId)
-    .order('position', { ascending: true });
+    .from("playlist_tracks")
+    .select("*")
+    .eq("playlist_id", playlistId)
+    .order("position", { ascending: true });
 
   if (error) throw new Error(error.message);
   return data || [];
@@ -101,12 +85,14 @@ export async function fetchPlaylistTracks(playlistId: string): Promise<PlaylistT
 /**
  * Fetch playlist tracks with full track details
  */
-export async function fetchPlaylistTracksWithDetails(playlistId: string): Promise<(PlaylistTrackRow & { track: unknown })[]> {
+export async function fetchPlaylistTracksWithDetails(
+  playlistId: string,
+): Promise<(PlaylistTrackRow & { track: unknown })[]> {
   const { data, error } = await supabase
-    .from('playlist_tracks')
-    .select('*, track:tracks(*)')
-    .eq('playlist_id', playlistId)
-    .order('position', { ascending: true });
+    .from("playlist_tracks")
+    .select("*, track:tracks(*)")
+    .eq("playlist_id", playlistId)
+    .order("position", { ascending: true });
 
   if (error) throw new Error(error.message);
   return data || [];
@@ -117,10 +103,10 @@ export async function fetchPlaylistTracksWithDetails(playlistId: string): Promis
  */
 export async function getMaxPosition(playlistId: string): Promise<number> {
   const { data } = await supabase
-    .from('playlist_tracks')
-    .select('position')
-    .eq('playlist_id', playlistId)
-    .order('position', { ascending: false })
+    .from("playlist_tracks")
+    .select("position")
+    .eq("playlist_id", playlistId)
+    .order("position", { ascending: false })
     .limit(1);
 
   return data?.[0]?.position ?? -1;
@@ -132,10 +118,10 @@ export async function getMaxPosition(playlistId: string): Promise<number> {
 export async function addTrackToPlaylist(
   playlistId: string,
   trackId: string,
-  position: number
+  position: number,
 ): Promise<PlaylistTrackRow> {
   const { data, error } = await supabase
-    .from('playlist_tracks')
+    .from("playlist_tracks")
     .insert({
       playlist_id: playlistId,
       track_id: trackId,
@@ -145,8 +131,8 @@ export async function addTrackToPlaylist(
     .single();
 
   if (error) {
-    if (error.code === '23505') {
-      throw new Error('Трек уже в плейлисте');
+    if (error.code === "23505") {
+      throw new Error("Трек уже в плейлисте");
     }
     throw new Error(error.message);
   }
@@ -158,10 +144,10 @@ export async function addTrackToPlaylist(
  */
 export async function removeTrackFromPlaylist(playlistId: string, trackId: string): Promise<void> {
   const { error } = await supabase
-    .from('playlist_tracks')
+    .from("playlist_tracks")
     .delete()
-    .eq('playlist_id', playlistId)
-    .eq('track_id', trackId);
+    .eq("playlist_id", playlistId)
+    .eq("track_id", trackId);
 
   if (error) throw new Error(error.message);
 }
@@ -169,16 +155,12 @@ export async function removeTrackFromPlaylist(playlistId: string, trackId: strin
 /**
  * Update track position in playlist
  */
-export async function updateTrackPosition(
-  playlistId: string,
-  trackId: string,
-  position: number
-): Promise<void> {
+export async function updateTrackPosition(playlistId: string, trackId: string, position: number): Promise<void> {
   const { error } = await supabase
-    .from('playlist_tracks')
+    .from("playlist_tracks")
     .update({ position })
-    .eq('playlist_id', playlistId)
-    .eq('track_id', trackId);
+    .eq("playlist_id", playlistId)
+    .eq("track_id", trackId);
 
   if (error) throw new Error(error.message);
 }
@@ -186,16 +168,9 @@ export async function updateTrackPosition(
 /**
  * Reorder all tracks in playlist
  */
-export async function reorderPlaylistTracks(
-  playlistId: string,
-  trackIds: string[]
-): Promise<void> {
+export async function reorderPlaylistTracks(playlistId: string, trackIds: string[]): Promise<void> {
   const updates = trackIds.map((trackId, index) =>
-    supabase
-      .from('playlist_tracks')
-      .update({ position: index })
-      .eq('playlist_id', playlistId)
-      .eq('track_id', trackId)
+    supabase.from("playlist_tracks").update({ position: index }).eq("playlist_id", playlistId).eq("track_id", trackId),
   );
 
   await Promise.all(updates);

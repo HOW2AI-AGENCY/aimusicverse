@@ -3,13 +3,13 @@
  * Handles loading, rendering, zoom, and cursor control for MusicXML files
  */
 
-import { useEffect, useRef, useState, useCallback, RefObject } from 'react';
-import type { OpenSheetMusicDisplay as OSMD } from 'opensheetmusicdisplay';
-import { logger } from '@/lib/logger';
+import { useEffect, useRef, useState, useCallback, RefObject } from "react";
+import type { OpenSheetMusicDisplay as OSMD } from "opensheetmusicdisplay";
+import { logger } from "@/lib/logger";
 
-type OSMDConstructor = typeof import('opensheetmusicdisplay').OpenSheetMusicDisplay;
+type OSMDConstructor = typeof import("opensheetmusicdisplay").OpenSheetMusicDisplay;
 
-const log = logger.child({ module: 'useMusicXML' });
+const log = logger.child({ module: "useMusicXML" });
 
 interface UseMusicXMLOptions {
   containerRef: RefObject<HTMLDivElement | null>;
@@ -43,7 +43,7 @@ export function useMusicXML({
     try {
       osmdRef.current.render();
     } catch (err) {
-      log.error('Render error', err);
+      log.error("Render error", err);
     }
   }, []);
 
@@ -57,14 +57,14 @@ export function useMusicXML({
 
   useEffect(() => {
     // Validate/normalize URL (поддерживаем относительные ссылки)
-    if (!containerRef.current || !url || typeof url !== 'string') return;
+    if (!containerRef.current || !url || typeof url !== "string") return;
 
     const trimmed = url.trim();
-    if (!trimmed || trimmed === '0') return;
+    if (!trimmed || trimmed === "0") return;
 
     const normalizedUrl = (() => {
-      if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) return trimmed;
-      if (trimmed.startsWith('/')) {
+      if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) return trimmed;
+      if (trimmed.startsWith("/")) {
         try {
           return new URL(trimmed, window.location.origin).toString();
         } catch {
@@ -85,12 +85,13 @@ export function useMusicXML({
 
       try {
         // Lazy-load OSMD (очень тяжёлая библиотека) только при открытии нотного/гитарного view
-        const mod = await import('opensheetmusicdisplay');
-        const OpenSheetMusicDisplay = (mod as unknown as { OpenSheetMusicDisplay: OSMDConstructor }).OpenSheetMusicDisplay;
+        const mod = await import("opensheetmusicdisplay");
+        const OpenSheetMusicDisplay = (mod as unknown as { OpenSheetMusicDisplay: OSMDConstructor })
+          .OpenSheetMusicDisplay;
 
         osmd = new OpenSheetMusicDisplay(container, {
           autoResize,
-          backend: 'svg',
+          backend: "svg",
           drawTitle: true,
           drawSubtitle: true,
           drawComposer: true,
@@ -100,24 +101,24 @@ export function useMusicXML({
 
         // OSMD sometimes mis-detects a URL string as raw XML.
         // To make rendering reliable, we fetch the XML ourselves and pass the content.
-        const isLikelyXmlString = normalizedUrl.trimStart().startsWith('<');
+        const isLikelyXmlString = normalizedUrl.trimStart().startsWith("<");
         const xmlContent = isLikelyXmlString
           ? normalizedUrl
           : await (async () => {
               const res = await fetch(normalizedUrl);
               if (!res.ok) throw new Error(`Failed to fetch MusicXML: ${res.status}`);
               const text = await res.text();
-              return text.replace(/^\uFEFF/, '').trimStart();
+              return text.replace(/^\uFEFF/, "").trimStart();
             })();
 
         await osmd.load(xmlContent);
         osmd.render();
         osmdRef.current = osmd;
-        log.info('MusicXML loaded successfully', { url: normalizedUrl });
+        log.info("MusicXML loaded successfully", { url: normalizedUrl });
       } catch (err) {
-        const error = err instanceof Error ? err : new Error('Failed to load MusicXML');
+        const error = err instanceof Error ? err : new Error("Failed to load MusicXML");
         setError(error);
-        log.error('Failed to load MusicXML', err);
+        log.error("Failed to load MusicXML", err);
       } finally {
         setIsLoading(false);
       }
@@ -128,7 +129,7 @@ export function useMusicXML({
     return () => {
       if (osmd) {
         try {
-          container.innerHTML = '';
+          container.innerHTML = "";
         } catch {
           // Ignore cleanup errors
         }

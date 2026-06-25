@@ -1,18 +1,18 @@
 /**
  * KlangioAnalysisPanel - Inline Klangio AI tools for the studio
- * 
+ *
  * Provides chord detection, beat tracking, and saves results to the database
  */
 
-import { memo, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { memo, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   Music,
   Drum,
@@ -24,11 +24,11 @@ import {
   ChevronDown,
   ChevronUp,
   Save,
-} from 'lucide-react';
-import { useKlangioAnalysis, ChordResult, BeatResult } from '@/hooks/useKlangioAnalysis';
-import { useKlangioSaveAnalysis } from '@/hooks/useKlangioSaveAnalysis';
-import { ChordProgressionDisplay } from '@/components/analysis/ChordProgressionDisplay';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { useKlangioAnalysis, ChordResult, BeatResult } from "@/hooks/useKlangioAnalysis";
+import { useKlangioSaveAnalysis } from "@/hooks/useKlangioSaveAnalysis";
+import { ChordProgressionDisplay } from "@/components/analysis/ChordProgressionDisplay";
+import { cn } from "@/lib/utils";
 
 interface KlangioAnalysisPanelProps {
   trackId: string;
@@ -49,15 +49,8 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
 }: KlangioAnalysisPanelProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [extendedChords, setExtendedChords] = useState(true);
-  
-  const {
-    chords,
-    beats,
-    detectChords,
-    detectBeats,
-    resetChords,
-    resetBeats,
-  } = useKlangioAnalysis();
+
+  const { chords, beats, detectChords, detectBeats, resetChords, resetBeats } = useKlangioAnalysis();
 
   const { saveAnalysis, isSaving } = useKlangioSaveAnalysis();
 
@@ -80,15 +73,18 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
   const handleSaveAll = useCallback(async () => {
     await saveAnalysis({
       trackId,
-      analysisType: 'full',
+      analysisType: "full",
       chords: chords.result,
       beats: beats.result,
     });
   }, [trackId, chords.result, beats.result, saveAnalysis]);
 
-  const hasSaveableResults = chords.status === 'completed' || beats.status === 'completed';
-  const isLoading = chords.status === 'processing' || chords.status === 'pending' ||
-                    beats.status === 'processing' || beats.status === 'pending';
+  const hasSaveableResults = chords.status === "completed" || beats.status === "completed";
+  const isLoading =
+    chords.status === "processing" ||
+    chords.status === "pending" ||
+    beats.status === "processing" ||
+    beats.status === "pending";
 
   if (!audioUrl) return null;
 
@@ -103,7 +99,7 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
                   <Sparkles className="h-4 w-4 text-primary" />
                 </div>
                 <CardTitle className="text-sm font-medium">AI Анализ</CardTitle>
-                {(chords.status === 'completed' || beats.status === 'completed') && (
+                {(chords.status === "completed" || beats.status === "completed") && (
                   <Badge variant="secondary" className="text-xs">
                     <Check className="h-3 w-3 mr-1" />
                     Готово
@@ -127,7 +123,7 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
                 <div className="flex items-center gap-2">
                   <Music className="h-4 w-4 text-primary" />
                   <span className="text-sm font-medium">Аккорды</span>
-                  {chords.status === 'completed' && (
+                  {chords.status === "completed" && (
                     <Badge variant="outline" className="text-xs">
                       {chords.result?.chords?.length || 0} найдено
                     </Badge>
@@ -135,29 +131,23 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
                 </div>
                 <div className="flex items-center gap-2">
                   <Label className="text-xs text-muted-foreground">Расширенные</Label>
-                  <Switch
-                    checked={extendedChords}
-                    onCheckedChange={setExtendedChords}
-                    className="scale-75"
-                  />
+                  <Switch checked={extendedChords} onCheckedChange={setExtendedChords} className="scale-75" />
                 </div>
               </div>
 
-              {chords.status === 'processing' || chords.status === 'pending' ? (
+              {chords.status === "processing" || chords.status === "pending" ? (
                 <div className="space-y-1">
                   <Progress value={chords.progress} className="h-1.5" />
-                  <p className="text-xs text-muted-foreground text-center">
-                    {chords.progress}%
-                  </p>
+                  <p className="text-xs text-muted-foreground text-center">{chords.progress}%</p>
                 </div>
-              ) : chords.status === 'completed' && chords.result?.chords ? (
-              <ChordProgressionDisplay
+              ) : chords.status === "completed" && chords.result?.chords ? (
+                <ChordProgressionDisplay
                   chords={chords.result.chords}
                   currentTime={currentTime}
                   duration={duration}
                   showTimeline
                 />
-              ) : chords.status === 'error' ? (
+              ) : chords.status === "error" ? (
                 <p className="text-xs text-destructive">{chords.error}</p>
               ) : (
                 <Button
@@ -172,13 +162,8 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
                 </Button>
               )}
 
-              {chords.status === 'completed' && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={resetChords}
-                  className="w-full text-xs"
-                >
+              {chords.status === "completed" && (
+                <Button variant="ghost" size="sm" onClick={resetChords} className="w-full text-xs">
                   <RefreshCw className="h-3 w-3 mr-1" />
                   Повторить
                 </Button>
@@ -190,23 +175,21 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
               <div className="flex items-center gap-2">
                 <Drum className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium">Ритм и BPM</span>
-                {beats.status === 'completed' && beats.result?.bpm && (
+                {beats.status === "completed" && beats.result?.bpm && (
                   <Badge className="text-xs">{beats.result.bpm} BPM</Badge>
                 )}
               </div>
 
-              {beats.status === 'processing' || beats.status === 'pending' ? (
+              {beats.status === "processing" || beats.status === "pending" ? (
                 <div className="space-y-1">
                   <Progress value={beats.progress} className="h-1.5" />
-                  <p className="text-xs text-muted-foreground text-center">
-                    {beats.progress}%
-                  </p>
+                  <p className="text-xs text-muted-foreground text-center">{beats.progress}%</p>
                 </div>
-              ) : beats.status === 'completed' && beats.result ? (
+              ) : beats.status === "completed" && beats.result ? (
                 <div className="p-2 bg-muted/30 rounded-lg space-y-1">
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-muted-foreground">Темп</span>
-                    <span className="font-mono font-medium">{beats.result.bpm || 'Н/Д'} BPM</span>
+                    <span className="font-mono font-medium">{beats.result.bpm || "Н/Д"} BPM</span>
                   </div>
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-muted-foreground">Битов</span>
@@ -219,28 +202,17 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
                     </div>
                   )}
                 </div>
-              ) : beats.status === 'error' ? (
+              ) : beats.status === "error" ? (
                 <p className="text-xs text-destructive">{beats.error}</p>
               ) : (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDetectBeats}
-                  disabled={!audioUrl}
-                  className="w-full"
-                >
+                <Button variant="outline" size="sm" onClick={handleDetectBeats} disabled={!audioUrl} className="w-full">
                   <Drum className="h-3.5 w-3.5 mr-2" />
                   Определить ритм
                 </Button>
               )}
 
-              {beats.status === 'completed' && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={resetBeats}
-                  className="w-full text-xs"
-                >
+              {beats.status === "completed" && (
+                <Button variant="ghost" size="sm" onClick={resetBeats} className="w-full text-xs">
                   <RefreshCw className="h-3 w-3 mr-1" />
                   Повторить
                 </Button>
@@ -249,11 +221,7 @@ export const KlangioAnalysisPanel = memo(function KlangioAnalysisPanel({
 
             {/* Save Button */}
             {hasSaveableResults && (
-              <Button
-                onClick={handleSaveAll}
-                disabled={isSaving}
-                className="w-full gap-2"
-              >
+              <Button onClick={handleSaveAll} disabled={isSaving} className="w-full gap-2">
                 {isSaving ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />

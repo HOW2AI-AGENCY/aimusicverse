@@ -3,7 +3,7 @@
  * Use for network requests and other operations that might fail temporarily
  */
 
-import { NetworkError, ServiceUnavailableError } from './errors';
+import { NetworkError, ServiceUnavailableError } from "./errors";
 
 export interface RetryOptions {
   maxRetries?: number;
@@ -24,15 +24,17 @@ const DEFAULT_OPTIONS: Required<RetryOptions> = {
     if (error instanceof NetworkError || error instanceof ServiceUnavailableError) {
       return true;
     }
-    
+
     if (error instanceof Error) {
       const message = error.message.toLowerCase();
-      return message.includes('network') || 
-             message.includes('timeout') ||
-             message.includes('fetch') ||
-             message.includes('econnrefused');
+      return (
+        message.includes("network") ||
+        message.includes("timeout") ||
+        message.includes("fetch") ||
+        message.includes("econnrefused")
+      );
     }
-    
+
     return false;
   },
   onRetry: () => {}, // No-op by default
@@ -41,43 +43,37 @@ const DEFAULT_OPTIONS: Required<RetryOptions> = {
 /**
  * Retry a function with exponential backoff
  */
-export async function retryWithBackoff<T>(
-  fn: () => Promise<T>,
-  options: RetryOptions = {}
-): Promise<T> {
+export async function retryWithBackoff<T>(fn: () => Promise<T>, options: RetryOptions = {}): Promise<T> {
   const opts = { ...DEFAULT_OPTIONS, ...options };
   let lastError: unknown;
-  
+
   for (let attempt = 0; attempt <= opts.maxRetries; attempt++) {
     try {
       return await fn();
     } catch (error) {
       lastError = error;
-      
+
       // Don't retry if we've exhausted attempts
       if (attempt === opts.maxRetries) {
         break;
       }
-      
+
       // Check if we should retry this error
       if (!opts.shouldRetry(error, attempt)) {
         throw error;
       }
-      
+
       // Calculate delay with exponential backoff
-      const delay = Math.min(
-        opts.initialDelay * Math.pow(opts.backoffFactor, attempt),
-        opts.maxDelay
-      );
-      
+      const delay = Math.min(opts.initialDelay * Math.pow(opts.backoffFactor, attempt), opts.maxDelay);
+
       // Notify about retry
       opts.onRetry(error, attempt + 1, delay);
-      
+
       // Wait before retrying
       await sleep(delay);
     }
   }
-  
+
   // All retries exhausted
   throw lastError;
 }
@@ -88,20 +84,20 @@ export async function retryWithBackoff<T>(
 export async function retryFetch(
   input: RequestInfo | URL,
   init?: RequestInit,
-  options: RetryOptions = {}
+  options: RetryOptions = {},
 ): Promise<Response> {
   return retryWithBackoff(
     async () => {
       const response = await fetch(input, init);
-      
+
       // Throw on non-ok responses
       if (!response.ok) {
         if (response.status >= 500) {
-          throw new ServiceUnavailableError('API');
+          throw new ServiceUnavailableError("API");
         }
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-      
+
       return response;
     },
     {
@@ -111,18 +107,20 @@ export async function retryFetch(
         if (error instanceof ServiceUnavailableError) {
           return true;
         }
-        
+
         if (error instanceof Error) {
           const message = error.message.toLowerCase();
-          return message.includes('network') || 
-                 message.includes('timeout') ||
-                 message.includes('fetch') ||
-                 message.includes('http 5');
+          return (
+            message.includes("network") ||
+            message.includes("timeout") ||
+            message.includes("fetch") ||
+            message.includes("http 5")
+          );
         }
-        
+
         return false;
       },
-    }
+    },
   );
 }
 
@@ -130,16 +128,13 @@ export async function retryFetch(
  * Sleep helper
  */
 function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
  * Debounce helper for user actions
  */
-export function debounce<T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-): (...args: Parameters<T>) => void {
+export function debounce<T extends (...args: any[]) => any>(func: T, wait: number): (...args: Parameters<T>) => void {
   let timeout: ReturnType<typeof setTimeout> | null = null;
 
   return function executedFunction(...args: Parameters<T>) {
@@ -158,10 +153,7 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Throttle helper for frequent events
  */
-export function throttle<T extends (...args: any[]) => any>(
-  func: T,
-  limit: number
-): (...args: Parameters<T>) => void {
+export function throttle<T extends (...args: any[]) => any>(func: T, limit: number): (...args: Parameters<T>) => void {
   let inThrottle: boolean = false;
 
   return function executedFunction(...args: Parameters<T>) {

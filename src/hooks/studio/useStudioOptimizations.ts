@@ -1,57 +1,57 @@
 /**
  * useStudioOptimizations - Combines all studio optimization hooks
- * 
+ *
  * Provides a unified interface for:
  * - Audio caching and prefetching
  * - Master clock synchronization
  * - Debounced controls
  * - Offline status
- * 
+ *
  * Optimized for minimal re-renders and maximum performance.
  */
 
-import { useRef, useCallback, useMemo, useEffect } from 'react';
-import { TrackStem } from '@/hooks/useTrackStems';
-import { useStemAudioCache, getStemsByPriority } from './useStemAudioCache';
-import { useMasterClock } from './useMasterClock';
-import { useDebouncedStemControls } from './useDebouncedStemControls';
-import { useOfflineStatus } from '@/hooks/useOfflineStatus';
-import { precacheAudioUrls } from '@/lib/audioServiceWorker';
-import { logger } from '@/lib/logger';
+import { useRef, useCallback, useMemo, useEffect } from "react";
+import { TrackStem } from "@/hooks/useTrackStems";
+import { useStemAudioCache, getStemsByPriority } from "./useStemAudioCache";
+import { useMasterClock } from "./useMasterClock";
+import { useDebouncedStemControls } from "./useDebouncedStemControls";
+import { useOfflineStatus } from "@/hooks/useOfflineStatus";
+import { precacheAudioUrls } from "@/lib/audioServiceWorker";
+import { logger } from "@/lib/logger";
 
 // Re-export for convenience
-export { useAudioSync, useAutoSync } from './useAudioSync';
-export { useStudioState } from './useStudioState';
-export type { StemState, StemStates, UseStudioStateOptions, UseStudioStateReturn } from './useStudioState';
-export { useWaveformCache } from './useWaveformCache';
-export { useOptimizedPlayback } from './useOptimizedPlayback';
-export { 
-  useBatchedUpdates, 
-  useRAFThrottle, 
-  useShallowMemo, 
+export { useAudioSync, useAutoSync } from "./useAudioSync";
+export { useStudioState } from "./useStudioState";
+export type { StemState, StemStates, UseStudioStateOptions, UseStudioStateReturn } from "./useStudioState";
+export { useWaveformCache } from "./useWaveformCache";
+export { useOptimizedPlayback } from "./useOptimizedPlayback";
+export {
+  useBatchedUpdates,
+  useRAFThrottle,
+  useShallowMemo,
   useDeferredValue as useOptimizedDeferredValue,
   useStableCallback,
   useRenderTracker,
   useStableObject,
-} from './useRenderOptimization';
+} from "./useRenderOptimization";
 
 // Re-export stores for convenience (import directly from @/stores for cleaner deps)
-export { 
-  useStemMixerStore, 
-  useStemState, 
-  useStemActions, 
+export {
+  useStemMixerStore,
+  useStemState,
+  useStemActions,
   useMasterControls,
   useEffectiveStemVolume,
   useIsStemMuted,
-} from '@/stores/useStemMixerStore';
-export { 
-  usePlaybackStore, 
-  usePlaybackStatus, 
+} from "@/stores/useStemMixerStore";
+export {
+  usePlaybackStore,
+  usePlaybackStatus,
   usePlaybackControls,
   useLoopControls,
   usePlaybackProgress,
   usePlaybackLoadingState,
-} from '@/stores/usePlaybackStore';
+} from "@/stores/usePlaybackStore";
 
 interface UseStudioOptimizationsProps {
   stems: TrackStem[];
@@ -70,23 +70,23 @@ interface StudioOptimizations {
   seek: (time: number) => void;
   toggle: () => Promise<void>;
   getCurrentTime: () => number;
-  
+
   // Debounced controls
   handleStemVolumeChange: (stemId: string, volume: number) => void;
   handleMasterVolumeChange: (volume: number) => void;
   handleSeek: (time: number) => void;
-  
+
   // Audio caching
   loadStemWithCache: (stem: TrackStem, audioElement: HTMLAudioElement) => Promise<boolean>;
   prefetchStems: (stems: TrackStem[]) => void;
   isFullyLoaded: boolean;
   getLoadedCount: () => number;
-  
+
   // Offline status
   isOnline: boolean;
   isOfflineCapable: boolean;
   isAudioAvailableOffline: (url: string) => Promise<boolean>;
-  
+
   // Utility
   sortedStems: TrackStem[];
   prefetchForOffline: () => Promise<void>;
@@ -127,18 +127,16 @@ export function useStudioOptimizations({
   // Prefetch audio URLs for offline playback
   const prefetchForOffline = useCallback(async () => {
     if (prefetchedRef.current || stems.length === 0) return;
-    
-    const urls = stems
-      .map(s => s.audio_url)
-      .filter((url): url is string => !!url);
-    
+
+    const urls = stems.map((s) => s.audio_url).filter((url): url is string => !!url);
+
     if (urls.length > 0) {
       prefetchedRef.current = true;
       try {
         await precacheAudioUrls(urls);
-        logger.info('Prefetched stems for offline', { count: urls.length });
+        logger.info("Prefetched stems for offline", { count: urls.length });
       } catch (error) {
-        logger.error('Failed to prefetch stems', error);
+        logger.error("Failed to prefetch stems", error);
       }
     }
   }, [stems]);
@@ -162,23 +160,23 @@ export function useStudioOptimizations({
     seek: masterClock.seek,
     toggle: masterClock.toggle,
     getCurrentTime: masterClock.getCurrentTime,
-    
+
     // Debounced controls
     handleStemVolumeChange: debouncedControls.handleStemVolumeChange,
     handleMasterVolumeChange: debouncedControls.handleMasterVolumeChange,
     handleSeek: debouncedControls.handleSeek,
-    
+
     // Audio caching
     loadStemWithCache: audioCache.loadStemWithCache,
     prefetchStems: audioCache.prefetchStems,
     isFullyLoaded: audioCache.isFullyLoaded,
     getLoadedCount: audioCache.getLoadedCount,
-    
+
     // Offline status
     isOnline: offlineStatus.isOnline,
     isOfflineCapable: offlineStatus.isOfflineCapable,
     isAudioAvailableOffline: offlineStatus.isAudioAvailableOffline,
-    
+
     // Utility
     sortedStems,
     prefetchForOffline,

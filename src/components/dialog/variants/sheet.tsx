@@ -19,17 +19,17 @@
  * ```
  */
 
-import { useRef, useState, useCallback } from 'react';
-import { motion, useMotionValue, useTransform, PanInfo } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { backdrop } from '@/lib/overlay-colors';
-import { X } from 'lucide-react';
-import { DialogBackdrop } from '../unified-dialog';
-import { DIALOG_CONFIG } from '../unified-dialog.config';
-import type { SheetDialogProps } from '../unified-dialog.types';
-import { useHaptic } from '@/hooks/useHaptic';
-import { DialogHeader } from '../DialogHeader';
-import type { ReactNode } from 'react';
+import { useRef, useState, useCallback } from "react";
+import { motion, useMotionValue, useTransform, PanInfo } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
+import { X } from "lucide-react";
+import { DialogBackdrop } from "../unified-dialog";
+import { DIALOG_CONFIG } from "../unified-dialog.config";
+import type { SheetDialogProps } from "../unified-dialog.types";
+import { useHaptic } from "@/hooks/useHaptic";
+import { DialogHeader } from "../DialogHeader";
+import type { ReactNode } from "react";
 
 const DRAG_CLOSE_THRESHOLD = 100;
 const VELOCITY_THRESHOLD = 500;
@@ -48,27 +48,30 @@ export function SheetDialog({
   const [currentSnapPoint, setCurrentSnapPoint] = useState(defaultSnapPoint);
   const containerRef = useRef<HTMLDivElement>(null);
   const y = useMotionValue(0);
-  const height = typeof window !== 'undefined' ? window.innerHeight : 667;
+  const height = typeof window !== "undefined" ? window.innerHeight : 667;
 
   // Transform drag gesture for backdrop opacity
   const backdropOpacity = useTransform(y, [0, 200], [1, 0]);
   const snapHeight = snapPoints[currentSnapPoint] * height;
 
   // Handle drag to close with haptic feedback
-  const handleDragEnd = useCallback((_: any, info: PanInfo) => {
-    const { velocity, offset } = info;
-    
-    // Close if dragged down far enough or with high velocity
-    if ((offset.y > DRAG_CLOSE_THRESHOLD || velocity.y > VELOCITY_THRESHOLD) && closeOnDragDown) {
-      patterns.tap();
-      onOpenChange(false);
-      y.set(0);
-      return;
-    }
+  const handleDragEnd = useCallback(
+    (_: any, info: PanInfo) => {
+      const { velocity, offset } = info;
 
-    // Snap back to current snap point
-    y.set(0);
-  }, [closeOnDragDown, onOpenChange, patterns, y]);
+      // Close if dragged down far enough or with high velocity
+      if ((offset.y > DRAG_CLOSE_THRESHOLD || velocity.y > VELOCITY_THRESHOLD) && closeOnDragDown) {
+        patterns.tap();
+        onOpenChange(false);
+        y.set(0);
+        return;
+      }
+
+      // Snap back to current snap point
+      y.set(0);
+    },
+    [closeOnDragDown, onOpenChange, patterns, y],
+  );
 
   const handleClose = useCallback(() => {
     patterns.tap();
@@ -91,21 +94,21 @@ export function SheetDialog({
       <motion.div
         ref={containerRef}
         className={cn(
-          'relative z-50 bg-background rounded-t-3xl shadow-2xl w-full max-w-lg',
-          'flex flex-col overflow-hidden',
-          className
+          "relative z-50 bg-background rounded-t-3xl shadow-2xl w-full max-w-lg",
+          "flex flex-col overflow-hidden",
+          className,
         )}
         style={{
           height: snapHeight,
           y,
           // Telegram Mini App safe area bottom padding
-          paddingBottom: 'max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))',
+          paddingBottom: "max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
         }}
         initial={{ y: height }}
         animate={{ y: 0 }}
         exit={{ y: height }}
         transition={{
-          type: 'spring',
+          type: "spring",
           damping: 30,
           stiffness: 300,
         }}
@@ -123,17 +126,13 @@ export function SheetDialog({
         </div>
 
         {/* Header with X on right */}
-        <DialogHeader
-          title={title}
-          onClose={handleClose}
-          className="border-b-0 pt-0"
-        />
+        <DialogHeader title={title} onClose={handleClose} className="border-b-0 pt-0" />
 
         {/* Content with scroll */}
-        <div 
+        <div
           className="flex-1 overflow-auto overscroll-contain"
-          style={{ 
-            WebkitOverflowScrolling: 'touch',
+          style={{
+            WebkitOverflowScrolling: "touch",
             maxHeight: snapHeight - 100,
           }}
         >

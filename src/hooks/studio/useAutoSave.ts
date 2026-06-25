@@ -1,6 +1,6 @@
 /**
  * useAutoSave - Automatic project saving with debounce
- * 
+ *
  * Features:
  * - Debounced saves (30 seconds after last change)
  * - Status indicator
@@ -8,11 +8,11 @@
  * - Manual save trigger
  */
 
-import { useEffect, useRef, useCallback, useState } from 'react';
-import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
-import { logger } from '@/lib/logger';
+import { useEffect, useRef, useCallback, useState } from "react";
+import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
+import { logger } from "@/lib/logger";
 
-export type AutoSaveStatus = 'idle' | 'pending' | 'saving' | 'saved' | 'error';
+export type AutoSaveStatus = "idle" | "pending" | "saving" | "saved" | "error";
 
 interface UseAutoSaveOptions {
   enabled?: boolean;
@@ -35,18 +35,13 @@ export function useAutoSave({
   onSaveStart,
   onSaveComplete,
 }: UseAutoSaveOptions = {}): UseAutoSaveReturn {
-  const [status, setStatus] = useState<AutoSaveStatus>('idle');
+  const [status, setStatus] = useState<AutoSaveStatus>("idle");
   const [timeSinceLastSave, setTimeSinceLastSave] = useState<number | null>(null);
-  
+
   const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const lastChangeTimeRef = useRef<number | null>(null);
-  
-  const {
-    project,
-    hasUnsavedChanges,
-    lastSavedAt,
-    saveProject,
-  } = useUnifiedStudioStore();
+
+  const { project, hasUnsavedChanges, lastSavedAt, saveProject } = useUnifiedStudioStore();
 
   // Calculate time since last save
   useEffect(() => {
@@ -73,33 +68,33 @@ export function useAutoSave({
       return true;
     }
 
-    setStatus('saving');
+    setStatus("saving");
     onSaveStart?.();
-    
-    logger.info('AutoSave: saving project', { projectId: project.id });
-    
+
+    logger.info("AutoSave: saving project", { projectId: project.id });
+
     try {
       const success = await saveProject();
-      
+
       if (success) {
-        setStatus('saved');
-        logger.info('AutoSave: project saved successfully');
-        
+        setStatus("saved");
+        logger.info("AutoSave: project saved successfully");
+
         // Reset to idle after a delay
-        setTimeout(() => setStatus('idle'), 3000);
+        setTimeout(() => setStatus("idle"), 3000);
       } else {
-        setStatus('error');
-        logger.error('AutoSave: save failed');
-        
+        setStatus("error");
+        logger.error("AutoSave: save failed");
+
         // Reset to pending after a delay to retry
-        setTimeout(() => setStatus('pending'), 5000);
+        setTimeout(() => setStatus("pending"), 5000);
       }
-      
+
       onSaveComplete?.(success);
       return success;
     } catch (error) {
-      setStatus('error');
-      logger.error('AutoSave: exception during save', error);
+      setStatus("error");
+      logger.error("AutoSave: exception during save", error);
       onSaveComplete?.(false);
       return false;
     }
@@ -117,7 +112,7 @@ export function useAutoSave({
     }
 
     lastChangeTimeRef.current = Date.now();
-    setStatus('pending');
+    setStatus("pending");
 
     // Schedule new save
     saveTimeoutRef.current = setTimeout(() => {
@@ -139,14 +134,14 @@ export function useAutoSave({
 
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       e.preventDefault();
-      e.returnValue = 'У вас есть несохранённые изменения. Вы уверены, что хотите выйти?';
+      e.returnValue = "У вас есть несохранённые изменения. Вы уверены, что хотите выйти?";
       return e.returnValue;
     };
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [enabled, hasUnsavedChanges]);
 
@@ -156,15 +151,15 @@ export function useAutoSave({
 
     const handleVisibilityChange = () => {
       if (document.hidden && hasUnsavedChanges) {
-        logger.info('AutoSave: tab hidden, saving immediately');
+        logger.info("AutoSave: tab hidden, saving immediately");
         doSave();
       }
     };
 
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, [enabled, hasUnsavedChanges, doSave]);
 

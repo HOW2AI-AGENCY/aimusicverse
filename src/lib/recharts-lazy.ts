@@ -1,19 +1,19 @@
 /**
  * Lazy-loaded Recharts module
- * 
+ *
  * This module provides a hook for dynamically importing Recharts
  * to reduce initial bundle size. Recharts is ~200KB and should
  * only be loaded when chart components are actually rendered.
- * 
+ *
  * Usage:
  * ```tsx
  * import { useRecharts } from '@/lib/recharts-lazy';
- * 
+ *
  * function MyChart() {
  *   const { recharts, isLoading } = useRecharts();
- *   
+ *
  *   if (isLoading || !recharts) return <Skeleton />;
- *   
+ *
  *   const { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } = recharts;
  *   return (
  *     <ResponsiveContainer>
@@ -29,10 +29,10 @@
  * ```
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 // Type for the recharts module
-export type RechartsModule = typeof import('recharts');
+export type RechartsModule = typeof import("recharts");
 
 // Cached module reference to avoid re-importing
 let cachedModule: RechartsModule | null = null;
@@ -65,12 +65,12 @@ export function useRecharts(): {
       try {
         // Reuse existing promise if already loading
         if (!loadingPromise) {
-          loadingPromise = import('recharts');
+          loadingPromise = import("recharts");
         }
-        
+
         const mod = await loadingPromise;
         cachedModule = mod;
-        
+
         if (mounted) {
           setRecharts(mod);
           setIsLoading(false);
@@ -101,14 +101,14 @@ export function preloadRecharts(): Promise<RechartsModule> {
   if (cachedModule) {
     return Promise.resolve(cachedModule);
   }
-  
+
   if (!loadingPromise) {
-    loadingPromise = import('recharts').then((mod) => {
+    loadingPromise = import("recharts").then((mod) => {
       cachedModule = mod;
       return mod;
     });
   }
-  
+
   return loadingPromise;
 }
 

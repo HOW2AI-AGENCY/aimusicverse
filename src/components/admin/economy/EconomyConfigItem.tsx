@@ -31,7 +31,7 @@ export function EconomyConfigItem({
 }: EconomyConfigItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(value.toString());
-  
+
   // Reset edit value when actual value changes
   useEffect(() => {
     if (!isEditing) {
@@ -74,17 +74,9 @@ export function EconomyConfigItem({
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <span className="font-medium text-sm truncate">{label}</span>
-          {hasChanged && (
-            <span className="text-xs text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded">
-              изменено
-            </span>
-          )}
+          {hasChanged && <span className="text-xs text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded">изменено</span>}
         </div>
-        {description && (
-          <p className="text-xs text-muted-foreground truncate mt-0.5">
-            {description}
-          </p>
-        )}
+        {description && <p className="text-xs text-muted-foreground truncate mt-0.5">{description}</p>}
         {updatedAt && (
           <p className="text-xs text-muted-foreground/60 mt-0.5">
             {formatDistanceToNow(new Date(updatedAt), { addSuffix: true, locale: ru })}
@@ -130,7 +122,7 @@ export function EconomyConfigItem({
               className={cn(
                 "min-w-[60px] h-9 px-3 flex items-center justify-center rounded-md cursor-pointer transition-colors",
                 "bg-primary/10 text-primary font-mono text-sm font-medium",
-                "hover:bg-primary/20"
+                "hover:bg-primary/20",
               )}
             >
               {value}

@@ -1,25 +1,25 @@
 /**
  * TracksGridSection - Grid display of tracks with optional load more
- * 
+ *
  * Features:
  * - Responsive grid layout
  * - Optional "Load More" button for infinite scroll
  * - Skeleton loading states
  * - Mobile-optimized with 2 columns
- * 
+ *
  * TODO: Add intersection observer for auto-loading
  * TODO: Consider virtual scrolling for large lists
  */
 
-import { memo } from 'react';
-import { LucideIcon, Loader2 } from 'lucide-react';
-import { UnifiedTrackCard } from '@/components/track/track-card-new';
-import type { PublicTrackWithCreator } from '@/hooks/usePublicContent';
-import { cn } from '@/lib/utils';
-import { SectionHeader } from '@/components/common/SectionHeader';
-import { ResponsiveGrid } from '@/components/common/ResponsiveGrid';
-import { GridSkeleton, TrackCardSkeleton } from '@/components/ui/skeleton-components';
-import { Button } from '@/components/ui/button';
+import { memo } from "react";
+import { LucideIcon, Loader2 } from "lucide-react";
+import { UnifiedTrackCard } from "@/components/track/track-card-new";
+import type { PublicTrackWithCreator } from "@/hooks/usePublicContent";
+import { cn } from "@/lib/utils";
+import { SectionHeader } from "@/components/common/SectionHeader";
+import { ResponsiveGrid } from "@/components/common/ResponsiveGrid";
+import { GridSkeleton, TrackCardSkeleton } from "@/components/ui/skeleton-components";
+import { Button } from "@/components/ui/button";
 
 interface TracksGridSectionProps {
   title: string;
@@ -48,14 +48,14 @@ export const TracksGridSection = memo(function TracksGridSection({
   title,
   subtitle,
   icon,
-  iconColor = 'text-primary',
-  iconGradient = 'from-primary/20 to-primary/5',
+  iconColor = "text-primary",
+  iconGradient = "from-primary/20 to-primary/5",
   tracks,
   isLoading,
   maxTracks = 8,
   columns = 4,
   showMoreLink,
-  showMoreLabel = 'Все треки',
+  showMoreLabel = "Все треки",
   onRemix,
   className,
   hideHeader = false,
@@ -85,24 +85,15 @@ export const TracksGridSection = memo(function TracksGridSection({
       )}
 
       {isLoading ? (
-        <GridSkeleton 
-          count={Math.min(maxTracks, 4)} 
-          columns={columns} 
-          SkeletonComponent={TrackCardSkeleton}
-        />
+        <GridSkeleton count={Math.min(maxTracks, 4)} columns={columns} SkeletonComponent={TrackCardSkeleton} />
       ) : (
         <>
           <ResponsiveGrid columns={columns} gap={2}>
             {displayTracks.map((track) => (
-              <UnifiedTrackCard
-                key={track.id}
-                variant="enhanced"
-                track={track}
-                onRemix={onRemix}
-              />
+              <UnifiedTrackCard key={track.id} variant="enhanced" track={track} onRemix={onRemix} />
             ))}
           </ResponsiveGrid>
-          
+
           {/* Load More Button */}
           {hasMore && onLoadMore && (
             <div className="flex justify-center pt-3 sm:pt-4">

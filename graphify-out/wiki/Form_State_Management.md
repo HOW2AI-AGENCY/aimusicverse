@@ -12,18 +12,18 @@
 - [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L61) (1 connections)
 - [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L77) (1 connections)
 - [{
-    stemStates,
-    masterVolume,
-    masterMuted,
-    setMasterVolume,
-    setMasterMuted,
-    setStemVolume,
-    toggleMute,
-    toggleSolo,
-    hasSoloStems,
-    resetToDefaults,
-    getEffectiveVolume,
-    isStemEffectivelyMuted,
+  stemStates,
+  masterVolume,
+  masterMuted,
+  setMasterVolume,
+  setMasterMuted,
+  setStemVolume,
+  toggleMute,
+  toggleSolo,
+  hasSoloStems,
+  resetToDefaults,
+  getEffectiveVolume,
+  isStemEffectivelyMuted,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L34) (1 connections)
 
 ## Relationships
@@ -42,4 +42,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

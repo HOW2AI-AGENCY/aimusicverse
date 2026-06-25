@@ -3,8 +3,8 @@
  * Provides reactive state management with CloudStorage persistence
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { cloudStorage } from '@/lib/cloudStorage';
+import { useState, useEffect, useCallback } from "react";
+import { cloudStorage } from "@/lib/cloudStorage";
 
 interface UseCloudStorageOptions<T> {
   /** Default value if key doesn't exist */
@@ -28,16 +28,13 @@ interface UseCloudStorageReturn<T> {
 
 /**
  * Hook for persisting state in Telegram CloudStorage with localStorage fallback
- * 
+ *
  * @example
  * const { value: settings, setValue: setSettings } = useCloudStorage('user_settings', {
  *   defaultValue: { theme: 'dark', notifications: true }
  * });
  */
-export function useCloudStorage<T>(
-  key: string,
-  options: UseCloudStorageOptions<T>
-): UseCloudStorageReturn<T> {
+export function useCloudStorage<T>(key: string, options: UseCloudStorageOptions<T>): UseCloudStorageReturn<T> {
   const { defaultValue, syncTabs = true } = options;
   const [value, setValueState] = useState<T>(defaultValue);
   const [isLoading, setIsLoading] = useState(true);
@@ -79,19 +76,20 @@ export function useCloudStorage<T>(
       }
     };
 
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, [key, syncTabs]);
 
   // Set value
-  const setValue = useCallback(async (newValue: T | ((prev: T) => T)) => {
-    const valueToSet = typeof newValue === 'function' 
-      ? (newValue as (prev: T) => T)(value)
-      : newValue;
-    
-    setValueState(valueToSet);
-    await cloudStorage.setJSON(key, valueToSet);
-  }, [key, value]);
+  const setValue = useCallback(
+    async (newValue: T | ((prev: T) => T)) => {
+      const valueToSet = typeof newValue === "function" ? (newValue as (prev: T) => T)(value) : newValue;
+
+      setValueState(valueToSet);
+      await cloudStorage.setJSON(key, valueToSet);
+    },
+    [key, value],
+  );
 
   // Remove value
   const removeValue = useCallback(async () => {
@@ -113,7 +111,7 @@ export function useCloudStorage<T>(
  */
 export function useCloudStorageFlag(key: string, defaultValue = false) {
   const { value, setValue, isLoading } = useCloudStorage(key, { defaultValue });
-  
+
   const toggle = useCallback(async () => {
     await setValue(!value);
   }, [value, setValue]);

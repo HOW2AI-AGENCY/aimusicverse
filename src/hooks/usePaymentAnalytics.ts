@@ -3,8 +3,8 @@
  * Fetches payment and revenue analytics for admin dashboard
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface PaymentAnalytics {
   total_revenue_usd: number;
@@ -69,19 +69,19 @@ export interface GamificationAnalytics {
 
 // Query keys
 export const analyticsKeys = {
-  all: ['analytics'] as const,
-  payment: (period: string) => [...analyticsKeys.all, 'payment', period] as const,
-  gamification: (period: string) => [...analyticsKeys.all, 'gamification', period] as const,
+  all: ["analytics"] as const,
+  payment: (period: string) => [...analyticsKeys.all, "payment", period] as const,
+  gamification: (period: string) => [...analyticsKeys.all, "gamification", period] as const,
 };
 
 /**
  * Fetch payment analytics
  */
-export function usePaymentAnalytics(period: '7 days' | '30 days' | '90 days' = '30 days') {
+export function usePaymentAnalytics(period: "7 days" | "30 days" | "90 days" = "30 days") {
   return useQuery({
     queryKey: analyticsKeys.payment(period),
     queryFn: async (): Promise<PaymentAnalytics> => {
-      const { data, error } = await supabase.rpc('get_payment_analytics', {
+      const { data, error } = await supabase.rpc("get_payment_analytics", {
         _time_period: period,
       });
 
@@ -91,7 +91,7 @@ export function usePaymentAnalytics(period: '7 days' | '30 days' | '90 days' = '
 
       // Data comes as a single row
       const row = Array.isArray(data) ? data[0] : data;
-      
+
       return {
         total_revenue_usd: Number(row?.total_revenue_usd) || 0,
         total_stars_collected: Number(row?.total_stars_collected) || 0,
@@ -101,9 +101,9 @@ export function usePaymentAnalytics(period: '7 days' | '30 days' | '90 days' = '
         avg_transaction_stars: Number(row?.avg_transaction_stars) || 0,
         unique_buyers: Number(row?.unique_buyers) || 0,
         repeat_buyer_rate: Number(row?.repeat_buyer_rate) || 0,
-        revenue_by_day: (row?.revenue_by_day as PaymentAnalytics['revenue_by_day']) || [],
-        top_products: (row?.top_products as PaymentAnalytics['top_products']) || [],
-        subscription_breakdown: (row?.subscription_breakdown as PaymentAnalytics['subscription_breakdown']) || [],
+        revenue_by_day: (row?.revenue_by_day as PaymentAnalytics["revenue_by_day"]) || [],
+        top_products: (row?.top_products as PaymentAnalytics["top_products"]) || [],
+        subscription_breakdown: (row?.subscription_breakdown as PaymentAnalytics["subscription_breakdown"]) || [],
       };
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -114,11 +114,11 @@ export function usePaymentAnalytics(period: '7 days' | '30 days' | '90 days' = '
 /**
  * Fetch gamification analytics
  */
-export function useGamificationAnalytics(period: '7 days' | '30 days' | '90 days' = '30 days') {
+export function useGamificationAnalytics(period: "7 days" | "30 days" | "90 days" = "30 days") {
   return useQuery({
     queryKey: analyticsKeys.gamification(period),
     queryFn: async (): Promise<GamificationAnalytics> => {
-      const { data, error } = await supabase.rpc('get_gamification_analytics', {
+      const { data, error } = await supabase.rpc("get_gamification_analytics", {
         _time_period: period,
       });
 
@@ -127,7 +127,7 @@ export function useGamificationAnalytics(period: '7 days' | '30 days' | '90 days
       }
 
       const row = Array.isArray(data) ? data[0] : data;
-      
+
       return {
         total_users: Number(row?.total_users) || 0,
         active_users: Number(row?.active_users) || 0,
@@ -137,15 +137,15 @@ export function useGamificationAnalytics(period: '7 days' | '30 days' | '90 days
         total_credits_earned: Number(row?.total_credits_earned) || 0,
         total_credits_spent: Number(row?.total_credits_spent) || 0,
         level_distribution: (row?.level_distribution as Record<string, number>) || {},
-        top_achievers: (row?.top_achievers as GamificationAnalytics['top_achievers']) || [],
-        checkin_stats: (row?.checkin_stats as GamificationAnalytics['checkin_stats']) || {
+        top_achievers: (row?.top_achievers as GamificationAnalytics["top_achievers"]) || [],
+        checkin_stats: (row?.checkin_stats as GamificationAnalytics["checkin_stats"]) || {
           total_checkins: 0,
           unique_users: 0,
           avg_streak: 0,
           max_streak: 0,
           by_day_of_week: {},
         },
-        achievement_popularity: (row?.achievement_popularity as GamificationAnalytics['achievement_popularity']) || [],
+        achievement_popularity: (row?.achievement_popularity as GamificationAnalytics["achievement_popularity"]) || [],
       };
     },
     staleTime: 5 * 60 * 1000,
@@ -158,16 +158,16 @@ export function useGamificationAnalytics(period: '7 days' | '30 days' | '90 days
  */
 export function useQuickPaymentStats() {
   return useQuery({
-    queryKey: ['quick-payment-stats'],
+    queryKey: ["quick-payment-stats"],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc('get_stars_payment_stats');
+      const { data, error } = await supabase.rpc("get_stars_payment_stats");
 
       if (error) {
         throw new Error(error.message);
       }
 
       const row = Array.isArray(data) ? data[0] : data;
-      
+
       return {
         total_transactions: row?.total_transactions || 0,
         completed_transactions: row?.completed_transactions || 0,

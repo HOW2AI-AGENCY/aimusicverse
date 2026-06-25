@@ -1,26 +1,32 @@
-import { useState, useRef, useEffect, useId } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Play, Pause, Trash2, Music, ChevronRight,
-  Clock, Gauge, Key, Edit2, Check, X,
-  CheckCircle2, AlertCircle
-} from 'lucide-react';
-import { useGuitarRecordings, type GuitarRecording } from '@/hooks/useGuitarRecordings';
-import { cn } from '@/lib/utils';
-import { format, ru } from '@/lib/date-utils';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { SavedRecordingDetailSheet } from './SavedRecordingDetailSheet';
-import { formatDuration } from '@/lib/player-utils';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { 
-  registerStudioAudio, 
-  unregisterStudioAudio, 
-  pauseAllStudioAudio 
-} from '@/hooks/studio/useStudioAudio';
+import { useState, useRef, useEffect, useId } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Play,
+  Pause,
+  Trash2,
+  Music,
+  ChevronRight,
+  Clock,
+  Gauge,
+  Key,
+  Edit2,
+  Check,
+  X,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
+import { useGuitarRecordings, type GuitarRecording } from "@/hooks/useGuitarRecordings";
+import { cn } from "@/lib/utils";
+import { format, ru } from "@/lib/date-utils";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { SavedRecordingDetailSheet } from "./SavedRecordingDetailSheet";
+import { formatDuration } from "@/lib/player-utils";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface SavedRecordingsListProps {
   onSelect?: (recording: GuitarRecording) => void;
@@ -32,10 +38,10 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
   const { recordings, isLoading, deleteRecording, updateRecording } = useGuitarRecordings();
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editTitle, setEditTitle] = useState('');
+  const [editTitle, setEditTitle] = useState("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const sourceId = useId();
-  
+
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
 
   // Register with studio audio coordinator
@@ -64,7 +70,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
 
   const handlePlay = (e: React.MouseEvent, recording: GuitarRecording) => {
     e.stopPropagation();
-    
+
     if (playingId === recording.id) {
       audioRef.current?.pause();
       setPlayingId(null);
@@ -90,7 +96,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
   const handleEdit = (e: React.MouseEvent, recording: GuitarRecording) => {
     e.stopPropagation();
     setEditingId(recording.id);
-    setEditTitle(recording.title || '');
+    setEditTitle(recording.title || "");
   };
 
   const handleSaveEdit = (e: React.MouseEvent, id: string) => {
@@ -121,17 +127,16 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
     setDetailRecording(null);
   };
 
-
   const hasFullAnalysis = (recording: GuitarRecording) => {
-    return recording.analysis_status?.beats && 
-           recording.analysis_status?.chords && 
-           recording.analysis_status?.transcription;
+    return (
+      recording.analysis_status?.beats && recording.analysis_status?.chords && recording.analysis_status?.transcription
+    );
   };
 
   if (isLoading) {
     return (
       <div className="space-y-2">
-        {[1, 2, 3].map(i => (
+        {[1, 2, 3].map((i) => (
           <div key={i} className="h-24 rounded-lg bg-muted animate-pulse" />
         ))}
       </div>
@@ -143,9 +148,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
       <Card className="p-6 text-center">
         <Music className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
         <p className="text-muted-foreground">Нет сохранённых записей</p>
-        <p className="text-sm text-muted-foreground mt-1">
-          Запишите мелодию и сохраните для использования
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">Запишите мелодию и сохраните для использования</p>
       </Card>
     );
   }
@@ -163,11 +166,11 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Card 
+                <Card
                   className={cn(
                     "p-3 cursor-pointer transition-all hover:bg-accent/50 group",
                     selectedId === recording.id && "ring-2 ring-primary bg-accent/30",
-                    playingId === recording.id && "bg-primary/10"
+                    playingId === recording.id && "bg-primary/10",
                   )}
                   onClick={() => handleCardClick(recording)}
                 >
@@ -179,11 +182,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
                       className="h-12 w-12 shrink-0 rounded-full"
                       onClick={(e) => handlePlay(e, recording)}
                     >
-                      {playingId === recording.id ? (
-                        <Pause className="w-5 h-5" />
-                      ) : (
-                        <Play className="w-5 h-5 ml-0.5" />
-                      )}
+                      {playingId === recording.id ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 ml-0.5" />}
                     </Button>
 
                     {/* Info */}
@@ -219,9 +218,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
                       ) : (
                         <>
                           <div className="flex items-center gap-2">
-                            <p className="font-medium truncate">
-                              {recording.title || 'Без названия'}
-                            </p>
+                            <p className="font-medium truncate">{recording.title || "Без названия"}</p>
                             {hasFullAnalysis(recording) ? (
                               <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
                             ) : (
@@ -229,7 +226,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
                             )}
                           </div>
                           <p className="text-xs text-muted-foreground">
-                            {format(new Date(recording.created_at), 'd MMM yyyy, HH:mm', { locale: ru })}
+                            {format(new Date(recording.created_at), "d MMM yyyy, HH:mm", { locale: ru })}
                           </p>
                         </>
                       )}
@@ -242,7 +239,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
                             {Math.round(recording.bpm)} BPM
                           </Badge>
                         )}
-                        {recording.key && recording.key !== 'Unknown' && (
+                        {recording.key && recording.key !== "Unknown" && (
                           <Badge variant="secondary" className="text-xs gap-1">
                             <Key className="w-3 h-3" />
                             {recording.key}
@@ -281,9 +278,7 @@ export function SavedRecordingsList({ onSelect, selectedId, showDetails = true }
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
-                      {showDetails && (
-                        <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                      )}
+                      {showDetails && <ChevronRight className="w-5 h-5 text-muted-foreground" />}
                     </div>
                   </div>
                 </Card>

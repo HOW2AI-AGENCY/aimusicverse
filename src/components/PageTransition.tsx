@@ -3,29 +3,29 @@
  * OPTIMIZED: Uses CSS animations for better performance
  */
 
-import { memo, ReactNode, useEffect, useState } from 'react';
-import { cn } from '@/lib/utils';
+import { memo, ReactNode, useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 interface PageTransitionProps {
   children: ReactNode;
   className?: string;
   /** Animation variant */
-  variant?: 'fade' | 'slide-up' | 'slide-left' | 'scale';
+  variant?: "fade" | "slide-up" | "slide-left" | "scale";
   /** Animation duration in ms */
   duration?: number;
 }
 
 const variantClasses = {
-  fade: 'page-fade',
-  'slide-up': 'page-slide-up',
-  'slide-left': 'page-slide-left',
-  scale: 'page-scale',
+  fade: "page-fade",
+  "slide-up": "page-slide-up",
+  "slide-left": "page-slide-left",
+  scale: "page-scale",
 };
 
 export const PageTransition = memo(function PageTransition({
   children,
   className,
-  variant = 'fade',
+  variant = "fade",
   duration = 200,
 }: PageTransitionProps) {
   const [isVisible, setIsVisible] = useState(false);
@@ -38,16 +38,13 @@ export const PageTransition = memo(function PageTransition({
 
   return (
     <div
-      className={cn(
-        "w-full",
-        variantClasses[variant],
-        isVisible && "page-visible",
-        className
-      )}
-      style={{ 
-        '--page-duration': `${duration}ms`,
-        willChange: 'opacity, transform',
-      } as React.CSSProperties}
+      className={cn("w-full", variantClasses[variant], isVisible && "page-visible", className)}
+      style={
+        {
+          "--page-duration": `${duration}ms`,
+          willChange: "opacity, transform",
+        } as React.CSSProperties
+      }
     >
       {children}
     </div>
@@ -70,9 +67,9 @@ export const StaggerContainer = memo(function StaggerContainer({
   staggerDelay = 50,
 }: StaggerContainerProps) {
   return (
-    <div 
+    <div
       className={cn("stagger-container", className)}
-      style={{ '--stagger-delay': `${staggerDelay}ms` } as React.CSSProperties}
+      style={{ "--stagger-delay": `${staggerDelay}ms` } as React.CSSProperties}
     >
       {children}
     </div>
@@ -88,15 +85,11 @@ interface StaggerItemProps {
   index?: number;
 }
 
-export const StaggerItem = memo(function StaggerItem({ 
-  children, 
-  className,
-  index = 0,
-}: StaggerItemProps) {
+export const StaggerItem = memo(function StaggerItem({ children, className, index = 0 }: StaggerItemProps) {
   return (
     <div
       className={cn("stagger-item", className)}
-      style={{ 
+      style={{
         animationDelay: `calc(var(--stagger-delay, 50ms) * ${index})`,
       }}
     >

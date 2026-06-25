@@ -43,12 +43,7 @@ export const ECONOMY_CATEGORIES: EconomyConfigCategory[] = [
     id: "daily_rewards",
     label: "Ежедневные награды",
     icon: "🎁",
-    keys: [
-      "DAILY_CHECKIN_CREDITS",
-      "DAILY_CHECKIN_XP",
-      "STREAK_BONUS_CREDITS",
-      "STREAK_BONUS_XP",
-    ],
+    keys: ["DAILY_CHECKIN_CREDITS", "DAILY_CHECKIN_XP", "STREAK_BONUS_CREDITS", "STREAK_BONUS_XP"],
   },
   {
     id: "social_rewards",
@@ -69,33 +64,19 @@ export const ECONOMY_CATEGORIES: EconomyConfigCategory[] = [
     id: "creation_rewards",
     label: "Награды за создание",
     icon: "🎵",
-    keys: [
-      "ARTIST_CREATED_CREDITS",
-      "ARTIST_CREATED_XP",
-      "PROJECT_CREATED_CREDITS",
-      "PROJECT_CREATED_XP",
-    ],
+    keys: ["ARTIST_CREATED_CREDITS", "ARTIST_CREATED_XP", "PROJECT_CREATED_CREDITS", "PROJECT_CREATED_XP"],
   },
   {
     id: "referral",
     label: "Реферальная программа",
     icon: "👥",
-    keys: [
-      "REFERRAL_PERCENT",
-      "REFERRAL_INVITE_BONUS",
-      "REFERRAL_NEW_USER_BONUS",
-    ],
+    keys: ["REFERRAL_PERCENT", "REFERRAL_INVITE_BONUS", "REFERRAL_NEW_USER_BONUS"],
   },
   {
     id: "exchange_rates",
     label: "Курсы обмена",
     icon: "💱",
-    keys: [
-      "CREDITS_PER_USD",
-      "STARS_PER_USD",
-      "CREDITS_PER_STAR",
-      "PURCHASE_XP_PER_100_STARS",
-    ],
+    keys: ["CREDITS_PER_USD", "STARS_PER_USD", "CREDITS_PER_STAR", "PURCHASE_XP_PER_100_STARS"],
   },
 ];
 
@@ -139,16 +120,13 @@ export function useEconomyConfig() {
   return useQuery({
     queryKey: ["economy-config"],
     queryFn: async (): Promise<EconomyConfigItem[]> => {
-      const { data, error } = await supabase
-        .from("economy_config")
-        .select("*")
-        .order("key");
+      const { data, error } = await supabase.from("economy_config").select("*").order("key");
 
       if (error) throw error;
-      
-      return (data || []).map(item => ({
+
+      return (data || []).map((item) => ({
         key: item.key,
-        value: typeof item.value === 'number' ? item.value : Number(item.value),
+        value: typeof item.value === "number" ? item.value : Number(item.value),
         description: item.description,
         updated_at: item.updated_at,
         updated_by: item.updated_by,
@@ -164,11 +142,13 @@ export function useUpdateEconomyConfig() {
 
   return useMutation({
     mutationFn: async ({ key, value }: { key: string; value: number }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { error } = await supabase
         .from("economy_config")
-        .update({ 
+        .update({
           value: value,
           updated_at: new Date().toISOString(),
           updated_by: user?.id || null,
@@ -187,9 +167,7 @@ export function useUpdateEconomyConfig() {
 
       // Optimistically update
       queryClient.setQueryData<EconomyConfigItem[]>(["economy-config"], (old) =>
-        old?.map((item) =>
-          item.key === key ? { ...item, value, updated_at: new Date().toISOString() } : item
-        )
+        old?.map((item) => (item.key === key ? { ...item, value, updated_at: new Date().toISOString() } : item)),
       );
 
       return { previous };
@@ -220,13 +198,15 @@ export function useBulkUpdateEconomyConfig() {
 
   return useMutation({
     mutationFn: async (updates: Array<{ key: string; value: number }>) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       // Update each item
       for (const { key, value } of updates) {
         const { error } = await supabase
           .from("economy_config")
-          .update({ 
+          .update({
             value: value,
             updated_at: new Date().toISOString(),
             updated_by: user?.id || null,
@@ -235,7 +215,7 @@ export function useBulkUpdateEconomyConfig() {
 
         if (error) throw error;
       }
-      
+
       return updates;
     },
     onSuccess: (updates) => {
@@ -253,28 +233,26 @@ export function useBulkUpdateEconomyConfig() {
 }
 
 // Get config items grouped by category
-export function getConfigByCategory(
-  items: EconomyConfigItem[]
-): Map<string, EconomyConfigItem[]> {
+export function getConfigByCategory(items: EconomyConfigItem[]): Map<string, EconomyConfigItem[]> {
   const map = new Map<string, EconomyConfigItem[]>();
-  
+
   for (const category of ECONOMY_CATEGORIES) {
     const categoryItems = category.keys
       .map((key) => items.find((item) => item.key === key))
       .filter((item): item is EconomyConfigItem => item !== undefined);
-    
+
     if (categoryItems.length > 0) {
       map.set(category.id, categoryItems);
     }
   }
-  
+
   // Add uncategorized items
   const allCategoryKeys = ECONOMY_CATEGORIES.flatMap((c) => c.keys);
   const uncategorized = items.filter((item) => !allCategoryKeys.includes(item.key));
-  
+
   if (uncategorized.length > 0) {
     map.set("other", uncategorized);
   }
-  
+
   return map;
 }

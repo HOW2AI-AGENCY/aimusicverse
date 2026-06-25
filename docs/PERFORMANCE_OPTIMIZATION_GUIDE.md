@@ -1,4 +1,5 @@
 # Руководство по оптимизации производительности
+
 ## AIMusicVerse Project
 
 > **Дата:** 14 декабря 2025
@@ -27,6 +28,7 @@ const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
 ```
 
 **Последствия:**
+
 - Изменение `volume` → ре-рендер всех компонентов плеера
 - Изменение `queue` → ре-рендер MiniPlayer, ExpandedPlayer, QueuePanel
 - Изменение `shuffle` → ре-рендер всех компонентов
@@ -38,43 +40,46 @@ const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
 
 ```typescript
 // ✅ ПРАВИЛЬНО - компонент ре-рендерится только при изменении activeTrack
-const activeTrack = usePlayerStore(s => s.activeTrack);
-const isPlaying = usePlayerStore(s => s.isPlaying);
+const activeTrack = usePlayerStore((s) => s.activeTrack);
+const isPlaying = usePlayerStore((s) => s.isPlaying);
 
 // Для функций можно использовать один селектор
-const playTrack = usePlayerStore(s => s.playTrack);
-const pauseTrack = usePlayerStore(s => s.pauseTrack);
+const playTrack = usePlayerStore((s) => s.playTrack);
+const pauseTrack = usePlayerStore((s) => s.pauseTrack);
 ```
 
 #### Вариант 2: Shallow для нескольких значений
 
 ```typescript
-import { shallow } from 'zustand/shallow';
+import { shallow } from "zustand/shallow";
 
 // ✅ ПРАВИЛЬНО - ре-рендер только при изменении этих полей
 const { activeTrack, isPlaying } = usePlayerStore(
-  s => ({
+  (s) => ({
     activeTrack: s.activeTrack,
-    isPlaying: s.isPlaying
+    isPlaying: s.isPlaying,
   }),
-  shallow
+  shallow,
 );
 ```
 
 ### Затронутые файлы (приоритет)
 
 #### Критические (немедленно):
+
 1. `src/components/player/MiniPlayer.tsx` - **9 свойств**
 2. `src/components/player/ExpandedPlayer.tsx` - **9 свойств**
 3. `src/components/player/MobileFullscreenPlayer.tsx` - **9 свойств**
 4. `src/components/GlobalAudioProvider.tsx` - **6 свойств**
 
 #### Высокий приоритет:
+
 5. `src/components/player/QueuePanel.tsx` - **7 свойств**
 6. `src/components/player/PlayerControls.tsx`
 7. `src/components/player/FullscreenPlayer.tsx`
 
 #### Средний приоритет:
+
 8. Все остальные компоненты, использующие `usePlayerStore()`
 
 ### Пример рефакторинга
@@ -84,16 +89,8 @@ const { activeTrack, isPlaying } = usePlayerStore(
 ```typescript
 export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
   // ❌ 9 свойств без селекторов - ре-рендер при любом изменении!
-  const {
-    activeTrack,
-    isPlaying,
-    playTrack,
-    pauseTrack,
-    nextTrack,
-    playerMode,
-    setPlayerMode,
-    minimizePlayer
-  } = usePlayerStore();
+  const { activeTrack, isPlaying, playTrack, pauseTrack, nextTrack, playerMode, setPlayerMode, minimizePlayer } =
+    usePlayerStore();
 
   // ...
 }
@@ -102,26 +99,26 @@ export function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
 #### Стало:
 
 ```typescript
-import { shallow } from 'zustand/shallow';
-import { memo } from 'react';
+import { shallow } from "zustand/shallow";
+import { memo } from "react";
 
 export const MiniPlayer = memo(function MiniPlayer({ className, onExpand }: MiniPlayerProps) {
   // ✅ Только необходимые поля
   const { activeTrack, isPlaying, playerMode } = usePlayerStore(
-    s => ({
+    (s) => ({
       activeTrack: s.activeTrack,
       isPlaying: s.isPlaying,
-      playerMode: s.playerMode
+      playerMode: s.playerMode,
     }),
-    shallow
+    shallow,
   );
 
   // ✅ Функции отдельно (они стабильные)
-  const playTrack = usePlayerStore(s => s.playTrack);
-  const pauseTrack = usePlayerStore(s => s.pauseTrack);
-  const nextTrack = usePlayerStore(s => s.nextTrack);
-  const setPlayerMode = usePlayerStore(s => s.setPlayerMode);
-  const minimizePlayer = usePlayerStore(s => s.minimizePlayer);
+  const playTrack = usePlayerStore((s) => s.playTrack);
+  const pauseTrack = usePlayerStore((s) => s.pauseTrack);
+  const nextTrack = usePlayerStore((s) => s.nextTrack);
+  const setPlayerMode = usePlayerStore((s) => s.setPlayerMode);
+  const minimizePlayer = usePlayerStore((s) => s.minimizePlayer);
 
   // ...
 });
@@ -138,6 +135,7 @@ export const MiniPlayer = memo(function MiniPlayer({ className, onExpand }: Mini
 Только **11% компонентов** используют `React.memo`, что приводит к **30-50% лишних ре-рендеров в списках**.
 
 **Критические случаи:**
+
 - `TrackCard` в Library (100+ экземпляров)
 - `PlaylistCard` в списках
 - `QueueItem` в очереди
@@ -155,7 +153,7 @@ export const MiniPlayer = memo(function MiniPlayer({ className, onExpand }: Mini
 #### Как использовать:
 
 ```typescript
-import { memo } from 'react';
+import { memo } from "react";
 
 // ❌ Без memo
 export function TrackCard({ track, onPlay }: TrackCardProps) {
@@ -174,9 +172,8 @@ export const TrackCard = memo(
   },
   (prevProps, nextProps) => {
     // Сравнить только нужные поля
-    return prevProps.track.id === nextProps.track.id &&
-           prevProps.track.title === nextProps.track.title;
-  }
+    return prevProps.track.id === nextProps.track.id && prevProps.track.title === nextProps.track.title;
+  },
 );
 ```
 
@@ -228,6 +225,7 @@ export const TrackCard = memo(function TrackCard({ track, onPlay }: TrackCardPro
 ### Компоненты для мемоизации (приоритет)
 
 #### Критические:
+
 - ✅ `TrackCard.tsx`
 - ✅ `PlaylistCard.tsx`
 - ✅ `ArtistCard.tsx`
@@ -235,6 +233,7 @@ export const TrackCard = memo(function TrackCard({ track, onPlay }: TrackCardPro
 - ✅ `CommentItem.tsx`
 
 #### Высокий:
+
 - `MiniPlayer.tsx`
 - `ExpandedPlayer.tsx`
 - `FullscreenPlayer.tsx`
@@ -242,6 +241,7 @@ export const TrackCard = memo(function TrackCard({ track, onPlay }: TrackCardPro
 - `PlaylistTrackItem.tsx`
 
 #### Средний:
+
 - Все компоненты в `src/components/stem-studio/`
 - Все компоненты в `src/components/generate-form/`
 
@@ -266,6 +266,7 @@ Context providers создают новый объект `value` при кажд
 ```
 
 **Последствия:**
+
 - Все потребители context ре-рендерятся при каждом рендере провайдера
 - Даже если значения не изменились
 - **20-30% лишних ре-рендеров**
@@ -362,6 +363,7 @@ export function TelegramProvider({ children }: TelegramProviderProps) {
 ### 1. React Query конфигурация
 
 #### Проблема:
+
 - Нет `gcTime` (garbage collection time)
 - Кэш не очищается
 
@@ -372,10 +374,10 @@ export function TelegramProvider({ children }: TelegramProviderProps) {
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60 * 5,      // 5 минут
-      gcTime: 1000 * 60 * 10,        // ✅ 10 минут
+      staleTime: 1000 * 60 * 5, // 5 минут
+      gcTime: 1000 * 60 * 10, // ✅ 10 минут
       retry: 1,
-      refetchOnWindowFocus: false,   // ✅ Отключить для большинства
+      refetchOnWindowFocus: false, // ✅ Отключить для большинства
     },
   },
 });
@@ -384,6 +386,7 @@ const queryClient = new QueryClient({
 ### 2. Debounce invalidateQueries
 
 #### Проблема:
+
 - 197 вызовов `invalidateQueries` по всему коду
 - Частые refetch
 
@@ -391,22 +394,20 @@ const queryClient = new QueryClient({
 
 ```typescript
 // src/lib/query-utils.ts
-import { debounce } from 'lodash';
+import { debounce } from "lodash";
 
-export const debouncedInvalidate = debounce(
-  (queryClient: QueryClient, queryKey: string[]) => {
-    queryClient.invalidateQueries({ queryKey });
-  },
-  300
-);
+export const debouncedInvalidate = debounce((queryClient: QueryClient, queryKey: string[]) => {
+  queryClient.invalidateQueries({ queryKey });
+}, 300);
 
 // Использование:
-debouncedInvalidate(queryClient, ['tracks']);
+debouncedInvalidate(queryClient, ["tracks"]);
 ```
 
 ### 3. Virtualization для списков
 
 #### Проблема:
+
 - Grid mode в Library рендерит ВСЕ треки (100+)
 - Тяжелый scroll на слабых устройствах
 
@@ -432,6 +433,7 @@ import { VirtuosoGrid } from 'react-virtuoso';
 ### 4. Cleanup утечек памяти
 
 #### Проблема:
+
 - Таймеры не очищаются (lyricsWizardStore)
 - Polling не останавливается (NotificationContext)
 
@@ -529,21 +531,21 @@ useEffect(() => {
 
 ### Метрики "До":
 
-| Метрика | Значение |
-|---------|----------|
-| Zustand selectors | 0% |
-| React.memo usage | 11% |
-| Context memo | 0% |
-| Re-renders (baseline) | 100% |
+| Метрика               | Значение |
+| --------------------- | -------- |
+| Zustand selectors     | 0%       |
+| React.memo usage      | 11%      |
+| Context memo          | 0%       |
+| Re-renders (baseline) | 100%     |
 
 ### Метрики "После":
 
-| Метрика | Цель | Прирост |
-|---------|------|---------|
-| Zustand selectors | 100% | +100% |
-| React.memo usage | >50% | +39% |
-| Context memo | 100% | +100% |
-| Re-renders | -60% | 📉 60% |
+| Метрика           | Цель | Прирост |
+| ----------------- | ---- | ------- |
+| Zustand selectors | 100% | +100%   |
+| React.memo usage  | >50% | +39%    |
+| Context memo      | 100% | +100%   |
+| Re-renders        | -60% | 📉 60%  |
 
 ### Бизнес-эффект:
 
@@ -626,5 +628,6 @@ const handler = useCallback(() => { ... }, [deps]);
 **Последнее обновление:** 14 декабря 2025
 **Автор:** Claude (Anthropic AI)
 **Связанные документы:**
+
 - `docs/AUDIT_REPORT_2025_12.md` - Полный отчет аудита
 - `README.md` - Общая документация проекта

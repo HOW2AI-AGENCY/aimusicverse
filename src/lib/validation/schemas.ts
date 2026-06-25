@@ -7,7 +7,7 @@
  * @module lib/validation/schemas
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 // ============ Common Schemas ============
 
@@ -29,7 +29,7 @@ export const paginationSchema = z.object({
  */
 export const sortSchema = z.object({
   field: z.string(),
-  direction: z.enum(['asc', 'desc']).default('desc'),
+  direction: z.enum(["asc", "desc"]).default("desc"),
 });
 
 // ============ Track Schemas ============
@@ -37,27 +37,12 @@ export const sortSchema = z.object({
 /**
  * Track type enum
  */
-export const trackTypeSchema = z.enum([
-  'main',
-  'vocal',
-  'instrumental',
-  'stem',
-  'sfx',
-  'drums',
-  'bass',
-  'other',
-]);
+export const trackTypeSchema = z.enum(["main", "vocal", "instrumental", "stem", "sfx", "drums", "bass", "other"]);
 
 /**
  * Track status enum
  */
-export const trackStatusSchema = z.enum([
-  'draft',
-  'processing',
-  'completed',
-  'failed',
-  'archived',
-]);
+export const trackStatusSchema = z.enum(["draft", "processing", "completed", "failed", "archived"]);
 
 /**
  * Track metadata schema
@@ -132,11 +117,11 @@ export const studioTrackSchema = z.object({
  * Track form data schema (for creating/editing tracks)
  */
 export const trackFormDataSchema = z.object({
-  title: z.string().min(1, 'Title is required').max(200, 'Title too long'),
-  description: z.string().max(1000, 'Description too long').optional(),
+  title: z.string().min(1, "Title is required").max(200, "Title too long"),
+  description: z.string().max(1000, "Description too long").optional(),
   type: trackTypeSchema,
   isPublic: z.boolean().default(false),
-  tags: z.array(z.string().min(1).max(50)).max(20, 'Too many tags').optional(),
+  tags: z.array(z.string().min(1).max(50)).max(20, "Too many tags").optional(),
 });
 
 // ============ Project Schemas ============
@@ -144,23 +129,17 @@ export const trackFormDataSchema = z.object({
 /**
  * Project status enum
  */
-export const projectStatusSchema = z.enum([
-  'draft',
-  'mixing',
-  'mastering',
-  'completed',
-  'archived',
-]);
+export const projectStatusSchema = z.enum(["draft", "mixing", "mastering", "completed", "archived"]);
 
 /**
  * Stems mode enum
  */
-export const stemsModeSchema = z.enum(['none', 'simple', 'detailed']);
+export const stemsModeSchema = z.enum(["none", "simple", "detailed"]);
 
 /**
  * View mode enum
  */
-export const viewModeSchema = z.enum(['timeline', 'mixer', 'compact']);
+export const viewModeSchema = z.enum(["timeline", "mixer", "compact"]);
 
 /**
  * View settings schema
@@ -169,7 +148,7 @@ export const viewSettingsSchema = z.object({
   zoom: z.number().min(10).max(200).default(50),
   snapToGrid: z.boolean().default(true),
   gridSize: z.number().positive().default(4),
-  viewMode: viewModeSchema.default('timeline'),
+  viewMode: viewModeSchema.default("timeline"),
 });
 
 /**
@@ -183,7 +162,7 @@ export const studioProjectSchema = z.object({
   description: z.string().max(1000).optional(),
   bpm: z.number().positive().max(300),
   keySignature: z.string().optional(),
-  timeSignature: z.string().default('4/4'),
+  timeSignature: z.string().default("4/4"),
   durationSeconds: z.number().nonnegative().optional(),
   masterVolume: z.number().min(0).max(2),
   tracks: z.array(studioTrackSchema),
@@ -199,7 +178,7 @@ export const studioProjectSchema = z.object({
  * Create project params schema
  */
 export const createProjectParamsSchema = z.object({
-  name: z.string().min(1, 'Project name is required').max(200),
+  name: z.string().min(1, "Project name is required").max(200),
   sourceTrackId: z.string().uuid().optional(),
   sourceAudioUrl: z.string().url().optional(),
   duration: z.number().positive().optional(),
@@ -230,7 +209,12 @@ export const userProfileSchema = z.object({
  * Update profile schema
  */
 export const updateProfileSchema = z.object({
-  username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/, 'Username must contain only letters, numbers, and underscores').optional(),
+  username: z
+    .string()
+    .min(3)
+    .max(30)
+    .regex(/^[a-zA-Z0-9_]+$/, "Username must contain only letters, numbers, and underscores")
+    .optional(),
   first_name: z.string().min(1).max(100).optional(),
   last_name: z.string().max(100).optional(),
   bio: z.string().max(500).optional(),
@@ -243,13 +227,7 @@ export const updateProfileSchema = z.object({
 /**
  * Note type enum
  */
-export const noteTypeSchema = z.enum([
-  'suggestion',
-  'correction',
-  'question',
-  'idea',
-  'todo',
-]);
+export const noteTypeSchema = z.enum(["suggestion", "correction", "question", "idea", "todo"]);
 
 /**
  * Studio lyric version schema
@@ -280,7 +258,7 @@ export const studioSectionNoteSchema = z.object({
  * Lyrics form data schema
  */
 export const lyricsFormDataSchema = z.object({
-  content: z.string().min(1, 'Lyrics content is required'),
+  content: z.string().min(1, "Lyrics content is required"),
   changeSummary: z.string().max(200).optional(),
 });
 
@@ -290,7 +268,7 @@ export const lyricsFormDataSchema = z.object({
  * Generation params schema
  */
 export const generationParamsSchema = z.object({
-  prompt: z.string().min(1, 'Prompt is required').max(1000),
+  prompt: z.string().min(1, "Prompt is required").max(1000),
   title: z.string().max(200).optional(),
   tags: z.string().optional(),
   style: z.string().optional(),
@@ -319,7 +297,7 @@ export const commentSchema = z.object({
  */
 export const createCommentSchema = z.object({
   trackId: z.string().uuid(),
-  content: z.string().min(1, 'Comment cannot be empty').max(2000, 'Comment too long'),
+  content: z.string().min(1, "Comment cannot be empty").max(2000, "Comment too long"),
   parentId: z.string().uuid().optional(),
 });
 
@@ -328,19 +306,13 @@ export const createCommentSchema = z.object({
 /**
  * Report reason enum
  */
-export const reportReasonSchema = z.enum([
-  'inappropriate',
-  'copyright',
-  'spam',
-  'harassment',
-  'other',
-]);
+export const reportReasonSchema = z.enum(["inappropriate", "copyright", "spam", "harassment", "other"]);
 
 /**
  * Create report schema
  */
 export const createReportSchema = z.object({
-  entityType: z.enum(['track', 'comment', 'user']),
+  entityType: z.enum(["track", "comment", "user"]),
   entityId: z.string().uuid(),
   reason: reportReasonSchema,
   description: z.string().max(500).optional(),

@@ -5,19 +5,15 @@
  * Extracted from useUnifiedStudioStore for better maintainability.
  */
 
-import type {
-  LyricVersion,
-  SectionNote,
-  NoteType,
-} from '@/types/studio-entities';
+import type { LyricVersion, SectionNote, NoteType } from "@/types/studio-entities";
 
 // ============ Type Definitions ============
 
-export type TrackType = 'main' | 'vocal' | 'instrumental' | 'stem' | 'sfx' | 'drums' | 'bass' | 'other';
-export type ProjectStatus = 'draft' | 'mixing' | 'mastering' | 'completed' | 'archived';
-export type StemsMode = 'none' | 'simple' | 'detailed';
-export type ViewMode = 'timeline' | 'mixer' | 'compact';
-export type TrackStatus = 'ready' | 'pending' | 'processing' | 'failed';
+export type TrackType = "main" | "vocal" | "instrumental" | "stem" | "sfx" | "drums" | "bass" | "other";
+export type ProjectStatus = "draft" | "mixing" | "mastering" | "completed" | "archived";
+export type StemsMode = "none" | "simple" | "detailed";
+export type ViewMode = "timeline" | "mixer" | "compact";
+export type TrackStatus = "ready" | "pending" | "processing" | "failed";
 
 // ============ Core Interfaces ============
 
@@ -104,7 +100,7 @@ export interface CreateProjectParams {
   sourceTrackId?: string;
   sourceAudioUrl?: string;
   duration?: number;
-  tracks?: Omit<StudioTrack, 'id' | 'clips'>[];
+  tracks?: Omit<StudioTrack, "id" | "clips">[];
 }
 
 // ============ Lyrics Types ============
@@ -139,14 +135,14 @@ export interface StudioSectionNote {
 // ============ Constants ============
 
 export const TRACK_COLORS: Record<TrackType, string> = {
-  main: 'hsl(var(--primary))',
-  vocal: 'hsl(340 82% 52%)',
-  instrumental: 'hsl(262 83% 58%)',
-  stem: 'hsl(142 76% 36%)',
-  sfx: 'hsl(38 92% 50%)',
-  drums: 'hsl(24 95% 53%)',
-  bass: 'hsl(201 96% 32%)',
-  other: 'hsl(var(--muted))',
+  main: "hsl(var(--primary))",
+  vocal: "hsl(340 82% 52%)",
+  instrumental: "hsl(262 83% 58%)",
+  stem: "hsl(142 76% 36%)",
+  sfx: "hsl(38 92% 50%)",
+  drums: "hsl(24 95% 53%)",
+  bass: "hsl(201 96% 32%)",
+  other: "hsl(var(--muted))",
 };
 
 // ============ Helper Functions ============
@@ -157,5 +153,5 @@ export const createDefaultViewSettings = (): ViewSettings => ({
   zoom: 50,
   snapToGrid: true,
   gridSize: 4,
-  viewMode: 'timeline',
+  viewMode: "timeline",
 });

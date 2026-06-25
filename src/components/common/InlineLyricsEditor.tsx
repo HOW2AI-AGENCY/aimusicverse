@@ -3,54 +3,51 @@
  * Used in: AddVocalsDialog, AudioRecordDialog
  */
 
-import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  PenLine, Sparkles, FileText, Mic, Loader2, Wand2, 
-  Tags, Clock, Tag, Check, Search 
-} from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
-import { useLyricsTemplates, LyricsTemplate } from '@/hooks/useLyricsTemplates';
-import { VoiceInputButton } from '@/components/ui/voice-input-button';
-import { cn } from '@/lib/utils';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { PenLine, Sparkles, FileText, Mic, Loader2, Wand2, Tags, Clock, Tag, Check, Search } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
+import { useLyricsTemplates, LyricsTemplate } from "@/hooks/useLyricsTemplates";
+import { VoiceInputButton } from "@/components/ui/voice-input-button";
+import { cn } from "@/lib/utils";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 const GENRES = [
-  { value: 'pop', label: 'Поп' },
-  { value: 'rock', label: 'Рок' },
-  { value: 'hip-hop', label: 'Хип-хоп' },
-  { value: 'electronic', label: 'Электроника' },
-  { value: 'r&b', label: 'R&B' },
-  { value: 'jazz', label: 'Джаз' },
-  { value: 'folk', label: 'Фолк' },
-  { value: 'ballad', label: 'Баллада' },
+  { value: "pop", label: "Поп" },
+  { value: "rock", label: "Рок" },
+  { value: "hip-hop", label: "Хип-хоп" },
+  { value: "electronic", label: "Электроника" },
+  { value: "r&b", label: "R&B" },
+  { value: "jazz", label: "Джаз" },
+  { value: "folk", label: "Фолк" },
+  { value: "ballad", label: "Баллада" },
 ];
 
 const MOODS = [
-  { value: 'happy', label: 'Весёлое' },
-  { value: 'sad', label: 'Грустное' },
-  { value: 'energetic', label: 'Энергичное' },
-  { value: 'romantic', label: 'Романтичное' },
-  { value: 'melancholic', label: 'Меланхоличное' },
-  { value: 'aggressive', label: 'Агрессивное' },
-  { value: 'peaceful', label: 'Спокойное' },
-  { value: 'inspiring', label: 'Вдохновляющее' },
+  { value: "happy", label: "Весёлое" },
+  { value: "sad", label: "Грустное" },
+  { value: "energetic", label: "Энергичное" },
+  { value: "romantic", label: "Романтичное" },
+  { value: "melancholic", label: "Меланхоличное" },
+  { value: "aggressive", label: "Агрессивное" },
+  { value: "peaceful", label: "Спокойное" },
+  { value: "inspiring", label: "Вдохновляющее" },
 ];
 
 const STRUCTURES = [
-  { value: 'standard', label: 'Стандартная' },
-  { value: 'simple', label: 'Простая' },
-  { value: 'extended', label: 'Расширенная' },
-  { value: 'hip-hop', label: 'Хип-хоп' },
+  { value: "standard", label: "Стандартная" },
+  { value: "simple", label: "Простая" },
+  { value: "extended", label: "Расширенная" },
+  { value: "hip-hop", label: "Хип-хоп" },
 ];
 
 interface InlineLyricsEditorProps {
@@ -67,46 +64,47 @@ export function InlineLyricsEditor({
   value,
   onChange,
   onStyleChange,
-  placeholder = '[Verse]\nТекст первого куплета...\n\n[Chorus]\nТекст припева...',
+  placeholder = "[Verse]\nТекст первого куплета...\n\n[Chorus]\nТекст припева...",
   minRows = 8,
   maxRows = 12,
   className,
 }: InlineLyricsEditorProps) {
-  const [activeTab, setActiveTab] = useState<'write' | 'ai' | 'templates'>('write');
+  const [activeTab, setActiveTab] = useState<"write" | "ai" | "templates">("write");
   const [loading, setLoading] = useState(false);
-  
+
   // AI generation state
-  const [theme, setTheme] = useState('');
-  const [genre, setGenre] = useState('pop');
-  const [mood, setMood] = useState('inspiring');
-  const [structure, setStructure] = useState('standard');
-  const [language, setLanguage] = useState('ru');
-  
+  const [theme, setTheme] = useState("");
+  const [genre, setGenre] = useState("pop");
+  const [mood, setMood] = useState("inspiring");
+  const [structure, setStructure] = useState("standard");
+  const [language, setLanguage] = useState("ru");
+
   // Templates state
   const { templates, isLoading: templatesLoading } = useLyricsTemplates();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredTemplates = templates?.filter(template => {
-    const query = searchQuery.toLowerCase();
-    return (
-      template.name.toLowerCase().includes(query) ||
-      template.lyrics.toLowerCase().includes(query) ||
-      template.genre?.toLowerCase().includes(query) ||
-      template.mood?.toLowerCase().includes(query)
-    );
-  }) || [];
+  const filteredTemplates =
+    templates?.filter((template) => {
+      const query = searchQuery.toLowerCase();
+      return (
+        template.name.toLowerCase().includes(query) ||
+        template.lyrics.toLowerCase().includes(query) ||
+        template.genre?.toLowerCase().includes(query) ||
+        template.mood?.toLowerCase().includes(query)
+      );
+    }) || [];
 
   const handleGenerate = async () => {
     if (!theme.trim()) {
-      toast.error('Укажите тему песни');
+      toast.error("Укажите тему песни");
       return;
     }
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
+      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
         body: {
-          action: 'generate',
+          action: "generate",
           theme,
           genre,
           mood,
@@ -119,12 +117,12 @@ export function InlineLyricsEditor({
 
       if (data?.lyrics) {
         onChange(data.lyrics);
-        setActiveTab('write');
-        toast.success('Текст сгенерирован!');
+        setActiveTab("write");
+        toast.success("Текст сгенерирован!");
       }
     } catch (error: any) {
-      logger.error('Generate lyrics error', { error });
-      toast.error(error.message || 'Ошибка генерации');
+      logger.error("Generate lyrics error", { error });
+      toast.error(error.message || "Ошибка генерации");
     } finally {
       setLoading(false);
     }
@@ -132,15 +130,15 @@ export function InlineLyricsEditor({
 
   const handleImprove = async () => {
     if (!value.trim()) {
-      toast.error('Нет текста для улучшения');
+      toast.error("Нет текста для улучшения");
       return;
     }
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
+      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
         body: {
-          action: 'improve',
+          action: "improve",
           existingLyrics: value,
           language,
         },
@@ -150,11 +148,11 @@ export function InlineLyricsEditor({
 
       if (data?.lyrics) {
         onChange(data.lyrics);
-        toast.success('Текст улучшен!');
+        toast.success("Текст улучшен!");
       }
     } catch (error: any) {
-      logger.error('Improve lyrics error', { error });
-      toast.error(error.message || 'Ошибка улучшения');
+      logger.error("Improve lyrics error", { error });
+      toast.error(error.message || "Ошибка улучшения");
     } finally {
       setLoading(false);
     }
@@ -162,15 +160,15 @@ export function InlineLyricsEditor({
 
   const handleAddTags = async () => {
     if (!value.trim()) {
-      toast.error('Нет текста для разметки');
+      toast.error("Нет текста для разметки");
       return;
     }
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('ai-lyrics-assistant', {
+      const { data, error } = await supabase.functions.invoke("ai-lyrics-assistant", {
         body: {
-          action: 'add_tags',
+          action: "add_tags",
           existingLyrics: value,
         },
       });
@@ -179,11 +177,11 @@ export function InlineLyricsEditor({
 
       if (data?.lyrics) {
         onChange(data.lyrics);
-        toast.success('Теги добавлены!');
+        toast.success("Теги добавлены!");
       }
     } catch (error: any) {
-      logger.error('Add tags error', { error });
-      toast.error(error.message || 'Ошибка добавления тегов');
+      logger.error("Add tags error", { error });
+      toast.error(error.message || "Ошибка добавления тегов");
     } finally {
       setLoading(false);
     }
@@ -194,8 +192,8 @@ export function InlineLyricsEditor({
     if (template.style && onStyleChange) {
       onStyleChange(template.style);
     }
-    setActiveTab('write');
-    toast.success('Шаблон применён');
+    setActiveTab("write");
+    toast.success("Шаблон применён");
   };
 
   const handleVoiceInput = (text: string) => {
@@ -220,11 +218,8 @@ export function InlineLyricsEditor({
               Шаблоны
             </TabsTrigger>
           </TabsList>
-          
-          <VoiceInputButton 
-            onResult={handleVoiceInput}
-            context="lyrics"
-          />
+
+          <VoiceInputButton onResult={handleVoiceInput} context="lyrics" />
         </div>
 
         <TabsContent value="write" className="mt-0 space-y-2">
@@ -235,32 +230,20 @@ export function InlineLyricsEditor({
             rows={minRows}
             className="resize-none font-mono text-sm"
           />
-          
+
           {value.trim() && (
             <div className="flex gap-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleImprove}
-                disabled={loading}
-                className="text-xs gap-1"
-              >
+              <Button variant="outline" size="sm" onClick={handleImprove} disabled={loading} className="text-xs gap-1">
                 {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
                 Улучшить
               </Button>
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={handleAddTags}
-                disabled={loading}
-                className="text-xs gap-1"
-              >
+              <Button variant="outline" size="sm" onClick={handleAddTags} disabled={loading} className="text-xs gap-1">
                 {loading ? <Loader2 className="w-3 h-3 animate-spin" /> : <Tags className="w-3 h-3" />}
                 Добавить теги
               </Button>
             </div>
           )}
-          
+
           <p className="text-xs text-muted-foreground">
             💡 Используйте теги [Verse], [Chorus], [Bridge] для структуры песни. AI будет петь этот текст.
           </p>
@@ -335,8 +318,12 @@ export function InlineLyricsEditor({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ru" className="text-xs">Русский</SelectItem>
-                  <SelectItem value="en" className="text-xs">English</SelectItem>
+                  <SelectItem value="ru" className="text-xs">
+                    Русский
+                  </SelectItem>
+                  <SelectItem value="en" className="text-xs">
+                    English
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -367,9 +354,7 @@ export function InlineLyricsEditor({
             ) : filteredTemplates.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-8 text-muted-foreground">
                 <FileText className="w-8 h-8 mb-2 opacity-50" />
-                <p className="text-xs">
-                  {searchQuery ? 'Ничего не найдено' : 'Нет сохранённых текстов'}
-                </p>
+                <p className="text-xs">{searchQuery ? "Ничего не найдено" : "Нет сохранённых текстов"}</p>
               </div>
             ) : (
               <div className="space-y-1.5 pr-2">
@@ -379,13 +364,13 @@ export function InlineLyricsEditor({
                     onClick={() => handleTemplateSelect(template)}
                     className={cn(
                       "w-full text-left p-2.5 rounded-lg border transition-all",
-                      "hover:border-primary/50 hover:bg-accent/50"
+                      "hover:border-primary/50 hover:bg-accent/50",
                     )}
                   >
                     <div className="flex items-center justify-between gap-2 mb-1">
                       <h4 className="font-medium text-xs line-clamp-1">{template.name}</h4>
                     </div>
-                    
+
                     <p className="text-[10px] text-muted-foreground line-clamp-2 mb-1.5">
                       {template.lyrics.slice(0, 80)}...
                     </p>
@@ -403,9 +388,9 @@ export function InlineLyricsEditor({
                       )}
                       <span className="text-[9px] text-muted-foreground flex items-center gap-0.5 ml-auto">
                         <Clock className="w-2.5 h-2.5" />
-                        {formatDistanceToNow(new Date(template.created_at), { 
-                          addSuffix: true, 
-                          locale: ru 
+                        {formatDistanceToNow(new Date(template.created_at), {
+                          addSuffix: true,
+                          locale: ru,
                         })}
                       </span>
                     </div>

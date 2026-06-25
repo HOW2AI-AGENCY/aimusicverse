@@ -1,12 +1,12 @@
 /**
  * Theme-aware overlay color utilities
  * Feature: 032-professional-ui (P2 Theming)
- * 
+ *
  * Replaces hardcoded bg-black/X and bg-white/X with theme-aware alternatives
  * that properly adapt to light/dark mode.
  */
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 /**
  * Backdrop overlay styles (for modals, sheets, dialogs)
@@ -14,13 +14,13 @@ import { cn } from '@/lib/utils';
  */
 export const backdrop = {
   /** Light backdrop (40% opacity) */
-  light: 'bg-background/40 dark:bg-black/40',
+  light: "bg-background/40 dark:bg-black/40",
   /** Medium backdrop (50% opacity) - default for modals */
-  medium: 'bg-background/50 dark:bg-black/50',
+  medium: "bg-background/50 dark:bg-black/50",
   /** Heavy backdrop (60% opacity) */
-  heavy: 'bg-background/60 dark:bg-black/60',
+  heavy: "bg-background/60 dark:bg-black/60",
   /** Dark backdrop (80% opacity) - for drawers */
-  dark: 'bg-background/80 dark:bg-black/80',
+  dark: "bg-background/80 dark:bg-black/80",
 } as const;
 
 /**
@@ -29,17 +29,17 @@ export const backdrop = {
  */
 export const surface = {
   /** Subtle surface overlay (10%) */
-  subtle: 'bg-foreground/5 dark:bg-white/5',
+  subtle: "bg-foreground/5 dark:bg-white/5",
   /** Light surface overlay (10-15%) */
-  light: 'bg-foreground/10 dark:bg-white/10',
+  light: "bg-foreground/10 dark:bg-white/10",
   /** Medium surface overlay (20%) */
-  medium: 'bg-foreground/20 dark:bg-white/20',
+  medium: "bg-foreground/20 dark:bg-white/20",
   /** Heavy surface overlay (30%) */
-  heavy: 'bg-foreground/30 dark:bg-white/30',
+  heavy: "bg-foreground/30 dark:bg-white/30",
   /** Dark surface for image overlays */
-  imageDark: 'bg-black/40',
+  imageDark: "bg-black/40",
   /** Gradient fade for image overlays */
-  imageGradient: 'bg-gradient-to-t from-black/60 via-black/20 to-transparent',
+  imageGradient: "bg-gradient-to-t from-black/60 via-black/20 to-transparent",
 } as const;
 
 /**
@@ -47,13 +47,13 @@ export const surface = {
  */
 export const overlayText = {
   /** Primary text on dark overlays */
-  primary: 'text-white',
+  primary: "text-white",
   /** Secondary text on dark overlays */
-  secondary: 'text-white/80',
+  secondary: "text-white/80",
   /** Muted text on dark overlays */
-  muted: 'text-white/60',
+  muted: "text-white/60",
   /** Adaptive text that works on any overlay */
-  adaptive: 'text-foreground dark:text-white',
+  adaptive: "text-foreground dark:text-white",
 } as const;
 
 /**
@@ -61,13 +61,13 @@ export const overlayText = {
  */
 export const interactive = {
   /** Hover state overlay */
-  hover: 'hover:bg-foreground/5 dark:hover:bg-white/5',
+  hover: "hover:bg-foreground/5 dark:hover:bg-white/5",
   /** Active/pressed state overlay */
-  active: 'active:bg-foreground/10 dark:active:bg-white/10',
+  active: "active:bg-foreground/10 dark:active:bg-white/10",
   /** Selected state overlay */
-  selected: 'bg-primary/10',
+  selected: "bg-primary/10",
   /** Focus overlay */
-  focus: 'focus-visible:bg-primary/5',
+  focus: "focus-visible:bg-primary/5",
 } as const;
 
 /**
@@ -75,23 +75,11 @@ export const interactive = {
  */
 export const pill = {
   /** Glass pill on dark backgrounds */
-  glassDark: cn(
-    'bg-black/40 backdrop-blur-sm',
-    'border border-white/10',
-    'text-white'
-  ),
+  glassDark: cn("bg-black/40 backdrop-blur-sm", "border border-white/10", "text-white"),
   /** Glass pill on light backgrounds */
-  glassLight: cn(
-    'bg-white/80 backdrop-blur-sm',
-    'border border-border/50',
-    'text-foreground'
-  ),
+  glassLight: cn("bg-white/80 backdrop-blur-sm", "border border-border/50", "text-foreground"),
   /** Adaptive glass pill */
-  glass: cn(
-    'bg-background/60 dark:bg-black/40',
-    'backdrop-blur-sm',
-    'border border-border/50 dark:border-white/10'
-  ),
+  glass: cn("bg-background/60 dark:bg-black/40", "backdrop-blur-sm", "border border-border/50 dark:border-white/10"),
 } as const;
 
 /**
@@ -99,21 +87,13 @@ export const pill = {
  */
 export const media = {
   /** Play button overlay on cover images */
-  playOverlay: cn(
-    'bg-black/40 backdrop-blur-sm',
-    'flex items-center justify-center',
-    'transition-opacity'
-  ),
+  playOverlay: cn("bg-black/40 backdrop-blur-sm", "flex items-center justify-center", "transition-opacity"),
   /** Seek feedback overlay */
-  seekFeedback: cn(
-    'bg-black/60 backdrop-blur-md',
-    'rounded-full',
-    'shadow-lg'
-  ),
+  seekFeedback: cn("bg-black/60 backdrop-blur-md", "rounded-full", "shadow-lg"),
   /** Volume/progress bar track */
-  track: 'bg-white/20',
+  track: "bg-white/20",
   /** Volume/progress bar fill */
-  fill: 'bg-white',
+  fill: "bg-white",
 } as const;
 
 /**
@@ -122,13 +102,13 @@ export const media = {
  */
 export const hardware = {
   /** LED display panel background */
-  ledPanel: 'bg-black/40 border border-white/10',
+  ledPanel: "bg-black/40 border border-white/10",
   /** Status badge (mute/solo/etc) */
-  statusBadge: 'bg-black/60',
+  statusBadge: "bg-black/60",
   /** VU meter background */
-  meterBg: 'bg-black/30',
+  meterBg: "bg-black/30",
   /** Step indicator */
-  stepIndicator: 'bg-black/30 border border-white/5',
+  stepIndicator: "bg-black/30 border border-white/5",
 } as const;
 
 /**
@@ -150,9 +130,9 @@ export function getBackdrop(opacity: 40 | 50 | 60 | 80 = 50): string {
 export function imageOverlay(showOnHover = true): string {
   return cn(
     surface.imageDark,
-    'flex items-center justify-center',
-    'transition-opacity',
-    showOnHover && 'opacity-0 group-hover:opacity-100'
+    "flex items-center justify-center",
+    "transition-opacity",
+    showOnHover && "opacity-0 group-hover:opacity-100",
   );
 }
 

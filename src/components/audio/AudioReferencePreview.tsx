@@ -3,17 +3,17 @@
  * Displays waveform visualization, file info, and playback controls
  */
 
-import { useState, useEffect, useRef, useId, memo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Play, Pause, Loader2, Music, X, FileAudio, AlertTriangle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { logger } from '@/lib/logger';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { useState, useEffect, useRef, useId, memo } from "react";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Play, Pause, Loader2, Music, X, FileAudio, AlertTriangle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { logger } from "@/lib/logger";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
-type WaveSurferCtor = typeof import('wavesurfer.js');
+type WaveSurferCtor = typeof import("wavesurfer.js");
 type WaveSurferInstance = any;
 
 interface AudioReferencePreviewProps {
@@ -36,20 +36,20 @@ function formatFileSize(bytes: number): string {
 // Get audio format from MIME type
 function getAudioFormat(mimeType: string): string {
   const formats: Record<string, string> = {
-    'audio/mpeg': 'MP3',
-    'audio/mp3': 'MP3',
-    'audio/wav': 'WAV',
-    'audio/wave': 'WAV',
-    'audio/x-wav': 'WAV',
-    'audio/ogg': 'OGG',
-    'audio/flac': 'FLAC',
-    'audio/x-flac': 'FLAC',
-    'audio/aac': 'AAC',
-    'audio/mp4': 'M4A',
-    'audio/x-m4a': 'M4A',
-    'audio/webm': 'WebM',
+    "audio/mpeg": "MP3",
+    "audio/mp3": "MP3",
+    "audio/wav": "WAV",
+    "audio/wave": "WAV",
+    "audio/x-wav": "WAV",
+    "audio/ogg": "OGG",
+    "audio/flac": "FLAC",
+    "audio/x-flac": "FLAC",
+    "audio/aac": "AAC",
+    "audio/mp4": "M4A",
+    "audio/x-m4a": "M4A",
+    "audio/webm": "WebM",
   };
-  return formats[mimeType] || mimeType.split('/')[1]?.toUpperCase() || 'Audio';
+  return formats[mimeType] || mimeType.split("/")[1]?.toUpperCase() || "Audio";
 }
 
 export const AudioReferencePreview = memo(function AudioReferencePreview({
@@ -65,7 +65,7 @@ export const AudioReferencePreview = memo(function AudioReferencePreview({
   const wavesurferRef = useRef<WaveSurferInstance | null>(null);
   const sourceId = useId();
   const { pauseTrack, isPlaying: globalIsPlaying } = usePlayerStore();
-  
+
   const [isReady, setIsReady] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -106,7 +106,7 @@ export const AudioReferencePreview = memo(function AudioReferencePreview({
       setWaveformError(false);
 
       try {
-        const mod: WaveSurferCtor = await import('wavesurfer.js');
+        const mod: WaveSurferCtor = await import("wavesurfer.js");
         const WaveSurfer = (mod as any).default ?? (mod as any);
 
         if (!mounted) return;
@@ -114,13 +114,13 @@ export const AudioReferencePreview = memo(function AudioReferencePreview({
         const wavesurfer: WaveSurferInstance = WaveSurfer.create({
           container: containerRef.current,
           height: 48,
-          waveColor: 'hsl(var(--muted-foreground) / 0.4)',
-          progressColor: 'hsl(var(--primary))',
+          waveColor: "hsl(var(--muted-foreground) / 0.4)",
+          progressColor: "hsl(var(--primary))",
           barWidth: 2,
           barGap: 1,
           barRadius: 2,
           cursorWidth: 1,
-          cursorColor: 'hsl(var(--primary))',
+          cursorColor: "hsl(var(--primary))",
           normalize: true,
           interact: true,
           hideScrollbar: true,
@@ -129,39 +129,39 @@ export const AudioReferencePreview = memo(function AudioReferencePreview({
 
         wavesurferRef.current = wavesurfer;
 
-        wavesurfer.on('ready', () => {
+        wavesurfer.on("ready", () => {
           if (!mounted) return;
           setIsReady(true);
           setIsLoading(false);
         });
 
-        wavesurfer.on('error', (err: unknown) => {
-          logger.warn('Waveform load error', { error: err });
+        wavesurfer.on("error", (err: unknown) => {
+          logger.warn("Waveform load error", { error: err });
           if (mounted) {
             setIsLoading(false);
             setWaveformError(true);
           }
         });
 
-        wavesurfer.on('audioprocess', () => {
+        wavesurfer.on("audioprocess", () => {
           if (mounted) {
             setCurrentTime(wavesurfer.getCurrentTime());
           }
         });
 
-        wavesurfer.on('seeking', () => {
+        wavesurfer.on("seeking", () => {
           if (mounted) {
             setCurrentTime(wavesurfer.getCurrentTime());
           }
         });
 
-        wavesurfer.on('play', () => mounted && setIsPlaying(true));
-        wavesurfer.on('pause', () => mounted && setIsPlaying(false));
-        wavesurfer.on('finish', () => mounted && setIsPlaying(false));
+        wavesurfer.on("play", () => mounted && setIsPlaying(true));
+        wavesurfer.on("pause", () => mounted && setIsPlaying(false));
+        wavesurfer.on("finish", () => mounted && setIsPlaying(false));
 
         wavesurfer.load(audioUrl);
       } catch (e) {
-        logger.error('Failed to init WaveSurfer', e);
+        logger.error("Failed to init WaveSurfer", e);
         if (mounted) {
           setIsLoading(false);
           setWaveformError(true);
@@ -194,17 +194,17 @@ export const AudioReferencePreview = memo(function AudioReferencePreview({
 
   const fileFormat = getAudioFormat(file.type);
   const fileSize = formatFileSize(file.size);
-  const durationDisplay = duration ? formatTime(duration) : '--:--';
+  const durationDisplay = duration ? formatTime(duration) : "--:--";
   const withinLimit = modelLimit && duration ? duration <= modelLimit.duration : true;
 
   return (
-    <div className={cn('rounded-lg bg-muted/50 border border-border overflow-hidden', className)}>
+    <div className={cn("rounded-lg bg-muted/50 border border-border overflow-hidden", className)}>
       {/* Header with file info */}
       <div className="flex items-center gap-3 p-3">
         <div className="w-10 h-10 rounded bg-primary/20 flex items-center justify-center shrink-0">
           <Music className="w-5 h-5 text-primary" />
         </div>
-        
+
         <div className="flex-1 min-w-0">
           <p className="font-medium text-sm truncate">{file.name}</p>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -215,9 +215,7 @@ export const AudioReferencePreview = memo(function AudioReferencePreview({
             <span>•</span>
             <span>{fileSize}</span>
             <span>•</span>
-            <span className={cn(!withinLimit && 'text-destructive font-medium')}>
-              {durationDisplay}
-            </span>
+            <span className={cn(!withinLimit && "text-destructive font-medium")}>{durationDisplay}</span>
             {modelLimit && (
               <>
                 <span>/</span>

@@ -2,28 +2,28 @@
  * AudioHubRecorder - Recording section with mode selection and visualization
  */
 
-import React, { useState, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Mic, Settings2, Sparkles, Loader2 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+import React, { useState, useCallback, memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Mic, Settings2, Sparkles, Loader2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
-import { RecordingTypeSelector } from '@/components/recording/RecordingTypeSelector';
-import { RecordingControls } from '@/components/recording/RecordingControls';
-import { RecordingVisualizer } from '@/components/recording/RecordingVisualizer';
-import { RecordingPreview } from '@/components/recording/RecordingPreview';
-import { useUnifiedRecording, RecordingMode } from '@/hooks/audio/useUnifiedRecording';
-import { UnifiedAnalysisCard } from '@/components/analysis/UnifiedAnalysisCard';
-import { UnifiedAnalysisResult } from '@/services/unified-analysis/types';
-import { useUnifiedAnalysis } from '@/hooks/useUnifiedAnalysis';
-import { toast } from 'sonner';
+import { RecordingTypeSelector } from "@/components/recording/RecordingTypeSelector";
+import { RecordingControls } from "@/components/recording/RecordingControls";
+import { RecordingVisualizer } from "@/components/recording/RecordingVisualizer";
+import { RecordingPreview } from "@/components/recording/RecordingPreview";
+import { useUnifiedRecording, RecordingMode } from "@/hooks/audio/useUnifiedRecording";
+import { UnifiedAnalysisCard } from "@/components/analysis/UnifiedAnalysisCard";
+import { UnifiedAnalysisResult } from "@/services/unified-analysis/types";
+import { useUnifiedAnalysis } from "@/hooks/useUnifiedAnalysis";
+import { toast } from "sonner";
 
 export const AudioHubRecorder = memo(function AudioHubRecorder() {
-  const [recordingMode, setRecordingMode] = useState<RecordingMode>('vocal');
+  const [recordingMode, setRecordingMode] = useState<RecordingMode>("vocal");
   const [analysisResult, setAnalysisResult] = useState<UnifiedAnalysisResult | null>(null);
-  
+
   const {
     isRecording,
     isPaused,
@@ -45,7 +45,7 @@ export const AudioHubRecorder = memo(function AudioHubRecorder() {
     try {
       await startRecording();
     } catch (error) {
-      toast.error('Не удалось начать запись. Проверьте доступ к микрофону.');
+      toast.error("Не удалось начать запись. Проверьте доступ к микрофону.");
     }
   }, [startRecording]);
 
@@ -61,23 +61,23 @@ export const AudioHubRecorder = memo(function AudioHubRecorder() {
 
   const handleAnalyze = useCallback(async () => {
     if (!audioUrl) return;
-    
+
     try {
       const result = await analyze({
         audioUrl,
-        analysisTypes: ['full'],
+        analysisTypes: ["full"],
       });
       setAnalysisResult(result);
-      toast.success('Анализ завершён');
+      toast.success("Анализ завершён");
     } catch (error) {
-      toast.error('Ошибка анализа');
+      toast.error("Ошибка анализа");
     }
   }, [audioUrl, analyze]);
 
   const formatDuration = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -91,11 +91,7 @@ export const AudioHubRecorder = memo(function AudioHubRecorder() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <RecordingTypeSelector
-            value={recordingMode}
-            onChange={setRecordingMode}
-            disabled={isRecording}
-          />
+          <RecordingTypeSelector value={recordingMode} onChange={setRecordingMode} disabled={isRecording} />
         </CardContent>
       </Card>
 
@@ -126,25 +122,16 @@ export const AudioHubRecorder = memo(function AudioHubRecorder() {
                   <div className="p-4 rounded-full bg-muted/50 mx-auto w-fit">
                     <Mic className="h-8 w-8 text-muted-foreground" />
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    Нажмите для начала записи
-                  </p>
+                  <p className="text-sm text-muted-foreground">Нажмите для начала записи</p>
                 </div>
               )}
             </div>
 
             {/* Duration overlay when recording */}
             {isRecording && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="absolute top-3 right-3"
-              >
-                <Badge 
-                  variant={isPaused ? 'secondary' : 'destructive'}
-                  className="font-mono"
-                >
-                  {isPaused ? 'ПАУЗА' : 'REC'} {formatDuration(duration)}
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute top-3 right-3">
+                <Badge variant={isPaused ? "secondary" : "destructive"} className="font-mono">
+                  {isPaused ? "ПАУЗА" : "REC"} {formatDuration(duration)}
                 </Badge>
               </motion.div>
             )}
@@ -170,7 +157,7 @@ export const AudioHubRecorder = memo(function AudioHubRecorder() {
         {audioUrl && audioBlob && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="space-y-4"
           >
@@ -191,11 +178,7 @@ export const AudioHubRecorder = memo(function AudioHubRecorder() {
                     <Sparkles className="h-4 w-4" />
                     AI Анализ
                   </CardTitle>
-                  <Button
-                    size="sm"
-                    onClick={handleAnalyze}
-                    disabled={isAnalyzing}
-                  >
+                  <Button size="sm" onClick={handleAnalyze} disabled={isAnalyzing}>
                     {isAnalyzing ? (
                       <>
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -219,7 +202,7 @@ export const AudioHubRecorder = memo(function AudioHubRecorder() {
                       <div className="flex items-center justify-center gap-2">
                         <motion.div
                           animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                         >
                           <Sparkles className="h-5 w-5" />
                         </motion.div>

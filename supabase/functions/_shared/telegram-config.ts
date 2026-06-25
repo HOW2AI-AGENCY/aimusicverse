@@ -1,19 +1,19 @@
 /**
  * Centralized Telegram configuration for deep links and bot settings
- * 
+ *
  * Deep link format: https://t.me/BOT_USERNAME/APP_SHORT_NAME?startapp=PARAM
  * Example: https://t.me/AIMusicVerseBot/app?startapp=track_123
- * 
+ *
  * The start_param is passed to Mini App via webApp.initDataUnsafe.start_param
  */
 
 export const getTelegramConfig = () => {
-  const botUsername = Deno.env.get('TELEGRAM_BOT_USERNAME') || 'AIMusicVerseBot';
-  const appShortName = Deno.env.get('TELEGRAM_APP_SHORT_NAME') || 'app';
+  const botUsername = Deno.env.get("TELEGRAM_BOT_USERNAME") || "AIMusicVerseBot";
+  const appShortName = Deno.env.get("TELEGRAM_APP_SHORT_NAME") || "app";
   // Build default Mini App URL dynamically from bot username and app name
   const defaultMiniAppUrl = `https://t.me/${botUsername}/${appShortName}`;
-  const miniAppUrl = Deno.env.get('MINI_APP_URL') || defaultMiniAppUrl;
-  
+  const miniAppUrl = Deno.env.get("MINI_APP_URL") || defaultMiniAppUrl;
+
   return {
     botUsername,
     appShortName,
@@ -39,55 +39,55 @@ export const generateDeepLink = (type: string, id?: string): string => {
  * Generate deep link for a track
  */
 export const getTrackDeepLink = (trackId: string): string => {
-  return generateDeepLink('track', trackId);
+  return generateDeepLink("track", trackId);
 };
 
 /**
  * Generate deep link for a project
  */
 export const getProjectDeepLink = (projectId: string): string => {
-  return generateDeepLink('project', projectId);
+  return generateDeepLink("project", projectId);
 };
 
 /**
  * Generate deep link for music generation with style
  */
 export const getGenerateDeepLink = (style?: string): string => {
-  return style ? generateDeepLink('generate', style) : generateDeepLink('generate');
+  return style ? generateDeepLink("generate", style) : generateDeepLink("generate");
 };
 
 /**
  * Generate deep link for quick generation preset
  */
 export const getQuickGenDeepLink = (preset: string): string => {
-  return generateDeepLink('quick', preset);
+  return generateDeepLink("quick", preset);
 };
 
 /**
  * Generate deep link for MusicLab tools
  */
-export const getMusicLabDeepLink = (tool?: 'drums' | 'dj' | 'guitar' | 'melody'): string => {
-  return tool ? generateDeepLink(tool) : generateDeepLink('musiclab');
+export const getMusicLabDeepLink = (tool?: "drums" | "dj" | "guitar" | "melody"): string => {
+  return tool ? generateDeepLink(tool) : generateDeepLink("musiclab");
 };
 
 /**
  * Generate deep link for user profile
  */
 export const getProfileDeepLink = (userId: string): string => {
-  return generateDeepLink('profile', userId);
+  return generateDeepLink("profile", userId);
 };
 
 /**
  * Generate referral invite link
  */
 export const getInviteDeepLink = (userId: string): string => {
-  return generateDeepLink('invite', userId);
+  return generateDeepLink("invite", userId);
 };
 
 /**
  * Generate payment deep link
  */
-export const getPaymentDeepLink = (type: 'buy' | 'credits' | 'subscribe' = 'buy'): string => {
+export const getPaymentDeepLink = (type: "buy" | "credits" | "subscribe" = "buy"): string => {
   return generateDeepLink(type);
 };
 

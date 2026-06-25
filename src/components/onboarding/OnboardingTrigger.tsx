@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { useOnboarding, useShouldShowOnboarding } from '@/hooks/useOnboarding';
+import { useEffect } from "react";
+import { useOnboarding, useShouldShowOnboarding } from "@/hooks/useOnboarding";
 
 /**
  * Component that auto-starts onboarding for first-time users
@@ -15,7 +15,7 @@ export function OnboardingTrigger() {
       const timer = setTimeout(() => {
         startOnboarding();
       }, 1500); // Give the UI time to load first
-      
+
       return () => clearTimeout(timer);
     }
   }, [shouldShow, isActive, startOnboarding]);

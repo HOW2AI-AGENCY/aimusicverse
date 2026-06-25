@@ -1,14 +1,9 @@
-import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import type { Track } from '@/types/track';
-import { cn } from '@/lib/utils';
-import { ModelBadge } from './ModelBadge';
-import { trackTypeColors } from '@/lib/design-colors';
+import { Mic2, Guitar, Layers, Music2, FileText, FileMusic, Copy, ArrowRight } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import type { Track } from "@/types/track";
+import { cn } from "@/lib/utils";
+import { ModelBadge } from "./ModelBadge";
+import { trackTypeColors } from "@/lib/design-colors";
 
 interface TrackTypeIconsProps {
   track: Track;
@@ -19,8 +14,8 @@ interface TrackTypeIconsProps {
   showModel?: boolean;
 }
 
-export function TrackTypeIcons({ 
-  track, 
+export function TrackTypeIcons({
+  track,
   compact = false,
   hasMidi = false,
   hasPdf = false,
@@ -29,21 +24,21 @@ export function TrackTypeIcons({
 }: TrackTypeIconsProps) {
   const hasVocals = track.has_vocals === true;
   // is_instrumental derived from has_vocals if not explicitly set
-  const isInstrumental = track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
+  const isInstrumental =
+    track.is_instrumental === true || (track.is_instrumental == null && track.has_vocals === false);
   const hasStems = track.has_stems === true;
-  
+
   // Detect cover/extend based on generation_mode
-  const isCover = track.generation_mode === 'remix' || 
-    track.generation_mode === 'cover' || 
-    track.generation_mode === 'upload_cover';
-  const isExtend = track.generation_mode === 'extend' || 
-    track.generation_mode === 'upload_extend';
+  const isCover =
+    track.generation_mode === "remix" || track.generation_mode === "cover" || track.generation_mode === "upload_cover";
+  const isExtend = track.generation_mode === "extend" || track.generation_mode === "upload_extend";
 
   // Get model from track
   const model = (track as any).suno_model || (track as any).model_name;
   const hasModel = showModel && !!model;
 
-  const hasAnyIcon = hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend || hasModel;
+  const hasAnyIcon =
+    hasVocals || isInstrumental || hasStems || hasMidi || hasPdf || hasGp5 || isCover || isExtend || hasModel;
 
   if (!hasAnyIcon) {
     return null;
@@ -55,9 +50,7 @@ export function TrackTypeIcons({
     <TooltipProvider delayDuration={300}>
       <div className="flex items-center gap-0.5">
         {/* Model indicator - using ModelBadge component */}
-        {hasModel && (
-          <ModelBadge model={model} compact={compact} />
-        )}
+        {hasModel && <ModelBadge model={model} compact={compact} />}
 
         {/* Cover indicator */}
         {isCover && (
@@ -72,7 +65,7 @@ export function TrackTypeIcons({
             </TooltipContent>
           </Tooltip>
         )}
-        
+
         {/* Extend indicator */}
         {isExtend && (
           <Tooltip>
@@ -99,7 +92,7 @@ export function TrackTypeIcons({
             </TooltipContent>
           </Tooltip>
         )}
-        
+
         {isInstrumental && (
           <Tooltip>
             <TooltipTrigger asChild>
@@ -112,7 +105,7 @@ export function TrackTypeIcons({
             </TooltipContent>
           </Tooltip>
         )}
-        
+
         {hasStems && (
           <Tooltip>
             <TooltipTrigger asChild>

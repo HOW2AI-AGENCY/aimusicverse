@@ -3,16 +3,16 @@
  * Encourages upgrade with session-based cooldown
  */
 
-import { useState, useEffect, memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Crown, X, Sparkles, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useCreditsLimits } from '@/hooks/useCreditsLimits';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { SubscriptionUpgradePopup } from '@/components/popups/SubscriptionUpgradePopup';
-import { cn } from '@/lib/utils';
+import { useState, useEffect, memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Crown, X, Sparkles, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useCreditsLimits } from "@/hooks/useCreditsLimits";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { SubscriptionUpgradePopup } from "@/components/popups/SubscriptionUpgradePopup";
+import { cn } from "@/lib/utils";
 
-const SESSION_KEY = 'upsell_banner_dismissed';
+const SESSION_KEY = "upsell_banner_dismissed";
 const MIN_GENERATIONS_TO_SHOW = 3;
 
 interface ProactiveUpsellBannerProps {
@@ -50,13 +50,13 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
   }
 
   const handleDismiss = () => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     setIsDismissed(true);
-    sessionStorage.setItem(SESSION_KEY, 'true');
+    sessionStorage.setItem(SESSION_KEY, "true");
   };
 
   const handleUpgrade = () => {
-    hapticFeedback?.('medium');
+    hapticFeedback?.("medium");
     setIsPopupOpen(true);
   };
 
@@ -73,7 +73,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
               "bg-gradient-to-br from-amber-500/10 via-orange-500/10 to-purple-500/10",
               "border border-amber-500/30",
               "p-4",
-              className
+              className,
             )}
           >
             {/* Dismiss button */}
@@ -108,9 +108,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
 
               {/* Content */}
               <div className="flex-1 min-w-0 pr-6">
-                <h4 className="font-bold text-sm mb-1">
-                  Вам понравилось? 🎵
-                </h4>
+                <h4 className="font-bold text-sm mb-1">Вам понравилось? 🎵</h4>
                 <p className="text-xs text-muted-foreground mb-3">
                   Вы создали уже {generationCount} треков! Получите PRO для неограниченного творчества
                 </p>
@@ -123,7 +121,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
                     "gap-1.5 h-8",
                     "bg-gradient-to-r from-amber-500 to-orange-500",
                     "hover:from-amber-600 hover:to-orange-600",
-                    "text-white font-medium"
+                    "text-white font-medium",
                   )}
                 >
                   <Crown className="w-3.5 h-3.5" />
@@ -138,7 +136,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
               className="absolute -top-1 -left-1 px-2 py-0.5 rounded-br-lg rounded-tl-lg bg-purple-500 text-white text-[10px] font-bold"
               initial={{ x: -20 }}
               animate={{ x: 0 }}
-              transition={{ delay: 0.3, type: 'spring' }}
+              transition={{ delay: 0.3, type: "spring" }}
             >
               +50% бонус
             </motion.div>
@@ -147,11 +145,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
       </AnimatePresence>
 
       {/* Subscription popup */}
-      <SubscriptionUpgradePopup
-        open={isPopupOpen}
-        onClose={() => setIsPopupOpen(false)}
-        reason="general"
-      />
+      <SubscriptionUpgradePopup open={isPopupOpen} onClose={() => setIsPopupOpen(false)} reason="general" />
     </>
   );
 });

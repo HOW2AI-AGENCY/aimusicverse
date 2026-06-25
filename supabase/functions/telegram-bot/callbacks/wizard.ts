@@ -7,10 +7,10 @@ export async function handleWizardCallbacks(
   chatId: number,
   userId: number,
   messageId: number,
-  queryId: string
+  queryId: string,
 ): Promise<boolean> {
-  if (data.startsWith('wizard_')) {
-    const { handleWizardCallback } = await import('../wizards/project-wizard.ts');
+  if (data.startsWith("wizard_")) {
+    const { handleWizardCallback } = await import("../wizards/project-wizard.ts");
     const handled = await handleWizardCallback(data, chatId, userId, messageId, queryId);
     return handled;
   }

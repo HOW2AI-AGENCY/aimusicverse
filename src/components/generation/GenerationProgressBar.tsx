@@ -2,15 +2,15 @@
  * GenerationProgressBar - Visual progress indicator for generation tasks
  */
 
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Loader2, CheckCircle2, XCircle, Play, ExternalLink } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Loader2, CheckCircle2, XCircle, Play, ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "@/lib/motion";
 
 interface GenerationProgressBarProps {
-  status: 'idle' | 'submitting' | 'pending' | 'processing' | 'streaming_ready' | 'completed' | 'error';
+  status: "idle" | "submitting" | "pending" | "processing" | "streaming_ready" | "completed" | "error";
   progress: number;
   message: string;
   error?: string | null;
@@ -41,11 +41,11 @@ export function GenerationProgressBar({
   onDismiss,
   className,
 }: GenerationProgressBarProps) {
-  if (status === 'idle') return null;
+  if (status === "idle") return null;
 
-  const isActive = status !== 'completed' && status !== 'error';
-  const isCompleted = status === 'completed';
-  const isError = status === 'error';
+  const isActive = status !== "completed" && status !== "error";
+  const isCompleted = status === "completed";
+  const isError = status === "error";
 
   return (
     <AnimatePresence>
@@ -54,25 +54,19 @@ export function GenerationProgressBar({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
         className={cn(
-          'p-4 rounded-lg border',
-          isCompleted && 'border-green-500/50 bg-green-500/10',
-          isError && 'border-destructive/50 bg-destructive/10',
-          isActive && 'border-primary/50 bg-primary/5',
-          className
+          "p-4 rounded-lg border",
+          isCompleted && "border-green-500/50 bg-green-500/10",
+          isError && "border-destructive/50 bg-destructive/10",
+          isActive && "border-primary/50 bg-primary/5",
+          className,
         )}
       >
         <div className="flex items-start gap-3">
           {/* Status Icon */}
           <div className="flex-shrink-0 mt-0.5">
-            {isActive && (
-              <Loader2 className="w-5 h-5 animate-spin text-primary" />
-            )}
-            {isCompleted && (
-              <CheckCircle2 className="w-5 h-5 text-green-500" />
-            )}
-            {isError && (
-              <XCircle className="w-5 h-5 text-destructive" />
-            )}
+            {isActive && <Loader2 className="w-5 h-5 animate-spin text-primary" />}
+            {isCompleted && <CheckCircle2 className="w-5 h-5 text-green-500" />}
+            {isError && <XCircle className="w-5 h-5 text-destructive" />}
           </div>
 
           {/* Content */}
@@ -87,14 +81,10 @@ export function GenerationProgressBar({
             </div>
 
             {/* Progress bar for active states */}
-            {isActive && (
-              <Progress value={progress} className="h-2 mt-2" />
-            )}
+            {isActive && <Progress value={progress} className="h-2 mt-2" />}
 
             {/* Error message */}
-            {isError && error && (
-              <p className="text-xs text-destructive mt-1">{error}</p>
-            )}
+            {isError && error && <p className="text-xs text-destructive mt-1">{error}</p>}
 
             {/* Completed track info */}
             {isCompleted && completedTrack && (

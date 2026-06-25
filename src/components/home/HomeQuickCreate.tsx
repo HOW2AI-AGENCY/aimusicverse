@@ -7,35 +7,31 @@
  * Uses design system tokens for consistent styling.
  */
 
-import { memo, useCallback, useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Sparkles, Plus } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { Button } from '@/components/ui/button';
-import { UnifiedTipCard } from '@/components/hints';
-import { glass } from '@/lib/glass';
-
+import { memo, useCallback, useState } from "react";
+import { motion } from "@/lib/motion";
+import { Sparkles, Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { Button } from "@/components/ui/button";
+import { UnifiedTipCard } from "@/components/hints";
+import { glass } from "@/lib/glass";
 
 interface HomeQuickCreateProps {
   onCreateClick: () => void;
   className?: string;
 }
 
-export const HomeQuickCreate = memo(function HomeQuickCreate({
-  onCreateClick,
-  className,
-}: HomeQuickCreateProps) {
+export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, className }: HomeQuickCreateProps) {
   const { hapticFeedback } = useTelegram();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleCreate = useCallback(() => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     onCreateClick();
   }, [hapticFeedback, onCreateClick]);
 
   const handleExpand = useCallback(() => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     setIsExpanded(!isExpanded);
   }, [hapticFeedback, isExpanded]);
 
@@ -48,7 +44,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
         glass.subtle,
         "p-4 sm:p-5 lg:p-6",
         "group",
-        className
+        className,
       )}
     >
       {/* Background decoration - simplified */}
@@ -60,7 +56,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
         {/* Header with improved visual hierarchy */}
         <div className="flex items-start justify-between mb-4 lg:mb-5 gap-3">
           <div className="flex items-center gap-3 lg:gap-4">
-            <motion.div 
+            <motion.div
               className="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary/40 to-primary/15 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/30"
               animate={{ rotate: [0, 4, -4, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
@@ -68,18 +64,14 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
               <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary drop-shadow-sm" />
             </motion.div>
             <div>
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight">
-                Создать музыку
-              </h2>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight">Создать музыку</h2>
               <p className="text-xs sm:text-sm lg:text-base text-muted-foreground leading-snug">
                 AI сгенерирует трек за минуту
               </p>
             </div>
           </div>
           {/* Credits cost badge */}
-          <span 
-            className="px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm"
-          >
+          <span className="px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
             🎵 10-12 кредитов
           </span>
         </div>
@@ -95,7 +87,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
               "shadow-lg shadow-primary/25",
               "hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5",
               "active:scale-95",
-              "transition-all duration-200"
+              "transition-all duration-200",
             )}
             aria-label="Создать новый музыкальный трек с помощью AI"
           >
@@ -123,9 +115,9 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({
               "flex items-center justify-center",
               "hover:bg-card hover:border-primary/30 hover:shadow-md",
               "active:scale-95",
-              "transition-all duration-150"
+              "transition-all duration-150",
             )}
-            style={{ transform: isExpanded ? 'rotate(45deg)' : 'rotate(0deg)' }}
+            style={{ transform: isExpanded ? "rotate(45deg)" : "rotate(0deg)" }}
           >
             <Plus className="w-5 h-5 lg:w-6 lg:h-6 text-foreground" aria-hidden="true" />
           </button>
@@ -161,7 +153,7 @@ const QuickCreateOption = memo(function QuickCreateOption({
   const { hapticFeedback } = useTelegram();
 
   const handleClick = useCallback(() => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     onClick();
   }, [hapticFeedback, onClick]);
 
@@ -177,10 +169,12 @@ const QuickCreateOption = memo(function QuickCreateOption({
         "hover:bg-card hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5",
         "active:scale-95",
         "transition-all duration-150",
-        "group"
+        "group",
       )}
     >
-      <span className="text-xl lg:text-2xl mb-1 lg:mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">{icon}</span>
+      <span className="text-xl lg:text-2xl mb-1 lg:mb-2 group-hover:scale-110 transition-transform" aria-hidden="true">
+        {icon}
+      </span>
       <span className="text-xs lg:text-sm font-medium text-foreground">{label}</span>
       <span className="text-[10px] lg:text-xs text-muted-foreground">{description}</span>
     </button>

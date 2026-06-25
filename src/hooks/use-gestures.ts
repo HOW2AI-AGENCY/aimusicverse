@@ -8,7 +8,7 @@
  * @priority P1 - Mobile Optimization
  */
 
-import * as React from 'react';
+import * as React from "react";
 
 // ============================================================================
 // TYPE DEFINITIONS
@@ -112,10 +112,7 @@ interface PinchState {
 // MAIN HOOK
 // ============================================================================
 
-export function useGestures(
-  handlers: GestureHandlers,
-  options: GestureOptions = {}
-) {
+export function useGestures(handlers: GestureHandlers, options: GestureOptions = {}) {
   const {
     swipeThreshold = 50,
     swipeVelocityThreshold = 0.3,
@@ -145,35 +142,26 @@ export function useGestures(
   }, []);
 
   // Calculate distance between two touches
-  const getDistance = React.useCallback(
-    (touch1: React.Touch, touch2: React.Touch) => {
-      const dx = touch2.clientX - touch1.clientX;
-      const dy = touch2.clientY - touch1.clientY;
-      return Math.sqrt(dx * dx + dy * dy);
-    },
-    []
-  );
+  const getDistance = React.useCallback((touch1: React.Touch, touch2: React.Touch) => {
+    const dx = touch2.clientX - touch1.clientX;
+    const dy = touch2.clientY - touch1.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }, []);
 
   // Calculate angle between two touches
-  const getAngle = React.useCallback(
-    (touch1: React.Touch, touch2: React.Touch) => {
-      const dx = touch2.clientX - touch1.clientX;
-      const dy = touch2.clientY - touch1.clientY;
-      return (Math.atan2(dy, dx) * 180) / Math.PI;
-    },
-    []
-  );
+  const getAngle = React.useCallback((touch1: React.Touch, touch2: React.Touch) => {
+    const dx = touch2.clientX - touch1.clientX;
+    const dy = touch2.clientY - touch1.clientY;
+    return (Math.atan2(dy, dx) * 180) / Math.PI;
+  }, []);
 
   // Get center point between two touches
-  const getCenter = React.useCallback(
-    (touch1: React.Touch, touch2: React.Touch) => {
-      return {
-        x: (touch1.clientX + touch2.clientX) / 2,
-        y: (touch1.clientY + touch2.clientY) / 2,
-      };
-    },
-    []
-  );
+  const getCenter = React.useCallback((touch1: React.Touch, touch2: React.Touch) => {
+    return {
+      x: (touch1.clientX + touch2.clientX) / 2,
+      y: (touch1.clientY + touch2.clientY) / 2,
+    };
+  }, []);
 
   // Handle touch start
   const handleTouchStart = React.useCallback(
@@ -242,7 +230,7 @@ export function useGestures(
       getDistance,
       getAngle,
       getCenter,
-    ]
+    ],
   );
 
   // Handle touch move
@@ -291,12 +279,8 @@ export function useGestures(
       state.velocityY = deltaTime > 0 ? deltaY / deltaTime : 0;
 
       // Check if this is a swipe
-      const totalDistance = Math.sqrt(
-        state.distanceX * state.distanceX + state.distanceY * state.distanceY
-      );
-      const totalVelocity = Math.sqrt(
-        state.velocityX * state.velocityX + state.velocityY * state.velocityY
-      );
+      const totalDistance = Math.sqrt(state.distanceX * state.distanceX + state.distanceY * state.distanceY);
+      const totalVelocity = Math.sqrt(state.velocityX * state.velocityX + state.velocityY * state.velocityY);
 
       if (totalDistance > 10 && totalVelocity > swipeVelocityThreshold) {
         state.isSwipe = true;
@@ -321,7 +305,7 @@ export function useGestures(
       getDistance,
       getAngle,
       getCenter,
-    ]
+    ],
   );
 
   // Handle touch end
@@ -349,19 +333,13 @@ export function useGestures(
         const absVelocityX = Math.abs(state.velocityX);
         const absVelocityY = Math.abs(state.velocityY);
 
-        if (
-          absDistanceX > swipeThreshold &&
-          absVelocityX > swipeVelocityThreshold
-        ) {
+        if (absDistanceX > swipeThreshold && absVelocityX > swipeVelocityThreshold) {
           if (state.distanceX > 0) {
             handlers.onSwipeRight?.(absDistanceX, absVelocityX);
           } else {
             handlers.onSwipeLeft?.(absDistanceX, absVelocityX);
           }
-        } else if (
-          absDistanceY > swipeThreshold &&
-          absVelocityY > swipeVelocityThreshold
-        ) {
+        } else if (absDistanceY > swipeThreshold && absVelocityY > swipeVelocityThreshold) {
           if (state.distanceY > 0) {
             handlers.onSwipeDown?.(absDistanceY, absVelocityY);
           } else {
@@ -384,7 +362,7 @@ export function useGestures(
       tapMaxDuration,
       handlers,
       resetState,
-    ]
+    ],
   );
 
   // Handle touch cancel
@@ -393,7 +371,7 @@ export function useGestures(
       if (disabled) return;
       resetState();
     },
-    [disabled, resetState]
+    [disabled, resetState],
   );
 
   return {

@@ -3,22 +3,31 @@
  * Displays style, chords, beats, and transcription data
  */
 
-import { memo, useState, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Music, Gauge, Key, Heart, FileMusic, 
-  Activity, AudioWaveform, Download, Play, Pause,
-  ChevronDown, ChevronUp
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { ChordProgressionDisplay } from './ChordProgressionDisplay';
-import { BeatGridVisualization } from './BeatGridVisualization';
-import type { UnifiedAnalysisResult } from '@/services/unified-analysis/types';
+import { memo, useState, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Music,
+  Gauge,
+  Key,
+  Heart,
+  FileMusic,
+  Activity,
+  AudioWaveform,
+  Download,
+  Play,
+  Pause,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { ChordProgressionDisplay } from "./ChordProgressionDisplay";
+import { BeatGridVisualization } from "./BeatGridVisualization";
+import type { UnifiedAnalysisResult } from "@/services/unified-analysis/types";
 
 interface AnalysisResultsPanelProps {
   analysis: UnifiedAnalysisResult | null;
@@ -30,7 +39,7 @@ interface AnalysisResultsPanelProps {
   className?: string;
 }
 
-type TabValue = 'overview' | 'chords' | 'beats' | 'transcription';
+type TabValue = "overview" | "chords" | "beats" | "transcription";
 
 export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
   analysis,
@@ -41,25 +50,25 @@ export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
   onDownloadPdf,
   className,
 }: AnalysisResultsPanelProps) {
-  const [activeTab, setActiveTab] = useState<TabValue>('overview');
+  const [activeTab, setActiveTab] = useState<TabValue>("overview");
   const [expanded, setExpanded] = useState(false);
 
   // Determine available tabs
   const availableTabs = useMemo(() => {
     const tabs: { value: TabValue; label: string; icon: React.ReactNode }[] = [
-      { value: 'overview', label: 'Обзор', icon: <Activity className="w-3.5 h-3.5" /> },
+      { value: "overview", label: "Обзор", icon: <Activity className="w-3.5 h-3.5" /> },
     ];
 
     if (analysis?.chords && analysis.chords.length > 0) {
-      tabs.push({ value: 'chords', label: 'Аккорды', icon: <Music className="w-3.5 h-3.5" /> });
+      tabs.push({ value: "chords", label: "Аккорды", icon: <Music className="w-3.5 h-3.5" /> });
     }
 
     if (analysis?.beats && analysis.beats.length > 0) {
-      tabs.push({ value: 'beats', label: 'Ритм', icon: <AudioWaveform className="w-3.5 h-3.5" /> });
+      tabs.push({ value: "beats", label: "Ритм", icon: <AudioWaveform className="w-3.5 h-3.5" /> });
     }
 
     if (analysis?.notes && analysis.notes.length > 0) {
-      tabs.push({ value: 'transcription', label: 'Ноты', icon: <FileMusic className="w-3.5 h-3.5" /> });
+      tabs.push({ value: "transcription", label: "Ноты", icon: <FileMusic className="w-3.5 h-3.5" /> });
     }
 
     return tabs;
@@ -74,11 +83,7 @@ export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
   }
 
   return (
-    <Card className={cn(
-      "bg-gradient-to-br from-card/80 to-card/60",
-      "backdrop-blur-sm border-border/50",
-      className
-    )}>
+    <Card className={cn("bg-gradient-to-br from-card/80 to-card/60", "backdrop-blur-sm border-border/50", className)}>
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as TabValue)}>
         <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-border/30">
           <TabsList className="h-8 bg-background/50">
@@ -95,24 +100,12 @@ export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
           </TabsList>
 
           {/* Expand/Collapse for mobile */}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-7 w-7 p-0 sm:hidden"
-            onClick={() => setExpanded(!expanded)}
-          >
-            {expanded ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+          <Button variant="ghost" size="sm" className="h-7 w-7 p-0 sm:hidden" onClick={() => setExpanded(!expanded)}>
+            {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </div>
 
-        <CardContent className={cn(
-          "p-4 transition-all",
-          !expanded && "max-h-[200px] sm:max-h-none overflow-hidden"
-        )}>
+        <CardContent className={cn("p-4 transition-all", !expanded && "max-h-[200px] sm:max-h-none overflow-hidden")}>
           <AnimatePresence mode="wait">
             {/* Overview Tab */}
             <TabsContent value="overview" className="mt-0">
@@ -159,23 +152,17 @@ export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
                 {(analysis.genre || analysis.mood) && (
                   <div className="flex flex-wrap gap-2">
                     {analysis.genre && (
-                      <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                        {analysis.genre}
-                      </Badge>
+                      <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">{analysis.genre}</Badge>
                     )}
                     {analysis.mood && (
-                      <Badge className="bg-pink-500/20 text-pink-300 border-pink-500/30">
-                        {analysis.mood}
-                      </Badge>
+                      <Badge className="bg-pink-500/20 text-pink-300 border-pink-500/30">{analysis.mood}</Badge>
                     )}
                   </div>
                 )}
 
                 {/* Style Description */}
                 {analysis.styleDescription && (
-                  <p className="text-sm text-muted-foreground leading-relaxed">
-                    {analysis.styleDescription}
-                  </p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{analysis.styleDescription}</p>
                 )}
 
                 {/* Instruments */}
@@ -193,12 +180,7 @@ export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
 
             {/* Chords Tab */}
             <TabsContent value="chords" className="mt-0">
-              <motion.div
-                key="chords"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
+              <motion.div key="chords" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 {analysis.chords && (
                   <ChordProgressionDisplay
                     chords={analysis.chords}
@@ -212,22 +194,17 @@ export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
 
             {/* Beats Tab */}
             <TabsContent value="beats" className="mt-0">
-              <motion.div
-                key="beats"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-              >
+              <motion.div key="beats" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
                 {analysis.beats && (
                   <BeatGridVisualization
-                    beats={analysis.beats.map((b, i) => ({ 
-                      time: b.time, 
-                      beatNumber: (i % 4) + 1 
+                    beats={analysis.beats.map((b, i) => ({
+                      time: b.time,
+                      beatNumber: (i % 4) + 1,
                     }))}
                     downbeats={analysis.downbeats || []}
                     duration={duration}
                     bpm={analysis.bpm || 120}
-                    timeSignature={analysis.timeSignature || '4/4'}
+                    timeSignature={analysis.timeSignature || "4/4"}
                     currentTime={currentTime}
                     height={80}
                   />
@@ -246,42 +223,25 @@ export const AnalysisResultsPanel = memo(function AnalysisResultsPanel({
               >
                 {/* Notes summary */}
                 {analysis.notes && (
-                  <div className="text-sm text-muted-foreground">
-                    {analysis.notes.length} нот обнаружено
-                  </div>
+                  <div className="text-sm text-muted-foreground">{analysis.notes.length} нот обнаружено</div>
                 )}
 
                 {/* Download buttons */}
                 <div className="flex flex-wrap gap-2">
                   {analysis.midiUrl && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="gap-2"
-                      onClick={onDownloadMidi}
-                    >
+                    <Button variant="outline" size="sm" className="gap-2" onClick={onDownloadMidi}>
                       <Download className="w-3.5 h-3.5" />
                       MIDI
                     </Button>
                   )}
                   {analysis.pdfUrl && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="gap-2"
-                      onClick={onDownloadPdf}
-                    >
+                    <Button variant="outline" size="sm" className="gap-2" onClick={onDownloadPdf}>
                       <Download className="w-3.5 h-3.5" />
                       PDF
                     </Button>
                   )}
                   {analysis.musicXmlUrl && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="gap-2"
-                      asChild
-                    >
+                    <Button variant="outline" size="sm" className="gap-2" asChild>
                       <a href={analysis.musicXmlUrl} download>
                         <Download className="w-3.5 h-3.5" />
                         MusicXML

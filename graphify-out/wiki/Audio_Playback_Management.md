@@ -29,7 +29,7 @@
 - [Error Recovery](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L197) (1 connections)
 - [Exported Diagnostic Utilities](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L115) (1 connections)
 - [Fixed Console Usage in Player Components](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/PLAYER_FIXES_2025-12-10.md#L15) (1 connections)
-- *... and 11 more nodes in this community*
+- _... and 11 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

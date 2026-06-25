@@ -3,8 +3,8 @@
  * Supports drawing, editing, playback, and export
  */
 
-import { memo, useState, useCallback, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, useState, useCallback, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
   Play,
   Pause,
@@ -22,51 +22,45 @@ import {
   Music,
   ChevronLeft,
   ChevronRight,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Slider } from '@/components/ui/slider';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { useTabEditor, type TabNote, type TabTool } from '@/hooks/useTabEditor';
-import { useMidiSynth } from '@/hooks/useMidiSynth';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Slider } from "@/components/ui/slider";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useTabEditor, type TabNote, type TabTool } from "@/hooks/useTabEditor";
+import { useMidiSynth } from "@/hooks/useMidiSynth";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { cn } from "@/lib/utils";
 
 interface GuitarTabEditorProps {
   initialNotes?: TabNote[];
-  onExport?: (format: 'midi' | 'gp5' | 'pdf', notes: TabNote[]) => void;
+  onExport?: (format: "midi" | "gp5" | "pdf", notes: TabNote[]) => void;
   onSave?: (notes: TabNote[]) => void;
   className?: string;
 }
 
-const STRING_LABELS = ['e', 'B', 'G', 'D', 'A', 'E'];
+const STRING_LABELS = ["e", "B", "G", "D", "A", "E"];
 const STRING_MIDI_NOTES = [64, 59, 55, 50, 45, 40]; // Standard tuning
 
 const TOOL_ICONS: Record<TabTool, React.ReactNode> = {
   select: <MousePointer2 className="h-4 w-4" />,
   draw: <Pencil className="h-4 w-4" />,
   erase: <Eraser className="h-4 w-4" />,
-  'hammer-on': <span className="text-xs font-bold">H</span>,
+  "hammer-on": <span className="text-xs font-bold">H</span>,
   slide: <span className="text-xs font-bold">/</span>,
   bend: <span className="text-xs font-bold">b</span>,
 };
 
 const TECHNIQUE_SYMBOLS: Record<string, string> = {
-  'hammer-on': 'h',
-  'pull-off': 'p',
-  slide: '/',
-  bend: 'b',
-  vibrato: '~',
-  'palm-mute': 'x',
+  "hammer-on": "h",
+  "pull-off": "p",
+  slide: "/",
+  bend: "b",
+  vibrato: "~",
+  "palm-mute": "x",
 };
 
 // Measures to display
@@ -88,7 +82,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
   const [page, setPage] = useState(0);
   const [inputDialogOpen, setInputDialogOpen] = useState(false);
   const [inputPosition, setInputPosition] = useState<{ string: number; position: number } | null>(null);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
 
   const editor = useTabEditor({
     initialNotes,
@@ -105,13 +99,11 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
   const endPosition = startPosition + POSITIONS_PER_PAGE;
 
   // Get visible notes
-  const visibleNotes = editor.notes.filter(
-    n => n.position >= startPosition && n.position < endPosition
-  );
+  const visibleNotes = editor.notes.filter((n) => n.position >= startPosition && n.position < endPosition);
 
   // Group notes by position for rendering
   const notesByPosition = new Map<string, TabNote[]>();
-  visibleNotes.forEach(note => {
+  visibleNotes.forEach((note) => {
     const key = `${note.string}-${note.position}`;
     const existing = notesByPosition.get(key) || [];
     notesByPosition.set(key, [...existing, note]);
@@ -120,51 +112,50 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
   /**
    * Handle cell click
    */
-  const handleCellClick = useCallback((string: number, position: number) => {
-    const absolutePosition = startPosition + position;
-    const key = `${string}-${absolutePosition}`;
-    const existingNotes = editor.notes.filter(
-      n => n.string === string && n.position === absolutePosition
-    );
+  const handleCellClick = useCallback(
+    (string: number, position: number) => {
+      const absolutePosition = startPosition + position;
+      const key = `${string}-${absolutePosition}`;
+      const existingNotes = editor.notes.filter((n) => n.string === string && n.position === absolutePosition);
 
-    switch (editor.currentTool) {
-      case 'select':
-        if (existingNotes.length > 0) {
-          editor.toggleNoteSelection(existingNotes[0].id);
-        }
-        break;
+      switch (editor.currentTool) {
+        case "select":
+          if (existingNotes.length > 0) {
+            editor.toggleNoteSelection(existingNotes[0].id);
+          }
+          break;
 
-      case 'draw':
-        if (existingNotes.length === 0) {
-          setInputPosition({ string, position: absolutePosition });
-          setInputValue('');
-          setInputDialogOpen(true);
-        } else {
-          // Edit existing
-          setInputPosition({ string, position: absolutePosition });
-          setInputValue(existingNotes[0].fret.toString());
-          setInputDialogOpen(true);
-        }
-        break;
+        case "draw":
+          if (existingNotes.length === 0) {
+            setInputPosition({ string, position: absolutePosition });
+            setInputValue("");
+            setInputDialogOpen(true);
+          } else {
+            // Edit existing
+            setInputPosition({ string, position: absolutePosition });
+            setInputValue(existingNotes[0].fret.toString());
+            setInputDialogOpen(true);
+          }
+          break;
 
-      case 'erase':
-        existingNotes.forEach(n => editor.deleteNote(n.id));
-        break;
+        case "erase":
+          existingNotes.forEach((n) => editor.deleteNote(n.id));
+          break;
 
-      case 'hammer-on':
-      case 'slide':
-      case 'bend':
-        if (existingNotes.length > 0) {
-          const technique = editor.currentTool as 'hammer-on' | 'slide' | 'bend';
-          existingNotes.forEach(n => 
-            editor.updateNote(n.id, { technique })
-          );
-        }
-        break;
-    }
+        case "hammer-on":
+        case "slide":
+        case "bend":
+          if (existingNotes.length > 0) {
+            const technique = editor.currentTool as "hammer-on" | "slide" | "bend";
+            existingNotes.forEach((n) => editor.updateNote(n.id, { technique }));
+          }
+          break;
+      }
 
-    haptic.tap();
-  }, [editor, startPosition, haptic]);
+      haptic.tap();
+    },
+    [editor, startPosition, haptic],
+  );
 
   /**
    * Handle fret input
@@ -180,7 +171,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
 
     // Check if note exists at position
     const existing = editor.notes.find(
-      n => n.string === inputPosition.string && n.position === inputPosition.position
+      (n) => n.string === inputPosition.string && n.position === inputPosition.position,
     );
 
     if (existing) {
@@ -220,9 +211,9 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
 
     playIntervalRef.current = window.setInterval(() => {
       // Get notes at current position
-      const notesAtPos = editor.notes.filter(n => n.position === currentPos);
-      
-      notesAtPos.forEach(note => {
+      const notesAtPos = editor.notes.filter((n) => n.position === currentPos);
+
+      notesAtPos.forEach((note) => {
         const midiNote = STRING_MIDI_NOTES[note.string] + note.fret;
         synth.playNote(midiNote, note.duration * beatDuration, 0.8);
       });
@@ -231,7 +222,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
       currentPos++;
 
       // Check if we've reached the end
-      const maxPos = Math.max(...editor.notes.map(n => n.position + n.duration), 0);
+      const maxPos = Math.max(...editor.notes.map((n) => n.position + n.duration), 0);
       if (currentPos > maxPos + 4) {
         if (playIntervalRef.current) {
           clearInterval(playIntervalRef.current);
@@ -253,15 +244,15 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
   }, []);
 
   return (
-    <div className={cn('flex flex-col gap-4', className)}>
+    <div className={cn("flex flex-col gap-4", className)}>
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-2">
         {/* Tool buttons */}
         <div className="flex bg-muted rounded-lg p-1 gap-1">
-          {(['select', 'draw', 'erase'] as TabTool[]).map(tool => (
+          {(["select", "draw", "erase"] as TabTool[]).map((tool) => (
             <Button
               key={tool}
-              variant={editor.currentTool === tool ? 'default' : 'ghost'}
+              variant={editor.currentTool === tool ? "default" : "ghost"}
               size="icon"
               className="h-8 w-8"
               onClick={() => {
@@ -276,10 +267,10 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
 
         {/* Technique buttons */}
         <div className="flex bg-muted rounded-lg p-1 gap-1">
-          {(['hammer-on', 'slide', 'bend'] as TabTool[]).map(tool => (
+          {(["hammer-on", "slide", "bend"] as TabTool[]).map((tool) => (
             <Button
               key={tool}
-              variant={editor.currentTool === tool ? 'default' : 'ghost'}
+              variant={editor.currentTool === tool ? "default" : "ghost"}
               size="icon"
               className="h-8 w-8"
               onClick={() => {
@@ -294,22 +285,10 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
 
         {/* Undo/Redo */}
         <div className="flex gap-1">
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={editor.undo}
-            disabled={!editor.canUndo}
-          >
+          <Button variant="outline" size="icon" className="h-8 w-8" onClick={editor.undo} disabled={!editor.canUndo}>
             <Undo2 className="h-4 w-4" />
           </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-8 w-8"
-            onClick={editor.redo}
-            disabled={!editor.canRedo}
-          >
+          <Button variant="outline" size="icon" className="h-8 w-8" onClick={editor.redo} disabled={!editor.canRedo}>
             <Redo2 className="h-4 w-4" />
           </Button>
         </div>
@@ -374,7 +353,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
                 <Label>Название</Label>
                 <Input
                   value={editor.title}
-                  onChange={e => editor.setMetadata(e.target.value, editor.artist)}
+                  onChange={(e) => editor.setMetadata(e.target.value, editor.artist)}
                   placeholder="Название трека"
                   className="mt-2"
                 />
@@ -383,7 +362,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
                 <Label>Исполнитель</Label>
                 <Input
                   value={editor.artist}
-                  onChange={e => editor.setMetadata(editor.title, e.target.value)}
+                  onChange={(e) => editor.setMetadata(editor.title, e.target.value)}
                   placeholder="Имя артиста"
                   className="mt-2"
                 />
@@ -395,12 +374,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
 
       {/* Playback controls */}
       <div className="flex items-center gap-4 px-2">
-        <Button
-          variant={editor.isPlaying ? 'destructive' : 'default'}
-          size="sm"
-          className="gap-2"
-          onClick={handlePlay}
-        >
+        <Button variant={editor.isPlaying ? "destructive" : "default"} size="sm" className="gap-2" onClick={handlePlay}>
           {editor.isPlaying ? (
             <>
               <Square className="h-4 w-4" />
@@ -431,18 +405,14 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
             {STRING_LABELS.map((label, stringIndex) => (
               <div key={stringIndex} className="flex items-center">
                 {/* String label */}
-                <div className="w-6 text-muted-foreground font-bold">
-                  {label}|
-                </div>
+                <div className="w-6 text-muted-foreground font-bold">{label}|</div>
 
                 {/* Positions */}
                 <div className="flex-1 flex border-b border-muted-foreground/30">
                   {Array.from({ length: POSITIONS_PER_PAGE }).map((_, posIndex) => {
                     const absolutePos = startPosition + posIndex;
                     const key = `${stringIndex}-${absolutePos}`;
-                    const notes = editor.notes.filter(
-                      n => n.string === stringIndex && n.position === absolutePos
-                    );
+                    const notes = editor.notes.filter((n) => n.string === stringIndex && n.position === absolutePos);
                     const note = notes[0];
                     const isSelected = note && editor.selectedNotes.has(note.id);
                     const isCurrent = absolutePos === editor.currentPosition && editor.isPlaying;
@@ -452,12 +422,12 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
                       <button
                         key={posIndex}
                         className={cn(
-                          'w-8 h-8 flex items-center justify-center relative',
-                          'border-r border-muted-foreground/20',
-                          isMeasureStart && 'border-r-2 border-r-muted-foreground/40',
-                          isSelected && 'bg-primary/20',
-                          isCurrent && 'bg-primary/30',
-                          'hover:bg-muted/50 transition-colors'
+                          "w-8 h-8 flex items-center justify-center relative",
+                          "border-r border-muted-foreground/20",
+                          isMeasureStart && "border-r-2 border-r-muted-foreground/40",
+                          isSelected && "bg-primary/20",
+                          isCurrent && "bg-primary/30",
+                          "hover:bg-muted/50 transition-colors",
                         )}
                         onClick={() => handleCellClick(stringIndex, posIndex)}
                       >
@@ -465,11 +435,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
                           <motion.span
                             initial={{ scale: 0 }}
                             animate={{ scale: 1 }}
-                            className={cn(
-                              'font-bold',
-                              isSelected && 'text-primary',
-                              note.technique && 'underline'
-                            )}
+                            className={cn("font-bold", isSelected && "text-primary", note.technique && "underline")}
                           >
                             {note.fret}
                             {note.technique && (
@@ -492,10 +458,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
           {/* Measure numbers */}
           <div className="flex items-center mt-2 ml-6">
             {Array.from({ length: MEASURES_PER_PAGE }).map((_, i) => (
-              <div
-                key={i}
-                className="w-32 text-center text-xs text-muted-foreground"
-              >
+              <div key={i} className="w-32 text-center text-xs text-muted-foreground">
                 M{page * MEASURES_PER_PAGE + i + 1}
               </div>
             ))}
@@ -505,52 +468,28 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
 
       {/* Page navigation */}
       <div className="flex items-center justify-center gap-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setPage(p => Math.max(0, p - 1))}
-          disabled={page === 0}
-        >
+        <Button variant="outline" size="sm" onClick={() => setPage((p) => Math.max(0, p - 1))} disabled={page === 0}>
           <ChevronLeft className="h-4 w-4" />
         </Button>
         <span className="text-sm text-muted-foreground">
           Такты {page * MEASURES_PER_PAGE + 1}-{(page + 1) * MEASURES_PER_PAGE}
         </span>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => setPage(p => p + 1)}
-        >
+        <Button variant="outline" size="sm" onClick={() => setPage((p) => p + 1)}>
           <ChevronRight className="h-4 w-4" />
         </Button>
       </div>
 
       {/* Export buttons */}
       <div className="flex flex-wrap gap-2 justify-center">
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-2"
-          onClick={() => onExport?.('midi', editor.notes)}
-        >
+        <Button variant="outline" size="sm" className="gap-2" onClick={() => onExport?.("midi", editor.notes)}>
           <Download className="h-4 w-4" />
           MIDI
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-2"
-          onClick={() => onExport?.('gp5', editor.notes)}
-        >
+        <Button variant="outline" size="sm" className="gap-2" onClick={() => onExport?.("gp5", editor.notes)}>
           <Music className="h-4 w-4" />
           Guitar Pro
         </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          className="gap-2"
-          onClick={() => onExport?.('pdf', editor.notes)}
-        >
+        <Button variant="outline" size="sm" className="gap-2" onClick={() => onExport?.("pdf", editor.notes)}>
           <Download className="h-4 w-4" />
           PDF
         </Button>
@@ -571,7 +510,7 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               className="bg-card border rounded-xl p-6 shadow-xl"
-              onClick={e => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             >
               <h3 className="text-lg font-semibold mb-4">Введите лад</h3>
               <Input
@@ -579,26 +518,19 @@ export const GuitarTabEditor = memo(function GuitarTabEditor({
                 min={0}
                 max={24}
                 value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
+                onChange={(e) => setInputValue(e.target.value)}
                 autoFocus
                 className="text-center text-2xl font-bold"
-                onKeyDown={e => {
-                  if (e.key === 'Enter') handleFretInput();
-                  if (e.key === 'Escape') setInputDialogOpen(false);
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleFretInput();
+                  if (e.key === "Escape") setInputDialogOpen(false);
                 }}
               />
               <div className="flex gap-2 mt-4">
-                <Button 
-                  variant="outline" 
-                  className="flex-1"
-                  onClick={() => setInputDialogOpen(false)}
-                >
+                <Button variant="outline" className="flex-1" onClick={() => setInputDialogOpen(false)}>
                   Отмена
                 </Button>
-                <Button 
-                  className="flex-1"
-                  onClick={handleFretInput}
-                >
+                <Button className="flex-1" onClick={handleFretInput}>
                   OK
                 </Button>
               </div>

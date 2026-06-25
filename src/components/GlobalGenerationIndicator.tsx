@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Loader2, Music2, ChevronDown, ChevronUp, AlertCircle, Trash2, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useActiveGenerations } from '@/hooks/generation';
-import { useFailedGenerations } from '@/hooks/generation/useFailedGenerations';
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Loader2, Music2, ChevronDown, ChevronUp, AlertCircle, Trash2, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useActiveGenerations } from "@/hooks/generation";
+import { useFailedGenerations } from "@/hooks/generation/useFailedGenerations";
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
+import { toast } from "sonner";
 
 export function GlobalGenerationIndicator() {
   const navigate = useNavigate();
@@ -23,26 +23,23 @@ export function GlobalGenerationIndicator() {
   const totalCount = activeCount + failedCount;
 
   const handleDeleteFailed = async (taskId: string, trackId?: string | null) => {
-    setDeletingIds(prev => new Set(prev).add(taskId));
+    setDeletingIds((prev) => new Set(prev).add(taskId));
     try {
-      const { error } = await supabase
-        .from('generation_tasks')
-        .delete()
-        .eq('id', taskId);
+      const { error } = await supabase.from("generation_tasks").delete().eq("id", taskId);
 
       if (error) throw error;
 
       if (trackId) {
-        await supabase.from('tracks').delete().eq('id', trackId);
+        await supabase.from("tracks").delete().eq("id", trackId);
       }
 
-      toast.success('Задача удалена');
+      toast.success("Задача удалена");
       refetchFailed();
     } catch (error) {
-      logger.error('Delete failed task error', error as Error);
-      toast.error('Не удалось удалить задачу');
+      logger.error("Delete failed task error", error as Error);
+      toast.error("Не удалось удалить задачу");
     } finally {
-      setDeletingIds(prev => {
+      setDeletingIds((prev) => {
         const next = new Set(prev);
         next.delete(taskId);
         return next;
@@ -52,13 +49,10 @@ export function GlobalGenerationIndicator() {
 
   const handleDismissFailed = async (taskId: string) => {
     try {
-      await supabase
-        .from('generation_tasks')
-        .update({ status: 'dismissed' })
-        .eq('id', taskId);
+      await supabase.from("generation_tasks").update({ status: "dismissed" }).eq("id", taskId);
       refetchFailed();
     } catch (error) {
-      logger.warn('Dismiss generation task error', { taskId, error });
+      logger.warn("Dismiss generation task error", { taskId, error });
     }
   };
 
@@ -96,10 +90,11 @@ export function GlobalGenerationIndicator() {
               <AlertCircle className="w-4 h-4 text-destructive" />
             )}
             <span className="text-sm font-medium">
-              {activeCount > 0 
-                ? (activeCount === 1 ? 'Генерация трека' : `Генерация ${activeCount} треков`)
-                : `${failedCount} ошибок`
-              }
+              {activeCount > 0
+                ? activeCount === 1
+                  ? "Генерация трека"
+                  : `Генерация ${activeCount} треков`
+                : `${failedCount} ошибок`}
             </span>
             {activeCount > 0 && (
               <Badge variant="secondary" className="h-5 px-1.5 text-xs font-bold bg-primary/20 text-primary">
@@ -112,9 +107,12 @@ export function GlobalGenerationIndicator() {
               </Badge>
             )}
           </div>
-          {totalCount > 1 && (
-            expanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />
-          )}
+          {totalCount > 1 &&
+            (expanded ? (
+              <ChevronUp className="w-4 h-4 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-muted-foreground" />
+            ))}
         </Button>
 
         {/* Expanded list */}
@@ -122,7 +120,7 @@ export function GlobalGenerationIndicator() {
           {expanded && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
+              animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
@@ -130,26 +128,28 @@ export function GlobalGenerationIndicator() {
               <div className="px-3 pb-3 space-y-2 max-h-[300px] overflow-y-auto">
                 {/* Active generations */}
                 {activeGenerations.map((task) => (
-                  <div
-                    key={task.id}
-                    className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 text-xs"
-                  >
+                  <div key={task.id} className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 text-xs">
                     <Music2 className="w-3.5 h-3.5 text-primary flex-shrink-0" />
                     <span className="truncate flex-1 text-muted-foreground">
-                      {task.prompt.slice(0, 40)}{task.prompt.length > 40 ? '...' : ''}
+                      {task.prompt.slice(0, 40)}
+                      {task.prompt.length > 40 ? "..." : ""}
                     </span>
-                    <Badge 
-                      variant="outline" 
+                    <Badge
+                      variant="outline"
                       className={cn(
                         "text-[10px] h-4 px-1",
-                        task.status === 'processing' && "border-primary/50 text-primary",
-                        task.status === 'pending' && "border-yellow-500/50 text-yellow-500",
-                        task.status === 'streaming_ready' && "border-green-500/50 text-green-500 animate-pulse"
+                        task.status === "processing" && "border-primary/50 text-primary",
+                        task.status === "pending" && "border-yellow-500/50 text-yellow-500",
+                        task.status === "streaming_ready" && "border-green-500/50 text-green-500 animate-pulse",
                       )}
                     >
-                      {task.status === 'processing' ? 'В работе' : 
-                       task.status === 'pending' ? 'Очередь' : 
-                       task.status === 'streaming_ready' ? '▶️ Слушать' : task.status}
+                      {task.status === "processing"
+                        ? "В работе"
+                        : task.status === "pending"
+                          ? "Очередь"
+                          : task.status === "streaming_ready"
+                            ? "▶️ Слушать"
+                            : task.status}
                     </Badge>
                   </div>
                 ))}
@@ -163,10 +163,11 @@ export function GlobalGenerationIndicator() {
                     <AlertCircle className="w-3.5 h-3.5 text-destructive flex-shrink-0 mt-0.5" />
                     <div className="flex-1 min-w-0">
                       <span className="block truncate text-muted-foreground">
-                        {task.prompt.slice(0, 40)}{task.prompt.length > 40 ? '...' : ''}
+                        {task.prompt.slice(0, 40)}
+                        {task.prompt.length > 40 ? "..." : ""}
                       </span>
                       <span className="text-destructive text-[10px]">
-                        {task.error_message?.slice(0, 50) || 'Ошибка генерации'}
+                        {task.error_message?.slice(0, 50) || "Ошибка генерации"}
                       </span>
                     </div>
                     <div className="flex items-center gap-1">
@@ -210,7 +211,7 @@ export function GlobalGenerationIndicator() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate('/library')}
+            onClick={() => navigate("/library")}
             className="w-full h-9 text-xs text-primary hover:text-primary hover:bg-primary/5 rounded-t-none"
           >
             Открыть библиотеку →

@@ -93,15 +93,15 @@ import { useGuestAccess } from '@/hooks/useGuestAccess';
 
 function MyComponent() {
   const { requireAuth, isReadOnly, canWrite } = useGuestAccess();
-  
+
   const handleCreate = () => {
     // Проверяем авторизацию перед действием
     if (!requireAuth('создание трека')) return;
-    
+
     // Действие доступно только авторизованным пользователям
     createTrack();
   };
-  
+
   return (
     <div>
       {isReadOnly() && <p>Только просмотр</p>}
@@ -118,8 +118,8 @@ function MyComponent() {
 Гостевой режим сохраняет preference в localStorage:
 
 ```javascript
-localStorage.setItem('guestMode', 'true');  // Включён
-localStorage.removeItem('guestMode');       // Выключен
+localStorage.setItem("guestMode", "true"); // Включён
+localStorage.removeItem("guestMode"); // Выключен
 ```
 
 ## 🔐 Безопасность
@@ -198,4 +198,4 @@ localStorage.removeItem('guestMode');       // Выключен
 
 ---
 
-*Последнее обновление: 2025-12-10*
+_Последнее обновление: 2025-12-10_

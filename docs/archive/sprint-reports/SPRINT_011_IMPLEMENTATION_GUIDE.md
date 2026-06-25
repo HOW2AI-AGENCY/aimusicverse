@@ -52,6 +52,7 @@ MusicVerse AI's social features transform the platform from a music generation t
 ### Technology Stack
 
 **Frontend**:
+
 - React 19 + TypeScript 5
 - TanStack Query v5 (data fetching)
 - Zustand (global state)
@@ -60,11 +61,13 @@ MusicVerse AI's social features transform the platform from a music generation t
 - react-virtuoso (list virtualization)
 
 **Backend**:
+
 - Supabase (PostgreSQL + Real-time + Edge Functions)
 - Row Level Security (RLS) for data protection
 - Deno Edge Functions for server-side logic
 
 **Performance**:
+
 - Optimistic UI updates on all mutations
 - Infinite scroll with cursor-based pagination
 - Real-time subscriptions with automatic reconnection
@@ -80,6 +83,7 @@ MusicVerse AI's social features transform the platform from a music generation t
 Rich artist profiles with comprehensive information.
 
 **Components**:
+
 - `ProfileHeader.tsx` - Avatar, banner, display name, verification badge
 - `ProfileStats.tsx` - Followers, following, tracks stats
 - `ProfileBio.tsx` - Bio text with expansion
@@ -87,11 +91,13 @@ Rich artist profiles with comprehensive information.
 - `ProfileEditDialog.tsx` - Profile editing form
 
 **Hooks**:
+
 - `useProfile.ts` - Fetch profile with 5min cache
 - `useUpdateProfile.ts` - Update profile with image upload
 - `useProfileStats.ts` - Fetch statistics
 
 **Features**:
+
 - Image upload to Supabase Storage (5MB limit)
 - Privacy settings (public/followers/private)
 - Verification badge for verified artists
@@ -105,16 +111,19 @@ Rich artist profiles with comprehensive information.
 Follow/unfollow functionality with real-time updates.
 
 **Components**:
+
 - `FollowButton.tsx` - Follow/unfollow button
 - `FollowersList.tsx` - Virtualized followers list
 - `FollowingList.tsx` - Virtualized following list
 
 **Hooks**:
+
 - `useFollow.ts` - Follow/unfollow mutation
 - `useFollowers.ts` - Infinite scroll followers
 - `useFollowing.ts` - Infinite scroll following
 
 **Features**:
+
 - Rate limiting (30 follows/hour)
 - Optimistic updates
 - Automatic notifications
@@ -129,6 +138,7 @@ Follow/unfollow functionality with real-time updates.
 Threaded comments with @mentions and moderation.
 
 **Components**:
+
 - `CommentsList.tsx` - Virtualized top-level comments
 - `CommentItem.tsx` - Single comment display
 - `CommentThread.tsx` - Recursive threading (5 levels)
@@ -136,12 +146,14 @@ Threaded comments with @mentions and moderation.
 - `MentionInput.tsx` - @mention autocomplete
 
 **Hooks**:
+
 - `useComments.ts` - Fetch comments with real-time
 - `useAddComment.ts` - Create comment with mentions
 - `useDeleteComment.ts` - Soft/hard delete logic
 - `useMentions.ts` - User search for mentions
 
 **Features**:
+
 - Threading up to 5 levels deep
 - @mention autocomplete
 - Real-time updates via Supabase
@@ -158,14 +170,17 @@ Threaded comments with @mentions and moderation.
 Like system for tracks and comments.
 
 **Components**:
+
 - `LikeButton.tsx` - Animated heart button
 
 **Hooks**:
+
 - `useLikeTrack.ts` - Like/unlike tracks
 - `useLikeComment.ts` - Like/unlike comments
 - `useTrackStats.ts` - Engagement statistics
 
 **Features**:
+
 - Animated heart icon
 - Formatted counts (1.2K)
 - Optimistic updates
@@ -180,14 +195,17 @@ Like system for tracks and comments.
 Personalized feed of followed creators' activities.
 
 **Components**:
+
 - `ActivityFeed.tsx` - Virtualized activity list
 - `ActivityItem.tsx` - Activity card
 - `ActivityPage.tsx` - Feed page with filters
 
 **Hooks**:
+
 - `useActivityFeed.ts` - Fetch activities with filters
 
 **Features**:
+
 - Filter by type (All/Tracks/Likes/Playlists)
 - Real-time updates
 - Relative timestamps
@@ -202,13 +220,16 @@ Personalized feed of followed creators' activities.
 In-app notification system with Telegram integration.
 
 **Components**:
+
 - `NotificationCenter.tsx` - Dropdown with bell icon
 
 **Hooks**:
+
 - `useNotifications.ts` - Fetch with real-time
 - `useMarkAsRead.ts` - Mark notifications read
 
 **Features**:
+
 - Bell icon with unread badge
 - Filter tabs (All/Unread/Mentions)
 - Real-time updates
@@ -224,6 +245,7 @@ In-app notification system with Telegram integration.
 User safety features and content moderation.
 
 **Components**:
+
 - `PrivacySettings.tsx` - Privacy control panel
 - `BlockUserButton.tsx` - Block/unblock functionality
 - `ReportCommentButton.tsx` - Report system
@@ -231,10 +253,12 @@ User safety features and content moderation.
 - `BlockedUsersPage.tsx` - Manage blocked users
 
 **Hooks**:
+
 - `useBlockedUsers.ts` - Blocked users management
 - `useModerationReports.ts` - Moderation system
 
 **Features**:
+
 - Profile visibility settings
 - Block/unblock users
 - Report comments with reasons
@@ -250,14 +274,17 @@ User safety features and content moderation.
 Automated and manual content moderation.
 
 **Edge Functions**:
+
 - `moderate-content` - Server-side validation
 - `archive-old-activities` - Cleanup old data (T100) ✨ NEW
 
 **Utilities**:
+
 - `content-moderation.ts` - Client-side validation
 - `mention-parser.ts` - @mention extraction
 
 **Features**:
+
 - Profanity filter (T098) ✨ NEW
 - Spam detection
 - Rate limiting
@@ -273,10 +300,12 @@ Automated and manual content moderation.
 Consolidated real-time subscriptions with retry logic.
 
 **Hooks**:
+
 - `useRealtimeSubscription.ts` - Consolidated manager (T105) ✨ NEW
 - `useSocialRealtime.ts` - Pre-configured social subscriptions
 
 **Features**:
+
 - Consolidated subscriptions reduce connections
 - Automatic reconnection with exponential backoff
 - Latency monitoring
@@ -285,6 +314,7 @@ Consolidated real-time subscriptions with retry logic.
 - Error handling
 
 **Metrics Tracked**:
+
 - Average latency
 - Reconnect count
 - Messages received
@@ -297,6 +327,7 @@ Consolidated real-time subscriptions with retry logic.
 ### Core Tables
 
 #### profiles (extended)
+
 ```sql
 - display_name: VARCHAR(50)
 - bio: TEXT(500)
@@ -313,6 +344,7 @@ Consolidated real-time subscriptions with retry logic.
 ```
 
 #### user_follows
+
 ```sql
 - id: UUID PRIMARY KEY
 - follower_id: UUID REFERENCES auth.users
@@ -323,6 +355,7 @@ UNIQUE(follower_id, following_id)
 ```
 
 #### comments
+
 ```sql
 - id: UUID PRIMARY KEY
 - track_id: UUID REFERENCES tracks
@@ -337,6 +370,7 @@ UNIQUE(follower_id, following_id)
 ```
 
 #### track_likes
+
 ```sql
 - id: UUID PRIMARY KEY
 - user_id: UUID REFERENCES auth.users
@@ -346,6 +380,7 @@ UNIQUE(user_id, track_id)
 ```
 
 #### comment_likes
+
 ```sql
 - id: UUID PRIMARY KEY
 - user_id: UUID REFERENCES auth.users
@@ -355,6 +390,7 @@ UNIQUE(user_id, comment_id)
 ```
 
 #### activities
+
 ```sql
 - id: UUID PRIMARY KEY
 - user_id: UUID (feed owner)
@@ -367,6 +403,7 @@ UNIQUE(user_id, comment_id)
 ```
 
 #### activities_archive (T100) ✨ NEW
+
 ```sql
 - Same as activities table
 - archived_at: TIMESTAMPTZ
@@ -374,6 +411,7 @@ UNIQUE(user_id, comment_id)
 ```
 
 #### notifications
+
 ```sql
 - id: UUID PRIMARY KEY
 - user_id: UUID
@@ -388,6 +426,7 @@ UNIQUE(user_id, comment_id)
 ```
 
 #### blocked_users
+
 ```sql
 - id: UUID PRIMARY KEY
 - blocker_id: UUID
@@ -397,6 +436,7 @@ UNIQUE(blocker_id, blocked_id)
 ```
 
 #### moderation_reports
+
 ```sql
 - id: UUID PRIMARY KEY
 - reporter_id: UUID
@@ -413,6 +453,7 @@ UNIQUE(blocker_id, blocked_id)
 ### Indexes
 
 Performance indexes for all social queries:
+
 - `idx_follows_follower` on user_follows(follower_id)
 - `idx_comments_track_created` on comments(track_id, created_at DESC)
 - `idx_activities_user_created` on activities(user_id, created_at DESC)
@@ -441,7 +482,7 @@ interface ProfileExtended {
   bannerUrl?: string;
   isVerified: boolean;
   isPublic: boolean;
-  privacyLevel: 'public' | 'followers' | 'private';
+  privacyLevel: "public" | "followers" | "private";
   socialLinks?: {
     instagram?: string;
     twitter?: string;
@@ -457,6 +498,7 @@ interface ProfileExtended {
 ```
 
 **Options**:
+
 - `staleTime`: 5 minutes
 - `gcTime`: 10 minutes
 - Automatic refetch on window focus
@@ -471,12 +513,13 @@ Follow/unfollow mutation with optimistic updates.
 const { mutate: follow, isPending } = useFollow(userId);
 
 follow({
-  onSuccess: () => console.log('Followed!'),
+  onSuccess: () => console.log("Followed!"),
   onError: (error) => console.error(error),
 });
 ```
 
 **Features**:
+
 - Optimistic UI updates
 - Rate limiting (30 follows/hour)
 - Automatic notification creation
@@ -491,8 +534,8 @@ Fetches comments with real-time subscriptions.
 
 ```typescript
 const { data: comments, isLoading } = useComments({
-  trackId: '123',
-  sortBy: 'newest', // 'newest' | 'oldest' | 'popular'
+  trackId: "123",
+  sortBy: "newest", // 'newest' | 'oldest' | 'popular'
   enabled: true,
 });
 
@@ -512,6 +555,7 @@ interface CommentThread {
 ```
 
 **Features**:
+
 - Real-time updates via Supabase
 - Blocked users filter (T099) ✨
 - Virtual scrolling for large lists
@@ -526,16 +570,20 @@ Creates comment with mentions and validation.
 ```typescript
 const { mutate: addComment, isPending } = useAddComment();
 
-addComment({
-  trackId: '123',
-  content: 'Great track! @username',
-  parentCommentId: '456', // optional
-}, {
-  onSuccess: () => console.log('Comment added!'),
-});
+addComment(
+  {
+    trackId: "123",
+    content: "Great track! @username",
+    parentCommentId: "456", // optional
+  },
+  {
+    onSuccess: () => console.log("Comment added!"),
+  },
+);
 ```
 
 **Validation** (T098) ✨:
+
 - Profanity filter
 - Spam detection
 - Length validation (2000 chars)
@@ -551,11 +599,12 @@ Like/unlike track with optimistic updates.
 const { mutate: toggleLike, isPending } = useLikeTrack(trackId);
 
 toggleLike({
-  onSuccess: () => console.log('Liked!'),
+  onSuccess: () => console.log("Liked!"),
 });
 ```
 
 **Features**:
+
 - Animated heart button
 - Formatted counts
 - Haptic feedback
@@ -569,13 +618,13 @@ Consolidated real-time subscription manager.
 
 ```typescript
 const { metrics, reconnect } = useRealtimeSubscription({
-  channel: 'social:user-123',
+  channel: "social:user-123",
   tables: [
     {
-      name: 'comments',
-      filter: 'track_id=eq.123',
-      events: ['INSERT', 'UPDATE', 'DELETE'],
-      invalidateQueries: [['comments', '123']],
+      name: "comments",
+      filter: "track_id=eq.123",
+      events: ["INSERT", "UPDATE", "DELETE"],
+      invalidateQueries: [["comments", "123"]],
     },
   ],
   onError: (error) => console.error(error),
@@ -592,6 +641,7 @@ interface RealtimeMetrics {
 ```
 
 **Features**:
+
 - Automatic reconnection
 - Latency monitoring
 - Connection state tracking
@@ -606,6 +656,7 @@ interface RealtimeMetrics {
 Displays user profile header with avatar, banner, and verification badge.
 
 **Props**:
+
 ```typescript
 interface ProfileHeaderProps {
   profile: ProfileExtended;
@@ -615,12 +666,9 @@ interface ProfileHeaderProps {
 ```
 
 **Usage**:
+
 ```tsx
-<ProfileHeader
-  profile={profile}
-  isOwnProfile={user.id === profile.id}
-  onEdit={() => setShowEditDialog(true)}
-/>
+<ProfileHeader profile={profile} isOwnProfile={user.id === profile.id} onEdit={() => setShowEditDialog(true)} />
 ```
 
 ---
@@ -630,21 +678,19 @@ interface ProfileHeaderProps {
 Follow/unfollow button with loading state.
 
 **Props**:
+
 ```typescript
 interface FollowButtonProps {
   userId: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'outline';
+  size?: "sm" | "md" | "lg";
+  variant?: "default" | "outline";
 }
 ```
 
 **Usage**:
+
 ```tsx
-<FollowButton
-  userId="user-123"
-  size="md"
-  variant="default"
-/>
+<FollowButton userId="user-123" size="md" variant="default" />
 ```
 
 ---
@@ -654,6 +700,7 @@ interface FollowButtonProps {
 Comment input with profanity filter and mentions.
 
 **Props**:
+
 ```typescript
 interface CommentFormProps {
   trackId: string;
@@ -666,15 +713,13 @@ interface CommentFormProps {
 ```
 
 **Usage**:
+
 ```tsx
-<CommentForm
-  trackId="track-123"
-  placeholder="Add a comment..."
-  onSuccess={() => setShowForm(false)}
-/>
+<CommentForm trackId="track-123" placeholder="Add a comment..." onSuccess={() => setShowForm(false)} />
 ```
 
 **Features** (T098) ✨:
+
 - Real-time profanity validation
 - Inline error display
 - Character counter
@@ -687,22 +732,20 @@ interface CommentFormProps {
 Animated heart button for likes.
 
 **Props**:
+
 ```typescript
 interface LikeButtonProps {
   trackId?: string;
   commentId?: string;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   showCount?: boolean;
 }
 ```
 
 **Usage**:
+
 ```tsx
-<LikeButton
-  trackId="track-123"
-  size="md"
-  showCount={true}
-/>
+<LikeButton trackId="track-123" size="md" showCount={true} />
 ```
 
 ---
@@ -712,18 +755,21 @@ interface LikeButtonProps {
 Notification dropdown with bell icon.
 
 **Props**:
+
 ```typescript
 interface NotificationCenterProps {
-  position?: 'left' | 'right';
+  position?: "left" | "right";
 }
 ```
 
 **Usage**:
+
 ```tsx
 <NotificationCenter position="right" />
 ```
 
 **Features**:
+
 - Unread badge count
 - Real-time updates
 - Filter tabs
@@ -737,11 +783,13 @@ interface NotificationCenterProps {
 Privacy control panel.
 
 **Usage**:
+
 ```tsx
 <PrivacySettings />
 ```
 
 **Features**:
+
 - Profile visibility
 - Track visibility
 - Comment permissions
@@ -755,19 +803,22 @@ Privacy control panel.
 Block/unblock functionality.
 
 **Props**:
+
 ```typescript
 interface BlockUserButtonProps {
   userId: string;
-  size?: 'sm' | 'md';
+  size?: "sm" | "md";
 }
 ```
 
 **Usage**:
+
 ```tsx
 <BlockUserButton userId="user-123" />
 ```
 
 **Features**:
+
 - Confirmation dialog
 - Automatic unfollow
 - Query invalidation
@@ -780,11 +831,13 @@ interface BlockUserButtonProps {
 Admin moderation interface.
 
 **Usage**:
+
 ```tsx
 <ModerationDashboard />
 ```
 
 **Features**:
+
 - List moderation reports
 - Hide comments
 - Warn users
@@ -801,6 +854,7 @@ Admin moderation interface.
 Real-time connections are managed by `useRealtimeSubscription` (T105).
 
 **Features**:
+
 - Automatic reconnection with exponential backoff
 - Connection state tracking
 - Latency monitoring
@@ -808,6 +862,7 @@ Real-time connections are managed by `useRealtimeSubscription` (T105).
 - Error handling
 
 **Reconnection Strategy**:
+
 1. Initial connection attempt
 2. On error: wait 5 seconds
 3. Retry connection
@@ -827,6 +882,7 @@ console.log(metrics.messagesReceived);
 ```
 
 **Monitoring**:
+
 - Average latency: <100ms target
 - High latency alert: >500ms
 - Connection failures logged
@@ -847,6 +903,7 @@ const { metrics } = useSocialRealtime(trackId);
 ```
 
 **Benefits**:
+
 - Reduces connection overhead
 - Simplifies connection management
 - Improves performance
@@ -861,7 +918,7 @@ const { metrics } = useSocialRealtime(trackId);
 Implemented in `content-moderation.ts`:
 
 ```typescript
-import { validateCommentContent } from '@/lib/content-moderation';
+import { validateCommentContent } from "@/lib/content-moderation";
 
 const validation = validateCommentContent(content);
 if (!validation.valid) {
@@ -870,6 +927,7 @@ if (!validation.valid) {
 ```
 
 **Checks**:
+
 - Profanity filter
 - Spam patterns (URLs, phone numbers, caps)
 - Length validation
@@ -880,6 +938,7 @@ if (!validation.valid) {
 Edge function: `moderate-content`
 
 **Request**:
+
 ```json
 {
   "content": "Comment text",
@@ -888,6 +947,7 @@ Edge function: `moderate-content`
 ```
 
 **Response**:
+
 ```json
 {
   "approved": true,
@@ -901,18 +961,16 @@ Automatically filters comments from blocked users:
 
 ```typescript
 // In useComments hook
-const { data: blockedData } = await supabase
-  .from('blocked_users')
-  .select('blocked_id')
-  .eq('blocker_id', user.id);
+const { data: blockedData } = await supabase.from("blocked_users").select("blocked_id").eq("blocker_id", user.id);
 
 // Filter at database level
 if (blockedUserIds.length > 0) {
-  query = query.not('user_id', 'in', `(${blockedUserIds.join(',')})`);
+  query = query.not("user_id", "in", `(${blockedUserIds.join(",")})`);
 }
 ```
 
 **Benefits**:
+
 - Database-level filtering
 - No client-side processing
 - Automatic updates
@@ -927,12 +985,13 @@ Users accumulate strikes for violations:
 3. **Third strike**: 24-hour ban
 
 **Implementation**:
+
 ```typescript
 const { mutate: warnUser } = useWarnUser();
 
 warnUser({
-  userId: 'user-123',
-  reason: 'Inappropriate comment',
+  userId: "user-123",
+  reason: "Inappropriate comment",
 });
 ```
 
@@ -943,12 +1002,14 @@ Old activities are archived automatically:
 **Edge Function**: `archive-old-activities`
 
 **Configuration**:
+
 - Archive activities older than 30 days
 - Delete archived data older than 90 days
 - Batch processing (1000 items)
 - Scheduled as cron job
 
 **Usage**:
+
 ```bash
 # Schedule in Supabase Dashboard
 # Cron: 0 2 * * * (daily at 2 AM)
@@ -964,6 +1025,7 @@ curl -X POST \
 ### Data Fetching
 
 **TanStack Query Configuration**:
+
 ```typescript
 {
   staleTime: 30 * 1000,      // 30 seconds
@@ -983,16 +1045,16 @@ const { mutate } = useMutation({
   onMutate: async (data) => {
     // Cancel outgoing queries
     await queryClient.cancelQueries({ queryKey });
-    
+
     // Snapshot current value
     const previousData = queryClient.getQueryData(queryKey);
-    
+
     // Optimistically update
     queryClient.setQueryData(queryKey, (old) => ({
       ...old,
       ...data,
     }));
-    
+
     return { previousData };
   },
   onError: (err, data, context) => {
@@ -1011,18 +1073,17 @@ const { mutate } = useMutation({
 All lists >20 items use `react-virtuoso`:
 
 ```tsx
-import { Virtuoso } from 'react-virtuoso';
+import { Virtuoso } from "react-virtuoso";
 
 <Virtuoso
   data={comments}
-  itemContent={(index, comment) => (
-    <CommentItem comment={comment} />
-  )}
+  itemContent={(index, comment) => <CommentItem comment={comment} />}
   endReached={() => fetchNextPage()}
-/>
+/>;
 ```
 
 **Benefits**:
+
 - Renders only visible items
 - Smooth scrolling with 1000+ items
 - Automatic height calculation
@@ -1045,17 +1106,19 @@ const [profile, stats, followers] = await Promise.all([
 **Profile Data**: 5 minutes stale time  
 **Stats Data**: 30 seconds stale time  
 **Comments**: 30 seconds stale time  
-**Notifications**: 30 seconds stale time  
+**Notifications**: 30 seconds stale time
 
 ### Image Optimization
 
 **Avatar Upload**:
+
 - Max size: 5MB
 - Auto-resize to 500x500px
 - WebP format
 - CDN delivery via Supabase Storage
 
 **Banner Upload**:
+
 - Max size: 10MB
 - Auto-resize to 1920x400px
 - WebP format
@@ -1067,6 +1130,7 @@ const [profile, stats, followers] = await Promise.all([
 ### Manual Testing Checklist
 
 #### User Profiles
+
 - [ ] Create/edit profile with all fields
 - [ ] Upload avatar and banner images
 - [ ] Set privacy settings
@@ -1074,6 +1138,7 @@ const [profile, stats, followers] = await Promise.all([
 - [ ] Verify stats update correctly
 
 #### Following System
+
 - [ ] Follow/unfollow users
 - [ ] View followers/following lists
 - [ ] Search within lists
@@ -1081,6 +1146,7 @@ const [profile, stats, followers] = await Promise.all([
 - [ ] Check notifications created
 
 #### Comments
+
 - [ ] Add top-level comment
 - [ ] Add threaded reply (up to 5 levels)
 - [ ] Use @mentions with autocomplete
@@ -1090,6 +1156,7 @@ const [profile, stats, followers] = await Promise.all([
 - [ ] Check real-time updates
 
 #### Likes
+
 - [ ] Like/unlike tracks
 - [ ] Like/unlike comments
 - [ ] Verify optimistic updates
@@ -1097,6 +1164,7 @@ const [profile, stats, followers] = await Promise.all([
 - [ ] Test haptic feedback
 
 #### Notifications
+
 - [ ] Receive follow notifications
 - [ ] Receive like notifications
 - [ ] Receive comment notifications
@@ -1105,6 +1173,7 @@ const [profile, stats, followers] = await Promise.all([
 - [ ] Navigate to entity
 
 #### Privacy & Moderation
+
 - [ ] Set profile to private
 - [ ] Block/unblock users
 - [ ] Report comments
@@ -1113,6 +1182,7 @@ const [profile, stats, followers] = await Promise.all([
 - [ ] Admin: warn user (strike system)
 
 #### Real-time
+
 - [ ] Verify comments update real-time
 - [ ] Verify notifications appear instantly
 - [ ] Test connection reconnection
@@ -1125,19 +1195,22 @@ const [profile, stats, followers] = await Promise.all([
 ### Pre-Deployment Checklist
 
 #### Database
-- [ ] Run all migrations (20251212200000_* series)
+
+- [ ] Run all migrations (20251212200000\_\* series)
 - [ ] Run activities_archive migration (20251213050000)
 - [ ] Verify RLS policies active
 - [ ] Create storage buckets (avatars, banners)
 - [ ] Set bucket permissions (public read)
 
 #### Edge Functions
+
 - [ ] Deploy `moderate-content` function
 - [ ] Deploy `archive-old-activities` function (T100)
 - [ ] Set up cron job for archival (daily 2 AM)
 - [ ] Configure environment variables
 
 #### Frontend
+
 - [ ] Build production bundle
 - [ ] Verify no console errors
 - [ ] Test all social features
@@ -1166,12 +1239,14 @@ supabase secrets set OPENAI_API_KEY=your-key
 ### Environment Variables
 
 **Frontend (.env)**:
+
 ```bash
 VITE_SUPABASE_URL=your-supabase-url
 VITE_SUPABASE_ANON_KEY=your-anon-key
 ```
 
 **Edge Functions**:
+
 ```bash
 SUPABASE_URL=your-supabase-url
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
@@ -1183,6 +1258,7 @@ OPENAI_API_KEY=your-openai-key (if using AI moderation)
 Set up in Supabase Dashboard > Edge Functions > Cron:
 
 **Activity Archival**:
+
 ```
 0 2 * * * (daily at 2 AM)
 Function: archive-old-activities
@@ -1197,11 +1273,13 @@ Function: archive-old-activities
 #### Real-time Connection Drops
 
 **Symptoms**:
+
 - Comments don't update automatically
 - Notifications delayed
 - High reconnect count in metrics
 
 **Solutions**:
+
 1. Check Supabase project status
 2. Verify network connectivity
 3. Review browser console for errors
@@ -1209,11 +1287,12 @@ Function: archive-old-activities
 5. Manually reconnect: `reconnect()`
 
 **Code**:
+
 ```typescript
 const { metrics, reconnect } = useSocialRealtime(trackId);
 
 if (metrics.reconnectCount > 5) {
-  console.error('Too many reconnects, manual intervention needed');
+  console.error("Too many reconnects, manual intervention needed");
   reconnect();
 }
 ```
@@ -1223,28 +1302,28 @@ if (metrics.reconnectCount > 5) {
 #### Profanity Filter False Positives
 
 **Symptoms**:
+
 - Valid comments blocked
 - Users report filter too strict
 
 **Solutions**:
+
 1. Update profanity list in `content-moderation.ts`
 2. Adjust spam detection thresholds
 3. Add whitelist for common words
 4. Review reported false positives
 
 **Code**:
+
 ```typescript
 // In content-moderation.ts
 const PROFANITY_WHITELIST = [
-  'scam', // Allow in music context
+  "scam", // Allow in music context
 ];
 
 export function containsProfanity(content: string): boolean {
   const lowerContent = content.toLowerCase();
-  return PROFANITY_LIST.some(word => 
-    lowerContent.includes(word) && 
-    !PROFANITY_WHITELIST.includes(word)
-  );
+  return PROFANITY_LIST.some((word) => lowerContent.includes(word) && !PROFANITY_WHITELIST.includes(word));
 }
 ```
 
@@ -1253,20 +1332,23 @@ export function containsProfanity(content: string): boolean {
 #### Blocked Users Still Visible
 
 **Symptoms**:
+
 - Blocked user comments appear
 - Block doesn't take effect immediately
 
 **Solutions**:
+
 1. Verify blocked_users table entry
 2. Check query invalidation
 3. Clear browser cache
 4. Refresh comments query
 
 **Code**:
+
 ```typescript
 // After blocking
-queryClient.invalidateQueries({ queryKey: ['comments'] });
-queryClient.invalidateQueries({ queryKey: ['blocked-users'] });
+queryClient.invalidateQueries({ queryKey: ["comments"] });
+queryClient.invalidateQueries({ queryKey: ["blocked-users"] });
 ```
 
 ---
@@ -1274,16 +1356,19 @@ queryClient.invalidateQueries({ queryKey: ['blocked-users'] });
 #### Activity Feed Not Updating
 
 **Symptoms**:
+
 - New activities don't appear
 - Feed seems frozen
 
 **Solutions**:
+
 1. Check activities table triggers
 2. Verify real-time subscription
 3. Check RLS policies
 4. Review activity creation logic
 
 **Debugging**:
+
 ```sql
 -- Check recent activities
 SELECT * FROM activities
@@ -1301,26 +1386,29 @@ WHERE tgname LIKE '%activity%';
 #### Image Upload Fails
 
 **Symptoms**:
+
 - Avatar/banner upload returns error
 - Images not appearing after upload
 
 **Solutions**:
+
 1. Check file size (<5MB for avatar, <10MB for banner)
-2. Verify image format (image/*)
+2. Verify image format (image/\*)
 3. Check storage bucket permissions
 4. Review RLS policies on storage.objects
 
 **Code**:
+
 ```typescript
 // Check file size before upload
 if (file.size > 5 * 1024 * 1024) {
-  toast.error('File too large (max 5MB)');
+  toast.error("File too large (max 5MB)");
   return;
 }
 
 // Verify file type
-if (!file.type.startsWith('image/')) {
-  toast.error('Please upload an image file');
+if (!file.type.startsWith("image/")) {
+  toast.error("Please upload an image file");
   return;
 }
 ```
@@ -1330,26 +1418,27 @@ if (!file.type.startsWith('image/')) {
 #### Rate Limiting Not Working
 
 **Symptoms**:
+
 - Users can spam comments/follows
 - Rate limits ignored
 
 **Solutions**:
+
 1. Check rate limit implementation
 2. Verify localStorage not cleared
 3. Add server-side rate limiting
 4. Review rate limit config
 
 **Code**:
+
 ```typescript
 // Debug rate limiting
-const recentComments = JSON.parse(
-  localStorage.getItem('recentComments') || '[]'
-);
+const recentComments = JSON.parse(localStorage.getItem("recentComments") || "[]");
 
-console.log('Recent comments:', recentComments);
+console.log("Recent comments:", recentComments);
 
-if (isCommentRateLimitExceeded(recentComments.map(t => new Date(t)))) {
-  console.warn('Rate limit exceeded');
+if (isCommentRateLimitExceeded(recentComments.map((t) => new Date(t)))) {
+  console.warn("Rate limit exceeded");
 }
 ```
 
@@ -1358,16 +1447,19 @@ if (isCommentRateLimitExceeded(recentComments.map(t => new Date(t)))) {
 #### Notifications Not Sending
 
 **Symptoms**:
+
 - In-app notifications work but Telegram doesn't
 - Notifications not created
 
 **Solutions**:
+
 1. Check notification triggers
 2. Verify edge function deployment
 3. Review Telegram bot configuration
 4. Check notification_settings preferences
 
 **Debugging**:
+
 ```sql
 -- Check recent notifications
 SELECT * FROM notifications
@@ -1399,6 +1491,7 @@ AND created_at > NOW() - INTERVAL '24 hours';
 ### Contact
 
 For issues or questions:
+
 - GitHub Issues: [Create Issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
 - Email: support@musicverse.ai
 
@@ -1407,4 +1500,3 @@ For issues or questions:
 **Document Version**: 1.0  
 **Last Updated**: 2025-12-13  
 **Status**: Complete for 84% implementation
-

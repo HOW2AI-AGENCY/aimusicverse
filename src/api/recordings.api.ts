@@ -6,15 +6,15 @@
  * @see specs/031-mobile-studio-v2/contracts/api-contracts.md (MusicLab Recording API section)
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
 // ============= Type Definitions =============
 
 /**
  * Recording type enum
  */
-export type RecordingType = 'vocal' | 'guitar' | 'other';
+export type RecordingType = "vocal" | "guitar" | "other";
 
 /**
  * Recording session metadata
@@ -43,7 +43,7 @@ export interface StartRecordingResponse {
   uploadUrl: string;
   uploadHeaders: {
     Authorization: string;
-    'Content-Type': string;
+    "Content-Type": string;
   };
   maxDuration: number;
 }
@@ -79,7 +79,7 @@ export interface CompleteRecordingResponse {
  */
 export interface ChordDetectionTriggerResponse {
   analysisId: string;
-  status: 'processing' | 'pending' | 'queued';
+  status: "processing" | "pending" | "queued";
   estimatedTime: number;
 }
 
@@ -98,7 +98,7 @@ export interface ChordData {
  */
 export interface ChordDetectionData {
   id: string;
-  status: 'completed' | 'processing' | 'failed';
+  status: "completed" | "processing" | "failed";
   chords: ChordData[];
   confidence: number;
   key?: string;
@@ -150,10 +150,10 @@ export interface ApiError {
  * ```
  */
 export async function startRecording(
-  params: StartRecordingRequest
+  params: StartRecordingRequest,
 ): Promise<{ data: StartRecordingResponse | null; error: ApiError | null }> {
   try {
-    const { data, error } = await supabase.functions.invoke('musiclab-recording-start', {
+    const { data, error } = await supabase.functions.invoke("musiclab-recording-start", {
       body: params,
     });
 
@@ -161,8 +161,8 @@ export async function startRecording(
       return {
         data: null,
         error: {
-          error: 'FUNCTION_ERROR',
-          message: error.message || 'Failed to start recording session',
+          error: "FUNCTION_ERROR",
+          message: error.message || "Failed to start recording session",
           details: error,
         },
       };
@@ -173,8 +173,8 @@ export async function startRecording(
     return {
       data: null,
       error: {
-        error: 'NETWORK_ERROR',
-        message: 'Network error while starting recording session',
+        error: "NETWORK_ERROR",
+        message: "Network error while starting recording session",
         details: err,
       },
     };
@@ -210,10 +210,10 @@ export async function startRecording(
  */
 export async function completeRecording(
   sessionId: string,
-  params: CompleteRecordingRequest
+  params: CompleteRecordingRequest,
 ): Promise<{ data: CompleteRecordingResponse | null; error: ApiError | null }> {
   try {
-    const { data, error } = await supabase.functions.invoke('musiclab-recording-complete', {
+    const { data, error } = await supabase.functions.invoke("musiclab-recording-complete", {
       body: {
         sessionId,
         ...params,
@@ -224,8 +224,8 @@ export async function completeRecording(
       return {
         data: null,
         error: {
-          error: 'FUNCTION_ERROR',
-          message: error.message || 'Failed to complete recording session',
+          error: "FUNCTION_ERROR",
+          message: error.message || "Failed to complete recording session",
           details: error,
         },
       };
@@ -236,8 +236,8 @@ export async function completeRecording(
     return {
       data: null,
       error: {
-        error: 'NETWORK_ERROR',
-        message: 'Network error while completing recording session',
+        error: "NETWORK_ERROR",
+        message: "Network error while completing recording session",
         details: err,
       },
     };
@@ -272,10 +272,10 @@ export async function completeRecording(
  * ```
  */
 export async function triggerChordDetection(
-  recordingId: string
+  recordingId: string,
 ): Promise<{ data: ChordDetectionTriggerResponse | null; error: ApiError | null }> {
   try {
-    const { data, error } = await supabase.functions.invoke('musiclab-chord-detect', {
+    const { data, error } = await supabase.functions.invoke("musiclab-chord-detect", {
       body: {
         recordingId,
       },
@@ -285,8 +285,8 @@ export async function triggerChordDetection(
       return {
         data: null,
         error: {
-          error: 'FUNCTION_ERROR',
-          message: error.message || 'Failed to trigger chord detection',
+          error: "FUNCTION_ERROR",
+          message: error.message || "Failed to trigger chord detection",
           details: error,
         },
       };
@@ -297,8 +297,8 @@ export async function triggerChordDetection(
     return {
       data: null,
       error: {
-        error: 'NETWORK_ERROR',
-        message: 'Network error while triggering chord detection',
+        error: "NETWORK_ERROR",
+        message: "Network error while triggering chord detection",
         details: err,
       },
     };
@@ -331,11 +331,11 @@ export async function triggerChordDetection(
  * ```
  */
 export async function getChordResults(
-  recordingId: string
+  recordingId: string,
 ): Promise<{ data: ChordDetectionResultsResponse | null; error: ApiError | null }> {
   try {
     // Try to get results from database first (via Edge Function)
-    const { data, error } = await supabase.functions.invoke('musiclab-chord-results', {
+    const { data, error } = await supabase.functions.invoke("musiclab-chord-results", {
       body: {
         recordingId,
       },
@@ -345,8 +345,8 @@ export async function getChordResults(
       return {
         data: null,
         error: {
-          error: 'FUNCTION_ERROR',
-          message: error.message || 'Failed to get chord results',
+          error: "FUNCTION_ERROR",
+          message: error.message || "Failed to get chord results",
           details: error,
         },
       };
@@ -357,8 +357,8 @@ export async function getChordResults(
     return {
       data: null,
       error: {
-        error: 'NETWORK_ERROR',
-        message: 'Network error while getting chord results',
+        error: "NETWORK_ERROR",
+        message: "Network error while getting chord results",
         details: err,
       },
     };
@@ -480,9 +480,9 @@ export async function deleteRecordingSession(
  * @returns True if analysis is complete
  */
 export function isChordAnalysisComplete(
-  results: ChordDetectionResultsResponse | null
+  results: ChordDetectionResultsResponse | null,
 ): results is ChordDetectionResultsResponse {
-  return results !== null && results.status === 'completed';
+  return results !== null && results.status === "completed";
 }
 
 /**
@@ -494,7 +494,7 @@ export function isChordAnalysisComplete(
 export function formatChordForDisplay(chord: ChordData): string {
   const minutes = Math.floor(chord.time / 60);
   const seconds = Math.floor(chord.time % 60);
-  const timeStr = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  const timeStr = `${minutes}:${seconds.toString().padStart(2, "0")}`;
   return `${timeStr} - ${chord.chord} (${chord.duration.toFixed(1)}s)`;
 }
 

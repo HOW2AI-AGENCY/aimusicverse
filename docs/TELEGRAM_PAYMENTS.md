@@ -37,10 +37,10 @@ sequenceDiagram
 const invoice = {
   title: "100 кредитов MusicVerse",
   description: "Пакет кредитов для генерации музыки",
-  payload: JSON.stringify({ 
-    userId: user_id, 
+  payload: JSON.stringify({
+    userId: user_id,
     productId: "credits_100",
-    amount: 100 
+    amount: 100,
   }),
   provider_token: Deno.env.get("TELEGRAM_PAYMENT_TOKEN"),
   currency: "RUB",
@@ -67,24 +67,24 @@ await bot.api.createInvoiceLink(invoice);
 // В telegram-bot edge function
 if (update.pre_checkout_query) {
   const { id, invoice_payload } = update.pre_checkout_query;
-  
+
   try {
     const payload = JSON.parse(invoice_payload);
     // Валидация: пользователь существует, продукт доступен
     const isValid = await validatePayment(payload);
-    
+
     if (isValid) {
       await bot.api.answerPreCheckoutQuery(id, { ok: true });
     } else {
-      await bot.api.answerPreCheckoutQuery(id, { 
-        ok: false, 
-        error_message: "Ошибка валидации платежа" 
+      await bot.api.answerPreCheckoutQuery(id, {
+        ok: false,
+        error_message: "Ошибка валидации платежа",
       });
     }
   } catch (e) {
-    await bot.api.answerPreCheckoutQuery(id, { 
-      ok: false, 
-      error_message: "Внутренняя ошибка сервера" 
+    await bot.api.answerPreCheckoutQuery(id, {
+      ok: false,
+      error_message: "Внутренняя ошибка сервера",
     });
   }
 }
@@ -97,26 +97,27 @@ if (update.pre_checkout_query) {
 if (message.successful_payment) {
   const payment = message.successful_payment;
   const payload = JSON.parse(payment.invoice_payload);
-  
+
   // Начисление кредитов
-  await supabase.rpc('add_credits', {
+  await supabase.rpc("add_credits", {
     p_user_id: payload.userId,
     p_amount: payload.amount,
-    p_action_type: 'purchase',
+    p_action_type: "purchase",
     p_description: `Покупка ${payload.amount} кредитов`,
     p_metadata: {
       telegram_payment_id: payment.telegram_payment_charge_id,
       provider_payment_id: payment.provider_payment_charge_id,
       currency: payment.currency,
-      total_amount: payment.total_amount
-    }
+      total_amount: payment.total_amount,
+    },
   });
-  
+
   // Уведомление пользователя
-  await bot.api.sendMessage(message.chat.id, 
+  await bot.api.sendMessage(
+    message.chat.id,
     `✅ Спасибо за покупку!\n\n` +
-    `💰 Начислено: ${payload.amount} кредитов\n` +
-    `📝 ID транзакции: ${payment.telegram_payment_charge_id}`
+      `💰 Начислено: ${payload.amount} кредитов\n` +
+      `📝 ID транзакции: ${payment.telegram_payment_charge_id}`,
   );
 }
 ```
@@ -125,40 +126,40 @@ if (message.successful_payment) {
 
 ### Пакеты кредитов
 
-| ID | Название | Кредиты | Цена (RUB) | Бонус |
-|----|----------|---------|------------|-------|
-| credits_50 | Стартовый | 50 | 99 | - |
-| credits_100 | Базовый | 100 | 199 | - |
-| credits_300 | Популярный | 300 | 499 | +50 |
-| credits_1000 | Про | 1000 | 1499 | +200 |
+| ID           | Название   | Кредиты | Цена (RUB) | Бонус |
+| ------------ | ---------- | ------- | ---------- | ----- |
+| credits_50   | Стартовый  | 50      | 99         | -     |
+| credits_100  | Базовый    | 100     | 199        | -     |
+| credits_300  | Популярный | 300     | 499        | +50   |
+| credits_1000 | Про        | 1000    | 1499       | +200  |
 
 ### Подписки
 
-| ID | Название | Кредиты/мес | Цена/мес | Особенности |
-|----|----------|-------------|----------|-------------|
-| sub_pro | Pro | 500 | 499 | Приоритетная очередь, HD качество |
-| sub_premium | Premium | 2000 | 1499 | + Commercial use, API access |
+| ID          | Название | Кредиты/мес | Цена/мес | Особенности                       |
+| ----------- | -------- | ----------- | -------- | --------------------------------- |
+| sub_pro     | Pro      | 500         | 499      | Приоритетная очередь, HD качество |
+| sub_premium | Premium  | 2000        | 1499     | + Commercial use, API access      |
 
 ## Mini App Integration
 
 ```typescript
 // Открыть платёжную форму в Mini App
 const openPayment = async (productId: string) => {
-  const response = await fetch('/api/create-invoice', {
-    method: 'POST',
-    body: JSON.stringify({ productId })
+  const response = await fetch("/api/create-invoice", {
+    method: "POST",
+    body: JSON.stringify({ productId }),
   });
-  
+
   const { invoiceLink } = await response.json();
-  
+
   // Открыть invoice в Telegram
   Telegram.WebApp.openInvoice(invoiceLink, (status) => {
-    if (status === 'paid') {
+    if (status === "paid") {
       // Обновить UI, показать celebration
       refetchCredits();
       showRewardCelebration();
-    } else if (status === 'failed') {
-      toast.error('Платёж не прошёл');
+    } else if (status === "failed") {
+      toast.error("Платёж не прошёл");
     }
   });
 };
@@ -181,7 +182,7 @@ ADD COLUMN provider_payment_id TEXT,
 ADD COLUMN payment_status TEXT DEFAULT 'completed';
 
 -- Индекс для поиска по payment_id
-CREATE INDEX idx_credit_transactions_payment 
+CREATE INDEX idx_credit_transactions_payment
 ON credit_transactions(telegram_payment_id);
 ```
 
@@ -195,6 +196,7 @@ ON credit_transactions(telegram_payment_id);
 ## Тестирование
 
 Telegram предоставляет тестовые карты:
+
 - `4242 4242 4242 4242` - успешный платёж
 - `4000 0000 0000 0002` - отклонённый платёж
 

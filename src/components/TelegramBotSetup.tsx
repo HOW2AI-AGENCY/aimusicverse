@@ -1,13 +1,13 @@
-import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { CheckCircle2, AlertCircle, Loader2, Send } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { CheckCircle2, AlertCircle, Loader2, Send } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
-const botLogger = logger.child({ module: 'TelegramBotSetup' });
+const botLogger = logger.child({ module: "TelegramBotSetup" });
 
 interface WebhookInfo {
   webhook_url?: string;
@@ -28,19 +28,19 @@ export const TelegramBotSetup = () => {
   const setupWebhook = async () => {
     setLoading(true);
     try {
-      botLogger.info('Setting up Telegram webhook...');
-      
-      const { data, error } = await supabase.functions.invoke('telegram-webhook-setup');
+      botLogger.info("Setting up Telegram webhook...");
+
+      const { data, error } = await supabase.functions.invoke("telegram-webhook-setup");
 
       if (error) throw error;
 
-      botLogger.info('Webhook configured successfully');
+      botLogger.info("Webhook configured successfully");
       setWebhookInfo(data);
-      toast.success('Telegram бот успешно настроен!');
+      toast.success("Telegram бот успешно настроен!");
     } catch (error) {
-      botLogger.error('Webhook setup error', error);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      toast.error('Ошибка настройки бота: ' + errorMessage);
+      botLogger.error("Webhook setup error", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error";
+      toast.error("Ошибка настройки бота: " + errorMessage);
     } finally {
       setLoading(false);
     }
@@ -55,24 +55,20 @@ export const TelegramBotSetup = () => {
           <Send className="w-5 h-5" />
           Telegram Бот
         </CardTitle>
-        <CardDescription>
-          Настройте интеграцию с Telegram для получения уведомлений
-        </CardDescription>
+        <CardDescription>Настройте интеграцию с Telegram для получения уведомлений</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {isWebhookActive ? (
           <Alert className="border-green-500/50 bg-green-500/10">
             <CheckCircle2 className="w-4 h-4 text-green-500" />
             <AlertDescription className="text-green-200">
-              Бот активен: {webhookInfo?.webhook_info?.result?.url || 'URL недоступен'}
+              Бот активен: {webhookInfo?.webhook_info?.result?.url || "URL недоступен"}
             </AlertDescription>
           </Alert>
         ) : webhookInfo && !isWebhookActive ? (
           <Alert className="border-yellow-500/50 bg-yellow-500/10">
             <AlertCircle className="w-4 h-4 text-yellow-500" />
-            <AlertDescription className="text-yellow-200">
-              Бот не настроен или неактивен
-            </AlertDescription>
+            <AlertDescription className="text-yellow-200">Бот не настроен или неактивен</AlertDescription>
           </Alert>
         ) : null}
 
@@ -94,11 +90,7 @@ export const TelegramBotSetup = () => {
           </div>
         )}
 
-        <Button
-          onClick={setupWebhook}
-          disabled={loading}
-          className="w-full gap-2"
-        >
+        <Button onClick={setupWebhook} disabled={loading} className="w-full gap-2">
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -107,7 +99,7 @@ export const TelegramBotSetup = () => {
           ) : (
             <>
               <Send className="w-4 h-4" />
-              {webhookInfo ? 'Обновить настройки' : 'Настроить бота'}
+              {webhookInfo ? "Обновить настройки" : "Настроить бота"}
             </>
           )}
         </Button>

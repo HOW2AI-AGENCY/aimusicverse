@@ -10,7 +10,7 @@
  */
 
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
 export type HintCategory =
   | "model" // Напоминание о моделях AI

@@ -1,6 +1,6 @@
 /**
  * StatsGrid - Unified stats display component
- * 
+ *
  * Used in:
  * - TrackDetailsTab (duration, plays, likes, type)
  * - ProjectInfoCard (genre, mood, language)
@@ -8,9 +8,9 @@
  * - Any component showing stat grids
  */
 
-import { memo, ReactNode } from 'react';
-import { LucideIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { memo, ReactNode } from "react";
+import { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface StatItem {
   /** Icon from lucide-react */
@@ -35,45 +35,45 @@ interface StatsGridProps {
   /** Number of columns */
   columns?: 2 | 3 | 4;
   /** Visual variant */
-  variant?: 'default' | 'compact' | 'card';
+  variant?: "default" | "compact" | "card";
   /** Additional className */
   className?: string;
 }
 
 const COLUMN_CLASSES = {
-  2: 'grid-cols-2',
-  3: 'grid-cols-2 sm:grid-cols-3',
-  4: 'grid-cols-2 sm:grid-cols-4',
+  2: "grid-cols-2",
+  3: "grid-cols-2 sm:grid-cols-3",
+  4: "grid-cols-2 sm:grid-cols-4",
 };
 
 const VARIANT_CLASSES = {
-  default: 'p-3 rounded-lg bg-muted/50',
-  compact: 'p-2 rounded-md bg-muted/30',
-  card: 'p-4 rounded-xl bg-gradient-to-br from-card/80 to-card/40 border border-border/50',
+  default: "p-3 rounded-lg bg-muted/50",
+  compact: "p-2 rounded-md bg-muted/30",
+  card: "p-4 rounded-xl bg-gradient-to-br from-card/80 to-card/40 border border-border/50",
 };
 
 const SIZE_CLASSES = {
   default: {
-    icon: 'w-5 h-5',
-    label: 'text-xs',
-    value: 'font-semibold',
+    icon: "w-5 h-5",
+    label: "text-xs",
+    value: "font-semibold",
   },
   compact: {
-    icon: 'w-4 h-4',
-    label: 'text-[10px]',
-    value: 'text-sm font-medium',
+    icon: "w-4 h-4",
+    label: "text-[10px]",
+    value: "text-sm font-medium",
   },
   card: {
-    icon: 'w-5 h-5',
-    label: 'text-xs',
-    value: 'text-base font-semibold',
+    icon: "w-5 h-5",
+    label: "text-xs",
+    value: "text-base font-semibold",
   },
 };
 
 export const StatsGrid = memo(function StatsGrid({
   stats,
   columns = 4,
-  variant = 'default',
+  variant = "default",
   className,
 }: StatsGridProps) {
   const sizes = SIZE_CLASSES[variant];
@@ -81,12 +81,7 @@ export const StatsGrid = memo(function StatsGrid({
   return (
     <div className={cn("grid gap-3", COLUMN_CLASSES[columns], className)}>
       {stats.map((stat, index) => (
-        <StatCard 
-          key={index} 
-          stat={stat} 
-          variant={variant}
-          sizes={sizes}
-        />
+        <StatCard key={index} stat={stat} variant={variant} sizes={sizes} />
       ))}
     </div>
   );
@@ -94,30 +89,26 @@ export const StatsGrid = memo(function StatsGrid({
 
 interface StatCardProps {
   stat: StatItem;
-  variant: 'default' | 'compact' | 'card';
+  variant: "default" | "compact" | "card";
   sizes: typeof SIZE_CLASSES.default;
 }
 
 const StatCard = memo(function StatCard({ stat, variant, sizes }: StatCardProps) {
   const Icon = stat.icon;
-  
+
   return (
-    <div 
+    <div
       className={cn(
         "flex items-center gap-2",
         VARIANT_CLASSES[variant],
         stat.fullWidth && "sm:col-span-2",
-        stat.className
+        stat.className,
       )}
     >
-      <Icon className={cn(sizes.icon, stat.iconColor || 'text-primary')} />
+      <Icon className={cn(sizes.icon, stat.iconColor || "text-primary")} />
       <div className="min-w-0 flex-1">
         <p className={cn(sizes.label, "text-muted-foreground")}>{stat.label}</p>
-        {stat.customContent ? (
-          stat.customContent
-        ) : (
-          <p className={cn(sizes.value, "truncate")}>{stat.value}</p>
-        )}
+        {stat.customContent ? stat.customContent : <p className={cn(sizes.value, "truncate")}>{stat.value}</p>}
       </div>
     </div>
   );
@@ -130,18 +121,14 @@ export const StatItem = memo(function StatItemComponent({
   icon: Icon,
   label,
   value,
-  iconColor = 'text-primary',
-  variant = 'default',
+  iconColor = "text-primary",
+  variant = "default",
   className,
-}: Omit<StatItem, 'customContent' | 'fullWidth'> & { variant?: 'default' | 'compact' | 'card' }) {
+}: Omit<StatItem, "customContent" | "fullWidth"> & { variant?: "default" | "compact" | "card" }) {
   const sizes = SIZE_CLASSES[variant];
-  
+
   return (
-    <div className={cn(
-      "flex items-center gap-2",
-      VARIANT_CLASSES[variant],
-      className
-    )}>
+    <div className={cn("flex items-center gap-2", VARIANT_CLASSES[variant], className)}>
       <Icon className={cn(sizes.icon, iconColor)} />
       <div>
         <p className={cn(sizes.label, "text-muted-foreground")}>{label}</p>

@@ -1138,6 +1138,7 @@ sequenceDiagram
 ## Connections by Relation
 
 ### calls
+
 - [[.get()]] `INFERRED`
 - [[.set()]] `INFERRED`
 - [[uploadAndShowActions()]] `INFERRED`
@@ -1160,8 +1161,9 @@ sequenceDiagram
 - [[processQueueItem()]] `INFERRED`
 
 ### contains
+
 - [[subscriptionStatus.test.ts]] `EXTRACTED`
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

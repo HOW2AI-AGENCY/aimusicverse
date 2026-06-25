@@ -1,26 +1,26 @@
 /**
  * QuickStartCards - Quick preset cards for fast music generation
  * Feature: 032-professional-ui
- * 
+ *
  * Opens tutorial dialogs to explain each feature before action
  * Uses design system tokens for consistent styling
  */
 
-import { memo, useCallback, useState, lazy, Suspense } from 'react';
-import { motion } from '@/lib/motion';
-import { Music2, Guitar, Mic2, Sparkles } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { SectionHeading } from '@/components/ui/Heading';
-import { glass } from '@/lib/glass';
-import type { TutorialType } from './FeatureTutorialDialog';
+import { memo, useCallback, useState, lazy, Suspense } from "react";
+import { motion } from "@/lib/motion";
+import { Music2, Guitar, Mic2, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { SectionHeading } from "@/components/ui/Heading";
+import { glass } from "@/lib/glass";
+import type { TutorialType } from "./FeatureTutorialDialog";
 
 // Lazy load the dialog
-const FeatureTutorialDialog = lazy(() => 
-  import('./FeatureTutorialDialog').then(m => ({ default: m.FeatureTutorialDialog }))
+const FeatureTutorialDialog = lazy(() =>
+  import("./FeatureTutorialDialog").then((m) => ({ default: m.FeatureTutorialDialog })),
 );
 
-export type QuickStartPreset = 'track' | 'riff' | 'cover';
+export type QuickStartPreset = "track" | "riff" | "cover";
 
 interface QuickStartCardProps {
   preset: QuickStartPreset;
@@ -53,7 +53,7 @@ const QuickStartCard = memo(function QuickStartCard({
         "active:scale-95",
         "bg-gradient-to-br",
         gradient,
-        "group"
+        "group",
       )}
       initial={{ opacity: 0, y: 10, scale: 0.98 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -62,17 +62,19 @@ const QuickStartCard = memo(function QuickStartCard({
       whileHover={{ scale: 1.02 }}
     >
       {/* Icon */}
-      <div className={cn(
-        "w-8 h-8 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-lg sm:rounded-xl flex items-center justify-center mb-1.5 sm:mb-2 lg:mb-3",
-        glass.subtle,
-        "group-hover:scale-110 transition-transform duration-200"
-      )}>
+      <div
+        className={cn(
+          "w-8 h-8 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-lg sm:rounded-xl flex items-center justify-center mb-1.5 sm:mb-2 lg:mb-3",
+          glass.subtle,
+          "group-hover:scale-110 transition-transform duration-200",
+        )}
+      >
         {icon}
       </div>
 
       {/* Title */}
       <h3 className="text-sm lg:text-base font-bold text-foreground mb-0.5 text-balance">{title}</h3>
-      
+
       {/* Description - visible on larger screens */}
       <p className="text-[11px] lg:text-xs text-muted-foreground text-center px-0.5 hidden xs:block lg:block line-clamp-2">
         {description}
@@ -89,23 +91,23 @@ interface QuickStartCardsProps {
   className?: string;
 }
 
-export const QuickStartCards = memo(function QuickStartCards({
-  onPresetSelect,
-  className,
-}: QuickStartCardsProps) {
+export const QuickStartCards = memo(function QuickStartCards({ onPresetSelect, className }: QuickStartCardsProps) {
   const { hapticFeedback } = useTelegram();
   const [tutorialOpen, setTutorialOpen] = useState(false);
-  const [selectedTutorial, setSelectedTutorial] = useState<TutorialType>('track');
+  const [selectedTutorial, setSelectedTutorial] = useState<TutorialType>("track");
   const [pendingPreset, setPendingPreset] = useState<QuickStartPreset | null>(null);
 
-  const handleCardClick = useCallback((preset: QuickStartPreset) => {
-    hapticFeedback('light');
-    // Map preset to tutorial type
-    const tutorialType: TutorialType = preset;
-    setSelectedTutorial(tutorialType);
-    setPendingPreset(preset);
-    setTutorialOpen(true);
-  }, [hapticFeedback]);
+  const handleCardClick = useCallback(
+    (preset: QuickStartPreset) => {
+      hapticFeedback("light");
+      // Map preset to tutorial type
+      const tutorialType: TutorialType = preset;
+      setSelectedTutorial(tutorialType);
+      setPendingPreset(preset);
+      setTutorialOpen(true);
+    },
+    [hapticFeedback],
+  );
 
   const handleTutorialAction = useCallback(() => {
     if (pendingPreset) {
@@ -114,27 +116,27 @@ export const QuickStartCards = memo(function QuickStartCards({
     setPendingPreset(null);
   }, [pendingPreset, onPresetSelect]);
 
-  const presets: Omit<QuickStartCardProps, 'onClick' | 'delay'>[] = [
+  const presets: Omit<QuickStartCardProps, "onClick" | "delay">[] = [
     {
-      preset: 'track',
-      title: 'Трек',
-      description: 'Полноценный трек с вокалом',
+      preset: "track",
+      title: "Трек",
+      description: "Полноценный трек с вокалом",
       icon: <Music2 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-primary" />,
-      gradient: 'from-primary/10 via-primary/5 to-background',
+      gradient: "from-primary/10 via-primary/5 to-background",
     },
     {
-      preset: 'riff',
-      title: 'Рифф',
-      description: 'Инструментальная композиция',
+      preset: "riff",
+      title: "Рифф",
+      description: "Инструментальная композиция",
       icon: <Guitar className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-generate" />,
-      gradient: 'from-generate/10 via-generate/5 to-background',
+      gradient: "from-generate/10 via-generate/5 to-background",
     },
     {
-      preset: 'cover',
-      title: 'Cover',
-      description: 'AI-кавер в новом стиле',
+      preset: "cover",
+      title: "Cover",
+      description: "AI-кавер в новом стиле",
       icon: <Mic2 className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-studio" />,
-      gradient: 'from-studio/10 via-studio/5 to-background',
+      gradient: "from-studio/10 via-studio/5 to-background",
     },
   ];
 
@@ -147,11 +149,7 @@ export const QuickStartCards = memo(function QuickStartCards({
         transition={{ delay: 0.2 }}
       >
         {/* Section header - using design system */}
-        <SectionHeading
-          icon={<Sparkles className="w-3.5 h-3.5 text-primary" />}
-        >
-          Быстрый старт
-        </SectionHeading>
+        <SectionHeading icon={<Sparkles className="w-3.5 h-3.5 text-primary" />}>Быстрый старт</SectionHeading>
 
         {/* Cards grid - responsive */}
         <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4">

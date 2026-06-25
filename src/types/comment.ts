@@ -64,7 +64,7 @@ export interface CommentListParams {
   parentCommentId?: string;
   limit?: number;
   offset?: number;
-  sortBy?: 'newest' | 'oldest' | 'popular';
+  sortBy?: "newest" | "oldest" | "popular";
 }
 
 export interface CommentListResponse {

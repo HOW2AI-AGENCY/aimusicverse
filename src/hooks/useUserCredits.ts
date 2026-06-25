@@ -3,13 +3,13 @@
  * Simplified hook for balance checking and generation authorization
  */
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from './useAuth';
-import * as creditsApi from '@/api/credits.api';
-import { GENERATION_COST, getModelCost } from '@/services/credits.service';
-import { logger } from '@/lib/logger';
-import { useGuestMode } from '@/contexts/GuestModeContext';
-import { mockCredits, mockStats } from '@/lib/screenshotMockData';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "./useAuth";
+import * as creditsApi from "@/api/credits.api";
+import { GENERATION_COST, getModelCost } from "@/services/credits.service";
+import { logger } from "@/lib/logger";
+import { useGuestMode } from "@/contexts/GuestModeContext";
+import { mockCredits, mockStats } from "@/lib/screenshotMockData";
 
 interface UserCredits {
   balance: number;
@@ -52,7 +52,7 @@ export function useUserCredits(modelKey?: string) {
 
   // Check admin status
   const { data: adminData } = useQuery({
-    queryKey: ['user-admin-status', user?.id],
+    queryKey: ["user-admin-status", user?.id],
     queryFn: async () => {
       if (!user?.id) return { isAdmin: false };
       const isAdmin = await creditsApi.checkAdminStatus(user.id);
@@ -66,12 +66,12 @@ export function useUserCredits(modelKey?: string) {
 
   // Fetch API balance for admins
   const { data: apiBalance } = useQuery({
-    queryKey: ['admin-suno-api-balance'],
+    queryKey: ["admin-suno-api-balance"],
     queryFn: async (): Promise<number> => {
       try {
         return await creditsApi.fetchSunoApiBalance();
       } catch (err) {
-        logger.error('Error fetching admin API balance', { error: err });
+        logger.error("Error fetching admin API balance", { error: err });
         return 0;
       }
     },
@@ -81,8 +81,13 @@ export function useUserCredits(modelKey?: string) {
   });
 
   // Fetch personal credits
-  const { data: credits, isLoading, error, refetch } = useQuery({
-    queryKey: ['user-credits', user?.id],
+  const {
+    data: credits,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["user-credits", user?.id],
     queryFn: async (): Promise<UserCredits | null> => {
       if (!user?.id) return null;
 
@@ -120,9 +125,9 @@ export function useUserCredits(modelKey?: string) {
   const canGenerate = isAdmin ? true : effectiveBalance >= generationCost;
 
   const invalidate = () => {
-    queryClient.invalidateQueries({ queryKey: ['user-credits'] });
+    queryClient.invalidateQueries({ queryKey: ["user-credits"] });
     if (isAdmin) {
-      queryClient.invalidateQueries({ queryKey: ['admin-suno-api-balance'] });
+      queryClient.invalidateQueries({ queryKey: ["admin-suno-api-balance"] });
     }
   };
 

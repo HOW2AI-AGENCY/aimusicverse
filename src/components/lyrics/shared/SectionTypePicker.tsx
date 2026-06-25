@@ -1,25 +1,25 @@
-import { Plus } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { SECTION_TYPES, type SectionType } from '@/lib/lyrics/constants';
-import { Badge } from '@/components/ui/badge';
+import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { SECTION_TYPES, type SectionType } from "@/lib/lyrics/constants";
+import { Badge } from "@/components/ui/badge";
 
 interface SectionTypePickerProps {
   onSelect: (type: string, name: string, defaultLines: number) => void;
   className?: string;
   showAddIcon?: boolean;
-  variant?: 'badge' | 'button';
+  variant?: "badge" | "button";
 }
 
-export function SectionTypePicker({ 
-  onSelect, 
+export function SectionTypePicker({
+  onSelect,
   className,
   showAddIcon = true,
-  variant = 'badge'
+  variant = "badge",
 }: SectionTypePickerProps) {
   return (
     <div className={cn("flex flex-wrap gap-1.5", className)}>
-      {SECTION_TYPES.map((section) => (
-        variant === 'badge' ? (
+      {SECTION_TYPES.map((section) =>
+        variant === "badge" ? (
           <Badge
             key={section.type}
             variant="outline"
@@ -41,13 +41,13 @@ export function SectionTypePicker({
             <span>{section.name}</span>
             {showAddIcon && <Plus className="h-3 w-3" />}
           </button>
-        )
-      ))}
+        ),
+      )}
     </div>
   );
 }
 
 // Helper to get section info
 export function getSectionInfo(type: string): SectionType | undefined {
-  return SECTION_TYPES.find(s => s.type === type);
+  return SECTION_TYPES.find((s) => s.type === type);
 }

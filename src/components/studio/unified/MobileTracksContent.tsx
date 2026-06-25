@@ -3,25 +3,34 @@
  * Displays all tracks with mute/solo/volume controls
  */
 
-import { memo, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  Volume2, VolumeX, Headphones, Play, Pause,
-  MoreVertical, Plus, Trash2, Wand2, Mic2, ArrowRightFromLine
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
+  Volume2,
+  VolumeX,
+  Headphones,
+  Play,
+  Pause,
+  MoreVertical,
+  Plus,
+  Trash2,
+  Wand2,
+  Mic2,
+  ArrowRightFromLine,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
-import type { StudioProject, StudioTrack, TRACK_COLORS } from '@/stores/useUnifiedStudioStore';
-import { MobileStudioTrackSkeleton } from '@/components/mobile/MobileSkeletons';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import type { StudioProject, StudioTrack, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
+import { MobileStudioTrackSkeleton } from "@/components/mobile/MobileSkeletons";
 
 interface MobileTracksContentProps {
   project: StudioProject;
@@ -51,23 +60,23 @@ export const MobileTracksContent = memo(function MobileTracksContent({
   const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
 
   const toggleExpand = useCallback((trackId: string) => {
-    setExpandedTrack(prev => prev === trackId ? null : trackId);
+    setExpandedTrack((prev) => (prev === trackId ? null : trackId));
   }, []);
 
   const getTrackIcon = (type: string) => {
     switch (type) {
-      case 'vocal':
-        return '🎤';
-      case 'instrumental':
-        return '🎸';
-      case 'drums':
-        return '🥁';
-      case 'bass':
-        return '🎸';
-      case 'sfx':
-        return '✨';
+      case "vocal":
+        return "🎤";
+      case "instrumental":
+        return "🎸";
+      case "drums":
+        return "🥁";
+      case "bass":
+        return "🎸";
+      case "sfx":
+        return "✨";
       default:
-        return '🎵';
+        return "🎵";
     }
   };
 
@@ -78,7 +87,7 @@ export const MobileTracksContent = memo(function MobileTracksContent({
         <div>
           <h3 className="text-lg font-semibold">Дорожки</h3>
           <p className="text-xs text-muted-foreground">
-            {project.tracks.length} {project.tracks.length === 1 ? 'дорожка' : 'дорожек'}
+            {project.tracks.length} {project.tracks.length === 1 ? "дорожка" : "дорожек"}
           </p>
         </div>
         <Button size="sm" onClick={onAddTrack} className="gap-1">
@@ -117,9 +126,7 @@ export const MobileTracksContent = memo(function MobileTracksContent({
 
             {project.tracks.length === 0 && (
               <div className="flex flex-col items-center justify-center py-12 text-center">
-                <p className="text-muted-foreground mb-4 text-sm">
-                  Нет дорожек в проекте
-                </p>
+                <p className="text-muted-foreground mb-4 text-sm">Нет дорожек в проекте</p>
                 <Button onClick={onAddTrack}>
                   <Plus className="w-4 h-4 mr-2" />
                   Добавить первую дорожку
@@ -159,7 +166,7 @@ const TrackCard = memo(function TrackCard({
   onAction,
   getIcon,
 }: TrackCardProps) {
-  const isPending = track.status === 'pending';
+  const isPending = track.status === "pending";
 
   return (
     <motion.div
@@ -170,16 +177,13 @@ const TrackCard = memo(function TrackCard({
       className={cn(
         "mb-2 rounded-lg border transition-all overflow-hidden",
         isExpanded ? "bg-card border-primary/50" : "bg-card/50 border-border/50",
-        track.muted && "opacity-60"
+        track.muted && "opacity-60",
       )}
     >
       {/* Main Row */}
-      <button
-        onClick={onToggleExpand}
-        className="w-full p-3 flex items-center gap-3 text-left"
-      >
+      <button onClick={onToggleExpand} className="w-full p-3 flex items-center gap-3 text-left">
         {/* Icon */}
-        <div 
+        <div
           className="w-10 h-10 rounded-lg flex items-center justify-center text-lg shrink-0"
           style={{ backgroundColor: `${track.color}20` }}
         >
@@ -195,7 +199,7 @@ const TrackCard = memo(function TrackCard({
             </Badge>
             {track.versions && track.versions.length > 1 && (
               <Badge variant="secondary" className="text-[10px] h-4">
-                {track.activeVersionLabel || 'A'}
+                {track.activeVersionLabel || "A"}
               </Badge>
             )}
             {isPending && (
@@ -238,7 +242,7 @@ const TrackCard = memo(function TrackCard({
         {isExpanded && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
@@ -253,30 +257,23 @@ const TrackCard = memo(function TrackCard({
                   onValueChange={(v) => onVolumeChange(v[0])}
                   className="flex-1"
                 />
-                <span className="text-xs font-mono w-8 text-right">
-                  {Math.round(track.volume * 100)}
-                </span>
+                <span className="text-xs font-mono w-8 text-right">{Math.round(track.volume * 100)}</span>
               </div>
 
               {/* Actions */}
               <div className="flex items-center gap-2 flex-wrap">
-                {track.type === 'instrumental' && (
+                {track.type === "instrumental" && (
                   <Button
                     size="sm"
                     variant="outline"
                     className="h-8 gap-1 text-xs"
-                    onClick={() => onAction('add_vocals')}
+                    onClick={() => onAction("add_vocals")}
                   >
                     <Mic2 className="w-3 h-3" />
                     Вокал
                   </Button>
                 )}
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="h-8 gap-1 text-xs"
-                  onClick={() => onAction('extend')}
-                >
+                <Button size="sm" variant="outline" className="h-8 gap-1 text-xs" onClick={() => onAction("extend")}>
                   <ArrowRightFromLine className="w-3 h-3" />
                   Продлить
                 </Button>
@@ -284,7 +281,7 @@ const TrackCard = memo(function TrackCard({
                   size="sm"
                   variant="outline"
                   className="h-8 gap-1 text-xs"
-                  onClick={() => onAction('replace_section')}
+                  onClick={() => onAction("replace_section")}
                 >
                   <Wand2 className="w-3 h-3" />
                   Секции
@@ -297,17 +294,10 @@ const TrackCard = memo(function TrackCard({
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="bg-popover">
-                    <DropdownMenuItem onClick={() => onAction('effects')}>
-                      Эффекты
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onAction('download')}>
-                      Скачать
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onAction("effects")}>Эффекты</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => onAction("download")}>Скачать</DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem 
-                      onClick={onRemove}
-                      className="text-destructive focus:text-destructive"
-                    >
+                    <DropdownMenuItem onClick={onRemove} className="text-destructive focus:text-destructive">
                       <Trash2 className="w-4 h-4 mr-2" />
                       Удалить
                     </DropdownMenuItem>

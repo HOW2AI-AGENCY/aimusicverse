@@ -7,24 +7,25 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
-import { ArrowLeft, MessageSquare, Bug, Lightbulb, Star, Send, CheckCircle, Clock, XCircle, ChevronLeft, RefreshCw } from "lucide-react";
+import {
+  ArrowLeft,
+  MessageSquare,
+  Bug,
+  Lightbulb,
+  Star,
+  Send,
+  CheckCircle,
+  Clock,
+  XCircle,
+  ChevronLeft,
+  RefreshCw,
+} from "lucide-react";
 import { logger } from "@/lib/logger";
 import { format, ru } from "@/lib/date-utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 interface FeedbackItem {
   id: string;
@@ -50,7 +51,10 @@ const typeConfig: Record<string, { icon: React.ElementType; label: string; color
   rate: { icon: Star, label: "Оценка", color: "bg-purple-500" },
 };
 
-const statusConfig: Record<string, { icon: React.ElementType; label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
+const statusConfig: Record<
+  string,
+  { icon: React.ElementType; label: string; variant: "default" | "secondary" | "destructive" | "outline" }
+> = {
   pending: { icon: Clock, label: "Ожидает", variant: "secondary" },
   replied: { icon: CheckCircle, label: "Отвечено", variant: "default" },
   closed: { icon: XCircle, label: "Закрыто", variant: "outline" },
@@ -83,96 +87,95 @@ export default function AdminFeedback() {
 
   const checkAdminStatus = async () => {
     if (!user) return;
-    
-    const { data } = await supabase
-      .rpc('has_role', { _user_id: user.id, _role: 'admin' });
-    
+
+    const { data } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
+
     if (!data) {
       toast.error("Доступ запрещён");
       navigate("/");
       return;
     }
-    
+
     setIsAdmin(true);
   };
 
   const fetchFeedback = async () => {
     setLoading(true);
-    
-    let query = supabase
-      .from('user_feedback')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
+
+    let query = supabase.from("user_feedback").select("*").order("created_at", { ascending: false });
+
     if (activeTab !== "all") {
-      query = query.eq('status', activeTab);
+      query = query.eq("status", activeTab);
     }
-    
+
     const { data, error } = await query;
-    
+
     if (error) {
       toast.error("Ошибка загрузки");
-      logger.error('Failed to load feedback', error);
+      logger.error("Failed to load feedback", error);
     } else {
-      const userIds = (data?.filter(f => f.user_id).map(f => f.user_id) || []).filter((id): id is string => id !== null);
-      
+      const userIds = (data?.filter((f) => f.user_id).map((f) => f.user_id) || []).filter(
+        (id): id is string => id !== null,
+      );
+
       if (userIds.length > 0) {
         const { data: profiles } = await supabase
-          .from('profiles')
-          .select('user_id, username, first_name, photo_url')
-          .in('user_id', userIds);
-        
-        const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
-        
-        const enrichedData = data?.map(f => ({
-          ...f,
-          profile: f.user_id ? profileMap.get(f.user_id) : undefined
-        })) || [];
-        
+          .from("profiles")
+          .select("user_id, username, first_name, photo_url")
+          .in("user_id", userIds);
+
+        const profileMap = new Map(profiles?.map((p) => [p.user_id, p]) || []);
+
+        const enrichedData =
+          data?.map((f) => ({
+            ...f,
+            profile: f.user_id ? profileMap.get(f.user_id) : undefined,
+          })) || [];
+
         setFeedback(enrichedData);
       } else {
         setFeedback(data || []);
       }
     }
-    
+
     setLoading(false);
   };
 
   const handleReply = async () => {
     if (!selectedFeedback || !replyText.trim()) return;
-    
+
     setSending(true);
-    
+
     try {
       const { error } = await supabase
-        .from('user_feedback')
+        .from("user_feedback")
         .update({
           admin_reply: replyText,
-          status: 'replied',
-          replied_at: new Date().toISOString()
+          status: "replied",
+          replied_at: new Date().toISOString(),
         })
-        .eq('id', selectedFeedback.id);
-      
+        .eq("id", selectedFeedback.id);
+
       if (error) throw error;
-      
+
       if (selectedFeedback.telegram_id) {
-        await supabase.functions.invoke('telegram-bot', {
+        await supabase.functions.invoke("telegram-bot", {
           body: {
-            action: 'send_feedback_reply',
+            action: "send_feedback_reply",
             telegram_id: selectedFeedback.telegram_id,
             message: replyText,
-            feedback_type: selectedFeedback.type
-          }
+            feedback_type: selectedFeedback.type,
+          },
         });
       }
-      
+
       toast.success("Ответ отправлен");
       setReplyText("");
       setSelectedFeedback(null);
       setDetailSheetOpen(false);
       fetchFeedback();
     } catch (error: unknown) {
-      logger.error('Failed to send feedback reply', error instanceof Error ? error : new Error(String(error)));
+      logger.error("Failed to send feedback reply", error instanceof Error ? error : new Error(String(error)));
       toast.error("Ошибка отправки");
     } finally {
       setSending(false);
@@ -180,11 +183,8 @@ export default function AdminFeedback() {
   };
 
   const handleClose = async (id: string) => {
-    const { error } = await supabase
-      .from('user_feedback')
-      .update({ status: 'closed' })
-      .eq('id', id);
-    
+    const { error } = await supabase.from("user_feedback").update({ status: "closed" }).eq("id", id);
+
     if (error) {
       toast.error("Ошибка");
     } else {
@@ -219,11 +219,7 @@ export default function AdminFeedback() {
           {/* User Info */}
           <div className="flex items-center gap-3">
             {selectedFeedback.profile?.photo_url ? (
-              <img 
-                src={selectedFeedback.profile.photo_url} 
-                alt="" 
-                className="w-10 h-10 rounded-full object-cover"
-              />
+              <img src={selectedFeedback.profile.photo_url} alt="" className="w-10 h-10 rounded-full object-cover" />
             ) : (
               <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
                 <MessageSquare className="h-5 w-5" />
@@ -233,9 +229,7 @@ export default function AdminFeedback() {
               <p className="font-medium truncate">
                 {selectedFeedback.profile?.username || selectedFeedback.profile?.first_name || "Пользователь"}
               </p>
-              <p className="text-sm text-muted-foreground">
-                ID: {selectedFeedback.telegram_id}
-              </p>
+              <p className="text-sm text-muted-foreground">ID: {selectedFeedback.telegram_id}</p>
             </div>
           </div>
 
@@ -275,7 +269,7 @@ export default function AdminFeedback() {
           )}
 
           {/* Reply Form */}
-          {selectedFeedback.status !== 'closed' && (
+          {selectedFeedback.status !== "closed" && (
             <div className="space-y-3">
               <Textarea
                 placeholder="Введите ответ..."
@@ -285,8 +279,8 @@ export default function AdminFeedback() {
                 className="resize-none"
               />
               <div className="flex gap-2">
-                <Button 
-                  onClick={handleReply} 
+                <Button
+                  onClick={handleReply}
                   disabled={!replyText.trim() || sending}
                   className="flex-1"
                   size={isMobile ? "sm" : "default"}
@@ -294,8 +288,8 @@ export default function AdminFeedback() {
                   <Send className="h-4 w-4 mr-2" />
                   {sending ? "Отправка..." : "Отправить"}
                 </Button>
-                <Button 
-                  variant="outline" 
+                <Button
+                  variant="outline"
                   onClick={() => handleClose(selectedFeedback.id)}
                   size={isMobile ? "sm" : "default"}
                 >
@@ -314,13 +308,14 @@ export default function AdminFeedback() {
     </div>
   );
 
-  const pendingCount = feedback.filter(f => f.status === 'pending').length;
+  const pendingCount = feedback.filter((f) => f.status === "pending").length;
 
   return (
-    <div 
+    <div
       className="container max-w-6xl mx-auto p-3 md:p-4 pb-[calc(6rem+env(safe-area-inset-bottom))]"
       style={{
-        paddingTop: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))'
+        paddingTop:
+          "max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))",
       }}
     >
       {/* Header */}
@@ -332,7 +327,9 @@ export default function AdminFeedback() {
           <h1 className="text-lg md:text-2xl font-bold truncate">
             Обратная связь
             {pendingCount > 0 && (
-              <Badge variant="destructive" className="ml-2">{pendingCount}</Badge>
+              <Badge variant="destructive" className="ml-2">
+                {pendingCount}
+              </Badge>
             )}
           </h1>
         </div>
@@ -359,10 +356,10 @@ export default function AdminFeedback() {
         ) : (
           <div className="flex gap-2">
             {[
-              { value: 'pending', label: 'Ожидают', icon: Clock },
-              { value: 'replied', label: 'Отвечено', icon: CheckCircle },
-              { value: 'closed', label: 'Закрыто', icon: XCircle },
-              { value: 'all', label: 'Все', icon: MessageSquare },
+              { value: "pending", label: "Ожидают", icon: Clock },
+              { value: "replied", label: "Отвечено", icon: CheckCircle },
+              { value: "closed", label: "Закрыто", icon: XCircle },
+              { value: "all", label: "Все", icon: MessageSquare },
             ].map(({ value, label, icon: Icon }) => (
               <Button
                 key={value}
@@ -395,19 +392,17 @@ export default function AdminFeedback() {
                     <div className="animate-spin h-6 w-6 border-2 border-primary border-t-transparent rounded-full" />
                   </div>
                 ) : feedback.length === 0 ? (
-                  <div className="text-center py-8 text-muted-foreground">
-                    Нет сообщений
-                  </div>
+                  <div className="text-center py-8 text-muted-foreground">Нет сообщений</div>
                 ) : (
                   feedback.map((item) => {
                     const config = typeConfig[item.type] || typeConfig.support;
                     const TypeIcon = config.icon;
                     const status = statusConfig[item.status] || statusConfig.pending;
-                    
+
                     return (
-                      <Card 
-                        key={item.id} 
-                        className={`cursor-pointer transition-all hover:bg-accent/50 active:scale-[0.98] ${selectedFeedback?.id === item.id ? 'ring-2 ring-primary bg-accent/30' : ''}`}
+                      <Card
+                        key={item.id}
+                        className={`cursor-pointer transition-all hover:bg-accent/50 active:scale-[0.98] ${selectedFeedback?.id === item.id ? "ring-2 ring-primary bg-accent/30" : ""}`}
                         onClick={() => selectFeedback(item)}
                       >
                         <CardContent className="p-3">

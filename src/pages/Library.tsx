@@ -1,6 +1,6 @@
 /**
  * Library Page - User's track library
- * 
+ *
  * Features:
  * - Track list with search, filter, and sort
  * - Infinite scroll with virtualization
@@ -14,7 +14,18 @@ import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
-import { Search, Loader2, Grid3x3, List, SlidersHorizontal, Play, Shuffle, Library as LibraryIcon, Tag, X } from "lucide-react";
+import {
+  Search,
+  Loader2,
+  Grid3x3,
+  List,
+  SlidersHorizontal,
+  Play,
+  Shuffle,
+  Library as LibraryIcon,
+  Tag,
+  X,
+} from "lucide-react";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
@@ -42,7 +53,7 @@ import { useLibraryHandlers } from "@/hooks/useLibraryHandlers";
 import { useLibraryDeepLinks } from "@/hooks/useLibraryDeepLinks";
 import { LibraryDialogs } from "@/components/library/LibraryDialogs";
 
-import { ContextHints } from '@/components/hints';
+import { ContextHints } from "@/components/hints";
 
 export default function Library() {
   const { isAuthenticated, loading: authLoading } = useAuth();
@@ -89,34 +100,21 @@ export default function Library() {
   } = useLibraryData();
 
   // Consolidated handlers
-  const {
-    handlePlay,
-    handlePlayAll,
-    handleShuffleAll,
-    handleDownload,
-    handleTagClick,
-    activeTrackId,
-  } = useLibraryHandlers({
-    filteredTracks,
-    logPlay,
-  });
+  const { handlePlay, handlePlayAll, handleShuffleAll, handleDownload, handleTagClick, activeTrackId } =
+    useLibraryHandlers({
+      filteredTracks,
+      logPlay,
+    });
 
   // Deep link handling
-  const {
-    selectedTrackForDetail,
-    deepLinkDialogTrack,
-    deepLinkDialogType,
-    closeTrackDetail,
-    closeDeepLinkDialog,
-  } = useLibraryDeepLinks({
-    tracks,
-    onPlayTrack: handlePlay,
-  });
+  const { selectedTrackForDetail, deepLinkDialogTrack, deepLinkDialogType, closeTrackDetail, closeDeepLinkDialog } =
+    useLibraryDeepLinks({
+      tracks,
+      onPlayTrack: handlePlay,
+    });
 
   // Get selected track data for detail panel
-  const selectedTrack = selectedTrackId
-    ? filteredTracks.find(t => t.id === selectedTrackId) ?? null
-    : null;
+  const selectedTrack = selectedTrackId ? (filteredTracks.find((t) => t.id === selectedTrackId) ?? null) : null;
 
   // Keyboard shortcuts for desktop
   useEffect(() => {
@@ -129,7 +127,7 @@ export default function Library() {
       }
 
       // Space: Play/Pause
-      if (e.code === 'Space' && !e.ctrlKey && !e.metaKey) {
+      if (e.code === "Space" && !e.ctrlKey && !e.metaKey) {
         e.preventDefault();
         if (isPlaying) {
           pauseTrack();
@@ -139,14 +137,12 @@ export default function Library() {
       }
 
       // Arrow Up/Down: Navigate tracks
-      if (e.code === 'ArrowDown' || e.code === 'ArrowUp') {
+      if (e.code === "ArrowDown" || e.code === "ArrowUp") {
         e.preventDefault();
-        const currentIndex = selectedTrackId
-          ? filteredTracks.findIndex(t => t.id === selectedTrackId)
-          : -1;
+        const currentIndex = selectedTrackId ? filteredTracks.findIndex((t) => t.id === selectedTrackId) : -1;
 
         let newIndex: number;
-        if (e.code === 'ArrowDown') {
+        if (e.code === "ArrowDown") {
           newIndex = currentIndex < filteredTracks.length - 1 ? currentIndex + 1 : 0;
         } else {
           newIndex = currentIndex > 0 ? currentIndex - 1 : filteredTracks.length - 1;
@@ -158,32 +154,38 @@ export default function Library() {
       }
 
       // Enter: Open in detail panel or play
-      if (e.code === 'Enter' && selectedTrack) {
+      if (e.code === "Enter" && selectedTrack) {
         e.preventDefault();
         handlePlay(selectedTrack);
       }
 
       // Escape: Close detail panel
-      if (e.code === 'Escape' && selectedTrackId) {
+      if (e.code === "Escape" && selectedTrackId) {
         setSelectedTrackId(null);
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMobile, isPlaying, pauseTrack, selectedTrack, selectedTrackId, filteredTracks, handlePlay]);
 
   // Handle track selection (for desktop detail panel)
-  const handleTrackSelect = useCallback((trackId: string) => {
-    if (!isMobile) {
-      setSelectedTrackId(trackId);
-    }
-  }, [isMobile]);
+  const handleTrackSelect = useCallback(
+    (trackId: string) => {
+      if (!isMobile) {
+        setSelectedTrackId(trackId);
+      }
+    },
+    [isMobile],
+  );
 
   // Navigate to studio
-  const handleNavigateToStudio = useCallback((trackId: string) => {
-    navigate(`/studio-v2?trackId=${trackId}`);
-  }, [navigate]);
+  const handleNavigateToStudio = useCallback(
+    (trackId: string) => {
+      navigate(`/studio-v2?trackId=${trackId}`);
+    },
+    [navigate],
+  );
 
   // Auth loading state
   if (authLoading) {
@@ -205,7 +207,8 @@ export default function Library() {
       <div
         className="min-h-screen pb-20 flex"
         style={{
-          paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+          paddingTop:
+            "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
         }}
       >
         {/* Desktop Generate Sidebar */}
@@ -217,21 +220,21 @@ export default function Library() {
         )}
 
         {/* Main Content - with master-detail layout on desktop */}
-        <div className={cn(
-          "flex-1 min-w-0 flex",
-          !isMobile && selectedTrackId && "gap-0"
-        )}>
+        <div className={cn("flex-1 min-w-0 flex", !isMobile && selectedTrackId && "gap-0")}>
           {/* Track List Section */}
-          <div className={cn(
-            "flex-1 min-w-0 flex flex-col",
-            !isMobile && selectedTrackId && "max-w-[60%] border-r border-border/30"
-          )}>
+          <div
+            className={cn(
+              "flex-1 min-w-0 flex flex-col",
+              !isMobile && selectedTrackId && "max-w-[60%] border-r border-border/30",
+            )}
+          >
             {/* Unified Header */}
             <AppHeader
               title="Библиотека"
-              subtitle={hasActiveGenerations
-                ? `${activeGenerations.length} в работе • ${tracks?.length || 0}/${totalCount}`
-                : `${tracks?.length || 0}/${totalCount} треков`
+              subtitle={
+                hasActiveGenerations
+                  ? `${activeGenerations.length} в работе • ${tracks?.length || 0}/${totalCount}`
+                  : `${tracks?.length || 0}/${totalCount} треков`
               }
               icon={<LibraryIcon className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-library" />}
               rightAction={
@@ -267,7 +270,7 @@ export default function Library() {
                       onClick={() => setViewMode("grid")}
                       className={cn(
                         "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all",
-                        viewMode === "grid" && "shadow-sm"
+                        viewMode === "grid" && "shadow-sm",
                       )}
                       aria-label="Сетка"
                     >
@@ -279,7 +282,7 @@ export default function Library() {
                       onClick={() => setViewMode("list")}
                       className={cn(
                         "h-6 w-6 lg:h-7 lg:w-7 rounded lg:rounded-md transition-all",
-                        viewMode === "list" && "shadow-sm"
+                        viewMode === "list" && "shadow-sm",
                       )}
                       aria-label="Список"
                     >
@@ -322,24 +325,28 @@ export default function Library() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-md">
-                        <SelectItem value="recent" className="text-xs">Недавние</SelectItem>
-                        <SelectItem value="popular" className="text-xs">Популярные</SelectItem>
-                        <SelectItem value="liked" className="text-xs">Любимые</SelectItem>
+                        <SelectItem value="recent" className="text-xs">
+                          Недавние
+                        </SelectItem>
+                        <SelectItem value="popular" className="text-xs">
+                          Популярные
+                        </SelectItem>
+                        <SelectItem value="liked" className="text-xs">
+                          Любимые
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  <LibraryFilterChips
-                    activeFilter={typeFilter}
-                    onFilterChange={setTypeFilter}
-                    counts={filterCounts}
-                  />
+                  <LibraryFilterChips activeFilter={typeFilter} onFilterChange={setTypeFilter} counts={filterCounts} />
                 </div>
               )}
             </div>
 
             {/* Content with Pull to Refresh */}
             <PullToRefreshWrapper
-              onRefresh={async () => { await refetchTracks(); }}
+              onRefresh={async () => {
+                await refetchTracks();
+              }}
               disabled={!isMobile}
               className="py-2 sm:py-3 flex-1"
             >
@@ -353,9 +360,7 @@ export default function Library() {
                   className="flex items-center gap-2 px-4 py-2.5 mb-3 mx-4 bg-primary/10 border border-primary/20 rounded-xl"
                 >
                   <Tag className="w-4 h-4 text-primary flex-shrink-0" />
-                  <span className="text-sm text-primary font-medium truncate">
-                    Фильтр: {tagFilter}
-                  </span>
+                  <span className="text-sm text-primary font-medium truncate">Фильтр: {tagFilter}</span>
                   <Button
                     size="sm"
                     variant="ghost"
@@ -375,10 +380,13 @@ export default function Library() {
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                     Генерируется ({activeGenerations.length})
                   </h2>
-                  <div className={viewMode === "grid"
-                    ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
-                    : "flex flex-col gap-1.5"
-                  }>
+                  <div
+                    className={
+                      viewMode === "grid"
+                        ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
+                        : "flex flex-col gap-1.5"
+                    }
+                  >
                     {activeGenerations.map((task) => (
                       <GeneratingTrackSkeleton
                         key={task.id}
@@ -396,17 +404,22 @@ export default function Library() {
               {isLoading ? (
                 <div data-safe-skeleton="">
                   {isMobile ? (
-                    viewMode === "grid" ? <MobileGridSkeleton count={4} /> : <MobileListSkeleton count={5} />
+                    viewMode === "grid" ? (
+                      <MobileGridSkeleton count={4} />
+                    ) : (
+                      <MobileListSkeleton count={5} />
+                    )
                   ) : (
-                    <div className={viewMode === "grid"
-                      ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
-                      : "flex flex-col gap-1.5"
-                    }>
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        viewMode === 'grid'
-                          ? <TrackCardSkeleton key={i} />
-                          : <TrackRowSkeleton key={i} />
-                      ))}
+                    <div
+                      className={
+                        viewMode === "grid"
+                          ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+                          : "flex flex-col gap-1.5"
+                      }
+                    >
+                      {Array.from({ length: 6 }).map((_, i) =>
+                        viewMode === "grid" ? <TrackCardSkeleton key={i} /> : <TrackRowSkeleton key={i} />,
+                      )}
                     </div>
                   )}
                 </div>
@@ -434,9 +447,7 @@ export default function Library() {
                   />
 
                   {!hasNextPage && (tracks?.length ?? 0) > 0 && (
-                    <p className="text-sm text-muted-foreground py-8 text-center">
-                      Все треки загружены
-                    </p>
+                    <p className="text-sm text-muted-foreground py-8 text-center">Все треки загружены</p>
                   )}
                 </>
               )}
@@ -446,11 +457,7 @@ export default function Library() {
           {/* Desktop: Track Detail Panel */}
           {!isMobile && selectedTrack && (
             <div className="w-[40%] min-w-[320px] max-w-[480px] bg-card/50 border-l border-border/30 flex-shrink-0">
-              <TrackDetailPanel
-                track={selectedTrack}
-                onPlay={handlePlay}
-                onClose={() => setSelectedTrackId(null)}
-              />
+              <TrackDetailPanel track={selectedTrack} onPlay={handlePlay} onClose={() => setSelectedTrackId(null)} />
             </div>
           )}
         </div>
@@ -464,7 +471,6 @@ export default function Library() {
         deepLinkDialogType={deepLinkDialogType}
         onCloseDeepLinkDialog={closeDeepLinkDialog}
       />
-
 
       {/* Contextual hints — single canonical overlay */}
       <ContextHints context="library" delay={3000} />

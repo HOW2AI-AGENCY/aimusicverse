@@ -1,21 +1,21 @@
 /**
  * Loading Overlay Component
  * Feature: 032-professional-ui
- * 
+ *
  * Full-screen and section loading overlays
  */
 
-import React, { ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Loader2, Music, Sparkles } from 'lucide-react';
+import React, { ReactNode } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Loader2, Music, Sparkles } from "lucide-react";
 
 interface LoadingOverlayProps {
   visible: boolean;
   message?: string;
   submessage?: string;
-  variant?: 'default' | 'blur' | 'solid' | 'gradient';
-  icon?: 'spinner' | 'music' | 'sparkles' | ReactNode;
+  variant?: "default" | "blur" | "solid" | "gradient";
+  icon?: "spinner" | "music" | "sparkles" | ReactNode;
   fullScreen?: boolean;
   className?: string;
 }
@@ -24,36 +24,33 @@ export function LoadingOverlay({
   visible,
   message,
   submessage,
-  variant = 'blur',
-  icon = 'spinner',
+  variant = "blur",
+  icon = "spinner",
   fullScreen = false,
   className,
 }: LoadingOverlayProps) {
   const variantStyles = {
-    default: 'bg-background/80',
-    blur: 'bg-background/60 backdrop-blur-md',
-    solid: 'bg-background',
-    gradient: 'bg-gradient-to-b from-background/90 via-background/70 to-background/90 backdrop-blur-sm',
+    default: "bg-background/80",
+    blur: "bg-background/60 backdrop-blur-md",
+    solid: "bg-background",
+    gradient: "bg-gradient-to-b from-background/90 via-background/70 to-background/90 backdrop-blur-sm",
   };
 
   const IconComponent = () => {
-    if (typeof icon !== 'string') return <>{icon}</>;
-    
+    if (typeof icon !== "string") return <>{icon}</>;
+
     switch (icon) {
-      case 'music':
+      case "music":
         return (
-          <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
-          >
+          <motion.div animate={{ scale: [1, 1.1, 1] }} transition={{ duration: 1.5, repeat: Infinity }}>
             <Music className="w-10 h-10 text-primary" />
           </motion.div>
         );
-      case 'sparkles':
+      case "sparkles":
         return (
           <motion.div
             animate={{ rotate: [0, 180, 360] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
           >
             <Sparkles className="w-10 h-10 text-primary" />
           </motion.div>
@@ -76,11 +73,11 @@ export function LoadingOverlay({
             "z-50",
             variantStyles[variant],
             fullScreen ? "fixed inset-0" : "absolute inset-0",
-            className
+            className,
           )}
         >
           <IconComponent />
-          
+
           {message && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
@@ -89,9 +86,7 @@ export function LoadingOverlay({
               className="text-center"
             >
               <p className="text-foreground font-medium">{message}</p>
-              {submessage && (
-                <p className="text-sm text-muted-foreground mt-1">{submessage}</p>
-              )}
+              {submessage && <p className="text-sm text-muted-foreground mt-1">{submessage}</p>}
             </motion.div>
           )}
         </motion.div>
@@ -103,7 +98,7 @@ export function LoadingOverlay({
 /**
  * Progress Overlay - With progress bar
  */
-interface ProgressOverlayProps extends Omit<LoadingOverlayProps, 'icon'> {
+interface ProgressOverlayProps extends Omit<LoadingOverlayProps, "icon"> {
   progress: number; // 0-100
   showPercentage?: boolean;
 }
@@ -114,7 +109,7 @@ export function ProgressOverlay({
   message,
   submessage,
   showPercentage = true,
-  variant = 'blur',
+  variant = "blur",
   fullScreen = false,
   className,
 }: ProgressOverlayProps) {
@@ -128,10 +123,10 @@ export function ProgressOverlay({
           className={cn(
             "flex flex-col items-center justify-center gap-4 p-8",
             "z-50",
-            variant === 'blur' && "bg-background/60 backdrop-blur-md",
-            variant === 'solid' && "bg-background",
+            variant === "blur" && "bg-background/60 backdrop-blur-md",
+            variant === "solid" && "bg-background",
             fullScreen ? "fixed inset-0" : "absolute inset-0",
-            className
+            className,
           )}
         >
           <div className="w-full max-w-xs">
@@ -141,10 +136,10 @@ export function ProgressOverlay({
                 className="h-full bg-primary rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
               />
             </div>
-            
+
             {/* Percentage */}
             {showPercentage && (
               <motion.p
@@ -157,13 +152,11 @@ export function ProgressOverlay({
               </motion.p>
             )}
           </div>
-          
+
           {message && (
             <div className="text-center">
               <p className="text-foreground font-medium">{message}</p>
-              {submessage && (
-                <p className="text-sm text-muted-foreground mt-1">{submessage}</p>
-              )}
+              {submessage && <p className="text-sm text-muted-foreground mt-1">{submessage}</p>}
             </div>
           )}
         </motion.div>
@@ -181,11 +174,7 @@ interface SkeletonOverlayProps {
   className?: string;
 }
 
-export function SkeletonOverlay({
-  visible,
-  rows = 3,
-  className,
-}: SkeletonOverlayProps) {
+export function SkeletonOverlay({ visible, rows = 3, className }: SkeletonOverlayProps) {
   return (
     <AnimatePresence>
       {visible && (
@@ -197,7 +186,7 @@ export function SkeletonOverlay({
             "absolute inset-0 bg-background/90 backdrop-blur-sm",
             "flex flex-col gap-3 p-4",
             "z-40",
-            className
+            className,
           )}
         >
           {Array.from({ length: rows }).map((_, i) => (

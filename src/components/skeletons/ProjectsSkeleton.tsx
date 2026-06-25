@@ -3,8 +3,8 @@
  * Shown while projects are being fetched
  */
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { FolderOpen } from 'lucide-react';
+import { Skeleton } from "@/components/ui/skeleton";
+import { FolderOpen } from "lucide-react";
 
 export function ProjectsSkeleton() {
   return (

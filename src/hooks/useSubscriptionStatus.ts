@@ -3,14 +3,14 @@
  * Fetches and caches user subscription status with auto-refresh
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { getSubscriptionStatus } from '@/services/starsPaymentService';
-import type { SubscriptionStatusResponse } from '@/types/starsPayment';
+import { useQuery } from "@tanstack/react-query";
+import { getSubscriptionStatus } from "@/services/starsPaymentService";
+import type { SubscriptionStatusResponse } from "@/types/starsPayment";
 
 // Query key factory
 export const subscriptionKeys = {
-  all: ['subscription'] as const,
-  status: (userId: string) => [...subscriptionKeys.all, 'status', userId] as const,
+  all: ["subscription"] as const,
+  status: (userId: string) => [...subscriptionKeys.all, "status", userId] as const,
 };
 
 interface UseSubscriptionStatusOptions {
@@ -48,7 +48,7 @@ export function useSubscriptionStatus({ userId, enabled = true }: UseSubscriptio
     subscription: query.data?.subscription,
     hasSubscription: query.data?.subscription.has_subscription ?? false,
     isActive: query.data?.subscription.is_active ?? false,
-    tier: query.data?.subscription.tier ?? 'free',
+    tier: query.data?.subscription.tier ?? "free",
     expiresAt: query.data?.subscription.expires_at,
     daysRemaining: query.data?.subscription.days_remaining,
     autoRenew: query.data?.subscription.auto_renew,

@@ -1,5 +1,5 @@
-import { useEffect, useCallback, useRef } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { useEffect, useCallback, useRef } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 interface SecondaryButtonConfig {
   text: string;
@@ -8,7 +8,7 @@ interface SecondaryButtonConfig {
   visible?: boolean;
   color?: string;
   textColor?: string;
-  position?: 'left' | 'right';
+  position?: "left" | "right";
 }
 
 interface SecondaryButtonReturn {
@@ -28,15 +28,15 @@ interface SecondaryButtonReturn {
 
 /**
  * Hook for managing Telegram SecondaryButton (Mini App 2.0+) with fallback to UI button.
- * 
+ *
  * SecondaryButton provides a second action button alongside MainButton, allowing:
  * - Two-action workflows (e.g., "Save" + "Generate")
  * - Alternative actions (e.g., "Share" + "Add to Playlist")
  * - Cancel/Confirm patterns
- * 
+ *
  * - Real Mini App users (iOS/Android/Desktop with 2.0+): Shows native Telegram SecondaryButton
  * - Test users (dev mode / web browser / old Telegram): Shows standard UI Button component
- * 
+ *
  * @example
  * ```tsx
  * const { shouldShowUIButton } = useTelegramSecondaryButton({
@@ -46,7 +46,7 @@ interface SecondaryButtonReturn {
  *   visible: sheetOpen,
  *   position: 'left', // Position relative to MainButton
  * });
- * 
+ *
  * return (
  *   <>
  *     {shouldShowUIButton && (
@@ -65,113 +65,130 @@ export function useTelegramSecondaryButton({
   visible = true,
   color,
   textColor,
-  position = 'left',
+  position = "left",
 }: SecondaryButtonConfig): SecondaryButtonReturn {
   const { platform, isDevelopmentMode, showSecondaryButton, hideSecondaryButton, webApp } = useTelegram();
-  
+
   // Store callback in ref to avoid re-subscriptions
   const onClickRef = useRef(onClick);
   onClickRef.current = onClick;
-  
+
   // Check if SecondaryButton API is available (Mini App 2.0+)
   const hasSecondaryButtonAPI = !!(
-    webApp?.SecondaryButton && 
-    typeof webApp.SecondaryButton.show === 'function' &&
-    typeof webApp.SecondaryButton.hide === 'function' &&
-    typeof webApp.SecondaryButton.setText === 'function'
+    webApp?.SecondaryButton &&
+    typeof webApp.SecondaryButton.show === "function" &&
+    typeof webApp.SecondaryButton.hide === "function" &&
+    typeof webApp.SecondaryButton.setText === "function"
   );
-  
+
   // Track if we've attempted to show the native button
   const attemptedShowRef = useRef(false);
-  
+
   // Check if SecondaryButton is actually visible
-  const secondaryButtonVisible = webApp?.SecondaryButton ? (webApp.SecondaryButton as { isVisible?: boolean }).isVisible === true : false;
-  
+  const secondaryButtonVisible = webApp?.SecondaryButton
+    ? (webApp.SecondaryButton as { isVisible?: boolean }).isVisible === true
+    : false;
+
   // Determine if SecondaryButton is supported
-  const isNativePlatform = platform === 'ios' || platform === 'android' || platform === 'tdesktop';
+  const isNativePlatform = platform === "ios" || platform === "android" || platform === "tdesktop";
   const isSupported = Boolean(
-    hasSecondaryButtonAPI && 
-    platform && 
-    platform !== 'web' && 
-    platform !== '' &&
-    (isNativePlatform || !isDevelopmentMode)
+    hasSecondaryButtonAPI &&
+    platform &&
+    platform !== "web" &&
+    platform !== "" &&
+    (isNativePlatform || !isDevelopmentMode),
   );
-  
+
   // Show UI button ONLY if:
   // 1. Native button is not supported at all, OR
   // 2. We've attempted to show native button but it's not visible after a delay
   // Don't show UI button initially when native is supported - wait for native to render
   const shouldShowUIButton = !isSupported;
-  
+
   // Stable callback wrapper
   const handleClick = useCallback(() => {
     onClickRef.current();
   }, []);
-  
+
   useEffect(() => {
     // Only manage SecondaryButton if supported and visible
     if (!isSupported || !visible) {
       hideSecondaryButton();
       return;
     }
-    
+
     showSecondaryButton(text, handleClick, {
       color,
       textColor,
       position,
     });
-    
+
     // Set active state (if API supports it)
     if (webApp?.SecondaryButton) {
-      const btn = webApp.SecondaryButton as { 
+      const btn = webApp.SecondaryButton as {
         setActive?: (active: boolean) => void;
         enable?: () => void;
         disable?: () => void;
       };
-      if (typeof btn.setActive === 'function') {
+      if (typeof btn.setActive === "function") {
         btn.setActive(enabled);
       }
-      if (enabled && typeof btn.enable === 'function') {
+      if (enabled && typeof btn.enable === "function") {
         btn.enable();
-      } else if (!enabled && typeof btn.disable === 'function') {
+      } else if (!enabled && typeof btn.disable === "function") {
         btn.disable();
       }
     }
-    
+
     return () => {
       hideSecondaryButton();
     };
-  }, [isSupported, text, handleClick, enabled, visible, color, textColor, position, showSecondaryButton, hideSecondaryButton, webApp]);
-  
+  }, [
+    isSupported,
+    text,
+    handleClick,
+    enabled,
+    visible,
+    color,
+    textColor,
+    position,
+    showSecondaryButton,
+    hideSecondaryButton,
+    webApp,
+  ]);
+
   // Progress control methods (if supported)
-  const showProgress = useCallback((leaveActive: boolean = false) => {
-    const btn = webApp?.SecondaryButton as { showProgress?: (leaveActive: boolean) => void } | undefined;
-    if (btn?.showProgress) {
-      btn.showProgress(leaveActive);
-    }
-  }, [webApp]);
-  
+  const showProgress = useCallback(
+    (leaveActive: boolean = false) => {
+      const btn = webApp?.SecondaryButton as { showProgress?: (leaveActive: boolean) => void } | undefined;
+      if (btn?.showProgress) {
+        btn.showProgress(leaveActive);
+      }
+    },
+    [webApp],
+  );
+
   const hideProgress = useCallback(() => {
     const btn = webApp?.SecondaryButton as { hideProgress?: () => void } | undefined;
     if (btn?.hideProgress) {
       btn.hideProgress();
     }
   }, [webApp]);
-  
+
   const enable = useCallback(() => {
     const btn = webApp?.SecondaryButton as { enable?: () => void } | undefined;
     if (btn?.enable) {
       btn.enable();
     }
   }, [webApp]);
-  
+
   const disable = useCallback(() => {
     const btn = webApp?.SecondaryButton as { disable?: () => void } | undefined;
     if (btn?.disable) {
       btn.disable();
     }
   }, [webApp]);
-  
+
   return {
     isSupported,
     shouldShowUIButton,

@@ -3,49 +3,49 @@
  * Tracks delivery rates, error rates, and response times
  */
 
-import { getSupabaseClient } from '../core/supabase-client.ts';
+import { getSupabaseClient } from "../core/supabase-client.ts";
 
 // Event types for tracking
-export type MetricEventType = 
-  | 'message_sent'
-  | 'message_failed'
-  | 'callback_processed'
-  | 'callback_failed'
-  | 'notification_sent'
-  | 'notification_failed'
-  | 'audio_sent'
-  | 'audio_failed'
-  | 'photo_sent'
-  | 'photo_failed'
-  | 'inline_query_processed'
-  | 'rate_limited'
-  | 'cover_started'
-  | 'cover_failed'
-  | 'extend_started'
-  | 'extend_failed'
-  | 'audio_processing_error'
-  | 'upload_started'
-  | 'upload_completed'
-  | 'upload_completed_with_analysis'
-  | 'upload_failed'
-  | 'cover_from_reference'
-  | 'extend_from_reference'
-  | 'analyze_command'
-  | 'analyze_transcription'
-  | 'analyze_chords'
-  | 'analyze_beats'
-  | 'analyze_full'
-  | 'lyrics_shown'
-  | 'lyrics_transcribed'
-  | 'voice_transcribed'
-  | 'voice_transcription_failed'
-  | 'voice_generation_started'
-  | 'wizard_started'
-  | 'wizard_cancelled'
-  | 'wizard_completed'
-  | 'quick_generation_started'
-  | 'classified_upload_completed'
-  | 'classified_upload_failed';
+export type MetricEventType =
+  | "message_sent"
+  | "message_failed"
+  | "callback_processed"
+  | "callback_failed"
+  | "notification_sent"
+  | "notification_failed"
+  | "audio_sent"
+  | "audio_failed"
+  | "photo_sent"
+  | "photo_failed"
+  | "inline_query_processed"
+  | "rate_limited"
+  | "cover_started"
+  | "cover_failed"
+  | "extend_started"
+  | "extend_failed"
+  | "audio_processing_error"
+  | "upload_started"
+  | "upload_completed"
+  | "upload_completed_with_analysis"
+  | "upload_failed"
+  | "cover_from_reference"
+  | "extend_from_reference"
+  | "analyze_command"
+  | "analyze_transcription"
+  | "analyze_chords"
+  | "analyze_beats"
+  | "analyze_full"
+  | "lyrics_shown"
+  | "lyrics_transcribed"
+  | "voice_transcribed"
+  | "voice_transcription_failed"
+  | "voice_generation_started"
+  | "wizard_started"
+  | "wizard_cancelled"
+  | "wizard_completed"
+  | "quick_generation_started"
+  | "classified_upload_completed"
+  | "classified_upload_failed";
 
 interface MetricData {
   eventType: MetricEventType;
@@ -69,7 +69,7 @@ let flushTimeout: number | null = null;
  */
 export async function trackMetric(data: MetricData): Promise<void> {
   metricsBuffer.push(data);
-  
+
   // Flush immediately if buffer is full or if it's an error
   if (metricsBuffer.length >= BUFFER_SIZE || !data.success) {
     await flushMetrics();
@@ -84,19 +84,19 @@ export async function trackMetric(data: MetricData): Promise<void> {
  */
 export async function flushMetrics(): Promise<void> {
   if (metricsBuffer.length === 0) return;
-  
+
   if (flushTimeout) {
     clearTimeout(flushTimeout);
     flushTimeout = null;
   }
-  
+
   const metricsToInsert = [...metricsBuffer];
   metricsBuffer.length = 0;
-  
+
   try {
     const supabase = getSupabaseClient();
-    
-    const records = metricsToInsert.map(m => ({
+
+    const records = metricsToInsert.map((m) => ({
       event_type: m.eventType,
       success: m.success,
       user_id: m.userId || null,
@@ -105,16 +105,14 @@ export async function flushMetrics(): Promise<void> {
       response_time_ms: m.responseTimeMs || null,
       metadata: m.metadata || null,
     }));
-    
-    const { error } = await supabase
-      .from('telegram_bot_metrics')
-      .insert(records);
-    
+
+    const { error } = await supabase.from("telegram_bot_metrics").insert(records);
+
     if (error) {
-      console.error('Failed to insert metrics:', error);
+      console.error("Failed to insert metrics:", error);
     }
   } catch (err) {
-    console.error('Metrics flush error:', err);
+    console.error("Metrics flush error:", err);
   }
 }
 
@@ -128,30 +126,29 @@ export async function withMetrics<T>(
     userId?: string;
     telegramChatId?: number;
     metadata?: Record<string, unknown>;
-  } = {}
+  } = {},
 ): Promise<T> {
   const startTime = Date.now();
-  
+
   try {
     const result = await operation();
     const responseTimeMs = Date.now() - startTime;
-    
+
     trackMetric({
       eventType,
       success: true,
       responseTimeMs,
       ...context,
     });
-    
+
     return result;
   } catch (error) {
     const responseTimeMs = Date.now() - startTime;
     const errorMessage = error instanceof Error ? error.message : String(error);
-    
+
     // Change event type to failed variant
-    const failedEventType = eventType.replace('_sent', '_failed')
-      .replace('_processed', '_failed') as MetricEventType;
-    
+    const failedEventType = eventType.replace("_sent", "_failed").replace("_processed", "_failed") as MetricEventType;
+
     trackMetric({
       eventType: failedEventType,
       success: false,
@@ -159,7 +156,7 @@ export async function withMetrics<T>(
       errorMessage,
       ...context,
     });
-    
+
     throw error;
   }
 }
@@ -178,42 +175,41 @@ export async function checkAlerts(): Promise<{
 }> {
   try {
     const supabase = getSupabaseClient();
-    
+
     // Get metrics for the last hour
-    const { data, error } = await supabase
-      .rpc('get_telegram_bot_metrics', { _time_period: '1 hour' });
-    
+    const { data, error } = await supabase.rpc("get_telegram_bot_metrics", { _time_period: "1 hour" });
+
     if (error || !data || data.length === 0) {
       return { shouldAlert: false };
     }
-    
+
     const metrics = data[0];
     const successRate = metrics.success_rate || 100;
     const errorCount = metrics.failed_events || 0;
     const avgResponseTime = metrics.avg_response_time_ms || 0;
-    
+
     // Alert thresholds
     const ERROR_RATE_THRESHOLD = 10; // Alert if error rate > 10%
     const ERROR_COUNT_THRESHOLD = 50; // Alert if > 50 errors in last hour
     const RESPONSE_TIME_THRESHOLD = 5000; // Alert if avg response > 5s
-    
+
     const alerts: string[] = [];
-    
-    if (successRate < (100 - ERROR_RATE_THRESHOLD)) {
+
+    if (successRate < 100 - ERROR_RATE_THRESHOLD) {
       alerts.push(`⚠️ High error rate: ${(100 - successRate).toFixed(1)}%`);
     }
-    
+
     if (errorCount > ERROR_COUNT_THRESHOLD) {
       alerts.push(`⚠️ High error count: ${errorCount} errors in last hour`);
     }
-    
+
     if (avgResponseTime > RESPONSE_TIME_THRESHOLD) {
       alerts.push(`⚠️ Slow responses: ${avgResponseTime.toFixed(0)}ms average`);
     }
-    
+
     return {
       shouldAlert: alerts.length > 0,
-      alertMessage: alerts.join('\n'),
+      alertMessage: alerts.join("\n"),
       metrics: {
         successRate,
         errorCount,
@@ -221,7 +217,7 @@ export async function checkAlerts(): Promise<{
       },
     };
   } catch (err) {
-    console.error('Alert check error:', err);
+    console.error("Alert check error:", err);
     return { shouldAlert: false };
   }
 }

@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Mic, MicOff, Loader2 } from 'lucide-react';
-import { useVoiceInput, VoiceInputContext } from '@/hooks/useVoiceInput';
-import { cn } from '@/lib/utils';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Mic, MicOff, Loader2 } from "lucide-react";
+import { useVoiceInput, VoiceInputContext } from "@/hooks/useVoiceInput";
+import { cn } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface VoiceInputButtonProps {
   onResult: (text: string) => void;
@@ -11,18 +11,18 @@ interface VoiceInputButtonProps {
   autoCorrect?: boolean;
   language?: string;
   className?: string;
-  size?: 'default' | 'sm' | 'lg' | 'icon';
-  variant?: 'default' | 'ghost' | 'outline' | 'secondary';
+  size?: "default" | "sm" | "lg" | "icon";
+  variant?: "default" | "ghost" | "outline" | "secondary";
 }
 
 export function VoiceInputButton({
   onResult,
-  context = 'general',
+  context = "general",
   autoCorrect = true,
-  language = 'ru',
+  language = "ru",
   className,
-  size = 'icon',
-  variant = 'ghost',
+  size = "icon",
+  variant = "ghost",
 }: VoiceInputButtonProps) {
   const { isRecording, isProcessing, toggleRecording } = useVoiceInput({
     onResult,
@@ -40,11 +40,7 @@ export function VoiceInputButton({
           size={size}
           onClick={toggleRecording}
           disabled={isProcessing}
-          className={cn(
-            'relative',
-            isRecording && 'text-destructive animate-pulse',
-            className
-          )}
+          className={cn("relative", isRecording && "text-destructive animate-pulse", className)}
         >
           {isProcessing ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -59,7 +55,7 @@ export function VoiceInputButton({
         </Button>
       </TooltipTrigger>
       <TooltipContent>
-        {isRecording ? 'Остановить запись' : isProcessing ? 'Обработка...' : 'Голосовой ввод'}
+        {isRecording ? "Остановить запись" : isProcessing ? "Обработка..." : "Голосовой ввод"}
       </TooltipContent>
     </Tooltip>
   );

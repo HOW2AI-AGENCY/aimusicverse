@@ -3,7 +3,7 @@
  * Raw Supabase operations for admin functionality
  */
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 
 // ==========================================
 // Types
@@ -53,11 +53,11 @@ export interface UserWithBalance {
  * Check if user has admin role
  */
 export async function checkAdminRole(userId: string): Promise<boolean> {
-  const { data, error } = await supabase.rpc('has_role', {
+  const { data, error } = await supabase.rpc("has_role", {
     _user_id: userId,
-    _role: 'admin',
+    _role: "admin",
   });
-  
+
   if (error) throw new Error(error.message);
   return !!data;
 }
@@ -66,9 +66,11 @@ export async function checkAdminRole(userId: string): Promise<boolean> {
  * Get current user admin status
  */
 export async function getCurrentUserAdminStatus(): Promise<{ isAdmin: boolean; userId: string | null }> {
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { isAdmin: false, userId: null };
-  
+
   const isAdmin = await checkAdminRole(user.id);
   return { isAdmin, userId: user.id };
 }
@@ -81,9 +83,9 @@ export async function getCurrentUserAdminStatus(): Promise<{ isAdmin: boolean; u
  * Fetch user balance summary for admin dashboard
  */
 export async function fetchUserBalanceSummary(): Promise<UserBalanceSummary | null> {
-  const { data, error } = await supabase.rpc('get_user_balance_summary');
+  const { data, error } = await supabase.rpc("get_user_balance_summary");
   if (error) throw new Error(error.message);
-  return data?.[0] as UserBalanceSummary || null;
+  return (data?.[0] as UserBalanceSummary) || null;
 }
 
 /**
@@ -91,44 +93,47 @@ export async function fetchUserBalanceSummary(): Promise<UserBalanceSummary | nu
  */
 export async function fetchUsersWithBalances(options: {
   limit?: number;
-  orderBy?: 'balance' | 'created_at';
+  orderBy?: "balance" | "created_at";
 }): Promise<UserWithBalance[]> {
-  const { limit = 100, orderBy = 'created_at' } = options;
+  const { limit = 100, orderBy = "created_at" } = options;
 
   // First get profiles
   const { data: profiles, error: profilesError } = await supabase
-    .from('profiles')
-    .select('user_id, username, first_name, last_name, photo_url, subscription_tier, subscription_expires_at, created_at')
-    .order('created_at', { ascending: false })
+    .from("profiles")
+    .select(
+      "user_id, username, first_name, last_name, photo_url, subscription_tier, subscription_expires_at, created_at",
+    )
+    .order("created_at", { ascending: false })
     .limit(limit);
 
   if (profilesError) throw new Error(profilesError.message);
 
   // Then get credits for these users
-  const userIds = profiles?.map(p => p.user_id) || [];
+  const userIds = profiles?.map((p) => p.user_id) || [];
   const { data: credits, error: creditsError } = await supabase
-    .from('user_credits')
-    .select('user_id, balance, total_earned, total_spent, level, experience, current_streak')
-    .in('user_id', userIds);
+    .from("user_credits")
+    .select("user_id, balance, total_earned, total_spent, level, experience, current_streak")
+    .in("user_id", userIds);
 
   if (creditsError) throw new Error(creditsError.message);
 
   // Merge the data
-  const mergedData = profiles?.map(profile => {
-    const userCredits = credits?.find(c => c.user_id === profile.user_id);
-    return {
-      ...profile,
-      balance: userCredits?.balance || 0,
-      total_earned: userCredits?.total_earned || 0,
-      total_spent: userCredits?.total_spent || 0,
-      level: userCredits?.level || 1,
-      experience: userCredits?.experience || 0,
-      current_streak: userCredits?.current_streak || 0,
-    };
-  }) || [];
+  const mergedData =
+    profiles?.map((profile) => {
+      const userCredits = credits?.find((c) => c.user_id === profile.user_id);
+      return {
+        ...profile,
+        balance: userCredits?.balance || 0,
+        total_earned: userCredits?.total_earned || 0,
+        total_spent: userCredits?.total_spent || 0,
+        level: userCredits?.level || 1,
+        experience: userCredits?.experience || 0,
+        current_streak: userCredits?.current_streak || 0,
+      };
+    }) || [];
 
   // Sort by balance if needed
-  if (orderBy === 'balance') {
+  if (orderBy === "balance") {
     mergedData.sort((a, b) => b.balance - a.balance);
   }
 
@@ -142,8 +147,8 @@ export async function fetchUsersWithBalances(options: {
 /**
  * Fetch Telegram bot metrics
  */
-export async function fetchBotMetrics(period: string = '24 hours'): Promise<BotMetrics | null> {
-  const { data, error } = await supabase.rpc('get_telegram_bot_metrics', {
+export async function fetchBotMetrics(period: string = "24 hours"): Promise<BotMetrics | null> {
+  const { data, error } = await supabase.rpc("get_telegram_bot_metrics", {
     _time_period: period,
   });
 
@@ -156,9 +161,9 @@ export async function fetchBotMetrics(period: string = '24 hours'): Promise<BotM
  */
 export async function fetchRecentBotEvents(limit: number = 50) {
   const { data, error } = await supabase
-    .from('telegram_bot_metrics')
-    .select('*')
-    .order('created_at', { ascending: false })
+    .from("telegram_bot_metrics")
+    .select("*")
+    .order("created_at", { ascending: false })
     .limit(limit);
 
   if (error) throw new Error(error.message);

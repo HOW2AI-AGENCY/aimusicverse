@@ -2,9 +2,9 @@
  * TrackTechnicalSection - Technical information grid
  */
 
-import { memo } from 'react';
-import { Cpu } from 'lucide-react';
-import type { Track } from '@/types/track';
+import { memo } from "react";
+import { Cpu } from "lucide-react";
+import type { Track } from "@/types/track";
 
 interface TrackTechnicalSectionProps {
   track: Track;
@@ -14,10 +14,10 @@ interface TrackTechnicalSectionProps {
 const formatModelName = (model: string | null) => {
   if (!model) return null;
   const modelLabels: Record<string, string> = {
-    'V5': 'Suno V5 (Crow)',
-    'V4_5ALL': 'Suno V4.5',
-    'V4': 'Suno V4',
-    'V3_5': 'Suno V3.5',
+    V5: "Suno V5 (Crow)",
+    V4_5ALL: "Suno V4.5",
+    V4: "Suno V4",
+    V3_5: "Suno V3.5",
   };
   return modelLabels[model] || model;
 };
@@ -31,9 +31,9 @@ interface TechInfoItemProps {
 
 const TechInfoItem = memo(function TechInfoItem({ label, value, fullWidth, mono }: TechInfoItemProps) {
   return (
-    <div className={`p-3 rounded-lg bg-muted/30 ${fullWidth ? 'sm:col-span-2' : ''}`}>
+    <div className={`p-3 rounded-lg bg-muted/30 ${fullWidth ? "sm:col-span-2" : ""}`}>
       <p className="text-xs text-muted-foreground mb-1">{label}</p>
-      <p className={`text-sm ${mono ? 'font-mono text-xs break-all' : ''}`}>{value}</p>
+      <p className={`text-sm ${mono ? "font-mono text-xs break-all" : ""}`}>{value}</p>
     </div>
   );
 });
@@ -53,9 +53,7 @@ export const TrackTechnicalSection = memo(function TrackTechnicalSection({ track
           </div>
         )}
 
-        {track.generation_mode && (
-          <TechInfoItem label="Режим генерации" value={track.generation_mode} />
-        )}
+        {track.generation_mode && <TechInfoItem label="Режим генерации" value={track.generation_mode} />}
 
         {track.vocal_gender && (
           <TechInfoItem label="Пол вокала" value={<span className="capitalize">{track.vocal_gender}</span>} />
@@ -65,21 +63,13 @@ export const TrackTechnicalSection = memo(function TrackTechnicalSection({ track
           <TechInfoItem label="Style Weight" value={track.style_weight} />
         )}
 
-        {track.provider && (
-          <TechInfoItem label="Провайдер" value={track.provider} />
-        )}
+        {track.provider && <TechInfoItem label="Провайдер" value={track.provider} />}
 
         {track.created_at && (
-          <TechInfoItem 
-            label="Дата создания" 
-            value={new Date(track.created_at).toLocaleString('ru-RU')} 
-            fullWidth 
-          />
+          <TechInfoItem label="Дата создания" value={new Date(track.created_at).toLocaleString("ru-RU")} fullWidth />
         )}
 
-        {track.suno_id && (
-          <TechInfoItem label="Suno ID" value={track.suno_id} fullWidth mono />
-        )}
+        {track.suno_id && <TechInfoItem label="Suno ID" value={track.suno_id} fullWidth mono />}
       </div>
     </div>
   );

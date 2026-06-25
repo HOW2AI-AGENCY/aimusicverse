@@ -1,15 +1,15 @@
 /**
  * QR Scanner Dialog Component
- * 
+ *
  * Provides a button and dialog to scan QR codes using Telegram's native scanner
  * Available in Telegram 6.4+
- * 
+ *
  * Features:
  * - Native QR scanner integration
  * - Custom validation logic
  * - Loading states
  * - Error handling
- * 
+ *
  * @example
  * ```tsx
  * <QRScannerDialog
@@ -22,8 +22,8 @@
  * ```
  */
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -31,25 +31,25 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { QrCode, Loader2 } from 'lucide-react';
-import { useTelegramQRScanner } from '@/hooks/telegram';
-import { toast } from 'sonner';
+} from "@/components/ui/dialog";
+import { QrCode, Loader2 } from "lucide-react";
+import { useTelegramQRScanner } from "@/hooks/telegram";
+import { toast } from "sonner";
 
 interface QRScannerDialogProps {
   buttonText?: string;
   scanText?: string;
-  buttonVariant?: 'default' | 'outline' | 'secondary' | 'ghost';
-  buttonSize?: 'default' | 'sm' | 'lg' | 'icon';
+  buttonVariant?: "default" | "outline" | "secondary" | "ghost";
+  buttonSize?: "default" | "sm" | "lg" | "icon";
   onScan?: (data: string) => void;
   validate?: (data: string) => boolean;
 }
 
 export const QRScannerDialog = ({
-  buttonText = 'Сканировать QR',
-  scanText = 'Наведите камеру на QR-код',
-  buttonVariant = 'outline',
-  buttonSize = 'default',
+  buttonText = "Сканировать QR",
+  scanText = "Наведите камеру на QR-код",
+  buttonVariant = "outline",
+  buttonSize = "default",
   onScan,
   validate,
 }: QRScannerDialogProps) => {
@@ -58,14 +58,14 @@ export const QRScannerDialog = ({
 
   const handleScan = async () => {
     setOpen(false);
-    
+
     const result = await scanQR(scanText, validate);
-    
+
     if (result) {
-      toast.success('QR-код отсканирован');
+      toast.success("QR-код отсканирован");
       onScan?.(result);
     } else {
-      toast.error('Сканирование отменено');
+      toast.error("Сканирование отменено");
     }
   };
 
@@ -76,13 +76,9 @@ export const QRScannerDialog = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant={buttonVariant}
-          size={buttonSize}
-          className="gap-2"
-        >
+        <Button variant={buttonVariant} size={buttonSize} className="gap-2">
           <QrCode className="h-4 w-4" />
-          {buttonSize !== 'icon' && buttonText}
+          {buttonSize !== "icon" && buttonText}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-sm">
@@ -91,9 +87,7 @@ export const QRScannerDialog = ({
             <QrCode className="h-5 w-5" />
             Сканирование QR-кода
           </DialogTitle>
-          <DialogDescription>
-            Камера откроется для сканирования QR-кода
-          </DialogDescription>
+          <DialogDescription>Камера откроется для сканирования QR-кода</DialogDescription>
         </DialogHeader>
 
         <div className="flex flex-col gap-4 py-4">
@@ -108,11 +102,7 @@ export const QRScannerDialog = ({
             </div>
           </div>
 
-          <Button
-            onClick={handleScan}
-            disabled={isScanning}
-            className="w-full"
-          >
+          <Button onClick={handleScan} disabled={isScanning} className="w-full">
             {isScanning ? (
               <>
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -126,11 +116,7 @@ export const QRScannerDialog = ({
             )}
           </Button>
 
-          {validate && (
-            <p className="text-xs text-muted-foreground text-center">
-              QR-код будет проверен автоматически
-            </p>
-          )}
+          {validate && <p className="text-xs text-muted-foreground text-center">QR-код будет проверен автоматически</p>}
         </div>
       </DialogContent>
     </Dialog>

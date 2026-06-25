@@ -3,25 +3,25 @@
  * Shows detected chord, chromagram, and chord history
  */
 
-import { memo, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Mic, MicOff, Trash2, Copy, Volume2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { useRealtimeChordDetection } from '@/hooks/useRealtimeChordDetection';
-import { getChordColor, getChordNotes } from '@/lib/chord-detection';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+import { memo, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Mic, MicOff, Trash2, Copy, Volume2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { useRealtimeChordDetection } from "@/hooks/useRealtimeChordDetection";
+import { getChordColor, getChordNotes } from "@/lib/chord-detection";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface RealtimeChordVisualizerProps {
   onProgressionExport?: (progression: string) => void;
   className?: string;
 }
 
-const NOTE_LABELS = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const NOTE_LABELS = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
   onProgressionExport,
@@ -61,22 +61,22 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
     const progression = exportProgression();
     if (progression) {
       navigator.clipboard.writeText(progression);
-      toast.success('Прогрессия скопирована');
+      toast.success("Прогрессия скопирована");
       haptic.success();
       onProgressionExport?.(progression);
     } else {
-      toast.error('Нет аккордов для копирования');
+      toast.error("Нет аккордов для копирования");
     }
   };
 
   const chordNotes = currentChord ? getChordNotes(currentChord.name) : [];
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn("space-y-4", className)}>
       {/* Header controls */}
       <div className="flex items-center justify-between gap-4">
         <Button
-          variant={isListening ? 'destructive' : 'default'}
+          variant={isListening ? "destructive" : "default"}
           size="lg"
           className="gap-2 flex-1"
           onClick={handleToggleListening}
@@ -105,7 +105,14 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
             <Button variant="outline" size="icon" onClick={handleCopyProgression}>
               <Copy className="h-4 w-4" />
             </Button>
-            <Button variant="outline" size="icon" onClick={() => { clearHistory(); haptic.tap(); }}>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => {
+                clearHistory();
+                haptic.tap();
+              }}
+            >
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
@@ -115,9 +122,7 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
       {/* Error display */}
       {error && (
         <Card className="border-destructive/50 bg-destructive/10">
-          <CardContent className="py-4 text-sm text-destructive">
-            {error}
-          </CardContent>
+          <CardContent className="py-4 text-sm text-destructive">{error}</CardContent>
         </Card>
       )}
 
@@ -125,10 +130,7 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
       {isListening && (
         <div className="flex items-center gap-2">
           <Volume2 className="h-4 w-4 text-muted-foreground" />
-          <Progress 
-            value={volume * 100} 
-            className="h-2 flex-1"
-          />
+          <Progress value={volume * 100} className="h-2 flex-1" />
         </div>
       )}
 
@@ -136,13 +138,13 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
       <Card className="overflow-hidden">
         <CardContent className="p-6">
           <AnimatePresence mode="wait">
-            {currentChord && currentChord.name !== 'N/C' ? (
+            {currentChord && currentChord.name !== "N/C" ? (
               <motion.div
                 key={currentChord.name}
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ type: 'spring', duration: 0.4 }}
+                transition={{ type: "spring", duration: 0.4 }}
                 className="text-center"
               >
                 {/* Chord name */}
@@ -159,13 +161,13 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
                     <motion.div
                       key={i}
                       initial={{ scale: 0 }}
-                      animate={{ 
+                      animate={{
                         scale: 1,
-                        opacity: i < Math.floor(currentChord.confidence * 5) ? 1 : 0.2 
+                        opacity: i < Math.floor(currentChord.confidence * 5) ? 1 : 0.2,
                       }}
                       className="w-3 h-3 rounded-full"
-                      style={{ 
-                        backgroundColor: getChordColor(currentChord.quality) 
+                      style={{
+                        backgroundColor: getChordColor(currentChord.quality),
                       }}
                     />
                   ))}
@@ -173,38 +175,25 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
 
                 {/* Chord notes */}
                 <div className="flex justify-center gap-2 flex-wrap">
-                  {chordNotes.map(note => (
-                    <Badge 
-                      key={note} 
-                      variant="outline"
-                      className="text-sm"
-                    >
+                  {chordNotes.map((note) => (
+                    <Badge key={note} variant="outline" className="text-sm">
                       {note}
                     </Badge>
                   ))}
                 </div>
 
                 <div className="text-xs text-muted-foreground mt-2">
-                  {currentChord.quality === 'major' && 'Мажор'}
-                  {currentChord.quality === 'minor' && 'Минор'}
-                  {currentChord.quality === '7' && 'Септаккорд'}
-                  {currentChord.quality === 'sus4' && 'Sus4'}
+                  {currentChord.quality === "major" && "Мажор"}
+                  {currentChord.quality === "minor" && "Минор"}
+                  {currentChord.quality === "7" && "Септаккорд"}
+                  {currentChord.quality === "sus4" && "Sus4"}
                 </div>
               </motion.div>
             ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-8"
-              >
-                <div className="text-4xl text-muted-foreground mb-2">
-                  {isListening ? '🎸' : '🎵'}
-                </div>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-8">
+                <div className="text-4xl text-muted-foreground mb-2">{isListening ? "🎸" : "🎵"}</div>
                 <p className="text-muted-foreground">
-                  {isListening 
-                    ? 'Сыграйте аккорд...' 
-                    : 'Нажмите "Слушать" для начала'
-                  }
+                  {isListening ? "Сыграйте аккорд..." : 'Нажмите "Слушать" для начала'}
                 </p>
               </motion.div>
             )}
@@ -224,21 +213,21 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
                 <div className="flex-1 w-full flex items-end">
                   <motion.div
                     className="w-full rounded-t-sm"
-                    animate={{ 
+                    animate={{
                       height: `${value * 100}%`,
                       backgroundColor: chordNotes.includes(NOTE_LABELS[index])
-                        ? 'hsl(var(--primary))'
-                        : 'hsl(var(--muted-foreground) / 0.3)',
+                        ? "hsl(var(--primary))"
+                        : "hsl(var(--muted-foreground) / 0.3)",
                     }}
                     transition={{ duration: 0.1 }}
                   />
                 </div>
-                <span className={cn(
-                  "text-[10px] mt-1",
-                  chordNotes.includes(NOTE_LABELS[index])
-                    ? "text-primary font-bold"
-                    : "text-muted-foreground"
-                )}>
+                <span
+                  className={cn(
+                    "text-[10px] mt-1",
+                    chordNotes.includes(NOTE_LABELS[index]) ? "text-primary font-bold" : "text-muted-foreground",
+                  )}
+                >
                   {NOTE_LABELS[index]}
                 </span>
               </div>
@@ -270,7 +259,7 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
                   <Badge
                     variant="outline"
                     className="text-sm py-1 px-3"
-                    style={{ 
+                    style={{
                       borderColor: getChordColor(chord.quality),
                       color: getChordColor(chord.quality),
                     }}
@@ -285,7 +274,11 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
             <div className="mt-4 p-3 bg-muted/50 rounded-lg">
               <p className="text-xs text-muted-foreground mb-1">Прогрессия:</p>
               <p className="text-sm font-mono">
-                {chordHistory.slice().reverse().map(c => c.name).join(' → ')}
+                {chordHistory
+                  .slice()
+                  .reverse()
+                  .map((c) => c.name)
+                  .join(" → ")}
               </p>
             </div>
           </CardContent>
@@ -297,14 +290,14 @@ export const RealtimeChordVisualizer = memo(function RealtimeChordVisualizer({
         className="w-full text-xs text-muted-foreground text-center py-2"
         onClick={() => setShowGuide(!showGuide)}
       >
-        {showGuide ? 'Скрыть советы ▲' : 'Показать советы ▼'}
+        {showGuide ? "Скрыть советы ▲" : "Показать советы ▼"}
       </button>
-      
+
       <AnimatePresence>
         {showGuide && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
           >
             <Card className="bg-muted/30">

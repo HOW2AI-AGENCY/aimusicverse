@@ -1,14 +1,14 @@
 /**
  * Swipeable List Item Component
  * Feature: 032-professional-ui
- * 
+ *
  * List item with reveal actions on swipe
  */
 
-import React, { ReactNode } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { useSwipeActions } from '@/hooks/useSwipeActions';
+import React, { ReactNode } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useSwipeActions } from "@/hooks/useSwipeActions";
 
 interface SwipeAction {
   id: string;
@@ -35,14 +35,7 @@ export function SwipeableListItem({
   disabled,
   className,
 }: SwipeableListItemProps) {
-  const {
-    offset,
-    isOpen,
-    activeAction,
-    handlers,
-    executeAction,
-    close,
-  } = useSwipeActions({
+  const { offset, isOpen, activeAction, handlers, executeAction, close } = useSwipeActions({
     leftActions,
     rightActions,
     threshold,
@@ -63,7 +56,7 @@ export function SwipeableListItem({
               className={cn(
                 "flex flex-col items-center justify-center px-4",
                 "text-white font-medium text-xs gap-1",
-                action.color
+                action.color,
               )}
               style={{ width: threshold }}
               onClick={() => executeAction(action.id)}
@@ -87,7 +80,7 @@ export function SwipeableListItem({
               className={cn(
                 "flex flex-col items-center justify-center px-4",
                 "text-white font-medium text-xs gap-1",
-                action.color
+                action.color,
               )}
               style={{ width: threshold }}
               onClick={() => executeAction(action.id)}
@@ -107,7 +100,7 @@ export function SwipeableListItem({
         className="relative bg-background"
         style={{ x: offset }}
         {...handlers}
-        transition={{ type: 'spring', stiffness: 500, damping: 40 }}
+        transition={{ type: "spring", stiffness: 500, damping: 40 }}
         onClick={() => {
           if (isOpen) {
             close();

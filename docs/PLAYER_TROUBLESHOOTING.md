@@ -17,6 +17,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Audio won't play at all
 
 **Symptoms:**
+
 - Play button does nothing
 - Loading spinner appears indefinitely
 - No sound output
@@ -27,10 +28,11 @@ If you're experiencing issues with the music player, follow these steps:
    - **Cause**: Modern browsers block autoplay without user interaction
    - **Solution**: Ensure playback is triggered by user action (click, tap)
    - **Code Check**: Verify `play()` is called after user interaction
+
    ```typescript
    // ✅ Good - triggered by user click
    <Button onClick={() => play()}>Play</Button>
-   
+
    // ❌ Bad - autoplay on page load
    useEffect(() => { play(); }, []);
    ```
@@ -39,14 +41,15 @@ If you're experiencing issues with the music player, follow these steps:
    - **Cause**: URL is null, undefined, or points to non-existent file
    - **Solution**: Verify track has valid audio_url, streaming_url, or local_audio_url
    - **Debug**: Check network tab for 404 or CORS errors
+
    ```typescript
    // Check in useAudioPlayer
-   console.log('Audio sources:', { streamingUrl, localAudioUrl, audioUrl });
+   console.log("Audio sources:", { streamingUrl, localAudioUrl, audioUrl });
    ```
 
 3. **CORS Issues**
    - **Cause**: Audio served from different domain without CORS headers
-   - **Solution**: 
+   - **Solution**:
      - Configure server to send proper CORS headers
      - Use proxy or same-origin URLs
    - **Headers needed**:
@@ -66,13 +69,14 @@ If you're experiencing issues with the music player, follow these steps:
    - **Check Support**:
      ```javascript
      const audio = new Audio();
-     console.log('MP3:', audio.canPlayType('audio/mpeg'));
-     console.log('OGG:', audio.canPlayType('audio/ogg'));
+     console.log("MP3:", audio.canPlayType("audio/mpeg"));
+     console.log("OGG:", audio.canPlayType("audio/ogg"));
      ```
 
 #### Problem: Audio plays but no sound
 
 **Symptoms:**
+
 - Progress bar moves
 - isPlaying is true
 - No audio output
@@ -86,10 +90,11 @@ If you're experiencing issues with the music player, follow these steps:
    - Check browser tab audio indicator
 
 2. **Audio Element Volume**
+
    ```typescript
    // Debug audio element volume
-   console.log('Audio volume:', audioRef.current?.volume);
-   console.log('Audio muted:', audioRef.current?.muted);
+   console.log("Audio volume:", audioRef.current?.volume);
+   console.log("Audio muted:", audioRef.current?.muted);
    ```
 
 3. **Audio Output Device**
@@ -100,6 +105,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Audio stutters or buffers frequently
 
 **Symptoms:**
+
 - Playback keeps pausing
 - Loading indicator appears intermittently
 - Poor audio quality
@@ -107,14 +113,14 @@ If you're experiencing issues with the music player, follow these steps:
 **Solutions:**
 
 1. **Slow Network Connection**
-   - **Solution**: 
+   - **Solution**:
      - Use lower quality streaming URL
      - Enable local caching
      - Preload content
    - **Debug**:
      ```typescript
      // Check buffer progress
-     console.log('Buffered:', buffered, '%');
+     console.log("Buffered:", buffered, "%");
      ```
 
 2. **Large File Size**
@@ -122,7 +128,7 @@ If you're experiencing issues with the music player, follow these steps:
    - **Check**: Verify streaming_url is being used first
 
 3. **Server Issues**
-   - **Solution**: 
+   - **Solution**:
      - Check server load
      - Use CDN for audio delivery
      - Implement rate limiting
@@ -136,6 +142,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Queue not persisting after refresh
 
 **Symptoms:**
+
 - Queue clears on page reload
 - Previously played tracks forgotten
 
@@ -147,32 +154,32 @@ If you're experiencing issues with the music player, follow these steps:
    - **Check**:
      ```javascript
      try {
-       localStorage.setItem('test', 'test');
-       localStorage.removeItem('test');
-       console.log('localStorage available');
+       localStorage.setItem("test", "test");
+       localStorage.removeItem("test");
+       console.log("localStorage available");
      } catch (e) {
-       console.error('localStorage unavailable:', e);
+       console.error("localStorage unavailable:", e);
      }
      ```
 
 2. **Storage Quota Exceeded**
    - **Cause**: Too much data stored (>5MB typically)
-   - **Solution**: 
+   - **Solution**:
      - Clear old data
      - Reduce queue size
      - Implement cleanup strategy
    - **Debug**:
      ```javascript
-     console.log('Queue size:', 
-       JSON.stringify(queue).length / 1024, 'KB');
+     console.log("Queue size:", JSON.stringify(queue).length / 1024, "KB");
      ```
 
 3. **Corrupted Storage Data**
    - **Cause**: Invalid JSON or schema mismatch
    - **Solution**: Clear localStorage and start fresh
+
    ```javascript
-   localStorage.removeItem('musicverse-playback-queue');
-   localStorage.removeItem('musicverse-queue-state');
+   localStorage.removeItem("musicverse-playback-queue");
+   localStorage.removeItem("musicverse-queue-state");
    ```
 
 4. **Storage Key Mismatch**
@@ -183,6 +190,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Queue reordering not working
 
 **Symptoms:**
+
 - Drag-and-drop doesn't move tracks
 - Queue order unchanged after drag
 
@@ -195,9 +203,9 @@ If you're experiencing issues with the music player, follow these steps:
 2. **State Not Updating**
    - **Debug**:
      ```typescript
-     console.log('Queue before:', queue);
+     console.log("Queue before:", queue);
      reorderQueue(oldIndex, newIndex);
-     console.log('Queue after:', queue);
+     console.log("Queue after:", queue);
      ```
 
 3. **Index Calculation Error**
@@ -209,6 +217,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Player mode not changing
 
 **Symptoms:**
+
 - Player stuck in one mode
 - Expand/minimize buttons don't work
 
@@ -217,9 +226,9 @@ If you're experiencing issues with the music player, follow these steps:
 1. **State Update Not Triggering**
    - **Debug**:
      ```typescript
-     console.log('Current mode:', playerMode);
+     console.log("Current mode:", playerMode);
      expandPlayer();
-     console.log('After expand:', playerMode);
+     console.log("After expand:", playerMode);
      ```
 
 2. **CSS Classes Not Applied**
@@ -233,6 +242,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Progress bar seek not working
 
 **Symptoms:**
+
 - Clicking/dragging doesn't change position
 - Time doesn't update
 
@@ -243,8 +253,8 @@ If you're experiencing issues with the music player, follow these steps:
    - **Solution**: Disable seek until loadedmetadata event
    - **Check**:
      ```typescript
-     console.log('Duration:', duration);
-     console.log('Can seek:', duration > 0);
+     console.log("Duration:", duration);
+     console.log("Can seek:", duration > 0);
      ```
 
 2. **Pointer Events Not Captured**
@@ -260,6 +270,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Player UI laggy or unresponsive
 
 **Symptoms:**
+
 - Buttons respond slowly
 - Animations stuttering
 - High CPU usage
@@ -267,14 +278,14 @@ If you're experiencing issues with the music player, follow these steps:
 **Solutions:**
 
 1. **Too Many Re-renders**
-   - **Solution**: 
+   - **Solution**:
      - Use React.memo for components
      - useCallback for event handlers
      - Optimize state updates
    - **Debug**: Use React DevTools Profiler
 
 2. **Heavy Components**
-   - **Solution**: 
+   - **Solution**:
      - Lazy load player components
      - Code split large features
      - Virtual scrolling for queues
@@ -283,14 +294,11 @@ If you're experiencing issues with the music player, follow these steps:
    - **Solution**: Debounce rapid events (timeupdate, progress)
    - **Example**:
      ```typescript
-     const debouncedTimeUpdate = useMemo(
-       () => debounce((time) => setCurrentTime(time), 100),
-       []
-     );
+     const debouncedTimeUpdate = useMemo(() => debounce((time) => setCurrentTime(time), 100), []);
      ```
 
 4. **Large Queue**
-   - **Solution**: 
+   - **Solution**:
      - Virtual scrolling
      - Pagination
      - Lazy render queue items
@@ -298,6 +306,7 @@ If you're experiencing issues with the music player, follow these steps:
 #### Problem: Memory leaks
 
 **Symptoms:**
+
 - Memory usage grows over time
 - Browser becomes slow after extended use
 
@@ -305,12 +314,13 @@ If you're experiencing issues with the music player, follow these steps:
 
 1. **Audio Elements Not Cleaned Up**
    - **Check**: Verify cleanup in useEffect
+
    ```typescript
    useEffect(() => {
      return () => {
        if (audioRef.current) {
          audioRef.current.pause();
-         audioRef.current.src = '';
+         audioRef.current.src = "";
          audioRef.current = null;
        }
      };
@@ -328,18 +338,21 @@ If you're experiencing issues with the music player, follow these steps:
 ## Browser-Specific Issues
 
 ### Chrome/Edge
+
 - **Issue**: Autoplay blocked on mobile
 - **Solution**: Use Media Session API
 - **Issue**: High memory usage with multiple tabs
 - **Solution**: Implement tab visibility handling
 
 ### Firefox
+
 - **Issue**: Different audio format support
 - **Solution**: Provide multiple format options
 - **Issue**: CORS handling stricter
 - **Solution**: Ensure proper CORS headers
 
 ### Safari (iOS/macOS)
+
 - **Issue**: Inline playback restrictions
 - **Solution**: Set `playsinline` attribute
 - **Issue**: Audio playback in background limited
@@ -348,6 +361,7 @@ If you're experiencing issues with the music player, follow these steps:
 - **Solution**: Test thoroughly on actual devices
 
 ### Mobile Browsers
+
 - **Issue**: Background playback stops
 - **Solution**: Implement Media Session API
 - **Issue**: Data saver mode affects streaming
@@ -398,17 +412,17 @@ Add debug mode to player:
 
 ```typescript
 // In .env or config
-const DEBUG_PLAYER = import.meta.env.VITE_DEBUG_PLAYER === 'true';
+const DEBUG_PLAYER = import.meta.env.VITE_DEBUG_PLAYER === "true";
 
 // In useAudioPlayer
 if (DEBUG_PLAYER) {
-  console.log('[Player]', {
+  console.log("[Player]", {
     trackId,
     audioSource,
     isPlaying,
     currentTime,
     duration,
-    buffered
+    buffered,
   });
 }
 ```
@@ -441,14 +455,14 @@ if (DEBUG_PLAYER) {
 
 ```typescript
 // Add performance markers
-performance.mark('audio-play-start');
+performance.mark("audio-play-start");
 await audio.play();
-performance.mark('audio-play-end');
-performance.measure('audio-play', 'audio-play-start', 'audio-play-end');
+performance.mark("audio-play-end");
+performance.measure("audio-play", "audio-play-start", "audio-play-end");
 
 // Get measurements
-const measures = performance.getEntriesByType('measure');
-console.log('Play latency:', measures[0].duration);
+const measures = performance.getEntriesByType("measure");
+console.log("Play latency:", measures[0].duration);
 ```
 
 ## Getting Help

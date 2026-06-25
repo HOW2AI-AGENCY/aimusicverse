@@ -3,8 +3,8 @@
  * Handles funnel analysis and dropoff tracking
  */
 
-import * as analyticsApi from '@/api/analytics.api';
-import type { FunnelDropoffData } from '@/api/analytics.api';
+import * as analyticsApi from "@/api/analytics.api";
+import type { FunnelDropoffData } from "@/api/analytics.api";
 
 export interface FunnelAnalysis {
   funnel: string;
@@ -16,20 +16,17 @@ export interface FunnelAnalysis {
 /**
  * Analyze funnel dropoff
  */
-export async function analyzeFunnelDropoff(
-  funnelName: string,
-  daysBack: number = 7
-): Promise<FunnelAnalysis | null> {
+export async function analyzeFunnelDropoff(funnelName: string, daysBack: number = 7): Promise<FunnelAnalysis | null> {
   const steps = await analyticsApi.fetchFunnelDropoffStats(funnelName, daysBack);
-  
+
   if (!steps || steps.length === 0) {
     return null;
   }
-  
+
   // Find biggest dropoff
   let biggestDropoff: { step: string; rate: number } | null = null;
   let maxDropRate = 0;
-  
+
   for (let i = 0; i < steps.length - 1; i++) {
     const current = steps[i];
     const next = steps[i + 1];
@@ -41,13 +38,12 @@ export async function analyzeFunnelDropoff(
       }
     }
   }
-  
+
   const firstStep = steps[0];
   const lastStep = steps[steps.length - 1];
-  const overallConversionRate = firstStep.users_reached > 0
-    ? (lastStep.users_reached / firstStep.users_reached) * 100
-    : 0;
-  
+  const overallConversionRate =
+    firstStep.users_reached > 0 ? (lastStep.users_reached / firstStep.users_reached) * 100 : 0;
+
   return {
     funnel: funnelName,
     steps,

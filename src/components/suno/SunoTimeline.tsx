@@ -1,4 +1,4 @@
-import { LyricSection, SECTION_LABELS } from './types';
+import { LyricSection, SECTION_LABELS } from "./types";
 
 interface SunoTimelineProps {
   sections: LyricSection[];
@@ -14,12 +14,12 @@ export const SunoTimeline = ({ sections }: SunoTimelineProps) => {
         {sections.map((section, index) => {
           const label = SECTION_LABELS[section.type];
           const width = `${100 / sections.length}%`;
-          
+
           return (
             <div
               key={section.id}
               className={`${label.color} flex items-center justify-center text-xs font-medium transition-all hover:opacity-80 cursor-pointer`}
-              style={{ width, minWidth: '32px' }}
+              style={{ width, minWidth: "32px" }}
               title={`${index + 1}. ${label.ru}`}
             >
               <span className="hidden sm:inline">{index + 1}</span>

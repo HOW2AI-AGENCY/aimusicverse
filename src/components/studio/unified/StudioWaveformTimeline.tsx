@@ -4,14 +4,14 @@
  * Touch-optimized for mobile devices
  */
 
-import { memo, useRef, useState, useEffect, useCallback } from 'react';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { logger } from '@/lib/logger';
-import { StudioSectionOverlay } from './StudioSectionOverlay';
-import type { DetectedSection } from '@/hooks/useSectionDetection';
+import { memo, useRef, useState, useEffect, useCallback } from "react";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { logger } from "@/lib/logger";
+import { StudioSectionOverlay } from "./StudioSectionOverlay";
+import type { DetectedSection } from "@/hooks/useSectionDetection";
 
 interface ReplacedRange {
   start: number;
@@ -82,7 +82,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
       setIsReady(false);
 
       try {
-        const mod: WaveSurferCtor = await import('wavesurfer.js');
+        const mod: WaveSurferCtor = await import("wavesurfer.js");
         const WaveSurfer = (mod as any).default ?? (mod as any);
         if (!mounted) return;
 
@@ -94,14 +94,14 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
         const wavesurfer = WaveSurfer.create({
           container: waveformRef.current,
           height: height - 24, // Leave space for time markers
-          waveColor: 'hsl(var(--primary) / 0.3)',
-          progressColor: 'hsl(var(--primary) / 0.7)',
+          waveColor: "hsl(var(--primary) / 0.3)",
+          progressColor: "hsl(var(--primary) / 0.7)",
           barWidth: isMobile ? 3 : 2,
           barGap: 1,
           barRadius: 2,
           cursorWidth: 0,
           normalize: true,
-          backend: 'WebAudio',
+          backend: "WebAudio",
           interact: false,
           hideScrollbar: true,
           fillParent: true,
@@ -109,23 +109,23 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
 
         wavesurferRef.current = wavesurfer;
 
-        wavesurfer.on('ready', () => {
+        wavesurfer.on("ready", () => {
           if (!mounted) return;
           setIsReady(true);
           setIsLoading(false);
         });
 
-        wavesurfer.on('error', (err: any) => {
-          if (err?.name === 'AbortError' || err?.message?.includes('aborted')) {
+        wavesurfer.on("error", (err: any) => {
+          if (err?.name === "AbortError" || err?.message?.includes("aborted")) {
             return;
           }
-          logger.error('Waveform error', err);
+          logger.error("Waveform error", err);
           if (mounted) setIsLoading(false);
         });
 
         wavesurfer.load(audioUrl);
       } catch (e) {
-        logger.error('Failed to init WaveSurfer', e);
+        logger.error("Failed to init WaveSurfer", e);
         if (mounted) setIsLoading(false);
       }
     };
@@ -144,41 +144,53 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
   }, [audioUrl, height, isMobile]);
 
   // Calculate seek time from position
-  const getSeekTimeFromPosition = useCallback((clientX: number): number => {
-    if (!containerRef.current || duration <= 0) return 0;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = clientX - rect.left;
-    const percentage = x / rect.width;
-    return Math.max(0, Math.min(duration, percentage * duration));
-  }, [duration]);
+  const getSeekTimeFromPosition = useCallback(
+    (clientX: number): number => {
+      if (!containerRef.current || duration <= 0) return 0;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const percentage = x / rect.width;
+      return Math.max(0, Math.min(duration, percentage * duration));
+    },
+    [duration],
+  );
 
   // Handle click to seek
-  const handleClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const time = getSeekTimeFromPosition(e.clientX);
-    haptic.select();
-    onSeek(time);
-  }, [getSeekTimeFromPosition, onSeek, haptic]);
+  const handleClick = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      const time = getSeekTimeFromPosition(e.clientX);
+      haptic.select();
+      onSeek(time);
+    },
+    [getSeekTimeFromPosition, onSeek, haptic],
+  );
 
   // Touch handlers for mobile seeking
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    if (!containerRef.current || duration <= 0) return;
-    
-    setIsSeeking(true);
-    haptic.select();
-    
-    const touch = e.touches[0];
-    const time = getSeekTimeFromPosition(touch.clientX);
-    onSeek(time);
-  }, [duration, getSeekTimeFromPosition, onSeek, haptic]);
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      if (!containerRef.current || duration <= 0) return;
 
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    if (!isSeeking || !containerRef.current || duration <= 0) return;
-    
-    const touch = e.touches[0];
-    const time = getSeekTimeFromPosition(touch.clientX);
-    onSeek(time);
-  }, [isSeeking, duration, getSeekTimeFromPosition, onSeek]);
+      setIsSeeking(true);
+      haptic.select();
+
+      const touch = e.touches[0];
+      const time = getSeekTimeFromPosition(touch.clientX);
+      onSeek(time);
+    },
+    [duration, getSeekTimeFromPosition, onSeek, haptic],
+  );
+
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent<HTMLDivElement>) => {
+      if (!isSeeking || !containerRef.current || duration <= 0) return;
+
+      const touch = e.touches[0];
+      const time = getSeekTimeFromPosition(touch.clientX);
+      onSeek(time);
+    },
+    [isSeeking, duration, getSeekTimeFromPosition, onSeek],
+  );
 
   const handleTouchEnd = useCallback(() => {
     setIsSeeking(false);
@@ -192,12 +204,12 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
   }
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className={cn(
         "relative cursor-pointer select-none touch-manipulation",
         "bg-gradient-to-b from-muted/20 to-transparent rounded-lg overflow-hidden",
-        className
+        className,
       )}
       style={{ height }}
       onClick={handleClick}
@@ -214,10 +226,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
             className="absolute flex flex-col items-center"
             style={{ left: `${(time / duration) * 100}%` }}
           >
-            <span className={cn(
-              "font-mono text-muted-foreground",
-              isMobile ? "text-[10px]" : "text-[9px]"
-            )}>
+            <span className={cn("font-mono text-muted-foreground", isMobile ? "text-[10px]" : "text-[9px]")}>
               {formatTime(time)}
             </span>
             <div className="w-px h-1 bg-border/50" />
@@ -226,11 +235,7 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
       </div>
 
       {/* Waveform container */}
-      <div 
-        ref={waveformRef} 
-        className="absolute left-0 right-0 bottom-0"
-        style={{ top: 20 }}
-      />
+      <div ref={waveformRef} className="absolute left-0 right-0 bottom-0" style={{ top: 20 }} />
 
       {/* Section overlay */}
       {showSections && (
@@ -252,9 +257,9 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
               <div
                 key={i}
                 className="w-1 bg-primary/30 rounded-full animate-pulse"
-                style={{ 
+                style={{
                   height: `${20 + Math.random() * 60}%`,
-                  animationDelay: `${i * 50}ms`
+                  animationDelay: `${i * 50}ms`,
                 }}
               />
             ))}
@@ -265,15 +270,13 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
       {/* No audio state */}
       {!audioUrl && !isLoading && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-sm text-muted-foreground">
-            Нет аудио для отображения
-          </span>
+          <span className="text-sm text-muted-foreground">Нет аудио для отображения</span>
         </div>
       )}
 
       {/* Progress overlay */}
       {isReady && (
-        <div 
+        <div
           className="absolute top-5 bottom-0 left-0 bg-primary/10 pointer-events-none transition-all"
           style={{ width: `${progress}%` }}
         />
@@ -284,27 +287,29 @@ export const StudioWaveformTimeline = memo(function StudioWaveformTimeline({
         <div
           className={cn(
             "absolute top-0 bottom-0 bg-primary z-20 pointer-events-none shadow-lg",
-            isMobile ? "w-1" : "w-0.5"
+            isMobile ? "w-1" : "w-0.5",
           )}
           style={{ left: `${progress}%` }}
         >
-          <div className={cn(
-            "absolute -top-0.5 left-1/2 -translate-x-1/2 bg-primary rounded-full shadow",
-            isMobile ? "w-3.5 h-3.5" : "w-2.5 h-2.5"
-          )} />
+          <div
+            className={cn(
+              "absolute -top-0.5 left-1/2 -translate-x-1/2 bg-primary rounded-full shadow",
+              isMobile ? "w-3.5 h-3.5" : "w-2.5 h-2.5",
+            )}
+          />
         </div>
       )}
 
       {/* Current time display */}
       {isReady && (
-        <div 
+        <div
           className={cn(
             "absolute bottom-1 rounded bg-primary/90 text-primary-foreground font-mono pointer-events-none z-30",
-            isMobile ? "px-2 py-1 text-xs" : "px-1.5 py-0.5 text-[10px]"
+            isMobile ? "px-2 py-1 text-xs" : "px-1.5 py-0.5 text-[10px]",
           )}
-          style={{ 
+          style={{
             left: `${Math.min(progress, 90)}%`,
-            transform: progress > 90 ? 'translateX(-100%)' : 'translateX(-50%)'
+            transform: progress > 90 ? "translateX(-100%)" : "translateX(-50%)",
           }}
         >
           {formatTime(currentTime)}

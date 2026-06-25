@@ -24,33 +24,21 @@
  * @see src/api/lyrics.api.ts for API layer
  */
 
-import { useState, useCallback, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Textarea } from '@/components/ui/textarea';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { useSectionNotes } from '@/hooks/useSectionNotes';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useAuth } from '@/contexts/AuthContext';
-import { NoteType } from '@/types/studio-entities';
-import { formatRelative } from '@/lib/date-utils';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
+import { useState, useCallback, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useSectionNotes } from "@/hooks/useSectionNotes";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { NoteType } from "@/types/studio-entities";
+import { formatRelative } from "@/lib/date-utils";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 import {
   Plus,
   Edit2,
@@ -65,8 +53,8 @@ import {
   FileText,
   Layers,
   Loader2,
-} from 'lucide-react';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { toast } from "sonner";
 
 // ============================================================================
 // TYPES
@@ -76,8 +64,8 @@ import { toast } from 'sonner';
  * Filter options for notes
  */
 export interface NoteFilters {
-  type: NoteType | 'all';
-  resolved: 'all' | 'resolved' | 'unresolved';
+  type: NoteType | "all";
+  resolved: "all" | "resolved" | "unresolved";
 }
 
 /**
@@ -113,31 +101,31 @@ interface NoteTypeConfig {
 const NOTE_TYPES: NoteTypeConfig[] = [
   {
     value: NoteType.GENERAL,
-    label: 'Общие',
+    label: "Общие",
     icon: MessageSquare,
-    color: 'text-blue-500',
-    description: 'Общие заметки и комментарии',
+    color: "text-blue-500",
+    description: "Общие заметки и комментарии",
   },
   {
     value: NoteType.PRODUCTION,
-    label: 'Продакшн',
+    label: "Продакшн",
     icon: Music,
-    color: 'text-purple-500',
-    description: 'Заметки по продакшну и сведению',
+    color: "text-purple-500",
+    description: "Заметки по продакшну и сведению",
   },
   {
     value: NoteType.LYRIC,
-    label: 'Текст',
+    label: "Текст",
     icon: FileText,
-    color: 'text-emerald-500',
-    description: 'Заметки по тексту песни',
+    color: "text-emerald-500",
+    description: "Заметки по тексту песни",
   },
   {
     value: NoteType.ARRANGEMENT,
-    label: 'Аранжировка',
+    label: "Аранжировка",
     icon: Layers,
-    color: 'text-orange-500',
-    description: 'Заметки по аранжировке',
+    color: "text-orange-500",
+    description: "Заметки по аранжировке",
   },
 ];
 
@@ -158,14 +146,7 @@ const NoteTypeBadge = ({ noteType, className }: NoteTypeBadgeProps) => {
   const Icon = config.icon;
 
   return (
-    <Badge
-      variant="outline"
-      className={cn(
-        'gap-1.5 border-current/20 bg-current/5',
-        config.color,
-        className
-      )}
-    >
+    <Badge variant="outline" className={cn("gap-1.5 border-current/20 bg-current/5", config.color, className)}>
       <Icon className="h-3 w-3" />
       <span>{config.label}</span>
     </Badge>
@@ -228,10 +209,10 @@ const NoteCard = memo(function NoteCard({
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.2 }}
       className={cn(
-        'group relative rounded-xl border p-4 transition-all',
+        "group relative rounded-xl border p-4 transition-all",
         isResolved
-          ? 'border-border/40 bg-muted/30 opacity-60'
-          : 'border-border/60 bg-card hover:border-primary/40 hover:shadow-md'
+          ? "border-border/40 bg-muted/30 opacity-60"
+          : "border-border/60 bg-card hover:border-primary/40 hover:shadow-md",
       )}
     >
       {/* Note Header */}
@@ -297,7 +278,7 @@ const NoteCard = memo(function NoteCard({
               <SelectContent>
                 {NOTE_TYPES.map((type) => (
                   <SelectItem key={type.value} value={type.value}>
-                    <span className={cn('flex items-center gap-2', type.color)}>
+                    <span className={cn("flex items-center gap-2", type.color)}>
                       <type.icon className="h-4 w-4" />
                       {type.label}
                     </span>
@@ -332,9 +313,7 @@ const NoteCard = memo(function NoteCard({
           </div>
         </div>
       ) : (
-        <p className="mb-3 whitespace-pre-wrap break-words text-sm leading-relaxed">
-          {content}
-        </p>
+        <p className="mb-3 whitespace-pre-wrap break-words text-sm leading-relaxed">{content}</p>
       )}
 
       {/* Note Footer */}
@@ -352,10 +331,8 @@ const NoteCard = memo(function NoteCard({
             variant="ghost"
             size="sm"
             className={cn(
-              'h-8 gap-1.5 text-xs',
-              isResolved
-                ? 'text-muted-foreground hover:text-foreground'
-                : 'text-success hover:text-success/80'
+              "h-8 gap-1.5 text-xs",
+              isResolved ? "text-muted-foreground hover:text-foreground" : "text-success hover:text-success/80",
             )}
             onClick={() => {
               haptic.select();
@@ -414,13 +391,13 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
 
   // Filter states
   const [filters, setFilters] = useState<NoteFilters>({
-    type: 'all',
-    resolved: 'all',
+    type: "all",
+    resolved: "all",
   });
 
   // UI states
   const [isAddingNote, setIsAddingNote] = useState(false);
-  const [newNoteContent, setNewNoteContent] = useState('');
+  const [newNoteContent, setNewNoteContent] = useState("");
   const [newNoteType, setNewNoteType] = useState<NoteType>(NoteType.GENERAL);
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [showFilters, setShowFilters] = useState(false);
@@ -450,15 +427,15 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
   const filteredNotes = useMemo(() => {
     return notes.filter((note) => {
       // Type filter
-      if (filters.type !== 'all' && note.noteType !== filters.type) {
+      if (filters.type !== "all" && note.noteType !== filters.type) {
         return false;
       }
 
       // Resolved filter
-      if (filters.resolved === 'resolved' && !note.isResolved) {
+      if (filters.resolved === "resolved" && !note.isResolved) {
         return false;
       }
-      if (filters.resolved === 'unresolved' && note.isResolved) {
+      if (filters.resolved === "unresolved" && note.isResolved) {
         return false;
       }
 
@@ -470,7 +447,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
    * Group notes by type for display
    */
   const groupedNotes = useMemo(() => {
-    const groups: Record<NoteType | 'resolved', typeof filteredNotes> = {
+    const groups: Record<NoteType | "resolved", typeof filteredNotes> = {
       [NoteType.GENERAL]: [],
       [NoteType.PRODUCTION]: [],
       [NoteType.LYRIC]: [],
@@ -509,21 +486,14 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
       });
 
       // Reset form
-      setNewNoteContent('');
+      setNewNoteContent("");
       setNewNoteType(NoteType.GENERAL);
       setIsAddingNote(false);
     } catch (err) {
-      logger.error('Failed to create note', err, { sectionId });
+      logger.error("Failed to create note", err, { sectionId });
       haptic.error();
     }
-  }, [
-    newNoteContent,
-    newNoteType,
-    sectionId,
-    user?.id,
-    createNote,
-    haptic,
-  ]);
+  }, [newNoteContent, newNoteType, sectionId, user?.id, createNote, haptic]);
 
   /**
    * Handle updating an existing note
@@ -539,11 +509,11 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
         });
         setEditingNoteId(null);
       } catch (err) {
-        logger.error('Failed to update note', err, { noteId });
+        logger.error("Failed to update note", err, { noteId });
         haptic.error();
       }
     },
-    [updateNote, haptic]
+    [updateNote, haptic],
   );
 
   /**
@@ -553,14 +523,14 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
     async (noteId: string) => {
       // Show confirmation dialog
       const confirmed = await new Promise<boolean>((resolve) => {
-        toast('Удалить заметку?', {
-          description: 'Это действие нельзя отменить',
+        toast("Удалить заметку?", {
+          description: "Это действие нельзя отменить",
           action: {
-            label: 'Удалить',
+            label: "Удалить",
             onClick: () => resolve(true),
           },
           cancel: {
-            label: 'Отмена',
+            label: "Отмена",
             onClick: () => resolve(false),
           },
         });
@@ -575,11 +545,11 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
         haptic.warning();
         await deleteNote(noteId);
       } catch (err) {
-        logger.error('Failed to delete note', err, { noteId });
+        logger.error("Failed to delete note", err, { noteId });
         haptic.error();
       }
     },
-    [deleteNote, haptic]
+    [deleteNote, haptic],
   );
 
   /**
@@ -594,11 +564,11 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
           isResolved,
         });
       } catch (err) {
-        logger.error('Failed to resolve note', err, { noteId });
+        logger.error("Failed to resolve note", err, { noteId });
         haptic.error();
       }
     },
-    [resolveNote, haptic]
+    [resolveNote, haptic],
   );
 
   /**
@@ -606,7 +576,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
    */
   const handleResetFilters = useCallback(() => {
     haptic.tap();
-    setFilters({ type: 'all', resolved: 'all' });
+    setFilters({ type: "all", resolved: "all" });
   }, [haptic]);
 
   // --------------------------------------------------------------------------
@@ -615,14 +585,10 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
 
   return (
     <Card
-      className={cn(
-        'flex flex-col overflow-hidden',
-        maxHeight && 'max-h-[--max-height]',
-        className
-      )}
+      className={cn("flex flex-col overflow-hidden", maxHeight && "max-h-[--max-height]", className)}
       style={
         maxHeight
-          ? ({ '--max-height': typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight } as React.CSSProperties)
+          ? ({ "--max-height": typeof maxHeight === "number" ? `${maxHeight}px` : maxHeight } as React.CSSProperties)
           : undefined
       }
     >
@@ -634,9 +600,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
             <CardDescription className="flex items-center gap-2">
               <span>{filteredNotes.length} заметок</span>
               <span>•</span>
-              <span>
-                {notes.filter((n) => !n.isResolved).length} нерешённых
-              </span>
+              <span>{notes.filter((n) => !n.isResolved).length} нерешённых</span>
             </CardDescription>
           </div>
 
@@ -659,21 +623,19 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
         {showFilters && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             className="space-y-3 rounded-lg border border-border/60 bg-muted/40 p-3"
           >
             <div className="grid grid-cols-2 gap-3">
               {/* Type Filter */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-muted-foreground">
-                  Тип
-                </label>
+                <label className="text-xs font-medium text-muted-foreground">Тип</label>
                 <Select
                   value={filters.type}
                   onValueChange={(v) => {
                     haptic.tap();
-                    setFilters((prev) => ({ ...prev, type: v as NoteType | 'all' }));
+                    setFilters((prev) => ({ ...prev, type: v as NoteType | "all" }));
                   }}
                 >
                   <SelectTrigger className="h-10">
@@ -683,7 +645,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                     <SelectItem value="all">Все типы</SelectItem>
                     {NOTE_TYPES.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
-                        <span className={cn('flex items-center gap-2', type.color)}>
+                        <span className={cn("flex items-center gap-2", type.color)}>
                           <type.icon className="h-4 w-4" />
                           {type.label}
                         </span>
@@ -695,14 +657,12 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
 
               {/* Resolved Filter */}
               <div className="space-y-1.5">
-                <label className="text-xs font-medium text-muted-foreground">
-                  Статус
-                </label>
+                <label className="text-xs font-medium text-muted-foreground">Статус</label>
                 <Select
                   value={filters.resolved}
                   onValueChange={(v) => {
                     haptic.tap();
-                    setFilters((prev) => ({ ...prev, resolved: v as NoteFilters['resolved'] }));
+                    setFilters((prev) => ({ ...prev, resolved: v as NoteFilters["resolved"] }));
                   }}
                 >
                   <SelectTrigger className="h-10">
@@ -718,13 +678,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
             </div>
 
             {/* Reset Button */}
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="w-full"
-              onClick={handleResetFilters}
-            >
+            <Button type="button" variant="ghost" size="sm" className="w-full" onClick={handleResetFilters}>
               Сбросить фильтры
             </Button>
           </motion.div>
@@ -766,7 +720,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                 <SelectContent>
                   {NOTE_TYPES.map((type) => (
                     <SelectItem key={type.value} value={type.value}>
-                      <span className={cn('flex items-center gap-2', type.color)}>
+                      <span className={cn("flex items-center gap-2", type.color)}>
                         <type.icon className="h-4 w-4" />
                         {type.label}
                       </span>
@@ -783,7 +737,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                   onClick={() => {
                     haptic.tap();
                     setIsAddingNote(false);
-                    setNewNoteContent('');
+                    setNewNoteContent("");
                     setNewNoteType(NoteType.GENERAL);
                   }}
                 >
@@ -797,11 +751,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                   onClick={handleCreateNote}
                   disabled={!newNoteContent.trim() || isCreating}
                 >
-                  {isCreating ? (
-                    <Loader2 className="h-5 w-5 animate-spin" />
-                  ) : (
-                    <Check className="h-5 w-5" />
-                  )}
+                  {isCreating ? <Loader2 className="h-5 w-5 animate-spin" /> : <Check className="h-5 w-5" />}
                 </Button>
               </div>
             </div>
@@ -817,15 +767,8 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
           </div>
         ) : error ? (
           <div className="flex flex-col items-center gap-3 py-12 text-center">
-            <p className="text-sm text-muted-foreground">
-              Ошибка загрузки заметок
-            </p>
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => window.location.reload()}
-            >
+            <p className="text-sm text-muted-foreground">Ошибка загрузки заметок</p>
+            <Button type="button" variant="outline" size="sm" onClick={() => window.location.reload()}>
               Попробовать снова
             </Button>
           </div>
@@ -835,9 +778,9 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
             <div className="space-y-1">
               <p className="text-sm font-medium">Нет заметок</p>
               <p className="text-xs text-muted-foreground">
-                {filters.type !== 'all' || filters.resolved !== 'all'
-                  ? 'Попробуйте изменить фильтры'
-                  : 'Добавьте первую заметку к этой секции'}
+                {filters.type !== "all" || filters.resolved !== "all"
+                  ? "Попробуйте изменить фильтры"
+                  : "Добавьте первую заметку к этой секции"}
               </p>
             </div>
           </div>
@@ -845,7 +788,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
           <AnimatePresence mode="popLayout">
             {/* Unresolved Notes by Type */}
             {Object.entries(groupedNotes)
-              .filter(([key]) => key !== 'resolved')
+              .filter(([key]) => key !== "resolved")
               .map(([type, typeNotes]) =>
                 typeNotes.length > 0 ? (
                   <div key={type} className="space-y-3">
@@ -853,20 +796,17 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                       {NOTE_TYPES.find((t) => t.value === type)?.icon && (
                         <span
                           className={cn(
-                            'flex h-6 w-6 items-center justify-center rounded-md',
+                            "flex h-6 w-6 items-center justify-center rounded-md",
                             NOTE_TYPES.find((t) => t.value === type)!.color,
-                            'bg-current/10'
+                            "bg-current/10",
                           )}
                         >
-                          {React.createElement(
-                            NOTE_TYPES.find((t) => t.value === type)!.icon,
-                            { className: 'h-3.5 w-3.5' }
-                          )}
+                          {React.createElement(NOTE_TYPES.find((t) => t.value === type)!.icon, {
+                            className: "h-3.5 w-3.5",
+                          })}
                         </span>
                       )}
-                      <span className="text-sm font-medium">
-                        {NOTE_TYPES.find((t) => t.value === type)?.label}
-                      </span>
+                      <span className="text-sm font-medium">{NOTE_TYPES.find((t) => t.value === type)?.label}</span>
                       <Badge variant="secondary" className="text-xs">
                         {typeNotes.length}
                       </Badge>
@@ -882,15 +822,9 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                             setEditingNoteId(note.id);
                           }}
                           onDelete={() => handleDeleteNote(note.id)}
-                          onResolve={() =>
-                            handleToggleResolve(note.id, true)
-                          }
-                          onUnresolve={() =>
-                            handleToggleResolve(note.id, false)
-                          }
-                          onSaveEdit={(content, noteType) =>
-                            handleUpdateNote(note.id, content, noteType)
-                          }
+                          onResolve={() => handleToggleResolve(note.id, true)}
+                          onUnresolve={() => handleToggleResolve(note.id, false)}
+                          onSaveEdit={(content, noteType) => handleUpdateNote(note.id, content, noteType)}
                           onCancelEdit={() => {
                             haptic.tap();
                             setEditingNoteId(null);
@@ -899,7 +833,7 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                       ))}
                     </div>
                   </div>
-                ) : null
+                ) : null,
               )}
 
             {/* Resolved Notes */}
@@ -924,15 +858,9 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
                           setEditingNoteId(note.id);
                         }}
                         onDelete={() => handleDeleteNote(note.id)}
-                        onResolve={() =>
-                          handleToggleResolve(note.id, true)
-                        }
-                        onUnresolve={() =>
-                          handleToggleResolve(note.id, false)
-                        }
-                        onSaveEdit={(content, noteType) =>
-                          handleUpdateNote(note.id, content, noteType)
-                        }
+                        onResolve={() => handleToggleResolve(note.id, true)}
+                        onUnresolve={() => handleToggleResolve(note.id, false)}
+                        onSaveEdit={(content, noteType) => handleUpdateNote(note.id, content, noteType)}
                         onCancelEdit={() => {
                           haptic.tap();
                           setEditingNoteId(null);
@@ -951,4 +879,4 @@ export const SectionNotesPanel = memo(function SectionNotesPanel({
 });
 
 // Import React for memo
-import React, { memo } from 'react';
+import React, { memo } from "react";

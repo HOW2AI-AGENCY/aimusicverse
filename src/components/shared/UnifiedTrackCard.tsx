@@ -7,10 +7,10 @@
  * Feature: 001-mobile-ui-redesign
  */
 
-export { UnifiedTrackCard } from '@/components/track/track-card-new/UnifiedTrackCard';
+export { UnifiedTrackCard } from "@/components/track/track-card-new/UnifiedTrackCard";
 export type {
   UnifiedTrackCardProps,
   StandardTrackCardProps,
   ProfessionalTrackCardProps,
   EnhancedTrackCardProps,
-} from '@/components/track/track-card-new/UnifiedTrackCard';
+} from "@/components/track/track-card-new/UnifiedTrackCard";

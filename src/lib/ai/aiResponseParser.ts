@@ -2,12 +2,8 @@
  * AI Response Parser - Reliable JSON extraction and validation
  */
 
-import { logger } from '@/lib/logger';
-import { 
-  FullAnalysisData, 
-  ProducerReviewData, 
-  QuickAction 
-} from '@/components/lyrics-workspace/ai-agent/types';
+import { logger } from "@/lib/logger";
+import { FullAnalysisData, ProducerReviewData, QuickAction } from "@/components/lyrics-workspace/ai-agent/types";
 
 export interface ParsedLyricsResponse {
   lyrics: string;
@@ -66,14 +62,14 @@ export function extractJSON<T>(content: string): T | null {
       try {
         // Clean common issues
         const cleaned = jsonStr
-          .replace(/[\x00-\x1F\x7F]/g, '') // Remove control characters
-          .replace(/,(\s*[}\]])/g, '$1')   // Remove trailing commas
-          .replace(/'/g, '"')              // Replace single quotes
+          .replace(/[\x00-\x1F\x7F]/g, "") // Remove control characters
+          .replace(/,(\s*[}\]])/g, "$1") // Remove trailing commas
+          .replace(/'/g, '"') // Replace single quotes
           .trim();
-        
+
         return JSON.parse(cleaned) as T;
       } catch (e) {
-        logger.debug('JSON parse attempt failed', { error: e instanceof Error ? e.message : String(e) });
+        logger.debug("JSON parse attempt failed", { error: e instanceof Error ? e.message : String(e) });
         continue;
       }
     }
@@ -83,7 +79,7 @@ export function extractJSON<T>(content: string): T | null {
   try {
     return JSON.parse(content) as T;
   } catch {
-    logger.debug('Failed to extract JSON from content');
+    logger.debug("Failed to extract JSON from content");
     return null;
   }
 }
@@ -98,18 +94,18 @@ export function parseFullAnalysis(content: string): ExpandedAnalysisData | null 
   // Validate and normalize required fields
   return {
     meaning: {
-      theme: data.meaning?.theme || 'Не определена',
+      theme: data.meaning?.theme || "Не определена",
       emotions: data.meaning?.emotions || [],
       issues: data.meaning?.issues || [],
       score: data.meaning?.score || 0,
     },
     rhythm: {
-      pattern: data.rhythm?.pattern || '',
+      pattern: data.rhythm?.pattern || "",
       issues: data.rhythm?.issues || [],
       score: data.rhythm?.score || 0,
     },
     rhymes: {
-      scheme: data.rhymes?.scheme || '',
+      scheme: data.rhymes?.scheme || "",
       weakRhymes: data.rhymes?.weakRhymes || [],
       score: data.rhymes?.score || 0,
     },
@@ -120,9 +116,9 @@ export function parseFullAnalysis(content: string): ExpandedAnalysisData | null 
     },
     overallScore: data.overallScore || 0,
     recommendations: (data.recommendations || []).map((r: any) => ({
-      type: r.type || 'general',
-      text: r.text || '',
-      priority: r.priority || 'medium',
+      type: r.type || "general",
+      text: r.text || "",
+      priority: r.priority || "medium",
     })),
     quickActions: data.quickActions || [],
     // Extended fields
@@ -130,7 +126,7 @@ export function parseFullAnalysis(content: string): ExpandedAnalysisData | null 
     technicalLyrics: data.technicalLyrics,
     cultural: data.cultural,
     keyInsights: data.keyInsights || [],
-    uniqueStrength: data.uniqueStrength || '',
+    uniqueStrength: data.uniqueStrength || "",
   };
 }
 
@@ -144,28 +140,35 @@ export function parseProducerReview(content: string): ProducerReviewData | null 
   return {
     commercialScore: data.commercialScore || data.overallScore || 0,
     overallScore: data.commercialScore || data.overallScore || 0,
-    summary: data.summary || '',
+    summary: data.summary || "",
     strengths: data.strengths || [],
     weaknesses: data.weaknesses || [],
-    productionNotes: data.productionNotes || '',
-    hooks: data.hooks ? {
-      current: data.hooks.current || '',
-      suggestions: data.hooks.suggestions || [],
-    } : undefined,
+    productionNotes: data.productionNotes || "",
+    hooks: data.hooks
+      ? {
+          current: data.hooks.current || "",
+          suggestions: data.hooks.suggestions || [],
+        }
+      : undefined,
     vocalMap: data.vocalMap || [],
-    arrangement: data.arrangement ? {
-      add: data.arrangement.add || [],
-      remove: data.arrangement.remove || [],
-      dynamics: data.arrangement.dynamics || [],
-    } : undefined,
-    stylePrompt: data.stylePrompt || '',
+    arrangement: data.arrangement
+      ? {
+          add: data.arrangement.add || [],
+          remove: data.arrangement.remove || [],
+          dynamics: data.arrangement.dynamics || [],
+        }
+      : undefined,
+    stylePrompt: data.stylePrompt || "",
     suggestedTags: data.suggestedTags || [],
     genreTags: data.genreTags || [],
     topRecommendations: data.topRecommendations || [],
-    recommendations: data.recommendations || data.topRecommendations?.map((r: any, i: number) => ({
-      priority: r.priority || i + 1,
-      text: r.text || '',
-    })) || [],
+    recommendations:
+      data.recommendations ||
+      data.topRecommendations?.map((r: any, i: number) => ({
+        priority: r.priority || i + 1,
+        text: r.text || "",
+      })) ||
+      [],
     quickActions: data.quickActions || [],
   };
 }
@@ -176,7 +179,7 @@ export function parseProducerReview(content: string): ProducerReviewData | null 
 export function parseLyricsResponse(content: string): ParsedLyricsResponse | null {
   // First try to extract JSON
   const data = extractJSON<any>(content);
-  
+
   if (data?.lyrics) {
     return {
       lyrics: data.lyrics,
@@ -190,7 +193,7 @@ export function parseLyricsResponse(content: string): ParsedLyricsResponse | nul
   }
 
   // If no JSON found, check if content is raw lyrics
-  if (content.includes('[Verse') || content.includes('[Chorus') || content.includes('[Intro')) {
+  if (content.includes("[Verse") || content.includes("[Chorus") || content.includes("[Intro")) {
     return {
       lyrics: content,
     };
@@ -202,7 +205,10 @@ export function parseLyricsResponse(content: string): ParsedLyricsResponse | nul
 /**
  * Universal AI response parser based on action type
  */
-export function parseAIResponse(data: any, action: string): {
+export function parseAIResponse(
+  data: any,
+  action: string,
+): {
   type: string;
   message: string;
   lyrics?: string;
@@ -212,13 +218,13 @@ export function parseAIResponse(data: any, action: string): {
   uniqueStrength?: string;
 } {
   // If data is already structured (from edge function), use it directly
-  if (data && typeof data === 'object') {
+  if (data && typeof data === "object") {
     // Handle deep_analysis
-    if (action === 'deep_analysis' || data.expandedAnalysis) {
+    if (action === "deep_analysis" || data.expandedAnalysis) {
       const expandedAnalysis = data.expandedAnalysis || data.fullAnalysis || data;
       return {
-        type: 'expanded_analysis',
-        message: data.message || 'Глубокий анализ завершен',
+        type: "expanded_analysis",
+        message: data.message || "Глубокий анализ завершен",
         expandedAnalysis: expandedAnalysis,
         keyInsights: expandedAnalysis?.keyInsights || data.keyInsights,
         uniqueStrength: expandedAnalysis?.uniqueStrength || data.uniqueStrength,
@@ -226,19 +232,19 @@ export function parseAIResponse(data: any, action: string): {
     }
 
     // Handle full_analysis
-    if (action === 'full_analysis' || data.fullAnalysis) {
+    if (action === "full_analysis" || data.fullAnalysis) {
       return {
-        type: 'full_analysis',
-        message: data.message || 'Анализ завершен',
+        type: "full_analysis",
+        message: data.message || "Анализ завершен",
         data: data.fullAnalysis || data,
       };
     }
 
     // Handle producer_review
-    if (action === 'producer_review' || data.producerReview) {
+    if (action === "producer_review" || data.producerReview) {
       return {
-        type: 'producer_review',
-        message: data.message || 'Разбор продюсера готов',
+        type: "producer_review",
+        message: data.message || "Разбор продюсера готов",
         data: data.producerReview || data,
       };
     }
@@ -246,35 +252,35 @@ export function parseAIResponse(data: any, action: string): {
     // Handle lyrics
     if (data.lyrics) {
       return {
-        type: 'lyrics',
-        message: data.message || 'Текст сгенерирован',
+        type: "lyrics",
+        message: data.message || "Текст сгенерирован",
         lyrics: data.lyrics,
       };
     }
 
     // Default: return as-is
     return {
-      type: 'text',
-      message: data.message || data.result || 'Готово',
+      type: "text",
+      message: data.message || data.result || "Готово",
       data: data,
     };
   }
 
   // If data is string, try to parse
-  if (typeof data === 'string') {
+  if (typeof data === "string") {
     const parsed = extractJSON<any>(data);
     if (parsed) {
       return parseAIResponse(parsed, action);
     }
     return {
-      type: 'text',
+      type: "text",
       message: data,
     };
   }
 
   return {
-    type: 'text',
-    message: 'Ответ получен',
+    type: "text",
+    message: "Ответ получен",
   };
 }
 
@@ -293,10 +299,10 @@ export function parseChatResponse(content: string): {
   changes?: string[];
 } {
   const data = extractJSON<any>(content);
-  
+
   if (data) {
     return {
-      message: data.response || data.message || '',
+      message: data.response || data.message || "",
       lyrics: data.lyrics,
       title: data.title,
       style: data.style,
@@ -319,14 +325,14 @@ export function parseChatResponse(content: string): {
  */
 export function validateAnalysis(data: ExpandedAnalysisData): { valid: boolean; missing: string[] } {
   const missing: string[] = [];
-  
-  if (!data.meaning?.theme) missing.push('meaning.theme');
-  if (!data.overallScore) missing.push('overallScore');
-  if (typeof data.meaning?.score !== 'number') missing.push('meaning.score');
-  if (typeof data.rhythm?.score !== 'number') missing.push('rhythm.score');
-  if (typeof data.rhymes?.score !== 'number') missing.push('rhymes.score');
-  if (typeof data.structure?.score !== 'number') missing.push('structure.score');
-  
+
+  if (!data.meaning?.theme) missing.push("meaning.theme");
+  if (!data.overallScore) missing.push("overallScore");
+  if (typeof data.meaning?.score !== "number") missing.push("meaning.score");
+  if (typeof data.rhythm?.score !== "number") missing.push("rhythm.score");
+  if (typeof data.rhymes?.score !== "number") missing.push("rhymes.score");
+  if (typeof data.structure?.score !== "number") missing.push("structure.score");
+
   return {
     valid: missing.length === 0,
     missing,
@@ -339,18 +345,18 @@ export function validateAnalysis(data: ExpandedAnalysisData): { valid: boolean; 
 export function getFallbackAnalysis(rawContent: string): ExpandedAnalysisData {
   return {
     meaning: {
-      theme: 'Анализ не распознан',
+      theme: "Анализ не распознан",
       emotions: [],
-      issues: ['Не удалось выполнить структурный анализ'],
+      issues: ["Не удалось выполнить структурный анализ"],
       score: 0,
     },
     rhythm: {
-      pattern: 'Не определён',
+      pattern: "Не определён",
       issues: [],
       score: 0,
     },
     rhymes: {
-      scheme: 'Не определена',
+      scheme: "Не определена",
       weakRhymes: [],
       score: 0,
     },
@@ -360,13 +366,15 @@ export function getFallbackAnalysis(rawContent: string): ExpandedAnalysisData {
       score: 0,
     },
     overallScore: 0,
-    recommendations: [{
-      type: 'general',
-      text: rawContent.slice(0, 200) + '...',
-      priority: 'medium' as const,
-    }],
+    recommendations: [
+      {
+        type: "general",
+        text: rawContent.slice(0, 200) + "...",
+        priority: "medium" as const,
+      },
+    ],
     quickActions: [],
     keyInsights: [],
-    uniqueStrength: '',
+    uniqueStrength: "",
   };
 }

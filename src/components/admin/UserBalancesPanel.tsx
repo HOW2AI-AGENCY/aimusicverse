@@ -5,61 +5,80 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { 
-  Search, 
-  Download, 
+import {
+  Search,
+  Download,
   RefreshCw,
   Coins,
   Users,
   TrendingUp,
   TrendingDown,
   AlertTriangle,
-  Loader2
+  Loader2,
 } from "lucide-react";
-import { format } from '@/lib/date-utils';
+import { format } from "@/lib/date-utils";
 import { useUserBalanceSummary, useUsersWithBalances } from "@/hooks/useUserBalanceSummary";
 import { useAdminBalance } from "@/hooks/useAdminBalance";
 
 export function UserBalancesPanel() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [orderBy, setOrderBy] = useState<'balance' | 'created_at'>('created_at');
+  const [orderBy, setOrderBy] = useState<"balance" | "created_at">("created_at");
 
   const { data: summary, isLoading: summaryLoading } = useUserBalanceSummary();
-  const { data: users, isLoading: usersLoading, refetch } = useUsersWithBalances({ 
-    limit: 200, 
-    orderBy 
+  const {
+    data: users,
+    isLoading: usersLoading,
+    refetch,
+  } = useUsersWithBalances({
+    limit: 200,
+    orderBy,
   });
   const { apiBalance } = useAdminBalance();
 
-  const filteredUsers = users?.filter(user => {
-    const search = searchQuery.toLowerCase();
-    return searchQuery === "" ||
-      user.username?.toLowerCase().includes(search) ||
-      user.first_name?.toLowerCase().includes(search) ||
-      user.last_name?.toLowerCase().includes(search);
-  }) || [];
+  const filteredUsers =
+    users?.filter((user) => {
+      const search = searchQuery.toLowerCase();
+      return (
+        searchQuery === "" ||
+        user.username?.toLowerCase().includes(search) ||
+        user.first_name?.toLowerCase().includes(search) ||
+        user.last_name?.toLowerCase().includes(search)
+      );
+    }) || [];
 
   const exportUsers = () => {
     const csv = [
-      ['User ID', 'Username', 'Name', 'Balance', 'Total Earned', 'Total Spent', 'Level', 'Subscription', 'Created At'].join(','),
-      ...filteredUsers.map(user => [
-        user.user_id,
-        user.username || '',
-        `${user.first_name || ''} ${user.last_name || ''}`.trim(),
-        user.balance,
-        user.total_earned,
-        user.total_spent,
-        user.level,
-        user.subscription_tier || 'free',
-        user.created_at
-      ].join(','))
-    ].join('\n');
+      [
+        "User ID",
+        "Username",
+        "Name",
+        "Balance",
+        "Total Earned",
+        "Total Spent",
+        "Level",
+        "Subscription",
+        "Created At",
+      ].join(","),
+      ...filteredUsers.map((user) =>
+        [
+          user.user_id,
+          user.username || "",
+          `${user.first_name || ""} ${user.last_name || ""}`.trim(),
+          user.balance,
+          user.total_earned,
+          user.total_spent,
+          user.level,
+          user.subscription_tier || "free",
+          user.created_at,
+        ].join(","),
+      ),
+    ].join("\n");
 
-    const blob = new Blob([csv], { type: 'text/csv' });
+    const blob = new Blob([csv], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `user-balances-${format(new Date(), 'yyyy-MM-dd')}.csv`;
+    a.download = `user-balances-${format(new Date(), "yyyy-MM-dd")}.csv`;
     a.click();
   };
 
@@ -93,7 +112,9 @@ export function UserBalancesPanel() {
                 <Coins className="h-4 w-4 md:h-5 md:w-5 text-amber-500" />
               </div>
               <div className="min-w-0">
-                <div className="text-lg md:text-2xl font-bold truncate">{summary?.total_balance?.toLocaleString() || 0}</div>
+                <div className="text-lg md:text-2xl font-bold truncate">
+                  {summary?.total_balance?.toLocaleString() || 0}
+                </div>
                 <div className="text-[10px] md:text-xs text-muted-foreground">Баланс</div>
               </div>
             </div>
@@ -107,7 +128,9 @@ export function UserBalancesPanel() {
                 <TrendingUp className="h-4 w-4 md:h-5 md:w-5 text-green-500" />
               </div>
               <div className="min-w-0">
-                <div className="text-lg md:text-2xl font-bold truncate">{summary?.total_earned?.toLocaleString() || 0}</div>
+                <div className="text-lg md:text-2xl font-bold truncate">
+                  {summary?.total_earned?.toLocaleString() || 0}
+                </div>
                 <div className="text-[10px] md:text-xs text-muted-foreground">Получено</div>
               </div>
             </div>
@@ -121,7 +144,9 @@ export function UserBalancesPanel() {
                 <TrendingDown className="h-4 w-4 md:h-5 md:w-5 text-red-500" />
               </div>
               <div className="min-w-0">
-                <div className="text-lg md:text-2xl font-bold truncate">{summary?.total_spent?.toLocaleString() || 0}</div>
+                <div className="text-lg md:text-2xl font-bold truncate">
+                  {summary?.total_spent?.toLocaleString() || 0}
+                </div>
                 <div className="text-[10px] md:text-xs text-muted-foreground">Потрачено</div>
               </div>
             </div>
@@ -137,8 +162,9 @@ export function UserBalancesPanel() {
             <div>
               <div className="font-medium text-destructive">Низкое покрытие API баланса</div>
               <div className="text-sm text-muted-foreground">
-                API баланс ({apiCredits.toLocaleString()} кредитов = {(apiCredits * 10).toLocaleString()} генераций) 
-                покрывает только {coverageRatio.toFixed(1)}% от пользовательских балансов ({totalUserBalance.toLocaleString()})
+                API баланс ({apiCredits.toLocaleString()} кредитов = {(apiCredits * 10).toLocaleString()} генераций)
+                покрывает только {coverageRatio.toFixed(1)}% от пользовательских балансов (
+                {totalUserBalance.toLocaleString()})
               </div>
             </div>
           </CardContent>
@@ -156,7 +182,7 @@ export function UserBalancesPanel() {
                   <Download className="h-4 w-4" />
                 </Button>
                 <Button variant="outline" size="sm" className="h-8 px-2" onClick={() => refetch()}>
-                  <RefreshCw className={`h-4 w-4 ${usersLoading ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`h-4 w-4 ${usersLoading ? "animate-spin" : ""}`} />
                 </Button>
               </div>
             </div>
@@ -165,19 +191,19 @@ export function UserBalancesPanel() {
               {summary && ` • Среднее: ${summary.avg_balance?.toFixed(0) || 0}`}
             </CardDescription>
             <div className="flex gap-1.5">
-              <Button 
-                variant={orderBy === 'created_at' ? "default" : "outline"}
+              <Button
+                variant={orderBy === "created_at" ? "default" : "outline"}
                 size="sm"
                 className="h-7 text-xs px-2"
-                onClick={() => setOrderBy('created_at')}
+                onClick={() => setOrderBy("created_at")}
               >
                 Дата
               </Button>
-              <Button 
-                variant={orderBy === 'balance' ? "default" : "outline"}
+              <Button
+                variant={orderBy === "balance" ? "default" : "outline"}
                 size="sm"
                 className="h-7 text-xs px-2"
-                onClick={() => setOrderBy('balance')}
+                onClick={() => setOrderBy("balance")}
               >
                 Баланс
               </Button>
@@ -203,9 +229,7 @@ export function UserBalancesPanel() {
                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
               </div>
             ) : filteredUsers.length === 0 ? (
-              <div className="flex items-center justify-center h-40 text-muted-foreground">
-                Нет пользователей
-              </div>
+              <div className="flex items-center justify-center h-40 text-muted-foreground">Нет пользователей</div>
             ) : (
               <div className="space-y-2">
                 {filteredUsers.map((user) => (
@@ -216,15 +240,13 @@ export function UserBalancesPanel() {
                     <Avatar className="h-8 w-8 md:h-10 md:w-10 flex-shrink-0">
                       <AvatarImage src={user.photo_url || undefined} />
                       <AvatarFallback className="text-xs">
-                        {(user.first_name?.[0] || user.username?.[0] || '?').toUpperCase()}
+                        {(user.first_name?.[0] || user.username?.[0] || "?").toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1 md:gap-2">
-                        <span className="font-medium text-sm md:text-base truncate">
-                          {user.first_name}
-                        </span>
+                        <span className="font-medium text-sm md:text-base truncate">{user.first_name}</span>
                         {user.username && (
                           <span className="text-xs md:text-sm text-muted-foreground truncate hidden sm:inline">
                             @{user.username}
@@ -235,7 +257,7 @@ export function UserBalancesPanel() {
                         <span>Lvl {user.level}</span>
                         <span className="hidden xs:inline">•</span>
                         <span className="hidden xs:inline">🔥{user.current_streak}</span>
-                        {user.subscription_tier && user.subscription_tier !== 'free' && (
+                        {user.subscription_tier && user.subscription_tier !== "free" && (
                           <Badge variant="secondary" className="text-[10px] md:text-xs h-4 md:h-5 px-1">
                             {user.subscription_tier}
                           </Badge>
@@ -244,7 +266,9 @@ export function UserBalancesPanel() {
                     </div>
 
                     <div className="text-right flex-shrink-0">
-                      <div className={`text-base md:text-lg font-bold ${user.balance === 0 ? 'text-muted-foreground' : user.balance < 10 ? 'text-amber-500' : 'text-primary'}`}>
+                      <div
+                        className={`text-base md:text-lg font-bold ${user.balance === 0 ? "text-muted-foreground" : user.balance < 10 ? "text-amber-500" : "text-primary"}`}
+                      >
                         {user.balance}
                       </div>
                       <div className="text-[10px] md:text-xs text-muted-foreground whitespace-nowrap">

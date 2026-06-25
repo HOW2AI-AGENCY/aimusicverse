@@ -1,12 +1,14 @@
 # Player Crash Fix - December 9, 2025
 
 ## Problem Statement
+
 **Russian:** выясни причину почему при запуске плеера приложение постоянно крашится  
 **English:** Find out why the application constantly crashes when starting the player
 
 ## Root Cause Analysis
 
 ### The Issue
+
 The application was crashing when starting the player due to **duplicate audio element singletons** that were not synchronized:
 
 1. ❌ `useGlobalAudioPlayer.ts` created its own `globalAudioElement` singleton via `getGlobalAudio()`
@@ -34,7 +36,7 @@ let globalAudio: HTMLAudioElement | null = null; // Could be null!
 
 // When MobileFullscreenPlayer renders:
 const { audioElement } = useGlobalAudioPlayer(); // Gets one audio element
-const { currentTime } = useAudioTime();          // Uses different audio element (null!)
+const { currentTime } = useAudioTime(); // Uses different audio element (null!)
 ```
 
 When components rendered before `GlobalAudioProvider` finished initialization, `useAudioTime` would try to access a null audio element, causing crashes.
@@ -42,6 +44,7 @@ When components rendered before `GlobalAudioProvider` finished initialization, `
 ## The Solution
 
 ### Architecture Change
+
 Unified all audio hooks to use a **single global audio element** managed by `GlobalAudioProvider`:
 
 ```
@@ -61,6 +64,7 @@ MobileFullscreenPlayer   CompactPlayer
 #### 1. `useGlobalAudioPlayer.ts` - Removed Duplicate Singleton
 
 **Before:**
+
 ```typescript
 let globalAudioElement: HTMLAudioElement | null = null;
 function getGlobalAudio(): HTMLAudioElement {
@@ -72,8 +76,9 @@ function getGlobalAudio(): HTMLAudioElement {
 ```
 
 **After:**
+
 ```typescript
-import { getGlobalAudioRef } from '@/hooks/audio/useAudioTime';
+import { getGlobalAudioRef } from "@/hooks/audio/useAudioTime";
 
 // All operations now use:
 const audio = getGlobalAudioRef();
@@ -83,17 +88,20 @@ if (!audio) return; // Null safety!
 #### 2. `useAudioTime.ts` - Enhanced Null Safety
 
 **Added:**
+
 - State reset when audio is null
 - Null checks in all event handlers
 - Prevents accessing properties on null
 
 **Before:**
+
 ```typescript
 if (!globalAudio) return;
 setCurrentTime(globalAudio!.currentTime); // Unsafe!
 ```
 
 **After:**
+
 ```typescript
 if (!globalAudio) {
   // Reset state if audio not available
@@ -108,26 +116,30 @@ if (!globalAudio) {
 ## Impact
 
 ### Fixed Components
+
 ✅ **MobileFullscreenPlayer** - No longer crashes on mount  
 ✅ **CompactPlayer** - Safely handles uninitialized audio  
 ✅ **ExpandedPlayer** - Syncs with global audio state  
-✅ **FullscreenPlayer** - Works correctly with global singleton  
+✅ **FullscreenPlayer** - Works correctly with global singleton
 
 ### Maintained Functionality
+
 ✅ Audio visualizer works correctly (handles null audioElement)  
 ✅ Time tracking syncs across all player modes  
 ✅ Volume control affects single audio instance  
-✅ Playback state consistent across UI  
+✅ Playback state consistent across UI
 
 ## Testing
 
 ### Build Verification
+
 ```bash
 npm run build
 # ✓ built in 36.76s - No TypeScript errors
 ```
 
 ### Manual Testing Required
+
 - [ ] Test playing a track from Library
 - [ ] Switch between player modes (compact → expanded → fullscreen)
 - [ ] Verify audio visualizer works in fullscreen mode
@@ -139,12 +151,14 @@ npm run build
 ## Architecture Guidelines
 
 ### DO ✅
+
 1. **Single Audio Source**: Only `GlobalAudioProvider` creates the Audio element
 2. **Null Safety**: Always check `getGlobalAudioRef()` for null before operations
 3. **Shared State**: Use `usePlayerStore` for playback state across components
 4. **Event Handlers**: Add null checks in all audio event handlers
 
 ### DON'T ❌
+
 1. **Never** create `new Audio()` in player-related hooks
 2. **Never** assume `getGlobalAudioRef()` returns non-null
 3. **Never** use non-null assertion (`!`) with audio references
@@ -153,23 +167,25 @@ npm run build
 ## Code Pattern Reference
 
 ### Safe Audio Hook Pattern
+
 ```typescript
 export function useSafeAudioHook() {
   const audio = getGlobalAudioRef();
-  
+
   useEffect(() => {
     if (!audio) return; // Always check!
-    
+
     const handler = () => {
-      if (audio) { // Check in handlers too
+      if (audio) {
+        // Check in handlers too
         // Safe operations
       }
     };
-    
-    audio.addEventListener('event', handler);
-    return () => audio?.removeEventListener('event', handler);
+
+    audio.addEventListener("event", handler);
+    return () => audio?.removeEventListener("event", handler);
   }, [audio]);
-  
+
   const operation = useCallback(() => {
     const audio = getGlobalAudioRef();
     if (!audio) return defaultValue; // Safe return
@@ -181,10 +197,12 @@ export function useSafeAudioHook() {
 ## Related Files
 
 ### Modified
+
 - `src/hooks/audio/useGlobalAudioPlayer.ts` - Removed duplicate singleton
 - `src/hooks/audio/useAudioTime.ts` - Enhanced null safety
 
 ### Key Architecture Files
+
 - `src/components/GlobalAudioProvider.tsx` - Creates singleton
 - `src/hooks/audio/usePlayerState.ts` - Playback state management
 - `src/hooks/audio/useAudioVisualizer.ts` - Audio analysis (has null handling)

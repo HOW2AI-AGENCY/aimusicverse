@@ -2,12 +2,12 @@
  * MenuSearch - Search input for MoreMenuSheet
  */
 
-import { memo, useState, useMemo } from 'react';
-import { Search, X } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { memo, useState, useMemo } from "react";
+import { Search, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface MenuItem {
   path: string;
@@ -24,30 +24,27 @@ interface MenuSearchProps {
   isActive: (path: string) => boolean;
 }
 
-export const MenuSearch = memo(function MenuSearch({ 
-  items, 
-  onNavigate, 
-  isActive 
-}: MenuSearchProps) {
-  const [query, setQuery] = useState('');
+export const MenuSearch = memo(function MenuSearch({ items, onNavigate, isActive }: MenuSearchProps) {
+  const [query, setQuery] = useState("");
 
   const filteredItems = useMemo(() => {
     if (!query.trim()) return [];
     const q = query.toLowerCase();
-    return items.filter(item => 
-      item.label.toLowerCase().includes(q) ||
-      item.description?.toLowerCase().includes(q) ||
-      item.section?.toLowerCase().includes(q)
+    return items.filter(
+      (item) =>
+        item.label.toLowerCase().includes(q) ||
+        item.description?.toLowerCase().includes(q) ||
+        item.section?.toLowerCase().includes(q),
     );
   }, [query, items]);
 
   const handleClear = () => {
-    setQuery('');
+    setQuery("");
   };
 
   const handleSelect = (path: string) => {
     onNavigate(path);
-    setQuery('');
+    setQuery("");
   };
 
   return (
@@ -69,12 +66,7 @@ export const MenuSearch = memo(function MenuSearch({
               exit={{ opacity: 0, scale: 0.8 }}
               className="absolute right-2 top-1/2 -translate-y-1/2"
             >
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleClear}
-                className="h-6 w-6 rounded-full"
-              >
+              <Button variant="ghost" size="icon" onClick={handleClear} className="h-6 w-6 rounded-full">
                 <X className="w-3 h-3" />
               </Button>
             </motion.div>
@@ -101,20 +93,15 @@ export const MenuSearch = memo(function MenuSearch({
                 className={cn(
                   "w-full flex items-center gap-3 p-3 text-left",
                   "hover:bg-muted/50 transition-colors",
-                  isActive(item.path) && "bg-primary/5"
+                  isActive(item.path) && "bg-primary/5",
                 )}
               >
-                <div className={cn(
-                  "p-1.5 rounded-lg",
-                  isActive(item.path) ? "bg-primary/20" : "bg-muted"
-                )}>
+                <div className={cn("p-1.5 rounded-lg", isActive(item.path) ? "bg-primary/20" : "bg-muted")}>
                   <item.icon className="w-4 h-4" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <span className="font-medium text-sm block truncate">{item.label}</span>
-                  {item.section && (
-                    <span className="text-[10px] text-muted-foreground">{item.section}</span>
-                  )}
+                  {item.section && <span className="text-[10px] text-muted-foreground">{item.section}</span>}
                 </div>
               </motion.button>
             ))}

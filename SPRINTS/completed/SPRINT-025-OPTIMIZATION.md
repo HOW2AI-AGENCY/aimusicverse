@@ -20,56 +20,64 @@
 
 ## 📊 Success Metrics
 
-| Метрика | Baseline | Target | Status |
-|---------|----------|--------|--------|
-| Bundle size | 1.16 MB | <900 KB | 🟡 TODO |
-| TTI (4G) | ~4.5s | <3.5s | 🟡 TODO |
-| List FPS | ~45 | >55 | 🟡 TODO |
-| Lighthouse | TBD | >85 | 🟡 TODO |
+| Метрика     | Baseline | Target  | Status  |
+| ----------- | -------- | ------- | ------- |
+| Bundle size | 1.16 MB  | <900 KB | 🟡 TODO |
+| TTI (4G)    | ~4.5s    | <3.5s   | 🟡 TODO |
+| List FPS    | ~45      | >55     | 🟡 TODO |
+| Lighthouse  | TBD      | >85     | 🟡 TODO |
 
 ---
 
 ## 📋 User Stories
 
 ### US-025-001: Music Lab Hub (8 SP)
+
 **Статус**: 🟡 TODO
 
 Unified workspace для Guitar Studio, Chord Detection, Melody Mixer, Tab Editor
 
 **Deliverables**:
+
 - `src/pages/MusicLab.tsx`
 - `src/contexts/MusicLabAudioContext.tsx`
 - 4 tab wrapper components
 - Route integration
 
 ### US-025-002: List Virtualization (6 SP)
+
 **Статус**: 🟡 TODO
 
 react-virtuoso для Library, Playlists, Search results
 
 **Deliverables**:
+
 - Enhanced `VirtualizedTrackList`
 - `VirtualizedPlaylist` component
 - `VirtualizedResults` component
 - Performance tests
 
 ### US-025-003: Performance Monitoring (7 SP)
+
 **Статус**: ✅ DONE (2025-12-12)
 
 Lighthouse CI, bundle analyzer, automated gates
 
 **Deliverables**:
+
 - ✅ `.github/workflows/performance.yml` - Lighthouse CI + Bundle analysis
 - ✅ `lighthouserc.json` - Mobile-first конфигурация
 - ✅ `src/components/admin/PerformanceTab.tsx` - Dashboard метрик
 - ✅ `src/lib/motion.ts` - Централизованные framer-motion exports
 
 ### US-025-004: Bundle Optimization Phase 1 (7 SP)
+
 **Статус**: ✅ DONE (2025-12-16)
 
 Centralized framer-motion, lazy loading, tree-shaking
 
 **Deliverables**:
+
 - ✅ `src/lib/motion.ts` - Централизованные exports
 - ✅ framer-motion migration - все импорты через @/lib/motion
 - ✅ `src/components/lazy/index.ts` - Расширенный lazy loading (15+ компонентов)
@@ -78,11 +86,13 @@ Centralized framer-motion, lazy loading, tree-shaking
 - ✅ React.memo для VirtualizedTrackList и других компонентов
 
 ### US-025-005: Generation Analytics (3 SP)
+
 **Статус**: ✅ DONE (2025-12-16)
 
 Аналитика генерации музыки с метриками жанров, стилей и затрат
 
 **Deliverables**:
+
 - ✅ `get_generation_analytics` SQL function - Агрегация статистики
 - ✅ `src/hooks/useGenerationAnalytics.ts` - React Query hook
 - ✅ `src/components/admin/GenerationAnalyticsPanel.tsx` - UI панель
@@ -92,6 +102,7 @@ Centralized framer-motion, lazy loading, tree-shaking
 ## 🔧 P0 Critical Fixes (Completed 2025-12-12)
 
 ### P0-001: Generation Error Handling
+
 **Статус**: ✅ DONE
 
 - ✅ Model fallback chain (V5 → V4_5PLUS → V4_5 → V4)
@@ -102,6 +113,7 @@ Centralized framer-motion, lazy loading, tree-shaking
 - ✅ Enhanced `src/lib/errorHandling.ts`
 
 ### P0-002: Auth Security
+
 **Статус**: ✅ DONE
 
 - ✅ Auto-confirm email настроен
@@ -112,10 +124,12 @@ Centralized framer-motion, lazy loading, tree-shaking
 ## 🔗 Dependencies
 
 **Enables**:
+
 - Sprint 026: Music Lab Hub foundation для unified flow
 - Sprint 028: Performance baseline для mobile validation
 
 **Requires**:
+
 - SPRINT-022 framer-motion work (45+ files done)
 - Existing virtualization infra (useTracksInfinite)
 
@@ -124,11 +138,13 @@ Centralized framer-motion, lazy loading, tree-shaking
 ## ⏱️ Timeline
 
 **Week 1** (Dec 12-18):
+
 - ✅ Day 1: P0 Critical fixes, Performance monitoring setup
 - Day 2-3: framer-motion migration
 - Day 4-5: Music Lab Hub implementation
 
 **Week 2** (Dec 19-29):
+
 - Day 1-3: List virtualization
 - Day 4-5: Bundle optimization, testing
 

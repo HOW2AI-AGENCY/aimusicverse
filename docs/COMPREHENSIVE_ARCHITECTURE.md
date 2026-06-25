@@ -28,6 +28,7 @@
 MusicVerse AI is a production-grade, AI-powered music creation platform built as a Telegram Mini App. The system leverages modern web technologies and cloud infrastructure to deliver professional music creation tools directly within Telegram.
 
 ### Key Metrics
+
 - **Components**: 828 React components
 - **Custom Hooks**: 263 hooks (48,812 lines)
 - **Edge Functions**: 100+ serverless functions
@@ -37,6 +38,7 @@ MusicVerse AI is a production-grade, AI-powered music creation platform built as
 - **Performance**: Lighthouse CI integrated
 
 ### Core Capabilities
+
 1. **AI Music Generation**: Suno AI v5 integration with 174+ meta tags
 2. **Advanced Audio Processing**: Stem separation, mixing, effects
 3. **Real-time Collaboration**: WebSocket-based real-time updates
@@ -79,6 +81,7 @@ MusicVerse AI is a production-grade, AI-powered music creation platform built as
 ### Data Flow Patterns
 
 #### 1. Music Generation Flow
+
 ```
 User Input → Form Validation → Edge Function → Suno API
     ↓                                               ↓
@@ -90,6 +93,7 @@ Resume Session                            Telegram Notification
 ```
 
 #### 2. Real-time Audio Flow
+
 ```
 Track Selection → Global Audio Provider → HTMLAudioElement
                          ↓
@@ -103,6 +107,7 @@ Track Selection → Global Audio Provider → HTMLAudioElement
 ```
 
 #### 3. State Synchronization Flow
+
 ```
 User Action → Optimistic UI Update → Edge Function → Database
                      ↓                                    ↓
@@ -120,11 +125,13 @@ User Action → Optimistic UI Update → Edge Function → Database
 ### Frontend Stack
 
 #### Core Framework
+
 - **React 19** (latest) - Component library with concurrent features
 - **TypeScript 5.9** - Static typing and enhanced developer experience
 - **Vite 5.0** - Lightning-fast build tool and dev server
 
 #### UI & Styling
+
 - **Tailwind CSS 3.4** - Utility-first CSS framework
 - **shadcn/ui** - Accessible component primitives (25+ Radix UI components)
 - **Framer Motion 12** - Advanced animation library
@@ -132,12 +139,14 @@ User Action → Optimistic UI Update → Edge Function → Database
 - **Lucide React** - Icon library (555 icons)
 
 #### State Management
+
 - **Zustand 5.0** - Lightweight global state (player, studio, lyrics)
 - **TanStack Query 5.90** - Server state management with caching
 - **React Hook Form 7.67** - Performant form state
 - **Zod 4.1** - TypeScript-first schema validation
 
 #### Audio & Music
+
 - **Tone.js 14.9** - Web Audio API framework for synthesis
 - **WaveSurfer.js 7.8** - Waveform visualization
 - **OpenSheetMusicDisplay 1.9** - Music notation rendering
@@ -147,12 +156,14 @@ User Action → Optimistic UI Update → Edge Function → Database
 ### Backend Stack
 
 #### Platform
+
 - **Lovable Cloud** - Supabase-based backend platform
 - **PostgreSQL** - Primary database with JSONB support
 - **Edge Functions** - Deno-based serverless functions (100+)
 - **Supabase Storage** - Object storage for audio files
 
 #### External Services
+
 - **Suno AI v5** - Music generation API
 - **Telegram Bot API** - Bot commands and notifications
 - **Telegram Mini App SDK 8.0** - Native app integration
@@ -160,18 +171,21 @@ User Action → Optimistic UI Update → Edge Function → Database
 ### Development Tools
 
 #### Testing
+
 - **Jest 30.2** - Unit testing framework
 - **Playwright 1.57** - E2E testing
 - **Vitest 4.0** - Alternative test runner with browser support
 - **@testing-library/react 16.3** - React component testing
 
 #### Quality
+
 - **ESLint** - Code quality and consistency
 - **Prettier** - Code formatting
 - **TypeScript Strict Mode** - Maximum type safety
 - **Lighthouse CI** - Performance monitoring
 
 #### Build Optimization
+
 - **Rollup** - Module bundler with tree-shaking
 - **Terser** - JavaScript minification
 - **vite-plugin-compression** - Gzip/Brotli compression
@@ -207,6 +221,7 @@ App (Router + Providers)
 ### Component Organization
 
 #### Directory Structure
+
 ```
 src/components/
 ├── ui/                    # shadcn/ui primitives (50+ components)
@@ -248,6 +263,7 @@ src/components/
 #### Component Patterns
 
 **1. Lazy Loading Pattern**
+
 ```typescript
 // App.tsx
 const Library = lazy(() => import("./pages/Library"));
@@ -264,6 +280,7 @@ const AdminDashboard = lazy(() => import(
 ```
 
 **2. Compound Component Pattern**
+
 ```typescript
 // TrackCard component
 export const TrackCard = ({ track }) => (
@@ -279,6 +296,7 @@ export const TrackCard = ({ track }) => (
 ```
 
 **3. Render Props Pattern**
+
 ```typescript
 // VirtualizedList
 <Virtuoso
@@ -294,24 +312,28 @@ export const TrackCard = ({ track }) => (
 #### Hook Categories (13 categories, 263 hooks)
 
 **Audio System** (`src/hooks/audio/` - 25+ hooks)
+
 - Player state and control
 - Playback queue management
 - Audio visualization and analysis
 - Performance monitoring
 
 **Studio & Production** (`src/hooks/studio/` - 28+ hooks)
+
 - Multi-track audio engine
 - Effects chain processing
 - Mix export and rendering
 - MIDI synchronization
 
 **Generation** (`src/hooks/generation/` - 8+ hooks)
+
 - Form management with auto-save
 - Progress tracking
 - Task synchronization
 - Failed generation recovery
 
 **Social & Engagement** (`src/hooks/social/` - 8+ hooks)
+
 - Following system
 - Activity feed
 - Comments and likes
@@ -322,6 +344,7 @@ export const TrackCard = ({ track }) => (
 ### Routing Architecture
 
 #### Route Structure
+
 ```typescript
 // Protected routes with MainLayout (BottomNavigation)
 <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
@@ -342,6 +365,7 @@ export const TrackCard = ({ track }) => (
 ```
 
 #### Deep Linking
+
 ```typescript
 // Telegram deep link format
 t.me/AIMusicVerseBot/app?startapp=track_<trackId>
@@ -362,7 +386,8 @@ Total: **100+ functions** organized by domain
 
 #### Core Categories
 
-**1. Music Generation** (suno-*.ts)
+**1. Music Generation** (suno-\*.ts)
+
 - `suno-music-generate` - Main generation function
 - `suno-remix` - Track remixing
 - `suno-extend` - Track extension
@@ -371,30 +396,35 @@ Total: **100+ functions** organized by domain
 - `suno-convert-wav` - Audio conversion
 - `suno-upload-cover` - Cover image upload
 
-**2. AI Assistants** (ai-*.ts)
+**2. AI Assistants** (ai-\*.ts)
+
 - `ai-lyrics-assistant` - Lyrics AI helper (10+ tools)
 - `ai-lyrics-edit` - Lyrics editing AI
 - `ai-blog-assistant` - Blog content generation
 
-**3. Audio Analysis** (analyze-*.ts)
+**3. Audio Analysis** (analyze-\*.ts)
+
 - `analyze-audio` - BPM, key, genre detection
 - `analyze-audio-flamingo` - Advanced analysis
 - `analyze-music-emotion` - Emotion mapping
 - `analyze-reference-audio` - Reference comparison
 - `analyze-track-context` - Track context analysis
 
-**4. Telegram Integration** (telegram-*.ts, bot-*.ts)
+**4. Telegram Integration** (telegram-_.ts, bot-_.ts)
+
 - `telegram-auth` - Authentication validation
 - `bot-api` - Bot command handler
 - `broadcast-notification` - Push notifications
 - `broadcast-feature` - Feature announcements
 
-**5. Transcription** (transcribe-*.ts)
+**5. Transcription** (transcribe-\*.ts)
+
 - `transcribe-lyrics` - Speech to lyrics
 - `transcribe-midi` - Audio to MIDI
 - `extract-lyrics-from-stem` - Lyric extraction
 
 **6. System & Admin** (various)
+
 - `health-check` - System health monitoring
 - `health-alert` - Health alerts
 - `audit-log` - Activity logging
@@ -403,7 +433,8 @@ Total: **100+ functions** organized by domain
 - `cleanup-orphaned-data` - Data cleanup
 - `send-admin-message` - Admin messaging
 
-**7. Payment** (stars-*.ts)
+**7. Payment** (stars-\*.ts)
+
 - `stars-webhook` - Telegram Stars webhook
 - `stars-admin-transactions` - Transaction tracking
 
@@ -411,50 +442,51 @@ Total: **100+ functions** organized by domain
 
 ```typescript
 // Typical edge function structure
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { createClient } from '@supabase/supabase-js';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "@supabase/supabase-js";
 
 // CORS headers for Mini App
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 serve(async (req) => {
   // Handle CORS preflight
-  if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders });
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
   }
 
   try {
     // Validate authentication
-    const authHeader = req.headers.get('Authorization');
+    const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
-      throw new Error('No authorization header');
+      throw new Error("No authorization header");
     }
 
     // Initialize Supabase client
-    const supabase = createClient(
-      Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-      { global: { headers: { Authorization: authHeader } } }
-    );
+    const supabase = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_ANON_KEY") ?? "", {
+      global: { headers: { Authorization: authHeader } },
+    });
 
     // Verify user
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError || !user) throw new Error('Invalid user');
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+    if (userError || !user) throw new Error("Invalid user");
 
     // Business logic
     const { data, error } = await performOperation();
 
     // Return response
     return new Response(JSON.stringify({ data }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 400,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });
@@ -463,6 +495,7 @@ serve(async (req) => {
 ### Database Functions & Triggers
 
 #### RPC Functions
+
 ```sql
 -- Example: Get user statistics
 CREATE OR REPLACE FUNCTION get_user_stats(user_id UUID)
@@ -487,6 +520,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 ```
 
 #### Database Triggers
+
 ```sql
 -- Auto-update playlist track count
 CREATE TRIGGER update_playlist_count
@@ -524,6 +558,7 @@ users (profiles)
 ### Core Tables
 
 #### Users & Profiles
+
 ```sql
 -- profiles table (extends auth.users)
 CREATE TABLE profiles (
@@ -540,6 +575,7 @@ CREATE TABLE profiles (
 ```
 
 #### Tracks & Versions
+
 ```sql
 -- Main tracks table
 CREATE TABLE tracks (
@@ -583,6 +619,7 @@ CREATE TABLE track_change_log (
 ```
 
 #### Audio Analysis
+
 ```sql
 CREATE TABLE audio_analysis (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -600,6 +637,7 @@ CREATE TABLE audio_analysis (
 ```
 
 #### Social Features
+
 ```sql
 -- Following system
 CREATE TABLE user_follows (
@@ -634,6 +672,7 @@ CREATE TABLE track_likes (
 ### Row-Level Security (RLS) Policies
 
 #### Public Content Policy
+
 ```sql
 -- Anyone can read public tracks
 CREATE POLICY "Public tracks are viewable by everyone"
@@ -647,6 +686,7 @@ USING (auth.uid() = user_id);
 ```
 
 #### Write Policies
+
 ```sql
 -- Users can only insert their own tracks
 CREATE POLICY "Users can insert own tracks"
@@ -660,6 +700,7 @@ USING (auth.uid() = user_id);
 ```
 
 #### Security-Definer Functions
+
 ```sql
 -- Safely increment play count (bypasses RLS)
 CREATE OR REPLACE FUNCTION increment_play_count(track_uuid UUID)
@@ -679,6 +720,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 ### Suno AI Integration
 
 #### API Flow
+
 ```typescript
 // 1. Frontend initiates generation
 const generateMusic = async (prompt: string, style: string) => {
@@ -720,6 +762,7 @@ supabase
 ```
 
 #### Streaming Preview
+
 ```typescript
 // Play streaming preview while generation in progress
 const { streaming_url } = generationTask;
@@ -732,40 +775,40 @@ if (streaming_url) {
 ### Telegram Integration
 
 #### Authentication Flow
+
 ```typescript
 // 1. User opens Mini App
 const initData = window.Telegram.WebApp.initData;
 const initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
 
 // 2. Send to edge function for validation
-const { data } = await supabase.functions.invoke('telegram-auth', {
-  body: { initData, user: initDataUnsafe.user }
+const { data } = await supabase.functions.invoke("telegram-auth", {
+  body: { initData, user: initDataUnsafe.user },
 });
 
 // 3. Edge function validates HMAC signature
 const isValid = validateTelegramWebAppData(initData, BOT_TOKEN);
 
 // 4. Create/update user profile
-const { data: profile } = await supabase
-  .from('profiles')
-  .upsert({
-    telegram_id: user.id,
-    username: user.username,
-    display_name: user.first_name
-  });
+const { data: profile } = await supabase.from("profiles").upsert({
+  telegram_id: user.id,
+  username: user.username,
+  display_name: user.first_name,
+});
 
 // 5. Return session token
 return { session: data.session, user: profile };
 ```
 
 #### Bot Commands
+
 ```typescript
 // Bot command handler (bot-api edge function)
 const commands = {
-  '/start': handleStart,
-  '/generate': handleGenerate,
-  '/library': handleLibrary,
-  '/help': handleHelp,
+  "/start": handleStart,
+  "/generate": handleGenerate,
+  "/library": handleLibrary,
+  "/help": handleHelp,
 };
 
 // Generate command example
@@ -774,10 +817,8 @@ async function handleGenerate(chatId: number, prompt: string) {
   const task = await generateMusic(prompt);
 
   // Send inline keyboard
-  await sendMessage(chatId, 'Generating your track...', {
-    inline_keyboard: [[
-      { text: 'Open App', web_app: { url: APP_URL } }
-    ]]
+  await sendMessage(chatId, "Generating your track...", {
+    inline_keyboard: [[{ text: "Open App", web_app: { url: APP_URL } }]],
   });
 
   // Send notification when complete
@@ -786,30 +827,29 @@ async function handleGenerate(chatId: number, prompt: string) {
 ```
 
 #### Notifications
+
 ```typescript
 // Send notification via edge function
 const sendNotification = async (userId: string, trackId: string) => {
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('telegram_id')
-    .eq('id', userId)
-    .single();
+  const { data: profile } = await supabase.from("profiles").select("telegram_id").eq("id", userId).single();
 
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: profile.telegram_id,
-      text: '🎵 Your track is ready!',
+      text: "🎵 Your track is ready!",
       reply_markup: {
-        inline_keyboard: [[
-          {
-            text: 'Listen Now',
-            web_app: { url: `${APP_URL}?startapp=track_${trackId}` }
-          }
-        ]]
-      }
-    })
+        inline_keyboard: [
+          [
+            {
+              text: "Listen Now",
+              web_app: { url: `${APP_URL}?startapp=track_${trackId}` },
+            },
+          ],
+        ],
+      },
+    }),
   });
 };
 ```
@@ -821,6 +861,7 @@ const sendNotification = async (userId: string, trackId: string) => {
 ### Zustand Stores
 
 #### Player Store (usePlayerState.ts)
+
 ```typescript
 interface PlayerState {
   // Active playback
@@ -833,7 +874,7 @@ interface PlayerState {
   queue: Track[];
   currentIndex: number;
   shuffle: boolean;
-  repeat: 'off' | 'one' | 'all';
+  repeat: "off" | "one" | "all";
 
   // Audio settings
   volume: number;
@@ -858,11 +899,12 @@ const usePlayerStore = create<PlayerState>()(
       volume: 1,
 
       // Actions with immer-like syntax
-      playTrack: (track) => set({
-        activeTrack: track,
-        isPlaying: true,
-        currentIndex: get().queue.findIndex(t => t.id === track.id)
-      }),
+      playTrack: (track) =>
+        set({
+          activeTrack: track,
+          isPlaying: true,
+          currentIndex: get().queue.findIndex((t) => t.id === track.id),
+        }),
 
       pauseTrack: () => set({ isPlaying: false }),
 
@@ -872,21 +914,22 @@ const usePlayerStore = create<PlayerState>()(
         set({
           currentIndex: nextIndex,
           activeTrack: queue[nextIndex],
-          isPlaying: true
+          isPlaying: true,
         });
       },
 
       // ... more actions
     }),
     {
-      name: 'player-state',
+      name: "player-state",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 ```
 
 #### Studio Store (useUnifiedStudioStore.ts)
+
 ```typescript
 interface UnifiedStudioState {
   // Project
@@ -920,46 +963,41 @@ interface UnifiedStudioState {
 ### TanStack Query (React Query)
 
 #### Configuration
+
 ```typescript
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 1000 * 60 * 5, // 5 minutes
-      gcTime: 1000 * 60 * 10,   // 10 minutes
+      gcTime: 1000 * 60 * 10, // 10 minutes
       retry: 1,
       refetchOnWindowFocus: false,
-      refetchOnReconnect: 'always',
+      refetchOnReconnect: "always",
     },
   },
 });
 ```
 
 #### Query Patterns
+
 ```typescript
 // Basic query
 const { data: tracks } = useQuery({
-  queryKey: ['tracks', userId],
+  queryKey: ["tracks", userId],
   queryFn: async () => {
-    const { data } = await supabase
-      .from('tracks')
-      .select('*')
-      .eq('user_id', userId);
+    const { data } = await supabase.from("tracks").select("*").eq("user_id", userId);
     return data;
   },
   enabled: !!userId,
 });
 
 // Infinite query
-const {
-  data,
-  fetchNextPage,
-  hasNextPage,
-} = useInfiniteQuery({
-  queryKey: ['tracks', 'infinite'],
+const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+  queryKey: ["tracks", "infinite"],
   queryFn: async ({ pageParam = 0 }) => {
     const { data } = await supabase
-      .from('tracks')
-      .select('*')
+      .from("tracks")
+      .select("*")
       .range(pageParam, pageParam + 20);
     return data;
   },
@@ -971,19 +1009,17 @@ const {
 // Mutation with optimistic update
 const likeMutation = useMutation({
   mutationFn: async (trackId: string) => {
-    return await supabase
-      .from('track_likes')
-      .insert({ track_id: trackId, user_id: userId });
+    return await supabase.from("track_likes").insert({ track_id: trackId, user_id: userId });
   },
   onMutate: async (trackId) => {
     // Cancel outgoing refetches
-    await queryClient.cancelQueries(['track', trackId]);
+    await queryClient.cancelQueries(["track", trackId]);
 
     // Snapshot previous value
-    const previous = queryClient.getQueryData(['track', trackId]);
+    const previous = queryClient.getQueryData(["track", trackId]);
 
     // Optimistically update
-    queryClient.setQueryData(['track', trackId], (old: Track) => ({
+    queryClient.setQueryData(["track", trackId], (old: Track) => ({
       ...old,
       likes_count: old.likes_count + 1,
     }));
@@ -992,11 +1028,11 @@ const likeMutation = useMutation({
   },
   onError: (err, trackId, context) => {
     // Rollback on error
-    queryClient.setQueryData(['track', trackId], context?.previous);
+    queryClient.setQueryData(["track", trackId], context?.previous);
   },
   onSuccess: (data, trackId) => {
     // Invalidate to sync with server
-    queryClient.invalidateQueries(['track', trackId]);
+    queryClient.invalidateQueries(["track", trackId]);
   },
 });
 ```
@@ -1057,10 +1093,10 @@ export function useStemAudioEngine(stems: Stem[]) {
 
   // Create audio elements for each stem
   useEffect(() => {
-    stems.forEach(stem => {
+    stems.forEach((stem) => {
       if (!audioElements.current.has(stem.id)) {
         const audio = new Audio(stem.url);
-        audio.preload = 'auto';
+        audio.preload = "auto";
         audioElements.current.set(stem.id, audio);
       }
     });
@@ -1068,15 +1104,14 @@ export function useStemAudioEngine(stems: Stem[]) {
 
   // Synchronization with drift detection
   const syncStems = useCallback(() => {
-    const times = Array.from(audioElements.current.values())
-      .map(audio => audio.currentTime);
+    const times = Array.from(audioElements.current.values()).map((audio) => audio.currentTime);
 
     const avgTime = times.reduce((a, b) => a + b, 0) / times.length;
-    const maxDrift = Math.max(...times.map(t => Math.abs(t - avgTime)));
+    const maxDrift = Math.max(...times.map((t) => Math.abs(t - avgTime)));
 
     // Re-sync if drift > 0.1s
     if (maxDrift > 0.1) {
-      audioElements.current.forEach(audio => {
+      audioElements.current.forEach((audio) => {
         audio.currentTime = avgTime;
       });
     }
@@ -1093,8 +1128,8 @@ export function useStemAudioEngine(stems: Stem[]) {
   }, [syncStems]);
 
   return {
-    play: () => audioElements.current.forEach(a => a.play()),
-    pause: () => audioElements.current.forEach(a => a.pause()),
+    play: () => audioElements.current.forEach((a) => a.play()),
+    pause: () => audioElements.current.forEach((a) => a.pause()),
     setVolume: (stemId: string, volume: number) => {
       const audio = audioElements.current.get(stemId);
       if (audio) audio.volume = volume;
@@ -1112,8 +1147,8 @@ class AudioCache {
   private maxSize = 500 * 1024 * 1024; // 500MB
 
   async get(url: string): Promise<ArrayBuffer | null> {
-    const tx = this.db!.transaction('audio', 'readonly');
-    const store = tx.objectStore('audio');
+    const tx = this.db!.transaction("audio", "readonly");
+    const store = tx.objectStore("audio");
     const result = await store.get(url);
     return result?.buffer || null;
   }
@@ -1122,8 +1157,8 @@ class AudioCache {
     // LRU eviction if over limit
     await this.evictIfNeeded(buffer.byteLength);
 
-    const tx = this.db!.transaction('audio', 'readwrite');
-    const store = tx.objectStore('audio');
+    const tx = this.db!.transaction("audio", "readwrite");
+    const store = tx.objectStore("audio");
     await store.put({
       url,
       buffer,
@@ -1153,27 +1188,24 @@ class AudioCache {
 ### Authentication
 
 **Telegram WebApp Validation**
+
 ```typescript
 // telegram-auth edge function
 function validateTelegramWebAppData(initData: string, botToken: string): boolean {
   const parsed = new URLSearchParams(initData);
-  const hash = parsed.get('hash');
-  parsed.delete('hash');
+  const hash = parsed.get("hash");
+  parsed.delete("hash");
 
   // Sort and join
   const dataCheckString = Array.from(parsed.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, value]) => `${key}=${value}`)
-    .join('\n');
+    .join("\n");
 
   // HMAC validation
-  const secretKey = crypto.createHmac('sha256', 'WebAppData')
-    .update(botToken)
-    .digest();
+  const secretKey = crypto.createHmac("sha256", "WebAppData").update(botToken).digest();
 
-  const calculatedHash = crypto.createHmac('sha256', secretKey)
-    .update(dataCheckString)
-    .digest('hex');
+  const calculatedHash = crypto.createHmac("sha256", secretKey).update(dataCheckString).digest("hex");
 
   return hash === calculatedHash;
 }
@@ -1182,6 +1214,7 @@ function validateTelegramWebAppData(initData: string, botToken: string): boolean
 ### Row-Level Security (RLS)
 
 **Enable RLS on all tables**
+
 ```sql
 ALTER TABLE tracks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE playlists ENABLE ROW LEVEL SECURITY;
@@ -1189,6 +1222,7 @@ ALTER TABLE track_likes ENABLE ROW LEVEL SECURITY;
 ```
 
 **Policy Examples**
+
 ```sql
 -- Read own + public
 CREATE POLICY "Read own and public tracks"
@@ -1211,12 +1245,11 @@ USING (auth.uid() = user_id);
 ### Input Validation
 
 **Zod Schemas**
+
 ```typescript
 const GenerateFormSchema = z.object({
-  prompt: z.string()
-    .min(10, 'Prompt must be at least 10 characters')
-    .max(500, 'Prompt must be under 500 characters'),
-  style: z.string().min(1, 'Style is required'),
+  prompt: z.string().min(10, "Prompt must be at least 10 characters").max(500, "Prompt must be under 500 characters"),
+  style: z.string().min(1, "Style is required"),
   customMode: z.boolean(),
   lyrics: z.string().optional(),
 });
@@ -1225,12 +1258,13 @@ type GenerateFormData = z.infer<typeof GenerateFormSchema>;
 ```
 
 **DOMPurify for HTML Sanitization**
+
 ```typescript
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 const sanitizedContent = DOMPurify.sanitize(userInput, {
-  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a'],
-  ALLOWED_ATTR: ['href'],
+  ALLOWED_TAGS: ["b", "i", "em", "strong", "a"],
+  ALLOWED_ATTR: ["href"],
 });
 ```
 
@@ -1241,6 +1275,7 @@ const sanitizedContent = DOMPurify.sanitize(userInput, {
 ### Code Splitting
 
 **Vite Configuration**
+
 ```typescript
 // vite.config.ts
 export default defineConfig({
@@ -1249,17 +1284,19 @@ export default defineConfig({
       output: {
         manualChunks: {
           // Vendor chunks (better caching)
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-tone': ['tone'],
-          'vendor-wavesurfer': ['wavesurfer.js'],
-          'vendor-query': ['@tanstack/react-query'],
-          'vendor-radix': [/* all @radix-ui/* */],
+          "vendor-react": ["react", "react-dom", "react-router-dom"],
+          "vendor-tone": ["tone"],
+          "vendor-wavesurfer": ["wavesurfer.js"],
+          "vendor-query": ["@tanstack/react-query"],
+          "vendor-radix": [
+            /* all @radix-ui/* */
+          ],
 
           // Feature chunks
-          'page-stem-studio': ['/src/pages/studio-v2/UnifiedStudioPage'],
-          'page-admin': ['/src/pages/AdminDashboard'],
-          'feature-stem-studio': ['/src/components/stem-studio'],
-          'feature-lyrics': ['/src/components/generate-form/lyrics-chat'],
+          "page-stem-studio": ["/src/pages/studio-v2/UnifiedStudioPage"],
+          "page-admin": ["/src/pages/AdminDashboard"],
+          "feature-stem-studio": ["/src/components/stem-studio"],
+          "feature-lyrics": ["/src/components/generate-form/lyrics-chat"],
         },
       },
     },
@@ -1268,6 +1305,7 @@ export default defineConfig({
 ```
 
 **Bundle Sizes (Brotli)**
+
 - index.css: 19.68 KB
 - index.js: 50.94 KB
 - feature-generate: 54.85 KB
@@ -1277,14 +1315,19 @@ export default defineConfig({
 ### Lazy Loading
 
 **Component Lazy Loading**
+
 ```typescript
-const AdminDashboard = lazy(() => import(
-  /* webpackChunkName: "admin" */
-  "./pages/AdminDashboard"
-));
+const AdminDashboard = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "admin" */
+      "./pages/AdminDashboard"
+    ),
+);
 ```
 
 **Image Lazy Loading**
+
 ```typescript
 // LazyImage component
 export function LazyImage({ src, alt }) {
@@ -1308,6 +1351,7 @@ export function LazyImage({ src, alt }) {
 ### Virtual Scrolling
 
 **react-virtuoso for Large Lists**
+
 ```typescript
 import { Virtuoso } from 'react-virtuoso';
 
@@ -1323,15 +1367,15 @@ import { Virtuoso } from 'react-virtuoso';
 ### Memoization
 
 **useMemo for Expensive Computations**
+
 ```typescript
 const filteredTracks = useMemo(() => {
-  return tracks.filter(t =>
-    t.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  return tracks.filter((t) => t.title.toLowerCase().includes(searchTerm.toLowerCase()));
 }, [tracks, searchTerm]);
 ```
 
 **React.memo for Component Optimization**
+
 ```typescript
 export const TrackCard = React.memo(({ track }) => {
   return <Card>...</Card>;
@@ -1345,6 +1389,7 @@ export const TrackCard = React.memo(({ track }) => {
 ### Build Process
 
 **Production Build**
+
 ```bash
 npm run build
 # - TypeScript compilation
@@ -1356,6 +1401,7 @@ npm run build
 ```
 
 **Build Optimizations**
+
 - Tree-shaking unused code
 - Dead code elimination
 - Scope hoisting
@@ -1393,17 +1439,18 @@ VITE_SUNO_API_KEY=xxx (server-side only)
 
 ### A. Performance Benchmarks
 
-| Metric | Target | Current |
-|--------|--------|---------|
-| First Contentful Paint | < 1.5s | 1.2s |
-| Largest Contentful Paint | < 2.5s | 2.1s |
-| Time to Interactive | < 3.5s | 3.0s |
-| Cumulative Layout Shift | < 0.1 | 0.05 |
-| Bundle Size (Brotli) | < 500KB | ~400KB |
+| Metric                   | Target  | Current |
+| ------------------------ | ------- | ------- |
+| First Contentful Paint   | < 1.5s  | 1.2s    |
+| Largest Contentful Paint | < 2.5s  | 2.1s    |
+| Time to Interactive      | < 3.5s  | 3.0s    |
+| Cumulative Layout Shift  | < 0.1   | 0.05    |
+| Bundle Size (Brotli)     | < 500KB | ~400KB  |
 
 ### B. Key Decisions (ADRs)
 
 See `/ADR/` directory for Architecture Decision Records:
+
 - ADR-001: Technology Stack Choice
 - ADR-002: Frontend Architecture And Stack
 - ADR-003: Performance Optimization Architecture

@@ -14,19 +14,19 @@
 - [handleDragEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L92) (1 connections)
 - [{ isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L45) (1 connections)
 - [[isSaving, setIsSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L42) (1 connections)
-- [{ 
-    queue, 
-    currentIndex, 
-    reorderQueue, 
-    removeFromQueue, 
-    clearQueue, 
-    versionMode, 
-    toggleVersionMode,
-    shuffle,
-    repeat,
-    toggleShuffle,
-    toggleRepeat,
-    activeTrack
+- [{
+  queue,
+  currentIndex,
+  reorderQueue,
+  removeFromQueue,
+  clearQueue,
+  versionMode,
+  toggleVersionMode,
+  shuffle,
+  repeat,
+  toggleShuffle,
+  toggleRepeat,
+  activeTrack
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L47) (1 connections)
 - [sensors](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L81) (1 connections)
 - [totalDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L71) (1 connections)
@@ -48,4 +48,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

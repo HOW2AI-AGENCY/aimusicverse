@@ -1,21 +1,21 @@
 /**
  * ProjectDialogs - All dialog components for ProjectDetail
- * 
+ *
  * Consolidates dialog rendering to reduce noise in main component
  */
 
-import { memo } from 'react';
-import { AIActionsDialog } from '@/components/project/AIActionsDialog';
-import { ProjectSettingsSheet } from '@/components/project/ProjectSettingsSheet';
-import { AddTrackDialog } from '@/components/project/AddTrackDialog';
-import { LyricsPreviewSheet } from '@/components/project/LyricsPreviewSheet';
-import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
-import { ProjectMediaGenerator } from '@/components/project/ProjectMediaGenerator';
-import { PublishProjectDialog } from '@/components/project/PublishProjectDialog';
-import type { UseProjectDetailStateReturn } from '@/hooks/project/useProjectDetailState';
-import { useQueryClient } from '@tanstack/react-query';
-import type { Project } from '@/hooks/useProjects';
-import type { ProjectTrack } from '@/hooks/useProjectTracks';
+import { memo } from "react";
+import { AIActionsDialog } from "@/components/project/AIActionsDialog";
+import { ProjectSettingsSheet } from "@/components/project/ProjectSettingsSheet";
+import { AddTrackDialog } from "@/components/project/AddTrackDialog";
+import { LyricsPreviewSheet } from "@/components/project/LyricsPreviewSheet";
+import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
+import { ProjectMediaGenerator } from "@/components/project/ProjectMediaGenerator";
+import { PublishProjectDialog } from "@/components/project/PublishProjectDialog";
+import type { UseProjectDetailStateReturn } from "@/hooks/project/useProjectDetailState";
+import { useQueryClient } from "@tanstack/react-query";
+import type { Project } from "@/hooks/useProjects";
+import type { ProjectTrack } from "@/hooks/useProjectTracks";
 
 interface ProjectDialogsProps {
   project: Project;
@@ -41,13 +41,9 @@ export const ProjectDialogs = memo(function ProjectDialogs({
         projectId={project.id}
         onApply={state.handleApplyUpdates}
       />
-      
+
       {/* Project Settings */}
-      <ProjectSettingsSheet
-        open={state.settingsOpen}
-        onOpenChange={state.setSettingsOpen}
-        project={project}
-      />
+      <ProjectSettingsSheet open={state.settingsOpen} onOpenChange={state.setSettingsOpen} project={project} />
 
       {/* Add Track Dialog */}
       <AddTrackDialog
@@ -73,7 +69,7 @@ export const ProjectDialogs = memo(function ProjectDialogs({
           projectTitle: project.title,
           genre: project.genre || undefined,
           mood: project.mood || undefined,
-          language: project.language as 'ru' | 'en' | undefined,
+          language: project.language as "ru" | "en" | undefined,
           concept: project.concept || undefined,
         }}
       />
@@ -85,16 +81,16 @@ export const ProjectDialogs = memo(function ProjectDialogs({
         onLyricsGenerated={state.handleLyricsGenerated}
         initialGenre={project.genre || undefined}
         initialMood={project.mood ? [project.mood] : undefined}
-        initialLanguage={project.language as 'ru' | 'en' | undefined}
+        initialLanguage={project.language as "ru" | "en" | undefined}
         projectContext={{
           projectId: project.id,
           projectTitle: project.title,
           genre: project.genre || undefined,
           mood: project.mood || undefined,
-          language: project.language as 'ru' | 'en' | undefined,
+          language: project.language as "ru" | "en" | undefined,
           concept: project.concept || undefined,
           targetAudience: project.target_audience || undefined,
-          existingTracks: tracks?.map(t => ({
+          existingTracks: tracks?.map((t) => ({
             position: t.position,
             title: t.title,
             stylePrompt: t.style_prompt || undefined,
@@ -104,21 +100,30 @@ export const ProjectDialogs = memo(function ProjectDialogs({
             recommendedStructure: t.recommended_structure || undefined,
             notes: t.notes || undefined,
             lyrics: t.lyrics || undefined,
-            lyricsStatus: t.lyrics_status as 'draft' | 'prompt' | 'generated' | 'approved' | undefined,
+            lyricsStatus: t.lyrics_status as "draft" | "prompt" | "generated" | "approved" | undefined,
           })),
         }}
-        trackContext={state.selectedTrackForLyrics ? {
-          position: state.selectedTrackForLyrics.position,
-          title: state.selectedTrackForLyrics.title,
-          stylePrompt: state.selectedTrackForLyrics.style_prompt || undefined,
-          draftLyrics: state.selectedTrackForLyrics.lyrics || undefined,
-          generatedLyrics: state.selectedTrackForLyrics.linked_track?.lyrics || undefined,
-          recommendedTags: state.selectedTrackForLyrics.recommended_tags || undefined,
-          recommendedStructure: state.selectedTrackForLyrics.recommended_structure || undefined,
-          notes: state.selectedTrackForLyrics.notes || undefined,
-          lyrics: state.selectedTrackForLyrics.lyrics || undefined,
-          lyricsStatus: state.selectedTrackForLyrics.lyrics_status as 'draft' | 'prompt' | 'generated' | 'approved' | undefined,
-        } : undefined}
+        trackContext={
+          state.selectedTrackForLyrics
+            ? {
+                position: state.selectedTrackForLyrics.position,
+                title: state.selectedTrackForLyrics.title,
+                stylePrompt: state.selectedTrackForLyrics.style_prompt || undefined,
+                draftLyrics: state.selectedTrackForLyrics.lyrics || undefined,
+                generatedLyrics: state.selectedTrackForLyrics.linked_track?.lyrics || undefined,
+                recommendedTags: state.selectedTrackForLyrics.recommended_tags || undefined,
+                recommendedStructure: state.selectedTrackForLyrics.recommended_structure || undefined,
+                notes: state.selectedTrackForLyrics.notes || undefined,
+                lyrics: state.selectedTrackForLyrics.lyrics || undefined,
+                lyricsStatus: state.selectedTrackForLyrics.lyrics_status as
+                  | "draft"
+                  | "prompt"
+                  | "generated"
+                  | "approved"
+                  | undefined,
+              }
+            : undefined
+        }
       />
 
       {/* Project Media Generator */}
@@ -133,14 +138,18 @@ export const ProjectDialogs = memo(function ProjectDialogs({
           concept: project.concept,
           cover_url: project.cover_url,
         }}
-        track={state.selectedTrackForMedia ? {
-          id: state.selectedTrackForMedia.id,
-          title: state.selectedTrackForMedia.title,
-          style_prompt: state.selectedTrackForMedia.style_prompt,
-          notes: state.selectedTrackForMedia.notes,
-        } : null}
+        track={
+          state.selectedTrackForMedia
+            ? {
+                id: state.selectedTrackForMedia.id,
+                title: state.selectedTrackForMedia.title,
+                style_prompt: state.selectedTrackForMedia.style_prompt,
+                notes: state.selectedTrackForMedia.notes,
+              }
+            : null
+        }
         onCoverGenerated={() => {
-          queryClient.invalidateQueries({ queryKey: ['projects'] });
+          queryClient.invalidateQueries({ queryKey: ["projects"] });
         }}
       />
 

@@ -16,6 +16,7 @@ StorageApiError: mime type application/octet-stream is not supported
 The `project-assets` storage bucket had a restricted list of allowed MIME types that only included common audio, image, and video formats. Music notation file formats were not in the allowed list:
 
 **Missing MIME types:**
+
 - `application/vnd.recordare.musicxml+xml` (MusicXML)
 - `audio/midi` (MIDI files)
 - `application/pdf` (PDF sheet music)
@@ -38,14 +39,14 @@ The `project-assets` storage bucket had a restricted list of allowed MIME types 
 Added support for music notation and transcription file formats to the `project-assets` storage bucket:
 
 ```sql
-UPDATE storage.buckets 
-SET 
+UPDATE storage.buckets
+SET
   allowed_mime_types = ARRAY[
     -- Existing formats
     'audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/ogg', 'audio/webm',
     'image/jpeg', 'image/png', 'image/webp', 'image/gif',
     'video/mp4', 'video/webm',
-    
+
     -- NEW: Music notation formats
     'audio/midi',                                  -- MIDI files
     'audio/x-midi',                                -- MIDI alternative
@@ -67,11 +68,13 @@ WHERE id = 'project-assets';
 Enhanced the file upload logic to ensure proper MIME type handling:
 
 **Changes made:**
+
 1. Create a new typed Blob with the correct MIME type before upload
 2. Add detailed logging to track MIME type transformations
 3. Ensure consistency between Blob type and contentType parameter
 
 **Code changes:**
+
 ```typescript
 // Before: Direct upload of blob from Klang.io API
 const fileBlob = await fileResponse.blob();
@@ -89,6 +92,7 @@ await supabase.storage.upload(fileName, typedBlob, {
 ```
 
 **Benefits:**
+
 - Ensures blob.type matches contentType parameter
 - Improves debugging with detailed logs
 - More explicit about MIME type handling
@@ -99,18 +103,19 @@ await supabase.storage.upload(fileName, typedBlob, {
 
 After the fix, klang.io transcription can now successfully upload all output formats:
 
-| Format | MIME Type | File Extension | Status |
-|--------|-----------|----------------|--------|
-| MIDI | `audio/midi` | `.mid` | ✅ Supported |
-| MIDI Quantized | `audio/midi` | `.mid` | ✅ Supported |
-| MusicXML | `application/vnd.recordare.musicxml+xml` | `.xml` | ✅ Supported |
-| Guitar Pro 5 | `application/octet-stream` | `.gp5` | ✅ Supported |
-| PDF | `application/pdf` | `.pdf` | ✅ Supported |
-| JSON | `application/json` | `.json` | ✅ Supported |
+| Format         | MIME Type                                | File Extension | Status       |
+| -------------- | ---------------------------------------- | -------------- | ------------ |
+| MIDI           | `audio/midi`                             | `.mid`         | ✅ Supported |
+| MIDI Quantized | `audio/midi`                             | `.mid`         | ✅ Supported |
+| MusicXML       | `application/vnd.recordare.musicxml+xml` | `.xml`         | ✅ Supported |
+| Guitar Pro 5   | `application/octet-stream`               | `.gp5`         | ✅ Supported |
+| PDF            | `application/pdf`                        | `.pdf`         | ✅ Supported |
+| JSON           | `application/json`                       | `.json`        | ✅ Supported |
 
 ### Backward Compatibility
 
 ✅ **Full backward compatibility maintained**
+
 - All existing audio, image, and video uploads continue to work
 - No breaking changes to existing functionality
 - Only adds new supported MIME types
@@ -120,13 +125,14 @@ After the fix, klang.io transcription can now successfully upload all output for
 ### Manual Testing Required
 
 1. **Test klang.io transcription with all output formats:**
+
    ```typescript
    // Test with all formats
    const result = await klangioAnalyze({
-     audio_url: 'test_audio.mp3',
-     mode: 'transcription',
-     model: 'guitar',
-     outputs: ['midi', 'midi_quant', 'mxml', 'gp5', 'pdf']
+     audio_url: "test_audio.mp3",
+     mode: "transcription",
+     model: "guitar",
+     outputs: ["midi", "midi_quant", "mxml", "gp5", "pdf"],
    });
    ```
 
@@ -144,6 +150,7 @@ After the fix, klang.io transcription can now successfully upload all output for
 ### Expected Logs
 
 Successful upload should show:
+
 ```
 [klangio] Downloaded mxml: 28024 bytes, type: application/octet-stream
 [klangio] Created typed blob for mxml: 28024 bytes, type: application/vnd.recordare.musicxml+xml
@@ -176,6 +183,7 @@ Edge functions deploy automatically on code push to the repository.
 ## Security Considerations
 
 ✅ **Security maintained:**
+
 - File size limit remains at 50MB
 - All uploads require authentication
 - RLS policies remain unchanged
@@ -197,8 +205,9 @@ Potential enhancements for consideration:
 If issues occur, rollback can be done in two steps:
 
 1. **Revert migration:**
+
    ```sql
-   UPDATE storage.buckets 
+   UPDATE storage.buckets
    SET allowed_mime_types = ARRAY[
      'audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/ogg', 'audio/webm',
      'image/jpeg', 'image/png', 'image/webp', 'image/gif',

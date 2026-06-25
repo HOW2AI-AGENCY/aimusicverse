@@ -30,18 +30,19 @@
 ```typescript
 // Таймаут безопасности
 const initializationTimeout = setTimeout(() => {
-  telegramLogger.warn('Initialization timeout - forcing initialization complete');
+  telegramLogger.warn("Initialization timeout - forcing initialization complete");
   ensureInitialized();
 }, 3000);
 
 // Функция завершения инициализации
 const ensureInitialized = () => {
   setIsInitialized(true);
-  telegramLogger.info('TelegramProvider initialized');
+  telegramLogger.info("TelegramProvider initialized");
 };
 ```
 
 **Что исправлено:**
+
 - ✅ Гарантированное завершение инициализации через 3 секунды
 - ✅ Вызов `ensureInitialized()` во всех путях кода
 - ✅ Очистка таймера при размонтировании
@@ -54,7 +55,7 @@ const ensureInitialized = () => {
 ```typescript
 // Таймаут безопасности для загрузки
 const loadingTimeout = setTimeout(() => {
-  authLogger.warn('Auth loading timeout - forcing loading complete');
+  authLogger.warn("Auth loading timeout - forcing loading complete");
   setLoading(false);
 }, 5000);
 
@@ -63,6 +64,7 @@ clearTimeout(loadingTimeout);
 ```
 
 **Что исправлено:**
+
 - ✅ Принудительное завершение загрузки через 5 секунд
 - ✅ Обработка ошибок для всех асинхронных операций
 - ✅ Debug логирование для отслеживания auth flow
@@ -101,6 +103,7 @@ export const InitializationGuard = ({ children }: InitializationGuardProps) => {
 ```
 
 **Что делает:**
+
 - ✅ Охраняет рендеринг приложения до завершения инициализации
 - ✅ Показывает экран загрузки с сообщением
 - ✅ Собственный таймаут безопасности (3с)
@@ -158,14 +161,14 @@ npm run lint
 
 ### Метрики улучшений
 
-| Метрика | До | После |
-|---------|-----|-------|
-| Черный экран | ❌ Проблема | ✅ Исправлено |
-| Таймауты безопасности | 0 | 3 уровня |
-| Визуальная обратная связь | ❌ Нет | ✅ LoadingScreen |
-| Debug логирование | Минимальное | ✅ Полное |
-| TypeScript ошибки | 0 | 0 |
-| Build статус | ✅ | ✅ |
+| Метрика                   | До          | После            |
+| ------------------------- | ----------- | ---------------- |
+| Черный экран              | ❌ Проблема | ✅ Исправлено    |
+| Таймауты безопасности     | 0           | 3 уровня         |
+| Визуальная обратная связь | ❌ Нет      | ✅ LoadingScreen |
+| Debug логирование         | Минимальное | ✅ Полное        |
+| TypeScript ошибки         | 0           | 0                |
+| Build статус              | ✅          | ✅               |
 
 ---
 
@@ -237,17 +240,17 @@ App Renders Successfully ✅
 
 ```typescript
 // TelegramContext
-telegramLogger.debug('TelegramProvider initialization started');
-telegramLogger.info('TelegramProvider initialized');
-telegramLogger.warn('Initialization timeout reached');
+telegramLogger.debug("TelegramProvider initialization started");
+telegramLogger.info("TelegramProvider initialized");
+telegramLogger.warn("Initialization timeout reached");
 
 // useAuth
-authLogger.debug('Auth state change', { event, hasSession });
-authLogger.warn('Auth loading timeout - forcing loading complete');
+authLogger.debug("Auth state change", { event, hasSession });
+authLogger.warn("Auth loading timeout - forcing loading complete");
 
 // InitializationGuard
-initLogger.debug('InitializationGuard mounted', { isInitialized });
-initLogger.info('Initialization complete - showing content');
+initLogger.debug("InitializationGuard mounted", { isInitialized });
+initLogger.info("Initialization complete - showing content");
 ```
 
 ---

@@ -2,64 +2,62 @@
  * Creator Avatar - Clickable avatar that navigates to creator's profile
  */
 
-import { useNavigate } from 'react-router-dom';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { cn } from '@/lib/utils';
+import { useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { cn } from "@/lib/utils";
 
 interface CreatorAvatarProps {
   userId: string;
   photoUrl?: string | null;
   name?: string | null;
   username?: string | null;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: "xs" | "sm" | "md" | "lg";
   showTooltip?: boolean;
   className?: string;
 }
 
 const sizeClasses = {
-  xs: 'w-5 h-5 text-[8px]',
-  sm: 'w-6 h-6 text-[10px]',
-  md: 'w-8 h-8 text-xs',
-  lg: 'w-10 h-10 text-sm',
+  xs: "w-5 h-5 text-[8px]",
+  sm: "w-6 h-6 text-[10px]",
+  md: "w-8 h-8 text-xs",
+  lg: "w-10 h-10 text-sm",
 };
 
-export function CreatorAvatar({ 
-  userId, 
-  photoUrl, 
-  name, 
+export function CreatorAvatar({
+  userId,
+  photoUrl,
+  name,
   username,
-  size = 'sm',
+  size = "sm",
   showTooltip = true,
-  className 
+  className,
 }: CreatorAvatarProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
 
-  const displayName = name || username || 'Пользователь';
-  const initial = displayName[0]?.toUpperCase() || 'U';
+  const displayName = name || username || "Пользователь";
+  const initial = displayName[0]?.toUpperCase() || "U";
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     navigate(`/profile/${userId}`);
   };
 
   const avatar = (
-    <Avatar 
+    <Avatar
       className={cn(
         sizeClasses[size],
-        'cursor-pointer ring-2 ring-transparent hover:ring-primary/50 transition-all',
-        className
+        "cursor-pointer ring-2 ring-transparent hover:ring-primary/50 transition-all",
+        className,
       )}
       onClick={handleClick}
     >
       {photoUrl && <AvatarImage src={photoUrl} alt={displayName} />}
-      <AvatarFallback className="bg-primary/10 font-medium">
-        {initial}
-      </AvatarFallback>
+      <AvatarFallback className="bg-primary/10 font-medium">{initial}</AvatarFallback>
     </Avatar>
   );
 
@@ -68,9 +66,7 @@ export function CreatorAvatar({
   return (
     <TooltipProvider delayDuration={300}>
       <Tooltip>
-        <TooltipTrigger asChild>
-          {avatar}
-        </TooltipTrigger>
+        <TooltipTrigger asChild>{avatar}</TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
           <p className="font-medium">{displayName}</p>
           <p className="text-muted-foreground text-[10px]">Нажмите, чтобы открыть профиль</p>
@@ -92,22 +88,19 @@ export function CreatorLink({ userId, name, username, className }: CreatorLinkPr
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
 
-  const displayName = name || username || 'Пользователь';
+  const displayName = name || username || "Пользователь";
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     navigate(`/profile/${userId}`);
   };
 
   return (
     <button
       onClick={handleClick}
-      className={cn(
-        'text-muted-foreground hover:text-primary transition-colors truncate text-left',
-        className
-      )}
+      className={cn("text-muted-foreground hover:text-primary transition-colors truncate text-left", className)}
     >
       {displayName}
     </button>

@@ -1,18 +1,18 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { logger } from '@/lib/logger';
+import { useState, useCallback, useRef, useEffect } from "react";
+import { logger } from "@/lib/logger";
 
-type MidiType = typeof import('@tonejs/midi');
-type MidiInstance = InstanceType<typeof import('@tonejs/midi').Midi>;
-type TrackInstance = InstanceType<typeof import('@tonejs/midi').Track>;
+type MidiType = typeof import("@tonejs/midi");
+type MidiInstance = InstanceType<typeof import("@tonejs/midi").Midi>;
+type TrackInstance = InstanceType<typeof import("@tonejs/midi").Track>;
 
 export interface MidiNote {
   id: string;
-  pitch: number;      // MIDI note number (0-127)
-  name: string;       // 'C4', 'D#5', etc.
-  time: number;       // Start time in seconds
-  duration: number;   // Duration in seconds
-  velocity: number;   // 0-127
-  track: number;      // Track index
+  pitch: number; // MIDI note number (0-127)
+  name: string; // 'C4', 'D#5', etc.
+  time: number; // Start time in seconds
+  duration: number; // Duration in seconds
+  velocity: number; // 0-127
+  track: number; // Track index
   selected?: boolean;
 }
 
@@ -44,7 +44,7 @@ interface UseMidiVisualizationReturn {
   resizeNote: (noteId: string, newDuration: number) => void;
   deleteNote: (noteId: string) => void;
   deleteSelectedNotes: () => void;
-  addNote: (note: Omit<MidiNote, 'id'>) => void;
+  addNote: (note: Omit<MidiNote, "id">) => void;
   updateVelocity: (noteId: string, velocity: number) => void;
   // Clipboard
   copySelectedNotes: () => void;
@@ -62,7 +62,7 @@ interface UseMidiVisualizationReturn {
 
 // Helper to convert MIDI note number to note name
 function midiToNoteName(midi: number): string {
-  const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   const octave = Math.floor(midi / 12) - 1;
   const note = noteNames[midi % 12];
   return `${note}${octave}`;
@@ -83,27 +83,30 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   const [error, setError] = useState<Error | null>(null);
   const [selectedNotes, setSelectedNotes] = useState<Set<string>>(new Set());
   const [hasChanges, setHasChanges] = useState(false);
-  
+
   // History for undo/redo
   const [history, setHistory] = useState<MidiNote[][]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
-  
+
   // Clipboard
   const clipboardRef = useRef<MidiNote[]>([]);
-  
+
   const originalMidiRef = useRef<MidiInstance | null>(null);
   const midiModuleRef = useRef<MidiType | null>(null);
   // Push current state to history
-  const pushToHistory = useCallback((newNotes: MidiNote[]) => {
-    setHistory(prev => {
-      const newHistory = prev.slice(0, historyIndex + 1);
-      newHistory.push([...newNotes]);
-      // Limit history to 50 entries
-      if (newHistory.length > 50) newHistory.shift();
-      return newHistory;
-    });
-    setHistoryIndex(prev => Math.min(prev + 1, 49));
-  }, [historyIndex]);
+  const pushToHistory = useCallback(
+    (newNotes: MidiNote[]) => {
+      setHistory((prev) => {
+        const newHistory = prev.slice(0, historyIndex + 1);
+        newHistory.push([...newNotes]);
+        // Limit history to 50 entries
+        if (newHistory.length > 50) newHistory.shift();
+        return newHistory;
+      });
+      setHistoryIndex((prev) => Math.min(prev + 1, 49));
+    },
+    [historyIndex],
+  );
 
   const parseMidi = useCallback((midi: MidiInstance) => {
     const allNotes: MidiNote[] = [];
@@ -123,7 +126,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     // Parse tracks
     midi.tracks.forEach((track: TrackInstance, trackIndex: number) => {
       const trackNotes: MidiNote[] = [];
-      
+
       track.notes.forEach((note) => {
         const midiNote: MidiNote = {
           id: generateNoteId(),
@@ -141,7 +144,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
       if (trackNotes.length > 0) {
         parsedTracks.push({
           name: track.name || `Track ${trackIndex + 1}`,
-          instrument: track.instrument.name || 'Unknown',
+          instrument: track.instrument.name || "Unknown",
           notes: trackNotes,
           channel: track.channel || 0,
         });
@@ -149,10 +152,8 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     });
 
     // Calculate duration
-    const maxTime = allNotes.reduce((max, note) => 
-      Math.max(max, note.time + note.duration), 0
-    );
-    
+    const maxTime = allNotes.reduce((max, note) => Math.max(max, note.time + note.duration), 0);
+
     setNotes(allNotes);
     setTracks(parsedTracks);
     setDuration(maxTime);
@@ -161,59 +162,65 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     originalMidiRef.current = midi;
   }, []);
 
-  const loadMidi = useCallback(async (url: string) => {
-    setIsLoading(true);
-    setError(null);
+  const loadMidi = useCallback(
+    async (url: string) => {
+      setIsLoading(true);
+      setError(null);
 
-    try {
-      // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
-      if (!midiModuleRef.current) {
-        midiModuleRef.current = await import('@tonejs/midi');
+      try {
+        // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
+        if (!midiModuleRef.current) {
+          midiModuleRef.current = await import("@tonejs/midi");
+        }
+        const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch MIDI file");
+
+        const arrayBuffer = await response.arrayBuffer();
+        const midi = new MidiClass(arrayBuffer);
+        parseMidi(midi);
+        logger.info("MIDI file loaded", { url, tracks: midi.tracks.length });
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error("Unknown error");
+        setError(error);
+        logger.error("Failed to load MIDI", error);
+      } finally {
+        setIsLoading(false);
       }
-      const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
+    },
+    [parseMidi],
+  );
 
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Failed to fetch MIDI file');
+  const loadMidiFromBlob = useCallback(
+    async (blob: Blob) => {
+      setIsLoading(true);
+      setError(null);
 
-      const arrayBuffer = await response.arrayBuffer();
-      const midi = new MidiClass(arrayBuffer);
-      parseMidi(midi);
-      logger.info('MIDI file loaded', { url, tracks: midi.tracks.length });
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error('Unknown error');
-      setError(error);
-      logger.error('Failed to load MIDI', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [parseMidi]);
+      try {
+        // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
+        if (!midiModuleRef.current) {
+          midiModuleRef.current = await import("@tonejs/midi");
+        }
+        const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
 
-  const loadMidiFromBlob = useCallback(async (blob: Blob) => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Dynamically import @tonejs/midi to prevent vendor-audio chunk issues
-      if (!midiModuleRef.current) {
-        midiModuleRef.current = await import('@tonejs/midi');
+        const arrayBuffer = await blob.arrayBuffer();
+        const midi = new MidiClass(arrayBuffer);
+        parseMidi(midi);
+      } catch (err) {
+        const error = err instanceof Error ? err : new Error("Unknown error");
+        setError(error);
+        logger.error("Failed to load MIDI from blob", error);
+      } finally {
+        setIsLoading(false);
       }
-      const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
-
-      const arrayBuffer = await blob.arrayBuffer();
-      const midi = new MidiClass(arrayBuffer);
-      parseMidi(midi);
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error('Unknown error');
-      setError(error);
-      logger.error('Failed to load MIDI from blob', error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [parseMidi]);
+    },
+    [parseMidi],
+  );
 
   // Selection functions
   const selectNote = useCallback((noteId: string, addToSelection = false) => {
-    setSelectedNotes(prev => {
+    setSelectedNotes((prev) => {
       const next = addToSelection ? new Set(prev) : new Set<string>();
       if (prev.has(noteId) && addToSelection) {
         next.delete(noteId);
@@ -224,59 +231,63 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     });
   }, []);
 
-  const selectNotesInRange = useCallback((
-    startTime: number, 
-    endTime: number, 
-    startPitch: number, 
-    endPitch: number
-  ) => {
-    const minTime = Math.min(startTime, endTime);
-    const maxTime = Math.max(startTime, endTime);
-    const minPitch = Math.min(startPitch, endPitch);
-    const maxPitch = Math.max(startPitch, endPitch);
+  const selectNotesInRange = useCallback(
+    (startTime: number, endTime: number, startPitch: number, endPitch: number) => {
+      const minTime = Math.min(startTime, endTime);
+      const maxTime = Math.max(startTime, endTime);
+      const minPitch = Math.min(startPitch, endPitch);
+      const maxPitch = Math.max(startPitch, endPitch);
 
-    const selected = notes
-      .filter(note => 
-        note.time >= minTime && 
-        note.time + note.duration <= maxTime &&
-        note.pitch >= minPitch && 
-        note.pitch <= maxPitch
-      )
-      .map(note => note.id);
+      const selected = notes
+        .filter(
+          (note) =>
+            note.time >= minTime &&
+            note.time + note.duration <= maxTime &&
+            note.pitch >= minPitch &&
+            note.pitch <= maxPitch,
+        )
+        .map((note) => note.id);
 
-    setSelectedNotes(new Set(selected));
-  }, [notes]);
+      setSelectedNotes(new Set(selected));
+    },
+    [notes],
+  );
 
   const clearSelection = useCallback(() => {
     setSelectedNotes(new Set());
   }, []);
 
   const selectAll = useCallback(() => {
-    setSelectedNotes(new Set(notes.map(n => n.id)));
+    setSelectedNotes(new Set(notes.map((n) => n.id)));
   }, [notes]);
 
   // Editing functions
   const moveNote = useCallback((noteId: string, newTime: number, newPitch: number) => {
-    setNotes(prev => prev.map(note => 
-      note.id === noteId 
-        ? { ...note, time: Math.max(0, newTime), pitch: Math.max(0, Math.min(127, newPitch)), name: midiToNoteName(newPitch) }
-        : note
-    ));
+    setNotes((prev) =>
+      prev.map((note) =>
+        note.id === noteId
+          ? {
+              ...note,
+              time: Math.max(0, newTime),
+              pitch: Math.max(0, Math.min(127, newPitch)),
+              name: midiToNoteName(newPitch),
+            }
+          : note,
+      ),
+    );
     setHasChanges(true);
   }, []);
 
   const resizeNote = useCallback((noteId: string, newDuration: number) => {
-    setNotes(prev => prev.map(note => 
-      note.id === noteId 
-        ? { ...note, duration: Math.max(0.01, newDuration) }
-        : note
-    ));
+    setNotes((prev) =>
+      prev.map((note) => (note.id === noteId ? { ...note, duration: Math.max(0.01, newDuration) } : note)),
+    );
     setHasChanges(true);
   }, []);
 
   const deleteNote = useCallback((noteId: string) => {
-    setNotes(prev => prev.filter(note => note.id !== noteId));
-    setSelectedNotes(prev => {
+    setNotes((prev) => prev.filter((note) => note.id !== noteId));
+    setSelectedNotes((prev) => {
       const next = new Set(prev);
       next.delete(noteId);
       return next;
@@ -285,38 +296,36 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   }, []);
 
   const deleteSelectedNotes = useCallback(() => {
-    setNotes(prev => prev.filter(note => !selectedNotes.has(note.id)));
+    setNotes((prev) => prev.filter((note) => !selectedNotes.has(note.id)));
     setSelectedNotes(new Set());
     setHasChanges(true);
   }, [selectedNotes]);
 
-  const addNote = useCallback((note: Omit<MidiNote, 'id'>) => {
+  const addNote = useCallback((note: Omit<MidiNote, "id">) => {
     const newNote: MidiNote = {
       ...note,
       id: generateNoteId(),
       name: midiToNoteName(note.pitch),
     };
-    setNotes(prev => [...prev, newNote]);
+    setNotes((prev) => [...prev, newNote]);
     setHasChanges(true);
   }, []);
 
   const updateVelocity = useCallback((noteId: string, velocity: number) => {
-    setNotes(prev => prev.map(note => 
-      note.id === noteId 
-        ? { ...note, velocity: Math.max(0, Math.min(127, velocity)) }
-        : note
-    ));
+    setNotes((prev) =>
+      prev.map((note) => (note.id === noteId ? { ...note, velocity: Math.max(0, Math.min(127, velocity)) } : note)),
+    );
     setHasChanges(true);
   }, []);
 
   // Clipboard functions
   const copySelectedNotes = useCallback(() => {
-    const selectedNotesList = notes.filter(n => selectedNotes.has(n.id));
+    const selectedNotesList = notes.filter((n) => selectedNotes.has(n.id));
     if (selectedNotesList.length === 0) return;
-    
+
     // Normalize timing relative to earliest note
-    const minTime = Math.min(...selectedNotesList.map(n => n.time));
-    clipboardRef.current = selectedNotesList.map(n => ({
+    const minTime = Math.min(...selectedNotesList.map((n) => n.time));
+    clipboardRef.current = selectedNotesList.map((n) => ({
       ...n,
       time: n.time - minTime,
     }));
@@ -324,39 +333,37 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
 
   const pasteNotes = useCallback(() => {
     if (clipboardRef.current.length === 0) return;
-    
+
     // Paste at the end of existing notes, or at 0 if empty
-    const pasteTime = notes.length > 0 
-      ? Math.max(...notes.map(n => n.time + n.duration)) + 0.5
-      : 0;
-    
-    const newNotes = clipboardRef.current.map(n => ({
+    const pasteTime = notes.length > 0 ? Math.max(...notes.map((n) => n.time + n.duration)) + 0.5 : 0;
+
+    const newNotes = clipboardRef.current.map((n) => ({
       ...n,
       id: generateNoteId(),
       time: n.time + pasteTime,
     }));
-    
+
     pushToHistory(notes);
-    setNotes(prev => [...prev, ...newNotes]);
-    setSelectedNotes(new Set(newNotes.map(n => n.id)));
+    setNotes((prev) => [...prev, ...newNotes]);
+    setSelectedNotes(new Set(newNotes.map((n) => n.id)));
     setHasChanges(true);
   }, [notes, pushToHistory]);
 
   const duplicateSelectedNotes = useCallback(() => {
-    const selectedNotesList = notes.filter(n => selectedNotes.has(n.id));
+    const selectedNotesList = notes.filter((n) => selectedNotes.has(n.id));
     if (selectedNotesList.length === 0) return;
-    
+
     // Offset duplicates slightly in time
     const offset = 0.25; // beat
-    const newNotes = selectedNotesList.map(n => ({
+    const newNotes = selectedNotesList.map((n) => ({
       ...n,
       id: generateNoteId(),
       time: n.time + offset,
     }));
-    
+
     pushToHistory(notes);
-    setNotes(prev => [...prev, ...newNotes]);
-    setSelectedNotes(new Set(newNotes.map(n => n.id)));
+    setNotes((prev) => [...prev, ...newNotes]);
+    setSelectedNotes(new Set(newNotes.map((n) => n.id)));
     setHasChanges(true);
   }, [notes, selectedNotes, pushToHistory]);
 
@@ -365,7 +372,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     if (historyIndex > 0) {
       const prevNotes = history[historyIndex - 1];
       setNotes([...prevNotes]);
-      setHistoryIndex(prev => prev - 1);
+      setHistoryIndex((prev) => prev - 1);
       setSelectedNotes(new Set());
     }
   }, [history, historyIndex]);
@@ -374,7 +381,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     if (historyIndex < history.length - 1) {
       const nextNotes = history[historyIndex + 1];
       setNotes([...nextNotes]);
-      setHistoryIndex(prev => prev + 1);
+      setHistoryIndex((prev) => prev + 1);
       setSelectedNotes(new Set());
     }
   }, [history, historyIndex]);
@@ -386,7 +393,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
   const exportMidi = useCallback((): Blob => {
     // We need the module to be loaded - throw if not
     if (!midiModuleRef.current) {
-      throw new Error('MIDI module not loaded - please load a MIDI file first');
+      throw new Error("MIDI module not loaded - please load a MIDI file first");
     }
     const MidiClass = (midiModuleRef.current as any).Midi ?? midiModuleRef.current.Midi;
 
@@ -396,11 +403,14 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     midi.header.setTempo(tempo);
 
     // Group notes by track
-    const notesByTrack = notes.reduce((acc, note) => {
-      if (!acc[note.track]) acc[note.track] = [];
-      acc[note.track].push(note);
-      return acc;
-    }, {} as Record<number, MidiNote[]>);
+    const notesByTrack = notes.reduce(
+      (acc, note) => {
+        if (!acc[note.track]) acc[note.track] = [];
+        acc[note.track].push(note);
+        return acc;
+      },
+      {} as Record<number, MidiNote[]>,
+    );
 
     // Create tracks
     Object.entries(notesByTrack).forEach(([trackIdx, trackNotes]) => {
@@ -410,7 +420,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
         track.name = originalTrack.name;
       }
 
-      trackNotes.forEach(note => {
+      trackNotes.forEach((note) => {
         track.addNote({
           midi: note.pitch,
           time: note.time,
@@ -421,7 +431,7 @@ export function useMidiVisualization(): UseMidiVisualizationReturn {
     });
 
     const arrayBuffer = midi.toArray();
-    return new Blob([new Uint8Array(arrayBuffer)], { type: 'audio/midi' });
+    return new Blob([new Uint8Array(arrayBuffer)], { type: "audio/midi" });
   }, [notes, tracks, tempo]);
 
   return {

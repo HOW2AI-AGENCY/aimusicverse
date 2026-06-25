@@ -5,7 +5,7 @@
  */
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { motion, type HTMLMotionProps } from '@/lib/motion';
+import { motion, type HTMLMotionProps } from "@/lib/motion";
 
 interface GlassCardProps extends Omit<HTMLMotionProps<"div">, "ref"> {
   variant?: "default" | "elevated" | "subtle";
@@ -35,14 +35,7 @@ const hoverClasses = {
 };
 
 export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ 
-    className, 
-    variant = "default", 
-    hover = "lift", 
-    padding = "md",
-    children,
-    ...props 
-  }, ref) => {
+  ({ className, variant = "default", hover = "lift", padding = "md", children, ...props }, ref) => {
     return (
       <motion.div
         ref={ref}
@@ -51,7 +44,7 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
           variantClasses[variant],
           hoverClasses[hover],
           paddingClasses[padding],
-          className
+          className,
         )}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -61,7 +54,7 @@ export const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         {children}
       </motion.div>
     );
-  }
+  },
 );
 
 GlassCard.displayName = "GlassCard";

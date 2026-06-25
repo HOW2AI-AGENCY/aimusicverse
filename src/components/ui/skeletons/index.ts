@@ -1,15 +1,18 @@
 /**
  * Unified Skeleton Components
- * 
+ *
  * Central barrel export for all skeleton loading states.
  * Use these for consistent loading UX across the application.
- * 
+ *
  * @module components/ui/skeletons
  */
 
 // Core skeleton components
 // Core skeleton components
-export { TrackCardSkeleton, TrackGridSkeleton as TrackGridSkeletonCard } from '@/components/ui/skeleton/TrackCardSkeleton';
+export {
+  TrackCardSkeleton,
+  TrackGridSkeleton as TrackGridSkeletonCard,
+} from "@/components/ui/skeleton/TrackCardSkeleton";
 export {
   TrackRowSkeleton,
   TrackListSkeleton,
@@ -24,7 +27,7 @@ export {
   LoadingShimmer,
   shimmer,
   shimmerClass,
-} from './TrackListSkeleton';
+} from "./TrackListSkeleton";
 
 // Mobile-optimized skeletons
 export {
@@ -39,7 +42,7 @@ export {
   MobileFormFieldSkeleton,
   MobileFormSkeleton,
   MobileStatsSkeleton,
-} from '@/components/mobile/MobileSkeletons';
+} from "@/components/mobile/MobileSkeletons";
 
 // Re-export base Skeleton for custom use
-export { Skeleton } from '@/components/ui/skeleton';
+export { Skeleton } from "@/components/ui/skeleton";

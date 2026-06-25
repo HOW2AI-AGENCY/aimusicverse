@@ -1,26 +1,24 @@
 /**
  * usePlaybackStore
- * 
+ *
  * Standalone Zustand store for playback state when used outside of unified studio.
  * Uses the playbackSlice for consistent behavior.
- * 
+ *
  * @example
  * ```tsx
  * const { isPlaying, currentTime, play, pause, seek } = usePlaybackStore();
  * ```
  */
 
-import { create } from 'zustand';
-import { subscribeWithSelector } from 'zustand/middleware';
-import { createPlaybackSlice, type PlaybackSlice } from './slices';
+import { create } from "zustand";
+import { subscribeWithSelector } from "zustand/middleware";
+import { createPlaybackSlice, type PlaybackSlice } from "./slices";
 
 /**
  * Standalone playback store
  * Use when controlling playback outside of the full studio context
  */
-export const usePlaybackStore = create<PlaybackSlice>()(
-  subscribeWithSelector((...a) => createPlaybackSlice(...a))
-);
+export const usePlaybackStore = create<PlaybackSlice>()(subscribeWithSelector((...a) => createPlaybackSlice(...a)));
 
 /**
  * Hook to get playback status
@@ -66,9 +64,7 @@ export function useLoopControls() {
  * Hook to get playback progress (0-1)
  */
 export function usePlaybackProgress() {
-  return usePlaybackStore((state) =>
-    state.duration > 0 ? state.currentTime / state.duration : 0
-  );
+  return usePlaybackStore((state) => (state.duration > 0 ? state.currentTime / state.duration : 0));
 }
 
 /**

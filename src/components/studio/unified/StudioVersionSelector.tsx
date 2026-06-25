@@ -3,11 +3,11 @@
  * A/B version selector for tracks with haptic feedback
  */
 
-import { memo, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
-import { Check } from 'lucide-react';
+import { memo, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { Check } from "lucide-react";
 
 export interface TrackVersion {
   label: string;
@@ -32,19 +32,19 @@ export const StudioVersionSelector = memo(function StudioVersionSelector({
 }: StudioVersionSelectorProps) {
   const haptic = useHapticFeedback();
 
-  const handleSelect = useCallback((label: string) => {
-    if (disabled || label === activeLabel) return;
-    haptic.select();
-    onSelect(label);
-  }, [disabled, activeLabel, haptic, onSelect]);
+  const handleSelect = useCallback(
+    (label: string) => {
+      if (disabled || label === activeLabel) return;
+      haptic.select();
+      onSelect(label);
+    },
+    [disabled, activeLabel, haptic, onSelect],
+  );
 
   if (versions.length < 2) return null;
 
   return (
-    <div className={cn(
-      "flex items-center gap-1",
-      compact ? "gap-0.5" : "gap-1"
-    )}>
+    <div className={cn("flex items-center gap-1", compact ? "gap-0.5" : "gap-1")}>
       {versions.map((version) => {
         const isActive = version.label === activeLabel;
         return (
@@ -59,7 +59,7 @@ export const StudioVersionSelector = memo(function StudioVersionSelector({
               isActive
                 ? "bg-primary text-primary-foreground shadow-sm"
                 : "bg-muted/50 text-muted-foreground hover:bg-muted hover:text-foreground",
-              disabled && "opacity-50 cursor-not-allowed"
+              disabled && "opacity-50 cursor-not-allowed",
             )}
           >
             {version.label}

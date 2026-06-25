@@ -12,21 +12,21 @@
  * - Hooks: camelCase with use- prefix (e.g., use-track-data.ts)
  */
 
-import { readFileSync, writeFileSync, renameSync, readdirSync, statSync } from 'fs';
-import { join, dirname, basename } from 'path';
-import { fileURLToPath } from 'url';
+import { readFileSync, writeFileSync, renameSync, readdirSync, statSync } from "fs";
+import { join, dirname, basename } from "path";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const SRC_DIR = join(process.cwd(), 'src');
-const DRY_RUN = process.argv.includes('--dry-run');
+const SRC_DIR = join(process.cwd(), "src");
+const DRY_RUN = process.argv.includes("--dry-run");
 
 // PascalCase to kebab-case conversion
 function toKebabCase(str) {
   return str
-    .replace(/([a-z])([A-Z])/g, '$1-$2')
-    .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+    .replace(/([a-z])([A-Z])/g, "$1-$2")
+    .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
     .toLowerCase();
 }
 
@@ -51,12 +51,12 @@ function getFilesToMigrate(dir, baseDir = dir) {
         // Check if filename is PascalCase (excluding allowed files)
         if (
           isPascalCase(entry.name) &&
-          entry.name !== 'App.tsx' &&
-          !entry.name.startsWith('vite-env') &&
-          !entry.name.endsWith('.test.tsx') &&
-          !entry.name.endsWith('.spec.tsx')
+          entry.name !== "App.tsx" &&
+          !entry.name.startsWith("vite-env") &&
+          !entry.name.endsWith(".test.tsx") &&
+          !entry.name.endsWith(".spec.tsx")
         ) {
-          const relativePath = fullPath.replace(baseDir + '/', '');
+          const relativePath = fullPath.replace(baseDir + "/", "");
           files.push({
             original: fullPath,
             relative: relativePath,
@@ -74,8 +74,8 @@ function getFilesToMigrate(dir, baseDir = dir) {
 
 // Update import statements in a file
 function updateImports(content, oldPath, newPath) {
-  const oldName = basename(oldPath, '.tsx').replace('.ts', '');
-  const newName = basename(newPath, '.tsx').replace('.ts', '');
+  const oldName = basename(oldPath, ".tsx").replace(".ts", "");
+  const newName = basename(newPath, ".tsx").replace(".ts", "");
   const oldDir = dirname(oldPath);
   const newDir = dirname(newPath);
 
@@ -91,7 +91,7 @@ function updateImports(content, oldPath, newPath) {
 // Migrate a single file
 function migrateFile(file) {
   const oldName = file.name;
-  const newName = toKebabCase(oldName.replace(/\.(ts|tsx|js|jsx)$/, '')) + oldName.match(/\.(ts|tsx|js|jsx)$/)[0];
+  const newName = toKebabCase(oldName.replace(/\.(ts|tsx|js|jsx)$/, "")) + oldName.match(/\.(ts|tsx|js|jsx)$/)[0];
   const oldPath = file.original;
   const newPath = join(dirname(oldPath), newName);
 
@@ -108,10 +108,10 @@ function migrateFile(file) {
   if (!DRY_RUN) {
     try {
       // Read the file content
-      const content = readFileSync(oldPath, 'utf-8');
+      const content = readFileSync(oldPath, "utf-8");
 
       // Write to new location
-      writeFileSync(newPath, content, 'utf-8');
+      writeFileSync(newPath, content, "utf-8");
 
       // Remove old file
       renameSync(oldPath, newPath);
@@ -138,16 +138,16 @@ function migrateFile(file) {
 }
 
 // Main execution
-console.log('🔍 Scanning for files to migrate...\n');
+console.log("🔍 Scanning for files to migrate...\n");
 
 if (DRY_RUN) {
-  console.log('⚠️  DRY RUN MODE - No files will be changed\n');
+  console.log("⚠️  DRY RUN MODE - No files will be changed\n");
 }
 
 const files = getFilesToMigrate(SRC_DIR);
 
 if (files.length === 0) {
-  console.log('✅ No files need migration!\n');
+  console.log("✅ No files need migration!\n");
   process.exit(0);
 }
 
@@ -166,27 +166,27 @@ for (const file of files) {
 }
 
 // Summary
-console.log('\n📊 Summary:');
+console.log("\n📊 Summary:");
 console.log(`  Total files: ${files.length}`);
-console.log(`  Migrated: ${migrated.filter(m => !m.dryRun).length}`);
-console.log(`  Would migrate: ${migrated.filter(m => m.dryRun).length}`);
+console.log(`  Migrated: ${migrated.filter((m) => !m.dryRun).length}`);
+console.log(`  Would migrate: ${migrated.filter((m) => m.dryRun).length}`);
 console.log(`  Failed: ${failed.length}\n`);
 
 if (!DRY_RUN && migrated.length > 0) {
-  console.log('⚠️  IMPORTANT: You will need to manually update import statements');
-  console.log('   in all files that reference the renamed components.\n');
+  console.log("⚠️  IMPORTANT: You will need to manually update import statements");
+  console.log("   in all files that reference the renamed components.\n");
 
-  console.log('Run the following to find files that need updates:\n');
-  migrated.forEach(m => {
+  console.log("Run the following to find files that need updates:\n");
+  migrated.forEach((m) => {
     console.log(`  grep -r "${m.oldName}" src/`);
   });
-  console.log('');
+  console.log("");
 }
 
 if (failed.length > 0) {
-  console.error('❌ Some files failed to migrate\n');
+  console.error("❌ Some files failed to migrate\n");
   process.exit(1);
 } else {
-  console.log(DRY_RUN ? '✅ Dry run complete!\n' : '✅ Migration complete!\n');
+  console.log(DRY_RUN ? "✅ Dry run complete!\n" : "✅ Migration complete!\n");
   process.exit(0);
 }

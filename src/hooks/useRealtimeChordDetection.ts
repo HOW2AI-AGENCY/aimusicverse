@@ -3,15 +3,10 @@
  * Uses Web Audio API with Pitch Class Profiles (PCP) analysis
  */
 
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { 
-  computeChromagram, 
-  detectChord, 
-  type DetectedChord,
-  type ChordQuality 
-} from '@/lib/chord-detection';
-import { useHapticFeedback } from './useHapticFeedback';
-import { logger } from '@/lib/logger';
+import { useState, useRef, useCallback, useEffect } from "react";
+import { computeChromagram, detectChord, type DetectedChord, type ChordQuality } from "@/lib/chord-detection";
+import { useHapticFeedback } from "./useHapticFeedback";
+import { logger } from "@/lib/logger";
 
 interface RealtimeChordState {
   currentChord: DetectedChord | null;
@@ -33,18 +28,11 @@ interface UseRealtimeChordDetectionOptions {
 const FFT_SIZE = 8192; // High resolution for low guitar frequencies
 const ANALYSIS_INTERVAL = 50; // ms between analyses
 
-export function useRealtimeChordDetection(
-  options: UseRealtimeChordDetectionOptions = {}
-) {
-  const {
-    onChordChange,
-    minConfidence = 0.6,
-    stabilityFrames = 3,
-    maxHistory = 20,
-  } = options;
+export function useRealtimeChordDetection(options: UseRealtimeChordDetectionOptions = {}) {
+  const { onChordChange, minConfidence = 0.6, stabilityFrames = 3, maxHistory = 20 } = options;
 
   const haptic = useHapticFeedback();
-  
+
   const [state, setState] = useState<RealtimeChordState>({
     currentChord: null,
     chordHistory: [],
@@ -61,7 +49,7 @@ export function useRealtimeChordDetection(
   const mediaStreamRef = useRef<MediaStream | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const intervalRef = useRef<number | null>(null);
-  
+
   // Stability tracking
   const recentChordsRef = useRef<string[]>([]);
   const lastStableChordRef = useRef<string | null>(null);
@@ -70,7 +58,7 @@ export function useRealtimeChordDetection(
    * Start listening to microphone
    */
   const startListening = useCallback(async () => {
-    setState(prev => ({ ...prev, isInitializing: true, error: null }));
+    setState((prev) => ({ ...prev, isInitializing: true, error: null }));
 
     try {
       // Request microphone access
@@ -85,14 +73,14 @@ export function useRealtimeChordDetection(
       // Create audio context
       const audioContext = new AudioContext();
       const source = audioContext.createMediaStreamSource(stream);
-      
+
       // Create analyser with high FFT size for bass frequencies
       const analyser = audioContext.createAnalyser();
       analyser.fftSize = FFT_SIZE;
       analyser.smoothingTimeConstant = 0.8;
-      
+
       source.connect(analyser);
-      
+
       audioContextRef.current = audioContext;
       analyserRef.current = analyser;
       mediaStreamRef.current = stream;
@@ -118,11 +106,7 @@ export function useRealtimeChordDetection(
         const volume = Math.min(1, rms * 5); // Scale for visibility
 
         // Compute chromagram
-        const chromagram = computeChromagram(
-          frequencyData,
-          audioContext.sampleRate,
-          FFT_SIZE
-        );
+        const chromagram = computeChromagram(frequencyData, audioContext.sampleRate, FFT_SIZE);
 
         // Detect chord
         const detected = detectChord(chromagram);
@@ -133,24 +117,17 @@ export function useRealtimeChordDetection(
           recentChordsRef.current.shift();
         }
 
-        const isStable = recentChordsRef.current.every(
-          c => c === detected.name
-        );
+        const isStable = recentChordsRef.current.every((c) => c === detected.name);
 
-        setState(prev => {
-          const shouldUpdate = 
-            isStable && 
-            detected.confidence >= minConfidence &&
-            detected.name !== 'N/C';
+        setState((prev) => {
+          const shouldUpdate = isStable && detected.confidence >= minConfidence && detected.name !== "N/C";
 
           // Check if chord changed
-          const chordChanged = 
-            shouldUpdate && 
-            detected.name !== lastStableChordRef.current;
+          const chordChanged = shouldUpdate && detected.name !== lastStableChordRef.current;
 
           if (chordChanged) {
             lastStableChordRef.current = detected.name;
-            haptic.impact('medium');
+            haptic.impact("medium");
             onChordChange?.(detected);
           }
 
@@ -159,9 +136,7 @@ export function useRealtimeChordDetection(
             chromagram,
             volume,
             currentChord: shouldUpdate ? detected : prev.currentChord,
-            chordHistory: chordChanged
-              ? [detected, ...prev.chordHistory].slice(0, maxHistory)
-              : prev.chordHistory,
+            chordHistory: chordChanged ? [detected, ...prev.chordHistory].slice(0, maxHistory) : prev.chordHistory,
           };
         });
       };
@@ -169,21 +144,21 @@ export function useRealtimeChordDetection(
       // Run analysis at intervals
       intervalRef.current = window.setInterval(analyze, ANALYSIS_INTERVAL);
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         isListening: true,
         isInitializing: false,
       }));
 
-      logger.info('Realtime chord detection started');
+      logger.info("Realtime chord detection started");
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Microphone access denied';
-      setState(prev => ({
+      const message = err instanceof Error ? err.message : "Microphone access denied";
+      setState((prev) => ({
         ...prev,
         isInitializing: false,
         error: message,
       }));
-      logger.error('Failed to start chord detection', err);
+      logger.error("Failed to start chord detection", err);
     }
   }, [haptic, minConfidence, stabilityFrames, maxHistory, onChordChange]);
 
@@ -205,7 +180,7 @@ export function useRealtimeChordDetection(
 
     // Stop media stream
     if (mediaStreamRef.current) {
-      mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current.getTracks().forEach((track) => track.stop());
       mediaStreamRef.current = null;
     }
 
@@ -219,20 +194,20 @@ export function useRealtimeChordDetection(
     recentChordsRef.current = [];
     lastStableChordRef.current = null;
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isListening: false,
       volume: 0,
     }));
 
-    logger.info('Realtime chord detection stopped');
+    logger.info("Realtime chord detection stopped");
   }, []);
 
   /**
    * Clear history
    */
   const clearHistory = useCallback(() => {
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       chordHistory: [],
     }));
@@ -245,8 +220,8 @@ export function useRealtimeChordDetection(
     return state.chordHistory
       .slice()
       .reverse()
-      .map(c => c.name)
-      .join(' → ');
+      .map((c) => c.name)
+      .join(" → ");
   }, [state.chordHistory]);
 
   // Cleanup on unmount

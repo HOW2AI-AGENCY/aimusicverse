@@ -3,14 +3,14 @@
  * Sprint 010 - Phase 2: Foundational hooks
  */
 
-import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import type { Database } from '@/integrations/supabase/types';
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import type { Database } from "@/integrations/supabase/types";
 
-type TrackRow = Database['public']['Tables']['tracks']['Row'];
+type TrackRow = Database["public"]["Tables"]["tracks"]["Row"];
 
-export type PublicTrackFilter = 'new' | 'popular' | 'trending';
-export type SortOption = 'created_at' | 'play_count';
+export type PublicTrackFilter = "new" | "popular" | "trending";
+export type SortOption = "created_at" | "play_count";
 
 interface UsePublicTracksOptions {
   filter?: PublicTrackFilter;
@@ -29,59 +29,53 @@ export interface PublicTrack extends TrackRow {
  * Fetches public tracks with filtering, sorting, and pagination
  */
 export function usePublicTracks(options: UsePublicTracksOptions = {}) {
-  const {
-    filter = 'new',
-    style,
-    search,
-    sortBy = 'created_at',
-    limit = 20,
-  } = options;
+  const { filter = "new", style, search, sortBy = "created_at", limit = 20 } = options;
 
   return useInfiniteQuery({
-    queryKey: ['public-tracks', filter, style, search, sortBy],
+    queryKey: ["public-tracks", filter, style, search, sortBy],
     queryFn: async ({ pageParam }) => {
       // Optimized query using idx_tracks_status_public index
       let query = supabase
-        .from('tracks')
-        .select(`
+        .from("tracks")
+        .select(
+          `
           *,
           track_likes!left(user_id),
           active_version:track_versions!active_version_id(audio_url, cover_url)
-        `)
-        .eq('is_public', true)
-        .eq('status', 'completed')
+        `,
+        )
+        .eq("is_public", true)
+        .eq("status", "completed")
         .range(pageParam, pageParam + limit - 1);
 
       // Apply filter
-      if (filter === 'trending') {
+      if (filter === "trending") {
         // Trending: high engagement in last 7 days
         const sevenDaysAgo = new Date();
         sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
         query = query
-          .gte('created_at', sevenDaysAgo.toISOString())
-          .order('play_count', { ascending: false, nullsFirst: false });
+          .gte("created_at", sevenDaysAgo.toISOString())
+          .order("play_count", { ascending: false, nullsFirst: false });
       }
 
       // Apply style filter
       if (style) {
-        query = query.ilike('style', `%${style}%`);
+        query = query.ilike("style", `%${style}%`);
       }
 
       // Apply search
       if (search) {
-        query = query.or(
-          `title.ilike.%${search}%,style.ilike.%${search}%`
-        );
+        query = query.or(`title.ilike.%${search}%,style.ilike.%${search}%`);
       }
 
       // Apply sorting - uses idx_tracks_user_created index for created_at
       switch (sortBy) {
-        case 'play_count':
-          query = query.order('play_count', { ascending: false, nullsFirst: false });
+        case "play_count":
+          query = query.order("play_count", { ascending: false, nullsFirst: false });
           break;
-        case 'created_at':
+        case "created_at":
         default:
-          query = query.order('created_at', { ascending: false });
+          query = query.order("created_at", { ascending: false });
       }
 
       const { data, error } = await query;
@@ -89,7 +83,9 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
       if (error) throw error;
 
       // Check which tracks current user has liked and resolve audio URLs
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       const tracksWithLikes: PublicTrack[] = (data || []).map((track) => {
         const activeVersion = track.active_version as { audio_url?: string; cover_url?: string } | null;
         return {
@@ -97,9 +93,7 @@ export function usePublicTracks(options: UsePublicTracksOptions = {}) {
           // Resolve audio/cover from active_version if available
           audio_url: activeVersion?.audio_url || track.audio_url,
           cover_url: activeVersion?.cover_url || track.cover_url,
-          user_liked: track.track_likes?.some(
-            (like: { user_id: string }) => like.user_id === user?.id
-          ),
+          user_liked: track.track_likes?.some((like: { user_id: string }) => like.user_id === user?.id),
           active_version: undefined, // Remove nested object
         };
       });
@@ -126,22 +120,18 @@ export function useToggleTrackLike() {
 
   return useMutation({
     mutationFn: async ({ trackId, isLiked }: { trackId: string; isLiked: boolean }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('User not authenticated');
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
 
       if (isLiked) {
         // Unlike: delete the like
-        const { error } = await supabase
-          .from('track_likes')
-          .delete()
-          .eq('track_id', trackId)
-          .eq('user_id', user.id);
+        const { error } = await supabase.from("track_likes").delete().eq("track_id", trackId).eq("user_id", user.id);
         if (error) throw error;
       } else {
         // Like: insert a new like
-        const { error } = await supabase
-          .from('track_likes')
-          .insert({ track_id: trackId, user_id: user.id });
+        const { error } = await supabase.from("track_likes").insert({ track_id: trackId, user_id: user.id });
         if (error) throw error;
       }
 
@@ -149,7 +139,7 @@ export function useToggleTrackLike() {
     },
     onSuccess: () => {
       // Invalidate public tracks queries to refresh likes count
-      queryClient.invalidateQueries({ queryKey: ['public-tracks'] });
+      queryClient.invalidateQueries({ queryKey: ["public-tracks"] });
     },
   });
 }
@@ -160,7 +150,7 @@ export function useToggleTrackLike() {
 export function useIncrementPlayCount() {
   return useMutation({
     mutationFn: async (trackId: string) => {
-      const { error } = await supabase.rpc('increment_track_play_count', {
+      const { error } = await supabase.rpc("increment_track_play_count", {
         track_id_param: trackId,
       });
       if (error) throw error;
@@ -173,19 +163,19 @@ export function useIncrementPlayCount() {
  * Hook to get new/recent tracks (shorthand)
  */
 export function useNewTracks(limit = 20) {
-  return usePublicTracks({ filter: 'new', limit });
+  return usePublicTracks({ filter: "new", limit });
 }
 
 /**
  * Hook to get popular tracks (shorthand)
  */
 export function usePopularTracks(limit = 20) {
-  return usePublicTracks({ filter: 'popular', sortBy: 'play_count', limit });
+  return usePublicTracks({ filter: "popular", sortBy: "play_count", limit });
 }
 
 /**
  * Hook to get trending tracks (shorthand)
  */
 export function useTrendingTracks(limit = 20) {
-  return usePublicTracks({ filter: 'trending', limit });
+  return usePublicTracks({ filter: "trending", limit });
 }

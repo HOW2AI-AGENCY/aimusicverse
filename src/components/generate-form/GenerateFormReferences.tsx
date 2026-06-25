@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
-import { FileAudio, User, FolderOpen, Music2, Loader2, X } from 'lucide-react';
-import { InlineReferencePreview } from '@/components/audio-reference';
-import { useAudioReference } from '@/hooks/useAudioReference';
-import { touchTargetClass } from '@/lib/design-tokens';
+import { Button } from "@/components/ui/button";
+import { FileAudio, User, FolderOpen, Music2, Loader2, X } from "lucide-react";
+import { InlineReferencePreview } from "@/components/audio-reference";
+import { useAudioReference } from "@/hooks/useAudioReference";
+import { touchTargetClass } from "@/lib/design-tokens";
 
 interface GenerateFormReferencesProps {
   planTrackId?: string;
@@ -34,10 +34,11 @@ export function GenerateFormReferences({
   onOpenReferenceDrawer,
 }: GenerateFormReferencesProps) {
   const { activeReference } = useAudioReference();
-  
+
   // Check for unified reference (takes priority over legacy audioFile)
   const hasUnifiedReference = !!activeReference;
-  const hasReferences = hasUnifiedReference || audioFile || audioReferenceLoading || selectedArtistId || selectedProjectId || planTrackId;
+  const hasReferences =
+    hasUnifiedReference || audioFile || audioReferenceLoading || selectedArtistId || selectedProjectId || planTrackId;
 
   if (!hasReferences) return null;
 
@@ -54,7 +55,7 @@ export function GenerateFormReferences({
 
       {/* Unified Reference Preview - takes priority */}
       {hasUnifiedReference && (
-        <InlineReferencePreview 
+        <InlineReferencePreview
           onRemove={onRemoveAudioFile}
           onOpenDrawer={onOpenReferenceDrawer}
           showModeSelector={true}
@@ -66,9 +67,7 @@ export function GenerateFormReferences({
       {audioReferenceLoading && !audioFile && !hasUnifiedReference && (
         <div className="flex items-center gap-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/20 animate-pulse">
           <Loader2 className="w-4 h-4 text-amber-500 animate-spin" />
-          <span className="text-xs flex-1 text-amber-600 dark:text-amber-400">
-            Загрузка аудио референса...
-          </span>
+          <span className="text-xs flex-1 text-amber-600 dark:text-amber-400">Загрузка аудио референса...</span>
         </div>
       )}
 
@@ -94,7 +93,7 @@ export function GenerateFormReferences({
         <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
           <User className="w-4 h-4 text-primary" />
           <span className="text-xs flex-1 truncate">
-            {artists?.find(a => a.id === selectedArtistId)?.name || 'Персона'}
+            {artists?.find((a) => a.id === selectedArtistId)?.name || "Персона"}
           </span>
           <Button
             type="button"
@@ -113,7 +112,7 @@ export function GenerateFormReferences({
         <div className="flex items-center gap-2 p-2 rounded-lg bg-primary/10 border border-primary/20">
           <FolderOpen className="w-4 h-4 text-primary" />
           <span className="text-xs flex-1 truncate">
-            {projects?.find(p => p.id === selectedProjectId)?.title || 'Проект'}
+            {projects?.find((p) => p.id === selectedProjectId)?.title || "Проект"}
           </span>
           <Button
             type="button"

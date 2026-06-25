@@ -3,8 +3,8 @@
  * Replaces CollapsibleSection with a minimalist flat structure
  */
 
-import { memo, ReactNode } from 'react';
-import { cn } from '@/lib/utils';
+import { memo, ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 interface ActionGroupProps {
   title?: string;
@@ -12,24 +12,16 @@ interface ActionGroupProps {
   className?: string;
 }
 
-export const ActionGroup = memo(function ActionGroup({
-  title,
-  children,
-  className,
-}: ActionGroupProps) {
+export const ActionGroup = memo(function ActionGroup({ title, children, className }: ActionGroupProps) {
   return (
     <div className={cn("space-y-1", className)}>
       {title && (
         <div className="flex items-center gap-2 px-1 py-1">
-          <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">
-            {title}
-          </span>
+          <span className="text-[10px] font-medium text-muted-foreground uppercase tracking-wider">{title}</span>
           <div className="flex-1 h-px bg-border/40" />
         </div>
       )}
-      <div className="grid grid-cols-4 gap-1">
-        {children}
-      </div>
+      <div className="grid grid-cols-4 gap-1">{children}</div>
     </div>
   );
 });
@@ -51,9 +43,5 @@ export const ActionGridContainer = memo(function ActionGridContainer({
   children,
   className,
 }: ActionGridContainerProps) {
-  return (
-    <div className={cn("space-y-2", className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("space-y-2", className)}>{children}</div>;
 });

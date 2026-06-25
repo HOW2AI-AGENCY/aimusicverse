@@ -5,27 +5,27 @@
  * MusicXML parsing + note list consistent.
  */
 
-import { memo, useCallback, useMemo, useState } from 'react';
-import { ChevronDown, Download, FileText, Loader2, Music2, X } from 'lucide-react';
-import { toast } from 'sonner';
+import { memo, useCallback, useMemo, useState } from "react";
+import { ChevronDown, Download, FileText, Loader2, Music2, X } from "lucide-react";
+import { toast } from "sonner";
 
-import { cn } from '@/lib/utils';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+} from "@/components/ui/dropdown-menu";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
-import { UnifiedNotesViewer } from '@/components/studio/UnifiedNotesViewer';
+import { UnifiedNotesViewer } from "@/components/studio/UnifiedNotesViewer";
 
-import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
-import type { MidiNote } from './PianoRoll';
+import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
+import type { MidiNote } from "./PianoRoll";
 
 export interface NotationDrawerProps {
   open: boolean;
@@ -69,10 +69,10 @@ export const NotationDrawer = memo(function NotationDrawer({
   const availableFiles = useMemo(() => {
     if (!transcriptionData) return [];
     return [
-      { key: 'midi', url: transcriptionData.midi_url, label: 'MIDI', ext: '.mid' },
-      { key: 'mxml', url: transcriptionData.mxml_url, label: 'MusicXML', ext: '.xml' },
-      { key: 'gp5', url: transcriptionData.gp5_url, label: 'Guitar Pro', ext: '.gp5' },
-      { key: 'pdf', url: transcriptionData.pdf_url, label: 'PDF', ext: '.pdf' },
+      { key: "midi", url: transcriptionData.midi_url, label: "MIDI", ext: ".mid" },
+      { key: "mxml", url: transcriptionData.mxml_url, label: "MusicXML", ext: ".xml" },
+      { key: "gp5", url: transcriptionData.gp5_url, label: "Guitar Pro", ext: ".gp5" },
+      { key: "pdf", url: transcriptionData.pdf_url, label: "PDF", ext: ".pdf" },
     ].filter((f) => !!f.url);
   }, [transcriptionData]);
 
@@ -82,12 +82,12 @@ export const NotationDrawer = memo(function NotationDrawer({
       setIsDownloading(filename);
       try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error('Download failed');
+        if (!response.ok) throw new Error("Download failed");
 
         const blob = await response.blob();
         const downloadUrl = URL.createObjectURL(blob);
 
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = downloadUrl;
         a.download = filename;
         document.body.appendChild(a);
@@ -97,12 +97,12 @@ export const NotationDrawer = memo(function NotationDrawer({
 
         toast.success(`${filename} скачан`);
       } catch {
-        toast.error('Ошибка скачивания');
+        toast.error("Ошибка скачивания");
       } finally {
         setIsDownloading(null);
       }
     },
-    [haptic]
+    [haptic],
   );
 
   const handleClose = useCallback(() => {
@@ -116,13 +116,10 @@ export const NotationDrawer = memo(function NotationDrawer({
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
       <SheetContent
         side="bottom"
-        className={cn('h-[92vh] rounded-t-2xl p-0 flex flex-col')}
+        className={cn("h-[92vh] rounded-t-2xl p-0 flex flex-col")}
         style={{ paddingBottom: safeAreaBottom }}
       >
-        <SheetHeader
-          className="flex-shrink-0 px-4 py-3 border-b border-border/50"
-          style={{ paddingTop: safeAreaTop }}
-        >
+        <SheetHeader className="flex-shrink-0 px-4 py-3 border-b border-border/50" style={{ paddingTop: safeAreaTop }}>
           <div className="flex items-center justify-between gap-2">
             <div className="min-w-0">
               <SheetTitle className="text-left text-base truncate flex items-center gap-2">
@@ -140,7 +137,7 @@ export const NotationDrawer = memo(function NotationDrawer({
                     {transcriptionData.key}
                   </Badge>
                 )}
-                {typeof transcriptionData?.notes_count === 'number' && transcriptionData.notes_count > 0 && (
+                {typeof transcriptionData?.notes_count === "number" && transcriptionData.notes_count > 0 && (
                   <Badge variant="outline" className="text-xs h-5">
                     {transcriptionData.notes_count} нот
                   </Badge>

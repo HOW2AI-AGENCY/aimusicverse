@@ -6,14 +6,14 @@
  * Replaces duplicate header patterns across the app.
  */
 
-import { memo, ReactNode } from 'react';
-import { LucideIcon, ArrowRight, ChevronRight } from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
-import { Heading, Text } from '@/components/ui/typography';
+import { memo, ReactNode } from "react";
+import { LucideIcon, ArrowRight, ChevronRight } from "lucide-react";
+import { motion } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { Heading, Text } from "@/components/ui/typography";
 
 interface SectionHeaderProps {
   /** Icon component from lucide-react */
@@ -38,15 +38,15 @@ interface SectionHeaderProps {
   badge?: {
     label: string | number;
     icon?: LucideIcon;
-    variant?: 'default' | 'secondary' | 'outline';
+    variant?: "default" | "secondary" | "outline";
     className?: string;
   };
   /** Custom right slot content */
   rightSlot?: ReactNode;
   /** Size variant */
-  variant?: 'default' | 'compact' | 'large';
+  variant?: "default" | "compact" | "large";
   /** Animation variant for icon */
-  iconAnimation?: 'hover' | 'rotate' | 'none';
+  iconAnimation?: "hover" | "rotate" | "none";
   /** Custom icon element instead of LucideIcon */
   customIcon?: ReactNode;
   /** Additional className */
@@ -54,25 +54,25 @@ interface SectionHeaderProps {
 }
 
 const ICON_SIZES = {
-  default: { container: 'w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl', icon: 'w-4 h-4 sm:w-5 sm:h-5' },
-  compact: { container: 'w-7 h-7 sm:w-8 sm:h-8 rounded-lg', icon: 'w-3.5 h-3.5 sm:w-4 sm:h-4' },
-  large: { container: 'w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl', icon: 'w-5 h-5 sm:w-6 sm:h-6' },
+  default: { container: "w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl", icon: "w-4 h-4 sm:w-5 sm:h-5" },
+  compact: { container: "w-7 h-7 sm:w-8 sm:h-8 rounded-lg", icon: "w-3.5 h-3.5 sm:w-4 sm:h-4" },
+  large: { container: "w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl", icon: "w-5 h-5 sm:w-6 sm:h-6" },
 };
 
 export const SectionHeader = memo(function SectionHeader({
   icon: Icon,
-  iconColor = 'text-primary',
-  iconGradient = 'from-primary/20 to-primary/5',
+  iconColor = "text-primary",
+  iconGradient = "from-primary/20 to-primary/5",
   title,
   subtitle,
   showMoreLink,
-  showMoreLabel = 'Все',
+  showMoreLabel = "Все",
   onShowMore,
   showShowMore = true,
   badge,
   rightSlot,
-  variant = 'default',
-  iconAnimation = 'hover',
+  variant = "default",
+  iconAnimation = "hover",
   customIcon,
   className,
 }: SectionHeaderProps) {
@@ -88,24 +88,22 @@ export const SectionHeader = memo(function SectionHeader({
   };
 
   const shouldShowMoreButton = showShowMore && (showMoreLink || onShowMore);
-  const ArrowIcon = variant === 'compact' ? ChevronRight : ArrowRight;
+  const ArrowIcon = variant === "compact" ? ChevronRight : ArrowRight;
 
-  const iconElement = customIcon || (
-    <Icon className={cn(sizes.icon, iconColor)} />
-  );
+  const iconElement = customIcon || <Icon className={cn(sizes.icon, iconColor)} />;
 
-  const iconWrapper = iconAnimation === 'rotate' ? (
-    <motion.div
-      animate={{ rotate: 360 }}
-      transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-    >
-      {iconElement}
-    </motion.div>
-  ) : iconElement;
+  const iconWrapper =
+    iconAnimation === "rotate" ? (
+      <motion.div animate={{ rotate: 360 }} transition={{ duration: 8, repeat: Infinity, ease: "linear" }}>
+        {iconElement}
+      </motion.div>
+    ) : (
+      iconElement
+    );
 
   // Design system typography mapping
-  const headingLevel = variant === 'large' ? 'h3' as const : 'h4' as const;
-  const textSize = variant === 'compact' ? 'caption' as const : 'caption' as const;
+  const headingLevel = variant === "large" ? ("h3" as const) : ("h4" as const);
+  const textSize = variant === "compact" ? ("caption" as const) : ("caption" as const);
 
   return (
     <div className={cn("flex items-center justify-between", className)}>
@@ -114,9 +112,9 @@ export const SectionHeader = memo(function SectionHeader({
           className={cn(
             sizes.container,
             "bg-gradient-to-br flex items-center justify-center shadow-soft",
-            iconGradient
+            iconGradient,
           )}
-          whileHover={iconAnimation === 'hover' ? { scale: 1.05, rotate: -5 } : undefined}
+          whileHover={iconAnimation === "hover" ? { scale: 1.05, rotate: -5 } : undefined}
         >
           {iconWrapper}
         </motion.div>
@@ -128,11 +126,8 @@ export const SectionHeader = memo(function SectionHeader({
             </Heading>
             {badge && (
               <Badge
-                variant={badge.variant || 'secondary'}
-                className={cn(
-                  "text-[10px] h-4 gap-0.5 shrink-0",
-                  badge.className
-                )}
+                variant={badge.variant || "secondary"}
+                className={cn("text-[10px] h-4 gap-0.5 shrink-0", badge.className)}
               >
                 {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
                 {badge.label}
@@ -156,13 +151,11 @@ export const SectionHeader = memo(function SectionHeader({
           onClick={handleShowMore}
           className={cn(
             "text-xs text-muted-foreground hover:text-primary gap-1 sm:gap-1.5 rounded-xl shrink-0",
-            variant === 'compact' && "h-7 px-2"
+            variant === "compact" && "h-7 px-2",
           )}
         >
           {showMoreLabel}
-          <ArrowIcon className={cn(
-            variant === 'compact' ? 'w-3 h-3' : 'w-3.5 h-3.5'
-          )} />
+          <ArrowIcon className={cn(variant === "compact" ? "w-3 h-3" : "w-3.5 h-3.5")} />
         </Button>
       ) : null}
     </div>

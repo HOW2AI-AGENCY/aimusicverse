@@ -1,25 +1,36 @@
 /**
  * UnifiedPlayerControls - Shared playback controls component
- * 
+ *
  * Adaptive controls for both compact and fullscreen modes.
  * Features play/pause, skip, shuffle, repeat, seek buttons, and volume control.
  */
 
-import { memo, useCallback } from 'react';
-import { Play, Pause, SkipBack, SkipForward, Repeat, Shuffle, Volume2, VolumeX, RotateCcw, RotateCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { useAudioTime } from '@/hooks/audio/useAudioTime';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { hapticImpact } from '@/lib/haptic';
+import { memo, useCallback } from "react";
+import {
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Repeat,
+  Shuffle,
+  Volume2,
+  VolumeX,
+  RotateCcw,
+  RotateCw,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { useAudioTime } from "@/hooks/audio/useAudioTime";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { hapticImpact } from "@/lib/haptic";
 
-type ControlSize = 'sm' | 'md' | 'lg';
+type ControlSize = "sm" | "md" | "lg";
 
 interface UnifiedPlayerControlsProps {
-  variant?: 'compact' | 'fullscreen';
+  variant?: "compact" | "fullscreen";
   size?: ControlSize;
   showVolume?: boolean;
   showShuffleRepeat?: boolean;
@@ -29,40 +40,40 @@ interface UnifiedPlayerControlsProps {
 }
 
 const sizeConfig = {
-  sm: { 
-    main: 'h-11 w-11',      // 44px - meets touch target requirement
-    secondary: 'h-11 w-11', // 44px - meets touch target requirement
-    icon: 'h-5 w-5',
-    mainIcon: 'h-5 w-5'
+  sm: {
+    main: "h-11 w-11", // 44px - meets touch target requirement
+    secondary: "h-11 w-11", // 44px - meets touch target requirement
+    icon: "h-5 w-5",
+    mainIcon: "h-5 w-5",
   },
-  md: { 
-    main: 'h-12 w-12', 
-    secondary: 'h-11 w-11', // 44px - meets touch target requirement
-    icon: 'h-5 w-5',
-    mainIcon: 'h-6 w-6'
+  md: {
+    main: "h-12 w-12",
+    secondary: "h-11 w-11", // 44px - meets touch target requirement
+    icon: "h-5 w-5",
+    mainIcon: "h-6 w-6",
   },
-  lg: { 
-    main: 'h-16 w-16', 
-    secondary: 'h-12 w-12', 
-    icon: 'h-6 w-6',
-    mainIcon: 'h-8 w-8'
+  lg: {
+    main: "h-16 w-16",
+    secondary: "h-12 w-12",
+    icon: "h-6 w-6",
+    mainIcon: "h-8 w-8",
   },
 };
 
 export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
-  variant = 'fullscreen',
-  size = 'md',
+  variant = "fullscreen",
+  size = "md",
   showVolume = false,
   showShuffleRepeat = true,
   showSeekButtons = false,
   seekSeconds = 10,
   className,
 }: UnifiedPlayerControlsProps) {
-  const { 
-    isPlaying, 
-    playTrack, 
-    pauseTrack, 
-    nextTrack, 
+  const {
+    isPlaying,
+    playTrack,
+    pauseTrack,
+    nextTrack,
     previousTrack,
     repeat,
     shuffle,
@@ -71,13 +82,13 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
     volume,
     setVolume,
   } = usePlayerStore();
-  
+
   const { currentTime, duration, seek } = useAudioTime();
-  
+
   const config = sizeConfig[size];
 
   const handlePlayPause = useCallback(() => {
-    hapticImpact('medium');
+    hapticImpact("medium");
     if (isPlaying) {
       pauseTrack();
     } else {
@@ -86,48 +97,48 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
   }, [isPlaying, playTrack, pauseTrack]);
 
   const handlePrevious = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     previousTrack();
   }, [previousTrack]);
 
   const handleNext = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     nextTrack();
   }, [nextTrack]);
 
   const handleShuffle = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     toggleShuffle();
   }, [toggleShuffle]);
 
   const handleRepeat = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     toggleRepeat();
   }, [toggleRepeat]);
 
-  const handleVolumeChange = useCallback((value: number[]) => {
-    setVolume(value[0]);
-  }, [setVolume]);
+  const handleVolumeChange = useCallback(
+    (value: number[]) => {
+      setVolume(value[0]);
+    },
+    [setVolume],
+  );
 
   const handleSeekBackward = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     seek(Math.max(0, currentTime - seekSeconds));
   }, [seek, currentTime, seekSeconds]);
 
   const handleSeekForward = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     seek(Math.min(duration, currentTime + seekSeconds));
   }, [seek, currentTime, duration, seekSeconds]);
 
-  const isCompact = variant === 'compact';
+  const isCompact = variant === "compact";
 
   return (
-    <div className={cn('flex flex-col gap-4', className)}>
+    <div className={cn("flex flex-col gap-4", className)}>
       {/* Main controls row */}
-      <div className={cn(
-        'flex items-center justify-center',
-        isCompact ? 'gap-2' : 'gap-6'
-      )}>
+      <div className={cn("flex items-center justify-center", isCompact ? "gap-2" : "gap-6")}>
         {/* Shuffle */}
         {showShuffleRepeat && !isCompact && (
           <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
@@ -137,10 +148,10 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
               onClick={handleShuffle}
               className={cn(
                 config.secondary,
-                'touch-manipulation rounded-full transition-all',
-                shuffle && 'text-primary bg-primary/10'
+                "touch-manipulation rounded-full transition-all",
+                shuffle && "text-primary bg-primary/10",
               )}
-              aria-label={shuffle ? 'Disable shuffle' : 'Enable shuffle'}
+              aria-label={shuffle ? "Disable shuffle" : "Enable shuffle"}
             >
               <Shuffle className={config.icon} />
             </Button>
@@ -157,10 +168,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
                     variant="ghost"
                     size="icon"
                     onClick={handleSeekBackward}
-                    className={cn(
-                      config.secondary,
-                      'touch-manipulation rounded-full hover:bg-muted/50 relative'
-                    )}
+                    className={cn(config.secondary, "touch-manipulation rounded-full hover:bg-muted/50 relative")}
                     aria-label={`Seek backward ${seekSeconds} seconds`}
                   >
                     <RotateCcw className={config.icon} />
@@ -181,10 +189,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
             variant="ghost"
             size="icon"
             onClick={handlePrevious}
-            className={cn(
-              config.secondary,
-              'touch-manipulation rounded-full hover:bg-muted/50'
-            )}
+            className={cn(config.secondary, "touch-manipulation rounded-full hover:bg-muted/50")}
             aria-label="Previous track"
           >
             <SkipBack className={config.icon} />
@@ -192,33 +197,33 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
         </motion.div>
 
         {/* Play/Pause - Main button */}
-        <motion.div 
-          className="relative"
-          whileHover={{ scale: 1.05 }} 
-          whileTap={{ scale: 0.95 }}
-        >
+        <motion.div className="relative" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           {/* Glow effect for fullscreen */}
           {!isCompact && (
             <motion.div
               className="absolute inset-0 rounded-full bg-primary/30 blur-xl"
-              animate={isPlaying ? { 
-                scale: [1, 1.3, 1],
-                opacity: [0.5, 0.2, 0.5]
-              } : { scale: 1, opacity: 0.3 }}
-              transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+              animate={
+                isPlaying
+                  ? {
+                      scale: [1, 1.3, 1],
+                      opacity: [0.5, 0.2, 0.5],
+                    }
+                  : { scale: 1, opacity: 0.3 }
+              }
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             />
           )}
           <Button
             size="icon"
             onClick={handlePlayPause}
             className={cn(
-              'relative rounded-full touch-manipulation',
+              "relative rounded-full touch-manipulation",
               config.main,
-              isCompact 
-                ? 'bg-primary/10 hover:bg-primary/20' 
-                : 'bg-primary shadow-lg shadow-primary/30 hover:bg-primary/90'
+              isCompact
+                ? "bg-primary/10 hover:bg-primary/20"
+                : "bg-primary shadow-lg shadow-primary/30 hover:bg-primary/90",
             )}
-            aria-label={isPlaying ? 'Pause' : 'Play'}
+            aria-label={isPlaying ? "Pause" : "Play"}
           >
             <AnimatePresence mode="wait">
               {isPlaying ? (
@@ -239,7 +244,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
                   exit={{ scale: 0, rotate: -90 }}
                   transition={{ duration: 0.2 }}
                 >
-                  <Play className={cn(config.mainIcon, 'ml-0.5')} fill="currentColor" />
+                  <Play className={cn(config.mainIcon, "ml-0.5")} fill="currentColor" />
                 </motion.div>
               )}
             </AnimatePresence>
@@ -252,10 +257,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
             variant="ghost"
             size="icon"
             onClick={handleNext}
-            className={cn(
-              config.secondary,
-              'touch-manipulation rounded-full hover:bg-muted/50'
-            )}
+            className={cn(config.secondary, "touch-manipulation rounded-full hover:bg-muted/50")}
             aria-label="Next track"
           >
             <SkipForward className={config.icon} />
@@ -272,10 +274,7 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
                     variant="ghost"
                     size="icon"
                     onClick={handleSeekForward}
-                    className={cn(
-                      config.secondary,
-                      'touch-manipulation rounded-full hover:bg-muted/50 relative'
-                    )}
+                    className={cn(config.secondary, "touch-manipulation rounded-full hover:bg-muted/50 relative")}
                     aria-label={`Seek forward ${seekSeconds} seconds`}
                   >
                     <RotateCw className={config.icon} />
@@ -299,15 +298,13 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
               onClick={handleRepeat}
               className={cn(
                 config.secondary,
-                'touch-manipulation rounded-full relative transition-all',
-                repeat !== 'off' && 'text-primary bg-primary/10'
+                "touch-manipulation rounded-full relative transition-all",
+                repeat !== "off" && "text-primary bg-primary/10",
               )}
               aria-label={`Repeat: ${repeat}`}
             >
               <Repeat className={config.icon} />
-              {repeat === 'one' && (
-                <span className="absolute text-[10px] font-bold">1</span>
-              )}
+              {repeat === "one" && <span className="absolute text-[10px] font-bold">1</span>}
             </Button>
           </motion.div>
         )}
@@ -321,13 +318,9 @@ export const UnifiedPlayerControls = memo(function UnifiedPlayerControls({
             size="icon"
             onClick={() => setVolume(volume === 0 ? 1 : 0)}
             className="h-9 w-9 flex-shrink-0 touch-manipulation rounded-full"
-            aria-label={volume === 0 ? 'Unmute' : 'Mute'}
+            aria-label={volume === 0 ? "Unmute" : "Mute"}
           >
-            {volume === 0 ? (
-              <VolumeX className="h-4 w-4" />
-            ) : (
-              <Volume2 className="h-4 w-4" />
-            )}
+            {volume === 0 ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
           </Button>
           <Slider
             value={[volume]}

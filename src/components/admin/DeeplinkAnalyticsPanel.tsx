@@ -1,6 +1,6 @@
 /**
  * Enhanced Deeplink Analytics Panel
- * 
+ *
  * Comprehensive dashboard for tracking deeplink performance
  * with trends, heatmaps, and conversion funnels.
  */
@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
+import {
   Link2,
   MousePointerClick,
   Users,
@@ -24,7 +24,7 @@ import {
   BarChart3,
   Target,
   Zap,
-  Filter
+  Filter,
 } from "lucide-react";
 import { useDeeplinkStats, useDeeplinkEvents, type DeeplinkEvent } from "@/hooks/useDeeplinkAnalytics";
 import { DeeplinkTrendsChart } from "./analytics/DeeplinkTrendsChart";
@@ -34,19 +34,26 @@ import { ConversionFunnelStages } from "./analytics/ConversionFunnelStages";
 import { fetchDeeplinkAnalyticsSummary, type DeeplinkAnalyticsSummary } from "@/lib/analytics/deeplink-tracker";
 import { useQuery } from "@tanstack/react-query";
 
-type TimeRange = '1h' | '24h' | '7d' | '30d';
+type TimeRange = "1h" | "24h" | "7d" | "30d";
 
 export function DeeplinkAnalyticsPanel() {
-  const [timeRange, setTimeRange] = useState<TimeRange>('7d');
-  const [activeTab, setActiveTab] = useState('overview');
-  
+  const [timeRange, setTimeRange] = useState<TimeRange>("7d");
+  const [activeTab, setActiveTab] = useState("overview");
+
   const { data: stats, isLoading: statsLoading, refetch: refetchStats } = useDeeplinkStats(timeRange);
   const { data: events, isLoading: eventsLoading, refetch: refetchEvents } = useDeeplinkEvents({ limit: 100 });
 
   // Fetch enhanced analytics
-  const { data: summary, isLoading: summaryLoading, refetch: refetchSummary } = useQuery({
-    queryKey: ['deeplink-summary', timeRange],
-    queryFn: () => fetchDeeplinkAnalyticsSummary(timeRange === '1h' ? '1 day' : timeRange === '24h' ? '1 day' : timeRange === '7d' ? '7 days' : '30 days'),
+  const {
+    data: summary,
+    isLoading: summaryLoading,
+    refetch: refetchSummary,
+  } = useQuery({
+    queryKey: ["deeplink-summary", timeRange],
+    queryFn: () =>
+      fetchDeeplinkAnalyticsSummary(
+        timeRange === "1h" ? "1 day" : timeRange === "24h" ? "1 day" : timeRange === "7d" ? "7 days" : "30 days",
+      ),
     staleTime: 60000,
   });
 
@@ -61,7 +68,7 @@ export function DeeplinkAnalyticsPanel() {
   // Transform data for charts
   const trendData = useMemo(() => {
     if (!summary?.dailyTrend) return [];
-    return summary.dailyTrend.map(d => ({
+    return summary.dailyTrend.map((d) => ({
       date: d.date,
       visits: d.visits,
       conversions: d.conversions,
@@ -71,16 +78,14 @@ export function DeeplinkAnalyticsPanel() {
 
   const heatmapData = useMemo(() => {
     if (!summary?.topSources || !summary?.hourlyDistribution) return [];
-    
+
     // Create hourly distribution per source
-    return summary.topSources.slice(0, 8).map(source => ({
+    return summary.topSources.slice(0, 8).map((source) => ({
       source: source.source,
       hourlyData: Array.from({ length: 24 }, (_, hour) => {
         // Distribute source count across hours based on overall hourly pattern
         const hourlyTotal = Object.values(summary.hourlyDistribution).reduce((a, b) => a + b, 0);
-        const hourShare = hourlyTotal > 0 
-          ? (summary.hourlyDistribution[hour] || 0) / hourlyTotal 
-          : 1/24;
+        const hourShare = hourlyTotal > 0 ? (summary.hourlyDistribution[hour] || 0) / hourlyTotal : 1 / 24;
         return Math.round(source.count * hourShare);
       }),
     }));
@@ -88,12 +93,12 @@ export function DeeplinkAnalyticsPanel() {
 
   const campaignData = useMemo(() => {
     if (!summary?.topCampaigns) return [];
-    return summary.topCampaigns.map(c => ({
+    return summary.topCampaigns.map((c) => ({
       name: c.campaign,
-      source: 'utm',
-      medium: 'campaign',
+      source: "utm",
+      medium: "campaign",
       visits: c.count,
-      conversions: Math.round(c.count * c.conversion_rate / 100),
+      conversions: Math.round((c.count * c.conversion_rate) / 100),
       conversionRate: c.conversion_rate,
       trend: 0,
     }));
@@ -107,7 +112,7 @@ export function DeeplinkAnalyticsPanel() {
       registered: Math.round((summary?.totalVisits || 0) * 0.35),
       first_action: Math.round((summary?.totalVisits || 0) * 0.25),
       generation: Math.round((summary?.totalVisits || 0) * 0.15),
-      completed: Math.round((summary?.totalVisits || 0) * 0.10),
+      completed: Math.round((summary?.totalVisits || 0) * 0.1),
       payment: Math.round((summary?.totalVisits || 0) * 0.03),
       retained: Math.round((summary?.totalVisits || 0) * 0.08),
     };
@@ -123,9 +128,7 @@ export function DeeplinkAnalyticsPanel() {
             <Link2 className="h-5 w-5" />
             Аналитика диплинков
           </h2>
-          <p className="text-sm text-muted-foreground">
-            Отслеживание переходов, конверсий и источников трафика
-          </p>
+          <p className="text-sm text-muted-foreground">Отслеживание переходов, конверсий и источников трафика</p>
         </div>
         <div className="flex gap-2">
           <Select value={timeRange} onValueChange={(v) => setTimeRange(v as TimeRange)}>
@@ -140,7 +143,7 @@ export function DeeplinkAnalyticsPanel() {
             </SelectContent>
           </Select>
           <Button variant="outline" size="sm" onClick={refetch} disabled={isLoading}>
-            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
           </Button>
         </div>
       </div>
@@ -227,11 +230,7 @@ export function DeeplinkAnalyticsPanel() {
 
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-4 mt-4">
-          <DeeplinkTrendsChart 
-            data={trendData} 
-            timeRange={timeRange} 
-            isLoading={isLoading} 
-          />
+          <DeeplinkTrendsChart data={trendData} timeRange={timeRange} isLoading={isLoading} />
 
           <div className="grid md:grid-cols-2 gap-4">
             {/* Top Sources */}
@@ -251,15 +250,13 @@ export function DeeplinkAnalyticsPanel() {
                   <div className="space-y-2">
                     {stats.top_sources.map((source: { source: string; count: number }, i: number) => (
                       <div key={i} className="flex items-center justify-between p-2 rounded bg-muted/50">
-                        <span className="text-sm font-medium truncate">{source.source || 'Прямой'}</span>
+                        <span className="text-sm font-medium truncate">{source.source || "Прямой"}</span>
                         <Badge variant="secondary">{source.count}</Badge>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center text-muted-foreground py-8">
-                    Нет данных
-                  </div>
+                  <div className="text-center text-muted-foreground py-8">Нет данных</div>
                 )}
               </CardContent>
             </Card>
@@ -287,9 +284,7 @@ export function DeeplinkAnalyticsPanel() {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center text-muted-foreground py-8">
-                    Нет данных
-                  </div>
+                  <div className="text-center text-muted-foreground py-8">Нет данных</div>
                 )}
               </CardContent>
             </Card>
@@ -299,9 +294,7 @@ export function DeeplinkAnalyticsPanel() {
           <Card>
             <CardHeader>
               <CardTitle>Последние переходы</CardTitle>
-              <CardDescription>
-                {isLoading ? "Загрузка..." : `${events?.length || 0} записей`}
-              </CardDescription>
+              <CardDescription>{isLoading ? "Загрузка..." : `${events?.length || 0} записей`}</CardDescription>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[250px]">
@@ -312,11 +305,8 @@ export function DeeplinkAnalyticsPanel() {
                 ) : events && events.length > 0 ? (
                   <div className="space-y-2">
                     {events.slice(0, 20).map((event: DeeplinkEvent) => (
-                      <div
-                        key={event.id}
-                        className="flex items-center gap-3 p-3 rounded-lg border bg-card"
-                      >
-                        <div className={`p-1.5 rounded ${event.converted ? 'bg-green-500/10' : 'bg-muted'}`}>
+                      <div key={event.id} className="flex items-center gap-3 p-3 rounded-lg border bg-card">
+                        <div className={`p-1.5 rounded ${event.converted ? "bg-green-500/10" : "bg-muted"}`}>
                           {event.converted ? (
                             <CheckCircle2 className="h-4 w-4 text-green-500" />
                           ) : (
@@ -329,9 +319,7 @@ export function DeeplinkAnalyticsPanel() {
                               {event.deeplink_type}
                             </Badge>
                             {event.deeplink_value && (
-                              <span className="text-xs text-muted-foreground truncate">
-                                {event.deeplink_value}
-                              </span>
+                              <span className="text-xs text-muted-foreground truncate">{event.deeplink_value}</span>
                             )}
                           </div>
                           <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1">
@@ -340,15 +328,13 @@ export function DeeplinkAnalyticsPanel() {
                           </div>
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          {new Date(event.created_at).toLocaleTimeString('ru-RU')}
+                          {new Date(event.created_at).toLocaleTimeString("ru-RU")}
                         </div>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <div className="flex items-center justify-center h-32 text-muted-foreground">
-                    Нет данных
-                  </div>
+                  <div className="flex items-center justify-center h-32 text-muted-foreground">Нет данных</div>
                 )}
               </ScrollArea>
             </CardContent>

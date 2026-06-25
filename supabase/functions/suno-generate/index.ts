@@ -1,27 +1,27 @@
 /**
  * Suno Generate - Legacy Proxy
- * 
+ *
  * DEPRECATED: This function is a proxy to suno-music-generate for backwards compatibility.
  * New code should use suno-music-generate directly.
- * 
+ *
  * Maps legacy action-based API to modern suno-music-generate API.
  */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { corsHeaders } from '../_shared/cors.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const supabase = getSupabaseClient();
 
     // Forward to suno-music-generate
     const body = await req.json();
-    const { 
+    const {
       action,
       trackId,
       prompt,
@@ -37,25 +37,27 @@ serve(async (req) => {
       voiceId,
     } = body;
 
-    console.log(JSON.stringify({
-      tag: '[suno-generate]',
-      event: 'request_received',
-      action,
-      hasVoiceId: !!voiceId,
-      voiceIdHash: voiceId ? voiceId.slice(0, 8) : null,
-      hasExtendAudioUrl: !!extendAudioUrl,
-      hasCoverAudioUrl: !!coverAudioUrl,
-      hasTrackId: !!trackId,
-    }));
+    console.log(
+      JSON.stringify({
+        tag: "[suno-generate]",
+        event: "request_received",
+        action,
+        hasVoiceId: !!voiceId,
+        voiceIdHash: voiceId ? voiceId.slice(0, 8) : null,
+        hasExtendAudioUrl: !!extendAudioUrl,
+        hasCoverAudioUrl: !!coverAudioUrl,
+        hasTrackId: !!trackId,
+      }),
+    );
 
     // Map legacy actions to modern endpoints
-    let targetFunction = 'suno-music-generate';
+    let targetFunction = "suno-music-generate";
     let mappedBody: any = {};
 
     switch (action) {
-      case 'generate':
+      case "generate":
         mappedBody = {
-          mode: lyrics ? 'custom' : 'simple',
+          mode: lyrics ? "custom" : "simple",
           prompt: lyrics || prompt,
           style: style,
           title: title,
@@ -63,11 +65,11 @@ serve(async (req) => {
         };
         break;
 
-      case 'extend':
+      case "extend":
         // For extend with audioUrl (from reference audio), use suno-extend-audio
         // For extend with trackId (from existing track), use suno-music-extend
         if (extendAudioUrl && !trackId) {
-          targetFunction = 'suno-extend-audio';
+          targetFunction = "suno-extend-audio";
           mappedBody = {
             audioUrl: extendAudioUrl,
             continueAt: continueAt,
@@ -78,7 +80,7 @@ serve(async (req) => {
             voiceId,
           };
         } else {
-          targetFunction = 'suno-music-extend';
+          targetFunction = "suno-music-extend";
           mappedBody = {
             sourceTrackId: trackId,
             continueAt: continueAt,
@@ -91,8 +93,8 @@ serve(async (req) => {
         }
         break;
 
-      case 'cover':
-        targetFunction = 'suno-remix';
+      case "cover":
+        targetFunction = "suno-remix";
         mappedBody = {
           audioUrl: coverAudioUrl,
           prompt: prompt,
@@ -104,16 +106,16 @@ serve(async (req) => {
         };
         break;
 
-      case 'stems':
-        targetFunction = 'suno-separate-vocals';
+      case "stems":
+        targetFunction = "suno-separate-vocals";
         mappedBody = {
           audioUrl: coverAudioUrl,
-          mode: stemMode || '4_stems',
+          mode: stemMode || "4_stems",
         };
         break;
 
-      case 'add_vocals':
-        targetFunction = 'suno-add-vocals';
+      case "add_vocals":
+        targetFunction = "suno-add-vocals";
         mappedBody = {
           audioUrl: coverAudioUrl,
           lyrics: lyrics,
@@ -124,24 +126,26 @@ serve(async (req) => {
         throw new Error(`Unknown action: ${action}. Use suno-music-generate directly.`);
     }
 
-    console.log(JSON.stringify({
-      tag: '[suno-generate]',
-      event: 'forwarding',
-      targetFunction,
-      action,
-      voiceIdPropagated: !!mappedBody.voiceId,
-      hasAudioUrl: !!extendAudioUrl,
-      hasTrackId: !!trackId,
-    }));
+    console.log(
+      JSON.stringify({
+        tag: "[suno-generate]",
+        event: "forwarding",
+        targetFunction,
+        action,
+        voiceIdPropagated: !!mappedBody.voiceId,
+        hasAudioUrl: !!extendAudioUrl,
+        hasTrackId: !!trackId,
+      }),
+    );
 
     // Forward the request with original auth header
-    const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY') || '';
+    const supabaseKey = Deno.env.get("SUPABASE_ANON_KEY") || "";
     const response = await fetch(`${supabaseUrl}/functions/v1/${targetFunction}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Authorization': req.headers.get('Authorization') || '',
-        'Content-Type': 'application/json',
-        'apikey': supabaseKey,
+        Authorization: req.headers.get("Authorization") || "",
+        "Content-Type": "application/json",
+        apikey: supabaseKey,
       },
       body: JSON.stringify(mappedBody),
     });
@@ -151,31 +155,24 @@ serve(async (req) => {
     // Map response back to legacy format if needed
     if (data.success && data.trackId) {
       return new Response(
-        JSON.stringify({ 
-          success: true, 
+        JSON.stringify({
+          success: true,
           data: data,
           taskId: data.taskId || data.sunoTaskId,
         }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
-    return new Response(
-      JSON.stringify(data),
-      { 
-        status: response.status,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    );
-
+    return new Response(JSON.stringify(data), {
+      status: response.status,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (error: any) {
-    console.error('[suno-generate] Error:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }),
-      { 
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
-    );
+    console.error("[suno-generate] Error:", error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

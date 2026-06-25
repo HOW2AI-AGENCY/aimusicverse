@@ -20,8 +20,8 @@
  *   </ResponsiveOverlay>
  */
 
-import { useEffect, useState, type ReactNode } from 'react';
-import { UnifiedDialog } from '@/components/dialog';
+import { useEffect, useState, type ReactNode } from "react";
+import { UnifiedDialog } from "@/components/dialog";
 
 interface ResponsiveOverlayProps {
   open: boolean;
@@ -29,9 +29,9 @@ interface ResponsiveOverlayProps {
   title: string;
   description?: string;
   /** Force a specific variant — by default we pick by viewport. */
-  variant?: 'auto' | 'modal' | 'sheet';
+  variant?: "auto" | "modal" | "sheet";
   /** Modal size on desktop. Ignored in sheet mode. */
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
   /** Snap points on mobile sheet. Defaults to `[0.5, 0.95]`. */
   snapPoints?: number[];
   children: ReactNode;
@@ -41,7 +41,7 @@ interface ResponsiveOverlayProps {
 const MOBILE_BREAKPOINT = 768;
 
 function detectMobile(): boolean {
-  if (typeof window === 'undefined') return false;
+  if (typeof window === "undefined") return false;
   return window.innerWidth < MOBILE_BREAKPOINT;
 }
 
@@ -50,8 +50,8 @@ export function ResponsiveOverlay({
   onOpenChange,
   title,
   description,
-  variant = 'auto',
-  size = 'md',
+  variant = "auto",
+  size = "md",
   snapPoints = [0.5, 0.95],
   children,
   className,
@@ -60,11 +60,11 @@ export function ResponsiveOverlay({
 
   useEffect(() => {
     const handler = () => setIsMobile(detectMobile());
-    window.addEventListener('resize', handler, { passive: true });
-    return () => window.removeEventListener('resize', handler);
+    window.addEventListener("resize", handler, { passive: true });
+    return () => window.removeEventListener("resize", handler);
   }, []);
 
-  const useSheet = variant === 'sheet' || (variant === 'auto' && isMobile);
+  const useSheet = variant === "sheet" || (variant === "auto" && isMobile);
 
   if (useSheet) {
     return (
@@ -76,9 +76,7 @@ export function ResponsiveOverlay({
         snapPoints={snapPoints}
         className={className}
       >
-        {description ? (
-          <p className="text-sm text-muted-foreground mb-3 px-1">{description}</p>
-        ) : null}
+        {description ? <p className="text-sm text-muted-foreground mb-3 px-1">{description}</p> : null}
         {children}
       </UnifiedDialog>
     );

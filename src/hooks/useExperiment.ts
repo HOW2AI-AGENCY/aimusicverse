@@ -1,12 +1,12 @@
 /**
  * useExperiment Hook
- * 
+ *
  * React hook for A/B testing experiment integration.
  * Provides variant assignment and event tracking.
  */
 
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Experiment,
   getVariant,
@@ -16,7 +16,7 @@ import {
   trackExperimentEvent,
   trackExperimentConversion,
   isParticipationEnabled,
-} from '@/lib/ab-testing';
+} from "@/lib/ab-testing";
 
 interface UseExperimentOptions {
   /** Auto-assign if not already assigned */
@@ -42,11 +42,11 @@ interface UseExperimentResult {
 
 /**
  * Hook for using A/B experiments in components
- * 
+ *
  * @example
  * ```tsx
  * const { variant, isControl, trackConversion } = useExperiment(EXPERIMENTS.ONBOARDING_V2);
- * 
+ *
  * // Render based on variant
  * if (isControl) {
  *   return <OriginalOnboarding />;
@@ -54,10 +54,7 @@ interface UseExperimentResult {
  * return <NewOnboarding onComplete={() => trackConversion('onboarding_complete')} />;
  * ```
  */
-export function useExperiment(
-  experiment: Experiment,
-  options: UseExperimentOptions = {}
-): UseExperimentResult {
+export function useExperiment(experiment: Experiment, options: UseExperimentOptions = {}): UseExperimentResult {
   const { autoAssign = true, trackExposure = true } = options;
   const { user } = useAuth();
   const [variant, setVariant] = useState<string | null>(null);
@@ -67,13 +64,13 @@ export function useExperiment(
   useEffect(() => {
     // Skip if participation disabled
     if (!isParticipationEnabled()) {
-      setVariant('control');
+      setVariant("control");
       setIsLoading(false);
       return;
     }
 
     // Skip if experiment not running
-    if (experiment.status !== 'running') {
+    if (experiment.status !== "running") {
       setVariant(null);
       setIsLoading(false);
       return;
@@ -81,7 +78,7 @@ export function useExperiment(
 
     // Get existing assignment or auto-assign
     let assignedVariant = getVariant(experiment.id);
-    
+
     if (!assignedVariant && autoAssign) {
       assignedVariant = assignToExperiment(experiment, user?.id);
     }
@@ -91,28 +88,22 @@ export function useExperiment(
 
     // Track exposure
     if (trackExposure && assignedVariant) {
-      trackExperimentEvent(experiment.id, 'exposure');
+      trackExperimentEvent(experiment.id, "exposure");
     }
   }, [experiment, autoAssign, trackExposure, user?.id]);
 
   // Check if in specific variant
-  const checkIsVariant = useCallback(
-    (variantId: string) => isInVariant(experiment.id, variantId),
-    [experiment.id]
-  );
+  const checkIsVariant = useCallback((variantId: string) => isInVariant(experiment.id, variantId), [experiment.id]);
 
   // Check if control
-  const checkIsControl = useMemo(
-    () => variant === null || isControl(experiment.id),
-    [experiment.id, variant]
-  );
+  const checkIsControl = useMemo(() => variant === null || isControl(experiment.id), [experiment.id, variant]);
 
   // Track event
   const handleTrackEvent = useCallback(
     async (eventName: string, metadata?: Record<string, unknown>) => {
       await trackExperimentEvent(experiment.id, eventName, metadata);
     },
-    [experiment.id]
+    [experiment.id],
   );
 
   // Track conversion
@@ -120,7 +111,7 @@ export function useExperiment(
     async (goalName: string, value?: number) => {
       await trackExperimentConversion(experiment.id, goalName, value);
     },
-    [experiment.id]
+    [experiment.id],
   );
 
   return {
@@ -139,10 +130,10 @@ export function useExperiment(
  */
 export function useExperimentEnabled(experiment: Experiment): boolean {
   const { variant, isControl, isLoading } = useExperiment(experiment);
-  
+
   // Default to control (disabled) while loading
   if (isLoading) return false;
-  
+
   // Enabled if not in control
   return !isControl && variant !== null;
 }

@@ -3,68 +3,79 @@
  * Main admin dashboard for viewing telemetry and performance metrics
  */
 
-import { useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { useTelemetryStats, useErrorTrends } from '@/hooks/admin/useTelemetryStats';
-import { useGenerationAnalytics } from '@/hooks/useGenerationAnalytics';
-import { TelemetryOverview } from './TelemetryOverview';
-import { ErrorTrendsPanel } from './ErrorTrendsPanel';
-import { GenerationStatsPanel } from '../GenerationStatsPanel';
-import { PerformanceMetricsPanel } from './PerformanceMetricsPanel';
-import { DeeplinkAnalyticsPanel } from '../DeeplinkAnalyticsPanel';
-import { ExperimentsPanel } from './ExperimentsPanel';
-import { RetentionPanel } from './RetentionPanel';
-import { RevenueAnalyticsPanel } from './RevenueAnalyticsPanel';
-import { ContentAnalyticsPanel } from './ContentAnalyticsPanel';
-import { UserActivityHeatmap } from './UserActivityHeatmap';
-import { RealTimeMetrics } from './RealTimeMetrics';
-import { ComparisonPanel } from './ComparisonPanel';
-import { AlertsPanel } from './AlertsPanel';
-import { UserJourneyPanel } from './UserJourneyPanel';
-import { ChurnPredictionPanel } from './ChurnPredictionPanel';
-import { ConversionFunnelPanel } from './ConversionFunnelPanel';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Activity, AlertTriangle, Music, Gauge, Link2, FlaskConical, 
-  Users, Download, DollarSign, BarChart3, Clock, GitCompare, Route,
-  TrendingDown, Filter
-} from 'lucide-react';
-import { exportAnalytics, formatTelemetryForExport } from '@/lib/analytics/exportUtils';
-import { toast } from 'sonner';
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { useTelemetryStats, useErrorTrends } from "@/hooks/admin/useTelemetryStats";
+import { useGenerationAnalytics } from "@/hooks/useGenerationAnalytics";
+import { TelemetryOverview } from "./TelemetryOverview";
+import { ErrorTrendsPanel } from "./ErrorTrendsPanel";
+import { GenerationStatsPanel } from "../GenerationStatsPanel";
+import { PerformanceMetricsPanel } from "./PerformanceMetricsPanel";
+import { DeeplinkAnalyticsPanel } from "../DeeplinkAnalyticsPanel";
+import { ExperimentsPanel } from "./ExperimentsPanel";
+import { RetentionPanel } from "./RetentionPanel";
+import { RevenueAnalyticsPanel } from "./RevenueAnalyticsPanel";
+import { ContentAnalyticsPanel } from "./ContentAnalyticsPanel";
+import { UserActivityHeatmap } from "./UserActivityHeatmap";
+import { RealTimeMetrics } from "./RealTimeMetrics";
+import { ComparisonPanel } from "./ComparisonPanel";
+import { AlertsPanel } from "./AlertsPanel";
+import { UserJourneyPanel } from "./UserJourneyPanel";
+import { ChurnPredictionPanel } from "./ChurnPredictionPanel";
+import { ConversionFunnelPanel } from "./ConversionFunnelPanel";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Activity,
+  AlertTriangle,
+  Music,
+  Gauge,
+  Link2,
+  FlaskConical,
+  Users,
+  Download,
+  DollarSign,
+  BarChart3,
+  Clock,
+  GitCompare,
+  Route,
+  TrendingDown,
+  Filter,
+} from "lucide-react";
+import { exportAnalytics, formatTelemetryForExport } from "@/lib/analytics/exportUtils";
+import { toast } from "sonner";
 
-type TimePeriod = '24 hours' | '7 days' | '30 days' | '90 days' | 'all';
+type TimePeriod = "24 hours" | "7 days" | "30 days" | "90 days" | "all";
 
 // '100 years' is a valid Postgres interval that effectively means "all time"
-const ALL_TIME_INTERVAL = '100 years';
+const ALL_TIME_INTERVAL = "100 years";
 
 export function AnalyticsDashboard() {
-  const [timePeriod, setTimePeriod] = useState<TimePeriod>('7 days');
+  const [timePeriod, setTimePeriod] = useState<TimePeriod>("7 days");
 
-  const rpcPeriod = timePeriod === 'all' ? ALL_TIME_INTERVAL : timePeriod;
+  const rpcPeriod = timePeriod === "all" ? ALL_TIME_INTERVAL : timePeriod;
 
   const { data: telemetry, isLoading: telemetryLoading } = useTelemetryStats(rpcPeriod);
   const { data: errorTrends, isLoading: errorsLoading } = useErrorTrends(rpcPeriod);
   const { data: generationStats, isLoading: generationLoading } = useGenerationAnalytics(
-    (timePeriod === '24 hours' ? '7 days' : timePeriod === 'all' ? ALL_TIME_INTERVAL : timePeriod) as any
+    (timePeriod === "24 hours" ? "7 days" : timePeriod === "all" ? ALL_TIME_INTERVAL : timePeriod) as any,
   );
 
   const isLoading = telemetryLoading || errorsLoading || generationLoading;
 
   // Map time period to deeplink format (deeplink panel only supports 24h/7d/30d)
-  const deeplinkTimeRange = timePeriod === '24 hours' ? '24h' :
-                           timePeriod === '7 days' ? '7d' : '30d';
+  const deeplinkTimeRange = timePeriod === "24 hours" ? "24h" : timePeriod === "7 days" ? "7d" : "30d";
 
   const handleExport = () => {
     if (telemetry) {
       exportAnalytics({
-        format: 'csv',
-        filename: `analytics_${timePeriod.replace(' ', '_')}_${new Date().toISOString().split('T')[0]}`,
+        format: "csv",
+        filename: `analytics_${timePeriod.replace(" ", "_")}_${new Date().toISOString().split("T")[0]}`,
         data: formatTelemetryForExport(telemetry as unknown as Record<string, unknown>),
       });
-      toast.success('Данные экспортированы');
+      toast.success("Данные экспортированы");
     }
   };
 
@@ -76,13 +87,13 @@ export function AnalyticsDashboard() {
           <h1 className="text-xl sm:text-2xl font-bold">Аналитика</h1>
           <p className="text-sm text-muted-foreground hidden sm:block">Мониторинг телеметрии и производительности</p>
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={handleExport} className="gap-1.5 h-8 px-2 sm:px-3">
             <Download className="h-4 w-4" />
             <span className="hidden xs:inline">Экспорт</span>
           </Button>
-          
+
           <Select value={timePeriod} onValueChange={(v) => setTimePeriod(v as TimePeriod)}>
             <SelectTrigger className="w-[100px] sm:w-[140px] h-8">
               <SelectValue />
@@ -282,7 +293,7 @@ function QuickStatCard({ icon: Icon, label, value, subtext, iconColor }: QuickSt
           <div className="min-w-0 flex-1">
             <p className="text-xs sm:text-sm text-muted-foreground truncate">{label}</p>
             <p className="text-lg sm:text-2xl font-bold mt-0.5 sm:mt-1 truncate">
-              {typeof value === 'number' ? value.toLocaleString() : value}
+              {typeof value === "number" ? value.toLocaleString() : value}
             </p>
             <p className="text-[10px] sm:text-xs text-muted-foreground mt-0.5 sm:mt-1 truncate">{subtext}</p>
           </div>

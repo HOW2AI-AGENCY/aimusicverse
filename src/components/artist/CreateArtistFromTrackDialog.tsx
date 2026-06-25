@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { UnifiedDialog } from '@/components/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Card } from '@/components/ui/card';
-import { Sparkles, X, Plus, Music2, Check } from 'lucide-react';
-import { useArtists } from '@/hooks/useArtists';
-import { useTracks } from '@/hooks/useTracks';
-import type { Track } from '@/types/track';
-import { ArtistAvatarUpload } from './ArtistAvatarUpload';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+import { useState, useEffect } from "react";
+import { UnifiedDialog } from "@/components/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card } from "@/components/ui/card";
+import { Sparkles, X, Plus, Music2, Check } from "lucide-react";
+import { useArtists } from "@/hooks/useArtists";
+import { useTracks } from "@/hooks/useTracks";
+import type { Track } from "@/types/track";
+import { ArtistAvatarUpload } from "./ArtistAvatarUpload";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface CreateArtistFromTrackDialogProps {
   open: boolean;
@@ -27,36 +27,36 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
   const { hapticFeedback } = useTelegram();
   const { tracks } = useTracks();
   const { createArtist, isCreating } = useArtists();
-  
-  const [step, setStep] = useState<'select' | 'create'>('select');
+
+  const [step, setStep] = useState<"select" | "create">("select");
   const [selectedTrackId, setSelectedTrackId] = useState<string | null>(null);
-  
-  const [name, setName] = useState('');
-  const [bio, setBio] = useState('');
-  const [styleDescription, setStyleDescription] = useState('');
+
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [styleDescription, setStyleDescription] = useState("");
   const [genreTags, setGenreTags] = useState<string[]>([]);
   const [moodTags, setMoodTags] = useState<string[]>([]);
-  const [newGenreTag, setNewGenreTag] = useState('');
-  const [newMoodTag, setNewMoodTag] = useState('');
+  const [newGenreTag, setNewGenreTag] = useState("");
+  const [newMoodTag, setNewMoodTag] = useState("");
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
   const selectedTrack = tracks?.find((t: Track) => t.id === selectedTrackId);
 
   const resetForm = () => {
-    setName('');
-    setBio('');
-    setStyleDescription('');
+    setName("");
+    setBio("");
+    setStyleDescription("");
     setGenreTags([]);
     setMoodTags([]);
     setAvatarUrl(null);
-    setNewGenreTag('');
-    setNewMoodTag('');
+    setNewGenreTag("");
+    setNewMoodTag("");
   };
 
   // Reset on open
   useEffect(() => {
     if (open) {
-      setStep('select');
+      setStep("select");
       setSelectedTrackId(null);
       resetForm();
     }
@@ -64,18 +64,19 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
 
   // Pre-fill from selected track
   useEffect(() => {
-    if (selectedTrack && step === 'create') {
-      const trackTitle = selectedTrack.title || '';
-      const artistName = trackTitle.includes(' - ')
-        ? trackTitle.split(' - ')[0].trim()
-        : `Артист "${trackTitle}"`;
+    if (selectedTrack && step === "create") {
+      const trackTitle = selectedTrack.title || "";
+      const artistName = trackTitle.includes(" - ") ? trackTitle.split(" - ")[0].trim() : `Артист "${trackTitle}"`;
 
       setName(artistName);
-      setStyleDescription(selectedTrack.style || '');
+      setStyleDescription(selectedTrack.style || "");
       setAvatarUrl(selectedTrack.local_cover_url || selectedTrack.cover_url || null);
 
-      if (selectedTrack.tags && typeof selectedTrack.tags === 'string') {
-        const tags = selectedTrack.tags.split(',').map((t: string) => t.trim()).filter(Boolean);
+      if (selectedTrack.tags && typeof selectedTrack.tags === "string") {
+        const tags = selectedTrack.tags
+          .split(",")
+          .map((t: string) => t.trim())
+          .filter(Boolean);
         setGenreTags(tags.slice(0, 5));
       }
 
@@ -85,31 +86,31 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
 
   const handleSelectTrack = (trackId: string) => {
     setSelectedTrackId(trackId);
-    setStep('create');
+    setStep("create");
   };
 
   const addGenreTag = () => {
     if (newGenreTag.trim() && !genreTags.includes(newGenreTag.trim())) {
       setGenreTags([...genreTags, newGenreTag.trim()]);
-      setNewGenreTag('');
+      setNewGenreTag("");
     }
   };
 
   const addMoodTag = () => {
     if (newMoodTag.trim() && !moodTags.includes(newMoodTag.trim())) {
       setMoodTags([...moodTags, newMoodTag.trim()]);
-      setNewMoodTag('');
+      setNewMoodTag("");
     }
   };
 
   const handleSubmit = () => {
     if (!name.trim()) {
-      hapticFeedback?.('error');
-      toast.error('Введите имя артиста');
+      hapticFeedback?.("error");
+      toast.error("Введите имя артиста");
       return;
     }
 
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     createArtist({
       name: name.trim(),
       bio: bio.trim() || null,
@@ -121,56 +122,54 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
       is_public: true,
     });
 
-    hapticFeedback?.('success');
+    hapticFeedback?.("success");
     onOpenChange(false);
   };
 
   const content = (
     <div className="flex flex-col h-full">
-      {step === 'select' ? (
+      {step === "select" ? (
         <>
           <div className="text-center mb-4">
-            <p className="text-sm text-muted-foreground">
-              Выберите трек, на основе которого будет создан AI артист
-            </p>
+            <p className="text-sm text-muted-foreground">Выберите трек, на основе которого будет создан AI артист</p>
           </div>
-          
+
           <ScrollArea className="flex-1 -mx-4 px-4">
             {tracks && tracks.length > 0 ? (
               <div className="space-y-2 pb-4">
-                {tracks.filter((t: Track) => t.audio_url).map((track: Track) => (
-                  <Card
-                    key={track.id}
-                    onClick={() => handleSelectTrack(track.id)}
-                    className={cn(
-                      "p-3 cursor-pointer hover:bg-accent/50 transition-colors",
-                      selectedTrackId === track.id && "ring-2 ring-primary"
-                    )}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-muted">
-                        {track.cover_url || track.local_cover_url ? (
-                          <img 
-                            src={track.local_cover_url || track.cover_url || ''} 
-                            alt="" 
-                            className="w-full h-full object-cover" 
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center">
-                            <Music2 className="w-5 h-5 text-muted-foreground" />
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-sm truncate">{track.title || 'Без названия'}</p>
-                        <p className="text-xs text-muted-foreground truncate">{track.style || ''}</p>
-                      </div>
-                      {selectedTrackId === track.id && (
-                        <Check className="w-5 h-5 text-primary" />
+                {tracks
+                  .filter((t: Track) => t.audio_url)
+                  .map((track: Track) => (
+                    <Card
+                      key={track.id}
+                      onClick={() => handleSelectTrack(track.id)}
+                      className={cn(
+                        "p-3 cursor-pointer hover:bg-accent/50 transition-colors",
+                        selectedTrackId === track.id && "ring-2 ring-primary",
                       )}
-                    </div>
-                  </Card>
-                ))}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-muted">
+                          {track.cover_url || track.local_cover_url ? (
+                            <img
+                              src={track.local_cover_url || track.cover_url || ""}
+                              alt=""
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center">
+                              <Music2 className="w-5 h-5 text-muted-foreground" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-sm truncate">{track.title || "Без названия"}</p>
+                          <p className="text-xs text-muted-foreground truncate">{track.style || ""}</p>
+                        </div>
+                        {selectedTrackId === track.id && <Check className="w-5 h-5 text-primary" />}
+                      </div>
+                    </Card>
+                  ))}
               </div>
             ) : (
               <div className="text-center py-12">
@@ -246,7 +245,7 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
                 <Input
                   value={newGenreTag}
                   onChange={(e) => setNewGenreTag(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addGenreTag())}
+                  onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addGenreTag())}
                   placeholder="Добавить жанр"
                   className="flex-1"
                 />
@@ -275,7 +274,7 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
                 <Input
                   value={newMoodTag}
                   onChange={(e) => setNewMoodTag(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addMoodTag())}
+                  onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addMoodTag())}
                   placeholder="Добавить настроение"
                   className="flex-1"
                 />
@@ -302,46 +301,37 @@ export function CreateArtistFromTrackDialog({ open, onOpenChange }: CreateArtist
 
       {/* Footer */}
       <div className="flex gap-2 pt-4 border-t mt-auto">
-        {step === 'create' && (
-          <Button variant="outline" onClick={() => setStep('select')} className="flex-1">
+        {step === "create" && (
+          <Button variant="outline" onClick={() => setStep("select")} className="flex-1">
             Назад
           </Button>
         )}
-        <Button 
-          onClick={step === 'create' ? handleSubmit : () => onOpenChange(false)} 
-          disabled={step === 'create' && (isCreating || !name.trim())}
+        <Button
+          onClick={step === "create" ? handleSubmit : () => onOpenChange(false)}
+          disabled={step === "create" && (isCreating || !name.trim())}
           className="flex-1"
         >
-          {step === 'create' ? (
-            isCreating ? 'Создание...' : 'Создать артиста'
-          ) : (
-            'Отмена'
-          )}
+          {step === "create" ? (isCreating ? "Создание..." : "Создать артиста") : "Отмена"}
         </Button>
       </div>
     </div>
   );
 
   return (
-    <UnifiedDialog 
+    <UnifiedDialog
       variant="sheet"
-      open={open} 
+      open={open}
       onOpenChange={onOpenChange}
       title={
         <span className="flex items-center justify-center gap-2">
           <Sparkles className="w-5 h-5 text-primary" />
-          {step === 'select' ? 'Выберите трек' : 'Создать AI Артиста'}
+          {step === "select" ? "Выберите трек" : "Создать AI Артиста"}
         </span>
       }
       snapPoints={[0.5, 0.9]}
       defaultSnapPoint={1}
     >
-      <div className={cn(
-        "flex-1 flex flex-col min-h-0 max-h-[75vh] overflow-auto",
-        isMobile && "pb-2"
-      )}>
-        {content}
-      </div>
+      <div className={cn("flex-1 flex flex-col min-h-0 max-h-[75vh] overflow-auto", isMobile && "pb-2")}>{content}</div>
     </UnifiedDialog>
   );
 }

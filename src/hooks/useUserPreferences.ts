@@ -4,11 +4,11 @@
  * Based on listening history and explicit choices
  */
 
-import { useMemo, useCallback } from 'react';
-import { useTelegramStorage } from './useTelegramStorage';
-import { useAuth } from './useAuth';
-import { supabase } from '@/integrations/supabase/client';
-import { useQuery } from '@tanstack/react-query';
+import { useMemo, useCallback } from "react";
+import { useTelegramStorage } from "./useTelegramStorage";
+import { useAuth } from "./useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 
 interface UserPreferences {
   preferredGenres: string[];
@@ -25,10 +25,10 @@ const DEFAULT_PREFERENCES: UserPreferences = {
 
 // Genre keywords for detection
 const GENRE_KEYWORDS: Record<string, string[]> = {
-  hiphop: ['hip-hop', 'hiphop', 'hip hop', 'rap', 'trap', 'drill'],
-  pop: ['pop', 'dance pop', 'synth pop', 'electro pop'],
-  rock: ['rock', 'alternative', 'indie', 'metal', 'punk', 'grunge'],
-  electronic: ['electronic', 'edm', 'house', 'techno', 'dubstep', 'trance', 'dnb'],
+  hiphop: ["hip-hop", "hiphop", "hip hop", "rap", "trap", "drill"],
+  pop: ["pop", "dance pop", "synth pop", "electro pop"],
+  rock: ["rock", "alternative", "indie", "metal", "punk", "grunge"],
+  electronic: ["electronic", "edm", "house", "techno", "dubstep", "trance", "dnb"],
 };
 
 /**
@@ -36,9 +36,9 @@ const GENRE_KEYWORDS: Record<string, string[]> = {
  */
 function detectGenre(style: string, prompt: string): string | null {
   const combined = `${style} ${prompt}`.toLowerCase();
-  
+
   for (const [genre, keywords] of Object.entries(GENRE_KEYWORDS)) {
-    if (keywords.some(kw => combined.includes(kw))) {
+    if (keywords.some((kw) => combined.includes(kw))) {
       return genre;
     }
   }
@@ -47,33 +47,33 @@ function detectGenre(style: string, prompt: string): string | null {
 
 export function useUserPreferences() {
   const { user } = useAuth();
-  
+
   // Persistent storage for preferences
-  const { 
-    value: storedPrefs, 
+  const {
+    value: storedPrefs,
     setValue: setStoredPrefs,
     isLoading: storageLoading,
-  } = useTelegramStorage<UserPreferences>('user_preferences', DEFAULT_PREFERENCES);
+  } = useTelegramStorage<UserPreferences>("user_preferences", DEFAULT_PREFERENCES);
 
   // Fetch listening history to infer preferences
   const { data: listeningData } = useQuery({
-    queryKey: ['user-listening-history', user?.id],
+    queryKey: ["user-listening-history", user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
 
       // Get recent plays to infer genre preferences
       const { data: recentPlays } = await supabase
-        .from('tracks')
-        .select('style, prompt')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+        .from("tracks")
+        .select("style, prompt")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
         .limit(50);
 
       // Get liked tracks
       const { data: likedTracks } = await supabase
-        .from('track_likes')
-        .select('track:tracks(style, prompt)')
-        .eq('user_id', user.id)
+        .from("track_likes")
+        .select("track:tracks(style, prompt)")
+        .eq("user_id", user.id)
         .limit(30);
 
       return { recentPlays, likedTracks };
@@ -89,18 +89,18 @@ export function useUserPreferences() {
     const genreCounts: Record<string, number> = {};
 
     // Count genres from user's own tracks
-    listeningData.recentPlays?.forEach(track => {
-      const genre = detectGenre(track.style || '', track.prompt || '');
+    listeningData.recentPlays?.forEach((track) => {
+      const genre = detectGenre(track.style || "", track.prompt || "");
       if (genre) {
         genreCounts[genre] = (genreCounts[genre] || 0) + 1;
       }
     });
 
     // Count genres from liked tracks (weighted higher)
-    listeningData.likedTracks?.forEach(item => {
+    listeningData.likedTracks?.forEach((item) => {
       const track = item.track as { style?: string; prompt?: string } | null;
       if (track) {
-        const genre = detectGenre(track.style || '', track.prompt || '');
+        const genre = detectGenre(track.style || "", track.prompt || "");
         if (genre) {
           genreCounts[genre] = (genreCounts[genre] || 0) + 2;
         }
@@ -126,28 +126,37 @@ export function useUserPreferences() {
   }, [storedPrefs.preferredGenres, inferredPreferences.genres]);
 
   // Update preferences
-  const setPreferredGenres = useCallback((genres: string[]) => {
-    setStoredPrefs({ ...storedPrefs, preferredGenres: genres });
-  }, [storedPrefs, setStoredPrefs]);
+  const setPreferredGenres = useCallback(
+    (genres: string[]) => {
+      setStoredPrefs({ ...storedPrefs, preferredGenres: genres });
+    },
+    [storedPrefs, setStoredPrefs],
+  );
 
-  const addPreferredGenre = useCallback((genre: string) => {
-    if (!storedPrefs.preferredGenres.includes(genre)) {
+  const addPreferredGenre = useCallback(
+    (genre: string) => {
+      if (!storedPrefs.preferredGenres.includes(genre)) {
+        setStoredPrefs({
+          ...storedPrefs,
+          preferredGenres: [genre, ...storedPrefs.preferredGenres],
+        });
+      }
+    },
+    [storedPrefs, setStoredPrefs],
+  );
+
+  const trackGenreInteraction = useCallback(
+    (genre: string) => {
+      // Move genre to top if interacted with
+      const current = storedPrefs.preferredGenres.filter((g) => g !== genre);
       setStoredPrefs({
         ...storedPrefs,
-        preferredGenres: [genre, ...storedPrefs.preferredGenres],
+        preferredGenres: [genre, ...current],
+        lastPlayedGenre: genre,
       });
-    }
-  }, [storedPrefs, setStoredPrefs]);
-
-  const trackGenreInteraction = useCallback((genre: string) => {
-    // Move genre to top if interacted with
-    const current = storedPrefs.preferredGenres.filter(g => g !== genre);
-    setStoredPrefs({
-      ...storedPrefs,
-      preferredGenres: [genre, ...current],
-      lastPlayedGenre: genre,
-    });
-  }, [storedPrefs, setStoredPrefs]);
+    },
+    [storedPrefs, setStoredPrefs],
+  );
 
   return {
     preferredGenres,

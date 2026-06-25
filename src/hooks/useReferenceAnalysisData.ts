@@ -3,8 +3,8 @@
  * Provides a bridge between reference audio analysis and generation forms
  */
 
-import { useCallback } from 'react';
-import { logger } from '@/lib/logger';
+import { useCallback } from "react";
+import { logger } from "@/lib/logger";
 
 export interface ReferenceAnalysisData {
   id: string;
@@ -29,7 +29,7 @@ export interface ReferenceAnalysisData {
   otherStemUrl?: string;
 }
 
-const STORAGE_KEY = 'referenceAnalysisData';
+const STORAGE_KEY = "referenceAnalysisData";
 
 export function useReferenceAnalysisData() {
   /**
@@ -37,12 +37,17 @@ export function useReferenceAnalysisData() {
    */
   const saveAnalysisData = useCallback((data: ReferenceAnalysisData) => {
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
-        ...data,
-        savedAt: Date.now(),
-      }));
+      sessionStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({
+          ...data,
+          savedAt: Date.now(),
+        }),
+      );
     } catch (error: unknown) {
-      logger.warn('Failed to save reference analysis data', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to save reference analysis data", {
+        error: error instanceof Error ? error.message : String(error),
+      });
     }
   }, []);
 
@@ -55,7 +60,7 @@ export function useReferenceAnalysisData() {
       if (!stored) return null;
 
       const data = JSON.parse(stored);
-      
+
       // Check if data is expired (5 minutes)
       if (data.savedAt && Date.now() - data.savedAt > 5 * 60 * 1000) {
         sessionStorage.removeItem(STORAGE_KEY);
@@ -64,7 +69,9 @@ export function useReferenceAnalysisData() {
 
       return data as ReferenceAnalysisData;
     } catch (error: unknown) {
-      logger.warn('Failed to load reference analysis data', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to load reference analysis data", {
+        error: error instanceof Error ? error.message : String(error),
+      });
       return null;
     }
   }, []);
@@ -88,11 +95,11 @@ export function useReferenceAnalysisData() {
     if (data.vocalStyle) parts.push(`${data.vocalStyle} vocals`);
     if (data.bpm) parts.push(`${data.bpm} BPM`);
     if (data.instruments?.length) {
-      parts.push(data.instruments.slice(0, 3).join(', '));
+      parts.push(data.instruments.slice(0, 3).join(", "));
     }
     if (data.style) parts.push(data.style);
 
-    return parts.join(', ');
+    return parts.join(", ");
   }, []);
 
   /**
@@ -100,9 +107,9 @@ export function useReferenceAnalysisData() {
    */
   const buildTitleFromFileName = useCallback((fileName: string): string => {
     return fileName
-      .replace(/\.[^/.]+$/, '') // Remove extension
-      .replace(/[-_]/g, ' ')    // Replace dashes/underscores with spaces
-      .replace(/\s+/g, ' ')     // Normalize spaces
+      .replace(/\.[^/.]+$/, "") // Remove extension
+      .replace(/[-_]/g, " ") // Replace dashes/underscores with spaces
+      .replace(/\s+/g, " ") // Normalize spaces
       .trim();
   }, []);
 

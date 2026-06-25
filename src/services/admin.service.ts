@@ -3,8 +3,8 @@
  * Business logic for admin operations
  */
 
-import * as adminApi from '@/api/admin.api';
-import type { UserBalanceSummary, BotMetrics, UserWithBalance } from '@/api/admin.api';
+import * as adminApi from "@/api/admin.api";
+import type { UserBalanceSummary, BotMetrics, UserWithBalance } from "@/api/admin.api";
 
 // ==========================================
 // Types
@@ -18,7 +18,7 @@ export interface AdminDashboardData {
 
 export interface TimeRange {
   label: string;
-  value: '1h' | '24h' | '7d' | '30d';
+  value: "1h" | "24h" | "7d" | "30d";
   interval: string;
 }
 
@@ -27,19 +27,24 @@ export interface TimeRange {
 // ==========================================
 
 export const TIME_RANGES: TimeRange[] = [
-  { label: '1 час', value: '1h', interval: '1 hour' },
-  { label: '24 часа', value: '24h', interval: '24 hours' },
-  { label: '7 дней', value: '7d', interval: '7 days' },
-  { label: '30 дней', value: '30d', interval: '30 days' },
+  { label: "1 час", value: "1h", interval: "1 hour" },
+  { label: "24 часа", value: "24h", interval: "24 hours" },
+  { label: "7 дней", value: "7d", interval: "7 days" },
+  { label: "30 дней", value: "30d", interval: "30 days" },
 ];
 
 export function getIntervalFromTimeRange(timeRange: string): string {
   switch (timeRange) {
-    case '1h': return '1 hour';
-    case '24h': return '24 hours';
-    case '7d': return '7 days';
-    case '30d': return '30 days';
-    default: return '24 hours';
+    case "1h":
+      return "1 hour";
+    case "24h":
+      return "24 hours";
+    case "7d":
+      return "7 days";
+    case "30d":
+      return "30 days";
+    default:
+      return "24 hours";
   }
 }
 
@@ -53,8 +58,8 @@ export function getIntervalFromTimeRange(timeRange: string): string {
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const [userStats, botMetrics, topUsers] = await Promise.all([
     adminApi.fetchUserBalanceSummary(),
-    adminApi.fetchBotMetrics('24 hours'),
-    adminApi.fetchUsersWithBalances({ limit: 10, orderBy: 'balance' }),
+    adminApi.fetchBotMetrics("24 hours"),
+    adminApi.fetchUsersWithBalances({ limit: 10, orderBy: "balance" }),
   ]);
 
   return {
@@ -83,10 +88,10 @@ export async function isCurrentUserAdmin(): Promise<boolean> {
 export async function getUsersByBalance(
   min: number,
   max: number,
-  options?: { excludeZero?: boolean }
+  options?: { excludeZero?: boolean },
 ): Promise<UserWithBalance[]> {
-  const users = await adminApi.fetchUsersWithBalances({ limit: 500, orderBy: 'balance' });
-  return users.filter(u => {
+  const users = await adminApi.fetchUsersWithBalances({ limit: 500, orderBy: "balance" });
+  return users.filter((u) => {
     if (options?.excludeZero && u.balance === 0) return false;
     return u.balance >= min && u.balance <= max;
   });
@@ -111,18 +116,18 @@ export async function getZeroBalanceUsers(): Promise<UserWithBalance[]> {
 /**
  * Calculate user churn risk based on activity
  */
-export function calculateChurnRisk(user: UserWithBalance): 'low' | 'medium' | 'high' {
+export function calculateChurnRisk(user: UserWithBalance): "low" | "medium" | "high" {
   // Low balance and no streak = high risk
   if (user.balance <= 5 && user.current_streak === 0) {
-    return 'high';
+    return "high";
   }
 
   // Low balance but has streak = medium risk
   if (user.balance <= 10) {
-    return 'medium';
+    return "medium";
   }
 
-  return 'low';
+  return "low";
 }
 
 // ==========================================
@@ -133,7 +138,7 @@ export function calculateChurnRisk(user: UserWithBalance): 'low' | 'medium' | 'h
  * Analyze bot health from metrics
  */
 export function analyzeBotHealth(metrics: BotMetrics): {
-  status: 'healthy' | 'degraded' | 'critical';
+  status: "healthy" | "degraded" | "critical";
   issues: string[];
 } {
   const issues: string[] = [];
@@ -147,12 +152,12 @@ export function analyzeBotHealth(metrics: BotMetrics): {
   }
 
   if (metrics.failed_events > metrics.successful_events * 0.1) {
-    issues.push('High failure rate detected');
+    issues.push("High failure rate detected");
   }
 
-  let status: 'healthy' | 'degraded' | 'critical' = 'healthy';
-  if (issues.length > 0) status = 'degraded';
-  if (issues.length > 2 || metrics.success_rate < 80) status = 'critical';
+  let status: "healthy" | "degraded" | "critical" = "healthy";
+  if (issues.length > 0) status = "degraded";
+  if (issues.length > 2 || metrics.success_rate < 80) status = "critical";
 
   return { status, issues };
 }
@@ -165,4 +170,4 @@ export {
   fetchUsersWithBalances,
   fetchBotMetrics,
   fetchRecentBotEvents,
-} from '@/api/admin.api';
+} from "@/api/admin.api";

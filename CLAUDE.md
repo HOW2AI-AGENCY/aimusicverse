@@ -71,6 +71,7 @@ The application follows a layered architecture:
 ```
 
 **Data Flow Pattern:** API Layer → Service Layer → Hooks → Components
+
 - **API Layer** (`src/api/*.api.ts`): Direct Supabase queries, type-safe
 - **Service Layer** (`src/services/*.service.ts`): Business logic, data transformation
 - **Hook Layer** (`src/hooks/*.ts`): React Query integration, state management
@@ -141,12 +142,14 @@ The application follows a layered architecture:
 Every music generation creates **2 versions (A/B)**:
 
 **Database Schema:**
+
 - `tracks` table has `active_version_id` (FK to track_versions)
 - `track_versions` table has `is_primary` (boolean), `version_label` ('A'/'B'), `clip_index` (0/1)
 - Version A (clip_index: 0) is initially primary
 - Switching versions updates BOTH `is_primary` AND `active_version_id`
 
 **Key Hooks:**
+
 - `useTrackVersions(trackId)` - Fetch all versions
 - `useVersionSwitcher(trackId)` - Switch primary version
 - `useActiveVersion(trackId)` - Get current active version
@@ -158,11 +161,13 @@ Every music generation creates **2 versions (A/B)**:
 ### Vite Configuration Highlights
 
 **Code Splitting Strategy** (`vite.config.ts`):
+
 - Vendor chunks: `vendor-react`, `vendor-framer`, `vendor-tone`, `vendor-wavesurfer`, `vendor-query`, `vendor-radix`, `vendor-icons`, `vendor-supabase`, `vendor-forms`, `vendor-charts`
 - Feature chunks: `feature-studio`, `feature-lyrics`, `feature-generation`
 - React Priority Plugin ensures React vendor loads first
 
 **Production Optimizations:**
+
 - Terser minification (2-pass, console/debugger removal)
 - Gzip + Brotli compression (10KB threshold)
 - Bundle size limit: **950 KB** (enforced by size-limit)
@@ -198,11 +203,13 @@ Every music generation creates **2 versions (A/B)**:
 This is a **native Telegram Mini App**, not a web app with Telegram login:
 
 **Key Files:**
+
 - `src/contexts/TelegramContext.tsx` - Telegram Web App SDK integration
 - `src/services/telegram-share.ts` - Stories, chat sharing, deep links
 - `src/main.tsx` - Viewport height fixes, keyboard tracking
 
 **Critical Mobile Patterns:**
+
 - **Touch Targets:** Minimum 44×44px (iOS HIG standard)
 - **Safe Areas:** Use `safe-bottom` spacing for notch/island
 - **Keyboard Handling:** `visualViewport` API for keyboard height tracking
@@ -210,6 +217,7 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 - **Audio Pooling:** iOS Safari crashes with >10 audio elements - use `audioElementPool`
 
 **Mobile Components:**
+
 - `src/components/mobile/` - General mobile components
 - `src/components/studio/unified/Mobile*.tsx` - Unified Studio mobile UI
 - `src/components/player/MobileFullscreenPlayer.tsx` - Mobile fullscreen player
@@ -217,6 +225,7 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 ### Responsive Design
 
 **Tailwind Breakpoints:**
+
 - `xs: 375px` (small phones)
 - `sm: 640px`
 - `md: 768px`
@@ -231,16 +240,19 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 ### Unit Tests (Jest)
 
 **Configuration:** `jest.config.cjs`
+
 - Test environment: jsdom
 - Path mapping: `@/` → `./src/`
 - Timeout: 10s (for property-based tests)
 
 **Test Patterns:**
+
 - `**/__tests__/**/*.test.ts(x)`
 - `**/*.spec.ts(x)`
 - `**/tests/**/*.test.ts(x)`
 
 **Testing Libraries:**
+
 - `@testing-library/react` - Component testing
 - `@testing-library/jest-dom` - DOM matchers
 - `fast-check` - Property-based testing
@@ -249,15 +261,18 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 ### E2E Tests (Playwright)
 
 **Configuration:** `playwright.config.ts`
+
 - Test directory: `./tests/e2e`
 - Base URL: `http://localhost:5173`
 - Auto-start dev server
 
 **Browser Coverage:**
+
 - Desktop: Chrome, Firefox, Safari, Edge (1920×1080)
 - Mobile: Pixel 5 (Chrome), iPhone 12 (Safari)
 
 **Run Specific Tests:**
+
 - `npm run test:e2e:chromium` - Chrome only
 - `npm run test:e2e:mobile` - Mobile browsers only
 - `npm run test:e2e:ui` - Interactive UI mode
@@ -269,7 +284,7 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 **Always use the global audio player:**
 
 ```typescript
-import { useGlobalAudioPlayer } from '@/contexts/GlobalAudioContext';
+import { useGlobalAudioPlayer } from "@/contexts/GlobalAudioContext";
 
 const { play, pause, currentTrack, isPlaying } = useGlobalAudioPlayer();
 
@@ -280,10 +295,13 @@ play(track);
 pause();
 
 // Check playback state
-if (isPlaying) { /* ... */ }
+if (isPlaying) {
+  /* ... */
+}
 ```
 
 **Audio Utilities:**
+
 - `src/lib/audioContextManager.ts` - Web Audio API context management
 - `src/lib/audioElementPool.ts` - Audio element pooling (iOS Safari)
 - `src/lib/audioCache.ts` - Waveform caching
@@ -294,20 +312,20 @@ if (isPlaying) { /* ... */ }
 **Fetching Tracks:**
 
 ```typescript
-import { useTracks } from '@/hooks/useTracks';
+import { useTracks } from "@/hooks/useTracks";
 
 const { data, isLoading, error } = useTracks({
   userId: user?.id,
   isPublic: true,
-  limit: 20
+  limit: 20,
 });
 ```
 
 **Track Versions:**
 
 ```typescript
-import { useTrackVersions } from '@/hooks/useTrackVersions';
-import { useVersionSwitcher } from '@/hooks/useVersionSwitcher';
+import { useTrackVersions } from "@/hooks/useTrackVersions";
+import { useVersionSwitcher } from "@/hooks/useVersionSwitcher";
 
 const { data: versions } = useTrackVersions(trackId);
 const { switchVersion, isPending } = useVersionSwitcher(trackId);
@@ -321,6 +339,7 @@ await switchVersion(versionB.id);
 **The Unified Studio is the main editing interface** (`src/pages/studio-v2/UnifiedStudioPage.tsx`):
 
 **Key Features:**
+
 - Section replacement (regenerate parts of a track)
 - Stem separation (vocals, drums, bass, instruments)
 - Mixing (volume, pan, solo, mute)
@@ -364,11 +383,13 @@ await switchVersion(versionB.id);
 ### Working with Supabase
 
 **API Layer** (`src/api/*.api.ts`):
+
 - Direct Supabase queries
 - Type-safe with generated types
 - RLS policies handle authorization
 
 **Service Layer** (`src/services/*.service.ts`):
+
 - Business logic
 - Data transformation
 - Complex operations
@@ -378,11 +399,7 @@ await switchVersion(versionB.id);
 ```typescript
 // API Layer (src/api/tracks.api.ts)
 export const getTrackById = async (id: string) => {
-  const { data, error } = await supabase
-    .from('tracks')
-    .select('*, track_versions(*)')
-    .eq('id', id)
-    .single();
+  const { data, error } = await supabase.from("tracks").select("*, track_versions(*)").eq("id", id).single();
   return { data, error };
 };
 
@@ -395,7 +412,7 @@ export const enrichTrackWithMetadata = async (track: Track) => {
 // Hook Layer (src/hooks/useTracks.ts)
 export const useTrack = (id: string) => {
   return useQuery({
-    queryKey: ['track', id],
+    queryKey: ["track", id],
     queryFn: () => getTrackById(id),
   });
 };
@@ -435,11 +452,11 @@ import { Button } from "../../components/ui/button";
 **Never use `console.log` directly.** Use the logger utility:
 
 ```typescript
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
-logger.info('Operation completed', { trackId });
-logger.warn('Potential issue', { context });
-logger.error('Operation failed', { error, trackId });
+logger.info("Operation completed", { trackId });
+logger.warn("Potential issue", { context });
+logger.error("Operation failed", { error, trackId });
 ```
 
 Logger persists to sessionStorage and integrates with Sentry.
@@ -486,6 +503,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 - [specs/](specs/) - Technical specifications
 
 **Current Status:**
+
 - Sprint: 030 (Unified Studio Mobile) - 60% complete
 - Health Score: 98/100
 - Components: 935+
@@ -497,17 +515,20 @@ Logger persists to sessionStorage and integrates with Sentry.
 **The Telegram bot is a separate component** that interacts with the Mini App:
 
 **Edge Functions:**
+
 - `supabase/functions/telegram-bot/` - Command handler (/generate, /library, etc.)
 - `supabase/functions/suno-send-audio/` - Send audio files to Telegram
 - `supabase/functions/send-telegram-notification/` - User notifications
 
 **Deep Links:**
+
 - Format: `t.me/AIMusicVerseBot/app?startapp=PARAM`
 - Track: `startapp=track_ID`
 - Playlist: `startapp=playlist_ID`
 - Studio: `startapp=studio_ID`
 
 **Bot Features:**
+
 - Inline queries for track search
 - Commands: `/generate`, `/cover`, `/extend`, `/library`
 - Stories sharing
@@ -516,11 +537,13 @@ Logger persists to sessionStorage and integrates with Sentry.
 ## Common Pitfalls
 
 ### Audio & Playback
+
 1. **Don't create multiple audio elements** - Use `useGlobalAudioPlayer()` or `usePlayerStore()`
 2. **Don't create audio elements on iOS** - Use `audioElementPool` (iOS Safari limit of 10)
 3. **Don't forget audio element pooling** - iOS Safari crashes with >10 audio elements
 
 ### Performance & Bundle
+
 4. **Don't import entire framer-motion** - Use `@/lib/motion` (tree-shaking wrapper)
 5. **Don't exceed bundle limit** - Run `npm run size` (950KB max)
 6. **Don't skip lazy loading** - All pages use `React.lazy()`
@@ -529,6 +552,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 9. **Don't render large lists without virtualization** - Use `react-virtuoso`
 
 ### Mobile & Touch
+
 10. **Don't forget mobile touch targets** - Minimum 44-56px
 11. **Don't use Dialog on mobile** - Use `MobileBottomSheet` from `vaul`
 12. **Don't ignore safe areas** - Use `safe-bottom` utility for notch/island
@@ -536,6 +560,7 @@ Logger persists to sessionStorage and integrates with Sentry.
 14. **Don't test only on desktop** - Always test on Telegram mobile
 
 ### Component Architecture
+
 15. **Don't duplicate version selector components** - Use ONLY `UnifiedVersionSelector`
 16. **Don't create custom modals** - Use `MobileBottomSheet` or `Dialog`
 17. **Don't skip MobileHeaderBar** - All mobile screens need proper header
@@ -543,24 +568,29 @@ Logger persists to sessionStorage and integrates with Sentry.
 19. **Don't create stores >500 lines** - Split into domain slices
 
 ### State & Data
+
 20. **Don't use raw fetch/axios** - Use TanStack Query for server state
 21. **Don't use Context API for global state** - Use Zustand stores
 22. **Don't batch version updates** - Update `is_primary` AND `active_version_id` atomically
 23. **Don't forget optimistic updates** - For likes, plays, version switches
 
 ### Logging & Debugging
+
 24. **Don't use console.log** - Use `logger` utility from `@/lib/logger`
 
 ### Security
+
 25. **Don't skip input validation** - Use Zod for client + server validation
 26. **Don't expose secrets in frontend** - Only in Edge Functions
 
 ### Post-Generation Flow
+
 27. **Don't redirect to library without showing result** - Use `GenerationResultSheet`
 28. **Don't skip expectGenerationResult()** - Call before starting generation
 29. **Don't forget to integrate GenerationResultSheet** - Must be in `MainLayout`
 
 ### Telegram Bot Integration
+
 30. **Don't ignore deep link parameters** - Parse `startapp` and show `BotContextBanner`
 31. **Don't skip bot context** - User should know why they navigated from bot
 

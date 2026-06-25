@@ -1,9 +1,9 @@
 /**
  * AudioPoolMonitor
- * 
+ *
  * Debug UI component to monitor AudioElementPool status
  * Shows active audio elements, pool capacity, and statistics
- * 
+ *
  * @example
  * ```tsx
  * // In development/admin mode
@@ -11,12 +11,12 @@
  * ```
  */
 
-import { useState, useEffect } from 'react';
-import { audioElementPool, AudioPriority } from '@/lib/audioElementPool';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { AlertCircle, Activity, CheckCircle2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState, useEffect } from "react";
+import { audioElementPool, AudioPriority } from "@/lib/audioElementPool";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { AlertCircle, Activity, CheckCircle2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function AudioPoolMonitor() {
   const [stats, setStats] = useState(() => audioElementPool.getStats());
@@ -39,26 +39,26 @@ export function AudioPoolMonitor() {
   const getPriorityLabel = (priority: AudioPriority): string => {
     switch (priority) {
       case AudioPriority.LOW:
-        return 'Low';
+        return "Low";
       case AudioPriority.MEDIUM:
-        return 'Medium';
+        return "Medium";
       case AudioPriority.HIGH:
-        return 'High';
+        return "High";
       default:
-        return 'Unknown';
+        return "Unknown";
     }
   };
 
   const getPriorityColor = (priority: AudioPriority): string => {
     switch (priority) {
       case AudioPriority.LOW:
-        return 'bg-muted text-muted-foreground';
+        return "bg-muted text-muted-foreground";
       case AudioPriority.MEDIUM:
-        return 'bg-blue-500/10 text-blue-700 dark:text-blue-300';
+        return "bg-blue-500/10 text-blue-700 dark:text-blue-300";
       case AudioPriority.HIGH:
-        return 'bg-green-500/10 text-green-700 dark:text-green-300';
+        return "bg-green-500/10 text-green-700 dark:text-green-300";
       default:
-        return 'bg-muted text-muted-foreground';
+        return "bg-muted text-muted-foreground";
     }
   };
 
@@ -78,9 +78,7 @@ export function AudioPoolMonitor() {
             <CheckCircle2 className="w-4 h-4 text-success" />
           )}
         </div>
-        <CardDescription className="text-xs">
-          iOS Safari Limit: {stats.capacity} audio elements
-        </CardDescription>
+        <CardDescription className="text-xs">iOS Safari Limit: {stats.capacity} audio elements</CardDescription>
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -88,11 +86,9 @@ export function AudioPoolMonitor() {
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs">
             <span className="font-medium">Utilization</span>
-            <span className={cn(
-              "font-mono",
-              isAtLimit && "text-destructive",
-              isNearLimit && !isAtLimit && "text-warning"
-            )}>
+            <span
+              className={cn("font-mono", isAtLimit && "text-destructive", isNearLimit && !isAtLimit && "text-warning")}
+            >
               {stats.active}/{stats.capacity}
             </span>
           </div>
@@ -100,7 +96,7 @@ export function AudioPoolMonitor() {
             <div
               className={cn(
                 "absolute inset-y-0 left-0 transition-all duration-300",
-                isAtLimit ? "bg-destructive" : isNearLimit ? "bg-warning" : "bg-success"
+                isAtLimit ? "bg-destructive" : isNearLimit ? "bg-warning" : "bg-success",
               )}
               style={{ width: `${utilizationPercent}%` }}
             />
@@ -123,10 +119,7 @@ export function AudioPoolMonitor() {
           </div>
           <div className="space-y-1">
             <p className="text-xs text-muted-foreground">Rejected</p>
-            <p className={cn(
-              "text-sm font-mono",
-              stats.totalRejected > 0 && "text-destructive"
-            )}>
+            <p className={cn("text-sm font-mono", stats.totalRejected > 0 && "text-destructive")}>
               {stats.totalRejected}
             </p>
           </div>
@@ -135,26 +128,16 @@ export function AudioPoolMonitor() {
         {/* Active Elements List */}
         {activeElements.length > 0 && (
           <div className="space-y-2">
-            <p className="text-xs font-medium text-muted-foreground">
-              Active Elements ({activeElements.length})
-            </p>
+            <p className="text-xs font-medium text-muted-foreground">Active Elements ({activeElements.length})</p>
             <div className="space-y-1 max-h-32 overflow-y-auto">
               {activeElements.map(({ id, priority, age }) => (
-                <div
-                  key={id}
-                  className="flex items-center justify-between text-xs p-2 bg-muted/50 rounded"
-                >
+                <div key={id} className="flex items-center justify-between text-xs p-2 bg-muted/50 rounded">
                   <span className="font-mono truncate flex-1 pr-2">{id}</span>
                   <div className="flex items-center gap-2 flex-shrink-0">
-                    <Badge
-                      variant="secondary"
-                      className={cn("text-[10px] px-1.5 py-0", getPriorityColor(priority))}
-                    >
+                    <Badge variant="secondary" className={cn("text-[10px] px-1.5 py-0", getPriorityColor(priority))}>
                       {getPriorityLabel(priority)}
                     </Badge>
-                    <span className="text-muted-foreground">
-                      {Math.round(age / 1000)}s
-                    </span>
+                    <span className="text-muted-foreground">{Math.round(age / 1000)}s</span>
                   </div>
                 </div>
               ))}
@@ -166,18 +149,14 @@ export function AudioPoolMonitor() {
         {isAtLimit && (
           <div className="p-2 bg-destructive/10 border border-destructive/20 rounded text-xs text-destructive">
             <p className="font-medium">⚠️ Pool Limit Reached</p>
-            <p className="text-[10px] mt-1">
-              Stop unused audio to free up resources
-            </p>
+            <p className="text-[10px] mt-1">Stop unused audio to free up resources</p>
           </div>
         )}
 
         {stats.totalRejected > 0 && (
           <div className="p-2 bg-warning/10 border border-warning/20 rounded text-xs text-warning">
             <p className="font-medium">⚠️ {stats.totalRejected} Requests Rejected</p>
-            <p className="text-[10px] mt-1">
-              Some audio couldn't play due to iOS limit
-            </p>
+            <p className="text-[10px] mt-1">Some audio couldn't play due to iOS limit</p>
           </div>
         )}
       </CardContent>
@@ -203,10 +182,7 @@ export function AudioPoolStatusBadge() {
   const isAtLimit = stats.active >= stats.capacity;
 
   return (
-    <Badge
-      variant={isAtLimit ? "destructive" : isNearLimit ? "default" : "secondary"}
-      className="font-mono text-xs"
-    >
+    <Badge variant={isAtLimit ? "destructive" : isNearLimit ? "default" : "secondary"} className="font-mono text-xs">
       <Activity className="w-3 h-3 mr-1" />
       {stats.active}/{stats.capacity}
     </Badge>

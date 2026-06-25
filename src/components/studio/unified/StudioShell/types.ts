@@ -2,8 +2,8 @@
  * StudioShell Types
  */
 
-import type { StemEffects } from '@/hooks/studio/types';
-import type { StudioTrack } from '@/stores/useUnifiedStudioStore';
+import type { StemEffects } from "@/hooks/studio/types";
+import type { StudioTrack } from "@/stores/useUnifiedStudioStore";
 
 export interface StudioShellProps {
   className?: string;

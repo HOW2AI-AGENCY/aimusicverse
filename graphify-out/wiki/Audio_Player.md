@@ -29,7 +29,7 @@
 - [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L64) (1 connections)
 - [resetCrop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L178) (1 connections)
 - [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectBannerEditor.tsx#L61) (1 connections)
-- *... and 1 more nodes in this community*
+- _... and 1 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

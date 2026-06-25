@@ -23,7 +23,7 @@
  * ```
  */
 
-import { createClient, SupabaseClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient, SupabaseClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 /** Singleton instance of Supabase client */
 let _supabaseClient: SupabaseClient | null = null;

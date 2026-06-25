@@ -1,6 +1,6 @@
-import { useRef, useState, useEffect, ReactNode, Suspense, memo, useLayoutEffect, useCallback } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { useRef, useState, useEffect, ReactNode, Suspense, memo, useLayoutEffect, useCallback } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 interface LazySectionProps {
   children: ReactNode;
@@ -25,7 +25,7 @@ interface LazySectionProps {
 /**
  * LazySection - renders children only when visible in viewport
  * Uses Intersection Observer for optimal performance
- * 
+ *
  * FIXED: Scroll anchoring issues resolved by:
  * 1. Using contain-intrinsic-size for content-visibility optimization
  * 2. Setting overflow-anchor: none on loading state to prevent scroll jumps
@@ -34,8 +34,8 @@ interface LazySectionProps {
 export const LazySection = memo(function LazySection({
   children,
   fallback,
-  rootMargin = '300px', // Increased for earlier trigger
-  minHeight = '120px',
+  rootMargin = "300px", // Increased for earlier trigger
+  minHeight = "120px",
   className,
   threshold = 0,
   skipSuspense = false,
@@ -70,14 +70,14 @@ export const LazySection = memo(function LazySection({
   // Synchronous initial visibility check to avoid flash
   useLayoutEffect(() => {
     if (eager || hasBeenVisible) return;
-    
+
     const element = ref.current;
     if (!element) return;
 
     const rect = element.getBoundingClientRect();
     const margin = 400; // Large margin for faster trigger
     const isInitiallyVisible = rect.top < window.innerHeight + margin;
-    
+
     if (isInitiallyVisible) {
       setHasBeenVisible(true);
       setIsReady(true);
@@ -86,7 +86,7 @@ export const LazySection = memo(function LazySection({
 
   useEffect(() => {
     if (eager || hasBeenVisible) return;
-    
+
     const element = ref.current;
     if (!element) return;
 
@@ -102,7 +102,7 @@ export const LazySection = memo(function LazySection({
       {
         rootMargin,
         threshold,
-      }
+      },
     );
 
     observer.observe(element);
@@ -112,7 +112,7 @@ export const LazySection = memo(function LazySection({
 
   // Default skeleton fallback - optimized for scroll performance
   const defaultFallback = (
-    <div className="space-y-3" style={{ contain: 'layout paint' }}>
+    <div className="space-y-3" style={{ contain: "layout paint" }}>
       <Skeleton className="h-5 w-32" animation="none" />
       <div className="flex gap-3 overflow-hidden">
         <Skeleton className="h-32 w-32 rounded-xl shrink-0" animation="none" />
@@ -128,16 +128,16 @@ export const LazySection = memo(function LazySection({
   // Key fix: overflow-anchor: none prevents scroll position jumps when content changes
   if (!hasBeenVisible) {
     return (
-      <div 
-        ref={ref} 
+      <div
+        ref={ref}
         className={cn(className)}
-        style={{ 
+        style={{
           minHeight: fallback === null ? undefined : minHeight,
           // Prevent scroll anchoring to this element while loading
-          overflowAnchor: 'none',
+          overflowAnchor: "none",
           // Hint to browser about intrinsic size for scroll calculations
           containIntrinsicSize: `auto ${minHeight}`,
-          contentVisibility: 'auto',
+          contentVisibility: "auto",
         }}
       >
         {loadingFallback}
@@ -147,23 +147,17 @@ export const LazySection = memo(function LazySection({
 
   // Visible and ready - render children
   return (
-    <div 
-      ref={ref} 
+    <div
+      ref={ref}
       className={cn(className)}
       style={{
         // Once loaded, allow anchoring and preserve height
-        overflowAnchor: 'auto',
+        overflowAnchor: "auto",
         // If we measured height, use it to prevent collapse during re-renders
         minHeight: measuredHeight ? `${measuredHeight}px` : undefined,
       }}
     >
-      {skipSuspense || isReady ? (
-        children
-      ) : (
-        <Suspense fallback={loadingFallback}>
-          {children}
-        </Suspense>
-      )}
+      {skipSuspense || isReady ? children : <Suspense fallback={loadingFallback}>{children}</Suspense>}
     </div>
   );
 });
@@ -171,7 +165,7 @@ export const LazySection = memo(function LazySection({
 /**
  * Skeleton for section header with icon
  */
-export function SectionSkeleton({ height = '200px' }: { height?: string }) {
+export function SectionSkeleton({ height = "200px" }: { height?: string }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center gap-2.5">
@@ -183,7 +177,7 @@ export function SectionSkeleton({ height = '200px' }: { height?: string }) {
       </div>
       <div className="flex gap-3 overflow-hidden">
         {[1, 2, 3].map((i) => (
-          <Skeleton key={i} className="rounded-xl shrink-0" style={{ height, width: '144px' }} />
+          <Skeleton key={i} className="rounded-xl shrink-0" style={{ height, width: "144px" }} />
         ))}
       </div>
     </div>

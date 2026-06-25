@@ -26,15 +26,16 @@
 
 Перед началом убедитесь, что у вас установлено:
 
-| Требование | Минимальная версия | Рекомендуемая | Проверка |
-|------------|-------------------|---------------|----------|
-| **Node.js** | 18.0.0 | 20.0.0+ | `node --version` |
-| **npm** | 9.0.0 | 10.0.0+ | `npm --version` |
-| **Git** | 2.30.0 | latest | `git --version` |
+| Требование  | Минимальная версия | Рекомендуемая | Проверка         |
+| ----------- | ------------------ | ------------- | ---------------- |
+| **Node.js** | 18.0.0             | 20.0.0+       | `node --version` |
+| **npm**     | 9.0.0              | 10.0.0+       | `npm --version`  |
+| **Git**     | 2.30.0             | latest        | `git --version`  |
 
 ### Установка Node.js
 
 **macOS:**
+
 ```bash
 brew install node
 ```
@@ -43,6 +44,7 @@ brew install node
 Скачайте установщик с [nodejs.org](https://nodejs.org/)
 
 **Linux:**
+
 ```bash
 # Ubuntu/Debian
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -76,6 +78,7 @@ npm install
 ⏱️ **Время установки:** ~2-3 минуты (зависит от скорости интернета)
 
 **Ожидаемый результат:**
+
 ```
 added 1035 packages, and audited 1036 packages in 2m
 197 packages are looking for funding
@@ -113,6 +116,7 @@ VITE_GOOGLE_ANALYTICS_ID=your-ga-id
 ### 2.3 Где получить ключи?
 
 #### Supabase
+
 1. Зайдите на [supabase.com](https://supabase.com)
 2. Создайте новый проект или используйте существующий
 3. Перейдите в Settings → API
@@ -121,6 +125,7 @@ VITE_GOOGLE_ANALYTICS_ID=your-ga-id
    - Anon/Public Key → `VITE_SUPABASE_PUBLISHABLE_KEY`
 
 #### Telegram Bot
+
 1. Откройте Telegram и найдите [@BotFather](https://t.me/BotFather)
 2. Отправьте `/newbot` и следуйте инструкциям
 3. Получите username бота → `VITE_TELEGRAM_BOT_NAME`
@@ -139,6 +144,7 @@ npm run dev
 ```
 
 **Ожидаемый результат:**
+
 ```
   VITE v5.0.0  ready in 500 ms
 
@@ -150,6 +156,7 @@ npm run dev
 ### 3.2 Открытие в браузере
 
 Откройте браузер и перейдите по адресу:
+
 ```
 http://localhost:5173
 ```
@@ -168,11 +175,13 @@ http://localhost:5173
 ### 4.2 Аутентификация (опционально)
 
 **В режиме разработки:**
+
 - Приложение работает в mock-режиме
 - Не требуется реальная Telegram аутентификация
 - Вы можете сразу начать создавать музыку
 
 **Для Telegram Mini App:**
+
 - Откройте бота в Telegram
 - Нажмите кнопку "Open App"
 - Аутентификация произойдет автоматически
@@ -194,7 +203,7 @@ http://localhost:5173
 1. Перейдите в **Generate** → **Advanced**
 2. Заполните детали:
    - **Title:** "Космическое путешествие"
-   - **Prompt/Lyrics:** 
+   - **Prompt/Lyrics:**
      ```
      [Verse]
      Летим среди звезд
@@ -227,29 +236,39 @@ http://localhost:5173
 ### Изучите возможности
 
 #### 🎛️ Мета-теги Suno
+
 Используйте 174+ мета-тегов для точного контроля:
+
 - 📖 [docs/META_TAGS.md](META_TAGS.md)
 
 #### 🎸 Музыкальные стили
+
 Исследуйте 277+ доступных стилей:
+
 - 📖 [docs/STYLES.md](STYLES.md)
 
 #### 🌍 Языки
+
 Создавайте музыку на 75+ языках:
+
 - 📖 [docs/LANGUAGES.md](LANGUAGES.md)
 
 ### Продвинутые функции
 
 #### 🎚️ Разделение стемов
+
 Извлекайте отдельные инструменты из треков
 
 #### 📁 Проекты
+
 Организуйте треки в альбомы и EP
 
 #### 🎨 Персоны
+
 Создавайте AI-персоны для консистентного стиля
 
 #### 🤖 AI Ассистент
+
 Используйте AI для помощи в создании музыки
 
 ---
@@ -304,6 +323,7 @@ aimusicverse/
 ### Проблема: Порт 5173 уже занят
 
 **Решение:**
+
 ```bash
 # Используйте другой порт
 npm run dev -- --port 3000
@@ -312,6 +332,7 @@ npm run dev -- --port 3000
 ### Проблема: Module not found
 
 **Решение:**
+
 ```bash
 # Удалите node_modules и переустановите
 rm -rf node_modules package-lock.json
@@ -321,6 +342,7 @@ npm install
 ### Проблема: TypeScript ошибки
 
 **Решение:**
+
 ```bash
 # Проверьте версию TypeScript
 npm list typescript
@@ -332,6 +354,7 @@ npm install
 ### Проблема: Ошибка при сборке
 
 **Решение:**
+
 ```bash
 # Очистите кэш и пересоберите
 rm -rf dist
@@ -341,6 +364,7 @@ npm run build
 ### Проблема: Supabase connection failed
 
 **Проверьте:**
+
 1. Правильность URL и ключа в `.env.local`
 2. Доступность Supabase проекта
 3. Настройки CORS в Supabase
@@ -350,18 +374,21 @@ npm run build
 ## 🆘 Получение помощи
 
 ### Документация
+
 - 📖 [Полная документация](INDEX.md)
 - 🏗️ [Архитектура](ARCHITECTURE.md)
 - 📡 [API Reference](API.md)
 - 🐛 [Troubleshooting](PLAYER_TROUBLESHOOTING.md)
 
 ### Сообщество
+
 - 💬 [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)
 - 🐛 [Сообщить о проблеме](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
 - 📧 [Email Support](mailto:support@musicverse.ai)
 - 💬 [Telegram Support](https://t.me/MusicVerseSupport)
 
 ### Участие
+
 - 🤝 [Contributing Guide](../CONTRIBUTING.md)
 - 📋 [Code of Conduct](../CODE_OF_CONDUCT.md)
 
@@ -373,13 +400,13 @@ npm run build
 
 ### Полезные ссылки
 
-| Ссылка | Описание |
-|--------|----------|
-| [🏠 README](../README.md) | Главная страница |
-| [📖 Документация](INDEX.md) | Полная документация |
+| Ссылка                                | Описание               |
+| ------------------------------------- | ---------------------- |
+| [🏠 README](../README.md)             | Главная страница       |
+| [📖 Документация](INDEX.md)           | Полная документация    |
 | [🤝 Contributing](../CONTRIBUTING.md) | Руководство по участию |
-| [🎯 Roadmap](../ROADMAP.md) | Планы развития |
-| [📝 Changelog](../CHANGELOG.md) | История изменений |
+| [🎯 Roadmap](../ROADMAP.md)           | Планы развития         |
+| [📝 Changelog](../CHANGELOG.md)       | История изменений      |
 
 ---
 

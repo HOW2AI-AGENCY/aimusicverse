@@ -10,33 +10,33 @@
  * - All other source files: kebab-case (e.g., track-service.ts)
  */
 
-import { readFileSync, readdirSync, statSync } from 'fs';
-import { join, relative } from 'path';
+import { readFileSync, readdirSync, statSync } from "fs";
+import { join, relative } from "path";
 
-const SRC_DIR = 'src';
+const SRC_DIR = "src";
 const IGNORE_PATTERNS = [
   // Vendor and third-party
-  'node_modules',
+  "node_modules",
   // Build outputs
-  'dist',
-  'build',
-  '.next',
+  "dist",
+  "build",
+  ".next",
   // Test coverage
-  'coverage',
+  "coverage",
   // Storybook
-  '.storybook',
-  'storybook-static',
+  ".storybook",
+  "storybook-static",
   // IDE
-  '.vscode',
-  '.idea',
+  ".vscode",
+  ".idea",
   // Config files that are allowed to be PascalCase or special formats
-  'vite.config.ts',
-  'tailwind.config.js',
-  'jest.config.js',
-  'playwright.config.ts',
+  "vite.config.ts",
+  "tailwind.config.js",
+  "jest.config.js",
+  "playwright.config.ts",
   // Specific allowed files
-  'setupTests.ts',
-  'vitest.setup.ts',
+  "setupTests.ts",
+  "vitest.setup.ts",
 ];
 
 // Patterns for allowed file names
@@ -57,7 +57,7 @@ const violations = [];
 const checkedFiles = [];
 
 function shouldIgnore(filePath) {
-  return IGNORE_PATTERNS.some(pattern => filePath.includes(pattern));
+  return IGNORE_PATTERNS.some((pattern) => filePath.includes(pattern));
 }
 
 function checkFileName(filePath, rootDir) {
@@ -66,8 +66,8 @@ function checkFileName(filePath, rootDir) {
   }
 
   // Handle both forward and backward slashes for cross-platform compatibility
-  const normalizedPath = filePath.replace(/\\/g, '/');
-  const fileName = normalizedPath.split('/').pop();
+  const normalizedPath = filePath.replace(/\\/g, "/");
+  const fileName = normalizedPath.split("/").pop();
 
   // Skip .d.ts type definition files
   if (PATTERNS.typeDef.test(fileName)) {
@@ -94,7 +94,7 @@ function checkFileName(filePath, rootDir) {
   }
 
   // Check if it's a hook file in hooks directory (use- prefix pattern)
-  if (normalizedPath.includes('/hooks/') && PATTERNS.hookDir.test(fileName)) {
+  if (normalizedPath.includes("/hooks/") && PATTERNS.hookDir.test(fileName)) {
     checkedFiles.push(filePath);
     return;
   }
@@ -102,7 +102,7 @@ function checkFileName(filePath, rootDir) {
   // If we get here, it's a violation
   violations.push({
     file: filePath,
-    issue: 'File name must use kebab-case (e.g., track-card.tsx, admin.api.ts) or for hooks: use-hook-name.ts',
+    issue: "File name must use kebab-case (e.g., track-card.tsx, admin.api.ts) or for hooks: use-hook-name.ts",
   });
 }
 
@@ -144,14 +144,14 @@ if (violations.length > 0) {
     console.error(`    → ${issue}\n`);
   });
 
-  console.error('\nExpected naming conventions:');
-  console.error('  Components: track-card.tsx, mobile-header-bar.tsx');
-  console.error('  Hooks:      use-track-data.ts, use-player-state.ts');
-  console.error('  Utils:      format-date.ts, audio-utils.ts');
-  console.error('  Tests:      track-card.test.tsx, use-data.spec.ts\n');
+  console.error("\nExpected naming conventions:");
+  console.error("  Components: track-card.tsx, mobile-header-bar.tsx");
+  console.error("  Hooks:      use-track-data.ts, use-player-state.ts");
+  console.error("  Utils:      format-date.ts, audio-utils.ts");
+  console.error("  Tests:      track-card.test.tsx, use-data.spec.ts\n");
 
   process.exit(1);
 } else {
-  console.log('✅ All files follow kebab-case naming convention!\n');
+  console.log("✅ All files follow kebab-case naming convention!\n");
   process.exit(0);
 }

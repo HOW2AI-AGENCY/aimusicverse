@@ -9,11 +9,11 @@
 - [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L107) (1 connections)
 - [{ isOnline, isSlowConnection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L174) (1 connections)
 - [{
-    isOnline,
-    isSlowConnection,
-    connectionType,
-    isSuitableForStreaming,
-    networkInfo,
+  isOnline,
+  isSlowConnection,
+  connectionType,
+  isSuitableForStreaming,
+  networkInfo,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L39) (1 connections)
 - [[showIndicator, setShowIndicator]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L47) (1 connections)
 - [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L106) (1 connections)
@@ -34,4 +34,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

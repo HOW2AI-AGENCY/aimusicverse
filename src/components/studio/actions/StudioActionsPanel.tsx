@@ -1,40 +1,51 @@
 /**
  * StudioActionsPanel
- * 
+ *
  * State-aware action panel that shows available operations
  * based on track state:
  * - No stems: Section replacement, Stem separation
- * - Simple stems (vocal/instrumental): + New Vocal, New Arrangement  
+ * - Simple stems (vocal/instrumental): + New Vocal, New Arrangement
  * - Detailed stems: + Per-stem MIDI/Reference actions
  */
 
-import { useState } from 'react';
-import { 
-  Scissors, Split, Music2, Mic2, Piano, Guitar,
-  FileAudio, Wand2, Clock, Layers, ChevronRight, 
-  Download, Share2, MoreHorizontal
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { useState } from "react";
+import {
+  Scissors,
+  Split,
+  Music2,
+  Mic2,
+  Piano,
+  Guitar,
+  FileAudio,
+  Wand2,
+  Clock,
+  Layers,
+  ChevronRight,
+  Download,
+  Share2,
+  MoreHorizontal,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
-import { TrackStem } from '@/hooks/useTrackStems';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { TrackStem } from "@/hooks/useTrackStems";
 
-export type StudioTrackState = 'raw' | 'simple_stems' | 'detailed_stems';
+export type StudioTrackState = "raw" | "simple_stems" | "detailed_stems";
 
 interface StudioActionsPanelProps {
   trackState: StudioTrackState;
   stems?: TrackStem[];
   canReplaceSection: boolean;
   onSectionReplace: () => void;
-  onStemSeparation: (mode: 'simple' | 'detailed') => void;
+  onStemSeparation: (mode: "simple" | "detailed") => void;
   onNewVocal?: () => void;
   onAddVocal?: () => void; // For instrumental tracks
   onNewArrangement?: () => void;
@@ -46,11 +57,7 @@ interface StudioActionsPanelProps {
   className?: string;
 }
 
-export type StemActionType = 
-  | 'use_as_reference' 
-  | 'midi_transcription' 
-  | 'download'
-  | 'guitar_analysis';
+export type StemActionType = "use_as_reference" | "midi_transcription" | "download" | "guitar_analysis";
 
 // Stem type to icon mapping
 const STEM_ICONS: Record<string, React.ElementType> = {
@@ -68,13 +75,13 @@ const STEM_ICONS: Record<string, React.ElementType> = {
 
 // MIDI models available per stem type
 const STEM_MIDI_MODELS: Record<string, string> = {
-  vocal: 'Basic Pitch (мелодия)',
-  vocals: 'Basic Pitch (мелодия)',
-  piano: 'ByteDance Piano',
-  drums: 'MT3 (ударные)',
-  bass: 'MT3 (бас)',
-  guitar: 'MT3 (гитара)',
-  instrumental: 'MT3 (мульти)',
+  vocal: "Basic Pitch (мелодия)",
+  vocals: "Basic Pitch (мелодия)",
+  piano: "ByteDance Piano",
+  drums: "MT3 (ударные)",
+  bass: "MT3 (бас)",
+  guitar: "MT3 (гитара)",
+  instrumental: "MT3 (мульти)",
 };
 
 export function StudioActionsPanel({
@@ -93,8 +100,8 @@ export function StudioActionsPanel({
   isSeparating,
   className,
 }: StudioActionsPanelProps) {
-  const hasSimpleStems = trackState === 'simple_stems' || trackState === 'detailed_stems';
-  const hasDetailedStems = trackState === 'detailed_stems';
+  const hasSimpleStems = trackState === "simple_stems" || trackState === "detailed_stems";
+  const hasDetailedStems = trackState === "detailed_stems";
 
   // Get stem icon component
   const getStemIcon = (stemType: string) => {
@@ -105,22 +112,22 @@ export function StudioActionsPanel({
   // Get MIDI model for stem type
   const getMidiModel = (stemType: string) => {
     const normalizedType = stemType.toLowerCase();
-    return STEM_MIDI_MODELS[normalizedType] || 'MT3 (universal)';
+    return STEM_MIDI_MODELS[normalizedType] || "MT3 (universal)";
   };
 
   // Get stem display name
   const getStemLabel = (stemType: string) => {
     const labels: Record<string, string> = {
-      vocal: 'Вокал',
-      vocals: 'Вокал',
-      instrumental: 'Инструментал',
-      backing: 'Бэкинг',
-      accompaniment: 'Аккомпанемент',
-      drums: 'Ударные',
-      bass: 'Бас',
-      piano: 'Пианино',
-      guitar: 'Гитара',
-      other: 'Другое',
+      vocal: "Вокал",
+      vocals: "Вокал",
+      instrumental: "Инструментал",
+      backing: "Бэкинг",
+      accompaniment: "Аккомпанемент",
+      drums: "Ударные",
+      bass: "Бас",
+      piano: "Пианино",
+      guitar: "Гитара",
+      other: "Другое",
     };
     return labels[stemType.toLowerCase()] || stemType;
   };
@@ -129,9 +136,7 @@ export function StudioActionsPanel({
     <div className={cn("space-y-4", className)}>
       {/* Primary Actions */}
       <Card className="p-4 bg-card/50 border-border/30">
-        <h3 className="text-sm font-medium text-muted-foreground mb-3">
-          Основные действия
-        </h3>
+        <h3 className="text-sm font-medium text-muted-foreground mb-3">Основные действия</h3>
         <div className="grid grid-cols-2 gap-2">
           {/* Section Replacement - Always available for generated tracks */}
           <Button
@@ -145,13 +150,11 @@ export function StudioActionsPanel({
               <Scissors className="w-4 h-4 text-primary" />
               <span className="font-medium">Заменить секцию</span>
             </div>
-            <span className="text-xs text-muted-foreground text-left">
-              Изменить часть трека
-            </span>
+            <span className="text-xs text-muted-foreground text-left">Изменить часть трека</span>
           </Button>
 
           {/* Stem Separation - Only for raw tracks */}
-          {trackState === 'raw' && (
+          {trackState === "raw" && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -162,30 +165,22 @@ export function StudioActionsPanel({
                 >
                   <div className="flex items-center gap-2 w-full">
                     <Split className="w-4 h-4 text-primary" />
-                    <span className="font-medium">
-                      {isSeparating ? 'Разделение...' : 'Разделить на стемы'}
-                    </span>
+                    <span className="font-medium">{isSeparating ? "Разделение..." : "Разделить на стемы"}</span>
                   </div>
-                  <span className="text-xs text-muted-foreground text-left">
-                    Вокал + инструментал
-                  </span>
+                  <span className="text-xs text-muted-foreground text-left">Вокал + инструментал</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56">
-                <DropdownMenuItem onClick={() => onStemSeparation('simple')}>
+                <DropdownMenuItem onClick={() => onStemSeparation("simple")}>
                   <div className="flex flex-col gap-1">
                     <span className="font-medium">Простое (2 стема)</span>
-                    <span className="text-xs text-muted-foreground">
-                      Вокал + Инструментал
-                    </span>
+                    <span className="text-xs text-muted-foreground">Вокал + Инструментал</span>
                   </div>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onStemSeparation('detailed')}>
+                <DropdownMenuItem onClick={() => onStemSeparation("detailed")}>
                   <div className="flex flex-col gap-1">
                     <span className="font-medium">Детальное (6+ стемов)</span>
-                    <span className="text-xs text-muted-foreground">
-                      Вокал, Бас, Ударные, Пианино...
-                    </span>
+                    <span className="text-xs text-muted-foreground">Вокал, Бас, Ударные, Пианино...</span>
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -204,9 +199,7 @@ export function StudioActionsPanel({
                 <Mic2 className="w-4 h-4 text-primary" />
                 <span className="font-medium">Добавить вокал</span>
               </div>
-              <span className="text-xs text-muted-foreground text-left">
-                Для инструментала
-              </span>
+              <span className="text-xs text-muted-foreground text-left">Для инструментала</span>
             </Button>
           )}
 
@@ -222,9 +215,7 @@ export function StudioActionsPanel({
                 <Mic2 className="w-4 h-4 text-primary" />
                 <span className="font-medium">Новый вокал</span>
               </div>
-              <span className="text-xs text-muted-foreground text-left">
-                Сгенерировать вокал
-              </span>
+              <span className="text-xs text-muted-foreground text-left">Сгенерировать вокал</span>
             </Button>
           )}
 
@@ -240,9 +231,7 @@ export function StudioActionsPanel({
                 <Music2 className="w-4 h-4 text-primary" />
                 <span className="font-medium">Новая аранжировка</span>
               </div>
-              <span className="text-xs text-muted-foreground text-left">
-                Новый инструментал
-              </span>
+              <span className="text-xs text-muted-foreground text-left">Новый инструментал</span>
             </Button>
           )}
         </div>
@@ -251,14 +240,12 @@ export function StudioActionsPanel({
       {/* Stem-specific Actions - After detailed separation */}
       {hasDetailedStems && stems.length > 0 && onStemAction && (
         <Card className="p-4 bg-card/50 border-border/30">
-          <h3 className="text-sm font-medium text-muted-foreground mb-3">
-            Действия со стемами
-          </h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-3">Действия со стемами</h3>
           <div className="space-y-2">
             {stems.map((stem) => {
               const Icon = getStemIcon(stem.stem_type);
               const midiModel = getMidiModel(stem.stem_type);
-              
+
               return (
                 <div
                   key={stem.id}
@@ -269,15 +256,11 @@ export function StudioActionsPanel({
                       <Icon className="w-4 h-4 text-primary" />
                     </div>
                     <div>
-                      <span className="font-medium text-sm">
-                        {getStemLabel(stem.stem_type)}
-                      </span>
-                      <p className="text-xs text-muted-foreground">
-                        {midiModel}
-                      </p>
+                      <span className="font-medium text-sm">{getStemLabel(stem.stem_type)}</span>
+                      <p className="text-xs text-muted-foreground">{midiModel}</p>
                     </div>
                   </div>
-                  
+
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -285,30 +268,22 @@ export function StudioActionsPanel({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-48">
-                      <DropdownMenuItem
-                        onClick={() => onStemAction(stem, 'use_as_reference')}
-                      >
+                      <DropdownMenuItem onClick={() => onStemAction(stem, "use_as_reference")}>
                         <Wand2 className="w-4 h-4 mr-2" />
                         Использовать как референс
                       </DropdownMenuItem>
-                      <DropdownMenuItem
-                        onClick={() => onStemAction(stem, 'midi_transcription')}
-                      >
+                      <DropdownMenuItem onClick={() => onStemAction(stem, "midi_transcription")}>
                         <Piano className="w-4 h-4 mr-2" />
                         Транскрипция в MIDI
                       </DropdownMenuItem>
-                      {stem.stem_type.toLowerCase() === 'guitar' && (
-                        <DropdownMenuItem
-                          onClick={() => onStemAction(stem, 'guitar_analysis')}
-                        >
+                      {stem.stem_type.toLowerCase() === "guitar" && (
+                        <DropdownMenuItem onClick={() => onStemAction(stem, "guitar_analysis")}>
                           <Guitar className="w-4 h-4 mr-2" />
                           Анализ гитары
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => onStemAction(stem, 'download')}
-                      >
+                      <DropdownMenuItem onClick={() => onStemAction(stem, "download")}>
                         <Download className="w-4 h-4 mr-2" />
                         Скачать стем
                       </DropdownMenuItem>
@@ -323,9 +298,7 @@ export function StudioActionsPanel({
 
       {/* Secondary Actions */}
       <Card className="p-4 bg-card/50 border-border/30">
-        <h3 className="text-sm font-medium text-muted-foreground mb-3">
-          Дополнительно
-        </h3>
+        <h3 className="text-sm font-medium text-muted-foreground mb-3">Дополнительно</h3>
         <div className="flex flex-wrap gap-2">
           {onTrim && (
             <Button variant="ghost" size="sm" onClick={onTrim}>
@@ -351,9 +324,9 @@ export function StudioActionsPanel({
       {/* State Badge */}
       <div className="flex items-center justify-center">
         <Badge variant="outline" className="text-xs">
-          {trackState === 'raw' && 'Исходный трек'}
-          {trackState === 'simple_stems' && 'Разделён (2 стема)'}
-          {trackState === 'detailed_stems' && `Разделён (${stems.length} стемов)`}
+          {trackState === "raw" && "Исходный трек"}
+          {trackState === "simple_stems" && "Разделён (2 стема)"}
+          {trackState === "detailed_stems" && `Разделён (${stems.length} стемов)`}
         </Badge>
       </div>
     </div>

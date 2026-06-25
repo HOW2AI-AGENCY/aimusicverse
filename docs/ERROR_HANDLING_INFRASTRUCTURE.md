@@ -12,6 +12,7 @@ Implemented comprehensive error handling infrastructure with structured error ty
 ### 1. Structured Error Types (`src/lib/errors.ts`)
 
 **Base Class:** `AppError`
+
 ```typescript
 export class AppError extends Error {
   constructor(
@@ -25,6 +26,7 @@ export class AppError extends Error {
 ```
 
 **Specialized Error Types:**
+
 - `ValidationError` - Form validation failures (400)
 - `NetworkError` - Connection issues (503)
 - `AuthError` - Authentication problems (401)
@@ -34,12 +36,13 @@ export class AppError extends Error {
 - `ServiceUnavailableError` - Service down (503)
 
 **Usage:**
+
 ```typescript
-import { ValidationError, NetworkError } from '@/lib/errors';
+import { ValidationError, NetworkError } from "@/lib/errors";
 
 // Throw structured error
 if (!email) {
-  throw new ValidationError('Email is required', 'email');
+  throw new ValidationError("Email is required", "email");
 }
 
 // Check error type
@@ -55,30 +58,30 @@ try {
 ### 2. Retry Logic (`src/lib/retry.ts`)
 
 **Retry with Exponential Backoff:**
-```typescript
-import { retryWithBackoff } from '@/lib/retry';
 
-const data = await retryWithBackoff(
-  async () => await fetchAPI('/endpoint'),
-  {
-    maxRetries: 3,
-    initialDelay: 1000,
-    maxDelay: 10000,
-    backoffFactor: 2,
-  }
-);
+```typescript
+import { retryWithBackoff } from "@/lib/retry";
+
+const data = await retryWithBackoff(async () => await fetchAPI("/endpoint"), {
+  maxRetries: 3,
+  initialDelay: 1000,
+  maxDelay: 10000,
+  backoffFactor: 2,
+});
 ```
 
 **Retry Fetch Wrapper:**
+
 ```typescript
-import { retryFetch } from '@/lib/retry';
+import { retryFetch } from "@/lib/retry";
 
 // Automatically retries on 5xx errors and network failures
-const response = await retryFetch('/api/tracks');
+const response = await retryFetch("/api/tracks");
 const data = await response.json();
 ```
 
 **Options:**
+
 - `maxRetries` - Maximum retry attempts (default: 3)
 - `initialDelay` - Initial delay in ms (default: 1000)
 - `maxDelay` - Maximum delay in ms (default: 10000)
@@ -89,6 +92,7 @@ const data = await response.json();
 ### 3. Enhanced ErrorBoundary (`src/components/ErrorBoundary.tsx`)
 
 **Features:**
+
 - ✅ Uses structured error types
 - ✅ User-friendly error messages
 - ✅ Error code display (dev mode)
@@ -97,6 +101,7 @@ const data = await response.json();
 - ✅ Reset functionality
 
 **Usage:**
+
 ```typescript
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 
@@ -118,8 +123,9 @@ import { ErrorBoundary } from '@/components/ErrorBoundary';
 ### 4. Utility Functions
 
 **Get User-Friendly Message:**
+
 ```typescript
-import { getUserErrorMessage } from '@/lib/errors';
+import { getUserErrorMessage } from "@/lib/errors";
 
 try {
   await operation();
@@ -130,23 +136,25 @@ try {
 ```
 
 **Log Errors with Context:**
+
 ```typescript
-import { logError } from '@/lib/errors';
+import { logError } from "@/lib/errors";
 
 try {
   await operation();
 } catch (error) {
   logError(error, {
     userId: user.id,
-    action: 'track_generation',
+    action: "track_generation",
     trackId: track.id,
   });
 }
 ```
 
 **Debounce/Throttle:**
+
 ```typescript
-import { debounce, throttle } from '@/lib/retry';
+import { debounce, throttle } from "@/lib/retry";
 
 // Debounce search input
 const handleSearch = debounce((query: string) => {
@@ -162,46 +170,48 @@ const handleScroll = throttle(() => {
 ## Integration Examples
 
 ### API Service with Retry
+
 ```typescript
 // src/services/api.ts
-import { retryFetch } from '@/lib/retry';
-import { NetworkError, ServiceUnavailableError } from '@/lib/errors';
+import { retryFetch } from "@/lib/retry";
+import { NetworkError, ServiceUnavailableError } from "@/lib/errors";
 
 export async function fetchTracks(userId: string) {
   try {
     const response = await retryFetch(
       `/api/tracks?user_id=${userId}`,
       {
-        headers: { 'Authorization': `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       },
       {
         maxRetries: 3,
         onRetry: (error, attempt, delay) => {
           console.log(`Retry ${attempt} after ${delay}ms:`, error);
         },
-      }
+      },
     );
-    
+
     return await response.json();
   } catch (error) {
-    throw new ServiceUnavailableError('Track service');
+    throw new ServiceUnavailableError("Track service");
   }
 }
 ```
 
 ### Form Validation
+
 ```typescript
 // src/components/forms/GenerateForm.tsx
-import { ValidationError } from '@/lib/errors';
-import { getUserErrorMessage } from '@/lib/errors';
+import { ValidationError } from "@/lib/errors";
+import { getUserErrorMessage } from "@/lib/errors";
 
 function validateForm(data: FormData) {
   if (!data.prompt) {
-    throw new ValidationError('Prompt is required', 'prompt');
+    throw new ValidationError("Prompt is required", "prompt");
   }
-  
+
   if (data.prompt.length < 10) {
-    throw new ValidationError('Prompt too short', 'prompt');
+    throw new ValidationError("Prompt too short", "prompt");
   }
 }
 
@@ -216,6 +226,7 @@ function handleSubmit(data: FormData) {
 ```
 
 ### Component Error Handling
+
 ```typescript
 // src/components/TrackPlayer.tsx
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -234,7 +245,7 @@ function TrackPlayer() {
       }
     }
   };
-  
+
   return <div>...</div>;
 }
 
@@ -252,60 +263,64 @@ export default function TrackPlayerWithBoundary() {
 
 The system automatically maps common errors to user-friendly Russian messages:
 
-| Error Pattern | User Message |
-|---------------|--------------|
-| network, fetch | Проблема с подключением. Проверьте интернет. |
-| timeout | Превышено время ожидания. Попробуйте ещё раз. |
+| Error Pattern      | User Message                                      |
+| ------------------ | ------------------------------------------------- |
+| network, fetch     | Проблема с подключением. Проверьте интернет.      |
+| timeout            | Превышено время ожидания. Попробуйте ещё раз.     |
 | unauthorized, auth | Требуется авторизация. Пожалуйста, войдите снова. |
-| not found | Запрашиваемый ресурс не найден. |
-| rate limit | Слишком много запросов. Пожалуйста, подождите. |
-| Default | Произошла ошибка. Попробуйте позже. |
+| not found          | Запрашиваемый ресурс не найден.                   |
+| rate limit         | Слишком много запросов. Пожалуйста, подождите.    |
+| Default            | Произошла ошибка. Попробуйте позже.               |
 
 ## Best Practices
 
 ### 1. Use Specific Error Types
+
 ```typescript
 // ❌ Bad
-throw new Error('User not found');
+throw new Error("User not found");
 
 // ✅ Good
-throw new NotFoundError('User');
+throw new NotFoundError("User");
 ```
 
 ### 2. Provide Context in Metadata
+
 ```typescript
 // ✅ Good
 throw new AppError(
-  'Generation failed',
-  'GENERATION_ERROR',
+  "Generation failed",
+  "GENERATION_ERROR",
   500,
-  'Не удалось создать трек. Попробуйте изменить запрос.',
+  "Не удалось создать трек. Попробуйте изменить запрос.",
   {
     userId: user.id,
     prompt: prompt,
-    model: 'suno-v5',
-  }
+    model: "suno-v5",
+  },
 );
 ```
 
 ### 3. Always Use Retry for Network Calls
+
 ```typescript
 // ❌ Bad
-const response = await fetch('/api/tracks');
+const response = await fetch("/api/tracks");
 
 // ✅ Good
-const response = await retryFetch('/api/tracks');
+const response = await retryFetch("/api/tracks");
 ```
 
 ### 4. Log Errors with Context
+
 ```typescript
 // ✅ Good
 try {
   await operation();
 } catch (error) {
   logError(error, {
-    component: 'TrackPlayer',
-    action: 'load_track',
+    component: "TrackPlayer",
+    action: "load_track",
     trackId: id,
   });
   throw error; // Re-throw after logging
@@ -313,6 +328,7 @@ try {
 ```
 
 ### 5. Wrap Components with ErrorBoundary
+
 ```typescript
 // ✅ Good - wrap route components
 <Route path="/library" element={
@@ -325,39 +341,41 @@ try {
 ## Testing
 
 ### Unit Tests
-```typescript
-import { ValidationError, getUserErrorMessage } from '@/lib/errors';
 
-describe('Error Handling', () => {
-  it('should create validation error', () => {
-    const error = new ValidationError('Email required', 'email');
-    expect(error.code).toBe('VALIDATION_ERROR');
+```typescript
+import { ValidationError, getUserErrorMessage } from "@/lib/errors";
+
+describe("Error Handling", () => {
+  it("should create validation error", () => {
+    const error = new ValidationError("Email required", "email");
+    expect(error.code).toBe("VALIDATION_ERROR");
     expect(error.statusCode).toBe(400);
   });
 
-  it('should get user message', () => {
-    const error = new ValidationError('Email required');
+  it("should get user message", () => {
+    const error = new ValidationError("Email required");
     const message = getUserErrorMessage(error);
-    expect(message).toBe('Проверьте введённые данные');
+    expect(message).toBe("Проверьте введённые данные");
   });
 });
 ```
 
 ### Integration Tests
-```typescript
-import { retryWithBackoff } from '@/lib/retry';
 
-describe('Retry Logic', () => {
-  it('should retry on failure', async () => {
+```typescript
+import { retryWithBackoff } from "@/lib/retry";
+
+describe("Retry Logic", () => {
+  it("should retry on failure", async () => {
     let attempts = 0;
     const fn = async () => {
       attempts++;
-      if (attempts < 3) throw new Error('Failed');
-      return 'Success';
+      if (attempts < 3) throw new Error("Failed");
+      return "Success";
     };
 
     const result = await retryWithBackoff(fn, { maxRetries: 3 });
-    expect(result).toBe('Success');
+    expect(result).toBe("Success");
     expect(attempts).toBe(3);
   });
 });
@@ -366,12 +384,14 @@ describe('Retry Logic', () => {
 ## Future Enhancements
 
 ### Phase 3 (Priority P2)
+
 - [ ] Integrate error tracking service (Sentry)
 - [ ] Add error analytics dashboard
 - [ ] Implement error rate alerts
 - [ ] Add automatic error recovery suggestions
 
 ### Phase 4 (Priority P3)
+
 - [ ] ML-based error prediction
 - [ ] Context-aware error messages
 - [ ] Error pattern analysis
@@ -382,26 +402,28 @@ describe('Retry Logic', () => {
 ### Updating Existing Code
 
 **Before:**
+
 ```typescript
 try {
-  const response = await fetch('/api/tracks');
+  const response = await fetch("/api/tracks");
   const data = await response.json();
 } catch (error) {
-  console.error('Error:', error);
-  toast.error('Something went wrong');
+  console.error("Error:", error);
+  toast.error("Something went wrong");
 }
 ```
 
 **After:**
+
 ```typescript
-import { retryFetch } from '@/lib/retry';
-import { getUserErrorMessage, logError } from '@/lib/errors';
+import { retryFetch } from "@/lib/retry";
+import { getUserErrorMessage, logError } from "@/lib/errors";
 
 try {
-  const response = await retryFetch('/api/tracks');
+  const response = await retryFetch("/api/tracks");
   const data = await response.json();
 } catch (error) {
-  logError(error, { action: 'fetch_tracks' });
+  logError(error, { action: "fetch_tracks" });
   toast.error(getUserErrorMessage(error));
 }
 ```
@@ -409,6 +431,7 @@ try {
 ## Summary
 
 ✅ **Implemented:**
+
 - Structured error types (8 classes)
 - Retry logic with exponential backoff
 - Enhanced ErrorBoundary with user-friendly messages
@@ -416,6 +439,7 @@ try {
 - Comprehensive documentation
 
 ✅ **Benefits:**
+
 - Better error messages for users (Russian)
 - Automatic retry for transient failures
 - Improved debugging with error codes
@@ -423,6 +447,7 @@ try {
 - Foundation for error tracking integration
 
 ✅ **Impact:**
+
 - Improved user experience during errors
 - Reduced support requests from unclear errors
 - Better debugging and monitoring

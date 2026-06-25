@@ -17,7 +17,7 @@ export type {
   OperationResult,
   UseAudioProcessingReturn,
   ProgressTrackingReturn,
-} from './types';
+} from "./types";
 
 // Constants
 export {
@@ -26,7 +26,7 @@ export {
   OPERATION_ENDPOINTS,
   DEFAULT_TITLES,
   INVALIDATE_QUERY_KEYS,
-} from './constants';
+} from "./constants";
 
 // Base hook
-export { useProgressTracking } from './useProgressTracking';
+export { useProgressTracking } from "./useProgressTracking";

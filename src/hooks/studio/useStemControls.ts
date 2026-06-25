@@ -1,10 +1,10 @@
 /**
  * Stem Controls Hook
- * 
+ *
  * Manages stem states (mute, solo, volume) and master controls
  */
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo } from "react";
 
 export interface StemState {
   muted: boolean;
@@ -17,13 +17,10 @@ interface UseStemControlsProps {
   initialVolume?: number;
 }
 
-export function useStemControls({ 
-  stemIds, 
-  initialVolume = 0.85 
-}: UseStemControlsProps) {
+export function useStemControls({ stemIds, initialVolume = 0.85 }: UseStemControlsProps) {
   const [stemStates, setStemStates] = useState<Record<string, StemState>>(() => {
     const initial: Record<string, StemState> = {};
-    stemIds.forEach(id => {
+    stemIds.forEach((id) => {
       initial[id] = { muted: false, solo: false, volume: initialVolume };
     });
     return initial;
@@ -35,29 +32,26 @@ export function useStemControls({
   /**
    * Check if any stem is in solo mode
    */
-  const hasSolo = useMemo(() => 
-    Object.values(stemStates).some(s => s.solo),
-    [stemStates]
-  );
+  const hasSolo = useMemo(() => Object.values(stemStates).some((s) => s.solo), [stemStates]);
 
   /**
    * Toggle stem mute/solo with improved logic
    */
-  const toggleStem = useCallback((stemId: string, type: 'mute' | 'solo') => {
-    setStemStates(prev => {
+  const toggleStem = useCallback((stemId: string, type: "mute" | "solo") => {
+    setStemStates((prev) => {
       const newStates = { ...prev };
 
-      if (type === 'solo') {
+      if (type === "solo") {
         const wasSolo = prev[stemId]?.solo;
-        
+
         if (!wasSolo) {
           // Enabling solo: clear all other solos and enable this one
-          Object.keys(newStates).forEach(id => {
-            newStates[id] = { 
-              ...newStates[id], 
+          Object.keys(newStates).forEach((id) => {
+            newStates[id] = {
+              ...newStates[id],
               solo: id === stemId,
               // Also unmute the stem being soloed for better UX
-              muted: id === stemId ? false : newStates[id].muted
+              muted: id === stemId ? false : newStates[id].muted,
             };
           });
         } else {
@@ -67,11 +61,11 @@ export function useStemControls({
       } else {
         // Mute/unmute toggle
         const newMutedState = !prev[stemId]?.muted;
-        newStates[stemId] = { 
-          ...newStates[stemId], 
+        newStates[stemId] = {
+          ...newStates[stemId],
           muted: newMutedState,
           // If unmuting, also disable solo to avoid confusion
-          solo: newMutedState ? false : newStates[stemId].solo
+          solo: newMutedState ? false : newStates[stemId].solo,
         };
       }
 
@@ -83,9 +77,9 @@ export function useStemControls({
    * Set stem volume
    */
   const setStemVolume = useCallback((stemId: string, volume: number) => {
-    setStemStates(prev => ({
+    setStemStates((prev) => ({
       ...prev,
-      [stemId]: { ...prev[stemId], volume }
+      [stemId]: { ...prev[stemId], volume },
     }));
   }, []);
 
@@ -93,9 +87,9 @@ export function useStemControls({
    * Reset all stem states to default
    */
   const resetStems = useCallback(() => {
-    setStemStates(prev => {
+    setStemStates((prev) => {
       const reset: Record<string, StemState> = {};
-      Object.keys(prev).forEach(id => {
+      Object.keys(prev).forEach((id) => {
         reset[id] = { muted: false, solo: false, volume: initialVolume };
       });
       return reset;
@@ -107,22 +101,28 @@ export function useStemControls({
   /**
    * Get effective volume for a stem (considering mute, solo, master)
    */
-  const getEffectiveVolume = useCallback((stemId: string): number => {
-    const state = stemStates[stemId];
-    if (!state) return 0;
+  const getEffectiveVolume = useCallback(
+    (stemId: string): number => {
+      const state = stemStates[stemId];
+      if (!state) return 0;
 
-    const isMuted = masterMuted || state.muted || (hasSolo && !state.solo);
-    return isMuted ? 0 : state.volume * masterVolume;
-  }, [stemStates, masterVolume, masterMuted, hasSolo]);
+      const isMuted = masterMuted || state.muted || (hasSolo && !state.solo);
+      return isMuted ? 0 : state.volume * masterVolume;
+    },
+    [stemStates, masterVolume, masterMuted, hasSolo],
+  );
 
   /**
    * Get stem mute status (including solo logic)
    */
-  const isStemMuted = useCallback((stemId: string): boolean => {
-    const state = stemStates[stemId];
-    if (!state) return true;
-    return masterMuted || state.muted || (hasSolo && !state.solo);
-  }, [stemStates, masterMuted, hasSolo]);
+  const isStemMuted = useCallback(
+    (stemId: string): boolean => {
+      const state = stemStates[stemId];
+      if (!state) return true;
+      return masterMuted || state.muted || (hasSolo && !state.solo);
+    },
+    [stemStates, masterMuted, hasSolo],
+  );
 
   /**
    * Set all stem states at once (for presets)

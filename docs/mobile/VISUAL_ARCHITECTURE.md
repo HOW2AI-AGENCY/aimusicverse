@@ -315,13 +315,13 @@ After:
 
 ```tsx
 // OLD WAY - Stem Studio
-import { TrackStudioMobileLayout } from '@/components/stem-studio';
-import { MobileStudioHeader } from '@/components/stem-studio';
-import { MobileActionsBar } from '@/components/stem-studio';
-import { MobileLyricsTab } from '@/components/stem-studio/mobile';
-import { MobilePlayerTab } from '@/components/stem-studio/mobile';
-import { MobileSectionsTab } from '@/components/stem-studio/mobile';
-import { StudioTabsMobile } from '@/components/studio';
+import { TrackStudioMobileLayout } from "@/components/stem-studio";
+import { MobileStudioHeader } from "@/components/stem-studio";
+import { MobileActionsBar } from "@/components/stem-studio";
+import { MobileLyricsTab } from "@/components/stem-studio/mobile";
+import { MobilePlayerTab } from "@/components/stem-studio/mobile";
+import { MobileSectionsTab } from "@/components/stem-studio/mobile";
+import { StudioTabsMobile } from "@/components/studio";
 
 // Complex manual setup
 <TrackStudioMobileLayout>
@@ -332,27 +332,27 @@ import { StudioTabsMobile } from '@/components/studio';
     <MobileSectionsTab trackId={trackId} />
   </StudioTabsMobile>
   <MobileActionsBar actions={actions} />
-</TrackStudioMobileLayout>
+</TrackStudioMobileLayout>;
 ```
 
 ### After: Simplified & Unified
 
 ```tsx
 // NEW WAY - Clean & Simple
-import { MobileStudio } from '@/components/mobile/studio';
-import { Play, FileText, Grid, Sliders } from 'lucide-react';
+import { MobileStudio } from "@/components/mobile/studio";
+import { Play, FileText, Grid, Sliders } from "lucide-react";
 
 // Single component, everything included
 <MobileStudio
   trackId={trackId}
   mode="stem-studio"
   tabs={[
-    { id: 'player', label: 'Player', icon: Play },
-    { id: 'lyrics', label: 'Lyrics', icon: FileText },
-    { id: 'sections', label: 'Sections', icon: Grid },
-    { id: 'mixer', label: 'Mixer', icon: Sliders },
+    { id: "player", label: "Player", icon: Play },
+    { id: "lyrics", label: "Lyrics", icon: FileText },
+    { id: "sections", label: "Sections", icon: Grid },
+    { id: "mixer", label: "Mixer", icon: Sliders },
   ]}
-/>
+/>;
 ```
 
 ### Before: Manual Tab Management
@@ -377,14 +377,9 @@ const [activeTab, setActiveTab] = useState('player');
 
 ```tsx
 // NEW WAY - Universal component
-import { MobileTabBar } from '@/components/mobile/navigation';
+import { MobileTabBar } from "@/components/mobile/navigation";
 
-<MobileTabBar
-  tabs={tabs}
-  activeTab={activeTab}
-  onTabChange={setActiveTab}
-  variant="default"
-/>
+<MobileTabBar tabs={tabs} activeTab={activeTab} onTabChange={setActiveTab} variant="default" />;
 ```
 
 ---

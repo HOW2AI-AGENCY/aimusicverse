@@ -2,11 +2,11 @@
  * Card showing Core Web Vitals summary
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Activity, TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { PerformanceMetric, PERFORMANCE_TARGETS, getMetricStatus } from '@/hooks/usePerformanceMetrics';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Activity, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { PerformanceMetric, PERFORMANCE_TARGETS, getMetricStatus } from "@/hooks/usePerformanceMetrics";
 
 interface CoreWebVitalsCardProps {
   metric: PerformanceMetric | null | undefined;
@@ -16,16 +16,16 @@ interface CoreWebVitalsCardProps {
 
 function getChangeIndicator(current: number | null, previous: number | null, isLowerBetter = true) {
   if (!current || !previous) return null;
-  
+
   const diff = current - previous;
   const percentChange = Math.abs((diff / previous) * 100);
-  
+
   if (Math.abs(diff) < 1) {
     return <Minus className="h-3 w-3 text-muted-foreground" />;
   }
-  
+
   const isImproving = isLowerBetter ? diff < 0 : diff > 0;
-  
+
   return isImproving ? (
     <span className="flex items-center text-xs text-green-500">
       <TrendingUp className="h-3 w-3 mr-0.5" />
@@ -39,19 +39,19 @@ function getChangeIndicator(current: number | null, previous: number | null, isL
   );
 }
 
-function getStatusBadge(status: 'good' | 'needs-improvement' | 'poor') {
+function getStatusBadge(status: "good" | "needs-improvement" | "poor") {
   const colors = {
-    good: 'bg-green-500/10 text-green-500 border-green-500/20',
-    'needs-improvement': 'bg-amber-500/10 text-amber-500 border-amber-500/20',
-    poor: 'bg-red-500/10 text-red-500 border-red-500/20',
+    good: "bg-green-500/10 text-green-500 border-green-500/20",
+    "needs-improvement": "bg-amber-500/10 text-amber-500 border-amber-500/20",
+    poor: "bg-red-500/10 text-red-500 border-red-500/20",
   };
-  
+
   const labels = {
-    good: 'Good',
-    'needs-improvement': 'Needs Work',
-    poor: 'Poor',
+    good: "Good",
+    "needs-improvement": "Needs Work",
+    poor: "Poor",
   };
-  
+
   return (
     <Badge variant="outline" className={colors[status]}>
       {labels[status]}
@@ -80,36 +80,36 @@ export function CoreWebVitalsCard({ metric, previousMetric, isLoading }: CoreWeb
 
   const vitals = [
     {
-      name: 'LCP',
+      name: "LCP",
       value: metric?.lcp_ms,
       prevValue: previousMetric?.lcp_ms,
       target: PERFORMANCE_TARGETS.lcp,
-      unit: 'ms',
-      description: 'Largest Contentful Paint',
+      unit: "ms",
+      description: "Largest Contentful Paint",
     },
     {
-      name: 'FID',
+      name: "FID",
       value: metric?.fid_ms,
       prevValue: previousMetric?.fid_ms,
       target: PERFORMANCE_TARGETS.fid,
-      unit: 'ms',
-      description: 'First Input Delay',
+      unit: "ms",
+      description: "First Input Delay",
     },
     {
-      name: 'CLS',
+      name: "CLS",
       value: metric?.cls,
       prevValue: previousMetric?.cls,
       target: PERFORMANCE_TARGETS.cls,
-      unit: '',
-      description: 'Cumulative Layout Shift',
+      unit: "",
+      description: "Cumulative Layout Shift",
     },
   ];
 
-  const overallStatus = vitals.every(v => 
-    getMetricStatus(v.value ?? null, v.target) === 'good'
-  ) ? 'good' : vitals.some(v => 
-    getMetricStatus(v.value ?? null, v.target) === 'poor'
-  ) ? 'poor' : 'needs-improvement';
+  const overallStatus = vitals.every((v) => getMetricStatus(v.value ?? null, v.target) === "good")
+    ? "good"
+    : vitals.some((v) => getMetricStatus(v.value ?? null, v.target) === "poor")
+      ? "poor"
+      : "needs-improvement";
 
   return (
     <Card>
@@ -126,34 +126,30 @@ export function CoreWebVitalsCard({ metric, previousMetric, isLoading }: CoreWeb
         {vitals.map((vital) => {
           const status = getMetricStatus(vital.value ?? null, vital.target);
           const statusColors = {
-            good: 'text-green-500',
-            'needs-improvement': 'text-amber-500',
-            poor: 'text-red-500',
+            good: "text-green-500",
+            "needs-improvement": "text-amber-500",
+            poor: "text-red-500",
           };
-          
+
           return (
             <div key={vital.name} className="flex items-center justify-between">
               <div>
                 <span className="text-sm font-medium">{vital.name}</span>
-                <span className="text-xs text-muted-foreground ml-2">
-                  ({vital.description})
-                </span>
+                <span className="text-xs text-muted-foreground ml-2">({vital.description})</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className={`text-sm font-mono ${statusColors[status]}`}>
-                  {vital.value !== null && vital.value !== undefined 
-                    ? `${vital.value}${vital.unit}`
-                    : '—'
-                  }
+                  {vital.value !== null && vital.value !== undefined ? `${vital.value}${vital.unit}` : "—"}
                 </span>
                 {getChangeIndicator(vital.value ?? null, vital.prevValue ?? null)}
               </div>
             </div>
           );
         })}
-        
+
         <div className="pt-2 border-t text-xs text-muted-foreground">
-          Targets: LCP {'<'} {PERFORMANCE_TARGETS.lcp}ms, FID {'<'} {PERFORMANCE_TARGETS.fid}ms, CLS {'<'} {PERFORMANCE_TARGETS.cls}
+          Targets: LCP {"<"} {PERFORMANCE_TARGETS.lcp}ms, FID {"<"} {PERFORMANCE_TARGETS.fid}ms, CLS {"<"}{" "}
+          {PERFORMANCE_TARGETS.cls}
         </div>
       </CardContent>
     </Card>

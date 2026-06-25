@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from '@/lib/motion';
+import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useTelegram } from "@/contexts/TelegramContext";
-import { 
-  Sparkles, 
-  Music, 
-  Mic2, 
-  Library, 
-  Layers, 
-  Users, 
+import {
+  Sparkles,
+  Music,
+  Mic2,
+  Library,
+  Layers,
+  Users,
   FolderOpen,
   ListMusic,
   Wand2,
   ChevronRight,
   ChevronLeft,
   Check,
-  Rocket
+  Rocket,
 } from "lucide-react";
 
 interface OnboardingStep {
@@ -38,11 +38,7 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     icon: Rocket,
     title: "Добро пожаловать в MusicVerse!",
     description: "Создавайте уникальную музыку с помощью искусственного интеллекта",
-    features: [
-      "Генерация полноценных треков за минуты",
-      "AI-лирика на любом языке",
-      "Профессиональное качество звука"
-    ]
+    features: ["Генерация полноценных треков за минуты", "AI-лирика на любом языке", "Профессиональное качество звука"],
   },
   {
     id: "music-lab",
@@ -52,21 +48,17 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     features: [
       "Quick Create — быстрый старт с пресетами",
       "Guitar Studio — запись и анализ гитары",
-      "Voice Input — создание мелодий голосом"
+      "Voice Input — создание мелодий голосом",
     ],
-    action: { label: "Открыть Music Lab", path: "/music-lab" }
+    action: { label: "Открыть Music Lab", path: "/music-lab" },
   },
   {
     id: "quick-create",
     icon: Sparkles,
     title: "Quick Create",
     description: "Создайте трек за 4 простых шага",
-    features: [
-      "8 готовых пресетов (Rock, Pop, Jazz...)",
-      "Автозаполнение параметров",
-      "От идеи до трека за 2 минуты"
-    ],
-    action: { label: "Попробовать Quick Create", path: "/music-lab" }
+    features: ["8 готовых пресетов (Rock, Pop, Jazz...)", "Автозаполнение параметров", "От идеи до трека за 2 минуты"],
+    action: { label: "Попробовать Quick Create", path: "/music-lab" },
   },
   {
     id: "generate",
@@ -76,94 +68,66 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
     features: [
       "Простой и кастомный режимы генерации",
       "Выбор жанра, настроения и стиля",
-      "A/B версии для сравнения вариантов"
+      "A/B версии для сравнения вариантов",
     ],
-    action: { label: "Попробовать", path: "/generate" }
+    action: { label: "Попробовать", path: "/generate" },
   },
   {
     id: "workflows",
     icon: ListMusic,
     title: "Пошаговые воркфлоу",
     description: "Система подскажет каждый шаг",
-    features: [
-      "Гид для первого трека",
-      "От гитары до полного трека",
-      "Обучение работе со стемами"
-    ],
-    action: { label: "Начать обучение", path: "/music-lab" }
+    features: ["Гид для первого трека", "От гитары до полного трека", "Обучение работе со стемами"],
+    action: { label: "Начать обучение", path: "/music-lab" },
   },
   {
     id: "library",
     icon: Library,
     title: "Ваша библиотека",
     description: "Все ваши треки в одном месте",
-    features: [
-      "Быстрый доступ ко всем генерациям",
-      "Переключение версий A/B",
-      "Swipe-действия на мобильных"
-    ],
-    action: { label: "Открыть библиотеку", path: "/library" }
+    features: ["Быстрый доступ ко всем генерациям", "Переключение версий A/B", "Swipe-действия на мобильных"],
+    action: { label: "Открыть библиотеку", path: "/library" },
   },
   {
     id: "versions",
     icon: Layers,
     title: "Версии треков",
     description: "AI создаёт 2 варианта каждого трека",
-    features: [
-      "Мгновенное переключение A↔B",
-      "Сравнение версий в плеере",
-      "Выбор лучшего варианта"
-    ],
-    action: { label: "В библиотеку", path: "/library" }
+    features: ["Мгновенное переключение A↔B", "Сравнение версий в плеере", "Выбор лучшего варианта"],
+    action: { label: "В библиотеку", path: "/library" },
   },
   {
     id: "stems",
     icon: Wand2,
     title: "Stem Studio",
     description: "Разделяйте треки на отдельные дорожки",
-    features: [
-      "Вокал, ударные, бас, инструменты",
-      "Микширование и экспорт",
-      "Создание ремиксов"
-    ],
-    action: { label: "В студию", path: "/library" }
+    features: ["Вокал, ударные, бас, инструменты", "Микширование и экспорт", "Создание ремиксов"],
+    action: { label: "В студию", path: "/library" },
   },
   {
     id: "artists",
     icon: Users,
     title: "AI Артисты",
     description: "Создавайте уникальных виртуальных артистов",
-    features: [
-      "Генерация портретов с AI",
-      "Персональный стиль и жанр",
-      "Публикация в сообществе"
-    ],
-    action: { label: "Создать артиста", path: "/actors" }
+    features: ["Генерация портретов с AI", "Персональный стиль и жанр", "Публикация в сообществе"],
+    action: { label: "Создать артиста", path: "/actors" },
   },
   {
     id: "projects",
     icon: FolderOpen,
     title: "Музыкальные проекты",
     description: "Организуйте работу над альбомами и EP",
-    features: [
-      "Планирование треклиста",
-      "Единый стиль проекта",
-      "Быстрая генерация по плану"
-    ],
-    action: { label: "Создать проект", path: "/projects" }
+    features: ["Планирование треклиста", "Единый стиль проекта", "Быстрая генерация по плану"],
+    action: { label: "Создать проект", path: "/projects" },
   },
   {
     id: "playlists",
     icon: ListMusic,
     title: "Плейлисты",
     description: "Собирайте и делитесь коллекциями",
-    features: [
-      "Drag-and-drop сортировка",
-      "AI-обложки для плейлистов",
-      "Шеринг в Telegram"
-    ],
-    action: { label: "К плейлистам", path: "/playlists" }
-  }
+    features: ["Drag-and-drop сортировка", "AI-обложки для плейлистов", "Шеринг в Telegram"],
+    action: { label: "К плейлистам", path: "/playlists" },
+  },
 ];
 
 export default function Onboarding() {
@@ -177,29 +141,29 @@ export default function Onboarding() {
   const Icon = step.icon;
 
   const handleNext = () => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     if (isLast) {
-      navigate('/');
+      navigate("/");
     } else {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     }
   };
 
   const handlePrev = () => {
-    hapticFeedback('light');
-    setCurrentStep(prev => Math.max(0, prev - 1));
+    hapticFeedback("light");
+    setCurrentStep((prev) => Math.max(0, prev - 1));
   };
 
   const handleAction = () => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     if (step.action) {
       navigate(step.action.path);
     }
   };
 
   const handleSkip = () => {
-    hapticFeedback('light');
-    navigate('/');
+    hapticFeedback("light");
+    navigate("/");
   };
 
   return (
@@ -212,11 +176,7 @@ export default function Onboarding() {
               <div
                 key={index}
                 className={`h-1.5 rounded-full transition-all ${
-                  index === currentStep
-                    ? "w-8 bg-primary"
-                    : index < currentStep
-                    ? "w-4 bg-primary/50"
-                    : "w-4 bg-muted"
+                  index === currentStep ? "w-8 bg-primary" : index < currentStep ? "w-4 bg-primary/50" : "w-4 bg-muted"
                 }`}
               />
             ))}
@@ -264,11 +224,7 @@ export default function Onboarding() {
                 </ul>
 
                 {step.action && (
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={handleAction}
-                  >
+                  <Button variant="outline" className="w-full" onClick={handleAction}>
                     {step.action.label}
                     <ChevronRight className="w-4 h-4 ml-1" />
                   </Button>
@@ -281,19 +237,12 @@ export default function Onboarding() {
         {/* Navigation */}
         <div className="flex gap-3 mt-6">
           {!isFirst && (
-            <Button
-              variant="outline"
-              className="flex-1"
-              onClick={handlePrev}
-            >
+            <Button variant="outline" className="flex-1" onClick={handlePrev}>
               <ChevronLeft className="w-4 h-4 mr-1" />
               Назад
             </Button>
           )}
-          <Button
-            className="flex-1"
-            onClick={handleNext}
-          >
+          <Button className="flex-1" onClick={handleNext}>
             {isLast ? (
               <>
                 Начать

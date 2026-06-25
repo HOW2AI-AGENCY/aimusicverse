@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface TrackChangeLog {
   id: string;
@@ -19,13 +19,13 @@ export interface TrackChangeLog {
 
 export const useTrackChangelog = (trackId: string) => {
   return useQuery({
-    queryKey: ['track-changelog', trackId],
+    queryKey: ["track-changelog", trackId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('track_change_log')
-        .select('*')
-        .eq('track_id', trackId)
-        .order('created_at', { ascending: false });
+        .from("track_change_log")
+        .select("*")
+        .eq("track_id", trackId)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return (data || []) as TrackChangeLog[];

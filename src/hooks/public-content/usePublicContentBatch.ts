@@ -10,8 +10,14 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "../useAuth";
-import type { PublicContentData, PublicTrackWithCreator } from './types';
-import { GENRE_QUERIES, PUBLIC_CONTENT_STALE_TIME, PUBLIC_CONTENT_GC_TIME, BATCH_FETCH_LIMIT, GENRE_FETCH_LIMIT } from './constants';
+import type { PublicContentData, PublicTrackWithCreator } from "./types";
+import {
+  GENRE_QUERIES,
+  PUBLIC_CONTENT_STALE_TIME,
+  PUBLIC_CONTENT_GC_TIME,
+  BATCH_FETCH_LIMIT,
+  GENRE_FETCH_LIMIT,
+} from "./constants";
 
 /**
  * Fetches all public content in optimized parallel queries
@@ -43,7 +49,7 @@ export function usePublicContentBatch() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['public-content-optimized', user?.id],
+    queryKey: ["public-content-optimized", user?.id],
     queryFn: async (): Promise<PublicContentData> => {
       // PARALLEL FETCH: Main tracks + Genre-specific tracks
       const [mainResult, ...genreResults] = await Promise.all([
@@ -58,7 +64,7 @@ export function usePublicContentBatch() {
           .limit(BATCH_FETCH_LIMIT),
 
         // 2. Genre-specific queries (sorted by popularity)
-        ...GENRE_QUERIES.map(genre =>
+        ...GENRE_QUERIES.map((genre) =>
           supabase
             .from("tracks")
             .select("id,title,cover_url,audio_url,play_count,user_id,created_at,style,tags,computed_genre,prompt")
@@ -67,7 +73,7 @@ export function usePublicContentBatch() {
             .not("audio_url", "is", null)
             .in("computed_genre", genre.dbValues)
             .order("play_count", { ascending: false, nullsFirst: false })
-            .limit(GENRE_FETCH_LIMIT)
+            .limit(GENRE_FETCH_LIMIT),
         ),
       ]);
 
@@ -83,7 +89,7 @@ export function usePublicContentBatch() {
       });
 
       // Early return if no tracks found
-      if (tracks.length === 0 && Object.values(tracksByGenre).every(arr => arr.length === 0)) {
+      if (tracks.length === 0 && Object.values(tracksByGenre).every((arr) => arr.length === 0)) {
         return {
           featuredTracks: [],
           recentTracks: [],
@@ -95,7 +101,7 @@ export function usePublicContentBatch() {
 
       // Collect all unique user IDs from all tracks
       const allTrackArrays = [tracks, ...Object.values(tracksByGenre)];
-      const userIds = [...new Set(allTrackArrays.flat().map(t => t.user_id))];
+      const userIds = [...new Set(allTrackArrays.flat().map((t) => t.user_id))];
 
       // Fetch profiles for all creators
       const { data: profiles } = await supabase
@@ -104,10 +110,10 @@ export function usePublicContentBatch() {
         .in("user_id", userIds);
 
       // Create lookup map
-      const profileMap = new Map(profiles?.map(p => [p.user_id, p]) || []);
+      const profileMap = new Map(profiles?.map((p) => [p.user_id, p]) || []);
 
       // Helper to enrich tracks with creator info
-      const enrichTrack = (track: typeof tracks[0]): PublicTrackWithCreator => {
+      const enrichTrack = (track: (typeof tracks)[0]): PublicTrackWithCreator => {
         const profile = profileMap.get(track.user_id);
         return {
           ...track,
@@ -129,9 +135,7 @@ export function usePublicContentBatch() {
       }
 
       // Sort main tracks for different views
-      const sortedByPopular = [...enrichedTracks].sort((a, b) =>
-        (b.play_count || 0) - (a.play_count || 0)
-      );
+      const sortedByPopular = [...enrichedTracks].sort((a, b) => (b.play_count || 0) - (a.play_count || 0));
 
       return {
         featuredTracks: sortedByPopular.slice(0, 6),

@@ -1,4 +1,4 @@
-import { LyricSection, SectionType, UI_TRANSLATIONS } from './types';
+import { LyricSection, SectionType, UI_TRANSLATIONS } from "./types";
 
 // Parse tags from text
 export const parseTags = (text: string): string[] => {
@@ -11,7 +11,7 @@ export const parseTags = (text: string): string[] => {
 export const translateTagsToRussian = (text: string): string => {
   let translated = text;
   Object.entries(UI_TRANSLATIONS).forEach(([ru, en]) => {
-    translated = translated.replace(new RegExp(en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), ru);
+    translated = translated.replace(new RegExp(en.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"), ru);
   });
   return translated;
 };
@@ -20,7 +20,7 @@ export const translateTagsToRussian = (text: string): string => {
 export const translateTagsToEnglish = (text: string): string => {
   let translated = text;
   Object.entries(UI_TRANSLATIONS).forEach(([ru, en]) => {
-    translated = translated.replace(new RegExp(ru.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'), en);
+    translated = translated.replace(new RegExp(ru.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"), en);
   });
   return translated;
 };
@@ -30,78 +30,80 @@ export const countSyllables = (text: string): number => {
   // Count vowels (both cyrillic and latin)
   const cyrillicVowels = /[аеёиоуыэюяАЕЁИОУЫЭЮЯ]/g;
   const latinVowels = /[aeiouAEIOU]/g;
-  
+
   const cyrillicMatches = text.match(cyrillicVowels);
   const latinMatches = text.match(latinVowels);
-  
+
   return (cyrillicMatches?.length || 0) + (latinMatches?.length || 0);
 };
 
 // Generate Suno prompt from sections
-export const generateSunoPrompt = (
-  sections: LyricSection[],
-  stylePrompt?: string
-): string => {
-  let prompt = '';
-  
+export const generateSunoPrompt = (sections: LyricSection[], stylePrompt?: string): string => {
+  let prompt = "";
+
   // Add style if provided
   if (stylePrompt) {
     prompt += `[Style: ${stylePrompt}]\n\n`;
   }
-  
+
   // Add sections
   sections.forEach((section, index) => {
     prompt += `${section.header}\n`;
     prompt += `${translateTagsToEnglish(section.content)}\n`;
     if (index < sections.length - 1) {
-      prompt += '\n';
+      prompt += "\n";
     }
   });
-  
+
   return prompt;
 };
 
 // Parse text into sections
 export const parseTextToSections = (text: string): LyricSection[] => {
   const sections: LyricSection[] = [];
-  const lines = text.split('\n');
-  
+  const lines = text.split("\n");
+
   let currentSection: LyricSection | null = null;
   const sectionCounter: Record<SectionType, number> = {} as Record<SectionType, number>;
-  
+
   lines.forEach((line) => {
     // Check if line is a section header - now supports numbered sections and variations
-    const headerMatch = line.match(/^\[(Intro|Verse|Pre-?Chorus|Prechorus|Chorus|Hook|Bridge|Interlude|Solo|Outro|Drop)(\s+\d+)?\]/i);
-    
+    const headerMatch = line.match(
+      /^\[(Intro|Verse|Pre-?Chorus|Prechorus|Chorus|Hook|Bridge|Interlude|Solo|Outro|Drop)(\s+\d+)?\]/i,
+    );
+
     if (headerMatch) {
       // Save previous section
       if (currentSection) {
         sections.push(currentSection);
       }
-      
+
       // Create new section
-      const typeStr = headerMatch[1].toLowerCase().replace(/^pre-?chorus$/i, 'pre_chorus').replace('-', '_');
+      const typeStr = headerMatch[1]
+        .toLowerCase()
+        .replace(/^pre-?chorus$/i, "pre_chorus")
+        .replace("-", "_");
       const type = typeStr as SectionType;
-      
+
       sectionCounter[type] = (sectionCounter[type] || 0) + 1;
-      
+
       currentSection = {
         id: `${type}-${sectionCounter[type]}-${Date.now()}`,
         type,
         header: line,
-        content: '',
+        content: "",
       };
     } else if (currentSection && line.trim()) {
       // Add content to current section
-      currentSection.content += (currentSection.content ? '\n' : '') + line;
+      currentSection.content += (currentSection.content ? "\n" : "") + line;
     }
   });
-  
+
   // Add last section
   if (currentSection) {
     sections.push(currentSection);
   }
-  
+
   return sections;
 };
 
@@ -109,22 +111,19 @@ export const parseTextToSections = (text: string): LyricSection[] => {
 export const insertTagAtCursor = (
   text: string,
   tag: string,
-  cursorPosition: number
+  cursorPosition: number,
 ): { newText: string; newCursorPosition: number } => {
   const before = text.substring(0, cursorPosition);
   const after = text.substring(cursorPosition);
-  
+
   // Add line breaks if needed
-  const needsNewlineBefore = before.length > 0 && !before.endsWith('\n');
-  const needsNewlineAfter = after.length > 0 && !after.startsWith('\n');
-  
-  const tagWithSpacing = 
-    (needsNewlineBefore ? '\n' : '') +
-    tag +
-    (needsNewlineAfter ? '\n' : '');
-  
+  const needsNewlineBefore = before.length > 0 && !before.endsWith("\n");
+  const needsNewlineAfter = after.length > 0 && !after.startsWith("\n");
+
+  const tagWithSpacing = (needsNewlineBefore ? "\n" : "") + tag + (needsNewlineAfter ? "\n" : "");
+
   const newText = before + tagWithSpacing + after;
   const newCursorPosition = cursorPosition + tagWithSpacing.length;
-  
+
   return { newText, newCursorPosition };
 };

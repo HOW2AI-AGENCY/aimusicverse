@@ -1,18 +1,18 @@
 /**
  * Double Tap Seek Feedback Component
- * 
+ *
  * Visual feedback for double-tap seek gesture
  * Shows rotation icon and seek amount
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { RotateCcw, RotateCw } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { media } from '@/lib/overlay-colors';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { RotateCcw, RotateCw } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { media } from "@/lib/overlay-colors";
 
 interface DoubleTapSeekFeedbackProps {
-  side: 'left' | 'right';
+  side: "left" | "right";
   seekAmount?: number;
 }
 
@@ -20,8 +20,8 @@ export const DoubleTapSeekFeedback = memo(function DoubleTapSeekFeedback({
   side,
   seekAmount = 10,
 }: DoubleTapSeekFeedbackProps) {
-  const Icon = side === 'left' ? RotateCcw : RotateCw;
-  
+  const Icon = side === "left" ? RotateCcw : RotateCw;
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -29,8 +29,8 @@ export const DoubleTapSeekFeedback = memo(function DoubleTapSeekFeedback({
       exit={{ opacity: 0, scale: 0.5 }}
       transition={{ duration: 0.15 }}
       className={cn(
-        'absolute top-1/2 -translate-y-1/2 z-30 pointer-events-none',
-        side === 'left' ? 'left-12' : 'right-12'
+        "absolute top-1/2 -translate-y-1/2 z-30 pointer-events-none",
+        side === "left" ? "left-12" : "right-12",
       )}
     >
       {/* Theme-aware seek feedback - always dark for visibility on video/waveform */}

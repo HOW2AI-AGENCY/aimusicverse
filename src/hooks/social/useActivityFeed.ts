@@ -2,9 +2,9 @@
  * useActivityFeed hook - Sprint 011
  * Fetches tracks from followed users and users whose tracks were liked
  */
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface FeedTrack {
   id: string;
@@ -22,7 +22,7 @@ export interface FeedTrack {
     username: string | null;
     photoUrl: string | null;
   };
-  source: 'following' | 'liked_creator';
+  source: "following" | "liked_creator";
 }
 
 interface FeedPage {
@@ -39,17 +39,14 @@ export function useFollowingIds() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['following-ids', user?.id],
+    queryKey: ["following-ids", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
-      
-      const { data, error } = await supabase
-        .from('user_follows')
-        .select('following_id')
-        .eq('follower_id', user.id);
+
+      const { data, error } = await supabase.from("user_follows").select("following_id").eq("follower_id", user.id);
 
       if (error) throw error;
-      return data?.map(f => f.following_id) || [];
+      return data?.map((f) => f.following_id) || [];
     },
     enabled: !!user?.id,
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -63,25 +60,22 @@ export function useLikedCreatorIds() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['liked-creator-ids', user?.id],
+    queryKey: ["liked-creator-ids", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
-      
+
       // Get unique creator IDs from liked tracks
-      const { data, error } = await supabase
-        .from('track_likes')
-        .select('tracks!inner(user_id)')
-        .eq('user_id', user.id);
+      const { data, error } = await supabase.from("track_likes").select("tracks!inner(user_id)").eq("user_id", user.id);
 
       if (error) throw error;
-      
+
       const creatorIds = new Set<string>();
       data?.forEach((like: any) => {
         if (like.tracks?.user_id && like.tracks.user_id !== user.id) {
           creatorIds.add(like.tracks.user_id);
         }
       });
-      
+
       return Array.from(creatorIds);
     },
     enabled: !!user?.id,
@@ -92,18 +86,16 @@ export function useLikedCreatorIds() {
 /**
  * Main activity feed hook - tracks from followed users and liked creators
  */
-export function useActivityFeed(options?: { 
-  filter?: 'all' | 'following' | 'liked_creators';
-}) {
+export function useActivityFeed(options?: { filter?: "all" | "following" | "liked_creators" }) {
   const { user } = useAuth();
   const { data: followingIds = [], isLoading: loadingFollowing } = useFollowingIds();
   const { data: likedCreatorIds = [], isLoading: loadingLiked } = useLikedCreatorIds();
-  const filter = options?.filter || 'all';
+  const filter = options?.filter || "all";
 
   // Combine user IDs based on filter
   const userIds = (() => {
-    if (filter === 'following') return followingIds;
-    if (filter === 'liked_creators') return likedCreatorIds.filter(id => !followingIds.includes(id));
+    if (filter === "following") return followingIds;
+    if (filter === "liked_creators") return likedCreatorIds.filter((id) => !followingIds.includes(id));
     // 'all' - combine both, remove duplicates
     return [...new Set([...followingIds, ...likedCreatorIds])];
   })();
@@ -111,18 +103,19 @@ export function useActivityFeed(options?: {
   const isLoadingDependencies = loadingFollowing || loadingLiked;
 
   const query = useInfiniteQuery<FeedPage>({
-    queryKey: ['activity-feed', user?.id, filter, userIds.join(',')],
+    queryKey: ["activity-feed", user?.id, filter, userIds.join(",")],
     queryFn: async ({ pageParam }) => {
       const offset = (pageParam as number) || 0;
-      
+
       if (userIds.length === 0) {
         return { tracks: [], nextCursor: null };
       }
 
       // Fetch tracks from these users
       const { data, error } = await supabase
-        .from('tracks')
-        .select(`
+        .from("tracks")
+        .select(
+          `
           id,
           title,
           style,
@@ -140,18 +133,19 @@ export function useActivityFeed(options?: {
             username,
             photo_url
           )
-        `)
-        .in('user_id', userIds)
-        .eq('is_public', true)
-        .eq('status', 'completed')
-        .order('created_at', { ascending: false })
+        `,
+        )
+        .in("user_id", userIds)
+        .eq("is_public", true)
+        .eq("status", "completed")
+        .order("created_at", { ascending: false })
         .range(offset, offset + PAGE_SIZE - 1);
 
       if (error) throw error;
 
       const tracks: FeedTrack[] = (data || []).map((track: any) => ({
         id: track.id,
-        title: track.title || 'Без названия',
+        title: track.title || "Без названия",
         style: track.style,
         coverUrl: track.cover_url,
         audioUrl: track.audio_url || track.telegram_file_id,
@@ -165,7 +159,7 @@ export function useActivityFeed(options?: {
           username: track.profiles?.username,
           photoUrl: track.profiles?.photo_url,
         },
-        source: followingIds.includes(track.user_id) ? 'following' : 'liked_creator',
+        source: followingIds.includes(track.user_id) ? "following" : "liked_creator",
       }));
 
       return {
@@ -196,7 +190,7 @@ export function useFeedSummary() {
 
   return {
     followingCount: followingIds.length,
-    likedCreatorsCount: likedCreatorIds.filter(id => !followingIds.includes(id)).length,
+    likedCreatorsCount: likedCreatorIds.filter((id) => !followingIds.includes(id)).length,
     totalCreators: new Set([...followingIds, ...likedCreatorIds]).size,
   };
 }

@@ -1,27 +1,27 @@
 /**
  * Hints Settings Component
- * 
+ *
  * Управление системой контекстных подсказок
  */
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { useContextualHints, CONTEXTUAL_HINTS } from '@/hooks/useContextualHints';
-import { Lightbulb, RotateCcw, Eye, EyeOff, Sparkles } from 'lucide-react';
-import { toast } from 'sonner';
-import { motion } from '@/lib/motion';
-import { hintColors } from '@/lib/design-colors';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { useContextualHints, CONTEXTUAL_HINTS } from "@/hooks/useContextualHints";
+import { Lightbulb, RotateCcw, Eye, EyeOff, Sparkles } from "lucide-react";
+import { toast } from "sonner";
+import { motion } from "@/lib/motion";
+import { hintColors } from "@/lib/design-colors";
 
 const categoryLabels = {
-  model: 'Модели AI',
-  'ai-feature': 'AI Функции',
-  project: 'Проекты',
-  artist: 'AI Артисты',
-  social: 'Социальные',
-  advanced: 'Продвинутые',
-  tip: 'Советы',
+  model: "Модели AI",
+  "ai-feature": "AI Функции",
+  project: "Проекты",
+  artist: "AI Артисты",
+  social: "Социальные",
+  advanced: "Продвинутые",
+  tip: "Советы",
 };
 
 const categoryColors = hintColors;
@@ -30,10 +30,10 @@ export function HintsSettings() {
   const { availableHints, visitCount, resetAllHints, canShowHint, getNextHint } = useContextualHints();
 
   const handleReset = () => {
-    if (confirm('Вы уверены? Все подсказки будут сброшены и начнут показываться снова.')) {
+    if (confirm("Вы уверены? Все подсказки будут сброшены и начнут показываться снова.")) {
       resetAllHints();
-      toast.success('Подсказки сброшены', {
-        description: 'Теперь вы снова увидите все подсказки',
+      toast.success("Подсказки сброшены", {
+        description: "Теперь вы снова увидите все подсказки",
       });
     }
   };
@@ -41,40 +41,37 @@ export function HintsSettings() {
   const handleTestNext = () => {
     const next = getNextHint();
     if (next) {
-      toast.info('Следующая подсказка', {
+      toast.info("Следующая подсказка", {
         description: next.title,
         duration: 4000,
       });
     } else {
-      toast.info('Нет доступных подсказок', {
-        description: 'Все подсказки уже показаны или недоступны на текущей странице',
+      toast.info("Нет доступных подсказок", {
+        description: "Все подсказки уже показаны или недоступны на текущей странице",
       });
     }
   };
 
-  const groupedHints = CONTEXTUAL_HINTS.reduce((acc, hint) => {
-    if (!acc[hint.category]) {
-      acc[hint.category] = [];
-    }
-    acc[hint.category].push(hint);
-    return acc;
-  }, {} as Record<string, typeof CONTEXTUAL_HINTS>);
+  const groupedHints = CONTEXTUAL_HINTS.reduce(
+    (acc, hint) => {
+      if (!acc[hint.category]) {
+        acc[hint.category] = [];
+      }
+      acc[hint.category].push(hint);
+      return acc;
+    },
+    {} as Record<string, typeof CONTEXTUAL_HINTS>,
+  );
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="space-y-4"
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lightbulb className="w-5 h-5" />
             Система подсказок
           </CardTitle>
-          <CardDescription>
-            Контекстные подсказки помогают изучать возможности платформы
-          </CardDescription>
+          <CardDescription>Контекстные подсказки помогают изучать возможности платформы</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {/* Stats */}
@@ -93,19 +90,11 @@ export function HintsSettings() {
 
           {/* Actions */}
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={handleTestNext}
-              className="flex-1 gap-2"
-            >
+            <Button variant="outline" onClick={handleTestNext} className="flex-1 gap-2">
               <Eye className="w-4 h-4" />
               Посмотреть следующую
             </Button>
-            <Button
-              variant="outline"
-              onClick={handleReset}
-              className="flex-1 gap-2"
-            >
+            <Button variant="outline" onClick={handleReset} className="flex-1 gap-2">
               <RotateCcw className="w-4 h-4" />
               Сбросить все
             </Button>
@@ -127,7 +116,7 @@ export function HintsSettings() {
                     {categoryLabels[category as keyof typeof categoryLabels]}
                   </Badge>
                   <span className="text-xs text-muted-foreground">
-                    {hints.length} {hints.length === 1 ? 'подсказка' : 'подсказок'}
+                    {hints.length} {hints.length === 1 ? "подсказка" : "подсказок"}
                   </span>
                 </div>
 
@@ -135,27 +124,16 @@ export function HintsSettings() {
                   {hints.map((hint) => {
                     const isAvailable = canShowHint(hint);
                     return (
-                      <div
-                        key={hint.id}
-                        className="flex items-start gap-2 text-sm"
-                      >
+                      <div key={hint.id} className="flex items-start gap-2 text-sm">
                         {isAvailable ? (
                           <Eye className="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0" />
                         ) : (
                           <EyeOff className="w-4 h-4 text-muted-foreground mt-0.5 flex-shrink-0" />
                         )}
                         <div className="flex-1 min-w-0">
-                          <div className="font-medium text-xs leading-relaxed">
-                            {hint.title}
-                          </div>
-                          <div className="text-xs text-muted-foreground leading-relaxed">
-                            {hint.description}
-                          </div>
-                          {hint.action && (
-                            <div className="text-xs text-primary/70 mt-1">
-                              → {hint.action.label}
-                            </div>
-                          )}
+                          <div className="font-medium text-xs leading-relaxed">{hint.title}</div>
+                          <div className="text-xs text-muted-foreground leading-relaxed">{hint.description}</div>
+                          {hint.action && <div className="text-xs text-primary/70 mt-1">→ {hint.action.label}</div>}
                         </div>
                       </div>
                     );

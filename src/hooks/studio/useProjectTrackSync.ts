@@ -1,16 +1,16 @@
 /**
  * useProjectTrackSync
- * 
+ *
  * Realtime synchronization hook for project tracks and versions
  * Listens to track_versions changes and syncs with project state
  */
 
-import { useEffect, useCallback, useRef } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useUnifiedStudioStore, StudioTrackVersion } from '@/stores/useUnifiedStudioStore';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useEffect, useCallback, useRef } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useUnifiedStudioStore, StudioTrackVersion } from "@/stores/useUnifiedStudioStore";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface TrackVersionRecord {
   id: string;
@@ -29,73 +29,68 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
   const isMountedRef = useRef(true);
 
   // Sync versions from database to project
-  const syncVersionsFromDb = useCallback(async (trackId: string, signal?: AbortSignal) => {
-    if (!project) return;
+  const syncVersionsFromDb = useCallback(
+    async (trackId: string, signal?: AbortSignal) => {
+      if (!project) return;
 
-    try {
-      const query = supabase
-        .from('track_versions')
-        .select('*')
-        .eq('track_id', trackId)
-        .order('created_at', { ascending: true });
-      
-      const { data: dbVersions, error } = signal 
-        ? await query.abortSignal(signal)
-        : await query;
+      try {
+        const query = supabase
+          .from("track_versions")
+          .select("*")
+          .eq("track_id", trackId)
+          .order("created_at", { ascending: true });
 
-      if (error) {
-        logger.error('Failed to fetch track versions', error);
-        return;
-      }
+        const { data: dbVersions, error } = signal ? await query.abortSignal(signal) : await query;
 
-      if (!dbVersions?.length) return;
-
-      // Find existing project track
-      const projectTrack = project.tracks.find(t => 
-        t.id === trackId || 
-        (sourceTrackId && project.sourceTrackId === trackId)
-      );
-
-      if (!projectTrack) return;
-
-      // Map DB versions to project format
-      const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-      const existingVersions = projectTrack.versions || [];
-      const existingAudioUrls = new Set(existingVersions.map(v => v.audioUrl));
-      const existingLabels = new Set(existingVersions.map(v => v.label));
-      
-      let labelIndex = existingLabels.size;
-      let versionsAdded = 0;
-      
-      for (const dbVersion of dbVersions) {
-        // BUGFIX: More robust duplicate check using audioUrl
-        if (existingAudioUrls.has(dbVersion.audio_url)) {
-          continue; // Skip - already exists
+        if (error) {
+          logger.error("Failed to fetch track versions", error);
+          return;
         }
 
-        const newLabel = labels[labelIndex++] || `V${labelIndex}`;
-        addTrackVersion(
-          projectTrack.id,
-          newLabel,
-          dbVersion.audio_url,
-          dbVersion.duration_seconds || undefined
+        if (!dbVersions?.length) return;
+
+        // Find existing project track
+        const projectTrack = project.tracks.find(
+          (t) => t.id === trackId || (sourceTrackId && project.sourceTrackId === trackId),
         );
-        versionsAdded++;
-        logger.info('Synced new version from DB', { trackId, label: newLabel });
+
+        if (!projectTrack) return;
+
+        // Map DB versions to project format
+        const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        const existingVersions = projectTrack.versions || [];
+        const existingAudioUrls = new Set(existingVersions.map((v) => v.audioUrl));
+        const existingLabels = new Set(existingVersions.map((v) => v.label));
+
+        let labelIndex = existingLabels.size;
+        let versionsAdded = 0;
+
+        for (const dbVersion of dbVersions) {
+          // BUGFIX: More robust duplicate check using audioUrl
+          if (existingAudioUrls.has(dbVersion.audio_url)) {
+            continue; // Skip - already exists
+          }
+
+          const newLabel = labels[labelIndex++] || `V${labelIndex}`;
+          addTrackVersion(projectTrack.id, newLabel, dbVersion.audio_url, dbVersion.duration_seconds || undefined);
+          versionsAdded++;
+          logger.info("Synced new version from DB", { trackId, label: newLabel });
+        }
+
+        // Only log if we actually added versions
+        if (versionsAdded > 0) {
+          logger.debug("Version sync complete", { trackId, versionsAdded });
+        }
+      } catch (err) {
+        // Ignore abort errors
+        if (err instanceof Error && err.name === "AbortError") {
+          return;
+        }
+        logger.error("Version sync failed", err);
       }
-      
-      // Only log if we actually added versions
-      if (versionsAdded > 0) {
-        logger.debug('Version sync complete', { trackId, versionsAdded });
-      }
-    } catch (err) {
-      // Ignore abort errors
-      if (err instanceof Error && err.name === 'AbortError') {
-        return;
-      }
-      logger.error('Version sync failed', err);
-    }
-  }, [project, sourceTrackId, addTrackVersion]);
+    },
+    [project, sourceTrackId, addTrackVersion],
+  );
 
   // Subscribe to realtime changes
   useEffect(() => {
@@ -107,34 +102,34 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
     const channel = supabase
       .channel(`track_versions:${sourceTrackId}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'track_versions',
+          event: "INSERT",
+          schema: "public",
+          table: "track_versions",
           filter: `track_id=eq.${sourceTrackId}`,
         },
         (payload) => {
           if (!isMountedRef.current) return;
-          
+
           const newVersion = payload.new as TrackVersionRecord;
-          logger.debug('New track version detected', { versionId: newVersion.id });
+          logger.debug("New track version detected", { versionId: newVersion.id });
 
           // Invalidate queries
-          queryClient.invalidateQueries({ queryKey: ['track-versions', sourceTrackId] });
+          queryClient.invalidateQueries({ queryKey: ["track-versions", sourceTrackId] });
 
           // Show notification
-          toast.success('Новая версия трека', {
-            description: `Версия ${newVersion.version_label || 'B'} готова`,
+          toast.success("Новая версия трека", {
+            description: `Версия ${newVersion.version_label || "B"} готова`,
             action: {
-              label: 'Переключить',
+              label: "Переключить",
               onClick: () => {
                 // Find the track in project and switch to new version
-                const projectTrack = project?.tracks.find(t => 
-                  t.id === sourceTrackId || project.sourceTrackId === sourceTrackId
+                const projectTrack = project?.tracks.find(
+                  (t) => t.id === sourceTrackId || project.sourceTrackId === sourceTrackId,
                 );
                 if (projectTrack) {
-                  setTrackActiveVersion(projectTrack.id, newVersion.version_label || 'B');
+                  setTrackActiveVersion(projectTrack.id, newVersion.version_label || "B");
                 }
               },
             },
@@ -142,7 +137,7 @@ export function useProjectTrackSync(projectId: string | null, sourceTrackId?: st
 
           // Sync versions
           syncVersionsFromDb(sourceTrackId, abortController.signal);
-        }
+        },
       )
       .subscribe();
 

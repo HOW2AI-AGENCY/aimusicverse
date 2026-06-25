@@ -11,20 +11,20 @@ Centralized Telegram bot configuration and deep link generation.
 #### Usage
 
 ```typescript
-import { getTelegramConfig, getTrackDeepLink } from '../_shared/telegram-config.ts';
+import { getTelegramConfig, getTrackDeepLink } from "../_shared/telegram-config.ts";
 
 // Get configuration
 const config = getTelegramConfig();
 console.log(config.deepLinkBase); // https://t.me/AIMusicVerseBot/app
 
 // Generate deep links
-const trackLink = getTrackDeepLink('abc-123');
+const trackLink = getTrackDeepLink("abc-123");
 // Result: https://t.me/AIMusicVerseBot/app?startapp=track_abc-123
 
-const projectLink = getProjectDeepLink('xyz-789');
+const projectLink = getProjectDeepLink("xyz-789");
 // Result: https://t.me/AIMusicVerseBot/app?startapp=project_xyz-789
 
-const generateLink = getGenerateDeepLink('ambient');
+const generateLink = getGenerateDeepLink("ambient");
 // Result: https://t.me/AIMusicVerseBot/app?startapp=generate_ambient
 ```
 
@@ -37,21 +37,25 @@ const generateLink = getGenerateDeepLink('ambient');
 #### Deep Link Format
 
 Telegram Mini App deep links follow this format:
+
 ```
 https://t.me/{BOT_USERNAME}/{APP_SHORT_NAME}?startapp={param}
 ```
 
 The `startapp` parameter is passed to the Mini App via:
+
 ```javascript
-window.Telegram.WebApp.initDataUnsafe.start_param
+window.Telegram.WebApp.initDataUnsafe.start_param;
 ```
 
 #### Functions
 
 ##### `getTelegramConfig()`
+
 Returns the current Telegram configuration object.
 
 **Returns:**
+
 ```typescript
 {
   botUsername: string,
@@ -62,21 +66,26 @@ Returns the current Telegram configuration object.
 ```
 
 ##### `generateDeepLink(type: string, id?: string): string`
+
 Generate a deep link for any resource type.
 
 **Parameters:**
+
 - `type` - Resource type (e.g., 'track', 'project', 'generate')
 - `id` - Optional resource ID
 
 **Returns:** Full deep link URL
 
 ##### `getTrackDeepLink(trackId: string): string`
+
 Generate deep link for a track.
 
 ##### `getProjectDeepLink(projectId: string): string`
+
 Generate deep link for a project.
 
 ##### `getGenerateDeepLink(style?: string): string`
+
 Generate deep link for music generation (optionally with pre-filled style).
 
 ### `apiLogger.ts`
@@ -97,45 +106,49 @@ Standardized response formatting for Edge Functions with consistent error handli
 #### Usage
 
 ```typescript
-import { 
-  successResponse, 
-  errorResponse, 
+import {
+  successResponse,
+  errorResponse,
   validationErrorResponse,
   authErrorResponse,
   notFoundResponse,
-  optionsResponse 
-} from '../_shared/response-utils.ts';
+  optionsResponse,
+} from "../_shared/response-utils.ts";
 
 // Handle OPTIONS request
-if (req.method === 'OPTIONS') {
+if (req.method === "OPTIONS") {
   return optionsResponse();
 }
 
 // Success response
-return successResponse({ 
-  trackId: 'abc-123',
-  title: 'My Track' 
-}, 'Track created successfully');
+return successResponse(
+  {
+    trackId: "abc-123",
+    title: "My Track",
+  },
+  "Track created successfully",
+);
 
 // Error response (returns 200 with success: false)
-return errorResponse('Invalid input', 'VALIDATION_ERROR');
+return errorResponse("Invalid input", "VALIDATION_ERROR");
 
 // Validation error with field details
-return validationErrorResponse('Validation failed', {
-  email: 'Invalid email format',
-  password: 'Password too short'
+return validationErrorResponse("Validation failed", {
+  email: "Invalid email format",
+  password: "Password too short",
 });
 
 // Auth error
-return authErrorResponse('Token expired');
+return authErrorResponse("Token expired");
 
 // Not found error
-return notFoundResponse('Track');
+return notFoundResponse("Track");
 ```
 
 #### Response Format
 
 **Success Response:**
+
 ```json
 {
   "success": true,
@@ -145,6 +158,7 @@ return notFoundResponse('Track');
 ```
 
 **Error Response:**
+
 ```json
 {
   "success": false,
@@ -160,17 +174,14 @@ For existing edge functions, gradually migrate from:
 
 ```typescript
 // Old pattern
-return new Response(
-  JSON.stringify({ error: 'Something failed' }),
-  { status: 500, headers: corsHeaders }
-);
+return new Response(JSON.stringify({ error: "Something failed" }), { status: 500, headers: corsHeaders });
 ```
 
 To:
 
 ```typescript
 // New pattern
-return errorResponse('Something failed', 'INTERNAL_ERROR');
+return errorResponse("Something failed", "INTERNAL_ERROR");
 ```
 
 This ensures clients receive consistent responses without breaking on HTTP error status codes.

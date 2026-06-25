@@ -20,33 +20,33 @@ export interface PublicArtist {
 
 export const usePublicArtists = (limit: number = 20) => {
   return useQuery({
-    queryKey: ['public-artists', limit],
+    queryKey: ["public-artists", limit],
     queryFn: async () => {
       // First get artists
       const { data: artistsData, error: artistsError } = await supabase
-        .from('artists')
-        .select('*')
-        .eq('is_public', true)
-        .order('created_at', { ascending: false })
+        .from("artists")
+        .select("*")
+        .eq("is_public", true)
+        .order("created_at", { ascending: false })
         .limit(limit);
 
       if (artistsError) throw artistsError;
       if (!artistsData || artistsData.length === 0) return [];
 
       // Get unique user_ids
-      const userIds = [...new Set(artistsData.map(a => a.user_id))];
-      
+      const userIds = [...new Set(artistsData.map((a) => a.user_id))];
+
       // Fetch profiles for those users
       const { data: profilesData } = await supabase
-        .from('profiles')
-        .select('user_id, username, photo_url')
-        .in('user_id', userIds);
+        .from("profiles")
+        .select("user_id, username, photo_url")
+        .in("user_id", userIds);
 
       // Map profiles by user_id
-      const profilesMap = new Map(profilesData?.map(p => [p.user_id, p]) || []);
+      const profilesMap = new Map(profilesData?.map((p) => [p.user_id, p]) || []);
 
       // Combine data
-      return artistsData.map(artist => ({
+      return artistsData.map((artist) => ({
         ...artist,
         profiles: profilesMap.get(artist.user_id) || undefined,
       })) as PublicArtist[];

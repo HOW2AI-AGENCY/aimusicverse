@@ -2,13 +2,13 @@
  * Hook for synchronized MIDI playback with audio
  * Plays MIDI notes in real-time as audio plays
  */
-import { useRef, useCallback, useEffect, useState } from 'react';
-import { logger } from '@/lib/logger';
-import type { MidiNote } from '@/hooks/useMidiVisualization';
+import { useRef, useCallback, useEffect, useState } from "react";
+import { logger } from "@/lib/logger";
+import type { MidiNote } from "@/hooks/useMidiVisualization";
 
 // Tone.js types - loaded dynamically to prevent "Cannot access 't' before initialization" error
-type ToneType = typeof import('tone');
-type PolySynthType = import('tone').PolySynth;
+type ToneType = typeof import("tone");
+type PolySynthType = import("tone").PolySynth;
 
 // Cached Tone module reference
 let ToneModule: ToneType | null = null;
@@ -35,22 +35,17 @@ interface UseMidiSyncReturn {
 
 // Convert MIDI note number to note name
 function midiToNoteName(midi: number): string {
-  const noteNames = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const noteNames = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
   const octave = Math.floor(midi / 12) - 1;
   const note = noteNames[midi % 12];
   return `${note}${octave}`;
 }
 
-export function useMidiSync({
-  notes,
-  currentTime,
-  isPlaying,
-  enabled = true,
-}: UseMidiSyncOptions): UseMidiSyncReturn {
+export function useMidiSync({ notes, currentTime, isPlaying, enabled = true }: UseMidiSyncOptions): UseMidiSyncReturn {
   const synthRef = useRef<PolySynthType | null>(null);
   const playedNotesRef = useRef<Set<string>>(new Set());
   const lastTimeRef = useRef<number>(0);
-  
+
   const [isReady, setIsReady] = useState(false);
   const [isSyncEnabled, setIsSyncEnabled] = useState(enabled);
   const [isMuted, setIsMuted] = useState(false);
@@ -63,16 +58,16 @@ export function useMidiSync({
     try {
       // Dynamically import Tone.js only when needed
       if (!ToneModule) {
-        ToneModule = await import('tone');
+        ToneModule = await import("tone");
       }
       const Tone = ToneModule;
-      
+
       await Tone.start();
-      
+
       // Create a pleasant sounding polyphonic synth
       const synth = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
-          type: 'sine4',
+          type: "sine4",
         },
         envelope: {
           attack: 0.01,
@@ -85,9 +80,9 @@ export function useMidiSync({
       synth.volume.value = volume;
       synthRef.current = synth;
       setIsReady(true);
-      logger.debug('MIDI sync synth initialized');
+      logger.debug("MIDI sync synth initialized");
     } catch (err) {
-      logger.error('Failed to initialize MIDI sync synth', err);
+      logger.error("Failed to initialize MIDI sync synth", err);
     }
   }, [volume]);
 
@@ -110,11 +105,11 @@ export function useMidiSync({
     // Time window for note triggering (50ms lookahead)
     const windowStart = lastTimeRef.current;
     const windowEnd = currentTime;
-    
+
     // Find notes that should be triggered in this window
-    const notesToPlay = notes.filter(note => {
+    const notesToPlay = notes.filter((note) => {
       const noteId = `${note.pitch}_${note.time.toFixed(3)}`;
-      
+
       // Check if note starts within window and hasn't been played yet
       if (note.time >= windowStart && note.time < windowEnd && !playedNotesRef.current.has(noteId)) {
         return true;
@@ -123,21 +118,16 @@ export function useMidiSync({
     });
 
     const Tone = ToneModule;
-    
+
     // Play the notes
-    notesToPlay.forEach(note => {
+    notesToPlay.forEach((note) => {
       const noteId = `${note.pitch}_${note.time.toFixed(3)}`;
       const noteName = midiToNoteName(note.pitch);
       const velocity = note.velocity / 127;
       const duration = Math.min(note.duration, 1.5); // Cap duration
-      
+
       try {
-        synthRef.current?.triggerAttackRelease(
-          noteName,
-          duration,
-          Tone.now(),
-          velocity
-        );
+        synthRef.current?.triggerAttackRelease(noteName, duration, Tone.now(), velocity);
         playedNotesRef.current.add(noteId);
       } catch (err) {
         // Silently ignore errors for individual notes
@@ -164,23 +154,21 @@ export function useMidiSync({
   }, [currentTime]);
 
   // Play a single note preview
-  const playNotePreview = useCallback((note: MidiNote) => {
-    if (!synthRef.current || isMuted || !ToneModule) return;
+  const playNotePreview = useCallback(
+    (note: MidiNote) => {
+      if (!synthRef.current || isMuted || !ToneModule) return;
 
-    const noteName = midiToNoteName(note.pitch);
-    const velocity = note.velocity / 127;
-    
-    try {
-      synthRef.current.triggerAttackRelease(
-        noteName,
-        Math.min(note.duration, 0.5),
-        ToneModule.now(),
-        velocity
-      );
-    } catch (err) {
-      logger.error('Failed to play note preview', err);
-    }
-  }, [isMuted]);
+      const noteName = midiToNoteName(note.pitch);
+      const velocity = note.velocity / 127;
+
+      try {
+        synthRef.current.triggerAttackRelease(noteName, Math.min(note.duration, 0.5), ToneModule.now(), velocity);
+      } catch (err) {
+        logger.error("Failed to play note preview", err);
+      }
+    },
+    [isMuted],
+  );
 
   // Stop all notes
   const stopAll = useCallback(() => {
@@ -199,20 +187,26 @@ export function useMidiSync({
   }, []);
 
   // Set muted
-  const setMuted = useCallback((muted: boolean) => {
-    setIsMuted(muted);
-    if (synthRef.current) {
-      synthRef.current.volume.value = muted ? -Infinity : volume;
-    }
-  }, [volume]);
+  const setMuted = useCallback(
+    (muted: boolean) => {
+      setIsMuted(muted);
+      if (synthRef.current) {
+        synthRef.current.volume.value = muted ? -Infinity : volume;
+      }
+    },
+    [volume],
+  );
 
   // Set sync enabled
-  const setSyncEnabled = useCallback((enabled: boolean) => {
-    setIsSyncEnabled(enabled);
-    if (!enabled) {
-      stopAll();
-    }
-  }, [stopAll]);
+  const setSyncEnabled = useCallback(
+    (enabled: boolean) => {
+      setIsSyncEnabled(enabled);
+      if (!enabled) {
+        stopAll();
+      }
+    },
+    [stopAll],
+  );
 
   return {
     isReady,

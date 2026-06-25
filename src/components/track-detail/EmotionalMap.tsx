@@ -1,7 +1,7 @@
-import { Card } from '@/components/ui/card';
-import { AudioAnalysis } from '@/hooks/useAudioAnalysis';
-import { Activity, TrendingUp } from 'lucide-react';
-import { emotionalColors } from '@/lib/design-colors';
+import { Card } from "@/components/ui/card";
+import { AudioAnalysis } from "@/hooks/useAudioAnalysis";
+import { Activity, TrendingUp } from "lucide-react";
+import { emotionalColors } from "@/lib/design-colors";
 
 interface EmotionalMapProps {
   analysis: AudioAnalysis;
@@ -22,15 +22,15 @@ export function EmotionalMap({ analysis }: EmotionalMapProps) {
   // Determine quadrant and color using design tokens
   const getQuadrantInfo = () => {
     if (arousal >= 0.5 && valence >= 0.5) {
-      return { label: 'Радостный', color: emotionalColors.happy.bg, textColor: emotionalColors.happy.text };
+      return { label: "Радостный", color: emotionalColors.happy.bg, textColor: emotionalColors.happy.text };
     }
     if (arousal >= 0.5 && valence < 0.5) {
-      return { label: 'Напряжённый', color: emotionalColors.tense.bg, textColor: emotionalColors.tense.text };
+      return { label: "Напряжённый", color: emotionalColors.tense.bg, textColor: emotionalColors.tense.text };
     }
     if (arousal < 0.5 && valence >= 0.5) {
-      return { label: 'Спокойный', color: emotionalColors.calm.bg, textColor: emotionalColors.calm.text };
+      return { label: "Спокойный", color: emotionalColors.calm.bg, textColor: emotionalColors.calm.text };
     }
-    return { label: 'Грустный', color: emotionalColors.sad.bg, textColor: emotionalColors.sad.text };
+    return { label: "Грустный", color: emotionalColors.sad.bg, textColor: emotionalColors.sad.text };
   };
 
   const quadrant = getQuadrantInfo();
@@ -46,18 +46,10 @@ export function EmotionalMap({ analysis }: EmotionalMapProps) {
         {/* 2D Emotional Space */}
         <div className="relative w-full aspect-square bg-gradient-to-br from-muted/30 to-muted/10 rounded-lg border border-border overflow-hidden">
           {/* Quadrant labels */}
-          <div className="absolute top-2 left-2 text-xs text-muted-foreground opacity-50">
-            Напряжённый
-          </div>
-          <div className="absolute top-2 right-2 text-xs text-muted-foreground opacity-50">
-            Радостный
-          </div>
-          <div className="absolute bottom-2 left-2 text-xs text-muted-foreground opacity-50">
-            Грустный
-          </div>
-          <div className="absolute bottom-2 right-2 text-xs text-muted-foreground opacity-50">
-            Спокойный
-          </div>
+          <div className="absolute top-2 left-2 text-xs text-muted-foreground opacity-50">Напряжённый</div>
+          <div className="absolute top-2 right-2 text-xs text-muted-foreground opacity-50">Радостный</div>
+          <div className="absolute bottom-2 left-2 text-xs text-muted-foreground opacity-50">Грустный</div>
+          <div className="absolute bottom-2 right-2 text-xs text-muted-foreground opacity-50">Спокойный</div>
 
           {/* Axis lines */}
           <div className="absolute inset-0 flex items-center justify-center">
@@ -70,9 +62,7 @@ export function EmotionalMap({ analysis }: EmotionalMapProps) {
             <TrendingUp className="w-3 h-3" />
             <span>Энергия</span>
           </div>
-          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs text-muted-foreground">
-            Спокойствие
-          </div>
+          <div className="absolute bottom-1 left-1/2 -translate-x-1/2 text-xs text-muted-foreground">Спокойствие</div>
           <div className="absolute left-1 top-1/2 -translate-y-1/2 text-xs text-muted-foreground -rotate-90">
             Негатив
           </div>
@@ -108,20 +98,14 @@ export function EmotionalMap({ analysis }: EmotionalMapProps) {
             <div className="text-xs text-muted-foreground">Энергия</div>
             <div className="text-2xl font-bold">{arousalPercent}%</div>
             <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all"
-                style={{ width: `${arousalPercent}%` }}
-              />
+              <div className="h-full bg-primary transition-all" style={{ width: `${arousalPercent}%` }} />
             </div>
           </div>
           <div className="space-y-1 p-3 rounded-lg bg-muted/50">
             <div className="text-xs text-muted-foreground">Позитивность</div>
             <div className="text-2xl font-bold">{valencePercent}%</div>
             <div className="h-1.5 bg-muted rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-primary transition-all"
-                style={{ width: `${valencePercent}%` }}
-              />
+              <div className="h-full bg-primary transition-all" style={{ width: `${valencePercent}%` }} />
             </div>
           </div>
         </div>
@@ -129,9 +113,7 @@ export function EmotionalMap({ analysis }: EmotionalMapProps) {
         {/* Emotion label */}
         <div className={`p-3 rounded-lg bg-muted/50 border-l-4 ${quadrant.color}`}>
           <div className="text-xs text-muted-foreground mb-1">Эмоциональное состояние</div>
-          <div className={`text-lg font-semibold ${quadrant.textColor}`}>
-            {quadrant.label}
-          </div>
+          <div className={`text-lg font-semibold ${quadrant.textColor}`}>{quadrant.label}</div>
         </div>
       </div>
     </Card>

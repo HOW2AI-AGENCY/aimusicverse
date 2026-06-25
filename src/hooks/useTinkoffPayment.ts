@@ -2,16 +2,16 @@
  * Hook for Tinkoff payments
  */
 
-import { useState, useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { 
-  createTinkoffPayment, 
+import { useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  createTinkoffPayment,
   redirectToPayment,
-  type CreateTinkoffPaymentParams 
-} from '@/services/tinkoffPaymentService';
-import type { CreatePaymentResponse } from '@/types/payment';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+  type CreateTinkoffPaymentParams,
+} from "@/services/tinkoffPaymentService";
+import type { CreatePaymentResponse } from "@/types/payment";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 interface UseTinkoffPaymentOptions {
   onSuccess?: (response: CreatePaymentResponse) => void;
@@ -31,32 +31,32 @@ export function useTinkoffPayment(options: UseTinkoffPaymentOptions = {}) {
     },
     onSuccess: (response) => {
       setLastResponse(response);
-      
+
       if (response.success && response.paymentUrl) {
-        logger.info('Tinkoff payment ready', { 
+        logger.info("Tinkoff payment ready", {
           transactionId: response.transactionId,
           paymentUrl: response.paymentUrl,
         });
-        
+
         onSuccess?.(response);
-        
+
         if (autoRedirect) {
-          toast.loading('Переход на страницу оплаты...');
+          toast.loading("Переход на страницу оплаты...");
           // Small delay for toast to show
           setTimeout(() => {
             redirectToPayment(response.paymentUrl!);
           }, 500);
         }
       } else {
-        const errorMessage = response.error || 'Не удалось создать платёж';
-        logger.warn('Tinkoff payment failed', { error: errorMessage });
+        const errorMessage = response.error || "Не удалось создать платёж";
+        logger.warn("Tinkoff payment failed", { error: errorMessage });
         toast.error(errorMessage);
         onError?.(errorMessage);
       }
     },
     onError: (error: Error) => {
-      const message = error.message || 'Ошибка при создании платежа';
-      logger.error('Tinkoff payment mutation error', error);
+      const message = error.message || "Ошибка при создании платежа";
+      logger.error("Tinkoff payment mutation error", error);
       toast.error(message);
       onError?.(message);
     },
@@ -69,7 +69,7 @@ export function useTinkoffPayment(options: UseTinkoffPaymentOptions = {}) {
         ...options,
       });
     },
-    [mutation]
+    [mutation],
   );
 
   const payAsync = useCallback(
@@ -79,7 +79,7 @@ export function useTinkoffPayment(options: UseTinkoffPaymentOptions = {}) {
         ...options,
       });
     },
-    [mutation]
+    [mutation],
   );
 
   return {

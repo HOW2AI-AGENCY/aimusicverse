@@ -3,14 +3,14 @@
  * Shows current prompt with ability to edit directly
  */
 
-import { memo, useState, useCallback, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Edit3, Check, X, Copy, Wand2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { glass } from '@/lib/glass';
+import { memo, useState, useCallback, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Edit3, Check, X, Copy, Wand2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { glass } from "@/lib/glass";
 
 interface EditablePromptPreviewProps {
   prompt: string;
@@ -45,7 +45,7 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
   const handleSave = useCallback(() => {
     if (onPromptChange && editValue.trim() !== prompt) {
       onPromptChange(editValue.trim());
-      toast.success('Промпт обновлён');
+      toast.success("Промпт обновлён");
     }
     setIsEditing(false);
   }, [editValue, prompt, onPromptChange]);
@@ -57,18 +57,18 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
 
   const handleCopy = useCallback(() => {
     navigator.clipboard.writeText(prompt);
-    toast.success('Скопировано');
+    toast.success("Скопировано");
   }, [prompt]);
 
   // Extract tags from prompt for display
   const tags = prompt
-    .split(',')
-    .map(t => t.trim())
-    .filter(t => t.length > 0 && t.length < 30)
+    .split(",")
+    .map((t) => t.trim())
+    .filter((t) => t.length > 0 && t.length < 30)
     .slice(0, 6);
 
   return (
-    <div className={cn('rounded-xl overflow-hidden', glass.subtle, className)}>
+    <div className={cn("rounded-xl overflow-hidden", glass.subtle, className)}>
       <AnimatePresence mode="wait">
         {isEditing ? (
           <motion.div
@@ -86,20 +86,11 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
               placeholder="Опишите желаемую музыку..."
             />
             <div className="flex justify-end gap-2 mt-2">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="h-7 px-2"
-                onClick={handleCancel}
-              >
+              <Button variant="ghost" size="sm" className="h-7 px-2" onClick={handleCancel}>
                 <X className="w-3 h-3 mr-1" />
                 Отмена
               </Button>
-              <Button 
-                size="sm" 
-                className="h-7 px-3"
-                onClick={handleSave}
-              >
+              <Button size="sm" className="h-7 px-3" onClick={handleSave}>
                 <Check className="w-3 h-3 mr-1" />
                 Сохранить
               </Button>
@@ -120,13 +111,7 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
                 Промпт
               </span>
               <div className="flex gap-1">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-6 w-6"
-                  onClick={handleCopy}
-                  disabled={!prompt}
-                >
+                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleCopy} disabled={!prompt}>
                   <Copy className="w-3 h-3" />
                 </Button>
                 <Button
@@ -142,23 +127,21 @@ export const EditablePromptPreview = memo(function EditablePromptPreview({
             </div>
 
             {/* Prompt text */}
-            <p className={cn(
-              'text-xs font-medium line-clamp-2 min-h-[2rem] cursor-pointer',
-              !prompt && 'text-muted-foreground italic'
-            )}
-            onClick={handleStartEdit}
+            <p
+              className={cn(
+                "text-xs font-medium line-clamp-2 min-h-[2rem] cursor-pointer",
+                !prompt && "text-muted-foreground italic",
+              )}
+              onClick={handleStartEdit}
             >
-              {prompt || 'Вращайте ручки чтобы создать промпт...'}
+              {prompt || "Вращайте ручки чтобы создать промпт..."}
             </p>
 
             {/* Tags */}
             {tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
                 {tags.map((tag, i) => (
-                  <span
-                    key={i}
-                    className="px-1.5 py-0.5 text-[9px] rounded-full bg-primary/10 text-primary/80"
-                  >
+                  <span key={i} className="px-1.5 py-0.5 text-[9px] rounded-full bg-primary/10 text-primary/80">
                     {tag}
                   </span>
                 ))}

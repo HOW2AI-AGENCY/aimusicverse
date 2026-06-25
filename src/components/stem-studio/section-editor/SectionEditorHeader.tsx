@@ -2,12 +2,12 @@
  * Header for section editor with title and close button
  */
 
-import { motion } from '@/lib/motion';
-import { Sparkles, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { DetectedSection } from '@/hooks/useSectionDetection';
-import { formatTime } from '@/lib/player-utils';
+import { motion } from "@/lib/motion";
+import { Sparkles, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { DetectedSection } from "@/hooks/useSectionDetection";
+import { formatTime } from "@/lib/player-utils";
 
 interface SectionEditorHeaderProps {
   selectedSection: DetectedSection | null;
@@ -18,25 +18,20 @@ interface SectionEditorHeaderProps {
 
 // formatTime imported from @/lib/player-utils
 
-export function SectionEditorHeader({
-  selectedSection,
-  startTime,
-  endTime,
-  onClose,
-}: SectionEditorHeaderProps) {
+export function SectionEditorHeader({ selectedSection, startTime, endTime, onClose }: SectionEditorHeaderProps) {
   const duration = endTime - startTime;
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <motion.div 
+        <motion.div
           className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center"
-          animate={{ 
+          animate={{
             boxShadow: [
-              '0 0 0 0 hsl(var(--primary) / 0.3)', 
-              '0 0 0 8px hsl(var(--primary) / 0)', 
-              '0 0 0 0 hsl(var(--primary) / 0)'
-            ] 
+              "0 0 0 0 hsl(var(--primary) / 0.3)",
+              "0 0 0 8px hsl(var(--primary) / 0)",
+              "0 0 0 0 hsl(var(--primary) / 0)",
+            ],
           }}
           transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }}
         >
@@ -49,7 +44,7 @@ export function SectionEditorHeader({
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                transition={{ type: "spring", stiffness: 400, damping: 20 }}
               >
                 <Badge variant="secondary" className="text-xs font-medium">
                   {selectedSection.label}
@@ -58,12 +53,12 @@ export function SectionEditorHeader({
             )}
           </h3>
           <p className="text-xs text-muted-foreground font-mono">
-            {formatTime(startTime)} — {formatTime(endTime)} 
+            {formatTime(startTime)} — {formatTime(endTime)}
             <span className="ml-1.5 text-primary">({formatTime(duration)})</span>
           </p>
         </div>
       </div>
-      
+
       <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
         <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8">
           <X className="w-4 h-4" />

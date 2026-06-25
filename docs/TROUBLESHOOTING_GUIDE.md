@@ -17,11 +17,13 @@ This guide provides solutions to common issues encountered when developing, depl
 ### Application Not Loading
 
 #### Symptoms
+
 - Blank screen on load
 - JavaScript errors in console
 - Application crashes immediately
 
 #### Diagnosis
+
 ```bash
 # Check browser console for errors
 # Check network tab for failed requests
@@ -31,6 +33,7 @@ This guide provides solutions to common issues encountered when developing, depl
 #### Solutions
 
 **1. Build Issues**
+
 ```bash
 # Clean and rebuild
 npm run clean
@@ -40,6 +43,7 @@ npm run preview
 ```
 
 **2. Environment Variables Missing**
+
 ```bash
 # Verify all required env vars
 vercel env ls
@@ -47,6 +51,7 @@ vercel env ls
 ```
 
 **3. Bundle Size Too Large**
+
 ```bash
 # Analyze bundle size
 npm run size:why
@@ -54,6 +59,7 @@ npm run size:why
 ```
 
 **4. Memory Issues**
+
 ```bash
 # Check memory usage
 npm run build -- --memory-limit=4096
@@ -62,6 +68,7 @@ npm run build -- --memory-limit=4096
 ### Audio Playback Failures
 
 #### Symptoms
+
 - Audio not playing
 - "Audio element creation failed" errors
 - Playback stuck at loading
@@ -69,24 +76,28 @@ npm run build -- --memory-limit=4096
 #### Solutions
 
 **1. HTTPS Required**
+
 ```typescript
 // Audio requires HTTPS in production
 // Check SSL certificate and protocol
 ```
 
 **2. Audio Element Pool Issues**
+
 ```bash
 # Check audio element pool configuration
 # src/lib/audioElementPool.ts
 ```
 
 **3. Browser Compatibility**
+
 ```bash
 # Test on different browsers
 # Chrome, Firefox, Safari, Edge
 ```
 
 **4. Audio Format Issues**
+
 ```bash
 # Verify audio files are in supported formats
 # MP3, WAV, OGG supported
@@ -95,6 +106,7 @@ npm run build -- --memory-limit=4096
 ### Database Connection Failures
 
 #### Symptoms
+
 - "Supabase connection error"
 - Queries timing out
 - Authentication failures
@@ -102,6 +114,7 @@ npm run build -- --memory-limit=4096
 #### Solutions
 
 **1. Verify Credentials**
+
 ```bash
 # Check environment variables
 SUPABASE_URL=https://your-project.supabase.co
@@ -109,18 +122,21 @@ SUPABASE_ANON_KEY=your-anon-key
 ```
 
 **2. Check Supabase Status**
+
 ```bash
 # Visit Supabase status page
 # https://status.supabase.com
 ```
 
 **3. Network Issues**
+
 ```bash
 # Test Supabase connection
 curl https://your-project.supabase.co/rest/v1/
 ```
 
 **4. RLS Policy Issues**
+
 ```sql
 -- Check RLS policies are correctly configured
 SELECT * FROM pg_policies WHERE tablename = 'your_table';
@@ -133,6 +149,7 @@ SELECT * FROM pg_policies WHERE tablename = 'your_table';
 ### Music Generation Failures
 
 #### Symptoms
+
 - Generation stuck at "Processing"
 - "Generation failed" error
 - Suno API timeout
@@ -140,6 +157,7 @@ SELECT * FROM pg_policies WHERE tablename = 'your_table';
 #### Solutions
 
 **1. API Key Issues**
+
 ```bash
 # Verify Suno API key
 # Check API key hasn't expired
@@ -147,6 +165,7 @@ SELECT * FROM pg_policies WHERE tablename = 'your_table';
 ```
 
 **2. Rate Limiting**
+
 ```bash
 # Check Suno API rate limits
 # Implement exponential backoff
@@ -154,12 +173,14 @@ SELECT * FROM pg_policies WHERE tablename = 'your_table';
 ```
 
 **3. Timeout Issues**
+
 ```typescript
 // Increase timeout in generation service
 const timeout = 60000; // 60 seconds
 ```
 
 **4. Model Fallback**
+
 ```typescript
 // Check model fallback chain
 // V5 → V4_5PLUS → V4_5 → V4 → V3_5
@@ -168,6 +189,7 @@ const timeout = 60000; // 60 seconds
 ### Payment Processing Errors
 
 #### Symptoms
+
 - Payment fails mid-transaction
 - Webhook not received
 - Credits not added after payment
@@ -175,6 +197,7 @@ const timeout = 60000; // 60 seconds
 #### Solutions
 
 **1. Tinkoff API Configuration**
+
 ```bash
 # Verify Tinkoff credentials
 # Check terminal key and password
@@ -182,6 +205,7 @@ const timeout = 60000; // 60 seconds
 ```
 
 **2. Webhook Issues**
+
 ```bash
 # Verify webhook URL is accessible
 # Check webhook signature validation
@@ -189,12 +213,14 @@ const timeout = 60000; // 60 seconds
 ```
 
 **3. Transaction State**
+
 ```sql
 -- Check transaction state
 SELECT * FROM transactions WHERE status = 'pending';
 ```
 
 **4. Credit Allocation**
+
 ```typescript
 // Verify credit allocation logic
 // Check user credit balance updates
@@ -203,6 +229,7 @@ SELECT * FROM transactions WHERE status = 'pending';
 ### Authentication Issues
 
 #### Symptoms
+
 - Users unable to login
 - Session expires immediately
 - "Invalid token" errors
@@ -210,6 +237,7 @@ SELECT * FROM transactions WHERE status = 'pending';
 #### Solutions
 
 **1. Supabase Auth Configuration**
+
 ```bash
 # Check authentication settings in Supabase dashboard
 # Verify email templates are configured
@@ -217,18 +245,21 @@ SELECT * FROM transactions WHERE status = 'pending';
 ```
 
 **2. Session Management**
+
 ```typescript
 // Check session timeout configuration
 const SESSION_DURATION = 30 * 24 * 60 * 60; // 30 days
 ```
 
 **3. Token Validation**
+
 ```typescript
 // Verify token validation logic
 // Check JWT parsing and validation
 ```
 
 **4. Social Login Issues**
+
 ```bash
 # Verify social login providers configured
 # Test OAuth flows
@@ -241,6 +272,7 @@ const SESSION_DURATION = 30 * 24 * 60 * 60; // 30 days
 ### Performance Problems
 
 #### Symptoms
+
 - Slow page load times
 - High memory usage
 - Interface lag
@@ -248,18 +280,21 @@ const SESSION_DURATION = 30 * 24 * 60 * 60; // 30 days
 #### Solutions
 
 **1. Bundle Size**
+
 ```bash
 # Analyze bundle size
 npm run size:why
 ```
 
 **2. Code Splitting**
+
 ```typescript
 // Implement lazy loading
-const Component = lazy(() => import('./Component'));
+const Component = lazy(() => import("./Component"));
 ```
 
 **3. Image Optimization**
+
 ```bash
 # Optimize images
 # Use WebP format
@@ -267,6 +302,7 @@ const Component = lazy(() => import('./Component'));
 ```
 
 **4. Caching Strategy**
+
 ```typescript
 // Implement proper caching
 // Use TanStack Query caching
@@ -276,6 +312,7 @@ const Component = lazy(() => import('./Component'));
 ### UI/UX Issues
 
 #### Symptoms
+
 - Broken layout on mobile
 - Elements not clickable
 - Navigation issues
@@ -283,12 +320,14 @@ const Component = lazy(() => import('./Component'));
 #### Solutions
 
 **1. Mobile Layout**
+
 ```css
 /* Check responsive breakpoints */
 @media (max-width: 768px) { ... }
 ```
 
 **2. Touch Targets**
+
 ```css
 /* Ensure touch targets are 44x44px minimum */
 .button {
@@ -298,6 +337,7 @@ const Component = lazy(() => import('./Component'));
 ```
 
 **3. Safe Areas**
+
 ```css
 /* Handle iOS safe areas */
 padding-top: env(safe-area-inset-top);
@@ -307,6 +347,7 @@ padding-bottom: env(safe-area-inset-bottom);
 ### State Management Issues
 
 #### Symptoms
+
 - State not updating
 - Components not re-rendering
 - Data inconsistencies
@@ -314,6 +355,7 @@ padding-bottom: env(safe-area-inset-bottom);
 #### Solutions
 
 **1. Zustand Store**
+
 ```typescript
 // Check store updates
 // Verify shallow comparisons
@@ -321,12 +363,14 @@ padding-bottom: env(safe-area-inset-bottom);
 ```
 
 **2. React Query Cache**
+
 ```typescript
 // Invalidate queries after mutations
-queryClient.invalidateQueries(['tracks']);
+queryClient.invalidateQueries(["tracks"]);
 ```
 
 **3. React State**
+
 ```typescript
 // Check state updates
 // Verify useEffect dependencies
@@ -342,6 +386,7 @@ queryClient.invalidateQueries(['tracks']);
 #### "Cannot find module" errors
 
 **Solution**:
+
 ```bash
 # Clear node modules and reinstall
 rm -rf node_modules package-lock.json
@@ -351,6 +396,7 @@ npm install
 #### TypeScript errors
 
 **Solution**:
+
 ```bash
 # Check types
 npm run typecheck
@@ -362,6 +408,7 @@ npm update
 #### Vite build errors
 
 **Solution**:
+
 ```bash
 # Clear Vite cache
 rm -rf node_modules/.vite
@@ -375,6 +422,7 @@ rm -rf node_modules/.vite
 #### Unit test failures
 
 **Solution**:
+
 ```bash
 # Run tests in verbose mode
 npm test -- --verbose
@@ -386,6 +434,7 @@ npm test -- --verbose
 #### E2E test failures
 
 **Solution**:
+
 ```bash
 # Run tests in headed mode
 npm run test:e2e:headed
@@ -403,6 +452,7 @@ npm run test:e2e:headed
 #### Solutions
 
 **1. Web App URL**
+
 ```bash
 # Check Mini App URL in BotFather
 # Verify URL is accessible
@@ -410,6 +460,7 @@ npm run test:e2e:headed
 ```
 
 **2. SDK Integration**
+
 ```typescript
 // Check Telegram Web App SDK
 // Verify SDK initialization
@@ -417,6 +468,7 @@ npm run test:e2e:headed
 ```
 
 **3. Safe Area Issues**
+
 ```css
 /* Check safe area handling */
 -webkit-touch-callout: none;
@@ -427,6 +479,7 @@ user-select: none;
 ### Deep Link Issues
 
 #### Symptoms
+
 - Deep links not working
 - Wrong page navigation
 - Parameters not received
@@ -434,12 +487,14 @@ user-select: none;
 #### Solutions
 
 **1. URL Format**
+
 ```bash
 # Verify deep link format
 t.me/AIMusicVerseBot/app?startapp=track_ID
 ```
 
 **2. Parameter Parsing**
+
 ```typescript
 // Check parameter parsing
 // Verify URL decoding
@@ -447,6 +502,7 @@ t.me/AIMusicVerseBot/app?startapp=track_ID
 ```
 
 **3. Navigation**
+
 ```typescript
 // Check navigation logic
 // Verify router configuration
@@ -460,6 +516,7 @@ t.me/AIMusicVerseBot/app?startapp=track_ID
 ### Query Performance
 
 #### Symptoms
+
 - Slow queries
 - Database timeouts
 - High CPU usage
@@ -467,18 +524,21 @@ t.me/AIMusicVerseBot/app?startapp=track_ID
 #### Solutions
 
 **1. Index Optimization**
+
 ```sql
 -- Add missing indexes
 CREATE INDEX idx_tracks_created_at ON tracks(created_at DESC);
 ```
 
 **2. Query Optimization**
+
 ```sql
 -- Use EXPLAIN ANALYZE
 EXPLAIN ANALYZE SELECT * FROM tracks WHERE is_public = true;
 ```
 
 **3. Connection Pooling**
+
 ```bash
 # Check connection pool settings
 # Supabase dashboard > Database > Settings
@@ -487,6 +547,7 @@ EXPLAIN ANALYZE SELECT * FROM tracks WHERE is_public = true;
 ### Data Inconsistencies
 
 #### Symptoms
+
 - Count mismatches
 - Missing data
 - Incorrect relationships
@@ -494,18 +555,21 @@ EXPLAIN ANALYZE SELECT * FROM tracks WHERE is_public = true;
 #### Solutions
 
 **1. Data Validation**
+
 ```sql
 -- Check data integrity
 SELECT COUNT(*) FROM tracks WHERE user_id IS NULL;
 ```
 
 **2. Trigger Issues**
+
 ```sql
 -- Check triggers are working
 SELECT * FROM pg_trigger WHERE tgname LIKE '%update_count%';
 ```
 
 **3. Constraint Issues**
+
 ```sql
 -- Check constraints
 SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
@@ -520,12 +584,14 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 #### Solutions
 
 **1. Supabase CORS**
+
 ```bash
 # Configure CORS in Supabase dashboard
 # Add your domain to allowed origins
 ```
 
 **2. API CORS**
+
 ```typescript
 // Check API CORS configuration
 // Verify origin headers
@@ -536,6 +602,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 #### Solutions
 
 **1. API Rate Limits**
+
 ```typescript
 // Implement rate limiting
 // Check rate limit headers
@@ -543,6 +610,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ```
 
 **2. CDN Rate Limits**
+
 ```bash
 # Check CDN rate limits
 # Implement caching strategies
@@ -555,6 +623,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ### Sentry Error Tracking
 
 #### Setup Issues
+
 ```typescript
 // Verify Sentry DSN
 // Check error filtering
@@ -562,6 +631,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ```
 
 #### Performance Monitoring
+
 ```typescript
 // Check performance monitoring
 // Verify transaction tracking
@@ -571,6 +641,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ### Custom Logging
 
 #### Log Issues
+
 ```typescript
 // Check logger configuration
 // Verify log levels
@@ -584,6 +655,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ### Browser DevTools
 
 #### Console Errors
+
 ```bash
 # Check for JavaScript errors
 # Analyze error stack traces
@@ -591,6 +663,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ```
 
 #### Performance Analysis
+
 ```bash
 # Use Lighthouse
 # Check Core Web Vitals
@@ -600,6 +673,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ### Network Analysis
 
 #### Request Analysis
+
 ```bash
 # Check request/response headers
 # Analyze request timing
@@ -607,6 +681,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ```
 
 #### WebSocket Issues
+
 ```bash
 # Check WebSocket connections
 # Verify WebSocket URLs
@@ -620,6 +695,7 @@ SELECT * FROM pg_constraint WHERE conname LIKE '%fk_%';
 ### When to Escalate
 
 Escalate if:
+
 - Issue persists after attempting all solutions
 - Critical functionality affected
 - Security concerns identified

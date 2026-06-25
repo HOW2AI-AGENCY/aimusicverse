@@ -1,6 +1,6 @@
 /**
  * Audio Cache System
- * 
+ *
  * Provides efficient audio file caching using IndexedDB and memory cache.
  * Features:
  * - LRU eviction policy with priority support
@@ -11,12 +11,12 @@
  * - Partial caching for large files
  */
 
-import { logger } from './logger';
+import { logger } from "./logger";
 
-const DB_NAME = 'musicverse_audio_cache';
+const DB_NAME = "musicverse_audio_cache";
 const DB_VERSION = 2; // Upgraded for new features
-const STORE_NAME = 'audio_files';
-const META_STORE_NAME = 'cache_meta';
+const STORE_NAME = "audio_files";
+const META_STORE_NAME = "cache_meta";
 const MAX_CACHE_SIZE_MB = 500; // 500MB max cache
 const MAX_MEMORY_CACHE_SIZE_MB = 100; // 100MB memory cache
 const MAX_CACHE_ENTRIES = 100;
@@ -57,11 +57,10 @@ let cacheMisses = 0;
 function evictFromMemoryCache(): void {
   const maxSize = MAX_MEMORY_CACHE_SIZE_MB * 1024 * 1024;
   if (memoryCacheSize <= maxSize) return;
-  
+
   // Sort by last access time
-  const entries = Array.from(memoryCache.entries())
-    .sort((a, b) => a[1].lastAccess - b[1].lastAccess);
-  
+  const entries = Array.from(memoryCache.entries()).sort((a, b) => a[1].lastAccess - b[1].lastAccess);
+
   // Remove oldest until under limit
   while (memoryCacheSize > maxSize * 0.8 && entries.length > 0) {
     const [url, entry] = entries.shift()!;
@@ -85,30 +84,30 @@ function getDB(): Promise<IDBDatabase> {
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
       const oldVersion = event.oldVersion;
-      
+
       // Create audio files store
       if (!db.objectStoreNames.contains(STORE_NAME)) {
-        const store = db.createObjectStore(STORE_NAME, { keyPath: 'url' });
-        store.createIndex('lastAccessed', 'lastAccessed', { unique: false });
-        store.createIndex('createdAt', 'createdAt', { unique: false });
-        store.createIndex('size', 'size', { unique: false });
-        store.createIndex('priority', 'priority', { unique: false });
+        const store = db.createObjectStore(STORE_NAME, { keyPath: "url" });
+        store.createIndex("lastAccessed", "lastAccessed", { unique: false });
+        store.createIndex("createdAt", "createdAt", { unique: false });
+        store.createIndex("size", "size", { unique: false });
+        store.createIndex("priority", "priority", { unique: false });
       }
-      
+
       // Add priority index if upgrading from v1
       if (oldVersion === 1) {
         const tx = (event.target as IDBOpenDBRequest).transaction;
         if (tx) {
           const store = tx.objectStore(STORE_NAME);
-          if (!store.indexNames.contains('priority')) {
-            store.createIndex('priority', 'priority', { unique: false });
+          if (!store.indexNames.contains("priority")) {
+            store.createIndex("priority", "priority", { unique: false });
           }
         }
       }
-      
+
       // Create metadata store for cache stats
       if (!db.objectStoreNames.contains(META_STORE_NAME)) {
-        db.createObjectStore(META_STORE_NAME, { keyPath: 'key' });
+        db.createObjectStore(META_STORE_NAME, { keyPath: "key" });
       }
     };
   });
@@ -134,7 +133,7 @@ export async function getCachedAudio(url: string): Promise<Blob | null> {
   try {
     const db = await getDB();
     const entry = await new Promise<AudioCacheEntry | null>((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readonly');
+      const transaction = db.transaction(STORE_NAME, "readonly");
       const store = transaction.objectStore(STORE_NAME);
       const request = store.get(url);
 
@@ -149,32 +148,32 @@ export async function getCachedAudio(url: string): Promise<Blob | null> {
       // Check if entry is expired (older than 14 days)
       const age = Date.now() - entry.createdAt;
       if (age > MAX_CACHE_AGE_MS) {
-        logger.debug('Cache entry expired, removing', { 
-          url: url.substring(0, 50), 
-          ageDays: Math.floor(age / (24 * 60 * 60 * 1000)) 
+        logger.debug("Cache entry expired, removing", {
+          url: url.substring(0, 50),
+          ageDays: Math.floor(age / (24 * 60 * 60 * 1000)),
         });
         removeCacheEntry(url);
         cacheMisses++;
         return null;
       }
-      
+
       cacheHits++;
-      
+
       // Update access time and count asynchronously
       updateAccessTimeInDB(url, (entry.accessCount || 0) + 1);
-      
+
       // Store in memory for faster subsequent access
       const entrySize = entry.blob.size;
       memoryCache.set(url, { blob: entry.blob, size: entrySize, lastAccess: Date.now() });
       memoryCacheSize += entrySize;
-      
+
       // Evict if memory cache too large
       evictFromMemoryCache();
-      
+
       return entry.blob;
     }
   } catch (error) {
-    logger.error('Error reading from audio cache', error instanceof Error ? error : new Error(String(error)));
+    logger.error("Error reading from audio cache", error instanceof Error ? error : new Error(String(error)));
   }
 
   cacheMisses++;
@@ -188,7 +187,7 @@ async function removeCacheEntry(url: string): Promise<void> {
   memoryCache.delete(url);
   try {
     const db = await getDB();
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const transaction = db.transaction(STORE_NAME, "readwrite");
     const store = transaction.objectStore(STORE_NAME);
     store.delete(url);
   } catch {
@@ -201,10 +200,10 @@ async function removeCacheEntry(url: string): Promise<void> {
  */
 export async function cacheAudio(url: string, blob: Blob, priority: number = 5): Promise<void> {
   const size = blob.size;
-  
+
   // Don't cache if blob is too large
   if (size > MAX_SINGLE_FILE_MB * 1024 * 1024) {
-    logger.warn('Audio file too large to cache', { size, url: url.substring(0, 50) });
+    logger.warn("Audio file too large to cache", { size, url: url.substring(0, 50) });
     return;
   }
 
@@ -215,7 +214,7 @@ export async function cacheAudio(url: string, blob: Blob, priority: number = 5):
 
   try {
     const db = await getDB();
-    
+
     // Check if we need to cleanup before adding
     await cleanupIfNeeded(db);
 
@@ -230,17 +229,17 @@ export async function cacheAudio(url: string, blob: Blob, priority: number = 5):
     };
 
     await new Promise<void>((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readwrite');
+      const transaction = db.transaction(STORE_NAME, "readwrite");
       const store = transaction.objectStore(STORE_NAME);
       const request = store.put(entry);
 
       request.onerror = () => reject(request.error);
       request.onsuccess = () => resolve();
     });
-    
-    logger.debug('Audio cached', { url: url.substring(0, 50), size });
+
+    logger.debug("Audio cached", { url: url.substring(0, 50), size });
   } catch (error) {
-    logger.error('Error saving to audio cache', error instanceof Error ? error : new Error(String(error)));
+    logger.error("Error saving to audio cache", error instanceof Error ? error : new Error(String(error)));
   }
 }
 
@@ -255,11 +254,11 @@ export async function prefetchAudio(url: string): Promise<void> {
   try {
     const response = await fetch(url);
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    
+
     const blob = await response.blob();
     await cacheAudio(url, blob);
   } catch (error) {
-    logger.error('Error prefetching audio', error instanceof Error ? error : new Error(String(error)));
+    logger.error("Error prefetching audio", error instanceof Error ? error : new Error(String(error)));
   }
 }
 
@@ -267,14 +266,11 @@ export async function prefetchAudio(url: string): Promise<void> {
  * Prefetch next tracks in queue
  */
 export async function prefetchQueue(urls: string[], currentIndex: number): Promise<void> {
-  const prefetchUrls = urls.slice(
-    currentIndex + 1,
-    Math.min(currentIndex + 1 + PREFETCH_AHEAD, urls.length)
-  );
+  const prefetchUrls = urls.slice(currentIndex + 1, Math.min(currentIndex + 1 + PREFETCH_AHEAD, urls.length));
 
   // Prefetch in parallel but don't wait for completion
-  Promise.all(prefetchUrls.map(url => prefetchAudio(url))).catch(err => {
-    logger.error('Error in prefetch queue', err instanceof Error ? err : new Error(String(err)));
+  Promise.all(prefetchUrls.map((url) => prefetchAudio(url))).catch((err) => {
+    logger.error("Error in prefetch queue", err instanceof Error ? err : new Error(String(err)));
   });
 }
 
@@ -291,9 +287,9 @@ function updateAccessTime(url: string): void {
 async function updateAccessTimeInDB(url: string, accessCount?: number): Promise<void> {
   try {
     const db = await getDB();
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const transaction = db.transaction(STORE_NAME, "readwrite");
     const store = transaction.objectStore(STORE_NAME);
-    
+
     const getRequest = store.get(url);
     getRequest.onsuccess = () => {
       const entry = getRequest.result as AudioCacheEntry | undefined;
@@ -315,7 +311,7 @@ async function updateAccessTimeInDB(url: string, accessCount?: number): Promise<
  */
 async function getCacheSize(db: IDBDatabase): Promise<number> {
   return new Promise((resolve) => {
-    const transaction = db.transaction(STORE_NAME, 'readonly');
+    const transaction = db.transaction(STORE_NAME, "readonly");
     const store = transaction.objectStore(STORE_NAME);
     const request = store.getAll();
 
@@ -324,7 +320,7 @@ async function getCacheSize(db: IDBDatabase): Promise<number> {
       const totalSize = entries.reduce((sum, entry) => sum + entry.size, 0);
       resolve(totalSize);
     };
-    
+
     request.onerror = () => resolve(0);
   });
 }
@@ -333,9 +329,9 @@ async function getCacheSize(db: IDBDatabase): Promise<number> {
  * Cleanup old entries using LRU eviction
  */
 async function cleanupIfNeeded(db: IDBDatabase): Promise<void> {
-  const transaction = db.transaction(STORE_NAME, 'readwrite');
+  const transaction = db.transaction(STORE_NAME, "readwrite");
   const store = transaction.objectStore(STORE_NAME);
-  
+
   // Check entry count
   const countRequest = store.count();
   await new Promise<void>((resolve) => {
@@ -359,13 +355,13 @@ async function cleanupIfNeeded(db: IDBDatabase): Promise<void> {
  */
 async function evictLRUEntries(db: IDBDatabase, countToEvict: number): Promise<void> {
   return new Promise((resolve) => {
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const transaction = db.transaction(STORE_NAME, "readwrite");
     const store = transaction.objectStore(STORE_NAME);
-    const index = store.index('lastAccessed');
-    
+    const index = store.index("lastAccessed");
+
     let evicted = 0;
     const cursorRequest = index.openCursor();
-    
+
     cursorRequest.onsuccess = (event) => {
       const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
       if (cursor && evicted < countToEvict) {
@@ -379,7 +375,7 @@ async function evictLRUEntries(db: IDBDatabase, countToEvict: number): Promise<v
         resolve();
       }
     };
-    
+
     cursorRequest.onerror = () => resolve();
   });
 }
@@ -390,11 +386,11 @@ async function evictLRUEntries(db: IDBDatabase, countToEvict: number): Promise<v
 export async function clearAudioCache(): Promise<void> {
   memoryCache.clear();
   accessLog.clear();
-  
+
   try {
     const db = await getDB();
     return new Promise((resolve, reject) => {
-      const transaction = db.transaction(STORE_NAME, 'readwrite');
+      const transaction = db.transaction(STORE_NAME, "readwrite");
       const store = transaction.objectStore(STORE_NAME);
       const request = store.clear();
 
@@ -402,7 +398,7 @@ export async function clearAudioCache(): Promise<void> {
       request.onsuccess = () => resolve();
     });
   } catch (error) {
-    logger.error('Error clearing audio cache', error instanceof Error ? error : new Error(String(error)));
+    logger.error("Error clearing audio cache", error instanceof Error ? error : new Error(String(error)));
   }
 }
 
@@ -412,9 +408,9 @@ export async function clearAudioCache(): Promise<void> {
 export async function getCacheStats(): Promise<CacheStats> {
   try {
     const db = await getDB();
-    const transaction = db.transaction(STORE_NAME, 'readonly');
+    const transaction = db.transaction(STORE_NAME, "readonly");
     const store = transaction.objectStore(STORE_NAME);
-    
+
     const entries = await new Promise<AudioCacheEntry[]>((resolve) => {
       const request = store.getAll();
       request.onsuccess = () => resolve(request.result as AudioCacheEntry[]);
@@ -423,7 +419,7 @@ export async function getCacheStats(): Promise<CacheStats> {
 
     const totalSize = entries.reduce((sum, entry) => sum + entry.size, 0);
     const totalRequests = cacheHits + cacheMisses;
-    
+
     return {
       totalSize,
       entryCount: entries.length,
@@ -452,15 +448,15 @@ interface NetworkInformation {
 /**
  * Check network connection quality and suggest audio quality
  */
-export function getRecommendedQuality(): 'high' | 'medium' | 'low' {
+export function getRecommendedQuality(): "high" | "medium" | "low" {
   const connection = (navigator as any).connection as NetworkInformation | undefined;
-  if (!connection) return 'high';
-  
+  if (!connection) return "high";
+
   const effectiveType = connection.effectiveType;
-  
-  if (effectiveType === '4g') return 'high';
-  if (effectiveType === '3g') return 'medium';
-  return 'low';
+
+  if (effectiveType === "4g") return "high";
+  if (effectiveType === "3g") return "medium";
+  return "low";
 }
 
 /**
@@ -469,8 +465,8 @@ export function getRecommendedQuality(): 'high' | 'medium' | 'low' {
 export function shouldPrefetch(): boolean {
   const connection = (navigator as any).connection as NetworkInformation | undefined;
   if (!connection) return true;
-  
-  return !connection.saveData && connection.effectiveType !== 'slow-2g' && connection.effectiveType !== '2g';
+
+  return !connection.saveData && connection.effectiveType !== "slow-2g" && connection.effectiveType !== "2g";
 }
 
 /**
@@ -479,18 +475,18 @@ export function shouldPrefetch(): boolean {
  */
 export async function cleanupExpiredEntries(): Promise<number> {
   let removedCount = 0;
-  
+
   try {
     const db = await getDB();
-    const transaction = db.transaction(STORE_NAME, 'readwrite');
+    const transaction = db.transaction(STORE_NAME, "readwrite");
     const store = transaction.objectStore(STORE_NAME);
-    const index = store.index('createdAt');
-    
+    const index = store.index("createdAt");
+
     const cutoffTime = Date.now() - MAX_CACHE_AGE_MS;
     const range = IDBKeyRange.upperBound(cutoffTime);
-    
+
     const cursorRequest = index.openCursor(range);
-    
+
     await new Promise<void>((resolve) => {
       cursorRequest.onsuccess = (event) => {
         const cursor = (event.target as IDBRequest<IDBCursorWithValue>).result;
@@ -504,16 +500,16 @@ export async function cleanupExpiredEntries(): Promise<number> {
           resolve();
         }
       };
-      
+
       cursorRequest.onerror = () => resolve();
     });
-    
+
     if (removedCount > 0) {
-      logger.info('Cleaned up expired cache entries', { removedCount });
+      logger.info("Cleaned up expired cache entries", { removedCount });
     }
   } catch (error) {
-    logger.error('Error cleaning up expired cache entries', error instanceof Error ? error : new Error(String(error)));
+    logger.error("Error cleaning up expired cache entries", error instanceof Error ? error : new Error(String(error)));
   }
-  
+
   return removedCount;
 }

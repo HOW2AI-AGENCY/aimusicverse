@@ -1,31 +1,31 @@
 /**
  * useReducedMotion - Hook to detect user's motion preference
- * 
+ *
  * Respects prefers-reduced-motion media query for accessibility.
  * Use this to disable or simplify animations for users who prefer reduced motion.
- * 
+ *
  * @example
  * const prefersReducedMotion = useReducedMotion();
- * 
+ *
  * // Disable animation
  * <motion.div animate={prefersReducedMotion ? {} : { scale: 1.1 }} />
- * 
+ *
  * // Or use simpler animation
  * const animationDuration = prefersReducedMotion ? 0 : 0.3;
- * 
+ *
  * @example Using useMotionPreference for advanced patterns
  * const { prefersReducedMotion, safeVariants, safeTransition } = useMotionPreference();
  * <motion.div variants={safeVariants(myVariants)} transition={safeTransition(myTransition)} />
  */
 
-import { useState, useEffect, useMemo } from 'react';
-import type { Variants, Transition } from '@/lib/motion';
+import { useState, useEffect, useMemo } from "react";
+import type { Variants, Transition } from "@/lib/motion";
 
-const QUERY = '(prefers-reduced-motion: reduce)';
+const QUERY = "(prefers-reduced-motion: reduce)";
 
 function getInitialState(): boolean {
   // SSR safety check
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return false;
   }
   return window.matchMedia(QUERY).matches;
@@ -36,7 +36,7 @@ export function useReducedMotion(): boolean {
 
   useEffect(() => {
     const mediaQuery = window.matchMedia(QUERY);
-    
+
     // Set initial value
     setPrefersReducedMotion(mediaQuery.matches);
 
@@ -47,9 +47,9 @@ export function useReducedMotion(): boolean {
 
     // Modern browsers
     if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handleChange);
-      return () => mediaQuery.removeEventListener('change', handleChange);
-    } 
+      mediaQuery.addEventListener("change", handleChange);
+      return () => mediaQuery.removeEventListener("change", handleChange);
+    }
     // Legacy browsers (Safari < 14)
     else {
       mediaQuery.addListener(handleChange);
@@ -76,36 +76,39 @@ const reducedMotionVariants: Variants = {
 export function useMotionPreference() {
   const prefersReducedMotion = useReducedMotion();
 
-  return useMemo(() => ({
-    prefersReducedMotion,
-    
-    /**
-     * Returns motion-safe variants
-     * Replaces complex animations with simple fade when reduced motion is preferred
-     */
-    safeVariants: (variants: Variants): Variants => {
-      if (!prefersReducedMotion) return variants;
-      return reducedMotionVariants;
-    },
+  return useMemo(
+    () => ({
+      prefersReducedMotion,
 
-    /**
-     * Returns motion-safe transition
-     */
-    safeTransition: (transition: Transition): Transition => {
-      if (!prefersReducedMotion) return transition;
-      return instantTransition;
-    },
+      /**
+       * Returns motion-safe variants
+       * Replaces complex animations with simple fade when reduced motion is preferred
+       */
+      safeVariants: (variants: Variants): Variants => {
+        if (!prefersReducedMotion) return variants;
+        return reducedMotionVariants;
+      },
 
-    /**
-     * Get animation duration (0 if reduced motion preferred)
-     */
-    safeDuration: (duration: number): number => {
-      return prefersReducedMotion ? 0 : duration;
-    },
+      /**
+       * Returns motion-safe transition
+       */
+      safeTransition: (transition: Transition): Transition => {
+        if (!prefersReducedMotion) return transition;
+        return instantTransition;
+      },
 
-    reducedMotionVariants,
-    instantTransition,
-  }), [prefersReducedMotion]);
+      /**
+       * Get animation duration (0 if reduced motion preferred)
+       */
+      safeDuration: (duration: number): number => {
+        return prefersReducedMotion ? 0 : duration;
+      },
+
+      reducedMotionVariants,
+      instantTransition,
+    }),
+    [prefersReducedMotion],
+  );
 }
 
 /**
@@ -134,16 +137,16 @@ export function useMotionDuration(duration: number): number {
  * CSS classes with built-in reduced motion support
  */
 export const safeAnimationClasses = {
-  fadeIn: 'animate-fade-in motion-reduce:animate-none motion-reduce:opacity-100',
-  fadeOut: 'animate-fade-out motion-reduce:animate-none',
-  slideUp: 'animate-slide-up motion-reduce:animate-none motion-reduce:opacity-100',
-  slideDown: 'animate-slide-down motion-reduce:animate-none motion-reduce:opacity-100',
-  slideLeft: 'animate-slide-left motion-reduce:animate-none motion-reduce:opacity-100',
-  slideRight: 'animate-slide-right motion-reduce:animate-none motion-reduce:opacity-100',
-  scaleIn: 'animate-scale-in motion-reduce:animate-none motion-reduce:opacity-100',
-  spin: 'animate-spin motion-reduce:animate-none',
-  pulse: 'animate-pulse-subtle motion-reduce:animate-none',
-  shimmer: 'animate-shimmer motion-reduce:animate-none',
+  fadeIn: "animate-fade-in motion-reduce:animate-none motion-reduce:opacity-100",
+  fadeOut: "animate-fade-out motion-reduce:animate-none",
+  slideUp: "animate-slide-up motion-reduce:animate-none motion-reduce:opacity-100",
+  slideDown: "animate-slide-down motion-reduce:animate-none motion-reduce:opacity-100",
+  slideLeft: "animate-slide-left motion-reduce:animate-none motion-reduce:opacity-100",
+  slideRight: "animate-slide-right motion-reduce:animate-none motion-reduce:opacity-100",
+  scaleIn: "animate-scale-in motion-reduce:animate-none motion-reduce:opacity-100",
+  spin: "animate-spin motion-reduce:animate-none",
+  pulse: "animate-pulse-subtle motion-reduce:animate-none",
+  shimmer: "animate-shimmer motion-reduce:animate-none",
 } as const;
 
 /**
@@ -153,7 +156,7 @@ export const safeAnimationClasses = {
 export function getStaggerStyle(
   index: number,
   prefersReducedMotion: boolean = false,
-  baseDelay: number = 50
+  baseDelay: number = 50,
 ): React.CSSProperties {
   if (prefersReducedMotion) return {};
   return { animationDelay: `${index * baseDelay}ms` };

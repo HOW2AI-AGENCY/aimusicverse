@@ -11,8 +11,8 @@
  * const { restoreVersion, isRestoring } = useRestoreLyricVersion();
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '@/hooks/useAuth';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import {
   getLyricVersions,
   createLyricVersion,
@@ -20,9 +20,9 @@ import {
   type LyricVersionWithAuthor,
   type CreateLyricVersionRequest,
   type RestoreLyricVersionResponse,
-} from '@/api/lyrics.api';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+} from "@/api/lyrics.api";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 // ============================================================================
 // Query Keys Factory
@@ -33,9 +33,9 @@ import { logger } from '@/lib/logger';
  * Provides a consistent way to generate query keys for caching and invalidation
  */
 export const lyricVersionsKeys = {
-  all: ['lyric-versions'] as const,
-  forTrack: (trackId: string) => ['lyric-versions', trackId] as const,
-  current: (trackId: string) => ['lyric-versions', trackId, 'current'] as const,
+  all: ["lyric-versions"] as const,
+  forTrack: (trackId: string) => ["lyric-versions", trackId] as const,
+  current: (trackId: string) => ["lyric-versions", trackId, "current"] as const,
 } as const;
 
 // ============================================================================
@@ -57,9 +57,9 @@ export const lyricVersionsKeys = {
  */
 export function useLyricVersions(trackId: string | undefined) {
   return useQuery({
-    queryKey: lyricVersionsKeys.forTrack(trackId || ''),
+    queryKey: lyricVersionsKeys.forTrack(trackId || ""),
     queryFn: () => {
-      if (!trackId) throw new Error('Track ID is required');
+      if (!trackId) throw new Error("Track ID is required");
       return getLyricVersions(trackId);
     },
     enabled: !!trackId,
@@ -81,12 +81,12 @@ export function useCurrentLyricVersion(trackId: string | undefined) {
   const { data: versions } = useLyricVersions(trackId);
 
   return useQuery({
-    queryKey: lyricVersionsKeys.current(trackId || ''),
+    queryKey: lyricVersionsKeys.current(trackId || ""),
     queryFn: () => {
-      if (!trackId) throw new Error('Track ID is required');
+      if (!trackId) throw new Error("Track ID is required");
       const current = versions?.versions.find((v) => v.isCurrent);
       if (!current) {
-        throw new Error('No current lyric version found');
+        throw new Error("No current lyric version found");
       }
       return current;
     },
@@ -132,7 +132,7 @@ export function useCreateLyricVersion() {
   const mutation = useMutation({
     mutationFn: async ({ trackId, request }: CreateLyricVersionParams) => {
       if (!user?.id) {
-        throw new Error('User must be authenticated to create lyric versions');
+        throw new Error("User must be authenticated to create lyric versions");
       }
 
       return createLyricVersion(trackId, user.id, request);
@@ -158,7 +158,7 @@ export function useCreateLyricVersion() {
           content: request.content,
           author: {
             id: user.id,
-            username: user.user_metadata?.username || user.email?.split('@')[0] || 'Unknown',
+            username: user.user_metadata?.username || user.email?.split("@")[0] || "Unknown",
           },
           createdAt: new Date().toISOString(),
           isCurrent: true,
@@ -190,27 +190,24 @@ export function useCreateLyricVersion() {
     // Rollback on error
     onError: (error, { trackId }, context) => {
       if (context?.previousVersions) {
-        queryClient.setQueryData(
-          lyricVersionsKeys.forTrack(trackId),
-          context.previousVersions
-        );
+        queryClient.setQueryData(lyricVersionsKeys.forTrack(trackId), context.previousVersions);
       }
 
-      logger.error('Failed to create lyric version', { error, trackId });
+      logger.error("Failed to create lyric version", { error, trackId });
 
-      toast.error('Failed to create lyric version', {
-        description: error instanceof Error ? error.message : 'Unknown error',
+      toast.error("Failed to create lyric version", {
+        description: error instanceof Error ? error.message : "Unknown error",
       });
     },
 
     // Refetch on success
     onSuccess: (data, { trackId }) => {
-      logger.info('Lyric version created successfully', {
+      logger.info("Lyric version created successfully", {
         versionId: data.id,
         trackId,
       });
 
-      toast.success('Lyric version created', {
+      toast.success("Lyric version created", {
         description: `Version ${data.versionNumber} has been created`,
       });
     },
@@ -296,9 +293,7 @@ export function useRestoreLyricVersion() {
       });
 
       // Find the version being restored
-      const versionToRestore = previousVersions.versions.find(
-        (v) => v.id === versionId
-      );
+      const versionToRestore = previousVersions.versions.find((v) => v.id === versionId);
 
       if (!versionToRestore) {
         return { previousVersions, trackId };
@@ -312,7 +307,7 @@ export function useRestoreLyricVersion() {
         isCurrent: true,
         changeSummary: `Restored from version ${versionToRestore.versionNumber}`,
         versionName: `v${(previousVersions.versions[0]?.versionNumber || 0) + 1} (restored)`,
-        changeType: 'restore',
+        changeType: "restore",
       };
 
       // Mark all existing versions as not current
@@ -333,27 +328,24 @@ export function useRestoreLyricVersion() {
     // Rollback on error
     onError: (error, { versionId }, context) => {
       if (context?.previousVersions && context?.trackId) {
-        queryClient.setQueryData(
-          lyricVersionsKeys.forTrack(context.trackId),
-          context.previousVersions
-        );
+        queryClient.setQueryData(lyricVersionsKeys.forTrack(context.trackId), context.previousVersions);
       }
 
-      logger.error('Failed to restore lyric version', { error, versionId });
+      logger.error("Failed to restore lyric version", { error, versionId });
 
-      toast.error('Failed to restore lyric version', {
-        description: error instanceof Error ? error.message : 'Unknown error',
+      toast.error("Failed to restore lyric version", {
+        description: error instanceof Error ? error.message : "Unknown error",
       });
     },
 
     // Show success message
     onSuccess: (data: RestoreLyricVersionResponse, { versionId }) => {
-      logger.info('Lyric version restored successfully', {
+      logger.info("Lyric version restored successfully", {
         versionId,
         restoredVersionId: data.restoredVersion.id,
       });
 
-      toast.success('Lyric version restored', {
+      toast.success("Lyric version restored", {
         description: `Restored to version ${data.restoredVersion.versionNumber}`,
       });
     },

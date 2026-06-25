@@ -5,9 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { 
-  Search, 
-  Download, 
+import {
+  Search,
+  Download,
   RefreshCw,
   Clock,
   CheckCircle2,
@@ -15,26 +15,27 @@ import {
   AlertCircle,
   User,
   Music,
-  Loader2
+  Loader2,
 } from "lucide-react";
-import { formatDistanceToNow, format, ru } from '@/lib/date-utils';
+import { formatDistanceToNow, format, ru } from "@/lib/date-utils";
 import { useGenerationLogs, useGenerationStats } from "@/hooks/useGenerationLogs";
 
 export function GenerationLogsPanel() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<string | undefined>(undefined);
-  const [timeRange, setTimeRange] = useState<'1h' | '24h' | '7d' | '30d'>('24h');
+  const [timeRange, setTimeRange] = useState<"1h" | "24h" | "7d" | "30d">("24h");
 
-  const { logs, isLoading, refetch } = useGenerationLogs({ 
-    limit: 100, 
+  const { logs, isLoading, refetch } = useGenerationLogs({
+    limit: 100,
     status: filterStatus,
-    timeRange 
+    timeRange,
   });
-  
+
   const { data: stats } = useGenerationStats(timeRange);
 
-  const filteredLogs = logs.filter(log => {
-    const matchesSearch = searchQuery === "" || 
+  const filteredLogs = logs.filter((log) => {
+    const matchesSearch =
+      searchQuery === "" ||
       log.prompt.toLowerCase().includes(searchQuery.toLowerCase()) ||
       log.suno_task_id?.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesSearch;
@@ -42,13 +43,13 @@ export function GenerationLogsPanel() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed':
+      case "completed":
         return <CheckCircle2 className="h-4 w-4 text-green-500" />;
-      case 'processing':
+      case "processing":
         return <RefreshCw className="h-4 w-4 text-blue-500 animate-spin" />;
-      case 'failed':
+      case "failed":
         return <XCircle className="h-4 w-4 text-red-500" />;
-      case 'pending':
+      case "pending":
         return <Clock className="h-4 w-4 text-yellow-500" />;
       default:
         return <AlertCircle className="h-4 w-4 text-muted-foreground" />;
@@ -60,44 +61,42 @@ export function GenerationLogsPanel() {
       completed: "default",
       processing: "secondary",
       failed: "destructive",
-      pending: "outline"
+      pending: "outline",
     };
-    
+
     const labels: Record<string, string> = {
       completed: "Готово",
       processing: "В процессе",
       failed: "Ошибка",
-      pending: "Ожидание"
+      pending: "Ожидание",
     };
 
-    return (
-      <Badge variant={variants[status] || "outline"}>
-        {labels[status] || status}
-      </Badge>
-    );
+    return <Badge variant={variants[status] || "outline"}>{labels[status] || status}</Badge>;
   };
 
   const exportLogs = () => {
     const csv = [
-      ['ID', 'User ID', 'Prompt', 'Status', 'Model', 'Source', 'Created', 'Completed', 'Error'].join(','),
-      ...filteredLogs.map(log => [
-        log.id,
-        log.user_id,
-        `"${log.prompt.replace(/"/g, '""')}"`,
-        log.status,
-        log.model_used || '',
-        log.source || '',
-        log.created_at,
-        log.completed_at || '',
-        log.error_message || ''
-      ].join(','))
-    ].join('\n');
+      ["ID", "User ID", "Prompt", "Status", "Model", "Source", "Created", "Completed", "Error"].join(","),
+      ...filteredLogs.map((log) =>
+        [
+          log.id,
+          log.user_id,
+          `"${log.prompt.replace(/"/g, '""')}"`,
+          log.status,
+          log.model_used || "",
+          log.source || "",
+          log.created_at,
+          log.completed_at || "",
+          log.error_message || "",
+        ].join(","),
+      ),
+    ].join("\n");
 
-    const blob = new Blob([csv], { type: 'text/csv' });
+    const blob = new Blob([csv], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `generation-logs-${format(new Date(), 'yyyy-MM-dd')}.csv`;
+    a.download = `generation-logs-${format(new Date(), "yyyy-MM-dd")}.csv`;
     a.click();
   };
 
@@ -132,7 +131,7 @@ export function GenerationLogsPanel() {
               Экспорт
             </Button>
             <Button variant="outline" size="sm" onClick={() => refetch()}>
-              <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
             </Button>
           </div>
         </div>
@@ -176,31 +175,31 @@ export function GenerationLogsPanel() {
             />
           </div>
           <div className="flex gap-2 flex-wrap">
-            <Button 
+            <Button
               variant={!filterStatus ? "default" : "outline"}
               size="sm"
               onClick={() => setFilterStatus(undefined)}
             >
               Все
             </Button>
-            <Button 
-              variant={filterStatus === 'completed' ? "default" : "outline"}
+            <Button
+              variant={filterStatus === "completed" ? "default" : "outline"}
               size="sm"
-              onClick={() => setFilterStatus('completed')}
+              onClick={() => setFilterStatus("completed")}
             >
               Готово
             </Button>
-            <Button 
-              variant={filterStatus === 'processing' ? "default" : "outline"}
+            <Button
+              variant={filterStatus === "processing" ? "default" : "outline"}
               size="sm"
-              onClick={() => setFilterStatus('processing')}
+              onClick={() => setFilterStatus("processing")}
             >
               В процессе
             </Button>
-            <Button 
-              variant={filterStatus === 'failed' ? "default" : "outline"}
+            <Button
+              variant={filterStatus === "failed" ? "default" : "outline"}
               size="sm"
-              onClick={() => setFilterStatus('failed')}
+              onClick={() => setFilterStatus("failed")}
             >
               Ошибки
             </Button>
@@ -214,9 +213,7 @@ export function GenerationLogsPanel() {
               <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
             </div>
           ) : filteredLogs.length === 0 ? (
-            <div className="flex items-center justify-center h-40 text-muted-foreground">
-              Нет записей
-            </div>
+            <div className="flex items-center justify-center h-40 text-muted-foreground">Нет записей</div>
           ) : (
             <div className="space-y-2">
               {filteredLogs.map((log) => (
@@ -225,9 +222,7 @@ export function GenerationLogsPanel() {
                   className="flex items-start gap-3 p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
                 >
                   {/* Status Icon */}
-                  <div className="flex-shrink-0 mt-1">
-                    {getStatusIcon(log.status)}
-                  </div>
+                  <div className="flex-shrink-0 mt-1">{getStatusIcon(log.status)}</div>
 
                   {/* Content */}
                   <div className="flex-1 min-w-0 space-y-2">
@@ -241,9 +236,7 @@ export function GenerationLogsPanel() {
                     </div>
 
                     {/* Prompt */}
-                    <p className="text-sm text-foreground line-clamp-2">
-                      {log.prompt}
-                    </p>
+                    <p className="text-sm text-foreground line-clamp-2">{log.prompt}</p>
 
                     {/* Meta */}
                     <div className="flex flex-wrap items-center gap-3 text-xs text-muted-foreground">
@@ -251,7 +244,7 @@ export function GenerationLogsPanel() {
                         <Clock className="h-3 w-3" />
                         {formatDistanceToNow(new Date(log.created_at), { addSuffix: true, locale: ru })}
                       </div>
-                      
+
                       {log.model_used && (
                         <Badge variant="outline" className="text-xs font-mono">
                           {log.model_used}
@@ -264,9 +257,7 @@ export function GenerationLogsPanel() {
                         </Badge>
                       )}
 
-                      {log.suno_task_id && (
-                        <code className="text-xs">Task: {log.suno_task_id.slice(0, 8)}...</code>
-                      )}
+                      {log.suno_task_id && <code className="text-xs">Task: {log.suno_task_id.slice(0, 8)}...</code>}
 
                       {log.expected_clips && log.received_clips !== null && (
                         <span className="text-xs">

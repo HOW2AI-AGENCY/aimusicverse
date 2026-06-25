@@ -1,13 +1,13 @@
 /**
  * Mixer History Store
- * 
+ *
  * Dedicated store for stem mixer state with undo/redo support.
  * Tracks volume, mute, solo, and pan changes for each stem.
  */
 
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { logger } from '@/lib/logger';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { logger } from "@/lib/logger";
 
 export interface StemMixerState {
   volume: number;
@@ -28,12 +28,12 @@ interface MixerHistoryState {
   stemStates: Record<string, StemMixerState>;
   masterVolume: number;
   masterMuted: boolean;
-  
+
   // History
   history: MixerHistoryEntry[];
   historyIndex: number;
   maxHistory: number;
-  
+
   // Actions
   setStemState: (stemId: string, state: Partial<StemMixerState>) => void;
   setMasterVolume: (volume: number) => void;
@@ -41,18 +41,18 @@ interface MixerHistoryState {
   toggleStemMute: (stemId: string) => void;
   toggleStemSolo: (stemId: string) => void;
   setStemVolume: (stemId: string, volume: number) => void;
-  
+
   // History actions
   undo: () => void;
   redo: () => void;
   canUndo: () => boolean;
   canRedo: () => boolean;
   clearHistory: () => void;
-  
+
   // Batch operations
   initializeStems: (stemIds: string[]) => void;
   resetToDefaults: () => void;
-  
+
   // Presets
   savePreset: (name: string) => MixerHistoryEntry;
   loadPreset: (preset: MixerHistoryEntry) => void;
@@ -79,21 +79,21 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
           masterMuted: state.masterMuted,
           timestamp: Date.now(),
         };
-        
+
         let newHistory = [...state.history];
-        
+
         // If we're not at the end, remove future entries
         if (state.historyIndex < newHistory.length - 1) {
           newHistory = newHistory.slice(0, state.historyIndex + 1);
         }
-        
+
         newHistory.push(entry);
-        
+
         // Trim if too long
         while (newHistory.length > MAX_HISTORY) {
           newHistory.shift();
         }
-        
+
         return {
           history: newHistory,
           historyIndex: newHistory.length - 1,
@@ -109,7 +109,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         maxHistory: MAX_HISTORY,
 
         setStemState: (stemId, updates) => {
-          set(state => {
+          set((state) => {
             const currentState = state.stemStates[stemId] || DEFAULT_STEM_STATE;
             const newStates = {
               ...state.stemStates,
@@ -123,21 +123,21 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         },
 
         setMasterVolume: (volume) => {
-          set(state => ({
+          set((state) => ({
             masterVolume: Math.max(0, Math.min(1, volume)),
             ...pushToHistory(),
           }));
         },
 
         setMasterMuted: (muted) => {
-          set(state => ({
+          set((state) => ({
             masterMuted: muted,
             ...pushToHistory(),
           }));
         },
 
         toggleStemMute: (stemId) => {
-          set(state => {
+          set((state) => {
             const current = state.stemStates[stemId] || DEFAULT_STEM_STATE;
             return {
               stemStates: {
@@ -150,21 +150,21 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         },
 
         toggleStemSolo: (stemId) => {
-          set(state => {
+          set((state) => {
             const current = state.stemStates[stemId] || DEFAULT_STEM_STATE;
             const wasSolo = current.solo;
-            
+
             // If enabling solo, disable solo on other stems
             const newStates = { ...state.stemStates };
             if (!wasSolo) {
-              Object.keys(newStates).forEach(id => {
+              Object.keys(newStates).forEach((id) => {
                 if (id !== stemId) {
                   newStates[id] = { ...newStates[id], solo: false };
                 }
               });
             }
             newStates[stemId] = { ...(newStates[stemId] || DEFAULT_STEM_STATE), solo: !wasSolo };
-            
+
             return {
               stemStates: newStates,
               ...pushToHistory(),
@@ -173,7 +173,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         },
 
         setStemVolume: (stemId, volume) => {
-          set(state => {
+          set((state) => {
             const current = state.stemStates[stemId] || DEFAULT_STEM_STATE;
             return {
               stemStates: {
@@ -191,7 +191,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
             const newIndex = state.historyIndex - 1;
             const entry = state.history[newIndex];
             if (entry) {
-              logger.info('Mixer undo', { from: state.historyIndex, to: newIndex });
+              logger.info("Mixer undo", { from: state.historyIndex, to: newIndex });
               set({
                 stemStates: JSON.parse(JSON.stringify(entry.stemStates)),
                 masterVolume: entry.masterVolume,
@@ -208,7 +208,7 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
             const newIndex = state.historyIndex + 1;
             const entry = state.history[newIndex];
             if (entry) {
-              logger.info('Mixer redo', { from: state.historyIndex, to: newIndex });
+              logger.info("Mixer redo", { from: state.historyIndex, to: newIndex });
               set({
                 stemStates: JSON.parse(JSON.stringify(entry.stemStates)),
                 masterVolume: entry.masterVolume,
@@ -244,9 +244,9 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         },
 
         initializeStems: (stemIds) => {
-          set(state => {
+          set((state) => {
             const newStates = { ...state.stemStates };
-            stemIds.forEach(id => {
+            stemIds.forEach((id) => {
               if (!newStates[id]) {
                 newStates[id] = { ...DEFAULT_STEM_STATE };
               }
@@ -256,9 +256,9 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
         },
 
         resetToDefaults: () => {
-          set(state => {
+          set((state) => {
             const newStates: Record<string, StemMixerState> = {};
-            Object.keys(state.stemStates).forEach(id => {
+            Object.keys(state.stemStates).forEach((id) => {
               newStates[id] = { ...DEFAULT_STEM_STATE };
             });
             return {
@@ -291,12 +291,12 @@ export const useMixerHistoryStore = create<MixerHistoryState>()(
       };
     },
     {
-      name: 'mixer-history-storage',
+      name: "mixer-history-storage",
       partialize: (state) => ({
         stemStates: state.stemStates,
         masterVolume: state.masterVolume,
         masterMuted: state.masterMuted,
       }),
-    }
-  )
+    },
+  ),
 );

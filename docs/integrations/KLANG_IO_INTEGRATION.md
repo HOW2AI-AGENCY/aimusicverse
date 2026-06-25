@@ -11,7 +11,7 @@
 ✅ **Chord recognition** - Распознавание аккордов с extended vocabulary  
 ✅ **Transcription** - Конвертация в MIDI, GP5, MusicXML, PDF  
 ✅ **Интеграция Stem Studio** - Автоматическое отображение анализа  
-✅ **Mobile-first дизайн** - Оптимизация для сенсорных устройств  
+✅ **Mobile-first дизайн** - Оптимизация для сенсорных устройств
 
 ---
 
@@ -82,6 +82,7 @@ Hooks
 Компактная мобильная панель записи с real-time мониторингом.
 
 **Возможности:**
+
 - Touch-friendly кнопки управления (44px+ targets)
 - Real-time audio level meter (0-100%)
 - Pulse анимация при записи
@@ -90,12 +91,13 @@ Hooks
 - Советы для лучшего качества
 
 **Props:**
+
 ```typescript
 interface GuitarRecordingPanelProps {
   isRecording: boolean;
   recordingTime: number;
   recordedAudioUrl: string | null;
-  audioLevel: number;         // 0-100
+  audioLevel: number; // 0-100
   onStartRecording: () => void;
   onStopRecording: () => void;
   onAnalyze: () => void;
@@ -105,6 +107,7 @@ interface GuitarRecordingPanelProps {
 ```
 
 **Пример использования:**
+
 ```tsx
 <GuitarRecordingPanel
   isRecording={isRecording}
@@ -128,6 +131,7 @@ interface GuitarRecordingPanelProps {
 Canvas-based визуализация ритм-сетки с битами и сильными долями.
 
 **Возможности:**
+
 - Canvas рендеринг для производительности
 - Различие сильных долей (красные) и обычных битов (синие)
 - Интерактивный seek по клику
@@ -136,6 +140,7 @@ Canvas-based визуализация ритм-сетки с битами и с�
 - Встроенный audio player
 
 **Props:**
+
 ```typescript
 interface BeatGridVisualizerProps {
   beats: BeatData[];
@@ -147,6 +152,7 @@ interface BeatGridVisualizerProps {
 ```
 
 **Пример использования:**
+
 ```tsx
 <BeatGridVisualizer
   beats={analysisResult.beats}
@@ -166,6 +172,7 @@ interface BeatGridVisualizerProps {
 Интерактивная временная шкала с аккордами и навигацией.
 
 **Возможности:**
+
 - Горизонтальная timeline с цветовой кодировкой
 - Крупное отображение текущего аккорда (4xl font)
 - Навигация между аккордами (prev/next buttons)
@@ -174,6 +181,7 @@ interface BeatGridVisualizerProps {
 - Синхронизация с audio playback
 
 **Props:**
+
 ```typescript
 interface ChordProgressionTimelineProps {
   chords: ChordData[];
@@ -184,6 +192,7 @@ interface ChordProgressionTimelineProps {
 ```
 
 **Пример использования:**
+
 ```tsx
 <ChordProgressionTimeline
   chords={analysisResult.chords}
@@ -202,6 +211,7 @@ interface ChordProgressionTimelineProps {
 Мобильный интерфейс экспорта всех klang.io форматов.
 
 **Возможности:**
+
 - Поддержка всех форматов: MIDI, MIDI Quantized, GP5, MusicXML, PDF
 - Expandable карточки с детальной информацией
 - Web Share API для нативного шаринга
@@ -219,6 +229,7 @@ interface ChordProgressionTimelineProps {
 | PDF Ноты | .pdf | Печать, просмотр, архив |
 
 **Props:**
+
 ```typescript
 interface MidiExportPanelMobileProps {
   transcriptionFiles: TranscriptionFiles;
@@ -227,11 +238,9 @@ interface MidiExportPanelMobileProps {
 ```
 
 **Пример использования:**
+
 ```tsx
-<MidiExportPanelMobile
-  transcriptionFiles={analysisResult.transcriptionFiles}
-  midiUrl={analysisResult.midiUrl}
-/>
+<MidiExportPanelMobile transcriptionFiles={analysisResult.transcriptionFiles} midiUrl={analysisResult.midiUrl} />
 ```
 
 ---
@@ -243,6 +252,7 @@ interface MidiExportPanelMobileProps {
 Dialog для привязки анализа гитары к существующему треку.
 
 **Возможности:**
+
 - Поиск треков по названию/стилю
 - Preview треков с обложками
 - Badge индикаторы (Stems, длительность)
@@ -251,6 +261,7 @@ Dialog для привязки анализа гитары к существую
 - Auto-navigation после сохранения
 
 **Props:**
+
 ```typescript
 interface LinkToTrackDialogProps {
   open: boolean;
@@ -260,12 +271,9 @@ interface LinkToTrackDialogProps {
 ```
 
 **Пример использования:**
+
 ```tsx
-<LinkToTrackDialog
-  open={linkDialogOpen}
-  onOpenChange={setLinkDialogOpen}
-  analysisResult={analysisResult}
-/>
+<LinkToTrackDialog open={linkDialogOpen} onOpenChange={setLinkDialogOpen} analysisResult={analysisResult} />
 ```
 
 ---
@@ -277,6 +285,7 @@ interface LinkToTrackDialogProps {
 Компонент интеграции гитарного анализа в Stem Studio.
 
 **Возможности:**
+
 - Collapsible панель для экономии места
 - Tabs: Chords, Beats, Export
 - Completion status badges
@@ -285,6 +294,7 @@ interface LinkToTrackDialogProps {
 - Sync с playback state
 
 **Props:**
+
 ```typescript
 interface GuitarTrackIntegrationProps {
   analysisResult: GuitarAnalysisResult | null;
@@ -295,15 +305,18 @@ interface GuitarTrackIntegrationProps {
 ```
 
 **Пример использования:**
+
 ```tsx
-{guitarAnalysis && (
-  <GuitarTrackIntegration
-    analysisResult={guitarAnalysis}
-    trackId={trackId}
-    currentTime={currentTime}
-    isPlaying={isPlaying}
-  />
-)}
+{
+  guitarAnalysis && (
+    <GuitarTrackIntegration
+      analysisResult={guitarAnalysis}
+      trackId={trackId}
+      currentTime={currentTime}
+      isPlaying={isPlaying}
+    />
+  );
+}
 ```
 
 ---
@@ -317,6 +330,7 @@ interface GuitarTrackIntegrationProps {
 Hook для real-time мониторинга аудио уровня.
 
 **Особенности:**
+
 - Web Audio API (AudioContext, AnalyserNode)
 - RAF loop для плавных обновлений
 - Normalized output (0-100)
@@ -324,11 +338,13 @@ Hook для real-time мониторинга аудио уровня.
 - Graceful error handling
 
 **Использование:**
+
 ```typescript
 const audioLevel = useAudioLevel(mediaStream, isRecording);
 ```
 
 **Внутренняя логика:**
+
 ```typescript
 // Setup
 AudioContext → createMediaStreamSource → connect(AnalyserNode)
@@ -356,23 +372,27 @@ close AudioContext
 Hook для загрузки сохранённого анализа гитары для трека.
 
 **Особенности:**
+
 - TanStack Query integration
 - Storage path: `{userId}/guitar-analysis/{trackId}.json`
 - Caching: staleTime 5 мин, gcTime 30 мин
 - Auto-enabled при trackId
 
 **Использование:**
+
 ```typescript
 const { data: guitarAnalysis } = useTrackGuitarAnalysis(trackId);
 ```
 
 **Helper функция:**
+
 ```typescript
 // Сохранение анализа
 await saveGuitarAnalysisForTrack(trackId, analysis);
 ```
 
 **Storage структура:**
+
 ```json
 {
   "trackId": "uuid",
@@ -416,11 +436,13 @@ await saveGuitarAnalysisForTrack(trackId, analysis);
 Serverless функция для взаимодействия с klang.io API.
 
 **Endpoints:**
+
 - `/transcription` - Guitar/piano transcription
 - `/chord-recognition-extended` - Chord detection
 - `/beat-tracking` - Tempo and beat detection
 
 **Request:**
+
 ```typescript
 {
   audio_url: string;
@@ -479,12 +501,13 @@ Serverless функция для взаимодействия с klang.io API.
 ```
 
 **Parallel Processing:**
+
 ```typescript
 // Все три анализа выполняются параллельно
 const [beatResult, chordResult, transcriptionResult] = await Promise.all([
   beatTracking(),
   chordRecognition(),
-  transcription()
+  transcription(),
 ]);
 ```
 
@@ -680,6 +703,7 @@ Response:
 ### Common Issues
 
 **1. Microphone access denied**
+
 ```typescript
 // Check permissions
 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -687,31 +711,38 @@ const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 ```
 
 **2. Analysis timeout**
+
 ```typescript
 // Increase polling timeout in edge function
-const maxAttempts = mode === 'transcription' ? 90 : 60;
+const maxAttempts = mode === "transcription" ? 90 : 60;
 ```
 
 **3. Storage upload error**
+
 ```typescript
 // Check user authentication
-const { data: { user } } = await supabase.auth.getUser();
-if (!user) throw new Error('Not authenticated');
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+if (!user) throw new Error("Not authenticated");
 ```
 
 **4. klang.io API error 401**
+
 ```
 // Verify KLANGIO_API_KEY in Supabase environment variables
 // Edge Functions → Settings → Secrets
 ```
 
 **5. Audio level not updating**
+
 ```typescript
 // Ensure MediaStream is active and useAudioLevel is enabled
 const audioLevel = useAudioLevel(mediaStream, isRecording);
 ```
 
 **6. Only MIDI and MusicXML generated (PDF, GP5, MIDI Quantized missing)** ⚠️ **KNOWN ISSUE**
+
 ```
 // Issue: Klangio API generates only 2 out of 5 requested formats
 // Status: Under investigation with enhanced diagnostic logging
@@ -729,10 +760,12 @@ See [Diagnostic Logging Documentation](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.
 ## Recent Updates
 
 ### 2025-12-11: Diagnostic Logging Enhancement
+
 **PR**: [#149](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/149)
 **Status**: ✅ Merged to Main
 
 Added comprehensive diagnostic logging to investigate output format generation issues:
+
 - ✅ Enhanced logging at 5 critical points in Edge Function
 - ✅ Query parameters validation and construction logging
 - ✅ Complete endpoint URL logging before API submission
@@ -742,6 +775,7 @@ Added comprehensive diagnostic logging to investigate output format generation i
 **Purpose**: Determine why only MIDI and MusicXML are generated, but not PDF, GP5, or MIDI Quantized.
 
 **Testing Required**:
+
 1. Deploy Edge Function: `npx supabase functions deploy klangio-analyze`
 2. Record high-quality guitar audio (15-20 seconds)
 3. Run analysis and collect logs from Supabase Dashboard
@@ -750,9 +784,11 @@ Added comprehensive diagnostic logging to investigate output format generation i
 **Documentation**: See [KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](./KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md)
 
 ### 2025-12-11: MIME Type Support
+
 **Status**: ✅ Completed
 
 Fixed storage upload issues for music notation formats:
+
 - Added support for audio/midi, application/xml, application/pdf
 - Fixed MusicXML MIME type (changed from vnd.recordare to application/xml)
 - Enhanced file type validation and error handling
@@ -760,9 +796,11 @@ Fixed storage upload issues for music notation formats:
 **Documentation**: See [KLANG_IO_MIME_TYPE_FIX_2025-12-11.md](./KLANG_IO_MIME_TYPE_FIX_2025-12-11.md)
 
 ### 2025-12-10: Transcription UI Improvements
+
 **Status**: ✅ Completed
 
 Enhanced user interface with new components:
+
 - TranscriptionPreview with Sheet Music, Tablature, and MIDI tabs
 - AnalysisProgressStages with 4-stage progress indicator
 - TranscriptionToGenerationBridge for AI music generation integration
@@ -814,14 +852,17 @@ Enhanced user interface with new components:
 ## References
 
 ### Documentation
+
 - [KLANG.io Integration Overview](./KLANG_IO_INTEGRATION.md) - This document
 - [Russian API Guide](../KLANG_IO_API_GUIDE_RU.md) - Полное руководство по интеграции Klang.io API
 
 ### External APIs
+
 - [klang.io API Documentation](https://api.klang.io/docs)
 - [klang.io OpenAPI Specification](https://api.klang.io/openapi.json)
 
 ### Web Technologies
+
 - [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
 - [MediaRecorder API](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder)
 - [Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
@@ -829,6 +870,7 @@ Enhanced user interface with new components:
 - [TanStack Query](https://tanstack.com/query/latest)
 
 ### Pull Requests
+
 - [PR #149 - Diagnostic Logging Enhancement](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/149) - ✅ Merged
 
 ---

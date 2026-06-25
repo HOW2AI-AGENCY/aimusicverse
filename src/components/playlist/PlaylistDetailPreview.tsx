@@ -3,13 +3,13 @@
  * Shows playlist info, tracks list, and quick actions
  */
 
-import { memo } from 'react';
-import { Music2, Clock, Globe, Lock, Play, Pencil, Share2, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { LazyImage } from '@/components/ui/lazy-image';
-import { cn } from '@/lib/utils';
-import type { Playlist } from '@/hooks/usePlaylists';
+import { memo } from "react";
+import { Music2, Clock, Globe, Lock, Play, Pencil, Share2, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { LazyImage } from "@/components/ui/lazy-image";
+import { cn } from "@/lib/utils";
+import type { Playlist } from "@/hooks/usePlaylists";
 
 interface PlaylistDetailPreviewProps {
   playlist: Playlist;
@@ -32,11 +32,11 @@ function formatDuration(seconds: number): string {
 function getTrackWord(count: number): string {
   const lastTwo = count % 100;
   const lastOne = count % 10;
-  
-  if (lastTwo >= 11 && lastTwo <= 19) return 'треков';
-  if (lastOne === 1) return 'трек';
-  if (lastOne >= 2 && lastOne <= 4) return 'трека';
-  return 'треков';
+
+  if (lastTwo >= 11 && lastTwo <= 19) return "треков";
+  if (lastOne === 1) return "трек";
+  if (lastOne >= 2 && lastOne <= 4) return "трека";
+  return "треков";
 }
 
 export const PlaylistDetailPreview = memo(function PlaylistDetailPreview({
@@ -66,10 +66,10 @@ export const PlaylistDetailPreview = memo(function PlaylistDetailPreview({
             </div>
           )}
         </div>
-        
+
         <div className="flex-1 min-w-0">
           <h2 className="text-xl font-bold truncate">{playlist.title}</h2>
-          
+
           <div className="flex items-center gap-3 text-sm text-muted-foreground mt-2">
             <span className="flex items-center gap-1">
               {playlist.is_public ? (
@@ -85,9 +85,11 @@ export const PlaylistDetailPreview = memo(function PlaylistDetailPreview({
               )}
             </span>
           </div>
-          
+
           <div className="flex items-center gap-4 text-sm text-muted-foreground mt-1">
-            <span>{playlist.track_count ?? 0} {getTrackWord(playlist.track_count ?? 0)}</span>
+            <span>
+              {playlist.track_count ?? 0} {getTrackWord(playlist.track_count ?? 0)}
+            </span>
             {(playlist.total_duration ?? 0) > 0 && (
               <span className="flex items-center gap-1">
                 <Clock className="h-3 w-3" />
@@ -99,11 +101,7 @@ export const PlaylistDetailPreview = memo(function PlaylistDetailPreview({
       </div>
 
       {/* Description */}
-      {playlist.description && (
-        <p className="text-sm text-muted-foreground">
-          {playlist.description}
-        </p>
-      )}
+      {playlist.description && <p className="text-sm text-muted-foreground">{playlist.description}</p>}
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-2">
@@ -138,8 +136,7 @@ export const PlaylistDetailPreview = memo(function PlaylistDetailPreview({
           </p>
         ) : (
           <p className="text-sm text-muted-foreground py-4 text-center bg-muted/30 rounded-lg">
-            {playlist.track_count} {getTrackWord(playlist.track_count ?? 0)} • 
-            Нажмите "Редактировать" для управления
+            {playlist.track_count} {getTrackWord(playlist.track_count ?? 0)} • Нажмите "Редактировать" для управления
           </p>
         )}
       </div>

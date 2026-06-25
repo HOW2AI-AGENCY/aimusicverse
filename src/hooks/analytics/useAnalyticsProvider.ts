@@ -1,22 +1,22 @@
 /**
  * Analytics Provider Hook
- * 
+ *
  * Centralized analytics context for app-wide tracking.
  * Combines deeplink tracking, conversion tracking, and event tracking.
  */
 
-import { useEffect, useCallback, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { 
-  initializeDeeplinkTracker, 
+import { useEffect, useCallback, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useTelegram } from "@/contexts/TelegramContext";
+import {
+  initializeDeeplinkTracker,
   trackConversionStage,
   hasReachedStage,
   getDeeplinkContext,
   type ConversionStage,
-} from '@/lib/analytics/deeplink-tracker';
-import { getOrCreateSessionId } from '@/services/analytics';
+} from "@/lib/analytics/deeplink-tracker";
+import { getOrCreateSessionId } from "@/services/analytics";
 
 /**
  * Main analytics provider hook
@@ -38,7 +38,7 @@ export function useAnalyticsProvider() {
 
     // Get Telegram start param if available
     const startParam = webApp?.initDataUnsafe?.start_param;
-    
+
     // Initialize deeplink tracker
     initializeDeeplinkTracker({
       startParam,
@@ -52,9 +52,9 @@ export function useAnalyticsProvider() {
 
   // Track registration on user auth
   useEffect(() => {
-    if (user?.id && !hasReachedStage('registered')) {
-      trackConversionStage('registered', {
-        method: isTelegram ? 'telegram' : 'web',
+    if (user?.id && !hasReachedStage("registered")) {
+      trackConversionStage("registered", {
+        method: isTelegram ? "telegram" : "web",
         telegram_id: telegramId,
       }).catch(() => {});
     }
@@ -62,10 +62,10 @@ export function useAnalyticsProvider() {
 
   // Auto-track engagement after 30 seconds
   useEffect(() => {
-    if (hasReachedStage('engaged')) return;
+    if (hasReachedStage("engaged")) return;
 
     const timer = setTimeout(() => {
-      trackConversionStage('engaged', {
+      trackConversionStage("engaged", {
         time_on_site: 30,
         page: location.pathname,
       }).catch(() => {});
@@ -75,10 +75,7 @@ export function useAnalyticsProvider() {
   }, [location.pathname]);
 
   // Track conversions
-  const trackConversion = useCallback(async (
-    stage: ConversionStage,
-    metadata?: Record<string, unknown>
-  ) => {
+  const trackConversion = useCallback(async (stage: ConversionStage, metadata?: Record<string, unknown>) => {
     if (!hasReachedStage(stage)) {
       await trackConversionStage(stage, metadata);
     }
@@ -96,22 +93,19 @@ export function useAnalyticsProvider() {
  * Lightweight hook for components that need conversion tracking
  */
 export function useConversion() {
-  const track = useCallback(async (
-    stage: ConversionStage, 
-    metadata?: Record<string, unknown>
-  ) => {
+  const track = useCallback(async (stage: ConversionStage, metadata?: Record<string, unknown>) => {
     if (!hasReachedStage(stage)) {
       await trackConversionStage(stage, metadata);
     }
   }, []);
 
   return {
-    trackEngagement: () => track('engaged'),
-    trackRegistration: () => track('registered'),
-    trackFirstAction: (action: string) => track('first_action', { action }),
-    trackGeneration: (mode: string) => track('generation', { mode }),
-    trackCompleted: (trackId?: string) => track('completed', { track_id: trackId }),
-    trackPayment: (amount: number, type: string) => track('payment', { amount, type }),
-    trackRetained: () => track('retained'),
+    trackEngagement: () => track("engaged"),
+    trackRegistration: () => track("registered"),
+    trackFirstAction: (action: string) => track("first_action", { action }),
+    trackGeneration: (mode: string) => track("generation", { mode }),
+    trackCompleted: (trackId?: string) => track("completed", { track_id: trackId }),
+    trackPayment: (amount: number, type: string) => track("payment", { amount, type }),
+    trackRetained: () => track("retained"),
   };
 }

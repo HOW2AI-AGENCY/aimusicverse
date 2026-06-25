@@ -1,18 +1,18 @@
 /**
  * ContinueDraftCard - Shows saved draft on homepage
  * Feature: 032-professional-ui
- * 
+ *
  * Prompts user to continue where they left off
  * Uses design system glass tokens
  */
 
-import { memo, useEffect, useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Sparkles, ArrowRight, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { glass, gradientGlass } from '@/lib/glass';
+import { memo, useEffect, useState } from "react";
+import { motion } from "@/lib/motion";
+import { Sparkles, ArrowRight, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { glass, gradientGlass } from "@/lib/glass";
 
 interface DraftData {
   mode: string;
@@ -22,7 +22,7 @@ interface DraftData {
   savedAt: number;
 }
 
-const DRAFT_KEY = 'generate-music-draft';
+const DRAFT_KEY = "generate-music-draft";
 const DRAFT_EXPIRY_MS = 30 * 60 * 1000; // 30 minutes
 
 interface ContinueDraftCardProps {
@@ -30,10 +30,7 @@ interface ContinueDraftCardProps {
   className?: string;
 }
 
-export const ContinueDraftCard = memo(function ContinueDraftCard({
-  onContinue,
-  className,
-}: ContinueDraftCardProps) {
+export const ContinueDraftCard = memo(function ContinueDraftCard({ onContinue, className }: ContinueDraftCardProps) {
   const { hapticFeedback } = useTelegram();
   const [draft, setDraft] = useState<DraftData | null>(null);
   const [dismissed, setDismissed] = useState(false);
@@ -44,10 +41,7 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({
       if (saved) {
         const parsed = JSON.parse(saved) as DraftData;
         // Check if not expired and has content
-        if (
-          Date.now() - parsed.savedAt < DRAFT_EXPIRY_MS &&
-          (parsed.description || parsed.title || parsed.style)
-        ) {
+        if (Date.now() - parsed.savedAt < DRAFT_EXPIRY_MS && (parsed.description || parsed.title || parsed.style)) {
           setDraft(parsed);
         }
       }
@@ -59,17 +53,17 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({
   if (!draft || dismissed) return null;
 
   const timeAgo = Math.round((Date.now() - draft.savedAt) / 60000);
-  const preview = draft.description || draft.title || draft.style || '';
-  const truncatedPreview = preview.length > 50 ? preview.slice(0, 50) + '...' : preview;
+  const preview = draft.description || draft.title || draft.style || "";
+  const truncatedPreview = preview.length > 50 ? preview.slice(0, 50) + "..." : preview;
 
   const handleContinue = () => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     onContinue();
   };
 
   const handleDismiss = (e: React.MouseEvent) => {
     e.stopPropagation();
-    hapticFeedback('light');
+    hapticFeedback("light");
     setDismissed(true);
     localStorage.removeItem(DRAFT_KEY);
   };
@@ -80,11 +74,7 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.15 }}
-      className={cn(
-        "relative rounded-xl overflow-hidden p-2.5 sm:p-3",
-        gradientGlass.primary,
-        className
-      )}
+      className={cn("relative rounded-xl overflow-hidden p-2.5 sm:p-3", gradientGlass.primary, className)}
     >
       {/* Dismiss button */}
       <button
@@ -103,9 +93,7 @@ export const ContinueDraftCard = memo(function ContinueDraftCard({
 
         {/* Content */}
         <div className="flex-1 min-w-0">
-          <p className="text-xs sm:text-sm font-medium text-foreground">
-            Продолжить создание?
-          </p>
+          <p className="text-xs sm:text-sm font-medium text-foreground">Продолжить создание?</p>
           <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
             {truncatedPreview}
             <span className="opacity-60"> • {timeAgo}м</span>

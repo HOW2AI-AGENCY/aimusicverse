@@ -3,18 +3,18 @@
  * Uses design system tokens (Spec 032)
  */
 
-import { useState, useMemo } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Search, Palette, Sparkles, Music, Check, TrendingUp } from 'lucide-react';
-import { EmptyState } from '@/components/common/EmptyState';
-import { cn } from '@/lib/utils';
-import { useSavedStylePresets } from '@/hooks/usePromptHistorySync';
-import { QUICK_MIX_PRESETS, GENRE_PRESETS, MOOD_PRESETS } from '@/lib/prompt-dj-presets';
-import { glass } from '@/lib/glass';
+import { useState, useMemo } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Search, Palette, Sparkles, Music, Check, TrendingUp } from "lucide-react";
+import { EmptyState } from "@/components/common/EmptyState";
+import { cn } from "@/lib/utils";
+import { useSavedStylePresets } from "@/hooks/usePromptHistorySync";
+import { QUICK_MIX_PRESETS, GENRE_PRESETS, MOOD_PRESETS } from "@/lib/prompt-dj-presets";
+import { glass } from "@/lib/glass";
 
 interface StylePresetSelectorProps {
   open: boolean;
@@ -23,61 +23,56 @@ interface StylePresetSelectorProps {
   currentStyle?: string;
 }
 
-export function StylePresetSelector({
-  open,
-  onOpenChange,
-  onSelect,
-  currentStyle,
-}: StylePresetSelectorProps) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState<'quick' | 'genres' | 'saved'>('quick');
+export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle }: StylePresetSelectorProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState<"quick" | "genres" | "saved">("quick");
   const { presets: savedPresets, isLoading } = useSavedStylePresets();
 
   const filteredQuickMixes = useMemo(() => {
     if (!searchQuery) return QUICK_MIX_PRESETS;
     const query = searchQuery.toLowerCase();
     return QUICK_MIX_PRESETS.filter(
-      p => p.label.toLowerCase().includes(query) ||
-           p.genreA?.toLowerCase().includes(query) ||
-           p.mood?.toLowerCase().includes(query)
+      (p) =>
+        p.label.toLowerCase().includes(query) ||
+        p.genreA?.toLowerCase().includes(query) ||
+        p.mood?.toLowerCase().includes(query),
     );
   }, [searchQuery]);
 
   const filteredGenres = useMemo(() => {
     if (!searchQuery) return GENRE_PRESETS;
     const query = searchQuery.toLowerCase();
-    return GENRE_PRESETS.filter(p => p.label.toLowerCase().includes(query));
+    return GENRE_PRESETS.filter((p) => p.label.toLowerCase().includes(query));
   }, [searchQuery]);
 
   const filteredSaved = useMemo(() => {
     if (!searchQuery) return savedPresets;
     const query = searchQuery.toLowerCase();
     return savedPresets.filter(
-      (p: any) => p.name?.toLowerCase().includes(query) ||
-           p.template_text?.toLowerCase().includes(query)
+      (p: any) => p.name?.toLowerCase().includes(query) || p.template_text?.toLowerCase().includes(query),
     );
   }, [searchQuery, savedPresets]);
 
-  const handleQuickMixSelect = (preset: typeof QUICK_MIX_PRESETS[0]) => {
+  const handleQuickMixSelect = (preset: (typeof QUICK_MIX_PRESETS)[0]) => {
     const styleParts: string[] = [];
     if (preset.genreA) styleParts.push(preset.genreA);
     if (preset.genreB) styleParts.push(preset.genreB);
     if (preset.mood) {
-      const moodPreset = MOOD_PRESETS.find(m => m.id === preset.mood);
+      const moodPreset = MOOD_PRESETS.find((m) => m.id === preset.mood);
       if (moodPreset) styleParts.push(moodPreset.label);
     }
     if (preset.style) styleParts.push(preset.style);
     if (preset.bpm) styleParts.push(`${preset.bpm} BPM`);
     if (preset.instruments?.length) {
-      styleParts.push(preset.instruments.join(', '));
+      styleParts.push(preset.instruments.join(", "));
     }
-    
-    const style = styleParts.join(', ');
+
+    const style = styleParts.join(", ");
     onSelect(style, preset.instruments);
     onOpenChange(false);
   };
 
-  const handleGenreSelect = (genre: typeof GENRE_PRESETS[0]) => {
+  const handleGenreSelect = (genre: (typeof GENRE_PRESETS)[0]) => {
     onSelect(genre.label);
     onOpenChange(false);
   };
@@ -100,27 +95,27 @@ export function StylePresetSelector({
         {/* Tabs */}
         <div className="flex gap-2 mt-3 shrink-0">
           <Button
-            variant={activeTab === 'quick' ? 'default' : 'outline'}
+            variant={activeTab === "quick" ? "default" : "outline"}
             size="sm"
-            onClick={() => setActiveTab('quick')}
+            onClick={() => setActiveTab("quick")}
             className="flex-1 gap-1.5"
           >
             <Sparkles className="w-3.5 h-3.5" />
             Быстрые
           </Button>
           <Button
-            variant={activeTab === 'genres' ? 'default' : 'outline'}
+            variant={activeTab === "genres" ? "default" : "outline"}
             size="sm"
-            onClick={() => setActiveTab('genres')}
+            onClick={() => setActiveTab("genres")}
             className="flex-1 gap-1.5"
           >
             <Music className="w-3.5 h-3.5" />
             Жанры
           </Button>
           <Button
-            variant={activeTab === 'saved' ? 'default' : 'outline'}
+            variant={activeTab === "saved" ? "default" : "outline"}
             size="sm"
-            onClick={() => setActiveTab('saved')}
+            onClick={() => setActiveTab("saved")}
             className="flex-1 gap-1.5"
           >
             <TrendingUp className="w-3.5 h-3.5" />
@@ -146,19 +141,19 @@ export function StylePresetSelector({
 
         {/* Content */}
         <ScrollArea className="flex-1 mt-3">
-          {activeTab === 'quick' && (
+          {activeTab === "quick" && (
             <div className="grid grid-cols-2 gap-2 pb-4">
               {filteredQuickMixes.map((preset) => (
-                  <button
-                    key={preset.id}
-                    onClick={() => handleQuickMixSelect(preset)}
-                    className={cn(
-                      "p-3 rounded-xl text-left transition-all min-h-[56px]",
-                      glass.subtle,
-                      "hover:ring-1 hover:ring-primary/30 hover:scale-[1.01]",
-                      "focus:outline-none focus:ring-2 focus:ring-primary/50",
-                      "touch-manipulation active:scale-[0.98]"
-                    )}
+                <button
+                  key={preset.id}
+                  onClick={() => handleQuickMixSelect(preset)}
+                  className={cn(
+                    "p-3 rounded-xl text-left transition-all min-h-[56px]",
+                    glass.subtle,
+                    "hover:ring-1 hover:ring-primary/30 hover:scale-[1.01]",
+                    "focus:outline-none focus:ring-2 focus:ring-primary/50",
+                    "touch-manipulation active:scale-[0.98]",
+                  )}
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <span className="text-lg flex-shrink-0">{preset.emoji}</span>
@@ -172,7 +167,7 @@ export function StylePresetSelector({
                     )}
                     {preset.mood && (
                       <Badge variant="secondary" className="text-[10px] h-4 truncate max-w-[80px]">
-                        {MOOD_PRESETS.find(m => m.id === preset.mood)?.label || preset.mood}
+                        {MOOD_PRESETS.find((m) => m.id === preset.mood)?.label || preset.mood}
                       </Badge>
                     )}
                   </div>
@@ -181,7 +176,7 @@ export function StylePresetSelector({
             </div>
           )}
 
-          {activeTab === 'genres' && (
+          {activeTab === "genres" && (
             <div className="grid grid-cols-3 gap-2 pb-4">
               {filteredGenres.map((genre) => (
                 <button
@@ -194,7 +189,7 @@ export function StylePresetSelector({
                     "focus:outline-none focus:ring-2 focus:ring-primary/50",
                     "touch-manipulation active:scale-[0.98]",
                     currentStyle?.toLowerCase().includes(genre.label.toLowerCase()) &&
-                      "ring-1 ring-primary bg-primary/10"
+                      "ring-1 ring-primary bg-primary/10",
                   )}
                 >
                   <p className="text-xs font-medium truncate">{genre.label}</p>
@@ -203,7 +198,7 @@ export function StylePresetSelector({
             </div>
           )}
 
-          {activeTab === 'saved' && (
+          {activeTab === "saved" && (
             <div className="space-y-2 pb-4">
               {isLoading ? (
                 <div className="flex items-center justify-center py-8">
@@ -212,7 +207,7 @@ export function StylePresetSelector({
               ) : filteredSaved.length === 0 ? (
                 <EmptyState
                   icon={Palette}
-                  title={searchQuery ? 'Ничего не найдено' : 'Нет сохранённых стилей'}
+                  title={searchQuery ? "Ничего не найдено" : "Нет сохранённых стилей"}
                   description="Сохраняйте любимые стили при генерации для быстрого доступа"
                   variant="compact"
                   animated={false}
@@ -225,15 +220,13 @@ export function StylePresetSelector({
                     className={cn(
                       "w-full p-3 rounded-xl text-left transition-all",
                       glass.subtle,
-                      "hover:ring-1 hover:ring-primary/30"
+                      "hover:ring-1 hover:ring-primary/30",
                     )}
                   >
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-medium truncate">{preset.name}</h4>
-                        <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">
-                          {preset.template_text}
-                        </p>
+                        <p className="text-xs text-muted-foreground line-clamp-2 mt-0.5">{preset.template_text}</p>
                       </div>
                       {preset.usage_count > 0 && (
                         <Badge variant="outline" className="text-[10px] h-5 shrink-0">

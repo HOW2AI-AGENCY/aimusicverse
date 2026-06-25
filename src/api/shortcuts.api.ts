@@ -7,7 +7,7 @@
  * Following the API contract from specs/031-mobile-studio-v2/contracts/api-contracts.md
  */
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 
 /**
  * Keyboard shortcut key binding definition
@@ -89,34 +89,34 @@ export interface ShortcutsError {
  */
 export const DEFAULT_SHORTCUTS: ShortcutsConfig = {
   studio: {
-    play_pause: { key: ' ', ctrl: false, shift: false },
-    stop: { key: '.', ctrl: false, shift: false },
-    save: { key: 's', ctrl: true, shift: false },
-    save_as: { key: 's', ctrl: true, shift: true },
-    undo: { key: 'z', ctrl: true, shift: false },
-    redo: { key: 'z', ctrl: true, shift: true },
-    export: { key: 'e', ctrl: true, shift: false },
-    import: { key: 'i', ctrl: true, shift: false },
+    play_pause: { key: " ", ctrl: false, shift: false },
+    stop: { key: ".", ctrl: false, shift: false },
+    save: { key: "s", ctrl: true, shift: false },
+    save_as: { key: "s", ctrl: true, shift: true },
+    undo: { key: "z", ctrl: true, shift: false },
+    redo: { key: "z", ctrl: true, shift: true },
+    export: { key: "e", ctrl: true, shift: false },
+    import: { key: "i", ctrl: true, shift: false },
   },
   lyrics: {
-    ai_assist: { key: 'a', ctrl: true, shift: false },
-    format: { key: 'f', ctrl: true, shift: false },
-    new_line: { key: 'Enter', ctrl: false, shift: false },
-    new_section: { key: 'Enter', ctrl: true, shift: false },
+    ai_assist: { key: "a", ctrl: true, shift: false },
+    format: { key: "f", ctrl: true, shift: false },
+    new_line: { key: "Enter", ctrl: false, shift: false },
+    new_section: { key: "Enter", ctrl: true, shift: false },
   },
   mixer: {
-    volume_up: { key: 'ArrowUp', ctrl: false, shift: false },
-    volume_down: { key: 'ArrowDown', ctrl: false, shift: false },
-    pan_left: { key: 'ArrowLeft', ctrl: false, shift: false },
-    pan_right: { key: 'ArrowRight', ctrl: false, shift: false },
-    solo_toggle: { key: 's', ctrl: false, shift: false },
-    mute_toggle: { key: 'm', ctrl: false, shift: false },
+    volume_up: { key: "ArrowUp", ctrl: false, shift: false },
+    volume_down: { key: "ArrowDown", ctrl: false, shift: false },
+    pan_left: { key: "ArrowLeft", ctrl: false, shift: false },
+    pan_right: { key: "ArrowRight", ctrl: false, shift: false },
+    solo_toggle: { key: "s", ctrl: false, shift: false },
+    mute_toggle: { key: "m", ctrl: false, shift: false },
   },
   general: {
-    search: { key: 'k', ctrl: true, shift: false },
-    settings: { key: ',', ctrl: true, shift: false },
-    help: { key: '?', ctrl: false, shift: false },
-    fullscreen: { key: 'f', ctrl: true, shift: false },
+    search: { key: "k", ctrl: true, shift: false },
+    settings: { key: ",", ctrl: true, shift: false },
+    help: { key: "?", ctrl: false, shift: false },
+    fullscreen: { key: "f", ctrl: true, shift: false },
   },
 };
 
@@ -135,14 +135,12 @@ export const DEFAULT_SHORTCUTS: ShortcutsConfig = {
  * console.log(shortcuts.studio?.play_pause); // { key: ' ', ctrl: false, shift: false }
  * ```
  */
-export async function getShortcuts(
-  userId: string
-): Promise<GetShortcutsResponse> {
+export async function getShortcuts(userId: string): Promise<GetShortcutsResponse> {
   try {
     const { data, error } = await supabase
-      .from('profiles')
-      .select('keyboard_shortcuts')
-      .eq('user_id', userId)
+      .from("profiles")
+      .select("keyboard_shortcuts")
+      .eq("user_id", userId)
       .maybeSingle();
 
     if (error) {
@@ -156,9 +154,7 @@ export async function getShortcuts(
       shortcuts: shortcuts || DEFAULT_SHORTCUTS,
     };
   } catch (error) {
-    throw new Error(
-      `Failed to fetch shortcuts: ${error instanceof Error ? error.message : 'Unknown error'}`
-    );
+    throw new Error(`Failed to fetch shortcuts: ${error instanceof Error ? error.message : "Unknown error"}`);
   }
 }
 
@@ -185,16 +181,16 @@ export async function getShortcuts(
  */
 export async function updateShortcuts(
   userId: string,
-  request: UpdateShortcutsRequest
+  request: UpdateShortcutsRequest,
 ): Promise<UpdateShortcutsResponse> {
   try {
     // Validate shortcuts structure
     validateShortcutsConfig(request.shortcuts);
 
     const { error } = await supabase
-      .from('profiles')
+      .from("profiles")
       .update({ keyboard_shortcuts: request.shortcuts as unknown as unknown })
-      .eq('user_id', userId);
+      .eq("user_id", userId);
 
     if (error) {
       throw new Error(`Failed to update shortcuts: ${error.message}`);
@@ -202,9 +198,7 @@ export async function updateShortcuts(
 
     return { success: true };
   } catch (error) {
-    throw new Error(
-      `Failed to update shortcuts: ${error instanceof Error ? error.message : 'Unknown error'}`
-    );
+    throw new Error(`Failed to update shortcuts: ${error instanceof Error ? error.message : "Unknown error"}`);
   }
 }
 
@@ -223,14 +217,12 @@ export async function updateShortcuts(
  * console.log(shortcuts); // Default shortcuts configuration
  * ```
  */
-export async function resetShortcuts(
-  userId: string
-): Promise<ResetShortcutsResponse> {
+export async function resetShortcuts(userId: string): Promise<ResetShortcutsResponse> {
   try {
     const { error } = await supabase
-      .from('profiles')
+      .from("profiles")
       .update({ keyboard_shortcuts: DEFAULT_SHORTCUTS as unknown as unknown })
-      .eq('user_id', userId);
+      .eq("user_id", userId);
 
     if (error) {
       throw new Error(`Failed to reset shortcuts: ${error.message}`);
@@ -240,9 +232,7 @@ export async function resetShortcuts(
       shortcuts: DEFAULT_SHORTCUTS,
     };
   } catch (error) {
-    throw new Error(
-      `Failed to reset shortcuts: ${error instanceof Error ? error.message : 'Unknown error'}`
-    );
+    throw new Error(`Failed to reset shortcuts: ${error instanceof Error ? error.message : "Unknown error"}`);
   }
 }
 
@@ -255,55 +245,43 @@ export async function resetShortcuts(
  * @internal
  */
 function validateShortcutsConfig(shortcuts: ShortcutsConfig): void {
-  if (!shortcuts || typeof shortcuts !== 'object') {
-    throw new Error('Shortcuts must be an object');
+  if (!shortcuts || typeof shortcuts !== "object") {
+    throw new Error("Shortcuts must be an object");
   }
 
   // Validate each category
   for (const [category, actions] of Object.entries(shortcuts)) {
-    if (!actions || typeof actions !== 'object') {
+    if (!actions || typeof actions !== "object") {
       throw new Error(`Shortcut category "${category}" must be an object`);
     }
 
     // Validate each action in category
     for (const [action, keyBinding] of Object.entries(actions)) {
-      if (!keyBinding || typeof keyBinding !== 'object') {
-        throw new Error(
-          `Shortcut "${category}.${action}" must be an object`
-        );
+      if (!keyBinding || typeof keyBinding !== "object") {
+        throw new Error(`Shortcut "${category}.${action}" must be an object`);
       }
 
       const binding = keyBinding as ShortcutKey;
 
-      if (typeof binding.key !== 'string' || binding.key.length === 0) {
-        throw new Error(
-          `Shortcut "${category}.${action}" must have a valid key`
-        );
+      if (typeof binding.key !== "string" || binding.key.length === 0) {
+        throw new Error(`Shortcut "${category}.${action}" must have a valid key`);
       }
 
-      if (typeof binding.ctrl !== 'boolean') {
-        throw new Error(
-          `Shortcut "${category}.${action}" must have a boolean ctrl value`
-        );
+      if (typeof binding.ctrl !== "boolean") {
+        throw new Error(`Shortcut "${category}.${action}" must have a boolean ctrl value`);
       }
 
-      if (typeof binding.shift !== 'boolean') {
-        throw new Error(
-          `Shortcut "${category}.${action}" must have a boolean shift value`
-        );
+      if (typeof binding.shift !== "boolean") {
+        throw new Error(`Shortcut "${category}.${action}" must have a boolean shift value`);
       }
 
       // Optional modifiers
-      if (binding.alt !== undefined && typeof binding.alt !== 'boolean') {
-        throw new Error(
-          `Shortcut "${category}.${action}" must have a boolean alt value if provided`
-        );
+      if (binding.alt !== undefined && typeof binding.alt !== "boolean") {
+        throw new Error(`Shortcut "${category}.${action}" must have a boolean alt value if provided`);
       }
 
-      if (binding.meta !== undefined && typeof binding.meta !== 'boolean') {
-        throw new Error(
-          `Shortcut "${category}.${action}" must have a boolean meta value if provided`
-        );
+      if (binding.meta !== undefined && typeof binding.meta !== "boolean") {
+        throw new Error(`Shortcut "${category}.${action}" must have a boolean meta value if provided`);
       }
     }
   }
@@ -330,10 +308,7 @@ function validateShortcutsConfig(shortcuts: ShortcutsConfig): void {
  * });
  * ```
  */
-export function matchesShortcut(
-  event: KeyboardEvent,
-  shortcut: ShortcutKey | undefined
-): boolean {
+export function matchesShortcut(event: KeyboardEvent, shortcut: ShortcutKey | undefined): boolean {
   if (!shortcut) return false;
 
   return (
@@ -361,16 +336,16 @@ export function matchesShortcut(
 export function formatShortcut(shortcut: ShortcutKey): string {
   const parts: string[] = [];
 
-  if (shortcut.ctrl) parts.push('Ctrl');
-  if (shortcut.shift) parts.push('Shift');
-  if (shortcut.alt) parts.push('Alt');
-  if (shortcut.meta) parts.push('Meta');
+  if (shortcut.ctrl) parts.push("Ctrl");
+  if (shortcut.shift) parts.push("Shift");
+  if (shortcut.alt) parts.push("Alt");
+  if (shortcut.meta) parts.push("Meta");
 
   // Format special keys
-  const keyDisplay = shortcut.key === ' ' ? 'Space' : shortcut.key;
+  const keyDisplay = shortcut.key === " " ? "Space" : shortcut.key;
   parts.push(keyDisplay);
 
-  return parts.join('+');
+  return parts.join("+");
 }
 
 /**
@@ -388,7 +363,7 @@ export function formatShortcut(shortcut: ShortcutKey): string {
  */
 export function mergeShortcuts(
   userShortcuts: Partial<ShortcutsConfig>,
-  defaults: ShortcutsConfig = DEFAULT_SHORTCUTS
+  defaults: ShortcutsConfig = DEFAULT_SHORTCUTS,
 ): ShortcutsConfig {
   const merged: ShortcutsConfig = { ...defaults };
 

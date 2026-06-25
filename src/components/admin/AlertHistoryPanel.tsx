@@ -1,35 +1,29 @@
-import { useState } from 'react';
-import { useHealthAlerts, useResolveAlert, useAlertStats } from '@/hooks/useHealthAlerts';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useState } from "react";
+import { useHealthAlerts, useResolveAlert, useAlertStats } from "@/hooks/useHealthAlerts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import { 
-  AlertTriangle, 
-  CheckCircle2, 
-  XCircle, 
+  AlertTriangle,
+  CheckCircle2,
+  XCircle,
   Clock,
   Bell,
   RefreshCw,
   History,
   AlertOctagon,
-  TestTube
-} from 'lucide-react';
-import { formatDistanceToNow, format, ru } from '@/lib/date-utils';
-import { toast } from 'sonner';
+  TestTube,
+} from "lucide-react";
+import { formatDistanceToNow, format, ru } from "@/lib/date-utils";
+import { toast } from "sonner";
 
 const statusConfig = {
-  unhealthy: { icon: XCircle, color: 'text-red-500', bg: 'bg-red-500/10', label: 'Critical' },
-  degraded: { icon: AlertTriangle, color: 'text-yellow-500', bg: 'bg-yellow-500/10', label: 'Warning' },
-  healthy: { icon: CheckCircle2, color: 'text-green-500', bg: 'bg-green-500/10', label: 'Healthy' },
+  unhealthy: { icon: XCircle, color: "text-red-500", bg: "bg-red-500/10", label: "Critical" },
+  degraded: { icon: AlertTriangle, color: "text-yellow-500", bg: "bg-yellow-500/10", label: "Warning" },
+  healthy: { icon: CheckCircle2, color: "text-green-500", bg: "bg-green-500/10", label: "Healthy" },
 };
 
 export function AlertHistoryPanel() {
@@ -38,19 +32,19 @@ export function AlertHistoryPanel() {
   const resolveAlert = useResolveAlert();
   const [resolveDialogOpen, setResolveDialogOpen] = useState(false);
   const [selectedAlertId, setSelectedAlertId] = useState<string | null>(null);
-  const [resolutionNote, setResolutionNote] = useState('');
+  const [resolutionNote, setResolutionNote] = useState("");
 
   const handleResolve = async () => {
     if (!selectedAlertId) return;
-    
+
     try {
       await resolveAlert.mutateAsync({ id: selectedAlertId, note: resolutionNote });
-      toast.success('Инцидент отмечен как решённый');
+      toast.success("Инцидент отмечен как решённый");
       setResolveDialogOpen(false);
       setSelectedAlertId(null);
-      setResolutionNote('');
+      setResolutionNote("");
     } catch {
-      toast.error('Ошибка при обновлении');
+      toast.error("Ошибка при обновлении");
     }
   };
 
@@ -80,14 +74,16 @@ export function AlertHistoryPanel() {
             </div>
           </CardContent>
         </Card>
-        <Card className={stats?.unresolved ? 'border-red-500/50' : ''}>
+        <Card className={stats?.unresolved ? "border-red-500/50" : ""}>
           <CardContent className="p-2 sm:p-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
               <div className="min-w-0">
                 <div className="text-xl sm:text-2xl font-bold">{stats?.unresolved || 0}</div>
                 <div className="text-[10px] sm:text-xs text-muted-foreground truncate">Нерешённых</div>
               </div>
-              <AlertOctagon className={`hidden sm:block h-8 w-8 ${stats?.unresolved ? 'text-red-500' : 'text-muted-foreground/30'}`} />
+              <AlertOctagon
+                className={`hidden sm:block h-8 w-8 ${stats?.unresolved ? "text-red-500" : "text-muted-foreground/30"}`}
+              />
             </div>
           </CardContent>
         </Card>
@@ -101,7 +97,7 @@ export function AlertHistoryPanel() {
             История алертов
           </CardTitle>
           <Button variant="ghost" size="sm" onClick={() => refetch()}>
-            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
           </Button>
         </CardHeader>
         <CardContent>
@@ -110,30 +106,27 @@ export function AlertHistoryPanel() {
               <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />
             </div>
           ) : !alerts?.length ? (
-            <div className="text-center py-8 text-muted-foreground">
-              Нет алертов
-            </div>
+            <div className="text-center py-8 text-muted-foreground">Нет алертов</div>
           ) : (
             <ScrollArea className="h-[300px] sm:h-[400px]">
               <div className="space-y-2 sm:space-y-3">
                 {alerts.map((alert) => {
-                  const config = statusConfig[alert.overall_status as keyof typeof statusConfig] || statusConfig.healthy;
+                  const config =
+                    statusConfig[alert.overall_status as keyof typeof statusConfig] || statusConfig.healthy;
                   const StatusIcon = config.icon;
                   const isResolved = !!alert.resolved_at;
-                  
+
                   return (
                     <div
                       key={alert.id}
-                      className={`p-2 sm:p-3 rounded-lg border ${config.bg} ${isResolved ? 'opacity-60' : ''}`}
+                      className={`p-2 sm:p-3 rounded-lg border ${config.bg} ${isResolved ? "opacity-60" : ""}`}
                     >
                       <div className="flex items-start justify-between gap-2 sm:gap-3">
                         <div className="flex items-start gap-2 sm:gap-3 min-w-0 flex-1">
                           <StatusIcon className={`h-4 w-4 sm:h-5 sm:w-5 mt-0.5 flex-shrink-0 ${config.color}`} />
                           <div className="space-y-1 min-w-0">
                             <div className="flex flex-wrap items-center gap-1 sm:gap-2">
-                              <span className="font-medium text-sm sm:text-base">
-                                {config.label}
-                              </span>
+                              <span className="font-medium text-sm sm:text-base">{config.label}</span>
                               {alert.is_test && (
                                 <Badge variant="outline" className="text-[10px] sm:text-xs px-1 sm:px-2">
                                   <TestTube className="h-2.5 w-2.5 sm:h-3 sm:w-3 mr-0.5 sm:mr-1" />
@@ -150,28 +143,26 @@ export function AlertHistoryPanel() {
                                 </Badge>
                               )}
                             </div>
-                            
+
                             {(alert.unhealthy_services?.length ?? 0) > 0 && (
                               <div className="text-xs sm:text-sm text-red-500 truncate">
-                                ❌ {alert.unhealthy_services?.join(', ')}
+                                ❌ {alert.unhealthy_services?.join(", ")}
                               </div>
                             )}
                             {(alert.degraded_services?.length ?? 0) > 0 && (
                               <div className="text-xs sm:text-sm text-yellow-500 truncate">
-                                ⚠️ {alert.degraded_services?.join(', ')}
+                                ⚠️ {alert.degraded_services?.join(", ")}
                               </div>
                             )}
-                            
+
                             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-muted-foreground">
                               <span className="flex items-center gap-1">
                                 <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                                 {formatDistanceToNow(new Date(alert.created_at), { addSuffix: true, locale: ru })}
                               </span>
-                              <span className="hidden sm:inline">
-                                📨 {alert.recipients_count} получателей
-                              </span>
+                              <span className="hidden sm:inline">📨 {alert.recipients_count} получателей</span>
                             </div>
-                            
+
                             {alert.resolution_note && (
                               <div className="text-[10px] sm:text-xs text-green-600 mt-1 truncate">
                                 ✅ {alert.resolution_note}
@@ -179,7 +170,7 @@ export function AlertHistoryPanel() {
                             )}
                           </div>
                         </div>
-                        
+
                         {!isResolved && !alert.is_test && (
                           <Button
                             variant="outline"

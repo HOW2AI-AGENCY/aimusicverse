@@ -3,9 +3,9 @@
  * OPTIMIZED: Uses CSS animations for native-feeling performance
  */
 
-import { memo, ReactNode, useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { cn } from '@/lib/utils';
+import { memo, ReactNode, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 interface MobilePageTransitionProps {
   children: ReactNode;
@@ -24,23 +24,16 @@ export const MobilePageTransition = memo(function MobilePageTransition({
     // Reset and trigger animation on route change
     setIsVisible(false);
     setKey(location.pathname);
-    
+
     const id = requestAnimationFrame(() => {
       requestAnimationFrame(() => setIsVisible(true));
     });
-    
+
     return () => cancelAnimationFrame(id);
   }, [location.pathname]);
 
   return (
-    <div
-      key={key}
-      className={cn(
-        "mobile-page-transition",
-        isVisible && "mobile-page-visible",
-        className
-      )}
-    >
+    <div key={key} className={cn("mobile-page-transition", isVisible && "mobile-page-visible", className)}>
       {children}
     </div>
   );
@@ -74,17 +67,7 @@ export const MobileFadeTransition = memo(function MobileFadeTransition({
 
   if (!shouldRender) return null;
 
-  return (
-    <div
-      className={cn(
-        "mobile-fade-transition",
-        animating && "mobile-fade-visible",
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
+  return <div className={cn("mobile-fade-transition", animating && "mobile-fade-visible", className)}>{children}</div>;
 });
 
 // Slide up transition for bottom sheets
@@ -116,14 +99,6 @@ export const MobileSlideUpTransition = memo(function MobileSlideUpTransition({
   if (!shouldRender) return null;
 
   return (
-    <div
-      className={cn(
-        "mobile-slide-up-transition",
-        animating && "mobile-slide-visible",
-        className
-      )}
-    >
-      {children}
-    </div>
+    <div className={cn("mobile-slide-up-transition", animating && "mobile-slide-visible", className)}>{children}</div>
   );
 });

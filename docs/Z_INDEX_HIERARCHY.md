@@ -8,23 +8,23 @@ This document defines the z-index hierarchy used across the MusicVerse AI applic
 
 ### Z-Index Layers (Updated 2026-01-31)
 
-| Layer | Z-Index | Tailwind Class | Component Types | Examples |
-|-------|---------|----------------|-----------------|----------|
-| **Base Content** | 0 | `z-base` | Regular page content | Page backgrounds |
-| **Raised Content** | 10 | `z-raised` | Cards, panels | Track cards, content cards |
-| **Sticky Elements** | 20 | `z-sticky` | Headers, footers | `PageHeader`, sticky headers |
-| **Floating** | 30 | `z-floating` | Small overlays | Floating buttons |
-| **Overlay** | 40 | `z-overlay` | Backdrops | Sidebar backdrop |
-| **Navigation** | 50 | `z-navigation` | Bottom nav, sidebar | `BottomNavigation`, `Sidebar` |
-| **Player** | 60-61 | `z-player` | Music player | `CompactPlayer`, `ExpandedPlayer` |
-| **Contextual Hints** | 70 | `z-contextual` | Smart hints | `ContextualHint` |
-| **Fullscreen Overlays** | 90 | `z-fullscreen` | Major fullscreen UIs | `MobileFullscreenPlayer` |
-| **Dialogs** | 140 | `z-dialog` | Modal dialogs | `Dialog`, `AlertDialog` |
-| **Sheets** | 150-151 | `z-sheet-*` | Bottom sheets | `Sheet`, `Drawer`, `MobileBottomSheet` |
-| **Dropdowns/Popovers** | 200 | `z-dropdown` | Floating menus | `DropdownMenu`, `PopoverContent` |
-| **Tooltips** | 250 | `z-tooltip` | Tooltips | `TooltipContent` |
-| **Toasts/System** | 300 | `z-toast` | Notifications | `Sonner`, system alerts |
-| **Context Menu/Select** | 9999 | `z-max` | Context menus | `ContextMenuContent`, `SelectContent` |
+| Layer                   | Z-Index | Tailwind Class | Component Types      | Examples                               |
+| ----------------------- | ------- | -------------- | -------------------- | -------------------------------------- |
+| **Base Content**        | 0       | `z-base`       | Regular page content | Page backgrounds                       |
+| **Raised Content**      | 10      | `z-raised`     | Cards, panels        | Track cards, content cards             |
+| **Sticky Elements**     | 20      | `z-sticky`     | Headers, footers     | `PageHeader`, sticky headers           |
+| **Floating**            | 30      | `z-floating`   | Small overlays       | Floating buttons                       |
+| **Overlay**             | 40      | `z-overlay`    | Backdrops            | Sidebar backdrop                       |
+| **Navigation**          | 50      | `z-navigation` | Bottom nav, sidebar  | `BottomNavigation`, `Sidebar`          |
+| **Player**              | 60-61   | `z-player`     | Music player         | `CompactPlayer`, `ExpandedPlayer`      |
+| **Contextual Hints**    | 70      | `z-contextual` | Smart hints          | `ContextualHint`                       |
+| **Fullscreen Overlays** | 90      | `z-fullscreen` | Major fullscreen UIs | `MobileFullscreenPlayer`               |
+| **Dialogs**             | 140     | `z-dialog`     | Modal dialogs        | `Dialog`, `AlertDialog`                |
+| **Sheets**              | 150-151 | `z-sheet-*`    | Bottom sheets        | `Sheet`, `Drawer`, `MobileBottomSheet` |
+| **Dropdowns/Popovers**  | 200     | `z-dropdown`   | Floating menus       | `DropdownMenu`, `PopoverContent`       |
+| **Tooltips**            | 250     | `z-tooltip`    | Tooltips             | `TooltipContent`                       |
+| **Toasts/System**       | 300     | `z-toast`      | Notifications        | `Sonner`, system alerts                |
+| **Context Menu/Select** | 9999    | `z-max`        | Context menus        | `ContextMenuContent`, `SelectContent`  |
 
 ### Implementation Details
 
@@ -69,42 +69,50 @@ import { Z_INDEX } from '@/constants/z-index';
 ### Component-Specific Details
 
 #### Navigation (z-50)
+
 - **File**: `src/components/BottomNavigation.tsx`
 - **Class**: `z-navigation` or `z-50`
 - **Notes**: Island-style floating nav with blur backdrop
 
 #### Compact Player (z-60)
+
 - **File**: `src/components/player/CompactPlayer.tsx`
 - **Class**: `z-player`
 - **Notes**: Fixed bottom, above navigation
 
 #### Contextual Hints (z-70)
+
 - **File**: `src/components/hints/ContextualHint.tsx`
 - **Class**: `z-[70]`
 - **Notes**: Above player, below fullscreen
 
 #### Fullscreen Player (z-90)
+
 - **File**: `src/components/player/MobileFullscreenPlayer.tsx`
 - **Class**: `z-fullscreen`
 - **Notes**: Covers entire viewport
 
 #### Sheets (z-150/151)
+
 - **Files**: `src/components/ui/sheet.tsx`, `src/components/mobile/MobileBottomSheet.tsx`
 - **Backdrop**: `z-[150]`
 - **Content**: `z-[151]`
 - **Notes**: Above fullscreen but below dropdowns
 
 #### Dropdowns/Popovers (z-200)
+
 - **Files**: `src/components/ui/dropdown-menu.tsx`, `src/components/ui/popover.tsx`
 - **Class**: `z-dropdown` or `z-[200]`
 - **Notes**: Must appear above all content including sheets
 
 #### Context Menu (z-9999)
+
 - **File**: `src/components/ui/context-menu.tsx`
 - **Class**: `z-[9999]`
 - **Notes**: Legacy high z-index for guaranteed visibility
 
 #### Toasts (z-300)
+
 - **File**: `src/components/ui/sonner.tsx`
 - **Class**: `z-toast` or `z-[300]`
 - **Notes**: System-level notifications

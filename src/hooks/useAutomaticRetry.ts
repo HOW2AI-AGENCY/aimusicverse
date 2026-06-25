@@ -5,10 +5,10 @@
  * Provides retry logic for retryable errors with exponential backoff
  */
 
-import { useCallback, useState, useRef, useEffect } from 'react';
-import { logger } from '@/lib/logger';
-import { isRetryableError, getRetryDelay, mapSunoError } from '@/lib/suno-error-mapper';
-import { useAnalyticsTracking } from '@/hooks/useAnalyticsTracking';
+import { useCallback, useState, useRef, useEffect } from "react";
+import { logger } from "@/lib/logger";
+import { isRetryableError, getRetryDelay, mapSunoError } from "@/lib/suno-error-mapper";
+import { useAnalyticsTracking } from "@/hooks/useAnalyticsTracking";
 
 export interface RetryState {
   isRetrying: boolean;
@@ -31,12 +31,7 @@ const DEFAULT_MAX_RETRIES = 3;
  * Hook for automatic retry with exponential backoff
  */
 export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
-  const {
-    maxRetries = DEFAULT_MAX_RETRIES,
-    onRetry,
-    onRetrySuccess,
-    onRetryFailed,
-  } = options;
+  const { maxRetries = DEFAULT_MAX_RETRIES, onRetry, onRetrySuccess, onRetryFailed } = options;
 
   const { trackEvent } = useAnalyticsTracking();
 
@@ -77,13 +72,13 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
       countdownIntervalRef.current = null;
     }
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       isRetrying: false,
       nextRetryIn: null,
     }));
 
-    logger.info('Retry cancelled');
+    logger.info("Retry cancelled");
   }, []);
 
   /**
@@ -98,7 +93,7 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
         try {
           // Check if cancelled
           if (abortControllerRef.current?.signal.aborted) {
-            throw new Error('Retry cancelled');
+            throw new Error("Retry cancelled");
           }
 
           // Attempt the operation
@@ -108,14 +103,14 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
           if (attempt > 0) {
             onRetrySuccess?.(attempt);
             trackEvent({
-              eventType: 'feature_used',
-              eventName: 'retry_success',
+              eventType: "feature_used",
+              eventName: "retry_success",
               metadata: { attempt, maxRetries },
             });
-            logger.info('Retry succeeded', { attempt });
+            logger.info("Retry succeeded", { attempt });
           }
 
-          setState(prev => ({
+          setState((prev) => ({
             ...prev,
             isRetrying: false,
             retryCount: 0,
@@ -143,11 +138,11 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
             if (attempt >= maxRetries) {
               onRetryFailed?.(lastError, attempt);
               trackEvent({
-                eventType: 'feature_used',
-                eventName: 'retry_exhausted',
+                eventType: "feature_used",
+                eventName: "retry_exhausted",
                 metadata: { attempts: attempt, errorCode: mappedError.code },
               });
-              logger.error('All retries exhausted', {
+              logger.error("All retries exhausted", {
                 attempts: attempt,
                 error: mappedError.technical,
               });
@@ -159,7 +154,7 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
           // Wait before retrying
           const delay = getRetryDelay(attempt);
 
-          logger.info('Scheduling retry', {
+          logger.info("Scheduling retry", {
             attempt: attempt + 1,
             maxRetries,
             delay,
@@ -176,8 +171,8 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
 
           onRetry?.(attempt + 1);
           trackEvent({
-            eventType: 'feature_used',
-            eventName: 'retry_attempt',
+            eventType: "feature_used",
+            eventName: "retry_attempt",
             metadata: { attempt: attempt + 1, maxRetries, delay },
           });
 
@@ -187,7 +182,7 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
             const elapsed = Date.now() - startTime;
             const remaining = Math.max(0, delay - elapsed);
 
-            setState(prev => ({
+            setState((prev) => ({
               ...prev,
               nextRetryIn: remaining,
             }));
@@ -209,22 +204,22 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
             }, delay);
 
             // Handle abort
-            abortControllerRef.current?.signal.addEventListener('abort', () => {
+            abortControllerRef.current?.signal.addEventListener("abort", () => {
               clearTimeout(timeout);
               if (countdownIntervalRef.current) {
                 clearInterval(countdownIntervalRef.current);
                 countdownIntervalRef.current = null;
               }
-              reject(new Error('Retry cancelled'));
+              reject(new Error("Retry cancelled"));
             });
           });
         }
       }
 
       // Should never reach here, but TypeScript needs it
-      throw lastError || new Error('Unknown error during retry');
+      throw lastError || new Error("Unknown error during retry");
     },
-    [maxRetries, onRetry, onRetrySuccess, onRetryFailed, trackEvent]
+    [maxRetries, onRetry, onRetrySuccess, onRetryFailed, trackEvent],
   );
 
   /**
@@ -259,7 +254,7 @@ export function useAutomaticRetry(options: UseAutomaticRetryOptions = {}) {
  */
 export async function retryWithBackoff<T>(
   operation: () => Promise<T>,
-  options: { maxRetries?: number; onRetry?: (attempt: number) => void } = {}
+  options: { maxRetries?: number; onRetry?: (attempt: number) => void } = {},
 ): Promise<T> {
   const { maxRetries = DEFAULT_MAX_RETRIES, onRetry } = options;
 
@@ -274,10 +269,10 @@ export async function retryWithBackoff<T>(
       const delay = getRetryDelay(attempt);
       onRetry?.(attempt + 1);
 
-      logger.info('Retrying operation', { attempt: attempt + 1, delay });
-      await new Promise(resolve => setTimeout(resolve, delay));
+      logger.info("Retrying operation", { attempt: attempt + 1, delay });
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
-  throw new Error('Max retries exceeded');
+  throw new Error("Max retries exceeded");
 }

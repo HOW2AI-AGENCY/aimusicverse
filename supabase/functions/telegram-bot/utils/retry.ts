@@ -3,9 +3,9 @@
  * Provides resilient API calls with automatic retry on transient failures
  */
 
-import { createLogger } from '../../_shared/logger.ts';
+import { createLogger } from "../../_shared/logger.ts";
 
-const logger = createLogger('retry-util');
+const logger = createLogger("retry-util");
 
 export interface RetryOptions {
   /**
@@ -47,12 +47,12 @@ function defaultIsRetryable(error: Error): boolean {
 
   // Network errors
   if (
-    message.includes('fetch failed') ||
-    message.includes('network') ||
-    message.includes('timeout') ||
-    message.includes('econnrefused') ||
-    message.includes('econnreset') ||
-    message.includes('socket')
+    message.includes("fetch failed") ||
+    message.includes("network") ||
+    message.includes("timeout") ||
+    message.includes("econnrefused") ||
+    message.includes("econnreset") ||
+    message.includes("socket")
   ) {
     return true;
   }
@@ -74,10 +74,7 @@ function defaultIsRetryable(error: Error): boolean {
  * @param options Retry options
  * @returns Result of the function
  */
-export async function retryWithBackoff<T>(
-  fn: () => Promise<T>,
-  options: RetryOptions = {}
-): Promise<T> {
+export async function retryWithBackoff<T>(fn: () => Promise<T>, options: RetryOptions = {}): Promise<T> {
   const {
     maxAttempts = 3,
     initialDelay = 1000,
@@ -103,12 +100,9 @@ export async function retryWithBackoff<T>(
       }
 
       // Calculate delay with exponential backoff
-      const delay = Math.min(
-        initialDelay * Math.pow(backoffMultiplier, attempt),
-        maxDelay
-      );
+      const delay = Math.min(initialDelay * Math.pow(backoffMultiplier, attempt), maxDelay);
 
-      logger.warn('Retry attempt', {
+      logger.warn("Retry attempt", {
         attempt: attempt + 1,
         maxAttempts,
         delay,
@@ -121,7 +115,7 @@ export async function retryWithBackoff<T>(
       }
 
       // Wait before retrying
-      await new Promise(resolve => setTimeout(resolve, delay));
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
 
@@ -139,7 +133,7 @@ export async function retryWithBackoff<T>(
 export async function retryFetch(
   url: string,
   options: RequestInit = {},
-  retryOptions: RetryOptions = {}
+  retryOptions: RetryOptions = {},
 ): Promise<Response> {
   return retryWithBackoff(
     async () => {
@@ -147,9 +141,10 @@ export async function retryFetch(
 
       // Check if response indicates a retryable error
       if (!response.ok) {
-        const errorWithStatus = new Error(
-          `HTTP ${response.status}: ${response.statusText}`
-        ) as Error & { status: number; response: Response };
+        const errorWithStatus = new Error(`HTTP ${response.status}: ${response.statusText}`) as Error & {
+          status: number;
+          response: Response;
+        };
         errorWithStatus.status = response.status;
         errorWithStatus.response = response;
         throw errorWithStatus;
@@ -159,16 +154,18 @@ export async function retryFetch(
     },
     {
       ...retryOptions,
-      isRetryable: retryOptions.isRetryable || ((error: Error) => {
-        const errorWithStatus = error as Error & { status?: number };
-        if (errorWithStatus.status) {
-          const status = errorWithStatus.status;
-          // Retry on 5xx, 429, 408, and 503
-          return status >= 500 || status === 429 || status === 408;
-        }
-        return defaultIsRetryable(error);
-      }),
-    }
+      isRetryable:
+        retryOptions.isRetryable ||
+        ((error: Error) => {
+          const errorWithStatus = error as Error & { status?: number };
+          if (errorWithStatus.status) {
+            const status = errorWithStatus.status;
+            // Retry on 5xx, 429, 408, and 503
+            return status >= 500 || status === 429 || status === 408;
+          }
+          return defaultIsRetryable(error);
+        }),
+    },
   );
 }
 
@@ -182,17 +179,21 @@ export async function retryFetch(
 export async function retryJsonFetch<T = unknown>(
   url: string,
   options: RequestInit = {},
-  retryOptions: RetryOptions = {}
+  retryOptions: RetryOptions = {},
 ): Promise<T> {
-  const response = await retryFetch(url, {
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...options.headers,
+  const response = await retryFetch(
+    url,
+    {
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options.headers,
+      },
     },
-  }, retryOptions);
+    retryOptions,
+  );
 
-  return await response.json() as T;
+  return (await response.json()) as T;
 }
 
 /**
@@ -201,10 +202,7 @@ export async function retryJsonFetch<T = unknown>(
  * @param options Retry options
  * @returns Result of the function
  */
-export async function retryWithJitter<T>(
-  fn: () => Promise<T>,
-  options: RetryOptions = {}
-): Promise<T> {
+export async function retryWithJitter<T>(fn: () => Promise<T>, options: RetryOptions = {}): Promise<T> {
   return retryWithBackoff(fn, {
     ...options,
     // Add random jitter to delay (±25%)
@@ -214,7 +212,7 @@ export async function retryWithJitter<T>(
       }
       // Add small random delay to prevent all clients retrying at once
       const jitter = Math.random() * 500;
-      await new Promise(resolve => setTimeout(resolve, jitter));
+      await new Promise((resolve) => setTimeout(resolve, jitter));
     },
   });
 }
@@ -226,23 +224,23 @@ export async function retryWithJitter<T>(
 export class CircuitBreaker {
   private failureCount = 0;
   private lastFailureTime = 0;
-  private state: 'closed' | 'open' | 'half-open' = 'closed';
+  private state: "closed" | "open" | "half-open" = "closed";
 
   constructor(
     private readonly threshold: number = 5,
     private readonly timeout: number = 60000, // 1 minute
-    private readonly halfOpenRequests: number = 1
+    private readonly halfOpenRequests: number = 1,
   ) {}
 
   async execute<T>(fn: () => Promise<T>): Promise<T> {
     // If circuit is open, check if we should try half-open
-    if (this.state === 'open') {
+    if (this.state === "open") {
       const now = Date.now();
       if (now - this.lastFailureTime > this.timeout) {
-        logger.info('Circuit breaker entering half-open state');
-        this.state = 'half-open';
+        logger.info("Circuit breaker entering half-open state");
+        this.state = "half-open";
       } else {
-        throw new Error('Circuit breaker is OPEN - too many failures');
+        throw new Error("Circuit breaker is OPEN - too many failures");
       }
     }
 
@@ -250,9 +248,9 @@ export class CircuitBreaker {
       const result = await fn();
 
       // Success - reset if we were half-open
-      if (this.state === 'half-open') {
-        logger.info('Circuit breaker closing - request succeeded');
-        this.state = 'closed';
+      if (this.state === "half-open") {
+        logger.info("Circuit breaker closing - request succeeded");
+        this.state = "closed";
         this.failureCount = 0;
       }
 
@@ -263,23 +261,23 @@ export class CircuitBreaker {
 
       // Open circuit if threshold reached
       if (this.failureCount >= this.threshold) {
-        logger.warn('Circuit breaker OPENING', {
+        logger.warn("Circuit breaker OPENING", {
           failures: this.failureCount,
           threshold: this.threshold,
         });
-        this.state = 'open';
+        this.state = "open";
       }
 
       throw error;
     }
   }
 
-  getState(): 'closed' | 'open' | 'half-open' {
+  getState(): "closed" | "open" | "half-open" {
     return this.state;
   }
 
   reset(): void {
-    this.state = 'closed';
+    this.state = "closed";
     this.failureCount = 0;
     this.lastFailureTime = 0;
   }

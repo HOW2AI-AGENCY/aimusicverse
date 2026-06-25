@@ -1,54 +1,52 @@
 /**
  * VersionSwitcher Component
- * 
+ *
  * Quick A/B version switching directly in the player.
  * Shows version badges (A, B, etc.) for fast switching without opening versions tab.
  */
 
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import type { Track } from '@/types/track';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { hapticImpact } from '@/lib/haptic';
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import type { Track } from "@/types/track";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { hapticImpact } from "@/lib/haptic";
 
 interface VersionSwitcherProps {
   track: Track;
-  size?: 'compact' | 'medium' | 'large';
+  size?: "compact" | "medium" | "large";
   className?: string;
 }
 
-export function VersionSwitcher({ track, size = 'medium', className }: VersionSwitcherProps) {
+export function VersionSwitcher({ track, size = "medium", className }: VersionSwitcherProps) {
   const { activeTrack, isPlaying, playTrack } = usePlayerStore();
 
   // Extract original track ID if current track is a version
-  const originalTrackId = track.id?.includes('_v') 
-    ? track.id.split('_v')[0] 
-    : track.id;
+  const originalTrackId = track.id?.includes("_v") ? track.id.split("_v")[0] : track.id;
 
   const sizeClasses = {
-    compact: 'h-9 w-9 text-xs',     // 36px minimum for inline compact
-    medium: 'h-11 w-11 text-sm',    // 44px - meets touch target
-    large: 'h-12 w-12 text-base',   // 48px - optimal for mobile
+    compact: "h-9 w-9 text-xs", // 36px minimum for inline compact
+    medium: "h-11 w-11 text-sm", // 44px - meets touch target
+    large: "h-12 w-12 text-base", // 48px - optimal for mobile
   };
 
   const gapClasses = {
-    compact: 'gap-1',
-    medium: 'gap-1.5',
-    large: 'gap-2',
+    compact: "gap-1",
+    medium: "gap-1.5",
+    large: "gap-2",
   };
 
   // Fetch versions for this track with optimized loading
   const { data: versions, isLoading } = useQuery({
-    queryKey: ['track-versions-switcher', originalTrackId],
+    queryKey: ["track-versions-switcher", originalTrackId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('track_versions')
-        .select('id, audio_url, cover_url, version_label, clip_index, is_primary')
-        .eq('track_id', originalTrackId)
-        .order('clip_index', { ascending: true });
+        .from("track_versions")
+        .select("id, audio_url, cover_url, version_label, clip_index, is_primary")
+        .eq("track_id", originalTrackId)
+        .order("clip_index", { ascending: true });
 
       if (error) throw error;
       return data;
@@ -61,15 +59,9 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
   // Show loading skeleton while fetching
   if (isLoading) {
     return (
-      <div className={cn('flex items-center', gapClasses[size], className)}>
+      <div className={cn("flex items-center", gapClasses[size], className)}>
         {[0, 1].map((i) => (
-          <div
-            key={i}
-            className={cn(
-              sizeClasses[size],
-              'rounded-full bg-muted animate-pulse'
-            )}
-          />
+          <div key={i} className={cn(sizeClasses[size], "rounded-full bg-muted animate-pulse")} />
         ))}
       </div>
     );
@@ -80,9 +72,9 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
     return null;
   }
 
-  const handleVersionClick = (version: typeof versions[0]) => {
-    hapticImpact('light');
-    
+  const handleVersionClick = (version: (typeof versions)[0]) => {
+    hapticImpact("light");
+
     // Create track object for this version with proper audio URLs
     // CRITICAL: Use audio_url for playback - it's the source URL
     const versionTrack: Track = {
@@ -102,7 +94,7 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
   };
 
   return (
-    <div className={cn('flex items-center', gapClasses[size], className)}>
+    <div className={cn("flex items-center", gapClasses[size], className)}>
       <AnimatePresence mode="popLayout">
         {versions.map((version, index) => {
           const label = version.version_label || String.fromCharCode(65 + index);
@@ -118,17 +110,17 @@ export function VersionSwitcher({ track, size = 'medium', className }: VersionSw
               transition={{ delay: index * 0.05 }}
             >
               <Button
-                variant={isActive ? 'default' : 'outline'}
+                variant={isActive ? "default" : "outline"}
                 size="icon"
                 onClick={() => handleVersionClick(version)}
                 className={cn(
                   sizeClasses[size],
-                  'rounded-full font-semibold transition-all',
-                  isActive && 'ring-2 ring-primary ring-offset-2 ring-offset-background',
-                  isCurrentlyPlaying && 'animate-pulse',
-                  !isActive && 'opacity-60 hover:opacity-100'
+                  "rounded-full font-semibold transition-all",
+                  isActive && "ring-2 ring-primary ring-offset-2 ring-offset-background",
+                  isCurrentlyPlaying && "animate-pulse",
+                  !isActive && "opacity-60 hover:opacity-100",
                 )}
-                title={`Версия ${label}${version.is_primary ? ' (мастер)' : ''}`}
+                title={`Версия ${label}${version.is_primary ? " (мастер)" : ""}`}
               >
                 {label}
               </Button>

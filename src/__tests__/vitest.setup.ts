@@ -3,11 +3,11 @@
  * Configures testing environment and global mocks
  */
 
-import '@testing-library/jest-dom/vitest';
-import { vi, afterEach } from 'vitest';
+import "@testing-library/jest-dom/vitest";
+import { vi, afterEach } from "vitest";
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
     matches: false,
@@ -36,7 +36,7 @@ global.IntersectionObserver = vi.fn().mockImplementation(() => ({
 }));
 
 // Mock Telegram WebApp
-Object.defineProperty(window, 'Telegram', {
+Object.defineProperty(window, "Telegram", {
   writable: true,
   value: {
     WebApp: {
@@ -64,16 +64,16 @@ Object.defineProperty(window, 'Telegram', {
       initDataUnsafe: {
         user: {
           id: 123456789,
-          first_name: 'Test',
-          last_name: 'User',
+          first_name: "Test",
+          last_name: "User",
         },
       },
-      colorScheme: 'dark',
+      colorScheme: "dark",
       themeParams: {},
       viewportHeight: 800,
       viewportStableHeight: 800,
       isExpanded: true,
-      platform: 'tdesktop',
+      platform: "tdesktop",
     },
   },
 });
@@ -110,7 +110,7 @@ global.AudioContext = vi.fn().mockImplementation(() => ({
     disconnect: vi.fn(),
   })),
   destination: {},
-  state: 'running',
+  state: "running",
   resume: vi.fn().mockResolvedValue(undefined),
   close: vi.fn().mockResolvedValue(undefined),
 }));
@@ -120,12 +120,12 @@ if (!globalThis.crypto) {
   globalThis.crypto = {} as Crypto;
 }
 if (!globalThis.crypto.randomUUID) {
-  globalThis.crypto.randomUUID = vi.fn(() => 
-    'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = Math.random() * 16 | 0;
-      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+  globalThis.crypto.randomUUID = vi.fn(() =>
+    "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+      const r = (Math.random() * 16) | 0;
+      const v = c === "x" ? r : (r & 0x3) | 0x8;
       return v.toString(16);
-    })
+    }),
   ) as () => `${string}-${string}-${string}-${string}-${string}`;
 }
 
@@ -133,16 +133,13 @@ if (!globalThis.crypto.randomUUID) {
 global.fetch = vi.fn().mockResolvedValue({
   ok: true,
   json: vi.fn().mockResolvedValue({}),
-  text: vi.fn().mockResolvedValue(''),
+  text: vi.fn().mockResolvedValue(""),
 });
 
 // Suppress console errors in tests
 const originalError = console.error;
 console.error = (...args: unknown[]) => {
-  if (
-    typeof args[0] === 'string' && 
-    (args[0].includes('act(...)') || args[0].includes('Warning:'))
-  ) {
+  if (typeof args[0] === "string" && (args[0].includes("act(...)") || args[0].includes("Warning:"))) {
     return;
   }
   originalError.apply(console, args);

@@ -16,6 +16,7 @@ This PR adds comprehensive diagnostic logging to the Klangio Edge Function to in
 ### Problem Being Investigated
 
 **Current Behavior:**
+
 - ✅ **MIDI** - Generated successfully
 - ✅ **MusicXML** - Generated successfully
 - ❌ **MIDI Quantized** - Not generated
@@ -25,6 +26,7 @@ This PR adds comprehensive diagnostic logging to the Klangio Edge Function to in
 ### Root Cause Unknown
 
 We need to determine:
+
 1. Are all output parameters reaching the Klangio API?
 2. Does the API return all formats or reject some?
 3. Is this a model limitation, API tier restriction, or audio quality issue?
@@ -38,28 +40,37 @@ We need to determine:
 Added **5 strategic log points** in `supabase/functions/klangio-analyze/index.ts`:
 
 #### 1. Outputs Validation Log (Line 110)
+
 ```typescript
-console.log(`[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`);
+console.log(
+  `[klangio] Transcription outputs: requested=${JSON.stringify(requestedOutputs)}, valid=${JSON.stringify(validOutputs)}`,
+);
 ```
+
 **Purpose**: Verify which outputs pass validation
 
 #### 2. QueryParams Construction Log (Line 113)
+
 ```typescript
 console.log(`[klangio] QueryParams after appending outputs: ${queryParams.toString()}`);
 ```
+
 **Purpose**: Confirm outputs are added to query string
 
 #### 3. Final Endpoint Log (Lines 138-139)
+
 ```typescript
 console.log(`[klangio] Final queryParams.toString(): ${queryParams.toString()}`);
 console.log(`[klangio] Final endpoint constructed: ${endpoint}`);
 ```
+
 **Purpose**: See complete URL sent to Klangio API
 
 #### 4. Job Creation Response Log (Lines 186-198)
+
 ```typescript
 console.log(`[klangio] 📋 Job created:`, jobId, JSON.stringify(jobResponse, null, 2));
-if (mode === 'transcription' && jobResponse.gen_midi !== undefined) {
+if (mode === "transcription" && jobResponse.gen_midi !== undefined) {
   const flags = {
     gen_midi: jobResponse.gen_midi,
     gen_midi_unq: jobResponse.gen_midi_unq,
@@ -71,12 +82,14 @@ if (mode === 'transcription' && jobResponse.gen_midi !== undefined) {
   console.log(`[klangio] 📊 Initial generation flags:`, JSON.stringify(flags, null, 2));
 }
 ```
+
 **Purpose**: See what Klangio decides to generate immediately
 
 #### 5. Job Completion Status Log (Lines 222-237)
+
 ```typescript
 console.log(`[klangio] ✅ Job completed! Full status:`, JSON.stringify(statusData, null, 2));
-if (mode === 'transcription') {
+if (mode === "transcription") {
   const flags = {
     gen_midi: statusData.gen_midi,
     gen_midi_unq: statusData.gen_midi_unq,
@@ -88,6 +101,7 @@ if (mode === 'transcription') {
   console.log(`[klangio] 📊 API generation flags:`, JSON.stringify(flags, null, 2));
 }
 ```
+
 **Purpose**: See final generation flags at completion
 
 ---
@@ -95,6 +109,7 @@ if (mode === 'transcription') {
 ## 📝 Files Changed
 
 ### Modified Files (3)
+
 1. **`supabase/functions/klangio-analyze/index.ts`**
    - Added 5 diagnostic log points
    - Enhanced error handling
@@ -107,6 +122,7 @@ if (mode === 'transcription') {
    - Updated from main branch merge
 
 ### New Files (2)
+
 1. **`KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md`**
    - Complete documentation of diagnostic enhancement
    - Testing instructions
@@ -117,6 +133,7 @@ if (mode === 'transcription') {
    - Enables database logging of all Klangio requests
 
 ### Updated Files (1)
+
 1. **`KLANG_IO_INTEGRATION.md`**
    - Added "Recent Updates" section
    - Added troubleshooting entry #6
@@ -151,6 +168,7 @@ During merge, the following improvements from main were integrated:
 **File**: `supabase/functions/klangio-analyze/index.ts`
 
 **Conflict**: Different approaches to sending outputs parameter
+
 - Main: FormData body
 - Feature branch: Query parameters
 
@@ -213,24 +231,29 @@ npx supabase functions deploy klangio-analyze --project-ref ygmvthybdrqymfsqifmj
 ## 📊 Expected Outcomes
 
 ### Scenario A: Outputs Not Reaching API
+
 **Symptom**: Final endpoint doesn't contain all outputs parameters
 **Cause**: URLSearchParams implementation issue
 **Next Step**: Fix query params construction
 
 ### Scenario B: API Model Limitation
+
 **Symptom**: URL correct, but API returns gen_pdf=false, gen_gp5=false
 **Cause**: Guitar model doesn't support all formats
 **Next Step**:
+
 - Contact Klangio support
 - Try different model (e.g., 'universal')
 - Document limitations
 
 ### Scenario C: Audio Quality Requirements
+
 **Symptom**: Some recordings work, others don't
 **Cause**: Minimum quality/length requirements
 **Next Step**: Document requirements, add validation
 
 ### Scenario D: API Tier Restrictions
+
 **Symptom**: Consistent format limitations
 **Cause**: API key tier doesn't include all formats
 **Next Step**: Upgrade API key or adjust expectations
@@ -240,12 +263,14 @@ npx supabase functions deploy klangio-analyze --project-ref ygmvthybdrqymfsqifmj
 ## 📈 Impact
 
 ### Before This PR
+
 - ❌ No visibility into why formats missing
 - ❌ Unclear if request correct
 - ❌ Can't troubleshoot effectively
 - ❌ Can't communicate with Klangio support
 
 ### After This PR
+
 - ✅ Complete request/response logging
 - ✅ Can verify API communication
 - ✅ Can identify root cause
@@ -257,12 +282,14 @@ npx supabase functions deploy klangio-analyze --project-ref ygmvthybdrqymfsqifmj
 ## 🎯 Next Steps
 
 ### Immediate (Required)
+
 1. ✅ **Deploy Edge Function** - `npx supabase functions deploy klangio-analyze`
 2. ⏳ **Run Test Recording** - High-quality 15-20 second guitar audio
 3. ⏳ **Collect Logs** - Copy from Supabase Dashboard
 4. ⏳ **Analyze Results** - Identify which scenario applies
 
 ### Follow-Up (Based on Findings)
+
 1. **If Outputs Not Reaching API**:
    - Debug URLSearchParams
    - Test alternative approaches
@@ -297,13 +324,16 @@ npx supabase functions deploy klangio-analyze --project-ref ygmvthybdrqymfsqifmj
 ## 📚 Related Documentation
 
 ### Primary Documentation
+
 - [KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md](../KLANG_IO_DIAGNOSTIC_LOGGING_2025-12-11.md) - Full technical details
 - [KLANG_IO_INTEGRATION.md](../KLANG_IO_INTEGRATION.md) - Main integration guide
 
 ### Sprint Documentation
+
 - [SPRINT-013-TASK-LIST.md](../SPRINTS/SPRINT-013-TASK-LIST.md) - Tasks T047-T058
 
 ### Previous Related PRs
+
 - [KLANG_IO_MIME_TYPE_FIX_2025-12-11.md](../KLANG_IO_MIME_TYPE_FIX_2025-12-11.md) - Storage fixes
 - [KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md](../KLANG_IO_TRANSCRIPTION_IMPROVEMENTS_2025-12-10.md) - UI improvements
 
@@ -312,10 +342,12 @@ npx supabase functions deploy klangio-analyze --project-ref ygmvthybdrqymfsqifmj
 ## 📝 Commits
 
 ### Feature Branch Commits
+
 1. **`73bfb30`** - Add comprehensive diagnostic logging for Klangio outputs parameter
 2. **`1f20c8c`** - Merge branch 'main' into feature branch
 
 ### Merge Commit
+
 3. **`6739927`** - Merge pull request #149 from HOW2AI-AGENCY/claude/improve-guitar-app-ui-01VqSJpXYyXqrqdQuTZGLn9B
 
 ---

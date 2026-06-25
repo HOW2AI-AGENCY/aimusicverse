@@ -59,36 +59,20 @@
 }
 
 .bg-gradient-player {
-  background: linear-gradient(
-    180deg, 
-    hsl(var(--primary) / 0.08) 0%, 
-    hsl(var(--generate) / 0.08) 100%
-  );
+  background: linear-gradient(180deg, hsl(var(--primary) / 0.08) 0%, hsl(var(--generate) / 0.08) 100%);
 }
 
 .bg-gradient-card-hover {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--card)) 0%,
-    hsl(var(--primary) / 0.05) 100%
-  );
+  background: linear-gradient(135deg, hsl(var(--card)) 0%, hsl(var(--primary) / 0.05) 100%);
 }
 
 /* Hero/Section Gradients */
 .bg-gradient-hero-top {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--primary) / 0.1) 0%,
-    transparent 100%
-  );
+  background: linear-gradient(180deg, hsl(var(--primary) / 0.1) 0%, transparent 100%);
 }
 
 .bg-gradient-hero-radial {
-  background: radial-gradient(
-    ellipse at center top,
-    hsl(var(--primary) / 0.15) 0%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse at center top, hsl(var(--primary) / 0.15) 0%, transparent 70%);
 }
 
 /* ============================================================================

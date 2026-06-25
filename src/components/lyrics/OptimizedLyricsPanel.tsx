@@ -3,11 +3,11 @@
  * Uses react-virtuoso for efficient rendering of long lyrics
  */
 
-import React, { memo, useCallback, useMemo, useRef, useEffect } from 'react';
-import { Virtuoso, VirtuosoHandle } from 'react-virtuoso';
-import { cn } from '@/lib/utils';
-import { OptimizedLyricsLine, LyricsLineData } from './OptimizedLyricsLine';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import React, { memo, useCallback, useMemo, useRef, useEffect } from "react";
+import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
+import { cn } from "@/lib/utils";
+import { OptimizedLyricsLine, LyricsLineData } from "./OptimizedLyricsLine";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface OptimizedLyricsPanelProps {
   lyrics: string;
@@ -26,14 +26,14 @@ interface OptimizedLyricsPanelProps {
 const parseLyrics = (lyrics: string): LyricsLineData[] => {
   if (!lyrics?.trim()) return [];
 
-  const lines = lyrics.split('\n');
+  const lines = lyrics.split("\n");
   return lines.map((text, index) => {
     const trimmed = text.trim();
     const sectionMatch = trimmed.match(/^\[([^\]]+)\]$/);
 
     return {
       id: `line-${index}`,
-      text: sectionMatch ? '' : trimmed,
+      text: sectionMatch ? "" : trimmed,
       isSection: !!sectionMatch,
       sectionType: sectionMatch?.[1],
     };
@@ -43,8 +43,8 @@ const parseLyrics = (lyrics: string): LyricsLineData[] => {
 // Find active line based on current time
 const findActiveLine = (
   lines: LyricsLineData[],
-  timestamps: OptimizedLyricsPanelProps['timestamps'],
-  currentTime: number
+  timestamps: OptimizedLyricsPanelProps["timestamps"],
+  currentTime: number,
 ): number => {
   if (!timestamps?.length || currentTime <= 0) return -1;
 
@@ -67,7 +67,7 @@ export const OptimizedLyricsPanel = memo(function OptimizedLyricsPanel({
   showTimestamps = false,
   autoScroll = true,
   className,
-  emptyMessage = 'Нет текста песни',
+  emptyMessage = "Нет текста песни",
 }: OptimizedLyricsPanelProps) {
   const virtuosoRef = useRef<VirtuosoHandle>(null);
   const lastActiveLineRef = useRef(-1);
@@ -80,17 +80,15 @@ export const OptimizedLyricsPanel = memo(function OptimizedLyricsPanel({
     if (!timestamps?.length) return lines;
 
     return lines.map((line, index) => {
-      const ts = timestamps.find(t => t.lineIndex === index);
-      return ts
-        ? { ...line, startTime: ts.startTime, endTime: ts.endTime }
-        : line;
+      const ts = timestamps.find((t) => t.lineIndex === index);
+      return ts ? { ...line, startTime: ts.startTime, endTime: ts.endTime } : line;
     });
   }, [lines, timestamps]);
 
   // Find active line index
   const activeLineIndex = useMemo(
     () => findActiveLine(lines, timestamps, currentTime),
-    [lines, timestamps, currentTime]
+    [lines, timestamps, currentTime],
   );
 
   // Auto-scroll to active line
@@ -102,8 +100,8 @@ export const OptimizedLyricsPanel = memo(function OptimizedLyricsPanel({
 
     virtuosoRef.current?.scrollToIndex({
       index: activeLineIndex,
-      align: 'center',
-      behavior: 'smooth',
+      align: "center",
+      behavior: "smooth",
     });
   }, [activeLineIndex, autoScroll]);
 
@@ -117,7 +115,7 @@ export const OptimizedLyricsPanel = memo(function OptimizedLyricsPanel({
         onSeek(line.startTime);
       }
     },
-    [onLineClick, onSeek]
+    [onLineClick, onSeek],
   );
 
   // Render individual line
@@ -142,19 +140,13 @@ export const OptimizedLyricsPanel = memo(function OptimizedLyricsPanel({
         />
       );
     },
-    [linesWithTimestamps, activeLineIndex, handleLineClick, showTimestamps]
+    [linesWithTimestamps, activeLineIndex, handleLineClick, showTimestamps],
   );
 
   // Empty state
   if (!lines.length) {
     return (
-      <div
-        className={cn(
-          'flex items-center justify-center h-full',
-          'text-muted-foreground text-sm',
-          className
-        )}
-      >
+      <div className={cn("flex items-center justify-center h-full", "text-muted-foreground text-sm", className)}>
         {emptyMessage}
       </div>
     );
@@ -163,7 +155,7 @@ export const OptimizedLyricsPanel = memo(function OptimizedLyricsPanel({
   // For short lyrics (< 50 lines), use simple ScrollArea
   if (lines.length < 50) {
     return (
-      <ScrollArea className={cn('h-full', className)}>
+      <ScrollArea className={cn("h-full", className)}>
         <div className="py-4 space-y-0.5">
           {linesWithTimestamps.map((line, index) => (
             <OptimizedLyricsLine
@@ -184,14 +176,14 @@ export const OptimizedLyricsPanel = memo(function OptimizedLyricsPanel({
 
   // For long lyrics, use virtualization
   return (
-    <div className={cn('h-full', className)}>
+    <div className={cn("h-full", className)}>
       <Virtuoso
         ref={virtuosoRef}
         totalCount={lines.length}
         itemContent={renderLine}
         overscan={10}
         className="h-full"
-        style={{ height: '100%' }}
+        style={{ height: "100%" }}
       />
     </div>
   );

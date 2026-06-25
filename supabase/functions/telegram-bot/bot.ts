@@ -2,20 +2,20 @@
  * Main Telegram bot handler with dynamic imports for reduced bundle size
  */
 
-import { sendMessage, parseCommand, type TelegramUpdate } from './telegram-api.ts';
-import { BOT_CONFIG } from './config.ts';
-import { logger, isRateLimited, trackMetric } from './utils/index.ts';
-import { handleCallbackQuery } from './callbacks/router.ts';
+import { sendMessage, parseCommand, type TelegramUpdate } from "./telegram-api.ts";
+import { BOT_CONFIG } from "./config.ts";
+import { logger, isRateLimited, trackMetric } from "./utils/index.ts";
+import { handleCallbackQuery } from "./callbacks/router.ts";
 
 export async function handleUpdate(update: TelegramUpdate) {
   const startTime = Date.now();
-  
+
   try {
     // Pre-checkout query handling removed - Tinkoff payments use webhook
 
     // Handle inline queries for sharing tracks (enhanced with public content)
     if (update.inline_query) {
-      const { handleInlineQuery } = await import('./commands/inline-enhanced.ts');
+      const { handleInlineQuery } = await import("./commands/inline-enhanced.ts");
       await handleInlineQuery(update.inline_query);
       return;
     }
@@ -34,26 +34,26 @@ export async function handleUpdate(update: TelegramUpdate) {
     if (!from) return;
 
     // Rate limiting (async database-backed)
-    if (await isRateLimited(from.id, 'message')) {
-      await sendMessage(chat.id, '⏳ Слишком много запросов. Подождите немного.', undefined, null);
+    if (await isRateLimited(from.id, "message")) {
+      await sendMessage(chat.id, "⏳ Слишком много запросов. Подождите немного.", undefined, null);
       trackMetric({
-        eventType: 'rate_limited',
+        eventType: "rate_limited",
         success: false,
         telegramChatId: chat.id,
-        metadata: { type: 'message' },
+        metadata: { type: "message" },
       });
       return;
     }
 
-    logger.info('message', { userId: from.id, chatId: chat.id, text: text?.substring(0, 50) });
+    logger.info("message", { userId: from.id, chatId: chat.id, text: text?.substring(0, 50) });
 
     // Telegram Stars payment handling removed - using Tinkoff webhook instead
 
     // Handle audio messages
-    const { isAudioMessage, handleAudioMessage } = await import('./handlers/audio.ts');
+    const { isAudioMessage, handleAudioMessage } = await import("./handlers/audio.ts");
     if (isAudioMessage(message)) {
       const audio = message.audio || message.voice || message.document;
-      const type = message.audio ? 'audio' : message.voice ? 'voice' : 'document';
+      const type = message.audio ? "audio" : message.voice ? "voice" : "document";
       await handleAudioMessage(chat.id, from.id, audio as any, type);
       return;
     }
@@ -67,13 +67,13 @@ export async function handleUpdate(update: TelegramUpdate) {
     // Handle non-command text
     if (!cmd) {
       // Check for active project wizard first
-      const { hasActiveWizard, handleWizardTextInput } = await import('./wizards/project-wizard.ts');
+      const { hasActiveWizard, handleWizardTextInput } = await import("./wizards/project-wizard.ts");
       if (hasActiveWizard(from.id)) {
         const handled = await handleWizardTextInput(chat.id, from.id, text);
         if (handled) return;
       }
-      
-      const { handleTextMessage, sendDefaultResponse } = await import('./handlers/text.ts');
+
+      const { handleTextMessage, sendDefaultResponse } = await import("./handlers/text.ts");
       const handled = await handleTextMessage(chat.id, from.id, text);
       if (!handled) {
         await sendDefaultResponse(chat.id);
@@ -85,19 +85,18 @@ export async function handleUpdate(update: TelegramUpdate) {
     await handleCommand(cmd.command, cmd.args, chat.id, from.id);
 
     trackMetric({
-      eventType: 'message_sent',
+      eventType: "message_sent",
       success: true,
       telegramChatId: chat.id,
       responseTimeMs: Date.now() - startTime,
       metadata: { command: cmd.command },
     });
-
   } catch (error) {
-    logger.error('Error handling update', error);
+    logger.error("Error handling update", error);
     trackMetric({
-      eventType: 'message_failed',
+      eventType: "message_failed",
       success: false,
-      errorMessage: error instanceof Error ? error.message : 'Unknown error',
+      errorMessage: error instanceof Error ? error.message : "Unknown error",
     });
   }
 }
@@ -107,118 +106,118 @@ export async function handleUpdate(update: TelegramUpdate) {
  */
 async function handleCommand(command: string, args: string, chatId: number, userId: number) {
   switch (command) {
-    case 'start': {
-      const { handleStart } = await import('./commands/start.ts');
+    case "start": {
+      const { handleStart } = await import("./commands/start.ts");
       await handleStart(chatId, userId, args || undefined);
       break;
     }
-    case 'help': {
-      const { handleHelp } = await import('./commands/help.ts');
+    case "help": {
+      const { handleHelp } = await import("./commands/help.ts");
       await handleHelp(chatId);
       break;
     }
-    case 'app': {
-      const { handleApp } = await import('./commands/app.ts');
+    case "app": {
+      const { handleApp } = await import("./commands/app.ts");
       await handleApp(chatId);
       break;
     }
-    case 'generate': {
-      const { handleGenerate } = await import('./commands/generate.ts');
+    case "generate": {
+      const { handleGenerate } = await import("./commands/generate.ts");
       await handleGenerate(chatId, userId, args);
       break;
     }
-    case 'library': {
-      const { handleLibrary } = await import('./commands/library.ts');
+    case "library": {
+      const { handleLibrary } = await import("./commands/library.ts");
       await handleLibrary(chatId, userId);
       break;
     }
-    case 'projects': {
-      const { handleProjects } = await import('./commands/projects.ts');
+    case "projects": {
+      const { handleProjects } = await import("./commands/projects.ts");
       await handleProjects(chatId, userId);
       break;
     }
-    case 'status': {
-      const { handleStatus } = await import('./commands/status.ts');
+    case "status": {
+      const { handleStatus } = await import("./commands/status.ts");
       await handleStatus(chatId, userId);
       break;
     }
-    case 'cover': {
-      const { handleCoverCommand } = await import('./commands/audio-upload.ts');
+    case "cover": {
+      const { handleCoverCommand } = await import("./commands/audio-upload.ts");
       await handleCoverCommand(chatId, userId, args);
       break;
     }
-    case 'extend': {
-      const { handleExtendCommand } = await import('./commands/audio-upload.ts');
+    case "extend": {
+      const { handleExtendCommand } = await import("./commands/audio-upload.ts");
       await handleExtendCommand(chatId, userId, args);
       break;
     }
-    case 'cancel': {
-      const { handleCancelCommand } = await import('./commands/audio-upload.ts');
+    case "cancel": {
+      const { handleCancelCommand } = await import("./commands/audio-upload.ts");
       await handleCancelCommand(chatId, userId);
       break;
     }
-    case 'upload': {
-      const { handleUploadCommand } = await import('./commands/upload.ts');
+    case "upload": {
+      const { handleUploadCommand } = await import("./commands/upload.ts");
       await handleUploadCommand(chatId, userId, args);
       break;
     }
-    case 'uploads': {
-      const { handleMyUploads } = await import('./commands/upload.ts');
+    case "uploads": {
+      const { handleMyUploads } = await import("./commands/upload.ts");
       await handleMyUploads(chatId, userId);
       break;
     }
-    case 'recognize': {
-      const { handleRecognizeCommand } = await import('./commands/recognize.ts');
+    case "recognize": {
+      const { handleRecognizeCommand } = await import("./commands/recognize.ts");
       await handleRecognizeCommand(chatId, userId);
       break;
     }
-    case 'midi': {
-      const { handleMidiCommand } = await import('./commands/midi.ts');
+    case "midi": {
+      const { handleMidiCommand } = await import("./commands/midi.ts");
       await handleMidiCommand(chatId, userId);
       break;
     }
-    case 'piano': {
-      const { handlePianoCommand } = await import('./commands/midi.ts');
+    case "piano": {
+      const { handlePianoCommand } = await import("./commands/midi.ts");
       await handlePianoCommand(chatId, userId);
       break;
     }
-    case 'guitar': {
-      const { handleGuitarCommand } = await import('./commands/guitar.ts');
+    case "guitar": {
+      const { handleGuitarCommand } = await import("./commands/guitar.ts");
       await handleGuitarCommand(chatId, userId);
       break;
     }
-    case 'analyze': {
-      const { handleAnalyzeCommand } = await import('./commands/analyze.ts');
+    case "analyze": {
+      const { handleAnalyzeCommand } = await import("./commands/analyze.ts");
       await handleAnalyzeCommand(chatId, userId, args);
       break;
     }
-    case 'buy': {
-      const { handleBuyCommand } = await import('./handlers/payment.ts');
+    case "buy": {
+      const { handleBuyCommand } = await import("./handlers/payment.ts");
       await handleBuyCommand(chatId);
       break;
     }
-    case 'terms': {
-      const { handleTerms } = await import('./commands/legal.ts');
+    case "terms": {
+      const { handleTerms } = await import("./commands/legal.ts");
       await handleTerms(chatId);
       break;
     }
-    case 'privacy': {
-      const { handlePrivacy } = await import('./commands/legal.ts');
+    case "privacy": {
+      const { handlePrivacy } = await import("./commands/legal.ts");
       await handlePrivacy(chatId);
       break;
     }
-    case 'news': {
-      const { handleNews } = await import('./commands/news.ts');
+    case "news": {
+      const { handleNews } = await import("./commands/news.ts");
       await handleNews(chatId);
       break;
     }
-    case 'channel': {
-      const { handleChannel } = await import('./commands/channel.ts');
+    case "channel": {
+      const { handleChannel } = await import("./commands/channel.ts");
       await handleChannel(chatId);
       break;
     }
     default:
-      await sendMessage(chatId, '❓ Неизвестная команда. Используйте /help для списка команд.', undefined, null);
+      await sendMessage(chatId, "❓ Неизвестная команда. Используйте /help для списка команд.", undefined, null);
   }
 }
 

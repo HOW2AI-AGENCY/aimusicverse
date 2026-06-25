@@ -1,13 +1,13 @@
-import { useRef, useEffect, useState, memo, useId } from 'react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Play, Pause, Volume2 } from 'lucide-react';
-import type { ChordData } from '@/hooks/useGuitarAnalysis';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/formatters';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from '@/hooks/studio/useStudioAudio';
+import { useRef, useEffect, useState, memo, useId } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Play, Pause, Volume2 } from "lucide-react";
+import type { ChordData } from "@/hooks/useGuitarAnalysis";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";
 
 interface WaveformWithChordsProps {
   audioUrl: string;
@@ -16,12 +16,7 @@ interface WaveformWithChordsProps {
   className?: string;
 }
 
-export function WaveformWithChords({ 
-  audioUrl, 
-  chords, 
-  duration,
-  className 
-}: WaveformWithChordsProps) {
+export function WaveformWithChords({ audioUrl, chords, duration, className }: WaveformWithChordsProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
   const animationRef = useRef<number | null>(null);
@@ -59,16 +54,16 @@ export function WaveformWithChords({
         setIsLoading(true);
         const response = await fetch(audioUrl);
         const arrayBuffer = await response.arrayBuffer();
-        
-        const { createAudioContext } = await import('@/lib/audio/audioContextHelper');
+
+        const { createAudioContext } = await import("@/lib/audio/audioContextHelper");
         const audioContext = createAudioContext();
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        
+
         const channelData = audioBuffer.getChannelData(0);
         const samples = 200;
         const blockSize = Math.floor(channelData.length / samples);
         const waveform: number[] = [];
-        
+
         for (let i = 0; i < samples; i++) {
           const start = i * blockSize;
           let sum = 0;
@@ -77,15 +72,19 @@ export function WaveformWithChords({
           }
           waveform.push(sum / blockSize);
         }
-        
+
         // Normalize
         const max = Math.max(...waveform);
-        setWaveformData(waveform.map(v => v / max));
+        setWaveformData(waveform.map((v) => v / max));
         audioContext.close();
       } catch {
         // Fallback: generate placeholder waveform
         // Fallback: generate placeholder waveform
-        setWaveformData(Array(200).fill(0).map(() => Math.random() * 0.5 + 0.3));
+        setWaveformData(
+          Array(200)
+            .fill(0)
+            .map(() => Math.random() * 0.5 + 0.3),
+        );
       } finally {
         setIsLoading(false);
       }
@@ -101,7 +100,7 @@ export function WaveformWithChords({
     const canvas = canvasRef.current;
     if (!canvas || waveformData.length === 0) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
@@ -120,11 +119,11 @@ export function WaveformWithChords({
 
     // Draw chord regions
     const chordColors = [
-      'rgba(147, 51, 234, 0.15)',  // purple
-      'rgba(59, 130, 246, 0.15)',   // blue
-      'rgba(16, 185, 129, 0.15)',   // green
-      'rgba(245, 158, 11, 0.15)',   // amber
-      'rgba(236, 72, 153, 0.15)',   // pink
+      "rgba(147, 51, 234, 0.15)", // purple
+      "rgba(59, 130, 246, 0.15)", // blue
+      "rgba(16, 185, 129, 0.15)", // green
+      "rgba(245, 158, 11, 0.15)", // amber
+      "rgba(236, 72, 153, 0.15)", // pink
     ];
 
     chords.forEach((chord, i) => {
@@ -142,11 +141,11 @@ export function WaveformWithChords({
       const progress = i / waveformData.length;
 
       if (progress < playProgress) {
-        ctx.fillStyle = 'hsl(var(--primary))';
+        ctx.fillStyle = "hsl(var(--primary))";
       } else {
-        ctx.fillStyle = 'hsl(var(--muted-foreground) / 0.3)';
+        ctx.fillStyle = "hsl(var(--muted-foreground) / 0.3)";
       }
-      
+
       ctx.beginPath();
       ctx.roundRect(x + 1, y, Math.max(barWidth - 2, 1), barHeight, 1);
       ctx.fill();
@@ -155,10 +154,9 @@ export function WaveformWithChords({
     // Draw playhead
     if (isPlaying || currentTime > 0) {
       const playheadX = playProgress * width;
-      ctx.fillStyle = 'hsl(var(--primary))';
+      ctx.fillStyle = "hsl(var(--primary))";
       ctx.fillRect(playheadX - 1, 0, 2, height);
     }
-
   }, [waveformData, currentTime, duration, chords, isPlaying]);
 
   // Update current time during playback
@@ -175,12 +173,12 @@ export function WaveformWithChords({
       setCurrentTime(0);
     };
 
-    audio.addEventListener('timeupdate', updateTime);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener("timeupdate", updateTime);
+    audio.addEventListener("ended", handleEnded);
 
     return () => {
-      audio.removeEventListener('timeupdate', updateTime);
-      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener("timeupdate", updateTime);
+      audio.removeEventListener("ended", handleEnded);
     };
   }, []);
 
@@ -207,15 +205,13 @@ export function WaveformWithChords({
     const x = e.clientX - rect.left;
     const progress = x / rect.width;
     const time = progress * duration;
-    
+
     audio.currentTime = time;
     setCurrentTime(time);
   };
 
   // Find current chord
-  const currentChord = chords.find(
-    c => currentTime >= c.startTime && currentTime < c.endTime
-  );
+  const currentChord = chords.find((c) => currentTime >= c.startTime && currentTime < c.endTime);
 
   return (
     <Card className={cn("p-4", className)}>
@@ -228,16 +224,12 @@ export function WaveformWithChords({
         >
           {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
         </Button>
-        
+
         <div className="flex-1">
           <div className="flex items-center gap-2">
             <Volume2 className="w-4 h-4 text-muted-foreground" />
-            <span className="text-sm font-medium">
-              {formatTime(currentTime)}
-            </span>
-            <span className="text-sm text-muted-foreground">
-              / {formatTime(duration)}
-            </span>
+            <span className="text-sm font-medium">{formatTime(currentTime)}</span>
+            <span className="text-sm text-muted-foreground">/ {formatTime(duration)}</span>
           </div>
         </div>
 
@@ -254,11 +246,7 @@ export function WaveformWithChords({
         {isLoading ? (
           <div className="h-20 bg-muted/50 rounded-lg animate-pulse" />
         ) : (
-          <canvas
-            ref={canvasRef}
-            className="w-full h-20 cursor-pointer rounded-lg"
-            onClick={handleCanvasClick}
-          />
+          <canvas ref={canvasRef} className="w-full h-20 cursor-pointer rounded-lg" onClick={handleCanvasClick} />
         )}
       </div>
 
@@ -272,15 +260,12 @@ export function WaveformWithChords({
               <div
                 key={i}
                 className="absolute text-xs text-center truncate px-0.5"
-                style={{ 
-                  left: `${left}%`, 
+                style={{
+                  left: `${left}%`,
                   width: `${Math.max(width, 3)}%`,
                 }}
               >
-                <span className={cn(
-                  "font-mono",
-                  currentChord?.chord === chord.chord && "text-primary font-semibold"
-                )}>
+                <span className={cn("font-mono", currentChord?.chord === chord.chord && "text-primary font-semibold")}>
                   {chord.chord}
                 </span>
               </div>

@@ -6,17 +6,17 @@
 
 - [SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L1) (23 connections)
 - [{
-    data: notes,
-    isLoading,
-    error,
-    createNote,
-    updateNote,
-    deleteNote,
-    resolveNote,
-    isCreating,
-    isUpdating,
-    isDeleting,
-    isResolving,
+  data: notes,
+  isLoading,
+  error,
+  createNote,
+  updateNote,
+  deleteNote,
+  resolveNote,
+  isCreating,
+  isUpdating,
+  isDeleting,
+  isResolving,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L429) (1 connections)
 - [[editContent, setEditContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L209) (1 connections)
 - [[editingNoteId, setEditingNoteId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/SectionNotesPanel.tsx#L425) (1 connections)
@@ -57,4 +57,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

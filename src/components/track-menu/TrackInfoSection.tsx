@@ -1,6 +1,6 @@
-import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
-import { Info, FileText } from 'lucide-react';
-import { Track } from '@/types/track';
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Info, FileText } from "lucide-react";
+import { Track } from "@/types/track";
 
 interface TrackInfoSectionProps {
   track: Track;
@@ -16,7 +16,7 @@ export function TrackInfoSection({ track, onDetailClick, onLyricsClick }: TrackI
         Детали трека
       </DropdownMenuItem>
 
-      {track.audio_url && track.status === 'completed' && (track.lyrics || (track.suno_task_id && track.suno_id)) && (
+      {track.audio_url && track.status === "completed" && (track.lyrics || (track.suno_task_id && track.suno_id)) && (
         <DropdownMenuItem onClick={onLyricsClick}>
           <FileText className="w-4 h-4 mr-2" />
           Текст песни

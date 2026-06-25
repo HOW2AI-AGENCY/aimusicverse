@@ -29,7 +29,7 @@
 - [[waveformData, setWaveformData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L38) (1 connections)
 - [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L115) (1 connections)
 - [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L124) (1 connections)
-- *... and 1 more nodes in this community*
+- _... and 1 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

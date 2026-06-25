@@ -1,12 +1,12 @@
 /**
  * Smooth Counter Hook
  * Feature: 032-professional-ui
- * 
+ *
  * Animates a number counting up for visual feedback.
  * Uses requestAnimationFrame for smooth 60fps animation.
  */
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from "react";
 
 interface SmoothCounterOptions {
   /** Starting value */
@@ -16,7 +16,7 @@ interface SmoothCounterOptions {
   /** Animation duration in ms */
   duration?: number;
   /** Easing function */
-  easing?: 'linear' | 'easeOut' | 'easeInOut' | 'spring';
+  easing?: "linear" | "easeOut" | "easeInOut" | "spring";
   /** Decimal places to show */
   decimals?: number;
   /** Format function for display */
@@ -44,7 +44,7 @@ interface SmoothCounterResult {
 const easingFunctions = {
   linear: (t: number) => t,
   easeOut: (t: number) => 1 - Math.pow(1 - t, 3),
-  easeInOut: (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  easeInOut: (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
   spring: (t: number) => {
     const c4 = (2 * Math.PI) / 3;
     return t === 0 ? 0 : t === 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c4) + 1;
@@ -53,7 +53,7 @@ const easingFunctions = {
 
 /**
  * useSmoothCounter - Animate numbers smoothly
- * 
+ *
  * @example
  * const { displayValue } = useSmoothCounter({ to: 1500, duration: 1000 });
  * return <span className="text-2xl font-bold">{displayValue}</span>;
@@ -63,9 +63,9 @@ export function useSmoothCounter(options: SmoothCounterOptions): SmoothCounterRe
     from = 0,
     to,
     duration = 1000,
-    easing = 'easeOut',
+    easing = "easeOut",
     decimals = 0,
-    format = (v) => v.toLocaleString('ru-RU'),
+    format = (v) => v.toLocaleString("ru-RU"),
     autoStart = true,
     onComplete,
   } = options;
@@ -75,26 +75,29 @@ export function useSmoothCounter(options: SmoothCounterOptions): SmoothCounterRe
   const animationRef = useRef<number | undefined>(undefined);
   const startTimeRef = useRef<number | undefined>(undefined);
 
-  const animate = useCallback((timestamp: number) => {
-    if (!startTimeRef.current) {
-      startTimeRef.current = timestamp;
-    }
+  const animate = useCallback(
+    (timestamp: number) => {
+      if (!startTimeRef.current) {
+        startTimeRef.current = timestamp;
+      }
 
-    const elapsed = timestamp - startTimeRef.current;
-    const progress = Math.min(elapsed / duration, 1);
-    const easedProgress = easingFunctions[easing](progress);
-    const currentValue = from + (to - from) * easedProgress;
+      const elapsed = timestamp - startTimeRef.current;
+      const progress = Math.min(elapsed / duration, 1);
+      const easedProgress = easingFunctions[easing](progress);
+      const currentValue = from + (to - from) * easedProgress;
 
-    setValue(currentValue);
+      setValue(currentValue);
 
-    if (progress < 1) {
-      animationRef.current = requestAnimationFrame(animate);
-    } else {
-      setValue(to);
-      setIsAnimating(false);
-      onComplete?.();
-    }
-  }, [from, to, duration, easing, onComplete]);
+      if (progress < 1) {
+        animationRef.current = requestAnimationFrame(animate);
+      } else {
+        setValue(to);
+        setIsAnimating(false);
+        onComplete?.();
+      }
+    },
+    [from, to, duration, easing, onComplete],
+  );
 
   const start = useCallback(() => {
     if (animationRef.current) {

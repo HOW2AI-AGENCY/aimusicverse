@@ -6,6 +6,7 @@
 ## Контекст
 
 Приложение имело разрозненную обработку ошибок: часть использовала try-catch с console.error, часть — toast уведомления, часть — собственные типы ошибок. Это приводило к:
+
 - Непоследовательному UX при ошибках
 - Сложности в отладке
 - Невозможности корректно обрабатывать retry логику
@@ -28,6 +29,7 @@ AppError (base)
 ### 2. Метаданные ошибок
 
 Каждый `ErrorCode` имеет метаданные:
+
 - `severity`: LOW | MEDIUM | HIGH | FATAL
 - `recoveryStrategy`: NONE | RETRY | RETRY_BACKOFF | REFRESH | REAUTH | MANUAL
 - `retryable`: boolean
@@ -39,9 +41,7 @@ AppError (base)
 Функциональный подход без try-catch:
 
 ```typescript
-type Result<T, E> = 
-  | { success: true; data: T }
-  | { success: false; error: E };
+type Result<T, E> = { success: true; data: T } | { success: false; error: E };
 
 // Использование
 const result = await tryCatch(() => fetchData());
@@ -55,21 +55,20 @@ if (!result.success) {
 ### 4. Retry с Backoff
 
 ```typescript
-const data = await retryWithBackoff(
-  () => apiCall(),
-  { maxRetries: 3, initialDelayMs: 1000 }
-);
+const data = await retryWithBackoff(() => apiCall(), { maxRetries: 3, initialDelayMs: 1000 });
 ```
 
 ## Последствия
 
 ### Положительные:
+
 - **Консистентность**: Все ошибки проходят через единую систему
 - **Типобезопасность**: TypeScript гарантирует корректную обработку
 - **Автоматический retry**: Retryable ошибки автоматически обрабатываются
 - **Лучший UX**: Пользователь видит понятные сообщения с действиями
 
 ### Отрицательные:
+
 - **Миграция**: Нужно постепенно обновить существующий код
 - **Обучение**: Новый паттерн для команды
 

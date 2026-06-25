@@ -1,21 +1,21 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { authorize } from "../_shared/auth.ts";
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 /**
  * Cleanup orphaned data:
  * - Failed generation tasks older than 7 days
- * - Failed tracks without audio older than 7 days  
+ * - Failed tracks without audio older than 7 days
  * - Orphaned track versions without parent track
  * - Stale pending tasks older than 24 hours
  */
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -23,16 +23,15 @@ serve(async (req) => {
   if (!__auth.ok) {
     return new Response(JSON.stringify({ error: __auth.error }), {
       status: __auth.status,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
-
 
   try {
     const supabase = getSupabaseClient();
 
-    console.log('🧹 Starting cleanup of orphaned data...');
-    
+    console.log("🧹 Starting cleanup of orphaned data...");
+
     const results = {
       failedTasks: 0,
       failedTracks: 0,
@@ -45,16 +44,16 @@ serve(async (req) => {
     // 1. Delete failed generation tasks older than 7 days
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    
+
     const { data: deletedTasks, error: tasksError } = await supabase
-      .from('generation_tasks')
+      .from("generation_tasks")
       .delete()
-      .eq('status', 'failed')
-      .lt('created_at', sevenDaysAgo.toISOString())
-      .select('id');
-    
+      .eq("status", "failed")
+      .lt("created_at", sevenDaysAgo.toISOString())
+      .select("id");
+
     if (tasksError) {
-      console.error('❌ Error deleting failed tasks:', tasksError);
+      console.error("❌ Error deleting failed tasks:", tasksError);
     } else {
       results.failedTasks = deletedTasks?.length || 0;
       console.log(`✅ Deleted ${results.failedTasks} failed generation tasks`);
@@ -62,15 +61,15 @@ serve(async (req) => {
 
     // 2. Delete failed tracks without audio older than 7 days
     const { data: deletedTracks, error: tracksError } = await supabase
-      .from('tracks')
+      .from("tracks")
       .delete()
-      .eq('status', 'failed')
-      .is('audio_url', null)
-      .lt('created_at', sevenDaysAgo.toISOString())
-      .select('id');
-    
+      .eq("status", "failed")
+      .is("audio_url", null)
+      .lt("created_at", sevenDaysAgo.toISOString())
+      .select("id");
+
     if (tracksError) {
-      console.error('❌ Error deleting failed tracks:', tracksError);
+      console.error("❌ Error deleting failed tracks:", tracksError);
     } else {
       results.failedTracks = deletedTracks?.length || 0;
       console.log(`✅ Deleted ${results.failedTracks} failed tracks without audio`);
@@ -78,36 +77,35 @@ serve(async (req) => {
 
     // 3. Use database function to cleanup stuck tasks with proper timeouts
     // This handles: pending/processing > 1 hour, streaming_ready > 30 minutes
-    const { data: stuckCleanup, error: stuckError } = await supabase
-      .rpc('cleanup_stuck_generation_tasks');
-    
+    const { data: stuckCleanup, error: stuckError } = await supabase.rpc("cleanup_stuck_generation_tasks");
+
     if (stuckError) {
-      console.error('❌ Error cleaning stuck tasks:', stuckError);
+      console.error("❌ Error cleaning stuck tasks:", stuckError);
       // Fallback to original logic if RPC fails
       const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
-      
+
       const { data: staleTasks } = await supabase
-        .from('generation_tasks')
-        .update({ 
-          status: 'failed', 
-          error_message: 'Task timed out (fallback cleanup)',
-          completed_at: new Date().toISOString()
+        .from("generation_tasks")
+        .update({
+          status: "failed",
+          error_message: "Task timed out (fallback cleanup)",
+          completed_at: new Date().toISOString(),
         })
-        .in('status', ['pending', 'processing', 'streaming_ready'])
-        .lt('created_at', oneHourAgo.toISOString())
-        .select('id, track_id');
-      
+        .in("status", ["pending", "processing", "streaming_ready"])
+        .lt("created_at", oneHourAgo.toISOString())
+        .select("id, track_id");
+
       results.staleTasks = staleTasks?.length || 0;
-      
+
       // Update corresponding tracks
       if (staleTasks && staleTasks.length > 0) {
-        const trackIds = staleTasks.map(t => t.track_id).filter(Boolean);
+        const trackIds = staleTasks.map((t) => t.track_id).filter(Boolean);
         if (trackIds.length > 0) {
           await supabase
-            .from('tracks')
-            .update({ status: 'failed', error_message: 'Generation timed out' })
-            .in('id', trackIds)
-            .not('status', 'eq', 'completed');
+            .from("tracks")
+            .update({ status: "failed", error_message: "Generation timed out" })
+            .in("id", trackIds)
+            .not("status", "eq", "completed");
         }
       }
     } else if (stuckCleanup && stuckCleanup.length > 0) {
@@ -116,31 +114,21 @@ serve(async (req) => {
     }
 
     // 5. Delete orphaned track versions (where track no longer exists)
-    const { data: allVersions } = await supabase
-      .from('track_versions')
-      .select('id, track_id');
-    
+    const { data: allVersions } = await supabase.from("track_versions").select("id, track_id");
+
     if (allVersions && allVersions.length > 0) {
-      const trackIds = [...new Set(allVersions.map(v => v.track_id))];
-      
-      const { data: existingTracks } = await supabase
-        .from('tracks')
-        .select('id')
-        .in('id', trackIds);
-      
-      const existingTrackIds = new Set(existingTracks?.map(t => t.id) || []);
-      const orphanedVersionIds = allVersions
-        .filter(v => !existingTrackIds.has(v.track_id))
-        .map(v => v.id);
-      
+      const trackIds = [...new Set(allVersions.map((v) => v.track_id))];
+
+      const { data: existingTracks } = await supabase.from("tracks").select("id").in("id", trackIds);
+
+      const existingTrackIds = new Set(existingTracks?.map((t) => t.id) || []);
+      const orphanedVersionIds = allVersions.filter((v) => !existingTrackIds.has(v.track_id)).map((v) => v.id);
+
       if (orphanedVersionIds.length > 0) {
-        const { error: orphanError } = await supabase
-          .from('track_versions')
-          .delete()
-          .in('id', orphanedVersionIds);
-        
+        const { error: orphanError } = await supabase.from("track_versions").delete().in("id", orphanedVersionIds);
+
         if (orphanError) {
-          console.error('❌ Error deleting orphaned versions:', orphanError);
+          console.error("❌ Error deleting orphaned versions:", orphanError);
         } else {
           results.orphanedVersions = orphanedVersionIds.length;
           console.log(`✅ Deleted ${results.orphanedVersions} orphaned track versions`);
@@ -149,11 +137,10 @@ serve(async (req) => {
     }
 
     // 6. Cleanup stale rate limits
-    const { data: rateLimitCleanup, error: rateLimitError } = await supabase
-      .rpc('cleanup_telegram_rate_limits');
-    
+    const { data: rateLimitCleanup, error: rateLimitError } = await supabase.rpc("cleanup_telegram_rate_limits");
+
     if (rateLimitError) {
-      console.error('❌ Error cleaning rate limits:', rateLimitError);
+      console.error("❌ Error cleaning rate limits:", rateLimitError);
     } else {
       results.staleRateLimits = rateLimitCleanup || 0;
       if (results.staleRateLimits > 0) {
@@ -163,42 +150,42 @@ serve(async (req) => {
 
     // 7. Run tier-based version cleanup for all tracks
     try {
-      const { data: versionCleanup, error: versionCleanupError } = await supabase
-        .rpc('cleanup_old_track_versions');
-      
+      const { data: versionCleanup, error: versionCleanupError } = await supabase.rpc("cleanup_old_track_versions");
+
       if (versionCleanupError) {
-        console.error('❌ Error cleaning old versions:', versionCleanupError);
+        console.error("❌ Error cleaning old versions:", versionCleanupError);
       } else if (versionCleanup && versionCleanup.length > 0) {
         results.cleanedVersions = versionCleanup.reduce(
-          (sum: number, r: { deleted_count: number }) => sum + (r.deleted_count || 0), 
-          0
+          (sum: number, r: { deleted_count: number }) => sum + (r.deleted_count || 0),
+          0,
         );
-        console.log(`✅ Cleaned up ${results.cleanedVersions} old track versions across ${versionCleanup.length} tracks`);
+        console.log(
+          `✅ Cleaned up ${results.cleanedVersions} old track versions across ${versionCleanup.length} tracks`,
+        );
       }
     } catch (e) {
-      console.error('❌ Version cleanup failed:', e);
+      console.error("❌ Version cleanup failed:", e);
     }
 
     const totalCleaned = Object.values(results).reduce((a, b) => a + b, 0);
     console.log(`🧹 Cleanup complete. Total items processed: ${totalCleaned}`);
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
+      JSON.stringify({
+        success: true,
         results,
         totalCleaned,
         timestamp: new Date().toISOString(),
       }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
-
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-    console.error('❌ Cleanup error:', errorMessage);
-    
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 500 }
-    );
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error("❌ Cleanup error:", errorMessage);
+
+    return new Response(JSON.stringify({ success: false, error: errorMessage }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+    });
   }
 });

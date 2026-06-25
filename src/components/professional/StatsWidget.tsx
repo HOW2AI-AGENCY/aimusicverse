@@ -3,15 +3,22 @@
  * Shows key metrics for professional users with real data
  */
 
-import { motion } from '@/lib/motion';
-import { 
-  Music, Scissors, FileMusic, Clock, 
-  TrendingUp, Activity, Zap, ArrowUpRight, ArrowDownRight
-} from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useUserStudioStats, formatStudioTime, getChangeIndicator } from '@/hooks/useUserStudioStats';
+import { motion } from "@/lib/motion";
+import {
+  Music,
+  Scissors,
+  FileMusic,
+  Clock,
+  TrendingUp,
+  Activity,
+  Zap,
+  ArrowUpRight,
+  ArrowDownRight,
+} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useUserStudioStats, formatStudioTime, getChangeIndicator } from "@/hooks/useUserStudioStats";
 
 export interface Stat {
   id: string;
@@ -21,12 +28,12 @@ export interface Stat {
   color: string;
   bgColor: string;
   change?: string;
-  trend?: 'up' | 'down' | 'neutral';
+  trend?: "up" | "down" | "neutral";
 }
 
 interface StatsWidgetProps {
   stats?: Stat[];
-  variant?: 'grid' | 'row';
+  variant?: "grid" | "row";
   showTrend?: boolean;
   animated?: boolean;
   className?: string;
@@ -38,114 +45,106 @@ interface StatsWidgetProps {
  */
 function useRealStats(): Stat[] {
   const { data: stats } = useUserStudioStats();
-  
+
   if (!stats) return [];
-  
+
   const tracksChange = getChangeIndicator(stats.weeklyChange.tracks);
   const stemsChange = getChangeIndicator(stats.weeklyChange.stems);
-  
+
   return [
     {
-      id: 'tracks',
-      label: 'Треков создано',
+      id: "tracks",
+      label: "Треков создано",
       value: stats.totalTracks,
       icon: Music,
-      color: 'text-pink-400',
-      bgColor: 'bg-pink-500/10',
+      color: "text-pink-400",
+      bgColor: "bg-pink-500/10",
       change: tracksChange.sign,
       trend: tracksChange.trend,
     },
     {
-      id: 'stems',
-      label: 'Стемов разделено',
+      id: "stems",
+      label: "Стемов разделено",
       value: stats.totalStems,
       icon: Scissors,
-      color: 'text-cyan-400',
-      bgColor: 'bg-cyan-500/10',
+      color: "text-cyan-400",
+      bgColor: "bg-cyan-500/10",
       change: stemsChange.sign,
       trend: stemsChange.trend,
     },
     {
-      id: 'midi',
-      label: 'MIDI файлов',
+      id: "midi",
+      label: "MIDI файлов",
       value: stats.totalMidiFiles,
       icon: FileMusic,
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/10',
+      color: "text-green-400",
+      bgColor: "bg-green-500/10",
     },
     {
-      id: 'time',
-      label: 'Времени в студии',
+      id: "time",
+      label: "Времени в студии",
       value: formatStudioTime(stats.totalStudioTime),
       icon: Clock,
-      color: 'text-amber-400',
-      bgColor: 'bg-amber-500/10',
+      color: "text-amber-400",
+      bgColor: "bg-amber-500/10",
     },
   ];
 }
 
 const defaultStats: Stat[] = [
   {
-    id: 'tracks',
-    label: 'Треков создано',
+    id: "tracks",
+    label: "Треков создано",
     value: 0,
     icon: Music,
-    color: 'text-pink-400',
-    bgColor: 'bg-pink-500/10',
+    color: "text-pink-400",
+    bgColor: "bg-pink-500/10",
   },
   {
-    id: 'stems',
-    label: 'Стемов разделено',
+    id: "stems",
+    label: "Стемов разделено",
     value: 0,
     icon: Scissors,
-    color: 'text-cyan-400',
-    bgColor: 'bg-cyan-500/10',
+    color: "text-cyan-400",
+    bgColor: "bg-cyan-500/10",
   },
   {
-    id: 'midi',
-    label: 'MIDI файлов',
+    id: "midi",
+    label: "MIDI файлов",
     value: 0,
     icon: FileMusic,
-    color: 'text-green-400',
-    bgColor: 'bg-green-500/10',
+    color: "text-green-400",
+    bgColor: "bg-green-500/10",
   },
   {
-    id: 'time',
-    label: 'Времени в студии',
-    value: '0м',
+    id: "time",
+    label: "Времени в студии",
+    value: "0м",
     icon: Clock,
-    color: 'text-amber-400',
-    bgColor: 'bg-amber-500/10',
+    color: "text-amber-400",
+    bgColor: "bg-amber-500/10",
   },
 ];
 export function StatsWidget({
   stats: propStats,
-  variant = 'grid',
+  variant = "grid",
   showTrend = true,
   animated = true,
   className,
   useRealData = true,
 }: StatsWidgetProps) {
   const realStats = useRealStats();
-  const isGrid = variant === 'grid';
-  
+  const isGrid = variant === "grid";
+
   // Use real data if enabled and available, otherwise fall back to props or defaults
-  const stats = useRealData && realStats.length > 0 
-    ? realStats 
-    : (propStats || defaultStats);
+  const stats = useRealData && realStats.length > 0 ? realStats : propStats || defaultStats;
 
   return (
-    <div
-      className={cn(
-        'gap-3',
-        isGrid ? 'grid grid-cols-2 sm:grid-cols-4' : 'flex flex-col sm:flex-row',
-        className
-      )}
-    >
+    <div className={cn("gap-3", isGrid ? "grid grid-cols-2 sm:grid-cols-4" : "flex flex-col sm:flex-row", className)}>
       {stats.map((stat, index) => {
         const Icon = stat.icon;
-        const isTrendUp = stat.trend === 'up';
-        const isTrendDown = stat.trend === 'down';
+        const isTrendUp = stat.trend === "up";
+        const isTrendDown = stat.trend === "down";
 
         return (
           <motion.div
@@ -159,11 +158,8 @@ export function StatsWidget({
               <CardContent className="p-4 space-y-3">
                 {/* Icon & Trend */}
                 <div className="flex items-start justify-between">
-                  <motion.div
-                    className={cn('p-2 rounded-lg', stat.bgColor)}
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                  >
-                    <Icon className={cn('w-5 h-5', stat.color)} />
+                  <motion.div className={cn("p-2 rounded-lg", stat.bgColor)} whileHover={{ scale: 1.1, rotate: 5 }}>
+                    <Icon className={cn("w-5 h-5", stat.color)} />
                   </motion.div>
 
                   {/* Trend Badge */}
@@ -171,9 +167,9 @@ export function StatsWidget({
                     <Badge
                       variant="secondary"
                       className={cn(
-                        'text-[10px] px-1.5 py-0 h-5 gap-0.5',
-                        isTrendUp && 'bg-green-500/10 text-green-400 border-green-500/20',
-                        isTrendDown && 'bg-red-500/10 text-red-400 border-red-500/20'
+                        "text-[10px] px-1.5 py-0 h-5 gap-0.5",
+                        isTrendUp && "bg-green-500/10 text-green-400 border-green-500/20",
+                        isTrendDown && "bg-red-500/10 text-red-400 border-red-500/20",
                       )}
                     >
                       {isTrendUp && <ArrowUpRight className="w-3 h-3" />}
@@ -187,14 +183,10 @@ export function StatsWidget({
                   className="space-y-1"
                   initial={animated ? { scale: 0.8 } : undefined}
                   animate={animated ? { scale: 1 } : undefined}
-                  transition={animated ? { delay: index * 0.1 + 0.1, type: 'spring' } : undefined}
+                  transition={animated ? { delay: index * 0.1 + 0.1, type: "spring" } : undefined}
                 >
-                  <div className="text-3xl font-bold tabular-nums">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-muted-foreground leading-tight">
-                    {stat.label}
-                  </div>
+                  <div className="text-3xl font-bold tabular-nums">{stat.value}</div>
+                  <div className="text-xs text-muted-foreground leading-tight">{stat.label}</div>
                 </motion.div>
 
                 {/* Progress Indicator (optional animation) */}
@@ -202,11 +194,11 @@ export function StatsWidget({
                   <motion.div
                     className="h-1 bg-muted rounded-full overflow-hidden"
                     initial={{ width: 0 }}
-                    animate={{ width: '100%' }}
+                    animate={{ width: "100%" }}
                     transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
                   >
                     <motion.div
-                      className={cn('h-full', `bg-gradient-to-r ${stat.color.replace('text-', 'from-')}`)}
+                      className={cn("h-full", `bg-gradient-to-r ${stat.color.replace("text-", "from-")}`)}
                       initial={{ width: 0 }}
                       animate={{ width: `${65 + index * 5}%` }}
                       transition={{ delay: index * 0.1 + 0.4, duration: 0.8 }}
@@ -234,16 +226,16 @@ export function StatsSummaryCard({
 }) {
   const realStats = useRealStats();
   const { data: studioStats } = useUserStudioStats();
-  
-  const stats = useRealData && realStats.length > 0 ? realStats : (propStats || defaultStats);
+
+  const stats = useRealData && realStats.length > 0 ? realStats : propStats || defaultStats;
   const productivityScore = studioStats?.productivityScore || 0;
-  
-  const totalTracks = stats.find(s => s.id === 'tracks')?.value || 0;
-  const totalStems = stats.find(s => s.id === 'stems')?.value || 0;
-  const totalMidi = stats.find(s => s.id === 'midi')?.value || 0;
+
+  const totalTracks = stats.find((s) => s.id === "tracks")?.value || 0;
+  const totalStems = stats.find((s) => s.id === "stems")?.value || 0;
+  const totalMidi = stats.find((s) => s.id === "midi")?.value || 0;
 
   return (
-    <Card className={cn('border-2 border-primary/20 bg-gradient-to-br from-background to-primary/5', className)}>
+    <Card className={cn("border-2 border-primary/20 bg-gradient-to-br from-background to-primary/5", className)}>
       <CardContent className="p-4 space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -274,15 +266,11 @@ export function StatsSummaryCard({
                 transition={{ delay: index * 0.1 }}
                 className="text-center space-y-1"
               >
-                <div className={cn('p-2 rounded-lg inline-flex', stat.bgColor)}>
-                  <Icon className={cn('w-4 h-4', stat.color)} />
+                <div className={cn("p-2 rounded-lg inline-flex", stat.bgColor)}>
+                  <Icon className={cn("w-4 h-4", stat.color)} />
                 </div>
-                <div className="text-2xl font-bold tabular-nums">
-                  {stat.value}
-                </div>
-                <div className="text-[10px] text-muted-foreground leading-tight">
-                  {stat.label}
-                </div>
+                <div className="text-2xl font-bold tabular-nums">{stat.value}</div>
+                <div className="text-[10px] text-muted-foreground leading-tight">{stat.label}</div>
               </motion.div>
             );
           })}
@@ -299,7 +287,7 @@ export function StatsSummaryCard({
               className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-purple-500 rounded-full"
               initial={{ width: 0 }}
               animate={{ width: `${productivityScore}%` }}
-              transition={{ duration: 1, ease: 'easeOut' }}
+              transition={{ duration: 1, ease: "easeOut" }}
             />
           </div>
         </div>
@@ -313,9 +301,9 @@ export function StatsSummaryCard({
         >
           <Zap className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <p className="text-xs text-muted-foreground">
-            Отличная работа! Вы создали <strong className="text-foreground">{totalTracks}</strong> треков,
-            разделили <strong className="text-foreground">{totalStems}</strong> стемов и
-            сгенерировали <strong className="text-foreground">{totalMidi}</strong> MIDI файлов.
+            Отличная работа! Вы создали <strong className="text-foreground">{totalTracks}</strong> треков, разделили{" "}
+            <strong className="text-foreground">{totalStems}</strong> стемов и сгенерировали{" "}
+            <strong className="text-foreground">{totalMidi}</strong> MIDI файлов.
           </p>
         </motion.div>
       </CardContent>

@@ -1,10 +1,10 @@
-import { useState, useRef, useCallback } from 'react';
-import { motion, useMotionValue, useTransform, AnimatePresence } from '@/lib/motion';
-import type { PanInfo } from '@/lib/motion';
-import { ListPlus, RefreshCw, Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
-import { useFeatureUsageTracking, FeatureEvents } from '@/hooks/analytics';
+import { useState, useRef, useCallback } from "react";
+import { motion, useMotionValue, useTransform, AnimatePresence } from "@/lib/motion";
+import type { PanInfo } from "@/lib/motion";
+import { ListPlus, RefreshCw, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
+import { useFeatureUsageTracking, FeatureEvents } from "@/hooks/analytics";
 
 interface SwipeableTrackItemProps {
   children: React.ReactNode;
@@ -26,12 +26,12 @@ export function SwipeableTrackItem({
   hasMultipleVersions = false,
   className,
 }: SwipeableTrackItemProps) {
-  const [isOpen, setIsOpen] = useState<'left' | 'right' | null>(null);
-  const [actionTriggered, setActionTriggered] = useState<'queue' | 'version' | null>(null);
+  const [isOpen, setIsOpen] = useState<"left" | "right" | null>(null);
+  const [actionTriggered, setActionTriggered] = useState<"queue" | "version" | null>(null);
   const x = useMotionValue(0);
-  const dragDirectionRef = useRef<'x' | 'y' | null>(null);
+  const dragDirectionRef = useRef<"x" | "y" | null>(null);
   const { trackFeature } = useFeatureUsageTracking();
-  
+
   // Transform for action button opacity, scale and glow
   const leftOpacity = useTransform(x, [-ACTION_WIDTH, -20, 0], [1, 0.5, 0]);
   const leftScale = useTransform(x, [-ACTION_WIDTH, -20, 0], [1, 0.85, 0.6]);
@@ -52,21 +52,21 @@ export function SwipeableTrackItem({
     if (!dragDirectionRef.current && (absX > MIN_DRAG_DISTANCE || absY > MIN_DRAG_DISTANCE)) {
       // If vertical movement dominates - lock as vertical
       if (absY > absX * VERTICAL_DOMINANCE_RATIO) {
-        dragDirectionRef.current = 'y';
+        dragDirectionRef.current = "y";
       } else if (absX > absY) {
-        dragDirectionRef.current = 'x';
+        dragDirectionRef.current = "x";
       }
     }
 
     // If vertical - reset horizontal position
-    if (dragDirectionRef.current === 'y') {
+    if (dragDirectionRef.current === "y") {
       x.set(0);
     }
   };
-  
+
   const handleDragEnd = (_event: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
     // If was vertical scroll - just reset
-    if (dragDirectionRef.current === 'y') {
+    if (dragDirectionRef.current === "y") {
       setIsOpen(null);
       x.set(0);
       return;
@@ -74,19 +74,19 @@ export function SwipeableTrackItem({
 
     const offset = info.offset.x;
     const velocity = info.velocity.x;
-    
+
     // Quick swipe detection
     const isQuickSwipe = Math.abs(velocity) > 400;
-    
+
     if (offset < -SWIPE_THRESHOLD || (isQuickSwipe && velocity < 0)) {
       // Swipe left - show queue action
-      hapticImpact('light');
-      setIsOpen('left');
+      hapticImpact("light");
+      setIsOpen("left");
       x.set(-ACTION_WIDTH);
     } else if ((offset > SWIPE_THRESHOLD || (isQuickSwipe && velocity > 0)) && hasMultipleVersions) {
       // Swipe right - show version action (only if has multiple versions)
-      hapticImpact('light');
-      setIsOpen('right');
+      hapticImpact("light");
+      setIsOpen("right");
       x.set(ACTION_WIDTH);
     } else {
       // Reset
@@ -95,27 +95,30 @@ export function SwipeableTrackItem({
     }
   };
 
-  const handleActionClick = useCallback((action: 'queue' | 'version') => {
-    hapticImpact('medium');
-    setActionTriggered(action);
-    
-    // Track swipe action
-    if (action === 'queue') {
-      trackFeature(FeatureEvents.SWIPE_ACTION('add_to_queue'));
-      trackFeature(FeatureEvents.QUEUE_MODIFIED('add'));
-      onAddToQueue?.();
-    } else if (action === 'version') {
-      trackFeature(FeatureEvents.SWIPE_ACTION('switch_version'));
-      onSwitchVersion?.();
-    }
-    
-    // Show success feedback then reset
-    setTimeout(() => {
-      setActionTriggered(null);
-      setIsOpen(null);
-      x.set(0);
-    }, 400);
-  }, [onAddToQueue, onSwitchVersion, trackFeature, x]);
+  const handleActionClick = useCallback(
+    (action: "queue" | "version") => {
+      hapticImpact("medium");
+      setActionTriggered(action);
+
+      // Track swipe action
+      if (action === "queue") {
+        trackFeature(FeatureEvents.SWIPE_ACTION("add_to_queue"));
+        trackFeature(FeatureEvents.QUEUE_MODIFIED("add"));
+        onAddToQueue?.();
+      } else if (action === "version") {
+        trackFeature(FeatureEvents.SWIPE_ACTION("switch_version"));
+        onSwitchVersion?.();
+      }
+
+      // Show success feedback then reset
+      setTimeout(() => {
+        setActionTriggered(null);
+        setIsOpen(null);
+        x.set(0);
+      }, 400);
+    },
+    [onAddToQueue, onSwitchVersion, trackFeature, x],
+  );
 
   const closeSwipe = () => {
     setIsOpen(null);
@@ -123,35 +126,33 @@ export function SwipeableTrackItem({
   };
 
   return (
-    <div 
-      className={cn("relative overflow-hidden rounded-xl", className)}
-    >
+    <div className={cn("relative overflow-hidden rounded-xl", className)}>
       {/* Left action - Add to Queue (revealed when swiping left) */}
       <motion.div
         className="absolute inset-y-0 right-0 w-[72px] flex items-center justify-center rounded-r-xl overflow-hidden"
         style={{ opacity: leftOpacity }}
       >
         {/* Animated gradient background */}
-        <motion.div 
+        <motion.div
           className="absolute inset-0 bg-gradient-to-l from-primary via-primary/90 to-primary/70"
           style={{ opacity: leftGlow }}
         />
-        <motion.div 
+        <motion.div
           className="absolute inset-0 bg-primary/20"
-          animate={{ 
-            opacity: isOpen === 'left' ? [0.3, 0.6, 0.3] : 0 
+          animate={{
+            opacity: isOpen === "left" ? [0.3, 0.6, 0.3] : 0,
           }}
           transition={{ duration: 1.5, repeat: Infinity }}
         />
-        
+
         <motion.button
-          onClick={() => handleActionClick('queue')}
+          onClick={() => handleActionClick("queue")}
           className="relative flex flex-col items-center justify-center gap-1 text-primary-foreground p-3 touch-manipulation z-10"
           style={{ scale: leftScale }}
           whileTap={{ scale: 0.9 }}
         >
           <AnimatePresence mode="wait">
-            {actionTriggered === 'queue' ? (
+            {actionTriggered === "queue" ? (
               <motion.div
                 key="check"
                 initial={{ scale: 0, rotate: -180 }}
@@ -162,12 +163,7 @@ export function SwipeableTrackItem({
                 <Check className="w-6 h-6" />
               </motion.div>
             ) : (
-              <motion.div
-                key="icon"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0 }}
-              >
+              <motion.div key="icon" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
                 <ListPlus className="w-6 h-6" />
               </motion.div>
             )}
@@ -183,26 +179,26 @@ export function SwipeableTrackItem({
           style={{ opacity: rightOpacity }}
         >
           {/* Animated gradient background */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-gradient-to-r from-secondary via-secondary/90 to-secondary/70"
             style={{ opacity: rightGlow }}
           />
-          <motion.div 
+          <motion.div
             className="absolute inset-0 bg-secondary/20"
-            animate={{ 
-              opacity: isOpen === 'right' ? [0.3, 0.6, 0.3] : 0 
+            animate={{
+              opacity: isOpen === "right" ? [0.3, 0.6, 0.3] : 0,
             }}
             transition={{ duration: 1.5, repeat: Infinity }}
           />
-          
+
           <motion.button
-            onClick={() => handleActionClick('version')}
+            onClick={() => handleActionClick("version")}
             className="relative flex flex-col items-center justify-center gap-1 text-secondary-foreground p-3 touch-manipulation z-10"
             style={{ scale: rightScale }}
             whileTap={{ scale: 0.9 }}
           >
             <AnimatePresence mode="wait">
-              {actionTriggered === 'version' ? (
+              {actionTriggered === "version" ? (
                 <motion.div
                   key="check"
                   initial={{ scale: 0, rotate: -180 }}
@@ -233,9 +229,9 @@ export function SwipeableTrackItem({
       <motion.div
         drag="x"
         dragDirectionLock
-        dragConstraints={{ 
-          left: -ACTION_WIDTH, 
-          right: hasMultipleVersions ? ACTION_WIDTH : 0 
+        dragConstraints={{
+          left: -ACTION_WIDTH,
+          right: hasMultipleVersions ? ACTION_WIDTH : 0,
         }}
         dragElastic={0.15}
         dragMomentum={false}
@@ -248,10 +244,7 @@ export function SwipeableTrackItem({
             closeSwipe();
           }
         }}
-        className={cn(
-          "relative bg-background rounded-xl transition-shadow duration-200",
-          isOpen && "shadow-lg"
-        )}
+        className={cn("relative bg-background rounded-xl transition-shadow duration-200", isOpen && "shadow-lg")}
       >
         {children}
       </motion.div>

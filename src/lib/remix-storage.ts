@@ -1,10 +1,10 @@
 /**
  * Remix Storage Utility
- * 
+ *
  * Manages session storage for remix data when creating track remixes.
  */
 
-const REMIX_DATA_KEY = 'musicverse_remix_data';
+const REMIX_DATA_KEY = "musicverse_remix_data";
 
 export interface RemixData {
   parentTrackId: string;

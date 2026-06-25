@@ -13,21 +13,21 @@
 - [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L43) (1 connections)
 - [{ selectedSection, customRange, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L72) (1 connections)
 - [{
-    startTime,
-    endTime,
-    sectionDuration,
-    maxDuration,
-    isValidDuration,
-    isSubmitting,
-    prompt,
-    setPrompt,
-    tags,
-    setTags,
-    lyrics,
-    setLyrics,
-    addPreset,
-    executeReplacement,
-    reset,
+  startTime,
+  endTime,
+  sectionDuration,
+  maxDuration,
+  isValidDuration,
+  isSubmitting,
+  prompt,
+  setPrompt,
+  tags,
+  setTags,
+  lyrics,
+  setLyrics,
+  addPreset,
+  executeReplacement,
+  reset,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L75) (1 connections)
 
 ## Relationships
@@ -46,4 +46,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

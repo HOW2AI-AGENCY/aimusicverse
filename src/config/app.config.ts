@@ -5,16 +5,16 @@
 
 export const APP_CONFIG = {
   // Version info
-  version: '1.0.0-beta',
-  versionName: 'Beta',
-  buildDate: '2025-12-23',
-  
+  version: "1.0.0-beta",
+  versionName: "Beta",
+  buildDate: "2025-12-23",
+
   // Beta settings
   beta: {
     enabled: true,
-    feedbackUrl: 'https://t.me/musicverse_support',
+    feedbackUrl: "https://t.me/musicverse_support",
   },
-  
+
   // Feature flags for beta
   features: {
     // Fully implemented features
@@ -25,7 +25,7 @@ export const APP_CONFIG = {
     vocalRecording: true,
     gamification: true,
     socialFeatures: true,
-    
+
     // Coming soon / Partially implemented
     midiTranscription: false, // Coming soon
     advancedMastering: false, // Coming soon
@@ -34,7 +34,7 @@ export const APP_CONFIG = {
     mobileRecording: false, // Coming soon
     liveStreaming: false, // Coming soon
   },
-  
+
   // Performance settings
   performance: {
     lazyLoadImages: true,
@@ -42,11 +42,11 @@ export const APP_CONFIG = {
     cacheAudio: true,
     reducedMotionRespect: true,
   },
-  
+
   // Analytics & Monitoring
   monitoring: {
     sentryEnabled: !!import.meta.env.VITE_SENTRY_DSN,
-    loggingLevel: import.meta.env.MODE === 'production' ? 'warn' : 'debug',
+    loggingLevel: import.meta.env.MODE === "production" ? "warn" : "debug",
   },
 } as const;
 
@@ -73,68 +73,68 @@ export function getComingSoonFeatures(): FeatureKey[] {
  */
 export const FEATURE_METADATA: Record<FeatureKey, { name: string; description: string; icon?: string }> = {
   musicGeneration: {
-    name: 'Генерация музыки',
-    description: 'AI создаёт уникальные треки по вашему описанию',
-    icon: '🎵',
+    name: "Генерация музыки",
+    description: "AI создаёт уникальные треки по вашему описанию",
+    icon: "🎵",
   },
   stemSeparation: {
-    name: 'Разделение на стемы',
-    description: 'Разделите любой трек на отдельные инструменты',
-    icon: '🎚️',
+    name: "Разделение на стемы",
+    description: "Разделите любой трек на отдельные инструменты",
+    icon: "🎚️",
   },
   guitarStudio: {
-    name: 'Гитарная студия',
-    description: 'Анализ и транскрипция гитарных партий',
-    icon: '🎸',
+    name: "Гитарная студия",
+    description: "Анализ и транскрипция гитарных партий",
+    icon: "🎸",
   },
   lyricsStudio: {
-    name: 'Студия текстов',
-    description: 'AI-помощник для написания текстов песен',
-    icon: '📝',
+    name: "Студия текстов",
+    description: "AI-помощник для написания текстов песен",
+    icon: "📝",
   },
   vocalRecording: {
-    name: 'Запись вокала',
-    description: 'Записывайте вокал прямо в приложении',
-    icon: '🎤',
+    name: "Запись вокала",
+    description: "Записывайте вокал прямо в приложении",
+    icon: "🎤",
   },
   gamification: {
-    name: 'Геймификация',
-    description: 'Достижения, уровни и награды',
-    icon: '🏆',
+    name: "Геймификация",
+    description: "Достижения, уровни и награды",
+    icon: "🏆",
   },
   socialFeatures: {
-    name: 'Социальные функции',
-    description: 'Подписки, лайки и комментарии',
-    icon: '👥',
+    name: "Социальные функции",
+    description: "Подписки, лайки и комментарии",
+    icon: "👥",
   },
   midiTranscription: {
-    name: 'MIDI транскрипция',
-    description: 'Конвертация аудио в MIDI-формат',
-    icon: '🎹',
+    name: "MIDI транскрипция",
+    description: "Конвертация аудио в MIDI-формат",
+    icon: "🎹",
   },
   advancedMastering: {
-    name: 'Мастеринг',
-    description: 'Профессиональная обработка треков',
-    icon: '🔊',
+    name: "Мастеринг",
+    description: "Профессиональная обработка треков",
+    icon: "🔊",
   },
   aiMixing: {
-    name: 'AI Микширование',
-    description: 'Автоматическое сведение треков',
-    icon: '🎛️',
+    name: "AI Микширование",
+    description: "Автоматическое сведение треков",
+    icon: "🎛️",
   },
   cloudCollaboration: {
-    name: 'Облачная коллаборация',
-    description: 'Совместная работа над проектами',
-    icon: '☁️',
+    name: "Облачная коллаборация",
+    description: "Совместная работа над проектами",
+    icon: "☁️",
   },
   mobileRecording: {
-    name: 'Мобильная запись',
-    description: 'Профессиональная запись с телефона',
-    icon: '📱',
+    name: "Мобильная запись",
+    description: "Профессиональная запись с телефона",
+    icon: "📱",
   },
   liveStreaming: {
-    name: 'Прямые трансляции',
-    description: 'Стримы и живые выступления',
-    icon: '📺',
+    name: "Прямые трансляции",
+    description: "Стримы и живые выступления",
+    icon: "📺",
   },
 };

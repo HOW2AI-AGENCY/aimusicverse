@@ -3,24 +3,38 @@
  * Shows recent changes with icons, timestamps, and details
  */
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  History, Scissors, Music2, GitBranch, Wand2, 
-  ChevronDown, ChevronUp, Crop, Expand, Activity,
-  Volume2, VolumeX, Check, X, Loader2, Monitor
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { useStudioChangeLog, StudioChangeEntry, getChangeTypeLabel, StudioChangeType } from '@/hooks/useStudioChangeLog';
-import { cn } from '@/lib/utils';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
+  History,
+  Scissors,
+  Music2,
+  GitBranch,
+  Wand2,
+  ChevronDown,
+  ChevronUp,
+  Crop,
+  Expand,
+  Activity,
+  Volume2,
+  VolumeX,
+  Check,
+  X,
+  Loader2,
+  Monitor,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  useStudioChangeLog,
+  StudioChangeEntry,
+  getChangeTypeLabel,
+  StudioChangeType,
+} from "@/hooks/useStudioChangeLog";
+import { cn } from "@/lib/utils";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 interface StudioActivityLogProps {
   trackId: string;
@@ -32,7 +46,7 @@ interface StudioActivityLogProps {
 const iconMap: Record<string, React.ReactNode> = {
   scissors: <Scissors className="w-3.5 h-3.5" />,
   music: <Music2 className="w-3.5 h-3.5" />,
-  'git-branch': <GitBranch className="w-3.5 h-3.5" />,
+  "git-branch": <GitBranch className="w-3.5 h-3.5" />,
   wand: <Wand2 className="w-3.5 h-3.5" />,
   crop: <Crop className="w-3.5 h-3.5" />,
   expand: <Expand className="w-3.5 h-3.5" />,
@@ -41,33 +55,35 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 function getIcon(type: StudioChangeType): React.ReactNode {
-  if (type.startsWith('section_replacement')) return iconMap.scissors;
-  if (type.includes('mute')) return <VolumeX className="w-3.5 h-3.5" />;
-  if (type.includes('unmute') || type.includes('volume')) return <Volume2 className="w-3.5 h-3.5" />;
-  if (type.startsWith('stem_')) return iconMap.music;
-  if (type.startsWith('version_')) return iconMap['git-branch'];
-  if (type.includes('trim')) return iconMap.crop;
-  if (type.includes('extend')) return iconMap.expand;
-  if (type.includes('remix')) return iconMap.wand;
-  if (type.includes('studio')) return iconMap.monitor;
+  if (type.startsWith("section_replacement")) return iconMap.scissors;
+  if (type.includes("mute")) return <VolumeX className="w-3.5 h-3.5" />;
+  if (type.includes("unmute") || type.includes("volume")) return <Volume2 className="w-3.5 h-3.5" />;
+  if (type.startsWith("stem_")) return iconMap.music;
+  if (type.startsWith("version_")) return iconMap["git-branch"];
+  if (type.includes("trim")) return iconMap.crop;
+  if (type.includes("extend")) return iconMap.expand;
+  if (type.includes("remix")) return iconMap.wand;
+  if (type.includes("studio")) return iconMap.monitor;
   return iconMap.activity;
 }
 
-function getStatusBadge(type: StudioChangeType): { variant: 'default' | 'secondary' | 'destructive' | 'outline'; label: string } | null {
-  if (type.includes('completed')) return { variant: 'default', label: 'Готово' };
-  if (type.includes('started')) return { variant: 'secondary', label: 'В процессе' };
-  if (type.includes('failed') || type.includes('discarded')) return { variant: 'outline', label: 'Отменено' };
-  if (type.includes('applied')) return { variant: 'default', label: 'Применено' };
+function getStatusBadge(
+  type: StudioChangeType,
+): { variant: "default" | "secondary" | "destructive" | "outline"; label: string } | null {
+  if (type.includes("completed")) return { variant: "default", label: "Готово" };
+  if (type.includes("started")) return { variant: "secondary", label: "В процессе" };
+  if (type.includes("failed") || type.includes("discarded")) return { variant: "outline", label: "Отменено" };
+  if (type.includes("applied")) return { variant: "default", label: "Применено" };
   return null;
 }
 
 function ActivityItem({ entry, index }: { entry: StudioChangeEntry; index: number }) {
   const statusBadge = getStatusBadge(entry.change_type as StudioChangeType);
   const metadata = entry.metadata as Record<string, unknown> | null;
-  
-  const timeAgo = formatDistanceToNow(new Date(entry.created_at), { 
+
+  const timeAgo = formatDistanceToNow(new Date(entry.created_at), {
     addSuffix: true,
-    locale: ru 
+    locale: ru,
   });
 
   return (
@@ -77,17 +93,19 @@ function ActivityItem({ entry, index }: { entry: StudioChangeEntry; index: numbe
       transition={{ delay: index * 0.03 }}
       className="flex items-start gap-3 py-2.5 border-b border-border/30 last:border-0"
     >
-      <div className={cn(
-        "w-7 h-7 rounded-lg flex items-center justify-center shrink-0",
-        entry.change_type.includes('completed') || entry.change_type.includes('applied')
-          ? "bg-primary/10 text-primary"
-          : entry.change_type.includes('failed') || entry.change_type.includes('discarded')
-          ? "bg-destructive/10 text-destructive"
-          : "bg-muted text-muted-foreground"
-      )}>
+      <div
+        className={cn(
+          "w-7 h-7 rounded-lg flex items-center justify-center shrink-0",
+          entry.change_type.includes("completed") || entry.change_type.includes("applied")
+            ? "bg-primary/10 text-primary"
+            : entry.change_type.includes("failed") || entry.change_type.includes("discarded")
+              ? "bg-destructive/10 text-destructive"
+              : "bg-muted text-muted-foreground",
+        )}
+      >
         {getIcon(entry.change_type as StudioChangeType)}
       </div>
-      
+
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           <span className="text-sm font-medium truncate">
@@ -99,7 +117,7 @@ function ActivityItem({ entry, index }: { entry: StudioChangeEntry; index: numbe
             </Badge>
           )}
         </div>
-        
+
         <div className="flex items-center gap-2 text-xs text-muted-foreground">
           <span>{timeAgo}</span>
           {metadata?.sectionStart !== undefined && metadata?.sectionEnd !== undefined && (
@@ -121,22 +139,18 @@ function ActivityItem({ entry, index }: { entry: StudioChangeEntry; index: numbe
 function formatSeconds(seconds: number): string {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
-export function StudioActivityLog({ 
-  trackId, 
-  className, 
-  maxItems = 10,
-  collapsible = true 
-}: StudioActivityLogProps) {
+export function StudioActivityLog({ trackId, className, maxItems = 10, collapsible = true }: StudioActivityLogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { changeLog, isLoading } = useStudioChangeLog(trackId);
-  
+
   // Filter out session open/close for cleaner display
-  const filteredLog = changeLog?.filter(
-    entry => !entry.change_type.includes('studio_opened') && !entry.change_type.includes('studio_closed')
-  ).slice(0, maxItems) || [];
+  const filteredLog =
+    changeLog
+      ?.filter((entry) => !entry.change_type.includes("studio_opened") && !entry.change_type.includes("studio_closed"))
+      .slice(0, maxItems) || [];
 
   if (isLoading) {
     return (
@@ -167,11 +181,7 @@ export function StudioActivityLog({
               <History className="w-4 h-4" />
               История ({filteredLog.length})
             </span>
-            {isOpen ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+            {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </CollapsibleTrigger>
         <CollapsibleContent>

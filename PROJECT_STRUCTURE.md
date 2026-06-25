@@ -197,27 +197,29 @@ aimusicverse/
 
 ## 📊 Статистика проекта
 
-| Метрика | Значение |
-|---------|----------|
-| **React компоненты** | 1,124+ |
-| **TypeScript файлы** | 1,957+ |
-| **Кастомные хуки** | 200+ |
-| **Edge Functions** | 99+ |
-| **Таблиц в БД** | 30+ |
-| **E2E тесты** | 62+ |
-| **Unit тесты** | 27+ |
-| **Файлов документации** | 100+ |
-| **Завершённых спринтов** | 35+ |
-| **ADR записей** | 8 |
+| Метрика                  | Значение |
+| ------------------------ | -------- |
+| **React компоненты**     | 1,124+   |
+| **TypeScript файлы**     | 1,957+   |
+| **Кастомные хуки**       | 200+     |
+| **Edge Functions**       | 99+      |
+| **Таблиц в БД**          | 30+      |
+| **E2E тесты**            | 62+      |
+| **Unit тесты**           | 27+      |
+| **Файлов документации**  | 100+     |
+| **Завершённых спринтов** | 35+      |
+| **ADR записей**          | 8        |
 
 ---
 
 ## 🎯 Ключевые директории
 
 ### `src/` — Исходный код
+
 Основная директория приложения, содержащая все React компоненты, хуки, сервисы и утилиты.
 
 **Важные поддиректории:**
+
 - `components/` — UI компоненты (мобильные, плеер, генерация, студия)
 - `hooks/` — Переиспользуемая логика
 - `services/` — Бизнес-логика и API вызовы
@@ -225,33 +227,41 @@ aimusicverse/
 - `pages/` — Маршруты приложения
 
 ### `docs/` — Документация
+
 Полная документация проекта, включая архитектуру, API, руководства и справочники.
 
 **Важные файлы:**
+
 - `INDEX.md` — Главный индекс документации
 - `ARCHITECTURE_DIAGRAMS.md` — Визуальные диаграммы
 - `DEVELOPMENT_WORKFLOW.md` — Процесс разработки
 - `TESTING_INFRASTRUCTURE.md` — Руководство по тестированию
 
 ### `supabase/` — Backend
+
 Backend инфраструктура на Supabase.
 
 **Важные поддиректории:**
+
 - `functions/` — Serverless Edge Functions
 - `migrations/` — Миграции базы данных
 
 ### `tests/` — Тесты
+
 Полный набор тестов для обеспечения качества.
 
 **Типы тестов:**
+
 - `e2e/` — End-to-end тесты (Playwright)
 - `unit/` — Unit тесты (Jest/Vitest)
 - `integration/` — Интеграционные тесты
 
 ### `ADR/` — Architecture Decision Records
+
 Записи архитектурных решений, объясняющих ключевые выборы в проекте.
 
 ### `SPRINTS/` — Управление спринтами
+
 Документация по agile-разработке и трекинг прогресса.
 
 ---
@@ -259,6 +269,7 @@ Backend инфраструктура на Supabase.
 ## 🔗 Навигация по проекту
 
 ### Для новых разработчиков
+
 1. [README.md](README.md) — Обзор проекта
 2. [CONTRIBUTING.md](CONTRIBUTING.md) — Как контрибьютить
 3. [docs/ONBOARDING.md](docs/ONBOARDING.md) — Онбординг
@@ -266,17 +277,20 @@ Backend инфраструктура на Supabase.
 5. [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — Архитектура
 
 ### Для разработчиков
+
 1. [docs/DEVELOPER_GUIDE.md](docs/DEVELOPER_GUIDE.md) — Гайд разработчика
 2. [docs/API.md](docs/API.md) — API документация
 3. [docs/HOOKS_REFERENCE.md](docs/HOOKS_REFERENCE.md) — Справочник хуков
 4. [ADR/](ADR/) — Архитектурные решения
 
 ### Для QA инженеров
+
 1. [docs/TESTING_INFRASTRUCTURE.md](docs/TESTING_INFRASTRUCTURE.md) — Тестирование
 2. [docs/QUALITY_GATES.md](docs/QUALITY_GATES.md) — Стандарты качества
 3. [tests/](tests/) — Тестовые файлы
 
 ### Для мобильных разработчиков
+
 1. [docs/SAFE_AREA_GUIDELINES.md](docs/SAFE_AREA_GUIDELINES.md) — Mobile guidelines
 2. [docs/mobile/](docs/mobile/) — Mobile документация
 3. [docs/MOBILE_COMPONENTS.md](docs/MOBILE_COMPONENTS.md) — Компоненты
@@ -286,6 +300,7 @@ Backend инфраструктура на Supabase.
 ## 📦 Зависимости
 
 ### Основные
+
 - **React 19.2** — UI фреймворк
 - **TypeScript 5.9** — Типизация
 - **Vite 5.0** — Сборка
@@ -293,19 +308,23 @@ Backend инфраструктура на Supabase.
 - **shadcn/ui** — Компоненты
 
 ### State Management
+
 - **Zustand** — Глобальное состояние
 - **TanStack Query** — Серверное состояние
 
 ### Backend
+
 - **Supabase** — BaaS
 - **PostgreSQL** — База данных
 
 ### Тестирование
+
 - **Jest** — Unit тесты
 - **Playwright** — E2E тесты
 - **Vitest** — Быстрые тесты
 
 ### Качество кода
+
 - **ESLint** — Линтинг
 - **Prettier** — Форматирование
 - **TypeScript** — Статический анализ
@@ -314,17 +333,17 @@ Backend инфраструктура на Supabase.
 
 ## 🛠️ Конфигурационные файлы
 
-| Файл | Назначение |
-|------|-----------|
-| `.prettierrc.json` | Настройки форматирования |
-| `eslint.config.js` | Правила линтинга |
-| `.editorconfig` | Стиль редактора |
-| `tsconfig.json` | TypeScript конфигурация |
-| `vite.config.ts` | Vite конфигурация |
-| `tailwind.config.ts` | Tailwind конфигурация |
-| `jest.config.js` | Jest конфигурация |
-| `playwright.config.ts` | Playwright конфигурация |
-| `lighthouserc.json` | Lighthouse бюджеты |
+| Файл                   | Назначение               |
+| ---------------------- | ------------------------ |
+| `.prettierrc.json`     | Настройки форматирования |
+| `eslint.config.js`     | Правила линтинга         |
+| `.editorconfig`        | Стиль редактора          |
+| `tsconfig.json`        | TypeScript конфигурация  |
+| `vite.config.ts`       | Vite конфигурация        |
+| `tailwind.config.ts`   | Tailwind конфигурация    |
+| `jest.config.js`       | Jest конфигурация        |
+| `playwright.config.ts` | Playwright конфигурация  |
+| `lighthouserc.json`    | Lighthouse бюджеты       |
 
 ---
 
@@ -360,18 +379,21 @@ npm run deploy             # Деплой
 ## 📝 Стандарты проекта
 
 ### Форматирование
+
 - **Prettier** — автоматическое форматирование
 - **2 пробела** — отступы
 - **LF** — окончания строк
 - **UTF-8** — кодировка
 
 ### Именование
+
 - **Компоненты:** `PascalCase` (`MusicPlayer.tsx`)
 - **Функции:** `camelCase` (`handlePlayback`)
 - **Константы:** `UPPER_SNAKE_CASE` (`MAX_DURATION`)
 - **Файлы утилит:** `camelCase.ts` (`formatDate.ts`)
 
 ### Git
+
 - **Ветки:** `feature/`, `bugfix/`, `hotfix/`
 - **Коммиты:** Conventional Commits
 - **PR:** В ветку `develop`
@@ -381,12 +403,14 @@ npm run deploy             # Деплой
 ## 🔒 Безопасность
 
 ### Что никогда не коммитить
+
 - ❌ API ключи и токены
 - ❌ Пароли и credentials
 - ❌ `.env` файлы
 - ❌ Личные данные
 
 ### Переменные окружения
+
 - `.env` — локальные (не коммитить)
 - `.env.example` — пример (коммитить)
 
@@ -408,6 +432,6 @@ npm run deploy             # Деплой
 
 [🏠 Главная](README.md) • [📖 Документация](docs/INDEX.md) • [💬 Contributing](CONTRIBUTING.md)
 
-*Последнее обновление: 2026-06-25*
+_Последнее обновление: 2026-06-25_
 
 </div>

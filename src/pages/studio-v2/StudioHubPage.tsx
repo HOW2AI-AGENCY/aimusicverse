@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Plus, Music2, Clock, Layers, MoreVertical, Trash2 } from 'lucide-react';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
-import { useStudioProject } from '@/hooks/studio/useStudioProject';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { getTelegramHeaderPaddingTop } from '@/lib/telegramSafeArea';
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from '@/components/ui/dropdown-menu';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Plus, Music2, Clock, Layers, MoreVertical, Trash2 } from "lucide-react";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
+import { useStudioProject } from "@/hooks/studio/useStudioProject";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { getTelegramHeaderPaddingTop } from "@/lib/telegramSafeArea";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,8 +24,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { StudioTrack } from '@/stores/useUnifiedStudioStore';
+} from "@/components/ui/alert-dialog";
+import { StudioTrack } from "@/stores/useUnifiedStudioStore";
 
 interface StudioProjectRow {
   id: string;
@@ -49,7 +49,7 @@ export default function StudioHubPage() {
   // Telegram BackButton - navigate to home
   useTelegramBackButton({
     visible: true,
-    fallbackPath: '/',
+    fallbackPath: "/",
   });
 
   useEffect(() => {
@@ -59,10 +59,10 @@ export default function StudioHubPage() {
   const loadProjects = async () => {
     setIsLoading(true);
     const { data } = await supabase
-      .from('studio_projects')
-      .select('id, name, description, bpm, tracks, status, created_at, updated_at, opened_at')
-      .order('opened_at', { ascending: false, nullsFirst: false });
-    
+      .from("studio_projects")
+      .select("id, name, description, bpm, tracks, status, created_at, updated_at, opened_at")
+      .order("opened_at", { ascending: false, nullsFirst: false });
+
     setProjects((data as StudioProjectRow[]) || []);
     setIsLoading(false);
   };
@@ -71,7 +71,7 @@ export default function StudioHubPage() {
     if (!deleteId) return;
     const success = await deleteProject(deleteId);
     if (success) {
-      setProjects(prev => prev.filter(p => p.id !== deleteId));
+      setProjects((prev) => prev.filter((p) => p.id !== deleteId));
     }
     setDeleteId(null);
   };
@@ -84,7 +84,7 @@ export default function StudioHubPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header with Telegram safe area */}
-      <header 
+      <header
         className="sticky top-0 z-10 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
         style={{
           paddingTop: getTelegramHeaderPaddingTop(),
@@ -92,7 +92,7 @@ export default function StudioHubPage() {
       >
         <div className="container flex h-14 items-center justify-between px-4">
           <h1 className="text-lg font-semibold">Студия v2</h1>
-          <Button size="sm" onClick={() => navigate('/studio-v2/new')}>
+          <Button size="sm" onClick={() => navigate("/studio-v2/new")}>
             <Plus className="mr-2 h-4 w-4" />
             Новый проект
           </Button>
@@ -102,7 +102,7 @@ export default function StudioHubPage() {
       <main className="container px-4 py-6">
         {isLoading ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map(i => (
+            {[1, 2, 3].map((i) => (
               <Skeleton key={i} className="h-32 rounded-xl" />
             ))}
           </div>
@@ -115,15 +115,15 @@ export default function StudioHubPage() {
             <p className="text-muted-foreground mb-6 max-w-sm">
               Создайте первый проект студии для работы с треками и сведения
             </p>
-            <Button onClick={() => navigate('/studio-v2/new')}>
+            <Button onClick={() => navigate("/studio-v2/new")}>
               <Plus className="mr-2 h-4 w-4" />
               Создать проект
             </Button>
           </div>
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map(project => (
-              <Card 
+            {projects.map((project) => (
+              <Card
                 key={project.id}
                 className="group cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg"
                 onClick={() => navigate(`/studio-v2/project/${project.id}`)}
@@ -133,25 +133,19 @@ export default function StudioHubPage() {
                     <div className="flex-1 min-w-0">
                       <h3 className="font-medium truncate">{project.name}</h3>
                       {project.description && (
-                        <p className="text-sm text-muted-foreground truncate">
-                          {project.description}
-                        </p>
+                        <p className="text-sm text-muted-foreground truncate">{project.description}</p>
                       )}
                     </div>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild onClick={e => e.stopPropagation()}>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          className="h-8 w-8 opacity-0 group-hover:opacity-100"
-                        >
+                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100">
                           <MoreVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem 
+                        <DropdownMenuItem
                           className="text-destructive"
-                          onClick={e => {
+                          onClick={(e) => {
                             e.stopPropagation();
                             setDeleteId(project.id);
                           }}
@@ -168,21 +162,17 @@ export default function StudioHubPage() {
                       <Layers className="h-3.5 w-3.5" />
                       {getTrackCount(project.tracks)} дорожек
                     </span>
-                    {project.bpm && (
-                      <span>{project.bpm} BPM</span>
-                    )}
+                    {project.bpm && <span>{project.bpm} BPM</span>}
                   </div>
 
                   <div className="mt-3 flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="h-3 w-3" />
-                    {project.opened_at || project.updated_at ? (
-                      formatDistanceToNow(
-                        new Date(project.opened_at || project.updated_at!), 
-                        { addSuffix: true, locale: ru }
-                      )
-                    ) : (
-                      'Недавно'
-                    )}
+                    {project.opened_at || project.updated_at
+                      ? formatDistanceToNow(new Date(project.opened_at || project.updated_at!), {
+                          addSuffix: true,
+                          locale: ru,
+                        })
+                      : "Недавно"}
                   </div>
                 </CardContent>
               </Card>
@@ -202,7 +192,7 @@ export default function StudioHubPage() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
-            <AlertDialogAction 
+            <AlertDialogAction
               onClick={handleDelete}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

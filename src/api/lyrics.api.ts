@@ -6,13 +6,13 @@
  * Implements endpoints from specs/031-mobile-studio-v2/contracts/api-contracts.md
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import type { Tables } from '@/integrations/supabase/types';
+import { supabase } from "@/integrations/supabase/client";
+import type { Tables } from "@/integrations/supabase/types";
 
 // ============= Type Definitions =============
 
-export type LyricVersion = Tables<'lyrics_versions'>;
-export type LyricsSectionNote = Tables<'lyrics_section_notes'>;
+export type LyricVersion = Tables<"lyrics_versions">;
+export type LyricsSectionNote = Tables<"lyrics_section_notes">;
 
 /**
  * Author information for lyric versions and notes
@@ -154,20 +154,20 @@ export interface CreateSectionNoteResponse {
  * const versions = await getLyricVersions('track-uuid');
  * console.log(versions.versions);
  */
-export async function getLyricVersions(
-  trackId: string
-): Promise<GetLyricVersionsResponse> {
+export async function getLyricVersions(trackId: string): Promise<GetLyricVersionsResponse> {
   const { data, error } = await supabase
-    .from('lyrics_versions')
-    .select(`
+    .from("lyrics_versions")
+    .select(
+      `
       *,
       profiles!lyrics_versions_user_id_fkey (
         id,
         username
       )
-    `)
-    .eq('project_track_id', trackId)
-    .order('version_number', { ascending: false });
+    `,
+    )
+    .eq("project_track_id", trackId)
+    .order("version_number", { ascending: false });
 
   if (error) {
     throw new Error(`Failed to fetch lyric versions: ${error.message}`);
@@ -217,14 +217,14 @@ export async function getLyricVersions(
 export async function createLyricVersion(
   trackId: string,
   userId: string,
-  request: CreateLyricVersionRequest
+  request: CreateLyricVersionRequest,
 ): Promise<CreateLyricVersionResponse> {
   // First, get the next version number
   const { data: existingVersions, error: fetchError } = await supabase
-    .from('lyrics_versions')
-    .select('version_number')
-    .eq('project_track_id', trackId)
-    .order('version_number', { ascending: false })
+    .from("lyrics_versions")
+    .select("version_number")
+    .eq("project_track_id", trackId)
+    .order("version_number", { ascending: false })
     .limit(1);
 
   if (fetchError) {
@@ -235,14 +235,14 @@ export async function createLyricVersion(
 
   // Set is_current to false for all existing versions
   await supabase
-    .from('lyrics_versions')
+    .from("lyrics_versions")
     .update({ is_current: false })
-    .eq('project_track_id', trackId)
-    .eq('is_current', true);
+    .eq("project_track_id", trackId)
+    .eq("is_current", true);
 
   // Create the new version
   const { data, error } = await supabase
-    .from('lyrics_versions')
+    .from("lyrics_versions")
     .insert({
       project_track_id: trackId,
       user_id: userId,
@@ -255,13 +255,15 @@ export async function createLyricVersion(
       sections_data: request.sectionsData || null,
       tags: request.tags || null,
     })
-    .select(`
+    .select(
+      `
       *,
       profiles!lyrics_versions_user_id_fkey (
         id,
         username
       )
-    `)
+    `,
+    )
     .single();
 
   if (error) {
@@ -299,14 +301,12 @@ export async function createLyricVersion(
  * const result = await restoreLyricVersion('version-uuid');
  * console.log(result.restoredVersion);
  */
-export async function restoreLyricVersion(
-  versionId: string
-): Promise<RestoreLyricVersionResponse> {
+export async function restoreLyricVersion(versionId: string): Promise<RestoreLyricVersionResponse> {
   // First, fetch the version to restore
   const { data: versionToRestore, error: fetchError } = await supabase
-    .from('lyrics_versions')
-    .select('*')
-    .eq('id', versionId)
+    .from("lyrics_versions")
+    .select("*")
+    .eq("id", versionId)
     .single();
 
   if (fetchError) {
@@ -314,15 +314,15 @@ export async function restoreLyricVersion(
   }
 
   if (!versionToRestore) {
-    throw new Error('Version not found');
+    throw new Error("Version not found");
   }
 
   // Get the next version number
   const { data: existingVersions, error: versionError } = await supabase
-    .from('lyrics_versions')
-    .select('version_number')
-    .eq('project_track_id', versionToRestore.project_track_id)
-    .order('version_number', { ascending: false })
+    .from("lyrics_versions")
+    .select("version_number")
+    .eq("project_track_id", versionToRestore.project_track_id)
+    .order("version_number", { ascending: false })
     .limit(1);
 
   if (versionError) {
@@ -333,20 +333,20 @@ export async function restoreLyricVersion(
 
   // Set is_current to false for all existing versions
   await supabase
-    .from('lyrics_versions')
+    .from("lyrics_versions")
     .update({ is_current: false })
-    .eq('project_track_id', versionToRestore.project_track_id)
-    .eq('is_current', true);
+    .eq("project_track_id", versionToRestore.project_track_id)
+    .eq("is_current", true);
 
   // Create a new version with the restored content
   const { data, error } = await supabase
-    .from('lyrics_versions')
+    .from("lyrics_versions")
     .insert({
       project_track_id: versionToRestore.project_track_id,
       user_id: versionToRestore.user_id,
       lyrics: versionToRestore.lyrics,
       change_description: `Restored from version ${versionToRestore.version_number}`,
-      change_type: 'restore',
+      change_type: "restore",
       version_name: `v${nextVersionNumber} (restored)`,
       version_number: nextVersionNumber,
       is_current: true,
@@ -386,20 +386,20 @@ export async function restoreLyricVersion(
  * const notes = await getSectionNotes('section-uuid');
  * console.log(notes.notes);
  */
-export async function getSectionNotes(
-  sectionId: string
-): Promise<GetSectionNotesResponse> {
+export async function getSectionNotes(sectionId: string): Promise<GetSectionNotesResponse> {
   const { data, error } = await supabase
-    .from('lyrics_section_notes')
-    .select(`
+    .from("lyrics_section_notes")
+    .select(
+      `
       *,
       profiles!lyrics_section_notes_user_id_fkey (
         id,
         username
       )
-    `)
-    .eq('section_id', sectionId)
-    .order('created_at', { ascending: false });
+    `,
+    )
+    .eq("section_id", sectionId)
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw new Error(`Failed to fetch section notes: ${error.message}`);
@@ -408,8 +408,8 @@ export async function getSectionNotes(
   // Transform the data to match API contract
   const notes: SectionNoteWithAuthor[] = (data || []).map((note: any) => ({
     id: note.id,
-    content: note.notes || '',
-    noteType: note.section_type || 'general',
+    content: note.notes || "",
+    noteType: note.section_type || "general",
     author: {
       id: note.profiles.id,
       username: note.profiles.username,
@@ -448,10 +448,10 @@ export async function getSectionNotes(
 export async function createSectionNote(
   sectionId: string,
   userId: string,
-  request: CreateSectionNoteRequest
+  request: CreateSectionNoteRequest,
 ): Promise<CreateSectionNoteResponse> {
   const { data, error } = await supabase
-    .from('lyrics_section_notes')
+    .from("lyrics_section_notes")
     .insert({
       section_id: sectionId,
       user_id: userId,
@@ -472,8 +472,8 @@ export async function createSectionNote(
 
   return {
     id: data.id,
-    content: data.notes || '',
-    noteType: data.section_type || 'general',
+    content: data.notes || "",
+    noteType: data.section_type || "general",
     createdAt: data.created_at || new Date().toISOString(),
     isResolved: false, // This field may need to be added to the schema
     sectionId: data.section_id,
@@ -504,10 +504,10 @@ export async function updateSectionNote(
     audioNoteUrl: string;
     referenceAudioUrl: string;
     referenceAnalysis: unknown;
-  }>
+  }>,
 ): Promise<LyricsSectionNote> {
   const { data, error } = await supabase
-    .from('lyrics_section_notes')
+    .from("lyrics_section_notes")
     .update({
       notes: updates.content,
       section_type: updates.noteType,
@@ -518,7 +518,7 @@ export async function updateSectionNote(
       reference_analysis: updates.referenceAnalysis,
       updated_at: new Date().toISOString(),
     })
-    .eq('id', noteId)
+    .eq("id", noteId)
     .select()
     .single();
 
@@ -539,10 +539,7 @@ export async function updateSectionNote(
  * await deleteSectionNote('note-uuid');
  */
 export async function deleteSectionNote(noteId: string): Promise<void> {
-  const { error } = await supabase
-    .from('lyrics_section_notes')
-    .delete()
-    .eq('id', noteId);
+  const { error } = await supabase.from("lyrics_section_notes").delete().eq("id", noteId);
 
   if (error) {
     throw new Error(`Failed to delete section note: ${error.message}`);
@@ -562,24 +559,24 @@ export async function deleteSectionNote(noteId: string): Promise<void> {
  * const versions = await getLyricVersionsBatch(['track-1', 'track-2']);
  * console.log(versions['track-1']);
  */
-export async function getLyricVersionsBatch(
-  trackIds: string[]
-): Promise<Record<string, LyricVersionWithAuthor[]>> {
+export async function getLyricVersionsBatch(trackIds: string[]): Promise<Record<string, LyricVersionWithAuthor[]>> {
   if (trackIds.length === 0) {
     return {};
   }
 
   const { data, error } = await supabase
-    .from('lyrics_versions')
-    .select(`
+    .from("lyrics_versions")
+    .select(
+      `
       *,
       profiles!lyrics_versions_user_id_fkey (
         id,
         username
       )
-    `)
-    .in('project_track_id', trackIds)
-    .order('version_number', { ascending: false });
+    `,
+    )
+    .in("project_track_id", trackIds)
+    .order("version_number", { ascending: false });
 
   if (error) {
     throw new Error(`Failed to fetch lyric versions batch: ${error.message}`);

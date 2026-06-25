@@ -1,12 +1,12 @@
 // useUpdateProfile hook - Sprint 011 Phase 3
 // Update user profile with optimistic UI and image upload
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import type { ProfileUpdateInput } from '@/types/profile';
-import { logger } from '@/lib/logger';
-import type { Json } from '@/integrations/supabase/types';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import type { ProfileUpdateInput } from "@/types/profile";
+import { logger } from "@/lib/logger";
+import type { Json } from "@/integrations/supabase/types";
 
 interface UpdateProfileParams {
   userId: string;
@@ -25,38 +25,38 @@ export function useUpdateProfile() {
 
       // Upload avatar if provided
       if (avatarFile) {
-        const fileName = `${userId}-${Date.now()}.${avatarFile.name.split('.').pop()}`;
+        const fileName = `${userId}-${Date.now()}.${avatarFile.name.split(".").pop()}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('avatars')
+          .from("avatars")
           .upload(fileName, avatarFile, {
-            cacheControl: '3600',
+            cacheControl: "3600",
             upsert: true,
           });
 
         if (uploadError) throw uploadError;
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('avatars')
-          .getPublicUrl(uploadData.path);
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("avatars").getPublicUrl(uploadData.path);
 
         avatarUrl = publicUrl;
       }
 
       // Upload banner if provided
       if (bannerFile) {
-        const fileName = `${userId}-${Date.now()}.${bannerFile.name.split('.').pop()}`;
+        const fileName = `${userId}-${Date.now()}.${bannerFile.name.split(".").pop()}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('avatars') // Using avatars bucket for banners too
+          .from("avatars") // Using avatars bucket for banners too
           .upload(fileName, bannerFile, {
-            cacheControl: '3600',
+            cacheControl: "3600",
             upsert: true,
           });
 
         if (uploadError) throw uploadError;
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('avatars')
-          .getPublicUrl(uploadData.path);
+        const {
+          data: { publicUrl },
+        } = supabase.storage.from("avatars").getPublicUrl(uploadData.path);
 
         bannerUrl = publicUrl;
       }
@@ -75,9 +75,9 @@ export function useUpdateProfile() {
 
       // Update profile
       const { data, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .update(updateData as any)
-        .eq('user_id', userId)
+        .eq("user_id", userId)
         .select()
         .single();
 
@@ -85,12 +85,12 @@ export function useUpdateProfile() {
       return data;
     },
     onSuccess: (_, { userId }) => {
-      queryClient.invalidateQueries({ queryKey: ['profile', userId] });
-      toast.success('Профиль обновлен');
+      queryClient.invalidateQueries({ queryKey: ["profile", userId] });
+      toast.success("Профиль обновлен");
     },
     onError: (error) => {
-      logger.error('Error updating profile', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Не удалось обновить профиль');
+      logger.error("Error updating profile", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Не удалось обновить профиль");
     },
   });
 }

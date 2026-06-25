@@ -18,5 +18,15 @@ supabase/functions/suno-api/index.ts
 # Ignore graphify cache (auto-generated)
 graphify-out/cache/
 
+# Vendored Python virtualenv — not project source
+.venv/
+
+# Design/spec artifacts — contain non-TS contract files (markdown in .ts)
+specs/
+
+# Test sources — gated by jest/playwright, not prettier; several contain
+# JSX in .ts files that prettier can't parse. Matches eslint ignores.
+tests/
+
 # Note: Markdown files (*.md) are formatted by Prettier
 # to ensure consistent documentation style

@@ -14,13 +14,13 @@
 - [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L125) (1 connections)
 - [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L84) (1 connections)
 - [{
-    messages,
-    isLoading,
-    activeTool,
-    executeTool,
-    sendChatMessage,
-    clearMessages,
-    setActiveTool,
+  messages,
+  isLoading,
+  activeTool,
+  executeTool,
+  sendChatMessage,
+  clearMessages,
+  setActiveTool,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L103) (1 connections)
 - [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L85) (1 connections)
 - [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsAIChatAgent.tsx#L158) (1 connections)
@@ -43,4 +43,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

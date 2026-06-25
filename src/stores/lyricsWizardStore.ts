@@ -1,10 +1,10 @@
 // Zustand store for AI Lyrics Wizard state management
 // IMP013: Added undo/redo functionality with history stack
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { LYRICS_MAX_LENGTH, LYRICS_MIN_LENGTH } from '@/constants/generationConstants';
-import { LyricsFormatter } from '@/lib/lyrics/LyricsFormatter';
-import { LyricsValidator } from '@/lib/lyrics/LyricsValidator';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import { LYRICS_MAX_LENGTH, LYRICS_MIN_LENGTH } from "@/constants/generationConstants";
+import { LyricsFormatter } from "@/lib/lyrics/LyricsFormatter";
+import { LyricsValidator } from "@/lib/lyrics/LyricsValidator";
 
 export interface SectionDefinition {
   id: string;
@@ -34,31 +34,31 @@ const MAX_HISTORY_SIZE = 50;
 export interface LyricsWizardState {
   // Current step (1-5)
   step: number;
-  
+
   // Step 1: Concept
   concept: {
     theme: string;
     genre: string;
     mood: string[];
-    language: 'ru' | 'en';
+    language: "ru" | "en";
     referenceArtistId?: string;
     referenceArtistName?: string;
   };
-  
+
   // Step 2: Structure
   structure: {
     templateName: string;
     sections: SectionDefinition[];
     isCustom: boolean;
   };
-  
+
   // Step 3: Writing
   writing: {
     sections: LyricSection[];
-    mode: 'ai' | 'collab' | 'manual';
+    mode: "ai" | "collab" | "manual";
     currentSectionIndex: number;
   };
-  
+
   // Step 4: Enrichment
   enrichment: {
     vocalTags: string[];
@@ -66,7 +66,7 @@ export interface LyricsWizardState {
     dynamicTags: string[];
     emotionalCues: string[];
   };
-  
+
   // Step 5: Validation
   validation: {
     isValid: boolean;
@@ -75,63 +75,63 @@ export interface LyricsWizardState {
     characterCount: number; // Without tags - used for actual limit
     characterCountWithTags: number; // Total - shown for reference
   };
-  
+
   // History for undo/redo (IMP013)
   history: {
     past: HistoryEntry[];
     future: HistoryEntry[];
   };
-  
+
   // Loading states
   isGenerating: boolean;
-  
+
   // Actions
   setStep: (step: number) => void;
   nextStep: () => void;
   prevStep: () => void;
-  
+
   // Concept actions
   setTheme: (theme: string) => void;
   setGenre: (genre: string) => void;
   setMood: (mood: string[]) => void;
-  setLanguage: (language: 'ru' | 'en') => void;
+  setLanguage: (language: "ru" | "en") => void;
   setReferenceArtist: (id?: string, name?: string) => void;
-  
+
   // Structure actions
   setTemplate: (templateName: string, sections: SectionDefinition[]) => void;
   setCustomStructure: (sections: SectionDefinition[]) => void;
   addSection: (section: SectionDefinition) => void;
   removeSection: (id: string) => void;
   reorderSections: (sections: SectionDefinition[]) => void;
-  
+
   // Writing actions
-  setWritingMode: (mode: 'ai' | 'collab' | 'manual') => void;
+  setWritingMode: (mode: "ai" | "collab" | "manual") => void;
   setCurrentSection: (index: number) => void;
   updateSectionContent: (sectionId: string, content: string) => void;
   updateSectionTags: (sectionId: string, tags: string[]) => void;
   initializeLyricSections: () => void;
-  
+
   // Enrichment actions
   setVocalTags: (tags: string[]) => void;
   setInstrumentTags: (tags: string[]) => void;
   setDynamicTags: (tags: string[]) => void;
   setEmotionalCues: (cues: string[]) => void;
-  
+
   // Validation actions
   validateLyrics: () => void;
-  
+
   // Undo/Redo actions (IMP013)
   undo: () => void;
   redo: () => void;
   canUndo: () => boolean;
   canRedo: () => boolean;
-  
+
   // Generation state
   setIsGenerating: (isGenerating: boolean) => void;
-  
+
   // Get final lyrics
   getFinalLyrics: () => string;
-  
+
   // Reset
   reset: () => void;
 }
@@ -139,19 +139,19 @@ export interface LyricsWizardState {
 const INITIAL_STATE = {
   step: 1,
   concept: {
-    theme: '',
-    genre: '',
+    theme: "",
+    genre: "",
     mood: [] as string[],
-    language: 'ru' as const,
+    language: "ru" as const,
   },
   structure: {
-    templateName: '',
+    templateName: "",
     sections: [] as SectionDefinition[],
     isCustom: false,
   },
   writing: {
     sections: [] as LyricSection[],
-    mode: 'collab' as const,
+    mode: "collab" as const,
     currentSectionIndex: 0,
   },
   enrichment: {
@@ -184,7 +184,7 @@ const HISTORY_DEBOUNCE_MS = 1000;
 
 // Clone sections deeply to avoid reference issues
 function cloneSections(sections: LyricSection[]): LyricSection[] {
-  return sections.map(s => ({
+  return sections.map((s) => ({
     ...s,
     tags: [...s.tags],
   }));
@@ -194,15 +194,15 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
   persist(
     (set, get) => ({
       ...INITIAL_STATE,
-      
+
       // Navigation
       setStep: (step) => set({ step }),
       nextStep: () => {
         const state = get();
-        
+
         // Validate section content before allowing step transition (IMP010)
         if (state.step === 3) {
-          const hasEmptySections = state.writing.sections.some(s => !s.content.trim());
+          const hasEmptySections = state.writing.sections.some((s) => !s.content.trim());
           if (hasEmptySections) {
             // Don't prevent transition but store warning
             set((state) => ({
@@ -210,243 +210,243 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
                 ...state.validation,
                 warnings: [
                   ...state.validation.warnings,
-                  'Некоторые секции пусты. Рекомендуется заполнить все секции перед продолжением.'
-                ]
-              }
+                  "Некоторые секции пусты. Рекомендуется заполнить все секции перед продолжением.",
+                ],
+              },
             }));
           }
         }
-        
+
         set((state) => ({ step: Math.min(state.step + 1, 5) }));
       },
       prevStep: () => set((state) => ({ step: Math.max(state.step - 1, 1) })),
-  
-  // Concept
-  setTheme: (theme) => set((state) => ({ concept: { ...state.concept, theme } })),
-  setGenre: (genre) => set((state) => ({ concept: { ...state.concept, genre } })),
-  setMood: (mood) => set((state) => ({ concept: { ...state.concept, mood } })),
-  setLanguage: (language) => set((state) => ({ concept: { ...state.concept, language } })),
-  setReferenceArtist: (id, name) => set((state) => ({ 
-    concept: { ...state.concept, referenceArtistId: id, referenceArtistName: name } 
-  })),
-  
-  // Structure
-  setTemplate: (templateName, sections) => set((state) => ({ 
-    structure: { ...state.structure, templateName, sections, isCustom: false } 
-  })),
-  setCustomStructure: (sections) => set((state) => ({ 
-    structure: { ...state.structure, sections, isCustom: true, templateName: 'custom' } 
-  })),
-  addSection: (section) => set((state) => ({ 
-    structure: { ...state.structure, sections: [...state.structure.sections, section] } 
-  })),
-  removeSection: (id) => set((state) => ({ 
-    structure: { ...state.structure, sections: state.structure.sections.filter(s => s.id !== id) } 
-  })),
-  reorderSections: (sections) => set((state) => ({ 
-    structure: { ...state.structure, sections } 
-  })),
-  
-  // Writing
-  setWritingMode: (mode) => set((state) => ({ writing: { ...state.writing, mode } })),
-  setCurrentSection: (index) => set((state) => ({ writing: { ...state.writing, currentSectionIndex: index } })),
-  
-  updateSectionContent: (sectionId, content) => {
-    const state = get();
-    const currentSections = state.writing.sections;
-    
-    // Update the section content
-    set((state) => ({
-      writing: {
-        ...state.writing,
-        sections: state.writing.sections.map(s => 
-          s.id === sectionId ? { ...s, content } : s
-        ),
+
+      // Concept
+      setTheme: (theme) => set((state) => ({ concept: { ...state.concept, theme } })),
+      setGenre: (genre) => set((state) => ({ concept: { ...state.concept, genre } })),
+      setMood: (mood) => set((state) => ({ concept: { ...state.concept, mood } })),
+      setLanguage: (language) => set((state) => ({ concept: { ...state.concept, language } })),
+      setReferenceArtist: (id, name) =>
+        set((state) => ({
+          concept: { ...state.concept, referenceArtistId: id, referenceArtistName: name },
+        })),
+
+      // Structure
+      setTemplate: (templateName, sections) =>
+        set((state) => ({
+          structure: { ...state.structure, templateName, sections, isCustom: false },
+        })),
+      setCustomStructure: (sections) =>
+        set((state) => ({
+          structure: { ...state.structure, sections, isCustom: true, templateName: "custom" },
+        })),
+      addSection: (section) =>
+        set((state) => ({
+          structure: { ...state.structure, sections: [...state.structure.sections, section] },
+        })),
+      removeSection: (id) =>
+        set((state) => ({
+          structure: { ...state.structure, sections: state.structure.sections.filter((s) => s.id !== id) },
+        })),
+      reorderSections: (sections) =>
+        set((state) => ({
+          structure: { ...state.structure, sections },
+        })),
+
+      // Writing
+      setWritingMode: (mode) => set((state) => ({ writing: { ...state.writing, mode } })),
+      setCurrentSection: (index) => set((state) => ({ writing: { ...state.writing, currentSectionIndex: index } })),
+
+      updateSectionContent: (sectionId, content) => {
+        const state = get();
+        const currentSections = state.writing.sections;
+
+        // Update the section content
+        set((state) => ({
+          writing: {
+            ...state.writing,
+            sections: state.writing.sections.map((s) => (s.id === sectionId ? { ...s, content } : s)),
+          },
+          // Clear future history on new edit
+          history: {
+            ...state.history,
+            future: [],
+          },
+        }));
+
+        // Debounced history save (IMP013)
+        if (historyTimer) {
+          clearTimeout(historyTimer);
+        }
+        historyTimer = setTimeout(() => {
+          const currentState = get();
+          const historyEntry: HistoryEntry = {
+            sections: cloneSections(currentSections),
+            timestamp: Date.now(),
+          };
+
+          // Add to history, respecting max size
+          const newPast = [...currentState.history.past, historyEntry].slice(-MAX_HISTORY_SIZE);
+
+          set({
+            history: {
+              past: newPast,
+              future: [],
+            },
+          });
+        }, HISTORY_DEBOUNCE_MS);
+
+        // Trigger debounced validation (IMP012)
+        if (validationTimer) {
+          clearTimeout(validationTimer);
+        }
+        validationTimer = setTimeout(() => {
+          get().validateLyrics();
+        }, VALIDATION_DEBOUNCE_MS);
       },
-      // Clear future history on new edit
-      history: {
-        ...state.history,
-        future: [],
+
+      updateSectionTags: (sectionId, tags) => {
+        const state = get();
+        const currentSections = state.writing.sections;
+
+        // Save to history before making change (IMP013)
+        const historyEntry: HistoryEntry = {
+          sections: cloneSections(currentSections),
+          timestamp: Date.now(),
+        };
+
+        const newPast = [...state.history.past, historyEntry].slice(-MAX_HISTORY_SIZE);
+
+        set((state) => ({
+          writing: {
+            ...state.writing,
+            sections: state.writing.sections.map((s) => (s.id === sectionId ? { ...s, tags } : s)),
+          },
+          history: {
+            past: newPast,
+            future: [],
+          },
+        }));
       },
-    }));
-    
-    // Debounced history save (IMP013)
-    if (historyTimer) {
-      clearTimeout(historyTimer);
-    }
-    historyTimer = setTimeout(() => {
-      const currentState = get();
-      const historyEntry: HistoryEntry = {
-        sections: cloneSections(currentSections),
-        timestamp: Date.now(),
-      };
-      
-      // Add to history, respecting max size
-      const newPast = [...currentState.history.past, historyEntry].slice(-MAX_HISTORY_SIZE);
-      
-      set({
-        history: {
-          past: newPast,
-          future: [],
-        },
-      });
-    }, HISTORY_DEBOUNCE_MS);
-    
-    // Trigger debounced validation (IMP012)
-    if (validationTimer) {
-      clearTimeout(validationTimer);
-    }
-    validationTimer = setTimeout(() => {
-      get().validateLyrics();
-    }, VALIDATION_DEBOUNCE_MS);
-  },
-  
-  updateSectionTags: (sectionId, tags) => {
-    const state = get();
-    const currentSections = state.writing.sections;
-    
-    // Save to history before making change (IMP013)
-    const historyEntry: HistoryEntry = {
-      sections: cloneSections(currentSections),
-      timestamp: Date.now(),
-    };
-    
-    const newPast = [...state.history.past, historyEntry].slice(-MAX_HISTORY_SIZE);
-    
-    set((state) => ({
-      writing: {
-        ...state.writing,
-        sections: state.writing.sections.map(s => 
-          s.id === sectionId ? { ...s, tags } : s
-        ),
+
+      initializeLyricSections: () =>
+        set((state) => ({
+          writing: {
+            ...state.writing,
+            sections: state.structure.sections.map((s) => ({
+              id: s.id,
+              type: s.type,
+              name: s.name,
+              content: "",
+              tags: [],
+            })),
+          },
+          // Reset history when initializing new sections
+          history: {
+            past: [],
+            future: [],
+          },
+        })),
+
+      // Enrichment
+      setVocalTags: (tags) => set((state) => ({ enrichment: { ...state.enrichment, vocalTags: tags } })),
+      setInstrumentTags: (tags) => set((state) => ({ enrichment: { ...state.enrichment, instrumentTags: tags } })),
+      setDynamicTags: (tags) => set((state) => ({ enrichment: { ...state.enrichment, dynamicTags: tags } })),
+      setEmotionalCues: (cues) => set((state) => ({ enrichment: { ...state.enrichment, emotionalCues: cues } })),
+
+      // Validation using centralized utilities (IMP029)
+      validateLyrics: () => {
+        const state = get();
+        const finalLyrics = state.getFinalLyrics();
+        const validation = LyricsValidator.validate(finalLyrics, state.writing.sections);
+        set({ validation });
       },
-      history: {
-        past: newPast,
-        future: [],
+
+      // Undo/Redo (IMP013)
+      undo: () => {
+        const state = get();
+        if (state.history.past.length === 0) return;
+
+        const previous = state.history.past[state.history.past.length - 1];
+        const newPast = state.history.past.slice(0, -1);
+
+        // Save current state to future
+        const currentEntry: HistoryEntry = {
+          sections: cloneSections(state.writing.sections),
+          timestamp: Date.now(),
+        };
+
+        set({
+          writing: {
+            ...state.writing,
+            sections: cloneSections(previous.sections),
+          },
+          history: {
+            past: newPast,
+            future: [currentEntry, ...state.history.future],
+          },
+        });
+
+        // Revalidate after undo
+        setTimeout(() => get().validateLyrics(), 0);
       },
-    }));
-  },
-  
-  initializeLyricSections: () => set((state) => ({
-    writing: {
-      ...state.writing,
-      sections: state.structure.sections.map(s => ({
-        id: s.id,
-        type: s.type,
-        name: s.name,
-        content: '',
-        tags: [],
-      })),
-    },
-    // Reset history when initializing new sections
-    history: {
-      past: [],
-      future: [],
-    },
-  })),
-  
-  // Enrichment
-  setVocalTags: (tags) => set((state) => ({ enrichment: { ...state.enrichment, vocalTags: tags } })),
-  setInstrumentTags: (tags) => set((state) => ({ enrichment: { ...state.enrichment, instrumentTags: tags } })),
-  setDynamicTags: (tags) => set((state) => ({ enrichment: { ...state.enrichment, dynamicTags: tags } })),
-  setEmotionalCues: (cues) => set((state) => ({ enrichment: { ...state.enrichment, emotionalCues: cues } })),
-  
-  // Validation using centralized utilities (IMP029)
-  validateLyrics: () => {
-    const state = get();
-    const finalLyrics = state.getFinalLyrics();
-    const validation = LyricsValidator.validate(finalLyrics, state.writing.sections);
-    set({ validation });
-  },
-  
-  // Undo/Redo (IMP013)
-  undo: () => {
-    const state = get();
-    if (state.history.past.length === 0) return;
-    
-    const previous = state.history.past[state.history.past.length - 1];
-    const newPast = state.history.past.slice(0, -1);
-    
-    // Save current state to future
-    const currentEntry: HistoryEntry = {
-      sections: cloneSections(state.writing.sections),
-      timestamp: Date.now(),
-    };
-    
-    set({
-      writing: {
-        ...state.writing,
-        sections: cloneSections(previous.sections),
+
+      redo: () => {
+        const state = get();
+        if (state.history.future.length === 0) return;
+
+        const next = state.history.future[0];
+        const newFuture = state.history.future.slice(1);
+
+        // Save current state to past
+        const currentEntry: HistoryEntry = {
+          sections: cloneSections(state.writing.sections),
+          timestamp: Date.now(),
+        };
+
+        set({
+          writing: {
+            ...state.writing,
+            sections: cloneSections(next.sections),
+          },
+          history: {
+            past: [...state.history.past, currentEntry],
+            future: newFuture,
+          },
+        });
+
+        // Revalidate after redo
+        setTimeout(() => get().validateLyrics(), 0);
       },
-      history: {
-        past: newPast,
-        future: [currentEntry, ...state.history.future],
+
+      canUndo: () => get().history.past.length > 0,
+      canRedo: () => get().history.future.length > 0,
+
+      // Generation state
+      setIsGenerating: (isGenerating) => set({ isGenerating }),
+
+      // Get final formatted lyrics using LyricsFormatter utility (IMP028)
+      getFinalLyrics: () => {
+        const state = get();
+        return LyricsFormatter.formatFinal(state.writing.sections, state.enrichment);
       },
-    });
-    
-    // Revalidate after undo
-    setTimeout(() => get().validateLyrics(), 0);
-  },
-  
-  redo: () => {
-    const state = get();
-    if (state.history.future.length === 0) return;
-    
-    const next = state.history.future[0];
-    const newFuture = state.history.future.slice(1);
-    
-    // Save current state to past
-    const currentEntry: HistoryEntry = {
-      sections: cloneSections(state.writing.sections),
-      timestamp: Date.now(),
-    };
-    
-    set({
-      writing: {
-        ...state.writing,
-        sections: cloneSections(next.sections),
+
+      // Reset
+      reset: () => {
+        // Clear pending timers to prevent stale updates
+        if (validationTimer) {
+          clearTimeout(validationTimer);
+          validationTimer = null;
+        }
+        if (historyTimer) {
+          clearTimeout(historyTimer);
+          historyTimer = null;
+        }
+        set(INITIAL_STATE);
       },
-      history: {
-        past: [...state.history.past, currentEntry],
-        future: newFuture,
-      },
-    });
-    
-    // Revalidate after redo
-    setTimeout(() => get().validateLyrics(), 0);
-  },
-  
-  canUndo: () => get().history.past.length > 0,
-  canRedo: () => get().history.future.length > 0,
-  
-  // Generation state
-  setIsGenerating: (isGenerating) => set({ isGenerating }),
-  
-  // Get final formatted lyrics using LyricsFormatter utility (IMP028)
-  getFinalLyrics: () => {
-    const state = get();
-    return LyricsFormatter.formatFinal(
-      state.writing.sections,
-      state.enrichment
-    );
-  },
-  
-  // Reset
-  reset: () => {
-    // Clear pending timers to prevent stale updates
-    if (validationTimer) {
-      clearTimeout(validationTimer);
-      validationTimer = null;
-    }
-    if (historyTimer) {
-      clearTimeout(historyTimer);
-      historyTimer = null;
-    }
-    set(INITIAL_STATE);
-  },
     }),
     {
-      name: 'lyrics-wizard-storage', // unique name for localStorage key (IMP009)
+      name: "lyrics-wizard-storage", // unique name for localStorage key (IMP009)
       // Only persist the core state, not loading flags or history
       partialize: (state) => ({
         step: state.step,
@@ -456,6 +456,6 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
         enrichment: state.enrichment,
         // Don't persist validation, history, and isGenerating as they should be recalculated
       }),
-    }
-  )
+    },
+  ),
 );

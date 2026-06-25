@@ -29,7 +29,7 @@
 - [Sprint 009 Track Details & Actions Completion Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_009_COMPLETION.md) (1 connections)
 - [Sprint Audit Summary - Final Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_AUDIT_SUMMARY.md) (1 connections)
 - [Sprint Closure Audit Report 2025-12-02](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md) (1 connections)
-- *... and 4 more nodes in this community*
+- _... and 4 more nodes in this community_
 
 ## Relationships
 
@@ -66,4 +66,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

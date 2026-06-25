@@ -2,13 +2,13 @@
  * LyricsVersionsPanel - Panel showing saved versions history
  */
 
-import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  History, 
-  RotateCcw, 
-  Trash2, 
-  ChevronRight, 
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  History,
+  RotateCcw,
+  Trash2,
+  ChevronRight,
   Filter,
   Clock,
   Sparkles,
@@ -19,20 +19,20 @@ import {
   Save,
   Eye,
   Loader2,
-  X
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
+  X,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,17 +42,12 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { 
-  LyricsVersion, 
-  ChangeType, 
-  changeTypeLabels, 
-  changeTypeIcons 
-} from '@/hooks/useLyricsVersioning';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
-import { formatDistanceToNow, ru } from '@/lib/date-utils';
+} from "@/components/ui/alert-dialog";
+import { LyricsVersion, ChangeType, changeTypeLabels, changeTypeIcons } from "@/hooks/useLyricsVersioning";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
+import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 interface LyricsVersionsPanelProps {
   open: boolean;
@@ -66,32 +61,32 @@ interface LyricsVersionsPanelProps {
 }
 
 const changeTypeFilters: ChangeType[] = [
-  'manual_edit',
-  'ai_generated',
-  'ai_improved',
-  'autosave',
-  'restore',
-  'section_add',
-  'section_delete',
-  'section_reorder',
+  "manual_edit",
+  "ai_generated",
+  "ai_improved",
+  "autosave",
+  "restore",
+  "section_add",
+  "section_delete",
+  "section_reorder",
 ];
 
 function getChangeTypeIcon(type: string) {
   switch (type) {
-    case 'ai_generated':
-    case 'ai_improved':
+    case "ai_generated":
+    case "ai_improved":
       return <Sparkles className="w-3.5 h-3.5 text-purple-500" />;
-    case 'manual_edit':
+    case "manual_edit":
       return <Edit3 className="w-3.5 h-3.5 text-blue-500" />;
-    case 'section_add':
+    case "section_add":
       return <Plus className="w-3.5 h-3.5 text-green-500" />;
-    case 'section_delete':
+    case "section_delete":
       return <Minus className="w-3.5 h-3.5 text-red-500" />;
-    case 'section_reorder':
+    case "section_reorder":
       return <ArrowUpDown className="w-3.5 h-3.5 text-amber-500" />;
-    case 'autosave':
+    case "autosave":
       return <Save className="w-3.5 h-3.5 text-muted-foreground" />;
-    case 'restore':
+    case "restore":
       return <RotateCcw className="w-3.5 h-3.5 text-primary" />;
     default:
       return <Clock className="w-3.5 h-3.5 text-muted-foreground" />;
@@ -112,7 +107,7 @@ function VersionItem({
   onPreview?: () => void;
 }) {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  
+
   const timeAgo = formatDistanceToNow(new Date(version.created_at), {
     addSuffix: true,
     locale: ru,
@@ -126,21 +121,16 @@ function VersionItem({
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95 }}
       >
-        <Card 
-          className={cn(
-            'p-3 transition-colors hover:bg-muted/50',
-            isCurrent && 'border-primary/50 bg-primary/5'
-          )}
-        >
+        <Card className={cn("p-3 transition-colors hover:bg-muted/50", isCurrent && "border-primary/50 bg-primary/5")}>
           <div className="flex items-start gap-3">
             {/* Version indicator */}
             <div className="flex flex-col items-center gap-1 pt-0.5">
-              <div className={cn(
-                'w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium',
-                isCurrent 
-                  ? 'bg-primary text-primary-foreground' 
-                  : 'bg-muted text-muted-foreground'
-              )}>
+              <div
+                className={cn(
+                  "w-8 h-8 rounded-full flex items-center justify-center text-xs font-medium",
+                  isCurrent ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
+                )}
+              >
                 v{version.version_number}
               </div>
               {getChangeTypeIcon(version.change_type)}
@@ -150,9 +140,7 @@ function VersionItem({
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
                 {version.version_name ? (
-                  <p className="font-medium text-sm truncate">
-                    {version.version_name}
-                  </p>
+                  <p className="font-medium text-sm truncate">{version.version_name}</p>
                 ) : (
                   <p className="text-sm text-muted-foreground">
                     {changeTypeLabels[version.change_type as ChangeType] || version.change_type}
@@ -166,9 +154,7 @@ function VersionItem({
               </div>
 
               {version.change_description && (
-                <p className="text-xs text-muted-foreground line-clamp-1 mb-1">
-                  {version.change_description}
-                </p>
+                <p className="text-xs text-muted-foreground line-clamp-1 mb-1">{version.change_description}</p>
               )}
 
               <div className="flex items-center gap-2 text-[10px] text-muted-foreground">
@@ -197,7 +183,7 @@ function VersionItem({
                   size="icon"
                   className="h-7 w-7"
                   onClick={() => {
-                    hapticImpact('light');
+                    hapticImpact("light");
                     onPreview();
                   }}
                 >
@@ -211,7 +197,7 @@ function VersionItem({
                     size="icon"
                     className="h-7 w-7 text-primary"
                     onClick={() => {
-                      hapticImpact('medium');
+                      hapticImpact("medium");
                       onRestore();
                     }}
                   >
@@ -236,15 +222,13 @@ function VersionItem({
         <AlertDialogContent className="bg-background">
           <AlertDialogHeader>
             <AlertDialogTitle>Удалить версию?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Версия {version.version_number} будет удалена безвозвратно.
-            </AlertDialogDescription>
+            <AlertDialogDescription>Версия {version.version_number} будет удалена безвозвратно.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Отмена</AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
-                hapticImpact('medium');
+                hapticImpact("medium");
                 onDelete();
               }}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
@@ -271,17 +255,11 @@ function VersionsContent({
 
   const filteredVersions = useMemo(() => {
     if (activeFilters.length === 0) return versions;
-    return versions.filter(v => 
-      activeFilters.includes(v.change_type as ChangeType)
-    );
+    return versions.filter((v) => activeFilters.includes(v.change_type as ChangeType));
   }, [versions, activeFilters]);
 
   const toggleFilter = (type: ChangeType) => {
-    setActiveFilters(prev => 
-      prev.includes(type) 
-        ? prev.filter(t => t !== type)
-        : [...prev, type]
-    );
+    setActiveFilters((prev) => (prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]));
   };
 
   if (isLoading) {
@@ -301,16 +279,13 @@ function VersionsContent({
             {filteredVersions.length} версий
           </Badge>
         </div>
-        
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className={cn(
-                'h-7 text-xs gap-1.5',
-                activeFilters.length > 0 && 'border-primary'
-              )}
+            <Button
+              variant="outline"
+              size="sm"
+              className={cn("h-7 text-xs gap-1.5", activeFilters.length > 0 && "border-primary")}
             >
               <Filter className="w-3.5 h-3.5" />
               Фильтр
@@ -322,7 +297,7 @@ function VersionsContent({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-popover">
-            {changeTypeFilters.map(type => (
+            {changeTypeFilters.map((type) => (
               <DropdownMenuCheckboxItem
                 key={type}
                 checked={activeFilters.includes(type)}
@@ -344,14 +319,12 @@ function VersionsContent({
             <div className="text-center py-12">
               <History className="w-12 h-12 mx-auto text-muted-foreground/30 mb-3" />
               <p className="text-sm text-muted-foreground">
-                {versions.length === 0 
-                  ? 'Нет сохраненных версий'
-                  : 'Нет версий по выбранным фильтрам'}
+                {versions.length === 0 ? "Нет сохраненных версий" : "Нет версий по выбранным фильтрам"}
               </p>
             </div>
           ) : (
             <AnimatePresence mode="popLayout">
-              {filteredVersions.map(version => (
+              {filteredVersions.map((version) => (
                 <VersionItem
                   key={version.id}
                   version={version}

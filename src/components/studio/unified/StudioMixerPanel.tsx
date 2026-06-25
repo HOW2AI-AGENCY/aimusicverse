@@ -4,25 +4,19 @@
  * Uses design system tokens (Spec 032)
  */
 
-import { memo, useCallback } from 'react';
-import { useUnifiedStudioStore, StudioTrack, TRACK_COLORS } from '@/stores/useUnifiedStudioStore';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { cn } from '@/lib/utils';
-import { 
-  Volume2, 
-  VolumeX, 
-  Headphones,
-  Plus,
-  MoreVertical,
-} from 'lucide-react';
+import { memo, useCallback } from "react";
+import { useUnifiedStudioStore, StudioTrack, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { cn } from "@/lib/utils";
+import { Volume2, VolumeX, Headphones, Plus, MoreVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { glass } from '@/lib/glass';
+} from "@/components/ui/dropdown-menu";
+import { glass } from "@/lib/glass";
 
 interface StudioMixerPanelProps {
   className?: string;
@@ -35,16 +29,11 @@ export const StudioMixerPanel = memo(function StudioMixerPanel({
   onAddTrack,
   compact = false,
 }: StudioMixerPanelProps) {
-  const {
-    project,
-    selectedTrackId,
-    selectTrack,
-    setMasterVolume,
-  } = useUnifiedStudioStore();
+  const { project, selectedTrackId, selectTrack, setMasterVolume } = useUnifiedStudioStore();
 
   if (!project) {
     return (
-      <div className={cn('flex items-center justify-center h-full text-muted-foreground', className)}>
+      <div className={cn("flex items-center justify-center h-full text-muted-foreground", className)}>
         Нет открытого проекта
       </div>
     );
@@ -53,12 +42,14 @@ export const StudioMixerPanel = memo(function StudioMixerPanel({
   const masterVolume = project.masterVolume;
 
   return (
-    <div className={cn(
-      'flex gap-2 p-3 overflow-x-auto',
-      glass.subtle,
-      compact ? 'flex-row items-end' : 'flex-row items-stretch',
-      className
-    )}>
+    <div
+      className={cn(
+        "flex gap-2 p-3 overflow-x-auto",
+        glass.subtle,
+        compact ? "flex-row items-end" : "flex-row items-stretch",
+        className,
+      )}
+    >
       {/* Track Channels */}
       {project.tracks.map((track) => (
         <MixerChannel
@@ -71,27 +62,20 @@ export const StudioMixerPanel = memo(function StudioMixerPanel({
       ))}
 
       {/* Add Track Button */}
-      <div className={cn(
-        'flex items-center justify-center border-2 border-dashed border-border/50 rounded-lg',
-        compact ? 'w-12 h-32' : 'w-16 min-h-[200px]',
-      )}>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-10 w-10"
-          onClick={onAddTrack}
-        >
+      <div
+        className={cn(
+          "flex items-center justify-center border-2 border-dashed border-border/50 rounded-lg",
+          compact ? "w-12 h-32" : "w-16 min-h-[200px]",
+        )}
+      >
+        <Button variant="ghost" size="icon" className="h-10 w-10" onClick={onAddTrack}>
           <Plus className="h-5 w-5" />
         </Button>
       </div>
 
       {/* Master Channel */}
       <div className="w-px bg-border mx-2" />
-      <MasterChannel
-        volume={masterVolume}
-        onVolumeChange={setMasterVolume}
-        compact={compact}
-      />
+      <MasterChannel volume={masterVolume} onVolumeChange={setMasterVolume} compact={compact} />
     </div>
   );
 });
@@ -105,41 +89,33 @@ interface MixerChannelProps {
   compact?: boolean;
 }
 
-const MixerChannel = memo(function MixerChannel({
-  track,
-  isSelected,
-  onSelect,
-  compact,
-}: MixerChannelProps) {
-  const {
-    setTrackVolume,
-    setTrackPan,
-    toggleTrackMute,
-    toggleTrackSolo,
-    removeTrack,
-  } = useUnifiedStudioStore();
+const MixerChannel = memo(function MixerChannel({ track, isSelected, onSelect, compact }: MixerChannelProps) {
+  const { setTrackVolume, setTrackPan, toggleTrackMute, toggleTrackSolo, removeTrack } = useUnifiedStudioStore();
 
-  const handleVolumeChange = useCallback((value: number[]) => {
-    setTrackVolume(track.id, value[0]);
-  }, [track.id, setTrackVolume]);
+  const handleVolumeChange = useCallback(
+    (value: number[]) => {
+      setTrackVolume(track.id, value[0]);
+    },
+    [track.id, setTrackVolume],
+  );
 
-  const handlePanChange = useCallback((value: number[]) => {
-    setTrackPan(track.id, value[0]);
-  }, [track.id, setTrackPan]);
+  const handlePanChange = useCallback(
+    (value: number[]) => {
+      setTrackPan(track.id, value[0]);
+    },
+    [track.id, setTrackPan],
+  );
 
   if (compact) {
     return (
       <div
         className={cn(
-          'flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors',
-          isSelected && 'bg-accent/20 ring-1 ring-primary',
+          "flex flex-col items-center gap-2 p-2 rounded-lg cursor-pointer transition-colors",
+          isSelected && "bg-accent/20 ring-1 ring-primary",
         )}
         onClick={onSelect}
       >
-        <div
-          className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: track.color }}
-        />
+        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: track.color }} />
         <Slider
           value={[track.volume]}
           max={1}
@@ -151,7 +127,7 @@ const MixerChannel = memo(function MixerChannel({
         />
         <div className="flex gap-0.5">
           <Button
-            variant={track.muted ? 'destructive' : 'ghost'}
+            variant={track.muted ? "destructive" : "ghost"}
             size="icon"
             className="h-6 w-6"
             onClick={(e) => {
@@ -162,7 +138,7 @@ const MixerChannel = memo(function MixerChannel({
             {track.muted ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
           </Button>
           <Button
-            variant={track.solo ? 'secondary' : 'ghost'}
+            variant={track.solo ? "secondary" : "ghost"}
             size="icon"
             className="h-6 w-6"
             onClick={(e) => {
@@ -173,9 +149,7 @@ const MixerChannel = memo(function MixerChannel({
             <Headphones className="h-3 w-3" />
           </Button>
         </div>
-        <span className="text-[10px] text-muted-foreground truncate max-w-[60px]">
-          {track.name}
-        </span>
+        <span className="text-[10px] text-muted-foreground truncate max-w-[60px]">{track.name}</span>
       </div>
     );
   }
@@ -183,34 +157,24 @@ const MixerChannel = memo(function MixerChannel({
   return (
     <div
       className={cn(
-        'flex flex-col items-center gap-2 p-3 rounded-lg border border-border/50 cursor-pointer transition-colors min-w-[80px]',
-        isSelected && 'bg-accent/20 ring-1 ring-primary',
-        track.muted && 'opacity-60',
+        "flex flex-col items-center gap-2 p-3 rounded-lg border border-border/50 cursor-pointer transition-colors min-w-[80px]",
+        isSelected && "bg-accent/20 ring-1 ring-primary",
+        track.muted && "opacity-60",
       )}
       onClick={onSelect}
     >
       {/* Header */}
       <div className="flex items-center gap-1 w-full">
-        <div
-          className="w-3 h-3 rounded-full flex-shrink-0"
-          style={{ backgroundColor: track.color }}
-        />
+        <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: track.color }} />
         <span className="text-xs font-medium truncate flex-1">{track.name}</span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6"
-              onClick={(e) => e.stopPropagation()}
-            >
+            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={(e) => e.stopPropagation()}>
               <MoreVertical className="h-3 w-3" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem onClick={() => removeTrack(track.id)}>
-              Удалить дорожку
-            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => removeTrack(track.id)}>Удалить дорожку</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -243,15 +207,13 @@ const MixerChannel = memo(function MixerChannel({
           onValueChange={handleVolumeChange}
           onClick={(e) => e.stopPropagation()}
         />
-        <span className="text-[10px] font-mono text-muted-foreground">
-          {Math.round(track.volume * 100)}%
-        </span>
+        <span className="text-[10px] font-mono text-muted-foreground">{Math.round(track.volume * 100)}%</span>
       </div>
 
       {/* Mute/Solo */}
       <div className="flex gap-1">
         <Button
-          variant={track.muted ? 'destructive' : 'outline'}
+          variant={track.muted ? "destructive" : "outline"}
           size="sm"
           className="h-7 px-2 text-xs"
           onClick={(e) => {
@@ -262,7 +224,7 @@ const MixerChannel = memo(function MixerChannel({
           M
         </Button>
         <Button
-          variant={track.solo ? 'secondary' : 'outline'}
+          variant={track.solo ? "secondary" : "outline"}
           size="sm"
           className="h-7 px-2 text-xs"
           onClick={(e) => {
@@ -285,31 +247,26 @@ interface MasterChannelProps {
   compact?: boolean;
 }
 
-const MasterChannel = memo(function MasterChannel({
-  volume,
-  onVolumeChange,
-  compact,
-}: MasterChannelProps) {
-  const handleChange = useCallback((value: number[]) => {
-    onVolumeChange(value[0]);
-  }, [onVolumeChange]);
+const MasterChannel = memo(function MasterChannel({ volume, onVolumeChange, compact }: MasterChannelProps) {
+  const handleChange = useCallback(
+    (value: number[]) => {
+      onVolumeChange(value[0]);
+    },
+    [onVolumeChange],
+  );
 
   return (
-    <div className={cn(
-      'flex flex-col items-center gap-2 p-3 rounded-lg border-2 border-primary/30 bg-primary/5',
-      compact ? 'min-w-[60px]' : 'min-w-[80px]',
-    )}>
+    <div
+      className={cn(
+        "flex flex-col items-center gap-2 p-3 rounded-lg border-2 border-primary/30 bg-primary/5",
+        compact ? "min-w-[60px]" : "min-w-[80px]",
+      )}
+    >
       <span className="text-xs font-semibold text-primary">MASTER</span>
 
       {!compact && (
         <div className="w-full">
-          <Slider
-            value={[volume]}
-            max={1}
-            step={0.01}
-            disabled
-            className="opacity-50"
-          />
+          <Slider value={[volume]} max={1} step={0.01} disabled className="opacity-50" />
         </div>
       )}
 
@@ -319,12 +276,10 @@ const MasterChannel = memo(function MasterChannel({
           max={1}
           step={0.01}
           orientation="vertical"
-          className={compact ? 'h-24' : 'h-32'}
+          className={compact ? "h-24" : "h-32"}
           onValueChange={handleChange}
         />
-        <span className="text-[10px] font-mono text-muted-foreground">
-          {Math.round(volume * 100)}%
-        </span>
+        <span className="text-[10px] font-mono text-muted-foreground">{Math.round(volume * 100)}%</span>
       </div>
 
       {/* VU Meter placeholder */}
@@ -333,10 +288,8 @@ const MasterChannel = memo(function MasterChannel({
           <div
             key={i}
             className={cn(
-              'w-1.5 rounded-full transition-all',
-              i < Math.floor(volume * 8)
-                ? i > 5 ? 'bg-destructive' : 'bg-primary'
-                : 'bg-muted',
+              "w-1.5 rounded-full transition-all",
+              i < Math.floor(volume * 8) ? (i > 5 ? "bg-destructive" : "bg-primary") : "bg-muted",
             )}
             style={{ height: `${12 + i * 2}px` }}
           />

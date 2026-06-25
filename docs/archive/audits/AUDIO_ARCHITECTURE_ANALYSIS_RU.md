@@ -43,42 +43,48 @@ MusicVerse AI использует многоуровневую архитект
 
 Центральный компонент системы воспроизведения использует паттерн **Singleton** для единого аудио-элемента.
 
-
 ### Ключевые особенности глобального плеера:
 
 #### 1. Singleton Audio Element
+
 ```typescript
 let globalAudioElement: HTMLAudioElement | null = null;
 
 function getGlobalAudio(): HTMLAudioElement {
   if (!globalAudioElement) {
     globalAudioElement = new Audio();
-    globalAudioElement.preload = 'metadata';
+    globalAudioElement.preload = "metadata";
   }
   return globalAudioElement;
 }
 ```
 
 **Преимущества:**
+
 - Один аудио-элемент на всё приложение → меньше потребление памяти
 - Согласованное состояние воспроизведения
 - Избегание конфликтов при одновременном воспроизведении
 
 #### 2. Приоритетная система источников
+
 ```typescript
 const getAudioSource = () => {
-  return activeTrack.streaming_url ||    // 1. CDN (предпочтительно)
-         activeTrack.local_audio_url ||  // 2. Локальный кэш (fallback)
-         activeTrack.audio_url;          // 3. Оригинальный URL (last resort)
-}
+  return (
+    activeTrack.streaming_url || // 1. CDN (предпочтительно)
+    activeTrack.local_audio_url || // 2. Локальный кэш (fallback)
+    activeTrack.audio_url
+  ); // 3. Оригинальный URL (last resort)
+};
 ```
 
 #### 3. Автоматическая обработка событий
+
 - `ended` - автоматический переход к следующему треку или повтор
 - `error` - логирование ошибок и приостановка
 - Интеграция с Zustand store для синхронизации
 
 #### 4. API плеера
+
 ```typescript
 {
   seek: (time: number) => void,           // Перемотка
@@ -101,6 +107,7 @@ const getAudioSource = () => {
 ### Основные операции:
 
 #### 1. Добавление треков
+
 ```typescript
 addTrack(track, playNow: boolean)  // Один трек
 addTracks(tracks, playFirst)        // Batch добавление
@@ -108,17 +115,20 @@ setQueue(tracks, startIndex)        // Замена очереди
 ```
 
 **Логика `playNow`:**
+
 - `true` → трек в начало, сразу играет
 - `false` → трек в конец очереди
 
 #### 2. Управление порядком
+
 ```typescript
-removeTrack(index)              // Удаление с пересчётом индекса
-reorder(fromIndex, toIndex)     // Drag & drop
-jumpToTrack(index)              // Прямой переход
+removeTrack(index); // Удаление с пересчётом индекса
+reorder(fromIndex, toIndex); // Drag & drop
+jumpToTrack(index); // Прямой переход
 ```
 
 **Умный пересчёт при удалении:**
+
 ```typescript
 if (index < currentIndex) {
   newCurrentIndex = currentIndex - 1;
@@ -131,6 +141,7 @@ if (index < currentIndex) {
 #### 3. Режимы воспроизведения
 
 **Shuffle:**
+
 ```typescript
 toggleShuffleMode() {
   if (newShuffleState) {
@@ -141,6 +152,7 @@ toggleShuffleMode() {
 ```
 
 **Repeat Modes:**
+
 - `off` → остановка в конце
 - `all` → цикл всей очереди
 - `one` → повтор трека
@@ -148,17 +160,24 @@ toggleShuffleMode() {
 #### 4. Персистентность localStorage
 
 **Двухуровневая стратегия:**
+
 ```typescript
 // 1. Очередь треков
-localStorage.setItem('musicverse-playback-queue', JSON.stringify(queue));
+localStorage.setItem("musicverse-playback-queue", JSON.stringify(queue));
 
 // 2. Состояние (критичное)
-localStorage.setItem('musicverse-queue-state', JSON.stringify({
-  currentIndex, shuffle, repeat
-}));
+localStorage.setItem(
+  "musicverse-queue-state",
+  JSON.stringify({
+    currentIndex,
+    shuffle,
+    repeat,
+  }),
+);
 ```
 
 **Обработка ошибок:**
+
 - `QuotaExceededError` → silent fail с warning
 - `SecurityError` (приватный режим) → продолжение без сохранения
 - Валидация при восстановлении
@@ -167,7 +186,8 @@ localStorage.setItem('musicverse-queue-state', JSON.stringify({
 
 ## Stem Studio: Профессиональная аудио-обработка
 
-### 📁 Файлы: 
+### 📁 Файлы:
+
 - `src/hooks/studio/useStemStudioEngine.ts` - мульти-стем менеджер
 - `src/hooks/studio/useStemAudioEngine.ts` - single stem engine
 - `src/components/stem-studio/StemStudioContent.tsx` - UI
@@ -177,7 +197,7 @@ Stem Studio - **профессиональный многодорожечный 
 ### Web Audio API граф для каждого стема:
 
 ```
-Source (MediaElement) 
+Source (MediaElement)
     ↓
 Gain Node (Volume)
     ↓
@@ -201,29 +221,30 @@ Destination (Speakers)
 
 ```typescript
 const {
-  enginesState,           // Состояние всех стемов
-  isInitialized,          // Готовность
-  initializeStemEngine,   // Инициализация стема
-  updateStemEQ,           // Обновление EQ
-  updateStemCompressor,   // Обновление компрессора
-  updateStemReverb,       // Обновление реверберации
-  applyStemEQPreset,      // Применить пресет EQ
-  resetStemEffects,       // Сброс эффектов
-  setStemVolume,          // Громкость стема
-  setMasterVolume,        // Мастер громкость
+  enginesState, // Состояние всех стемов
+  isInitialized, // Готовность
+  initializeStemEngine, // Инициализация стема
+  updateStemEQ, // Обновление EQ
+  updateStemCompressor, // Обновление компрессора
+  updateStemReverb, // Обновление реверберации
+  applyStemEQPreset, // Применить пресет EQ
+  resetStemEffects, // Сброс эффектов
+  setStemVolume, // Громкость стема
+  setMasterVolume, // Мастер громкость
 } = useStemStudioEngine(stemIds);
 ```
 
 ### Эффекты:
 
 #### EQ (3-полосный эквалайзер)
+
 ```typescript
 interface EQSettings {
-  lowGain: number;      // -12 до +12 dB
-  midGain: number;      // -12 до +12 dB
-  highGain: number;     // -12 до +12 dB
-  lowFreq: number;      // Hz (default 320)
-  highFreq: number;     // Hz (default 3200)
+  lowGain: number; // -12 до +12 dB
+  midGain: number; // -12 до +12 dB
+  highGain: number; // -12 до +12 dB
+  lowFreq: number; // Hz (default 320)
+  highFreq: number; // Hz (default 3200)
 }
 
 // Пресеты
@@ -233,17 +254,18 @@ eqPresets = {
   bright: { lowGain: -2, midGain: 0, highGain: 4 },
   bass_boost: { lowGain: 6, midGain: 0, highGain: 0 },
   vocal_presence: { lowGain: -2, midGain: 3, highGain: 2 },
-}
+};
 ```
 
 #### Compressor
+
 ```typescript
 interface CompressorSettings {
-  threshold: number;    // -100 до 0 dB
-  ratio: number;        // 1 до 20
-  attack: number;       // 0 до 1 сек
-  release: number;      // 0 до 1 сек
-  knee: number;         // 0 до 40 dB
+  threshold: number; // -100 до 0 dB
+  ratio: number; // 1 до 20
+  attack: number; // 0 до 1 сек
+  release: number; // 0 до 1 сек
+  knee: number; // 0 до 40 dB
   enabled: boolean;
 }
 
@@ -253,14 +275,15 @@ compressorPresets = {
   moderate: { threshold: -24, ratio: 4, attack: 0.003 },
   heavy: { threshold: -30, ratio: 8, attack: 0.001 },
   vocals: { threshold: -18, ratio: 3, attack: 0.005 },
-}
+};
 ```
 
 #### Reverb (с Dry/Wet)
+
 ```typescript
 interface ReverbSettings {
-  wetDry: number;       // 0-1 (сухой/мокрый)
-  decay: number;        // 0.1-10 секунд
+  wetDry: number; // 0-1 (сухой/мокрый)
+  decay: number; // 0.1-10 секунд
   enabled: boolean;
 }
 
@@ -268,8 +291,7 @@ interface ReverbSettings {
 function createImpulseResponse(ctx, duration, decay) {
   // Случайный шум с экспоненциальным затуханием
   for (let i = 0; i < length; i++) {
-    channelData[i] = (Math.random() * 2 - 1) * 
-                     Math.pow(1 - i / length, decay);
+    channelData[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, decay);
   }
 }
 ```
@@ -284,10 +306,8 @@ interface StemState {
 }
 
 // Если есть solo - играют только solo стемы
-const hasSolo = Object.values(stemStates).some(s => s.solo);
-const isMuted = masterMuted || 
-                state.muted || 
-                (hasSolo && !state.solo);
+const hasSolo = Object.values(stemStates).some((s) => s.solo);
+const isMuted = masterMuted || state.muted || (hasSolo && !state.solo);
 const finalVolume = isMuted ? 0 : state.volume;
 ```
 
@@ -296,6 +316,7 @@ const finalVolume = isMuted ? 0 : state.volume;
 ## Экспорт и сохранение результатов
 
 ### 📁 Файлы:
+
 - `src/hooks/useMixExport.ts` - экспорт микса
 - `src/hooks/studio/useTrimExport.ts` - обрезка
 
@@ -320,35 +341,31 @@ const exportMix = async (
   stems: StemMixData[],
   masterVolume: number,
   trackTitle: string,
-  options: { format: 'wav' | 'mp3' }
+  options: { format: "wav" | "mp3" },
 ) => {
   // 1. Фильтрация
-  const hasSolo = stems.some(s => s.solo);
-  const activeStems = stems.filter(s => 
-    hasSolo ? s.solo : !s.muted
-  );
-  
+  const hasSolo = stems.some((s) => s.solo);
+  const activeStems = stems.filter((s) => (hasSolo ? s.solo : !s.muted));
+
   // 2. Загрузка буферов
   const audioBuffers = await Promise.all(
-    activeStems.map(async stem => {
+    activeStems.map(async (stem) => {
       const response = await fetch(stem.audioUrl);
       const arrayBuffer = await response.arrayBuffer();
       const buffer = await audioContext.decodeAudioData(arrayBuffer);
       return { stem, buffer };
-    })
+    }),
   );
-  
+
   // 3. OfflineAudioContext
-  const maxDuration = Math.max(...audioBuffers.map(ab => ab.buffer.duration));
-  const offlineContext = new OfflineAudioContext(
-    2, maxDuration * sampleRate, sampleRate
-  );
-  
+  const maxDuration = Math.max(...audioBuffers.map((ab) => ab.buffer.duration));
+  const offlineContext = new OfflineAudioContext(2, maxDuration * sampleRate, sampleRate);
+
   // 4. Граф с эффектами
   const masterGain = offlineContext.createGain();
   masterGain.gain.value = masterVolume;
   masterGain.connect(offlineContext.destination);
-  
+
   for (const { stem, buffer } of audioBuffers) {
     // Source → EQ → Compressor → Reverb → Master
     const chain = buildEffectsChain(offlineContext, stem.effects);
@@ -356,17 +373,15 @@ const exportMix = async (
     chain.output.connect(masterGain);
     source.start(0);
   }
-  
+
   // 5. Рендеринг
   const renderedBuffer = await offlineContext.startRendering();
-  
+
   // 6. Конвертация
-  const blob = options.format === 'mp3' 
-    ? audioBufferToMp3(renderedBuffer, 192)
-    : audioBufferToWav(renderedBuffer);
-  
+  const blob = options.format === "mp3" ? audioBufferToMp3(renderedBuffer, 192) : audioBufferToWav(renderedBuffer);
+
   return blob;
-}
+};
 ```
 
 #### WAV Encoder:
@@ -375,31 +390,31 @@ const exportMix = async (
 function audioBufferToWav(buffer: AudioBuffer): Blob {
   // Создание 44-байтного WAV заголовка
   // RIFF chunk
-  writeString(view, 0, 'RIFF');
+  writeString(view, 0, "RIFF");
   view.setUint32(4, bufferLength - 8, true);
-  writeString(view, 8, 'WAVE');
-  
+  writeString(view, 8, "WAVE");
+
   // fmt chunk
-  writeString(view, 12, 'fmt ');
+  writeString(view, 12, "fmt ");
   view.setUint16(20, 1, true); // PCM
   view.setUint16(22, numChannels, true);
   view.setUint32(24, sampleRate, true);
-  
+
   // data chunk
-  writeString(view, 36, 'data');
+  writeString(view, 36, "data");
   view.setUint32(40, dataLength, true);
-  
+
   // Интерлейсинг каналов
   for (let i = 0; i < buffer.length; i++) {
     for (let ch = 0; ch < numChannels; ch++) {
       const sample = channels[ch][i];
-      const intSample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
+      const intSample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
       view.setInt16(offset, intSample, true);
       offset += 2;
     }
   }
-  
-  return new Blob([arrayBuffer], { type: 'audio/wav' });
+
+  return new Blob([arrayBuffer], { type: "audio/wav" });
 }
 ```
 
@@ -408,13 +423,13 @@ function audioBufferToWav(buffer: AudioBuffer): Blob {
 ```typescript
 function audioBufferToMp3(buffer: AudioBuffer, bitRate = 192): Blob {
   const mp3encoder = new lamejs.Mp3Encoder(numChannels, sampleRate, bitRate);
-  
+
   // Float32 → Int16
   const leftInt16 = new Int16Array(left.length);
   for (let i = 0; i < left.length; i++) {
     leftInt16[i] = Math.round(left[i] * 32767);
   }
-  
+
   // Кодирование блоками 1152 семпла
   const blockSize = 1152;
   for (let i = 0; i < leftInt16.length; i += blockSize) {
@@ -422,9 +437,9 @@ function audioBufferToMp3(buffer: AudioBuffer, bitRate = 192): Blob {
     const mp3buf = mp3encoder.encodeBuffer(leftChunk, rightChunk);
     if (mp3buf.length > 0) mp3Data.push(Array.from(mp3buf));
   }
-  
+
   const mp3buf = mp3encoder.flush();
-  return new Blob([combined], { type: 'audio/mp3' });
+  return new Blob([combined], { type: "audio/mp3" });
 }
 ```
 
@@ -434,19 +449,15 @@ function audioBufferToMp3(buffer: AudioBuffer, bitRate = 192): Blob {
 const trimAudio = async ({ audioUrl, startTime, endTime }) => {
   // 1. Загрузка и декодирование
   const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-  
+
   // 2. Вычисление позиций семплов
   const startSample = Math.floor(startTime * sampleRate);
   const endSample = Math.floor(endTime * sampleRate);
   const trimmedLength = endSample - startSample;
-  
+
   // 3. Создание нового буфера
-  const trimmedBuffer = audioContext.createBuffer(
-    audioBuffer.numberOfChannels,
-    trimmedLength,
-    sampleRate
-  );
-  
+  const trimmedBuffer = audioContext.createBuffer(audioBuffer.numberOfChannels, trimmedLength, sampleRate);
+
   // 4. Копирование данных
   for (let ch = 0; ch < numChannels; ch++) {
     const sourceData = audioBuffer.getChannelData(ch);
@@ -455,24 +466,20 @@ const trimAudio = async ({ audioUrl, startTime, endTime }) => {
       trimmedData[i] = sourceData[startSample + i];
     }
   }
-  
+
   // 5. Рендеринг через OfflineAudioContext
-  const offlineContext = new OfflineAudioContext(
-    trimmedBuffer.numberOfChannels,
-    trimmedBuffer.length,
-    sampleRate
-  );
-  
+  const offlineContext = new OfflineAudioContext(trimmedBuffer.numberOfChannels, trimmedBuffer.length, sampleRate);
+
   const source = offlineContext.createBufferSource();
   source.buffer = trimmedBuffer;
   source.connect(offlineContext.destination);
   source.start();
-  
+
   const renderedBuffer = await offlineContext.startRendering();
   const wavBlob = await audioBufferToWav(renderedBuffer);
-  
+
   return { blob: wavBlob, url: URL.createObjectURL(wavBlob) };
-}
+};
 ```
 
 ---
@@ -488,8 +495,8 @@ const useWaveform = ({
   audioUrl,
   container,
   height = 48,
-  waveColor = 'rgba(255, 255, 255, 0.3)',
-  progressColor = 'rgba(255, 255, 255, 0.6)',
+  waveColor = "rgba(255, 255, 255, 0.3)",
+  progressColor = "rgba(255, 255, 255, 0.6)",
   barWidth = 2,
   normalize = true,
 }) => {
@@ -501,28 +508,28 @@ const useWaveform = ({
     barWidth,
     barGap: 1,
     barRadius: 2,
-    backend: 'WebAudio',
+    backend: "WebAudio",
     interact: false,
     hideScrollbar: true,
     fillParent: true,
   });
-  
-  wavesurfer.on('ready', () => {
+
+  wavesurfer.on("ready", () => {
     setDuration(wavesurfer.getDuration());
   });
-  
-  wavesurfer.on('timeupdate', (time) => {
+
+  wavesurfer.on("timeupdate", (time) => {
     setCurrentTime(time);
   });
-  
+
   wavesurfer.load(audioUrl);
-  
+
   return {
     wavesurfer,
     seek: (time) => wavesurfer.seekTo(time / duration),
     setVolume: (vol) => wavesurfer.setVolume(vol),
   };
-}
+};
 ```
 
 ### Компоненты:
@@ -536,6 +543,7 @@ const useWaveform = ({
 ## Редактирование секций треков
 
 ### 📁 Файлы:
+
 - `src/hooks/useSectionReplacement.ts`
 - `src/hooks/useSectionDetection.ts`
 - `src/hooks/useReplaceSectionMutation.ts`
@@ -546,29 +554,27 @@ const useWaveform = ({
 const useSectionDetection = (lyrics, alignedWords, duration) => {
   // Поиск тегов [Verse], [Chorus] и т.д.
   const pattern = /\[(Verse|Chorus|Bridge|Intro|Outro)\]/gi;
-  
+
   const sections = [];
   let match;
-  
+
   while ((match = pattern.exec(lyrics)) !== null) {
     const sectionName = match[1];
     const startIndex = match.index;
-    
+
     // Время через alignedWords
-    const startWord = alignedWords.find(w => w.charIndex >= startIndex);
+    const startWord = alignedWords.find((w) => w.charIndex >= startIndex);
     const startTime = startWord?.startTime || 0;
-    
+
     // Конец = следующая секция или конец трека
     const nextMatch = pattern.exec(lyrics);
-    const endTime = nextMatch 
-      ? alignedWords.find(w => w.charIndex >= nextMatch.index)?.startTime 
-      : duration;
-    
+    const endTime = nextMatch ? alignedWords.find((w) => w.charIndex >= nextMatch.index)?.startTime : duration;
+
     sections.push({ name: sectionName, startTime, endTime, lyrics });
   }
-  
+
   return sections;
-}
+};
 ```
 
 ### Замена секции:
@@ -582,25 +588,21 @@ const executeReplacement = async () => {
     infillStartS: Math.round(startTime * 10) / 10,
     infillEndS: Math.round(endTime * 10) / 10,
   });
-  
+
   if (result?.taskId) {
-    setActiveTask(result.taskId);  // Отслеживание
+    setActiveTask(result.taskId); // Отслеживание
   }
-}
+};
 ```
 
 ### Пресеты:
 
 ```typescript
 const SECTION_PRESETS = [
-  { id: 'energetic', label: '⚡ Энергичнее', 
-    prompt: 'more energetic, higher tempo' },
-  { id: 'soft', label: '🎵 Мягче', 
-    prompt: 'softer, gentler, acoustic' },
-  { id: 'epic', label: '🎬 Эпичнее', 
-    prompt: 'epic, orchestral, cinematic' },
-  { id: 'rock', label: '🎸 Рок', 
-    prompt: 'rock style, distorted guitar' },
+  { id: "energetic", label: "⚡ Энергичнее", prompt: "more energetic, higher tempo" },
+  { id: "soft", label: "🎵 Мягче", prompt: "softer, gentler, acoustic" },
+  { id: "epic", label: "🎬 Эпичнее", prompt: "epic, orchestral, cinematic" },
+  { id: "rock", label: "🎸 Рок", prompt: "rock style, distorted guitar" },
 ];
 ```
 
@@ -611,23 +613,27 @@ const useReplaceSectionRealtime = (trackId) => {
   useEffect(() => {
     const channel = supabase
       .channel(`replaced_sections:${trackId}`)
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'replaced_sections',
-        filter: `track_id=eq.${trackId}`,
-      }, (payload) => {
-        queryClient.invalidateQueries(['replacedSections', trackId]);
-        
-        if (payload.new.status === 'completed') {
-          toast.success('Замена завершена!');
-        }
-      })
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "replaced_sections",
+          filter: `track_id=eq.${trackId}`,
+        },
+        (payload) => {
+          queryClient.invalidateQueries(["replacedSections", trackId]);
+
+          if (payload.new.status === "completed") {
+            toast.success("Замена завершена!");
+          }
+        },
+      )
       .subscribe();
-    
+
     return () => supabase.removeChannel(channel);
   }, [trackId]);
-}
+};
 ```
 
 ---
@@ -658,9 +664,9 @@ interface PlayerState {
   queue: Track[];
   currentIndex: number;
   shuffle: boolean;
-  repeat: 'off' | 'all' | 'one';
-  playerMode: 'minimized' | 'compact' | 'expanded' | 'fullscreen';
-  
+  repeat: "off" | "all" | "one";
+  playerMode: "minimized" | "compact" | "expanded" | "fullscreen";
+
   playTrack: (track?: Track) => void;
   pauseTrack: () => void;
   nextTrack: () => void;
@@ -677,11 +683,11 @@ interface PlayerState {
 ```typescript
 // src/stores/useSectionEditorStore.ts
 interface SectionEditorState {
-  editMode: 'select' | 'custom' | null;
+  editMode: "select" | "custom" | null;
   selectedSectionIndex: number | null;
   customRange: { start: number; end: number } | null;
   activeTask: string | null;
-  
+
   selectSection: (index: number) => void;
   setCustomRange: (start: number, end: number) => void;
   clearSelection: () => void;
@@ -697,16 +703,18 @@ export const useLyricsWizardStore = create<LyricsWizardState>()(
   persist(
     (set, get) => ({
       currentStep: 0,
-      theme: '',
-      generatedLyrics: '',
+      theme: "",
+      generatedLyrics: "",
       setTheme: (theme) => set({ theme }),
-      generateLyrics: async () => { /* AI logic */ },
+      generateLyrics: async () => {
+        /* AI logic */
+      },
     }),
     {
-      name: 'lyrics-wizard-storage',
+      name: "lyrics-wizard-storage",
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );
 ```
 
@@ -812,7 +820,7 @@ let sharedAudioContext: AudioContext | null = null;
 useEffect(() => {
   return () => {
     audio.pause();
-    audio.src = '';  // Release memory
+    audio.src = ""; // Release memory
     audio = null;
   };
 }, []);
@@ -825,9 +833,12 @@ export const StemChannel = React.memo(({ stem, volume, onVolumeChange }) => {
   // Heavy component in list
 });
 
-const updateVolume = useCallback((stemId, vol) => {
-  setStemVolume(stemId, vol);
-}, [setStemVolume]);
+const updateVolume = useCallback(
+  (stemId, vol) => {
+    setStemVolume(stemId, vol);
+  },
+  [setStemVolume],
+);
 ```
 
 ### 4. Debouncing
@@ -846,7 +857,7 @@ usePlayerStore.setState({
   activeTrack: newTrack,
   isPlaying: true,
   currentIndex: newIndex,
-  playerMode: 'compact',
+  playerMode: "compact",
 });
 ```
 

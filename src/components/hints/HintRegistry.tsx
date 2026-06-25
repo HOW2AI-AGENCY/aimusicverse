@@ -16,21 +16,12 @@
  *   - isActive(id): boolean
  */
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from 'react';
-import { logger } from '@/lib/logger';
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { logger } from "@/lib/logger";
 
-const STORAGE_KEY = 'mv:hints:v1';
-const LEGACY_PREFIXES = ['hint_seen_', 'onboarding_tip_'];
-const LEGACY_ARRAY_KEYS = ['mvai_hints_shown', 'mvai_spotlights'];
+const STORAGE_KEY = "mv:hints:v1";
+const LEGACY_PREFIXES = ["hint_seen_", "onboarding_tip_"];
+const LEGACY_ARRAY_KEYS = ["mvai_hints_shown", "mvai_spotlights"];
 
 interface SeenPayload {
   version: 1;
@@ -38,7 +29,7 @@ interface SeenPayload {
 }
 
 function readSeen(): Set<string> {
-  if (typeof window === 'undefined') return new Set();
+  if (typeof window === "undefined") return new Set();
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
@@ -52,12 +43,12 @@ function readSeen(): Set<string> {
 }
 
 function writeSeen(set: Set<string>) {
-  if (typeof window === 'undefined') return;
+  if (typeof window === "undefined") return;
   try {
     const payload: SeenPayload = { version: 1, shown: Array.from(set) };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
   } catch (error) {
-    logger.warn('hints: failed to persist seen set', {
+    logger.warn("hints: failed to persist seen set", {
       error: error instanceof Error ? error.message : String(error),
     });
   }
@@ -65,21 +56,21 @@ function writeSeen(set: Set<string>) {
 
 /** One-time import of legacy hint keys into the unified storage. */
 function migrateLegacy(into: Set<string>): Set<string> {
-  if (typeof window === 'undefined') return into;
+  if (typeof window === "undefined") return into;
   let mutated = false;
   try {
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (!key) continue;
       for (const prefix of LEGACY_PREFIXES) {
-        if (key.startsWith(prefix) && localStorage.getItem(key) === 'true') {
+        if (key.startsWith(prefix) && localStorage.getItem(key) === "true") {
           const id = key.slice(prefix.length);
           if (!into.has(id)) {
             into.add(id);
             mutated = true;
           }
         }
-        if (key.startsWith(prefix) && localStorage.getItem(key) === 'seen') {
+        if (key.startsWith(prefix) && localStorage.getItem(key) === "seen") {
           const id = key.slice(prefix.length);
           if (!into.has(id)) {
             into.add(id);
@@ -95,7 +86,7 @@ function migrateLegacy(into: Set<string>): Set<string> {
         const arr = JSON.parse(raw);
         if (Array.isArray(arr)) {
           for (const id of arr) {
-            if (typeof id === 'string' && !into.has(id)) {
+            if (typeof id === "string" && !into.has(id)) {
               into.add(id);
               mutated = true;
             }
@@ -116,12 +107,10 @@ function migrateLegacy(into: Set<string>): Set<string> {
 function useOverlayOpen(): boolean {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    if (typeof document === 'undefined') return;
+    if (typeof document === "undefined") return;
     const check = () => {
       const hasDialog =
-        document.querySelector(
-          '[role="dialog"][data-state="open"], [role="alertdialog"][data-state="open"]'
-        ) !== null;
+        document.querySelector('[role="dialog"][data-state="open"], [role="alertdialog"][data-state="open"]') !== null;
       setOpen(hasDialog);
     };
     check();
@@ -129,7 +118,7 @@ function useOverlayOpen(): boolean {
     observer.observe(document.body, {
       subtree: true,
       attributes: true,
-      attributeFilter: ['data-state', 'role'],
+      attributeFilter: ["data-state", "role"],
       childList: true,
     });
     return () => observer.disconnect();
@@ -174,7 +163,7 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
     writeSeen(seenRef.current);
     // Also write legacy key so any not-yet-migrated checks agree.
     try {
-      localStorage.setItem(`hint_seen_${id}`, 'true');
+      localStorage.setItem(`hint_seen_${id}`, "true");
     } catch {
       /* ignore */
     }
@@ -220,7 +209,7 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
       setActiveId(id);
       return true;
     },
-    [overlayOpen]
+    [overlayOpen],
   );
 
   const release = useCallback((id: string) => {
@@ -251,14 +240,13 @@ export function HintRegistryProvider({ children }: { children: ReactNode }) {
       activeId,
       overlayOpen,
     }),
-    [hasSeen, markSeen, resetAll, request, release, activeId, overlayOpen]
+    [hasSeen, markSeen, resetAll, request, release, activeId, overlayOpen],
   );
 
   // Dev-only test hook so Playwright can drive the registry directly.
   useEffect(() => {
-    if (!import.meta.env.DEV || typeof window === 'undefined') return;
-    (window as unknown as { __hintRegistry?: HintContextValue }).__hintRegistry =
-      value;
+    if (!import.meta.env.DEV || typeof window === "undefined") return;
+    (window as unknown as { __hintRegistry?: HintContextValue }).__hintRegistry = value;
   }, [value]);
 
   return <HintContext.Provider value={value}>{children}</HintContext.Provider>;

@@ -1,22 +1,22 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { AlertTriangle, Flag, Loader2 } from 'lucide-react';
-import { logger } from '@/lib/logger';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { AlertTriangle, Flag, Loader2 } from "lucide-react";
+import { logger } from "@/lib/logger";
 
 const REPORT_REASONS = [
-  { value: 'harassment', label: 'Оскорбления или травля' },
-  { value: 'spam', label: 'Спам' },
-  { value: 'inappropriate', label: 'Неприемлемый контент' },
-  { value: 'hate', label: 'Разжигание ненависти' },
-  { value: 'other', label: 'Другое' },
+  { value: "harassment", label: "Оскорбления или травля" },
+  { value: "spam", label: "Спам" },
+  { value: "inappropriate", label: "Неприемлемый контент" },
+  { value: "hate", label: "Разжигание ненависти" },
+  { value: "other", label: "Другое" },
 ];
 
 interface ReportCommentDialogProps {
@@ -27,70 +27,68 @@ interface ReportCommentDialogProps {
   commentPreview?: string;
 }
 
-export function ReportCommentDialog({ 
-  open, 
-  onOpenChange, 
+export function ReportCommentDialog({
+  open,
+  onOpenChange,
   commentId,
   commentUserId,
-  commentPreview 
+  commentPreview,
 }: ReportCommentDialogProps) {
   const isMobile = useIsMobile();
-  const [reason, setReason] = useState('');
-  const [details, setDetails] = useState('');
+  const [reason, setReason] = useState("");
+  const [details, setDetails] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async () => {
     if (!reason) {
-      toast.error('Выберите причину жалобы');
+      toast.error("Выберите причину жалобы");
       return;
     }
 
     setIsSubmitting(true);
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
-        toast.error('Необходима авторизация');
+        toast.error("Необходима авторизация");
         return;
       }
 
-      const { error } = await supabase
-        .from('moderation_reports')
-        .insert({
-          reporter_id: user.id,
-          entity_type: 'comment',
-          entity_id: commentId,
-          reported_user_id: commentUserId,
-          reason,
-          details: details || null,
-        });
+      const { error } = await supabase.from("moderation_reports").insert({
+        reporter_id: user.id,
+        entity_type: "comment",
+        entity_id: commentId,
+        reported_user_id: commentUserId,
+        reason,
+        details: details || null,
+      });
 
       if (error) throw error;
 
-      toast.success('Жалоба отправлена. Мы рассмотрим её в ближайшее время.');
+      toast.success("Жалоба отправлена. Мы рассмотрим её в ближайшее время.");
       onOpenChange(false);
-      setReason('');
-      setDetails('');
+      setReason("");
+      setDetails("");
     } catch (error: unknown) {
-      logger.error('Report comment error', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Не удалось отправить жалобу');
+      logger.error("Report comment error", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Не удалось отправить жалобу");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const truncatedPreview = commentPreview 
-    ? commentPreview.length > 50 
-      ? commentPreview.slice(0, 50) + '...' 
+  const truncatedPreview = commentPreview
+    ? commentPreview.length > 50
+      ? commentPreview.slice(0, 50) + "..."
       : commentPreview
-    : 'комментарий';
+    : "комментарий";
 
   const content = (
     <div className="space-y-4">
       <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 border border-destructive/20">
         <AlertTriangle className="h-5 w-5 text-destructive flex-shrink-0" />
-        <p className="text-sm text-muted-foreground">
-          Пожаловаться на: "{truncatedPreview}"
-        </p>
+        <p className="text-sm text-muted-foreground">Пожаловаться на: "{truncatedPreview}"</p>
       </div>
 
       <div className="space-y-3">
@@ -119,25 +117,11 @@ export function ReportCommentDialog({
       </div>
 
       <div className="flex gap-2 pt-2">
-        <Button
-          variant="outline"
-          className="flex-1"
-          onClick={() => onOpenChange(false)}
-          disabled={isSubmitting}
-        >
+        <Button variant="outline" className="flex-1" onClick={() => onOpenChange(false)} disabled={isSubmitting}>
           Отмена
         </Button>
-        <Button
-          variant="destructive"
-          className="flex-1"
-          onClick={handleSubmit}
-          disabled={isSubmitting || !reason}
-        >
-          {isSubmitting ? (
-            <Loader2 className="h-4 w-4 animate-spin mr-2" />
-          ) : (
-            <Flag className="h-4 w-4 mr-2" />
-          )}
+        <Button variant="destructive" className="flex-1" onClick={handleSubmit} disabled={isSubmitting || !reason}>
+          {isSubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Flag className="h-4 w-4 mr-2" />}
           Отправить
         </Button>
       </div>
@@ -153,9 +137,7 @@ export function ReportCommentDialog({
               <Flag className="h-5 w-5 text-destructive" />
               Пожаловаться
             </DrawerTitle>
-            <DrawerDescription>
-              Сообщите о нарушении правил сообщества
-            </DrawerDescription>
+            <DrawerDescription>Сообщите о нарушении правил сообщества</DrawerDescription>
           </DrawerHeader>
           {content}
         </DrawerContent>
@@ -171,9 +153,7 @@ export function ReportCommentDialog({
             <Flag className="h-5 w-5 text-destructive" />
             Пожаловаться
           </DialogTitle>
-          <DialogDescription>
-            Сообщите о нарушении правил сообщества
-          </DialogDescription>
+          <DialogDescription>Сообщите о нарушении правил сообщества</DialogDescription>
         </DialogHeader>
         {content}
       </DialogContent>

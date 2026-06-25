@@ -12,18 +12,21 @@
 ## Completed Features ✅
 
 ### Waveform Visualization
+
 - ✅ wavesurfer.js integration
 - ✅ Per-stem color-coded waveforms
 - ✅ Click-to-seek functionality
 - ✅ Real-time playback sync
 
 ### MIDI Transcription
+
 - ✅ Replicate API integration (MT3/Basic Pitch models)
 - ✅ Permanent storage in Supabase
 - ✅ Download functionality
 - ✅ UI with model selection
 
 ### UI/UX Improvements
+
 - ✅ Keyboard shortcuts (Space, M, ←/→)
 - ✅ Tutorial overlay for new users
 - ✅ Onboarding steps for Stem Studio
@@ -33,9 +36,11 @@
 ## User Stories
 
 ### User Story 11: Stem Studio & Mixing (P2)
+
 **Goal**: Enable advanced audio editing and mixing capabilities
 
 **Key Features**:
+
 - Stem isolation viewer (vocals, drums, bass, other)
 - Individual stem volume controls
 - Stem muting/soloing
@@ -46,6 +51,7 @@
 - Bounce/export mixed version
 
 **Key Tasks** (16 tasks):
+
 - [ ] T001 [P] Create StemStudio page in src/pages/StemStudio.tsx
 - [ ] T002 [P] Create StemPlayer component with Web Audio API
 - [ ] T003 [P] Create WaveformVisualization component using wavesurfer.js
@@ -66,9 +72,11 @@
 ---
 
 ### User Story 12: Audio Effects & Visualization (P3)
+
 **Goal**: Provide creative audio manipulation tools
 
 **Key Features**:
+
 - Spectrum analyzer
 - Real-time waveform
 - Audio effects library (delay, distortion, chorus, flanger)
@@ -80,6 +88,7 @@
 - Time-stretching
 
 **Key Tasks** (12 tasks):
+
 - [ ] T017 [P] Create SpectrumAnalyzer component
 - [ ] T018 [P] Create EffectsLibrary component with presets
 - [ ] T019 [P] Create EffectChain component for serial effects
@@ -98,12 +107,14 @@
 ## Technical Stack
 
 ### Audio Libraries
+
 - **Web Audio API**: Core audio processing
 - **wavesurfer.js**: Waveform visualization
 - **tone.js**: Audio effects and synthesis (optional)
 - **lamejs** or **RecordRTC**: Audio encoding for export
 
 ### File Formats
+
 - **Import**: MP3, WAV, OGG, M4A
 - **Export**: MP3, WAV (lossless)
 - **Stems**: Individual WAV files per stem
@@ -152,17 +163,20 @@ CREATE TABLE effect_presets (
 ## Technical Considerations
 
 ### Performance
+
 - Audio processing in Web Workers to avoid UI blocking
 - Lazy load audio files (stream, don't download all at once)
 - Use Audio Context suspend/resume to save resources
 - Implement audio buffer caching
 
 ### Browser Compatibility
+
 - Web Audio API support (all modern browsers)
 - Fallback for older browsers (show upgrade prompt)
 - Handle iOS audio limitations (user gesture required)
 
 ### File Size Management
+
 - Stem files can be large (10-50 MB each)
 - Implement progressive download
 - Add warning for mobile data usage
@@ -173,6 +187,7 @@ CREATE TABLE effect_presets (
 ## UI/UX Considerations
 
 ### Stem Studio Layout
+
 ```
 ┌─────────────────────────────────────────────┐
 │ Track: "Song Name"           [Export Mix]   │
@@ -210,6 +225,7 @@ M = Mute, S = Solo
 ---
 
 ## Dependencies
+
 - Suno AI stem separation API (or alternative service)
 - Premium subscription (stem features restricted)
 - Modern browser with Web Audio API support
@@ -217,4 +233,4 @@ M = Mute, S = Solo
 
 ---
 
-*Outline created: 2025-12-02*
+_Outline created: 2025-12-02_

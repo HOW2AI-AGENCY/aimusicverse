@@ -1,6 +1,6 @@
 /**
  * Optimized Audio Player Hook
- * 
+ *
  * Enhanced version of useAudioPlayer with performance optimizations:
  * - Debounced time updates to reduce re-renders
  * - Throttled progress updates
@@ -8,17 +8,17 @@
  * - Performance measurement
  * - Smart buffering strategies
  * - Next track preloading
- * 
+ *
  * Use this hook for production environments where performance is critical.
- * 
+ *
  * @module useOptimizedAudioPlayer
  */
 
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { debounce, throttle, markPerformance, preloadAudio, requestIdleCallback } from '@/lib/performance-utils';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { debounce, throttle, markPerformance, preloadAudio, requestIdleCallback } from "@/lib/performance-utils";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'OptimizedAudioPlayer' });
+const log = logger.child({ module: "OptimizedAudioPlayer" });
 
 /**
  * Props for optimized audio player hook
@@ -31,13 +31,13 @@ interface UseOptimizedAudioPlayerProps {
   onPlay?: () => void;
   onPause?: () => void;
   onEnded?: () => void;
-  nextTrackUrl?: string | null;  // For preloading
-  enablePreload?: boolean;        // Enable next track preloading
+  nextTrackUrl?: string | null; // For preloading
+  enablePreload?: boolean; // Enable next track preloading
 }
 
 /**
  * Optimized audio player hook with performance enhancements
- * 
+ *
  * @param props - Audio player configuration
  * @returns Audio player state and controls
  */
@@ -73,10 +73,11 @@ export const useOptimizedAudioPlayer = ({
    * Updates at most every 100ms instead of multiple times per second
    */
   const debouncedSetCurrentTime = useMemo(
-    () => debounce((time: number) => {
-      setCurrentTime(time);
-    }, 100),
-    []
+    () =>
+      debounce((time: number) => {
+        setCurrentTime(time);
+      }, 100),
+    [],
   );
 
   /**
@@ -84,10 +85,11 @@ export const useOptimizedAudioPlayer = ({
    * Updates at most every 500ms to reduce overhead
    */
   const throttledSetBuffered = useMemo(
-    () => throttle((percent: number) => {
-      setBuffered(percent);
-    }, 500),
-    []
+    () =>
+      throttle((percent: number) => {
+        setBuffered(percent);
+      }, 500),
+    [],
   );
 
   /**
@@ -99,16 +101,19 @@ export const useOptimizedAudioPlayer = ({
 
     // Clean up previous preload
     if (preloadRef.current) {
-      preloadRef.current.src = '';
+      preloadRef.current.src = "";
       preloadRef.current = null;
     }
 
     // Start preloading when browser is idle using utility function
-    requestIdleCallback(() => {
-      preloadAudio(nextTrackUrl).catch((error) => {
-        log.warn('Failed to preload next track', { error });
-      });
-    }, { timeout: 1000 });
+    requestIdleCallback(
+      () => {
+        preloadAudio(nextTrackUrl).catch((error) => {
+          log.warn("Failed to preload next track", { error });
+        });
+      },
+      { timeout: 1000 },
+    );
   }, [nextTrackUrl, enablePreload]);
 
   /**
@@ -116,7 +121,7 @@ export const useOptimizedAudioPlayer = ({
    */
   useEffect(() => {
     if (!audioSource) {
-      setError('No audio source available');
+      setError("No audio source available");
       return;
     }
 
@@ -126,10 +131,10 @@ export const useOptimizedAudioPlayer = ({
     // Initialize audio element with optimizations
     if (!audioRef.current) {
       audioRef.current = new Audio();
-      audioRef.current.preload = 'metadata'; // Load only metadata initially
-      
+      audioRef.current.preload = "metadata"; // Load only metadata initially
+
       // Enable CORS for cross-origin audio
-      audioRef.current.crossOrigin = 'anonymous';
+      audioRef.current.crossOrigin = "anonymous";
     }
 
     const audio = audioRef.current;
@@ -144,7 +149,7 @@ export const useOptimizedAudioPlayer = ({
      */
     const handleTimeUpdate = () => {
       const now = performance.now();
-      
+
       // Skip updates if less than 100ms since last update
       if (now - lastUpdateTimeRef.current < 100) {
         return;
@@ -174,10 +179,10 @@ export const useOptimizedAudioPlayer = ({
     const handleLoadedMetadata = () => {
       setDuration(audio.duration);
       setLoading(false);
-      
+
       // End performance measurement
       const loadTime = measure.end();
-      log.debug('Audio loaded', { loadTimeMs: loadTime.toFixed(2) });
+      log.debug("Audio loaded", { loadTimeMs: loadTime.toFixed(2) });
     };
 
     const handleCanPlay = () => {
@@ -209,37 +214,37 @@ export const useOptimizedAudioPlayer = ({
      */
     const handleError = (e: Event) => {
       const audioError = audio.error;
-      let errorMessage = 'Audio playback error';
+      let errorMessage = "Audio playback error";
 
       if (audioError) {
         switch (audioError.code) {
           case MediaError.MEDIA_ERR_ABORTED:
-            errorMessage = 'Playback aborted';
+            errorMessage = "Playback aborted";
             break;
           case MediaError.MEDIA_ERR_NETWORK:
-            errorMessage = 'Network error';
+            errorMessage = "Network error";
             break;
           case MediaError.MEDIA_ERR_DECODE:
-            errorMessage = 'Decode error';
+            errorMessage = "Decode error";
             break;
           case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            errorMessage = 'Source not supported';
+            errorMessage = "Source not supported";
             break;
         }
       }
 
-      log.error('Audio playback error', { error: errorMessage, audioError });
+      log.error("Audio playback error", { error: errorMessage, audioError });
       setError(errorMessage);
       setLoading(false);
       setIsPlaying(false);
 
       // Attempt fallback
       if (audio.src === streamingUrl && localAudioUrl) {
-        log.info('Attempting local source fallback');
+        log.info("Attempting local source fallback");
         audio.src = localAudioUrl;
         audio.load();
       } else if (audio.src === localAudioUrl && audioUrl && audioUrl !== localAudioUrl) {
-        log.info('Attempting original URL fallback');
+        log.info("Attempting original URL fallback");
         audio.src = audioUrl;
         audio.load();
       }
@@ -248,36 +253,48 @@ export const useOptimizedAudioPlayer = ({
     };
 
     // Register event listeners
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('timeupdate', handleTimeUpdate);
-    audio.addEventListener('progress', handleProgress);
-    audio.addEventListener('canplay', handleCanPlay);
-    audio.addEventListener('waiting', handleWaiting);
-    audio.addEventListener('play', handlePlay);
-    audio.addEventListener('pause', handlePause);
-    audio.addEventListener('ended', handleEnded);
-    audio.addEventListener('error', handleError);
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("progress", handleProgress);
+    audio.addEventListener("canplay", handleCanPlay);
+    audio.addEventListener("waiting", handleWaiting);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
 
     // Cleanup
     return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
-      audio.removeEventListener('progress', handleProgress);
-      audio.removeEventListener('canplay', handleCanPlay);
-      audio.removeEventListener('waiting', handleWaiting);
-      audio.removeEventListener('play', handlePlay);
-      audio.removeEventListener('pause', handlePause);
-      audio.removeEventListener('ended', handleEnded);
-      audio.removeEventListener('error', handleError);
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("progress", handleProgress);
+      audio.removeEventListener("canplay", handleCanPlay);
+      audio.removeEventListener("waiting", handleWaiting);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
     };
-  }, [audioSource, streamingUrl, localAudioUrl, audioUrl, trackId, onPlay, onPause, onEnded, debouncedSetCurrentTime, throttledSetBuffered, preloadNextTrack]);
+  }, [
+    audioSource,
+    streamingUrl,
+    localAudioUrl,
+    audioUrl,
+    trackId,
+    onPlay,
+    onPause,
+    onEnded,
+    debouncedSetCurrentTime,
+    throttledSetBuffered,
+    preloadNextTrack,
+  ]);
 
   /**
    * Optimized play function with error handling
    */
   const play = useCallback(async () => {
     if (!audioRef.current || !audioSource) {
-      setError('No audio source available');
+      setError("No audio source available");
       return;
     }
 
@@ -286,8 +303,8 @@ export const useOptimizedAudioPlayer = ({
       await audioRef.current.play();
       setError(null);
     } catch (error: any) {
-      log.error('Play error', error);
-      setError(error.message || 'Failed to play audio');
+      log.error("Play error", error);
+      setError(error.message || "Failed to play audio");
       setLoading(false);
     }
   }, [audioSource]);
@@ -314,22 +331,25 @@ export const useOptimizedAudioPlayer = ({
   /**
    * Optimized seek function with validation
    */
-  const seek = useCallback((time: number) => {
-    if (!audioRef.current || !duration) return;
+  const seek = useCallback(
+    (time: number) => {
+      if (!audioRef.current || !duration) return;
 
-    // Validate seek time
-    const validTime = Math.max(0, Math.min(time, duration));
-    
-    audioRef.current.currentTime = validTime;
-    setCurrentTime(validTime);
-  }, [duration]);
+      // Validate seek time
+      const validTime = Math.max(0, Math.min(time, duration));
+
+      audioRef.current.currentTime = validTime;
+      setCurrentTime(validTime);
+    },
+    [duration],
+  );
 
   /**
    * Set volume with validation
    */
   const setVolume = useCallback((volume: number) => {
     if (!audioRef.current) return;
-    
+
     // Clamp volume between 0 and 1
     const validVolume = Math.max(0, Math.min(1, volume));
     audioRef.current.volume = validVolume;
@@ -343,13 +363,13 @@ export const useOptimizedAudioPlayer = ({
       // Clean up main audio element
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.src = '';
+        audioRef.current.src = "";
         audioRef.current = null;
       }
 
       // Clean up preload element
       if (preloadRef.current) {
-        preloadRef.current.src = '';
+        preloadRef.current.src = "";
         preloadRef.current = null;
       }
     };

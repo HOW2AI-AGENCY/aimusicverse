@@ -1,28 +1,16 @@
-import { useState, useCallback } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Progress } from '@/components/ui/progress';
-import { Switch } from '@/components/ui/switch';
-import { Download, X, FileAudio, Loader2 } from 'lucide-react';
-import { useMixExport, ExportFormat, ExportQuality, Mp3Bitrate } from '@/hooks/studio/useMixExport';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useTelegramSecondaryButton } from '@/hooks/telegram/useTelegramSecondaryButton';
+import { useState, useCallback } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Progress } from "@/components/ui/progress";
+import { Switch } from "@/components/ui/switch";
+import { Download, X, FileAudio, Loader2 } from "lucide-react";
+import { useMixExport, ExportFormat, ExportQuality, Mp3Bitrate } from "@/hooks/studio/useMixExport";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTelegramSecondaryButton } from "@/hooks/telegram/useTelegramSecondaryButton";
 
 interface ExportMixDialogProps {
   open: boolean;
@@ -41,15 +29,15 @@ export function ExportMixDialog({
   onOpenChange,
   tracks,
   masterVolume,
-  trackTitle = 'mix'
+  trackTitle = "mix",
 }: ExportMixDialogProps) {
   const isMobile = useIsMobile();
-  const [format, setFormat] = useState<ExportFormat>('wav');
-  const [quality, setQuality] = useState<ExportQuality>('high');
+  const [format, setFormat] = useState<ExportFormat>("wav");
+  const [quality, setQuality] = useState<ExportQuality>("high");
   const [mp3Bitrate, setMp3Bitrate] = useState<Mp3Bitrate>(320);
   const [normalize, setNormalize] = useState(true);
   const [limiter, setLimiter] = useState(true);
-  
+
   const { isExporting, exportProgress, exportMix, cancelExport, downloadBlob } = useMixExport();
 
   // Handle cancel via Telegram SecondaryButton
@@ -63,11 +51,11 @@ export function ExportMixDialog({
 
   // Telegram SecondaryButton for cancel action during export
   const { shouldShowUIButton } = useTelegramSecondaryButton({
-    text: isExporting ? 'Отменить' : 'Закрыть',
+    text: isExporting ? "Отменить" : "Закрыть",
     onClick: handleCancelExport,
     enabled: true,
     visible: open && isExporting,
-    position: 'left',
+    position: "left",
   });
 
   const handleExport = async () => {
@@ -81,36 +69,36 @@ export function ExportMixDialog({
         normalize,
         limiter,
         limiterThreshold: -1,
-        dither: format === 'wav',
-      }
+        dither: format === "wav",
+      },
     });
 
     if (blob) {
       const extension = format;
-      const filename = `${trackTitle.replace(/[^a-zA-Z0-9а-яА-Я]/g, '_')}_${Date.now()}.${extension}`;
+      const filename = `${trackTitle.replace(/[^a-zA-Z0-9а-яА-Я]/g, "_")}_${Date.now()}.${extension}`;
       downloadBlob(blob, filename);
       onOpenChange(false);
     }
   };
 
   const qualityOptions = [
-    { value: 'high', label: 'Высокое', description: '48 kHz, 16-bit' },
-    { value: 'medium', label: 'Среднее', description: '44.1 kHz, 16-bit' },
-    { value: 'low', label: 'Низкое', description: '22.05 kHz, 16-bit' }
+    { value: "high", label: "Высокое", description: "48 kHz, 16-bit" },
+    { value: "medium", label: "Среднее", description: "44.1 kHz, 16-bit" },
+    { value: "low", label: "Низкое", description: "22.05 kHz, 16-bit" },
   ] as const;
 
   const formatOptions = [
-    { value: 'wav', label: 'WAV', description: 'Без сжатия, большой размер', disabled: false },
-    { value: 'mp3', label: 'MP3', description: 'Сжатый, меньший размер', disabled: false }
+    { value: "wav", label: "WAV", description: "Без сжатия, большой размер", disabled: false },
+    { value: "mp3", label: "MP3", description: "Сжатый, меньший размер", disabled: false },
   ] as const;
 
   const bitrateOptions = [
-    { value: 320, label: '320 kbps', description: 'Максимальное качество' },
-    { value: 192, label: '192 kbps', description: 'Хорошее качество' },
-    { value: 128, label: '128 kbps', description: 'Компактный размер' }
+    { value: 320, label: "320 kbps", description: "Максимальное качество" },
+    { value: 192, label: "192 kbps", description: "Хорошее качество" },
+    { value: 128, label: "128 kbps", description: "Компактный размер" },
   ] as const;
 
-  const activeTracksCount = tracks.filter(t => !t.muted && t.url).length;
+  const activeTracksCount = tracks.filter((t) => !t.muted && t.url).length;
 
   const content = (
     <>
@@ -123,11 +111,7 @@ export function ExportMixDialog({
           <Progress value={exportProgress.progress} className="h-2" />
           {/* Show UI cancel button only when native SecondaryButton is not available */}
           {shouldShowUIButton && (
-            <Button
-              variant="outline"
-              onClick={cancelExport}
-              className="w-full h-12 touch-manipulation"
-            >
+            <Button variant="outline" onClick={cancelExport} className="w-full h-12 touch-manipulation">
               <X className="h-4 w-4 mr-2" />
               Отменить
             </Button>
@@ -149,10 +133,8 @@ export function ExportMixDialog({
                   htmlFor={`format-${option.value}`}
                   className={cn(
                     "flex flex-col items-start p-3 rounded-lg border cursor-pointer transition-colors touch-manipulation",
-                    format === option.value
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/50",
-                    option.disabled && "opacity-50 cursor-not-allowed"
+                    format === option.value ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
+                    option.disabled && "opacity-50 cursor-not-allowed",
                   )}
                 >
                   <div className="flex items-center gap-2">
@@ -164,16 +146,14 @@ export function ExportMixDialog({
                     />
                     <span className="font-medium">{option.label}</span>
                   </div>
-                  <span className="text-xs text-muted-foreground mt-1 ml-7">
-                    {option.description}
-                  </span>
+                  <span className="text-xs text-muted-foreground mt-1 ml-7">{option.description}</span>
                 </Label>
               ))}
             </RadioGroup>
           </div>
 
           {/* MP3 Bitrate (only when MP3 selected) */}
-          {format === 'mp3' && (
+          {format === "mp3" && (
             <div className="space-y-3">
               <Label>Битрейт MP3</Label>
               <RadioGroup
@@ -189,20 +169,14 @@ export function ExportMixDialog({
                       "flex items-center justify-between p-3 min-h-[48px] rounded-lg border cursor-pointer transition-colors touch-manipulation",
                       mp3Bitrate === option.value
                         ? "border-primary bg-primary/5"
-                        : "border-border hover:border-primary/50"
+                        : "border-border hover:border-primary/50",
                     )}
                   >
                     <div className="flex items-center gap-2">
-                      <RadioGroupItem
-                        value={String(option.value)}
-                        id={`bitrate-${option.value}`}
-                        className="h-5 w-5"
-                      />
+                      <RadioGroupItem value={String(option.value)} id={`bitrate-${option.value}`} className="h-5 w-5" />
                       <span className="font-medium">{option.label}</span>
                     </div>
-                    <span className="text-xs text-muted-foreground">
-                      {option.description}
-                    </span>
+                    <span className="text-xs text-muted-foreground">{option.description}</span>
                   </Label>
                 ))}
               </RadioGroup>
@@ -212,33 +186,21 @@ export function ExportMixDialog({
           {/* Quality Selection */}
           <div className="space-y-3">
             <Label>Качество сэмплирования</Label>
-            <RadioGroup
-              value={quality}
-              onValueChange={(v) => setQuality(v as ExportQuality)}
-              className="space-y-2"
-            >
+            <RadioGroup value={quality} onValueChange={(v) => setQuality(v as ExportQuality)} className="space-y-2">
               {qualityOptions.map((option) => (
                 <Label
                   key={option.value}
                   htmlFor={`quality-${option.value}`}
                   className={cn(
                     "flex items-center justify-between p-3 min-h-[48px] rounded-lg border cursor-pointer transition-colors touch-manipulation",
-                    quality === option.value
-                      ? "border-primary bg-primary/5"
-                      : "border-border hover:border-primary/50"
+                    quality === option.value ? "border-primary bg-primary/5" : "border-border hover:border-primary/50",
                   )}
                 >
                   <div className="flex items-center gap-2">
-                    <RadioGroupItem
-                      value={option.value}
-                      id={`quality-${option.value}`}
-                      className="h-5 w-5"
-                    />
+                    <RadioGroupItem value={option.value} id={`quality-${option.value}`} className="h-5 w-5" />
                     <span className="font-medium">{option.label}</span>
                   </div>
-                  <span className="text-xs text-muted-foreground">
-                    {option.description}
-                  </span>
+                  <span className="text-xs text-muted-foreground">{option.description}</span>
                 </Label>
               ))}
             </RadioGroup>
@@ -253,22 +215,14 @@ export function ExportMixDialog({
                   <span className="text-sm font-medium">Нормализация</span>
                   <p className="text-xs text-muted-foreground">Выровнять громкость до -1 dB</p>
                 </div>
-                <Switch 
-                  checked={normalize} 
-                  onCheckedChange={setNormalize}
-                  className="touch-manipulation"
-                />
+                <Switch checked={normalize} onCheckedChange={setNormalize} className="touch-manipulation" />
               </div>
               <div className="flex items-center justify-between min-h-[44px]">
                 <div>
                   <span className="text-sm font-medium">Лимитер</span>
                   <p className="text-xs text-muted-foreground">Предотвратить клиппинг</p>
                 </div>
-                <Switch 
-                  checked={limiter} 
-                  onCheckedChange={setLimiter}
-                  className="touch-manipulation"
-                />
+                <Switch checked={limiter} onCheckedChange={setLimiter} className="touch-manipulation" />
               </div>
             </div>
           </div>
@@ -280,18 +234,12 @@ export function ExportMixDialog({
             className="w-full h-12 touch-manipulation"
             size="lg"
           >
-            {isExporting ? (
-              <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-            ) : (
-              <Download className="h-5 w-5 mr-2" />
-            )}
+            {isExporting ? <Loader2 className="h-5 w-5 mr-2 animate-spin" /> : <Download className="h-5 w-5 mr-2" />}
             Экспортировать {format.toUpperCase()}
           </Button>
 
           {activeTracksCount === 0 && (
-            <p className="text-xs text-destructive text-center">
-              Нет активных дорожек для экспорта
-            </p>
+            <p className="text-xs text-destructive text-center">Нет активных дорожек для экспорта</p>
           )}
         </div>
       )}
@@ -308,13 +256,9 @@ export function ExportMixDialog({
               <FileAudio className="h-5 w-5" />
               Экспорт микса
             </DrawerTitle>
-            <DrawerDescription>
-              {activeTracksCount} активных дорожек будут объединены в один файл
-            </DrawerDescription>
+            <DrawerDescription>{activeTracksCount} активных дорожек будут объединены в один файл</DrawerDescription>
           </DrawerHeader>
-          <div className="px-4 pb-safe overflow-y-auto">
-            {content}
-          </div>
+          <div className="px-4 pb-safe overflow-y-auto">{content}</div>
         </DrawerContent>
       </Drawer>
     );
@@ -329,9 +273,7 @@ export function ExportMixDialog({
             <FileAudio className="h-5 w-5" />
             Экспорт микса
           </DialogTitle>
-          <DialogDescription>
-            {activeTracksCount} активных дорожек будут объединены в один файл
-          </DialogDescription>
+          <DialogDescription>{activeTracksCount} активных дорожек будут объединены в один файл</DialogDescription>
         </DialogHeader>
         {content}
       </DialogContent>

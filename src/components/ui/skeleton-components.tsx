@@ -1,18 +1,19 @@
 /**
  * Skeleton Components for Loading States
- * 
+ *
  * Provide consistent loading experience across the application.
  * All skeletons use shimmer animation for visual feedback.
- * 
+ *
  * @module skeleton-components
  */
 
-import { Skeleton } from '@/components/ui/skeleton';
-import { cn } from '@/lib/utils';
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 // Pre-computed waveform bar heights to keep render pure
-const WAVEFORM_HEIGHTS = Array.from({ length: 50 }, (_, i) =>
-  `${20 + Math.sin(i * 0.2) * 30 + Math.sin(i * 0.7) * 10}%`
+const WAVEFORM_HEIGHTS = Array.from(
+  { length: 50 },
+  (_, i) => `${20 + Math.sin(i * 0.2) * 30 + Math.sin(i * 0.7) * 10}%`,
 );
 
 /**
@@ -31,11 +32,11 @@ const WAVEFORM_HEIGHTS = Array.from({ length: 50 }, (_, i) =>
  * ```
  */
 export function TrackCardSkeleton({
-  variant = 'default',
+  variant = "default",
   className,
-  index = 0
+  index = 0,
 }: {
-  variant?: 'default' | 'compact' | 'list' | 'professional';
+  variant?: "default" | "compact" | "list" | "professional";
   className?: string;
   index?: number;
 }) {
@@ -44,12 +45,9 @@ export function TrackCardSkeleton({
   const style = staggerDelay > 0 ? { animationDelay: `${staggerDelay}ms` } : undefined;
 
   // Compact variant for lists
-  if (variant === 'compact') {
+  if (variant === "compact") {
     return (
-      <div
-        className={cn("flex items-center gap-3 p-2", className)}
-        style={style}
-      >
+      <div className={cn("flex items-center gap-3 p-2", className)} style={style}>
         <Skeleton className="w-10 h-10 rounded-lg shrink-0" />
         <div className="flex-1 min-w-0 space-y-1.5">
           <Skeleton className="h-3.5 w-3/4" />
@@ -61,12 +59,9 @@ export function TrackCardSkeleton({
   }
 
   // List variant for horizontal lists
-  if (variant === 'list') {
+  if (variant === "list") {
     return (
-      <div
-        className={cn("flex items-center gap-3 p-3 border-b border-border/30", className)}
-        style={style}
-      >
+      <div className={cn("flex items-center gap-3 p-3 border-b border-border/30", className)} style={style}>
         <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
         <div className="flex-1 min-w-0 space-y-2">
           <Skeleton className="h-4 w-2/3" />
@@ -78,12 +73,9 @@ export function TrackCardSkeleton({
   }
 
   // Professional variant with enhanced styling
-  if (variant === 'professional') {
+  if (variant === "professional") {
     return (
-      <div
-        className={cn("rounded-xl border border-border/50 bg-card overflow-hidden", className)}
-        style={style}
-      >
+      <div className={cn("rounded-xl border border-border/50 bg-card overflow-hidden", className)} style={style}>
         {/* Cover with overlay skeleton */}
         <div className="relative aspect-square">
           <Skeleton className="w-full h-full" />
@@ -144,7 +136,7 @@ export function TrackCardSkeletonCompact({ className, index = 0 }: { className?:
 /**
  * Player Skeleton
  * Used when loading track in player
- * 
+ *
  * @example
  * ```tsx
  * <AnimatePresence mode="wait">
@@ -213,7 +205,7 @@ export function ListItemSkeleton({ withAvatar = true, className }: { withAvatar?
 /**
  * Grid Container Skeleton
  * Renders multiple skeleton items in a grid
- * 
+ *
  * @example
  * ```tsx
  * {isLoading ? (
@@ -235,9 +227,9 @@ export function GridSkeleton({
   className?: string;
 }) {
   const gridCols = {
-    2: 'grid-cols-2',
-    3: 'grid-cols-3',
-    4: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
+    2: "grid-cols-2",
+    3: "grid-cols-3",
+    4: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4",
   };
 
   return (
@@ -253,13 +245,7 @@ export function GridSkeleton({
  * Carousel Skeleton
  * Horizontal scrolling skeleton for home page sections
  */
-export function CarouselSkeleton({
-  count = 4,
-  className,
-}: {
-  count?: number;
-  className?: string;
-}) {
+export function CarouselSkeleton({ count = 4, className }: { count?: number; className?: string }) {
   return (
     <div className={cn("flex gap-3 overflow-x-auto pb-2", className)}>
       {Array.from({ length: count }).map((_, i) => (
@@ -276,28 +262,24 @@ export function CarouselSkeleton({
 export function HorizontalScrollSkeleton({
   count = 4,
   itemWidth = 140,
-  aspectRatio = 'square',
+  aspectRatio = "square",
   className,
 }: {
   count?: number;
   itemWidth?: number;
-  aspectRatio?: 'square' | 'video' | 'portrait';
+  aspectRatio?: "square" | "video" | "portrait";
   className?: string;
 }) {
   const aspectClasses = {
-    square: 'aspect-square',
-    video: 'aspect-video',
-    portrait: 'aspect-[3/4]',
+    square: "aspect-square",
+    video: "aspect-video",
+    portrait: "aspect-[3/4]",
   };
 
   return (
     <div className={cn("flex gap-3 overflow-x-auto pb-2 -mx-3 px-3", className)}>
       {Array.from({ length: count }).map((_, i) => (
-        <div
-          key={i}
-          className="flex-shrink-0 space-y-2"
-          style={{ width: `${itemWidth}px` } as React.CSSProperties}
-        >
+        <div key={i} className="flex-shrink-0 space-y-2" style={{ width: `${itemWidth}px` } as React.CSSProperties}>
           <Skeleton className={cn("w-full rounded-xl", aspectClasses[aspectRatio])} />
           <Skeleton className="h-3 w-3/4" />
           <Skeleton className="h-2 w-1/2" />
@@ -313,13 +295,13 @@ export function HorizontalScrollSkeleton({
  */
 export function SectionSkeleton({
   headerWidth = 120,
-  contentType = 'grid',
+  contentType = "grid",
   gridCount = 6,
   gridColumns = 2,
   className,
 }: {
   headerWidth?: number;
-  contentType?: 'grid' | 'carousel' | 'list';
+  contentType?: "grid" | "carousel" | "list";
   gridCount?: number;
   gridColumns?: 2 | 3 | 4;
   className?: string;
@@ -328,15 +310,11 @@ export function SectionSkeleton({
     <div className={cn("space-y-4 animate-in fade-in-50 duration-300", className)}>
       <SectionHeaderSkeleton />
 
-      {contentType === 'grid' && (
-        <GridSkeleton count={gridCount} columns={gridColumns} />
-      )}
+      {contentType === "grid" && <GridSkeleton count={gridCount} columns={gridColumns} />}
 
-      {contentType === 'carousel' && (
-        <CarouselSkeleton count={4} />
-      )}
+      {contentType === "carousel" && <CarouselSkeleton count={4} />}
 
-      {contentType === 'list' && (
+      {contentType === "list" && (
         <div className="space-y-2">
           {Array.from({ length: gridCount }).map((_, i) => (
             <ListItemSkeleton key={i} />
@@ -435,11 +413,7 @@ export function WaveformSkeleton({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-end gap-0.5 h-16 animate-in fade-in-50 duration-300", className)}>
       {WAVEFORM_HEIGHTS.map((height, i) => (
-        <Skeleton
-          key={i}
-          className="flex-1 rounded-sm"
-          style={{ height } as React.CSSProperties}
-        />
+        <Skeleton key={i} className="flex-1 rounded-sm" style={{ height } as React.CSSProperties} />
       ))}
     </div>
   );
@@ -508,20 +482,15 @@ export function ArtistCardSkeleton({ className }: { className?: string }) {
  * Text Skeleton - Single line text placeholder
  */
 export function TextSkeleton({
-  width = '100%',
-  height = '1rem',
-  className
+  width = "100%",
+  height = "1rem",
+  className,
 }: {
   width?: string;
   height?: string;
   className?: string;
 }) {
-  return (
-    <Skeleton
-      className={cn('rounded', className)}
-      style={{ width, height } as React.CSSProperties}
-    />
-  );
+  return <Skeleton className={cn("rounded", className)} style={{ width, height } as React.CSSProperties} />;
 }
 
 // ============================================
@@ -536,7 +505,7 @@ export function TrackRowSkeleton({ className }: { className?: string }) {
     <div
       className={cn(
         "flex items-center gap-3 h-14 rounded-lg border border-border/30 bg-card/50 px-3 animate-in fade-in-50 duration-300",
-        className
+        className,
       )}
     >
       <Skeleton className="w-8 h-8 rounded-lg shrink-0" />
@@ -555,7 +524,12 @@ export function TrackRowSkeleton({ className }: { className?: string }) {
  */
 export function TimelineRulerSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("h-6 border-b border-border/30 flex items-center gap-8 px-4 animate-in fade-in-50 duration-300", className)}>
+    <div
+      className={cn(
+        "h-6 border-b border-border/30 flex items-center gap-8 px-4 animate-in fade-in-50 duration-300",
+        className,
+      )}
+    >
       {Array.from({ length: 8 }).map((_, i) => (
         <Skeleton key={i} className="w-8 h-3" />
       ))}
@@ -568,7 +542,12 @@ export function TimelineRulerSkeleton({ className }: { className?: string }) {
  */
 export function SectionsSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("h-7 border-b border-border/30 flex items-center gap-2 px-2 animate-in fade-in-50 duration-300", className)}>
+    <div
+      className={cn(
+        "h-7 border-b border-border/30 flex items-center gap-2 px-2 animate-in fade-in-50 duration-300",
+        className,
+      )}
+    >
       <Skeleton className="w-16 h-5 rounded" />
       <Skeleton className="w-20 h-5 rounded" />
       <Skeleton className="w-14 h-5 rounded" />
@@ -583,7 +562,12 @@ export function SectionsSkeleton({ className }: { className?: string }) {
  */
 export function TransportSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn("flex items-center justify-between px-4 py-3 border-t border-border/30 animate-in fade-in-50 duration-300", className)}>
+    <div
+      className={cn(
+        "flex items-center justify-between px-4 py-3 border-t border-border/30 animate-in fade-in-50 duration-300",
+        className,
+      )}
+    >
       <Skeleton className="w-24 h-4" />
       <div className="flex items-center gap-2">
         <Skeleton className="w-10 h-10 rounded" />
@@ -663,4 +647,4 @@ export function MixerPanelSkeleton({ className }: { className?: string }) {
 }
 
 // Re-export base Skeleton component
-export { Skeleton } from './skeleton';
+export { Skeleton } from "./skeleton";

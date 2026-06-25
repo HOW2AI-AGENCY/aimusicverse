@@ -29,7 +29,7 @@
 - [validatePromptForGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L549) (4 connections)
 - [shouldReport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L54) (4 connections)
 - [retryFetch()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L139) (4 connections)
-- *... and 96 more nodes in this community*
+- _... and 96 more nodes in this community_
 
 ## Class Diagram
 
@@ -110,4 +110,4 @@ classDiagram
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

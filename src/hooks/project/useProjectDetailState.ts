@@ -1,14 +1,14 @@
 /**
  * useProjectDetailState - State management hook for ProjectDetail page
- * 
+ *
  * Extracts all dialog states and handlers from the ProjectDetail component
  */
 
-import { useState, useCallback } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useCallback } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 export interface ProjectTrack {
   id: string;
@@ -48,7 +48,7 @@ export interface UseProjectDetailStateReturn extends ProjectDetailDialogState {
   setPublishDialogOpen: (open: boolean) => void;
   setSelectedTrackForLyrics: (track: ProjectTrack | null) => void;
   setSelectedTrackForMedia: (track: ProjectTrack | null) => void;
-  
+
   // Handlers
   handleOpenLyrics: (track: ProjectTrack) => void;
   handleOpenLyricsWizard: (track: ProjectTrack) => void;
@@ -60,7 +60,7 @@ export interface UseProjectDetailStateReturn extends ProjectDetailDialogState {
 
 export function useProjectDetailState(): UseProjectDetailStateReturn {
   const queryClient = useQueryClient();
-  
+
   // Dialog states
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [addTrackOpen, setAddTrackOpen] = useState(false);
@@ -69,7 +69,7 @@ export function useProjectDetailState(): UseProjectDetailStateReturn {
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [mediaGeneratorOpen, setMediaGeneratorOpen] = useState(false);
   const [publishDialogOpen, setPublishDialogOpen] = useState(false);
-  
+
   // Selected track states
   const [selectedTrackForLyrics, setSelectedTrackForLyrics] = useState<ProjectTrack | null>(null);
   const [selectedTrackForMedia, setSelectedTrackForMedia] = useState<ProjectTrack | null>(null);
@@ -87,67 +87,76 @@ export function useProjectDetailState(): UseProjectDetailStateReturn {
   }, []);
 
   // Save lyrics to track
-  const handleSaveLyrics = useCallback(async (lyrics: string) => {
-    if (!selectedTrackForLyrics) return;
-    
-    try {
-      const { error } = await supabase
-        .from('project_tracks')
-        .update({ 
-          lyrics,
-          lyrics_status: 'draft',
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', selectedTrackForLyrics.id);
-      
-      if (error) throw error;
-      
-      queryClient.invalidateQueries({ queryKey: ['project-tracks'] });
-      toast.success('Текст сохранён');
-    } catch (error) {
-      logger.error('Error saving lyrics', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка сохранения текста');
-    }
-  }, [selectedTrackForLyrics, queryClient]);
+  const handleSaveLyrics = useCallback(
+    async (lyrics: string) => {
+      if (!selectedTrackForLyrics) return;
+
+      try {
+        const { error } = await supabase
+          .from("project_tracks")
+          .update({
+            lyrics,
+            lyrics_status: "draft",
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", selectedTrackForLyrics.id);
+
+        if (error) throw error;
+
+        queryClient.invalidateQueries({ queryKey: ["project-tracks"] });
+        toast.success("Текст сохранён");
+      } catch (error) {
+        logger.error("Error saving lyrics", error instanceof Error ? error : new Error(String(error)));
+        toast.error("Ошибка сохранения текста");
+      }
+    },
+    [selectedTrackForLyrics, queryClient],
+  );
 
   // Save notes to track
-  const handleSaveNotes = useCallback(async (notes: string) => {
-    if (!selectedTrackForLyrics) return;
-    
-    try {
-      const { error } = await supabase
-        .from('project_tracks')
-        .update({ 
-          notes,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', selectedTrackForLyrics.id);
-      
-      if (error) throw error;
-      
-      queryClient.invalidateQueries({ queryKey: ['project-tracks'] });
-      toast.success('Заметки сохранены');
-    } catch (error) {
-      logger.error('Error saving notes', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Ошибка сохранения заметок');
-    }
-  }, [selectedTrackForLyrics, queryClient]);
+  const handleSaveNotes = useCallback(
+    async (notes: string) => {
+      if (!selectedTrackForLyrics) return;
+
+      try {
+        const { error } = await supabase
+          .from("project_tracks")
+          .update({
+            notes,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("id", selectedTrackForLyrics.id);
+
+        if (error) throw error;
+
+        queryClient.invalidateQueries({ queryKey: ["project-tracks"] });
+        toast.success("Заметки сохранены");
+      } catch (error) {
+        logger.error("Error saving notes", error instanceof Error ? error : new Error(String(error)));
+        toast.error("Ошибка сохранения заметок");
+      }
+    },
+    [selectedTrackForLyrics, queryClient],
+  );
 
   // Handle lyrics generated from wizard
-  const handleLyricsGenerated = useCallback((lyrics: string, title?: string) => {
-    if (selectedTrackForLyrics) {
-      handleSaveLyrics(lyrics);
-    }
-    setLyricsWizardOpen(false);
-    toast.success('Текст сгенерирован');
-  }, [selectedTrackForLyrics, handleSaveLyrics]);
+  const handleLyricsGenerated = useCallback(
+    (lyrics: string, title?: string) => {
+      if (selectedTrackForLyrics) {
+        handleSaveLyrics(lyrics);
+      }
+      setLyricsWizardOpen(false);
+      toast.success("Текст сгенерирован");
+    },
+    [selectedTrackForLyrics, handleSaveLyrics],
+  );
 
   // Handle apply updates from AI dialog
   const handleApplyUpdates = useCallback(() => {
-    queryClient.invalidateQueries({ queryKey: ['project-tracks'] });
-    queryClient.invalidateQueries({ queryKey: ['projects'] });
+    queryClient.invalidateQueries({ queryKey: ["project-tracks"] });
+    queryClient.invalidateQueries({ queryKey: ["projects"] });
     setAiDialogOpen(false);
-    toast.success('Изменения применены');
+    toast.success("Изменения применены");
   }, [queryClient]);
 
   return {
@@ -161,7 +170,7 @@ export function useProjectDetailState(): UseProjectDetailStateReturn {
     publishDialogOpen,
     selectedTrackForLyrics,
     selectedTrackForMedia,
-    
+
     // Setters
     setSettingsOpen,
     setAddTrackOpen,
@@ -172,7 +181,7 @@ export function useProjectDetailState(): UseProjectDetailStateReturn {
     setPublishDialogOpen,
     setSelectedTrackForLyrics,
     setSelectedTrackForMedia,
-    
+
     // Handlers
     handleOpenLyrics,
     handleOpenLyricsWizard,

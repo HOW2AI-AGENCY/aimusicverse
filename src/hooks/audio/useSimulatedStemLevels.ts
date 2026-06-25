@@ -4,7 +4,7 @@
  * For true metering, use useStemAudioLevels with actual audio element
  */
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo } from "react";
 
 export interface SimulatedLevels {
   stems: Record<string, number>;
@@ -21,30 +21,30 @@ export function useSimulatedStemLevels(
   stemStates: Record<string, StemState>,
   masterVolume: number,
   masterMuted: boolean,
-  isPlaying: boolean
+  isPlaying: boolean,
 ): SimulatedLevels {
   const [levels, setLevels] = useState<SimulatedLevels>({
     stems: {},
     master: { left: 0, right: 0 },
   });
-  
+
   const rafRef = useRef<number | null>(null);
   const timeRef = useRef(0);
-  
+
   // Check if any stem is soloed
-  const hasSolo = useMemo(() => 
-    Object.values(stemStates).some(s => s.solo),
-    [stemStates]
-  );
+  const hasSolo = useMemo(() => Object.values(stemStates).some((s) => s.solo), [stemStates]);
 
   useEffect(() => {
     if (!isPlaying || masterMuted) {
       // Decay levels when not playing
-      setLevels(prev => ({
-        stems: Object.keys(prev.stems).reduce((acc, key) => {
-          acc[key] = prev.stems[key] * 0.85;
-          return acc;
-        }, {} as Record<string, number>),
+      setLevels((prev) => ({
+        stems: Object.keys(prev.stems).reduce(
+          (acc, key) => {
+            acc[key] = prev.stems[key] * 0.85;
+            return acc;
+          },
+          {} as Record<string, number>,
+        ),
         master: {
           left: prev.master.left * 0.85,
           right: prev.master.right * 0.85,
@@ -64,14 +64,14 @@ export function useSimulatedStemLevels(
       Object.entries(stemStates).forEach(([stemId, state]) => {
         // Check if stem should be audible
         const isAudible = !state.muted && (!hasSolo || state.solo);
-        
+
         if (isAudible) {
           // Generate pseudo-random animated level based on volume
           const baseLevel = (state.volume / 100) * 0.7;
           const variation = Math.sin(time * 3 + parseInt(stemId.slice(-4), 16) * 0.001) * 0.15;
           const noise = Math.random() * 0.15;
           const level = Math.min(1, Math.max(0, baseLevel + variation + noise));
-          
+
           newStemLevels[stemId] = level;
           totalLevel += level;
           activeStems++;

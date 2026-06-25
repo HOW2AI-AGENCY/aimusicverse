@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { User, Music, Users, Sparkles } from 'lucide-react';
-import { usePublicArtists } from '@/hooks/usePublicArtists';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { User, Music, Users, Sparkles } from "lucide-react";
+import { usePublicArtists } from "@/hooks/usePublicArtists";
 
 interface Artist {
   id: string;
@@ -23,14 +23,8 @@ interface ArtistSelectorProps {
   onSelect: (artistId: string) => void;
 }
 
-export function ArtistSelector({
-  open,
-  onOpenChange,
-  artists,
-  selectedArtistId,
-  onSelect,
-}: ArtistSelectorProps) {
-  const [activeTab, setActiveTab] = useState<'my' | 'community'>('my');
+export function ArtistSelector({ open, onOpenChange, artists, selectedArtistId, onSelect }: ArtistSelectorProps) {
+  const [activeTab, setActiveTab] = useState<"my" | "community">("my");
   const { data: publicArtists } = usePublicArtists(30);
 
   const handleSelect = (artistId: string) => {
@@ -38,7 +32,7 @@ export function ArtistSelector({
     onOpenChange(false);
   };
 
-  const currentArtists = activeTab === 'my' ? artists : publicArtists;
+  const currentArtists = activeTab === "my" ? artists : publicArtists;
 
   const renderArtistList = (artistList: Artist[] | undefined) => {
     if (!artistList || artistList.length === 0) {
@@ -46,12 +40,10 @@ export function ArtistSelector({
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <Music className="w-16 h-16 text-muted-foreground opacity-50 mb-4" />
           <p className="text-muted-foreground">
-            {activeTab === 'my' ? 'Нет ваших артистов' : 'Нет публичных артистов'}
+            {activeTab === "my" ? "Нет ваших артистов" : "Нет публичных артистов"}
           </p>
-          {activeTab === 'my' && (
-            <p className="text-sm text-muted-foreground mt-2">
-              Создайте артиста в разделе "Артисты"
-            </p>
+          {activeTab === "my" && (
+            <p className="text-sm text-muted-foreground mt-2">Создайте артиста в разделе "Артисты"</p>
           )}
         </div>
       );
@@ -63,18 +55,14 @@ export function ArtistSelector({
           <Button
             key={artist.id}
             type="button"
-            variant={selectedArtistId === artist.id ? 'default' : 'outline'}
+            variant={selectedArtistId === artist.id ? "default" : "outline"}
             className="h-auto p-3 justify-start"
             onClick={() => handleSelect(artist.id)}
           >
             <div className="flex items-center gap-3 w-full">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {artist.avatar_url ? (
-                  <img
-                    src={artist.avatar_url}
-                    alt={artist.name}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
                 ) : (
                   <User className="w-5 h-5 text-primary" />
                 )}
@@ -83,9 +71,7 @@ export function ArtistSelector({
               <div className="flex-1 text-left min-w-0">
                 <div className="flex items-center gap-1.5">
                   <span className="font-medium text-sm truncate">{artist.name}</span>
-                  {artist.is_ai_generated && (
-                    <Sparkles className="w-3 h-3 text-primary flex-shrink-0" />
-                  )}
+                  {artist.is_ai_generated && <Sparkles className="w-3 h-3 text-primary flex-shrink-0" />}
                 </div>
                 {artist.genre_tags && artist.genre_tags.length > 0 && (
                   <div className="flex gap-1 flex-wrap mt-1">
@@ -114,7 +100,11 @@ export function ArtistSelector({
           </DialogTitle>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'my' | 'community')} className="flex-1 flex flex-col min-h-0">
+        <Tabs
+          value={activeTab}
+          onValueChange={(v) => setActiveTab(v as "my" | "community")}
+          className="flex-1 flex flex-col min-h-0"
+        >
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="my" className="gap-1.5 text-xs">
               <User className="w-3.5 h-3.5" />

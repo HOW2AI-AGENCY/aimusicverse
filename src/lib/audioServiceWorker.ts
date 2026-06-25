@@ -1,19 +1,19 @@
 /**
  * Audio Service Worker Registration & Control
- * 
+ *
  * Manages a Service Worker for audio caching with:
  * - Stale-while-revalidate strategy for audio files
  * - Offline playback support
  * - Cache versioning and cleanup
  */
 
-import { logger } from './logger';
+import { logger } from "./logger";
 
-const SW_PATH = '/audio-sw.js';
-const CACHE_VERSION = 'v1';
+const SW_PATH = "/audio-sw.js";
+const CACHE_VERSION = "v1";
 
 interface ServiceWorkerMessage {
-  type: 'CACHE_AUDIO' | 'PRECACHE_AUDIO' | 'CLEAR_CACHE' | 'GET_CACHE_SIZE';
+  type: "CACHE_AUDIO" | "PRECACHE_AUDIO" | "CLEAR_CACHE" | "GET_CACHE_SIZE";
   payload?: unknown;
 }
 
@@ -24,7 +24,7 @@ let isRegistering = false;
  * Check if Service Workers are supported
  */
 export function isServiceWorkerSupported(): boolean {
-  return 'serviceWorker' in navigator;
+  return "serviceWorker" in navigator;
 }
 
 /**
@@ -32,7 +32,7 @@ export function isServiceWorkerSupported(): boolean {
  */
 export async function registerAudioServiceWorker(): Promise<ServiceWorkerRegistration | null> {
   if (!isServiceWorkerSupported()) {
-    logger.warn('Service Workers not supported');
+    logger.warn("Service Workers not supported");
     return null;
   }
 
@@ -56,18 +56,18 @@ export async function registerAudioServiceWorker(): Promise<ServiceWorkerRegistr
 
   try {
     swRegistration = await navigator.serviceWorker.register(SW_PATH, {
-      scope: '/',
+      scope: "/",
     });
 
-    logger.info('Audio Service Worker registered', { scope: swRegistration.scope });
+    logger.info("Audio Service Worker registered", { scope: swRegistration.scope });
 
     // Handle updates
-    swRegistration.addEventListener('updatefound', () => {
+    swRegistration.addEventListener("updatefound", () => {
       const newWorker = swRegistration?.installing;
       if (newWorker) {
-        newWorker.addEventListener('statechange', () => {
-          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-            logger.info('New Service Worker available');
+        newWorker.addEventListener("statechange", () => {
+          if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+            logger.info("New Service Worker available");
           }
         });
       }
@@ -75,7 +75,7 @@ export async function registerAudioServiceWorker(): Promise<ServiceWorkerRegistr
 
     return swRegistration;
   } catch (error) {
-    logger.error('Service Worker registration failed', error);
+    logger.error("Service Worker registration failed", error);
     return null;
   } finally {
     isRegistering = false;
@@ -92,13 +92,13 @@ async function sendToServiceWorker(message: ServiceWorkerMessage): Promise<unkno
 
   const sw = swRegistration?.active || navigator.serviceWorker.controller;
   if (!sw) {
-    logger.warn('No active Service Worker');
+    logger.warn("No active Service Worker");
     return null;
   }
 
   return new Promise((resolve, reject) => {
     const messageChannel = new MessageChannel();
-    
+
     messageChannel.port1.onmessage = (event) => {
       if (event.data.error) {
         reject(new Error(event.data.error));
@@ -111,7 +111,7 @@ async function sendToServiceWorker(message: ServiceWorkerMessage): Promise<unkno
 
     // Timeout after 5 seconds
     setTimeout(() => {
-      reject(new Error('Service Worker message timeout'));
+      reject(new Error("Service Worker message timeout"));
     }, 5000);
   });
 }
@@ -122,7 +122,7 @@ async function sendToServiceWorker(message: ServiceWorkerMessage): Promise<unkno
 export async function cacheAudioViaSW(url: string): Promise<boolean> {
   try {
     await sendToServiceWorker({
-      type: 'CACHE_AUDIO',
+      type: "CACHE_AUDIO",
       payload: { url },
     });
     return true;
@@ -137,11 +137,11 @@ export async function cacheAudioViaSW(url: string): Promise<boolean> {
 export async function precacheAudioUrls(urls: string[]): Promise<void> {
   try {
     await sendToServiceWorker({
-      type: 'PRECACHE_AUDIO',
+      type: "PRECACHE_AUDIO",
       payload: { urls },
     });
   } catch (error) {
-    logger.error('Failed to precache audio URLs', error);
+    logger.error("Failed to precache audio URLs", error);
   }
 }
 
@@ -151,11 +151,11 @@ export async function precacheAudioUrls(urls: string[]): Promise<void> {
 export async function clearAudioCacheViaSW(): Promise<void> {
   try {
     await sendToServiceWorker({
-      type: 'CLEAR_CACHE',
+      type: "CLEAR_CACHE",
     });
-    logger.info('Audio cache cleared');
+    logger.info("Audio cache cleared");
   } catch (error) {
-    logger.error('Failed to clear audio cache', error);
+    logger.error("Failed to clear audio cache", error);
   }
 }
 
@@ -164,9 +164,9 @@ export async function clearAudioCacheViaSW(): Promise<void> {
  */
 export async function getAudioCacheSize(): Promise<number> {
   try {
-    const result = await sendToServiceWorker({
-      type: 'GET_CACHE_SIZE',
-    }) as { size: number };
+    const result = (await sendToServiceWorker({
+      type: "GET_CACHE_SIZE",
+    })) as { size: number };
     return result?.size || 0;
   } catch {
     return 0;
@@ -178,7 +178,7 @@ export async function getAudioCacheSize(): Promise<number> {
  */
 export async function isAudioCached(url: string): Promise<boolean> {
   if (!isServiceWorkerSupported()) return false;
-  
+
   try {
     const cache = await caches.open(`audio-cache-${CACHE_VERSION}`);
     const response = await cache.match(url);
@@ -193,7 +193,7 @@ export async function isAudioCached(url: string): Promise<boolean> {
  */
 export async function getCachedAudioBlob(url: string): Promise<Blob | null> {
   if (!isServiceWorkerSupported()) return null;
-  
+
   try {
     const cache = await caches.open(`audio-cache-${CACHE_VERSION}`);
     const response = await cache.match(url);

@@ -2,10 +2,10 @@
  * TrackHistoryItem - Track item with mini waveform visualization
  */
 
-import { memo, useState, useEffect, useRef } from 'react';
-import { motion } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { Play, Square, MoreVertical, Save, Music, Download, Trash2, Loader2 } from 'lucide-react';
+import { memo, useState, useEffect, useRef } from "react";
+import { motion } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { Play, Square, MoreVertical, Save, Music, Download, Trash2, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,9 +13,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
   DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
-import type { GeneratedTrack } from '@/hooks/usePromptDJEnhanced';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import type { GeneratedTrack } from "@/hooks/usePromptDJEnhanced";
 
 interface TrackHistoryItemProps {
   track: GeneratedTrack;
@@ -63,17 +63,17 @@ export const TrackHistoryItem = memo(function TrackHistoryItem({
     if (isPlaying && isCurrent) {
       const start = Date.now();
       const duration = 20000; // Assume 20s tracks
-      
+
       const update = (): void => {
         const elapsed = Date.now() - start;
         setPlayProgress(Math.min(100, (elapsed / duration) * 100));
-        
+
         if (elapsed < duration) {
           progressRef.current = requestAnimationFrame(update);
         }
       };
       update();
-      
+
       return () => {
         if (progressRef.current) {
           cancelAnimationFrame(progressRef.current);
@@ -89,9 +89,9 @@ export const TrackHistoryItem = memo(function TrackHistoryItem({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'flex items-center gap-2 p-2 rounded-lg',
-        'bg-card/40 border border-border/30',
-        isCurrent && 'border-primary/50 bg-primary/5'
+        "flex items-center gap-2 p-2 rounded-lg",
+        "bg-card/40 border border-border/30",
+        isCurrent && "border-primary/50 bg-primary/5",
       )}
     >
       {/* Play button */}
@@ -101,11 +101,7 @@ export const TrackHistoryItem = memo(function TrackHistoryItem({
         className="h-8 w-8 shrink-0"
         onClick={isCurrent && isPlaying ? onStop : onPlay}
       >
-        {isCurrent && isPlaying ? (
-          <Square className="w-3 h-3" />
-        ) : (
-          <Play className="w-3 h-3" />
-        )}
+        {isCurrent && isPlaying ? <Square className="w-3 h-3" /> : <Play className="w-3 h-3" />}
       </Button>
 
       {/* Waveform visualization */}
@@ -116,8 +112,8 @@ export const TrackHistoryItem = memo(function TrackHistoryItem({
             <div
               key={i}
               className={cn(
-                'w-0.5 rounded-full transition-colors duration-100',
-                isPlayed ? 'bg-primary' : 'bg-muted/40'
+                "w-0.5 rounded-full transition-colors duration-100",
+                isPlayed ? "bg-primary" : "bg-muted/40",
               )}
               style={{ height: `${level * 100}%` }}
             />
@@ -140,28 +136,24 @@ export const TrackHistoryItem = memo(function TrackHistoryItem({
         <DropdownMenuContent align="end" className="w-44">
           <DropdownMenuLabel className="text-[10px]">Действия</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          
+
           <DropdownMenuItem onClick={onSave} disabled={isSaving} className="text-xs">
-            {isSaving ? (
-              <Loader2 className="w-3 h-3 mr-2 animate-spin" />
-            ) : (
-              <Save className="w-3 h-3 mr-2" />
-            )}
+            {isSaving ? <Loader2 className="w-3 h-3 mr-2 animate-spin" /> : <Save className="w-3 h-3 mr-2" />}
             Сохранить в облако
           </DropdownMenuItem>
-          
+
           <DropdownMenuItem onClick={onUseAsReference} className="text-xs">
             <Music className="w-3 h-3 mr-2" />
             Как референс
           </DropdownMenuItem>
-          
+
           <DropdownMenuItem onClick={onDownload} className="text-xs">
             <Download className="w-3 h-3 mr-2" />
             Скачать
           </DropdownMenuItem>
-          
+
           <DropdownMenuSeparator />
-          
+
           <DropdownMenuItem onClick={onRemove} className="text-xs text-destructive">
             <Trash2 className="w-3 h-3 mr-2" />
             Удалить

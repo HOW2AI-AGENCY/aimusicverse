@@ -30,8 +30,8 @@ export type {
   BatchLyricsResult,
   SaveLyricsRequest,
   SectionNotesBatchOperation,
-  LyricsStatistics
-} from './lyrics-types';
+  LyricsStatistics,
+} from "./lyrics-types";
 
 // ============================================================================
 // VALIDATION EXPORTS
@@ -43,13 +43,10 @@ export {
   validateSaveLyricsRequest,
   analyzeContentQuality,
   getLyricsStatistics,
-  hasStructuredSections
-} from './lyrics-validation.service';
+  hasStructuredSections,
+} from "./lyrics-validation.service";
 
-export type {
-  ValidationResult,
-  ContentQualityMetrics
-} from './lyrics-validation.service';
+export type { ValidationResult, ContentQualityMetrics } from "./lyrics-validation.service";
 
 // ============================================================================
 // FORMATTING EXPORTS
@@ -64,19 +61,19 @@ export {
   formatLyricsForExport,
   compressLyrics,
   expandLyrics,
-  generateLyricsStructureSummary
-} from './lyrics-formatting.service';
+  generateLyricsStructureSummary,
+} from "./lyrics-formatting.service";
 
 // ============================================================================
 // CONVENIENCE EXPORTS
 // ============================================================================
 
 // Import functions for deprecated re-exports
-import { getLyricsStatistics as _getLyricsStatistics } from './lyrics-validation.service';
+import { getLyricsStatistics as _getLyricsStatistics } from "./lyrics-validation.service";
 import {
   formatLyricsForDisplay as _formatLyricsForDisplay,
   extractLyricsSections as _extractLyricsSections,
-} from './lyrics-formatting.service';
+} from "./lyrics-formatting.service";
 
 /**
  * @deprecated Use getLyricsStatistics from lyrics-validation.service instead

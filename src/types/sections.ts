@@ -2,21 +2,21 @@
  * Section types and interfaces for song structure detection
  */
 
-import type { AlignedWord } from '@/hooks/useTimestampedLyrics';
+import type { AlignedWord } from "@/hooks/useTimestampedLyrics";
 
-export type SectionType = 
-  | 'verse' 
-  | 'chorus' 
-  | 'bridge' 
-  | 'intro' 
-  | 'outro' 
-  | 'pre-chorus' 
-  | 'hook' 
-  | 'instrumental' 
-  | 'interlude' 
-  | 'breakdown' 
-  | 'drop' 
-  | 'unknown';
+export type SectionType =
+  | "verse"
+  | "chorus"
+  | "bridge"
+  | "intro"
+  | "outro"
+  | "pre-chorus"
+  | "hook"
+  | "instrumental"
+  | "interlude"
+  | "breakdown"
+  | "drop"
+  | "unknown";
 
 export interface DetectedSection {
   type: SectionType;
@@ -41,7 +41,7 @@ export interface ParsedSection {
 export interface ReplacedRange {
   start: number;
   end: number;
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
+  status?: "pending" | "processing" | "completed" | "failed";
 }
 
 export interface TimestampMatch {
@@ -53,18 +53,18 @@ export interface TimestampMatch {
 
 // Section labels in Russian
 export const SECTION_LABELS: Record<SectionType, string> = {
-  'verse': 'Куплет',
-  'chorus': 'Припев',
-  'bridge': 'Бридж',
-  'intro': 'Интро',
-  'outro': 'Аутро',
-  'pre-chorus': 'Пре-припев',
-  'hook': 'Хук',
-  'instrumental': 'Инструментал',
-  'interlude': 'Интерлюдия',
-  'breakdown': 'Брейкдаун',
-  'drop': 'Дроп',
-  'unknown': 'Часть',
+  verse: "Куплет",
+  chorus: "Припев",
+  bridge: "Бридж",
+  intro: "Интро",
+  outro: "Аутро",
+  "pre-chorus": "Пре-припев",
+  hook: "Хук",
+  instrumental: "Инструментал",
+  interlude: "Интерлюдия",
+  breakdown: "Брейкдаун",
+  drop: "Дроп",
+  unknown: "Часть",
 };
 
 /**
@@ -73,6 +73,6 @@ export const SECTION_LABELS: Record<SectionType, string> = {
 export function getSectionLabel(type: SectionType, counter: number): string {
   const base = SECTION_LABELS[type];
   // Only add counter for types that can repeat
-  const needsCounter = ['verse', 'chorus', 'pre-chorus', 'hook', 'unknown'].includes(type);
+  const needsCounter = ["verse", "chorus", "pre-chorus", "hook", "unknown"].includes(type);
   return needsCounter ? `${base} ${counter}` : base;
 }

@@ -7,28 +7,28 @@
 - [PromptDJMixer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L1) (32 connections)
 - [applyPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L161) (1 connections)
 - [{
-    channels,
-    updateChannel,
-    globalSettings,
-    updateGlobalSettings,
-    isGenerating,
-    generatedTracks,
-    generateMusic,
-    previewWithSynth,
-    stopPreview,
-    isPreviewPlaying,
-    isPlaying,
-    currentTrack,
-    playTrack,
-    stopPlayback,
-    currentPrompt,
-    analyzerNode,
-    removeTrack,
-    isLiveMode,
-    liveStatus,
-    startLiveMode,
-    stopLiveMode,
-    forceRegenerateInLive,
+  channels,
+  updateChannel,
+  globalSettings,
+  updateGlobalSettings,
+  isGenerating,
+  generatedTracks,
+  generateMusic,
+  previewWithSynth,
+  stopPreview,
+  isPreviewPlaying,
+  isPlaying,
+  currentTrack,
+  playTrack,
+  stopPlayback,
+  currentPrompt,
+  analyzerNode,
+  removeTrack,
+  isLiveMode,
+  liveStatus,
+  startLiveMode,
+  stopLiveMode,
+  forceRegenerateInLive,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L65) (1 connections)
 - [customChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L282) (1 connections)
 - [{ description, bpm }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L281) (1 connections)
@@ -52,7 +52,7 @@
 - [isKnobsActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L294) (1 connections)
 - [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L52) (1 connections)
 - [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJMixer.tsx#L51) (1 connections)
-- *... and 8 more nodes in this community*
+- _... and 8 more nodes in this community_
 
 ## Relationships
 
@@ -70,4 +70,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

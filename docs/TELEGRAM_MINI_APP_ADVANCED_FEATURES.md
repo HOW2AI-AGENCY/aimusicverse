@@ -20,6 +20,7 @@ This document describes the advanced Telegram Mini App features integrated into 
 Location: `src/types/telegram.d.ts`
 
 Enhanced TypeScript definitions for:
+
 - Bot API 9.x methods
 - Mini App 2.0 features
 - Sensor APIs (Accelerometer, Gyroscope, DeviceOrientation)
@@ -38,7 +39,7 @@ Enhanced TypeScript definitions for:
 Access device sensors for motion and orientation detection.
 
 ```tsx
-import { useTelegramSensors } from '@/hooks/telegram';
+import { useTelegramSensors } from "@/hooks/telegram";
 
 const { accelerometer, gyroscope, orientation, isSupported } = useTelegramSensors({
   enableAccelerometer: true,
@@ -48,11 +49,12 @@ const { accelerometer, gyroscope, orientation, isSupported } = useTelegramSensor
 
 // Use accelerometer data
 if (accelerometer) {
-  const tilt = Math.atan2(accelerometer.y, accelerometer.x) * 180 / Math.PI;
+  const tilt = (Math.atan2(accelerometer.y, accelerometer.x) * 180) / Math.PI;
 }
 ```
 
 **Features:**
+
 - Accelerometer (x, y, z motion)
 - Gyroscope (x, y, z rotation)
 - Device orientation (alpha, beta, gamma angles)
@@ -68,17 +70,16 @@ if (accelerometer) {
 Control fullscreen mode for immersive experiences.
 
 ```tsx
-import { useTelegramFullscreen } from '@/hooks/telegram';
+import { useTelegramFullscreen } from "@/hooks/telegram";
 
 const { isFullscreen, enterFullscreen, exitFullscreen, toggleFullscreen } = useTelegramFullscreen();
 
 // Toggle fullscreen for player
-<Button onClick={toggleFullscreen}>
-  {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
-</Button>
+<Button onClick={toggleFullscreen}>{isFullscreen ? "Exit Fullscreen" : "Fullscreen"}</Button>;
 ```
 
 **Features:**
+
 - Enter/exit fullscreen
 - Track fullscreen state
 - Event listeners for state changes
@@ -92,18 +93,13 @@ const { isFullscreen, enterFullscreen, exitFullscreen, toggleFullscreen } = useT
 Biometric authentication (Touch ID, Face ID, fingerprint).
 
 ```tsx
-import { useTelegramBiometric } from '@/hooks/telegram';
+import { useTelegramBiometric } from "@/hooks/telegram";
 
-const {
-  isAvailable,
-  biometricType,
-  authenticate,
-  requestAccess
-} = useTelegramBiometric();
+const { isAvailable, biometricType, authenticate, requestAccess } = useTelegramBiometric();
 
 // Authenticate before sensitive action
 const handleSecureAction = async () => {
-  const { success, token } = await authenticate('Confirm purchase');
+  const { success, token } = await authenticate("Confirm purchase");
   if (success) {
     // Proceed with action
   }
@@ -111,6 +107,7 @@ const handleSecureAction = async () => {
 ```
 
 **Features:**
+
 - Automatic biometric type detection (face/finger)
 - Access request flow
 - Token management
@@ -125,23 +122,24 @@ const handleSecureAction = async () => {
 Native QR code scanning.
 
 ```tsx
-import { useTelegramQRScanner } from '@/hooks/telegram';
+import { useTelegramQRScanner } from "@/hooks/telegram";
 
 const { scanQR, isScanning } = useTelegramQRScanner();
 
 const handleScan = async () => {
-  const result = await scanQR('Scan track QR code', (data) => {
+  const result = await scanQR("Scan track QR code", (data) => {
     // Validate QR data
-    return data.startsWith('https://');
+    return data.startsWith("https://");
   });
-  
+
   if (result) {
-    console.log('Scanned:', result);
+    console.log("Scanned:", result);
   }
 };
 ```
 
 **Features:**
+
 - Native camera QR scanning
 - Validation callback
 - Auto-close on success
@@ -156,31 +154,31 @@ const handleScan = async () => {
 Unified storage API for CloudStorage, DeviceStorage, and SecureStorage.
 
 ```tsx
-import { useTelegramStorage } from '@/hooks/telegram';
+import { useTelegramStorage } from "@/hooks/telegram";
 
 const { cloud, device, secure } = useTelegramStorage();
 
 // Cloud storage (synced across devices)
-await cloud.set('settings', JSON.stringify(settings));
-const data = await cloud.get('settings');
+await cloud.set("settings", JSON.stringify(settings));
+const data = await cloud.get("settings");
 
 // Device storage (local only)
-await device.set('cache', JSON.stringify(cache));
+await device.set("cache", JSON.stringify(cache));
 
 // Secure storage (encrypted)
 if (secure.isAvailable) {
-  await secure.set('refresh_token', token);
-  const token = await secure.get('refresh_token');
+  await secure.set("refresh_token", token);
+  const token = await secure.get("refresh_token");
 }
 ```
 
 **Storage Types:**
 
-| Type | Capacity | Synced | Encrypted | Use Case |
-|------|----------|--------|-----------|----------|
-| CloudStorage | 1024 keys, 4KB/value | ✅ | ❌ | User preferences, settings |
-| DeviceStorage | ~5 MB total | ❌ | ❌ | Cache, temp data |
-| SecureStorage | 10 items | ❌ | ✅ | Tokens, passwords |
+| Type          | Capacity             | Synced | Encrypted | Use Case                   |
+| ------------- | -------------------- | ------ | --------- | -------------------------- |
+| CloudStorage  | 1024 keys, 4KB/value | ✅     | ❌        | User preferences, settings |
+| DeviceStorage | ~5 MB total          | ❌     | ❌        | Cache, temp data           |
+| SecureStorage | 10 items             | ❌     | ✅        | Tokens, passwords          |
 
 **Platform Support:** All platforms
 
@@ -193,7 +191,7 @@ if (secure.isAvailable) {
 Dialog component for biometric authentication.
 
 ```tsx
-import { BiometricPrompt } from '@/components/telegram/advanced/BiometricPrompt';
+import { BiometricPrompt } from "@/components/telegram/advanced/BiometricPrompt";
 
 <BiometricPrompt
   open={showBiometric}
@@ -204,10 +202,11 @@ import { BiometricPrompt } from '@/components/telegram/advanced/BiometricPrompt'
       // Proceed with purchase
     }
   }}
-/>
+/>;
 ```
 
 **Features:**
+
 - Automatic biometric type detection
 - Visual feedback
 - Error handling
@@ -220,19 +219,20 @@ import { BiometricPrompt } from '@/components/telegram/advanced/BiometricPrompt'
 Dialog component for QR code scanning.
 
 ```tsx
-import { QRScannerDialog } from '@/components/telegram/advanced/QRScannerDialog';
+import { QRScannerDialog } from "@/components/telegram/advanced/QRScannerDialog";
 
 <QRScannerDialog
   buttonText="Scan Track QR"
   scanText="Scan track QR code"
   onScan={(data) => {
-    console.log('Scanned:', data);
+    console.log("Scanned:", data);
   }}
-  validate={(data) => data.startsWith('https://t.me/')}
-/>
+  validate={(data) => data.startsWith("https://t.me/")}
+/>;
 ```
 
 **Features:**
+
 - Native QR scanner integration
 - Custom validation
 - Loading states
@@ -251,9 +251,9 @@ Location: `src/contexts/TelegramContext.tsx`
 const { showSecondaryButton, hideSecondaryButton } = useTelegram();
 
 // Show secondary button
-showSecondaryButton('Cancel', handleCancel, {
-  color: '#FF0000',
-  position: 'left'
+showSecondaryButton("Cancel", handleCancel, {
+  color: "#FF0000",
+  position: "left",
 });
 ```
 
@@ -281,15 +281,15 @@ lockOrientation();
 const { shareURL, shareToStory } = useTelegram();
 
 // Share track URL
-shareURL('https://t.me/bot/app?startapp=track_123', 'Check out this track!');
+shareURL("https://t.me/bot/app?startapp=track_123", "Check out this track!");
 
 // Share to story
 shareToStory(coverUrl, {
-  text: 'My new track 🎵',
+  text: "My new track 🎵",
   widget_link: {
-    url: 'https://t.me/bot/app?startapp=track_123',
-    name: 'Listen'
-  }
+    url: "https://t.me/bot/app?startapp=track_123",
+    name: "Listen",
+  },
 });
 ```
 
@@ -299,8 +299,8 @@ shareToStory(coverUrl, {
 const { showQRScanner, closeQRScanner } = useTelegram();
 
 // Show QR scanner
-showQRScanner('Scan QR code', (data) => {
-  if (data.startsWith('https://')) {
+showQRScanner("Scan QR code", (data) => {
+  if (data.startsWith("https://")) {
     // Valid QR
     return true; // Close scanner
   }
@@ -317,9 +317,9 @@ const { downloadFile, requestWriteAccess } = useTelegram();
 requestWriteAccess((granted) => {
   if (granted) {
     // Download track
-    downloadFile(audioUrl, 'track.mp3', (success) => {
+    downloadFile(audioUrl, "track.mp3", (success) => {
       if (success) {
-        console.log('Downloaded');
+        console.log("Downloaded");
       }
     });
   }
@@ -333,13 +333,13 @@ requestWriteAccess((granted) => {
 ### Example 1: Fullscreen Music Player with Gesture Controls
 
 ```tsx
-import { useTelegramFullscreen, useTelegramSensors } from '@/hooks/telegram';
+import { useTelegramFullscreen, useTelegramSensors } from "@/hooks/telegram";
 
 export const FullscreenPlayer = ({ track }) => {
   const { isFullscreen, enterFullscreen, exitFullscreen } = useTelegramFullscreen();
   const { gyroscope, isGyroscopeActive, startGyroscope } = useTelegramSensors({
     enableGyroscope: true,
-    refreshRate: 60
+    refreshRate: 60,
   });
 
   useEffect(() => {
@@ -349,21 +349,21 @@ export const FullscreenPlayer = ({ track }) => {
   }, [isFullscreen, isGyroscopeActive]);
 
   // Use gyroscope for visual effects
-  const tilt = gyroscope ? {
-    x: gyroscope.x * 10,
-    y: gyroscope.y * 10
-  } : { x: 0, y: 0 };
+  const tilt = gyroscope
+    ? {
+        x: gyroscope.x * 10,
+        y: gyroscope.y * 10,
+      }
+    : { x: 0, y: 0 };
 
   return (
     <div className="player">
-      <Button onClick={enterFullscreen}>
-        Fullscreen Player
-      </Button>
-      
+      <Button onClick={enterFullscreen}>Fullscreen Player</Button>
+
       {isFullscreen && (
         <div
           style={{
-            transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`
+            transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
           }}
         >
           <TrackVisualizer />
@@ -377,8 +377,8 @@ export const FullscreenPlayer = ({ track }) => {
 ### Example 2: Secure Purchase with Biometric Auth
 
 ```tsx
-import { useTelegramBiometric } from '@/hooks/telegram';
-import { BiometricPrompt } from '@/components/telegram/advanced/BiometricPrompt';
+import { useTelegramBiometric } from "@/hooks/telegram";
+import { BiometricPrompt } from "@/components/telegram/advanced/BiometricPrompt";
 
 export const PremiumPurchase = () => {
   const [showAuth, setShowAuth] = useState(false);
@@ -401,10 +401,8 @@ export const PremiumPurchase = () => {
 
   return (
     <>
-      <Button onClick={handlePurchase}>
-        Buy Premium - $9.99
-      </Button>
-      
+      <Button onClick={handlePurchase}>Buy Premium - $9.99</Button>
+
       <BiometricPrompt
         open={showAuth}
         onOpenChange={setShowAuth}
@@ -419,13 +417,13 @@ export const PremiumPurchase = () => {
 ### Example 3: QR-based Track Sharing
 
 ```tsx
-import { QRScannerDialog } from '@/components/telegram/advanced/QRScannerDialog';
+import { QRScannerDialog } from "@/components/telegram/advanced/QRScannerDialog";
 
 export const ShareTrackQR = ({ track }) => {
   const handleScan = (data: string) => {
     // Validate and navigate to shared track
-    if (data.includes('startapp=track_')) {
-      const trackId = data.split('startapp=track_')[1];
+    if (data.includes("startapp=track_")) {
+      const trackId = data.split("startapp=track_")[1];
       navigate(`/library?track=${trackId}`);
     }
   };
@@ -435,7 +433,7 @@ export const ShareTrackQR = ({ track }) => {
       buttonText="Scan Track QR"
       scanText="Scan friend's track QR code"
       onScan={handleScan}
-      validate={(data) => data.includes('t.me/') && data.includes('startapp=track_')}
+      validate={(data) => data.includes("t.me/") && data.includes("startapp=track_")}
     />
   );
 };
@@ -444,7 +442,7 @@ export const ShareTrackQR = ({ track }) => {
 ### Example 4: Multi-Device Settings Sync
 
 ```tsx
-import { useTelegramStorage } from '@/hooks/telegram';
+import { useTelegramStorage } from "@/hooks/telegram";
 
 export const useSettingsSync = () => {
   const { cloud } = useTelegramStorage();
@@ -453,7 +451,7 @@ export const useSettingsSync = () => {
   // Load settings from cloud on mount
   useEffect(() => {
     const loadSettings = async () => {
-      const data = await cloud.get('app_settings');
+      const data = await cloud.get("app_settings");
       if (data) {
         setSettings(JSON.parse(data));
       }
@@ -463,7 +461,7 @@ export const useSettingsSync = () => {
 
   // Save settings to cloud
   const saveSettings = async (newSettings: AppSettings) => {
-    await cloud.set('app_settings', JSON.stringify(newSettings));
+    await cloud.set("app_settings", JSON.stringify(newSettings));
     setSettings(newSettings);
   };
 
@@ -475,19 +473,19 @@ export const useSettingsSync = () => {
 
 ## Platform Support
 
-| Feature | iOS | Android | Desktop |
-|---------|-----|---------|---------|
-| Accelerometer | ✅ | ✅ | ❌ |
-| Gyroscope | ✅ | ✅ | ❌ |
-| DeviceOrientation | ✅ | ✅ | ❌ |
-| Biometric Auth | ✅ | ✅ | ❌ |
-| QR Scanner | ✅ | ✅ | ✅* |
-| Fullscreen | ✅ | ✅ | ✅ |
-| CloudStorage | ✅ | ✅ | ✅ |
-| DeviceStorage | ✅ | ✅ | ✅ |
-| SecureStorage | ✅ | ✅ | ❌ |
-| Share to Story | ✅ | ✅ | ❌ |
-| Download File | ✅ | ✅ | ✅ |
+| Feature           | iOS | Android | Desktop |
+| ----------------- | --- | ------- | ------- |
+| Accelerometer     | ✅  | ✅      | ❌      |
+| Gyroscope         | ✅  | ✅      | ❌      |
+| DeviceOrientation | ✅  | ✅      | ❌      |
+| Biometric Auth    | ✅  | ✅      | ❌      |
+| QR Scanner        | ✅  | ✅      | ✅\*    |
+| Fullscreen        | ✅  | ✅      | ✅      |
+| CloudStorage      | ✅  | ✅      | ✅      |
+| DeviceStorage     | ✅  | ✅      | ✅      |
+| SecureStorage     | ✅  | ✅      | ❌      |
+| Share to Story    | ✅  | ✅      | ❌      |
+| Download File     | ✅  | ✅      | ✅      |
 
 *✅ = Supported, ❌ = Not supported, *Desktop uses webcam
 
@@ -548,7 +546,7 @@ useEffect(() => {
 Always request permissions explicitly and explain why:
 
 ```tsx
-const granted = await requestAccess('Для защиты ваших покупок');
+const granted = await requestAccess("Для защиты ваших покупок");
 ```
 
 ---

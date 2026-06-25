@@ -1,18 +1,15 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { 
-  Download, FileMusic, FileText, File, Check, 
-  ExternalLink, Loader2, Music2, FileCode
-} from 'lucide-react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import type { TranscriptionFiles } from '@/hooks/useGuitarAnalysis';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Download, FileMusic, FileText, File, Check, ExternalLink, Loader2, Music2, FileCode } from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import type { TranscriptionFiles } from "@/hooks/useGuitarAnalysis";
 
 interface ExportFile {
-  key: keyof TranscriptionFiles | 'midiUrl';
+  key: keyof TranscriptionFiles | "midiUrl";
   label: string;
   format: string;
   icon: React.ReactNode;
@@ -22,44 +19,44 @@ interface ExportFile {
 
 const EXPORT_FILES: ExportFile[] = [
   {
-    key: 'midiUrl',
-    label: 'MIDI',
-    format: '.mid',
+    key: "midiUrl",
+    label: "MIDI",
+    format: ".mid",
     icon: <FileMusic className="w-5 h-5" />,
-    description: 'Стандартный MIDI для DAW',
-    color: 'text-blue-400',
+    description: "Стандартный MIDI для DAW",
+    color: "text-blue-400",
   },
   {
-    key: 'midiQuantUrl',
-    label: 'MIDI (Quantized)',
-    format: '.mid',
+    key: "midiQuantUrl",
+    label: "MIDI (Quantized)",
+    format: ".mid",
     icon: <FileMusic className="w-5 h-5" />,
-    description: 'Выровненный по сетке',
-    color: 'text-cyan-400',
+    description: "Выровненный по сетке",
+    color: "text-cyan-400",
   },
   {
-    key: 'gp5Url',
-    label: 'Guitar Pro',
-    format: '.gp5',
+    key: "gp5Url",
+    label: "Guitar Pro",
+    format: ".gp5",
     icon: <Music2 className="w-5 h-5" />,
-    description: 'Табулатура для Guitar Pro',
-    color: 'text-orange-400',
+    description: "Табулатура для Guitar Pro",
+    color: "text-orange-400",
   },
   {
-    key: 'musicXmlUrl',
-    label: 'MusicXML',
-    format: '.xml',
+    key: "musicXmlUrl",
+    label: "MusicXML",
+    format: ".xml",
     icon: <FileCode className="w-5 h-5" />,
-    description: 'Универсальный нотный формат',
-    color: 'text-purple-400',
+    description: "Универсальный нотный формат",
+    color: "text-purple-400",
   },
   {
-    key: 'pdfUrl',
-    label: 'PDF Ноты',
-    format: '.pdf',
+    key: "pdfUrl",
+    label: "PDF Ноты",
+    format: ".pdf",
     icon: <FileText className="w-5 h-5" />,
-    description: 'Печатная партитура',
-    color: 'text-red-400',
+    description: "Печатная партитура",
+    color: "text-red-400",
   },
 ];
 
@@ -69,16 +66,12 @@ interface ExportFilesPanelProps {
   className?: string;
 }
 
-export function ExportFilesPanel({
-  transcriptionFiles,
-  midiUrl,
-  className,
-}: ExportFilesPanelProps) {
+export function ExportFilesPanel({ transcriptionFiles, midiUrl, className }: ExportFilesPanelProps) {
   const [downloading, setDownloading] = useState<string | null>(null);
   const [downloaded, setDownloaded] = useState<Set<string>>(new Set());
 
   const getFileUrl = (key: string): string | undefined => {
-    if (key === 'midiUrl') {
+    if (key === "midiUrl") {
       return midiUrl || transcriptionFiles.midiUrl;
     }
     return transcriptionFiles[key as keyof TranscriptionFiles];
@@ -92,12 +85,12 @@ export function ExportFilesPanel({
     }
 
     setDownloading(file.key);
-    
+
     try {
       // Open in new tab for download
-      window.open(url, '_blank');
-      
-      setDownloaded(prev => new Set(prev).add(file.key));
+      window.open(url, "_blank");
+
+      setDownloaded((prev) => new Set(prev).add(file.key));
       toast.success(`${file.label} загружается...`);
     } catch (error) {
       toast.error(`Ошибка загрузки ${file.label}`);
@@ -106,7 +99,7 @@ export function ExportFilesPanel({
     }
   };
 
-  const availableCount = EXPORT_FILES.filter(f => getFileUrl(f.key)).length;
+  const availableCount = EXPORT_FILES.filter((f) => getFileUrl(f.key)).length;
 
   return (
     <div className={cn("space-y-3", className)}>
@@ -144,15 +137,13 @@ export function ExportFilesPanel({
                     "transition-all duration-200",
                     isAvailable && "hover:border-primary/50 hover:bg-primary/5",
                     !isAvailable && "opacity-40 cursor-not-allowed",
-                    isDownloaded && "border-green-500/50 bg-green-500/5"
+                    isDownloaded && "border-green-500/50 bg-green-500/5",
                   )}
                 >
                   {/* Icon */}
-                  <div className={cn(
-                    "p-2 rounded-lg shrink-0",
-                    isAvailable ? "bg-primary/10" : "bg-muted",
-                    file.color
-                  )}>
+                  <div
+                    className={cn("p-2 rounded-lg shrink-0", isAvailable ? "bg-primary/10" : "bg-muted", file.color)}
+                  >
                     {isDownloading ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : isDownloaded ? (
@@ -166,16 +157,11 @@ export function ExportFilesPanel({
                   <div className="flex-1 text-left min-w-0">
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-sm">{file.label}</span>
-                      <Badge 
-                        variant="secondary" 
-                        className="text-[10px] px-1.5 py-0 h-4 font-mono"
-                      >
+                      <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4 font-mono">
                         {file.format}
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground truncate">
-                      {file.description}
-                    </p>
+                    <p className="text-xs text-muted-foreground truncate">{file.description}</p>
                   </div>
 
                   {/* Status */}
@@ -183,9 +169,7 @@ export function ExportFilesPanel({
                     {isAvailable ? (
                       <ExternalLink className="w-4 h-4 text-muted-foreground" />
                     ) : (
-                      <span className="text-[10px] text-muted-foreground">
-                        Недоступно
-                      </span>
+                      <span className="text-[10px] text-muted-foreground">Недоступно</span>
                     )}
                   </div>
                 </Button>
@@ -211,14 +195,14 @@ export function ExportFilesPanel({
             size="sm"
             className="w-full"
             onClick={() => {
-              EXPORT_FILES.forEach(file => {
+              EXPORT_FILES.forEach((file) => {
                 const url = getFileUrl(file.key);
                 if (url) {
-                  window.open(url, '_blank');
-                  setDownloaded(prev => new Set(prev).add(file.key));
+                  window.open(url, "_blank");
+                  setDownloaded((prev) => new Set(prev).add(file.key));
                 }
               });
-              toast.success('Все файлы загружаются...');
+              toast.success("Все файлы загружаются...");
             }}
           >
             <Download className="w-4 h-4 mr-2" />

@@ -1,5 +1,5 @@
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 /**
  * Returns the current user's Telegram identifiers.
@@ -21,10 +21,10 @@ export async function getOwnTelegramIds(): Promise<OwnTelegramIds | null> {
   try {
     const { data, error } = await supabase
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .rpc('get_own_telegram_ids' as any);
+      .rpc("get_own_telegram_ids" as any);
 
     if (error) {
-      logger.error('get_own_telegram_ids RPC failed', error);
+      logger.error("get_own_telegram_ids RPC failed", error);
       return null;
     }
 
@@ -33,7 +33,7 @@ export async function getOwnTelegramIds(): Promise<OwnTelegramIds | null> {
 
     return {
       telegram_id:
-        typeof row.telegram_id === 'number'
+        typeof row.telegram_id === "number"
           ? row.telegram_id
           : row.telegram_id != null
             ? Number(row.telegram_id)
@@ -41,7 +41,7 @@ export async function getOwnTelegramIds(): Promise<OwnTelegramIds | null> {
       telegram_chat_id: row.telegram_chat_id ?? null,
     };
   } catch (err) {
-    logger.error('get_own_telegram_ids threw', err as Error);
+    logger.error("get_own_telegram_ids threw", err as Error);
     return null;
   }
 }

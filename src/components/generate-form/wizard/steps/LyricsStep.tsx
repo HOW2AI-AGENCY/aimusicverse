@@ -2,19 +2,19 @@
  * LyricsStep - Fourth step: lyrics input with AI assistance
  */
 
-import { useState, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { FileText, Sparkles, Loader2, ArrowLeft, ArrowRight, SkipForward } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useGenerationWizardStore } from '@/stores/generationWizardStore';
+import { useState, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { FileText, Sparkles, Loader2, ArrowLeft, ArrowRight, SkipForward } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useGenerationWizardStore } from "@/stores/generationWizardStore";
 
 const LANGUAGE_OPTIONS = [
-  { id: 'ru', label: 'Русский', flag: '🇷🇺' },
-  { id: 'en', label: 'English', flag: '🇬🇧' },
-  { id: 'mix', label: 'Микс', flag: '🌍' },
+  { id: "ru", label: "Русский", flag: "🇷🇺" },
+  { id: "en", label: "English", flag: "🇬🇧" },
+  { id: "mix", label: "Микс", flag: "🌍" },
 ];
 
 interface LyricsStepProps {
@@ -25,25 +25,31 @@ interface LyricsStepProps {
 export function LyricsStep({ onNext, onBack }: LyricsStepProps) {
   const { data, updateData, isAiProcessing, setAiProcessing } = useGenerationWizardStore();
   const [lyrics, setLyrics] = useState(data.lyrics);
-  const [language, setLanguage] = useState(data.lyricsLanguage || 'ru');
+  const [language, setLanguage] = useState(data.lyricsLanguage || "ru");
 
-  const handleLyricsChange = useCallback((value: string) => {
-    setLyrics(value);
-    updateData({ lyrics: value });
-  }, [updateData]);
+  const handleLyricsChange = useCallback(
+    (value: string) => {
+      setLyrics(value);
+      updateData({ lyrics: value });
+    },
+    [updateData],
+  );
 
-  const handleLanguageSelect = useCallback((lang: string) => {
-    setLanguage(lang);
-    updateData({ lyricsLanguage: lang });
-  }, [updateData]);
+  const handleLanguageSelect = useCallback(
+    (lang: string) => {
+      setLanguage(lang);
+      updateData({ lyricsLanguage: lang });
+    },
+    [updateData],
+  );
 
   const handleAiGenerate = useCallback(async () => {
     setAiProcessing(true);
-    
+
     // TODO: Call AI to generate lyrics based on idea, genre, mood
     // For now, simulate with timeout
-    await new Promise(r => setTimeout(r, 1500));
-    
+    await new Promise((r) => setTimeout(r, 1500));
+
     const generatedLyrics = `[Verse 1]
 Солнце встаёт над городом снова
 Новый день, новая дорога
@@ -78,10 +84,7 @@ export function LyricsStep({ onNext, onBack }: LyricsStepProps) {
         <div>
           <h3 className="font-semibold">Текст песни</h3>
           <p className="text-sm text-muted-foreground">
-            {skipLyrics 
-              ? 'Для инструментала текст не нужен'
-              : 'Напишите или сгенерируйте с AI'
-            }
+            {skipLyrics ? "Для инструментала текст не нужен" : "Напишите или сгенерируйте с AI"}
           </p>
         </div>
       </div>
@@ -104,9 +107,7 @@ export function LyricsStep({ onNext, onBack }: LyricsStepProps) {
                   variant="outline"
                   className={cn(
                     "cursor-pointer transition-all px-3 py-1.5",
-                    language === option.id 
-                      ? "bg-primary/10 border-primary" 
-                      : "hover:bg-muted"
+                    language === option.id ? "bg-primary/10 border-primary" : "hover:bg-muted",
                   )}
                   onClick={() => handleLanguageSelect(option.id)}
                 >
@@ -135,11 +136,7 @@ export function LyricsStep({ onNext, onBack }: LyricsStepProps) {
                 onClick={handleAiGenerate}
                 disabled={isAiProcessing}
               >
-                {isAiProcessing ? (
-                  <Loader2 className="w-3 h-3 animate-spin" />
-                ) : (
-                  <Sparkles className="w-3 h-3" />
-                )}
+                {isAiProcessing ? <Loader2 className="w-3 h-3 animate-spin" /> : <Sparkles className="w-3 h-3" />}
                 AI напишет
               </Button>
             </div>

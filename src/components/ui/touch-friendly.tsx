@@ -3,31 +3,27 @@
  * Ensures minimum 44x44px touch targets for mobile accessibility
  */
 
-import * as React from 'react';
-import { cn } from '@/lib/utils';
-import { motion, useReducedMotion } from '@/lib/motion';
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { motion, useReducedMotion } from "@/lib/motion";
 
 /**
  * Touch-optimized button wrapper
  * Adds invisible touch area expansion for small buttons
  */
-export function TouchTarget({ 
-  children, 
+export function TouchTarget({
+  children,
   className,
   minSize = 44,
-}: { 
+}: {
   children: React.ReactNode;
   className?: string;
   minSize?: number;
 }) {
   return (
-    <span className={cn('relative inline-flex', className)}>
+    <span className={cn("relative inline-flex", className)}>
       {/* Invisible touch target expansion */}
-      <span 
-        className="absolute -inset-2"
-        style={{ minWidth: minSize, minHeight: minSize }}
-        aria-hidden="true"
-      />
+      <span className="absolute -inset-2" style={{ minWidth: minSize, minHeight: minSize }} aria-hidden="true" />
       {children}
     </span>
   );
@@ -39,36 +35,36 @@ export function TouchTarget({
 interface TouchIconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   icon: React.ReactNode;
   label: string;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'ghost' | 'outline' | 'solid';
+  size?: "sm" | "md" | "lg";
+  variant?: "ghost" | "outline" | "solid";
 }
 
 export const TouchIconButton = React.forwardRef<HTMLButtonElement, TouchIconButtonProps>(
-  ({ icon, label, size = 'md', variant = 'ghost', className, ...props }, ref) => {
+  ({ icon, label, size = "md", variant = "ghost", className, ...props }, ref) => {
     const sizeClasses = {
-      sm: 'min-w-[44px] min-h-[44px] p-2',
-      md: 'min-w-[48px] min-h-[48px] p-2.5',
-      lg: 'min-w-[56px] min-h-[56px] p-3',
+      sm: "min-w-[44px] min-h-[44px] p-2",
+      md: "min-w-[48px] min-h-[48px] p-2.5",
+      lg: "min-w-[56px] min-h-[56px] p-3",
     };
-    
+
     const variantClasses = {
-      ghost: 'hover:bg-accent hover:text-accent-foreground',
-      outline: 'border border-input hover:bg-accent hover:text-accent-foreground',
-      solid: 'bg-primary text-primary-foreground hover:bg-primary/90',
+      ghost: "hover:bg-accent hover:text-accent-foreground",
+      outline: "border border-input hover:bg-accent hover:text-accent-foreground",
+      solid: "bg-primary text-primary-foreground hover:bg-primary/90",
     };
-    
+
     return (
       <button
         ref={ref}
         type="button"
         className={cn(
-          'inline-flex items-center justify-center rounded-lg transition-colors',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          'disabled:pointer-events-none disabled:opacity-50',
-          'active:scale-95 transition-transform',
+          "inline-flex items-center justify-center rounded-lg transition-colors",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+          "disabled:pointer-events-none disabled:opacity-50",
+          "active:scale-95 transition-transform",
           sizeClasses[size],
           variantClasses[variant],
-          className
+          className,
         )}
         aria-label={label}
         {...props}
@@ -76,9 +72,9 @@ export const TouchIconButton = React.forwardRef<HTMLButtonElement, TouchIconButt
         {icon}
       </button>
     );
-  }
+  },
 );
-TouchIconButton.displayName = 'TouchIconButton';
+TouchIconButton.displayName = "TouchIconButton";
 
 /**
  * Swipeable card component for touch gestures
@@ -105,51 +101,51 @@ export function SwipeableCard({
   const shouldReduceMotion = useReducedMotion();
   const [dragX, setDragX] = React.useState(0);
   const [isDragging, setIsDragging] = React.useState(false);
-  
+
   const handleDragEnd = (_: never, info: { offset: { x: number } }) => {
     setIsDragging(false);
-    
+
     if (info.offset.x > threshold && onSwipeRight) {
       onSwipeRight();
     } else if (info.offset.x < -threshold && onSwipeLeft) {
       onSwipeLeft();
     }
-    
+
     setDragX(0);
   };
-  
+
   if (shouldReduceMotion) {
     return <div className={className}>{children}</div>;
   }
-  
+
   return (
-    <div className={cn('relative overflow-hidden', className)}>
+    <div className={cn("relative overflow-hidden", className)}>
       {/* Background actions */}
       {leftAction && (
-        <div 
+        <div
           className={cn(
-            'absolute inset-y-0 left-0 flex items-center justify-start pl-4 w-24',
-            'bg-destructive text-destructive-foreground',
-            'transition-opacity',
-            dragX < -20 ? 'opacity-100' : 'opacity-0'
+            "absolute inset-y-0 left-0 flex items-center justify-start pl-4 w-24",
+            "bg-destructive text-destructive-foreground",
+            "transition-opacity",
+            dragX < -20 ? "opacity-100" : "opacity-0",
           )}
         >
           {leftAction}
         </div>
       )}
       {rightAction && (
-        <div 
+        <div
           className={cn(
-            'absolute inset-y-0 right-0 flex items-center justify-end pr-4 w-24',
-            'bg-primary text-primary-foreground',
-            'transition-opacity',
-            dragX > 20 ? 'opacity-100' : 'opacity-0'
+            "absolute inset-y-0 right-0 flex items-center justify-end pr-4 w-24",
+            "bg-primary text-primary-foreground",
+            "transition-opacity",
+            dragX > 20 ? "opacity-100" : "opacity-0",
           )}
         >
           {rightAction}
         </div>
       )}
-      
+
       {/* Swipeable content */}
       <motion.div
         drag="x"
@@ -160,7 +156,7 @@ export function SwipeableCard({
         onDragEnd={handleDragEnd}
         animate={{ x: isDragging ? undefined : 0 }}
         className="relative bg-background"
-        style={{ touchAction: 'pan-y' }}
+        style={{ touchAction: "pan-y" }}
       >
         {children}
       </motion.div>
@@ -171,10 +167,10 @@ export function SwipeableCard({
 /**
  * Haptic feedback utility (iOS/Android)
  */
-export function triggerHaptic(type: 'light' | 'medium' | 'heavy' | 'success' | 'error' = 'light') {
+export function triggerHaptic(type: "light" | "medium" | "heavy" | "success" | "error" = "light") {
   // Check for Vibration API support
   if (!navigator.vibrate) return;
-  
+
   const patterns: Record<string, number | number[]> = {
     light: 10,
     medium: 20,
@@ -182,7 +178,7 @@ export function triggerHaptic(type: 'light' | 'medium' | 'heavy' | 'success' | '
     success: [10, 50, 10],
     error: [50, 30, 50],
   };
-  
+
   try {
     navigator.vibrate(patterns[type]);
   } catch {
@@ -195,10 +191,10 @@ export function triggerHaptic(type: 'light' | 'medium' | 'heavy' | 'success' | '
  */
 export function useHaptics() {
   return {
-    light: () => triggerHaptic('light'),
-    medium: () => triggerHaptic('medium'),
-    heavy: () => triggerHaptic('heavy'),
-    success: () => triggerHaptic('success'),
-    error: () => triggerHaptic('error'),
+    light: () => triggerHaptic("light"),
+    medium: () => triggerHaptic("medium"),
+    heavy: () => triggerHaptic("heavy"),
+    success: () => triggerHaptic("success"),
+    error: () => triggerHaptic("error"),
   };
 }

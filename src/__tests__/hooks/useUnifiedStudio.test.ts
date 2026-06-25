@@ -3,9 +3,9 @@
  * Tests unified studio state management across track and project modes
  */
 
-import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useUnifiedStudio } from '@/hooks/useUnifiedStudio';
+import { renderHook, act } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { useUnifiedStudio } from "@/hooks/useUnifiedStudio";
 
 // Mock stores
 const mockPlayerStore = {
@@ -28,15 +28,15 @@ const mockStudioStore = {
   setMasterVolume: vi.fn(),
 };
 
-vi.mock('@/hooks/audio/usePlayerState', () => ({
+vi.mock("@/hooks/audio/usePlayerState", () => ({
   usePlayerStore: () => mockPlayerStore,
 }));
 
-vi.mock('@/stores/useUnifiedStudioStore', () => ({
+vi.mock("@/stores/useUnifiedStudioStore", () => ({
   useUnifiedStudioStore: () => mockStudioStore,
 }));
 
-describe('useUnifiedStudio', () => {
+describe("useUnifiedStudio", () => {
   beforeEach(() => {
     // Reset mocks
     mockPlayerStore.activeTrack = null;
@@ -56,140 +56,134 @@ describe('useUnifiedStudio', () => {
     mockStudioStore.setMasterVolume.mockClear();
   });
 
-  describe('mode detection', () => {
-    it('should be in idle mode when no track or project is active', () => {
+  describe("mode detection", () => {
+    it("should be in idle mode when no track or project is active", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
-      expect(result.current.mode).toBe('idle');
+      expect(result.current.mode).toBe("idle");
       expect(result.current.isIdle).toBe(true);
       expect(result.current.isTrackMode).toBe(false);
       expect(result.current.isProjectMode).toBe(false);
     });
 
-    it('should be in track mode when activeTrack is set', () => {
+    it("should be in track mode when activeTrack is set", () => {
       mockPlayerStore.activeTrack = {
-        id: 'track-1',
-        title: 'Test Track',
-        audio_url: 'https://example.com/audio.mp3',
+        id: "track-1",
+        title: "Test Track",
+        audio_url: "https://example.com/audio.mp3",
         duration_seconds: 180,
-        cover_url: 'https://example.com/cover.jpg',
+        cover_url: "https://example.com/cover.jpg",
       };
 
       const { result } = renderHook(() => useUnifiedStudio());
 
-      expect(result.current.mode).toBe('track');
+      expect(result.current.mode).toBe("track");
       expect(result.current.isTrackMode).toBe(true);
       expect(result.current.isProjectMode).toBe(false);
     });
 
-    it('should be in project mode when project is set', () => {
+    it("should be in project mode when project is set", () => {
       mockStudioStore.project = {
-        id: 'project-1',
-        name: 'Test Project',
+        id: "project-1",
+        name: "Test Project",
         durationSeconds: 240,
         masterVolume: 0.9,
-        tracks: [{ id: 'track-1', name: 'Track 1', audioUrl: 'url' }],
+        tracks: [{ id: "track-1", name: "Track 1", audioUrl: "url" }],
       };
 
       const { result } = renderHook(() => useUnifiedStudio());
 
-      expect(result.current.mode).toBe('project');
+      expect(result.current.mode).toBe("project");
       expect(result.current.isProjectMode).toBe(true);
       expect(result.current.isTrackMode).toBe(false);
     });
 
-    it('should prioritize project mode when both are set', () => {
-      mockPlayerStore.activeTrack = { id: 'track-1', title: 'Track' };
-      mockStudioStore.project = { id: 'project-1', name: 'Project', tracks: [] };
+    it("should prioritize project mode when both are set", () => {
+      mockPlayerStore.activeTrack = { id: "track-1", title: "Track" };
+      mockStudioStore.project = { id: "project-1", name: "Project", tracks: [] };
 
       const { result } = renderHook(() => useUnifiedStudio());
 
-      expect(result.current.mode).toBe('project');
+      expect(result.current.mode).toBe("project");
     });
   });
 
-  describe('forceMode option', () => {
-    it('should respect forceMode=track', () => {
-      mockStudioStore.project = { id: 'project-1', tracks: [] };
+  describe("forceMode option", () => {
+    it("should respect forceMode=track", () => {
+      mockStudioStore.project = { id: "project-1", tracks: [] };
 
-      const { result } = renderHook(() => 
-        useUnifiedStudio({ forceMode: 'track' })
-      );
+      const { result } = renderHook(() => useUnifiedStudio({ forceMode: "track" }));
 
-      expect(result.current.mode).toBe('track');
+      expect(result.current.mode).toBe("track");
     });
 
-    it('should respect forceMode=project', () => {
-      mockPlayerStore.activeTrack = { id: 'track-1' };
+    it("should respect forceMode=project", () => {
+      mockPlayerStore.activeTrack = { id: "track-1" };
 
-      const { result } = renderHook(() => 
-        useUnifiedStudio({ forceMode: 'project' })
-      );
+      const { result } = renderHook(() => useUnifiedStudio({ forceMode: "project" }));
 
-      expect(result.current.mode).toBe('project');
+      expect(result.current.mode).toBe("project");
     });
 
-    it('should force project mode when projectId is provided', () => {
-      const { result } = renderHook(() => 
-        useUnifiedStudio({ projectId: 'some-project-id' })
-      );
+    it("should force project mode when projectId is provided", () => {
+      const { result } = renderHook(() => useUnifiedStudio({ projectId: "some-project-id" }));
 
-      expect(result.current.mode).toBe('project');
+      expect(result.current.mode).toBe("project");
     });
 
-    it('should force track mode when track is provided', () => {
-      const { result } = renderHook(() => 
-        useUnifiedStudio({ track: { id: 'track-1' } as never })
-      );
+    it("should force track mode when track is provided", () => {
+      const { result } = renderHook(() => useUnifiedStudio({ track: { id: "track-1" } as never }));
 
-      expect(result.current.mode).toBe('track');
+      expect(result.current.mode).toBe("track");
     });
   });
 
-  describe('activeTrack normalization', () => {
-    it('should normalize track info in track mode', () => {
+  describe("activeTrack normalization", () => {
+    it("should normalize track info in track mode", () => {
       mockPlayerStore.activeTrack = {
-        id: 'track-1',
-        title: 'My Song',
-        audio_url: 'https://example.com/audio.mp3',
+        id: "track-1",
+        title: "My Song",
+        audio_url: "https://example.com/audio.mp3",
         duration_seconds: 180,
-        cover_url: 'https://example.com/cover.jpg',
+        cover_url: "https://example.com/cover.jpg",
       };
 
       const { result } = renderHook(() => useUnifiedStudio());
 
       expect(result.current.activeTrack).toEqual({
-        id: 'track-1',
-        name: 'My Song',
-        audioUrl: 'https://example.com/audio.mp3',
+        id: "track-1",
+        name: "My Song",
+        audioUrl: "https://example.com/audio.mp3",
         duration: 180,
-        coverUrl: 'https://example.com/cover.jpg',
+        coverUrl: "https://example.com/cover.jpg",
       });
     });
 
-    it('should normalize project track info in project mode', () => {
+    it("should normalize project track info in project mode", () => {
       mockStudioStore.project = {
-        id: 'project-1',
+        id: "project-1",
         durationSeconds: 240,
-        tracks: [{
-          id: 'ptrack-1',
-          name: 'Project Track',
-          audioUrl: 'https://example.com/project-audio.mp3',
-        }],
+        tracks: [
+          {
+            id: "ptrack-1",
+            name: "Project Track",
+            audioUrl: "https://example.com/project-audio.mp3",
+          },
+        ],
       };
 
       const { result } = renderHook(() => useUnifiedStudio());
 
       expect(result.current.activeTrack).toEqual({
-        id: 'ptrack-1',
-        name: 'Project Track',
-        audioUrl: 'https://example.com/project-audio.mp3',
+        id: "ptrack-1",
+        name: "Project Track",
+        audioUrl: "https://example.com/project-audio.mp3",
         duration: 240,
         coverUrl: undefined,
       });
     });
 
-    it('should return null for activeTrack in idle mode', () => {
+    it("should return null for activeTrack in idle mode", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       expect(result.current.activeTrack).toBeNull();
@@ -197,21 +191,21 @@ describe('useUnifiedStudio', () => {
 
     it('should use fallback name "Untitled" for tracks without title', () => {
       mockPlayerStore.activeTrack = {
-        id: 'track-1',
-        audio_url: 'url',
+        id: "track-1",
+        audio_url: "url",
       };
 
       const { result } = renderHook(() => useUnifiedStudio());
 
-      expect(result.current.activeTrack?.name).toBe('Untitled');
+      expect(result.current.activeTrack?.name).toBe("Untitled");
     });
   });
 
-  describe('playback state', () => {
-    it('should use player store state in track mode', () => {
-      mockPlayerStore.activeTrack = { 
-        id: 'track-1', 
-        title: 'Track',
+  describe("playback state", () => {
+    it("should use player store state in track mode", () => {
+      mockPlayerStore.activeTrack = {
+        id: "track-1",
+        title: "Track",
         duration_seconds: 200,
       };
       mockPlayerStore.isPlaying = true;
@@ -224,9 +218,9 @@ describe('useUnifiedStudio', () => {
       expect(result.current.playback.volume).toBe(0.7);
     });
 
-    it('should use studio store state in project mode', () => {
+    it("should use studio store state in project mode", () => {
       mockStudioStore.project = {
-        id: 'project-1',
+        id: "project-1",
         durationSeconds: 300,
         masterVolume: 0.8,
         tracks: [],
@@ -243,12 +237,12 @@ describe('useUnifiedStudio', () => {
     });
   });
 
-  describe('actions - track mode', () => {
+  describe("actions - track mode", () => {
     beforeEach(() => {
-      mockPlayerStore.activeTrack = { id: 'track-1', title: 'Track' };
+      mockPlayerStore.activeTrack = { id: "track-1", title: "Track" };
     });
 
-    it('should call playerStore.playTrack on play', () => {
+    it("should call playerStore.playTrack on play", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -258,7 +252,7 @@ describe('useUnifiedStudio', () => {
       expect(mockPlayerStore.playTrack).toHaveBeenCalled();
     });
 
-    it('should call playerStore.pauseTrack on pause', () => {
+    it("should call playerStore.pauseTrack on pause", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -268,7 +262,7 @@ describe('useUnifiedStudio', () => {
       expect(mockPlayerStore.pauseTrack).toHaveBeenCalled();
     });
 
-    it('should call playerStore.setVolume on setVolume', () => {
+    it("should call playerStore.setVolume on setVolume", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -279,16 +273,16 @@ describe('useUnifiedStudio', () => {
     });
   });
 
-  describe('actions - project mode', () => {
+  describe("actions - project mode", () => {
     beforeEach(() => {
-      mockStudioStore.project = { 
-        id: 'project-1', 
+      mockStudioStore.project = {
+        id: "project-1",
         masterVolume: 0.85,
-        tracks: [] 
+        tracks: [],
       };
     });
 
-    it('should call studioStore.play on play', () => {
+    it("should call studioStore.play on play", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -298,7 +292,7 @@ describe('useUnifiedStudio', () => {
       expect(mockStudioStore.play).toHaveBeenCalled();
     });
 
-    it('should call studioStore.pause on pause', () => {
+    it("should call studioStore.pause on pause", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -308,7 +302,7 @@ describe('useUnifiedStudio', () => {
       expect(mockStudioStore.pause).toHaveBeenCalled();
     });
 
-    it('should call studioStore.stop on stop', () => {
+    it("should call studioStore.stop on stop", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -318,7 +312,7 @@ describe('useUnifiedStudio', () => {
       expect(mockStudioStore.stop).toHaveBeenCalled();
     });
 
-    it('should call studioStore.seek on seek', () => {
+    it("should call studioStore.seek on seek", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -328,7 +322,7 @@ describe('useUnifiedStudio', () => {
       expect(mockStudioStore.seek).toHaveBeenCalledWith(30);
     });
 
-    it('should call studioStore.setMasterVolume on setVolume', () => {
+    it("should call studioStore.setMasterVolume on setVolume", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       act(() => {
@@ -339,9 +333,9 @@ describe('useUnifiedStudio', () => {
     });
   });
 
-  describe('toggleMute', () => {
-    it('should set volume to 0 when currently unmuted in track mode', () => {
-      mockPlayerStore.activeTrack = { id: 'track-1' };
+  describe("toggleMute", () => {
+    it("should set volume to 0 when currently unmuted in track mode", () => {
+      mockPlayerStore.activeTrack = { id: "track-1" };
       mockPlayerStore.volume = 0.85;
 
       const { result } = renderHook(() => useUnifiedStudio());
@@ -353,8 +347,8 @@ describe('useUnifiedStudio', () => {
       expect(mockPlayerStore.setVolume).toHaveBeenCalledWith(0);
     });
 
-    it('should set volume to 0.85 when currently muted in track mode', () => {
-      mockPlayerStore.activeTrack = { id: 'track-1' };
+    it("should set volume to 0.85 when currently muted in track mode", () => {
+      mockPlayerStore.activeTrack = { id: "track-1" };
       mockPlayerStore.volume = 0;
 
       const { result } = renderHook(() => useUnifiedStudio());
@@ -366,11 +360,11 @@ describe('useUnifiedStudio', () => {
       expect(mockPlayerStore.setVolume).toHaveBeenCalledWith(0.85);
     });
 
-    it('should toggle volume in project mode', () => {
-      mockStudioStore.project = { 
-        id: 'project-1', 
+    it("should toggle volume in project mode", () => {
+      mockStudioStore.project = {
+        id: "project-1",
         masterVolume: 0.9,
-        tracks: [] 
+        tracks: [],
       };
 
       const { result } = renderHook(() => useUnifiedStudio());
@@ -383,33 +377,33 @@ describe('useUnifiedStudio', () => {
     });
   });
 
-  describe('store access', () => {
-    it('should provide direct access to playerStore', () => {
+  describe("store access", () => {
+    it("should provide direct access to playerStore", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       expect(result.current.playerStore).toBe(mockPlayerStore);
     });
 
-    it('should provide direct access to studioStore', () => {
+    it("should provide direct access to studioStore", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       expect(result.current.studioStore).toBe(mockStudioStore);
     });
   });
 
-  describe('tracks array', () => {
-    it('should return empty array when no project', () => {
+  describe("tracks array", () => {
+    it("should return empty array when no project", () => {
       const { result } = renderHook(() => useUnifiedStudio());
 
       expect(result.current.tracks).toEqual([]);
     });
 
-    it('should return project tracks when in project mode', () => {
+    it("should return project tracks when in project mode", () => {
       const tracks = [
-        { id: 't1', name: 'Track 1' },
-        { id: 't2', name: 'Track 2' },
+        { id: "t1", name: "Track 1" },
+        { id: "t2", name: "Track 2" },
       ];
-      mockStudioStore.project = { id: 'p1', tracks };
+      mockStudioStore.project = { id: "p1", tracks };
 
       const { result } = renderHook(() => useUnifiedStudio());
 

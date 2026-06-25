@@ -18,13 +18,13 @@
 - [hasAnalysisData](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L135) (1 connections)
 - [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L52) (1 connections)
 - [{
-    isPlaying,
-    currentTime,
-    duration,
-    isLoading,
-    isBuffering,
-    togglePlay,
-    seek,
+  isPlaying,
+  currentTime,
+  duration,
+  isLoading,
+  isBuffering,
+  togglePlay,
+  seek,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L54) (1 connections)
 
 ## Relationships
@@ -43,4 +43,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

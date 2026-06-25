@@ -10,23 +10,8 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Slider } from "@/components/ui/slider";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { 
-  RefreshCw, 
-  Settings2, 
-  AlertCircle,
-  ChevronDown,
-  ChevronRight,
-  Zap,
-  Shield,
-  Users,
-} from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { RefreshCw, Settings2, AlertCircle, ChevronDown, ChevronRight, Zap, Shield, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   useFeatureFlags,
@@ -39,22 +24,22 @@ import {
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 
 // Single feature flag item
-function FeatureFlagItem({ 
-  flag, 
+function FeatureFlagItem({
+  flag,
   onToggle,
   onUpdate,
   isToggling,
-}: { 
+}: {
   flag: FeatureFlag;
   onToggle: (enabled: boolean) => void;
-  onUpdate: (updates: Partial<Pick<FeatureFlag, 'rollout_percentage' | 'min_tier' | 'is_admin_only'>>) => void;
+  onUpdate: (updates: Partial<Pick<FeatureFlag, "rollout_percentage" | "min_tier" | "is_admin_only">>) => void;
   isToggling?: boolean;
 }) {
   const [showSettings, setShowSettings] = useState(false);
 
   return (
     <div className="rounded-lg border bg-card overflow-hidden">
-        <div className="flex items-center gap-3 p-3 min-h-[60px]">
+      <div className="flex items-center gap-3 p-3 min-h-[60px]">
         <span className="text-xl flex-shrink-0">{flag.icon || "📋"}</span>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
@@ -71,11 +56,7 @@ function FeatureFlagItem({
               </Badge>
             )}
           </div>
-          {flag.description && (
-            <p className="text-xs text-muted-foreground truncate mt-0.5">
-              {flag.description}
-            </p>
-          )}
+          {flag.description && <p className="text-xs text-muted-foreground truncate mt-0.5">{flag.description}</p>}
         </div>
         <Button
           variant="ghost"
@@ -85,12 +66,7 @@ function FeatureFlagItem({
         >
           <Settings2 className="h-4 w-4" />
         </Button>
-        <Switch
-          checked={flag.enabled}
-          onCheckedChange={onToggle}
-          disabled={isToggling}
-          className="flex-shrink-0"
-        />
+        <Switch checked={flag.enabled} onCheckedChange={onToggle} disabled={isToggling} className="flex-shrink-0" />
       </div>
 
       {showSettings && (
@@ -102,9 +78,7 @@ function FeatureFlagItem({
                 <Users className="h-4 w-4" />
                 Процент раскатки
               </label>
-            <span className="text-sm text-muted-foreground">
-                {flag.rollout_percentage ?? 100}%
-              </span>
+              <span className="text-sm text-muted-foreground">{flag.rollout_percentage ?? 100}%</span>
             </div>
             <Slider
               value={[flag.rollout_percentage ?? 100]}
@@ -117,10 +91,7 @@ function FeatureFlagItem({
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Минимальный тариф</label>
-            <Select 
-              value={flag.min_tier ?? 'free'} 
-              onValueChange={(value) => onUpdate({ min_tier: value })}
-            >
+            <Select value={flag.min_tier ?? "free"} onValueChange={(value) => onUpdate({ min_tier: value })}>
               <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
@@ -169,7 +140,10 @@ function FlagCategory({
   icon: string;
   flags: FeatureFlag[];
   onToggle: (flagId: string, enabled: boolean) => void;
-  onUpdate: (flagId: string, updates: Partial<Pick<FeatureFlag, 'rollout_percentage' | 'min_tier' | 'is_admin_only'>>) => void;
+  onUpdate: (
+    flagId: string,
+    updates: Partial<Pick<FeatureFlag, "rollout_percentage" | "min_tier" | "is_admin_only">>,
+  ) => void;
   isToggling?: boolean;
   defaultExpanded?: boolean;
 }) {
@@ -183,7 +157,7 @@ function FlagCategory({
         className={cn(
           "w-full flex items-center gap-3 p-4 text-left transition-colors",
           "hover:bg-accent/50 active:bg-accent",
-          "min-h-[56px]"
+          "min-h-[56px]",
         )}
       >
         <span className="text-xl flex-shrink-0">{icon}</span>
@@ -226,7 +200,10 @@ export function FeatureFlagsEditor() {
     toggleFlag.mutate({ id: flagId, enabled });
   };
 
-  const handleUpdate = (flagId: string, updates: Partial<Pick<FeatureFlag, 'rollout_percentage' | 'min_tier' | 'is_admin_only'>>) => {
+  const handleUpdate = (
+    flagId: string,
+    updates: Partial<Pick<FeatureFlag, "rollout_percentage" | "min_tier" | "is_admin_only">>,
+  ) => {
     updateFlag.mutate({ id: flagId, updates });
   };
 
@@ -264,9 +241,7 @@ export function FeatureFlagsEditor() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground mb-4">
-            {error instanceof Error ? error.message : "Неизвестная ошибка"}
-          </p>
+          <p className="text-muted-foreground mb-4">{error instanceof Error ? error.message : "Неизвестная ошибка"}</p>
           <Button onClick={() => refetch()} variant="outline">
             <RefreshCw className="h-4 w-4 mr-2" />
             Повторить
@@ -288,12 +263,7 @@ export function FeatureFlagsEditor() {
             <Badge variant="outline">
               {totalEnabled}/{totalFlags} активно
             </Badge>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => refetch()}
-              disabled={isLoading}
-            >
+            <Button variant="outline" size="sm" onClick={() => refetch()} disabled={isLoading}>
               <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} />
             </Button>
           </div>

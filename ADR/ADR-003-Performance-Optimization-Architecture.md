@@ -16,14 +16,16 @@
 **Проблема:** Множественные параллельные запросы к базе данных для разных секций страницы.
 
 **Решение:** Единый хук `usePublicContentOptimized` выполняет один запрос и распределяет данные между секциями:
+
 - Featured tracks
-- New releases  
+- New releases
 - Popular tracks
 - Auto-playlists по жанрам
 
 ### 2. Оптимизированное кэширование TanStack Query
 
 **Настройки для большинства хуков:**
+
 ```typescript
 {
   staleTime: 30 * 1000,        // 30 секунд
@@ -37,6 +39,7 @@
 **Библиотека:** react-virtuoso
 
 **Применение:**
+
 - Библиотека треков (grid и list режимы)
 - Плейлисты с большим количеством треков
 
@@ -47,6 +50,7 @@
 **Компонент:** `LazyImage`
 
 **Функции:**
+
 - Native lazy loading (`loading="lazy"`)
 - Blur placeholder с shimmer-эффектом
 - Плавное появление через opacity transition
@@ -63,6 +67,7 @@
 **Хук:** `useStudioState`
 
 **Функции:**
+
 - Централизованное управление mute/solo/volume/pan
 - Effective volume calculation с учётом master и solo
 - Memoized callbacks для минимизации re-renders
@@ -73,6 +78,7 @@
 **Хук:** `useWaveformCache`
 
 **Функции:**
+
 - IndexedDB для персистентного хранения peaks
 - LRU memory cache (20 entries)
 - 7-day TTL с автоматической очисткой
@@ -83,6 +89,7 @@
 **Хук:** `useOptimizedPlayback`
 
 **Функции:**
+
 - RAF-based time updates (50ms throttle)
 - Lightweight state management
 - Proper cleanup и event handling
@@ -90,6 +97,7 @@
 ### 9. Optimized Components (NEW - 2026-01-07)
 
 **Компоненты:**
+
 - `OptimizedWaveform` - Canvas-based с кэшированием
 - `OptimizedVolumeSlider` - Touch-optimized с throttling
 - `OptimizedMixerPanel` - Виртуализованные каналы
@@ -98,6 +106,7 @@
 ## Последствия
 
 ### Положительные:
+
 - **Уменьшение запросов:** ~70% снижение количества запросов на главной странице
 - **Быстрая прокрутка:** Виртуализация позволяет работать с 1000+ треков без лагов
 - **Меньше трафика:** Ленивая загрузка экономит bandwidth
@@ -106,19 +115,20 @@
 - **Быстрые waveforms:** IndexedDB кэширование экономит CPU
 
 ### Отрицательные:
+
 - **Сложность:** Дополнительная абстракция в коде
 - **Память:** Виртуализация требует осторожности с высотой элементов
 - **IndexedDB:** Требует обработки ошибок для приватного режима браузера
 
 ## Метрики
 
-| До оптимизации | После оптимизации |
-|----------------|-------------------|
-| 12+ запросов на Index | 3-4 запроса |
-| 100+ запросов на Library (100 треков) | 2-3 запроса |
-| Нет кэширования | 30s staleTime |
-| Waveform каждый раз | IndexedDB cache 7 days |
-| Mixer re-renders | Memoized channels |
+| До оптимизации                        | После оптимизации      |
+| ------------------------------------- | ---------------------- |
+| 12+ запросов на Index                 | 3-4 запроса            |
+| 100+ запросов на Library (100 треков) | 2-3 запроса            |
+| Нет кэширования                       | 30s staleTime          |
+| Waveform каждый раз                   | IndexedDB cache 7 days |
+| Mixer re-renders                      | Memoized channels      |
 
 ## Связанные изменения
 

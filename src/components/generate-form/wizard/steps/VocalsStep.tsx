@@ -2,18 +2,18 @@
  * VocalsStep - Third step: vocal settings
  */
 
-import { useState, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Mic, MicOff, User, ArrowLeft, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useGenerationWizardStore } from '@/stores/generationWizardStore';
+import { useState, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Mic, MicOff, User, ArrowLeft, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useGenerationWizardStore } from "@/stores/generationWizardStore";
 
 const VOCAL_STYLES = [
-  { id: 'clean', label: 'Чистый', description: 'Без эффектов' },
-  { id: 'raspy', label: 'Хриплый', description: 'Рок-стиль' },
-  { id: 'smooth', label: 'Мягкий', description: 'R&B/Soul' },
-  { id: 'powerful', label: 'Мощный', description: 'Высокая подача' },
+  { id: "clean", label: "Чистый", description: "Без эффектов" },
+  { id: "raspy", label: "Хриплый", description: "Рок-стиль" },
+  { id: "smooth", label: "Мягкий", description: "R&B/Soul" },
+  { id: "powerful", label: "Мощный", description: "Высокая подача" },
 ];
 
 interface VocalsStepProps {
@@ -24,28 +24,37 @@ interface VocalsStepProps {
 export function VocalsStep({ onNext, onBack }: VocalsStepProps) {
   const { data, updateData } = useGenerationWizardStore();
   const [hasVocals, setHasVocals] = useState(data.hasVocals);
-  const [vocalGender, setVocalGender] = useState<'' | 'm' | 'f'>(data.vocalGender);
+  const [vocalGender, setVocalGender] = useState<"" | "m" | "f">(data.vocalGender);
   const [vocalStyle, setVocalStyle] = useState(data.vocalStyle);
 
-  const handleVocalsToggle = useCallback((value: boolean) => {
-    setHasVocals(value);
-    updateData({ hasVocals: value });
-    if (!value) {
-      setVocalGender('');
-      setVocalStyle('');
-      updateData({ vocalGender: '', vocalStyle: '' });
-    }
-  }, [updateData]);
+  const handleVocalsToggle = useCallback(
+    (value: boolean) => {
+      setHasVocals(value);
+      updateData({ hasVocals: value });
+      if (!value) {
+        setVocalGender("");
+        setVocalStyle("");
+        updateData({ vocalGender: "", vocalStyle: "" });
+      }
+    },
+    [updateData],
+  );
 
-  const handleGenderSelect = useCallback((gender: '' | 'm' | 'f') => {
-    setVocalGender(gender);
-    updateData({ vocalGender: gender });
-  }, [updateData]);
+  const handleGenderSelect = useCallback(
+    (gender: "" | "m" | "f") => {
+      setVocalGender(gender);
+      updateData({ vocalGender: gender });
+    },
+    [updateData],
+  );
 
-  const handleStyleSelect = useCallback((style: string) => {
-    setVocalStyle(style);
-    updateData({ vocalStyle: style });
-  }, [updateData]);
+  const handleStyleSelect = useCallback(
+    (style: string) => {
+      setVocalStyle(style);
+      updateData({ vocalStyle: style });
+    },
+    [updateData],
+  );
 
   return (
     <motion.div
@@ -61,9 +70,7 @@ export function VocalsStep({ onNext, onBack }: VocalsStepProps) {
         </div>
         <div>
           <h3 className="font-semibold">Настройки вокала</h3>
-          <p className="text-sm text-muted-foreground">
-            С вокалом или инструментал?
-          </p>
+          <p className="text-sm text-muted-foreground">С вокалом или инструментал?</p>
         </div>
       </div>
 
@@ -74,9 +81,7 @@ export function VocalsStep({ onNext, onBack }: VocalsStepProps) {
           onClick={() => handleVocalsToggle(true)}
           className={cn(
             "flex flex-col items-center gap-2 p-4 rounded-xl border transition-all",
-            hasVocals
-              ? "border-primary bg-primary/10"
-              : "border-border hover:border-primary/50"
+            hasVocals ? "border-primary bg-primary/10" : "border-border hover:border-primary/50",
           )}
         >
           <Mic className={cn("w-6 h-6", hasVocals && "text-primary")} />
@@ -87,9 +92,7 @@ export function VocalsStep({ onNext, onBack }: VocalsStepProps) {
           onClick={() => handleVocalsToggle(false)}
           className={cn(
             "flex flex-col items-center gap-2 p-4 rounded-xl border transition-all",
-            !hasVocals
-              ? "border-primary bg-primary/10"
-              : "border-border hover:border-primary/50"
+            !hasVocals ? "border-primary bg-primary/10" : "border-border hover:border-primary/50",
           )}
         >
           <MicOff className={cn("w-6 h-6", !hasVocals && "text-primary")} />
@@ -101,7 +104,7 @@ export function VocalsStep({ onNext, onBack }: VocalsStepProps) {
       {hasVocals && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
+          animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
           className="space-y-4"
         >
@@ -110,19 +113,19 @@ export function VocalsStep({ onNext, onBack }: VocalsStepProps) {
             <p className="text-xs text-muted-foreground font-medium">Голос:</p>
             <div className="grid grid-cols-3 gap-2">
               {[
-                { id: '', label: 'Любой', icon: '🎭' },
-                { id: 'm', label: 'Мужской', icon: '👨' },
-                { id: 'f', label: 'Женский', icon: '👩' },
+                { id: "", label: "Любой", icon: "🎭" },
+                { id: "m", label: "Мужской", icon: "👨" },
+                { id: "f", label: "Женский", icon: "👩" },
               ].map((option) => (
                 <button
                   key={option.id}
                   type="button"
-                  onClick={() => handleGenderSelect(option.id as '' | 'm' | 'f')}
+                  onClick={() => handleGenderSelect(option.id as "" | "m" | "f")}
                   className={cn(
                     "flex items-center justify-center gap-2 p-3 rounded-xl border transition-all",
                     vocalGender === option.id
                       ? "border-primary bg-primary/10"
-                      : "border-border hover:border-primary/50"
+                      : "border-border hover:border-primary/50",
                   )}
                 >
                   <span>{option.icon}</span>
@@ -143,9 +146,7 @@ export function VocalsStep({ onNext, onBack }: VocalsStepProps) {
                   onClick={() => handleStyleSelect(style.id)}
                   className={cn(
                     "flex flex-col items-start gap-0.5 p-3 rounded-xl border transition-all text-left",
-                    vocalStyle === style.id
-                      ? "border-primary bg-primary/10"
-                      : "border-border hover:border-primary/50"
+                    vocalStyle === style.id ? "border-primary bg-primary/10" : "border-border hover:border-primary/50",
                   )}
                 >
                   <span className="text-sm font-medium">{style.label}</span>

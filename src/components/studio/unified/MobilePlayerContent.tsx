@@ -3,27 +3,35 @@
  * Displays waveform, playback controls, and track info
  */
 
-import { memo, useState, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
+import { memo, useState, useCallback, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  Play, Pause, SkipBack, SkipForward, Volume2, VolumeX,
-  Heart, Share2, Download, MoreVertical
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
+  Play,
+  Pause,
+  SkipBack,
+  SkipForward,
+  Volume2,
+  VolumeX,
+  Heart,
+  Share2,
+  Download,
+  MoreVertical,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { StudioWaveformTimeline } from './StudioWaveformTimeline';
-import { formatTime } from '@/lib/formatters';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import type { StudioProject } from '@/stores/useUnifiedStudioStore';
-import { MobilePlayerSkeleton } from '@/components/mobile/MobileSkeletons';
+} from "@/components/ui/dropdown-menu";
+import { StudioWaveformTimeline } from "./StudioWaveformTimeline";
+import { formatTime } from "@/lib/formatters";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import type { StudioProject } from "@/stores/useUnifiedStudioStore";
+import { MobilePlayerSkeleton } from "@/components/mobile/MobileSkeletons";
 
 interface MobilePlayerContentProps {
   project: StudioProject;
@@ -62,13 +70,15 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
     }
   }, [showVolumeSlider]);
 
-  const handleSkip = useCallback((direction: 'back' | 'forward') => {
-    const skipAmount = 10;
-    const newTime = direction === 'back'
-      ? Math.max(0, currentTime - skipAmount)
-      : Math.min(duration, currentTime + skipAmount);
-    onSeek(newTime);
-  }, [currentTime, duration, onSeek]);
+  const handleSkip = useCallback(
+    (direction: "back" | "forward") => {
+      const skipAmount = 10;
+      const newTime =
+        direction === "back" ? Math.max(0, currentTime - skipAmount) : Math.min(duration, currentTime + skipAmount);
+      onSeek(newTime);
+    },
+    [currentTime, duration, onSeek],
+  );
 
   const toggleMute = useCallback(() => {
     onVolumeChange(isMuted ? 0.85 : 0);
@@ -83,14 +93,16 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
       const encoded = encodeURIComponent(`${shareText}\n${shareUrl}`);
       window.Telegram.WebApp.openTelegramLink(`https://t.me/share/url?url=${encoded}`);
     } else if (navigator.share) {
-      navigator.share({
-        title: project.name,
-        text: shareText,
-        url: shareUrl,
-      }).catch(() => {});
+      navigator
+        .share({
+          title: project.name,
+          text: shareText,
+          url: shareUrl,
+        })
+        .catch(() => {});
     } else {
       navigator.clipboard.writeText(shareUrl);
-      toast.success('Ссылка скопирована!');
+      toast.success("Ссылка скопирована!");
     }
   };
 
@@ -116,7 +128,7 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
           className="flex items-center gap-2"
         >
           <Badge variant="secondary" className="text-xs">
-            {project.tracks.length} {project.tracks.length === 1 ? 'дорожка' : 'дорожек'}
+            {project.tracks.length} {project.tracks.length === 1 ? "дорожка" : "дорожек"}
           </Badge>
           {project.bpm && (
             <Badge variant="outline" className="text-xs">
@@ -156,12 +168,8 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
           className="w-full"
         />
         <div className="flex items-center justify-between mt-2">
-          <span className="text-xs font-mono text-muted-foreground">
-            {formatTime(currentTime)}
-          </span>
-          <span className="text-xs font-mono text-muted-foreground">
-            {formatTime(duration)}
-          </span>
+          <span className="text-xs font-mono text-muted-foreground">{formatTime(currentTime)}</span>
+          <span className="text-xs font-mono text-muted-foreground">{formatTime(duration)}</span>
         </div>
       </div>
 
@@ -171,7 +179,7 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => handleSkip('back')}
+            onClick={() => handleSkip("back")}
             className="h-14 w-14 rounded-full min-w-14 min-h-14"
             haptic
           >
@@ -185,17 +193,13 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
             className="h-16 w-16 rounded-full shadow-lg shadow-primary/30 min-w-16 min-h-16"
             haptic
           >
-            {isPlaying ? (
-              <Pause className="w-7 h-7" />
-            ) : (
-              <Play className="w-7 h-7 ml-1" />
-            )}
+            {isPlaying ? <Pause className="w-7 h-7" /> : <Play className="w-7 h-7 ml-1" />}
           </Button>
 
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => handleSkip('forward')}
+            onClick={() => handleSkip("forward")}
             className="h-14 w-14 rounded-full min-w-14 min-h-14"
             haptic
           >
@@ -214,11 +218,7 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
             className="h-14 w-14 rounded-full shrink-0 min-w-14 min-h-14"
             haptic
           >
-            {isMuted ? (
-              <VolumeX className="w-5 h-5" />
-            ) : (
-              <Volume2 className="w-5 h-5" />
-            )}
+            {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
           </Button>
 
           <AnimatePresence>
@@ -241,9 +241,7 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
           </AnimatePresence>
 
           {!showVolumeSlider && (
-            <span className="text-xs text-muted-foreground">
-              Громкость: {Math.round(masterVolume * 100)}%
-            </span>
+            <span className="text-xs text-muted-foreground">Громкость: {Math.round(masterVolume * 100)}%</span>
           )}
         </div>
       </div>
@@ -263,25 +261,14 @@ export const MobilePlayerContent = memo(function MobilePlayerContent({
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-14 w-14 rounded-full min-w-14 min-h-14"
-                haptic
-              >
+              <Button variant="ghost" size="icon" className="h-14 w-14 rounded-full min-w-14 min-h-14" haptic>
                 <MoreVertical className="w-6 h-6" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="w-48 bg-popover">
-              <DropdownMenuItem onClick={() => toast.info('Скоро')}>
-                Экспорт проекта
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => toast.info('Скоро')}>
-                Детали проекта
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => toast.info('Скоро')}>
-                Дублировать проект
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => toast.info("Скоро")}>Экспорт проекта</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => toast.info("Скоро")}>Детали проекта</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => toast.info("Скоро")}>Дублировать проект</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

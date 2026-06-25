@@ -1,12 +1,12 @@
 /**
  * Studio Keyboard Shortcuts Hook
- * 
+ *
  * Centralized keyboard shortcut management for Stem Studio
  * Provides customizable shortcuts with proper cleanup
  */
 
-import { useEffect, useCallback } from 'react';
-import { logger } from '@/lib/logger';
+import { useEffect, useCallback } from "react";
+import { logger } from "@/lib/logger";
 
 export interface KeyboardShortcut {
   key: string;
@@ -29,39 +29,43 @@ export function useStudioKeyboardShortcuts({
   enabled = true,
   excludeInputs = true,
 }: UseStudioKeyboardShortcutsProps) {
-  const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    if (!enabled) return;
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (!enabled) return;
 
-    // Skip if user is typing in input/textarea or contenteditable
-    if (excludeInputs && event.target instanceof Element) {
-      const isEditable = event.target instanceof HTMLInputElement ||
-        event.target instanceof HTMLTextAreaElement ||
-        event.target.getAttribute('contenteditable') === 'true' ||
-        event.target.closest('[contenteditable="true"]');
-      
-      if (isEditable) return;
-    }
+      // Skip if user is typing in input/textarea or contenteditable
+      if (excludeInputs && event.target instanceof Element) {
+        const isEditable =
+          event.target instanceof HTMLInputElement ||
+          event.target instanceof HTMLTextAreaElement ||
+          event.target.getAttribute("contenteditable") === "true" ||
+          event.target.closest('[contenteditable="true"]');
 
-    // Find matching shortcut
-    const shortcut = shortcuts.find(s => {
-      const keyMatch = s.code ? event.code === s.code : event.key === s.key;
-      const ctrlMatch = s.ctrl === undefined || s.ctrl === (event.ctrlKey || event.metaKey);
-      const shiftMatch = s.shift === undefined || s.shift === event.shiftKey;
-      const altMatch = s.alt === undefined || s.alt === event.altKey;
-      
-      return keyMatch && ctrlMatch && shiftMatch && altMatch;
-    });
+        if (isEditable) return;
+      }
 
-    if (shortcut) {
-      event.preventDefault();
-      logger.debug(`Keyboard shortcut triggered: ${shortcut.description}`);
-      shortcut.action();
-    }
-  }, [enabled, excludeInputs, shortcuts]);
+      // Find matching shortcut
+      const shortcut = shortcuts.find((s) => {
+        const keyMatch = s.code ? event.code === s.code : event.key === s.key;
+        const ctrlMatch = s.ctrl === undefined || s.ctrl === (event.ctrlKey || event.metaKey);
+        const shiftMatch = s.shift === undefined || s.shift === event.shiftKey;
+        const altMatch = s.alt === undefined || s.alt === event.altKey;
+
+        return keyMatch && ctrlMatch && shiftMatch && altMatch;
+      });
+
+      if (shortcut) {
+        event.preventDefault();
+        logger.debug(`Keyboard shortcut triggered: ${shortcut.description}`);
+        shortcut.action();
+      }
+    },
+    [enabled, excludeInputs, shortcuts],
+  );
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
   return {
@@ -74,11 +78,11 @@ export function useStudioKeyboardShortcuts({
  */
 export function formatShortcut(shortcut: KeyboardShortcut): string {
   const keys: string[] = [];
-  
-  if (shortcut.ctrl) keys.push('Ctrl');
-  if (shortcut.shift) keys.push('Shift');
-  if (shortcut.alt) keys.push('Alt');
+
+  if (shortcut.ctrl) keys.push("Ctrl");
+  if (shortcut.shift) keys.push("Shift");
+  if (shortcut.alt) keys.push("Alt");
   keys.push(shortcut.key.length === 1 ? shortcut.key.toUpperCase() : shortcut.key);
-  
-  return keys.join('+');
+
+  return keys.join("+");
 }

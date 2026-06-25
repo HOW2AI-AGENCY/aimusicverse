@@ -6,13 +6,13 @@
 
 - [UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L1) (5 connections)
 - [{
-    actionState,
-    isProcessing,
-    dialogs,
-    closeDialog,
-    executeAction,
-    handleConfirmDelete,
-    stems,
+  actionState,
+  isProcessing,
+  dialogs,
+  closeDialog,
+  executeAction,
+  handleConfirmDelete,
+  stems,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L53) (1 connections)
 - [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L46) (1 connections)
 - [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L51) (1 connections)
@@ -35,4 +35,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

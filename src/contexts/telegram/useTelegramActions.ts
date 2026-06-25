@@ -1,23 +1,17 @@
 /**
  * Telegram Actions Hook
- * 
+ *
  * Provides all Telegram WebApp action methods.
  * Extracted from TelegramContext.tsx for modularity.
- * 
+ *
  * @module contexts/telegram/useTelegramActions
  */
 
-import { useRef, useState } from 'react';
-import { logger } from '@/lib/logger';
-import type { 
-  TelegramWebApp, 
-  MainButtonOptions, 
-  SecondaryButtonOptions,
-  PopupParams,
-  HapticType 
-} from './types';
+import { useRef, useState } from "react";
+import { logger } from "@/lib/logger";
+import type { TelegramWebApp, MainButtonOptions, SecondaryButtonOptions, PopupParams, HapticType } from "./types";
 
-const telegramLogger = logger.child({ module: 'TelegramActions' });
+const telegramLogger = logger.child({ module: "TelegramActions" });
 
 /**
  * Hook providing all Telegram WebApp actions
@@ -34,7 +28,7 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
         if (mainButtonCallbackRef.current) {
           webApp.MainButton.offClick(mainButtonCallbackRef.current);
         }
-        
+
         mainButtonCallbackRef.current = onClick;
         webApp.MainButton.setText(text);
         if (options?.color) webApp.MainButton.color = options.color;
@@ -43,12 +37,12 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
         if (options?.isVisible !== undefined) webApp.MainButton.isVisible = options.isVisible;
         webApp.MainButton.onClick(onClick);
         webApp.MainButton.show();
-        
-        telegramLogger.debug('MainButton shown', { text, isActive: options?.isActive });
+
+        telegramLogger.debug("MainButton shown", { text, isActive: options?.isActive });
       } catch (error) {
-        telegramLogger.warn('showMainButton failed', { 
+        telegramLogger.warn("showMainButton failed", {
           error: error instanceof Error ? error.message : String(error),
-          text 
+          text,
         });
       }
     }
@@ -62,10 +56,10 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
           mainButtonCallbackRef.current = null;
         }
         webApp.MainButton.hide();
-        telegramLogger.debug('MainButton hidden');
+        telegramLogger.debug("MainButton hidden");
       } catch (error) {
-        telegramLogger.debug('hideMainButton failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("hideMainButton failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -81,9 +75,9 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
         webApp.SecondaryButton.show();
         webApp.SecondaryButton.onClick(onClick);
       } catch (error) {
-        telegramLogger.debug('showSecondaryButton failed', { 
+        telegramLogger.debug("showSecondaryButton failed", {
           error: error instanceof Error ? error.message : String(error),
-          text 
+          text,
         });
       }
     }
@@ -95,60 +89,60 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
         webApp.SecondaryButton.hide();
         webApp.SecondaryButton.offClick(() => {});
       } catch (error) {
-        telegramLogger.debug('hideSecondaryButton failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("hideSecondaryButton failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
   };
 
   const showBackButton = (onClick: () => void) => {
-    if (webApp && webApp.isVersionAtLeast?.('6.1')) {
+    if (webApp && webApp.isVersionAtLeast?.("6.1")) {
       try {
         webApp.BackButton.show();
         webApp.BackButton.onClick(onClick);
       } catch (error) {
-        telegramLogger.debug('showBackButton failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("showBackButton failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
   };
 
   const hideBackButton = () => {
-    if (webApp && webApp.isVersionAtLeast?.('6.1')) {
+    if (webApp && webApp.isVersionAtLeast?.("6.1")) {
       try {
         webApp.BackButton.hide();
         webApp.BackButton.offClick(() => {});
       } catch (error) {
-        telegramLogger.debug('hideBackButton failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("hideBackButton failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
   };
 
   const showSettingsButton = (onClick: () => void) => {
-    if (webApp && webApp.isVersionAtLeast?.('6.10') && (webApp as any).SettingsButton) {
+    if (webApp && webApp.isVersionAtLeast?.("6.10") && (webApp as any).SettingsButton) {
       try {
         (webApp as any).SettingsButton.show();
         (webApp as any).SettingsButton.onClick(onClick);
       } catch (error) {
-        telegramLogger.debug('showSettingsButton failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("showSettingsButton failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
   };
 
   const hideSettingsButton = () => {
-    if (webApp && webApp.isVersionAtLeast?.('6.10') && (webApp as any).SettingsButton) {
+    if (webApp && webApp.isVersionAtLeast?.("6.10") && (webApp as any).SettingsButton) {
       try {
         (webApp as any).SettingsButton.hide();
         (webApp as any).SettingsButton.offClick(() => {});
       } catch (error) {
-        telegramLogger.debug('hideSettingsButton failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("hideSettingsButton failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -161,8 +155,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.showPopup(params, callback);
       } catch (error) {
-        telegramLogger.warn('showPopup failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("showPopup failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
         alert(params.message);
       }
@@ -174,8 +168,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.showAlert(message);
       } catch (error) {
-        telegramLogger.warn('showAlert failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("showAlert failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
         alert(message);
       }
@@ -189,8 +183,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.showConfirm(message, callback);
       } catch (error) {
-        telegramLogger.warn('showConfirm failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("showConfirm failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
         const confirmed = confirm(message);
         callback?.(confirmed);
@@ -204,27 +198,27 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
   // ============ Feedback Actions ============
 
   const hapticFeedback = (type: HapticType) => {
-    if (webApp?.HapticFeedback && webApp.isVersionAtLeast?.('6.1')) {
+    if (webApp?.HapticFeedback && webApp.isVersionAtLeast?.("6.1")) {
       try {
         switch (type) {
-          case 'light':
-          case 'medium':
-          case 'heavy':
+          case "light":
+          case "medium":
+          case "heavy":
             webApp.HapticFeedback.impactOccurred(type);
             break;
-          case 'success':
-          case 'error':
-          case 'warning':
+          case "success":
+          case "error":
+          case "warning":
             webApp.HapticFeedback.notificationOccurred(type);
             break;
-          case 'selection':
+          case "selection":
             webApp.HapticFeedback.selectionChanged();
             break;
         }
       } catch (error) {
-        telegramLogger.debug('hapticFeedback failed', { 
+        telegramLogger.debug("hapticFeedback failed", {
           error: error instanceof Error ? error.message : String(error),
-          type 
+          type,
         });
       }
     }
@@ -237,8 +231,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.close();
       } catch (error) {
-        telegramLogger.warn('close failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("close failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -249,8 +243,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.expand();
       } catch (error) {
-        telegramLogger.debug('expand failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("expand failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -261,8 +255,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.ready();
       } catch (error) {
-        telegramLogger.debug('ready failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("ready failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -270,12 +264,12 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
 
   const enableClosingConfirmation = () => {
     // Requires SDK 6.2+
-    if (webApp?.isVersionAtLeast?.('6.2') && webApp?.enableClosingConfirmation) {
+    if (webApp?.isVersionAtLeast?.("6.2") && webApp?.enableClosingConfirmation) {
       try {
         webApp.enableClosingConfirmation();
       } catch (error) {
-        telegramLogger.debug('enableClosingConfirmation failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("enableClosingConfirmation failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -283,12 +277,12 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
 
   const disableClosingConfirmation = () => {
     // Requires SDK 6.2+
-    if (webApp?.isVersionAtLeast?.('6.2') && webApp?.disableClosingConfirmation) {
+    if (webApp?.isVersionAtLeast?.("6.2") && webApp?.disableClosingConfirmation) {
       try {
         webApp.disableClosingConfirmation();
       } catch (error) {
-        telegramLogger.debug('disableClosingConfirmation failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("disableClosingConfirmation failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -301,10 +295,10 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.requestFullscreen();
         setIsFullscreen(true);
-        telegramLogger.info('Requested fullscreen mode');
+        telegramLogger.info("Requested fullscreen mode");
       } catch (error) {
-        telegramLogger.warn('requestFullscreen failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("requestFullscreen failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -315,10 +309,10 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.exitFullscreen();
         setIsFullscreen(false);
-        telegramLogger.info('Exited fullscreen mode');
+        telegramLogger.info("Exited fullscreen mode");
       } catch (error) {
-        telegramLogger.warn('exitFullscreen failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("exitFullscreen failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -328,10 +322,10 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
     if (webApp?.lockOrientation) {
       try {
         webApp.lockOrientation();
-        telegramLogger.info('Orientation locked');
+        telegramLogger.info("Orientation locked");
       } catch (error) {
-        telegramLogger.debug('lockOrientation failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("lockOrientation failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -341,10 +335,10 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
     if (webApp?.unlockOrientation) {
       try {
         webApp.unlockOrientation();
-        telegramLogger.info('Orientation unlocked');
+        telegramLogger.info("Orientation unlocked");
       } catch (error) {
-        telegramLogger.debug('unlockOrientation failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("unlockOrientation failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -357,14 +351,14 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         (webApp.openLink as (url: string, options?: { try_instant_view?: boolean }) => void)(url, options);
       } catch (error) {
-        telegramLogger.warn('openLink failed', { 
+        telegramLogger.warn("openLink failed", {
           error: error instanceof Error ? error.message : String(error),
-          url 
+          url,
         });
-        window.open(url, '_blank');
+        window.open(url, "_blank");
       }
     } else {
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     }
   };
 
@@ -373,29 +367,32 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.openTelegramLink(url);
       } catch (error) {
-        telegramLogger.warn('openTelegramLink failed', { 
+        telegramLogger.warn("openTelegramLink failed", {
           error: error instanceof Error ? error.message : String(error),
-          url 
+          url,
         });
-        window.open(url, '_blank');
+        window.open(url, "_blank");
       }
     } else {
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     }
   };
 
-  const shareToStory = (mediaUrl: string, options?: { text?: string; widget_link?: { url: string; name?: string } }) => {
+  const shareToStory = (
+    mediaUrl: string,
+    options?: { text?: string; widget_link?: { url: string; name?: string } },
+  ) => {
     if (webApp && (webApp as any).shareToStory) {
       try {
         (webApp as any).shareToStory(mediaUrl, options);
       } catch (error) {
-        telegramLogger.warn('shareToStory failed', { 
+        telegramLogger.warn("shareToStory failed", {
           error: error instanceof Error ? error.message : String(error),
-          mediaUrl 
+          mediaUrl,
         });
       }
     } else {
-      telegramLogger.warn('shareToStory not available');
+      telegramLogger.warn("shareToStory not available");
     }
   };
 
@@ -404,13 +401,13 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.shareURL(url, text);
       } catch (error) {
-        telegramLogger.warn('shareURL failed', { 
+        telegramLogger.warn("shareURL failed", {
           error: error instanceof Error ? error.message : String(error),
-          url 
+          url,
         });
       }
     } else {
-      telegramLogger.warn('shareURL not available');
+      telegramLogger.warn("shareURL not available");
     }
   };
 
@@ -419,14 +416,14 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
   const showQRScanner = (text?: string, callback?: (data: string) => boolean) => {
     if (webApp?.showScanQrPopup) {
       try {
-        webApp.showScanQrPopup({ text: text || 'Scan QR code' }, callback || (() => true));
+        webApp.showScanQrPopup({ text: text || "Scan QR code" }, callback || (() => true));
       } catch (error) {
-        telegramLogger.warn('showQRScanner failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("showQRScanner failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     } else {
-      telegramLogger.warn('QR Scanner not available');
+      telegramLogger.warn("QR Scanner not available");
     }
   };
 
@@ -435,8 +432,8 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.closeScanQrPopup();
       } catch (error) {
-        telegramLogger.debug('closeQRScanner failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.debug("closeQRScanner failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
       }
     }
@@ -449,15 +446,15 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.downloadFile({ url, file_name: fileName }, callback);
       } catch (error) {
-        telegramLogger.warn('downloadFile failed', { 
+        telegramLogger.warn("downloadFile failed", {
           error: error instanceof Error ? error.message : String(error),
           url,
-          fileName 
+          fileName,
         });
         callback?.(false);
       }
     } else {
-      telegramLogger.warn('downloadFile not available');
+      telegramLogger.warn("downloadFile not available");
       callback?.(false);
     }
   };
@@ -467,13 +464,13 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
       try {
         webApp.requestWriteAccess(callback);
       } catch (error) {
-        telegramLogger.warn('requestWriteAccess failed', { 
-          error: error instanceof Error ? error.message : String(error) 
+        telegramLogger.warn("requestWriteAccess failed", {
+          error: error instanceof Error ? error.message : String(error),
         });
         callback?.(false);
       }
     } else {
-      telegramLogger.warn('requestWriteAccess not available');
+      telegramLogger.warn("requestWriteAccess not available");
       callback?.(false);
     }
   };
@@ -481,7 +478,7 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
   return {
     // State
     isFullscreen,
-    
+
     // Buttons
     showMainButton,
     hideMainButton,
@@ -491,38 +488,38 @@ export function useTelegramActions(webApp: TelegramWebApp | null) {
     hideBackButton,
     showSettingsButton,
     hideSettingsButton,
-    
+
     // Dialogs
     showPopup,
     showAlert,
     showConfirm,
-    
+
     // Feedback
     hapticFeedback,
-    
+
     // Window control
     close,
     expand,
     ready,
     enableClosingConfirmation,
     disableClosingConfirmation,
-    
+
     // Fullscreen & Orientation
     requestFullscreen,
     exitFullscreen,
     lockOrientation,
     unlockOrientation,
-    
+
     // Links & Sharing
     openLink,
     openTelegramLink,
     shareToStory,
     shareURL,
-    
+
     // QR Scanner
     showQRScanner,
     closeQRScanner,
-    
+
     // Downloads
     downloadFile,
     requestWriteAccess,

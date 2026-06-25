@@ -3,14 +3,14 @@
  * With toggle to show all 9 knobs
  */
 
-import { memo, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
-import { ChevronDown, ChevronUp, Sliders } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { KnobCell } from './KnobCell';
-import type { PromptChannel, ChannelType } from '@/hooks/usePromptDJEnhanced';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { memo, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronUp, Sliders } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { KnobCell } from "./KnobCell";
+import type { PromptChannel, ChannelType } from "@/hooks/usePromptDJEnhanced";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface EssentialsKnobGridProps {
   channels: PromptChannel[];
@@ -24,7 +24,7 @@ interface EssentialsKnobGridProps {
 }
 
 // Essential channel types that should be shown in compact mode
-const ESSENTIAL_TYPES: ChannelType[] = ['genre', 'instrument', 'mood', 'energy'];
+const ESSENTIAL_TYPES: ChannelType[] = ["genre", "instrument", "mood", "energy"];
 
 export const EssentialsKnobGrid = memo(function EssentialsKnobGrid({
   channels,
@@ -40,24 +40,17 @@ export const EssentialsKnobGrid = memo(function EssentialsKnobGrid({
   const isMobile = useIsMobile();
 
   // Get essential channels (first 4 matching essential types)
-  const essentialChannels = channels.filter(ch => 
-    ESSENTIAL_TYPES.includes(ch.type)
-  ).slice(0, 4);
+  const essentialChannels = channels.filter((ch) => ESSENTIAL_TYPES.includes(ch.type)).slice(0, 4);
 
   // Get advanced channels (remaining)
-  const advancedChannels = channels.filter(ch => 
-    !essentialChannels.includes(ch)
-  );
+  const advancedChannels = channels.filter((ch) => !essentialChannels.includes(ch));
 
-  const knobSize = isMobile ? 'sm' : 'md';
+  const knobSize = isMobile ? "sm" : "md";
 
   return (
     <div className="space-y-3">
       {/* Essential knobs - always visible */}
-      <div className={cn(
-        'grid gap-3 p-3 rounded-xl bg-card/30 border border-border/30',
-        'grid-cols-4'
-      )}>
+      <div className={cn("grid gap-3 p-3 rounded-xl bg-card/30 border border-border/30", "grid-cols-4")}>
         {essentialChannels.map((channel) => (
           <KnobCell
             key={channel.id}
@@ -82,7 +75,7 @@ export const EssentialsKnobGrid = memo(function EssentialsKnobGrid({
         onClick={() => setShowAll(!showAll)}
       >
         <Sliders className="w-3 h-3 mr-1.5" />
-        {showAll ? 'Скрыть' : 'Расширенные'} ({advancedChannels.length})
+        {showAll ? "Скрыть" : "Расширенные"} ({advancedChannels.length})
         {showAll ? <ChevronUp className="w-3 h-3 ml-1" /> : <ChevronDown className="w-3 h-3 ml-1" />}
       </Button>
 
@@ -91,15 +84,17 @@ export const EssentialsKnobGrid = memo(function EssentialsKnobGrid({
         {showAll && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
+            animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className={cn(
-              'grid gap-3 p-3 rounded-xl bg-card/20 border border-border/20',
-              isMobile ? 'grid-cols-3' : 'grid-cols-5'
-            )}>
+            <div
+              className={cn(
+                "grid gap-3 p-3 rounded-xl bg-card/20 border border-border/20",
+                isMobile ? "grid-cols-3" : "grid-cols-5",
+              )}
+            >
               {advancedChannels.map((channel) => (
                 <KnobCell
                   key={channel.id}

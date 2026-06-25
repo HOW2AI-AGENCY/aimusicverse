@@ -29,7 +29,7 @@
 - [cleanPlaybackPositions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cleanupStaleData.ts#L77) (9 connections)
 - [FeatureHighlight.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureHighlight.tsx#L1) (9 connections)
 - [ProfileSetupOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/ProfileSetupOnboarding.tsx#L1) (9 connections)
-- *... and 462 more nodes in this community*
+- _... and 462 more nodes in this community_
 
 ## Class Diagram
 
@@ -96,4 +96,4 @@ classDiagram
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

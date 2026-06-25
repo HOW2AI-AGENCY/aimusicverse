@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Camera, 
-  ChevronLeft, 
-  ChevronRight, 
-  X, 
-  Minimize2, 
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import {
+  Camera,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Minimize2,
   Maximize2,
   Play,
   Pause,
@@ -22,12 +22,12 @@ import {
   Trophy,
   Settings,
   Coins,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useGuestMode } from '@/contexts/GuestModeContext';
-import { screenshotScreens } from '@/lib/screenshotMockData';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useGuestMode } from "@/contexts/GuestModeContext";
+import { screenshotScreens } from "@/lib/screenshotMockData";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   home: Home,
@@ -47,14 +47,14 @@ export const ScreenshotNavigator = () => {
   const { isScreenshotMode, disableScreenshotMode } = useGuestMode();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
   const [isAutoTour, setIsAutoTour] = useState(false);
   const [autoTourDelay, setAutoTourDelay] = useState(3000);
 
   // Find current screen index
-  const currentIndex = screenshotScreens.findIndex(s => s.path === location.pathname);
+  const currentIndex = screenshotScreens.findIndex((s) => s.path === location.pathname);
   const currentScreen = screenshotScreens[currentIndex] || screenshotScreens[0];
 
   // Auto-tour effect
@@ -77,20 +77,20 @@ export const ScreenshotNavigator = () => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!isScreenshotMode) return;
 
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
         e.preventDefault();
         if (currentIndex < screenshotScreens.length - 1) {
           navigate(screenshotScreens[currentIndex + 1].path);
         }
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();
         if (currentIndex > 0) {
           navigate(screenshotScreens[currentIndex - 1].path);
         }
-      } else if (e.key === 'h' && e.ctrlKey) {
+      } else if (e.key === "h" && e.ctrlKey) {
         e.preventDefault();
-        setIsHidden(h => !h);
-      } else if (e.key === 'Escape') {
+        setIsHidden((h) => !h);
+      } else if (e.key === "Escape") {
         if (isAutoTour) {
           setIsAutoTour(false);
         } else {
@@ -99,8 +99,8 @@ export const ScreenshotNavigator = () => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isScreenshotMode, currentIndex, navigate, isAutoTour, disableScreenshotMode]);
 
   if (!isScreenshotMode || isHidden) {
@@ -142,22 +142,17 @@ export const ScreenshotNavigator = () => {
         exit={{ opacity: 0, y: 100 }}
         className={cn(
           "fixed z-[9999] bg-background/95 backdrop-blur-lg border border-border rounded-xl shadow-2xl",
-          isCollapsed 
-            ? "bottom-4 right-4 p-2" 
-            : "bottom-4 left-1/2 -translate-x-1/2 p-3 w-[95%] max-w-2xl"
+          isCollapsed ? "bottom-4 right-4 p-2" : "bottom-4 left-1/2 -translate-x-1/2 p-3 w-[95%] max-w-2xl",
         )}
       >
         {isCollapsed ? (
           // Collapsed view
           <div className="flex items-center gap-2">
             <Camera className="w-4 h-4 text-primary" />
-            <span className="text-xs font-medium">{currentIndex + 1}/{screenshotScreens.length}</span>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-6 w-6"
-              onClick={() => setIsCollapsed(false)}
-            >
+            <span className="text-xs font-medium">
+              {currentIndex + 1}/{screenshotScreens.length}
+            </span>
+            <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => setIsCollapsed(false)}>
               <Maximize2 className="w-3 h-3" />
             </Button>
           </div>
@@ -183,20 +178,10 @@ export const ScreenshotNavigator = () => {
                 >
                   <EyeOff className="w-3.5 h-3.5" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7"
-                  onClick={() => setIsCollapsed(true)}
-                >
+                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setIsCollapsed(true)}>
                   <Minimize2 className="w-3.5 h-3.5" />
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-7 w-7"
-                  onClick={disableScreenshotMode}
-                >
+                <Button variant="ghost" size="icon" className="h-7 w-7" onClick={disableScreenshotMode}>
                   <X className="w-3.5 h-3.5" />
                 </Button>
               </div>
@@ -225,11 +210,11 @@ export const ScreenshotNavigator = () => {
                     onClick={() => navigate(screen.path)}
                     className={cn(
                       "flex-shrink-0 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs transition-all",
-                      isActive 
-                        ? "bg-primary text-primary-foreground" 
+                      isActive
+                        ? "bg-primary text-primary-foreground"
                         : isPassed
                           ? "bg-primary/20 text-primary"
-                          : "bg-muted/50 text-muted-foreground hover:bg-muted"
+                          : "bg-muted/50 text-muted-foreground hover:bg-muted",
                     )}
                   >
                     <Icon className="w-3.5 h-3.5" />
@@ -245,7 +230,7 @@ export const ScreenshotNavigator = () => {
                 <p className="text-sm font-medium truncate">{currentScreen.label}</p>
                 <p className="text-xs text-muted-foreground truncate">{currentScreen.description}</p>
               </div>
-              
+
               <div className="flex items-center gap-2">
                 {/* Auto-tour toggle */}
                 <Button

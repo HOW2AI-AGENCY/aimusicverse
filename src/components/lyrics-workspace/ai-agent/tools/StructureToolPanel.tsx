@@ -2,60 +2,61 @@
  * Structure Tool Panel - Uses fit_structure action to reorganize lyrics
  */
 
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { LayoutGrid, X, Wand2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
-import { ToolPanelProps } from '../types';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { LayoutGrid, X, Wand2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { ToolPanelProps } from "../types";
 
 const STRUCTURE_TEMPLATES = [
-  { 
-    id: 'verse-chorus', 
-    label: 'Verse → Chorus', 
-    desc: 'Классика: куплет-припев',
-    structure: '[Verse]\n[Chorus]\n[Verse 2]\n[Chorus]'
+  {
+    id: "verse-chorus",
+    label: "Verse → Chorus",
+    desc: "Классика: куплет-припев",
+    structure: "[Verse]\n[Chorus]\n[Verse 2]\n[Chorus]",
   },
-  { 
-    id: 'full', 
-    label: 'Полная песня', 
-    desc: 'Intro, Verse, Pre-Chorus, Chorus, Bridge, Outro',
-    structure: '[Intro]\n[Verse]\n[Pre-Chorus]\n[Chorus]\n[Verse 2]\n[Pre-Chorus]\n[Chorus]\n[Bridge]\n[Chorus]\n[Outro]'
+  {
+    id: "full",
+    label: "Полная песня",
+    desc: "Intro, Verse, Pre-Chorus, Chorus, Bridge, Outro",
+    structure:
+      "[Intro]\n[Verse]\n[Pre-Chorus]\n[Chorus]\n[Verse 2]\n[Pre-Chorus]\n[Chorus]\n[Bridge]\n[Chorus]\n[Outro]",
   },
-  { 
-    id: 'minimal', 
-    label: 'Минимал', 
-    desc: 'Verse, Hook, Verse',
-    structure: '[Verse]\n[Hook]\n[Verse 2]\n[Hook]'
+  {
+    id: "minimal",
+    label: "Минимал",
+    desc: "Verse, Hook, Verse",
+    structure: "[Verse]\n[Hook]\n[Verse 2]\n[Hook]",
   },
-  { 
-    id: 'progressive', 
-    label: 'Прогрессивная', 
-    desc: 'С нарастанием и кульминацией',
-    structure: '[Intro]\n[Verse]\n[Build]\n[Chorus]\n[Verse 2]\n[Build]\n[Chorus]\n[Breakdown]\n[Drop]\n[Outro]'
+  {
+    id: "progressive",
+    label: "Прогрессивная",
+    desc: "С нарастанием и кульминацией",
+    structure: "[Intro]\n[Verse]\n[Build]\n[Chorus]\n[Verse 2]\n[Build]\n[Chorus]\n[Breakdown]\n[Drop]\n[Outro]",
   },
-  { 
-    id: 'ballad', 
-    label: 'Баллада', 
-    desc: 'Эмоциональная структура',
-    structure: '[Intro]\n[Verse]\n[Verse 2]\n[Chorus]\n[Verse 3]\n[Chorus]\n[Bridge]\n[Chorus]\n[Outro]'
+  {
+    id: "ballad",
+    label: "Баллада",
+    desc: "Эмоциональная структура",
+    structure: "[Intro]\n[Verse]\n[Verse 2]\n[Chorus]\n[Verse 3]\n[Chorus]\n[Bridge]\n[Chorus]\n[Outro]",
   },
-  { 
-    id: 'hiphop', 
-    label: 'Hip-Hop', 
-    desc: 'Verse, Hook, Verse, Hook',
-    structure: '[Intro]\n[Verse 1]\n[Hook]\n[Verse 2]\n[Hook]\n[Verse 3]\n[Hook]\n[Outro]'
+  {
+    id: "hiphop",
+    label: "Hip-Hop",
+    desc: "Verse, Hook, Verse, Hook",
+    structure: "[Intro]\n[Verse 1]\n[Hook]\n[Verse 2]\n[Hook]\n[Verse 3]\n[Hook]\n[Outro]",
   },
 ];
 
 export function StructureToolPanel({ context, onExecute, onClose, isLoading }: ToolPanelProps) {
-  const [selectedStructure, setSelectedStructure] = useState('verse-chorus');
+  const [selectedStructure, setSelectedStructure] = useState("verse-chorus");
 
   const hasContent = !!(context.existingLyrics || context.selectedSection?.content);
 
   const handleFitStructure = () => {
-    const template = STRUCTURE_TEMPLATES.find(s => s.id === selectedStructure);
+    const template = STRUCTURE_TEMPLATES.find((s) => s.id === selectedStructure);
     onExecute({
       targetStructure: template?.structure || selectedStructure,
       structureName: template?.label,
@@ -70,7 +71,7 @@ export function StructureToolPanel({ context, onExecute, onClose, isLoading }: T
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
+      animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
       className="border border-indigo-500/30 rounded-lg bg-indigo-500/5 overflow-hidden"
     >
@@ -86,15 +87,11 @@ export function StructureToolPanel({ context, onExecute, onClose, isLoading }: T
           </Button>
         </div>
 
-        <p className="text-xs text-muted-foreground">
-          Перестроить текст по выбранному шаблону структуры
-        </p>
+        <p className="text-xs text-muted-foreground">Перестроить текст по выбранному шаблону структуры</p>
 
         {!hasContent ? (
           <div className="text-center py-4">
-            <p className="text-xs text-muted-foreground">
-              Нет текста для перестроения. Сначала напишите текст.
-            </p>
+            <p className="text-xs text-muted-foreground">Нет текста для перестроения. Сначала напишите текст.</p>
           </div>
         ) : (
           <>
@@ -110,7 +107,7 @@ export function StructureToolPanel({ context, onExecute, onClose, isLoading }: T
                       "p-2 rounded-lg border text-left transition-all",
                       selectedStructure === template.id
                         ? "border-indigo-500/50 bg-indigo-500/10"
-                        : "border-border/50 hover:bg-muted/50"
+                        : "border-border/50 hover:bg-muted/50",
                     )}
                     disabled={isLoading}
                   >
@@ -126,7 +123,7 @@ export function StructureToolPanel({ context, onExecute, onClose, isLoading }: T
               <Label className="text-xs text-muted-foreground">Структура</Label>
               <div className="p-2 rounded-md bg-muted/30 border border-border/50 max-h-[80px] overflow-y-auto">
                 <p className="text-[10px] font-mono whitespace-pre-wrap text-muted-foreground">
-                  {STRUCTURE_TEMPLATES.find(s => s.id === selectedStructure)?.structure}
+                  {STRUCTURE_TEMPLATES.find((s) => s.id === selectedStructure)?.structure}
                 </p>
               </div>
             </div>

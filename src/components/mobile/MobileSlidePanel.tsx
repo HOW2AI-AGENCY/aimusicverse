@@ -3,13 +3,13 @@
  * Alternative to bottom sheet for side panels (mixer, tools, etc.)
  */
 
-import { memo, ReactNode, useCallback } from 'react';
-import { X } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { backdrop } from '@/lib/overlay-colors';
-import { useHaptic } from '@/hooks/useHaptic';
-import { motion, AnimatePresence, useMotionValue, type PanInfo } from '@/lib/motion';
-import { Button } from '@/components/ui/button';
+import { memo, ReactNode, useCallback } from "react";
+import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { backdrop } from "@/lib/overlay-colors";
+import { useHaptic } from "@/hooks/useHaptic";
+import { motion, AnimatePresence, useMotionValue, type PanInfo } from "@/lib/motion";
+import { Button } from "@/components/ui/button";
 
 interface MobileSlidePanelProps {
   /** Panel open state */
@@ -21,7 +21,7 @@ interface MobileSlidePanelProps {
   /** Panel title */
   title?: string;
   /** Slide direction */
-  side?: 'left' | 'right';
+  side?: "left" | "right";
   /** Panel width (percentage or px) */
   width?: string;
   /** Show close button */
@@ -38,25 +38,29 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
   onOpenChange,
   children,
   title,
-  side = 'right',
-  width = '80%',
+  side = "right",
+  width = "80%",
   showClose = true,
   className,
 }: MobileSlidePanelProps) {
   const { patterns } = useHaptic();
   const x = useMotionValue(0);
 
-  const handleDragEnd = useCallback((event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    const { velocity, offset } = info;
-    const shouldClose = side === 'right'
-      ? offset.x > DRAG_CLOSE_THRESHOLD || velocity.x > VELOCITY_THRESHOLD
-      : offset.x < -DRAG_CLOSE_THRESHOLD || velocity.x < -VELOCITY_THRESHOLD;
+  const handleDragEnd = useCallback(
+    (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+      const { velocity, offset } = info;
+      const shouldClose =
+        side === "right"
+          ? offset.x > DRAG_CLOSE_THRESHOLD || velocity.x > VELOCITY_THRESHOLD
+          : offset.x < -DRAG_CLOSE_THRESHOLD || velocity.x < -VELOCITY_THRESHOLD;
 
-    if (shouldClose) {
-      patterns.tap();
-      onOpenChange(false);
-    }
-  }, [side, patterns, onOpenChange]);
+      if (shouldClose) {
+        patterns.tap();
+        onOpenChange(false);
+      }
+    },
+    [side, patterns, onOpenChange],
+  );
 
   const handleClose = useCallback(() => {
     patterns.tap();
@@ -83,22 +87,22 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
 
           {/* Panel */}
           <motion.div
-            initial={{ x: side === 'right' ? '100%' : '-100%' }}
+            initial={{ x: side === "right" ? "100%" : "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: side === 'right' ? '100%' : '-100%' }}
+            exit={{ x: side === "right" ? "100%" : "-100%" }}
             transition={{
-              type: 'spring',
+              type: "spring",
               damping: 30,
               stiffness: 300,
             }}
             drag="x"
             dragConstraints={{
-              left: side === 'right' ? 0 : undefined,
-              right: side === 'left' ? 0 : undefined,
+              left: side === "right" ? 0 : undefined,
+              right: side === "left" ? 0 : undefined,
             }}
             dragElastic={{
-              left: side === 'right' ? 0.1 : 0.4,
-              right: side === 'left' ? 0.1 : 0.4,
+              left: side === "right" ? 0.1 : 0.4,
+              right: side === "left" ? 0.1 : 0.4,
             }}
             onDragEnd={handleDragEnd}
             style={{
@@ -110,7 +114,7 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
               "fixed top-0 bottom-0 z-50",
               "bg-background shadow-2xl",
               "flex flex-col overflow-hidden",
-              className
+              className,
             )}
           >
             {/* Header */}
@@ -119,21 +123,13 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
                 className="flex items-center justify-between gap-3 p-4 border-b border-border/50 shrink-0"
                 style={{
                   // Telegram Mini App + iOS safe area
-                  paddingTop: 'max(1rem, var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+                  paddingTop:
+                    "max(1rem, var(--tg-content-safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
                 }}
               >
-                {title && (
-                  <h2 className="text-base font-semibold flex-1">
-                    {title}
-                  </h2>
-                )}
+                {title && <h2 className="text-base font-semibold flex-1">{title}</h2>}
                 {showClose && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={handleClose}
-                    className="h-9 w-9 shrink-0"
-                  >
+                  <Button variant="ghost" size="icon" onClick={handleClose} className="h-9 w-9 shrink-0">
                     <X className="w-5 h-5" />
                   </Button>
                 )}
@@ -141,9 +137,7 @@ export const MobileSlidePanel = memo(function MobileSlidePanel({
             )}
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto">
-              {children}
-            </div>
+            <div className="flex-1 overflow-y-auto">{children}</div>
           </motion.div>
         </>
       )}

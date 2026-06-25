@@ -29,7 +29,7 @@
 - [AlbumView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AlbumView.tsx#L1) (14 connections)
 - [CloudAudioSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/CloudAudioSelector.tsx#L1) (13 connections)
 - [EnhancedVersionTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/EnhancedVersionTimeline.tsx#L1) (13 connections)
-- *... and 493 more nodes in this community*
+- _... and 493 more nodes in this community_
 
 ## Class Diagram
 
@@ -80,4 +80,4 @@ classDiagram
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

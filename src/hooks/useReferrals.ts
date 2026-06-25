@@ -3,11 +3,11 @@
  * Manages referral system functionality
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
-import { ECONOMY } from '@/lib/economy';
-import { toast } from 'sonner';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./useAuth";
+import { ECONOMY } from "@/lib/economy";
+import { toast } from "sonner";
 
 export interface ReferralStats {
   referralCode: string;
@@ -23,15 +23,15 @@ export interface ReferralReward {
   stars_amount: number;
   credits_reward: number;
   reward_percent: number;
-  status: 'pending' | 'credited' | 'failed';
+  status: "pending" | "credited" | "failed";
   created_at: string;
 }
 
 // Query keys
 export const referralKeys = {
-  all: ['referrals'] as const,
-  stats: (userId: string) => [...referralKeys.all, 'stats', userId] as const,
-  rewards: (userId: string) => [...referralKeys.all, 'rewards', userId] as const,
+  all: ["referrals"] as const,
+  stats: (userId: string) => [...referralKeys.all, "stats", userId] as const,
+  rewards: (userId: string) => [...referralKeys.all, "rewards", userId] as const,
 };
 
 /**
@@ -41,23 +41,23 @@ export function useReferralStats() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: referralKeys.stats(user?.id ?? ''),
+    queryKey: referralKeys.stats(user?.id ?? ""),
     queryFn: async (): Promise<ReferralStats | null> => {
       if (!user?.id) return null;
 
       const { data, error } = await supabase
-        .from('user_credits')
-        .select('referral_code, referral_count, referral_earnings, referred_by')
-        .eq('user_id', user.id)
+        .from("user_credits")
+        .select("referral_code, referral_count, referral_earnings, referred_by")
+        .eq("user_id", user.id)
         .single();
 
       if (error) {
-        if (error.code === 'PGRST116') return null;
+        if (error.code === "PGRST116") return null;
         throw new Error(error.message);
       }
 
       return {
-        referralCode: data.referral_code || '',
+        referralCode: data.referral_code || "",
         referralCount: data.referral_count || 0,
         referralEarnings: data.referral_earnings || 0,
         referredBy: data.referred_by,
@@ -75,29 +75,29 @@ export function useReferralRewards(limit = 20) {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: [...referralKeys.rewards(user?.id ?? ''), limit],
+    queryKey: [...referralKeys.rewards(user?.id ?? ""), limit],
     queryFn: async (): Promise<ReferralReward[]> => {
       if (!user?.id) return [];
 
       const { data, error } = await supabase
-        .from('referral_rewards')
-        .select('*')
-        .eq('referrer_id', user.id)
-        .order('created_at', { ascending: false })
+        .from("referral_rewards")
+        .select("*")
+        .eq("referrer_id", user.id)
+        .order("created_at", { ascending: false })
         .limit(limit);
 
       if (error) {
         throw new Error(error.message);
       }
 
-      return (data || []).map(item => ({
+      return (data || []).map((item) => ({
         id: item.id,
         referrer_id: item.referrer_id,
         referred_id: item.referred_id,
         stars_amount: item.stars_amount,
         credits_reward: item.credits_reward,
         reward_percent: item.reward_percent ?? ECONOMY.REFERRAL_PERCENT,
-        status: (item.status ?? 'pending') as 'pending' | 'credited' | 'failed',
+        status: (item.status ?? "pending") as "pending" | "credited" | "failed",
         created_at: item.created_at ?? new Date().toISOString(),
       }));
     },
@@ -116,40 +116,40 @@ export function useApplyReferralCode() {
   return useMutation({
     mutationFn: async (referralCode: string) => {
       if (!user?.id) {
-        throw new Error('User not authenticated');
+        throw new Error("User not authenticated");
       }
 
       // Check if user already has a referrer
       const { data: existing } = await supabase
-        .from('user_credits')
-        .select('referred_by')
-        .eq('user_id', user.id)
+        .from("user_credits")
+        .select("referred_by")
+        .eq("user_id", user.id)
         .single();
 
       if (existing?.referred_by) {
-        throw new Error('Вы уже использовали реферальный код');
+        throw new Error("Вы уже использовали реферальный код");
       }
 
       // Find referrer by code
       const { data: referrer, error: referrerError } = await supabase
-        .from('user_credits')
-        .select('user_id, referral_count, balance, total_earned')
-        .eq('referral_code', referralCode.toUpperCase())
+        .from("user_credits")
+        .select("user_id, referral_count, balance, total_earned")
+        .eq("referral_code", referralCode.toUpperCase())
         .single();
 
       if (referrerError || !referrer) {
-        throw new Error('Реферальный код не найден');
+        throw new Error("Реферальный код не найден");
       }
 
       if (referrer.user_id === user.id) {
-        throw new Error('Нельзя использовать свой собственный код');
+        throw new Error("Нельзя использовать свой собственный код");
       }
 
       // Apply referral
       const { error: updateError } = await supabase
-        .from('user_credits')
+        .from("user_credits")
         .update({ referred_by: referrer.user_id })
-        .eq('user_id', user.id);
+        .eq("user_id", user.id);
 
       if (updateError) {
         throw new Error(updateError.message);
@@ -157,47 +157,45 @@ export function useApplyReferralCode() {
 
       // Update referrer's count
       await supabase
-        .from('user_credits')
+        .from("user_credits")
         .update({ referral_count: (referrer.referral_count || 0) + 1 })
-        .eq('user_id', referrer.user_id);
+        .eq("user_id", referrer.user_id);
 
       // Give bonus credits to new user
       const { data: userCredits } = await supabase
-        .from('user_credits')
-        .select('balance, total_earned')
-        .eq('user_id', user.id)
+        .from("user_credits")
+        .select("balance, total_earned")
+        .eq("user_id", user.id)
         .single();
 
       await supabase
-        .from('user_credits')
+        .from("user_credits")
         .update({
           balance: (userCredits?.balance || 0) + ECONOMY.REFERRAL_NEW_USER_BONUS,
           total_earned: (userCredits?.total_earned || 0) + ECONOMY.REFERRAL_NEW_USER_BONUS,
         })
-        .eq('user_id', user.id);
+        .eq("user_id", user.id);
 
       // Log transaction
-      await supabase
-        .from('credit_transactions')
-        .insert({
-          user_id: user.id,
-          amount: ECONOMY.REFERRAL_NEW_USER_BONUS,
-          transaction_type: 'earn',
-          action_type: 'referral_bonus',
-          description: 'Бонус за использование реферального кода',
-        });
+      await supabase.from("credit_transactions").insert({
+        user_id: user.id,
+        amount: ECONOMY.REFERRAL_NEW_USER_BONUS,
+        transaction_type: "earn",
+        action_type: "referral_bonus",
+        description: "Бонус за использование реферального кода",
+      });
 
       return { success: true };
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: referralKeys.all });
-      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
-      toast.success('Реферальный код применён!', {
+      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
+      toast.success("Реферальный код применён!", {
         description: `+${ECONOMY.REFERRAL_NEW_USER_BONUS} кредитов`,
       });
     },
     onError: (error: Error) => {
-      toast.error('Ошибка', { description: error.message });
+      toast.error("Ошибка", { description: error.message });
     },
   });
 }
@@ -207,10 +205,10 @@ export function useApplyReferralCode() {
  */
 export function useReferralLink() {
   const { data: stats } = useReferralStats();
-  
+
   if (!stats?.referralCode) return null;
-  
-  const botUsername = 'MusicVerseBot';
+
+  const botUsername = "MusicVerseBot";
   return `https://t.me/${botUsername}?start=ref_${stats.referralCode}`;
 }
 
@@ -219,28 +217,28 @@ export function useReferralLink() {
  */
 export function useShareReferral() {
   const referralLink = useReferralLink();
-  
+
   return {
     link: referralLink,
     share: async () => {
       if (!referralLink) return;
-      
+
       const text = `🎵 Присоединяйся к MusicVerse и получи ${ECONOMY.REFERRAL_NEW_USER_BONUS} бонусных кредитов!\n\n${referralLink}`;
-      
+
       if (navigator.share) {
         try {
           await navigator.share({
-            title: 'MusicVerse - AI Music Creation',
+            title: "MusicVerse - AI Music Creation",
             text,
             url: referralLink,
           });
         } catch {
           await navigator.clipboard.writeText(referralLink);
-          toast.success('Ссылка скопирована!');
+          toast.success("Ссылка скопирована!");
         }
       } else {
         await navigator.clipboard.writeText(referralLink);
-        toast.success('Ссылка скопирована!');
+        toast.success("Ссылка скопирована!");
       }
     },
   };

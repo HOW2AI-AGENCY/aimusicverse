@@ -1,49 +1,49 @@
-import { useState, useEffect, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { X, AlertTriangle, Info, CheckCircle, AlertCircle, Sparkles, HelpCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { SmartAlert } from './types';
-import { illustrations } from './AlertIllustrations';
-import { FeatureDetailSheet } from './FeatureDetailSheet';
-import { cn } from '@/lib/utils';
-import { useHapticFeedback } from '@/hooks/useHapticFeedback';
+import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { X, AlertTriangle, Info, CheckCircle, AlertCircle, Sparkles, HelpCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SmartAlert } from "./types";
+import { illustrations } from "./AlertIllustrations";
+import { FeatureDetailSheet } from "./FeatureDetailSheet";
+import { cn } from "@/lib/utils";
+import { useHapticFeedback } from "@/hooks/useHapticFeedback";
 
 interface SmartAlertOverlayProps {
   alert: SmartAlert | null;
   onDismiss: () => void;
 }
 
-const typeStyles: Record<SmartAlert['type'], { bg: string; border: string; icon: React.ReactNode; glow?: string }> = {
+const typeStyles: Record<SmartAlert["type"], { bg: string; border: string; icon: React.ReactNode; glow?: string }> = {
   error: {
-    bg: 'bg-destructive/10',
-    border: 'border-destructive/30',
+    bg: "bg-destructive/10",
+    border: "border-destructive/30",
     icon: <AlertCircle className="w-5 h-5 text-destructive" />,
-    glow: 'shadow-destructive/20',
+    glow: "shadow-destructive/20",
   },
   warning: {
-    bg: 'bg-orange-500/10',
-    border: 'border-orange-500/30',
+    bg: "bg-orange-500/10",
+    border: "border-orange-500/30",
     icon: <AlertTriangle className="w-5 h-5 text-orange-500" />,
-    glow: 'shadow-orange-500/20',
+    glow: "shadow-orange-500/20",
   },
   info: {
-    bg: 'bg-blue-500/10',
-    border: 'border-blue-500/30',
+    bg: "bg-blue-500/10",
+    border: "border-blue-500/30",
     icon: <Info className="w-5 h-5 text-blue-500" />,
-    glow: 'shadow-blue-500/20',
+    glow: "shadow-blue-500/20",
   },
   success: {
-    bg: 'bg-green-500/10',
-    border: 'border-green-500/30',
+    bg: "bg-green-500/10",
+    border: "border-green-500/30",
     icon: <CheckCircle className="w-5 h-5 text-green-500" />,
-    glow: 'shadow-green-500/20',
+    glow: "shadow-green-500/20",
   },
   onboarding: {
-    bg: 'bg-primary/10',
-    border: 'border-primary/30',
+    bg: "bg-primary/10",
+    border: "border-primary/30",
     icon: <Sparkles className="w-5 h-5 text-primary" />,
-    glow: 'shadow-primary/20',
+    glow: "shadow-primary/20",
   },
 };
 
@@ -56,13 +56,13 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
   useEffect(() => {
     if (alert) {
       switch (alert.type) {
-        case 'error':
+        case "error":
           haptic.error();
           break;
-        case 'success':
+        case "success":
           haptic.success();
           break;
-        case 'warning':
+        case "warning":
           haptic.warning();
           break;
         default:
@@ -85,7 +85,7 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
     const step = (interval / duration) * 100;
 
     const timer = setInterval(() => {
-      setProgress(prev => {
+      setProgress((prev) => {
         const next = prev - step;
         if (next <= 0) {
           clearInterval(timer);
@@ -132,40 +132,44 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
               initial={{ opacity: 0, y: -50, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -30, scale: 0.95 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
               className="fixed z-[201] left-4 right-4 sm:left-1/2 sm:right-auto sm:w-full sm:max-w-md sm:-translate-x-1/2"
               style={{
-                top: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))',
+                top: "max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem), calc(env(safe-area-inset-top, 0px) + 0.75rem))",
               }}
             >
               {/* Shake animation wrapper for errors */}
               <motion.div
-                animate={alert.type === 'error' ? { 
-                  x: [0, -4, 4, -4, 4, -2, 2, 0] 
-                } : undefined}
+                animate={
+                  alert.type === "error"
+                    ? {
+                        x: [0, -4, 4, -4, 4, -2, 2, 0],
+                      }
+                    : undefined
+                }
                 transition={{ duration: 0.5 }}
               >
                 <div
                   className={cn(
-                    'relative rounded-2xl border p-4 shadow-2xl overflow-hidden',
+                    "relative rounded-2xl border p-4 shadow-2xl overflow-hidden",
                     style.bg,
                     style.border,
-                    'backdrop-blur-md',
-                    style.glow && `shadow-lg ${style.glow}`
+                    "backdrop-blur-md",
+                    style.glow && `shadow-lg ${style.glow}`,
                   )}
                 >
                   {/* Pulse glow for success */}
-                  {alert.type === 'success' && (
+                  {alert.type === "success" && (
                     <motion.div
                       className="absolute inset-0 bg-green-500/10 rounded-2xl pointer-events-none"
-                      animate={{ 
+                      animate={{
                         opacity: [0.3, 0.6, 0.3],
                         scale: [1, 1.02, 1],
                       }}
-                      transition={{ 
-                        duration: 2, 
+                      transition={{
+                        duration: 2,
                         repeat: Infinity,
-                        ease: 'easeInOut',
+                        ease: "easeInOut",
                       }}
                     />
                   )}
@@ -175,13 +179,16 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-foreground/5">
                       <motion.div
                         className={cn(
-                          'h-full rounded-full',
-                          alert.type === 'error' ? 'bg-destructive/50' :
-                          alert.type === 'success' ? 'bg-green-500/50' :
-                          alert.type === 'warning' ? 'bg-orange-500/50' :
-                          'bg-primary/50'
+                          "h-full rounded-full",
+                          alert.type === "error"
+                            ? "bg-destructive/50"
+                            : alert.type === "success"
+                              ? "bg-green-500/50"
+                              : alert.type === "warning"
+                                ? "bg-orange-500/50"
+                                : "bg-primary/50",
                         )}
-                        initial={{ width: '100%' }}
+                        initial={{ width: "100%" }}
                         style={{ width: `${progress}%` }}
                         transition={{ duration: 0.05 }}
                       />
@@ -207,16 +214,16 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                       ) : (
                         <motion.div
                           animate={
-                            alert.type === 'error' 
+                            alert.type === "error"
                               ? { scale: [1, 1.15, 1] }
-                              : alert.type === 'onboarding'
-                              ? { y: [0, -4, 0] }
-                              : undefined
+                              : alert.type === "onboarding"
+                                ? { y: [0, -4, 0] }
+                                : undefined
                           }
-                          transition={{ 
-                            duration: alert.type === 'onboarding' ? 1.5 : 1, 
+                          transition={{
+                            duration: alert.type === "onboarding" ? 1.5 : 1,
                             repeat: Infinity,
-                            ease: 'easeInOut',
+                            ease: "easeInOut",
                           }}
                           className="w-12 h-12 rounded-full flex items-center justify-center bg-background/50"
                         >
@@ -255,7 +262,7 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                           {alert.actions?.map((action, index) => (
                             <Button
                               key={index}
-                              variant={action.variant || 'default'}
+                              variant={action.variant || "default"}
                               size="sm"
                               onClick={() => {
                                 haptic.tap();
@@ -264,7 +271,7 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                               }}
                               className={cn(
                                 "relative overflow-hidden group h-10 min-h-[44px] px-4",
-                                index === 0 && "min-w-[100px]"
+                                index === 0 && "min-w-[100px]",
                               )}
                             >
                               {/* Shimmer effect for primary button */}
@@ -274,7 +281,7 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                               <span className="relative">{action.label}</span>
                             </Button>
                           ))}
-                          
+
                           {/* Learn More button */}
                           {alert.featureKey && (
                             <Button
@@ -293,15 +300,15 @@ export function SmartAlertOverlay({ alert, onDismiss }: SmartAlertOverlayProps) 
                   </div>
 
                   {/* Decorative sparkles for success/achievement */}
-                  {alert.type === 'success' && (
+                  {alert.type === "success" && (
                     <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-2xl">
                       {[...Array(8)].map((_, i) => (
                         <motion.div
                           key={i}
                           className="absolute w-1.5 h-1.5 rounded-full bg-yellow-400"
                           initial={{
-                            x: '50%',
-                            y: '50%',
+                            x: "50%",
+                            y: "50%",
                             scale: 0,
                             opacity: 0,
                           }}

@@ -43,20 +43,16 @@ export function useBotConfig() {
   return useQuery({
     queryKey: ["bot-config"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("telegram_bot_config")
-        .select("config_key, config_value");
+      const { data, error } = await supabase.from("telegram_bot_config").select("config_key, config_value");
 
       if (error) throw error;
 
       const config: Partial<BotConfig> = {};
-      
+
       data?.forEach((item) => {
         const key = item.config_key as keyof BotConfig;
         try {
-          config[key] = typeof item.config_value === 'string' 
-            ? JSON.parse(item.config_value) 
-            : item.config_value;
+          config[key] = typeof item.config_value === "string" ? JSON.parse(item.config_value) : item.config_value;
         } catch {
           config[key] = item.config_value as any;
         }
@@ -72,24 +68,27 @@ export function useUpdateBotConfig() {
 
   return useMutation({
     mutationFn: async (updates: Partial<BotConfig>) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const promises = Object.entries(updates).map(([key, value]) => {
-        return supabase
-          .from("telegram_bot_config")
-          .upsert({
+        return supabase.from("telegram_bot_config").upsert(
+          {
             config_key: key,
             config_value: JSON.stringify(value),
             updated_at: new Date().toISOString(),
             updated_by: user?.id,
-          }, {
-            onConflict: 'config_key'
-          });
+          },
+          {
+            onConflict: "config_key",
+          },
+        );
       });
 
       const results = await Promise.all(promises);
-      const errors = results.filter(r => r.error);
-      
+      const errors = results.filter((r) => r.error);
+
       if (errors.length > 0) {
         throw new Error(errors[0].error?.message || "Failed to update config");
       }

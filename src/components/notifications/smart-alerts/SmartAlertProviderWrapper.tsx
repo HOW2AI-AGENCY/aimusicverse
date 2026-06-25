@@ -1,5 +1,5 @@
-import React from 'react';
-import { SmartAlertProvider } from './SmartAlertProvider';
+import React from "react";
+import { SmartAlertProvider } from "./SmartAlertProvider";
 
 /**
  * Wrapper component for SmartAlertProvider that can be used outside of Router context.
@@ -10,4 +10,4 @@ export function SmartAlertProviderWrapper({ children }: { children: React.ReactN
 }
 
 // Export the actual provider for use inside Router
-export { SmartAlertProvider } from './SmartAlertProvider';
+export { SmartAlertProvider } from "./SmartAlertProvider";

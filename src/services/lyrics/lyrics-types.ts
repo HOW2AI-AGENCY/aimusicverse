@@ -6,7 +6,7 @@
  * the lyrics service modules to avoid circular dependencies.
  */
 
-import * as lyricsApi from '@/api/lyrics.api';
+import * as lyricsApi from "@/api/lyrics.api";
 
 // ============================================================================
 // LYRICS VERSION TYPES
@@ -35,7 +35,7 @@ export interface LyricsComparison {
     content: string;
   };
   differences: Array<{
-    type: 'addition' | 'deletion' | 'modification';
+    type: "addition" | "deletion" | "modification";
     content: string;
     position: number;
   }>;
@@ -74,7 +74,7 @@ export interface SectionNotesBatchOperation {
  * Lyrics section structure
  */
 export interface LyricsSection {
-  type: 'verse' | 'chorus' | 'bridge' | 'pre-chorus' | 'outro' | 'intro' | 'other';
+  type: "verse" | "chorus" | "bridge" | "pre-chorus" | "outro" | "intro" | "other";
   label: string;
   content: string;
   startIndex: number;

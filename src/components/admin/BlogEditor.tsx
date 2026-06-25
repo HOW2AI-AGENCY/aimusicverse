@@ -5,13 +5,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Sparkles, Wand2, FileText, Send, Loader2, 
-  Save, Eye, ArrowLeft, ImagePlus
-} from "lucide-react";
-import { 
-  useCreateBlogPost, useUpdateBlogPost, useAIBlogAssistant, 
-  useBroadcastNotification, useGenerateBlogCover, generateSlug, type BlogPost 
+import { Sparkles, Wand2, FileText, Send, Loader2, Save, Eye, ArrowLeft, ImagePlus } from "lucide-react";
+import {
+  useCreateBlogPost,
+  useUpdateBlogPost,
+  useAIBlogAssistant,
+  useBroadcastNotification,
+  useGenerateBlogCover,
+  generateSlug,
+  type BlogPost,
 } from "@/hooks/useBlog";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -132,9 +134,7 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
           <ArrowLeft className="h-4 w-4 mr-1" />
           Назад
         </Button>
-        <h2 className="text-xl font-bold">
-          {post ? "Редактирование статьи" : "Новая статья"}
-        </h2>
+        <h2 className="text-xl font-bold">{post ? "Редактирование статьи" : "Новая статья"}</h2>
       </div>
 
       {/* AI Assistant */}
@@ -152,21 +152,13 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
               value={aiPrompt}
               onChange={(e) => setAiPrompt(e.target.value)}
             />
-            <Button 
-              onClick={handleGenerateArticle}
-              disabled={!aiPrompt || aiAssistant.isPending}
-              size="sm"
-            >
-              {aiAssistant.isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Wand2 className="h-4 w-4" />
-              )}
+            <Button onClick={handleGenerateArticle} disabled={!aiPrompt || aiAssistant.isPending} size="sm">
+              {aiAssistant.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Wand2 className="h-4 w-4" />}
             </Button>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={handleGenerateTitle}
               disabled={aiAssistant.isPending || (!aiPrompt && !content)}
@@ -174,8 +166,8 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
               <FileText className="h-3 w-3 mr-1" />
               Заголовок
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={handleGenerateExcerpt}
               disabled={aiAssistant.isPending || !content}
@@ -183,8 +175,8 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
               <FileText className="h-3 w-3 mr-1" />
               Описание
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               onClick={handleImproveArticle}
               disabled={aiAssistant.isPending || !content}
@@ -200,20 +192,12 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
       <div className="space-y-4">
         <div>
           <Label>Заголовок</Label>
-          <Input
-            value={title}
-            onChange={(e) => handleTitleChange(e.target.value)}
-            placeholder="Заголовок статьи"
-          />
+          <Input value={title} onChange={(e) => handleTitleChange(e.target.value)} placeholder="Заголовок статьи" />
         </div>
 
         <div>
           <Label>URL (slug)</Label>
-          <Input
-            value={slug}
-            onChange={(e) => setSlug(e.target.value)}
-            placeholder="url-stati"
-          />
+          <Input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="url-stati" />
         </div>
 
         <div>
@@ -250,11 +234,7 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
             </Button>
           </div>
           {coverUrl && (
-            <img
-              src={coverUrl}
-              alt="Обложка статьи"
-              className="w-full max-w-md h-32 object-cover rounded-md border"
-            />
+            <img src={coverUrl} alt="Обложка статьи" className="w-full max-w-md h-32 object-cover rounded-md border" />
           )}
         </div>
 
@@ -270,10 +250,7 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          <Switch
-            checked={isPublished}
-            onCheckedChange={setIsPublished}
-          />
+          <Switch checked={isPublished} onCheckedChange={setIsPublished} />
           <Label>Опубликовать</Label>
         </div>
       </div>
@@ -289,11 +266,7 @@ export function BlogEditor({ post, onBack }: BlogEditorProps) {
           Превью
         </Button>
         {post?.is_published && (
-          <Button 
-            variant="secondary"
-            onClick={handleBroadcast}
-            disabled={broadcast.isPending}
-          >
+          <Button variant="secondary" onClick={handleBroadcast} disabled={broadcast.isPending}>
             {broadcast.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin mr-1" />
             ) : (

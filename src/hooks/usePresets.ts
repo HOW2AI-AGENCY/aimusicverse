@@ -14,8 +14,8 @@
  * @see src/api/presets.api.ts for the API layer
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from '@/contexts/AuthContext';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   getPresets,
   getPresetById,
@@ -28,18 +28,18 @@ import {
   type PresetFilters,
   type CreatePresetInput,
   type UpdatePresetInput,
-} from '@/api/presets.api';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+} from "@/api/presets.api";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
 // ============================================================================
 // Query Keys Factory
 // ============================================================================
 
 export const presetsKeys = {
-  all: ['presets'] as const,
-  list: (filters?: PresetFilters) => ['presets', 'list', filters || {}] as const,
-  detail: (presetId: string) => ['presets', 'detail', presetId] as const,
+  all: ["presets"] as const,
+  list: (filters?: PresetFilters) => ["presets", "list", filters || {}] as const,
+  detail: (presetId: string) => ["presets", "detail", presetId] as const,
 } as const;
 
 // ============================================================================
@@ -78,9 +78,9 @@ export function usePresets(filters?: PresetFilters) {
  */
 export function usePreset(presetId: string | undefined) {
   return useQuery({
-    queryKey: presetsKeys.detail(presetId || ''),
+    queryKey: presetsKeys.detail(presetId || ""),
     queryFn: async () => {
-      if (!presetId) throw new Error('Preset ID is required');
+      if (!presetId) throw new Error("Preset ID is required");
       const { data, error } = await getPresetById(presetId);
       if (error) throw error;
       return data;
@@ -104,21 +104,21 @@ export function useCreatePreset() {
   const mutation = useMutation({
     mutationFn: async (input: CreatePresetInput) => {
       if (!user?.id) {
-        throw new Error('You must be signed in to save presets');
+        throw new Error("You must be signed in to save presets");
       }
       const { preset, error } = await createPreset(input, user.id);
-      if (error || !preset) throw error ?? new Error('Failed to create preset');
+      if (error || !preset) throw error ?? new Error("Failed to create preset");
       return preset;
     },
     onSuccess: (preset) => {
-      logger.info('Preset created', { presetId: preset.id, category: preset.category });
-      toast.success('Пресет сохранён', { description: preset.name });
+      logger.info("Preset created", { presetId: preset.id, category: preset.category });
+      toast.success("Пресет сохранён", { description: preset.name });
       queryClient.invalidateQueries({ queryKey: presetsKeys.all });
     },
     onError: (error) => {
-      logger.error('Failed to create preset', { error });
-      toast.error('Не удалось сохранить пресет', {
-        description: error instanceof Error ? error.message : 'Неизвестная ошибка',
+      logger.error("Failed to create preset", { error });
+      toast.error("Не удалось сохранить пресет", {
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
       });
     },
   });
@@ -141,21 +141,21 @@ export function useUpdatePreset() {
   const mutation = useMutation({
     mutationFn: async ({ presetId, input }: { presetId: string; input: UpdatePresetInput }) => {
       if (!user?.id) {
-        throw new Error('You must be signed in to edit presets');
+        throw new Error("You must be signed in to edit presets");
       }
       const { preset, error } = await updatePreset(presetId, input, user.id);
-      if (error || !preset) throw error ?? new Error('Failed to update preset');
+      if (error || !preset) throw error ?? new Error("Failed to update preset");
       return preset;
     },
     onSuccess: (preset) => {
-      logger.info('Preset updated', { presetId: preset.id });
-      toast.success('Пресет обновлён', { description: preset.name });
+      logger.info("Preset updated", { presetId: preset.id });
+      toast.success("Пресет обновлён", { description: preset.name });
       queryClient.invalidateQueries({ queryKey: presetsKeys.all });
     },
     onError: (error) => {
-      logger.error('Failed to update preset', { error });
-      toast.error('Не удалось обновить пресет', {
-        description: error instanceof Error ? error.message : 'Неизвестная ошибка',
+      logger.error("Failed to update preset", { error });
+      toast.error("Не удалось обновить пресет", {
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
       });
     },
   });
@@ -178,20 +178,20 @@ export function useDeletePreset() {
   const mutation = useMutation({
     mutationFn: async (presetId: string) => {
       if (!user?.id) {
-        throw new Error('You must be signed in to delete presets');
+        throw new Error("You must be signed in to delete presets");
       }
       const { success, error } = await deletePreset(presetId, user.id);
-      if (error || !success) throw error ?? new Error('Failed to delete preset');
+      if (error || !success) throw error ?? new Error("Failed to delete preset");
       return presetId;
     },
     onMutate: async (presetId) => {
       await queryClient.cancelQueries({ queryKey: presetsKeys.all });
-      const snapshots = queryClient.getQueriesData<Preset[]>({ queryKey: ['presets', 'list'] });
+      const snapshots = queryClient.getQueriesData<Preset[]>({ queryKey: ["presets", "list"] });
       snapshots.forEach(([key, data]) => {
         if (data) {
           queryClient.setQueryData(
             key,
-            data.filter((p) => p.id !== presetId)
+            data.filter((p) => p.id !== presetId),
           );
         }
       });
@@ -201,13 +201,13 @@ export function useDeletePreset() {
       context?.snapshots?.forEach(([key, data]) => {
         queryClient.setQueryData(key, data);
       });
-      logger.error('Failed to delete preset', { error });
-      toast.error('Не удалось удалить пресет', {
-        description: error instanceof Error ? error.message : 'Неизвестная ошибка',
+      logger.error("Failed to delete preset", { error });
+      toast.error("Не удалось удалить пресет", {
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
       });
     },
     onSuccess: () => {
-      toast.success('Пресет удалён');
+      toast.success("Пресет удалён");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: presetsKeys.all });
@@ -231,18 +231,18 @@ export function useApplyPreset() {
   const mutation = useMutation({
     mutationFn: async ({ trackId, presetId }: { trackId: string; presetId: string }) => {
       const { success, appliedSettings, error } = await applyPresetToTrack(trackId, presetId);
-      if (error || !success) throw error ?? new Error('Failed to apply preset');
+      if (error || !success) throw error ?? new Error("Failed to apply preset");
       return appliedSettings;
     },
     onSuccess: () => {
-      toast.success('Пресет применён');
+      toast.success("Пресет применён");
       // usage_count changed on the server — refresh lists so sorting reflects it
       queryClient.invalidateQueries({ queryKey: presetsKeys.all });
     },
     onError: (error) => {
-      logger.error('Failed to apply preset', { error });
-      toast.error('Не удалось применить пресет', {
-        description: error instanceof Error ? error.message : 'Неизвестная ошибка',
+      logger.error("Failed to apply preset", { error });
+      toast.error("Не удалось применить пресет", {
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
       });
     },
   });
@@ -266,20 +266,20 @@ export function useClonePreset() {
   const mutation = useMutation({
     mutationFn: async ({ presetId, newName }: { presetId: string; newName?: string }) => {
       if (!user?.id) {
-        throw new Error('You must be signed in to clone presets');
+        throw new Error("You must be signed in to clone presets");
       }
       const { preset, error } = await clonePreset(presetId, user.id, newName);
-      if (error || !preset) throw error ?? new Error('Failed to clone preset');
+      if (error || !preset) throw error ?? new Error("Failed to clone preset");
       return preset;
     },
     onSuccess: (preset) => {
-      toast.success('Копия пресета создана', { description: preset.name });
+      toast.success("Копия пресета создана", { description: preset.name });
       queryClient.invalidateQueries({ queryKey: presetsKeys.all });
     },
     onError: (error) => {
-      logger.error('Failed to clone preset', { error });
-      toast.error('Не удалось скопировать пресет', {
-        description: error instanceof Error ? error.message : 'Неизвестная ошибка',
+      logger.error("Failed to clone preset", { error });
+      toast.error("Не удалось скопировать пресет", {
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
       });
     },
   });

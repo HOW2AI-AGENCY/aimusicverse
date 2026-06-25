@@ -3,8 +3,8 @@
  * Logs all bot actions to database for analytics and debugging
  */
 
-import { getSupabaseClient } from '../core/supabase-client.ts';
-import { logger } from './index.ts';
+import { getSupabaseClient } from "../core/supabase-client.ts";
+import { logger } from "./index.ts";
 
 interface LogData {
   menu_key?: string;
@@ -33,22 +33,20 @@ const MAX_BUFFER_SIZE = 50;
  */
 async function flushLogBuffer(): Promise<void> {
   if (logBuffer.length === 0) return;
-  
+
   const entries = [...logBuffer];
   logBuffer.length = 0;
-  
+
   try {
     const supabase = getSupabaseClient();
-    
-    const { error } = await supabase
-      .from('telegram_bot_logs')
-      .insert(entries);
-    
+
+    const { error } = await supabase.from("telegram_bot_logs").insert(entries);
+
     if (error) {
-      logger.warn('Failed to flush bot logs', { error, count: entries.length });
+      logger.warn("Failed to flush bot logs", { error, count: entries.length });
     }
   } catch (err) {
-    logger.warn('Error flushing bot logs', { error: String(err) });
+    logger.warn("Error flushing bot logs", { error: String(err) });
   }
 }
 
@@ -57,7 +55,7 @@ async function flushLogBuffer(): Promise<void> {
  */
 function scheduleFlush(): void {
   if (flushTimeout) return;
-  
+
   flushTimeout = setTimeout(() => {
     flushTimeout = null;
     flushLogBuffer();
@@ -71,7 +69,7 @@ export async function logBotAction(
   telegramUserId: number,
   chatId: number,
   actionType: string,
-  data?: LogData
+  data?: LogData,
 ): Promise<void> {
   try {
     const logEntry = {
@@ -81,11 +79,11 @@ export async function logBotAction(
       action_data: data ? JSON.stringify(data) : null,
       menu_key: data?.menu_key || null,
       message_id: data?.message_id || null,
-      response_time_ms: data?.response_time_ms || null
+      response_time_ms: data?.response_time_ms || null,
     };
-    
+
     logBuffer.push(logEntry);
-    
+
     // Flush immediately if buffer is full
     if (logBuffer.length >= MAX_BUFFER_SIZE) {
       await flushLogBuffer();
@@ -93,7 +91,7 @@ export async function logBotAction(
       scheduleFlush();
     }
   } catch (err) {
-    logger.warn('Error in logBotAction', { error: String(err) });
+    logger.warn("Error in logBotAction", { error: String(err) });
   }
 }
 
@@ -115,11 +113,11 @@ export async function logMenuClick(
   telegramUserId: number,
   chatId: number,
   menuKey: string,
-  buttonText: string
+  buttonText: string,
 ): Promise<void> {
-  await logBotAction(telegramUserId, chatId, 'menu_click', {
+  await logBotAction(telegramUserId, chatId, "menu_click", {
     menu_key: menuKey,
-    button_text: buttonText
+    button_text: buttonText,
   });
 }
 
@@ -130,11 +128,11 @@ export async function logCommand(
   telegramUserId: number,
   chatId: number,
   command: string,
-  args?: string
+  args?: string,
 ): Promise<void> {
-  await logBotAction(telegramUserId, chatId, 'command', {
+  await logBotAction(telegramUserId, chatId, "command", {
     command,
-    args
+    args,
   });
 }
 
@@ -145,11 +143,11 @@ export async function logMessageSent(
   telegramUserId: number,
   chatId: number,
   messageId: number,
-  messageType: string
+  messageType: string,
 ): Promise<void> {
-  await logBotAction(telegramUserId, chatId, 'message_sent', {
+  await logBotAction(telegramUserId, chatId, "message_sent", {
     message_id: messageId,
-    message_type: messageType
+    message_type: messageType,
   });
 }
 
@@ -160,11 +158,11 @@ export async function logMessageDeleted(
   telegramUserId: number,
   chatId: number,
   messageId: number,
-  reason?: string
+  reason?: string,
 ): Promise<void> {
-  await logBotAction(telegramUserId, chatId, 'message_deleted', {
+  await logBotAction(telegramUserId, chatId, "message_deleted", {
     message_id: messageId,
-    reason
+    reason,
   });
 }
 
@@ -175,26 +173,21 @@ export async function logBotError(
   telegramUserId: number,
   chatId: number,
   error: Error | string,
-  context?: Record<string, unknown>
+  context?: Record<string, unknown>,
 ): Promise<void> {
-  await logBotAction(telegramUserId, chatId, 'error', {
+  await logBotAction(telegramUserId, chatId, "error", {
     error: error instanceof Error ? error.message : error,
     stack: error instanceof Error ? error.stack : undefined,
-    ...context
+    ...context,
   });
 }
 
 /**
  * Log navigation
  */
-export async function logNavigation(
-  telegramUserId: number,
-  chatId: number,
-  from: string,
-  to: string
-): Promise<void> {
-  await logBotAction(telegramUserId, chatId, 'navigation', {
+export async function logNavigation(telegramUserId: number, chatId: number, from: string, to: string): Promise<void> {
+  await logBotAction(telegramUserId, chatId, "navigation", {
     from,
-    to
+    to,
   });
 }

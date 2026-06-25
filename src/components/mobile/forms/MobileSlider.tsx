@@ -3,10 +3,10 @@
  * Better touch target for mobile interaction
  */
 
-import { memo } from 'react';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
-import { Slider } from '@/components/ui/slider';
+import { memo } from "react";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
+import { Slider } from "@/components/ui/slider";
 
 interface MobileSliderProps {
   /** Current value */
@@ -64,7 +64,7 @@ export const MobileSlider = memo(function MobileSlider({
           "touch-none",
           // Larger thumb for mobile
           "[&_[role=slider]]:h-6 [&_[role=slider]]:w-6",
-          "[&_[role=slider]]:border-4"
+          "[&_[role=slider]]:border-4",
         )}
       />
 

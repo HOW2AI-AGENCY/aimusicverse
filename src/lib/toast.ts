@@ -13,18 +13,15 @@
  *   notify.update(id, { type: 'success', message: 'Готово' });
  */
 
-import { toast as sonner, type ExternalToast } from 'sonner';
+import { toast as sonner, type ExternalToast } from "sonner";
 
-type ToastOptions = Pick<
-  ExternalToast,
-  'description' | 'duration' | 'action' | 'id' | 'icon' | 'className'
->;
+type ToastOptions = Pick<ExternalToast, "description" | "duration" | "action" | "id" | "icon" | "className">;
 
 type ProgressUpdate =
-  | { type: 'success'; message: string; description?: string }
-  | { type: 'error'; message: string; description?: string }
-  | { type: 'info'; message: string; description?: string }
-  | { type: 'dismiss' };
+  | { type: "success"; message: string; description?: string }
+  | { type: "error"; message: string; description?: string }
+  | { type: "info"; message: string; description?: string }
+  | { type: "dismiss" };
 
 const DEFAULT_DURATION = 4000;
 const ERROR_DURATION = 6000;
@@ -48,17 +45,17 @@ export const notify = {
   },
   /** Update or dismiss a previously shown toast (typically a progress one). */
   update(id: string | number, change: ProgressUpdate) {
-    if (change.type === 'dismiss') {
+    if (change.type === "dismiss") {
       sonner.dismiss(id);
       return;
     }
     const payload = {
       id,
       description: change.description,
-      duration: change.type === 'error' ? ERROR_DURATION : DEFAULT_DURATION,
+      duration: change.type === "error" ? ERROR_DURATION : DEFAULT_DURATION,
     };
-    if (change.type === 'success') sonner.success(change.message, payload);
-    else if (change.type === 'error') sonner.error(change.message, payload);
+    if (change.type === "success") sonner.success(change.message, payload);
+    else if (change.type === "error") sonner.error(change.message, payload);
     else sonner.message(change.message, payload);
   },
   dismiss(id?: string | number) {

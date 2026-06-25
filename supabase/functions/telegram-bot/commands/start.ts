@@ -1,5 +1,5 @@
-import { handleDashboard } from '../handlers/dashboard.ts';
-import { handleDeepLink } from '../handlers/deep-links.ts';
+import { handleDashboard } from "../handlers/dashboard.ts";
+import { handleDeepLink } from "../handlers/deep-links.ts";
 
 export async function handleStart(chatId: number, userId: number, startParam?: string) {
   // Handle deep links first
@@ -9,7 +9,7 @@ export async function handleStart(chatId: number, userId: number, startParam?: s
       return;
     }
   }
-  
+
   // Show dashboard for all users (onboarding removed)
   await handleDashboard(chatId, userId);
 }

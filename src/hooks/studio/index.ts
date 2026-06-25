@@ -1,14 +1,14 @@
 /**
  * Stem Studio hooks - BARREL FILE DISABLED
- * 
+ *
  * ⚠️ DO NOT RE-EXPORT RUNTIME CODE FROM THIS FILE ⚠️
- * 
+ *
  * This barrel file only exports TYPES to prevent circular dependencies
  * and premature AudioContext initialization that causes:
  * "Cannot access 't' before initialization" errors in production.
- * 
+ *
  * ALWAYS use direct imports for hooks:
- * 
+ *
  * import { useStemAudioEngine } from '@/hooks/studio/useStemAudioEngine';
  * import { useMultiTrackAudio } from '@/hooks/studio/useMultiTrackAudio';
  * import { useStemStudioEngine } from '@/hooks/studio/useStemStudioEngine';
@@ -43,17 +43,13 @@ export type {
   StemState,
   LoopRegion,
   KeyboardShortcut,
-} from './types';
+} from "./types";
 
 // Export types from useStudioState
-export type { 
-  StemStates, 
-  UseStudioStateOptions, 
-  UseStudioStateReturn 
-} from './useStudioState';
+export type { StemStates, UseStudioStateOptions, UseStudioStateReturn } from "./useStudioState";
 
 // Safe constant exports - no AudioContext dependencies
-export { 
+export {
   defaultStemEffects,
   eqPresets,
   compressorPresets,
@@ -61,12 +57,23 @@ export {
   defaultEQSettings,
   defaultCompressorSettings,
   defaultReverbSettings,
-} from './stemEffectsConfig';
+} from "./stemEffectsConfig";
 
 // Export new utility hooks (safe - no AudioContext in module scope)
-export { useVirtualizedTracks } from './useVirtualizedTracks';
-export { useStemAnalyzer, useMultiStemAnalyzer } from './useStemAnalyzer';
-export { useKeyboardShortcuts, useStudioKeyboardShortcuts } from './useKeyboardShortcuts';
-export { useStudioGestures, usePinchZoom, useSwipeNavigation, type GestureConfig, type GestureCallbacks } from './useStudioGestures';
-export { useAudioBufferCache, formatCacheSize } from './useAudioBufferCache';
-export { useTransportSync, type AudioSource, type TransportState, type UseTransportSyncOptions } from './useTransportSync';
+export { useVirtualizedTracks } from "./useVirtualizedTracks";
+export { useStemAnalyzer, useMultiStemAnalyzer } from "./useStemAnalyzer";
+export { useKeyboardShortcuts, useStudioKeyboardShortcuts } from "./useKeyboardShortcuts";
+export {
+  useStudioGestures,
+  usePinchZoom,
+  useSwipeNavigation,
+  type GestureConfig,
+  type GestureCallbacks,
+} from "./useStudioGestures";
+export { useAudioBufferCache, formatCacheSize } from "./useAudioBufferCache";
+export {
+  useTransportSync,
+  type AudioSource,
+  type TransportState,
+  type UseTransportSyncOptions,
+} from "./useTransportSync";

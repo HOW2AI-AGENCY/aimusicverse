@@ -2,33 +2,33 @@
  * StyleStep - Second step: choose genre and mood
  */
 
-import { useState, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { Music, Check, ArrowLeft, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useGenerationWizardStore } from '@/stores/generationWizardStore';
+import { useState, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Music, Check, ArrowLeft, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useGenerationWizardStore } from "@/stores/generationWizardStore";
 
 const GENRES = [
-  { id: 'pop', label: 'Pop', emoji: '🎤', color: 'from-pink-500/20 to-purple-500/20' },
-  { id: 'rock', label: 'Rock', emoji: '🎸', color: 'from-red-500/20 to-orange-500/20' },
-  { id: 'electronic', label: 'Electronic', emoji: '🎹', color: 'from-cyan-500/20 to-blue-500/20' },
-  { id: 'hiphop', label: 'Hip-Hop', emoji: '🎧', color: 'from-amber-500/20 to-yellow-500/20' },
-  { id: 'rnb', label: 'R&B', emoji: '💜', color: 'from-violet-500/20 to-purple-500/20' },
-  { id: 'jazz', label: 'Jazz', emoji: '🎷', color: 'from-yellow-500/20 to-orange-500/20' },
-  { id: 'classical', label: 'Classical', emoji: '🎻', color: 'from-slate-500/20 to-gray-500/20' },
-  { id: 'ambient', label: 'Ambient', emoji: '🌙', color: 'from-indigo-500/20 to-blue-500/20' },
+  { id: "pop", label: "Pop", emoji: "🎤", color: "from-pink-500/20 to-purple-500/20" },
+  { id: "rock", label: "Rock", emoji: "🎸", color: "from-red-500/20 to-orange-500/20" },
+  { id: "electronic", label: "Electronic", emoji: "🎹", color: "from-cyan-500/20 to-blue-500/20" },
+  { id: "hiphop", label: "Hip-Hop", emoji: "🎧", color: "from-amber-500/20 to-yellow-500/20" },
+  { id: "rnb", label: "R&B", emoji: "💜", color: "from-violet-500/20 to-purple-500/20" },
+  { id: "jazz", label: "Jazz", emoji: "🎷", color: "from-yellow-500/20 to-orange-500/20" },
+  { id: "classical", label: "Classical", emoji: "🎻", color: "from-slate-500/20 to-gray-500/20" },
+  { id: "ambient", label: "Ambient", emoji: "🌙", color: "from-indigo-500/20 to-blue-500/20" },
 ];
 
 const MOODS = [
-  { id: 'energetic', label: 'Энергичный', emoji: '⚡' },
-  { id: 'chill', label: 'Спокойный', emoji: '😌' },
-  { id: 'happy', label: 'Весёлый', emoji: '😊' },
-  { id: 'sad', label: 'Грустный', emoji: '😢' },
-  { id: 'romantic', label: 'Романтичный', emoji: '💕' },
-  { id: 'dark', label: 'Тёмный', emoji: '🌑' },
-  { id: 'epic', label: 'Эпичный', emoji: '🏔️' },
-  { id: 'dreamy', label: 'Мечтательный', emoji: '✨' },
+  { id: "energetic", label: "Энергичный", emoji: "⚡" },
+  { id: "chill", label: "Спокойный", emoji: "😌" },
+  { id: "happy", label: "Весёлый", emoji: "😊" },
+  { id: "sad", label: "Грустный", emoji: "😢" },
+  { id: "romantic", label: "Романтичный", emoji: "💕" },
+  { id: "dark", label: "Тёмный", emoji: "🌑" },
+  { id: "epic", label: "Эпичный", emoji: "🏔️" },
+  { id: "dreamy", label: "Мечтательный", emoji: "✨" },
 ];
 
 interface StyleStepProps {
@@ -41,15 +41,21 @@ export function StyleStep({ onNext, onBack }: StyleStepProps) {
   const [selectedGenre, setSelectedGenre] = useState(data.selectedGenre);
   const [selectedMood, setSelectedMood] = useState(data.selectedMood);
 
-  const handleGenreSelect = useCallback((genreId: string) => {
-    setSelectedGenre(genreId);
-    updateData({ selectedGenre: genreId });
-  }, [updateData]);
+  const handleGenreSelect = useCallback(
+    (genreId: string) => {
+      setSelectedGenre(genreId);
+      updateData({ selectedGenre: genreId });
+    },
+    [updateData],
+  );
 
-  const handleMoodSelect = useCallback((moodId: string) => {
-    setSelectedMood(moodId);
-    updateData({ selectedMood: moodId });
-  }, [updateData]);
+  const handleMoodSelect = useCallback(
+    (moodId: string) => {
+      setSelectedMood(moodId);
+      updateData({ selectedMood: moodId });
+    },
+    [updateData],
+  );
 
   const canProceed = selectedGenre && selectedMood;
 
@@ -67,9 +73,7 @@ export function StyleStep({ onNext, onBack }: StyleStepProps) {
         </div>
         <div>
           <h3 className="font-semibold">Выберите стиль</h3>
-          <p className="text-sm text-muted-foreground">
-            Жанр и настроение вашего трека
-          </p>
+          <p className="text-sm text-muted-foreground">Жанр и настроение вашего трека</p>
         </div>
       </div>
 
@@ -88,7 +92,7 @@ export function StyleStep({ onNext, onBack }: StyleStepProps) {
                 genre.color,
                 selectedGenre === genre.id
                   ? "border-primary ring-2 ring-primary/20"
-                  : "border-transparent hover:border-border"
+                  : "border-transparent hover:border-border",
               )}
             >
               <span className="text-xl">{genre.emoji}</span>
@@ -119,9 +123,7 @@ export function StyleStep({ onNext, onBack }: StyleStepProps) {
               className={cn(
                 "flex flex-col items-center gap-1 p-2 rounded-xl transition-all",
                 "bg-muted/50 border",
-                selectedMood === mood.id
-                  ? "border-primary bg-primary/10"
-                  : "border-transparent hover:bg-muted"
+                selectedMood === mood.id ? "border-primary bg-primary/10" : "border-transparent hover:bg-muted",
               )}
             >
               <span className="text-lg">{mood.emoji}</span>

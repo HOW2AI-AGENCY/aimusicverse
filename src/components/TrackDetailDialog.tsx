@@ -1,9 +1,9 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Track } from '@/types/track';
-import { Music2 } from 'lucide-react';
-import { TrackDetailContent } from './track-detail/TrackDetailContent';
-import { TrackDetailSheet } from './TrackDetailSheet';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Track } from "@/types/track";
+import { Music2 } from "lucide-react";
+import { TrackDetailContent } from "./track-detail/TrackDetailContent";
+import { TrackDetailSheet } from "./TrackDetailSheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface TrackDetailDialogProps {
   open: boolean;
@@ -13,11 +13,11 @@ interface TrackDetailDialogProps {
 
 export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDialogProps) {
   const isMobile = useIsMobile();
-  
+
   if (isMobile) {
     return <TrackDetailSheet open={open} onOpenChange={onOpenChange} track={track} />;
   }
-  
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-5xl max-h-[90vh]">
@@ -28,11 +28,7 @@ export function TrackDetailDialog({ open, onOpenChange, track }: TrackDetailDial
           </DialogTitle>
         </DialogHeader>
 
-        <TrackDetailContent 
-          track={track} 
-          variant="dialog" 
-          className="flex-1"
-        />
+        <TrackDetailContent track={track} variant="dialog" className="flex-1" />
       </DialogContent>
     </Dialog>
   );

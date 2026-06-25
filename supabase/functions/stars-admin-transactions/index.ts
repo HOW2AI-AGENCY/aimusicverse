@@ -1,48 +1,54 @@
 /**
  * Telegram Stars Payment Admin Transactions
- * 
+ *
  * Returns paginated transaction list with filters
  * - Filter by status, product type, date range
  * - Search by user email/name
  * - Pagination support
- * 
+ *
  * Tasks: T125-T127
  */
 
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
-import { getSupabaseClient } from '../_shared/supabase-client.ts';
-import { createLogger } from '../_shared/logger.ts';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const logger = createLogger('stars-admin-transactions');
+const logger = createLogger("stars-admin-transactions");
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 /**
  * T125: Admin authentication check
  */
-async function verifyAdminAccess(supabase: any, token: string | null): Promise<{ isAdmin: boolean; userId: string | null; error?: string }> {
+async function verifyAdminAccess(
+  supabase: any,
+  token: string | null,
+): Promise<{ isAdmin: boolean; userId: string | null; error?: string }> {
   if (!token) {
-    return { isAdmin: false, userId: null, error: 'Missing authorization header' };
+    return { isAdmin: false, userId: null, error: "Missing authorization header" };
   }
 
-  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser(token);
   if (authError || !user) {
-    logger.error('Authentication failed', { error: authError });
-    return { isAdmin: false, userId: null, error: 'Unauthorized' };
+    logger.error("Authentication failed", { error: authError });
+    return { isAdmin: false, userId: null, error: "Unauthorized" };
   }
 
   // Canonical admin check via has_role() against user_roles table
-  const { data: isAdmin, error: roleError } = await supabase.rpc('has_role', {
+  const { data: isAdmin, error: roleError } = await supabase.rpc("has_role", {
     _user_id: user.id,
-    _role: 'admin',
+    _role: "admin",
   });
 
   if (roleError || !isAdmin) {
-    logger.warn('Non-admin attempted to access admin transactions', { userId: user.id });
-    return { isAdmin: false, userId: user.id, error: 'Forbidden: admin access required' };
+    logger.warn("Non-admin attempted to access admin transactions", { userId: user.id });
+    return { isAdmin: false, userId: user.id, error: "Forbidden: admin access required" };
   }
 
   return { isAdmin: true, userId: user.id };
@@ -53,7 +59,7 @@ async function verifyAdminAccess(supabase: any, token: string | null): Promise<{
  */
 serve(async (req) => {
   // Handle CORS
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
@@ -61,32 +67,29 @@ serve(async (req) => {
     const supabase = getSupabaseClient();
 
     // T125: Verify admin authentication
-    const authHeader = req.headers.get('authorization');
-    const token = authHeader?.replace('Bearer ', '');
-    
+    const authHeader = req.headers.get("authorization");
+    const token = authHeader?.replace("Bearer ", "");
+
     const { isAdmin, userId, error: authError } = await verifyAdminAccess(supabase, token ?? null);
-    
+
     if (!isAdmin) {
-      return new Response(
-        JSON.stringify({ error: authError || 'Unauthorized' }),
-        {
-          status: authError === 'Forbidden: admin access required' ? 403 : 401,
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        }
-      );
+      return new Response(JSON.stringify({ error: authError || "Unauthorized" }), {
+        status: authError === "Forbidden: admin access required" ? 403 : 401,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     // T127: Parse pagination and filter parameters
     const url = new URL(req.url);
-    const page = parseInt(url.searchParams.get('page') || '1', 10);
-    const perPage = Math.min(parseInt(url.searchParams.get('perPage') || '50', 10), 100);
-    const status = url.searchParams.get('status');
-    const productType = url.searchParams.get('productType');
-    const fromDate = url.searchParams.get('from');
-    const toDate = url.searchParams.get('to');
-    const userSearch = url.searchParams.get('userSearch');
+    const page = parseInt(url.searchParams.get("page") || "1", 10);
+    const perPage = Math.min(parseInt(url.searchParams.get("perPage") || "50", 10), 100);
+    const status = url.searchParams.get("status");
+    const productType = url.searchParams.get("productType");
+    const fromDate = url.searchParams.get("from");
+    const toDate = url.searchParams.get("to");
+    const userSearch = url.searchParams.get("userSearch");
 
-    logger.info('Admin transactions requested', {
+    logger.info("Admin transactions requested", {
       userId,
       page,
       perPage,
@@ -94,9 +97,8 @@ serve(async (req) => {
     });
 
     // T126: Build query with filters
-    let query = supabase
-      .from('stars_transactions')
-      .select(`
+    let query = supabase.from("stars_transactions").select(
+      `
         *,
         product:stars_products (
           id,
@@ -111,23 +113,25 @@ serve(async (req) => {
           username,
           telegram_id
         )
-      `, { count: 'exact' });
+      `,
+      { count: "exact" },
+    );
 
     // Apply filters
     if (status) {
-      query = query.eq('status', status);
+      query = query.eq("status", status);
     }
 
     if (productType) {
-      query = query.eq('product:stars_products.product_type', productType);
+      query = query.eq("product:stars_products.product_type", productType);
     }
 
     if (fromDate) {
-      query = query.gte('created_at', fromDate);
+      query = query.gte("created_at", fromDate);
     }
 
     if (toDate) {
-      query = query.lte('created_at', toDate);
+      query = query.lte("created_at", toDate);
     }
 
     // User search (by Telegram ID, username, or full name)
@@ -135,14 +139,14 @@ serve(async (req) => {
       // Note: This requires OR query which is complex in Supabase
       // For now, search by telegram_id only
       const { data: profileData } = await supabase
-        .from('profiles')
-        .select('user_id')
+        .from("profiles")
+        .select("user_id")
         .or(`telegram_id.ilike.%${userSearch}%,username.ilike.%${userSearch}%,full_name.ilike.%${userSearch}%`)
         .limit(100);
 
       if (profileData && profileData.length > 0) {
         const userIds = profileData.map((p: any) => p.user_id);
-        query = query.in('user_id', userIds);
+        query = query.in("user_id", userIds);
       } else {
         // No users found matching search - return empty result
         return new Response(
@@ -158,8 +162,8 @@ serve(async (req) => {
           }),
           {
             status: 200,
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          }
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
         );
       }
     }
@@ -167,23 +171,21 @@ serve(async (req) => {
     // Apply pagination
     const from = (page - 1) * perPage;
     const to = from + perPage - 1;
-    query = query
-      .order('created_at', { ascending: false })
-      .range(from, to);
+    query = query.order("created_at", { ascending: false }).range(from, to);
 
     const { data, error, count } = await query;
 
     if (error) {
-      logger.error('Database query error', { error });
-      return new Response(
-        JSON.stringify({ error: 'Failed to fetch transactions', details: error.message }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      logger.error("Database query error", { error });
+      return new Response(JSON.stringify({ error: "Failed to fetch transactions", details: error.message }), {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const totalPages = count ? Math.ceil(count / perPage) : 0;
 
-    logger.info('Admin transactions fetched', {
+    logger.info("Admin transactions fetched", {
       userId,
       count: data?.length || 0,
       total: count,
@@ -210,21 +212,18 @@ serve(async (req) => {
       }),
       {
         status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
   } catch (error: any) {
-    logger.error('Error in stars-admin-transactions', {
+    logger.error("Error in stars-admin-transactions", {
       error: error.message,
       stack: error.stack,
     });
 
-    return new Response(
-      JSON.stringify({ error: 'Internal server error', message: error.message }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      }
-    );
+    return new Response(JSON.stringify({ error: "Internal server error", message: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

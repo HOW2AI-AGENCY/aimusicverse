@@ -1,9 +1,9 @@
 /**
  * Audio Buffer Pool
- * 
+ *
  * Manages reusable audio buffers for improved memory efficiency.
  * Implements LRU (Least Recently Used) eviction strategy.
- * 
+ *
  * Phase 2 Tech Debt: IMP033 - Buffer Pooling
  */
 
@@ -16,8 +16,8 @@ interface PooledBuffer {
 
 interface BufferPoolConfig {
   maxPoolSize: number; // Maximum total bytes
-  maxBuffers: number;  // Maximum number of buffers
-  ttlMs: number;       // Time to live in milliseconds
+  maxBuffers: number; // Maximum number of buffers
+  ttlMs: number; // Time to live in milliseconds
 }
 
 const DEFAULT_CONFIG: BufferPoolConfig = {
@@ -63,8 +63,7 @@ class AudioBufferPool {
 
     // Evict if necessary
     while (
-      (this.currentSize + bufferSize > this.config.maxPoolSize ||
-       this.buffers.size >= this.config.maxBuffers) &&
+      (this.currentSize + bufferSize > this.config.maxPoolSize || this.buffers.size >= this.config.maxBuffers) &&
       this.buffers.size > 0
     ) {
       this.evictLRU();

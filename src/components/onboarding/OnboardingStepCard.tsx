@@ -1,10 +1,10 @@
-import { motion } from '@/lib/motion';
-import { Check, Play, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { useNavigate } from 'react-router-dom';
-import { hapticImpact } from '@/lib/haptic';
+import { motion } from "@/lib/motion";
+import { Check, Play, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { hapticImpact } from "@/lib/haptic";
 
 interface OnboardingStepCardProps {
   step: {
@@ -21,17 +21,12 @@ interface OnboardingStepCardProps {
   isCompleted: boolean;
 }
 
-export function OnboardingStepCard({
-  step,
-  index,
-  isActive,
-  isCompleted,
-}: OnboardingStepCardProps) {
+export function OnboardingStepCard({ step, index, isActive, isCompleted }: OnboardingStepCardProps) {
   const navigate = useNavigate();
   const Icon = step.icon;
 
   const handleTryNow = () => {
-    hapticImpact('medium');
+    hapticImpact("medium");
     if (step.route) {
       navigate(step.route);
     }
@@ -47,22 +42,20 @@ export function OnboardingStepCard({
     >
       <div
         className={cn(
-          'relative p-6 rounded-2xl border transition-all duration-300',
-          isActive
-            ? 'bg-card border-primary/30 shadow-lg shadow-primary/5'
-            : 'bg-card/50 border-border/50'
+          "relative p-6 rounded-2xl border transition-all duration-300",
+          isActive ? "bg-card border-primary/30 shadow-lg shadow-primary/5" : "bg-card/50 border-border/50",
         )}
       >
         {/* Step number badge */}
         <Badge
           variant="outline"
           className={cn(
-            'absolute -top-3 left-4 px-3',
+            "absolute -top-3 left-4 px-3",
             isCompleted
-              ? 'bg-green-500/10 text-green-500 border-green-500/30'
+              ? "bg-green-500/10 text-green-500 border-green-500/30"
               : isActive
-              ? 'bg-primary/10 text-primary border-primary/30'
-              : 'bg-muted text-muted-foreground'
+                ? "bg-primary/10 text-primary border-primary/30"
+                : "bg-muted text-muted-foreground",
           )}
         >
           {isCompleted ? (
@@ -77,7 +70,7 @@ export function OnboardingStepCard({
         <motion.div
           initial={{ scale: 0.8, rotate: -10 }}
           animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
+          transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
           className="mb-4"
         >
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shadow-lg shadow-primary/10">
@@ -156,11 +149,7 @@ export function OnboardingStepCard({
 
         {/* Try now button */}
         {step.route && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
             <Button
               variant="outline"
               size="sm"

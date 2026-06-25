@@ -1,20 +1,20 @@
 /**
  * UnifiedSplashScreen - Optimized splash/loading screen
  * GPU-accelerated CSS animations for fast first paint
- * 
+ *
  * IMPORTANT: For page loading states, use PageSkeleton instead
  * This component is for initial app splash and overlay loading only
  */
 import { useEffect, useState, memo } from "react";
-import { useReducedMotion } from '@/lib/motion';
-import { Loader2 } from 'lucide-react';
+import { useReducedMotion } from "@/lib/motion";
+import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { APP_CONFIG } from '@/config/app.config';
-import { FixedOverlay } from '@/components/layout/FixedOverlay';
-import { AnimatedLogo } from '@/components/branding/AppLogo';
-import { CSSEqualizer } from '@/components/loading/CSSEqualizer';
+import { APP_CONFIG } from "@/config/app.config";
+import { FixedOverlay } from "@/components/layout/FixedOverlay";
+import { AnimatedLogo } from "@/components/branding/AppLogo";
+import { CSSEqualizer } from "@/components/loading/CSSEqualizer";
 
-export type SplashVariant = 'splash' | 'loading' | 'overlay' | 'inline' | 'minimal';
+export type SplashVariant = "splash" | "loading" | "overlay" | "inline" | "minimal";
 
 interface UnifiedSplashScreenProps {
   variant?: SplashVariant;
@@ -31,7 +31,7 @@ interface UnifiedSplashScreenProps {
  * For page loading states, use PageSkeleton from @/components/skeletons
  */
 export function UnifiedSplashScreen({
-  variant = 'splash',
+  variant = "splash",
   message,
   progress,
   showLogo = true,
@@ -44,7 +44,7 @@ export function UnifiedSplashScreen({
 
   // Auto-complete for splash variant - faster transition
   useEffect(() => {
-    if (variant === 'splash' && onComplete) {
+    if (variant === "splash" && onComplete) {
       const timer = setTimeout(() => {
         setIsVisible(false);
         // Faster fade out
@@ -57,19 +57,19 @@ export function UnifiedSplashScreen({
   // Container styles
   const containerClasses: Record<SplashVariant, string> = {
     // Fullscreen variants are rendered via FixedOverlay below
-    splash: '',
-    loading: '',
-    overlay: '',
-    inline: 'flex items-center justify-center py-12',
-    minimal: 'flex items-center justify-center p-4',
+    splash: "",
+    loading: "",
+    overlay: "",
+    inline: "flex items-center justify-center py-12",
+    minimal: "flex items-center justify-center p-4",
   };
 
   const defaultMessage = {
-    splash: '',
-    loading: 'Загрузка...',
-    overlay: 'Подождите...',
-    inline: 'Загрузка...',
-    minimal: '',
+    splash: "",
+    loading: "Загрузка...",
+    overlay: "Подождите...",
+    inline: "Загрузка...",
+    minimal: "",
   };
 
   const displayMessage = message ?? defaultMessage[variant];
@@ -77,29 +77,21 @@ export function UnifiedSplashScreen({
   if (!isVisible) return null;
 
   // Fullscreen variants: single source of truth for safe-area + stable viewport height
-  if (variant === 'splash' || variant === 'loading' || variant === 'overlay') {
-    const background = variant === 'overlay' ? 'blur' : 'solid';
-    const zIndex = variant === 'splash' ? 'base' : 'fullscreen';
+  if (variant === "splash" || variant === "loading" || variant === "overlay") {
+    const background = variant === "overlay" ? "blur" : "solid";
+    const zIndex = variant === "splash" ? "base" : "fullscreen";
 
     return (
-      <FixedOverlay
-        center
-        background={background}
-        zIndex={zIndex}
-        className={cn('animate-fade-in', className)}
-      >
+      <FixedOverlay center background={background} zIndex={zIndex} className={cn("animate-fade-in", className)}>
         {/* Single centered container - prevents duplicates */}
         <div className="relative flex flex-col items-center justify-center w-full max-w-xs mx-auto px-4">
           {/* Background glow - single instance, centered */}
-          {(variant === 'splash' || variant === 'loading') && !shouldReduceMotion && (
-            <div
-              className="absolute inset-0 -z-10 pointer-events-none"
-              aria-hidden="true"
-            >
+          {(variant === "splash" || variant === "loading") && !shouldReduceMotion && (
+            <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full blur-3xl opacity-15"
                 style={{
-                  background: 'radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)',
+                  background: "radial-gradient(circle, hsl(var(--primary)) 0%, transparent 70%)",
                 }}
               />
             </div>
@@ -107,21 +99,17 @@ export function UnifiedSplashScreen({
 
           {/* Main content */}
           <div className="relative z-10 flex flex-col items-center gap-4">
-            {showLogo && (variant === 'splash' || variant === 'loading') && (
+            {showLogo && (variant === "splash" || variant === "loading") && (
               <div className="mb-2">
                 <AnimatedLogo size="xl" />
               </div>
             )}
 
-            {variant === 'splash' && (
+            {variant === "splash" && (
               <div className="text-center">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-1">
-                  MusicVerse AI
-                </h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gradient mb-1">MusicVerse AI</h1>
                 <div className="flex items-center justify-center gap-2">
-                  <p className="text-sm text-muted-foreground">
-                    Генерация музыки с AI
-                  </p>
+                  <p className="text-sm text-muted-foreground">Генерация музыки с AI</p>
                   {APP_CONFIG.beta.enabled && (
                     <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-500 font-medium">
                       {APP_CONFIG.versionName}
@@ -132,9 +120,7 @@ export function UnifiedSplashScreen({
             )}
 
             {!shouldReduceMotion && <CSSEqualizer size="md" />}
-            {shouldReduceMotion && (
-              <Loader2 className="h-6 w-6 animate-spin text-primary" />
-            )}
+            {shouldReduceMotion && <Loader2 className="h-6 w-6 animate-spin text-primary" />}
 
             {progress !== undefined && (
               <div className="w-40">
@@ -150,24 +136,18 @@ export function UnifiedSplashScreen({
                     style={{ width: `${progress}%` }}
                   />
                 </div>
-                <p className="text-xs text-muted-foreground text-center mt-1 tabular-nums">
-                  {Math.round(progress)}%
-                </p>
+                <p className="text-xs text-muted-foreground text-center mt-1 tabular-nums">{Math.round(progress)}%</p>
               </div>
             )}
 
-            {displayMessage && (
-              <p className="text-sm text-muted-foreground text-center max-w-xs">
-                {displayMessage}
-              </p>
-            )}
+            {displayMessage && <p className="text-sm text-muted-foreground text-center max-w-xs">{displayMessage}</p>}
           </div>
 
-          {variant === 'splash' && !shouldReduceMotion && (
+          {variant === "splash" && !shouldReduceMotion && (
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 w-24 h-0.5 rounded-full overflow-hidden bg-border/30">
               <div
                 className="h-full w-1/2 bg-primary/60 rounded-full"
-                style={{ animation: 'shimmer 1s linear infinite' }}
+                style={{ animation: "shimmer 1s linear infinite" }}
               />
               <style>{`
                 @keyframes shimmer {
@@ -184,16 +164,12 @@ export function UnifiedSplashScreen({
 
   return (
     <div
-      className={cn(
-        containerClasses[variant],
-        'animate-fade-in',
-        className
-      )}
+      className={cn(containerClasses[variant], "animate-fade-in", className)}
       role="status"
       aria-live="polite"
       aria-busy="true"
     >
-      {variant === 'minimal' && (
+      {variant === "minimal" && (
         <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
       )}
     </div>
@@ -202,92 +178,85 @@ export function UnifiedSplashScreen({
 
 /**
  * LoadingScreen - Overlay loading component with timeout handling
- * 
+ *
  * IMPORTANT: For page-level loading, use PageSkeleton instead
  * This is for overlay/blocking loading states only
  */
-export const LoadingScreen = memo(({ 
-  message, 
-  progress,
-  variant = 'loading',
-  className 
-}: { 
-  message?: string; 
-  progress?: number;
-  variant?: 'loading' | 'inline' | 'overlay';
-  className?: string;
-}) => {
-  const [loadingTime, setLoadingTime] = useState(0);
-  const [showRetry, setShowRetry] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
-  
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setLoadingTime(prev => prev + 0.25);
-    }, 250); // Faster updates for smoother progress
-    
-    // Reduced timeout from 12s to 8s for faster feedback
-    const retryTimer = setTimeout(() => setShowRetry(true), 8000);
-    
-    return () => {
-      clearInterval(interval);
-      clearTimeout(retryTimer);
-    };
-  }, []);
+export const LoadingScreen = memo(
+  ({
+    message,
+    progress,
+    variant = "loading",
+    className,
+  }: {
+    message?: string;
+    progress?: number;
+    variant?: "loading" | "inline" | "overlay";
+    className?: string;
+  }) => {
+    const [loadingTime, setLoadingTime] = useState(0);
+    const [showRetry, setShowRetry] = useState(false);
+    const [dismissed, setDismissed] = useState(false);
 
-  const simulatedProgress = progress ?? Math.min(loadingTime * 20, 95);
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setLoadingTime((prev) => prev + 0.25);
+      }, 250); // Faster updates for smoother progress
 
-  if (dismissed) {
-    return (
-      <FixedOverlay
-        center
-        background="blur"
-        zIndex="fullscreen"
-      >
-        <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
-      </FixedOverlay>
-    );
-  }
+      // Reduced timeout from 12s to 8s for faster feedback
+      const retryTimer = setTimeout(() => setShowRetry(true), 8000);
 
-  if (showRetry) {
-    return (
-      <FixedOverlay
-        center
-        background="solid"
-        zIndex="fullscreen"
-        className="px-6"
-      >
-        <div className="flex flex-col items-center justify-center gap-3">
-          <p className="text-muted-foreground text-center">Загрузка занимает дольше обычного</p>
-          <div className="flex gap-2">
-            <button
-              onClick={() => setDismissed(true)}
-              className="px-4 py-2.5 bg-muted text-muted-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
-            >
-              Подождать
-            </button>
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2.5 bg-primary text-primary-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
-            >
-              Обновить
-            </button>
+      return () => {
+        clearInterval(interval);
+        clearTimeout(retryTimer);
+      };
+    }, []);
+
+    const simulatedProgress = progress ?? Math.min(loadingTime * 20, 95);
+
+    if (dismissed) {
+      return (
+        <FixedOverlay center background="blur" zIndex="fullscreen">
+          <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
+        </FixedOverlay>
+      );
+    }
+
+    if (showRetry) {
+      return (
+        <FixedOverlay center background="solid" zIndex="fullscreen" className="px-6">
+          <div className="flex flex-col items-center justify-center gap-3">
+            <p className="text-muted-foreground text-center">Загрузка занимает дольше обычного</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setDismissed(true)}
+                className="px-4 py-2.5 bg-muted text-muted-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
+              >
+                Подождать
+              </button>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-4 py-2.5 bg-primary text-primary-foreground rounded-lg active:scale-95 transition-transform min-h-[44px]"
+              >
+                Обновить
+              </button>
+            </div>
           </div>
-        </div>
-      </FixedOverlay>
-    );
-  }
+        </FixedOverlay>
+      );
+    }
 
-  return (
-    <UnifiedSplashScreen 
-      variant={variant === 'loading' ? 'loading' : variant === 'inline' ? 'inline' : 'overlay'} 
-      message={message ?? (loadingTime > 3 ? 'Почти готово...' : undefined)}
-      progress={simulatedProgress}
-      showLogo={false}
-      className={className}
-    />
-  );
-});
-LoadingScreen.displayName = 'LoadingScreen';
+    return (
+      <UnifiedSplashScreen
+        variant={variant === "loading" ? "loading" : variant === "inline" ? "inline" : "overlay"}
+        message={message ?? (loadingTime > 3 ? "Почти готово..." : undefined)}
+        progress={simulatedProgress}
+        showLogo={false}
+        className={className}
+      />
+    );
+  },
+);
+LoadingScreen.displayName = "LoadingScreen";
 
 export default UnifiedSplashScreen;

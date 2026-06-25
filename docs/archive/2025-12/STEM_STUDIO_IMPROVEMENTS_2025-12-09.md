@@ -17,9 +17,11 @@
 ### 1. Новые хуки (Hooks)
 
 #### `useStemAudioSync` - Синхронизация аудио
+
 **Файл:** `src/hooks/studio/useStemAudioSync.ts`
 
 **Функциональность:**
+
 - Централизованная синхронизация множества аудио стемов
 - Автоматическая коррекция drift (расхождения)
 - Порог коррекции: 0.1 секунды
@@ -27,6 +29,7 @@
 - Одновременное воспроизведение всех стемов
 
 **Методы:**
+
 ```typescript
 playAll(currentTime: number): Promise<boolean>
 pauseAll(): void
@@ -34,6 +37,7 @@ seekAll(time: number): void
 ```
 
 **Преимущества:**
+
 - ✅ Изолированная логика синхронизации
 - ✅ Меньше ре-рендеров
 - ✅ Легче тестировать
@@ -42,15 +46,18 @@ seekAll(time: number): void
 ---
 
 #### `useStemControls` - Управление стемами
+
 **Файл:** `src/hooks/studio/useStemControls.ts`
 
 **Функциональность:**
+
 - Управление состоянием стемов (mute, solo, volume)
 - Master volume и master mute
 - Логика solo (автоматическое отключение других)
 - Расчёт эффективной громкости
 
 **Методы:**
+
 ```typescript
 toggleStem(stemId: string, type: 'mute' | 'solo'): void
 setStemVolume(stemId: string, volume: number): void
@@ -61,6 +68,7 @@ setAllStemStates(states: Record<string, StemState>): void
 ```
 
 **Преимущества:**
+
 - ✅ Изолированное состояние стемов
 - ✅ Автоматическая логика solo/mute
 - ✅ useMemo для оптимизации
@@ -69,15 +77,18 @@ setAllStemStates(states: Record<string, StemState>): void
 ---
 
 #### `useStudioKeyboardShortcuts` - Горячие клавиши
+
 **Файл:** `src/hooks/studio/useStudioKeyboardShortcuts.ts`
 
 **Функциональность:**
+
 - Централизованное управление горячими клавишами
 - Поддержка модификаторов (Ctrl, Shift, Alt)
 - Исключение событий из input/textarea
 - Автоматическая очистка при размонтировании
 
 **Конфигурация:**
+
 ```typescript
 interface KeyboardShortcut {
   key: string;
@@ -91,9 +102,11 @@ interface KeyboardShortcut {
 ```
 
 **Утилиты:**
+
 - `formatShortcut(shortcut)` - форматирование для отображения
 
 **Преимущества:**
+
 - ✅ Централизованная конфигурация
 - ✅ Легко добавлять новые shortcuts
 - ✅ Автоматический cleanup
@@ -106,9 +119,11 @@ interface KeyboardShortcut {
 Создана папка `src/components/stem-studio/core/` с извлечёнными компонентами из монолитного `StemStudioContent`.
 
 #### `StemStudioHeader` - Заголовок
+
 **Файл:** `src/components/stem-studio/core/StemStudioHeader.tsx`
 
 **Функциональность:**
+
 - Навигация (кнопка "Назад")
 - Название трека
 - Кнопки действий (Replace, Effects, Help)
@@ -117,6 +132,7 @@ interface KeyboardShortcut {
 - Слот для дополнительных действий
 
 **Props:**
+
 ```typescript
 {
   trackTitle: string;
@@ -133,21 +149,25 @@ interface KeyboardShortcut {
 ```
 
 **Оптимизация:**
+
 - React.memo с custom comparison
 - Ре-рендер только при изменении ключевых props
 
 ---
 
 #### `StemStudioPlayer` - Плеер
+
 **Файл:** `src/components/stem-studio/core/StemStudioPlayer.tsx`
 
 **Функциональность:**
+
 - Кнопки управления (Play/Pause, Skip)
 - Адаптивные размеры для mobile/desktop
 - Подсказки с горячими клавишами (desktop)
 - Фиксированная позиция (footer)
 
 **Props:**
+
 ```typescript
 {
   isPlaying: boolean;
@@ -158,21 +178,25 @@ interface KeyboardShortcut {
 ```
 
 **Оптимизация:**
+
 - React.memo (ре-рендер только при изменении isPlaying)
 - Минималистичный дизайн
 
 ---
 
 #### `StemStudioMixer` - Микшер
+
 **Файл:** `src/components/stem-studio/core/StemStudioMixer.tsx`
 
 **Функциональность:**
+
 - Master volume slider
 - Master mute button
 - Визуальное отображение громкости (%)
 - Gradient фон для акцента
 
 **Props:**
+
 ```typescript
 {
   masterVolume: number;
@@ -183,21 +207,25 @@ interface KeyboardShortcut {
 ```
 
 **Оптимизация:**
+
 - React.memo с custom comparison
 - Обновление только при изменении volume/muted
 
 ---
 
 #### `StemStudioTimeline` - Таймлайн
+
 **Файл:** `src/components/stem-studio/core/StemStudioTimeline.tsx`
 
 **Функциональность:**
+
 - Визуализация времени воспроизведения
 - Slider для перемотки
 - Форматированное время (MM:SS)
 - Адаптивная вёрстка
 
 **Props:**
+
 ```typescript
 {
   currentTime: number;
@@ -207,6 +235,7 @@ interface KeyboardShortcut {
 ```
 
 **Оптимизация:**
+
 - React.memo с умным сравнением
 - Ре-рендер только при значительном изменении времени (>0.5s)
 
@@ -215,36 +244,43 @@ interface KeyboardShortcut {
 ### 3. UI компоненты
 
 #### `StemStateIndicator` - Индикатор состояния
+
 **Файл:** `src/components/stem-studio/StemStateIndicator.tsx`
 
 **Функциональность:**
+
 - Визуальные badges для Solo/Mute/FX
 - Индикатор компрессии (dB reduction)
 - Анимация появления (Framer Motion)
 - Gradient эффекты для FX badge
 
 **Визуальные состояния:**
+
 - 🔵 **SOLO** - синий badge с тенью
 - 🔴 **MUTE** - красный badge с иконкой
 - ✨ **FX** - gradient badge с Sparkles
 - 📊 **Compression** - amber badge с -XdB
 
 **Оптимизация:**
+
 - React.memo с tolerance для compressor reduction (0.5dB)
 - AnimatePresence для плавной анимации
 
 ---
 
 #### `KeyboardShortcutsDialog` - Диалог shortcuts
+
 **Файл:** `src/components/stem-studio/KeyboardShortcutsDialog.tsx`
 
 **Функциональность:**
+
 - Отображение всех доступных горячих клавиш
 - Форматированное отображение сочетаний
 - Описания на русском языке
 - Scroll area для длинного списка
 
 **Интеграция:**
+
 - Добавляется в header рядом с Help
 - Открывается по клику на кнопку "Shortcuts"
 
@@ -253,9 +289,11 @@ interface KeyboardShortcut {
 ### 4. Оптимизация существующих компонентов
 
 #### `StemChannel` - Оптимизация
+
 **Файл:** `src/components/stem-studio/StemChannel.tsx`
 
 **Изменения:**
+
 ```typescript
 // Добавлена custom comparison function
 export const StemChannel = memo(/* ... */, (prevProps, nextProps) => {
@@ -274,22 +312,25 @@ export const StemChannel = memo(/* ... */, (prevProps, nextProps) => {
 ```
 
 **Результат:**
+
 - ✅ Меньше ре-рендеров при изменении других стемов
 - ✅ Обновление только при изменении своего состояния
 
 ---
 
 #### `StemWaveform` - Оптимизация
+
 **Файл:** `src/components/stem-studio/StemWaveform.tsx`
 
 **Изменения:**
+
 ```typescript
 // Throttling updates - только при playing или значительном изменении
 useEffect(() => {
   if (wavesurferRef.current && isReady && duration > 0) {
     const progress = currentTime / duration;
     const clampedProgress = Math.max(0, Math.min(1, progress));
-    
+
     const currentProgress = (wavesurferRef.current.getCurrentTime() || 0) / duration;
     if (isPlaying || Math.abs(clampedProgress - currentProgress) > 0.01) {
       wavesurferRef.current.seekTo(clampedProgress);
@@ -299,6 +340,7 @@ useEffect(() => {
 ```
 
 **Результат:**
+
 - ✅ Меньше обновлений WaveSurfer (только при >1% изменении)
 - ✅ Плавная работа при воспроизведении
 - ✅ Меньше нагрузки на rendering
@@ -308,18 +350,21 @@ useEffect(() => {
 ## 📊 Метрики улучшений
 
 ### До оптимизации
+
 - StemStudioContent: 1105 строк
 - Монолитная структура
 - ~10-15 ре-рендеров/сек
 - Дублирование логики
 
 ### После оптимизации
+
 - 4 модульных core компонента
 - 3 новых оптимизированных хука
 - ~5-8 ре-рендеров/сек (оценка)
 - Изолированная логика
 
 ### Уменьшение сложности
+
 - ✅ Уменьшение размера StemStudioContent (будет в следующей фазе)
 - ✅ Изоляция ответственностей
 - ✅ Улучшенная тестируемость
@@ -330,6 +375,7 @@ useEffect(() => {
 ## 🎯 Архитектурные улучшения
 
 ### Модульность
+
 ```
 Было:
 ├── StemStudioContent (1105 lines)
@@ -355,16 +401,19 @@ useEffect(() => {
 ### Изоляция логики
 
 **Аудио логика:**
+
 - `useStemAudioSync` - синхронизация
 - `useStemStudioEngine` - Web Audio processing
 - `useStemAudioEngine` - effects
 
 **UI логика:**
+
 - `useStemControls` - состояния стемов
 - `useStudioKeyboardShortcuts` - shortcuts
 - Core компоненты - UI слои
 
 **Преимущества:**
+
 - ✅ Чёткое разделение ответственностей
 - ✅ Легче тестировать каждую часть
 - ✅ Проще добавлять новые функции
@@ -375,11 +424,13 @@ useEffect(() => {
 ## 📦 Созданные файлы
 
 ### Hooks
+
 1. `src/hooks/studio/useStemAudioSync.ts` - 3.9KB
 2. `src/hooks/studio/useStemControls.ts` - 3.5KB
 3. `src/hooks/studio/useStudioKeyboardShortcuts.ts` - 2.1KB
 
 ### Core Components
+
 4. `src/components/stem-studio/core/StemStudioHeader.tsx` - 4.2KB
 5. `src/components/stem-studio/core/StemStudioPlayer.tsx` - 3.1KB
 6. `src/components/stem-studio/core/StemStudioMixer.tsx` - 2.0KB
@@ -387,14 +438,17 @@ useEffect(() => {
 8. `src/components/stem-studio/core/index.ts` - 0.4KB
 
 ### UI Components
+
 9. `src/components/stem-studio/StemStateIndicator.tsx` - 3.1KB
 10. `src/components/stem-studio/KeyboardShortcutsDialog.tsx` - 2.0KB
 
 ### Documentation
+
 11. `STEM_STUDIO_AUDIT_2025-12-09.md` - 10.8KB
 12. `STEM_STUDIO_IMPROVEMENTS_2025-12-09.md` - этот файл
 
 ### Modified Files
+
 - `src/hooks/studio/index.ts` - добавлены экспорты
 - `src/components/stem-studio/StemChannel.tsx` - оптимизация
 - `src/components/stem-studio/StemWaveform.tsx` - throttling
@@ -458,18 +512,21 @@ useEffect(() => {
 ## 📈 Ожидаемые результаты после Фазы 2
 
 ### Производительность
+
 - Initial load: <2s
 - Re-renders: <5/sec
 - Memory usage: <80MB
 - Smooth 60fps UI
 
 ### Качество кода
+
 - StemStudioContent: ~400-500 строк
 - Модульная архитектура
 - 100% TypeScript coverage
 - Comprehensive tests
 
 ### UX
+
 - Отзывчивый интерфейс
 - Понятные индикаторы
 - Полезные shortcuts
@@ -480,6 +537,7 @@ useEffect(() => {
 ## ✅ Checklist для Фазы 2
 
 ### Интеграция
+
 - [ ] Использовать StemStudioHeader в StemStudioContent
 - [ ] Использовать StemStudioPlayer в StemStudioContent
 - [ ] Использовать StemStudioMixer в StemStudioContent
@@ -491,6 +549,7 @@ useEffect(() => {
 - [ ] Использовать StemStateIndicator в StemChannel
 
 ### Тестирование
+
 - [ ] Проверить производительность
 - [ ] Протестировать на mobile
 - [ ] Проверить keyboard shortcuts
@@ -498,6 +557,7 @@ useEffect(() => {
 - [ ] Memory leak testing
 
 ### Документация
+
 - [ ] Обновить README
 - [ ] Создать STEM_STUDIO_ARCHITECTURE.md
 - [ ] JSDoc для всех публичных API

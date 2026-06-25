@@ -1,18 +1,13 @@
 /**
  * Stem Effects Configuration
- * 
+ *
  * Default values and presets for stem effects.
  * This file contains NO AudioContext code - safe to import anywhere.
- * 
+ *
  * Types are imported from types.ts to prevent circular dependencies.
  */
 
-import type {
-  EQSettings,
-  CompressorSettings,
-  ReverbSettings,
-  StemEffects,
-} from './types';
+import type { EQSettings, CompressorSettings, ReverbSettings, StemEffects } from "./types";
 
 // Re-export types for convenience
 export type { EQSettings, CompressorSettings, ReverbSettings, StemEffects };

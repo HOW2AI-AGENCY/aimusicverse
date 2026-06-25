@@ -26,59 +26,59 @@ export type UUID = string;
  * Recording type for recording sessions
  */
 export enum RecordingType {
-  VOCAL = 'vocal',
-  GUITAR = 'guitar',
-  OTHER = 'other'
+  VOCAL = "vocal",
+  GUITAR = "guitar",
+  OTHER = "other",
 }
 
 /**
  * Note type for section notes
  */
 export enum NoteType {
-  GENERAL = 'general',
-  PRODUCTION = 'production',
-  LYRIC = 'lyric',
-  ARRANGEMENT = 'arrangement'
+  GENERAL = "general",
+  PRODUCTION = "production",
+  LYRIC = "lyric",
+  ARRANGEMENT = "arrangement",
 }
 
 /**
  * Preset category
  */
 export enum PresetCategory {
-  VOCAL = 'vocal',
-  GUITAR = 'guitar',
-  DRUMS = 'drums',
-  MASTERING = 'mastering',
-  STEM_SEPARATION = 'stem_separation',
-  MIDI = 'midi'
+  VOCAL = "vocal",
+  GUITAR = "guitar",
+  DRUMS = "drums",
+  MASTERING = "mastering",
+  STEM_SEPARATION = "stem_separation",
+  MIDI = "midi",
 }
 
 /**
  * Stem batch operation type
  */
 export enum StemBatchOperationType {
-  TRANSCRIPTION = 'transcription',
-  SEPARATION = 'separation'
+  TRANSCRIPTION = "transcription",
+  SEPARATION = "separation",
 }
 
 /**
  * Stem batch status
  */
 export enum StemBatchStatus {
-  PENDING = 'pending',
-  PROCESSING = 'processing',
-  COMPLETED = 'completed',
-  FAILED = 'failed'
+  PENDING = "pending",
+  PROCESSING = "processing",
+  COMPLETED = "completed",
+  FAILED = "failed",
 }
 
 /**
  * Keyboard shortcut context
  */
 export enum ShortcutContext {
-  STUDIO = 'studio',
-  LYRICS = 'lyrics',
-  MIXER = 'mixer',
-  GLOBAL = 'global'
+  STUDIO = "studio",
+  LYRICS = "lyrics",
+  MIXER = "mixer",
+  GLOBAL = "global",
 }
 
 // ============================================================================
@@ -297,7 +297,7 @@ export interface PresetSettings {
   effects?: EffectsConfig;
   stem_separation?: {
     model: string;
-    quality: 'low' | 'medium' | 'high';
+    quality: "low" | "medium" | "high";
   };
   midi?: {
     model: string;
@@ -368,7 +368,7 @@ export interface PresetWithOwner extends Preset {
  */
 export interface StemResult {
   stem_id: UUID;
-  status: 'success' | 'failed';
+  status: "success" | "failed";
   midi_url?: string;
   error?: string;
   processing_time?: number;
@@ -443,7 +443,7 @@ export interface ReplacementEvent {
   id: UUID;
   track_id: UUID;
   user_id: UUID;
-  change_type: 'section_replacement';
+  change_type: "section_replacement";
   old_content?: string;
   new_content?: string;
   section_start?: number;

@@ -3,33 +3,33 @@
  * Handles payment flow with invoice creation and Telegram integration
  */
 
-import { useState, useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import WebApp from '@twa-dev/sdk';
-import { toast } from 'sonner';
-import { createInvoice } from '@/services/starsPaymentService';
-import type { StarsProduct } from '@/services/starsPaymentService';
-import type { CreateInvoiceRequest } from '@/types/starsPayment';
-import { trackConversionStage } from '@/lib/analytics/deeplink-tracker';
-import { trackButtonClick, trackFeatureUsed } from '@/services/analytics';
-import { logger } from '@/lib/logger';
+import { useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import WebApp from "@twa-dev/sdk";
+import { toast } from "sonner";
+import { createInvoice } from "@/services/starsPaymentService";
+import type { StarsProduct } from "@/services/starsPaymentService";
+import type { CreateInvoiceRequest } from "@/types/starsPayment";
+import { trackConversionStage } from "@/lib/analytics/deeplink-tracker";
+import { trackButtonClick, trackFeatureUsed } from "@/services/analytics";
+import { logger } from "@/lib/logger";
 
 // Payment flow state
 interface PaymentFlowState {
-  step: 'select' | 'invoice' | 'payment' | 'success' | 'error';
+  step: "select" | "invoice" | "payment" | "success" | "error";
   selectedProduct?: StarsProduct;
   invoiceLink?: string;
   error?: { code: string; message: string };
 }
 
 // Query key for invalidation
-const CREDITS_QUERY_KEY = ['user', 'credits'];
-const SUBSCRIPTION_QUERY_KEY = ['subscription', 'status'];
+const CREDITS_QUERY_KEY = ["user", "credits"];
+const SUBSCRIPTION_QUERY_KEY = ["subscription", "status"];
 
 export function useStarsPayment() {
   const queryClient = useQueryClient();
   const [flowState, setFlowState] = useState<PaymentFlowState>({
-    step: 'select',
+    step: "select",
   });
 
   // Invoice creation mutation
@@ -38,20 +38,20 @@ export function useStarsPayment() {
     onSuccess: (data) => {
       setFlowState((prev) => ({
         ...prev,
-        step: 'invoice',
+        step: "invoice",
         invoiceLink: data.invoiceLink,
       }));
     },
     onError: (error: Error) => {
       setFlowState((prev) => ({
         ...prev,
-        step: 'error',
+        step: "error",
         error: {
-          code: 'INTERNAL_ERROR',
+          code: "INTERNAL_ERROR",
           message: error.message,
         },
       }));
-      toast.error('Invoice Creation Failed', {
+      toast.error("Invoice Creation Failed", {
         description: error.message,
       });
     },
@@ -63,7 +63,7 @@ export function useStarsPayment() {
   const initiatePayment = useCallback(
     async (product: StarsProduct, userId: string) => {
       // Track payment initiation
-      trackButtonClick('payment_initiate', {
+      trackButtonClick("payment_initiate", {
         product_code: product.product_code,
         product_type: product.product_type,
         price_stars: product.price_stars,
@@ -71,7 +71,7 @@ export function useStarsPayment() {
 
       // Reset flow state
       setFlowState({
-        step: 'select',
+        step: "select",
         selectedProduct: product,
       });
 
@@ -81,39 +81,39 @@ export function useStarsPayment() {
           productCode: product.product_code,
           userId,
           metadata: {
-            source: 'mini_app',
+            source: "mini_app",
           },
         };
 
         const response = await createInvoiceMutation.mutateAsync(request);
 
         // Open invoice in Telegram
-        if (WebApp.isVersionAtLeast('6.1')) {
+        if (WebApp.isVersionAtLeast("6.1")) {
           WebApp.openInvoice(response.invoiceLink, (status) => {
-            if (status === 'paid') {
+            if (status === "paid") {
               handlePaymentSuccess(product);
-            } else if (status === 'failed') {
-              handlePaymentError('Payment failed');
-            } else if (status === 'cancelled') {
+            } else if (status === "failed") {
+              handlePaymentError("Payment failed");
+            } else if (status === "cancelled") {
               handlePaymentCancelled();
             }
           });
 
           setFlowState((prev) => ({
             ...prev,
-            step: 'payment',
+            step: "payment",
           }));
         } else {
           // Fallback for older Telegram versions
-          toast.error('Update Required', {
-            description: 'Please update your Telegram app to make payments.',
+          toast.error("Update Required", {
+            description: "Please update your Telegram app to make payments.",
           });
         }
       } catch (error) {
-        logger.warn('Payment initiation error', { error });
+        logger.warn("Payment initiation error", { error });
       }
     },
-    [createInvoiceMutation]
+    [createInvoiceMutation],
   );
 
   /**
@@ -123,87 +123,84 @@ export function useStarsPayment() {
     (product: StarsProduct) => {
       setFlowState((prev) => ({
         ...prev,
-        step: 'success',
+        step: "success",
       }));
 
       // Track payment conversion
-      trackConversionStage('payment', {
+      trackConversionStage("payment", {
         product_code: product.product_code,
         product_type: product.product_type,
         price_stars: product.price_stars,
         credits_amount: product.credits_amount,
         subscription_tier: product.subscription_tier,
-        payment_method: 'telegram_stars',
+        payment_method: "telegram_stars",
       }).catch(() => {});
 
       // Track feature usage
-      trackFeatureUsed('payment_completed', {
+      trackFeatureUsed("payment_completed", {
         product_type: product.product_type,
         amount: product.price_stars,
       }).catch(() => {});
 
       // Optimistically update credits or subscription status
-      if (product.product_type === 'credits' && product.credits_amount) {
+      if (product.product_type === "credits" && product.credits_amount) {
         queryClient.invalidateQueries({ queryKey: CREDITS_QUERY_KEY });
-      } else if (product.product_type === 'subscription') {
+      } else if (product.product_type === "subscription") {
         queryClient.invalidateQueries({ queryKey: SUBSCRIPTION_QUERY_KEY });
       }
 
-      toast.success('Payment Successful! 🎉', {
+      toast.success("Payment Successful! 🎉", {
         description:
-          product.product_type === 'credits'
+          product.product_type === "credits"
             ? `${product.credits_amount} credits added to your account`
             : `${product.subscription_tier} subscription activated`,
       });
 
       // Reset state after 2 seconds
       setTimeout(() => {
-        setFlowState({ step: 'select' });
+        setFlowState({ step: "select" });
       }, 2000);
     },
-    [queryClient]
+    [queryClient],
   );
 
   /**
    * Handle payment error
    */
-  const handlePaymentError = useCallback(
-    (message: string) => {
-      setFlowState((prev) => ({
-        ...prev,
-        step: 'error',
-        error: {
-          code: 'PAYMENT_FAILED',
-          message,
-        },
-      }));
+  const handlePaymentError = useCallback((message: string) => {
+    setFlowState((prev) => ({
+      ...prev,
+      step: "error",
+      error: {
+        code: "PAYMENT_FAILED",
+        message,
+      },
+    }));
 
-      // Track payment failure
-      trackFeatureUsed('payment_failed', {
-        error_message: message,
-        payment_method: 'telegram_stars',
-      }).catch(() => {});
+    // Track payment failure
+    trackFeatureUsed("payment_failed", {
+      error_message: message,
+      payment_method: "telegram_stars",
+    }).catch(() => {});
 
-      toast.error('Payment Failed', {
-        description: message,
-      });
-    },
-    []
-  );
+    toast.error("Payment Failed", {
+      description: message,
+    });
+  }, []);
 
   /**
    * Handle payment cancellation
    */
   const handlePaymentCancelled = useCallback(() => {
-    setFlowState({ step: 'select' });
+    setFlowState({ step: "select" });
 
     // Track cancellation
-    trackFeatureUsed('payment_cancelled', {
-      payment_method: 'telegram_stars',
+    trackFeatureUsed("payment_cancelled", {
+      payment_method: "telegram_stars",
     }).catch(() => {});
 
-    toast.info('Payment Cancelled', {
-      description: 'You can try again anytime.',
+    toast.info("Payment Cancelled", {
+      description: "You can try again anytime.",
     });
   }, []);
 
@@ -211,7 +208,7 @@ export function useStarsPayment() {
    * Reset payment flow
    */
   const resetFlow = useCallback(() => {
-    setFlowState({ step: 'select' });
+    setFlowState({ step: "select" });
   }, []);
 
   return {

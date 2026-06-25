@@ -1,19 +1,19 @@
-import type { Track } from '@/types/track';
-import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
-import { AddToProjectDialog } from '@/components/track-menu/AddToProjectDialog';
-import { ShareTrackDialog } from '@/components/track-menu/ShareTrackDialog';
-import { AddToPlaylistDialog } from '@/components/track/AddToPlaylistDialog';
-import { ConfirmationDialog } from '@/components/ConfirmationDialog';
-import { TrackDetailSheet } from '@/components/TrackDetailSheet';
-import { TrackDetailDialog } from '@/components/TrackDetailDialog';
-import { AudioCoverDialog } from '@/components/AudioCoverDialog';
-import { RenameTrackDialog } from './RenameTrackDialog';
-import { CreateArtistDialog } from '@/components/CreateArtistDialog';
-import { AddVocalsDialog } from '@/components/AddVocalsDialog';
-import { AddInstrumentalDialog } from '@/components/AddInstrumentalDialog';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useState, useEffect } from 'react';
-import { logger } from '@/lib/logger';
+import type { Track } from "@/types/track";
+import { ExtendTrackDialog } from "@/components/ExtendTrackDialog";
+import { AddToProjectDialog } from "@/components/track-menu/AddToProjectDialog";
+import { ShareTrackDialog } from "@/components/track-menu/ShareTrackDialog";
+import { AddToPlaylistDialog } from "@/components/track/AddToPlaylistDialog";
+import { ConfirmationDialog } from "@/components/ConfirmationDialog";
+import { TrackDetailSheet } from "@/components/TrackDetailSheet";
+import { TrackDetailDialog } from "@/components/TrackDetailDialog";
+import { AudioCoverDialog } from "@/components/AudioCoverDialog";
+import { RenameTrackDialog } from "./RenameTrackDialog";
+import { CreateArtistDialog } from "@/components/CreateArtistDialog";
+import { AddVocalsDialog } from "@/components/AddVocalsDialog";
+import { AddInstrumentalDialog } from "@/components/AddInstrumentalDialog";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useState, useEffect } from "react";
+import { logger } from "@/lib/logger";
 
 // Simplified stem type for dialogs - only needs what's essential
 interface SimpleStem {
@@ -63,16 +63,16 @@ export function TrackDialogsPortal({
         try {
           const response = await fetch(track.audio_url!);
           const blob = await response.blob();
-          const fileName = `${track.title || 'track'}.mp3`;
-          const file = new File([blob], fileName, { type: 'audio/mpeg' });
+          const fileName = `${track.title || "track"}.mp3`;
+          const file = new File([blob], fileName, { type: "audio/mpeg" });
           setCoverAudioFile(file);
         } catch (error: unknown) {
-          logger.warn('Failed to load track audio for cover dialog', { error });
+          logger.warn("Failed to load track audio for cover dialog", { error });
         }
       };
       loadAudio();
     }
-    
+
     // Reset when dialog closes
     if (!dialogs.cover) {
       setCoverAudioFile(null);
@@ -86,12 +86,12 @@ export function TrackDialogsPortal({
         <TrackDetailSheet
           track={track}
           open={dialogs.details}
-          onOpenChange={(open) => !open && onCloseDialog('details')}
+          onOpenChange={(open) => !open && onCloseDialog("details")}
         />
       ) : (
         <TrackDetailDialog
           open={dialogs.details}
-          onOpenChange={(open) => !open && onCloseDialog('details')}
+          onOpenChange={(open) => !open && onCloseDialog("details")}
           track={track}
         />
       )}
@@ -99,13 +99,13 @@ export function TrackDialogsPortal({
       {/* Edit dialogs */}
       <ExtendTrackDialog
         open={dialogs.extend}
-        onOpenChange={(open) => !open && onCloseDialog('extend')}
+        onOpenChange={(open) => !open && onCloseDialog("extend")}
         track={track}
       />
 
       <AudioCoverDialog
         open={dialogs.cover}
-        onOpenChange={(open) => !open && onCloseDialog('cover')}
+        onOpenChange={(open) => !open && onCloseDialog("cover")}
         initialAudioFile={coverAudioFile || undefined}
         prefillData={{
           title: track.title,
@@ -118,28 +118,24 @@ export function TrackDialogsPortal({
       {/* Organize dialogs */}
       <AddToProjectDialog
         open={dialogs.addToProject}
-        onOpenChange={(open) => !open && onCloseDialog('addToProject')}
+        onOpenChange={(open) => !open && onCloseDialog("addToProject")}
         track={track}
       />
 
-      <ShareTrackDialog
-        open={dialogs.share}
-        onOpenChange={(open) => !open && onCloseDialog('share')}
-        track={track}
-      />
+      <ShareTrackDialog open={dialogs.share} onOpenChange={(open) => !open && onCloseDialog("share")} track={track} />
 
       <AddToPlaylistDialog
         open={dialogs.addToPlaylist}
-        onOpenChange={(open) => !open && onCloseDialog('addToPlaylist')}
+        onOpenChange={(open) => !open && onCloseDialog("addToPlaylist")}
         track={track}
       />
 
       {/* Delete confirmation */}
       <ConfirmationDialog
         open={dialogs.deleteConfirm}
-        onOpenChange={(open) => !open && onCloseDialog('deleteConfirm')}
+        onOpenChange={(open) => !open && onCloseDialog("deleteConfirm")}
         title="Удалить трек?"
-        description={`Вы уверены, что хотите удалить трек "${track.title || 'Без названия'}"? Это действие нельзя отменить.`}
+        description={`Вы уверены, что хотите удалить трек "${track.title || "Без названия"}"? Это действие нельзя отменить.`}
         confirmLabel="Удалить"
         cancelLabel="Отмена"
         variant="destructive"
@@ -150,13 +146,13 @@ export function TrackDialogsPortal({
       <RenameTrackDialog
         track={track}
         open={dialogs.rename}
-        onOpenChange={(open) => !open && onCloseDialog('rename')}
+        onOpenChange={(open) => !open && onCloseDialog("rename")}
       />
 
       {/* Create Artist dialog */}
       <CreateArtistDialog
         open={dialogs.createArtist}
-        onOpenChange={(open) => !open && onCloseDialog('createArtist')}
+        onOpenChange={(open) => !open && onCloseDialog("createArtist")}
         fromTrack={{
           title: track.title,
           style: track.style,
@@ -169,14 +165,14 @@ export function TrackDialogsPortal({
       {/* Add Vocals dialog */}
       <AddVocalsDialog
         open={dialogs.addVocals}
-        onOpenChange={(open) => !open && onCloseDialog('addVocals')}
+        onOpenChange={(open) => !open && onCloseDialog("addVocals")}
         track={track}
       />
 
       {/* Add Instrumental dialog */}
       <AddInstrumentalDialog
         open={dialogs.addInstrumental}
-        onOpenChange={(open) => !open && onCloseDialog('addInstrumental')}
+        onOpenChange={(open) => !open && onCloseDialog("addInstrumental")}
         track={track}
       />
     </>

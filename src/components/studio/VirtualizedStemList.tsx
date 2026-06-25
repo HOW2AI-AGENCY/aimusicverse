@@ -1,15 +1,15 @@
 /**
  * VirtualizedStemList - Efficiently renders large lists of stems
- * 
+ *
  * Uses react-virtuoso for windowed rendering when stems > threshold
  * Falls back to regular rendering for smaller lists
  */
 
-import { memo, useCallback } from 'react';
-import { Virtuoso } from 'react-virtuoso';
-import { motion } from '@/lib/motion';
-import { TrackStem } from '@/hooks/useTrackStems';
-import { StemTranscription } from '@/hooks/useStemTranscription';
+import { memo, useCallback } from "react";
+import { Virtuoso } from "react-virtuoso";
+import { motion } from "@/lib/motion";
+import { TrackStem } from "@/hooks/useTrackStems";
+import { StemTranscription } from "@/hooks/useStemTranscription";
 
 // Virtualization threshold - only use for larger lists
 const VIRTUALIZATION_THRESHOLD = 6;
@@ -31,10 +31,10 @@ export interface StemRowProps {
   isPlaying: boolean;
   currentTime: number;
   duration: number;
-  onToggle: (type: 'mute' | 'solo') => void;
+  onToggle: (type: "mute" | "solo") => void;
   onVolumeChange: (volume: number) => void;
   onSeek: (time: number) => void;
-  onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') => void;
+  onAction: (action: "midi" | "reference" | "download" | "effects" | "view-notes" | "delete" | "arrangement") => void;
 }
 
 export interface VirtualizedStemListProps {
@@ -45,10 +45,13 @@ export interface VirtualizedStemListProps {
   currentTime: number;
   duration: number;
   isMobile: boolean;
-  onStemToggle: (stemId: string, type: 'mute' | 'solo') => void;
+  onStemToggle: (stemId: string, type: "mute" | "solo") => void;
   onStemVolumeChange: (stemId: string, volume: number) => void;
   onSeek: (time: number) => void;
-  onStemAction: (stem: TrackStem, action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') => void;
+  onStemAction: (
+    stem: TrackStem,
+    action: "midi" | "reference" | "download" | "effects" | "view-notes" | "delete" | "arrangement",
+  ) => void;
   renderMobileRow: (props: StemRowProps) => React.ReactNode;
   renderDesktopRow: (props: StemRowProps) => React.ReactNode;
   className?: string;
@@ -87,10 +90,10 @@ function VirtualizedStemListComponent({
         isPlaying,
         currentTime,
         duration,
-        onToggle: (type: 'mute' | 'solo') => onStemToggle(stem.id, type),
+        onToggle: (type: "mute" | "solo") => onStemToggle(stem.id, type),
         onVolumeChange: (vol: number) => onStemVolumeChange(stem.id, vol),
         onSeek,
-        onAction: (action: 'midi' | 'reference' | 'download' | 'effects' | 'view-notes' | 'delete' | 'arrangement') =>
+        onAction: (action: "midi" | "reference" | "download" | "effects" | "view-notes" | "delete" | "arrangement") =>
           onStemAction(stem, action),
       };
 
@@ -114,7 +117,7 @@ function VirtualizedStemListComponent({
       onStemAction,
       renderMobileRow,
       renderDesktopRow,
-    ]
+    ],
   );
 
   // Non-virtualized rendering for small lists
@@ -126,7 +129,7 @@ function VirtualizedStemListComponent({
             {stems.map((stem, index) => {
               const state = stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 };
               const transcription = transcriptionsByStem?.[stem.id];
-              
+
               return (
                 <motion.div
                   key={stem.id}
@@ -155,7 +158,7 @@ function VirtualizedStemListComponent({
             {stems.map((stem, index) => {
               const state = stemStates[stem.id] || { muted: false, solo: false, volume: 0.85 };
               const transcription = transcriptionsByStem?.[stem.id];
-              
+
               return (
                 <motion.div
                   key={stem.id}

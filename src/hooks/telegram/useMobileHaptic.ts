@@ -7,11 +7,11 @@
  * @see https://core.telegram.org/bots/webapps#hapticfeedback
  */
 
-import { useCallback } from 'react';
-import { logger } from '@/lib/logger';
+import { useCallback } from "react";
+import { logger } from "@/lib/logger";
 
-type HapticImpactStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
-type HapticNotificationType = 'error' | 'success' | 'warning';
+type HapticImpactStyle = "light" | "medium" | "heavy" | "rigid" | "soft";
+type HapticNotificationType = "error" | "success" | "warning";
 
 interface HapticFeedback {
   /**
@@ -39,28 +39,34 @@ export function useMobileHaptic(): HapticFeedback {
   const hapticAPI = window.Telegram?.WebApp?.HapticFeedback;
   const isAvailable = !!hapticAPI;
 
-  const impact = useCallback((style: HapticImpactStyle = 'light') => {
-    try {
-      hapticAPI?.impactOccurred(style);
-    } catch (error) {
-      // Silently fail - haptic feedback is not critical
-      logger.warn('Haptic feedback not available', { error: String(error) });
-    }
-  }, [hapticAPI]);
+  const impact = useCallback(
+    (style: HapticImpactStyle = "light") => {
+      try {
+        hapticAPI?.impactOccurred(style);
+      } catch (error) {
+        // Silently fail - haptic feedback is not critical
+        logger.warn("Haptic feedback not available", { error: String(error) });
+      }
+    },
+    [hapticAPI],
+  );
 
-  const notification = useCallback((type: HapticNotificationType) => {
-    try {
-      hapticAPI?.notificationOccurred(type);
-    } catch (error) {
-      logger.warn('Haptic feedback not available', { error: String(error) });
-    }
-  }, [hapticAPI]);
+  const notification = useCallback(
+    (type: HapticNotificationType) => {
+      try {
+        hapticAPI?.notificationOccurred(type);
+      } catch (error) {
+        logger.warn("Haptic feedback not available", { error: String(error) });
+      }
+    },
+    [hapticAPI],
+  );
 
   const selectionChanged = useCallback(() => {
     try {
       hapticAPI?.selectionChanged();
     } catch (error) {
-      logger.warn('Haptic feedback not available', { error: String(error) });
+      logger.warn("Haptic feedback not available", { error: String(error) });
     }
   }, [hapticAPI]);
 

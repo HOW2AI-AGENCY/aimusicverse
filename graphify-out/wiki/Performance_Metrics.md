@@ -29,7 +29,7 @@
 - [memorySamples](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L239) (1 connections)
 - [metrics](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L155) (1 connections)
 - [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L178) (1 connections)
-- *... and 5 more nodes in this community*
+- _... and 5 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

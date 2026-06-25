@@ -23,7 +23,7 @@ export interface ProjectGenerationContext {
   projectTitle: string;
   projectGenre?: string;
   projectMood?: string;
-  projectLanguage?: 'ru' | 'en';
+  projectLanguage?: "ru" | "en";
   projectConcept?: string;
   existingTracks: ProjectTrackInfo[];
   targetTrackCount?: number;
@@ -36,12 +36,12 @@ export interface ProjectTrackInfo {
   title: string;
   style?: string;
   hasLyrics: boolean;
-  status: 'draft' | 'generating' | 'completed' | 'approved';
+  status: "draft" | "generating" | "completed" | "approved";
 }
 
 export interface SmartSuggestion {
   id: string;
-  type: 'prompt' | 'style' | 'mood' | 'continuation' | 'variation';
+  type: "prompt" | "style" | "mood" | "continuation" | "variation";
   title: string;
   description: string;
   prompt: string;
@@ -52,7 +52,7 @@ export interface SmartSuggestion {
     basedOnTrack?: string;
     genre?: string;
     mood?: string;
-    energy?: 'low' | 'medium' | 'high';
+    energy?: "low" | "medium" | "high";
   };
 }
 
@@ -73,4 +73,4 @@ export interface SmartAssistantActions {
   setProjectContext: (context: ProjectGenerationContext | null) => void;
 }
 
-export type SmartAssistantMode = 'minimal' | 'inline' | 'panel' | 'dialog';
+export type SmartAssistantMode = "minimal" | "inline" | "panel" | "dialog";

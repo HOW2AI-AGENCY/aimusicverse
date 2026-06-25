@@ -12,18 +12,18 @@
 
 ### 🎯 Реализованные User Stories
 
-| ID | Название | SP | Статус |
-|----|----------|----|----|
-| US-001 | Quick Start Button | 5 | ❌ Отменено (есть кнопка + в navbar) |
-| US-003 | User-Friendly Error Messages | 5 | ✅ Complete |
-| US-004 | Automatic Retry | 3 | ✅ Complete |
-| US-005 | First Comment CTA | 3 | ✅ Complete |
-| US-006 | Comment Suggestions | 2 | ✅ Complete |
-| US-007 | Personalized Recommendations | 5 | ✅ Complete |
-| US-008 | Continue Creating CTA | 2 | ✅ Complete |
-| US-009 | Loading State Improvements | 2 | ✅ Complete |
-| US-002 | Simplified Generation Form | 3 | 🔄 Not started |
-| US-010 | Analytics Integration | 3 | 🔄 Partial |
+| ID     | Название                     | SP  | Статус                               |
+| ------ | ---------------------------- | --- | ------------------------------------ |
+| US-001 | Quick Start Button           | 5   | ❌ Отменено (есть кнопка + в navbar) |
+| US-003 | User-Friendly Error Messages | 5   | ✅ Complete                          |
+| US-004 | Automatic Retry              | 3   | ✅ Complete                          |
+| US-005 | First Comment CTA            | 3   | ✅ Complete                          |
+| US-006 | Comment Suggestions          | 2   | ✅ Complete                          |
+| US-007 | Personalized Recommendations | 5   | ✅ Complete                          |
+| US-008 | Continue Creating CTA        | 2   | ✅ Complete                          |
+| US-009 | Loading State Improvements   | 2   | ✅ Complete                          |
+| US-002 | Simplified Generation Form   | 3   | 🔄 Not started                       |
+| US-010 | Analytics Integration        | 3   | 🔄 Partial                           |
 
 **Итого:** 7/10 завершено, 22 SP реализовано
 
@@ -32,21 +32,23 @@
 ## 📦 Созданные файлы
 
 ### Компоненты
-| Файл | Строк | Назначение |
-|------|-------|------------|
-| `UserFriendlyError.tsx` | 180 | Понятные сообщения об ошибках |
-| `FirstCommentCTA.tsx` | 240 | CTA для первого комментария |
-| `CommentSuggestions.tsx` | 200 | Подсказки для комментариев |
-| `PersonalizedRecommendations.tsx` | 220 | Персонализированные рекомендации |
-| `ContinueCreatingCTA.tsx` | 230 | CTA после завершения трека |
-| `TrackListSkeleton.tsx` | 260 | Skeleton loaders |
+
+| Файл                              | Строк | Назначение                       |
+| --------------------------------- | ----- | -------------------------------- |
+| `UserFriendlyError.tsx`           | 180   | Понятные сообщения об ошибках    |
+| `FirstCommentCTA.tsx`             | 240   | CTA для первого комментария      |
+| `CommentSuggestions.tsx`          | 200   | Подсказки для комментариев       |
+| `PersonalizedRecommendations.tsx` | 220   | Персонализированные рекомендации |
+| `ContinueCreatingCTA.tsx`         | 230   | CTA после завершения трека       |
+| `TrackListSkeleton.tsx`           | 260   | Skeleton loaders                 |
 
 ### Утилиты и хуки
-| Файл | Строк | Назначение |
-|------|-------|------------|
-| `suno-error-mapper.ts` | 280 | Маппинг ошибок Suno API |
-| `track-similarity.ts` | 180 | Алгоритм похожести |
-| `useAutomaticRetry.ts` | 170 | Автоматический retry |
+
+| Файл                   | Строк | Назначение              |
+| ---------------------- | ----- | ----------------------- |
+| `suno-error-mapper.ts` | 280   | Маппинг ошибок Suno API |
+| `track-similarity.ts`  | 180   | Алгоритм похожести      |
+| `useAutomaticRetry.ts` | 170   | Автоматический retry    |
 
 **Итого:** ~1,940 строк production кода
 
@@ -57,6 +59,7 @@
 ### Отменено: Quick Start Button
 
 **Причина:** В BottomNavigation уже есть кнопка `+` (FAB) которая:
+
 - Всегда видна и доступна
 - Открывает GenerateSheet
 - Пульсирует при активных генерациях
@@ -73,10 +76,12 @@
 ### 1. User-Friendly Error Messages
 
 **Файлы:**
+
 - `src/lib/suno-error-mapper.ts` - 20+ типов ошибок
 - `src/components/errors/UserFriendlyError.tsx` - 3 варианта display
 
 **Возможности:**
+
 - Маппинг всех ошибок Suno API
 - Понятные title, message, action
 - Retryable vs non-retryable
@@ -87,6 +92,7 @@
 **Файл:** `src/hooks/useAutomaticRetry.ts`
 
 **Возможности:**
+
 - Exponential backoff: 1s, 2s, 4s, 8s
 - Configurable maxRetries
 - AbortSignal support
@@ -98,6 +104,7 @@
 **Файл:** `src/components/comments/FirstCommentCTA.tsx`
 
 **Возможности:**
+
 - 3 варианта: banner, card, compact
 - Animated gradient design
 - 7-дневная память об отклонении
@@ -108,6 +115,7 @@
 **Файл:** `src/components/comments/CommentSuggestions.tsx`
 
 **Возможности:**
+
 - 10+ жанровых наборов
 - Context-aware по style/mood
 - 3 варианта: chips, list, compact
@@ -116,10 +124,12 @@
 ### 5. Personalized Recommendations
 
 **Файлы:**
+
 - `src/lib/track-similarity.ts` - алгоритм
 - `src/components/discovery/PersonalizedRecommendations.tsx`
 
 **Возможности:**
+
 - Similarity: 40% style, 30% mood, 30% tags
 - "Create similar" action
 - Explain similarity
@@ -130,6 +140,7 @@
 **Файл:** `src/components/generation/ContinueCreatingCTA.tsx`
 
 **Возможности:**
+
 - Показывается после завершения трека
 - Prefill с похожими параметрами
 - 3 варианта: banner, card, inline
@@ -140,6 +151,7 @@
 **Файл:** `src/components/ui/skeletons/TrackListSkeleton.tsx`
 
 **Возможности:**
+
 - TrackCardSkeleton, TrackRowSkeleton
 - TrackListSkeleton, TrackGridSkeleton
 - HeroSkeleton, SectionHeaderSkeleton
@@ -154,61 +166,67 @@
 ### В существующие страницы:
 
 #### 1. Index.tsx - Добавить ContinueCreatingCTA
+
 ```tsx
-import { ContinueCreatingCTA } from '@/components/generation/ContinueCreatingCTA';
+import { ContinueCreatingCTA } from "@/components/generation/ContinueCreatingCTA";
 
 // После FirstTimeHeroCard или HomeQuickCreate
-{user?.firstTrack && (
-  <ContinueCreatingCTA
-    track={firstTrack}
-    variant="banner"
-  />
-)}
+{
+  user?.firstTrack && <ContinueCreatingCTA track={firstTrack} variant="banner" />;
+}
 ```
 
 #### 2. Track detail page - Добавить FirstCommentCTA
-```tsx
-import { FirstCommentCTA } from '@/components/comments/FirstCommentCTA';
 
-{track.comment_count === 0 && (
-  <FirstCommentCTA
-    trackId={track.id}
-    trackTitle={track.title}
-    onOpenComments={() => setCommentsOpen(true)}
-    variant="banner"
-  />
-)}
+```tsx
+import { FirstCommentCTA } from "@/components/comments/FirstCommentCTA";
+
+{
+  track.comment_count === 0 && (
+    <FirstCommentCTA
+      trackId={track.id}
+      trackTitle={track.title}
+      onOpenComments={() => setCommentsOpen(true)}
+      variant="banner"
+    />
+  );
+}
 ```
 
 #### 3. Comments sheet - Добавить CommentSuggestions
+
 ```tsx
-import { CommentSuggestions } from '@/components/comments/CommentSuggestions';
+import { CommentSuggestions } from "@/components/comments/CommentSuggestions";
 
 <CommentSuggestions
   trackStyle={track.style}
   trackMood={track.mood}
   onSuggestionSelect={(s) => setComment(s)}
   variant="chips"
-/>
+/>;
 ```
 
 #### 4. After first generation - Показать рекомендации
-```tsx
-import { PersonalizedRecommendations } from '@/components/discovery/PersonalizedRecommendations';
 
-{isFirstGeneration && (
-  <PersonalizedRecommendations
-    userTrack={generatedTrack}
-    onTrackClick={(id) => navigate(`/track/${id}`)}
-    onCreateSimilar={(style, mood) => startGeneration({ style, mood })}
-  />
-)}
+```tsx
+import { PersonalizedRecommendations } from "@/components/discovery/PersonalizedRecommendations";
+
+{
+  isFirstGeneration && (
+    <PersonalizedRecommendations
+      userTrack={generatedTrack}
+      onTrackClick={(id) => navigate(`/track/${id}`)}
+      onCreateSimilar={(style, mood) => startGeneration({ style, mood })}
+    />
+  );
+}
 ```
 
 #### 5. Error handling в useGenerateForm
+
 ```tsx
-import { mapSunoError } from '@/lib/suno-error-mapper';
-import { UserFriendlyErrorDisplay } from '@/components/errors/UserFriendlyError';
+import { mapSunoError } from "@/lib/suno-error-mapper";
+import { UserFriendlyErrorDisplay } from "@/components/errors/UserFriendlyError";
 
 try {
   await generateTrack(params);
@@ -223,14 +241,13 @@ try {
 ```
 
 #### 6. Skeleton loaders в списках
-```tsx
-import { TrackListSkeleton, TrackGridSkeleton } from '@/components/ui/skeletons/TrackListSkeleton';
 
-{isLoading ? (
-  <TrackGridSkeleton count={8} columns={2} />
-) : (
-  <TracksGrid tracks={tracks} />
-)}
+```tsx
+import { TrackListSkeleton, TrackGridSkeleton } from "@/components/ui/skeletons/TrackListSkeleton";
+
+{
+  isLoading ? <TrackGridSkeleton count={8} columns={2} /> : <TracksGrid tracks={tracks} />;
+}
 ```
 
 ---
@@ -238,31 +255,33 @@ import { TrackListSkeleton, TrackGridSkeleton } from '@/components/ui/skeletons/
 ## 📊 Метрики для отслеживания
 
 ### Events
+
 ```typescript
 // Engagement
-'comment_cta_shown'
-'comment_cta_tapped'
-'comment_cta_dismissed'
-'comment_suggestion_used'
+"comment_cta_shown";
+"comment_cta_tapped";
+"comment_cta_dismissed";
+"comment_suggestion_used";
 
 // Recommendations
-'recommendation_clicked'
-'create_similar_tapped'
-'continue_creating_tapped'
+"recommendation_clicked";
+"create_similar_tapped";
+"continue_creating_tapped";
 
 // Errors
-'generation_retry_attempt'
-'generation_retry_success'
-'generation_retry_failed'
+"generation_retry_attempt";
+"generation_retry_success";
+"generation_retry_failed";
 ```
 
 ### Success Metrics
-| Метрика | Сейчас | Target (2 недели) |
-|---------|--------|-------------------|
-| Comment Rate | 0% | 5%+ |
-| Continue Creating Rate | N/A | 20%+ |
-| Error Recovery Rate | 40% | 70%+ |
-| Recommendation CTR | N/A | 15%+ |
+
+| Метрика                | Сейчас | Target (2 недели) |
+| ---------------------- | ------ | ----------------- |
+| Comment Rate           | 0%     | 5%+               |
+| Continue Creating Rate | N/A    | 20%+              |
+| Error Recovery Rate    | 40%    | 70%+              |
+| Recommendation CTR     | N/A    | 15%+              |
 
 ---
 

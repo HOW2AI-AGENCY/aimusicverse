@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { useAuth } from '@/hooks/useAuth';
-import { useUserRole } from '@/hooks/useUserRole';
-import { PricingCard, type StarsProduct } from '@/components/payment/PricingCard';
-import { TierComparisonCard } from '@/components/premium/TierComparisonCard';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from 'sonner';
-import { Loader2, Coins, Crown } from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { logger } from '@/lib/logger';
-import { SEOHead } from '@/components/SEOHead';
+import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useUserRole } from "@/hooks/useUserRole";
+import { PricingCard, type StarsProduct } from "@/components/payment/PricingCard";
+import { TierComparisonCard } from "@/components/premium/TierComparisonCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+import { Loader2, Coins, Crown } from "lucide-react";
+import { motion } from "@/lib/motion";
+import { logger } from "@/lib/logger";
+import { SEOHead } from "@/components/SEOHead";
 
 interface DBProduct {
   id: string;
@@ -33,14 +33,14 @@ function mapToStarsProduct(p: DBProduct): StarsProduct {
   return {
     id: p.id,
     product_code: p.product_code,
-    product_type: p.product_type as 'credit_package' | 'subscription',
+    product_type: p.product_type as "credit_package" | "subscription",
     name: { ru: p.name, en: p.name },
-    description: { ru: p.description || '', en: p.description || '' },
+    description: { ru: p.description || "", en: p.description || "" },
     stars_price: p.stars_price,
     credits_amount: p.credits_amount ?? undefined,
     features: Array.isArray(p.features) ? (p.features as string[]) : [],
     is_featured: p.is_popular ?? false,
-    status: p.status || 'active',
+    status: p.status || "active",
   };
 }
 
@@ -66,14 +66,18 @@ export default function Pricing() {
   }, [webApp]);
 
   // Fetch products
-  const { data: products, isLoading, error } = useQuery({
-    queryKey: ['stars-products'],
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["stars-products"],
     queryFn: async (): Promise<StarsProduct[]> => {
       const { data, error } = await supabase
-        .from('stars_products')
-        .select('*')
-        .eq('status', 'active')
-        .order('sort_order', { ascending: true });
+        .from("stars_products")
+        .select("*")
+        .eq("status", "active")
+        .order("sort_order", { ascending: true });
 
       if (error) throw error;
       return ((data || []) as DBProduct[]).map(mapToStarsProduct);
@@ -100,15 +104,13 @@ export default function Pricing() {
     return <Navigate to="/" replace />;
   }
 
-
-
   // Filter products by type
-  const creditPackages = products?.filter(p => p.product_type === 'credit_package') || [];
-  const subscriptions = products?.filter(p => p.product_type === 'subscription') || [];
+  const creditPackages = products?.filter((p) => p.product_type === "credit_package") || [];
+  const subscriptions = products?.filter((p) => p.product_type === "subscription") || [];
 
   const handlePurchase = async (productCode: string) => {
     if (!userId) {
-      showAlert?.('Необходима авторизация через Telegram');
+      showAlert?.("Необходима авторизация через Telegram");
       return;
     }
 
@@ -119,36 +121,32 @@ export default function Pricing() {
       const token = authData.session?.access_token;
 
       if (!token) {
-        throw new Error('Не удалось получить токен авторизации');
+        throw new Error("Не удалось получить токен авторизации");
       }
 
       // Tinkoff payment - карты, СБП, Tinkoff Pay (only RUB)
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tinkoff-create-payment`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({ productCode }),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/tinkoff-create-payment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ productCode }),
+      });
 
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Не удалось создать платёж');
+        throw new Error(result.error || "Не удалось создать платёж");
       }
 
       // Redirect to Tinkoff payment page
       window.location.href = result.paymentUrl;
-
     } catch (error: unknown) {
       const err = error instanceof Error ? error : new Error(String(error));
-      logger.error('Purchase error', err, { productCode, userId });
-      toast.error('Ошибка при создании платежа', {
-        description: err.message || 'Попробуйте позже',
+      logger.error("Purchase error", err, { productCode, userId });
+      toast.error("Ошибка при создании платежа", {
+        description: err.message || "Попробуйте позже",
       });
       setPurchasingProduct(null);
     }
@@ -167,7 +165,7 @@ export default function Pricing() {
       <div className="flex flex-col items-center justify-center min-h-screen px-4">
         <p className="text-destructive mb-4">Ошибка загрузки продуктов</p>
         <button
-          onClick={() => queryClient.invalidateQueries({ queryKey: ['stars-products'] })}
+          onClick={() => queryClient.invalidateQueries({ queryKey: ["stars-products"] })}
           className="text-primary underline"
         >
           Попробовать снова
@@ -177,10 +175,11 @@ export default function Pricing() {
   }
 
   return (
-    <div 
+    <div
       className="min-h-screen pb-20 px-4"
       style={{
-        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+        paddingTop:
+          "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
       }}
     >
       <SEOHead
@@ -189,17 +188,11 @@ export default function Pricing() {
         canonical="https://aimusicverse.lovable.app/pricing"
       />
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="py-8 text-center"
-      >
+      <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="py-8 text-center">
         <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
           Магазин MusicVerse
         </h1>
-        <p className="text-muted-foreground">
-          Выберите пакет кредитов или подписку
-        </p>
+        <p className="text-muted-foreground">Выберите пакет кредитов или подписку</p>
       </motion.div>
 
       {/* Tabs */}
@@ -218,9 +211,7 @@ export default function Pricing() {
         {/* Credit Packages Tab */}
         <TabsContent value="credits" className="space-y-4">
           {creditPackages.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">
-              Нет доступных пакетов кредитов
-            </p>
+            <p className="text-center text-muted-foreground py-8">Нет доступных пакетов кредитов</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {creditPackages.map((product) => (
@@ -238,9 +229,7 @@ export default function Pricing() {
         {/* Subscriptions Tab */}
         <TabsContent value="subscriptions" className="space-y-4">
           {subscriptions.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">
-              Нет доступных подписок
-            </p>
+            <p className="text-center text-muted-foreground py-8">Нет доступных подписок</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
               {subscriptions.map((product) => (
@@ -272,8 +261,8 @@ export default function Pricing() {
         </ul>
         <div className="mt-4 pt-4 border-t border-border/50">
           <p className="text-xs text-muted-foreground">
-            Все платежи защищены шифрованием и обрабатываются через Tinkoff — 
-            один из крупнейших банков России. Мы не храним данные ваших карт.
+            Все платежи защищены шифрованием и обрабатываются через Tinkoff — один из крупнейших банков России. Мы не
+            храним данные ваших карт.
           </p>
         </div>
       </motion.div>

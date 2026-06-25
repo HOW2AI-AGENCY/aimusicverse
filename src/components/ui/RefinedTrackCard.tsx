@@ -13,14 +13,14 @@
  * - Telegram haptic integration
  */
 
-import { memo, useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Play, Pause, Heart, MoreHorizontal, Music2, Layers } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
-import { Button } from './button';
-import { Badge } from './badge';
-import { pill, interactive, surface } from '@/lib/overlay-colors';
+import { memo, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Play, Pause, Heart, MoreHorizontal, Music2, Layers } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
+import { Button } from "./button";
+import { Badge } from "./badge";
+import { pill, interactive, surface } from "@/lib/overlay-colors";
 
 interface RefinedTrackCardProps {
   id: string;
@@ -37,7 +37,7 @@ interface RefinedTrackCardProps {
   onOptions?: () => void;
   onClick?: () => void;
   className?: string;
-  variant?: 'default' | 'compact' | 'featured';
+  variant?: "default" | "compact" | "featured";
 }
 
 export const RefinedTrackCard = memo(function RefinedTrackCard({
@@ -55,72 +55,83 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
   onOptions,
   onClick,
   className,
-  variant = 'default',
+  variant = "default",
 }: RefinedTrackCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [localLiked, setLocalLiked] = useState(isLiked);
 
-  const handlePlay = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticImpact('medium');
-    onPlay?.();
-  }, [onPlay]);
+  const handlePlay = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      hapticImpact("medium");
+      onPlay?.();
+    },
+    [onPlay],
+  );
 
-  const handleLike = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticImpact('light');
-    setLocalLiked(!localLiked);
-    onLike?.();
-  }, [onLike, localLiked]);
+  const handleLike = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      hapticImpact("light");
+      setLocalLiked(!localLiked);
+      onLike?.();
+    },
+    [onLike, localLiked],
+  );
 
-  const handleOptions = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    hapticImpact('light');
-    onOptions?.();
-  }, [onOptions]);
+  const handleOptions = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      hapticImpact("light");
+      onOptions?.();
+    },
+    [onOptions],
+  );
 
   const handleClick = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     onClick?.();
   }, [onClick]);
 
   const formatDuration = (seconds?: number) => {
-    if (!seconds) return '';
+    if (!seconds) return "";
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    return `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const isCompact = variant === 'compact';
-  const isFeatured = variant === 'featured';
+  const isCompact = variant === "compact";
+  const isFeatured = variant === "featured";
 
   return (
     <motion.div
       className={cn(
-        'group relative rounded-2xl overflow-hidden cursor-pointer',
-        'bg-card/80 backdrop-blur-sm border border-border/50',
-        'shadow-sm hover:shadow-lg transition-shadow duration-300',
-        isPlaying && 'ring-2 ring-primary ring-offset-2 ring-offset-background',
-        isCompact && 'flex items-center gap-3 p-2',
-        isFeatured && 'aspect-[4/3]',
-        !isCompact && !isFeatured && 'aspect-square',
-        className
+        "group relative rounded-2xl overflow-hidden cursor-pointer",
+        "bg-card/80 backdrop-blur-sm border border-border/50",
+        "shadow-sm hover:shadow-lg transition-shadow duration-300",
+        isPlaying && "ring-2 ring-primary ring-offset-2 ring-offset-background",
+        isCompact && "flex items-center gap-3 p-2",
+        isFeatured && "aspect-[4/3]",
+        !isCompact && !isFeatured && "aspect-square",
+        className,
       )}
       onClick={handleClick}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
       layout
     >
       {/* Cover Image */}
-      <div className={cn(
-        'relative overflow-hidden',
-        isCompact ? 'w-14 h-14 rounded-xl flex-shrink-0' : 'w-full h-full',
-        !isCompact && 'absolute inset-0'
-      )}>
+      <div
+        className={cn(
+          "relative overflow-hidden",
+          isCompact ? "w-14 h-14 rounded-xl flex-shrink-0" : "w-full h-full",
+          !isCompact && "absolute inset-0",
+        )}
+      >
         {coverUrl && !imageError ? (
           <motion.img
             src={coverUrl}
@@ -132,17 +143,12 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-primary/30 via-primary/10 to-transparent flex items-center justify-center">
-            <Music2 className={cn(
-              'text-primary/40',
-              isCompact ? 'w-6 h-6' : 'w-12 h-12'
-            )} />
+            <Music2 className={cn("text-primary/40", isCompact ? "w-6 h-6" : "w-12 h-12")} />
           </div>
         )}
 
         {/* Gradient overlay for non-compact */}
-        {!isCompact && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-        )}
+        {!isCompact && <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />}
       </div>
 
       {/* Play button overlay */}
@@ -158,9 +164,9 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
             >
               <motion.button
                 className={cn(
-                  'w-14 h-14 rounded-full flex items-center justify-center',
-                  'bg-primary/90 hover:bg-primary text-primary-foreground',
-                  'shadow-lg shadow-primary/25'
+                  "w-14 h-14 rounded-full flex items-center justify-center",
+                  "bg-primary/90 hover:bg-primary text-primary-foreground",
+                  "shadow-lg shadow-primary/25",
                 )}
                 onClick={handlePlay}
                 whileHover={{ scale: 1.1 }}
@@ -181,26 +187,14 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
       )}
 
       {/* Content */}
-      <div className={cn(
-        isCompact
-          ? 'flex-1 min-w-0'
-          : 'absolute bottom-0 left-0 right-0 p-3'
-      )}>
+      <div className={cn(isCompact ? "flex-1 min-w-0" : "absolute bottom-0 left-0 right-0 p-3")}>
         <div className="flex items-center justify-between gap-2">
           <div className="min-w-0 flex-1">
-            <h3 className={cn(
-              'font-semibold truncate',
-              isCompact ? 'text-sm' : 'text-sm text-white'
-            )}>
-              {title || 'Без названия'}
+            <h3 className={cn("font-semibold truncate", isCompact ? "text-sm" : "text-sm text-white")}>
+              {title || "Без названия"}
             </h3>
             {style && (
-              <p className={cn(
-                'text-xs truncate',
-                isCompact ? 'text-muted-foreground' : 'text-white/70'
-              )}>
-                {style}
-              </p>
+              <p className={cn("text-xs truncate", isCompact ? "text-muted-foreground" : "text-white/70")}>{style}</p>
             )}
           </div>
 
@@ -209,27 +203,20 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
             {/* Like button */}
             <motion.button
               className={cn(
-                'w-8 h-8 rounded-full flex items-center justify-center',
-                'transition-colors',
-                isCompact 
-                  ? interactive.hover 
-                  : surface.medium,
-                localLiked && 'text-red-500'
+                "w-8 h-8 rounded-full flex items-center justify-center",
+                "transition-colors",
+                isCompact ? interactive.hover : surface.medium,
+                localLiked && "text-red-500",
               )}
               onClick={handleLike}
               whileTap={{ scale: 0.85 }}
             >
-              <Heart className={cn('w-4 h-4', localLiked && 'fill-current')} />
+              <Heart className={cn("w-4 h-4", localLiked && "fill-current")} />
             </motion.button>
 
             {/* Compact: play button */}
             {isCompact && (
-              <Button
-                variant="ghost"
-                size="icon"
-                className="w-9 h-9 rounded-full"
-                onClick={handlePlay}
-              >
+              <Button variant="ghost" size="icon" className="w-9 h-9 rounded-full" onClick={handlePlay}>
                 {isPlaying ? (
                   <Pause className="w-4 h-4" fill="currentColor" />
                 ) : (
@@ -242,9 +229,9 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
             {onOptions && (
               <motion.button
                 className={cn(
-                  'w-8 h-8 rounded-full flex items-center justify-center',
-                  'transition-colors',
-                  isCompact ? interactive.hover : cn(surface.medium, 'text-white')
+                  "w-8 h-8 rounded-full flex items-center justify-center",
+                  "transition-colors",
+                  isCompact ? interactive.hover : cn(surface.medium, "text-white"),
                 )}
                 onClick={handleOptions}
                 whileTap={{ scale: 0.85 }}
@@ -278,10 +265,7 @@ export const RefinedTrackCard = memo(function RefinedTrackCard({
 
       {/* Playing indicator */}
       {isPlaying && (
-        <div className={cn(
-          'absolute flex gap-0.5',
-          isCompact ? 'top-1 right-1' : 'top-2 right-2'
-        )}>
+        <div className={cn("absolute flex gap-0.5", isCompact ? "top-1 right-1" : "top-2 right-2")}>
           {[0, 1, 2].map((i) => (
             <motion.div
               key={i}

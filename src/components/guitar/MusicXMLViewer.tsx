@@ -4,13 +4,13 @@
  * Mobile-optimized with touch gestures and responsive layout
  */
 
-import { useRef, useEffect, useState, useMemo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw, Maximize2, Minimize2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useMusicXML } from '@/hooks/useMusicXML';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
+import { useRef, useEffect, useState, useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { Loader2, ZoomIn, ZoomOut, AlertCircle, RefreshCw, Maximize2, Minimize2 } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useMusicXML } from "@/hooks/useMusicXML";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 interface MusicXMLViewerProps {
   url: string;
@@ -35,16 +35,13 @@ export function MusicXMLViewer({
   onError,
   className,
   showControls = false,
-  minHeight = '300px',
+  minHeight = "300px",
 }: MusicXMLViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const fullscreenContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const activeContainerRef = useMemo(
-    () => (isFullscreen ? fullscreenContainerRef : containerRef),
-    [isFullscreen]
-  );
+  const activeContainerRef = useMemo(() => (isFullscreen ? fullscreenContainerRef : containerRef), [isFullscreen]);
 
   const {
     isLoading,
@@ -72,7 +69,6 @@ export function MusicXMLViewer({
       onLoaded?.();
     }
   }, [isLoading, error, onLoaded]);
-
 
   const handleZoomIn = () => {
     const newZoom = internalZoom + 0.1;
@@ -130,11 +126,12 @@ export function MusicXMLViewer({
 
   if (error) {
     return (
-      <div className={cn('flex flex-col items-center justify-center py-6 px-4 min-h-[200px]', className)} style={{ minHeight }}>
+      <div
+        className={cn("flex flex-col items-center justify-center py-6 px-4 min-h-[200px]", className)}
+        style={{ minHeight }}
+      >
         <AlertCircle className="w-8 h-8 sm:w-10 sm:h-10 text-orange-500 mb-3" />
-        <p className="text-sm text-muted-foreground mb-2 text-center">
-          MusicXML недоступен
-        </p>
+        <p className="text-sm text-muted-foreground mb-2 text-center">MusicXML недоступен</p>
         <p className="text-xs text-muted-foreground/70 mb-4 max-w-xs text-center">
           Используйте Piano Roll для просмотра нот
         </p>
@@ -147,10 +144,12 @@ export function MusicXMLViewer({
   }
 
   const ZoomControls = ({ className: controlsClassName }: { className?: string }) => (
-    <div className={cn(
-      'flex items-center gap-1 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-md border',
-      controlsClassName
-    )}>
+    <div
+      className={cn(
+        "flex items-center gap-1 bg-background/95 backdrop-blur-sm rounded-lg p-1 shadow-md border",
+        controlsClassName,
+      )}
+    >
       <Button
         size="icon"
         variant="ghost"
@@ -179,16 +178,15 @@ export function MusicXMLViewer({
         className="h-8 w-8 sm:h-7 sm:w-7"
         onClick={() => setIsFullscreen(!isFullscreen)}
       >
-        {isFullscreen ? (
-          <Minimize2 className="w-4 h-4" />
-        ) : (
-          <Maximize2 className="w-4 h-4" />
-        )}
+        {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
       </Button>
     </div>
   );
 
-  const NotationContent = ({ containerRefProp, minHeight }: { 
+  const NotationContent = ({
+    containerRefProp,
+    minHeight,
+  }: {
     containerRefProp: React.RefObject<HTMLDivElement | null>;
     minHeight: string;
   }) => (
@@ -207,18 +205,18 @@ export function MusicXMLViewer({
       <div
         ref={containerRefProp}
         className={cn(
-          'w-full bg-white rounded-lg overflow-x-auto overflow-y-auto touch-pan-x touch-pan-y',
+          "w-full bg-white rounded-lg overflow-x-auto overflow-y-auto touch-pan-x touch-pan-y",
           // Mobile-optimized
-          'scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent',
-          isLoading && 'opacity-50'
+          "scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent",
+          isLoading && "opacity-50",
         )}
         style={{
-          backgroundColor: '#ffffff',
+          backgroundColor: "#ffffff",
           minHeight,
           // Enable smooth scrolling on touch devices
-          WebkitOverflowScrolling: 'touch',
+          WebkitOverflowScrolling: "touch",
           // Prevent overscroll bounce on iOS
-          overscrollBehavior: 'contain',
+          overscrollBehavior: "contain",
         }}
       />
     </div>
@@ -226,7 +224,7 @@ export function MusicXMLViewer({
 
   return (
     <>
-      <div className={cn('relative', className)}>
+      <div className={cn("relative", className)}>
         {/* Mobile-friendly floating controls */}
         {!isLoading && (
           <div className="absolute top-2 right-2 z-20">
@@ -243,10 +241,7 @@ export function MusicXMLViewer({
           </div>
         )}
 
-        <NotationContent 
-          containerRefProp={containerRef} 
-          minHeight={minHeight} 
-        />
+        <NotationContent containerRefProp={containerRef} minHeight={minHeight} />
       </div>
 
       {/* Fullscreen dialog - mobile optimized */}
@@ -260,10 +255,7 @@ export function MusicXMLViewer({
             <ZoomControls className="mr-6 sm:mr-8" />
           </DialogHeader>
           <div className="flex-1 overflow-auto p-1 sm:p-4 bg-muted/20 min-h-0">
-            <NotationContent 
-              containerRefProp={fullscreenContainerRef} 
-              minHeight="calc(100dvh - 60px)" 
-            />
+            <NotationContent containerRefProp={fullscreenContainerRef} minHeight="calc(100dvh - 60px)" />
           </div>
         </DialogContent>
       </Dialog>

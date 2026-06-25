@@ -7,10 +7,22 @@ import { useEffect, useState, useMemo } from "react";
 import { logger } from "@/lib/logger";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { Button } from "@/components/ui/button";
-import { Home, ArrowLeft, Music2, Search, Radio, Disc3, HeadphonesIcon, FolderOpen, ListMusic, User, Mic2 } from "lucide-react";
-import { motion, AnimatePresence } from '@/lib/motion';
+import {
+  Home,
+  ArrowLeft,
+  Music2,
+  Search,
+  Radio,
+  Disc3,
+  HeadphonesIcon,
+  FolderOpen,
+  ListMusic,
+  User,
+  Mic2,
+} from "lucide-react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
-import { getBotMention } from '@/lib/telegram';
+import { getBotMention } from "@/lib/telegram";
 
 // Content type configuration based on URL path
 interface NotFoundContent {
@@ -25,61 +37,61 @@ interface NotFoundContent {
 }
 
 const getNotFoundContent = (pathname: string): NotFoundContent => {
-  if (pathname.startsWith('/track/') || pathname.startsWith('/tracks/')) {
+  if (pathname.startsWith("/track/") || pathname.startsWith("/tracks/")) {
     return {
-      title: 'Трек не найден',
-      description: 'Этот трек был удалён или никогда не существовал',
+      title: "Трек не найден",
+      description: "Этот трек был удалён или никогда не существовал",
       icon: Music2,
-      primaryAction: { label: 'К библиотеке', path: '/library', icon: ListMusic },
+      primaryAction: { label: "К библиотеке", path: "/library", icon: ListMusic },
     };
   }
-  if (pathname.startsWith('/project/') || pathname.startsWith('/projects/')) {
+  if (pathname.startsWith("/project/") || pathname.startsWith("/projects/")) {
     return {
-      title: 'Проект не найден',
-      description: 'Этот проект был удалён или недоступен',
+      title: "Проект не найден",
+      description: "Этот проект был удалён или недоступен",
       icon: FolderOpen,
-      primaryAction: { label: 'К проектам', path: '/projects', icon: FolderOpen },
+      primaryAction: { label: "К проектам", path: "/projects", icon: FolderOpen },
     };
   }
-  if (pathname.startsWith('/playlist/') || pathname.startsWith('/playlists/')) {
+  if (pathname.startsWith("/playlist/") || pathname.startsWith("/playlists/")) {
     return {
-      title: 'Плейлист не найден',
-      description: 'Этот плейлист был удалён или стал приватным',
+      title: "Плейлист не найден",
+      description: "Этот плейлист был удалён или стал приватным",
       icon: ListMusic,
-      primaryAction: { label: 'К плейлистам', path: '/library?tab=playlists', icon: ListMusic },
+      primaryAction: { label: "К плейлистам", path: "/library?tab=playlists", icon: ListMusic },
     };
   }
-  if (pathname.startsWith('/user/') || pathname.startsWith('/profile/')) {
+  if (pathname.startsWith("/user/") || pathname.startsWith("/profile/")) {
     return {
-      title: 'Пользователь не найден',
-      description: 'Этот профиль не существует или скрыт',
+      title: "Пользователь не найден",
+      description: "Этот профиль не существует или скрыт",
       icon: User,
-      primaryAction: { label: 'Сообщество', path: '/community', icon: User },
+      primaryAction: { label: "Сообщество", path: "/community", icon: User },
     };
   }
-  if (pathname.startsWith('/artist/') || pathname.startsWith('/artists/')) {
+  if (pathname.startsWith("/artist/") || pathname.startsWith("/artists/")) {
     return {
-      title: 'Артист не найден',
-      description: 'Этот AI-артист был удалён или недоступен',
+      title: "Артист не найден",
+      description: "Этот AI-артист был удалён или недоступен",
       icon: Mic2,
-      primaryAction: { label: 'К артистам', path: '/artists', icon: Mic2 },
+      primaryAction: { label: "К артистам", path: "/artists", icon: Mic2 },
     };
   }
-  if (pathname.startsWith('/studio')) {
+  if (pathname.startsWith("/studio")) {
     return {
-      title: 'Студия недоступна',
-      description: 'Выберите трек для открытия в студии',
+      title: "Студия недоступна",
+      description: "Выберите трек для открытия в студии",
       icon: Radio,
-      primaryAction: { label: 'К библиотеке', path: '/library', icon: ListMusic },
+      primaryAction: { label: "К библиотеке", path: "/library", icon: ListMusic },
     };
   }
-  
+
   // Default
   return {
-    title: 'Страница не найдена',
-    description: 'Похоже, эта страница взяла паузу. Вернёмся к музыке?',
+    title: "Страница не найдена",
+    description: "Похоже, эта страница взяла паузу. Вернёмся к музыке?",
     icon: Disc3,
-    primaryAction: { label: 'На главную', path: '/', icon: Home },
+    primaryAction: { label: "На главную", path: "/", icon: Home },
   };
 };
 
@@ -89,9 +101,9 @@ const BrokenRecord = () => (
     className="relative w-32 h-32 sm:w-40 sm:h-40"
     initial={{ rotate: 0, scale: 0.8 }}
     animate={{ rotate: 360, scale: 1 }}
-    transition={{ 
-      rotate: { duration: 8, repeat: Infinity, ease: 'linear' },
-      scale: { duration: 0.5, ease: 'easeOut' }
+    transition={{
+      rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+      scale: { duration: 0.5, ease: "easeOut" },
     }}
   >
     {/* Vinyl disc */}
@@ -100,9 +112,9 @@ const BrokenRecord = () => (
       <div className="absolute inset-[12%] rounded-full border border-zinc-700/40" />
       <div className="absolute inset-[22%] rounded-full border border-zinc-700/40" />
       <div className="absolute inset-[32%] rounded-full border border-zinc-700/40" />
-      
+
       {/* Center label */}
-      <motion.div 
+      <motion.div
         className="absolute inset-[38%] rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center"
         animate={{ scale: [1, 1.1, 1] }}
         transition={{ duration: 2, repeat: Infinity }}
@@ -110,15 +122,15 @@ const BrokenRecord = () => (
         <div className="w-3 h-3 rounded-full bg-background" />
       </motion.div>
     </div>
-    
+
     {/* Crack effect */}
     <motion.div
       className="absolute top-1/2 left-1/2 w-1 h-16 bg-gradient-to-b from-red-500/60 via-red-400/40 to-transparent origin-top"
-      style={{ transform: 'translate(-50%, 0) rotate(25deg)' }}
+      style={{ transform: "translate(-50%, 0) rotate(25deg)" }}
       animate={{ opacity: [0.5, 0.8, 0.5] }}
       transition={{ duration: 1.5, repeat: Infinity }}
     />
-    
+
     {/* Shine effect */}
     <motion.div
       className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 via-transparent to-transparent"
@@ -145,7 +157,7 @@ const FloatingNotes = () => {
           className="absolute text-muted-foreground/30"
           style={{ left: `calc(50% + ${x}px)`, top: `calc(50% + ${y}px)` }}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{ 
+          animate={{
             opacity: [0, 0.6, 0],
             scale: [0.5, 1, 0.5],
             y: [0, -20, 0],
@@ -154,7 +166,7 @@ const FloatingNotes = () => {
             duration: 3,
             repeat: Infinity,
             delay,
-            ease: 'easeInOut',
+            ease: "easeInOut",
           }}
         >
           <Icon className="w-6 h-6" />
@@ -172,7 +184,7 @@ const SoundWave = ({ className }: { className?: string }) => (
         key={i}
         className="w-0.5 bg-muted-foreground/30 rounded-full"
         initial={{ height: 4 }}
-        animate={{ 
+        animate={{
           height: [4, 8 + Math.sin(i * 0.5) * 12, 4],
           opacity: [0.3, 0.6, 0.3],
         }}
@@ -180,7 +192,7 @@ const SoundWave = ({ className }: { className?: string }) => (
           duration: 0.8 + Math.random() * 0.4,
           repeat: Infinity,
           delay: i * 0.05,
-          ease: 'easeInOut',
+          ease: "easeInOut",
         }}
       />
     ))}
@@ -200,10 +212,10 @@ const NotFound = () => {
 
   useEffect(() => {
     logger.error("404 Error: Page not found", undefined, { path: location.pathname });
-    
+
     // Show Telegram back button
     showBackButton(() => {
-      hapticFeedback('light');
+      hapticFeedback("light");
       navigate(-1);
     });
 
@@ -220,12 +232,12 @@ const NotFound = () => {
   }, [location.pathname, showBackButton, hideBackButton, hapticFeedback, navigate]);
 
   const handlePrimaryAction = () => {
-    hapticFeedback('medium');
+    hapticFeedback("medium");
     navigate(content.primaryAction.path);
   };
 
   const handleGoBack = () => {
-    hapticFeedback('light');
+    hapticFeedback("light");
     navigate(-1);
   };
 
@@ -240,7 +252,7 @@ const NotFound = () => {
             y: [0, 30, 0],
             scale: [1, 1.2, 1],
           }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         />
         <motion.div
           className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-primary/5 rounded-full blur-3xl"
@@ -249,7 +261,7 @@ const NotFound = () => {
             y: [0, -30, 0],
             scale: [1, 1.15, 1],
           }}
-          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
 
@@ -263,7 +275,7 @@ const NotFound = () => {
         <div className="relative flex flex-col items-center">
           {/* Floating notes around the record */}
           <FloatingNotes />
-          
+
           {/* Broken record animation */}
           <motion.div
             className="mb-6"
@@ -276,31 +288,28 @@ const NotFound = () => {
 
           {/* 404 with glitch effect */}
           <motion.div
-            className={cn(
-              "relative text-7xl sm:text-8xl font-black mb-2",
-              glitchEffect && "animate-pulse"
-            )}
+            className={cn("relative text-7xl sm:text-8xl font-black mb-2", glitchEffect && "animate-pulse")}
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
           >
             <span className="text-gradient">4</span>
-            <motion.span 
+            <motion.span
               className="text-destructive inline-block"
               animate={{ rotateY: [0, 180, 360] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               0
             </motion.span>
             <span className="text-gradient">4</span>
-            
+
             {/* Glitch layers */}
             <AnimatePresence>
               {glitchEffect && (
                 <>
                   <motion.div
                     className="absolute inset-0 text-primary/50"
-                    style={{ transform: 'translate(-2px, -1px)' }}
+                    style={{ transform: "translate(-2px, -1px)" }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.8 }}
                     exit={{ opacity: 0 }}
@@ -309,7 +318,7 @@ const NotFound = () => {
                   </motion.div>
                   <motion.div
                     className="absolute inset-0 text-generate/50"
-                    style={{ transform: 'translate(2px, 1px)' }}
+                    style={{ transform: "translate(2px, 1px)" }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.8 }}
                     exit={{ opacity: 0 }}
@@ -362,16 +371,14 @@ const NotFound = () => {
           </motion.p>
 
           {/* Path info */}
-          {location.pathname && location.pathname !== '/' && (
+          {location.pathname && location.pathname !== "/" && (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.65 }}
               className="w-full mb-6 rounded-xl bg-muted/30 border border-border/50 p-3"
             >
-              <p className="text-xs text-muted-foreground break-all text-center font-mono">
-                {location.pathname}
-              </p>
+              <p className="text-xs text-muted-foreground break-all text-center font-mono">{location.pathname}</p>
             </motion.div>
           )}
 
@@ -382,30 +389,22 @@ const NotFound = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7 }}
           >
-            <Button 
-              onClick={handlePrimaryAction} 
-              className="w-full h-12 text-base"
-              size="lg"
-            >
+            <Button onClick={handlePrimaryAction} className="w-full h-12 text-base" size="lg">
               <ActionIcon className="mr-2 h-5 w-5" />
               {content.primaryAction.label}
             </Button>
-            
+
             <div className="grid grid-cols-2 gap-3">
-              <Button 
-                onClick={handleGoBack} 
-                variant="outline"
-                className="h-11"
-              >
+              <Button onClick={handleGoBack} variant="outline" className="h-11">
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Назад
               </Button>
-              
-              <Button 
+
+              <Button
                 onClick={() => {
-                  hapticFeedback('light');
-                  navigate('/');
-                }} 
+                  hapticFeedback("light");
+                  navigate("/");
+                }}
                 variant="outline"
                 className="h-11"
               >

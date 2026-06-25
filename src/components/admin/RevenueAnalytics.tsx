@@ -3,13 +3,23 @@
  * Phase 10.4: Revenue Analytics Dashboard
  */
 
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Loader2, TrendingUp, TrendingDown, DollarSign, Star, Users, CreditCard, Package, RefreshCw } from 'lucide-react';
-import { usePaymentAnalytics, useGamificationAnalytics } from '@/hooks/usePaymentAnalytics';
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Loader2,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Star,
+  Users,
+  CreditCard,
+  Package,
+  RefreshCw,
+} from "lucide-react";
+import { usePaymentAnalytics, useGamificationAnalytics } from "@/hooks/usePaymentAnalytics";
 import {
   AreaChart,
   Area,
@@ -23,14 +33,20 @@ import {
   Cell,
   PieChart,
   Pie,
-} from 'recharts';
+} from "recharts";
 
-type TimePeriod = '7 days' | '30 days' | '90 days';
+type TimePeriod = "7 days" | "30 days" | "90 days";
 
-const COLORS = ['hsl(var(--primary))', 'hsl(var(--chart-2))', 'hsl(var(--chart-3))', 'hsl(var(--chart-4))', 'hsl(var(--chart-5))'];
+const COLORS = [
+  "hsl(var(--primary))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+];
 
 export function RevenueAnalytics() {
-  const [period, setPeriod] = useState<TimePeriod>('30 days');
+  const [period, setPeriod] = useState<TimePeriod>("30 days");
 
   const { data: paymentData, isLoading: paymentLoading, refetch: refetchPayment } = usePaymentAnalytics(period);
   const { data: gamificationData, isLoading: gamificationLoading } = useGamificationAnalytics(period);
@@ -39,9 +55,9 @@ export function RevenueAnalytics() {
 
   // Format currency for display
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('ru-RU', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("ru-RU", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 2,
     }).format(value);
   };
@@ -66,12 +82,12 @@ export function RevenueAnalytics() {
           <span className="sm:hidden">Доходы</span>
         </h3>
         <div className="flex items-center gap-1.5 sm:gap-2">
-          <button 
-            onClick={() => refetchPayment()} 
+          <button
+            onClick={() => refetchPayment()}
             className="p-1.5 sm:p-2 hover:bg-accent rounded-md transition-colors touch-manipulation"
             disabled={isLoading}
           >
-            <RefreshCw className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${isLoading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${isLoading ? "animate-spin" : ""}`} />
           </button>
           <Select value={period} onValueChange={(v) => setPeriod(v as TimePeriod)}>
             <SelectTrigger className="w-[90px] sm:w-[120px] h-7 sm:h-8 text-xs">
@@ -135,10 +151,7 @@ export function RevenueAnalytics() {
             <CardContent className="px-2 pb-2 sm:px-4 sm:pb-4">
               {paymentData?.revenue_by_day && paymentData.revenue_by_day.length > 0 ? (
                 <ResponsiveContainer width="100%" height={160}>
-                  <AreaChart
-                    data={paymentData.revenue_by_day}
-                    margin={{ top: 5, right: 5, left: -20, bottom: 0 }}
-                  >
+                  <AreaChart data={paymentData.revenue_by_day} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
                     <defs>
                       <linearGradient id="colorUsd" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3} />
@@ -152,7 +165,7 @@ export function RevenueAnalytics() {
                     <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                     <XAxis
                       dataKey="day"
-                      tick={{ fontSize: 9, fill: 'hsl(var(--muted-foreground))' }}
+                      tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }}
                       tickFormatter={(value) => {
                         const date = new Date(value);
                         return `${date.getDate()}/${date.getMonth() + 1}`;
@@ -160,22 +173,22 @@ export function RevenueAnalytics() {
                       interval="preserveStartEnd"
                     />
                     <YAxis
-                      tick={{ fontSize: 9, fill: 'hsl(var(--muted-foreground))' }}
+                      tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }}
                       tickFormatter={(value) => formatNumber(value)}
                       width={35}
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: 'hsl(var(--popover))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                        fontSize: '11px',
+                        backgroundColor: "hsl(var(--popover))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "8px",
+                        fontSize: "11px",
                       }}
                       formatter={(value: any, name: any) => [
-                        name === 'usd' ? formatCurrency(value) : `${formatNumber(value)} ⭐`,
-                        name === 'usd' ? 'USD' : 'Stars',
+                        name === "usd" ? formatCurrency(value) : `${formatNumber(value)} ⭐`,
+                        name === "usd" ? "USD" : "Stars",
                       ]}
-                      labelFormatter={(label) => new Date(label).toLocaleDateString('ru-RU')}
+                      labelFormatter={(label) => new Date(label).toLocaleDateString("ru-RU")}
                     />
                     <Area
                       type="monotone"
@@ -228,9 +241,7 @@ export function RevenueAnalytics() {
                             />
                             <div className="min-w-0">
                               <p className="font-medium text-xs sm:text-sm truncate">{product.product_code}</p>
-                              <p className="text-[10px] sm:text-xs text-muted-foreground">
-                                {product.sales} продаж
-                              </p>
+                              <p className="text-[10px] sm:text-xs text-muted-foreground">{product.sales} продаж</p>
                             </div>
                           </div>
                           <div className="text-right shrink-0">
@@ -283,10 +294,7 @@ export function RevenueAnalytics() {
                     <ScrollArea className="flex-1 h-[80px] sm:h-[120px]">
                       <div className="space-y-1.5 sm:space-y-2">
                         {paymentData.subscription_breakdown.map((sub, idx) => (
-                          <div
-                            key={sub.product_code}
-                            className="flex items-center justify-between text-xs sm:text-sm"
-                          >
+                          <div key={sub.product_code} className="flex items-center justify-between text-xs sm:text-sm">
                             <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                               <div
                                 className="w-2 h-2 sm:w-3 sm:h-3 rounded-full shrink-0"
@@ -335,15 +343,11 @@ export function RevenueAnalytics() {
                     <p className="text-[10px] sm:text-xs text-muted-foreground">Потрачено</p>
                   </div>
                   <div className="p-2 sm:p-3 rounded-lg bg-muted/30 text-center">
-                    <p className="text-lg sm:text-2xl font-bold">
-                      {gamificationData.avg_level.toFixed(1)}
-                    </p>
+                    <p className="text-lg sm:text-2xl font-bold">{gamificationData.avg_level.toFixed(1)}</p>
                     <p className="text-[10px] sm:text-xs text-muted-foreground">Ср. уровень</p>
                   </div>
                   <div className="p-2 sm:p-3 rounded-lg bg-muted/30 text-center">
-                    <p className="text-lg sm:text-2xl font-bold text-yellow-500">
-                      {gamificationData.max_level}
-                    </p>
+                    <p className="text-lg sm:text-2xl font-bold text-yellow-500">{gamificationData.max_level}</p>
                     <p className="text-[10px] sm:text-xs text-muted-foreground">Макс. уровень</p>
                   </div>
                 </div>
@@ -362,11 +366,15 @@ export function RevenueAnalytics() {
                         <p className="text-[9px] sm:text-[10px] text-muted-foreground">Уник.</p>
                       </div>
                       <div>
-                        <p className="text-sm sm:text-lg font-bold">{gamificationData.checkin_stats.avg_streak.toFixed(1)}</p>
+                        <p className="text-sm sm:text-lg font-bold">
+                          {gamificationData.checkin_stats.avg_streak.toFixed(1)}
+                        </p>
                         <p className="text-[9px] sm:text-[10px] text-muted-foreground">Ср.</p>
                       </div>
                       <div>
-                        <p className="text-sm sm:text-lg font-bold text-yellow-500">{gamificationData.checkin_stats.max_streak}</p>
+                        <p className="text-sm sm:text-lg font-bold text-yellow-500">
+                          {gamificationData.checkin_stats.max_streak}
+                        </p>
                         <p className="text-[9px] sm:text-[10px] text-muted-foreground">Макс.</p>
                       </div>
                     </div>
@@ -392,24 +400,22 @@ function MetricCard({
   title: string;
   value: string | number;
   icon: React.ReactNode;
-  color: 'green' | 'yellow' | 'blue' | 'purple';
+  color: "green" | "yellow" | "blue" | "purple";
   trend?: string;
   subtitle?: string;
 }) {
   const colorClasses = {
-    green: 'bg-green-500/10 text-green-500',
-    yellow: 'bg-yellow-500/10 text-yellow-500',
-    blue: 'bg-blue-500/10 text-blue-500',
-    purple: 'bg-purple-500/10 text-purple-500',
+    green: "bg-green-500/10 text-green-500",
+    yellow: "bg-yellow-500/10 text-yellow-500",
+    blue: "bg-blue-500/10 text-blue-500",
+    purple: "bg-purple-500/10 text-purple-500",
   };
 
   return (
     <Card>
       <CardContent className="p-2 sm:p-3">
         <div className="flex items-start justify-between gap-1">
-          <div className={`p-1 sm:p-1.5 rounded-md ${colorClasses[color]}`}>
-            {icon}
-          </div>
+          <div className={`p-1 sm:p-1.5 rounded-md ${colorClasses[color]}`}>{icon}</div>
           {trend && (
             <Badge variant="outline" className="text-[9px] sm:text-[10px] px-1 h-4 sm:h-5">
               {trend}
@@ -419,9 +425,7 @@ function MetricCard({
         <div className="mt-1.5 sm:mt-2">
           <p className="text-base sm:text-xl font-bold truncate">{value}</p>
           <p className="text-[10px] sm:text-xs text-muted-foreground truncate">{title}</p>
-          {subtitle && (
-            <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5 truncate">{subtitle}</p>
-          )}
+          {subtitle && <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5 truncate">{subtitle}</p>}
         </div>
       </CardContent>
     </Card>

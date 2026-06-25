@@ -1,15 +1,15 @@
 /**
  * Audio Prefetch Manager
- * 
+ *
  * Intelligent prefetching system with priority queue,
  * network awareness, and memory management.
  */
 
-import { logger } from '@/lib/logger';
-import { getCachedAudio, cacheAudio, shouldPrefetch as networkAllowsPrefetch } from '@/lib/audioCache';
-import { preconnectToHost } from './streamingLoader';
+import { logger } from "@/lib/logger";
+import { getCachedAudio, cacheAudio, shouldPrefetch as networkAllowsPrefetch } from "@/lib/audioCache";
+import { preconnectToHost } from "./streamingLoader";
 
-const log = logger.child({ module: 'PrefetchManager' });
+const log = logger.child({ module: "PrefetchManager" });
 
 interface PrefetchTask {
   url: string;
@@ -55,8 +55,8 @@ class PrefetchManager {
     if (this.prefetchedUrls.has(url)) {
       return;
     }
-    
-    const existingIndex = this.queue.findIndex(t => t.url === url);
+
+    const existingIndex = this.queue.findIndex((t) => t.url === url);
     if (existingIndex >= 0) {
       // Update priority if higher
       if (priority < this.queue[existingIndex].priority) {
@@ -65,16 +65,16 @@ class PrefetchManager {
       }
       return;
     }
-    
+
     // Enforce queue size limit
     if (this.queue.length >= this.config.maxQueueSize) {
       // Remove lowest priority item
       this.queue.pop();
     }
-    
+
     // Preconnect to host
     preconnectToHost(url);
-    
+
     // Add to queue
     this.queue.push({
       url,
@@ -83,7 +83,7 @@ class PrefetchManager {
       retries: 0,
       addedAt: Date.now(),
     });
-    
+
     this.sortQueue();
     this.scheduleProcess();
   }
@@ -136,9 +136,9 @@ class PrefetchManager {
 
   private scheduleProcess(): void {
     if (this.isProcessing || this.processTimeoutId) return;
-    
+
     // Use requestIdleCallback for non-blocking processing
-    if ('requestIdleCallback' in window) {
+    if ("requestIdleCallback" in window) {
       (window as any).requestIdleCallback(() => this.process(), { timeout: 1000 });
     } else {
       this.processTimeoutId = setTimeout(() => {
@@ -150,82 +150,78 @@ class PrefetchManager {
 
   private async process(): Promise<void> {
     if (this.isProcessing) return;
-    
+
     // Check network conditions
     if (!networkAllowsPrefetch()) {
-      log.debug('Prefetch skipped: network conditions not suitable');
+      log.debug("Prefetch skipped: network conditions not suitable");
       return;
     }
-    
+
     this.isProcessing = true;
-    
-    while (
-      this.queue.length > 0 &&
-      this.activeCount < this.config.maxConcurrent
-    ) {
+
+    while (this.queue.length > 0 && this.activeCount < this.config.maxConcurrent) {
       const task = this.queue.shift();
       if (!task) break;
-      
+
       // Double-check not already prefetched
       if (this.prefetchedUrls.has(task.url)) {
         continue;
       }
-      
+
       this.activeCount++;
-      
+
       this.processSingleTask(task)
         .catch(() => {})
         .finally(() => {
           this.activeCount--;
-          
+
           // Continue processing if more items
           if (this.queue.length > 0) {
             this.scheduleProcess();
           }
         });
     }
-    
+
     this.isProcessing = false;
   }
 
   private async processSingleTask(task: PrefetchTask): Promise<void> {
     const startTime = Date.now();
-    
+
     try {
       // Check if already cached
       const cached = await getCachedAudio(task.url);
       if (cached) {
         this.prefetchedUrls.add(task.url);
-        log.debug('Already cached', { trackId: task.trackId });
+        log.debug("Already cached", { trackId: task.trackId });
         return;
       }
-      
+
       // Fetch audio
       const response = await fetch(task.url);
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);
       }
-      
+
       const blob = await response.blob();
-      
+
       // Cache it
       await cacheAudio(task.url, blob);
       this.prefetchedUrls.add(task.url);
-      
+
       const duration = Date.now() - startTime;
-      log.debug('Prefetch complete', { 
+      log.debug("Prefetch complete", {
         trackId: task.trackId,
         size: blob.size,
-        durationMs: duration 
+        durationMs: duration,
       });
-      
     } catch (error) {
-      log.warn('Prefetch failed', { 
+      log.warn("Prefetch failed", {
         trackId: task.trackId,
         error,
-        retries: task.retries 
+        retries: task.retries,
       });
-      
+
       // Retry if allowed
       if (task.retries < this.config.retryLimit) {
         setTimeout(() => {
@@ -256,14 +252,19 @@ export function getPrefetchManager(): PrefetchManager {
  * Convenience function to prefetch next tracks
  */
 export function prefetchNextTracks(
-  tracks: Array<{ id: string; streaming_url?: string | null; local_audio_url?: string | null; audio_url?: string | null }>,
-  count: number = 3
+  tracks: Array<{
+    id: string;
+    streaming_url?: string | null;
+    local_audio_url?: string | null;
+    audio_url?: string | null;
+  }>,
+  count: number = 3,
 ): void {
   const manager = getPrefetchManager();
-  
+
   const urls: string[] = [];
   const trackIds: string[] = [];
-  
+
   for (let i = 0; i < Math.min(count, tracks.length); i++) {
     const track = tracks[i];
     const url = track.streaming_url || track.local_audio_url || track.audio_url;
@@ -272,7 +273,7 @@ export function prefetchNextTracks(
       trackIds.push(track.id);
     }
   }
-  
+
   manager.enqueueNext(urls, trackIds);
 }
 

@@ -1408,6 +1408,7 @@ sequenceDiagram
 ## Connections by Relation
 
 ### calls
+
 - [[now]] `INFERRED`
 - [[json]] `INFERRED`
 - [[handleDeepLink()]] `INFERRED`
@@ -1430,8 +1431,9 @@ sequenceDiagram
 - [[handleProjectsCarousel()]] `INFERRED`
 
 ### contains
+
 - [[telegram-api.ts]] `EXTRACTED`
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

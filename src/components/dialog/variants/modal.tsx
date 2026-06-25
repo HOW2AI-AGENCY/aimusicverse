@@ -24,14 +24,14 @@
  * ```
  */
 
-import { useEffect, useRef, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { X } from 'lucide-react';
-import { DialogBackdrop, DialogContainer } from '../unified-dialog';
-import { DIALOG_CONFIG } from '../unified-dialog.config';
-import type { ModalDialogProps } from '../unified-dialog.types';
-import { useHaptic } from '@/hooks/useHaptic';
+import { useEffect, useRef, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { X } from "lucide-react";
+import { DialogBackdrop, DialogContainer } from "../unified-dialog";
+import { DIALOG_CONFIG } from "../unified-dialog.config";
+import type { ModalDialogProps } from "../unified-dialog.types";
+import { useHaptic } from "@/hooks/useHaptic";
 
 export function ModalDialog({
   open,
@@ -40,7 +40,7 @@ export function ModalDialog({
   description,
   children,
   footer,
-  size = 'md',
+  size = "md",
   closeOnOverlayClick = true,
   closeOnEscape = true,
   className,
@@ -57,14 +57,14 @@ export function ModalDialog({
 
     // Focus first focusable element
     const focusableElements = content.querySelectorAll(
-      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
     const firstElement = focusableElements[0] as HTMLElement;
     firstElement?.focus();
 
     // Trap focus within dialog
     const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
+      if (e.key !== "Tab") return;
 
       const first = focusableElements[0] as HTMLElement;
       const last = focusableElements[focusableElements.length - 1] as HTMLElement;
@@ -78,8 +78,8 @@ export function ModalDialog({
       }
     };
 
-    document.addEventListener('keydown', handleTab);
-    return () => document.removeEventListener('keydown', handleTab);
+    document.addEventListener("keydown", handleTab);
+    return () => document.removeEventListener("keydown", handleTab);
   }, [open]);
 
   // Restore focus to trigger element on close
@@ -105,18 +105,16 @@ export function ModalDialog({
   }, [closeOnOverlayClick, handleClose]);
 
   return (
-    <div 
+    <div
       className="fixed inset-0 z-dialog flex items-center justify-center"
       style={{
         // Telegram Mini App safe area support
-        padding: 'max(1rem, max(var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))) 1rem max(1rem, max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))) 1rem',
+        padding:
+          "max(1rem, max(var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))) 1rem max(1rem, max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))) 1rem",
       }}
     >
       {/* Backdrop */}
-      <DialogBackdrop
-        visible={open}
-        onClick={handleOverlayClick}
-      />
+      <DialogBackdrop visible={open} onClick={handleOverlayClick} />
 
       {/* Modal Container */}
       <DialogContainer size={size} className={className}>
@@ -124,9 +122,7 @@ export function ModalDialog({
         <div className="flex items-start justify-between p-4 sm:p-6 border-b">
           <div className="flex-1 pr-2">
             <h2 className="text-lg font-semibold">{title}</h2>
-            {description && (
-              <p className="text-sm text-muted-foreground mt-1">{description}</p>
-            )}
+            {description && <p className="text-sm text-muted-foreground mt-1">{description}</p>}
           </div>
           <button
             onClick={handleClose}
@@ -138,26 +134,22 @@ export function ModalDialog({
         </div>
 
         {/* Content with scroll support */}
-        <div 
-          className="p-4 sm:p-6 overflow-auto" 
-          ref={contentRef} 
-          role="dialog" 
-          aria-modal="true" 
+        <div
+          className="p-4 sm:p-6 overflow-auto"
+          ref={contentRef}
+          role="dialog"
+          aria-modal="true"
           aria-labelledby={title}
-          style={{ 
-            WebkitOverflowScrolling: 'touch',
-            maxHeight: 'calc(85vh - 140px)',
+          style={{
+            WebkitOverflowScrolling: "touch",
+            maxHeight: "calc(85vh - 140px)",
           }}
         >
           {children}
         </div>
 
         {/* Footer */}
-        {footer && (
-          <div className="p-4 sm:p-6 border-t bg-muted/30">
-            {footer}
-          </div>
-        )}
+        {footer && <div className="p-4 sm:p-6 border-t bg-muted/30">{footer}</div>}
       </DialogContainer>
     </div>
   );

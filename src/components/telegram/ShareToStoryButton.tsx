@@ -10,19 +10,19 @@
  * ```
  */
 
-import { useState } from 'react';
-import { Share2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useTelegram } from '@/contexts/telegram';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { logger } from '@/lib/logger';
+} from "@/components/ui/dropdown-menu";
+import { useTelegram } from "@/contexts/telegram";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 interface ShareToStoryButtonProps {
   /** URL of the media to share (audio, video, or image) */
@@ -32,30 +32,30 @@ interface ShareToStoryButtonProps {
   /** Alternative to mediaUrl - link to share */
   link?: string;
   /** Button variant */
-  variant?: 'default' | 'ghost' | 'outline';
+  variant?: "default" | "ghost" | "outline";
   /** Button size */
-  size?: 'default' | 'sm' | 'icon' | 'lg';
+  size?: "default" | "sm" | "icon" | "lg";
   /** Additional className */
   className?: string;
   /** Icon position (only for non-icon sizes) */
-  iconPosition?: 'left' | 'right';
+  iconPosition?: "left" | "right";
 }
 
 export function ShareToStoryButton({
   mediaUrl,
-  text = 'Создано в MusicVerse AI 🎵',
+  text = "Создано в MusicVerse AI 🎵",
   link,
-  variant = 'ghost',
-  size = 'icon',
+  variant = "ghost",
+  size = "icon",
   className,
-  iconPosition = 'left',
+  iconPosition = "left",
 }: ShareToStoryButtonProps) {
   const { shareToStory } = useTelegram();
   const [isSharing, setIsSharing] = useState(false);
 
   const handleShare = async () => {
     if (!shareToStory) {
-      toast.error('Функция доступна только в Telegram');
+      toast.error("Функция доступна только в Telegram");
       return;
     }
 
@@ -66,10 +66,10 @@ export function ShareToStoryButton({
         text,
         link,
       });
-      toast.success('Открыт редактор Telegram Stories');
+      toast.success("Открыт редактор Telegram Stories");
     } catch (error: unknown) {
-      logger.error('Share to story failed', error instanceof Error ? error : new Error(String(error)));
-      toast.error('Не удалось поделиться. Попробуйте позже.');
+      logger.error("Share to story failed", error instanceof Error ? error : new Error(String(error)));
+      toast.error("Не удалось поделиться. Попробуйте позже.");
     } finally {
       setIsSharing(false);
     }
@@ -80,13 +80,13 @@ export function ShareToStoryButton({
 
     try {
       await navigator.clipboard.writeText(link);
-      toast.success('Ссылка скопирована');
+      toast.success("Ссылка скопирована");
     } catch {
-      toast.error('Не удалось скопировать ссылку');
+      toast.error("Не удалось скопировать ссылку");
     }
   };
 
-  const hasMultipleOptions = link && size !== 'icon';
+  const hasMultipleOptions = link && size !== "icon";
 
   // Single button mode
   if (!hasMultipleOptions) {
@@ -96,16 +96,16 @@ export function ShareToStoryButton({
         size={size}
         onClick={handleShare}
         disabled={isSharing || !mediaUrl}
-        className={cn('min-h-touch min-w-touch', className)}
+        className={cn("min-h-touch min-w-touch", className)}
         aria-label="Поделиться в Telegram Stories"
       >
         {isSharing ? (
           <span className="animate-pulse">...</span>
         ) : (
           <>
-            {iconPosition === 'left' && <Share2 className="w-4 h-4" aria-hidden="true" />}
-            {size !== 'icon' && <span className="ml-2">В Stories</span>}
-            {iconPosition === 'right' && <Share2 className="w-4 h-4" aria-hidden="true" />}
+            {iconPosition === "left" && <Share2 className="w-4 h-4" aria-hidden="true" />}
+            {size !== "icon" && <span className="ml-2">В Stories</span>}
+            {iconPosition === "right" && <Share2 className="w-4 h-4" aria-hidden="true" />}
           </>
         )}
       </Button>
@@ -120,7 +120,7 @@ export function ShareToStoryButton({
           variant={variant}
           size={size}
           disabled={isSharing}
-          className={cn('min-h-touch min-w-touch', className)}
+          className={cn("min-h-touch min-w-touch", className)}
           aria-label="Поделиться в Telegram Stories"
         >
           <Share2 className="w-4 h-4" aria-hidden="true" />
@@ -133,12 +133,7 @@ export function ShareToStoryButton({
         </DropdownMenuItem>
         {link && (
           <DropdownMenuItem onClick={handleCopyLink}>
-            <svg
-              className="w-4 h-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -162,8 +157,8 @@ interface ShareTrackToStoryProps {
   trackTitle: string;
   audioUrl: string;
   coverUrl?: string;
-  variant?: 'default' | 'ghost' | 'outline';
-  size?: 'default' | 'sm' | 'icon';
+  variant?: "default" | "ghost" | "outline";
+  size?: "default" | "sm" | "icon";
   className?: string;
 }
 
@@ -172,8 +167,8 @@ export function ShareTrackToStory({
   trackTitle,
   audioUrl,
   coverUrl,
-  variant = 'ghost',
-  size = 'icon',
+  variant = "ghost",
+  size = "icon",
   className,
 }: ShareTrackToStoryProps) {
   const trackLink = `${window.location.origin}/track/${trackId}`;

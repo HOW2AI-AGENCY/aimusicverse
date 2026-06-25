@@ -20,47 +20,46 @@ interface AvatarImageProps extends React.ComponentPropsWithoutRef<typeof AvatarP
   size?: number;
 }
 
-const AvatarImage = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Image>,
-  AvatarImageProps
->(({ className, src, size = 80, ...props }, ref) => {
-  const [isLoaded, setIsLoaded] = React.useState(false);
-  
-  // Optimize avatar URL with size parameter
-  const optimizedSrc = React.useMemo(() => {
-    if (!src) return undefined;
-    return getOptimizedImageUrl(src, { 
-      width: size * 2, // 2x for retina
-      height: size * 2,
-      quality: 75 
-    });
-  }, [src, size]);
+const AvatarImage = React.forwardRef<React.ElementRef<typeof AvatarPrimitive.Image>, AvatarImageProps>(
+  ({ className, src, size = 80, ...props }, ref) => {
+    const [isLoaded, setIsLoaded] = React.useState(false);
 
-  return (
-    <>
-      {/* Blur placeholder while loading */}
-      {!isLoaded && optimizedSrc && (
-        <div 
-          className="absolute inset-0 bg-gradient-to-br from-primary/20 to-muted animate-pulse rounded-full"
-          aria-hidden="true"
+    // Optimize avatar URL with size parameter
+    const optimizedSrc = React.useMemo(() => {
+      if (!src) return undefined;
+      return getOptimizedImageUrl(src, {
+        width: size * 2, // 2x for retina
+        height: size * 2,
+        quality: 75,
+      });
+    }, [src, size]);
+
+    return (
+      <>
+        {/* Blur placeholder while loading */}
+        {!isLoaded && optimizedSrc && (
+          <div
+            className="absolute inset-0 bg-gradient-to-br from-primary/20 to-muted animate-pulse rounded-full"
+            aria-hidden="true"
+          />
+        )}
+        <AvatarPrimitive.Image
+          ref={ref}
+          src={optimizedSrc}
+          loading="lazy"
+          decoding="async"
+          onLoad={() => setIsLoaded(true)}
+          className={cn(
+            "aspect-square h-full w-full transition-opacity duration-200",
+            isLoaded ? "opacity-100" : "opacity-0",
+            className,
+          )}
+          {...props}
         />
-      )}
-      <AvatarPrimitive.Image 
-        ref={ref} 
-        src={optimizedSrc}
-        loading="lazy"
-        decoding="async"
-        onLoad={() => setIsLoaded(true)}
-        className={cn(
-          "aspect-square h-full w-full transition-opacity duration-200",
-          isLoaded ? "opacity-100" : "opacity-0",
-          className
-        )} 
-        {...props} 
-      />
-    </>
-  );
-});
+      </>
+    );
+  },
+);
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
 const AvatarFallback = React.forwardRef<

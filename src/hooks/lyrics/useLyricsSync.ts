@@ -3,7 +3,7 @@
  * Optimized to minimize re-renders while maintaining sync accuracy
  */
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 
 export interface LyricsTimestamp {
   lineIndex: number;
@@ -77,7 +77,7 @@ export function useLyricsSync({
 
       return result;
     },
-    [sortedTimestamps]
+    [sortedTimestamps],
   );
 
   // Get line at specific time
@@ -85,23 +85,23 @@ export function useLyricsSync({
     (time: number): number => {
       return findActiveLineIndex(time);
     },
-    [findActiveLineIndex]
+    [findActiveLineIndex],
   );
 
   // Seek to specific line
   const seekToLine = useCallback(
     (lineIndex: number): number | null => {
-      const ts = sortedTimestamps.find(t => t.lineIndex === lineIndex);
+      const ts = sortedTimestamps.find((t) => t.lineIndex === lineIndex);
       return ts?.startTime ?? null;
     },
-    [sortedTimestamps]
+    [sortedTimestamps],
   );
 
   // Calculate line progress
   const lineProgress = useMemo(() => {
     if (activeLineIndex < 0) return 0;
 
-    const ts = sortedTimestamps.find(t => t.lineIndex === activeLineIndex);
+    const ts = sortedTimestamps.find((t) => t.lineIndex === activeLineIndex);
     if (!ts) return 0;
 
     const lineDuration = ts.endTime - ts.startTime;
@@ -117,9 +117,7 @@ export function useLyricsSync({
       return sortedTimestamps[0]?.lineIndex ?? -1;
     }
 
-    const currentTsIndex = sortedTimestamps.findIndex(
-      t => t.lineIndex === activeLineIndex
-    );
+    const currentTsIndex = sortedTimestamps.findIndex((t) => t.lineIndex === activeLineIndex);
     if (currentTsIndex < 0 || currentTsIndex >= sortedTimestamps.length - 1) {
       return -1;
     }
@@ -135,7 +133,7 @@ export function useLyricsSync({
     }
 
     const newActiveIndex = findActiveLineIndex(currentTime);
-    
+
     if (newActiveIndex !== activeLineIndex) {
       lastUpdateRef.current = now;
       setActiveLineIndex(newActiveIndex);
@@ -165,12 +163,12 @@ export function useLyricsSync({
 export default useLyricsSync;
 
 // Re-export useLyricsStudio from same directory
-export { useLyricsStudio } from './useLyricsStudio';
-export type { 
-  LyricsSection, 
-  LyricsVersion, 
-  SectionNote, 
+export { useLyricsStudio } from "./useLyricsStudio";
+export type {
+  LyricsSection,
+  LyricsVersion,
+  SectionNote,
   LyricsStats,
   AITool,
   UseLyricsStudioReturn,
-} from './useLyricsStudio';
+} from "./useLyricsStudio";

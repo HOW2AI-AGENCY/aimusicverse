@@ -3,11 +3,11 @@
  * Shows MusicVerse-branded prompts every 5-8 seconds
  */
 
-import { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Sparkles, RefreshCw } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Sparkles, RefreshCw } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface CoverPromptSuggesterProps {
   onSelectPrompt?: (prompt: string) => void;
@@ -31,7 +31,12 @@ const BRANDED_PROMPTS = [
   },
   {
     template: "MusicVerse signature: {element} with MV purple-blue color accents",
-    element: ["geometric crystal formations", "flowing liquid metal", "exploding star particles", "digital soundwave patterns"],
+    element: [
+      "geometric crystal formations",
+      "flowing liquid metal",
+      "exploding star particles",
+      "digital soundwave patterns",
+    ],
   },
   // Genre-specific
   {
@@ -42,12 +47,22 @@ const BRANDED_PROMPTS = [
   {
     template: "MusicVerse {genre}: {visual} with dramatic lighting",
     genre: ["rock", "metal", "alternative", "punk"],
-    visual: ["electric guitar engulfed in flames", "shattered glass explosion", "lightning strike on stage", "abstract smoke and fire"],
+    visual: [
+      "electric guitar engulfed in flames",
+      "shattered glass explosion",
+      "lightning strike on stage",
+      "abstract smoke and fire",
+    ],
   },
   {
     template: "MusicVerse {genre}: {visual} with warm golden tones",
     genre: ["jazz", "soul", "R&B", "blues"],
-    visual: ["saxophone silhouette in smoke", "vintage microphone close-up", "piano keys reflection", "intimate club atmosphere"],
+    visual: [
+      "saxophone silhouette in smoke",
+      "vintage microphone close-up",
+      "piano keys reflection",
+      "intimate club atmosphere",
+    ],
   },
   // Artistic styles
   {
@@ -56,7 +71,11 @@ const BRANDED_PROMPTS = [
   },
   {
     template: "MusicVerse vision: {subject} rendered in {technique}",
-    subject: ["human face merging with soundwaves", "headphones transforming to butterflies", "heart made of musical notes"],
+    subject: [
+      "human face merging with soundwaves",
+      "headphones transforming to butterflies",
+      "heart made of musical notes",
+    ],
     technique: ["iridescent 3D render", "glitch art distortion", "watercolor dream style", "photorealistic detail"],
   },
 ];
@@ -65,14 +84,14 @@ const BRANDED_PROMPTS = [
 function generateRandomPrompt(genre?: string, mood?: string): string {
   const template = BRANDED_PROMPTS[Math.floor(Math.random() * BRANDED_PROMPTS.length)];
   let prompt = template.template;
-  
+
   // Replace placeholders
   Object.entries(template).forEach(([key, value]) => {
-    if (key !== 'template' && Array.isArray(value)) {
+    if (key !== "template" && Array.isArray(value)) {
       const placeholder = `{${key}}`;
       if (prompt.includes(placeholder)) {
         // Use genre/mood if matching, otherwise random
-        if (key === 'genre' && genre && value.some(v => genre.toLowerCase().includes(v.toLowerCase()))) {
+        if (key === "genre" && genre && value.some((v) => genre.toLowerCase().includes(v.toLowerCase()))) {
           prompt = prompt.replace(placeholder, genre);
         } else {
           prompt = prompt.replace(placeholder, value[Math.floor(Math.random() * value.length)]);
@@ -80,12 +99,12 @@ function generateRandomPrompt(genre?: string, mood?: string): string {
       }
     }
   });
-  
+
   // Add mood if available
   if (mood && !prompt.toLowerCase().includes(mood.toLowerCase())) {
     prompt += `, ${mood} mood`;
   }
-  
+
   return prompt;
 }
 
@@ -102,13 +121,13 @@ export function CoverPromptSuggester({
 
   const rotatePrompt = useCallback(() => {
     setCurrentPrompt(generateRandomPrompt(genre, mood));
-    setKey(k => k + 1);
+    setKey((k) => k + 1);
   }, [genre, mood]);
 
   // Auto-rotate prompts
   useEffect(() => {
     if (!autoRotate) return;
-    
+
     const interval = setInterval(rotatePrompt, rotationInterval);
     return () => clearInterval(interval);
   }, [autoRotate, rotationInterval, rotatePrompt]);
@@ -132,7 +151,7 @@ export function CoverPromptSuggester({
           <RefreshCw className="w-3 h-3" />
         </Button>
       </div>
-      
+
       <AnimatePresence mode="wait">
         <motion.button
           key={key}
@@ -146,17 +165,15 @@ export function CoverPromptSuggester({
             "bg-gradient-to-r from-primary/10 to-primary/5",
             "border border-primary/20 hover:border-primary/40",
             "transition-colors cursor-pointer",
-            "text-sm text-foreground/80 leading-relaxed"
+            "text-sm text-foreground/80 leading-relaxed",
           )}
         >
           <span className="text-primary font-medium">MusicVerse</span>
-          {currentPrompt.replace(/^MusicVerse\s*/i, '')}
+          {currentPrompt.replace(/^MusicVerse\s*/i, "")}
         </motion.button>
       </AnimatePresence>
-      
-      <p className="text-[10px] text-muted-foreground text-center">
-        Нажмите, чтобы использовать этот промпт
-      </p>
+
+      <p className="text-[10px] text-muted-foreground text-center">Нажмите, чтобы использовать этот промпт</p>
     </div>
   );
 }

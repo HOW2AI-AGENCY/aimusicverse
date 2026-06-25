@@ -16,15 +16,15 @@ All colors MUST be HSL.
 
     /* Telegram Safe Area Variables (устанавливаются автоматически из Telegram WebApp)
        Fallback значения соответствуют типичным iOS устройствам (iPhone 15 Pro) */
-    --tg-safe-area-inset-top: 44px;    /* iOS notch/Dynamic Island fallback */
+    --tg-safe-area-inset-top: 44px; /* iOS notch/Dynamic Island fallback */
     --tg-safe-area-inset-bottom: 34px; /* iOS home indicator fallback */
     --tg-safe-area-inset-left: 0px;
     --tg-safe-area-inset-right: 0px;
-    
+
     /* Telegram Content Safe Area (для учета нативных кнопок Telegram: MainButton, BackButton) */
     --tg-content-safe-area-inset-top: 0px;
     --tg-content-safe-area-inset-bottom: 60px; /* MainButton height fallback */
-    
+
     /* Telegram Viewport Height (обновляется динамически) */
     --tg-viewport-height: 100vh;
     --tg-viewport-stable-height: 100vh;
@@ -80,19 +80,19 @@ All colors MUST be HSL.
     --ring: 207 90% 54%;
 
     --radius: 1rem;
-    
+
     /* Semantic Spacing Tokens (4px base grid) */
-    --space-1: 0.25rem;   /* 4px */
-    --space-2: 0.5rem;    /* 8px */
-    --space-3: 0.75rem;   /* 12px */
-    --space-4: 1rem;      /* 16px */
-    --space-5: 1.25rem;   /* 20px */
-    --space-6: 1.5rem;    /* 24px */
-    --space-8: 2rem;      /* 32px */
-    --space-10: 2.5rem;   /* 40px */
-    --space-12: 3rem;     /* 48px */
-    --space-16: 4rem;     /* 64px */
-    
+    --space-1: 0.25rem; /* 4px */
+    --space-2: 0.5rem; /* 8px */
+    --space-3: 0.75rem; /* 12px */
+    --space-4: 1rem; /* 16px */
+    --space-5: 1.25rem; /* 20px */
+    --space-6: 1.5rem; /* 24px */
+    --space-8: 2rem; /* 32px */
+    --space-10: 2.5rem; /* 40px */
+    --space-12: 3rem; /* 48px */
+    --space-16: 4rem; /* 64px */
+
     /* Motion Duration Tokens */
     --duration-instant: 0ms;
     --duration-fast: 100ms;
@@ -100,7 +100,7 @@ All colors MUST be HSL.
     --duration-slow: 300ms;
     --duration-slower: 400ms;
     --duration-slowest: 500ms;
-    
+
     /* Motion Easing Tokens */
     --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-in: cubic-bezier(0.4, 0, 1, 1);
@@ -108,12 +108,12 @@ All colors MUST be HSL.
     --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
     --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    
+
     /* Touch Target Tokens */
     --touch-target-min: 44px;
     --touch-target-comfortable: 48px;
     --touch-target-large: 56px;
-    
+
     /* Focus Ring Tokens */
     --focus-ring-width: 2px;
     --focus-ring-offset: 2px;
@@ -121,9 +121,9 @@ All colors MUST be HSL.
 
     /* === Unified semantic surfaces (Phase 1 UI unification) ===
        Use these instead of bg-white / bg-black / bg-[#...] in components. */
-    --surface-1: 0 0% 100%;            /* page-level cards */
-    --surface-2: 220 20% 98%;          /* nested cards on surface-1 */
-    --surface-3: 220 15% 94%;          /* nested controls inside surface-2 */
+    --surface-1: 0 0% 100%; /* page-level cards */
+    --surface-2: 220 20% 98%; /* nested cards on surface-1 */
+    --surface-3: 220 15% 94%; /* nested controls inside surface-2 */
     --overlay-scrim: 220 25% 10% / 0.5; /* dialog/sheet backdrop */
     --ring-focus: hsl(207 90% 54% / 0.5);
 
@@ -146,8 +146,8 @@ All colors MUST be HSL.
        Published by MainLayout but kept with safe fallbacks so any component
        can `padding-bottom: calc(var(--bottom-stack-h) + 12px)` without math. */
     --header-h: 56px;
-    --bottom-nav-h: 0px;          /* set by MainLayout when nav visible */
-    --player-h: 0px;              /* set by MainLayout when player active */
+    --bottom-nav-h: 0px; /* set by MainLayout when nav visible */
+    --player-h: 0px; /* set by MainLayout when player active */
     --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px));
     --bottom-stack-h: calc(var(--bottom-nav-h) + var(--player-h) + var(--safe-bottom));
 
@@ -155,17 +155,17 @@ All colors MUST be HSL.
        Mirrors src/constants/z-index.ts so CSS-only files can stay in sync. */
     --z-base: 0;
     --z-raised: 10;
-    --z-sticky-header: 30;        /* MobileHeaderBar */
+    --z-sticky-header: 30; /* MobileHeaderBar */
     --z-overlay: 40;
-    --z-bottom-nav: 50;           /* TabBar */
-    --z-player: 60;               /* CompactPlayer — ABOVE nav */
-    --z-contextual: 70;           /* Hints */
-    --z-fullscreen: 90;           /* MobileFullscreenPlayer, Studio */
+    --z-bottom-nav: 50; /* TabBar */
+    --z-player: 60; /* CompactPlayer — ABOVE nav */
+    --z-contextual: 70; /* Hints */
+    --z-fullscreen: 90; /* MobileFullscreenPlayer, Studio */
     --z-dialog: 140;
     --z-sheet: 150;
     --z-dropdown: 200;
-    --z-toast: 300;               /* Toasts/announcements — top of the world */
-    
+    --z-toast: 300; /* Toasts/announcements — top of the world */
+
     /* Section-specific accent colors - harmonized with primary */
     --generate: 250 80% 60%;
     --generate-glow: 250 80% 70%;
@@ -179,18 +179,18 @@ All colors MUST be HSL.
     --success-glow: 160 70% 52%;
     --warning: 38 95% 50%;
     --warning-glow: 38 95% 60%;
-    
+
     /* Glassmorphism variables */
     --glass-bg: 0 0% 100% / 0.8;
     --glass-border: 220 15% 90%;
     --glass-shadow: 0 8px 32px 0 hsl(220 40% 20% / 0.1);
-    
+
     --gradient-primary: linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%));
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100% / 0.9), hsl(0 0% 100% / 0.7));
     --gradient-hero: linear-gradient(135deg, hsl(207 90% 54% / 0.1), hsl(250 80% 60% / 0.1));
     --gradient-generate: linear-gradient(135deg, hsl(250 80% 60%), hsl(280 75% 55%));
     --gradient-success: linear-gradient(135deg, hsl(160 70% 42%), hsl(175 70% 45%));
-    
+
     --shadow-glass: 0 8px 32px 0 hsl(220 40% 20% / 0.08);
     --shadow-hover: 0 12px 40px 0 hsl(207 90% 54% / 0.15);
     --shadow-glow: 0 0 30px 0 hsl(207 90% 54% / 0.25);
@@ -210,17 +210,17 @@ All colors MUST be HSL.
   .dark {
     /* Dark theme - Midnight + Aurora (MusicVerse 2026)
        Palette: #070713 / #0f1424 / #1a2240 / aurora green #4ade80 */
-    --background: 240 46% 5%;        /* #070713 */
+    --background: 240 46% 5%; /* #070713 */
     --foreground: 220 30% 96%;
 
-    --card: 226 41% 10%;             /* #0f1424 */
+    --card: 226 41% 10%; /* #0f1424 */
     --card-foreground: 220 30% 96%;
 
     --popover: 226 41% 11%;
     --popover-foreground: 220 30% 96%;
 
     /* Primary - Aurora mint (signature accent, desaturated for Linear/Arc-style refinement) */
-    --primary: 152 42% 56%;          /* #62b48a — muted mint, no neon */
+    --primary: 152 42% 56%; /* #62b48a — muted mint, no neon */
     --primary-foreground: 240 46% 5%;
 
     --secondary: 227 32% 16%;
@@ -229,7 +229,7 @@ All colors MUST be HSL.
     --muted: 227 28% 13%;
     --muted-foreground: 222 16% 60%;
 
-    --accent: 227 42% 18%;           /* #1a2240 */
+    --accent: 227 42% 18%; /* #1a2240 */
     --accent-foreground: 152 42% 66%;
 
     --destructive: 0 72% 56%;
@@ -240,11 +240,11 @@ All colors MUST be HSL.
     --ring: 152 42% 56%;
 
     /* Section-specific accent colors (Midnight + Aurora, refined) */
-    --generate: 152 42% 56%;          /* aurora mint */
+    --generate: 152 42% 56%; /* aurora mint */
     --generate-glow: 152 42% 44%;
-    --library: 199 70% 62%;           /* cyan companion, desaturated */
+    --library: 199 70% 62%; /* cyan companion, desaturated */
     --library-glow: 199 70% 48%;
-    --projects: 262 55% 70%;          /* indigo, softer */
+    --projects: 262 55% 70%; /* indigo, softer */
     --projects-glow: 262 55% 56%;
     --community: 330 55% 68%;
     --community-glow: 330 55% 52%;
@@ -334,7 +334,7 @@ All colors MUST be HSL.
     *::-webkit-scrollbar {
       display: none;
     }
-    
+
     /* Optimize touch scrolling performance */
     .overflow-x-auto,
     .overflow-y-auto,
@@ -350,7 +350,7 @@ All colors MUST be HSL.
     min-height: 100dvh; /* Dynamic viewport height for mobile */
     min-height: -webkit-fill-available;
   }
-  
+
   /* Dynamic viewport height variable for JS usage */
   :root {
     --vh: 1vh;
@@ -432,11 +432,7 @@ All colors MUST be HSL.
     margin: 0 auto;
     width: calc(100% - 1.25rem);
     max-width: 28rem;
-    margin-bottom: max(
-      var(--tg-safe-area-inset-bottom, 0px),
-      env(safe-area-inset-bottom, 0px),
-      0.5rem
-    );
+    margin-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px), 0.5rem);
     background: hsl(var(--background) / 0.78);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -470,7 +466,7 @@ All colors MUST be HSL.
   }
 
   .btn-enhanced::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg, hsl(0 0% 100% / 0.15), hsl(0 0% 100% / 0));
@@ -482,7 +478,7 @@ All colors MUST be HSL.
     .btn-enhanced:hover {
       transform: translateY(-1px);
     }
-    
+
     .btn-enhanced:hover::before {
       opacity: 1;
     }
@@ -499,7 +495,7 @@ All colors MUST be HSL.
   }
 
   .gradient-overlay-top::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -538,32 +534,35 @@ All colors MUST be HSL.
    *   .safe-bottom-nav  - Bottom with navigation height (80px)
    *   .safe-page        - Full page container with both safe areas
    * ========================================================================= */
-  
+
   /* Top Safe Areas */
   .safe-top {
     padding-top: calc(
       max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) + 0.75rem
+          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)
+        ) +
+        0.75rem
     );
   }
 
   .safe-top-compact {
     padding-top: calc(
       max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) + 0.5rem
+          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)
+        ) +
+        0.5rem
     );
   }
 
   .safe-top-spacious {
     padding-top: calc(
       max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) + 1rem
+          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)
+        ) +
+        1rem
     );
   }
 
@@ -576,28 +575,15 @@ All colors MUST be HSL.
 
   /* Bottom Safe Areas */
   .safe-bottom {
-    padding-bottom: max(
-      var(--tg-safe-area-inset-bottom, 0px),
-      env(safe-area-inset-bottom, 0px)
-    );
+    padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
   }
 
   .safe-bottom-nav {
-    padding-bottom: calc(
-      max(
-        var(--tg-safe-area-inset-bottom, 0px),
-        env(safe-area-inset-bottom, 0px)
-      ) + 5rem
-    );
+    padding-bottom: calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem);
   }
 
   .safe-bottom-player {
-    padding-bottom: calc(
-      max(
-        var(--tg-safe-area-inset-bottom, 0px),
-        env(safe-area-inset-bottom, 0px)
-      ) + 9rem
-    );
+    padding-bottom: calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 9rem);
   }
 
   /* Page Container Classes */
@@ -605,16 +591,12 @@ All colors MUST be HSL.
     min-height: var(--tg-viewport-stable-height, 100vh);
     padding-top: calc(
       max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) + 0.75rem
+          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)
+        ) +
+        0.75rem
     );
-    padding-bottom: calc(
-      max(
-        var(--tg-safe-area-inset-bottom, 0px),
-        env(safe-area-inset-bottom, 0px)
-      ) + 5rem
-    );
+    padding-bottom: calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem);
   }
 
   .safe-page-fullscreen {
@@ -623,10 +605,7 @@ All colors MUST be HSL.
       var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
       env(safe-area-inset-top, 0px)
     );
-    padding-bottom: max(
-      var(--tg-safe-area-inset-bottom, 0px),
-      env(safe-area-inset-bottom, 0px)
-    );
+    padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
   }
 
   /* Header Classes */
@@ -636,18 +615,29 @@ All colors MUST be HSL.
     z-index: 40;
     padding-top: calc(
       max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) + 0.5rem
+          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)
+        ) +
+        0.5rem
     );
   }
 
   /* Legacy compatibility aliases */
-  .safe-area-top { @apply safe-top; }
-  .safe-area-bottom { @apply safe-bottom; }
-  .header-safe { @apply safe-header; }
-  .content-safe { @apply safe-top safe-bottom; }
-  .bottom-nav-safe { @apply safe-bottom; }
+  .safe-area-top {
+    @apply safe-top;
+  }
+  .safe-area-bottom {
+    @apply safe-bottom;
+  }
+  .header-safe {
+    @apply safe-header;
+  }
+  .content-safe {
+    @apply safe-top safe-bottom;
+  }
+  .bottom-nav-safe {
+    @apply safe-bottom;
+  }
 
   /* Touch feedback utilities - Mobile optimized */
   .touch-manipulation {
@@ -701,7 +691,9 @@ All colors MUST be HSL.
   /* Improved hover states for cards - Desktop only */
   @media (hover: hover) and (pointer: fine) {
     .hover-lift {
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     }
 
     .hover-lift:hover {
@@ -738,12 +730,7 @@ All colors MUST be HSL.
   }
 
   .skeleton-loading {
-    background: linear-gradient(
-      90deg,
-      var(--muted) 0px,
-      rgba(255, 255, 255, 0.1) 40px,
-      var(--muted) 80px
-    );
+    background: linear-gradient(90deg, var(--muted) 0px, rgba(255, 255, 255, 0.1) 40px, var(--muted) 80px);
     background-size: 200px 100%;
     animation: skeleton-loading 1.5s ease-in-out infinite;
   }
@@ -786,11 +773,11 @@ All colors MUST be HSL.
   .perspective-1000 {
     perspective: 1000px;
   }
-  
+
   .preserve-3d {
     transform-style: preserve-3d;
   }
-  
+
   .backface-hidden {
     backface-visibility: hidden;
   }
@@ -811,7 +798,9 @@ All colors MUST be HSL.
 
   /* Adaptive touch targets for mobile */
   @media (max-width: 768px) {
-    .btn-touch, button[type="button"], button[type="submit"] {
+    .btn-touch,
+    button[type="button"],
+    button[type="submit"] {
       min-height: var(--touch-target-min);
     }
   }
@@ -911,7 +900,7 @@ All colors MUST be HSL.
       font-size: 0.65rem;
       line-height: 1.3;
     }
-    
+
     .mobile-text-sm {
       font-size: 0.75rem;
       line-height: 1.4;
@@ -935,7 +924,7 @@ All colors MUST be HSL.
   }
 
   .glow-button::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: -2px;
     background: var(--gradient-generate);
@@ -956,8 +945,14 @@ All colors MUST be HSL.
 
   /* NEW: Ripple effect */
   @keyframes ripple {
-    0% { transform: scale(0); opacity: 0.5; }
-    100% { transform: scale(4); opacity: 0; }
+    0% {
+      transform: scale(0);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(4);
+      opacity: 0;
+    }
   }
 
   .ripple-effect {
@@ -966,7 +961,7 @@ All colors MUST be HSL.
   }
 
   .ripple-effect::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: radial-gradient(circle, hsl(var(--primary) / 0.3) 0%, transparent 70%);
@@ -981,8 +976,12 @@ All colors MUST be HSL.
 
   /* NEW: Vinyl record rotation effect */
   @keyframes vinyl-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .vinyl-spin {
@@ -995,9 +994,18 @@ All colors MUST be HSL.
 
   /* NEW: Pulse ring animation */
   @keyframes pulse-ring {
-    0% { transform: scale(0.95); opacity: 0.7; }
-    50% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(0.95); opacity: 0.7; }
+    0% {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.95);
+      opacity: 0.7;
+    }
   }
 
   .pulse-ring {
@@ -1026,7 +1034,7 @@ All colors MUST be HSL.
   }
 
   .card-glow::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: inherit;
@@ -1042,8 +1050,13 @@ All colors MUST be HSL.
 
   /* NEW: Floating animation */
   @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-6px);
+    }
   }
 
   .animate-float {
@@ -1052,8 +1065,14 @@ All colors MUST be HSL.
 
   /* NEW: Slide up fade animation */
   @keyframes slide-up-fade {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .animate-slide-up {
@@ -1061,18 +1080,36 @@ All colors MUST be HSL.
   }
 
   /* NEW: Stagger children utility (use with data-stagger-index) */
-  [data-stagger-index="0"] { animation-delay: 0ms; }
-  [data-stagger-index="1"] { animation-delay: 50ms; }
-  [data-stagger-index="2"] { animation-delay: 100ms; }
-  [data-stagger-index="3"] { animation-delay: 150ms; }
-  [data-stagger-index="4"] { animation-delay: 200ms; }
-  [data-stagger-index="5"] { animation-delay: 250ms; }
-  [data-stagger-index="6"] { animation-delay: 300ms; }
+  [data-stagger-index="0"] {
+    animation-delay: 0ms;
+  }
+  [data-stagger-index="1"] {
+    animation-delay: 50ms;
+  }
+  [data-stagger-index="2"] {
+    animation-delay: 100ms;
+  }
+  [data-stagger-index="3"] {
+    animation-delay: 150ms;
+  }
+  [data-stagger-index="4"] {
+    animation-delay: 200ms;
+  }
+  [data-stagger-index="5"] {
+    animation-delay: 250ms;
+  }
+  [data-stagger-index="6"] {
+    animation-delay: 300ms;
+  }
 
   /* NEW: Skeleton shimmer effect - GPU accelerated */
   @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 
   .skeleton-shimmer {
@@ -1081,7 +1118,7 @@ All colors MUST be HSL.
   }
 
   .skeleton-shimmer::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: linear-gradient(
@@ -1103,15 +1140,10 @@ All colors MUST be HSL.
   }
 
   .skeleton-shimmer-optimized::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(var(--foreground) / 0.03) 50%,
-      transparent 100%
-    );
+    background: linear-gradient(90deg, transparent 0%, hsl(var(--foreground) / 0.03) 50%, transparent 100%);
     /* Faster animation for snappier feel, GPU accelerated */
     animation: shimmer 1.8s infinite ease-in-out;
     will-change: transform;
@@ -1120,10 +1152,10 @@ All colors MUST be HSL.
 
   /* Skeleton wave animation - subtle left-to-right sweep */
   @keyframes skeleton-wave {
-    0% { 
+    0% {
       background-position: -200% 0;
     }
-    100% { 
+    100% {
       background-position: 200% 0;
     }
   }
@@ -1141,10 +1173,15 @@ All colors MUST be HSL.
 
   /* CSS-only pulse scale animation for LoadingSpinner music variant */
   @keyframes css-pulse-scale {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
   }
-  
+
   .css-pulse-scale {
     animation: css-pulse-scale 1.5s ease-in-out infinite;
     will-change: transform;
@@ -1157,11 +1194,11 @@ All colors MUST be HSL.
       animation: none;
       background: hsl(var(--foreground) / 0.05);
     }
-    
+
     .skeleton-wave {
       animation: none;
     }
-    
+
     .css-pulse-scale {
       animation: none;
     }
@@ -1169,8 +1206,12 @@ All colors MUST be HSL.
 
   /* NEW: Slow spin for version switch icon */
   @keyframes spin-slow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .animate-spin-slow {
@@ -1206,13 +1247,14 @@ All colors MUST be HSL.
 
   /* Interactive Card Pressable Effect */
   .card-pressable {
-    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .card-pressable:active {
     transform: scale(0.98);
-    box-shadow: 
+    box-shadow:
       0 2px 8px -1px hsl(220 40% 10% / 0.04),
       0 4px 16px -2px hsl(220 40% 10% / 0.08);
   }
@@ -1278,8 +1320,15 @@ All colors MUST be HSL.
 
   /* Slow pulse for background elements */
   @keyframes pulse-slow {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.05); }
+    0%,
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.6;
+      transform: scale(1.05);
+    }
   }
 
   .animate-pulse-slow {
@@ -1350,14 +1399,14 @@ html {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
   }
-  
+
   /* Prevent scroll bounce on body when keyboard is open */
   body.keyboard-open {
     position: fixed;
     width: 100%;
     overflow: hidden;
   }
-  
+
   /* Ensure backdrop-filter works on iOS */
   .backdrop-blur-sm,
   .backdrop-blur,
@@ -1366,18 +1415,18 @@ html {
   .backdrop-blur-xl {
     -webkit-backdrop-filter: blur(8px);
   }
-  
+
   /* Fix for iOS Safari 100vh issue */
   .min-h-screen {
     min-height: 100vh;
     min-height: -webkit-fill-available;
   }
-  
+
   .h-screen {
     height: 100vh;
     height: -webkit-fill-available;
   }
-  
+
   /* Minimum touch target size for iOS (44x44px) */
   /* Exclude .chip-button for small inline chips that should scroll horizontally */
   button:not(.icon-button):not(.chip-button),
@@ -1408,23 +1457,24 @@ html {
 /* Telegram Mini App specific fixes */
 @media screen and (max-width: 768px) {
   /* Prevent overscroll/bounce effect that can close Mini App */
-  html, body {
+  html,
+  body {
     overscroll-behavior: none;
     overscroll-behavior-y: none;
   }
-  
+
   /* Enable scroll anchoring on main content to prevent scroll jumps during lazy loading */
   #main-content {
     overflow-anchor: auto;
     /* Contain layout to prevent reflow cascades */
     contain: layout style;
   }
-  
+
   /* Lazy sections should not anchor during loading */
   [data-lazy-loading="true"] {
     overflow-anchor: none;
   }
-  
+
   /* Ensure content doesn't get hidden behind keyboard (Telegram + iOS) */
   .pb-safe {
     padding-bottom: max(
@@ -1491,13 +1541,13 @@ select:focus-visible,
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  
+
   /* Preserve essential opacity transitions for accessibility */
   .preserve-opacity-transition {
     transition-duration: 150ms !important;
     transition-property: opacity !important;
   }
-  
+
   /* Disable parallax and complex transforms */
   .parallax,
   .animate-float,
@@ -1570,15 +1620,30 @@ select:focus-visible,
 
 /* Top safe area utilities */
 .safe-top {
-  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  padding-top: max(
+    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+    env(safe-area-inset-top, 0px)
+  );
 }
 
 .safe-top-compact {
-  padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.5rem);
+  padding-top: calc(
+    max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) +
+      0.5rem
+  );
 }
 
 .safe-top-spacious {
-  padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 1rem);
+  padding-top: calc(
+    max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) +
+      1rem
+  );
 }
 
 /* Bottom safe area utilities */
@@ -1596,18 +1661,30 @@ select:focus-visible,
 
 /* Vertical safe area (top + bottom) */
 .safe-vertical {
-  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  padding-top: max(
+    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+    env(safe-area-inset-top, 0px)
+  );
   padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
 }
 
 .safe-vertical-compact {
-  padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)) + 0.5rem);
+  padding-top: calc(
+    max(
+        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)
+      ) +
+      0.5rem
+  );
   padding-bottom: calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 0.5rem);
 }
 
 /* All sides safe area */
 .safe-all {
-  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  padding-top: max(
+    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+    env(safe-area-inset-top, 0px)
+  );
   padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
@@ -1633,24 +1710,60 @@ select:focus-visible,
    - max: 9999 (critical alerts, context menus)
    ========================================= */
 
-.z-base { z-index: 0; }
-.z-raised { z-index: 10; }
-.z-sticky { z-index: 20; }
-.z-floating { z-index: 30; }
-.z-overlay { z-index: 40; }
-.z-navigation { z-index: 50; }
-.z-player { z-index: 60; }
-.z-contextual { z-index: 70; }
-.z-dialog { z-index: 140; }
-.z-sheet-backdrop { z-index: 150; }
-.z-sheet-content { z-index: 151; }
-.z-fullscreen { z-index: 160; }
-.z-dropdown { z-index: 200; }
-.z-popover { z-index: 200; }
-.z-tooltip { z-index: 250; }
-.z-toast { z-index: 300; }
-.z-notification { z-index: 300; }
-.z-max { z-index: 9999; }
+.z-base {
+  z-index: 0;
+}
+.z-raised {
+  z-index: 10;
+}
+.z-sticky {
+  z-index: 20;
+}
+.z-floating {
+  z-index: 30;
+}
+.z-overlay {
+  z-index: 40;
+}
+.z-navigation {
+  z-index: 50;
+}
+.z-player {
+  z-index: 60;
+}
+.z-contextual {
+  z-index: 70;
+}
+.z-dialog {
+  z-index: 140;
+}
+.z-sheet-backdrop {
+  z-index: 150;
+}
+.z-sheet-content {
+  z-index: 151;
+}
+.z-fullscreen {
+  z-index: 160;
+}
+.z-dropdown {
+  z-index: 200;
+}
+.z-popover {
+  z-index: 200;
+}
+.z-tooltip {
+  z-index: 250;
+}
+.z-toast {
+  z-index: 300;
+}
+.z-notification {
+  z-index: 300;
+}
+.z-max {
+  z-index: 9999;
+}
 
 /* =========================================
    Centering & Alignment Utilities
@@ -1710,7 +1823,10 @@ select:focus-visible,
 
 .fixed-top-safe {
   position: fixed;
-  top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  top: max(
+    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+    env(safe-area-inset-top, 0px)
+  );
   left: 0;
   right: 0;
 }
@@ -1727,17 +1843,34 @@ select:focus-visible,
    ========================================= */
 
 /* Consistent spacing using 4px base unit */
-.space-xs { gap: 4px; }
-.space-sm { gap: 8px; }
-.space-md { gap: 12px; }
-.space-lg { gap: 16px; }
-.space-xl { gap: 24px; }
-.space-2xl { gap: 32px; }
-.space-3xl { gap: 48px; }
+.space-xs {
+  gap: 4px;
+}
+.space-sm {
+  gap: 8px;
+}
+.space-md {
+  gap: 12px;
+}
+.space-lg {
+  gap: 16px;
+}
+.space-xl {
+  gap: 24px;
+}
+.space-2xl {
+  gap: 32px;
+}
+.space-3xl {
+  gap: 48px;
+}
 
 /* Padding utilities */
 .p-safe-top {
-  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  padding-top: max(
+    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+    env(safe-area-inset-top, 0px)
+  );
 }
 
 .p-safe-bottom {
@@ -1746,7 +1879,10 @@ select:focus-visible,
 
 /* Margin utilities */
 .mt-safe-top {
-  margin-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px));
+  margin-top: max(
+    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+    env(safe-area-inset-top, 0px)
+  );
 }
 
 .mb-safe-bottom {
@@ -1840,8 +1976,9 @@ select:focus-visible,
 .page-slide-up {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity var(--page-duration, 200ms) ease-out,
-              transform var(--page-duration, 200ms) ease-out;
+  transition:
+    opacity var(--page-duration, 200ms) ease-out,
+    transform var(--page-duration, 200ms) ease-out;
 }
 
 .page-slide-up.page-visible {
@@ -1852,8 +1989,9 @@ select:focus-visible,
 .page-slide-left {
   opacity: 0;
   transform: translateX(20px);
-  transition: opacity var(--page-duration, 200ms) ease-out,
-              transform var(--page-duration, 200ms) ease-out;
+  transition:
+    opacity var(--page-duration, 200ms) ease-out,
+    transform var(--page-duration, 200ms) ease-out;
 }
 
 .page-slide-left.page-visible {
@@ -1864,8 +2002,9 @@ select:focus-visible,
 .page-scale {
   opacity: 0;
   transform: scale(0.96);
-  transition: opacity var(--page-duration, 200ms) ease-out,
-              transform var(--page-duration, 200ms) ease-out;
+  transition:
+    opacity var(--page-duration, 200ms) ease-out,
+    transform var(--page-duration, 200ms) ease-out;
 }
 
 .page-scale.page-visible {
@@ -1877,8 +2016,9 @@ select:focus-visible,
 .mobile-page-transition {
   opacity: 0;
   transform: translateY(20px) scale(0.98);
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -1901,8 +2041,9 @@ select:focus-visible,
 .mobile-slide-up-transition {
   opacity: 0;
   transform: translateY(100%);
-  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform, opacity;
 }
 
@@ -1942,7 +2083,7 @@ select:focus-visible,
     opacity: 1 !important;
     transform: none !important;
   }
-  
+
   .fab-pulse,
   .badge-pop {
     animation: none !important;
@@ -1954,7 +2095,7 @@ select:focus-visible,
  * Feature: 032-professional-ui
  * ============================================================================ */
 
-@import './styles/micro-animations.css';
+@import "./styles/micro-animations.css";
 
 /* ============================================================================
  * Unified pill/chip utilities (Linear/Arc native vibe)
@@ -2007,8 +2148,7 @@ select:focus-visible,
   .aurora-surface {
     background:
       radial-gradient(120% 80% at 0% 0%, hsl(var(--primary) / 0.18) 0%, transparent 55%),
-      radial-gradient(120% 80% at 100% 100%, hsl(152 42% 56% / 0.14) 0%, transparent 60%),
-      hsl(var(--card) / 0.6);
+      radial-gradient(120% 80% at 100% 100%, hsl(152 42% 56% / 0.14) 0%, transparent 60%), hsl(var(--card) / 0.6);
     border: 1px solid hsl(var(--border) / 0.55);
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
@@ -2029,18 +2169,15 @@ select:focus-visible,
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      110deg,
-      transparent 35%,
-      hsl(0 0% 100% / 0.18) 50%,
-      transparent 65%
-    );
+    background: linear-gradient(110deg, transparent 35%, hsl(0 0% 100% / 0.18) 50%, transparent 65%);
     transform: translateX(-100%);
     animation: sheen-sweep 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     pointer-events: none;
   }
   @keyframes sheen-sweep {
-    to { transform: translateX(100%); }
+    to {
+      transform: translateX(100%);
+    }
   }
 }
 
@@ -2060,4 +2197,3 @@ select:focus-visible,
     border-color: hsl(var(--border) / 0.6);
   }
 }
-

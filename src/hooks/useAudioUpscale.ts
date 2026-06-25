@@ -1,14 +1,14 @@
 /**
  * useAudioUpscale hook
- * 
+ *
  * React hook for audio upscaling to 48kHz using AudioSR
  */
 
-import { useState, useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import { upscaleAudio, UpscaleOptions, UpscaleResult } from '@/api/audio-upscale.api';
-import { logger } from '@/lib/logger';
+import { useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { upscaleAudio, UpscaleOptions, UpscaleResult } from "@/api/audio-upscale.api";
+import { logger } from "@/lib/logger";
 
 interface UseAudioUpscaleReturn {
   upscale: (options: UpscaleOptions) => Promise<UpscaleResult | null>;
@@ -29,10 +29,10 @@ export function useAudioUpscale(): UseAudioUpscaleReturn {
     mutationFn: async (options: UpscaleOptions) => {
       setProgress(10);
       setError(null);
-      
+
       // Simulate progress during processing
       const progressInterval = setInterval(() => {
-        setProgress(prev => Math.min(prev + 10, 90));
+        setProgress((prev) => Math.min(prev + 10, 90));
       }, 3000);
 
       try {
@@ -47,40 +47,43 @@ export function useAudioUpscale(): UseAudioUpscaleReturn {
     },
     onSuccess: (data, variables) => {
       setResult(data);
-      logger.info('[useAudioUpscale] Upscale completed', { 
+      logger.info("[useAudioUpscale] Upscale completed", {
         trackId: variables.trackId,
-        processingTime: data.processingTimeMs 
+        processingTime: data.processingTimeMs,
       });
-      
-      toast.success('Аудио улучшено до 48kHz', {
-        description: 'HD версия трека готова',
+
+      toast.success("Аудио улучшено до 48kHz", {
+        description: "HD версия трека готова",
       });
 
       // Invalidate track queries to refresh data
       if (variables.trackId) {
-        queryClient.invalidateQueries({ queryKey: ['tracks', variables.trackId] });
-        queryClient.invalidateQueries({ queryKey: ['tracks'] });
+        queryClient.invalidateQueries({ queryKey: ["tracks", variables.trackId] });
+        queryClient.invalidateQueries({ queryKey: ["tracks"] });
       }
     },
     onError: (err: Error) => {
-      const errorMsg = err.message || 'Ошибка при улучшении аудио';
+      const errorMsg = err.message || "Ошибка при улучшении аудио";
       setError(errorMsg);
       setProgress(0);
-      logger.error('[useAudioUpscale] Upscale failed', err);
-      
-      toast.error('Не удалось улучшить аудио', {
+      logger.error("[useAudioUpscale] Upscale failed", err);
+
+      toast.error("Не удалось улучшить аудио", {
         description: errorMsg,
       });
     },
   });
 
-  const upscale = useCallback(async (options: UpscaleOptions): Promise<UpscaleResult | null> => {
-    try {
-      return await mutation.mutateAsync(options);
-    } catch {
-      return null;
-    }
-  }, [mutation]);
+  const upscale = useCallback(
+    async (options: UpscaleOptions): Promise<UpscaleResult | null> => {
+      try {
+        return await mutation.mutateAsync(options);
+      } catch {
+        return null;
+      }
+    },
+    [mutation],
+  );
 
   const reset = useCallback(() => {
     setProgress(0);

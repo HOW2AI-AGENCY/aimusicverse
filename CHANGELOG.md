@@ -8,6 +8,7 @@
 ## [Unreleased]
 
 ### Добавлено - 2026-01-04 (Session 9 - UI Improvements)
+
 - **Compact Generation Form Header**: Более компактный хедер формы генерации
   - Удалён логотип для экономии места
   - Уменьшены размеры: `min-h-[44px]` → `min-h-[36px]`
@@ -28,6 +29,7 @@
 - **ADR-012**: Документация решения по компактному UI
 
 ### Добавлено - 2026-01-04 (Sprint 029)
+
 - **Telegram CloudStorage Integration**: Сохранение настроек в облаке Telegram
   - `cloudStorage` API wrapper с localStorage fallback
   - `useCloudStorage` React hook с tab synchronization
@@ -57,6 +59,7 @@
   - useKeyboardAware hook для адаптивных форм
 
 ### Исправлено - 2026-01-04
+
 - **Database Fixes**: Исправления схемы и миграций
   - track_versions constraint: добавлены типы vocal_add, instrumental_add, cover
   - suno-music-callback: исправлена логика version_type
@@ -67,6 +70,7 @@
   - Громоздкий хедер → компактный дизайн
 
 ### Изменено - 2026-01-04
+
 - **Documentation Cleanup**: Упорядочена структура репозитория
   - 12 файлов перемещены в архив docs/archive/2026-01-04-cleanup/
   - Обновлены PROJECT_STATUS.md, SPRINT_STATUS.md, README.md
@@ -82,6 +86,7 @@
 ---
 
 ### Добавлено - 2025-12-26
+
 - **AI Lyrics Agent Tools**: 10+ новых инструментов для работы с текстами
   - `continue` — продолжение текста в выбранном стиле (natural, dramatic, contrast, climax)
   - `structure` — перестроение текста по шаблону (verse-chorus, full-song, hip-hop)
@@ -95,6 +100,7 @@
 - **Расширен ai-lyrics-assistant edge function**: новые экшены для Phase 2 инструментов
 
 ### Добавлено - 2025-12-12
+
 - **Comprehensive Project Audit**: Полный аудит состояния проекта
   - Build health: 100/100 (43.52s, оптимизировано)
   - Code quality: 95/100
@@ -114,23 +120,27 @@
   - Верификация оптимизации размера бандлов
 
 ### Изменено - 2025-12-12
+
 - Обновлен SPRINT_STATUS.md: 11 завершенных спринтов (44% completion rate)
 - Sprint 013 помечен как COMPLETE (97% автоматизированных задач)
 - Telegram Stars payment system готова к DEPLOYMENT
 - Улучшена `create-stars-invoice` с JSON schema валидацией
 
 ### Исправлено - 2025-12-12
+
 - Верифицирована оптимизация сборки (50KB main bundle с brotli)
 - Подтверждено разделение кода для всех основных функций
 - Настроены performance budgets в Lighthouse CI
 
 ### Безопасность - 2025-12-12
+
 - Идентифицированы 2 moderate уязвимости (dev-only, non-blocking)
   - esbuild <=0.24.2 (development server only)
   - vite 0.11.0-6.1.6 (dependency of esbuild)
 - Рекомендация: Обновить vite до 7.x в следующем major release
 
 ### Планируется
+
 - Трёхрежимный плеер (compact/expanded/fullscreen)
 - Система версионирования треков
 - Управление очередью воспроизведения
@@ -144,6 +154,7 @@
 ### 🐛 Исправлено
 
 #### Stem Studio Audio Synchronization
+
 - **Исправлена синхронизация аудио** — использование среднего `currentTime` от всех аудио элементов
 - **Drift detection** — автоматическая коррекция при расхождении >0.1s
 - **Оптимизированная синхронизация** — коррекция только самого отставшего элемента (избегание audio glitches)
@@ -153,6 +164,7 @@
 - **Memory leak fix** — очистка event listeners при unmount
 
 #### Section Detection Accuracy
+
 - **Levenshtein distance** — точный fuzzy matching вместо length ratio (70% threshold)
 - **Multi-language support** — улучшенная поддержка русского и английского
 - **Regex fix** — удален global flag для предотвращения state persistence
@@ -160,6 +172,7 @@
 - **Error handling** — try-catch wrapper с graceful fallback
 
 #### Synchronized Lyrics Display
+
 - **Точная синхронизация слов** — timing tolerance ±0.05s
 - **Умный auto-scroll** — распознавание user scroll (5px threshold)
 - **Resume delay** — 5s пауза перед возобновлением auto-scroll
@@ -169,11 +182,13 @@
 - **Empty word filtering** — пропуск пустых слов
 
 ### ⚡ Производительность
+
 - **Single audio correction** — коррекция только одного элемента вместо всех
 - **Conditional auto-scroll** — scroll только когда необходимо
 - **Optimized drift detection** — проверка дрифта в requestAnimationFrame
 
 ### ♻️ Refactoring
+
 - **Named constants** — все magic numbers заменены на именованные константы
   - `DRIFT_THRESHOLD = 0.1s`
   - `ENGINE_READY_DELAY = 100ms`
@@ -186,11 +201,13 @@
   - `LINE_END_TOLERANCE = 0.3s`
 
 ### 📚 Документация
+
 - **BUGFIX_SUMMARY.md** — подробная техническая документация исправлений
 - **README.md** — обновлены описания функций Stem Studio и плеера
 - **Code comments** — добавлены комментарии для сложной логики
 
 ### 🎯 Затронутые файлы
+
 - `src/components/stem-studio/StemStudioContent.tsx` (104 lines)
 - `src/hooks/useSectionDetection.ts` (47 lines)
 - `src/components/lyrics/UnifiedLyricsView.tsx` (52 lines)
@@ -207,6 +224,7 @@
 ### ✨ Добавлено
 
 #### Документация
+
 - 📚 Создан CODE_OF_CONDUCT.md - кодекс поведения участников
 - 🔐 Создан SECURITY.md - политика безопасности
 - 📝 Создан CHANGELOG.md - история изменений
@@ -215,6 +233,7 @@
 - 🏷️ Добавлены статусные бэджи и метрики качества
 
 #### Основной функционал
+
 - 🎵 Интеграция с Suno AI v5 (chirp-crow)
 - 🎼 Поддержка 174+ мета-тегов для профессионального контроля
 - 🎸 277+ музыкальных стилей и жанров
@@ -225,6 +244,7 @@
 - 🎛️ Профессиональный аудио-плеер
 
 #### Архитектура
+
 - ⚛️ React 19 с TypeScript 5
 - 🚀 Vite для быстрой сборки
 - 💾 Supabase для backend и базы данных
@@ -233,6 +253,7 @@
 - 🧪 Jest + Testing Library для тестирования
 
 #### Безопасность
+
 - 🔐 Telegram OAuth аутентификация
 - 🛡️ Row Level Security в Supabase
 - 🔑 Безопасное хранение API ключей
@@ -240,17 +261,20 @@
 - 📝 Автоматический аудит зависимостей
 
 ### 🔧 Изменено
+
 - Улучшена типизация TypeScript (удалены все `any` типы из компонентов)
 - Оптимизированы React компоненты для производительности
 - Обновлена структура документации для лучшей навигации
 
 ### 🐛 Исправлено
+
 - Исправлено 25 ESLint ошибок в компонентах
 - Устранены нарушения React Hooks правил
 - Исправлена проблема с белым экраном при запуске
 - Улучшена обработка ошибок аутентификации
 
 ### 🔒 Безопасность
+
 - Обновлены зависимости с уязвимостями
 - Внедрен CodeQL для статического анализа
 - Добавлена политика безопасности
@@ -260,17 +284,20 @@
 ## [0.9.0] - 2025-11-30 - Sprint 7 Completion
 
 ### ✨ Добавлено
+
 - 🎨 Улучшение качества frontend кода
 - 📊 Метрики качества кода в README
 - 🔍 Полный аудит компонентов
 - 📝 Спецификация Mobile-First UI/UX
 
 ### 🔧 Изменено
+
 - Исправлены все lint ошибки в компонентах (25 ошибок)
 - Улучшена типизация всех React компонентов
 - Обновлена документация спринтов
 
 ### ✅ Тестирование
+
 - Build стабилизирован (7.52s)
 - Все тесты проходят успешно
 - Покрытие кода ~60%
@@ -280,12 +307,14 @@
 ## [0.8.0] - 2025-11-24 - Sprint 6 Completion
 
 ### 📋 Планирование
+
 - Детальный аудит UI/UX интерфейса
 - Создана спецификация с 6 пользовательскими сценариями
 - План реализации на 5 недель (105 задач)
 - Исследование mobile-first паттернов
 
 ### 📊 Документация
+
 - UI_UX_AUDIT.md - полный аудит интерфейса
 - UI_UX_IMPLEMENTATION_PLAN.md - план реализации
 - Обновлены документы спринтов
@@ -295,12 +324,14 @@
 ## [0.7.0] - 2025-11-20 - Sprint 5 Completion
 
 ### 🔒 Production Hardening
+
 - Улучшение обработки ошибок
 - Оптимизация производительности
 - Улучшение безопасности аутентификации
 - Расширение тестового покрытия
 
 ### 📚 Документация
+
 - ARCHITECTURE.md - архитектура системы
 - DATABASE.md - структура базы данных
 - TELEGRAM_BOT_ARCHITECTURE.md - архитектура бота
@@ -310,6 +341,7 @@
 ## [0.6.0] - 2025-11-15 - Sprint 4 Completion
 
 ### ⚡ Оптимизация
+
 - Оптимизация ререндеров в ProtectedLayout
 - Улучшение производительности компонентов
 - Оптимизация bundle size
@@ -320,6 +352,7 @@
 ## [0.5.0] - 2025-11-10 - Sprint 3 Completion
 
 ### 🤖 Автоматизация
+
 - Автоматическое создание Issues из TODO/FIXME комментариев
 - CI/CD pipeline с GitHub Actions
 - Автоматическое тестирование на PR
@@ -330,12 +363,14 @@
 ## [0.4.0] - 2025-11-05 - Sprint 2 Completion
 
 ### 🔍 Аудит и улучшения
+
 - Полный аудит проекта
 - Исправление ESLint ошибок
 - Улучшение типизации TypeScript
 - Синхронизация документации
 
 ### 📝 Документация
+
 - PROJECT_AUDIT.md - отчет о аудите
 - Обновлен SPRINT_MANAGEMENT.md
 - Создан BACKLOG.md с задачами
@@ -345,6 +380,7 @@
 ## [0.3.0] - 2025-11-01 - Sprint 1 Completion
 
 ### 🚀 Первоначальная настройка
+
 - Базовая структура проекта
 - Настройка Vite + React
 - Интеграция Supabase
@@ -353,6 +389,7 @@
 - Базовые компоненты UI
 
 ### 📱 Telegram Integration
+
 - Telegram Mini App SDK
 - Telegram Bot базовые команды
 - Deep linking поддержка
@@ -362,6 +399,7 @@
 ## [0.2.0] - 2025-10-25
 
 ### ✨ Прототип
+
 - Базовый генератор музыки
 - Простая библиотека треков
 - Прототип аудио-плеера
@@ -371,6 +409,7 @@
 ## [0.1.0] - 2025-10-15
 
 ### 🎬 Инициализация проекта
+
 - Создание репозитория
 - Базовая конфигурация
 - README с описанием проекта

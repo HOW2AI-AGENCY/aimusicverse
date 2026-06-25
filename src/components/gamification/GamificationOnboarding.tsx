@@ -3,19 +3,16 @@
  * 5-step tour explaining the gamification system
  */
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Calendar, Star, Coins, Trophy, BarChart3, 
-  ChevronRight, ChevronLeft, X, Sparkles 
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { glassButton } from '@/lib/glass';
-import { cn } from '@/lib/utils';
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Calendar, Star, Coins, Trophy, BarChart3, ChevronRight, ChevronLeft, X, Sparkles } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { glassButton } from "@/lib/glass";
+import { cn } from "@/lib/utils";
 
-const STORAGE_KEY = 'gamification-onboarding-completed';
+const STORAGE_KEY = "gamification-onboarding-completed";
 
 export interface GamificationOnboardingProps {
   open?: boolean;
@@ -26,43 +23,43 @@ export interface GamificationOnboardingProps {
 const STEPS = [
   {
     icon: Calendar,
-    title: 'Ежедневные чекины',
-    description: 'Заходите каждый день и получайте бонусные кредиты! Чем дольше серия — тем больше награда.',
-    color: 'from-green-500 to-emerald-600',
-    bgColor: 'bg-green-500/10',
-    tip: 'До +7 кредитов за 7-дневную серию',
+    title: "Ежедневные чекины",
+    description: "Заходите каждый день и получайте бонусные кредиты! Чем дольше серия — тем больше награда.",
+    color: "from-green-500 to-emerald-600",
+    bgColor: "bg-green-500/10",
+    tip: "До +7 кредитов за 7-дневную серию",
   },
   {
     icon: Star,
-    title: 'Система уровней',
-    description: 'Зарабатывайте опыт за каждое действие: генерацию треков, лайки, шеринг. Повышайте уровень!',
-    color: 'from-blue-500 to-indigo-600',
-    bgColor: 'bg-blue-500/10',
-    tip: '+20 XP за каждый трек',
+    title: "Система уровней",
+    description: "Зарабатывайте опыт за каждое действие: генерацию треков, лайки, шеринг. Повышайте уровень!",
+    color: "from-blue-500 to-indigo-600",
+    bgColor: "bg-blue-500/10",
+    tip: "+20 XP за каждый трек",
   },
   {
     icon: Coins,
-    title: 'Кредиты',
-    description: 'Кредиты нужны для генерации музыки. Зарабатывайте их активностью или покупайте.',
-    color: 'from-amber-500 to-orange-600',
-    bgColor: 'bg-amber-500/10',
-    tip: '10 кредитов = 1 трек',
+    title: "Кредиты",
+    description: "Кредиты нужны для генерации музыки. Зарабатывайте их активностью или покупайте.",
+    color: "from-amber-500 to-orange-600",
+    bgColor: "bg-amber-500/10",
+    tip: "10 кредитов = 1 трек",
   },
   {
     icon: Trophy,
-    title: 'Достижения',
-    description: 'Разблокируйте награды за достижения: первый трек, 100 лайков, 30-дневная серия и другие!',
-    color: 'from-purple-500 to-violet-600',
-    bgColor: 'bg-purple-500/10',
-    tip: 'Секретные достижения ждут вас',
+    title: "Достижения",
+    description: "Разблокируйте награды за достижения: первый трек, 100 лайков, 30-дневная серия и другие!",
+    color: "from-purple-500 to-violet-600",
+    bgColor: "bg-purple-500/10",
+    tip: "Секретные достижения ждут вас",
   },
   {
     icon: BarChart3,
-    title: 'Лидерборд',
-    description: 'Соревнуйтесь с другими музыкантами в 5 категориях: генераторы, популярные, промоутеры и др.',
-    color: 'from-pink-500 to-rose-600',
-    bgColor: 'bg-pink-500/10',
-    tip: 'Топ-10 получают особые награды',
+    title: "Лидерборд",
+    description: "Соревнуйтесь с другими музыкантами в 5 категориях: генераторы, популярные, промоутеры и др.",
+    color: "from-pink-500 to-rose-600",
+    bgColor: "bg-pink-500/10",
+    tip: "Топ-10 получают особые награды",
   },
 ];
 
@@ -70,7 +67,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const { hapticFeedback } = useTelegram();
-  
+
   // Support both 'open' and 'show' props
   const shouldShow = open ?? show ?? false;
 
@@ -83,7 +80,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
   }, [shouldShow]);
 
   const handleNext = () => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     if (currentStep < STEPS.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -92,21 +89,21 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
   };
 
   const handlePrev = () => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
 
   const handleComplete = () => {
-    hapticFeedback?.('success');
-    localStorage.setItem(STORAGE_KEY, 'true');
+    hapticFeedback?.("success");
+    localStorage.setItem(STORAGE_KEY, "true");
     setIsVisible(false);
     onComplete();
   };
 
   const handleSkip = () => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     handleComplete();
   };
 
@@ -155,7 +152,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
               className="bg-card border border-border rounded-2xl overflow-hidden"
             >
               {/* Icon Header */}
@@ -163,7 +160,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
                 <motion.div
                   initial={{ scale: 0, rotate: -180 }}
                   animate={{ scale: 1, rotate: 0 }}
-                  transition={{ type: 'spring', delay: 0.2 }}
+                  transition={{ type: "spring", delay: 0.2 }}
                   className={cn("w-20 h-20 mx-auto rounded-2xl flex items-center justify-center", glassButton.default)}
                 >
                   <StepIcon className="w-10 h-10 text-white" />
@@ -204,12 +201,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
 
               {/* Navigation */}
               <div className="p-4 border-t border-border flex items-center justify-between">
-                <Button
-                  variant="ghost"
-                  onClick={handlePrev}
-                  disabled={currentStep === 0}
-                  className="gap-1"
-                >
+                <Button variant="ghost" onClick={handlePrev} disabled={currentStep === 0} className="gap-1">
                   <ChevronLeft className="w-4 h-4" />
                   Назад
                 </Button>
@@ -220,11 +212,7 @@ export function GamificationOnboarding({ open, show, onComplete }: GamificationO
                     <motion.div
                       key={idx}
                       className={`w-2 h-2 rounded-full transition-colors ${
-                        idx === currentStep 
-                          ? 'bg-primary' 
-                          : idx < currentStep 
-                            ? 'bg-primary/50' 
-                            : 'bg-muted'
+                        idx === currentStep ? "bg-primary" : idx < currentStep ? "bg-primary/50" : "bg-muted"
                       }`}
                       animate={idx === currentStep ? { scale: [1, 1.2, 1] } : {}}
                       transition={{ duration: 0.5 }}
@@ -261,7 +249,7 @@ export function useGamificationOnboarding() {
   const completeOnboarding = () => setShowOnboarding(false);
 
   const hasCompletedOnboarding = () => {
-    return localStorage.getItem(STORAGE_KEY) === 'true';
+    return localStorage.getItem(STORAGE_KEY) === "true";
   };
 
   const resetOnboarding = () => {

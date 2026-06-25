@@ -3,7 +3,7 @@
  * Raw Supabase operations for audio analysis
  */
 
-import { supabase } from '@/integrations/supabase/client';
+import { supabase } from "@/integrations/supabase/client";
 
 // ==========================================
 // Types
@@ -59,10 +59,10 @@ export interface GuitarRecording {
  */
 export async function fetchTrackAnalysis(trackId: string): Promise<AudioAnalysis | null> {
   const { data, error } = await supabase
-    .from('audio_analysis')
-    .select('*')
-    .eq('track_id', trackId)
-    .order('created_at', { ascending: false })
+    .from("audio_analysis")
+    .select("*")
+    .eq("track_id", trackId)
+    .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle();
 
@@ -87,7 +87,7 @@ export async function createAudioAnalysis(analysis: {
   beatsData?: any;
 }): Promise<AudioAnalysis> {
   const { data, error } = await supabase
-    .from('audio_analysis')
+    .from("audio_analysis")
     .insert({
       track_id: analysis.trackId,
       user_id: analysis.userId,
@@ -115,20 +115,17 @@ export async function createAudioAnalysis(analysis: {
 /**
  * Upload audio file for analysis
  */
-export async function uploadAudioForAnalysis(
-  file: File,
-  userId: string
-): Promise<string> {
+export async function uploadAudioForAnalysis(file: File, userId: string): Promise<string> {
   const fileName = `melody-analysis/${userId}/${Date.now()}-${file.name}`;
   const { error: uploadError } = await supabase.storage
-    .from('project-assets')
-    .upload(fileName, file, { cacheControl: '3600' });
+    .from("project-assets")
+    .upload(fileName, file, { cacheControl: "3600" });
 
   if (uploadError) throw new Error(uploadError.message);
 
-  const { data: { publicUrl } } = supabase.storage
-    .from('project-assets')
-    .getPublicUrl(fileName);
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from("project-assets").getPublicUrl(fileName);
 
   return publicUrl;
 }
@@ -136,20 +133,17 @@ export async function uploadAudioForAnalysis(
 /**
  * Create temporary track for analysis
  */
-export async function createTempAnalysisTrack(
-  userId: string,
-  audioUrl: string
-): Promise<string> {
+export async function createTempAnalysisTrack(userId: string, audioUrl: string): Promise<string> {
   const { data, error } = await supabase
-    .from('tracks')
+    .from("tracks")
     .insert({
       user_id: userId,
-      prompt: 'Melody analysis',
+      prompt: "Melody analysis",
       audio_url: audioUrl,
-      status: 'completed',
-      generation_mode: 'analysis',
+      status: "completed",
+      generation_mode: "analysis",
     })
-    .select('id')
+    .select("id")
     .single();
 
   if (error) throw new Error(error.message);
@@ -160,10 +154,7 @@ export async function createTempAnalysisTrack(
  * Delete temporary analysis track
  */
 export async function deleteTempAnalysisTrack(trackId: string): Promise<void> {
-  const { error } = await supabase
-    .from('tracks')
-    .delete()
-    .eq('id', trackId);
+  const { error } = await supabase.from("tracks").delete().eq("id", trackId);
 
   if (error) throw new Error(error.message);
 }
@@ -176,11 +167,11 @@ export async function invokeMidiTranscription(params: {
   audioUrl: string;
   modelType?: string;
 }): Promise<{ success: boolean; error?: string; data?: any }> {
-  const { data, error } = await supabase.functions.invoke('transcribe-midi', {
+  const { data, error } = await supabase.functions.invoke("transcribe-midi", {
     body: {
       track_id: params.trackId,
       audio_url: params.audioUrl,
-      model_type: params.modelType || 'basic-pitch',
+      model_type: params.modelType || "basic-pitch",
       auto_select: false,
     },
   });
@@ -211,7 +202,7 @@ export async function saveGuitarRecording(recording: {
   styleDescription?: string;
 }): Promise<GuitarRecording> {
   const { data, error } = await supabase
-    .from('guitar_recordings')
+    .from("guitar_recordings")
     .insert({
       user_id: recording.userId,
       track_id: recording.trackId,

@@ -6,27 +6,20 @@
  * API Contract Reference: specs/031-mobile-studio-v2/contracts/api-contracts.md
  */
 
-import { supabase } from '@/integrations/supabase/client';
-import { logger } from '@/lib/logger';
+import { supabase } from "@/integrations/supabase/client";
+import { logger } from "@/lib/logger";
 
 // ============= Type Definitions =============
 
 /**
  * Preset categories
  */
-export type PresetCategory =
-  | 'vocal'
-  | 'guitar'
-  | 'drums'
-  | 'bass'
-  | 'mastering'
-  | 'fx'
-  | 'custom';
+export type PresetCategory = "vocal" | "guitar" | "drums" | "bass" | "mastering" | "fx" | "custom";
 
 /**
  * Preset scope for filtering
  */
-export type PresetScope = 'user' | 'system' | 'public';
+export type PresetScope = "user" | "system" | "public";
 
 /**
  * Mixer settings structure
@@ -196,33 +189,28 @@ export interface PresetWithAuthor extends Preset {
  * const { presets, error } = await getPresets({ searchQuery: 'warm' });
  * ```
  */
-export async function getPresets(
-  filters?: PresetFilters
-): Promise<GetPresetsResponse> {
+export async function getPresets(filters?: PresetFilters): Promise<GetPresetsResponse> {
   try {
     const { category, scope, userId, searchQuery } = filters || {};
 
-    let query = supabase
-      .from('presets')
-      .select('*', { count: 'exact' })
-      .order('usage_count', { ascending: false });
+    let query = supabase.from("presets").select("*", { count: "exact" }).order("usage_count", { ascending: false });
 
     // Category filter
     if (category) {
-      query = query.eq('category', category);
+      query = query.eq("category", category);
     }
 
     // Scope filter
-    if (scope === 'user' && userId) {
-      query = query.eq('user_id', userId).eq('is_system', false);
-    } else if (scope === 'system') {
-      query = query.eq('is_system', true);
-    } else if (scope === 'public') {
-      query = query.eq('is_public', true);
+    if (scope === "user" && userId) {
+      query = query.eq("user_id", userId).eq("is_system", false);
+    } else if (scope === "system") {
+      query = query.eq("is_system", true);
+    } else if (scope === "public") {
+      query = query.eq("is_public", true);
     }
 
     // User filter (for getting user's own presets including non-public)
-    if (userId && scope !== 'user') {
+    if (userId && scope !== "user") {
       query = query.or(`user_id.eq.${userId},and(is_public.eq.true,is_system.eq.true)`);
     }
 
@@ -244,7 +232,7 @@ export async function getPresets(
   } catch (error) {
     return {
       presets: [],
-      error: error instanceof Error ? error : new Error('Failed to fetch presets'),
+      error: error instanceof Error ? error : new Error("Failed to fetch presets"),
     };
   }
 }
@@ -261,35 +249,37 @@ export async function getPresets(
  * ```
  */
 export async function getPresetsWithAuthors(
-  filters?: PresetFilters
+  filters?: PresetFilters,
 ): Promise<{ presets: PresetWithAuthor[]; error: Error | null }> {
   try {
     const { category, scope, userId, searchQuery } = filters || {};
 
     let query = supabase
-      .from('presets')
-      .select(`
+      .from("presets")
+      .select(
+        `
         *,
         author:profiles!user_id(id, username)
-      `)
-      .order('usage_count', { ascending: false });
+      `,
+      )
+      .order("usage_count", { ascending: false });
 
     // Category filter
     if (category) {
-      query = query.eq('category', category);
+      query = query.eq("category", category);
     }
 
     // Scope filter
-    if (scope === 'user' && userId) {
-      query = query.eq('user_id', userId).eq('is_system', false);
-    } else if (scope === 'system') {
-      query = query.eq('is_system', true);
-    } else if (scope === 'public') {
-      query = query.eq('is_public', true);
+    if (scope === "user" && userId) {
+      query = query.eq("user_id", userId).eq("is_system", false);
+    } else if (scope === "system") {
+      query = query.eq("is_system", true);
+    } else if (scope === "public") {
+      query = query.eq("is_public", true);
     }
 
     // User filter
-    if (userId && scope !== 'user') {
+    if (userId && scope !== "user") {
       query = query.or(`user_id.eq.${userId},and(is_public.eq.true,is_system.eq.true)`);
     }
 
@@ -320,7 +310,7 @@ export async function getPresetsWithAuthors(
   } catch (error) {
     return {
       presets: [],
-      error: error instanceof Error ? error : new Error('Failed to fetch presets'),
+      error: error instanceof Error ? error : new Error("Failed to fetch presets"),
     };
   }
 }
@@ -336,15 +326,9 @@ export async function getPresetsWithAuthors(
  * const { data, error } = await getPresetById('uuid');
  * ```
  */
-export async function getPresetById(
-  presetId: string
-): Promise<{ data: Preset | null; error: Error | null }> {
+export async function getPresetById(presetId: string): Promise<{ data: Preset | null; error: Error | null }> {
   try {
-    const { data, error } = await supabase
-      .from('presets')
-      .select('*')
-      .eq('id', presetId)
-      .maybeSingle();
+    const { data, error } = await supabase.from("presets").select("*").eq("id", presetId).maybeSingle();
 
     if (error) {
       throw new Error(error.message);
@@ -357,7 +341,7 @@ export async function getPresetById(
   } catch (error) {
     return {
       data: null,
-      error: error instanceof Error ? error : new Error('Failed to fetch preset'),
+      error: error instanceof Error ? error : new Error("Failed to fetch preset"),
     };
   }
 }
@@ -383,10 +367,7 @@ export async function getPresetById(
  * }, userId);
  * ```
  */
-export async function createPreset(
-  input: CreatePresetInput,
-  userId: string
-): Promise<CreatePresetResponse> {
+export async function createPreset(input: CreatePresetInput, userId: string): Promise<CreatePresetResponse> {
   try {
     const presetData = {
       name: input.name,
@@ -399,11 +380,7 @@ export async function createPreset(
       settings: input.settings as Record<string, unknown>,
     };
 
-    const { data, error } = await supabase
-      .from('presets')
-      .insert(presetData)
-      .select()
-      .single();
+    const { data, error } = await supabase.from("presets").insert(presetData).select().single();
 
     if (error) {
       throw new Error(error.message);
@@ -416,7 +393,7 @@ export async function createPreset(
   } catch (error) {
     return {
       preset: null,
-      error: error instanceof Error ? error : new Error('Failed to create preset'),
+      error: error instanceof Error ? error : new Error("Failed to create preset"),
     };
   }
 }
@@ -440,22 +417,22 @@ export async function createPreset(
 export async function updatePreset(
   presetId: string,
   input: UpdatePresetInput,
-  userId: string
+  userId: string,
 ): Promise<UpdatePresetResponse> {
   try {
     // First check if user owns this preset or if it's a system preset
     const { data: existingPreset } = await getPresetById(presetId);
 
     if (!existingPreset) {
-      throw new Error('Preset not found');
+      throw new Error("Preset not found");
     }
 
     if (existingPreset.is_system) {
-      throw new Error('Cannot update system presets');
+      throw new Error("Cannot update system presets");
     }
 
     if (existingPreset.user_id !== userId) {
-      throw new Error('You do not have permission to update this preset');
+      throw new Error("You do not have permission to update this preset");
     }
 
     // Build update object with only provided fields
@@ -469,12 +446,7 @@ export async function updatePreset(
     if (input.isPublic !== undefined) updateData.is_public = input.isPublic;
     if (input.settings !== undefined) updateData.settings = input.settings as Record<string, unknown>;
 
-    const { data, error } = await supabase
-      .from('presets')
-      .update(updateData)
-      .eq('id', presetId)
-      .select()
-      .single();
+    const { data, error } = await supabase.from("presets").update(updateData).eq("id", presetId).select().single();
 
     if (error) {
       throw new Error(error.message);
@@ -487,7 +459,7 @@ export async function updatePreset(
   } catch (error) {
     return {
       preset: null,
-      error: error instanceof Error ? error : new Error('Failed to update preset'),
+      error: error instanceof Error ? error : new Error("Failed to update preset"),
     };
   }
 }
@@ -504,30 +476,24 @@ export async function updatePreset(
  * const { success, error } = await deletePreset('uuid', userId);
  * ```
  */
-export async function deletePreset(
-  presetId: string,
-  userId: string
-): Promise<DeletePresetResponse> {
+export async function deletePreset(presetId: string, userId: string): Promise<DeletePresetResponse> {
   try {
     // First check if user owns this preset or if it's a system preset
     const { data: existingPreset } = await getPresetById(presetId);
 
     if (!existingPreset) {
-      throw new Error('Preset not found');
+      throw new Error("Preset not found");
     }
 
     if (existingPreset.is_system) {
-      throw new Error('Cannot delete system presets');
+      throw new Error("Cannot delete system presets");
     }
 
     if (existingPreset.user_id !== userId) {
-      throw new Error('You do not have permission to delete this preset');
+      throw new Error("You do not have permission to delete this preset");
     }
 
-    const { error } = await supabase
-      .from('presets')
-      .delete()
-      .eq('id', presetId);
+    const { error } = await supabase.from("presets").delete().eq("id", presetId);
 
     if (error) {
       throw new Error(error.message);
@@ -540,7 +506,7 @@ export async function deletePreset(
   } catch (error) {
     return {
       success: false,
-      error: error instanceof Error ? error : new Error('Failed to delete preset'),
+      error: error instanceof Error ? error : new Error("Failed to delete preset"),
     };
   }
 }
@@ -559,7 +525,7 @@ export async function deletePreset(
  */
 export async function incrementPresetUsage(presetId: string): Promise<void> {
   try {
-    const { error } = await supabase.rpc('increment_preset_usage', {
+    const { error } = await supabase.rpc("increment_preset_usage", {
       preset_id: presetId,
     });
 
@@ -568,14 +534,14 @@ export async function incrementPresetUsage(presetId: string): Promise<void> {
       const { data: preset } = await getPresetById(presetId);
       if (preset) {
         await supabase
-          .from('presets')
+          .from("presets")
           .update({ usage_count: (preset.usage_count || 0) + 1 })
-          .eq('id', presetId);
+          .eq("id", presetId);
       }
     }
   } catch (error: unknown) {
     // Log error but don't throw - usage count is not critical
-    logger.warn('Failed to increment preset usage', error instanceof Error ? error : new Error(String(error)));
+    logger.warn("Failed to increment preset usage", error instanceof Error ? error : new Error(String(error)));
   }
 }
 
@@ -595,12 +561,9 @@ export async function incrementPresetUsage(presetId: string): Promise<void> {
  * }
  * ```
  */
-export async function applyPresetToTrack(
-  trackId: string,
-  presetId: string
-): Promise<ApplyPresetResponse> {
+export async function applyPresetToTrack(trackId: string, presetId: string): Promise<ApplyPresetResponse> {
   try {
-    const { data, error } = await supabase.rpc('apply_preset_to_track', {
+    const { data, error } = await supabase.rpc("apply_preset_to_track", {
       track_id: trackId,
       preset_id: presetId,
     });
@@ -621,7 +584,7 @@ export async function applyPresetToTrack(
     return {
       success: false,
       appliedSettings: null,
-      error: error instanceof Error ? error : new Error('Failed to apply preset'),
+      error: error instanceof Error ? error : new Error("Failed to apply preset"),
     };
   }
 }
@@ -640,16 +603,12 @@ export async function applyPresetToTrack(
  * const { preset, error } = await clonePreset('original-id', userId, 'My Custom Version');
  * ```
  */
-export async function clonePreset(
-  presetId: string,
-  userId: string,
-  newName?: string
-): Promise<CreatePresetResponse> {
+export async function clonePreset(presetId: string, userId: string, newName?: string): Promise<CreatePresetResponse> {
   try {
     const { data: originalPreset } = await getPresetById(presetId);
 
     if (!originalPreset) {
-      throw new Error('Original preset not found');
+      throw new Error("Original preset not found");
     }
 
     const clonedPreset = await createPreset(
@@ -660,14 +619,14 @@ export async function clonePreset(
         isPublic: false,
         settings: originalPreset.settings,
       },
-      userId
+      userId,
     );
 
     return clonedPreset;
   } catch (error) {
     return {
       preset: null,
-      error: error instanceof Error ? error : new Error('Failed to clone preset'),
+      error: error instanceof Error ? error : new Error("Failed to clone preset"),
     };
   }
 }
@@ -686,19 +645,14 @@ export async function clonePreset(
  */
 export async function batchApplyPresetToTracks(
   trackIds: string[],
-  presetId: string
+  presetId: string,
 ): Promise<Array<{ trackId: string; success: boolean; error?: string }>> {
-  const results = await Promise.allSettled(
-    trackIds.map((trackId) => applyPresetToTrack(trackId, presetId))
-  );
+  const results = await Promise.allSettled(trackIds.map((trackId) => applyPresetToTrack(trackId, presetId)));
 
   return results.map((result, index) => ({
     trackId: trackIds[index],
-    success: result.status === 'fulfilled' && result.value.success,
-    error:
-      result.status === 'rejected'
-        ? 'Unknown error'
-        : result.value.error?.message,
+    success: result.status === "fulfilled" && result.value.success,
+    error: result.status === "rejected" ? "Unknown error" : result.value.error?.message,
   }));
 }
 
@@ -721,23 +675,20 @@ export async function batchApplyPresetToTracks(
  * subscription.unsubscribe();
  * ```
  */
-export function subscribeToPresetUpdates(
-  presetId: string,
-  callback: (preset: Preset) => void
-) {
+export function subscribeToPresetUpdates(presetId: string, callback: (preset: Preset) => void) {
   return supabase
     .channel(`preset-updates-${presetId}`)
     .on(
-      'postgres_changes',
+      "postgres_changes",
       {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'presets',
+        event: "UPDATE",
+        schema: "public",
+        table: "presets",
         filter: `id=eq.${presetId}`,
       },
       (payload) => {
         callback(payload.new as Preset);
-      }
+      },
     )
     .subscribe();
 }
@@ -756,23 +707,20 @@ export function subscribeToPresetUpdates(
  * });
  * ```
  */
-export function subscribeToUserPresets(
-  userId: string,
-  callback: (preset: Preset) => void
-) {
+export function subscribeToUserPresets(userId: string, callback: (preset: Preset) => void) {
   return supabase
     .channel(`user-presets-${userId}`)
     .on(
-      'postgres_changes',
+      "postgres_changes",
       {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'presets',
+        event: "INSERT",
+        schema: "public",
+        table: "presets",
         filter: `user_id=eq.${userId}`,
       },
       (payload) => {
         callback(payload.new as Preset);
-      }
+      },
     )
     .subscribe();
 }

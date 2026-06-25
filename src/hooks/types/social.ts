@@ -12,12 +12,12 @@
 /**
  * Entity types that support social interactions
  */
-export type SocialEntityType = 'track' | 'playlist' | 'artist';
+export type SocialEntityType = "track" | "playlist" | "artist";
 
 /**
  * Share platform options
  */
-export type SharePlatform = 'telegram' | 'twitter' | 'clipboard' | 'whatsapp';
+export type SharePlatform = "telegram" | "twitter" | "clipboard" | "whatsapp";
 
 /**
  * Parameters for useSocialInteractions hook
@@ -64,7 +64,7 @@ export interface SocialCountUpdate {
   /** Entity ID */
   entityId: string;
   /** Update type */
-  type: 'like' | 'follow' | 'play' | 'share';
+  type: "like" | "follow" | "play" | "share";
   /** New count */
   count: number;
   /** Change delta (+1, -1) */

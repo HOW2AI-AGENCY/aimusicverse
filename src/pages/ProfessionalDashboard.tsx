@@ -3,15 +3,15 @@
  * Central hub for professional musicians with stats, workflows, and quick access
  */
 
-import { memo } from 'react';
-import { motion } from '@/lib/motion';
-import { useNavigate } from 'react-router-dom';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { ProfessionalDashboard, QuickAccessPanel, StatsSummaryCard } from '@/components/professional';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Sparkles } from 'lucide-react';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useTelegram } from '@/contexts/TelegramContext';
+import { memo } from "react";
+import { motion } from "@/lib/motion";
+import { useNavigate } from "react-router-dom";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { ProfessionalDashboard, QuickAccessPanel, StatsSummaryCard } from "@/components/professional";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Sparkles } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 function ProfessionalDashboardPage() {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function ProfessionalDashboardPage() {
   const { hapticFeedback } = useTelegram();
 
   const handleBack = () => {
-    hapticFeedback?.('light');
+    hapticFeedback?.("light");
     navigate(-1);
   };
 
@@ -31,25 +31,14 @@ function ProfessionalDashboardPage() {
         animate={{ opacity: 1, y: 0 }}
         className="flex items-center gap-3 mb-6"
       >
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={handleBack}
-          className="shrink-0"
-        >
+        <Button variant="ghost" size="icon" onClick={handleBack} className="shrink-0">
           <ArrowLeft className="h-5 w-5" />
         </Button>
         <div className="flex-1">
           <h1 className="text-xl font-bold">Professional Studio</h1>
-          <p className="text-sm text-muted-foreground">
-            Профессиональные инструменты
-          </p>
+          <p className="text-sm text-muted-foreground">Профессиональные инструменты</p>
         </div>
-        <Button
-          size="sm"
-          onClick={() => navigate('/generate')}
-          className="gap-1"
-        >
+        <Button size="sm" onClick={() => navigate("/generate")} className="gap-1">
           <Sparkles className="h-4 w-4" />
           Создать
         </Button>
@@ -74,11 +63,7 @@ function ProfessionalDashboardPage() {
 
         {/* Mobile: Full Dashboard */}
         {isMobile && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
             <ProfessionalDashboard />
           </motion.div>
         )}

@@ -1,14 +1,14 @@
 /**
  * AnimatedList - Staggered animation for list items
  * Feature: UX Improvements
- * 
+ *
  * Provides smooth stagger animations for lists with optimized performance
  */
 
-import { memo, type ReactNode, type Key } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { staggerContainer, staggerItem } from '@/lib/motion-variants';
-import { cn } from '@/lib/utils';
+import { memo, type ReactNode, type Key } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { staggerContainer, staggerItem } from "@/lib/motion-variants";
+import { cn } from "@/lib/utils";
 
 interface AnimatedListProps<T> {
   /** Items to render */
@@ -24,7 +24,7 @@ interface AnimatedListProps<T> {
   /** Maximum items to animate (for performance) */
   maxAnimatedItems?: number;
   /** Layout direction */
-  direction?: 'vertical' | 'horizontal';
+  direction?: "vertical" | "horizontal";
   /** Gap between items */
   gap?: number;
   /** Loading state */
@@ -42,7 +42,7 @@ function AnimatedListInner<T>({
   className,
   itemClassName,
   maxAnimatedItems = 20,
-  direction = 'vertical',
+  direction = "vertical",
   gap = 3,
   isLoading,
   loadingSkeleton,
@@ -58,9 +58,8 @@ function AnimatedListInner<T>({
     return <>{emptyState}</>;
   }
 
-  const containerStyles = direction === 'vertical' 
-    ? `flex flex-col gap-${gap}` 
-    : `flex flex-row gap-${gap} overflow-x-auto`;
+  const containerStyles =
+    direction === "vertical" ? `flex flex-col gap-${gap}` : `flex flex-row gap-${gap} overflow-x-auto`;
 
   // For large lists, skip stagger animation for performance
   const shouldAnimate = items.length <= maxAnimatedItems;
@@ -86,12 +85,7 @@ function AnimatedListInner<T>({
     >
       <AnimatePresence mode="popLayout">
         {items.map((item, index) => (
-          <motion.div
-            key={keyExtractor(item, index)}
-            variants={staggerItem}
-            layout
-            className={itemClassName}
-          >
+          <motion.div key={keyExtractor(item, index)} variants={staggerItem} layout className={itemClassName}>
             {renderItem(item, index)}
           </motion.div>
         ))}
@@ -105,7 +99,7 @@ export const AnimatedList = memo(AnimatedListInner) as typeof AnimatedListInner;
 /**
  * AnimatedGrid - Grid with stagger animations
  */
-interface AnimatedGridProps<T> extends Omit<AnimatedListProps<T>, 'direction'> {
+interface AnimatedGridProps<T> extends Omit<AnimatedListProps<T>, "direction"> {
   columns?: 2 | 3 | 4;
 }
 
@@ -132,9 +126,9 @@ function AnimatedGridInner<T>({
   }
 
   const gridCols = {
-    2: 'grid-cols-2',
-    3: 'grid-cols-2 sm:grid-cols-3',
-    4: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4',
+    2: "grid-cols-2",
+    3: "grid-cols-2 sm:grid-cols-3",
+    4: "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4",
   };
 
   const shouldAnimate = items.length <= maxAnimatedItems;
@@ -160,12 +154,7 @@ function AnimatedGridInner<T>({
     >
       <AnimatePresence mode="popLayout">
         {items.map((item, index) => (
-          <motion.div
-            key={keyExtractor(item, index)}
-            variants={staggerItem}
-            layout
-            className={itemClassName}
-          >
+          <motion.div key={keyExtractor(item, index)} variants={staggerItem} layout className={itemClassName}>
             {renderItem(item, index)}
           </motion.div>
         ))}

@@ -3,60 +3,57 @@
  * Displays user activity patterns by hour and day of week
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { Clock, Calendar } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Clock, Calendar } from "lucide-react";
 
 interface UserActivityHeatmapProps {
   timePeriod: string;
 }
 
 interface HeatmapData {
-  hourlyActivity: number[][];  // 7 days x 24 hours
+  hourlyActivity: number[][]; // 7 days x 24 hours
   peakHour: number;
   peakDay: number;
   totalEvents: number;
   avgEventsPerHour: number;
 }
 
-const DAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
+const DAYS = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 const HOURS = Array.from({ length: 24 }, (_, i) => i);
 
 export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
   const { data, isLoading } = useQuery({
-    queryKey: ['user-activity-heatmap', timePeriod],
+    queryKey: ["user-activity-heatmap", timePeriod],
     queryFn: async (): Promise<HeatmapData> => {
-      const periodDays = timePeriod === '24 hours' ? 1 : 
-                         timePeriod === '7 days' ? 7 : 
-                         timePeriod === '30 days' ? 30 : 90;
-      
+      const periodDays =
+        timePeriod === "24 hours" ? 1 : timePeriod === "7 days" ? 7 : timePeriod === "30 days" ? 30 : 90;
+
       const startDate = new Date(Date.now() - periodDays * 24 * 60 * 60 * 1000);
-      
+
       // Fetch analytics events
       const { data: events } = await supabase
-        .from('user_analytics_events')
-        .select('created_at')
-        .gte('created_at', startDate.toISOString());
+        .from("user_analytics_events")
+        .select("created_at")
+        .gte("created_at", startDate.toISOString());
 
       // Initialize 7x24 matrix
-      const hourlyActivity: number[][] = Array.from({ length: 7 }, () => 
-        Array.from({ length: 24 }, () => 0)
-      );
+      const hourlyActivity: number[][] = Array.from({ length: 7 }, () => Array.from({ length: 24 }, () => 0));
 
       let peakValue = 0;
       let peakHour = 0;
       let peakDay = 0;
 
-      (events || []).forEach(event => {
+      (events || []).forEach((event) => {
         const date = new Date(event.created_at || Date.now());
         // getDay returns 0 for Sunday, we want Monday = 0
         const dayOfWeek = (date.getDay() + 6) % 7;
         const hour = date.getHours();
-        
+
         hourlyActivity[dayOfWeek][hour]++;
-        
+
         if (hourlyActivity[dayOfWeek][hour] > peakValue) {
           peakValue = hourlyActivity[dayOfWeek][hour];
           peakHour = hour;
@@ -92,24 +89,22 @@ export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
   if (!data || data.totalEvents === 0) {
     return (
       <Card>
-        <CardContent className="p-6 text-center text-muted-foreground">
-          Нет данных об активности
-        </CardContent>
+        <CardContent className="p-6 text-center text-muted-foreground">Нет данных об активности</CardContent>
       </Card>
     );
   }
 
   // Find max value for color scaling
   const maxValue = Math.max(...data.hourlyActivity.flat());
-  
+
   const getIntensity = (value: number): string => {
-    if (value === 0) return 'bg-muted/30';
+    if (value === 0) return "bg-muted/30";
     const intensity = value / maxValue;
-    if (intensity < 0.2) return 'bg-primary/20';
-    if (intensity < 0.4) return 'bg-primary/40';
-    if (intensity < 0.6) return 'bg-primary/60';
-    if (intensity < 0.8) return 'bg-primary/80';
-    return 'bg-primary';
+    if (intensity < 0.2) return "bg-primary/20";
+    if (intensity < 0.4) return "bg-primary/40";
+    if (intensity < 0.6) return "bg-primary/60";
+    if (intensity < 0.8) return "bg-primary/80";
+    return "bg-primary";
   };
 
   return (
@@ -170,11 +165,11 @@ export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
               {/* Hours header */}
               <div className="flex mb-1">
                 <div className="w-8 sm:w-10" /> {/* Spacer for day labels */}
-                {HOURS.filter((_, i) => i % 3 === 0).map(hour => (
-                  <div 
-                    key={hour} 
+                {HOURS.filter((_, i) => i % 3 === 0).map((hour) => (
+                  <div
+                    key={hour}
                     className="flex-1 text-center text-[10px] sm:text-xs text-muted-foreground"
-                    style={{ minWidth: '14px' }}
+                    style={{ minWidth: "14px" }}
                   >
                     {hour}
                   </div>
@@ -193,7 +188,7 @@ export function UserActivityHeatmap({ timePeriod }: UserActivityHeatmapProps) {
                         key={hourIndex}
                         className={`flex-1 h-4 sm:h-6 rounded-sm transition-colors ${getIntensity(value)}`}
                         title={`${DAYS[dayIndex]} ${hourIndex}:00 - ${value} событий`}
-                        style={{ minWidth: '8px' }}
+                        style={{ minWidth: "8px" }}
                       />
                     ))}
                   </div>

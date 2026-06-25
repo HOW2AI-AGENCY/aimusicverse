@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Loader2, Music, Info, ExternalLink } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { Track } from '@/types/track';
-import { logger } from '@/lib/logger';
-import { GenerationAdvancedSettings, GenerationSettings } from '@/components/common/GenerationAdvancedSettings';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { useNavigate } from 'react-router-dom';
-import { useAddInstrumentalProgress } from '@/hooks/generation/useAddInstrumentalProgress';
-import { GenerationProgressBar } from '@/components/generation/GenerationProgressBar';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Loader2, Music, Info, ExternalLink } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Track } from "@/types/track";
+import { logger } from "@/lib/logger";
+import { GenerationAdvancedSettings, GenerationSettings } from "@/components/common/GenerationAdvancedSettings";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useNavigate } from "react-router-dom";
+import { useAddInstrumentalProgress } from "@/hooks/generation/useAddInstrumentalProgress";
+import { GenerationProgressBar } from "@/components/generation/GenerationProgressBar";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 
 interface AddInstrumentalDialogProps {
   open: boolean;
@@ -25,21 +25,21 @@ interface AddInstrumentalDialogProps {
 
 export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrumentalDialogProps) => {
   const navigate = useNavigate();
-  const playTrack = usePlayerStore(s => s.playTrack);
+  const playTrack = usePlayerStore((s) => s.playTrack);
   const instrumentalProgress = useAddInstrumentalProgress();
-  
-  const [style, setStyle] = useState(track.style || 'full band arrangement, professional backing track');
-  const [title, setTitle] = useState('');
-  const [negativeTags, setNegativeTags] = useState('acapella, vocals only, karaoke, low quality');
+
+  const [style, setStyle] = useState(track.style || "full band arrangement, professional backing track");
+  const [title, setTitle] = useState("");
+  const [negativeTags, setNegativeTags] = useState("acapella, vocals only, karaoke, low quality");
   const [openInStudio, setOpenInStudio] = useState(true);
-  
+
   // Advanced settings - optimized to reduce vocal hallucinations
   const [advancedSettings, setAdvancedSettings] = useState<GenerationSettings>({
-    audioWeight: 0.85,       // Higher = follows input audio more closely
-    styleWeight: 0.5,        // Lower = less style influence
+    audioWeight: 0.85, // Higher = follows input audio more closely
+    styleWeight: 0.5, // Lower = less style influence
     weirdnessConstraint: 0.15, // Lower = less creativity/distortion
-    model: 'V4_5PLUS',
-    vocalGender: '',
+    model: "V4_5PLUS",
+    vocalGender: "",
   });
 
   // Reset progress when dialog opens
@@ -49,29 +49,29 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
     }
   }, [open]);
 
-  const loading = instrumentalProgress.status === 'submitting';
+  const loading = instrumentalProgress.status === "submitting";
 
   const handleSubmit = async () => {
     if (!track.audio_url) {
-      toast.error('У трека отсутствует аудио файл');
+      toast.error("У трека отсутствует аудио файл");
       return;
     }
 
     if (!style.trim()) {
-      toast.error('Укажите стиль инструментала');
+      toast.error("Укажите стиль инструментала");
       return;
     }
 
     instrumentalProgress.setSubmitting();
     try {
-      const effectiveTitle = title.trim() || `${track.title || 'Трек'} с инструменталом`;
-      
+      const effectiveTitle = title.trim() || `${track.title || "Трек"} с инструменталом`;
+
       const body: Record<string, unknown> = {
         audioUrl: track.audio_url,
         customMode: true,
         style: style.trim(),
         title: effectiveTitle,
-        negativeTags: negativeTags.trim() || 'low quality, distorted, noise',
+        negativeTags: negativeTags.trim() || "low quality, distorted, noise",
         projectId: track.project_id,
         audioWeight: advancedSettings.audioWeight,
         styleWeight: advancedSettings.styleWeight,
@@ -85,7 +85,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
         body.vocalGender = advancedSettings.vocalGender;
       }
 
-      const { data, error } = await supabase.functions.invoke('suno-add-instrumental', { body });
+      const { data, error } = await supabase.functions.invoke("suno-add-instrumental", { body });
 
       if (error) throw error;
 
@@ -94,19 +94,19 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
         instrumentalProgress.startTracking(data.taskId, data.trackId || track.id, data.studioProjectId);
       } else {
         if (openInStudio) {
-          toast.success('Генерация началась! 🎸', {
-            description: 'После завершения откроется студия для сведения треков',
+          toast.success("Генерация началась! 🎸", {
+            description: "После завершения откроется студия для сведения треков",
           });
         } else {
-          toast.success('Добавление инструментала началось! 🎸', {
-            description: 'Новый трек появится в библиотеке через 1-3 минуты',
+          toast.success("Добавление инструментала началось! 🎸", {
+            description: "Новый трек появится в библиотеке через 1-3 минуты",
           });
         }
         onOpenChange(false);
       }
     } catch (error) {
-      logger.error('Add instrumental error', { error });
-      const errorMessage = error instanceof Error ? error.message : 'Ошибка добавления инструментала';
+      logger.error("Add instrumental error", { error });
+      const errorMessage = error instanceof Error ? error.message : "Ошибка добавления инструментала";
       instrumentalProgress.setError(errorMessage);
     }
   };
@@ -148,7 +148,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
 
         <div className="space-y-4">
           {/* Progress indicator */}
-          {instrumentalProgress.status !== 'idle' && (
+          {instrumentalProgress.status !== "idle" && (
             <GenerationProgressBar
               status={instrumentalProgress.status}
               progress={instrumentalProgress.progress}
@@ -170,7 +170,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
           <div className="p-3 bg-muted rounded-lg">
             <p className="text-sm">
               <Music className="w-4 h-4 inline mr-2" />
-              Вокальный трек: <span className="font-semibold">{track.title || 'Без названия'}</span>
+              Вокальный трек: <span className="font-semibold">{track.title || "Без названия"}</span>
             </p>
           </div>
 
@@ -183,9 +183,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
                 AI сгенерирует инструментал, синхронизированный с вашим вокалом.
                 <strong> Результат — отдельная дорожка инструментала</strong>, не смешанная с вокалом.
               </p>
-              <p>
-                Для получения готовой песни рекомендуем использовать Stem Studio для сведения.
-              </p>
+              <p>Для получения готовой песни рекомендуем использовать Stem Studio для сведения.</p>
               <p className="text-amber-600 dark:text-amber-400 mt-1">
                 💡 Если вокал искажается, увеличьте "Вес аудио" до 0.9+ в расширенных настройках
               </p>
@@ -214,9 +212,7 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
               rows={3}
               className="mt-2 resize-none"
             />
-            <p className="text-xs text-muted-foreground mt-1">
-              Опишите желаемые инструменты и стиль аранжировки
-            </p>
+            <p className="text-xs text-muted-foreground mt-1">Опишите желаемые инструменты и стиль аранжировки</p>
           </div>
 
           {/* Negative tags */}
@@ -256,17 +252,17 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Отмена
             </Button>
-            <Button 
-              onClick={handleSubmit} 
+            <Button
+              onClick={handleSubmit}
               disabled={loading || instrumentalProgress.isActive || !track.audio_url || !style.trim()}
             >
               {loading || instrumentalProgress.isActive ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  {instrumentalProgress.message || 'Обработка...'}
+                  {instrumentalProgress.message || "Обработка..."}
                 </>
               ) : (
-                'Добавить инструментал'
+                "Добавить инструментал"
               )}
             </Button>
           </div>

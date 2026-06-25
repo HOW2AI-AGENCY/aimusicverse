@@ -1,17 +1,17 @@
 /**
  * SynchronizedSectionLyrics
- * 
+ *
  * Displays section lyrics with synchronized word highlighting
  * Supports edit mode for modifying lyrics
  */
 
-import { useState, useMemo, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Edit2, Check, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
-import { AlignedWord } from '@/hooks/useTimestampedLyrics';
+import { useState, useMemo, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Edit2, Check, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
+import { AlignedWord } from "@/hooks/useTimestampedLyrics";
 
 interface SynchronizedSectionLyricsProps {
   words: AlignedWord[];
@@ -37,17 +37,17 @@ export function SynchronizedSectionLyrics({
   compact = false,
 }: SynchronizedSectionLyricsProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedText, setEditedText] = useState('');
+  const [editedText, setEditedText] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
   const activeWordRef = useRef<HTMLSpanElement>(null);
 
   // Filter words within section range with tolerance for boundary changes
   const sectionWords = useMemo(() => {
     if (!words.length) return [];
-    
+
     // Use slightly wider tolerance to catch words near boundaries
     const tolerance = 0.3; // 300ms tolerance
-    return words.filter(w => {
+    return words.filter((w) => {
       // Word overlaps with section range
       const wordMid = (w.startS + w.endS) / 2;
       return wordMid >= startTime - tolerance && wordMid <= endTime + tolerance;
@@ -57,19 +57,27 @@ export function SynchronizedSectionLyrics({
   // Get lyrics text from words or use initial - update when range changes
   const lyricsText = useMemo(() => {
     if (sectionWords.length > 0) {
-      return sectionWords.map(w => w.word).join(' ').replace(/\s+/g, ' ').trim();
+      return sectionWords
+        .map((w) => w.word)
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
     }
-    return initialLyrics || '';
+    return initialLyrics || "";
   }, [sectionWords, initialLyrics]);
 
   // Track if we've already synced lyrics for this range to prevent loops
-  const lastSyncedRangeRef = useRef<string>('');
+  const lastSyncedRangeRef = useRef<string>("");
 
   // Notify parent when lyrics change due to range change (only once per unique range)
   useEffect(() => {
     const rangeKey = `${startTime.toFixed(2)}-${endTime.toFixed(2)}`;
     if (sectionWords.length > 0 && rangeKey !== lastSyncedRangeRef.current) {
-      const newLyrics = sectionWords.map(w => w.word).join(' ').replace(/\s+/g, ' ').trim();
+      const newLyrics = sectionWords
+        .map((w) => w.word)
+        .join(" ")
+        .replace(/\s+/g, " ")
+        .trim();
       if (newLyrics) {
         lastSyncedRangeRef.current = rangeKey;
         onLyricsChange(newLyrics);
@@ -87,16 +95,16 @@ export function SynchronizedSectionLyrics({
     if (!isPlaying || currentTime < startTime || currentTime > endTime) {
       return -1;
     }
-    return sectionWords.findIndex(w => currentTime >= w.startS && currentTime <= w.endS);
+    return sectionWords.findIndex((w) => currentTime >= w.startS && currentTime <= w.endS);
   }, [sectionWords, currentTime, isPlaying, startTime, endTime]);
 
   // Auto-scroll to active word
   useEffect(() => {
     if (activeWordRef.current && containerRef.current && !isEditing) {
       activeWordRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center',
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
       });
     }
   }, [activeWordIndex, isEditing]);
@@ -127,25 +135,16 @@ export function SynchronizedSectionLyrics({
           className={cn(
             "font-mono resize-none",
             compact ? "min-h-[80px] text-xs" : "min-h-[120px] text-sm",
-            "bg-background/50 border-primary/30 focus:border-primary focus:ring-primary/20"
+            "bg-background/50 border-primary/30 focus:border-primary focus:ring-primary/20",
           )}
           autoFocus
         />
         <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={handleCancelEdit}
-            className="h-7 text-xs"
-          >
+          <Button variant="ghost" size="sm" onClick={handleCancelEdit} className="h-7 text-xs">
             <X className="w-3 h-3 mr-1" />
             Отмена
           </Button>
-          <Button
-            size="sm"
-            onClick={handleSaveEdit}
-            className="h-7 text-xs"
-          >
+          <Button size="sm" onClick={handleSaveEdit} className="h-7 text-xs">
             <Check className="w-3 h-3 mr-1" />
             Сохранить
           </Button>
@@ -159,10 +158,7 @@ export function SynchronizedSectionLyrics({
     <div className={cn("relative", className)}>
       {/* Header with edit button */}
       <div className="flex items-center justify-between mb-2">
-        <span className={cn(
-          "font-medium text-muted-foreground",
-          compact ? "text-[10px]" : "text-xs"
-        )}>
+        <span className={cn("font-medium text-muted-foreground", compact ? "text-[10px]" : "text-xs")}>
           Текст секции
         </span>
         <Button
@@ -181,7 +177,7 @@ export function SynchronizedSectionLyrics({
         ref={containerRef}
         className={cn(
           "overflow-y-auto rounded-lg border border-border/50 bg-muted/20",
-          compact ? "max-h-[80px] p-2" : "max-h-[120px] p-3"
+          compact ? "max-h-[80px] p-2" : "max-h-[120px] p-3",
         )}
       >
         {sectionWords.length > 0 ? (
@@ -190,7 +186,7 @@ export function SynchronizedSectionLyrics({
               {sectionWords.map((word, idx) => {
                 const isActive = idx === activeWordIndex;
                 const isPast = activeWordIndex > -1 && idx < activeWordIndex;
-                
+
                 return (
                   <motion.span
                     key={`${word.word}-${idx}`}
@@ -199,18 +195,18 @@ export function SynchronizedSectionLyrics({
                     animate={{
                       opacity: 1,
                       scale: isActive ? 1.05 : 1,
-                      color: isActive 
-                        ? 'hsl(var(--primary))' 
-                        : isPast 
-                          ? 'hsl(var(--muted-foreground))' 
-                          : 'hsl(var(--foreground))',
+                      color: isActive
+                        ? "hsl(var(--primary))"
+                        : isPast
+                          ? "hsl(var(--muted-foreground))"
+                          : "hsl(var(--foreground))",
                     }}
                     transition={{ duration: 0.15 }}
                     className={cn(
                       "inline-block transition-all",
                       compact ? "text-xs" : "text-sm",
                       isActive && "font-semibold bg-primary/10 px-1 rounded",
-                      isPast && "opacity-60"
+                      isPast && "opacity-60",
                     )}
                   >
                     {word.word}
@@ -220,11 +216,8 @@ export function SynchronizedSectionLyrics({
             </AnimatePresence>
           </div>
         ) : (
-          <p className={cn(
-            "text-muted-foreground italic",
-            compact ? "text-xs" : "text-sm"
-          )}>
-            {lyricsText || 'Нет текста для этой секции'}
+          <p className={cn("text-muted-foreground italic", compact ? "text-xs" : "text-sm")}>
+            {lyricsText || "Нет текста для этой секции"}
           </p>
         )}
       </div>

@@ -1,6 +1,6 @@
 /**
  * WaveformRangeSelector - Interactive waveform with draggable section boundaries
- * 
+ *
  * Features:
  * - Waveform visualization from audio URL
  * - Draggable start/end handles
@@ -8,11 +8,11 @@
  * - Click to seek within range
  */
 
-import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { formatTime } from '@/lib/player-utils';
-import { GripVertical } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/player-utils";
+import { GripVertical } from "lucide-react";
 
 interface WaveformRangeSelectorProps {
   audioUrl: string;
@@ -45,13 +45,13 @@ export function WaveformRangeSelector({
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [waveformData, setWaveformData] = useState<number[]>([]);
-  const [isDragging, setIsDragging] = useState<'start' | 'end' | null>(null);
+  const [isDragging, setIsDragging] = useState<"start" | "end" | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   // Generate waveform data from audio
   useEffect(() => {
     if (!audioUrl) return;
-    
+
     const generateWaveform = async () => {
       setIsLoading(true);
       try {
@@ -59,12 +59,12 @@ export function WaveformRangeSelector({
         const response = await fetch(audioUrl);
         const arrayBuffer = await response.arrayBuffer();
         const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-        
+
         const rawData = audioBuffer.getChannelData(0);
         const samples = 200; // Number of bars
         const blockSize = Math.floor(rawData.length / samples);
         const data: number[] = [];
-        
+
         for (let i = 0; i < samples; i++) {
           let sum = 0;
           for (let j = 0; j < blockSize; j++) {
@@ -72,10 +72,10 @@ export function WaveformRangeSelector({
           }
           data.push(sum / blockSize);
         }
-        
+
         // Normalize with minimum visibility threshold
         const max = Math.max(...data, 0.001);
-        const normalized = data.map(d => {
+        const normalized = data.map((d) => {
           const value = d / max;
           // Ensure minimum visibility (0.15) and boost low values
           return Math.max(0.15, Math.pow(value, 0.7));
@@ -94,7 +94,7 @@ export function WaveformRangeSelector({
         setIsLoading(false);
       }
     };
-    
+
     generateWaveform();
   }, [audioUrl]);
 
@@ -103,7 +103,7 @@ export function WaveformRangeSelector({
     const canvas = canvasRef.current;
     if (!canvas || waveformData.length === 0) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
@@ -122,8 +122,8 @@ export function WaveformRangeSelector({
 
     // Get computed styles for colors
     const computedStyle = getComputedStyle(canvas);
-    const primaryColor = computedStyle.getPropertyValue('--primary').trim() || '262 83% 58%';
-    const mutedFgColor = computedStyle.getPropertyValue('--muted-foreground').trim() || '240 5% 65%';
+    const primaryColor = computedStyle.getPropertyValue("--primary").trim() || "262 83% 58%";
+    const mutedFgColor = computedStyle.getPropertyValue("--muted-foreground").trim() || "240 5% 65%";
 
     // Draw selected range overlay first (background)
     const rangeStart = startPercent * width;
@@ -137,10 +137,10 @@ export function WaveformRangeSelector({
       const barHeight = value * (canvasHeight * 0.8);
       const y = (canvasHeight - barHeight) / 2;
       const percent = i / waveformData.length;
-      
+
       // Check if bar is in selected range
       const inRange = percent >= startPercent && percent <= endPercent;
-      
+
       if (inRange) {
         // Selected range - use primary color
         ctx.fillStyle = `hsl(${primaryColor})`;
@@ -148,12 +148,12 @@ export function WaveformRangeSelector({
         // Outside range - muted
         ctx.fillStyle = `hsla(${mutedFgColor}, 0.3)`;
       }
-      
+
       // Draw rounded rectangle manually for compatibility
       const barX = x + 1;
       const barW = Math.max(1, barWidth - 2);
       const radius = Math.min(2, barW / 2);
-      
+
       ctx.beginPath();
       ctx.moveTo(barX + radius, y);
       ctx.lineTo(barX + barW - radius, y);
@@ -167,38 +167,40 @@ export function WaveformRangeSelector({
       ctx.closePath();
       ctx.fill();
     });
-
   }, [waveformData, startTime, endTime, duration]);
 
   // Handle dragging
-  const handleMouseDown = useCallback((e: React.MouseEvent, handle: 'start' | 'end') => {
+  const handleMouseDown = useCallback((e: React.MouseEvent, handle: "start" | "end") => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(handle);
   }, []);
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percent = Math.max(0, Math.min(1, x / rect.width));
-    const time = percent * duration;
-    
-    if (isDragging === 'start') {
-      const newStart = Math.max(0, Math.min(time, endTime - minDuration));
-      const rangeDuration = endTime - newStart;
-      if (rangeDuration <= maxDuration) {
-        onRangeChange(newStart, endTime);
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDragging || !containerRef.current) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percent = Math.max(0, Math.min(1, x / rect.width));
+      const time = percent * duration;
+
+      if (isDragging === "start") {
+        const newStart = Math.max(0, Math.min(time, endTime - minDuration));
+        const rangeDuration = endTime - newStart;
+        if (rangeDuration <= maxDuration) {
+          onRangeChange(newStart, endTime);
+        }
+      } else {
+        const newEnd = Math.min(duration, Math.max(time, startTime + minDuration));
+        const rangeDuration = newEnd - startTime;
+        if (rangeDuration <= maxDuration) {
+          onRangeChange(startTime, newEnd);
+        }
       }
-    } else {
-      const newEnd = Math.min(duration, Math.max(time, startTime + minDuration));
-      const rangeDuration = newEnd - startTime;
-      if (rangeDuration <= maxDuration) {
-        onRangeChange(startTime, newEnd);
-      }
-    }
-  }, [isDragging, duration, startTime, endTime, minDuration, maxDuration, onRangeChange]);
+    },
+    [isDragging, duration, startTime, endTime, minDuration, maxDuration, onRangeChange],
+  );
 
   const handleMouseUp = useCallback(() => {
     if (isDragging) {
@@ -211,44 +213,47 @@ export function WaveformRangeSelector({
   // Attach global mouse listeners when dragging
   useEffect(() => {
     if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
       return () => {
-        window.removeEventListener('mousemove', handleMouseMove);
-        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
       };
     }
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
   // Touch support
-  const handleTouchStart = useCallback((e: React.TouchEvent, handle: 'start' | 'end') => {
+  const handleTouchStart = useCallback((e: React.TouchEvent, handle: "start" | "end") => {
     e.preventDefault();
     setIsDragging(handle);
   }, []);
 
-  const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const touch = e.touches[0];
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = touch.clientX - rect.left;
-    const percent = Math.max(0, Math.min(1, x / rect.width));
-    const time = percent * duration;
-    
-    if (isDragging === 'start') {
-      const newStart = Math.max(0, Math.min(time, endTime - minDuration));
-      const rangeDuration = endTime - newStart;
-      if (rangeDuration <= maxDuration) {
-        onRangeChange(newStart, endTime);
+  const handleTouchMove = useCallback(
+    (e: TouchEvent) => {
+      if (!isDragging || !containerRef.current) return;
+
+      const touch = e.touches[0];
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = touch.clientX - rect.left;
+      const percent = Math.max(0, Math.min(1, x / rect.width));
+      const time = percent * duration;
+
+      if (isDragging === "start") {
+        const newStart = Math.max(0, Math.min(time, endTime - minDuration));
+        const rangeDuration = endTime - newStart;
+        if (rangeDuration <= maxDuration) {
+          onRangeChange(newStart, endTime);
+        }
+      } else {
+        const newEnd = Math.min(duration, Math.max(time, startTime + minDuration));
+        const rangeDuration = newEnd - startTime;
+        if (rangeDuration <= maxDuration) {
+          onRangeChange(startTime, newEnd);
+        }
       }
-    } else {
-      const newEnd = Math.min(duration, Math.max(time, startTime + minDuration));
-      const rangeDuration = newEnd - startTime;
-      if (rangeDuration <= maxDuration) {
-        onRangeChange(startTime, newEnd);
-      }
-    }
-  }, [isDragging, duration, startTime, endTime, minDuration, maxDuration, onRangeChange]);
+    },
+    [isDragging, duration, startTime, endTime, minDuration, maxDuration, onRangeChange],
+  );
 
   const handleTouchEnd = useCallback(() => {
     if (isDragging) {
@@ -260,29 +265,32 @@ export function WaveformRangeSelector({
 
   useEffect(() => {
     if (isDragging) {
-      window.addEventListener('touchmove', handleTouchMove, { passive: false });
-      window.addEventListener('touchend', handleTouchEnd);
+      window.addEventListener("touchmove", handleTouchMove, { passive: false });
+      window.addEventListener("touchend", handleTouchEnd);
       return () => {
-        window.removeEventListener('touchmove', handleTouchMove);
-        window.removeEventListener('touchend', handleTouchEnd);
+        window.removeEventListener("touchmove", handleTouchMove);
+        window.removeEventListener("touchend", handleTouchEnd);
       };
     }
   }, [isDragging, handleTouchMove, handleTouchEnd]);
 
   // Click to seek
-  const handleClick = useCallback((e: React.MouseEvent) => {
-    if (!containerRef.current || !onPreviewSeek) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percent = x / rect.width;
-    const time = percent * duration;
-    
-    // Only seek if within selected range
-    if (time >= startTime && time <= endTime) {
-      onPreviewSeek(time);
-    }
-  }, [duration, startTime, endTime, onPreviewSeek]);
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (!containerRef.current || !onPreviewSeek) return;
+
+      const rect = containerRef.current.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const percent = x / rect.width;
+      const time = percent * duration;
+
+      // Only seek if within selected range
+      if (time >= startTime && time <= endTime) {
+        onPreviewSeek(time);
+      }
+    },
+    [duration, startTime, endTime, onPreviewSeek],
+  );
 
   const startPercent = (startTime / duration) * 100;
   const endPercent = (endTime / duration) * 100;
@@ -293,18 +301,16 @@ export function WaveformRangeSelector({
       {/* Time labels */}
       <div className="flex items-center justify-between text-xs text-muted-foreground font-mono px-1">
         <span>{formatTime(startTime)}</span>
-        <span className="text-foreground font-medium">
-          {sectionDuration.toFixed(1)}с
-        </span>
+        <span className="text-foreground font-medium">{sectionDuration.toFixed(1)}с</span>
         <span>{formatTime(endTime)}</span>
       </div>
-      
+
       {/* Waveform container */}
-      <div 
+      <div
         ref={containerRef}
         className={cn(
           "relative rounded-xl overflow-hidden bg-muted/30 border border-border/50",
-          isDragging && "ring-2 ring-primary/50"
+          isDragging && "ring-2 ring-primary/50",
         )}
         style={{ height }}
         onClick={handleClick}
@@ -325,68 +331,65 @@ export function WaveformRangeSelector({
         ) : (
           <>
             {/* Canvas for waveform */}
-            <canvas 
-              ref={canvasRef}
-              className="absolute inset-0 w-full h-full"
-            />
-            
+            <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+
             {/* Start handle - larger touch target for mobile */}
             <motion.div
               className={cn(
                 "absolute top-0 bottom-0 w-8 cursor-ew-resize z-10",
                 "flex items-center justify-center touch-none",
-                isDragging === 'start' && "z-20"
+                isDragging === "start" && "z-20",
               )}
               style={{ left: `calc(${startPercent}% - 16px)` }}
-              onMouseDown={(e) => handleMouseDown(e, 'start')}
-              onTouchStart={(e) => handleTouchStart(e, 'start')}
+              onMouseDown={(e) => handleMouseDown(e, "start")}
+              onTouchStart={(e) => handleTouchStart(e, "start")}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className={cn(
-                "w-2 h-14 rounded-full bg-primary shadow-lg shadow-primary/30 transition-all",
-                "flex items-center justify-center border-2 border-primary-foreground/30",
-                isDragging === 'start' && "w-2.5 bg-primary scale-110"
-              )}>
+              <div
+                className={cn(
+                  "w-2 h-14 rounded-full bg-primary shadow-lg shadow-primary/30 transition-all",
+                  "flex items-center justify-center border-2 border-primary-foreground/30",
+                  isDragging === "start" && "w-2.5 bg-primary scale-110",
+                )}
+              >
                 <GripVertical className="w-4 h-4 text-primary-foreground drop-shadow-md" />
               </div>
             </motion.div>
-            
+
             {/* End handle - larger touch target for mobile */}
             <motion.div
               className={cn(
                 "absolute top-0 bottom-0 w-8 cursor-ew-resize z-10",
                 "flex items-center justify-center touch-none",
-                isDragging === 'end' && "z-20"
+                isDragging === "end" && "z-20",
               )}
               style={{ left: `calc(${endPercent}% - 16px)` }}
-              onMouseDown={(e) => handleMouseDown(e, 'end')}
-              onTouchStart={(e) => handleTouchStart(e, 'end')}
+              onMouseDown={(e) => handleMouseDown(e, "end")}
+              onTouchStart={(e) => handleTouchStart(e, "end")}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <div className={cn(
-                "w-2 h-14 rounded-full bg-primary shadow-lg shadow-primary/30 transition-all",
-                "flex items-center justify-center border-2 border-primary-foreground/30",
-                isDragging === 'end' && "w-2.5 bg-primary scale-110"
-              )}>
+              <div
+                className={cn(
+                  "w-2 h-14 rounded-full bg-primary shadow-lg shadow-primary/30 transition-all",
+                  "flex items-center justify-center border-2 border-primary-foreground/30",
+                  isDragging === "end" && "w-2.5 bg-primary scale-110",
+                )}
+              >
                 <GripVertical className="w-4 h-4 text-primary-foreground drop-shadow-md" />
               </div>
             </motion.div>
           </>
         )}
       </div>
-      
+
       {/* Duration validation */}
       {sectionDuration > maxDuration && (
-        <p className="text-xs text-destructive text-center">
-          Секция слишком длинная (макс. {maxDuration}с)
-        </p>
+        <p className="text-xs text-destructive text-center">Секция слишком длинная (макс. {maxDuration}с)</p>
       )}
       {sectionDuration < minDuration && (
-        <p className="text-xs text-destructive text-center">
-          Секция слишком короткая (мин. {minDuration}с)
-        </p>
+        <p className="text-xs text-destructive text-center">Секция слишком короткая (мин. {minDuration}с)</p>
       )}
     </div>
   );

@@ -4,18 +4,18 @@
  * Uses lazy-loaded Recharts to reduce bundle size
  */
 
-import { Card } from '@/components/ui/card';
-import { motion } from '@/lib/motion';
-import { useAnalyticsData } from '@/hooks/useAnalyticsData';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useRecharts } from '@/lib/recharts-lazy';
+import { Card } from "@/components/ui/card";
+import { motion } from "@/lib/motion";
+import { useAnalyticsData } from "@/hooks/useAnalyticsData";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRecharts } from "@/lib/recharts-lazy";
 
 const COLORS = [
-  'hsl(var(--primary))',
-  'hsl(var(--destructive))',
-  'hsl(142 76% 36%)', // green
-  'hsl(38 92% 50%)', // amber
-  'hsl(280 65% 60%)', // purple
+  "hsl(var(--primary))",
+  "hsl(var(--destructive))",
+  "hsl(142 76% 36%)", // green
+  "hsl(38 92% 50%)", // amber
+  "hsl(280 65% 60%)", // purple
 ];
 
 export function GenreDistributionChart() {
@@ -35,11 +35,7 @@ export function GenreDistributionChart() {
 
   if (chartData.length === 0) {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
         <Card className="p-4 glass-card border-border/50">
           <h3 className="text-sm font-semibold mb-4">Топ жанры</h3>
           <div className="h-[180px] flex items-center justify-center text-muted-foreground text-sm">
@@ -51,14 +47,10 @@ export function GenreDistributionChart() {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4 }}
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
       <Card className="p-4 glass-card border-border/50">
         <h3 className="text-sm font-semibold mb-4">Топ жанры</h3>
-        
+
         <div className="h-[180px] w-full">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
@@ -73,27 +65,20 @@ export function GenreDistributionChart() {
                 nameKey="genre"
               >
                 {chartData.map((_, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
-                    fill={COLORS[index % COLORS.length]}
-                    strokeWidth={0}
-                  />
+                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} strokeWidth={0} />
                 ))}
               </Pie>
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'hsl(var(--card))',
-                  border: '1px solid hsl(var(--border))',
-                  borderRadius: '8px',
-                  fontSize: '12px',
+                  backgroundColor: "hsl(var(--card))",
+                  border: "1px solid hsl(var(--border))",
+                  borderRadius: "8px",
+                  fontSize: "12px",
                 }}
-                formatter={(value: any, name: any) => [
-                  `${value} треков`,
-                  name
-                ]}
+                formatter={(value: any, name: any) => [`${value} треков`, name]}
               />
-              <Legend 
-                wrapperStyle={{ fontSize: '11px' }}
+              <Legend
+                wrapperStyle={{ fontSize: "11px" }}
                 iconType="circle"
                 layout="vertical"
                 align="right"

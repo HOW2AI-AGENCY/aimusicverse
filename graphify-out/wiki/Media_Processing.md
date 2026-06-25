@@ -29,7 +29,7 @@
 - [SOLO_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L102) (1 connections)
 - [STRUCTURE_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L38) (1 connections)
 - [SUNO_META_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L228) (1 connections)
-- *... and 6 more nodes in this community*
+- _... and 6 more nodes in this community_
 
 ## Relationships
 
@@ -47,4 +47,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

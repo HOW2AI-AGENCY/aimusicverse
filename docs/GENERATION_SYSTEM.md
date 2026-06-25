@@ -7,6 +7,7 @@
 ## Обзор
 
 MusicVerse использует Suno AI v5 для генерации музыки с поддержкой:
+
 - A/B версионирование (2 варианта на запрос)
 - Streaming preview во время генерации
 - Custom mode с полным контролем lyrics
@@ -22,24 +23,24 @@ graph TB
         B[useGenerateForm]
         C[GenerationProgress]
     end
-    
+
     subgraph "Edge Functions"
         D[suno-music-generate]
         E[suno-music-callback]
         F[generate-track-cover]
     end
-    
+
     subgraph "External"
         G[Suno AI API]
         H[Lovable AI]
     end
-    
+
     subgraph "Database"
         I[generation_tasks]
         J[tracks]
         K[track_versions]
     end
-    
+
     A --> B
     B --> D
     D --> G
@@ -48,14 +49,16 @@ graph TB
     E --> K
     E --> F
     F --> H
-    
+
     C -.->|Realtime| I
 ```
 
 ## Режимы генерации
 
 ### Simple Mode
+
 Быстрая генерация по текстовому описанию:
+
 - Prompt (описание трека)
 - Style (жанр/настроение)
 - Instrumental flag
@@ -70,7 +73,9 @@ graph TB
 ```
 
 ### Custom Mode
+
 Полный контроль над генерацией:
+
 - Lyrics (текст песни с тегами секций)
 - Style prompt
 - Title
@@ -95,10 +100,10 @@ graph LR
     A[Generation Request] --> B[Suno AI]
     B --> C[Clip 0 - Version A]
     B --> D[Clip 1 - Version B]
-    
+
     C --> E[track_versions<br/>is_primary = true]
     D --> F[track_versions<br/>is_primary = false]
-    
+
     E --> G[tracks.active_version_id]
 ```
 
@@ -107,10 +112,7 @@ graph LR
 ```typescript
 // В VersionSwitcher компоненте
 const switchVersion = async (versionId: string) => {
-  await supabase
-    .from('tracks')
-    .update({ active_version_id: versionId })
-    .eq('id', trackId);
+  await supabase.from("tracks").update({ active_version_id: versionId }).eq("id", trackId);
 };
 ```
 
@@ -121,25 +123,26 @@ const switchVersion = async (versionId: string) => {
 ```typescript
 // В suno-music-callback
 if (clip.audio_url && !clip.is_complete) {
-  await supabase
-    .from('tracks')
-    .update({ streaming_url: clip.audio_url })
-    .eq('id', trackId);
+  await supabase.from("tracks").update({ streaming_url: clip.audio_url }).eq("id", trackId);
 }
 
 // Frontend подписывается на Realtime
 const channel = supabase
-  .channel('track-streaming')
-  .on('postgres_changes', {
-    event: 'UPDATE',
-    schema: 'public',
-    table: 'tracks',
-    filter: `id=eq.${trackId}`
-  }, (payload) => {
-    if (payload.new.streaming_url) {
-      playStreamingPreview(payload.new.streaming_url);
-    }
-  })
+  .channel("track-streaming")
+  .on(
+    "postgres_changes",
+    {
+      event: "UPDATE",
+      schema: "public",
+      table: "tracks",
+      filter: `id=eq.${trackId}`,
+    },
+    (payload) => {
+      if (payload.new.streaming_url) {
+        playStreamingPreview(payload.new.streaming_url);
+      }
+    },
+  )
   .subscribe();
 ```
 
@@ -151,11 +154,11 @@ sequenceDiagram
     participant Edge as suno-music-callback
     participant DB as Database
     participant TG as Telegram
-    
+
     Suno->>Edge: Webhook POST
     Edge->>Edge: Validate signature (HMAC)
     Edge->>DB: Update generation_task
-    
+
     alt Streaming update
         Edge->>DB: Update streaming_url
     else Generation complete
@@ -182,17 +185,18 @@ const prompt = `
   MusicVerse aesthetic
 `;
 
-const result = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+const result = await fetch("https://openrouter.ai/api/v1/chat/completions", {
   body: JSON.stringify({
-    model: 'google/gemini-3-pro-image-preview',
-    messages: [{ role: 'user', content: prompt }]
-  })
+    model: "google/gemini-3-pro-image-preview",
+    messages: [{ role: "user", content: prompt }],
+  }),
 });
 ```
 
 ## База данных
 
 ### generation_tasks
+
 ```sql
 CREATE TABLE generation_tasks (
   id UUID PRIMARY KEY,
@@ -209,6 +213,7 @@ CREATE TABLE generation_tasks (
 ```
 
 ### tracks
+
 ```sql
 CREATE TABLE tracks (
   id UUID PRIMARY KEY,
@@ -231,6 +236,7 @@ CREATE TABLE tracks (
 ```
 
 ### track_versions
+
 ```sql
 CREATE TABLE track_versions (
   id UUID PRIMARY KEY,
@@ -247,22 +253,22 @@ CREATE TABLE track_versions (
 
 ## Лимиты Suno API
 
-| Параметр | Лимит |
-|----------|-------|
+| Параметр      | Лимит                     |
+| ------------- | ------------------------- |
 | Prompt length | 500 символов (non-custom) |
-| Style length | 500 символов |
-| Title length | 80 символов |
-| Lyrics length | 3000 символов |
+| Style length  | 500 символов              |
+| Title length  | 80 символов               |
+| Lyrics length | 3000 символов             |
 
 ## Error Handling
 
 ```typescript
 // Типичные ошибки
 const SUNO_ERRORS = {
-  RATE_LIMIT: 'Too many requests',
-  CONTENT_POLICY: 'Content policy violation',
-  TIMEOUT: 'Generation timeout',
-  INVALID_AUDIO: 'Invalid audio reference'
+  RATE_LIMIT: "Too many requests",
+  CONTENT_POLICY: "Content policy violation",
+  TIMEOUT: "Generation timeout",
+  INVALID_AUDIO: "Invalid audio reference",
 };
 
 // Retry strategy
@@ -273,12 +279,14 @@ const RETRY_DELAY = 5000; // 5 seconds
 ## Мониторинг
 
 ### Метрики
+
 - Время генерации (avg, p95)
 - Success rate
 - Error breakdown by type
 - Streaming preview availability
 
 ### Алерты
+
 - Error rate > 10%
 - Avg generation time > 5 min
 - Callback failures
@@ -298,25 +306,30 @@ const RETRY_DELAY = 5000; // 5 seconds
 ### Обновления (2026-01-04)
 
 **Компактный хедер:**
+
 - Удалён логотип
 - Уменьшены размеры компонентов (`min-h-[36px]`, `py-1`)
 - Model Selector только в хедере (убрано дублирование)
 
 **Подсказки (Hints):**
+
 - Заменены `Tooltip` на `Popover` для мобильных
 - Работают по клику на `?` иконку
 
 **Copy/Delete кнопки:**
+
 - Полностью скрыты когда поле пустое
 - Появляются только при наличии текста
 
 **Compact Lyrics Visual Editor:**
+
 - Создан `LyricsVisualEditorCompact.tsx`
 - Timeline секций (badges)
 - Простые карточки без drag-drop
 - Quick structure templates (Поп, Рок, Баллада)
 
 **Advanced Options:**
+
 - Заметная кнопка с dashed border
 - Удалён дублирующий Model Selector
 

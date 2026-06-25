@@ -7,10 +7,10 @@
 - [NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L1) (4 connections)
 - [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L49) (1 connections)
 - [{
-    hasGeneratedTrack,
-    hasPlayedTrack,
-    hasVisitedLibrary,
-    completedOnboarding,
+  hasGeneratedTrack,
+  hasPlayedTrack,
+  hasVisitedLibrary,
+  completedOnboarding,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L24) (1 connections)
 - [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L50) (1 connections)
 - [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L31) (1 connections)
@@ -31,4 +31,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

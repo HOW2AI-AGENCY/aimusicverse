@@ -3,43 +3,47 @@
  * Shows D1, D7, D14, D30 retention rates as a heatmap
  */
 
-import { useMemo, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Users, TrendingUp, TrendingDown, Minus, Calendar } from 'lucide-react';
-import { useRetentionCohorts, calculateAverageRetention, type RetentionCohort } from '@/hooks/admin/useRetentionCohorts';
-import { cn } from '@/lib/utils';
+import { useMemo, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Users, TrendingUp, TrendingDown, Minus, Calendar } from "lucide-react";
+import {
+  useRetentionCohorts,
+  calculateAverageRetention,
+  type RetentionCohort,
+} from "@/hooks/admin/useRetentionCohorts";
+import { cn } from "@/lib/utils";
 
-type TimeRange = '7d' | '14d' | '30d' | '60d';
+type TimeRange = "7d" | "14d" | "30d" | "60d";
 
 const TIME_RANGE_OPTIONS: { value: TimeRange; label: string; days: number }[] = [
-  { value: '7d', label: '7 дней', days: 7 },
-  { value: '14d', label: '14 дней', days: 14 },
-  { value: '30d', label: '30 дней', days: 30 },
-  { value: '60d', label: '60 дней', days: 60 },
+  { value: "7d", label: "7 дней", days: 7 },
+  { value: "14d", label: "14 дней", days: 14 },
+  { value: "30d", label: "30 дней", days: 30 },
+  { value: "60d", label: "60 дней", days: 60 },
 ];
 
 const RETENTION_COLUMNS = [
-  { key: 'd1_rate' as const, label: 'D1', description: 'Вернулись на следующий день' },
-  { key: 'd7_rate' as const, label: 'D7', description: 'Активны через 7 дней' },
-  { key: 'd14_rate' as const, label: 'D14', description: 'Активны через 14 дней' },
-  { key: 'd30_rate' as const, label: 'D30', description: 'Активны через 30 дней' },
+  { key: "d1_rate" as const, label: "D1", description: "Вернулись на следующий день" },
+  { key: "d7_rate" as const, label: "D7", description: "Активны через 7 дней" },
+  { key: "d14_rate" as const, label: "D14", description: "Активны через 14 дней" },
+  { key: "d30_rate" as const, label: "D30", description: "Активны через 30 дней" },
 ];
 
 /**
  * Get color class based on retention percentage
  */
 function getRetentionColor(rate: number | null): string {
-  if (rate === null || rate === undefined) return 'bg-muted/30';
-  if (rate >= 50) return 'bg-green-500/80 text-white';
-  if (rate >= 30) return 'bg-green-400/60';
-  if (rate >= 20) return 'bg-yellow-400/60';
-  if (rate >= 10) return 'bg-orange-400/60';
-  if (rate > 0) return 'bg-red-400/50';
-  return 'bg-muted/30';
+  if (rate === null || rate === undefined) return "bg-muted/30";
+  if (rate >= 50) return "bg-green-500/80 text-white";
+  if (rate >= 30) return "bg-green-400/60";
+  if (rate >= 20) return "bg-yellow-400/60";
+  if (rate >= 10) return "bg-orange-400/60";
+  if (rate > 0) return "bg-red-400/50";
+  return "bg-muted/30";
 }
 
 /**
@@ -47,9 +51,9 @@ function getRetentionColor(rate: number | null): string {
  */
 function formatDate(dateStr: string): string {
   const date = new Date(dateStr);
-  return date.toLocaleDateString('ru-RU', { 
-    day: 'numeric', 
-    month: 'short' 
+  return date.toLocaleDateString("ru-RU", {
+    day: "numeric",
+    month: "short",
   });
 }
 
@@ -61,16 +65,16 @@ interface RetentionCellProps {
 }
 
 function RetentionCell({ rate, retained, cohortSize, label }: RetentionCellProps) {
-  const displayRate = rate !== null ? `${rate}%` : '—';
-  
+  const displayRate = rate !== null ? `${rate}%` : "—";
+
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div 
+          <div
             className={cn(
-              'px-2 py-1.5 text-center text-xs font-medium rounded transition-colors cursor-default',
-              getRetentionColor(rate)
+              "px-2 py-1.5 text-center text-xs font-medium rounded transition-colors cursor-default",
+              getRetentionColor(rate),
             )}
           >
             {displayRate}
@@ -78,7 +82,9 @@ function RetentionCell({ rate, retained, cohortSize, label }: RetentionCellProps
         </TooltipTrigger>
         <TooltipContent side="top" className="text-xs">
           <p className="font-medium">{label}</p>
-          <p>{retained} из {cohortSize} пользователей</p>
+          <p>
+            {retained} из {cohortSize} пользователей
+          </p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
@@ -88,29 +94,29 @@ function RetentionCell({ rate, retained, cohortSize, label }: RetentionCellProps
 interface AverageCardProps {
   label: string;
   value: number;
-  trend?: 'up' | 'down' | 'neutral';
+  trend?: "up" | "down" | "neutral";
 }
 
-function AverageCard({ label, value, trend = 'neutral' }: AverageCardProps) {
-  const TrendIcon = trend === 'up' ? TrendingUp : trend === 'down' ? TrendingDown : Minus;
-  const trendColor = trend === 'up' ? 'text-green-500' : trend === 'down' ? 'text-red-500' : 'text-muted-foreground';
-  
+function AverageCard({ label, value, trend = "neutral" }: AverageCardProps) {
+  const TrendIcon = trend === "up" ? TrendingUp : trend === "down" ? TrendingDown : Minus;
+  const trendColor = trend === "up" ? "text-green-500" : trend === "down" ? "text-red-500" : "text-muted-foreground";
+
   return (
     <div className="flex flex-col items-center p-1.5 sm:p-2 bg-muted/30 rounded-lg">
       <span className="text-[10px] sm:text-xs text-muted-foreground">{label}</span>
       <div className="flex items-center gap-0.5 sm:gap-1">
         <span className="text-sm sm:text-lg font-bold">{value}%</span>
-        <TrendIcon className={cn('w-2.5 h-2.5 sm:w-3 sm:h-3', trendColor)} />
+        <TrendIcon className={cn("w-2.5 h-2.5 sm:w-3 sm:h-3", trendColor)} />
       </div>
     </div>
   );
 }
 
 export function RetentionHeatmap() {
-  const [timeRange, setTimeRange] = useState<TimeRange>('30d');
-  
+  const [timeRange, setTimeRange] = useState<TimeRange>("30d");
+
   const dateRange = useMemo(() => {
-    const option = TIME_RANGE_OPTIONS.find(o => o.value === timeRange);
+    const option = TIME_RANGE_OPTIONS.find((o) => o.value === timeRange);
     const days = option?.days || 30;
     return {
       startDate: new Date(Date.now() - days * 24 * 60 * 60 * 1000),
@@ -119,7 +125,7 @@ export function RetentionHeatmap() {
   }, [timeRange]);
 
   const { data: cohorts, isLoading, error } = useRetentionCohorts(dateRange);
-  
+
   const averages = useMemo(() => {
     if (!cohorts?.length) return null;
     return calculateAverageRetention(cohorts);
@@ -134,9 +140,7 @@ export function RetentionHeatmap() {
     return (
       <Card>
         <CardContent className="pt-6">
-          <p className="text-sm text-destructive">
-            Ошибка загрузки данных удержания: {(error as Error).message}
-          </p>
+          <p className="text-sm text-destructive">Ошибка загрузки данных удержания: {(error as Error).message}</p>
         </CardContent>
       </Card>
     );
@@ -161,7 +165,7 @@ export function RetentionHeatmap() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="z-50 bg-popover">
-              {TIME_RANGE_OPTIONS.map(option => (
+              {TIME_RANGE_OPTIONS.map((option) => (
                 <SelectItem key={option.value} value={option.value} className="text-xs">
                   {option.label}
                 </SelectItem>
@@ -170,15 +174,15 @@ export function RetentionHeatmap() {
           </Select>
         </div>
       </CardHeader>
-      
+
       <CardContent className="space-y-3 sm:space-y-4 px-3 pb-3 sm:px-6 sm:pb-6">
         {/* Average Stats */}
         {averages && (
           <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
-            <AverageCard label="D1" value={averages.d1} trend={averages.d1 >= 30 ? 'up' : 'down'} />
-            <AverageCard label="D7" value={averages.d7} trend={averages.d7 >= 20 ? 'up' : 'down'} />
-            <AverageCard label="D14" value={averages.d14} trend={averages.d14 >= 15 ? 'up' : 'down'} />
-            <AverageCard label="D30" value={averages.d30} trend={averages.d30 >= 10 ? 'up' : 'down'} />
+            <AverageCard label="D1" value={averages.d1} trend={averages.d1 >= 30 ? "up" : "down"} />
+            <AverageCard label="D7" value={averages.d7} trend={averages.d7 >= 20 ? "up" : "down"} />
+            <AverageCard label="D14" value={averages.d14} trend={averages.d14 >= 15 ? "up" : "down"} />
+            <AverageCard label="D30" value={averages.d30} trend={averages.d30 >= 10 ? "up" : "down"} />
           </div>
         )}
 
@@ -187,7 +191,7 @@ export function RetentionHeatmap() {
           <Badge variant="secondary" className="text-[10px] sm:text-xs h-5">
             {totalUsers} пользователей
           </Badge>
-          <span>за {TIME_RANGE_OPTIONS.find(o => o.value === timeRange)?.label}</span>
+          <span>за {TIME_RANGE_OPTIONS.find((o) => o.value === timeRange)?.label}</span>
         </div>
 
         {/* Heatmap Table */}
@@ -204,7 +208,7 @@ export function RetentionHeatmap() {
                 <tr className="border-b">
                   <th className="text-left py-2 px-2 font-medium text-muted-foreground">Дата</th>
                   <th className="text-center py-2 px-2 font-medium text-muted-foreground">Когорта</th>
-                  {RETENTION_COLUMNS.map(col => (
+                  {RETENTION_COLUMNS.map((col) => (
                     <th key={col.key} className="text-center py-2 px-2 font-medium text-muted-foreground">
                       <TooltipProvider>
                         <Tooltip>
@@ -221,39 +225,35 @@ export function RetentionHeatmap() {
               <tbody>
                 {cohorts.map((cohort) => (
                   <tr key={cohort.cohort_date} className="border-b border-muted/30 hover:bg-muted/10">
-                    <td className="py-1.5 px-2 text-muted-foreground">
-                      {formatDate(cohort.cohort_date)}
-                    </td>
-                    <td className="py-1.5 px-2 text-center font-medium">
-                      {cohort.cohort_size}
-                    </td>
+                    <td className="py-1.5 px-2 text-muted-foreground">{formatDate(cohort.cohort_date)}</td>
+                    <td className="py-1.5 px-2 text-center font-medium">{cohort.cohort_size}</td>
                     <td className="py-1 px-1">
-                      <RetentionCell 
-                        rate={cohort.d1_rate} 
+                      <RetentionCell
+                        rate={cohort.d1_rate}
                         retained={cohort.d1_retained}
                         cohortSize={cohort.cohort_size}
                         label="D1 Retention"
                       />
                     </td>
                     <td className="py-1 px-1">
-                      <RetentionCell 
-                        rate={cohort.d7_rate} 
+                      <RetentionCell
+                        rate={cohort.d7_rate}
                         retained={cohort.d7_retained}
                         cohortSize={cohort.cohort_size}
                         label="D7 Retention"
                       />
                     </td>
                     <td className="py-1 px-1">
-                      <RetentionCell 
-                        rate={cohort.d14_rate} 
+                      <RetentionCell
+                        rate={cohort.d14_rate}
                         retained={cohort.d14_retained}
                         cohortSize={cohort.cohort_size}
                         label="D14 Retention"
                       />
                     </td>
                     <td className="py-1 px-1">
-                      <RetentionCell 
-                        rate={cohort.d30_rate} 
+                      <RetentionCell
+                        rate={cohort.d30_rate}
                         retained={cohort.d30_retained}
                         cohortSize={cohort.cohort_size}
                         label="D30 Retention"

@@ -8,32 +8,16 @@
  * - MIDI Transcription (stem to MIDI/GP5/MusicXML)
  */
 
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet';
-import {
-  Copy,
-  Plus,
-  Mic2,
-  Guitar,
-  Music,
-  FileMusic,
-  Wand2,
-  Sparkles,
-} from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { toast } from 'sonner';
-import { useReferenceAnalysisData, type ReferenceAnalysisData } from '@/hooks/useReferenceAnalysisData';
-import { ReferenceMidiSheet } from './ReferenceMidiSheet';
-import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Copy, Plus, Mic2, Guitar, Music, FileMusic, Wand2, Sparkles } from "lucide-react";
+import { motion } from "@/lib/motion";
+import { toast } from "sonner";
+import { useReferenceAnalysisData, type ReferenceAnalysisData } from "@/hooks/useReferenceAnalysisData";
+import { ReferenceMidiSheet } from "./ReferenceMidiSheet";
+import { useState } from "react";
 
 interface ReferenceActionsPanelProps {
   reference: {
@@ -67,7 +51,7 @@ export function ReferenceActionsPanel({ reference, className }: ReferenceActions
 
   const hasVocalStem = !!reference.vocal_stem_url;
   const hasInstrumentalStem = !!reference.instrumental_stem_url;
-  const hasStemsReady = reference.stems_status === 'completed';
+  const hasStemsReady = reference.stems_status === "completed";
 
   // Prepare analysis data for form pre-filling
   const prepareAnalysisData = (): ReferenceAnalysisData => ({
@@ -96,103 +80,103 @@ export function ReferenceActionsPanel({ reference, className }: ReferenceActions
     const data = prepareAnalysisData();
     saveAnalysisData(data);
     navigate(`/generate?mode=cover&ref=${reference.id}`);
-    toast.success('Данные анализа загружены в форму');
+    toast.success("Данные анализа загружены в форму");
   };
 
   const handleExtend = () => {
     const data = prepareAnalysisData();
     saveAnalysisData(data);
     navigate(`/generate?mode=extend&ref=${reference.id}`);
-    toast.success('Данные анализа загружены в форму');
+    toast.success("Данные анализа загружены в форму");
   };
 
   const handleNewArrangement = () => {
     if (!hasVocalStem) {
-      toast.error('Сначала разделите аудио на стемы');
+      toast.error("Сначала разделите аудио на стемы");
       return;
     }
-    
+
     const data = prepareAnalysisData();
     saveAnalysisData({
       ...data,
       audioUrl: reference.vocal_stem_url!,
     });
-    
+
     // Navigate to PromptDJ with vocal stem context
     navigate(`/prompt-dj?mode=arrangement&stem=vocal&ref=${reference.id}`);
-    toast.success('Вокальный стем готов к новой аранжировке');
+    toast.success("Вокальный стем готов к новой аранжировке");
   };
 
   const handleNewVocal = () => {
     if (!hasInstrumentalStem) {
-      toast.error('Сначала разделите аудио на стемы');
+      toast.error("Сначала разделите аудио на стемы");
       return;
     }
-    
+
     const data = prepareAnalysisData();
     saveAnalysisData({
       ...data,
       audioUrl: reference.instrumental_stem_url!,
     });
-    
+
     navigate(`/generate?mode=vocal&stem=instrumental&ref=${reference.id}`);
-    toast.success('Инструментальный стем готов для нового вокала');
+    toast.success("Инструментальный стем готов для нового вокала");
   };
 
   const handleOpenPromptDJ = () => {
     const data = prepareAnalysisData();
     saveAnalysisData(data);
     navigate(`/prompt-dj?ref=${reference.id}`);
-    toast.success('Параметры загружены в PromptDJ');
+    toast.success("Параметры загружены в PromptDJ");
   };
 
   const actions = [
     {
-      id: 'cover',
+      id: "cover",
       icon: Copy,
-      label: 'Кавер',
-      description: 'Стиль + текст → новый трек',
+      label: "Кавер",
+      description: "Стиль + текст → новый трек",
       onClick: handleCover,
       enabled: true,
-      color: 'text-purple-500',
+      color: "text-purple-500",
     },
     {
-      id: 'extend',
+      id: "extend",
       icon: Plus,
-      label: 'Продолжение',
-      description: 'Расширить трек',
+      label: "Продолжение",
+      description: "Расширить трек",
       onClick: handleExtend,
       enabled: true,
-      color: 'text-blue-500',
+      color: "text-blue-500",
     },
     {
-      id: 'arrangement',
+      id: "arrangement",
       icon: Guitar,
-      label: 'Новая аранжировка',
-      description: 'Вокал + новый инструментал',
+      label: "Новая аранжировка",
+      description: "Вокал + новый инструментал",
       onClick: handleNewArrangement,
       enabled: hasVocalStem,
-      color: 'text-green-500',
-      badge: !hasStemsReady ? 'Нужны стемы' : undefined,
+      color: "text-green-500",
+      badge: !hasStemsReady ? "Нужны стемы" : undefined,
     },
     {
-      id: 'vocal',
+      id: "vocal",
       icon: Mic2,
-      label: 'Новый вокал',
-      description: 'Инструментал + AI вокал',
+      label: "Новый вокал",
+      description: "Инструментал + AI вокал",
       onClick: handleNewVocal,
       enabled: hasInstrumentalStem,
-      color: 'text-pink-500',
-      badge: !hasStemsReady ? 'Нужны стемы' : undefined,
+      color: "text-pink-500",
+      badge: !hasStemsReady ? "Нужны стемы" : undefined,
     },
     {
-      id: 'promptdj',
+      id: "promptdj",
       icon: Wand2,
-      label: 'PromptDJ',
-      description: 'Генерация в стиле референса',
+      label: "PromptDJ",
+      description: "Генерация в стиле референса",
       onClick: handleOpenPromptDJ,
       enabled: true,
-      color: 'text-amber-500',
+      color: "text-amber-500",
     },
   ];
 
@@ -216,7 +200,7 @@ export function ReferenceActionsPanel({ reference, className }: ReferenceActions
               <Button
                 variant="outline"
                 className={`w-full h-auto py-3 px-3 flex flex-col items-start gap-1 relative ${
-                  !action.enabled ? 'opacity-50' : 'hover:bg-muted'
+                  !action.enabled ? "opacity-50" : "hover:bg-muted"
                 }`}
                 onClick={action.onClick}
                 disabled={!action.enabled}
@@ -225,9 +209,7 @@ export function ReferenceActionsPanel({ reference, className }: ReferenceActions
                   <action.icon className={`w-4 h-4 ${action.color}`} />
                   <span className="font-medium text-sm">{action.label}</span>
                 </div>
-                <span className="text-xs text-muted-foreground text-left">
-                  {action.badge || action.description}
-                </span>
+                <span className="text-xs text-muted-foreground text-left">{action.badge || action.description}</span>
               </Button>
             </motion.div>
           ))}
@@ -237,10 +219,7 @@ export function ReferenceActionsPanel({ reference, className }: ReferenceActions
         {hasStemsReady && (
           <Sheet open={midiSheetOpen} onOpenChange={setMidiSheetOpen}>
             <SheetTrigger asChild>
-              <Button
-                variant="secondary"
-                className="w-full mt-2 gap-2"
-              >
+              <Button variant="secondary" className="w-full mt-2 gap-2">
                 <FileMusic className="w-4 h-4" />
                 MIDI транскрипция стемов
               </Button>
@@ -251,14 +230,9 @@ export function ReferenceActionsPanel({ reference, className }: ReferenceActions
                   <Music className="w-5 h-5" />
                   MIDI транскрипция
                 </SheetTitle>
-                <SheetDescription>
-                  Конвертируйте стемы в MIDI, Guitar Pro или MusicXML
-                </SheetDescription>
+                <SheetDescription>Конвертируйте стемы в MIDI, Guitar Pro или MusicXML</SheetDescription>
               </SheetHeader>
-              <ReferenceMidiSheet
-                reference={reference}
-                onClose={() => setMidiSheetOpen(false)}
-              />
+              <ReferenceMidiSheet reference={reference} onClose={() => setMidiSheetOpen(false)} />
             </SheetContent>
           </Sheet>
         )}

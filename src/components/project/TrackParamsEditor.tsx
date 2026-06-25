@@ -1,25 +1,12 @@
-import { memo } from 'react';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import { Slider } from '@/components/ui/slider';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@/components/ui/select';
-import { 
-  Music, 
-  Gauge, 
-  Zap, 
-  Mic, 
-  Volume2,
-  Link
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
+import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Music, Gauge, Zap, Mic, Volume2, Link } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface TrackParams {
   bpm_target?: number | null;
@@ -37,22 +24,39 @@ interface TrackParamsEditorProps {
 }
 
 const KEY_SIGNATURES = [
-  'C', 'Cm', 'C#', 'C#m',
-  'D', 'Dm', 'D#', 'D#m',
-  'E', 'Em',
-  'F', 'Fm', 'F#', 'F#m',
-  'G', 'Gm', 'G#', 'G#m',
-  'A', 'Am', 'A#', 'A#m',
-  'B', 'Bm',
+  "C",
+  "Cm",
+  "C#",
+  "C#m",
+  "D",
+  "Dm",
+  "D#",
+  "D#m",
+  "E",
+  "Em",
+  "F",
+  "Fm",
+  "F#",
+  "F#m",
+  "G",
+  "Gm",
+  "G#",
+  "G#m",
+  "A",
+  "Am",
+  "A#",
+  "A#m",
+  "B",
+  "Bm",
 ];
 
 const VOCAL_STYLES = [
-  { value: 'auto', label: 'Авто', icon: '🎤' },
-  { value: 'male', label: 'Мужской', icon: '👨' },
-  { value: 'female', label: 'Женский', icon: '👩' },
-  { value: 'duet', label: 'Дуэт', icon: '👫' },
-  { value: 'choir', label: 'Хор', icon: '🎶' },
-  { value: 'rap', label: 'Рэп', icon: '🎙️' },
+  { value: "auto", label: "Авто", icon: "🎤" },
+  { value: "male", label: "Мужской", icon: "👨" },
+  { value: "female", label: "Женский", icon: "👩" },
+  { value: "duet", label: "Дуэт", icon: "👫" },
+  { value: "choir", label: "Хор", icon: "🎶" },
+  { value: "rap", label: "Рэп", icon: "🎙️" },
 ];
 
 export const TrackParamsEditor = memo(function TrackParamsEditor({
@@ -77,14 +81,14 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
             type="number"
             min={60}
             max={200}
-            value={params.bpm_target || ''}
-            onChange={(e) => handleChange('bpm_target', e.target.value ? parseInt(e.target.value) : null)}
+            value={params.bpm_target || ""}
+            onChange={(e) => handleChange("bpm_target", e.target.value ? parseInt(e.target.value) : null)}
             placeholder="120"
             className={cn("w-20", compact && "h-8 text-sm")}
           />
           <Slider
             value={[params.bpm_target || 120]}
-            onValueChange={([value]) => handleChange('bpm_target', value)}
+            onValueChange={([value]) => handleChange("bpm_target", value)}
             min={60}
             max={200}
             step={1}
@@ -100,9 +104,9 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
           <Music className="w-3.5 h-3.5 text-primary" />
           Тональность
         </Label>
-        <Select 
-          value={params.key_signature || 'auto'} 
-          onValueChange={(value) => handleChange('key_signature', value === 'auto' ? null : value)}
+        <Select
+          value={params.key_signature || "auto"}
+          onValueChange={(value) => handleChange("key_signature", value === "auto" ? null : value)}
         >
           <SelectTrigger className={cn(compact && "h-8 text-sm")}>
             <SelectValue placeholder="Выбрать тональность" />
@@ -111,7 +115,7 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
             <SelectItem value="auto">Авто</SelectItem>
             {KEY_SIGNATURES.map((key) => (
               <SelectItem key={key} value={key}>
-                {key} {key.includes('m') ? '(минор)' : '(мажор)'}
+                {key} {key.includes("m") ? "(минор)" : "(мажор)"}
               </SelectItem>
             ))}
           </SelectContent>
@@ -131,7 +135,7 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
         </Label>
         <Slider
           value={[params.energy_level || 5]}
-          onValueChange={([value]) => handleChange('energy_level', value)}
+          onValueChange={([value]) => handleChange("energy_level", value)}
           min={1}
           max={10}
           step={1}
@@ -154,12 +158,12 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
             <button
               key={style.value}
               type="button"
-              onClick={() => handleChange('vocal_style', style.value)}
+              onClick={() => handleChange("vocal_style", style.value)}
               className={cn(
                 "flex items-center gap-1.5 px-2 py-1.5 rounded-md border text-xs transition-all",
                 params.vocal_style === style.value
                   ? "border-primary bg-primary/10 text-primary"
-                  : "border-border hover:border-primary/50"
+                  : "border-border hover:border-primary/50",
               )}
             >
               <span>{style.icon}</span>
@@ -177,7 +181,7 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
         </Label>
         <Switch
           checked={params.instrumental_only || false}
-          onCheckedChange={(checked) => handleChange('instrumental_only', checked)}
+          onCheckedChange={(checked) => handleChange("instrumental_only", checked)}
         />
       </div>
 
@@ -188,14 +192,12 @@ export const TrackParamsEditor = memo(function TrackParamsEditor({
           Референс (URL)
         </Label>
         <Input
-          value={params.reference_url || ''}
-          onChange={(e) => handleChange('reference_url', e.target.value || null)}
+          value={params.reference_url || ""}
+          onChange={(e) => handleChange("reference_url", e.target.value || null)}
           placeholder="https://youtube.com/watch?v=..."
           className={cn(compact && "h-8 text-sm")}
         />
-        <p className="text-[10px] text-muted-foreground">
-          Ссылка на референсный трек для стиля
-        </p>
+        <p className="text-[10px] text-muted-foreground">Ссылка на референсный трек для стиля</p>
       </div>
     </div>
   );

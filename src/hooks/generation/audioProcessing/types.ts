@@ -7,24 +7,20 @@
 // Operation Types
 // ==========================================
 
-export type AudioProcessingOperation = 
-  | 'extend' 
-  | 'cover' 
-  | 'add_vocals' 
-  | 'add_instrumental';
+export type AudioProcessingOperation = "extend" | "cover" | "add_vocals" | "add_instrumental";
 
 // ==========================================
 // Status Types
 // ==========================================
 
-export type ProcessingStatus = 
-  | 'idle'
-  | 'submitting'
-  | 'pending'
-  | 'processing'
-  | 'streaming_ready'
-  | 'completed'
-  | 'error';
+export type ProcessingStatus =
+  | "idle"
+  | "submitting"
+  | "pending"
+  | "processing"
+  | "streaming_ready"
+  | "completed"
+  | "error";
 
 // ==========================================
 // Completed Track
@@ -101,7 +97,7 @@ export interface CoverParams {
   /** Negative style tags */
   negativeTags?: string;
   /** Vocal gender preference */
-  vocalGender?: 'm' | 'f' | 'auto';
+  vocalGender?: "m" | "f" | "auto";
   /** Associated project ID */
   projectId?: string;
 }
@@ -178,20 +174,20 @@ export interface UseAudioProcessingReturn {
   cover: (params: CoverParams) => Promise<OperationResult>;
   addVocals: (params: AddVocalsParams) => Promise<OperationResult>;
   addInstrumental: (params: AddInstrumentalParams) => Promise<OperationResult>;
-  
+
   // Progress states
   extendProgress: ExtendedProcessingState;
   coverProgress: ExtendedProcessingState;
   addVocalsProgress: ExtendedProcessingState;
   addInstrumentalProgress: ExtendedProcessingState;
-  
+
   // Control
   resetExtend: () => void;
   resetCover: () => void;
   resetAddVocals: () => void;
   resetAddInstrumental: () => void;
   resetAll: () => void;
-  
+
   // Meta
   activeOperations: AudioProcessingOperation[];
   hasActiveOperation: boolean;

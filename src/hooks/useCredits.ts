@@ -3,12 +3,12 @@
  * Replaces complex useUserCredits from useGamification.ts
  */
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from './useAuth';
-import { notify } from '@/lib/notifications';
-import { useTelegram } from '@/contexts/TelegramContext';
-import * as creditsService from '@/services/credits.service';
-import * as creditsApi from '@/api/credits.api';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "./useAuth";
+import { notify } from "@/lib/notifications";
+import { useTelegram } from "@/contexts/TelegramContext";
+import * as creditsService from "@/services/credits.service";
+import * as creditsApi from "@/api/credits.api";
 
 /**
  * Hook for user credits and balance
@@ -18,7 +18,7 @@ export function useCredits() {
   const queryClient = useQueryClient();
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['user-gamification-stats', user?.id],
+    queryKey: ["user-gamification-stats", user?.id],
     queryFn: async () => {
       if (!user?.id) return null;
       return creditsService.getUserGamificationStats(user.id);
@@ -29,8 +29,8 @@ export function useCredits() {
   });
 
   const invalidate = () => {
-    queryClient.invalidateQueries({ queryKey: ['user-gamification-stats', user?.id] });
-    queryClient.invalidateQueries({ queryKey: ['user-credits', user?.id] });
+    queryClient.invalidateQueries({ queryKey: ["user-gamification-stats", user?.id] });
+    queryClient.invalidateQueries({ queryKey: ["user-credits", user?.id] });
   };
 
   return {
@@ -58,28 +58,28 @@ export function useCheckin() {
 
   return useMutation({
     mutationFn: async () => {
-      if (!user?.id) throw new Error('Not authenticated');
+      if (!user?.id) throw new Error("Not authenticated");
       return creditsService.processDailyCheckin(user.id);
     },
     onSuccess: (result) => {
-      hapticFeedback?.('success');
+      hapticFeedback?.("success");
       notify.success(`+${result.credits} кредитов! День ${result.streak} 🔥`, {
         description: `+${result.experience} опыта`,
       });
-      
+
       if (result.levelUp) {
         notify.success(`🎉 Новый уровень: ${result.newLevel}!`);
       }
-      
-      queryClient.invalidateQueries({ queryKey: ['user-gamification-stats'] });
-      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
-      queryClient.invalidateQueries({ queryKey: ['can-checkin-today'] });
+
+      queryClient.invalidateQueries({ queryKey: ["user-gamification-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
+      queryClient.invalidateQueries({ queryKey: ["can-checkin-today"] });
     },
     onError: (error: Error) => {
-      if (error.message === 'Вы уже отметились сегодня') {
-        notify.info(error.message, { dedupe: true, dedupeKey: 'already-checkin' });
+      if (error.message === "Вы уже отметились сегодня") {
+        notify.info(error.message, { dedupe: true, dedupeKey: "already-checkin" });
       } else {
-        notify.error('Ошибка чекина');
+        notify.error("Ошибка чекина");
       }
     },
   });
@@ -92,7 +92,7 @@ export function useCanCheckinToday() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['can-checkin-today', user?.id],
+    queryKey: ["can-checkin-today", user?.id],
     queryFn: async () => {
       if (!user?.id) return false;
       const hasCheckedIn = await creditsApi.hasCheckedInToday(user.id);
@@ -118,12 +118,12 @@ export function useRewardAction() {
       actionType: creditsService.ActionType;
       metadata?: Record<string, unknown>;
     }) => {
-      if (!user?.id) throw new Error('Not authenticated');
+      if (!user?.id) throw new Error("Not authenticated");
       return creditsService.rewardForAction(user.id, actionType, metadata);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['user-gamification-stats'] });
-      queryClient.invalidateQueries({ queryKey: ['user-credits'] });
+      queryClient.invalidateQueries({ queryKey: ["user-gamification-stats"] });
+      queryClient.invalidateQueries({ queryKey: ["user-credits"] });
     },
   });
 }
@@ -135,7 +135,7 @@ export function useTransactionHistory(limit = 20) {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['credit-transactions', user?.id, limit],
+    queryKey: ["credit-transactions", user?.id, limit],
     queryFn: async () => {
       if (!user?.id) return [];
       return creditsApi.fetchCreditTransactions(user.id, limit);
@@ -150,7 +150,7 @@ export function useTransactionHistory(limit = 20) {
  */
 export function useAchievements() {
   return useQuery({
-    queryKey: ['achievements'],
+    queryKey: ["achievements"],
     queryFn: creditsApi.fetchAchievements,
     staleTime: 5 * 60 * 1000,
   });
@@ -163,7 +163,7 @@ export function useUserAchievements() {
   const { user } = useAuth();
 
   return useQuery({
-    queryKey: ['user-achievements', user?.id],
+    queryKey: ["user-achievements", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
       return creditsApi.fetchUserAchievements(user.id);
@@ -178,10 +178,10 @@ export function useUserAchievements() {
  */
 export function useLeaderboard(
   limit = 50,
-  category: 'overall' | 'generators' | 'sharers' | 'popular' | 'listeners' = 'overall'
+  category: "overall" | "generators" | "sharers" | "popular" | "listeners" = "overall",
 ) {
   return useQuery({
-    queryKey: ['leaderboard', limit, category],
+    queryKey: ["leaderboard", limit, category],
     queryFn: () => creditsApi.fetchLeaderboard(limit, category),
     staleTime: 60000,
   });
@@ -194,4 +194,4 @@ export {
   getLevelProgress,
   ACTION_REWARDS,
   GENERATION_COST,
-} from '@/services/credits.service';
+} from "@/services/credits.service";

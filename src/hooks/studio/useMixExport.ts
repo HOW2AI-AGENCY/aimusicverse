@@ -1,11 +1,11 @@
-import { useState, useCallback, useRef } from 'react';
-import { toast } from 'sonner';
-import { logger } from '@/lib/logger';
+import { useState, useCallback, useRef } from "react";
+import { toast } from "sonner";
+import { logger } from "@/lib/logger";
 
-type LameModule = typeof import('lamejs');
+type LameModule = typeof import("lamejs");
 
-export type ExportFormat = 'wav' | 'mp3';
-export type ExportQuality = 'high' | 'medium' | 'low';
+export type ExportFormat = "wav" | "mp3";
+export type ExportQuality = "high" | "medium" | "low";
 export type Mp3Bitrate = 128 | 192 | 320;
 
 interface ExportTrack {
@@ -31,7 +31,7 @@ interface ExportOptions {
 }
 
 interface ExportProgress {
-  stage: 'loading' | 'mixing' | 'mastering' | 'encoding' | 'done';
+  stage: "loading" | "mixing" | "mastering" | "encoding" | "done";
   progress: number;
   message: string;
 }
@@ -50,9 +50,12 @@ export function useMixExport() {
 
   const getSampleRate = (quality: ExportQuality): number => {
     switch (quality) {
-      case 'high': return 48000;
-      case 'medium': return 44100;
-      case 'low': return 22050;
+      case "high":
+        return 48000;
+      case "medium":
+        return 44100;
+      case "low":
+        return 22050;
     }
   };
 
@@ -63,11 +66,11 @@ export function useMixExport() {
     const numChannels = audioBuffer.numberOfChannels;
     const length = audioBuffer.length;
     const sampleRate = audioBuffer.sampleRate;
-    
+
     // Create a new buffer to hold processed audio
     const ctx = new OfflineAudioContext(numChannels, length, sampleRate);
     const outputBuffer = ctx.createBuffer(numChannels, length, sampleRate);
-    
+
     // Copy channels (avoid type issues with Float32Array by creating new arrays)
     const channels: Float32Array[] = [];
     for (let ch = 0; ch < numChannels; ch++) {
@@ -76,7 +79,7 @@ export function useMixExport() {
       copy.set(original);
       channels.push(copy);
     }
-    
+
     // Step 1: Normalize
     if (options.normalize) {
       let maxSample = 0;
@@ -86,12 +89,12 @@ export function useMixExport() {
           if (abs > maxSample) maxSample = abs;
         }
       }
-      
+
       if (maxSample > 0) {
         // Normalize to -1 dB (0.891)
         const targetPeak = Math.pow(10, -1 / 20); // -1 dB
         const gain = targetPeak / maxSample;
-        
+
         for (const channel of channels) {
           for (let i = 0; i < channel.length; i++) {
             channel[i] *= gain;
@@ -99,31 +102,31 @@ export function useMixExport() {
         }
       }
     }
-    
+
     // Step 2: Limiter (soft knee)
     if (options.limiter) {
       const threshold = Math.pow(10, options.limiterThreshold / 20);
       const knee = 0.1; // soft knee width
-      
+
       for (const channel of channels) {
         for (let i = 0; i < channel.length; i++) {
           const sample = channel[i];
           const absSample = Math.abs(sample);
-          
+
           if (absSample > threshold) {
             // Soft limiting
             const excess = absSample - threshold;
-            const compressed = threshold + (excess / (1 + excess / knee));
+            const compressed = threshold + excess / (1 + excess / knee);
             channel[i] = sample > 0 ? compressed : -compressed;
           }
         }
       }
     }
-    
+
     // Step 3: Dither (for 16-bit export)
     if (options.dither) {
       const ditherAmp = 1.0 / 32768.0; // 16-bit dither amplitude
-      
+
       for (const channel of channels) {
         for (let i = 0; i < channel.length; i++) {
           // Triangular dither
@@ -133,7 +136,7 @@ export function useMixExport() {
         }
       }
     }
-    
+
     // Copy to output buffer - use explicit loop to avoid type issues
     for (let ch = 0; ch < numChannels; ch++) {
       const outputData = outputBuffer.getChannelData(ch);
@@ -142,7 +145,7 @@ export function useMixExport() {
         outputData[i] = sourceData[i];
       }
     }
-    
+
     return outputBuffer;
   };
 
@@ -168,10 +171,10 @@ export function useMixExport() {
       }
     };
 
-    writeString(0, 'RIFF');
+    writeString(0, "RIFF");
     view.setUint32(4, bufferSize - 8, true);
-    writeString(8, 'WAVE');
-    writeString(12, 'fmt ');
+    writeString(8, "WAVE");
+    writeString(12, "fmt ");
     view.setUint32(16, 16, true);
     view.setUint16(20, format, true);
     view.setUint16(22, numChannels, true);
@@ -179,7 +182,7 @@ export function useMixExport() {
     view.setUint32(28, byteRate, true);
     view.setUint16(32, blockAlign, true);
     view.setUint16(34, bitDepth, true);
-    writeString(36, 'data');
+    writeString(36, "data");
     view.setUint32(40, dataSize, true);
 
     // Write audio data
@@ -192,13 +195,13 @@ export function useMixExport() {
     for (let i = 0; i < audioBuffer.length; i++) {
       for (let channel = 0; channel < numChannels; channel++) {
         const sample = Math.max(-1, Math.min(1, channels[channel][i]));
-        const intSample = sample < 0 ? sample * 0x8000 : sample * 0x7FFF;
+        const intSample = sample < 0 ? sample * 0x8000 : sample * 0x7fff;
         view.setInt16(offset, intSample, true);
         offset += 2;
       }
     }
 
-    return new Blob([buffer], { type: 'audio/wav' });
+    return new Blob([buffer], { type: "audio/wav" });
   };
 
   /**
@@ -209,7 +212,7 @@ export function useMixExport() {
     const sampleRate = audioBuffer.sampleRate;
     const samples = audioBuffer.length;
 
-    const lame = (await import('lamejs')) as unknown as LameModule;
+    const lame = (await import("lamejs")) as unknown as LameModule;
     const Mp3Encoder = (lame as any).Mp3Encoder;
 
     // Get channel data
@@ -236,9 +239,8 @@ export function useMixExport() {
       const leftChunk = leftInt16.subarray(i, i + chunkSize);
       const rightChunk = rightInt16.subarray(i, i + chunkSize);
 
-      const mp3buf = numChannels === 1
-        ? mp3Encoder.encodeBuffer(leftChunk)
-        : mp3Encoder.encodeBuffer(leftChunk, rightChunk);
+      const mp3buf =
+        numChannels === 1 ? mp3Encoder.encodeBuffer(leftChunk) : mp3Encoder.encodeBuffer(leftChunk, rightChunk);
 
       if (mp3buf.length > 0) {
         mp3Data.push(mp3buf);
@@ -261,22 +263,15 @@ export function useMixExport() {
       offset += chunk.length;
     }
 
-    return new Blob([mp3Buffer], { type: 'audio/mp3' });
+    return new Blob([mp3Buffer], { type: "audio/mp3" });
   };
 
   const exportMix = useCallback(async (options: ExportOptions): Promise<Blob | null> => {
-    const { 
-      format, 
-      quality, 
-      tracks, 
-      masterVolume, 
-      mp3Bitrate = 320,
-      mastering = DEFAULT_MASTERING 
-    } = options;
-    const activeTracks = tracks.filter(t => !t.muted && t.url);
+    const { format, quality, tracks, masterVolume, mp3Bitrate = 320, mastering = DEFAULT_MASTERING } = options;
+    const activeTracks = tracks.filter((t) => !t.muted && t.url);
 
     if (activeTracks.length === 0) {
-      toast.error('Нет активных дорожек для экспорта');
+      toast.error("Нет активных дорожек для экспорта");
       return null;
     }
 
@@ -286,22 +281,22 @@ export function useMixExport() {
 
     try {
       // Stage 1: Loading
-      setExportProgress({ stage: 'loading', progress: 0, message: 'Загрузка аудио...' });
+      setExportProgress({ stage: "loading", progress: 0, message: "Загрузка аудио..." });
 
       const sampleRate = getSampleRate(quality);
-      
+
       // First, load all tracks to determine max duration
       const tempContext = new AudioContext({ sampleRate });
       const buffers: { buffer: AudioBuffer; volume: number }[] = [];
-      
+
       for (let i = 0; i < activeTracks.length; i++) {
-        if (signal.aborted) throw new Error('Cancelled');
-        
+        if (signal.aborted) throw new Error("Cancelled");
+
         const track = activeTracks[i];
         setExportProgress({
-          stage: 'loading',
+          stage: "loading",
           progress: ((i + 1) / activeTracks.length) * 100,
-          message: `Загрузка дорожки ${i + 1}/${activeTracks.length}...`
+          message: `Загрузка дорожки ${i + 1}/${activeTracks.length}...`,
         });
 
         const response = await fetch(track.url, { signal });
@@ -313,9 +308,9 @@ export function useMixExport() {
       await tempContext.close();
 
       // Stage 2: Mixing
-      setExportProgress({ stage: 'mixing', progress: 0, message: 'Микширование...' });
+      setExportProgress({ stage: "mixing", progress: 0, message: "Микширование..." });
 
-      const maxDuration = Math.max(...buffers.map(b => b.buffer.duration));
+      const maxDuration = Math.max(...buffers.map((b) => b.buffer.duration));
       const offlineContext = new OfflineAudioContext(2, Math.ceil(maxDuration * sampleRate), sampleRate);
 
       // Create master gain
@@ -327,46 +322,46 @@ export function useMixExport() {
       for (const { buffer, volume } of buffers) {
         const source = offlineContext.createBufferSource();
         source.buffer = buffer;
-        
+
         const gainNode = offlineContext.createGain();
         gainNode.gain.value = volume;
-        
+
         source.connect(gainNode);
         gainNode.connect(masterGain);
         source.start(0);
       }
 
-      setExportProgress({ stage: 'mixing', progress: 50, message: 'Рендеринг микса...' });
+      setExportProgress({ stage: "mixing", progress: 50, message: "Рендеринг микса..." });
       let renderedBuffer = await offlineContext.startRendering();
 
       // Stage 3: Mastering
       if (mastering.normalize || mastering.limiter || mastering.dither) {
-        setExportProgress({ stage: 'mastering', progress: 0, message: 'Мастеринг...' });
+        setExportProgress({ stage: "mastering", progress: 0, message: "Мастеринг..." });
         renderedBuffer = applyMastering(renderedBuffer, mastering);
-        setExportProgress({ stage: 'mastering', progress: 100, message: 'Мастеринг завершён' });
+        setExportProgress({ stage: "mastering", progress: 100, message: "Мастеринг завершён" });
       }
 
       // Stage 4: Encoding
-      setExportProgress({ stage: 'encoding', progress: 0, message: 'Кодирование...' });
+      setExportProgress({ stage: "encoding", progress: 0, message: "Кодирование..." });
 
       let blob: Blob;
 
-      if (format === 'wav') {
+      if (format === "wav") {
         blob = encodeWav(renderedBuffer);
       } else {
-        setExportProgress({ stage: 'encoding', progress: 50, message: `Кодирование MP3 (${mp3Bitrate} kbps)...` });
+        setExportProgress({ stage: "encoding", progress: 50, message: `Кодирование MP3 (${mp3Bitrate} kbps)...` });
         blob = await encodeMp3(renderedBuffer, mp3Bitrate);
       }
 
-      setExportProgress({ stage: 'done', progress: 100, message: 'Готово!' });
-      
+      setExportProgress({ stage: "done", progress: 100, message: "Готово!" });
+
       return blob;
     } catch (error) {
-      if ((error as Error).message === 'Cancelled') {
-        toast.info('Экспорт отменён');
+      if ((error as Error).message === "Cancelled") {
+        toast.info("Экспорт отменён");
       } else {
-        logger.error('Export error', error instanceof Error ? error : new Error(String(error)));
-        toast.error('Ошибка при экспорте');
+        logger.error("Export error", error instanceof Error ? error : new Error(String(error)));
+        toast.error("Ошибка при экспорте");
       }
       return null;
     } finally {
@@ -382,7 +377,7 @@ export function useMixExport() {
 
   const downloadBlob = useCallback((blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = filename;
     document.body.appendChild(a);
@@ -396,6 +391,6 @@ export function useMixExport() {
     exportProgress,
     exportMix,
     cancelExport,
-    downloadBlob
+    downloadBlob,
   };
 }

@@ -1,5 +1,5 @@
-import { useState, lazy, Suspense, useCallback, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, lazy, Suspense, useCallback, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Home,
   FolderOpen,
@@ -23,59 +23,64 @@ import {
   Shield,
   Layers,
   CreditCard,
-} from 'lucide-react';
-import { useUserRole } from '@/hooks/useUserRole';
-import { cn } from '@/lib/utils';
-import { Button } from './ui/button';
-import { NotificationCenter } from './notifications';
-import { usePlaylists } from '@/hooks/usePlaylists';
-import { useNotificationHub } from '@/contexts/NotificationContext';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible';
-import { Badge } from './ui/badge';
-import { Progress } from './ui/progress';
-import { ScrollArea } from './ui/scroll-area';
-import { preloadRoute } from '@/lib/route-preloader';
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from './ui/tooltip';
+} from "lucide-react";
+import { useUserRole } from "@/hooks/useUserRole";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
+import { NotificationCenter } from "./notifications";
+import { usePlaylists } from "@/hooks/usePlaylists";
+import { useNotificationHub } from "@/contexts/NotificationContext";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { Badge } from "./ui/badge";
+import { Progress } from "./ui/progress";
+import { ScrollArea } from "./ui/scroll-area";
+import { preloadRoute } from "@/lib/route-preloader";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "./ui/tooltip";
 
 // Lazy load GenerateSheet
-const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
+const GenerateSheet = lazy(() => import("./GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
 
-const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
+const SIDEBAR_COLLAPSED_KEY = "sidebar-collapsed";
 
 // Main navigation with keyboard shortcuts
 const mainNavItems = [
-  { path: '/', label: 'Главная', icon: Home, shortcut: '1' },
-  { path: '/library', label: 'Моя музыка', icon: Library, shortcut: '2' },
+  { path: "/", label: "Главная", icon: Home, shortcut: "1" },
+  { path: "/library", label: "Моя музыка", icon: Library, shortcut: "2" },
 ];
 
 // Content Hub navigation (direct links to tabs)
 const contentNavItems = [
-  { path: '/projects?tab=artists', label: 'Артисты', icon: Users },
-  { path: '/projects?tab=projects', label: 'Проекты', icon: FolderOpen, shortcut: '3' },
-  { path: '/projects?tab=lyrics', label: 'Тексты', icon: FileText },
-  { path: '/projects?tab=cloud', label: 'Облако', icon: Globe },
+  { path: "/projects?tab=artists", label: "Артисты", icon: Users },
+  { path: "/projects?tab=projects", label: "Проекты", icon: FolderOpen, shortcut: "3" },
+  { path: "/projects?tab=lyrics", label: "Тексты", icon: FileText },
+  { path: "/projects?tab=cloud", label: "Облако", icon: Globe },
 ];
 
 // Studio navigation
 const studioNavItems = [
-  { path: '/studio-v2', label: 'Студия', icon: Layers, badge: 'NEW', description: 'Мультитрек редактор', shortcut: '4' },
-  { path: '/guitar-studio', label: 'Guitar Studio', icon: Guitar, badge: 'PRO', description: 'Запись и анализ гитары' },
-  { path: '/playlists', label: 'Плейлисты', icon: ListMusic, showCount: true },
+  {
+    path: "/studio-v2",
+    label: "Студия",
+    icon: Layers,
+    badge: "NEW",
+    description: "Мультитрек редактор",
+    shortcut: "4",
+  },
+  { path: "/guitar-studio", label: "Guitar Studio", icon: Guitar, badge: "PRO", description: "Запись и анализ гитары" },
+  { path: "/playlists", label: "Плейлисты", icon: ListMusic, showCount: true },
 ];
 
 // Account navigation
 const accountNavItems = [
-  { path: '/profile', label: 'Профиль', icon: User },
-  { path: '/rewards', label: 'Награды', icon: Gift },
-  { path: '/pricing', label: 'Магазин', icon: CreditCard, description: 'Кредиты и подписки' },
-  { path: '/analytics', label: 'Аналитика', icon: BarChart2 },
-  { path: '/settings', label: 'Настройки', icon: Settings, shortcut: ',' },
+  { path: "/profile", label: "Профиль", icon: User },
+  { path: "/rewards", label: "Награды", icon: Gift },
+  { path: "/pricing", label: "Магазин", icon: CreditCard, description: "Кредиты и подписки" },
+  { path: "/analytics", label: "Аналитика", icon: BarChart2 },
+  { path: "/settings", label: "Настройки", icon: Settings, shortcut: "," },
 ];
 
 // Admin navigation items
-const adminNavItems = [
-  { path: '/admin', label: 'Админ-панель', icon: Shield, description: 'Панель управления' },
-];
+const adminNavItems = [{ path: "/admin", label: "Админ-панель", icon: Shield, description: "Панель управления" }];
 
 interface SidebarProps {
   collapsed?: boolean;
@@ -91,18 +96,18 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
   const { playlists } = usePlaylists();
   const { activeGenerations, generationCount } = useNotificationHub();
   const { isAdmin } = useUserRole();
-  
+
   // Internal collapsed state with localStorage persistence
   const [internalCollapsed, setInternalCollapsed] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === 'true';
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "true";
     }
     return false;
   });
-  
+
   // Use controlled or internal state
   const isCollapsed = controlledCollapsed ?? internalCollapsed;
-  
+
   const toggleCollapsed = useCallback(() => {
     const newValue = !isCollapsed;
     setInternalCollapsed(newValue);
@@ -120,23 +125,23 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
       // Check for Cmd (Mac) or Ctrl (Windows/Linux)
       const isMod = e.metaKey || e.ctrlKey;
       if (!isMod) return;
-      
+
       // Ignore if user is typing in an input
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
 
       const shortcuts: Record<string, string> = {
-        '1': '/',
-        '2': '/library',
-        '3': '/projects?tab=projects',
-        '4': '/studio-v2',
-        ',': '/settings',
-        'g': 'generate', // Special case for generate
+        "1": "/",
+        "2": "/library",
+        "3": "/projects?tab=projects",
+        "4": "/studio-v2",
+        ",": "/settings",
+        g: "generate", // Special case for generate
       };
 
       const shortcut = shortcuts[e.key];
       if (shortcut) {
         e.preventDefault();
-        if (shortcut === 'generate') {
+        if (shortcut === "generate") {
           setGenerateOpen(true);
         } else {
           navigate(shortcut);
@@ -144,8 +149,8 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [navigate]);
 
   /**
@@ -172,10 +177,10 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
     shortcut?: string;
   }) => {
     const active = isActive(path);
-    const isPROBadge = badge === 'PRO';
-    const isNEWBadge = badge === 'NEW';
-    const isNumericBadge = typeof badge === 'number' && badge > 0;
-    const isMac = typeof navigator !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const isPROBadge = badge === "PRO";
+    const isNEWBadge = badge === "NEW";
+    const isNumericBadge = typeof badge === "number" && badge > 0;
+    const isMac = typeof navigator !== "undefined" && navigator.platform.toUpperCase().indexOf("MAC") >= 0;
 
     // Preload route on hover for faster navigation
     const handleMouseEnter = useCallback(() => {
@@ -184,7 +189,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
 
     const buttonContent = (
       <Button
-        variant={active ? 'secondary' : 'ghost'}
+        variant={active ? "secondary" : "ghost"}
         className={cn(
           "w-full gap-3 h-10 relative group transition-all duration-200",
           isCollapsed ? "justify-center px-2" : "justify-start",
@@ -192,25 +197,27 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
           active && [
             "bg-primary/10 text-primary",
             "border-l-2 border-primary rounded-l-none",
-            "shadow-[inset_0_0_12px_hsl(var(--primary)/0.15)]"
+            "shadow-[inset_0_0_12px_hsl(var(--primary)/0.15)]",
           ],
           // Hover state with subtle highlight
           !active && "hover:bg-accent/60 hover:text-accent-foreground",
           // Focus visible state
-          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1"
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1",
         )}
         onClick={() => navigate(path)}
         onMouseEnter={handleMouseEnter}
         onFocus={handleMouseEnter}
         aria-label={isCollapsed ? label : undefined}
-        aria-current={active ? 'page' : undefined}
+        aria-current={active ? "page" : undefined}
         title={isCollapsed ? label : description}
       >
-        <Icon className={cn(
-          "w-4 h-4 flex-shrink-0 transition-transform duration-200",
-          active && "text-primary",
-          !isCollapsed && "group-hover:scale-110"
-        )} />
+        <Icon
+          className={cn(
+            "w-4 h-4 flex-shrink-0 transition-transform duration-200",
+            active && "text-primary",
+            !isCollapsed && "group-hover:scale-110",
+          )}
+        />
         {!isCollapsed && (
           <>
             <span className="flex-1 text-left truncate">{label}</span>
@@ -226,7 +233,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                 className={cn(
                   "h-5 px-1.5 text-[10px] font-bold",
                   "bg-gradient-to-r from-amber-500 to-orange-500",
-                  "text-white border-0 shadow-sm"
+                  "text-white border-0 shadow-sm",
                 )}
               >
                 PRO
@@ -238,7 +245,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                 className={cn(
                   "h-5 px-1.5 text-[10px] font-bold",
                   "bg-gradient-to-r from-emerald-500 to-teal-500",
-                  "text-white border-0 shadow-sm animate-pulse"
+                  "text-white border-0 shadow-sm animate-pulse",
                 )}
               >
                 NEW
@@ -248,7 +255,8 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             {/* Keyboard shortcut hint */}
             {shortcut && (
               <kbd className="hidden lg:inline-flex h-5 px-1.5 items-center justify-center rounded bg-muted/80 text-[10px] font-mono text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-                {isMac ? '⌘' : 'Ctrl+'}{shortcut}
+                {isMac ? "⌘" : "Ctrl+"}
+                {shortcut}
               </kbd>
             )}
           </>
@@ -259,14 +267,13 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
     if (isCollapsed) {
       return (
         <Tooltip delayDuration={0}>
-          <TooltipTrigger asChild>
-            {buttonContent}
-          </TooltipTrigger>
+          <TooltipTrigger asChild>{buttonContent}</TooltipTrigger>
           <TooltipContent side="right" className="flex items-center gap-2">
             <span>{label}</span>
             {shortcut && (
               <kbd className="h-4 px-1 text-[9px] font-mono rounded bg-muted">
-                {isMac ? '⌘' : 'Ctrl+'}{shortcut}
+                {isMac ? "⌘" : "Ctrl+"}
+                {shortcut}
               </kbd>
             )}
             {isPROBadge && (
@@ -280,7 +287,9 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
               </Badge>
             )}
             {isNumericBadge && (
-              <Badge variant="secondary" className="h-4 px-1 text-[9px]">{badge}</Badge>
+              <Badge variant="secondary" className="h-4 px-1 text-[9px]">
+                {badge}
+              </Badge>
             )}
           </TooltipContent>
         </Tooltip>
@@ -292,35 +301,26 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
 
   return (
     <TooltipProvider>
-      <aside 
+      <aside
         className={cn(
           "h-full flex flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border transition-all duration-300 z-navigation",
-          isCollapsed ? "w-16" : "w-64"
+          isCollapsed ? "w-16" : "w-64",
         )}
       >
         {/* Header */}
-        <div className={cn(
-          "p-4 flex items-center border-b border-sidebar-border",
-          isCollapsed ? "justify-center" : "justify-between"
-        )}>
-          {!isCollapsed && (
-            <h1 className="text-xl font-bold text-sidebar-primary">MusicVerse</h1>
+        <div
+          className={cn(
+            "p-4 flex items-center border-b border-sidebar-border",
+            isCollapsed ? "justify-center" : "justify-between",
           )}
+        >
+          {!isCollapsed && <h1 className="text-xl font-bold text-sidebar-primary">MusicVerse</h1>}
           <div className="flex items-center gap-1">
             {!isCollapsed && <NotificationCenter />}
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={toggleCollapsed}
-                  className="h-8 w-8"
-                >
-                  {isCollapsed ? (
-                    <PanelLeft className="w-4 h-4" />
-                  ) : (
-                    <PanelLeftClose className="w-4 h-4" />
-                  )}
+                <Button variant="ghost" size="icon" onClick={toggleCollapsed} className="h-8 w-8">
+                  {isCollapsed ? <PanelLeft className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
                 </Button>
               </TooltipTrigger>
               <TooltipContent side={isCollapsed ? "right" : "bottom"}>
@@ -329,7 +329,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             </Tooltip>
           </div>
         </div>
-        
+
         {/* Create Button */}
         <div className={cn("py-4", isCollapsed ? "px-2" : "px-3")}>
           {isCollapsed ? (
@@ -362,15 +362,11 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             <div className="bg-primary/5 border border-primary/20 rounded-lg p-3">
               <div className="flex items-center gap-2 mb-2">
                 <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />
-                <span className="text-xs font-medium">
-                  Генерация ({generationCount})
-                </span>
+                <span className="text-xs font-medium">Генерация ({generationCount})</span>
               </div>
               {activeGenerations.slice(0, 2).map((gen) => (
                 <div key={gen.id} className="mb-2 last:mb-0">
-                  <p className="text-[10px] text-muted-foreground truncate mb-1">
-                    {gen.prompt.slice(0, 25)}...
-                  </p>
+                  <p className="text-[10px] text-muted-foreground truncate mb-1">{gen.prompt.slice(0, 25)}...</p>
                   <Progress value={gen.progress} className="h-1" />
                 </div>
               ))}
@@ -378,14 +374,14 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                 variant="ghost"
                 size="sm"
                 className="w-full mt-2 h-7 text-xs text-primary"
-                onClick={() => navigate('/library')}
+                onClick={() => navigate("/library")}
               >
                 Открыть библиотеку →
               </Button>
             </div>
           </div>
         )}
-        
+
         {/* Collapsed generation indicator */}
         {generationCount > 0 && isCollapsed && (
           <div className="px-2 pb-3">
@@ -395,7 +391,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                   variant="ghost"
                   size="icon"
                   className="w-full h-10 relative"
-                  onClick={() => navigate('/library')}
+                  onClick={() => navigate("/library")}
                 >
                   <Loader2 className="w-4 h-4 animate-spin text-primary" />
                   <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[9px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
@@ -403,9 +399,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                   </span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="right">
-                {generationCount} генерация в процессе
-              </TooltipContent>
+              <TooltipContent side="right">{generationCount} генерация в процессе</TooltipContent>
             </Tooltip>
           </div>
         )}
@@ -417,7 +411,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             {mainNavItems.map((item) => (
               <NavButton key={item.path} {...item} />
             ))}
-            
+
             {/* Content Section */}
             {isCollapsed ? (
               <div className="pt-4 space-y-1">
@@ -433,11 +427,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                     className="w-full justify-between h-8 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground"
                   >
                     Контент
-                    {musicOpen ? (
-                      <ChevronDown className="w-3.5 h-3.5" />
-                    ) : (
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    )}
+                    {musicOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="space-y-1 pt-1">
@@ -452,11 +442,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             {isCollapsed ? (
               <div className="pt-4 space-y-1">
                 {studioNavItems.map((item) => (
-                  <NavButton
-                    key={item.path}
-                    {...item}
-                    badge={item.showCount ? playlistCount : item.badge}
-                  />
+                  <NavButton key={item.path} {...item} badge={item.showCount ? playlistCount : item.badge} />
                 ))}
               </div>
             ) : (
@@ -472,11 +458,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                 </CollapsibleTrigger>
                 <CollapsibleContent className="space-y-1 pt-1">
                   {studioNavItems.map((item) => (
-                    <NavButton
-                      key={item.path}
-                      {...item}
-                      badge={item.showCount ? playlistCount : item.badge}
-                    />
+                    <NavButton key={item.path} {...item} badge={item.showCount ? playlistCount : item.badge} />
                   ))}
                 </CollapsibleContent>
               </Collapsible>
@@ -497,11 +479,7 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                     className="w-full justify-between h-8 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground"
                   >
                     Аккаунт
-                    {accountOpen ? (
-                      <ChevronDown className="w-3.5 h-3.5" />
-                    ) : (
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    )}
+                    {accountOpen ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
                   </Button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="space-y-1 pt-1">
@@ -513,8 +491,8 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
             )}
 
             {/* Admin Section - Only for admins */}
-            {isAdmin && (
-              isCollapsed ? (
+            {isAdmin &&
+              (isCollapsed ? (
                 <div className="pt-4 space-y-1">
                   {adminNavItems.map((item) => (
                     <NavButton key={item.path} {...item} />
@@ -524,30 +502,24 @@ export const Sidebar = ({ collapsed: controlledCollapsed, onCollapsedChange }: S
                 <div className="pt-4 space-y-1">
                   <div className="flex items-center gap-2 px-2 pb-1">
                     <Shield className="w-3.5 h-3.5 text-destructive" />
-                    <span className="text-xs font-semibold text-destructive uppercase tracking-wider">
-                      Админ
-                    </span>
+                    <span className="text-xs font-semibold text-destructive uppercase tracking-wider">Админ</span>
                   </div>
                   {adminNavItems.map((item) => (
                     <NavButton key={item.path} {...item} />
                   ))}
                 </div>
-              )
-            )}
+              ))}
           </nav>
         </ScrollArea>
 
         {/* Footer */}
         <div className="p-3 border-t border-sidebar-border">
-          <p className={cn(
-            "text-[10px] text-muted-foreground text-center",
-            isCollapsed && "hidden"
-          )}>
+          <p className={cn("text-[10px] text-muted-foreground text-center", isCollapsed && "hidden")}>
             MusicVerse AI Studio
           </p>
         </div>
       </aside>
-    
+
       {generateOpen && (
         <Suspense fallback={null}>
           <GenerateSheet open={generateOpen} onOpenChange={setGenerateOpen} />

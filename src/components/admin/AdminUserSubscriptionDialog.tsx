@@ -10,17 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Crown, Calendar, Loader2 } from "lucide-react";
-import { format, addDays, addMonths } from '@/lib/date-utils';
+import { format, addDays, addMonths } from "@/lib/date-utils";
 
 interface AdminUserSubscriptionDialogProps {
   open: boolean;
@@ -60,9 +54,7 @@ export function AdminUserSubscriptionDialog({
   onSuccess,
 }: AdminUserSubscriptionDialogProps) {
   const [tier, setTier] = useState(currentTier);
-  const [expiresAt, setExpiresAt] = useState(
-    currentExpires ? format(new Date(currentExpires), "yyyy-MM-dd") : ""
-  );
+  const [expiresAt, setExpiresAt] = useState(currentExpires ? format(new Date(currentExpires), "yyyy-MM-dd") : "");
   const [reason, setReason] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -147,9 +139,7 @@ export function AdminUserSubscriptionDialog({
                   <SelectItem key={t.value} value={t.value}>
                     <div className="flex flex-col">
                       <span className="font-medium">{t.label}</span>
-                      <span className="text-xs text-muted-foreground">
-                        {t.description}
-                      </span>
+                      <span className="text-xs text-muted-foreground">{t.description}</span>
                     </div>
                   </SelectItem>
                 ))}

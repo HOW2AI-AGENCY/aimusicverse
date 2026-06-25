@@ -2,21 +2,16 @@
  * ProducerToolPanel - Professional producer review panel
  */
 
-import { motion } from '@/lib/motion';
-import { Headphones, X, FileText, Sparkles, Tag, Mic2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { ToolPanelProps } from '../types';
+import { motion } from "@/lib/motion";
+import { Headphones, X, FileText, Sparkles, Tag, Mic2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { ToolPanelProps } from "../types";
 
-export function ProducerToolPanel({ 
-  context, 
-  onExecute, 
-  onClose, 
-  isLoading,
-}: ToolPanelProps) {
+export function ProducerToolPanel({ context, onExecute, onClose, isLoading }: ToolPanelProps) {
   const hasContent = !!(context.existingLyrics || context.selectedSection?.content);
-  
+
   const handleReview = () => {
     onExecute({
       existingLyrics: context.existingLyrics,
@@ -34,7 +29,7 @@ export function ProducerToolPanel({
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
+      animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
       className="border-b border-border/50 bg-amber-500/5 max-h-[50vh] overflow-y-auto overscroll-contain"
     >
@@ -57,9 +52,7 @@ export function ProducerToolPanel({
 
         {!hasContent ? (
           <div className="p-3 rounded-lg bg-muted/50 border border-border/50">
-            <p className="text-xs text-muted-foreground text-center">
-              Добавьте текст для разбора
-            </p>
+            <p className="text-xs text-muted-foreground text-center">Добавьте текст для разбора</p>
           </div>
         ) : (
           <>
@@ -69,9 +62,12 @@ export function ProducerToolPanel({
                 <div className="p-1 rounded bg-muted">
                   <FileText className="w-3 h-3" />
                 </div>
-                <span>Текст: <span className="font-medium text-foreground">{context.existingLyrics?.length || 0} симв.</span></span>
+                <span>
+                  Текст:{" "}
+                  <span className="font-medium text-foreground">{context.existingLyrics?.length || 0} симв.</span>
+                </span>
               </div>
-              
+
               {context.stylePrompt && (
                 <div className="flex items-start gap-2 text-xs">
                   <div className="p-1 rounded bg-muted shrink-0">
@@ -83,7 +79,7 @@ export function ProducerToolPanel({
                   </div>
                 </div>
               )}
-              
+
               {context.globalTags && context.globalTags.length > 0 && (
                 <div className="flex items-center gap-2 text-xs">
                   <div className="p-1 rounded bg-muted">
@@ -91,10 +87,14 @@ export function ProducerToolPanel({
                   </div>
                   <div className="flex gap-1 flex-wrap">
                     {context.globalTags.slice(0, 4).map((tag, i) => (
-                      <Badge key={i} variant="secondary" className="text-[10px]">{tag}</Badge>
+                      <Badge key={i} variant="secondary" className="text-[10px]">
+                        {tag}
+                      </Badge>
                     ))}
                     {context.globalTags.length > 4 && (
-                      <Badge variant="outline" className="text-[10px]">+{context.globalTags.length - 4}</Badge>
+                      <Badge variant="outline" className="text-[10px]">
+                        +{context.globalTags.length - 4}
+                      </Badge>
                     )}
                   </div>
                 </div>
@@ -129,7 +129,7 @@ export function ProducerToolPanel({
             </div>
 
             {/* Execute Button */}
-            <Button 
+            <Button
               onClick={handleReview}
               disabled={isLoading}
               className="w-full bg-amber-500 hover:bg-amber-600 text-black"

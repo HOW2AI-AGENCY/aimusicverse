@@ -12,8 +12,8 @@
  * ```
  */
 
-import { useState, useEffect } from 'react';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { toast } from "sonner";
 
 export function useOffline() {
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
@@ -21,17 +21,17 @@ export function useOffline() {
   useEffect(() => {
     const handleOnline = () => {
       setIsOffline(false);
-      toast.success('Соединение восстановлено', {
+      toast.success("Соединение восстановлено", {
         duration: 3000,
-        position: 'top-center',
+        position: "top-center",
       });
     };
 
     const handleOffline = () => {
       setIsOffline(true);
-      toast.error('Нет подключения к интернету', {
+      toast.error("Нет подключения к интернету", {
         duration: 5000,
-        position: 'top-center',
+        position: "top-center",
       });
     };
 
@@ -39,13 +39,13 @@ export function useOffline() {
     setIsOffline(!navigator.onLine);
 
     // Add event listeners
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
 
     // Cleanup
     return () => {
-      window.removeEventListener('online', handleOnline);
-      window.removeEventListener('offline', handleOffline);
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
     };
   }, []);
 

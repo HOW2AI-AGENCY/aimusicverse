@@ -1,34 +1,34 @@
 /**
  * StudioDialogs - All dialogs/sheets for StudioShell
  * Extracted from StudioShell for better maintainability
- * 
+ *
  * This component renders all the modal dialogs, sheets, and drawers
  * used by the studio interface.
  */
 
-import { memo, Suspense } from 'react';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { StudioMixerPanel } from '../StudioMixerPanel';
-import { ExportMixDialog } from '../ExportMixDialog';
-import { StemEffectsDrawer } from '../StemEffectsDrawer';
-import { ImportAudioDialog } from '../ImportAudioDialog';
-import { StudioDownloadPanel } from '../StudioDownloadPanel';
-import { StudioTranscriptionPanel } from '../StudioTranscriptionPanel';
-import { StudioNotationPanel } from '../StudioNotationPanel';
-import { SaveVersionDialog } from '../SaveVersionDialog';
-import { StudioArrangementDialog } from '../StudioArrangementDialog';
-import { StemSeparationModeDialog } from '../StemSeparationModeDialog';
-import { InstrumentalResultHandler, InstrumentalResultData } from '../InstrumentalResultHandler';
-import { ExtendTrackDialog } from '@/components/ExtendTrackDialog';
-import { SectionEditorSheet } from '@/components/studio/editor/SectionEditorSheet';
-import { StudioActionsSheet } from '../StudioActionsSheet';
-import { AddTrackDialog } from './AddTrackDialog';
-import { LazyAddVocalsDrawer, LazyGenerateSheet } from '@/components/lazy';
-import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
-import type { StudioTrack, TrackType, TRACK_COLORS } from '@/stores/useUnifiedStudioStore';
-import type { StemEffects } from '@/hooks/studio/types';
-import type { Track } from '@/types/track';
+import { memo, Suspense } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { StudioMixerPanel } from "../StudioMixerPanel";
+import { ExportMixDialog } from "../ExportMixDialog";
+import { StemEffectsDrawer } from "../StemEffectsDrawer";
+import { ImportAudioDialog } from "../ImportAudioDialog";
+import { StudioDownloadPanel } from "../StudioDownloadPanel";
+import { StudioTranscriptionPanel } from "../StudioTranscriptionPanel";
+import { StudioNotationPanel } from "../StudioNotationPanel";
+import { SaveVersionDialog } from "../SaveVersionDialog";
+import { StudioArrangementDialog } from "../StudioArrangementDialog";
+import { StemSeparationModeDialog } from "../StemSeparationModeDialog";
+import { InstrumentalResultHandler, InstrumentalResultData } from "../InstrumentalResultHandler";
+import { ExtendTrackDialog } from "@/components/ExtendTrackDialog";
+import { SectionEditorSheet } from "@/components/studio/editor/SectionEditorSheet";
+import { StudioActionsSheet } from "../StudioActionsSheet";
+import { AddTrackDialog } from "./AddTrackDialog";
+import { LazyAddVocalsDrawer, LazyGenerateSheet } from "@/components/lazy";
+import { cn } from "@/lib/utils";
+import { Loader2 } from "lucide-react";
+import type { StudioTrack, TrackType, TRACK_COLORS } from "@/stores/useUnifiedStudioStore";
+import type { StemEffects } from "@/hooks/studio/types";
+import type { Track } from "@/types/track";
 
 interface StudioDialogsProps {
   isMobile: boolean;
@@ -41,7 +41,7 @@ interface StudioDialogsProps {
   currentTime: number;
   isPlaying: boolean;
   detectedSections: any[];
-  
+
   // Dialog states
   showMixerSheet: boolean;
   showExportDialog: boolean;
@@ -60,7 +60,7 @@ interface StudioDialogsProps {
   showAddTrackDialog: boolean;
   showAddVocalsDrawer: boolean;
   showGenerateSheet: boolean;
-  
+
   // Selected items
   selectedEffectsTrack: StudioTrack | null;
   selectedTranscriptionTrack: StudioTrack | null;
@@ -70,16 +70,16 @@ interface StudioDialogsProps {
   selectedSectionTrack: StudioTrack | null;
   selectedVocalsTrack: StudioTrack | null;
   instrumentalResultData: InstrumentalResultData | null;
-  
+
   // Effects state
   trackEffects: Record<string, StemEffects>;
   defaultStemEffects: StemEffects;
-  
+
   // State flags
   hasUnsavedChanges: boolean;
   isSaving: boolean;
   isSeparating: boolean;
-  
+
   // Event handlers
   onSetShowMixerSheet: (open: boolean) => void;
   onSetShowExportDialog: (open: boolean) => void;
@@ -98,7 +98,7 @@ interface StudioDialogsProps {
   onSetShowAddTrackDialog: (open: boolean) => void;
   onSetShowAddVocalsDrawer: (open: boolean) => void;
   onSetShowGenerateSheet: (open: boolean) => void;
-  
+
   onSetSelectedTranscriptionTrack: (track: StudioTrack | null) => void;
   onSetSelectedNotationTrack: (track: StudioTrack | null) => void;
   onSetSelectedArrangementTrack: (track: StudioTrack | null) => void;
@@ -106,14 +106,14 @@ interface StudioDialogsProps {
   onSetSelectedSectionTrack: (track: StudioTrack | null) => void;
   onSetSelectedVocalsTrack: (track: StudioTrack | null) => void;
   onSetInstrumentalResultData: (data: InstrumentalResultData | null) => void;
-  
+
   // Actions
   onSave: () => void;
   onExport: () => void;
   onBack: () => void;
   onAddTrack: (type: TrackType, name: string) => void;
   onImportTrack: (audioUrl: string, name: string, type: TrackType, duration?: number) => void;
-  onStemSeparation: (mode: 'simple' | 'detailed') => void;
+  onStemSeparation: (mode: "simple" | "detailed") => void;
   onClearSectionSelection: () => void;
   onSeek: (time: number) => void;
   onVersionSaved: (version: { label: string }) => void;
@@ -124,7 +124,7 @@ interface StudioDialogsProps {
   onInstrumentalApply: (action: string, selectedVersionLabel: string) => void;
   onArrangementSuccess: (taskId: string, title: string) => void;
   onVocalsSuccess: (newTrackId: string) => void;
-  
+
   // Track colors
   TRACK_COLORS: typeof TRACK_COLORS;
 }
@@ -146,9 +146,9 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
 
   // Map audio tracks for export
   const audioTracks = tracks
-    .filter(t => t.status !== 'pending' && t.status !== 'failed')
-    .map(t => ({
-      url: t.audioUrl || t.clips?.[0]?.audioUrl || '',
+    .filter((t) => t.status !== "pending" && t.status !== "failed")
+    .map((t) => ({
+      url: t.audioUrl || t.clips?.[0]?.audioUrl || "",
       volume: t.volume,
       muted: t.muted,
     }));
@@ -161,8 +161,8 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
           <SheetHeader>
             <SheetTitle>Микшер</SheetTitle>
           </SheetHeader>
-          <StudioMixerPanel 
-            className="h-full pt-4" 
+          <StudioMixerPanel
+            className="h-full pt-4"
             onAddTrack={() => {
               props.onSetShowMixerSheet(false);
               props.onSetShowAddTrackDialog(true);
@@ -199,18 +199,23 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
       <StemEffectsDrawer
         open={props.showEffectsDrawer}
         onOpenChange={props.onSetShowEffectsDrawer}
-        stem={props.selectedEffectsTrack ? {
-          id: props.selectedEffectsTrack.id,
-          stem_type: props.selectedEffectsTrack.type,
-          audio_url: props.selectedEffectsTrack.audioUrl || '',
-          track_id: projectId,
-          separation_mode: null,
-          version_id: null,
-          created_at: new Date().toISOString(),
-        } : null}
-        effects={props.selectedEffectsTrack 
-          ? (props.trackEffects[props.selectedEffectsTrack.id] || props.defaultStemEffects) 
-          : props.defaultStemEffects
+        stem={
+          props.selectedEffectsTrack
+            ? {
+                id: props.selectedEffectsTrack.id,
+                stem_type: props.selectedEffectsTrack.type,
+                audio_url: props.selectedEffectsTrack.audioUrl || "",
+                track_id: projectId,
+                separation_mode: null,
+                version_id: null,
+                created_at: new Date().toISOString(),
+              }
+            : null
+        }
+        effects={
+          props.selectedEffectsTrack
+            ? props.trackEffects[props.selectedEffectsTrack.id] || props.defaultStemEffects
+            : props.defaultStemEffects
         }
         onUpdateEQ={props.onUpdateEQ}
         onUpdateCompressor={props.onUpdateCompressor}
@@ -220,25 +225,29 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
 
       {/* Add Vocals Drawer */}
       {props.selectedVocalsTrack && (
-        <Suspense fallback={
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50">
-            <Loader2 className="h-8 w-8 animate-spin" />
-          </div>
-        }>
+        <Suspense
+          fallback={
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/50">
+              <Loader2 className="h-8 w-8 animate-spin" />
+            </div>
+          }
+        >
           <LazyAddVocalsDrawer
             open={props.showAddVocalsDrawer}
             onOpenChange={props.onSetShowAddVocalsDrawer}
-            track={{
-              id: props.selectedVocalsTrack.id,
-              title: props.selectedVocalsTrack.name,
-              audio_url: props.selectedVocalsTrack.audioUrl || props.selectedVocalsTrack.clips[0]?.audioUrl || '',
-              cover_url: null,
-              style: null,
-              type: props.selectedVocalsTrack.type === 'instrumental' ? 'instrumental' : 'complete',
-              project_id: projectId,
-              is_liked: false,
-              likes_count: 0,
-            } as unknown as Track}
+            track={
+              {
+                id: props.selectedVocalsTrack.id,
+                title: props.selectedVocalsTrack.name,
+                audio_url: props.selectedVocalsTrack.audioUrl || props.selectedVocalsTrack.clips[0]?.audioUrl || "",
+                cover_url: null,
+                style: null,
+                type: props.selectedVocalsTrack.type === "instrumental" ? "instrumental" : "complete",
+                project_id: projectId,
+                is_liked: false,
+                likes_count: 0,
+              } as unknown as Track
+            }
             onSuccess={props.onVocalsSuccess}
           />
         </Suspense>
@@ -252,18 +261,21 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
             props.onSetShowExtendDialog(open);
             if (!open) props.onSetSelectedExtendTrack(null);
           }}
-          track={{
-            id: props.selectedExtendTrack.id,
-            title: props.selectedExtendTrack.name,
-            audio_url: props.selectedExtendTrack.audioUrl || props.selectedExtendTrack.clips[0]?.audioUrl || '',
-            cover_url: null,
-            style: null,
-            duration_seconds: props.selectedExtendTrack.clips[0]?.duration || props.selectedExtendTrack.versions?.[0]?.duration || 60,
-            project_id: projectId,
-            suno_id: null,
-            is_liked: false,
-            likes_count: 0,
-          } as unknown as Track}
+          track={
+            {
+              id: props.selectedExtendTrack.id,
+              title: props.selectedExtendTrack.name,
+              audio_url: props.selectedExtendTrack.audioUrl || props.selectedExtendTrack.clips[0]?.audioUrl || "",
+              cover_url: null,
+              style: null,
+              duration_seconds:
+                props.selectedExtendTrack.clips[0]?.duration || props.selectedExtendTrack.versions?.[0]?.duration || 60,
+              project_id: projectId,
+              suno_id: null,
+              is_liked: false,
+              likes_count: 0,
+            } as unknown as Track
+          }
         />
       )}
 
@@ -286,12 +298,9 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
 
       {/* Download Panel Sheet */}
       <Sheet open={props.showDownloadPanel} onOpenChange={props.onSetShowDownloadPanel}>
-        <SheetContent 
-          side={isMobile ? 'bottom' : 'right'} 
-          className={cn(
-            isMobile ? 'h-[80vh]' : 'w-full sm:max-w-md',
-            'p-0'
-          )}
+        <SheetContent
+          side={isMobile ? "bottom" : "right"}
+          className={cn(isMobile ? "h-[80vh]" : "w-full sm:max-w-md", "p-0")}
         >
           <StudioDownloadPanel
             tracks={tracks}
@@ -302,24 +311,23 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
       </Sheet>
 
       {/* Transcription Panel Sheet */}
-      <Sheet 
-        open={props.showTranscriptionPanel} 
+      <Sheet
+        open={props.showTranscriptionPanel}
         onOpenChange={(open) => {
           props.onSetShowTranscriptionPanel(open);
           if (!open) props.onSetSelectedTranscriptionTrack(null);
         }}
       >
-        <SheetContent 
-          side={isMobile ? 'bottom' : 'right'} 
-          className={cn(
-            isMobile ? 'h-[80vh]' : 'w-full sm:max-w-md',
-            'p-0'
-          )}
+        <SheetContent
+          side={isMobile ? "bottom" : "right"}
+          className={cn(isMobile ? "h-[80vh]" : "w-full sm:max-w-md", "p-0")}
         >
           {props.selectedTranscriptionTrack && (
             <StudioTranscriptionPanel
               track={props.selectedTranscriptionTrack}
-              audioUrl={props.selectedTranscriptionTrack.audioUrl || props.selectedTranscriptionTrack.clips?.[0]?.audioUrl || ''}
+              audioUrl={
+                props.selectedTranscriptionTrack.audioUrl || props.selectedTranscriptionTrack.clips?.[0]?.audioUrl || ""
+              }
               trackId={sourceTrackId || undefined}
               stemType={props.selectedTranscriptionTrack.type}
               onComplete={() => {}}
@@ -334,10 +342,7 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
 
       {/* Generate Sheet */}
       <Suspense fallback={null}>
-        <LazyGenerateSheet
-          open={props.showGenerateSheet}
-          onOpenChange={props.onSetShowGenerateSheet}
-        />
+        <LazyGenerateSheet open={props.showGenerateSheet} onOpenChange={props.onSetShowGenerateSheet} />
       </Suspense>
 
       {/* Arrangement Replacement Dialog */}
@@ -377,19 +382,16 @@ export const StudioDialogs = memo(function StudioDialogs(props: StudioDialogsPro
       />
 
       {/* Notation Panel Sheet */}
-      <Sheet 
-        open={props.showNotationPanel} 
+      <Sheet
+        open={props.showNotationPanel}
         onOpenChange={(open) => {
           props.onSetShowNotationPanel(open);
           if (!open) props.onSetSelectedNotationTrack(null);
         }}
       >
-        <SheetContent 
-          side={isMobile ? 'bottom' : 'right'} 
-          className={cn(
-            isMobile ? 'h-[85vh]' : 'w-full sm:max-w-lg',
-            'p-0'
-          )}
+        <SheetContent
+          side={isMobile ? "bottom" : "right"}
+          className={cn(isMobile ? "h-[85vh]" : "w-full sm:max-w-lg", "p-0")}
         >
           {props.selectedNotationTrack && (
             <StudioNotationPanel

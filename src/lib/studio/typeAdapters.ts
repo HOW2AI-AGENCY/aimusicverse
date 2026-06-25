@@ -1,14 +1,14 @@
 /**
  * Type Adapters for Studio Components
- * 
+ *
  * Provides conversion functions between different studio type systems:
  * - StudioProject (from useUnifiedStudioStore) ↔ Project (for UnifiedDAWLayout)
  * - StudioTrack ↔ Track (for DAW components)
- * 
+ *
  * @see ADR-011 for architecture decisions
  */
 
-import type { StudioProject, StudioTrack } from '@/stores/useUnifiedStudioStore';
+import type { StudioProject, StudioTrack } from "@/stores/useUnifiedStudioStore";
 
 /**
  * Track type for UnifiedDAWLayout
@@ -41,7 +41,7 @@ export function studioTrackToDAWTrack(track: StudioTrack): DAWTrack {
   return {
     id: track.id,
     name: track.name,
-    audioUrl: track.audioUrl || '',
+    audioUrl: track.audioUrl || "",
     stemType: track.type,
     muted: track.muted,
     solo: track.solo,
@@ -70,7 +70,7 @@ export function dawTrackToStudioTrackUpdate(track: DAWTrack): Partial<StudioTrac
     id: track.id,
     name: track.name,
     audioUrl: track.audioUrl,
-    type: track.stemType as StudioTrack['type'],
+    type: track.stemType as StudioTrack["type"],
     muted: track.muted,
     solo: track.solo,
     volume: track.volume,

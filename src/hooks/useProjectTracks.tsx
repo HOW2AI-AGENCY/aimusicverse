@@ -1,11 +1,11 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from './useAuth';
-import { toast } from 'sonner';
-import { useEffect } from 'react';
-import { logger } from '@/lib/logger';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "./useAuth";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'ProjectTracks' });
+const log = logger.child({ module: "ProjectTracks" });
 
 export interface LinkedTrack {
   id: string;
@@ -26,7 +26,7 @@ export interface ProjectTrack {
   style_prompt: string | null;
   lyrics: string | null; // Full song lyrics
   notes: string | null; // Production notes
-  lyrics_status: 'draft' | 'prompt' | 'generated' | 'approved' | null;
+  lyrics_status: "draft" | "prompt" | "generated" | "approved" | null;
   recommended_tags: string[] | null;
   recommended_structure: string | null;
   duration_target: number | null;
@@ -53,14 +53,19 @@ export const useProjectTracks = (projectId: string | undefined) => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  const { data: tracks, isLoading, error } = useQuery({
-    queryKey: ['project-tracks', projectId],
+  const {
+    data: tracks,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["project-tracks", projectId],
     queryFn: async () => {
       if (!projectId) return [];
 
       const { data, error } = await supabase
-        .from('project_tracks')
-        .select(`
+        .from("project_tracks")
+        .select(
+          `
           *,
           linked_track:tracks!project_tracks_track_id_fkey (
             id,
@@ -71,9 +76,10 @@ export const useProjectTracks = (projectId: string | undefined) => {
             duration_seconds,
             status
           )
-        `)
-        .eq('project_id', projectId)
-        .order('position', { ascending: true });
+        `,
+        )
+        .eq("project_id", projectId)
+        .order("position", { ascending: true });
 
       if (error) throw error;
       return data as ProjectTrack[];
@@ -85,41 +91,43 @@ export const useProjectTracks = (projectId: string | undefined) => {
   useEffect(() => {
     if (!projectId) return;
 
-    log.debug('Setting up realtime subscription for project tracks', { projectId });
+    log.debug("Setting up realtime subscription for project tracks", { projectId });
 
     const channel = supabase
       .channel(`project-tracks-${projectId}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'project_tracks',
+          event: "*",
+          schema: "public",
+          table: "project_tracks",
           filter: `project_id=eq.${projectId}`,
         },
         (payload) => {
-          log.debug('Project tracks change received', { event: payload.eventType });
-          queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-        }
+          log.debug("Project tracks change received", { event: payload.eventType });
+          queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
+        },
       )
       .subscribe();
 
     return () => {
-      log.debug('Unsubscribing from project tracks realtime');
+      log.debug("Unsubscribing from project tracks realtime");
       supabase.removeChannel(channel);
     };
   }, [projectId, queryClient]);
 
   const addTrack = useMutation({
     mutationFn: async (trackData: Partial<ProjectTrack> & { position: number; title: string }) => {
-      if (!projectId) throw new Error('Project ID required');
+      if (!projectId) throw new Error("Project ID required");
 
       const { data, error } = await supabase
-        .from('project_tracks')
-        .insert([{
-          project_id: projectId,
-          ...trackData,
-        }])
+        .from("project_tracks")
+        .insert([
+          {
+            project_id: projectId,
+            ...trackData,
+          },
+        ])
         .select()
         .single();
 
@@ -127,21 +135,21 @@ export const useProjectTracks = (projectId: string | undefined) => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Трек добавлен');
+      queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
+      toast.success("Трек добавлен");
     },
     onError: (error: any) => {
-      log.error('Error adding track', error);
-      toast.error('Ошибка добавления трека');
+      log.error("Error adding track", error);
+      toast.error("Ошибка добавления трека");
     },
   });
 
   const updateTrack = useMutation({
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<ProjectTrack> }) => {
       const { data, error } = await supabase
-        .from('project_tracks')
+        .from("project_tracks")
         .update(updates as any)
-        .eq('id', id)
+        .eq("id", id)
         .select()
         .single();
 
@@ -149,61 +157,59 @@ export const useProjectTracks = (projectId: string | undefined) => {
       return { data, updates };
     },
     onSuccess: ({ updates }) => {
-      queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
+      queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
       // Show specific toast based on what was updated
       if (updates.lyrics !== undefined) {
-        const statusLabel = updates.lyrics_status === 'generated' ? 'AI лирика' : 
-                           updates.lyrics_status === 'approved' ? 'Лирика одобрена' : 'Лирика сохранена';
+        const statusLabel =
+          updates.lyrics_status === "generated"
+            ? "AI лирика"
+            : updates.lyrics_status === "approved"
+              ? "Лирика одобрена"
+              : "Лирика сохранена";
         toast.success(statusLabel);
       } else if (updates.notes !== undefined) {
-        toast.success('Заметки сохранены');
+        toast.success("Заметки сохранены");
       } else {
-        toast.success('Трек обновлен');
+        toast.success("Трек обновлен");
       }
     },
     onError: (error: any) => {
-      log.error('Error updating track', error);
-      toast.error('Ошибка обновления трека');
+      log.error("Error updating track", error);
+      toast.error("Ошибка обновления трека");
     },
   });
 
   const deleteTrack = useMutation({
     mutationFn: async (trackId: string) => {
-      const { error } = await supabase
-        .from('project_tracks')
-        .delete()
-        .eq('id', trackId);
+      const { error } = await supabase.from("project_tracks").delete().eq("id", trackId);
 
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Трек удален');
+      queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
+      toast.success("Трек удален");
     },
     onError: (error: any) => {
-      log.error('Error deleting track', error);
-      toast.error('Ошибка удаления трека');
+      log.error("Error deleting track", error);
+      toast.error("Ошибка удаления трека");
     },
   });
 
   const reorderTracks = useMutation({
     mutationFn: async (reorderedTracks: { id: string; position: number }[]) => {
       const updates = reorderedTracks.map(({ id, position }) =>
-        supabase
-          .from('project_tracks')
-          .update({ position })
-          .eq('id', id)
+        supabase.from("project_tracks").update({ position }).eq("id", id),
       );
 
       await Promise.all(updates);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Порядок треков обновлен');
+      queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
+      toast.success("Порядок треков обновлен");
     },
     onError: (error: any) => {
-      log.error('Error reordering tracks', error);
-      toast.error('Ошибка изменения порядка');
+      log.error("Error reordering tracks", error);
+      toast.error("Ошибка изменения порядка");
     },
   });
 
@@ -215,11 +221,11 @@ export const useProjectTracks = (projectId: string | undefined) => {
       theme?: string;
       trackCount?: number;
     }) => {
-      if (!projectId) throw new Error('Project ID required');
+      if (!projectId) throw new Error("Project ID required");
 
-      const { data, error } = await supabase.functions.invoke('project-ai', {
+      const { data, error } = await supabase.functions.invoke("project-ai", {
         body: {
-          action: 'tracklist',
+          action: "tracklist",
           projectId,
           projectType: params.projectType,
           genre: params.genre,
@@ -230,25 +236,25 @@ export const useProjectTracks = (projectId: string | undefined) => {
       });
 
       if (error) throw error;
-      
+
       // Tracks are now inserted by the edge function using service role
       return data;
     },
     onMutate: () => {
       // Show loading toast
-      toast.loading('Генерация трек-листа...', { id: 'tracklist-gen' });
+      toast.loading("Генерация трек-листа...", { id: "tracklist-gen" });
     },
     onSuccess: (data) => {
-      toast.dismiss('tracklist-gen');
+      toast.dismiss("tracklist-gen");
       // Force immediate refetch
-      queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
+      queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
       const count = data?.data?.insertedCount || data?.data?.tracks?.length || 0;
       toast.success(`Трек-лист создан: ${count} треков`);
     },
     onError: (error: any) => {
-      toast.dismiss('tracklist-gen');
-      log.error('Error generating tracklist', error);
-      toast.error('Ошибка генерации трек-листа');
+      toast.dismiss("tracklist-gen");
+      log.error("Error generating tracklist", error);
+      toast.error("Ошибка генерации трек-листа");
     },
   });
 

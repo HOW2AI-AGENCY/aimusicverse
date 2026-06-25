@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
-import { logger } from '@/lib/logger';
+import { useState, useEffect, useCallback } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
+import { logger } from "@/lib/logger";
 
 interface StorageOptions {
   fallbackToLocalStorage?: boolean;
@@ -9,7 +9,7 @@ interface StorageOptions {
 export function useTelegramStorage<T>(
   key: string,
   initialValue: T,
-  options: StorageOptions = { fallbackToLocalStorage: true }
+  options: StorageOptions = { fallbackToLocalStorage: true },
 ) {
   const { webApp, isInitialized } = useTelegram();
   const [value, setValue] = useState<T>(initialValue);
@@ -26,7 +26,7 @@ export function useTelegramStorage<T>(
           // Use Telegram CloudStorage
           (webApp as any).CloudStorage.getItem(key, (error: Error | null, result: string) => {
             if (error) {
-              logger.error('CloudStorage getItem error', error);
+              logger.error("CloudStorage getItem error", error);
               if (options.fallbackToLocalStorage) {
                 loadFromLocalStorage();
               }
@@ -46,7 +46,7 @@ export function useTelegramStorage<T>(
           setIsLoading(false);
         }
       } catch (error) {
-        logger.error('Error loading from storage', error);
+        logger.error("Error loading from storage", error);
         setIsLoading(false);
       }
     };
@@ -66,31 +66,30 @@ export function useTelegramStorage<T>(
   }, [key, hasCloudStorage, options.fallbackToLocalStorage]);
 
   // Save value
-  const saveValue = useCallback((newValue: T) => {
-    setValue(newValue);
+  const saveValue = useCallback(
+    (newValue: T) => {
+      setValue(newValue);
 
-    if (hasCloudStorage) {
-      // Save to Telegram CloudStorage
-      const stringValue = typeof newValue === 'string' 
-        ? newValue 
-        : JSON.stringify(newValue);
+      if (hasCloudStorage) {
+        // Save to Telegram CloudStorage
+        const stringValue = typeof newValue === "string" ? newValue : JSON.stringify(newValue);
 
-      (webApp as any).CloudStorage.setItem(key, stringValue, (error: Error | null) => {
-        if (error) {
-          logger.error('CloudStorage setItem error', error);
-          if (options.fallbackToLocalStorage) {
-            localStorage.setItem(`telegram_storage_${key}`, stringValue);
+        (webApp as any).CloudStorage.setItem(key, stringValue, (error: Error | null) => {
+          if (error) {
+            logger.error("CloudStorage setItem error", error);
+            if (options.fallbackToLocalStorage) {
+              localStorage.setItem(`telegram_storage_${key}`, stringValue);
+            }
           }
-        }
-      });
-    } else if (options.fallbackToLocalStorage) {
-      // Fallback to localStorage
-      const stringValue = typeof newValue === 'string' 
-        ? newValue 
-        : JSON.stringify(newValue);
-      localStorage.setItem(`telegram_storage_${key}`, stringValue);
-    }
-  }, [key, hasCloudStorage, options.fallbackToLocalStorage, webApp]);
+        });
+      } else if (options.fallbackToLocalStorage) {
+        // Fallback to localStorage
+        const stringValue = typeof newValue === "string" ? newValue : JSON.stringify(newValue);
+        localStorage.setItem(`telegram_storage_${key}`, stringValue);
+      }
+    },
+    [key, hasCloudStorage, options.fallbackToLocalStorage, webApp],
+  );
 
   // Remove value
   const removeValue = useCallback(() => {
@@ -99,7 +98,7 @@ export function useTelegramStorage<T>(
     if (hasCloudStorage) {
       (webApp as any).CloudStorage.removeItem(key, (error: Error | null) => {
         if (error) {
-          logger.error('CloudStorage removeItem error', error);
+          logger.error("CloudStorage removeItem error", error);
           if (options.fallbackToLocalStorage) {
             localStorage.removeItem(`telegram_storage_${key}`);
           }

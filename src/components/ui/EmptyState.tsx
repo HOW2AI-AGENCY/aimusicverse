@@ -2,18 +2,12 @@
  * @deprecated Use `UnifiedEmptyState` from `@/components/ui/unified-empty-state`.
  * Thin compatibility shim. Removed in Phase 10 of `docs/UI_AUDIT.md`.
  */
-import { memo, type ReactNode } from 'react';
-import type { LucideIcon } from 'lucide-react';
-import { Music2, Search, Library, Mic2 } from 'lucide-react';
-import { UnifiedEmptyState } from '@/components/ui/unified-empty-state';
+import { memo, type ReactNode } from "react";
+import type { LucideIcon } from "lucide-react";
+import { Music2, Search, Library, Mic2 } from "lucide-react";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 
-type EmptyStateVariant =
-  | 'search'
-  | 'library'
-  | 'tracks'
-  | 'projects'
-  | 'lyrics'
-  | 'custom';
+type EmptyStateVariant = "search" | "library" | "tracks" | "projects" | "lyrics" | "custom";
 
 interface EmptyStateProps {
   variant?: EmptyStateVariant;
@@ -22,31 +16,34 @@ interface EmptyStateProps {
   description?: string;
   action?: { label: string; onClick: () => void; icon?: LucideIcon };
   secondaryAction?: { label: string; onClick: () => void };
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   className?: string;
   children?: ReactNode;
 }
 
-const variantDefaults: Record<Exclude<EmptyStateVariant, 'custom'>, { icon: LucideIcon; title: string; description: string }> = {
-  search: { icon: Search, title: 'Ничего не найдено', description: 'Попробуйте изменить поисковый запрос или фильтры' },
-  library: { icon: Library, title: 'Библиотека пуста', description: 'Создайте свой первый трек с помощью AI' },
-  tracks: { icon: Music2, title: 'Нет треков', description: 'Здесь будут отображаться ваши музыкальные треки' },
-  projects: { icon: Library, title: 'Нет проектов', description: 'Создайте свой первый проект' },
-  lyrics: { icon: Mic2, title: 'Нет текстов', description: 'Создайте свой первый текст' },
+const variantDefaults: Record<
+  Exclude<EmptyStateVariant, "custom">,
+  { icon: LucideIcon; title: string; description: string }
+> = {
+  search: { icon: Search, title: "Ничего не найдено", description: "Попробуйте изменить поисковый запрос или фильтры" },
+  library: { icon: Library, title: "Библиотека пуста", description: "Создайте свой первый трек с помощью AI" },
+  tracks: { icon: Music2, title: "Нет треков", description: "Здесь будут отображаться ваши музыкальные треки" },
+  projects: { icon: Library, title: "Нет проектов", description: "Создайте свой первый проект" },
+  lyrics: { icon: Mic2, title: "Нет текстов", description: "Создайте свой первый текст" },
 };
 
 export const EmptyState = memo(function EmptyState({
-  variant = 'custom',
+  variant = "custom",
   icon,
   title,
   description,
   action,
   secondaryAction,
-  size = 'md',
+  size = "md",
   className,
   children,
 }: EmptyStateProps) {
-  const preset = variant !== 'custom' ? variantDefaults[variant] : null;
+  const preset = variant !== "custom" ? variantDefaults[variant] : null;
   return (
     <UnifiedEmptyState
       type="custom"

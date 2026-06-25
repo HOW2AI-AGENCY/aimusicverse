@@ -2,16 +2,16 @@
  * ProjectCardSkeleton - Loading skeleton for project cards
  */
 
-import { cn } from '@/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
+import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ProjectCardSkeletonProps {
-  variant?: 'default' | 'compact';
+  variant?: "default" | "compact";
   className?: string;
 }
 
-export function ProjectCardSkeleton({ variant = 'default', className }: ProjectCardSkeletonProps) {
-  if (variant === 'compact') {
+export function ProjectCardSkeleton({ variant = "default", className }: ProjectCardSkeletonProps) {
+  if (variant === "compact") {
     return (
       <div className={cn("flex items-center gap-3 p-3", className)}>
         <Skeleton className="w-14 h-14 rounded-lg shrink-0" />
@@ -37,7 +37,7 @@ export function ProjectCardSkeleton({ variant = 'default', className }: ProjectC
           <Skeleton className="h-3 w-1/2" />
         </div>
       </div>
-      
+
       {/* Content */}
       <div className="p-3 space-y-3">
         <div className="flex items-center justify-between">
@@ -47,10 +47,10 @@ export function ProjectCardSkeleton({ variant = 'default', className }: ProjectC
           </div>
           <Skeleton className="h-4 w-20" />
         </div>
-        
+
         {/* Progress bar */}
         <Skeleton className="h-1.5 w-full rounded-full" />
-        
+
         {/* Track thumbnails */}
         <div className="flex items-center gap-1">
           {Array.from({ length: 4 }).map((_, i) => (
@@ -64,15 +64,15 @@ export function ProjectCardSkeleton({ variant = 'default', className }: ProjectC
 }
 
 // List of skeletons
-export function ProjectListSkeleton({ 
-  count = 3, 
-  variant = 'default' 
-}: { 
-  count?: number; 
-  variant?: ProjectCardSkeletonProps['variant'];
+export function ProjectListSkeleton({
+  count = 3,
+  variant = "default",
+}: {
+  count?: number;
+  variant?: ProjectCardSkeletonProps["variant"];
 }) {
   return (
-    <div className={variant === 'compact' ? "space-y-2" : "grid gap-4 sm:grid-cols-2"}>
+    <div className={variant === "compact" ? "space-y-2" : "grid gap-4 sm:grid-cols-2"}>
       {Array.from({ length: count }).map((_, i) => (
         <ProjectCardSkeleton key={i} variant={variant} />
       ))}

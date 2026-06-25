@@ -1,5 +1,14 @@
 import { lazy, Suspense, memo, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { DeepLinkHandler } from "@/contexts/TelegramContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AdminRoute } from "@/components/AdminRoute";
@@ -42,7 +51,7 @@ function GenerateRedirect() {
   useEffect(() => {
     // Forward all search params to home page
     const params = searchParams.toString();
-    navigate(params ? `/?${params}` : '/', { replace: true });
+    navigate(params ? `/?${params}` : "/", { replace: true });
   }, [navigate, searchParams]);
 
   return null;
@@ -86,14 +95,44 @@ const AdminTariffs = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/
 const ModerationDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/ModerationDashboard"));
 const AnalyticsDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AnalyticsDashboard"));
 const AdminFeedback = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/Feedback"));
-const GenerationStatsPanel = lazy(() => import(/* webpackChunkName: "admin" */ "./components/admin/GenerationStatsPanel").then(m => ({ default: m.GenerationStatsPanel })));
-const PerformanceDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./components/performance").then(m => ({ default: m.PerformanceDashboard })));
-const UserBalancesPanel = lazy(() => import(/* webpackChunkName: "admin" */ "./components/admin/UserBalancesPanel").then(m => ({ default: m.UserBalancesPanel })));
-const StarsPaymentsPanel = lazy(() => import(/* webpackChunkName: "admin" */ "./components/admin/StarsPaymentsPanel").then(m => ({ default: m.StarsPaymentsPanel })));
-const GenerationLogsPanel = lazy(() => import(/* webpackChunkName: "admin" */ "./components/admin/GenerationLogsPanel").then(m => ({ default: m.GenerationLogsPanel })));
-const DeeplinkAnalyticsPanel = lazy(() => import(/* webpackChunkName: "admin" */ "./components/admin/DeeplinkAnalyticsPanel").then(m => ({ default: m.DeeplinkAnalyticsPanel })));
-const EnhancedAnalyticsPanel = lazy(() => import(/* webpackChunkName: "admin" */ "./components/admin/EnhancedAnalyticsPanel").then(m => ({ default: m.EnhancedAnalyticsPanel })));
-const ModerationReportsPanel = lazy(() => import(/* webpackChunkName: "admin" */ "./components/admin/ModerationReportsPanel").then(m => ({ default: m.ModerationReportsPanel })));
+const GenerationStatsPanel = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/admin/GenerationStatsPanel").then((m) => ({
+    default: m.GenerationStatsPanel,
+  })),
+);
+const PerformanceDashboard = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/performance").then((m) => ({ default: m.PerformanceDashboard })),
+);
+const UserBalancesPanel = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/admin/UserBalancesPanel").then((m) => ({
+    default: m.UserBalancesPanel,
+  })),
+);
+const StarsPaymentsPanel = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/admin/StarsPaymentsPanel").then((m) => ({
+    default: m.StarsPaymentsPanel,
+  })),
+);
+const GenerationLogsPanel = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/admin/GenerationLogsPanel").then((m) => ({
+    default: m.GenerationLogsPanel,
+  })),
+);
+const DeeplinkAnalyticsPanel = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/admin/DeeplinkAnalyticsPanel").then((m) => ({
+    default: m.DeeplinkAnalyticsPanel,
+  })),
+);
+const EnhancedAnalyticsPanel = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/admin/EnhancedAnalyticsPanel").then((m) => ({
+    default: m.EnhancedAnalyticsPanel,
+  })),
+);
+const ModerationReportsPanel = lazy(() =>
+  import(/* webpackChunkName: "admin" */ "./components/admin/ModerationReportsPanel").then((m) => ({
+    default: m.ModerationReportsPanel,
+  })),
+);
 const BlockedUsersPage = lazy(() => import("./pages/settings/BlockedUsersPage"));
 const Templates = lazy(() => import("./pages/Templates"));
 const MusicGraph = lazy(() => import("./pages/MusicGraph"));
@@ -127,7 +166,6 @@ const PaymentFail = lazy(() => import("./pages/payments/PaymentFail"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
-
 // QueryClient is now initialized in CoreProviders
 
 const App = () => (
@@ -145,20 +183,29 @@ const App = () => (
                       <Route path="/auth" element={<Auth />} />
 
                       {/* Routes with BottomNavigation */}
-                      <Route element={
-                        <ProtectedRoute>
-                          <ProfileSetupGuardWrapper>
-                            <MainLayout />
-                          </ProfileSetupGuardWrapper>
-                        </ProtectedRoute>
-                      }>
+                      <Route
+                        element={
+                          <ProtectedRoute>
+                            <ProfileSetupGuardWrapper>
+                              <MainLayout />
+                            </ProfileSetupGuardWrapper>
+                          </ProtectedRoute>
+                        }
+                      >
                         <Route path="/" element={<Index />} />
                         <Route path="/studio" element={<Navigate to="/studio-v2" replace />} />
                         <Route path="/profile" element={<ProfilePage />} />
                         <Route path="/profile/:userId" element={<PublicProfilePage />} />
                         <Route path="/settings" element={<Settings />} />
                         <Route path="/generate" element={<GenerateRedirect />} />
-                        <Route path="/library" element={<ErrorBoundary><Library /></ErrorBoundary>} />
+                        <Route
+                          path="/library"
+                          element={
+                            <ErrorBoundary>
+                              <Library />
+                            </ErrorBoundary>
+                          }
+                        />
                         <Route path="/projects" element={<Projects />} />
                         <Route path="/projects/:id" element={<ProjectDetail />} />
                         <Route path="/artists" element={<Artists />} />
@@ -170,9 +217,16 @@ const App = () => (
                         <Route path="/rewards" element={<Rewards />} />
                         <Route path="/referral" element={<Referral />} />
                         <Route path="/analytics" element={<Analytics />} />
-                        
+
                         {/* Admin Routes */}
-                        <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+                        <Route
+                          path="/admin"
+                          element={
+                            <AdminRoute>
+                              <AdminLayout />
+                            </AdminRoute>
+                          }
+                        >
                           <Route index element={<AdminOverview />} />
                           <Route path="overview" element={<AdminOverview />} />
                           <Route path="analytics" element={<AnalyticsDashboard />} />
@@ -193,7 +247,7 @@ const App = () => (
                           <Route path="alerts" element={<AdminAlerts />} />
                           <Route path="broadcast" element={<AdminBroadcast />} />
                         </Route>
-                        
+
                         <Route path="/settings/blocked-users" element={<BlockedUsersPage />} />
                         <Route path="/templates" element={<Templates />} />
                         <Route path="/music-graph" element={<MusicGraph />} />
@@ -223,33 +277,48 @@ const App = () => (
                       <Route path="/studio/:trackId" element={<Navigate to="/studio-v2" replace />} />
 
                       {/* Studio V2 */}
-                      <Route path="/studio-v2" element={
-                        <ProtectedRoute>
-                          <StudioHubPage />
-                        </ProtectedRoute>
-                      } />
-                      <Route path="/studio-v2/new" element={
-                        <ProtectedRoute>
-                          <NewStudioProjectPage />
-                        </ProtectedRoute>
-                      } />
-                      <Route path="/studio-v2/project/:projectId" element={
-                        <ProtectedRoute>
-                          <UnifiedStudioPage />
-                        </ProtectedRoute>
-                      } />
-                      <Route path="/studio-v2/track/:trackId" element={
-                        <ProtectedRoute>
-                          <UnifiedStudioPage />
-                        </ProtectedRoute>
-                      } />
+                      <Route
+                        path="/studio-v2"
+                        element={
+                          <ProtectedRoute>
+                            <StudioHubPage />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/studio-v2/new"
+                        element={
+                          <ProtectedRoute>
+                            <NewStudioProjectPage />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/studio-v2/project/:projectId"
+                        element={
+                          <ProtectedRoute>
+                            <UnifiedStudioPage />
+                          </ProtectedRoute>
+                        }
+                      />
+                      <Route
+                        path="/studio-v2/track/:trackId"
+                        element={
+                          <ProtectedRoute>
+                            <UnifiedStudioPage />
+                          </ProtectedRoute>
+                        }
+                      />
 
                       {/* Mobile fullscreen player */}
-                      <Route path="/player/:trackId" element={
-                        <ProtectedRoute>
-                          <MobilePlayerPage />
-                        </ProtectedRoute>
-                      } />
+                      <Route
+                        path="/player/:trackId"
+                        element={
+                          <ProtectedRoute>
+                            <MobilePlayerPage />
+                          </ProtectedRoute>
+                        }
+                      />
 
                       {/* Payment pages */}
                       <Route path="/payment" element={<MobilePaymentScreen />} />

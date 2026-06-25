@@ -15,11 +15,13 @@
 ### 1. Базовые UI компоненты
 
 #### `MobileListItem`
+
 **Путь:** `src/components/mobile/MobileListItem.tsx`
 
 Стандартизированный элемент списка с touch targets.
 
 **Фичи:**
+
 - Минимальная высота 56px
 - Поддержка leading/trailing элементов
 - Встроенная поддержка chevron и кнопки "More"
@@ -28,8 +30,9 @@
 - Expandable контент
 
 **Использование:**
+
 ```tsx
-import { MobileListItem } from '@/components/mobile';
+import { MobileListItem } from "@/components/mobile";
 
 <MobileListItem
   title="Track Title"
@@ -38,17 +41,19 @@ import { MobileListItem } from '@/components/mobile';
   trailing={<Badge>NEW</Badge>}
   onClick={handleClick}
   showChevron
-/>
+/>;
 ```
 
 ---
 
 #### `MobileSearchBar`
+
 **Путь:** `src/components/mobile/MobileSearchBar.tsx`
 
 Мобильная поисковая строка с keyboard handling.
 
 **Фичи:**
+
 - Auto-focus опция
 - Кнопка очистки
 - iOS-style кнопка "Отмена"
@@ -56,25 +61,23 @@ import { MobileListItem } from '@/components/mobile';
 - Keyboard-aware (использует visualViewport API)
 
 **Использование:**
-```tsx
-import { MobileSearchBar } from '@/components/mobile';
 
-<MobileSearchBar
-  value={searchQuery}
-  onChange={setSearchQuery}
-  placeholder="Поиск треков..."
-  showCancel
-/>
+```tsx
+import { MobileSearchBar } from "@/components/mobile";
+
+<MobileSearchBar value={searchQuery} onChange={setSearchQuery} placeholder="Поиск треков..." showCancel />;
 ```
 
 ---
 
 #### `MobileHeaderBar`
+
 **Путь:** `src/components/mobile/MobileHeaderBar.tsx`
 
 Стандартный мобильный header с safe areas.
 
 **Фичи:**
+
 - Safe area insets support (для notch/island)
 - Кнопка назад
 - Кнопка "More"
@@ -83,53 +86,48 @@ import { MobileSearchBar } from '@/components/mobile';
 - Subtitle поддержка
 
 **Использование:**
-```tsx
-import { MobileHeaderBar } from '@/components/mobile';
 
-<MobileHeaderBar
-  title="Мой контент"
-  subtitle="42 треков"
-  onBack={() => navigate(-1)}
-  onMore={handleMore}
-  sticky
-/>
+```tsx
+import { MobileHeaderBar } from "@/components/mobile";
+
+<MobileHeaderBar title="Мой контент" subtitle="42 треков" onBack={() => navigate(-1)} onMore={handleMore} sticky />;
 ```
 
 ---
 
 #### `MobileSectionCard`
+
 **Путь:** `src/components/mobile/MobileSectionCard.tsx`
 
 Collapsible секция для группировки контента.
 
 **Фичи:**
+
 - Expand/collapse с анимацией
 - Icon и badge support
 - Custom styling для title/content
 - Touch-optimized
 
 **Использование:**
-```tsx
-import { MobileSectionCard } from '@/components/mobile';
 
-<MobileSectionCard
-  title="Настройки трека"
-  icon={<Settings />}
-  badge={<Badge>3</Badge>}
-  defaultExpanded
->
+```tsx
+import { MobileSectionCard } from "@/components/mobile";
+
+<MobileSectionCard title="Настройки трека" icon={<Settings />} badge={<Badge>3</Badge>} defaultExpanded>
   <TrackSettingsContent />
-</MobileSectionCard>
+</MobileSectionCard>;
 ```
 
 ---
 
 #### `MobileSlidePanel`
+
 **Путь:** `src/components/mobile/MobileSlidePanel.tsx`
 
 Slide-in панель с края экрана (альтернатива bottom sheet).
 
 **Фичи:**
+
 - Slide from left/right
 - Drag-to-close gesture
 - Velocity-based closing
@@ -138,18 +136,13 @@ Slide-in панель с края экрана (альтернатива bottom 
 - Safe area support
 
 **Использование:**
-```tsx
-import { MobileSlidePanel } from '@/components/mobile';
 
-<MobileSlidePanel
-  open={mixerOpen}
-  onOpenChange={setMixerOpen}
-  title="Mixer"
-  side="right"
-  width="80%"
->
+```tsx
+import { MobileSlidePanel } from "@/components/mobile";
+
+<MobileSlidePanel open={mixerOpen} onOpenChange={setMixerOpen} title="Mixer" side="right" width="80%">
   <MixerContent />
-</MobileSlidePanel>
+</MobileSlidePanel>;
 ```
 
 ---
@@ -157,92 +150,91 @@ import { MobileSlidePanel } from '@/components/mobile';
 ### 2. Форм компоненты
 
 #### `MobileFormField`
+
 **Путь:** `src/components/mobile/forms/MobileFormField.tsx`
 
 Обёртка для form fields с consistent styling.
 
 **Фичи:**
+
 - Label, description, error
 - Required indicator
 - Consistent spacing
 
 **Использование:**
-```tsx
-import { MobileFormField } from '@/components/mobile/forms';
 
-<MobileFormField
-  label="BPM"
-  description="Beats per minute"
-  error={errors.bpm}
-  required
->
+```tsx
+import { MobileFormField } from "@/components/mobile/forms";
+
+<MobileFormField label="BPM" description="Beats per minute" error={errors.bpm} required>
   <Input type="number" />
-</MobileFormField>
+</MobileFormField>;
 ```
 
 ---
 
 #### `MobileSelect`
+
 **Путь:** `src/components/mobile/forms/MobileSelect.tsx`
 
 Select с bottom sheet picker (лучше чем native select на mobile).
 
 **Фичи:**
+
 - Bottom sheet для выбора
 - Icon support для опций
 - Description для опций
 - Check indicator для selected
 
 **Использование:**
+
 ```tsx
-import { MobileSelect } from '@/components/mobile/forms';
+import { MobileSelect } from "@/components/mobile/forms";
 
 <MobileSelect
   value={genre}
   onChange={setGenre}
   options={[
-    { value: 'rock', label: 'Rock', icon: <Guitar /> },
-    { value: 'pop', label: 'Pop', icon: <Mic /> }
+    { value: "rock", label: "Rock", icon: <Guitar /> },
+    { value: "pop", label: "Pop", icon: <Mic /> },
   ]}
   placeholder="Выберите жанр"
-/>
+/>;
 ```
 
 ---
 
 #### `MobileTextarea`
+
 **Путь:** `src/components/mobile/forms/MobileTextarea.tsx`
 
 Auto-growing textarea с character counter.
 
 **Фичи:**
+
 - Auto-grow (minRows -> maxRows)
 - Character counter
 - Max length enforcement
 - Warning при приближении к лимиту
 
 **Использование:**
-```tsx
-import { MobileTextarea } from '@/components/mobile/forms';
 
-<MobileTextarea
-  value={lyrics}
-  onChange={setLyrics}
-  minRows={4}
-  maxRows={12}
-  maxLength={2000}
-  showCounter
-/>
+```tsx
+import { MobileTextarea } from "@/components/mobile/forms";
+
+<MobileTextarea value={lyrics} onChange={setLyrics} minRows={4} maxRows={12} maxLength={2000} showCounter />;
 ```
 
 ---
 
 #### `MobileNumberInput`
+
 **Путь:** `src/components/mobile/forms/MobileNumberInput.tsx`
 
 Number input с +/- кнопками (лучше UX чем native number input).
 
 **Фичи:**
+
 - Increment/decrement buttons
 - Min/max validation
 - Custom step
@@ -250,27 +242,23 @@ Number input с +/- кнопками (лучше UX чем native number input).
 - Haptic feedback
 
 **Использование:**
-```tsx
-import { MobileNumberInput } from '@/components/mobile/forms';
 
-<MobileNumberInput
-  value={bpm}
-  onChange={setBpm}
-  min={60}
-  max={200}
-  step={1}
-  unit="BPM"
-/>
+```tsx
+import { MobileNumberInput } from "@/components/mobile/forms";
+
+<MobileNumberInput value={bpm} onChange={setBpm} min={60} max={200} step={1} unit="BPM" />;
 ```
 
 ---
 
 #### `MobileSlider`
+
 **Путь:** `src/components/mobile/forms/MobileSlider.tsx`
 
 Slider с большим thumb для touch.
 
 **Фичи:**
+
 - Большой thumb (6×6 vs default)
 - Show value
 - Custom formatter
@@ -278,18 +266,11 @@ Slider с большим thumb для touch.
 - Haptic feedback on commit
 
 **Использование:**
-```tsx
-import { MobileSlider } from '@/components/mobile/forms';
 
-<MobileSlider
-  value={volume}
-  onChange={setVolume}
-  min={0}
-  max={100}
-  step={1}
-  showValue
-  formatValue={(v) => `${v}%`}
-/>
+```tsx
+import { MobileSlider } from "@/components/mobile/forms";
+
+<MobileSlider value={volume} onChange={setVolume} min={0} max={100} step={1} showValue formatValue={(v) => `${v}%`} />;
 ```
 
 ---
@@ -297,11 +278,13 @@ import { MobileSlider } from '@/components/mobile/forms';
 ### 3. Специализированные компоненты
 
 #### `MobileLyricsEditor`
+
 **Путь:** `src/components/lyrics/mobile/MobileLyricsEditor.tsx`
 
 Полнофункциональный редактор лирики для mobile.
 
 **Фичи:**
+
 - Section-based editing (verse, chorus, bridge, etc)
 - Swipe gestures для reordering
 - AI generate integration
@@ -311,21 +294,19 @@ import { MobileSlider } from '@/components/mobile/forms';
 - Notes support
 
 **Использование:**
-```tsx
-import { MobileLyricsEditor } from '@/components/lyrics/mobile';
 
-<MobileLyricsEditor
-  sections={lyricsSections}
-  onChange={setSections}
-  onAIGenerate={handleAIGenerate}
-/>
+```tsx
+import { MobileLyricsEditor } from "@/components/lyrics/mobile";
+
+<MobileLyricsEditor sections={lyricsSections} onChange={setSections} onAIGenerate={handleAIGenerate} />;
 ```
 
 **Section структура:**
+
 ```tsx
 interface LyricsSection {
   id: string;
-  type: 'verse' | 'chorus' | 'bridge' | 'intro' | 'outro' | 'hook' | 'prechorus' | 'breakdown';
+  type: "verse" | "chorus" | "bridge" | "intro" | "outro" | "hook" | "prechorus" | "breakdown";
   content: string;
   notes?: string;
 }
@@ -336,9 +317,11 @@ interface LyricsSection {
 ## 🎨 Улучшенные существующие компоненты
 
 ### `UnifiedProjectCard`
+
 **Путь:** `src/components/project/UnifiedProjectCard.tsx`
 
 **Улучшения:**
+
 - Увеличен padding на mobile (p-3.5 vs p-3)
 - Увеличен размер текста (text-base vs text-sm)
 - Увеличены icon sizes на mobile
@@ -349,9 +332,11 @@ interface LyricsSection {
 ---
 
 ### `MinimalProjectTrackItem`
+
 **Путь:** `src/components/project/MinimalProjectTrackItem.tsx`
 
 **Улучшения:**
+
 - Увеличен padding (p-3 vs p-2.5)
 - Увеличен gap между элементами (gap-2 vs gap-1.5)
 - Drag handle больше (w-5 h-5 vs w-4 h-4)
@@ -362,9 +347,11 @@ interface LyricsSection {
 ---
 
 ### `Projects` page
+
 **Путь:** `src/pages/Projects.tsx`
 
 **Улучшения:**
+
 - Использует `MobileHeaderBar` на mobile
 - Убран custom header code
 - Consistent safe area handling
@@ -375,27 +362,32 @@ interface LyricsSection {
 ## 📱 Принципы дизайна
 
 ### Touch Targets
+
 - **Минимум:** 44×44px (iOS HIG стандарт)
 - **Кнопки:** h-9 w-9 (36px) или h-11 w-11 (44px)
 - **List items:** min-h-[56px]
 
 ### Spacing
+
 - **Mobile padding:** p-3 (12px) или p-4 (16px)
 - **Gap между элементами:** gap-2 (8px) или gap-3 (12px)
 - **Desktop:** Меньше spacing
 
 ### Typography
+
 - **Mobile titles:** text-base (16px)
 - **Mobile body:** text-sm (14px)
 - **Mobile captions:** text-xs (12px)
 - **Desktop:** На 1 размер меньше
 
 ### Icons
+
 - **Mobile:** w-5 h-5 (20px) для main icons
 - **Desktop:** w-4 h-4 (16px)
 - **Small icons:** w-3 h-3 (12px) на обоих
 
 ### Animations
+
 - **Mobile:** Быстрее (0.3s vs 0.5s)
 - **Scale effects:** Меньше на mobile (1.05 vs 1.08)
 - **Touch feedback:** Active states с scale-[0.98]
@@ -416,7 +408,7 @@ import {
   MobileSlidePanel,
   MobileBottomSheet,
   MobileActionSheet,
-} from '@/components/mobile';
+} from "@/components/mobile";
 
 // Форм компоненты
 import {
@@ -425,10 +417,10 @@ import {
   MobileTextarea,
   MobileNumberInput,
   MobileSlider,
-} from '@/components/mobile/forms';
+} from "@/components/mobile/forms";
 
 // Специализированные
-import { MobileLyricsEditor } from '@/components/lyrics/mobile';
+import { MobileLyricsEditor } from "@/components/lyrics/mobile";
 ```
 
 ---

@@ -7,6 +7,7 @@ Telegram-бот MusicVerse реализован согласно техниче�
 ## 🎨 Дизайн-система
 
 ### Цветовая палитра
+
 - **Фон (Background)**: `#0e0e0e` (HSL: 0 0% 5.5%)
 - **Поверхности (Cards)**: `#1e1e1e` (HSL: 0 0% 11.8%)
 - **Бордеры**: `#2a2a2a` (HSL: 0 0% 16.5%)
@@ -15,6 +16,7 @@ Telegram-бот MusicVerse реализован согласно техниче�
 - **Приглушенный текст**: `rgba(255,255,255,0.6)`
 
 ### Градиенты
+
 ```css
 --gradient-telegram: linear-gradient(135deg, #3390ec, #8e77ec);
 --gradient-primary: linear-gradient(135deg, hsl(207 90% 56%), hsl(270 70% 60%));
@@ -23,6 +25,7 @@ Telegram-бот MusicVerse реализован согласно техниче�
 ```
 
 ### Glassmorphism эффекты
+
 ```css
 .glass-card {
   background: rgba(30, 30, 30, 0.7);
@@ -41,40 +44,34 @@ Telegram-бот MusicVerse реализован согласно техниче�
 ## 🧩 Компоненты
 
 ### MessageBubble
+
 Карточка контента в стиле Telegram с поддержкой изображений, статусов и стеклянного эффекта.
 
 ```tsx
-<MessageBubble
-  image={coverUrl}
-  title="Название трека"
-  subtitle="Артист"
-  status="success"
->
+<MessageBubble image={coverUrl} title="Название трека" subtitle="Артист" status="success">
   {/* Содержимое карточки */}
 </MessageBubble>
 ```
 
 **Статусы:**
+
 - `success` - Зеленый (завершено)
 - `warning` - Желтый (в процессе)
 - `error` - Красный (ошибка)
 - `info` - Синий (информация)
 
 ### TelegramButton
+
 Кнопка с тактильной обратной связью (haptic feedback) и анимациями.
 
 ```tsx
-<TelegramButton
-  icon={<Sparkles />}
-  haptic="success"
-  className="bg-gradient-telegram"
-  onClick={handleAction}
->
+<TelegramButton icon={<Sparkles />} haptic="success" className="bg-gradient-telegram" onClick={handleAction}>
   Действие
 </TelegramButton>
 ```
 
 **Типы haptic feedback:**
+
 - `light` - Легкая вибрация
 - `medium` - Средняя вибрация
 - `heavy` - Сильная вибрация
@@ -85,9 +82,11 @@ Telegram-бот MusicVerse реализован согласно техниче�
 ## 🤖 Telegram Bot
 
 ### Архитектура бота
+
 Бот работает в режиме "Native App" - обновляет одно сообщение вместо спама новыми сообщениями.
 
 #### Главное меню (`/start`)
+
 ```
 🏠 MusicVerse Studio
 
@@ -107,6 +106,7 @@ Telegram-бот MusicVerse реализован согласно техниче�
 ```
 
 #### Модуль "Библиотека/Плеер"
+
 Интерактивная карточка трека с навигацией и контролами:
 
 ```
@@ -126,6 +126,7 @@ Telegram-бот MusicVerse реализован согласно техниче�
 ```
 
 #### Модуль "Проекты"
+
 Навигация по проектам/альбомам:
 
 ```
@@ -145,6 +146,7 @@ Telegram-бот MusicVerse реализован согласно техниче�
 ```
 
 ### Reactive Navigation
+
 Бот использует `editMessageMedia` для бесшовного обновления интерфейса:
 
 ```typescript
@@ -152,16 +154,17 @@ await editMessageMedia(
   chatId,
   messageId,
   {
-    type: 'photo',
+    type: "photo",
     media: newCoverUrl,
     caption: newCaption,
-    parse_mode: 'Markdown'
+    parse_mode: "Markdown",
   },
-  newKeyboard
+  newKeyboard,
 );
 ```
 
 ### Deep Linking
+
 Поддержка прямых ссылок на контент:
 
 ```
@@ -173,6 +176,7 @@ t.me/MusicVerseBot?start=generate_rock   # Генератор с промпто�
 ## 🌐 Mini App Integration
 
 ### Страница Studio (`/studio`)
+
 Главная страница Mini App с карточками в стиле Telegram:
 
 ```tsx
@@ -182,19 +186,16 @@ t.me/MusicVerseBot?start=generate_rock   # Генератор с промпто�
   subtitle="Создавайте музыку с помощью искусственного интеллекта"
   status="success"
 >
-  <TelegramButton
-    className="bg-gradient-telegram"
-    icon="🚀"
-    onClick={() => navigate("/generate")}
-  >
+  <TelegramButton className="bg-gradient-telegram" icon="🚀" onClick={() => navigate("/generate")}>
     ОТКРЫТЬ СТУДИЮ
   </TelegramButton>
-  
+
   {/* Навигационные кнопки */}
 </MessageBubble>
 ```
 
 ### Seamless Authentication
+
 Автоматическая авторизация через `initData`:
 
 ```typescript
@@ -209,7 +210,7 @@ useEffect(() => {
 // Backend (Edge Function)
 export async function validateTelegramAuth(initData: string) {
   const params = new URLSearchParams(initData);
-  const hash = params.get('hash');
+  const hash = params.get("hash");
   // Проверка подписи...
   // Создание/обновление профиля...
   // Генерация JWT токена...
@@ -219,12 +220,14 @@ export async function validateTelegramAuth(initData: string) {
 ## 📊 Функциональные возможности
 
 ### Генерация музыки
+
 - Текстовые промпты с тегами стилей
 - Поддержка разных моделей (chirp-v4, chirp-crow)
 - Режимы: простой, инструментальный, кастомный
 - Уведомления о готовности треков
 
 ### Управление треками
+
 - Библиотека с пагинацией
 - Встроенный плеер
 - Скачивание файлов
@@ -232,12 +235,14 @@ export async function validateTelegramAuth(initData: string) {
 - Лайки и избранное
 
 ### Проекты
+
 - Создание альбомов/EP/синглов
 - Управление треклистами
 - Обложки проектов
 - Статусы (черновик, опубликован)
 
 ### Stems (Разделение)
+
 - Разделение на Voice, Bass, Drums, Other
 - Очередь задач обработки
 - Скачивание архивов стемов
@@ -245,6 +250,7 @@ export async function validateTelegramAuth(initData: string) {
 ## 🚀 Deployment
 
 ### Edge Functions
+
 Все функции бота развернуты как Supabase Edge Functions:
 
 ```
@@ -264,6 +270,7 @@ supabase/functions/
 ```
 
 ### Environment Variables
+
 ```bash
 TELEGRAM_BOT_TOKEN=<bot_token>
 MINI_APP_URL=https://music.how2ai.agency
@@ -274,6 +281,7 @@ SUPABASE_SERVICE_ROLE_KEY=<service_key>
 ## 📈 Метрики и аналитика
 
 ### Отслеживаемые события
+
 - `track_generated` - Создание трека
 - `track_played` - Воспроизведение
 - `track_downloaded` - Скачивание
@@ -283,6 +291,7 @@ SUPABASE_SERVICE_ROLE_KEY=<service_key>
 - `project_created` - Создание проекта
 
 ### Хранение данных
+
 Все события сохраняются в таблицу `user_activity` с метаданными в JSON формате.
 
 ## 🎯 Следующие шаги
@@ -296,6 +305,7 @@ SUPABASE_SERVICE_ROLE_KEY=<service_key>
 ## 📚 Документация API
 
 ### Bot API Methods
+
 ```typescript
 // Отправка фото с кнопками
 sendPhoto(chatId: number, photoUrl: string, options)
@@ -311,6 +321,7 @@ answerCallbackQuery(queryId: string, text?: string)
 ```
 
 ### Music Service Methods
+
 ```typescript
 // Получение треков пользователя
 musicService.getUserTracks(telegramId: number): Promise<Track[]>

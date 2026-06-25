@@ -1,61 +1,61 @@
 /**
  * PageTransition - Smooth page transition wrapper
  * Feature: UX Improvements
- * 
+ *
  * Provides consistent page transitions across routes
  */
 
-import { memo, type ReactNode } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { cn } from '@/lib/utils';
+import { memo, type ReactNode } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
 interface PageTransitionProps {
   children: ReactNode;
   /** Unique key for transition (usually route path) */
   pageKey?: string;
   /** Transition variant */
-  variant?: 'fade' | 'slide' | 'scale' | 'none';
+  variant?: "fade" | "slide" | "scale" | "none";
   /** Transition direction for slide */
-  direction?: 'left' | 'right' | 'up' | 'down';
+  direction?: "left" | "right" | "up" | "down";
   /** Additional className */
   className?: string;
   /** Duration in seconds */
   duration?: number;
 }
 
-const getVariants = (variant: PageTransitionProps['variant'], direction: PageTransitionProps['direction']) => {
+const getVariants = (variant: PageTransitionProps["variant"], direction: PageTransitionProps["direction"]) => {
   const offset = 20;
-  
+
   switch (variant) {
-    case 'slide':
+    case "slide":
       const slideOffset = {
         left: { x: offset, y: 0 },
         right: { x: -offset, y: 0 },
         up: { x: 0, y: offset },
         down: { x: 0, y: -offset },
       };
-      const initial = slideOffset[direction || 'up'];
+      const initial = slideOffset[direction || "up"];
       return {
         initial: { opacity: 0, ...initial },
         animate: { opacity: 1, x: 0, y: 0 },
         exit: { opacity: 0, ...initial },
       };
-      
-    case 'scale':
+
+    case "scale":
       return {
         initial: { opacity: 0, scale: 0.98 },
         animate: { opacity: 1, scale: 1 },
         exit: { opacity: 0, scale: 0.98 },
       };
-      
-    case 'none':
+
+    case "none":
       return {
         initial: {},
         animate: {},
         exit: {},
       };
-      
-    case 'fade':
+
+    case "fade":
     default:
       return {
         initial: { opacity: 0 },
@@ -68,8 +68,8 @@ const getVariants = (variant: PageTransitionProps['variant'], direction: PageTra
 export const PageTransition = memo(function PageTransition({
   children,
   pageKey,
-  variant = 'fade',
-  direction = 'up',
+  variant = "fade",
+  direction = "up",
   className,
   duration = 0.2,
 }: PageTransitionProps) {
@@ -81,9 +81,9 @@ export const PageTransition = memo(function PageTransition({
       initial={variants.initial}
       animate={variants.animate}
       exit={variants.exit}
-      transition={{ 
-        duration, 
-        ease: [0.32, 0.72, 0, 1] 
+      transition={{
+        duration,
+        ease: [0.32, 0.72, 0, 1],
       }}
       className={cn("w-full", className)}
     >
@@ -122,7 +122,7 @@ export const AnimatedSection = memo(function AnimatedSection({
       transition={{
         duration: 0.3,
         delay,
-        ease: 'easeOut',
+        ease: "easeOut",
       }}
       className={className}
     >
@@ -141,12 +141,7 @@ interface FadeInProps {
   className?: string;
 }
 
-export const FadeIn = memo(function FadeIn({
-  children,
-  delay = 0,
-  duration = 0.3,
-  className,
-}: FadeInProps) {
+export const FadeIn = memo(function FadeIn({ children, delay = 0, duration = 0.3, className }: FadeInProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -162,17 +157,12 @@ export const FadeIn = memo(function FadeIn({
 /**
  * ScaleIn - Scale entrance animation
  */
-export const ScaleIn = memo(function ScaleIn({
-  children,
-  delay = 0,
-  duration = 0.2,
-  className,
-}: FadeInProps) {
+export const ScaleIn = memo(function ScaleIn({ children, delay = 0, duration = 0.2, className }: FadeInProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration, delay, ease: 'easeOut' }}
+      transition={{ duration, delay, ease: "easeOut" }}
       className={className}
     >
       {children}

@@ -1,8 +1,8 @@
-import { memo } from 'react';
-import { Layers, ListMusic } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-import { UnifiedVersionSelector } from '@/components/shared/UnifiedVersionSelector';
+import { memo } from "react";
+import { Layers, ListMusic } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { UnifiedVersionSelector } from "@/components/shared/UnifiedVersionSelector";
 
 interface TrackBadgesProps {
   trackId: string;
@@ -20,7 +20,7 @@ interface TrackBadgesProps {
 
 /**
  * TrackBadges - Unified badges display for versions, stems, queue position
- * 
+ *
  * Used in:
  * - TrackCard (grid overlay)
  * - PublicTrackCard
@@ -38,35 +38,26 @@ export const TrackBadges = memo(function TrackBadges({
   compact = false,
 }: TrackBadgesProps) {
   const hasContent = versionCount > 1 || stemCount > 0 || queuePosition;
-  
+
   if (!hasContent) return null;
-  
+
   return (
     <div className={cn("flex gap-1", className)}>
       {/* Queue Position Badge */}
       {queuePosition && (
-        <Badge 
-          variant={isNextTrack ? "default" : "glass"} 
+        <Badge
+          variant={isNextTrack ? "default" : "glass"}
           size="sm"
-          className={cn(
-            "gap-0.5",
-            isNextTrack && "bg-primary text-primary-foreground"
-          )}
+          className={cn("gap-0.5", isNextTrack && "bg-primary text-primary-foreground")}
         >
           <ListMusic className="w-3 h-3" />
           {queuePosition}
         </Badge>
       )}
-      
+
       {/* Version Toggle - using UnifiedVersionSelector */}
-      {versionCount > 1 && (
-        <UnifiedVersionSelector
-          trackId={trackId}
-          variant="inline"
-          showLabels={!compact}
-        />
-      )}
-      
+      {versionCount > 1 && <UnifiedVersionSelector trackId={trackId} variant="inline" showLabels={!compact} />}
+
       {/* Stems Badge */}
       {stemCount > 0 && (
         <Badge variant="secondary" size="sm" className="gap-1">

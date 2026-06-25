@@ -1,14 +1,14 @@
 /**
  * useHintTracking - Hook for tracking user hints/tooltips
- * 
+ *
  * Ensures tooltips and contextual hints are shown only once per user
  * Stores state in localStorage for persistence across sessions
- * 
+ *
  * @example
  * ```tsx
  * function MyComponent() {
  *   const { hasSeenHint, markAsSeen } = useHintTracking('swipe-gesture');
- *   
+ *
  *   return (
  *     <>
  *       {!hasSeenHint && (
@@ -22,11 +22,11 @@
  * ```
  */
 
-import { useState, useCallback } from 'react';
-import { logger } from '@/lib/logger';
+import { useState, useCallback } from "react";
+import { logger } from "@/lib/logger";
 
-const HINT_PREFIX = 'hint_seen_';
-const HINTS_RESET_KEY = 'hints_reset_timestamp';
+const HINT_PREFIX = "hint_seen_";
+const HINTS_RESET_KEY = "hints_reset_timestamp";
 
 /**
  * Get all hint IDs that have been seen
@@ -36,7 +36,7 @@ export function getSeenHints(): string[] {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
     if (key?.startsWith(HINT_PREFIX)) {
-      hints.push(key.replace(HINT_PREFIX, ''));
+      hints.push(key.replace(HINT_PREFIX, ""));
     }
   }
   return hints;
@@ -48,7 +48,7 @@ export function getSeenHints(): string[] {
  */
 export function resetAllHints(): void {
   const hints = getSeenHints();
-  hints.forEach(hintId => {
+  hints.forEach((hintId) => {
     localStorage.removeItem(`${HINT_PREFIX}${hintId}`);
   });
   localStorage.setItem(HINTS_RESET_KEY, Date.now().toString());
@@ -56,18 +56,20 @@ export function resetAllHints(): void {
 
 /**
  * Hook for tracking individual hint state
- * 
+ *
  * @param hintId - Unique identifier for the hint (e.g., 'swipe-gesture', 'version-badge')
  * @returns Object with hasSeenHint flag and markAsSeen function
  */
 export function useHintTracking(hintId: string) {
   const storageKey = `${HINT_PREFIX}${hintId}`;
-  
+
   const [hasSeenHint, setHasSeenHint] = useState(() => {
     try {
-      return localStorage.getItem(storageKey) === 'true';
+      return localStorage.getItem(storageKey) === "true";
     } catch (error: unknown) {
-      logger.warn('Failed to read hint state from localStorage', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to read hint state from localStorage", {
+        error: error instanceof Error ? error.message : String(error),
+      });
       return false;
     }
   });
@@ -77,10 +79,12 @@ export function useHintTracking(hintId: string) {
    */
   const markAsSeen = useCallback(() => {
     try {
-      localStorage.setItem(storageKey, 'true');
+      localStorage.setItem(storageKey, "true");
       setHasSeenHint(true);
     } catch (error: unknown) {
-      logger.warn('Failed to save hint state to localStorage', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to save hint state to localStorage", {
+        error: error instanceof Error ? error.message : String(error),
+      });
     }
   }, [storageKey]);
 
@@ -92,17 +96,17 @@ export function useHintTracking(hintId: string) {
       localStorage.removeItem(storageKey);
       setHasSeenHint(false);
     } catch (error: unknown) {
-      logger.warn('Failed to reset hint state', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to reset hint state", { error: error instanceof Error ? error.message : String(error) });
     }
   }, [storageKey]);
 
   return {
     /** Whether this hint has been seen before */
     hasSeenHint,
-    
+
     /** Mark this hint as seen */
     markAsSeen,
-    
+
     /** Reset this hint to show it again */
     resetHint,
   };
@@ -111,16 +115,16 @@ export function useHintTracking(hintId: string) {
 /**
  * Hook for tracking multiple hints at once
  * Useful for components that need to check multiple hints
- * 
+ *
  * @param hintIds - Array of hint identifiers
  * @returns Map of hint IDs to their seen status
  */
 export function useMultipleHints(hintIds: string[]) {
   const [seenHints, setSeenHints] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
-    hintIds.forEach(id => {
+    hintIds.forEach((id) => {
       try {
-        initial[id] = localStorage.getItem(`${HINT_PREFIX}${id}`) === 'true';
+        initial[id] = localStorage.getItem(`${HINT_PREFIX}${id}`) === "true";
       } catch (error) {
         initial[id] = false;
       }
@@ -130,10 +134,10 @@ export function useMultipleHints(hintIds: string[]) {
 
   const markHintAsSeen = useCallback((hintId: string) => {
     try {
-      localStorage.setItem(`${HINT_PREFIX}${hintId}`, 'true');
-      setSeenHints(prev => ({ ...prev, [hintId]: true }));
+      localStorage.setItem(`${HINT_PREFIX}${hintId}`, "true");
+      setSeenHints((prev) => ({ ...prev, [hintId]: true }));
     } catch (error: unknown) {
-      logger.warn('Failed to save multi-hint state', { error: error instanceof Error ? error.message : String(error) });
+      logger.warn("Failed to save multi-hint state", { error: error instanceof Error ? error.message : String(error) });
     }
   }, []);
 
@@ -148,24 +152,24 @@ export function useMultipleHints(hintIds: string[]) {
  */
 export const HINT_IDS = {
   // Track interactions
-  SWIPE_GESTURE: 'swipe-gesture',
-  VERSION_BADGE: 'version-badge',
-  WAVEFORM_SEEK: 'waveform-seek',
-  TRACK_MENU: 'track-menu',
-  
+  SWIPE_GESTURE: "swipe-gesture",
+  VERSION_BADGE: "version-badge",
+  WAVEFORM_SEEK: "waveform-seek",
+  TRACK_MENU: "track-menu",
+
   // Player features
-  QUEUE_MANAGEMENT: 'queue-management',
-  REPEAT_MODES: 'repeat-modes',
-  
+  QUEUE_MANAGEMENT: "queue-management",
+  REPEAT_MODES: "repeat-modes",
+
   // Studio features
-  STEM_MIXING: 'stem-mixing',
-  EFFECTS_PANEL: 'effects-panel',
-  
+  STEM_MIXING: "stem-mixing",
+  EFFECTS_PANEL: "effects-panel",
+
   // Generation
-  QUICK_PRESETS: 'quick-presets',
-  REFERENCE_AUDIO: 'reference-audio',
-  
+  QUICK_PRESETS: "quick-presets",
+  REFERENCE_AUDIO: "reference-audio",
+
   // Social
-  SHARE_OPTIONS: 'share-options',
-  PLAYLIST_CREATION: 'playlist-creation',
+  SHARE_OPTIONS: "share-options",
+  PLAYLIST_CREATION: "playlist-creation",
 } as const;

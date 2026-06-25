@@ -1,5 +1,5 @@
-import { useState, useCallback, useRef } from 'react';
-import { useHaptic } from './useHaptic';
+import { useState, useCallback, useRef } from "react";
+import { useHaptic } from "./useHaptic";
 
 interface OptimisticState<T> {
   data: T;
@@ -54,57 +54,60 @@ export function useOptimisticUpdate<T>({
   const previousDataRef = useRef<T>(initialData);
   const { patterns } = useHaptic();
 
-  const update = useCallback(async (newData: T) => {
-    // Store previous data for potential rollback
-    previousDataRef.current = state.data;
-    
-    // Optimistically update immediately
-    setState({
-      data: newData,
-      isOptimistic: true,
-      error: null,
-    });
-    setIsUpdating(true);
+  const update = useCallback(
+    async (newData: T) => {
+      // Store previous data for potential rollback
+      previousDataRef.current = state.data;
 
-    if (hapticFeedback) {
-      patterns.tap();
-    }
-
-    try {
-      // Perform the actual update
-      const confirmedData = await updateFn(newData);
-      
-      // Confirm the update
+      // Optimistically update immediately
       setState({
-        data: confirmedData,
-        isOptimistic: false,
+        data: newData,
+        isOptimistic: true,
         error: null,
       });
+      setIsUpdating(true);
 
       if (hapticFeedback) {
-        patterns.success();
+        patterns.tap();
       }
 
-      onSuccess?.(confirmedData);
-    } catch (error) {
-      const err = error instanceof Error ? error : new Error(String(error));
-      
-      // Rollback to previous data
-      setState({
-        data: previousDataRef.current,
-        isOptimistic: false,
-        error: err,
-      });
+      try {
+        // Perform the actual update
+        const confirmedData = await updateFn(newData);
 
-      if (hapticFeedback) {
-        patterns.error();
+        // Confirm the update
+        setState({
+          data: confirmedData,
+          isOptimistic: false,
+          error: null,
+        });
+
+        if (hapticFeedback) {
+          patterns.success();
+        }
+
+        onSuccess?.(confirmedData);
+      } catch (error) {
+        const err = error instanceof Error ? error : new Error(String(error));
+
+        // Rollback to previous data
+        setState({
+          data: previousDataRef.current,
+          isOptimistic: false,
+          error: err,
+        });
+
+        if (hapticFeedback) {
+          patterns.error();
+        }
+
+        onError?.(err, previousDataRef.current);
+      } finally {
+        setIsUpdating(false);
       }
-
-      onError?.(err, previousDataRef.current);
-    } finally {
-      setIsUpdating(false);
-    }
-  }, [state.data, updateFn, onSuccess, onError, hapticFeedback, patterns]);
+    },
+    [state.data, updateFn, onSuccess, onError, hapticFeedback, patterns],
+  );
 
   const reset = useCallback(() => {
     setState({

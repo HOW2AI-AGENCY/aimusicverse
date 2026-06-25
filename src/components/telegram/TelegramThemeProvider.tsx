@@ -1,18 +1,18 @@
 /**
  * Telegram Theme Provider
  * Feature: 032-professional-ui
- * 
+ *
  * Syncs app theme with Telegram Mini App theme
  */
 
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useTelegram } from '@/contexts/TelegramContext';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { useTelegram } from "@/contexts/TelegramContext";
 
-type Theme = 'light' | 'dark' | 'system';
+type Theme = "light" | "dark" | "system";
 
 interface TelegramThemeContextValue {
   theme: Theme;
-  resolvedTheme: 'light' | 'dark';
+  resolvedTheme: "light" | "dark";
   setTheme: (theme: Theme) => void;
   isTelegramTheme: boolean;
   telegramColors: {
@@ -36,19 +36,19 @@ interface TelegramThemeProviderProps {
 
 export function TelegramThemeProvider({
   children,
-  defaultTheme = 'system',
-  storageKey = 'app-theme',
+  defaultTheme = "system",
+  storageKey = "app-theme",
 }: TelegramThemeProviderProps) {
   const { webApp, isInitialized } = useTelegram();
   const isTelegram = isInitialized && !!webApp;
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === 'undefined') return defaultTheme;
+    if (typeof window === "undefined") return defaultTheme;
     return (localStorage.getItem(storageKey) as Theme) || defaultTheme;
   });
 
   // Get Telegram color scheme
   const telegramColorScheme = webApp?.colorScheme;
-  
+
   // Extract Telegram theme params
   const telegramColors = {
     bgColor: webApp?.themeParams?.bg_color,
@@ -66,34 +66,34 @@ export function TelegramThemeProvider({
     if (isTelegram && telegramColorScheme) {
       return telegramColorScheme;
     }
-    
+
     // Handle system preference
-    if (theme === 'system') {
-      if (typeof window !== 'undefined') {
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (theme === "system") {
+      if (typeof window !== "undefined") {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
       }
-      return 'dark';
+      return "dark";
     }
-    
+
     return theme;
   })();
 
   // Apply theme to document
   useEffect(() => {
     const root = window.document.documentElement;
-    
-    root.classList.remove('light', 'dark');
+
+    root.classList.remove("light", "dark");
     root.classList.add(resolvedTheme);
 
     // Apply Telegram colors as CSS variables if available
     if (isTelegram && telegramColors.bgColor) {
-      root.style.setProperty('--tg-bg-color', telegramColors.bgColor);
-      root.style.setProperty('--tg-text-color', telegramColors.textColor || '');
-      root.style.setProperty('--tg-hint-color', telegramColors.hintColor || '');
-      root.style.setProperty('--tg-link-color', telegramColors.linkColor || '');
-      root.style.setProperty('--tg-button-color', telegramColors.buttonColor || '');
-      root.style.setProperty('--tg-button-text-color', telegramColors.buttonTextColor || '');
-      root.style.setProperty('--tg-secondary-bg-color', telegramColors.secondaryBgColor || '');
+      root.style.setProperty("--tg-bg-color", telegramColors.bgColor);
+      root.style.setProperty("--tg-text-color", telegramColors.textColor || "");
+      root.style.setProperty("--tg-hint-color", telegramColors.hintColor || "");
+      root.style.setProperty("--tg-link-color", telegramColors.linkColor || "");
+      root.style.setProperty("--tg-button-color", telegramColors.buttonColor || "");
+      root.style.setProperty("--tg-button-text-color", telegramColors.buttonTextColor || "");
+      root.style.setProperty("--tg-secondary-bg-color", telegramColors.secondaryBgColor || "");
     }
   }, [resolvedTheme, isTelegram, telegramColors]);
 
@@ -103,25 +103,25 @@ export function TelegramThemeProvider({
 
     const handleThemeChanged = () => {
       // Force re-render to pick up new theme
-      setThemeState(prev => prev);
+      setThemeState((prev) => prev);
     };
 
-    webApp.onEvent('themeChanged', handleThemeChanged);
+    webApp.onEvent("themeChanged", handleThemeChanged);
 
     return () => {
-      webApp.offEvent('themeChanged', handleThemeChanged);
+      webApp.offEvent("themeChanged", handleThemeChanged);
     };
   }, [isTelegram, webApp]);
 
   // Listen for system preference changes
   useEffect(() => {
-    if (theme !== 'system') return;
+    if (theme !== "system") return;
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = () => setThemeState('system');
-    
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => setThemeState("system");
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, [theme]);
 
   const setTheme = (newTheme: Theme) => {
@@ -147,7 +147,7 @@ export function TelegramThemeProvider({
 export function useTelegramTheme() {
   const context = useContext(TelegramThemeContext);
   if (!context) {
-    throw new Error('useTelegramTheme must be used within TelegramThemeProvider');
+    throw new Error("useTelegramTheme must be used within TelegramThemeProvider");
   }
   return context;
 }

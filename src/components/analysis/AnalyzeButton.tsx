@@ -3,25 +3,22 @@
  * Supports different analysis types and shows progress
  */
 
-import { memo, useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Button, ButtonProps } from '@/components/ui/button';
+import { memo, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Button, ButtonProps } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { 
-  Sparkles, ChevronDown, Music, Gauge, Heart, 
-  FileMusic, AudioWaveform, Loader2, Check
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useUnifiedAnalysis } from '@/hooks/useUnifiedAnalysis';
-import type { AnalysisType } from '@/services/unified-analysis/types';
+} from "@/components/ui/dropdown-menu";
+import { Sparkles, ChevronDown, Music, Gauge, Heart, FileMusic, AudioWaveform, Loader2, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useUnifiedAnalysis } from "@/hooks/useUnifiedAnalysis";
+import type { AnalysisType } from "@/services/unified-analysis/types";
 
-interface AnalyzeButtonProps extends Omit<ButtonProps, 'onClick'> {
+interface AnalyzeButtonProps extends Omit<ButtonProps, "onClick"> {
   trackId?: string;
   audioUrl?: string;
   userId?: string;
@@ -31,47 +28,47 @@ interface AnalyzeButtonProps extends Omit<ButtonProps, 'onClick'> {
 }
 
 const analysisOptions: { type: AnalysisType; label: string; icon: React.ReactNode; description: string }[] = [
-  { 
-    type: 'full', 
-    label: 'Полный анализ', 
+  {
+    type: "full",
+    label: "Полный анализ",
     icon: <Sparkles className="w-4 h-4" />,
-    description: 'Стиль, теория, эмоции'
+    description: "Стиль, теория, эмоции",
   },
-  { 
-    type: 'style', 
-    label: 'Стиль', 
+  {
+    type: "style",
+    label: "Стиль",
     icon: <Music className="w-4 h-4" />,
-    description: 'Жанр, настроение, инструменты'
+    description: "Жанр, настроение, инструменты",
   },
-  { 
-    type: 'music-theory', 
-    label: 'Теория', 
+  {
+    type: "music-theory",
+    label: "Теория",
     icon: <Gauge className="w-4 h-4" />,
-    description: 'BPM, тональность, размер'
+    description: "BPM, тональность, размер",
   },
-  { 
-    type: 'emotion', 
-    label: 'Эмоции', 
+  {
+    type: "emotion",
+    label: "Эмоции",
     icon: <Heart className="w-4 h-4" />,
-    description: 'Энергия, позитив'
+    description: "Энергия, позитив",
   },
-  { 
-    type: 'chords', 
-    label: 'Аккорды', 
+  {
+    type: "chords",
+    label: "Аккорды",
     icon: <Music className="w-4 h-4" />,
-    description: 'Распознавание аккордов'
+    description: "Распознавание аккордов",
   },
-  { 
-    type: 'beats', 
-    label: 'Ритм', 
+  {
+    type: "beats",
+    label: "Ритм",
     icon: <AudioWaveform className="w-4 h-4" />,
-    description: 'Определение битов'
+    description: "Определение битов",
   },
-  { 
-    type: 'transcription', 
-    label: 'Транскрипция', 
+  {
+    type: "transcription",
+    label: "Транскрипция",
     icon: <FileMusic className="w-4 h-4" />,
-    description: 'MIDI транскрипция'
+    description: "MIDI транскрипция",
   },
 ];
 
@@ -81,7 +78,7 @@ export const AnalyzeButton = memo(function AnalyzeButton({
   userId,
   onAnalysisComplete,
   showDropdown = true,
-  defaultType = 'full',
+  defaultType = "full",
   className,
   children,
   ...props
@@ -93,7 +90,7 @@ export const AnalyzeButton = memo(function AnalyzeButton({
     if (!audioUrl && !trackId) return;
 
     setLastAnalyzedType(type);
-    
+
     try {
       const result = await analyze({
         trackId,
@@ -101,7 +98,7 @@ export const AnalyzeButton = memo(function AnalyzeButton({
         userId,
         analysisTypes: [type],
       });
-      
+
       onAnalysisComplete?.(result);
     } catch (error) {
       // Error handled by hook
@@ -120,11 +117,9 @@ export const AnalyzeButton = memo(function AnalyzeButton({
             className="flex items-center gap-2"
           >
             <Loader2 className="w-4 h-4 animate-spin" />
-            <span className="text-xs truncate max-w-[100px]">
-              {currentStep || 'Анализ...'}
-            </span>
+            <span className="text-xs truncate max-w-[100px]">{currentStep || "Анализ..."}</span>
           </motion.div>
-        ) : status === 'completed' && lastAnalyzedType ? (
+        ) : status === "completed" && lastAnalyzedType ? (
           <motion.div
             key="done"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -167,11 +162,7 @@ export const AnalyzeButton = memo(function AnalyzeButton({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          disabled={isAnalyzing || (!audioUrl && !trackId)}
-          className={cn("gap-2", className)}
-          {...props}
-        >
+        <Button disabled={isAnalyzing || (!audioUrl && !trackId)} className={cn("gap-2", className)} {...props}>
           {buttonContent}
           <ChevronDown className="w-3.5 h-3.5 opacity-70" />
         </Button>
@@ -179,11 +170,7 @@ export const AnalyzeButton = memo(function AnalyzeButton({
 
       <DropdownMenuContent align="end" className="w-56">
         {analysisOptions.slice(0, 4).map((option) => (
-          <DropdownMenuItem
-            key={option.type}
-            onClick={() => handleAnalyze(option.type)}
-            className="gap-3 py-2"
-          >
+          <DropdownMenuItem key={option.type} onClick={() => handleAnalyze(option.type)} className="gap-3 py-2">
             <div className="text-primary">{option.icon}</div>
             <div className="flex-1">
               <p className="text-sm font-medium">{option.label}</p>
@@ -191,19 +178,13 @@ export const AnalyzeButton = memo(function AnalyzeButton({
             </div>
           </DropdownMenuItem>
         ))}
-        
+
         <DropdownMenuSeparator />
-        
-        <p className="px-2 py-1.5 text-xs text-muted-foreground font-medium">
-          Специализированный
-        </p>
-        
+
+        <p className="px-2 py-1.5 text-xs text-muted-foreground font-medium">Специализированный</p>
+
         {analysisOptions.slice(4).map((option) => (
-          <DropdownMenuItem
-            key={option.type}
-            onClick={() => handleAnalyze(option.type)}
-            className="gap-3 py-2"
-          >
+          <DropdownMenuItem key={option.type} onClick={() => handleAnalyze(option.type)} className="gap-3 py-2">
             <div className="text-muted-foreground">{option.icon}</div>
             <div className="flex-1">
               <p className="text-sm">{option.label}</p>

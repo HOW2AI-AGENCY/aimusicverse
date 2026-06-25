@@ -1,13 +1,13 @@
 /**
  * Stem Mixer Slice
- * 
+ *
  * Zustand slice for stem mixing state management.
  * Handles mute/solo/volume/pan per stem with effective volume calculation.
- * 
+ *
  * @see ADR-003 Performance Optimization Architecture
  */
 
-import { StateCreator } from 'zustand';
+import { StateCreator } from "zustand";
 
 // ============ Types ============
 
@@ -21,12 +21,12 @@ export interface StemState {
 export interface StemMixerState {
   // Stem states keyed by stem ID
   stemStates: Record<string, StemState>;
-  
+
   // Master controls
   masterVolume: number;
   masterMuted: boolean;
   masterPan: number;
-  
+
   // Computed helpers (not stored, computed on access)
   hasSoloStems: boolean;
 }
@@ -38,19 +38,19 @@ export interface StemMixerActions {
   toggleStemMute: (stemId: string) => void;
   toggleStemSolo: (stemId: string) => void;
   setStemState: (stemId: string, state: Partial<StemState>) => void;
-  
+
   // Batch operations
   initializeStemStates: (stemIds: string[]) => void;
   resetStemStates: () => void;
   muteAllStems: () => void;
   unmuteAllStems: () => void;
   clearAllSolo: () => void;
-  
+
   // Master actions
   setMasterVolume: (volume: number) => void;
   setMasterPan: (pan: number) => void;
   toggleMasterMute: () => void;
-  
+
   // Computed getters
   getEffectiveVolume: (stemId: string) => number;
   isStemEffectivelyMuted: (stemId: string) => boolean;
@@ -78,12 +78,7 @@ const DEFAULT_MIXER_STATE: StemMixerState = {
 
 // ============ Slice Creator ============
 
-export const createStemMixerSlice: StateCreator<
-  StemMixerSlice,
-  [],
-  [],
-  StemMixerSlice
-> = (set, get) => ({
+export const createStemMixerSlice: StateCreator<StemMixerSlice, [], [], StemMixerSlice> = (set, get) => ({
   ...DEFAULT_MIXER_STATE,
 
   // ============ Stem Actions ============
@@ -131,7 +126,7 @@ export const createStemMixerSlice: StateCreator<
     set((state) => {
       const currentState = state.stemStates[stemId] || DEFAULT_STEM_STATE;
       const newSoloState = !currentState.solo;
-      
+
       const newStemStates = {
         ...state.stemStates,
         [stemId]: {
@@ -139,10 +134,10 @@ export const createStemMixerSlice: StateCreator<
           solo: newSoloState,
         },
       };
-      
+
       // Recalculate hasSoloStems
       const hasSoloStems = Object.values(newStemStates).some((s) => s.solo);
-      
+
       return {
         stemStates: newStemStates,
         hasSoloStems,
@@ -168,14 +163,14 @@ export const createStemMixerSlice: StateCreator<
     set((state) => {
       const newStates = { ...state.stemStates };
       let changed = false;
-      
+
       for (const stemId of stemIds) {
         if (!newStates[stemId]) {
           newStates[stemId] = { ...DEFAULT_STEM_STATE };
           changed = true;
         }
       }
-      
+
       return changed ? { stemStates: newStates } : state;
     });
   },
@@ -245,18 +240,18 @@ export const createStemMixerSlice: StateCreator<
   getEffectiveVolume: (stemId) => {
     const state = get();
     const stemState = state.stemStates[stemId];
-    
+
     if (!stemState) return 0;
-    
+
     // Master muted = all stems effectively muted
     if (state.masterMuted) return 0;
-    
+
     // Stem explicitly muted
     if (stemState.muted) return 0;
-    
+
     // If any stem is soloed and this one isn't, effectively muted
     if (state.hasSoloStems && !stemState.solo) return 0;
-    
+
     // Calculate effective volume
     return stemState.volume * state.masterVolume;
   },
@@ -264,12 +259,12 @@ export const createStemMixerSlice: StateCreator<
   isStemEffectivelyMuted: (stemId) => {
     const state = get();
     const stemState = state.stemStates[stemId];
-    
+
     if (!stemState) return true;
     if (state.masterMuted) return true;
     if (stemState.muted) return true;
     if (state.hasSoloStems && !stemState.solo) return true;
-    
+
     return false;
   },
 

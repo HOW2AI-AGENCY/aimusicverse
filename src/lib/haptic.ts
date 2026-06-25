@@ -1,6 +1,6 @@
 /**
  * Haptic feedback utilities for Telegram Mini App
- * 
+ *
  * Usage Guidelines:
  * - light: Navigation, tab switching, selection changes
  * - medium: Button presses, form submissions, confirmations
@@ -8,24 +8,24 @@
  * - soft: Drag gestures, sliders, subtle interactions
  * - rigid: Toggle switches, checkboxes
  */
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
-export type ImpactStyle = 'light' | 'medium' | 'heavy' | 'rigid' | 'soft';
-export type NotificationType = 'error' | 'success' | 'warning';
+export type ImpactStyle = "light" | "medium" | "heavy" | "rigid" | "soft";
+export type NotificationType = "error" | "success" | "warning";
 
 /**
  * Haptic usage guidelines for consistent UX
  */
 export const HAPTIC_GUIDE = {
-  navigation: 'light' as ImpactStyle,
-  buttonPress: 'medium' as ImpactStyle,
-  destructive: 'heavy' as ImpactStyle,
-  toggle: 'rigid' as ImpactStyle,
-  drag: 'soft' as ImpactStyle,
-  selection: 'light' as ImpactStyle,
-  success: 'success' as NotificationType,
-  error: 'error' as NotificationType,
-  warning: 'warning' as NotificationType,
+  navigation: "light" as ImpactStyle,
+  buttonPress: "medium" as ImpactStyle,
+  destructive: "heavy" as ImpactStyle,
+  toggle: "rigid" as ImpactStyle,
+  drag: "soft" as ImpactStyle,
+  selection: "light" as ImpactStyle,
+  success: "success" as NotificationType,
+  error: "error" as NotificationType,
+  warning: "warning" as NotificationType,
 } as const;
 
 // Minimum Telegram WebApp version that supports HapticFeedback
@@ -38,8 +38,8 @@ const isHapticSupported = (): boolean => {
   try {
     const webApp = window.Telegram?.WebApp;
     if (!webApp?.HapticFeedback) return false;
-    
-    const version = parseFloat(webApp.version || '0');
+
+    const version = parseFloat(webApp.version || "0");
     return version >= MIN_HAPTIC_VERSION;
   } catch {
     return false;
@@ -49,7 +49,7 @@ const isHapticSupported = (): boolean => {
 /**
  * Trigger impact haptic feedback
  */
-export const hapticImpact = (style: ImpactStyle = 'medium') => {
+export const hapticImpact = (style: ImpactStyle = "medium") => {
   try {
     if (isHapticSupported()) {
       window.Telegram?.WebApp?.HapticFeedback?.impactOccurred(style);
@@ -62,7 +62,7 @@ export const hapticImpact = (style: ImpactStyle = 'medium') => {
 /**
  * Trigger notification haptic feedback
  */
-export const hapticNotification = (type: NotificationType = 'success') => {
+export const hapticNotification = (type: NotificationType = "success") => {
   try {
     if (isHapticSupported()) {
       window.Telegram?.WebApp?.HapticFeedback?.notificationOccurred(type);
@@ -97,8 +97,8 @@ export const isHapticAvailable = (): boolean => {
  */
 export const smartHaptic = (action: keyof typeof HAPTIC_GUIDE) => {
   const feedback = HAPTIC_GUIDE[action];
-  
-  if (feedback === 'success' || feedback === 'error' || feedback === 'warning') {
+
+  if (feedback === "success" || feedback === "error" || feedback === "warning") {
     hapticNotification(feedback);
   } else {
     hapticImpact(feedback);

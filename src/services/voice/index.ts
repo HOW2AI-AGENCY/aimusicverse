@@ -14,12 +14,9 @@
 // CLASS EXPORTS
 // ============================================================================
 
-export {
-  VoiceCloneService,
-  createVoiceCloneService,
-} from './VoiceCloneService';
+export { VoiceCloneService, createVoiceCloneService } from "./VoiceCloneService";
 
-export type { VoiceCloneServiceError } from './VoiceCloneService';
+export type { VoiceCloneServiceError } from "./VoiceCloneService";
 
 // ============================================================================
 // TYPE EXPORTS
@@ -74,13 +71,10 @@ export type {
   StepCompletion,
   VoiceQualityMetrics,
   VoiceCloningStats,
-} from './voice-types';
+} from "./voice-types";
 
 // ============================================================================
 // UTILITY FUNCTION EXPORTS
 // ============================================================================
 
-export {
-  validateVoiceQuality,
-  getRecommendedSegmentTimes,
-} from './VoiceCloneService';
+export { validateVoiceQuality, getRecommendedSegmentTimes } from "./VoiceCloneService";

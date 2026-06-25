@@ -2,9 +2,9 @@
  * Smart Assistant Components Export
  */
 
-export { SmartAssistantPanel } from './SmartAssistantPanel';
-export { SmartAssistantInline } from './SmartAssistantInline';
-export { SmartSuggestionCard } from './SmartSuggestionCard';
+export { SmartAssistantPanel } from "./SmartAssistantPanel";
+export { SmartAssistantInline } from "./SmartAssistantInline";
+export { SmartSuggestionCard } from "./SmartSuggestionCard";
 export type {
   SmartSuggestion,
   SmartAssistantState,
@@ -12,4 +12,4 @@ export type {
   UserGenerationContext,
   ProjectGenerationContext,
   ProjectTrackInfo,
-} from './types';
+} from "./types";

@@ -1,26 +1,26 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, Loader2, Mic, ChevronDown, ChevronUp, Disc } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { SUNO_MODELS, getAvailableModels } from '@/constants/sunoModels';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useAuth } from '@/hooks/useAuth';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { logger } from '@/lib/logger';
-import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
-import { cn } from '@/lib/utils';
-import { formatDuration } from '@/lib/player-utils';
-import { useTelegramMainButton } from '@/hooks/telegram';
-import { PromptValidationAlert } from '@/components/generate-form/PromptValidationAlert';
-import { AudioReferencePreview } from '@/components/audio/AudioReferencePreview';
+import { useState, useEffect, useCallback } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Upload, Loader2, Mic, ChevronDown, ChevronUp, Disc } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { SUNO_MODELS, getAvailableModels } from "@/constants/sunoModels";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAuth } from "@/hooks/useAuth";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { logger } from "@/lib/logger";
+import { validatePromptForGeneration, showGenerationError } from "@/lib/errorHandling";
+import { cn } from "@/lib/utils";
+import { formatDuration } from "@/lib/player-utils";
+import { useTelegramMainButton } from "@/hooks/telegram";
+import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
+import { AudioReferencePreview } from "@/components/audio/AudioReferencePreview";
 interface AudioCoverDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -36,11 +36,11 @@ interface AudioCoverDialogProps {
 
 // Model duration limits in seconds
 const MODEL_LIMITS: Record<string, { duration: number; label: string }> = {
-  'V5': { duration: 240, label: '4 мин' },
-  'V4_5PLUS': { duration: 480, label: '8 мин' },
-  'V4_5ALL': { duration: 60, label: '1 мин' },
-  'V4': { duration: 240, label: '4 мин' },
-  'V3_5': { duration: 180, label: '3 мин' },
+  V5: { duration: 240, label: "4 мин" },
+  V4_5PLUS: { duration: 480, label: "8 мин" },
+  V4_5ALL: { duration: 60, label: "1 мин" },
+  V4: { duration: 240, label: "4 мин" },
+  V3_5: { duration: 180, label: "3 мин" },
 };
 
 export const AudioCoverDialog = ({
@@ -48,7 +48,7 @@ export const AudioCoverDialog = ({
   onOpenChange,
   projectId,
   initialAudioFile,
-  prefillData
+  prefillData,
 }: AudioCoverDialogProps) => {
   const { user } = useAuth();
   const isMobile = useIsMobile();
@@ -56,26 +56,26 @@ export const AudioCoverDialog = ({
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [audioPreviewUrl, setAudioPreviewUrl] = useState<string | null>(null);
-  
+
   // Core settings (simplified)
-  const [style, setStyle] = useState(prefillData?.style || '');
-  const [title, setTitle] = useState(prefillData?.title ? `${prefillData.title} (кавер)` : '');
-  const [lyrics, setLyrics] = useState(prefillData?.lyrics || '');
+  const [style, setStyle] = useState(prefillData?.style || "");
+  const [title, setTitle] = useState(prefillData?.title ? `${prefillData.title} (кавер)` : "");
+  const [lyrics, setLyrics] = useState(prefillData?.lyrics || "");
   const [instrumental, setInstrumental] = useState(prefillData?.isInstrumental ?? false);
-  const [model, setModel] = useState('V4_5ALL');
-  
+  const [model, setModel] = useState("V4_5ALL");
+
   // Advanced (collapsed by default)
   const [showAdvanced, setShowAdvanced] = useState(false);
-  const [negativeTags, setNegativeTags] = useState('');
-  const [vocalGender, setVocalGender] = useState<'m' | 'f' | 'auto'>('auto');
-  
+  const [negativeTags, setNegativeTags] = useState("");
+  const [vocalGender, setVocalGender] = useState<"m" | "f" | "auto">("auto");
+
   // Validation
   const [durationError, setDurationError] = useState<string | null>(null);
 
   // Main Button integration
   const isSubmitDisabled = loading || !audioFile || !style.trim() || !!durationError;
   const { shouldShowUIButton, showProgress, hideProgress } = useTelegramMainButton({
-    text: loading ? 'СОЗДАНИЕ...' : 'СОЗДАТЬ КАВЕР',
+    text: loading ? "СОЗДАНИЕ..." : "СОЗДАТЬ КАВЕР",
     onClick: handleSubmitWithProgress,
     enabled: !isSubmitDisabled,
     visible: open,
@@ -91,9 +91,9 @@ export const AudioCoverDialog = ({
   useEffect(() => {
     if (open) {
       if (prefillData) {
-        setStyle(prefillData.style || '');
-        setTitle(prefillData.title ? `${prefillData.title} (кавер)` : '');
-        setLyrics(prefillData.lyrics || '');
+        setStyle(prefillData.style || "");
+        setTitle(prefillData.title ? `${prefillData.title} (кавер)` : "");
+        setLyrics(prefillData.lyrics || "");
         setInstrumental(prefillData.isInstrumental ?? false);
       }
     }
@@ -122,23 +122,24 @@ export const AudioCoverDialog = ({
       if (audioDuration > limit) {
         const mins = Math.floor(limit / 60);
         const secs = limit % 60;
-        setDurationError(`Аудио (${formatDuration(audioDuration)}) превышает лимит модели (${mins}:${secs.toString().padStart(2, '0')})`);
+        setDurationError(
+          `Аудио (${formatDuration(audioDuration)}) превышает лимит модели (${mins}:${secs.toString().padStart(2, "0")})`,
+        );
       } else {
         setDurationError(null);
       }
     }
   }, [audioDuration, model]);
 
-
   const handleFileSelect = (file: File) => {
-    if (!file.type.startsWith('audio/')) {
-      toast.error('Выберите аудиофайл');
+    if (!file.type.startsWith("audio/")) {
+      toast.error("Выберите аудиофайл");
       return;
     }
 
     setAudioFile(file);
     if (!title) {
-      setTitle(file.name.replace(/\.[^/.]+$/, '') + ' (кавер)');
+      setTitle(file.name.replace(/\.[^/.]+$/, "") + " (кавер)");
     }
 
     const previewUrl = URL.createObjectURL(file);
@@ -149,17 +150,17 @@ export const AudioCoverDialog = ({
     audio.onloadedmetadata = () => {
       const duration = audio.duration;
       setAudioDuration(duration);
-      
+
       // Auto-select best model for duration
-      if (duration > 60 && model === 'V4_5ALL') {
+      if (duration > 60 && model === "V4_5ALL") {
         if (duration <= 180) {
-          setModel('V3_5');
+          setModel("V3_5");
         } else if (duration <= 240) {
-          setModel('V5');
+          setModel("V5");
         } else {
-          setModel('V4_5PLUS');
+          setModel("V4_5PLUS");
         }
-        toast.info('Модель автоматически выбрана для вашего аудио');
+        toast.info("Модель автоматически выбрана для вашего аудио");
       }
     };
   };
@@ -176,17 +177,17 @@ export const AudioCoverDialog = ({
 
   const handleSubmit = async () => {
     if (!audioFile) {
-      toast.error('Загрузите аудиофайл');
+      toast.error("Загрузите аудиофайл");
       return;
     }
 
     if (!style.trim()) {
-      toast.error('Укажите стиль музыки');
+      toast.error("Укажите стиль музыки");
       return;
     }
 
     if (!instrumental && !lyrics.trim()) {
-      toast.error('Укажите текст для вокальной композиции');
+      toast.error("Укажите текст для вокальной композиции");
       return;
     }
 
@@ -209,13 +210,13 @@ export const AudioCoverDialog = ({
       // Convert file to base64
       const reader = new FileReader();
       reader.readAsDataURL(audioFile);
-      
+
       await new Promise((resolve, reject) => {
         reader.onload = resolve;
         reader.onerror = reject;
       });
 
-      const { data, error } = await supabase.functions.invoke('suno-upload-cover', {
+      const { data, error } = await supabase.functions.invoke("suno-upload-cover", {
         body: {
           audioFile: {
             name: audioFile.name,
@@ -227,30 +228,30 @@ export const AudioCoverDialog = ({
           customMode: true,
           instrumental,
           style,
-          title: title || 'Кавер',
+          title: title || "Кавер",
           prompt: instrumental ? undefined : lyrics,
           negativeTags: negativeTags || undefined,
-          vocalGender: vocalGender === 'auto' ? undefined : vocalGender,
+          vocalGender: vocalGender === "auto" ? undefined : vocalGender,
           projectId,
-        }
+        },
       });
 
       if (error) throw error;
 
-      toast.success('Создание кавера началось! 🎵', {
-        description: 'Трек появится в библиотеке через 1-3 минуты',
+      toast.success("Создание кавера началось! 🎵", {
+        description: "Трек появится в библиотеке через 1-3 минуты",
       });
 
       // Reset and close
       clearAudio();
-      setStyle('');
-      setTitle('');
-      setLyrics('');
-      setNegativeTags('');
-      setVocalGender('auto');
+      setStyle("");
+      setTitle("");
+      setLyrics("");
+      setNegativeTags("");
+      setVocalGender("auto");
       onOpenChange(false);
     } catch (error) {
-      logger.error('Cover submit error', { error });
+      logger.error("Cover submit error", { error });
       showGenerationError(error);
     } finally {
       setLoading(false);
@@ -278,7 +279,7 @@ export const AudioCoverDialog = ({
           <Button
             variant="outline"
             className="w-full mt-2 h-20 border-dashed gap-2"
-            onClick={() => document.getElementById('cover-audio-input')?.click()}
+            onClick={() => document.getElementById("cover-audio-input")?.click()}
           >
             <Upload className="w-5 h-5" />
             <span>Загрузить аудио</span>
@@ -308,9 +309,7 @@ export const AudioCoverDialog = ({
               <SelectItem key={m.key} value={m.key}>
                 <span className="flex items-center gap-2">
                   {m.label}
-                  <span className="text-xs text-muted-foreground">
-                    (до {MODEL_LIMITS[m.key]?.label || '?'})
-                  </span>
+                  <span className="text-xs text-muted-foreground">(до {MODEL_LIMITS[m.key]?.label || "?"})</span>
                 </span>
               </SelectItem>
             ))}
@@ -329,11 +328,7 @@ export const AudioCoverDialog = ({
           className="mt-1.5 resize-none"
           maxLength={500}
         />
-        <PromptValidationAlert 
-          text={style} 
-          onApplyReplacement={(newText) => setStyle(newText)}
-          className="mt-1"
-        />
+        <PromptValidationAlert text={style} onApplyReplacement={(newText) => setStyle(newText)} className="mt-1" />
         <p className="text-xs text-muted-foreground mt-1">{style.length}/500</p>
       </div>
 
@@ -355,10 +350,7 @@ export const AudioCoverDialog = ({
           <Mic className="w-4 h-4 text-primary" />
           <Label className="text-sm">С вокалом</Label>
         </div>
-        <Switch
-          checked={!instrumental}
-          onCheckedChange={(checked) => setInstrumental(!checked)}
-        />
+        <Switch checked={!instrumental} onCheckedChange={(checked) => setInstrumental(!checked)} />
       </div>
 
       {/* Lyrics (if vocal) */}
@@ -373,11 +365,7 @@ export const AudioCoverDialog = ({
             className="mt-1.5 font-mono text-sm resize-none"
             maxLength={3000}
           />
-          <PromptValidationAlert 
-            text={lyrics} 
-            onApplyReplacement={(newText) => setLyrics(newText)}
-            className="mt-1"
-          />
+          <PromptValidationAlert text={lyrics} onApplyReplacement={(newText) => setLyrics(newText)} className="mt-1" />
           <p className="text-xs text-muted-foreground mt-1">{lyrics.length}/3000</p>
         </div>
       )}
@@ -394,7 +382,7 @@ export const AudioCoverDialog = ({
           Дополнительно
           {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </Button>
-        
+
         {showAdvanced && (
           <div className="space-y-3 mt-2 p-3 rounded-lg bg-muted/20">
             <div>
@@ -409,7 +397,7 @@ export const AudioCoverDialog = ({
             {!instrumental && (
               <div>
                 <Label className="text-xs">Пол вокала</Label>
-                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as 'm' | 'f' | 'auto')}>
+                <Select value={vocalGender} onValueChange={(v) => setVocalGender(v as "m" | "f" | "auto")}>
                   <SelectTrigger className="mt-1 h-8 text-sm">
                     <SelectValue />
                   </SelectTrigger>
@@ -427,12 +415,7 @@ export const AudioCoverDialog = ({
 
       {/* Submit - only show for test users */}
       {shouldShowUIButton && (
-        <Button
-          onClick={handleSubmit}
-          disabled={isSubmitDisabled}
-          className="w-full h-11"
-          size="lg"
-        >
+        <Button onClick={handleSubmit} disabled={isSubmitDisabled} className="w-full h-11" size="lg">
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 animate-spin mr-2" />
@@ -458,13 +441,9 @@ export const AudioCoverDialog = ({
               <Disc className="w-5 h-5 text-primary" />
               Создать кавер
             </DrawerTitle>
-            <DrawerDescription>
-              Новая версия песни в другом стиле
-            </DrawerDescription>
+            <DrawerDescription>Новая версия песни в другом стиле</DrawerDescription>
           </DrawerHeader>
-          <ScrollArea className="flex-1 px-4 pb-6 overflow-y-auto">
-            {content}
-          </ScrollArea>
+          <ScrollArea className="flex-1 px-4 pb-6 overflow-y-auto">{content}</ScrollArea>
         </DrawerContent>
       </Drawer>
     );
@@ -478,9 +457,7 @@ export const AudioCoverDialog = ({
             <Disc className="w-5 h-5 text-primary" />
             Создать кавер
           </DialogTitle>
-          <DialogDescription>
-            Новая версия песни в другом стиле
-          </DialogDescription>
+          <DialogDescription>Новая версия песни в другом стиле</DialogDescription>
         </DialogHeader>
         {content}
       </DialogContent>

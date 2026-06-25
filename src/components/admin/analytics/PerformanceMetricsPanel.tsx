@@ -3,13 +3,13 @@
  * Shows Web Vitals and application performance data from real database
  */
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Gauge, Zap, Clock, MousePointer, Move, TrendingUp, TrendingDown, AlertCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { usePerformanceMetrics } from '@/hooks/admin/usePerformanceMetrics';
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Gauge, Zap, Clock, MousePointer, Move, TrendingUp, TrendingDown, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { usePerformanceMetrics } from "@/hooks/admin/usePerformanceMetrics";
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 
 interface PerformanceMetricsPanelProps {
   timePeriod: string;
@@ -17,15 +17,15 @@ interface PerformanceMetricsPanelProps {
 
 // Web Vitals thresholds (good/needs-improvement/poor)
 const VITALS_CONFIG = {
-  LCP: { good: 2500, poor: 4000, unit: 'ms', name: 'Largest Contentful Paint', icon: Gauge },
-  FID: { good: 100, poor: 300, unit: 'ms', name: 'First Input Delay', icon: MousePointer },
-  CLS: { good: 0.1, poor: 0.25, unit: '', name: 'Cumulative Layout Shift', icon: Move },
-  TTFB: { good: 800, poor: 1800, unit: 'ms', name: 'Time to First Byte', icon: Clock },
-  INP: { good: 200, poor: 500, unit: 'ms', name: 'Interaction to Next Paint', icon: Zap },
+  LCP: { good: 2500, poor: 4000, unit: "ms", name: "Largest Contentful Paint", icon: Gauge },
+  FID: { good: 100, poor: 300, unit: "ms", name: "First Input Delay", icon: MousePointer },
+  CLS: { good: 0.1, poor: 0.25, unit: "", name: "Cumulative Layout Shift", icon: Move },
+  TTFB: { good: 800, poor: 1800, unit: "ms", name: "Time to First Byte", icon: Clock },
+  INP: { good: 200, poor: 500, unit: "ms", name: "Interaction to Next Paint", icon: Zap },
 } as const;
 
 export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelProps) {
-  const days = timePeriod === '24 hours' ? 1 : timePeriod === '7 days' ? 7 : timePeriod === '30 days' ? 30 : 90;
+  const days = timePeriod === "24 hours" ? 1 : timePeriod === "7 days" ? 7 : timePeriod === "30 days" ? 30 : 90;
   const { stats, dailyTrend, deviceBreakdown, performanceScore, isLoading, thresholds } = usePerformanceMetrics(days);
 
   if (isLoading) {
@@ -64,27 +64,33 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Performance Score</p>
-                <p className={cn(
-                  "text-2xl sm:text-3xl font-bold",
-                  performanceScore >= 75 && "text-green-500",
-                  performanceScore >= 50 && performanceScore < 75 && "text-yellow-500",
-                  performanceScore < 50 && "text-red-500"
-                )}>
+                <p
+                  className={cn(
+                    "text-2xl sm:text-3xl font-bold",
+                    performanceScore >= 75 && "text-green-500",
+                    performanceScore >= 50 && performanceScore < 75 && "text-yellow-500",
+                    performanceScore < 50 && "text-red-500",
+                  )}
+                >
                   {performanceScore}/100
                 </p>
               </div>
-              <div className={cn(
-                "p-3 rounded-full",
-                performanceScore >= 75 && "bg-green-500/10",
-                performanceScore >= 50 && performanceScore < 75 && "bg-yellow-500/10",
-                performanceScore < 50 && "bg-red-500/10"
-              )}>
-                <Gauge className={cn(
-                  "h-6 w-6 sm:h-8 sm:w-8",
-                  performanceScore >= 75 && "text-green-500",
-                  performanceScore >= 50 && performanceScore < 75 && "text-yellow-500",
-                  performanceScore < 50 && "text-red-500"
-                )} />
+              <div
+                className={cn(
+                  "p-3 rounded-full",
+                  performanceScore >= 75 && "bg-green-500/10",
+                  performanceScore >= 50 && performanceScore < 75 && "bg-yellow-500/10",
+                  performanceScore < 50 && "bg-red-500/10",
+                )}
+              >
+                <Gauge
+                  className={cn(
+                    "h-6 w-6 sm:h-8 sm:w-8",
+                    performanceScore >= 75 && "text-green-500",
+                    performanceScore >= 50 && performanceScore < 75 && "text-yellow-500",
+                    performanceScore < 50 && "text-red-500",
+                  )}
+                />
               </div>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
@@ -113,55 +119,53 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
           const vital = vitals[key as keyof typeof vitals];
           const rating = getVitalRating(vital.value, config);
           const Icon = config.icon;
-          
+
           return (
             <Card key={key}>
               <CardContent className="p-2.5 sm:p-4">
                 <div className="flex items-start justify-between gap-1">
                   <div className="flex items-center gap-1.5 sm:gap-2">
-                    <div className={cn(
-                      "p-1.5 sm:p-2 rounded-lg",
-                      rating === 'good' && "bg-green-500/10",
-                      rating === 'needs-improvement' && "bg-yellow-500/10",
-                      rating === 'poor' && "bg-red-500/10"
-                    )}>
-                      <Icon className={cn(
-                        "h-3 w-3 sm:h-4 sm:w-4",
-                        rating === 'good' && "text-green-500",
-                        rating === 'needs-improvement' && "text-yellow-500",
-                        rating === 'poor' && "text-red-500"
-                      )} />
+                    <div
+                      className={cn(
+                        "p-1.5 sm:p-2 rounded-lg",
+                        rating === "good" && "bg-green-500/10",
+                        rating === "needs-improvement" && "bg-yellow-500/10",
+                        rating === "poor" && "bg-red-500/10",
+                      )}
+                    >
+                      <Icon
+                        className={cn(
+                          "h-3 w-3 sm:h-4 sm:w-4",
+                          rating === "good" && "text-green-500",
+                          rating === "needs-improvement" && "text-yellow-500",
+                          rating === "poor" && "text-red-500",
+                        )}
+                      />
                     </div>
                     <div className="min-w-0">
                       <p className="font-medium text-xs sm:text-sm">{key}</p>
-                      <p className="text-[9px] sm:text-xs text-muted-foreground truncate hidden xs:block">{config.name}</p>
+                      <p className="text-[9px] sm:text-xs text-muted-foreground truncate hidden xs:block">
+                        {config.name}
+                      </p>
                     </div>
                   </div>
-                  <Badge 
+                  <Badge
                     variant={
-                      rating === 'good' ? 'default' : 
-                      rating === 'needs-improvement' ? 'secondary' : 
-                      'destructive'
+                      rating === "good" ? "default" : rating === "needs-improvement" ? "secondary" : "destructive"
                     }
                     className="text-[9px] sm:text-xs shrink-0"
                   >
-                    {rating === 'good' ? '✓' : rating === 'needs-improvement' ? '~' : '!'}
+                    {rating === "good" ? "✓" : rating === "needs-improvement" ? "~" : "!"}
                   </Badge>
                 </div>
-                
+
                 <div className="mt-2 sm:mt-4">
                   <div className="flex items-baseline gap-0.5 sm:gap-1">
-                    <span className="text-lg sm:text-2xl font-bold">
-                      {formatVitalValue(vital.value, key)}
-                    </span>
-                    <span className="text-[10px] sm:text-sm text-muted-foreground">
-                      {config.unit}
-                    </span>
+                    <span className="text-lg sm:text-2xl font-bold">{formatVitalValue(vital.value, key)}</span>
+                    <span className="text-[10px] sm:text-sm text-muted-foreground">{config.unit}</span>
                   </div>
                   <div className="flex items-center gap-2 mt-0.5 sm:mt-1">
-                    <p className="text-[9px] sm:text-xs text-muted-foreground">
-                      {vital.samples.toLocaleString()} изм.
-                    </p>
+                    <p className="text-[9px] sm:text-xs text-muted-foreground">{vital.samples.toLocaleString()} изм.</p>
                     {vital.goodPercent > 0 && (
                       <Badge variant="outline" className="text-[8px] sm:text-[10px] px-1">
                         {vital.goodPercent.toFixed(0)}% хорошо
@@ -171,10 +175,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                 </div>
 
                 <div className="mt-2 sm:mt-3">
-                  <VitalProgressBar 
-                    value={vital.value} 
-                    threshold={config} 
-                  />
+                  <VitalProgressBar value={vital.value} threshold={config} />
                 </div>
               </CardContent>
             </Card>
@@ -191,29 +192,13 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
           <CardContent>
             <ResponsiveContainer width="100%" height={150}>
               <LineChart data={dailyTrend}>
-                <XAxis 
-                  dataKey="date" 
-                  tick={{ fontSize: 10 }} 
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis 
-                  tick={{ fontSize: 10 }} 
-                  axisLine={false}
-                  tickLine={false}
-                  width={40}
-                />
-                <Tooltip 
+                <XAxis dataKey="date" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} width={40} />
+                <Tooltip
                   contentStyle={{ fontSize: 12 }}
-                  formatter={(value: any) => [`${Math.round(value)}ms`, 'LCP']}
+                  formatter={(value: any) => [`${Math.round(value)}ms`, "LCP"]}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="avgLcp" 
-                  stroke="hsl(var(--primary))"
-                  strokeWidth={2}
-                  dot={{ r: 3 }}
-                />
+                <Line type="monotone" dataKey="avgLcp" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 3 }} />
               </LineChart>
             </ResponsiveContainer>
           </CardContent>
@@ -228,7 +213,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              {deviceBreakdown.slice(0, 5).map(device => (
+              {deviceBreakdown.slice(0, 5).map((device) => (
                 <div key={device.device} className="flex items-center justify-between p-2 rounded-lg bg-muted/50">
                   <div className="flex items-center gap-2">
                     <span className="text-sm capitalize">{device.device}</span>
@@ -236,12 +221,14 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                       {device.count}
                     </Badge>
                   </div>
-                  <span className={cn(
-                    "text-sm font-medium",
-                    device.avgLcp <= thresholds.lcp.good && "text-green-500",
-                    device.avgLcp > thresholds.lcp.good && device.avgLcp <= thresholds.lcp.poor && "text-yellow-500",
-                    device.avgLcp > thresholds.lcp.poor && "text-red-500"
-                  )}>
+                  <span
+                    className={cn(
+                      "text-sm font-medium",
+                      device.avgLcp <= thresholds.lcp.good && "text-green-500",
+                      device.avgLcp > thresholds.lcp.good && device.avgLcp <= thresholds.lcp.poor && "text-yellow-500",
+                      device.avgLcp > thresholds.lcp.poor && "text-red-500",
+                    )}
+                  >
                     {Math.round(device.avgLcp)}ms
                   </span>
                 </div>
@@ -260,18 +247,22 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
           <div className="space-y-2 sm:space-y-3">
             {getPerformanceTips(vitals).map((tip, i) => (
               <div key={i} className="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-muted/50">
-                <div className={cn(
-                  "mt-0.5 p-1 rounded shrink-0",
-                  tip.priority === 'high' && "bg-red-500/20",
-                  tip.priority === 'medium' && "bg-yellow-500/20",
-                  tip.priority === 'low' && "bg-blue-500/20"
-                )}>
-                  <tip.icon className={cn(
-                    "h-3 w-3 sm:h-4 sm:w-4",
-                    tip.priority === 'high' && "text-red-500",
-                    tip.priority === 'medium' && "text-yellow-500",
-                    tip.priority === 'low' && "text-blue-500"
-                  )} />
+                <div
+                  className={cn(
+                    "mt-0.5 p-1 rounded shrink-0",
+                    tip.priority === "high" && "bg-red-500/20",
+                    tip.priority === "medium" && "bg-yellow-500/20",
+                    tip.priority === "low" && "bg-blue-500/20",
+                  )}
+                >
+                  <tip.icon
+                    className={cn(
+                      "h-3 w-3 sm:h-4 sm:w-4",
+                      tip.priority === "high" && "text-red-500",
+                      tip.priority === "medium" && "text-yellow-500",
+                      tip.priority === "low" && "text-blue-500",
+                    )}
+                  />
                 </div>
                 <div className="min-w-0">
                   <p className="text-xs sm:text-sm font-medium">{tip.title}</p>
@@ -286,26 +277,23 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
   );
 }
 
-function getVitalRating(value: number, threshold: { good: number; poor: number }): 'good' | 'needs-improvement' | 'poor' {
-  if (!value || value === 0) return 'needs-improvement';
-  if (value <= threshold.good) return 'good';
-  if (value <= threshold.poor) return 'needs-improvement';
-  return 'poor';
+function getVitalRating(
+  value: number,
+  threshold: { good: number; poor: number },
+): "good" | "needs-improvement" | "poor" {
+  if (!value || value === 0) return "needs-improvement";
+  if (value <= threshold.good) return "good";
+  if (value <= threshold.poor) return "needs-improvement";
+  return "poor";
 }
 
 function formatVitalValue(value: number, key: string): string {
-  if (!value || value === 0) return '-';
-  if (key === 'CLS') return value.toFixed(3);
+  if (!value || value === 0) return "-";
+  if (key === "CLS") return value.toFixed(3);
   return Math.round(value).toString();
 }
 
-function VitalProgressBar({ 
-  value, 
-  threshold 
-}: { 
-  value: number; 
-  threshold: { good: number; poor: number };
-}) {
+function VitalProgressBar({ value, threshold }: { value: number; threshold: { good: number; poor: number } }) {
   // Normalize to percentage (0-100), capped at poor threshold
   const maxValue = threshold.poor * 1.5;
   const percentage = value ? Math.min((value / maxValue) * 100, 100) : 0;
@@ -315,30 +303,24 @@ function VitalProgressBar({
   return (
     <div className="relative h-2 bg-muted rounded-full overflow-hidden">
       {/* Good zone */}
-      <div 
-        className="absolute h-full bg-green-500/30"
-        style={{ width: `${goodPercentage}%` }}
-      />
+      <div className="absolute h-full bg-green-500/30" style={{ width: `${goodPercentage}%` }} />
       {/* Needs improvement zone */}
-      <div 
+      <div
         className="absolute h-full bg-yellow-500/30"
         style={{ left: `${goodPercentage}%`, width: `${poorPercentage - goodPercentage}%` }}
       />
       {/* Poor zone */}
-      <div 
-        className="absolute h-full bg-red-500/30"
-        style={{ left: `${poorPercentage}%`, right: 0 }}
-      />
+      <div className="absolute h-full bg-red-500/30" style={{ left: `${poorPercentage}%`, right: 0 }} />
       {/* Current value indicator */}
       {value > 0 && (
-        <div 
+        <div
           className={cn(
             "absolute h-full w-1 rounded",
             value <= threshold.good && "bg-green-500",
             value > threshold.good && value <= threshold.poor && "bg-yellow-500",
-            value > threshold.poor && "bg-red-500"
+            value > threshold.poor && "bg-red-500",
           )}
-          style={{ left: `${percentage}%`, transform: 'translateX(-50%)' }}
+          style={{ left: `${percentage}%`, transform: "translateX(-50%)" }}
         />
       )}
     </div>
@@ -357,7 +339,7 @@ function getPerformanceTips(vitals: Record<string, VitalData>) {
     icon: typeof Gauge;
     title: string;
     description: string;
-    priority: 'high' | 'medium' | 'low';
+    priority: "high" | "medium" | "low";
   }> = [];
 
   const lcp = vitals.LCP?.value || 0;
@@ -367,52 +349,55 @@ function getPerformanceTips(vitals: Record<string, VitalData>) {
   if (lcp > VITALS_CONFIG.LCP.poor) {
     tips.push({
       icon: Gauge,
-      title: 'Критично: Оптимизируйте LCP',
-      description: 'Используйте preload для критических ресурсов, оптимизируйте изображения и уменьшите время загрузки основного контента',
-      priority: 'high',
+      title: "Критично: Оптимизируйте LCP",
+      description:
+        "Используйте preload для критических ресурсов, оптимизируйте изображения и уменьшите время загрузки основного контента",
+      priority: "high",
     });
   } else if (lcp > VITALS_CONFIG.LCP.good) {
     tips.push({
       icon: Gauge,
-      title: 'Улучшите LCP',
-      description: 'Используйте preload для критических ресурсов и оптимизируйте изображения',
-      priority: 'medium',
+      title: "Улучшите LCP",
+      description: "Используйте preload для критических ресурсов и оптимизируйте изображения",
+      priority: "medium",
     });
   }
 
   if (cls > VITALS_CONFIG.CLS.poor) {
     tips.push({
       icon: Move,
-      title: 'Критично: Уменьшите CLS',
-      description: 'Задайте размеры для изображений и видео, избегайте динамической вставки контента над видимой областью',
-      priority: 'high',
+      title: "Критично: Уменьшите CLS",
+      description:
+        "Задайте размеры для изображений и видео, избегайте динамической вставки контента над видимой областью",
+      priority: "high",
     });
   } else if (cls > VITALS_CONFIG.CLS.good) {
     tips.push({
       icon: Move,
-      title: 'Уменьшите CLS',
-      description: 'Задайте размеры для изображений и избегайте динамической вставки контента',
-      priority: 'medium',
+      title: "Уменьшите CLS",
+      description: "Задайте размеры для изображений и избегайте динамической вставки контента",
+      priority: "medium",
     });
   }
 
   if (ttfb > VITALS_CONFIG.TTFB.poor) {
     tips.push({
       icon: Clock,
-      title: 'Оптимизируйте TTFB',
-      description: 'Используйте CDN, оптимизируйте серверный код и включите кэширование',
-      priority: 'high',
+      title: "Оптимизируйте TTFB",
+      description: "Используйте CDN, оптимизируйте серверный код и включите кэширование",
+      priority: "high",
     });
   }
 
   if (tips.length === 0) {
     tips.push({
       icon: TrendingUp,
-      title: vitals.LCP?.samples > 0 ? 'Производительность отличная!' : 'Ожидание данных',
-      description: vitals.LCP?.samples > 0 
-        ? 'Все Core Web Vitals в зелёной зоне. Продолжайте мониторинг.'
-        : 'После посещений пользователями начнут поступать метрики Web Vitals.',
-      priority: 'low',
+      title: vitals.LCP?.samples > 0 ? "Производительность отличная!" : "Ожидание данных",
+      description:
+        vitals.LCP?.samples > 0
+          ? "Все Core Web Vitals в зелёной зоне. Продолжайте мониторинг."
+          : "После посещений пользователями начнут поступать метрики Web Vitals.",
+      priority: "low",
     });
   }
 

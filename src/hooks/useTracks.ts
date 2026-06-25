@@ -3,30 +3,30 @@
  * Uses service layer architecture
  */
 
-import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useAuth } from './useAuth';
-import { toast } from 'sonner';
-import { useCallback, useEffect } from 'react';
-import { supabase } from '@/integrations/supabase/client';
-import * as tracksService from '@/services/tracks.service';
-import * as tracksApi from '@/api/tracks.api';
-import { useGuestMode } from '@/contexts/GuestModeContext';
-import { mockTracks as screenshotMockTracks } from '@/lib/screenshotMockData';
+import { useInfiniteQuery, useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "./useAuth";
+import { toast } from "sonner";
+import { useCallback, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import * as tracksService from "@/services/tracks.service";
+import * as tracksApi from "@/api/tracks.api";
+import { useGuestMode } from "@/contexts/GuestModeContext";
+import { mockTracks as screenshotMockTracks } from "@/lib/screenshotMockData";
 
 // Re-export Track type for convenience
-export type { Track, TrackWithCreator, TrackSummary } from '@/types/track';
-export type { EnrichedTrack } from '@/services/tracks.service';
+export type { Track, TrackWithCreator, TrackSummary } from "@/types/track";
+export type { EnrichedTrack } from "@/services/tracks.service";
 
 const PAGE_SIZE = 12; // Optimized for faster initial load
 
 export interface UseTracksParams {
   projectId?: string;
   searchQuery?: string;
-  sortBy?: 'recent' | 'popular' | 'liked';
+  sortBy?: "recent" | "popular" | "liked";
   paginate?: boolean;
   pageSize?: number;
   statusFilter?: string[];
-  tagFilter?: string;  // Filter by specific tag
+  tagFilter?: string; // Filter by specific tag
 }
 
 /**
@@ -58,17 +58,17 @@ export function useTracks(params: UseTracksParams = {}) {
     };
   }
 
-  const queryKey = ['tracks', user?.id, projectId, searchQuery, sortBy, paginate, pageSize, statusFilter, tagFilter];
+  const queryKey = ["tracks", user?.id, projectId, searchQuery, sortBy, paginate, pageSize, statusFilter, tagFilter];
 
   // Infinite query for paginated mode
   const infiniteQuery = useInfiniteQuery({
-    queryKey: [...queryKey, 'infinite'],
+    queryKey: [...queryKey, "infinite"],
     queryFn: async ({ pageParam }) => {
       if (!user?.id) return { tracks: [], totalCount: 0, hasMore: false };
       return tracksService.fetchTracksWithLikes(
         user.id,
         { projectId, searchQuery, sortBy, statusFilter, tagFilter },
-        { page: pageParam, pageSize }
+        { page: pageParam, pageSize },
       );
     },
     getNextPageParam: (lastPage, allPages) => {
@@ -76,7 +76,7 @@ export function useTracks(params: UseTracksParams = {}) {
       if (!lastPage || !allPages) {
         return undefined;
       }
-      if (typeof lastPage.hasMore === 'undefined') {
+      if (typeof lastPage.hasMore === "undefined") {
         return undefined;
       }
       // Return next page number if there are more pages
@@ -87,25 +87,28 @@ export function useTracks(params: UseTracksParams = {}) {
     gcTime: 15 * 60 * 1000, // 15 minutes - keep data longer
     initialPageParam: 0,
     refetchOnWindowFocus: false,
-    refetchOnMount: 'always', // Always fetch on mount to ensure data loads
+    refetchOnMount: "always", // Always fetch on mount to ensure data loads
   });
 
   // Simple query for non-paginated mode
   const simpleQuery = useQuery({
-    queryKey: [...queryKey, 'simple'],
+    queryKey: [...queryKey, "simple"],
     queryFn: async () => {
       if (!user?.id) return [];
-      const result = await tracksService.fetchTracksWithLikes(
-        user.id,
-        { projectId, searchQuery, sortBy, statusFilter, tagFilter }
-      );
+      const result = await tracksService.fetchTracksWithLikes(user.id, {
+        projectId,
+        searchQuery,
+        sortBy,
+        statusFilter,
+        tagFilter,
+      });
       return result.tracks;
     },
     enabled: !!user?.id && paginate === false,
     staleTime: 60 * 1000, // 1 minute
     gcTime: 15 * 60 * 1000, // 15 minutes
     refetchOnWindowFocus: false,
-    refetchOnMount: 'always', // Always fetch on mount to ensure data loads
+    refetchOnMount: "always", // Always fetch on mount to ensure data loads
   });
 
   // Realtime subscription
@@ -115,16 +118,16 @@ export function useTracks(params: UseTracksParams = {}) {
     const channel = supabase
       .channel(`tracks_${user.id}_${Math.random().toString(36).slice(2)}`)
       .on(
-        'postgres_changes',
+        "postgres_changes",
         {
-          event: '*',
-          schema: 'public',
-          table: 'tracks',
+          event: "*",
+          schema: "public",
+          table: "tracks",
           filter: `user_id=eq.${user.id}`,
         },
         () => {
-          queryClient.invalidateQueries({ queryKey: ['tracks', user.id] });
-        }
+          queryClient.invalidateQueries({ queryKey: ["tracks", user.id] });
+        },
       )
       .subscribe();
 
@@ -137,26 +140,26 @@ export function useTracks(params: UseTracksParams = {}) {
   const deleteMutation = useMutation({
     mutationFn: tracksService.deleteTrackWithCleanup,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
-      toast.success('Трек удален');
+      queryClient.invalidateQueries({ queryKey: ["tracks", user?.id] });
+      toast.success("Трек удален");
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Ошибка удаления');
+      toast.error(error.message || "Ошибка удаления");
     },
   });
 
   // Like mutation
   const likeMutation = useMutation({
     mutationFn: async ({ trackId, isLiked }: { trackId: string; isLiked: boolean }) => {
-      if (!user?.id) throw new Error('Not authenticated');
+      if (!user?.id) throw new Error("Not authenticated");
       return tracksService.toggleLike(trackId, user.id, isLiked);
     },
     onSuccess: (_, { isLiked }) => {
-      queryClient.invalidateQueries({ queryKey: ['tracks', user?.id] });
-      toast.success(isLiked ? 'Удалено из избранного' : 'Добавлено в избранное');
+      queryClient.invalidateQueries({ queryKey: ["tracks", user?.id] });
+      toast.success(isLiked ? "Удалено из избранного" : "Добавлено в избранное");
     },
     onError: (error: Error) => {
-      toast.error(error.message || 'Ошибка');
+      toast.error(error.message || "Ошибка");
     },
   });
 
@@ -167,17 +170,15 @@ export function useTracks(params: UseTracksParams = {}) {
 
   // Flatten paginated results
   const tracks = paginate
-    ? infiniteQuery.data?.pages.flatMap(page => page.tracks) || []
+    ? infiniteQuery.data?.pages.flatMap((page) => page.tracks) || []
     : (simpleQuery.data as tracksService.EnrichedTrack[]) || [];
 
-  const totalCount = paginate
-    ? infiniteQuery.data?.pages[0]?.totalCount || 0
-    : tracks.length;
+  const totalCount = paginate ? infiniteQuery.data?.pages[0]?.totalCount || 0 : tracks.length;
 
   // Download function - opens audio in new tab
   const downloadTrack = useCallback((params: { trackId: string; audioUrl: string; coverUrl?: string }) => {
     if (params.audioUrl) {
-      window.open(params.audioUrl, '_blank');
+      window.open(params.audioUrl, "_blank");
     }
   }, []);
 
@@ -191,7 +192,10 @@ export function useTracks(params: UseTracksParams = {}) {
     isFetchingNextPage: paginate ? infiniteQuery.isFetchingNextPage : false,
     refetch: paginate ? infiniteQuery.refetch : simpleQuery.refetch,
     deleteTrack: useCallback((trackId: string) => deleteMutation.mutate(trackId), [deleteMutation]),
-    toggleLike: useCallback((params: { trackId: string; isLiked: boolean }) => likeMutation.mutate(params), [likeMutation]),
+    toggleLike: useCallback(
+      (params: { trackId: string; isLiked: boolean }) => likeMutation.mutate(params),
+      [likeMutation],
+    ),
     logPlay: useCallback((trackId: string) => logPlayMutation.mutate(trackId), [logPlayMutation]),
     downloadTrack,
     isDeleting: deleteMutation.isPending,
@@ -204,7 +208,7 @@ export function useTracks(params: UseTracksParams = {}) {
  */
 export function useTrack(trackId: string | undefined) {
   return useQuery({
-    queryKey: ['track', trackId],
+    queryKey: ["track", trackId],
     queryFn: () => tracksApi.fetchTrackById(trackId!),
     enabled: !!trackId,
     staleTime: 30000,
@@ -218,19 +222,16 @@ export function usePublicTracks(pageSize = 20) {
   const { user } = useAuth();
 
   return useInfiniteQuery({
-    queryKey: ['public-tracks', user?.id],
+    queryKey: ["public-tracks", user?.id],
     queryFn: async ({ pageParam }) => {
-      return tracksService.fetchPublicTracksWithCreators(
-        user?.id ?? null,
-        { page: pageParam, pageSize }
-      );
+      return tracksService.fetchPublicTracksWithCreators(user?.id ?? null, { page: pageParam, pageSize });
     },
     getNextPageParam: (lastPage, allPages) => {
       // Safely handle undefined or malformed data
       if (!lastPage || !allPages) {
         return undefined;
       }
-      if (typeof lastPage.hasMore === 'undefined') {
+      if (typeof lastPage.hasMore === "undefined") {
         return undefined;
       }
       return lastPage.hasMore ? allPages.length : undefined;

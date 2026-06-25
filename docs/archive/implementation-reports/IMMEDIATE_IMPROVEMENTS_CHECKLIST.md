@@ -28,7 +28,7 @@ touch src/lib/logger.ts
  * - Production: отправляет в Sentry/другую систему
  */
 
-type LogLevel = 'debug' | 'info' | 'warn' | 'error';
+type LogLevel = "debug" | "info" | "warn" | "error";
 
 interface LogContext {
   [key: string]: any;
@@ -36,37 +36,37 @@ interface LogContext {
 
 class Logger {
   private isDevelopment = import.meta.env.DEV;
-  
+
   private log(level: LogLevel, message: string, context?: LogContext) {
     const timestamp = new Date().toISOString();
     const prefix = `[${timestamp}] [${level.toUpperCase()}]`;
-    
+
     if (this.isDevelopment) {
       // Development: console output
       switch (level) {
-        case 'debug':
+        case "debug":
           console.debug(prefix, message, context);
           break;
-        case 'info':
+        case "info":
           console.info(prefix, message, context);
           break;
-        case 'warn':
+        case "warn":
           console.warn(prefix, message, context);
           break;
-        case 'error':
+        case "error":
           console.error(prefix, message, context);
           break;
       }
     } else {
       // Production: send to monitoring service
       // TODO: Integrate with Sentry or similar
-      if (level === 'error' || level === 'warn') {
+      if (level === "error" || level === "warn") {
         // Only log warnings and errors in production
         this.sendToMonitoring(level, message, context);
       }
     }
   }
-  
+
   private sendToMonitoring(level: LogLevel, message: string, context?: LogContext) {
     // TODO: Implement Sentry or other monitoring
     // Example:
@@ -75,21 +75,21 @@ class Logger {
     //   extra: context
     // });
   }
-  
+
   debug(message: string, context?: LogContext) {
-    this.log('debug', message, context);
+    this.log("debug", message, context);
   }
-  
+
   info(message: string, context?: LogContext) {
-    this.log('info', message, context);
+    this.log("info", message, context);
   }
-  
+
   warn(message: string, context?: LogContext) {
-    this.log('warn', message, context);
+    this.log("warn", message, context);
   }
-  
+
   error(message: string, error?: Error, context?: LogContext) {
-    this.log('error', message, {
+    this.log("error", message, {
       ...context,
       error: error?.message,
       stack: error?.stack,
@@ -110,20 +110,23 @@ grep -r "console.log" src/ --include="*.tsx" --include="*.ts" | wc -l
 ```
 
 **Было:**
+
 ```typescript
-console.log('🤖 Telegram WebApp обнаружен');
-console.log('📱 Platform:', tg.platform);
+console.log("🤖 Telegram WebApp обнаружен");
+console.log("📱 Platform:", tg.platform);
 ```
 
 **Стало:**
-```typescript
-import { logger } from '@/lib/logger';
 
-logger.info('Telegram WebApp обнаружен');
-logger.debug('Platform detected', { platform: tg.platform });
+```typescript
+import { logger } from "@/lib/logger";
+
+logger.info("Telegram WebApp обнаружен");
+logger.debug("Platform detected", { platform: tg.platform });
 ```
 
 **Файлы для обновления (приоритет):**
+
 - [ ] src/contexts/TelegramContext.tsx (20 console.log)
 - [ ] src/hooks/useAuth.tsx (10 console.log)
 - [ ] src/services/telegram-auth.ts (5 console.log)
@@ -136,12 +139,14 @@ logger.debug('Platform detected', { platform: tg.platform });
 #### Проблема 1: setState в useEffect
 
 **Найдено в:**
+
 - components/lyrics/UnifiedLyricsView.tsx
 - components/player/ProgressBar.tsx
 - components/player/VolumeControl.tsx
 - components/suno/SectionBlock.tsx
 
 **Было (❌ Плохо):**
+
 ```typescript
 // components/player/ProgressBar.tsx
 useEffect(() => {
@@ -152,6 +157,7 @@ useEffect(() => {
 ```
 
 **Стало (✅ Хорошо):**
+
 ```typescript
 // Используем derived state вместо effect
 const displayTime = isDragging ? localTime : currentTime;
@@ -166,6 +172,7 @@ useEffect(() => {
 ```
 
 **Чеклист фиксов:**
+
 - [ ] components/player/ProgressBar.tsx - использовать derived state
 - [ ] components/player/VolumeControl.tsx - переместить в callback
 - [ ] components/lyrics/UnifiedLyricsView.tsx - использовать ref
@@ -176,6 +183,7 @@ useEffect(() => {
 **Найдено в:** components/player/VolumeControl.tsx:173
 
 **Было (❌ Плохо):**
+
 ```typescript
 const VolumeIcon = getVolumeIcon(); // ❌ Created every render
 
@@ -187,6 +195,7 @@ return (
 ```
 
 **Стало (✅ Хорошо):**
+
 ```typescript
 // Вариант 1: useMemo
 const VolumeIcon = useMemo(() => getVolumeIcon(), [volume, muted]);
@@ -208,6 +217,7 @@ return (
 **Файл: components/player/ExpandedPlayer.tsx:35**
 
 **Было (❌ Плохо):**
+
 ```typescript
 const handleChange = (value: any) => {
   onSeek(value[0]);
@@ -215,6 +225,7 @@ const handleChange = (value: any) => {
 ```
 
 **Стало (✅ Хорошо):**
+
 ```typescript
 const handleChange = (value: number[]) => {
   onSeek(value[0]);
@@ -224,6 +235,7 @@ const handleChange = (value: number[]) => {
 **Файл: components/stem-studio/StemChannel.tsx:22**
 
 **Было (❌ Плохо):**
+
 ```typescript
 const handleVolumeChange = (value: any) => {
   onVolumeChange(value[0]);
@@ -231,6 +243,7 @@ const handleVolumeChange = (value: any) => {
 ```
 
 **Стало (✅ Хорошо):**
+
 ```typescript
 const handleVolumeChange = (value: number | number[]) => {
   const volume = Array.isArray(value) ? value[0] : value;
@@ -239,6 +252,7 @@ const handleVolumeChange = (value: number | number[]) => {
 ```
 
 **Чеклист TypeScript фиксов:**
+
 - [ ] components/player/ExpandedPlayer.tsx
 - [ ] components/stem-studio/StemChannel.tsx
 - [ ] components/stem-studio/StemStudioContent.tsx
@@ -253,6 +267,7 @@ const handleVolumeChange = (value: number | number[]) => {
 #### Проблема: Playwright tests в Jest
 
 **Текущая ситуация:**
+
 ```typescript
 // tests/e2e/storage.spec.ts
 import { test, expect } from "@playwright/test"; // ❌ Не работает в Jest
@@ -280,8 +295,8 @@ import { test, expect } from "@playwright/test"; // ❌ Не работает в
 module.exports = {
   // ... existing config
   testPathIgnorePatterns: [
-    '/node_modules/',
-    '/tests/e2e/',  // ← Добавить
+    "/node_modules/",
+    "/tests/e2e/", // ← Добавить
   ],
 };
 ```
@@ -289,31 +304,31 @@ module.exports = {
 **Шаг 3: Создать правильный playwright.config.ts**
 
 ```typescript
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: "./tests/e2e",
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
-  reporter: 'html',
+  reporter: "html",
   use: {
-    baseURL: 'http://localhost:5173',
-    trace: 'on-first-retry',
+    baseURL: "http://localhost:5173",
+    trace: "on-first-retry",
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
     {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
+      name: "Mobile Chrome",
+      use: { ...devices["Pixel 5"] },
     },
   ],
   webServer: {
-    command: 'npm run dev',
+    command: "npm run dev",
     port: 5173,
     reuseExistingServer: !process.env.CI,
   },
@@ -326,7 +341,7 @@ export default defineConfig({
 
 #### Test 1: TelegramContext
 
-**Файл: src/contexts/__tests__/TelegramContext.test.tsx**
+**Файл: src/contexts/**tests**/TelegramContext.test.tsx**
 
 ```typescript
 import { renderHook } from '@testing-library/react';
@@ -337,31 +352,31 @@ describe('TelegramContext', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <TelegramProvider>{children}</TelegramProvider>
     );
-    
+
     const { result } = renderHook(() => useTelegram(), { wrapper });
-    
+
     expect(result.current).toBeDefined();
     expect(result.current.isInitialized).toBe(true);
   });
-  
+
   it('should enable development mode on localhost', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <TelegramProvider>{children}</TelegramProvider>
     );
-    
+
     const { result } = renderHook(() => useTelegram(), { wrapper });
-    
+
     // Localhost should trigger dev mode
     expect(result.current.isDevelopmentMode).toBe(true);
   });
-  
+
   it('should provide mock WebApp in dev mode', () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <TelegramProvider>{children}</TelegramProvider>
     );
-    
+
     const { result } = renderHook(() => useTelegram(), { wrapper });
-    
+
     expect(result.current.webApp).toBeDefined();
     expect(result.current.webApp?.ready).toBeDefined();
   });
@@ -370,7 +385,7 @@ describe('TelegramContext', () => {
 
 #### Test 2: useAuth hook
 
-**Файл: src/hooks/__tests__/useAuth.test.tsx**
+**Файл: src/hooks/**tests**/useAuth.test.tsx**
 
 ```typescript
 import { renderHook, waitFor } from '@testing-library/react';
@@ -384,7 +399,7 @@ const createWrapper = () => {
       queries: { retry: false },
     },
   });
-  
+
   return ({ children }: { children: React.ReactNode }) => (
     <QueryClientProvider client={queryClient}>
       <TelegramProvider>
@@ -399,19 +414,19 @@ describe('useAuth', () => {
     const { result } = renderHook(() => useAuth(), {
       wrapper: createWrapper(),
     });
-    
+
     expect(result.current.loading).toBe(true);
   });
-  
+
   it('should provide user after authentication', async () => {
     const { result } = renderHook(() => useAuth(), {
       wrapper: createWrapper(),
     });
-    
+
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
     });
-    
+
     // In dev mode, should have mock user
     expect(result.current.user).toBeDefined();
   });
@@ -419,6 +434,7 @@ describe('useAuth', () => {
 ```
 
 **Чеклист unit tests:**
+
 - [ ] TelegramContext tests (3 tests)
 - [ ] useAuth tests (4 tests)
 - [ ] telegram-auth service tests (5 tests)
@@ -434,32 +450,32 @@ describe('useAuth', () => {
 **Файл: tests/e2e/auth-flow.spec.ts**
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Authentication Flow', () => {
-  test('should show auth page for unauthenticated users', async ({ page }) => {
-    await page.goto('/');
-    
+test.describe("Authentication Flow", () => {
+  test("should show auth page for unauthenticated users", async ({ page }) => {
+    await page.goto("/");
+
     // Should redirect to /auth
     await expect(page).toHaveURL(/.*auth/);
-    
+
     // Should show auth button
-    const authButton = page.getByRole('button', { name: /войти/i });
+    const authButton = page.getByRole("button", { name: /войти/i });
     await expect(authButton).toBeVisible();
   });
-  
-  test('should authenticate and redirect to home', async ({ page }) => {
-    await page.goto('/auth');
-    
+
+  test("should authenticate and redirect to home", async ({ page }) => {
+    await page.goto("/auth");
+
     // Click auth button
-    const authButton = page.getByRole('button', { name: /войти/i });
+    const authButton = page.getByRole("button", { name: /войти/i });
     await authButton.click();
-    
+
     // Should redirect to home after successful auth
-    await expect(page).toHaveURL('/');
-    
+    await expect(page).toHaveURL("/");
+
     // Should show bottom navigation
-    const bottomNav = page.getByRole('navigation');
+    const bottomNav = page.getByRole("navigation");
     await expect(bottomNav).toBeVisible();
   });
 });
@@ -470,41 +486,41 @@ test.describe('Authentication Flow', () => {
 **Файл: tests/e2e/music-generation.spec.ts**
 
 ```typescript
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test.describe('Music Generation', () => {
+test.describe("Music Generation", () => {
   test.beforeEach(async ({ page }) => {
     // Authenticate first
-    await page.goto('/auth');
-    await page.getByRole('button', { name: /войти/i }).click();
-    await page.waitForURL('/');
+    await page.goto("/auth");
+    await page.getByRole("button", { name: /войти/i }).click();
+    await page.waitForURL("/");
   });
-  
-  test('should navigate to generate page', async ({ page }) => {
+
+  test("should navigate to generate page", async ({ page }) => {
     // Click generate button in bottom nav
-    await page.getByRole('link', { name: /генерация/i }).click();
-    
+    await page.getByRole("link", { name: /генерация/i }).click();
+
     await expect(page).toHaveURL(/.*generate/);
   });
-  
-  test('should show generation form', async ({ page }) => {
-    await page.goto('/generate');
-    
+
+  test("should show generation form", async ({ page }) => {
+    await page.goto("/generate");
+
     // Should show prompt input
     const promptInput = page.getByPlaceholder(/опишите музыку/i);
     await expect(promptInput).toBeVisible();
-    
+
     // Should show generate button
-    const generateButton = page.getByRole('button', { name: /создать/i });
+    const generateButton = page.getByRole("button", { name: /создать/i });
     await expect(generateButton).toBeVisible();
   });
-  
-  test('should validate prompt input', async ({ page }) => {
-    await page.goto('/generate');
-    
-    const generateButton = page.getByRole('button', { name: /создать/i });
+
+  test("should validate prompt input", async ({ page }) => {
+    await page.goto("/generate");
+
+    const generateButton = page.getByRole("button", { name: /создать/i });
     await generateButton.click();
-    
+
     // Should show validation error
     await expect(page.getByText(/введите промт/i)).toBeVisible();
   });
@@ -512,6 +528,7 @@ test.describe('Music Generation', () => {
 ```
 
 **Чеклист integration tests:**
+
 - [ ] Auth flow (3 tests)
 - [ ] Music generation flow (4 tests)
 - [ ] Track playback flow (5 tests)
@@ -524,6 +541,7 @@ test.describe('Music Generation', () => {
 ### Метрики Success:
 
 **Стартовые значения:**
+
 - Lint errors: 197
 - console.log: 95+
 - TypeScript any: 15
@@ -531,6 +549,7 @@ test.describe('Music Generation', () => {
 - Passing tests: 2
 
 **Целевые значения (после 2 недель):**
+
 - Lint errors: < 50 (↓ 75%)
 - console.log: 0 (↓ 100%)
 - TypeScript any: < 5 (↓ 67%)
@@ -540,6 +559,7 @@ test.describe('Music Generation', () => {
 ### Daily Checklist:
 
 **Каждый день:**
+
 - [ ] Commit progress
 - [ ] Run lint: `npm run lint`
 - [ ] Run tests: `npm test`
@@ -547,6 +567,7 @@ test.describe('Music Generation', () => {
 - [ ] Push changes
 
 **Каждую неделю:**
+
 - [ ] Code review
 - [ ] Update metrics
 - [ ] Retrospective
@@ -557,18 +578,21 @@ test.describe('Music Generation', () => {
 ## 🎯 Expected Outcomes
 
 **После Week 1:**
+
 - ✅ Clean codebase (no console.log)
 - ✅ Better logging system
 - ✅ Fewer lint errors (-75%)
 - ✅ Improved TypeScript types
 
 **После Week 2:**
+
 - ✅ Test coverage 75%
 - ✅ CI passing green
 - ✅ E2E tests working
 - ✅ Confidence in deploys
 
 **Business Impact:**
+
 - ✅ Faster debugging (logger)
 - ✅ Fewer bugs (tests)
 - ✅ Easier onboarding (clean code)
@@ -579,12 +603,14 @@ test.describe('Music Generation', () => {
 ## 📞 Help & Resources
 
 **Если застряли:**
+
 1. Check existing tests в src/components/ErrorBoundary.test.tsx
 2. Review TanStack Query docs для testing
 3. Check Playwright docs для E2E
 4. Ask team в Slack/Discord
 
 **Useful commands:**
+
 ```bash
 # Lint specific file
 npm run lint src/contexts/TelegramContext.tsx

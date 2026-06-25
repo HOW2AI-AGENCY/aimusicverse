@@ -3,24 +3,16 @@
  * Shows project details, tracks, and quick actions
  */
 
-import { memo } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  Calendar, 
-  Music2, 
-  ExternalLink, 
-  Play,
-  Edit,
-  MoreHorizontal,
-  FolderOpen
-} from 'lucide-react';
-import { ProjectCover } from '@/components/project/ProjectCover';
-import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
-import { ru } from 'date-fns/locale';
-import { surface } from '@/lib/overlay-colors';
+import { memo } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Music2, ExternalLink, Play, Edit, MoreHorizontal, FolderOpen } from "lucide-react";
+import { ProjectCover } from "@/components/project/ProjectCover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { ru } from "date-fns/locale";
+import { surface } from "@/lib/overlay-colors";
 
 interface Project {
   id: string;
@@ -49,8 +41,8 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
 }: ProjectDetailPreviewProps) {
   const navigate = useNavigate();
 
-  const statusInfo = statusLabels[project.status || 'draft'] || statusLabels.draft;
-  const typeLabel = typeLabels[project.project_type || 'single'] || 'Проект';
+  const statusInfo = statusLabels[project.status || "draft"] || statusLabels.draft;
+  const typeLabel = typeLabels[project.project_type || "single"] || "Проект";
 
   const handleOpenProject = () => {
     navigate(`/project/${project.id}`);
@@ -61,18 +53,13 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
       {/* Cover & Title */}
       <div className="space-y-4">
         <div className="relative aspect-square max-w-[280px] mx-auto rounded-xl overflow-hidden shadow-lg">
-          <ProjectCover
-            coverUrl={project.cover_url}
-            alt={project.title}
-            variant="card"
-            className="w-full h-full"
-          />
+          <ProjectCover coverUrl={project.cover_url} alt={project.title} variant="card" className="w-full h-full" />
           {/* Play button overlay */}
-          <button 
+          <button
             onClick={handleOpenProject}
             className={cn(
               "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity",
-              surface.imageDark
+              surface.imageDark,
             )}
           >
             <div className="w-16 h-16 rounded-full bg-background/90 flex items-center justify-center shadow-xl">
@@ -87,9 +74,7 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
             <Badge variant="outline" className="text-xs">
               {typeLabel}
             </Badge>
-            <Badge className={cn("text-xs", statusInfo.color)}>
-              {statusInfo.label}
-            </Badge>
+            <Badge className={cn("text-xs", statusInfo.color)}>{statusInfo.label}</Badge>
             {project.genre && (
               <Badge variant="secondary" className="text-xs">
                 {project.genre}
@@ -101,27 +86,20 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
 
       {/* Description */}
       {project.description && (
-        <p className="text-sm text-muted-foreground text-center line-clamp-3">
-          {project.description}
-        </p>
+        <p className="text-sm text-muted-foreground text-center line-clamp-3">{project.description}</p>
       )}
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-muted/50 rounded-lg p-3 text-center">
           <Music2 className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
-          <p className="text-lg font-semibold">
-            {project.total_tracks_count || 0}
-          </p>
+          <p className="text-lg font-semibold">{project.total_tracks_count || 0}</p>
           <p className="text-xs text-muted-foreground">Треков</p>
         </div>
         <div className="bg-muted/50 rounded-lg p-3 text-center">
           <Calendar className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
           <p className="text-sm font-medium">
-            {project.created_at 
-              ? format(new Date(project.created_at), 'd MMM yyyy', { locale: ru })
-              : '—'
-            }
+            {project.created_at ? format(new Date(project.created_at), "d MMM yyyy", { locale: ru }) : "—"}
           </p>
           <p className="text-xs text-muted-foreground">Создан</p>
         </div>
@@ -137,10 +115,10 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
             </span>
           </div>
           <div className="h-2 bg-muted rounded-full overflow-hidden">
-            <div 
+            <div
               className="h-full bg-primary rounded-full transition-all"
-              style={{ 
-                width: `${Math.min(100, ((project.approved_tracks_count || 0) / (project.total_tracks_count || 1)) * 100)}%` 
+              style={{
+                width: `${Math.min(100, ((project.approved_tracks_count || 0) / (project.total_tracks_count || 1)) * 100)}%`,
               }}
             />
           </div>
@@ -149,10 +127,7 @@ export const ProjectDetailPreview = memo(function ProjectDetailPreview({
 
       {/* Actions */}
       <div className="space-y-2">
-        <Button 
-          className="w-full gap-2" 
-          onClick={handleOpenProject}
-        >
+        <Button className="w-full gap-2" onClick={handleOpenProject}>
           <ExternalLink className="w-4 h-4" />
           Открыть проект
         </Button>

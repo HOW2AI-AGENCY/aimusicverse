@@ -1,7 +1,7 @@
 /**
  * KeyboardShortcutsProvider
  * Global keyboard shortcuts for the application
- * 
+ *
  * Shortcuts:
  * - Space: Play/Pause (when not in input)
  * - Ctrl/Cmd+G: Open generation sheet
@@ -11,9 +11,9 @@
  * - Left/Right: Seek -5/+5 seconds
  */
 
-import { useEffect, useCallback, useState, createContext, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+import { useEffect, useCallback, useState, createContext, useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 
 interface ShortcutsContextType {
   generateSheetOpen: boolean;
@@ -25,7 +25,7 @@ const ShortcutsContext = createContext<ShortcutsContextType | null>(null);
 export function useShortcuts() {
   const context = useContext(ShortcutsContext);
   if (!context) {
-    throw new Error('useShortcuts must be used within KeyboardShortcutsProvider');
+    throw new Error("useShortcuts must be used within KeyboardShortcutsProvider");
   }
   return context;
 }
@@ -35,22 +35,12 @@ interface KeyboardShortcutsProviderProps {
   onOpenGenerateSheet?: () => void;
 }
 
-export function KeyboardShortcutsProvider({ 
-  children, 
-  onOpenGenerateSheet 
-}: KeyboardShortcutsProviderProps) {
+export function KeyboardShortcutsProvider({ children, onOpenGenerateSheet }: KeyboardShortcutsProviderProps) {
   const navigate = useNavigate();
   const location = useLocation();
   const [generateSheetOpen, setGenerateSheetOpen] = useState(false);
-  
-  const { 
-    isPlaying, 
-    playTrack,
-    pauseTrack,
-    volume,
-    setVolume,
-    activeTrack 
-  } = usePlayerStore();
+
+  const { isPlaying, playTrack, pauseTrack, volume, setVolume, activeTrack } = usePlayerStore();
 
   // Toggle play/pause
   const togglePlayPause = useCallback(() => {
@@ -64,7 +54,7 @@ export function KeyboardShortcutsProvider({
   // Simple mute toggle using volume
   const [previousVolume, setPreviousVolume] = useState(1);
   const isMuted = volume === 0;
-  
+
   const toggleMute = useCallback(() => {
     if (isMuted) {
       setVolume(previousVolume || 1);
@@ -74,75 +64,70 @@ export function KeyboardShortcutsProvider({
     }
   }, [isMuted, volume, previousVolume, setVolume]);
 
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    // Skip if typing in input/textarea/contenteditable
-    const target = e.target as HTMLElement;
-    const isInput = 
-      target.tagName === 'INPUT' || 
-      target.tagName === 'TEXTAREA' || 
-      target.isContentEditable;
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      // Skip if typing in input/textarea/contenteditable
+      const target = e.target as HTMLElement;
+      const isInput = target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable;
 
-    // Allow shortcuts with modifiers in inputs
-    const hasModifier = e.ctrlKey || e.altKey || e.metaKey;
-    
-    // Skip non-modifier shortcuts when in inputs
-    if (isInput && !hasModifier) {
-      return;
-    }
+      // Allow shortcuts with modifiers in inputs
+      const hasModifier = e.ctrlKey || e.altKey || e.metaKey;
 
-    const key = e.key.toLowerCase();
-    const code = e.code;
-
-    // Ctrl/Cmd + G: Open generation sheet
-    if ((e.ctrlKey || e.metaKey) && key === 'g') {
-      e.preventDefault();
-      if (onOpenGenerateSheet) {
-        onOpenGenerateSheet();
-      } else {
-        setGenerateSheetOpen(true);
+      // Skip non-modifier shortcuts when in inputs
+      if (isInput && !hasModifier) {
+        return;
       }
-      return;
-    }
 
-    // Ctrl/Cmd + L: Go to Library
-    if ((e.ctrlKey || e.metaKey) && key === 'l') {
-      e.preventDefault();
-      navigate('/library');
-      return;
-    }
+      const key = e.key.toLowerCase();
+      const code = e.code;
 
-    // Skip rest of shortcuts if in input (no modifier)
-    if (isInput) return;
+      // Ctrl/Cmd + G: Open generation sheet
+      if ((e.ctrlKey || e.metaKey) && key === "g") {
+        e.preventDefault();
+        if (onOpenGenerateSheet) {
+          onOpenGenerateSheet();
+        } else {
+          setGenerateSheetOpen(true);
+        }
+        return;
+      }
 
-    // Space: Play/Pause
-    if (code === 'Space') {
-      e.preventDefault();
-      togglePlayPause();
-      return;
-    }
+      // Ctrl/Cmd + L: Go to Library
+      if ((e.ctrlKey || e.metaKey) && key === "l") {
+        e.preventDefault();
+        navigate("/library");
+        return;
+      }
 
-    // M: Mute/Unmute
-    if (key === 'm') {
-      e.preventDefault();
-      toggleMute();
-      return;
-    }
+      // Skip rest of shortcuts if in input (no modifier)
+      if (isInput) return;
 
-    // Escape: Close generation sheet
-    if (key === 'escape') {
-      setGenerateSheetOpen(false);
-      return;
-    }
-  }, [
-    navigate, 
-    togglePlayPause, 
-    toggleMute,
-    onOpenGenerateSheet
-  ]);
+      // Space: Play/Pause
+      if (code === "Space") {
+        e.preventDefault();
+        togglePlayPause();
+        return;
+      }
+
+      // M: Mute/Unmute
+      if (key === "m") {
+        e.preventDefault();
+        toggleMute();
+        return;
+      }
+
+      // Escape: Close generation sheet
+      if (key === "escape") {
+        setGenerateSheetOpen(false);
+        return;
+      }
+    },
+    [navigate, togglePlayPause, toggleMute, onOpenGenerateSheet],
+  );
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
   return (
@@ -157,11 +142,11 @@ export function KeyboardShortcutsProvider({
  */
 export function ShortcutsHelpContent() {
   const shortcuts = [
-    { keys: ['Space'], description: 'Play/Pause' },
-    { keys: ['Ctrl', 'G'], description: 'Создать трек' },
-    { keys: ['Ctrl', 'L'], description: 'Библиотека' },
-    { keys: ['M'], description: 'Mute/Unmute' },
-    { keys: ['Esc'], description: 'Закрыть панель' },
+    { keys: ["Space"], description: "Play/Pause" },
+    { keys: ["Ctrl", "G"], description: "Создать трек" },
+    { keys: ["Ctrl", "L"], description: "Библиотека" },
+    { keys: ["M"], description: "Mute/Unmute" },
+    { keys: ["Esc"], description: "Закрыть панель" },
   ];
 
   return (
@@ -173,10 +158,7 @@ export function ShortcutsHelpContent() {
             <span className="text-muted-foreground">{shortcut.description}</span>
             <div className="flex items-center gap-1">
               {shortcut.keys.map((key, j) => (
-                <kbd
-                  key={j}
-                  className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono"
-                >
+                <kbd key={j} className="px-1.5 py-0.5 bg-muted rounded text-[10px] font-mono">
                   {key}
                 </kbd>
               ))}

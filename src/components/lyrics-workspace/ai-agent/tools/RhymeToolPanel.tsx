@@ -2,55 +2,65 @@
  * RhymeToolPanel - Panel for rhyme suggestions
  */
 
-import { useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Mic2, Search, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { cn } from '@/lib/utils';
-import { ToolPanelProps } from '../types';
+import { useState } from "react";
+import { motion } from "@/lib/motion";
+import { Mic2, Search, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/utils";
+import { ToolPanelProps } from "../types";
 
 // Common rhyme endings for quick access
 const COMMON_ENDINGS = [
-  'любовь', 'ночь', 'день', 'мечта', 
-  'душа', 'сердце', 'глаза', 'свет',
-  'путь', 'жизнь', 'время', 'небо'
+  "любовь",
+  "ночь",
+  "день",
+  "мечта",
+  "душа",
+  "сердце",
+  "глаза",
+  "свет",
+  "путь",
+  "жизнь",
+  "время",
+  "небо",
 ];
 
 export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolPanelProps) {
-  const [word, setWord] = useState('');
+  const [word, setWord] = useState("");
   const [recentWords, setRecentWords] = useState<string[]>([]);
 
   const handleSearch = (searchWord?: string) => {
     const targetWord = searchWord || word;
     if (!targetWord.trim()) return;
-    
+
     // Add to recent if not already there
     if (!recentWords.includes(targetWord)) {
-      setRecentWords(prev => [targetWord, ...prev].slice(0, 5));
+      setRecentWords((prev) => [targetWord, ...prev].slice(0, 5));
     }
-    
+
     onExecute({ word: targetWord });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       e.preventDefault();
       handleSearch();
     }
   };
 
   // Extract last word from selected section if available
-  const suggestedWord = context.selectedSection?.content
-    ?.split(/\s+/)
-    .filter(w => w.length > 2)
-    .pop() || '';
+  const suggestedWord =
+    context.selectedSection?.content
+      ?.split(/\s+/)
+      .filter((w) => w.length > 2)
+      .pop() || "";
 
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: 'auto' }}
+      animate={{ opacity: 1, height: "auto" }}
       exit={{ opacity: 0, height: 0 }}
       className="border-b border-border/50 bg-cyan-500/5 max-h-[50vh] overflow-y-auto overscroll-contain"
     >
@@ -82,12 +92,7 @@ export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolP
               onKeyDown={handleKeyDown}
               className="h-9 text-sm flex-1"
             />
-            <Button
-              size="sm"
-              onClick={() => handleSearch()}
-              disabled={isLoading || !word.trim()}
-              className="px-3"
-            >
+            <Button size="sm" onClick={() => handleSearch()} disabled={isLoading || !word.trim()} className="px-3">
               <Search className="w-4 h-4" />
             </Button>
           </div>
@@ -143,7 +148,7 @@ export function RhymeToolPanel({ context, onExecute, onClose, isLoading }: ToolP
                 key={w}
                 className={cn(
                   "px-2 py-1 text-[10px] rounded-md border border-border/50",
-                  "hover:bg-muted/50 transition-colors"
+                  "hover:bg-muted/50 transition-colors",
                 )}
                 onClick={() => {
                   setWord(w);

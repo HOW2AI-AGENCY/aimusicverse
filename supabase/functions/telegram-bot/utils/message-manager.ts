@@ -3,17 +3,14 @@
  * Handles auto-replace, auto-delete, message queuing, and cleanup
  */
 
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
-import { BOT_CONFIG } from '../config.ts';
-import { deleteMessage, editMessageText, editMessageMedia } from '../telegram-api.ts';
-import { createLogger } from '../../_shared/logger.ts';
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
+import { BOT_CONFIG } from "../config.ts";
+import { deleteMessage, editMessageText, editMessageMedia } from "../telegram-api.ts";
+import { createLogger } from "../../_shared/logger.ts";
 
-const logger = createLogger('message-manager');
+const logger = createLogger("message-manager");
 
-const supabase = createClient(
-  BOT_CONFIG.supabaseUrl,
-  BOT_CONFIG.supabaseServiceKey
-);
+const supabase = createClient(BOT_CONFIG.supabaseUrl, BOT_CONFIG.supabaseServiceKey);
 
 // ============================================================================
 // Types
@@ -30,20 +27,20 @@ export interface ManagedMessage {
   metadata?: Record<string, any>;
 }
 
-export type MessageType = 'menu' | 'notification' | 'status' | 'content' | 'temp';
-export type MessageCategory = 
-  | 'main_menu'
-  | 'library'
-  | 'projects'
-  | 'settings'
-  | 'generation'
-  | 'upload'
-  | 'analysis'
-  | 'help'
-  | 'error'
-  | 'success'
-  | 'loading'
-  | 'temp';
+export type MessageType = "menu" | "notification" | "status" | "content" | "temp";
+export type MessageCategory =
+  | "main_menu"
+  | "library"
+  | "projects"
+  | "settings"
+  | "generation"
+  | "upload"
+  | "analysis"
+  | "help"
+  | "error"
+  | "success"
+  | "loading"
+  | "temp";
 
 export interface MessageQueueItem {
   chatId: number;
@@ -68,7 +65,7 @@ export class MessageManager {
     this.cleanupTimers = new Map();
     this.messageQueue = [];
     this.isProcessingQueue = false;
-    
+
     // Start periodic cleanup
     this.startPeriodicCleanup();
   }
@@ -80,7 +77,7 @@ export class MessageManager {
     const chatMessages = this.messageCache.get(message.chatId) || [];
     chatMessages.push(message);
     this.messageCache.set(message.chatId, chatMessages);
-    
+
     // Set cleanup timer if expiration is set
     if (message.expiresAt && !message.persistent) {
       const delay = message.expiresAt - Date.now();
@@ -88,32 +85,35 @@ export class MessageManager {
         this.scheduleCleanup(message.chatId, message.messageId, delay);
       }
     }
-    
+
     // Auto-replace logic: delete previous messages of the same category
     if (this.shouldAutoReplace(message.type, message.category)) {
       await this.replacePreviousMessages(message.chatId, message.category, message.messageId);
     }
-    
-    logger.debug('Message tracked', {
+
+    logger.debug("Message tracked", {
       chatId: message.chatId,
       messageId: message.messageId,
       type: message.type,
-      category: message.category
+      category: message.category,
     });
   }
 
   /**
    * Get tracked messages for a chat
    */
-  getMessages(chatId: number, filter?: {
-    type?: MessageType;
-    category?: MessageCategory;
-  }): ManagedMessage[] {
+  getMessages(
+    chatId: number,
+    filter?: {
+      type?: MessageType;
+      category?: MessageCategory;
+    },
+  ): ManagedMessage[] {
     const messages = this.messageCache.get(chatId) || [];
-    
+
     if (!filter) return messages;
-    
-    return messages.filter(msg => {
+
+    return messages.filter((msg) => {
       if (filter.type && msg.type !== filter.type) return false;
       if (filter.category && msg.category !== filter.category) return false;
       return true;
@@ -123,28 +123,24 @@ export class MessageManager {
   /**
    * Delete a tracked message
    */
-  async deleteTrackedMessage(
-    chatId: number,
-    messageId: number,
-    options?: { silent?: boolean }
-  ): Promise<boolean> {
+  async deleteTrackedMessage(chatId: number, messageId: number, options?: { silent?: boolean }): Promise<boolean> {
     try {
       // Delete from Telegram
       await deleteMessage(chatId, messageId);
-      
+
       // Remove from cache
       this.removeFromCache(chatId, messageId);
-      
+
       // Cancel cleanup timer
       this.cancelCleanup(chatId, messageId);
-      
+
       if (!options?.silent) {
-        logger.debug('Message deleted', { chatId, messageId });
+        logger.debug("Message deleted", { chatId, messageId });
       }
-      
+
       return true;
     } catch (error) {
-      logger.error('Failed to delete message', error, { chatId, messageId });
+      logger.error("Failed to delete message", error, { chatId, messageId });
       return false;
     }
   }
@@ -152,29 +148,25 @@ export class MessageManager {
   /**
    * Delete all messages in a category
    */
-  async deleteCategory(
-    chatId: number,
-    category: MessageCategory,
-    options?: { except?: number }
-  ): Promise<number> {
+  async deleteCategory(chatId: number, category: MessageCategory, options?: { except?: number }): Promise<number> {
     const messages = this.getMessages(chatId, { category });
     let deletedCount = 0;
-    
+
     for (const msg of messages) {
       if (options?.except && msg.messageId === options.except) {
         continue;
       }
-      
+
       const deleted = await this.deleteTrackedMessage(chatId, msg.messageId, { silent: true });
       if (deleted) deletedCount++;
     }
-    
-    logger.info('Category messages deleted', {
+
+    logger.info("Category messages deleted", {
       chatId,
       category,
-      deletedCount
+      deletedCount,
     });
-    
+
     return deletedCount;
   }
 
@@ -182,15 +174,15 @@ export class MessageManager {
    * Delete all temporary messages for a chat
    */
   async deleteTemporary(chatId: number): Promise<number> {
-    const messages = this.getMessages(chatId, { type: 'temp' });
+    const messages = this.getMessages(chatId, { type: "temp" });
     let deletedCount = 0;
-    
+
     for (const msg of messages) {
       const deleted = await this.deleteTrackedMessage(chatId, msg.messageId, { silent: true });
       if (deleted) deletedCount++;
     }
-    
-    logger.info('Temporary messages deleted', { chatId, deletedCount });
+
+    logger.info("Temporary messages deleted", { chatId, deletedCount });
     return deletedCount;
   }
 
@@ -200,14 +192,12 @@ export class MessageManager {
   async deleteExpired(chatId?: number): Promise<number> {
     const now = Date.now();
     let deletedCount = 0;
-    
-    const chatsToCheck = chatId 
-      ? [chatId]
-      : Array.from(this.messageCache.keys());
-    
+
+    const chatsToCheck = chatId ? [chatId] : Array.from(this.messageCache.keys());
+
     for (const cid of chatsToCheck) {
       const messages = this.messageCache.get(cid) || [];
-      
+
       for (const msg of messages) {
         if (msg.expiresAt && msg.expiresAt <= now && !msg.persistent) {
           const deleted = await this.deleteTrackedMessage(cid, msg.messageId, { silent: true });
@@ -215,11 +205,11 @@ export class MessageManager {
         }
       }
     }
-    
+
     if (deletedCount > 0) {
-      logger.info('Expired messages deleted', { deletedCount });
+      logger.info("Expired messages deleted", { deletedCount });
     }
-    
+
     return deletedCount;
   }
 
@@ -229,7 +219,7 @@ export class MessageManager {
   queueMessage(item: MessageQueueItem): void {
     this.messageQueue.push(item);
     this.messageQueue.sort((a, b) => b.priority - a.priority);
-    
+
     if (!this.isProcessingQueue) {
       this.processQueue();
     }
@@ -238,37 +228,36 @@ export class MessageManager {
   /**
    * Clear all messages for a chat
    */
-  async clearChat(chatId: number, options?: {
-    keepPersistent?: boolean;
-  }): Promise<number> {
+  async clearChat(
+    chatId: number,
+    options?: {
+      keepPersistent?: boolean;
+    },
+  ): Promise<number> {
     const messages = this.messageCache.get(chatId) || [];
     let deletedCount = 0;
-    
+
     for (const msg of messages) {
       if (options?.keepPersistent && msg.persistent) {
         continue;
       }
-      
+
       const deleted = await this.deleteTrackedMessage(chatId, msg.messageId, { silent: true });
       if (deleted) deletedCount++;
     }
-    
-    logger.info('Chat messages cleared', { chatId, deletedCount });
+
+    logger.info("Chat messages cleared", { chatId, deletedCount });
     return deletedCount;
   }
 
   /**
    * Update message metadata
    */
-  updateMetadata(
-    chatId: number,
-    messageId: number,
-    metadata: Record<string, any>
-  ): void {
+  updateMetadata(chatId: number, messageId: number, metadata: Record<string, any>): void {
     const messages = this.messageCache.get(chatId);
     if (!messages) return;
-    
-    const message = messages.find(m => m.messageId === messageId);
+
+    const message = messages.find((m) => m.messageId === messageId);
     if (message) {
       message.metadata = { ...message.metadata, ...metadata };
     }
@@ -280,8 +269,8 @@ export class MessageManager {
   markPersistent(chatId: number, messageId: number): void {
     const messages = this.messageCache.get(chatId);
     if (!messages) return;
-    
-    const message = messages.find(m => m.messageId === messageId);
+
+    const message = messages.find((m) => m.messageId === messageId);
     if (message) {
       message.persistent = true;
       this.cancelCleanup(chatId, messageId);
@@ -297,14 +286,14 @@ export class MessageManager {
    */
   private shouldAutoReplace(type: MessageType, category: MessageCategory): boolean {
     // Menu messages always replace previous menu messages
-    if (type === 'menu') return true;
-    
+    if (type === "menu") return true;
+
     // Status messages replace previous status messages
-    if (type === 'status') return true;
-    
+    if (type === "status") return true;
+
     // Loading messages replace previous loading messages
-    if (category === 'loading') return true;
-    
+    if (category === "loading") return true;
+
     return false;
   }
 
@@ -314,10 +303,10 @@ export class MessageManager {
   private async replacePreviousMessages(
     chatId: number,
     category: MessageCategory,
-    exceptMessageId: number
+    exceptMessageId: number,
   ): Promise<void> {
     const messages = this.getMessages(chatId, { category });
-    
+
     for (const msg of messages) {
       if (msg.messageId !== exceptMessageId && !msg.persistent) {
         await this.deleteTrackedMessage(chatId, msg.messageId, { silent: true });
@@ -331,9 +320,9 @@ export class MessageManager {
   private removeFromCache(chatId: number, messageId: number): void {
     const messages = this.messageCache.get(chatId);
     if (!messages) return;
-    
-    const filtered = messages.filter(m => m.messageId !== messageId);
-    
+
+    const filtered = messages.filter((m) => m.messageId !== messageId);
+
     if (filtered.length === 0) {
       this.messageCache.delete(chatId);
     } else {
@@ -346,12 +335,12 @@ export class MessageManager {
    */
   private scheduleCleanup(chatId: number, messageId: number, delay: number): void {
     const key = `${chatId}_${messageId}`;
-    
+
     const timerId = setTimeout(async () => {
       await this.deleteTrackedMessage(chatId, messageId, { silent: true });
       this.cleanupTimers.delete(key);
     }, delay);
-    
+
     this.cleanupTimers.set(key, timerId as unknown as number);
   }
 
@@ -361,7 +350,7 @@ export class MessageManager {
   private cancelCleanup(chatId: number, messageId: number): void {
     const key = `${chatId}_${messageId}`;
     const timerId = this.cleanupTimers.get(key);
-    
+
     if (timerId) {
       clearTimeout(timerId);
       this.cleanupTimers.delete(key);
@@ -375,13 +364,13 @@ export class MessageManager {
     if (this.isProcessingQueue || this.messageQueue.length === 0) {
       return;
     }
-    
+
     this.isProcessingQueue = true;
-    
+
     while (this.messageQueue.length > 0) {
       const item = this.messageQueue.shift();
       if (!item) continue;
-      
+
       try {
         const messageId = await item.action();
         if (messageId && item.onSuccess) {
@@ -391,14 +380,14 @@ export class MessageManager {
         if (item.onError) {
           item.onError(error as Error);
         } else {
-          logger.error('Queue item failed', error);
+          logger.error("Queue item failed", error);
         }
       }
-      
+
       // Small delay between messages to avoid rate limits
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    
+
     this.isProcessingQueue = false;
   }
 
@@ -406,16 +395,19 @@ export class MessageManager {
    * Start periodic cleanup of expired messages
    */
   private startPeriodicCleanup(): void {
-    setInterval(async () => {
-      await this.deleteExpired();
-      
-      // Clean up empty caches
-      for (const [chatId, messages] of this.messageCache.entries()) {
-        if (messages.length === 0) {
-          this.messageCache.delete(chatId);
+    setInterval(
+      async () => {
+        await this.deleteExpired();
+
+        // Clean up empty caches
+        for (const [chatId, messages] of this.messageCache.entries()) {
+          if (messages.length === 0) {
+            this.messageCache.delete(chatId);
+          }
         }
-      }
-    }, 5 * 60 * 1000); // Every 5 minutes
+      },
+      5 * 60 * 1000,
+    ); // Every 5 minutes
   }
 }
 
@@ -441,12 +433,10 @@ export async function trackMessage(
     expiresIn?: number; // milliseconds
     persistent?: boolean;
     metadata?: Record<string, any>;
-  }
+  },
 ): Promise<void> {
-  const expiresAt = options?.expiresIn 
-    ? Date.now() + options.expiresIn
-    : undefined;
-  
+  const expiresAt = options?.expiresIn ? Date.now() + options.expiresIn : undefined;
+
   await messageManager.trackMessage({
     chatId,
     messageId,
@@ -455,7 +445,7 @@ export async function trackMessage(
     createdAt: Date.now(),
     expiresAt,
     persistent: options?.persistent,
-    metadata: options?.metadata
+    metadata: options?.metadata,
   });
 }
 
@@ -465,14 +455,14 @@ export async function trackMessage(
 export async function sendTemporaryMessage(
   chatId: number,
   sendFn: () => Promise<number | null>,
-  expiresIn: number = 10000 // 10 seconds default
+  expiresIn: number = 10000, // 10 seconds default
 ): Promise<number | null> {
   const messageId = await sendFn();
-  
+
   if (messageId) {
-    await trackMessage(chatId, messageId, 'temp', 'temp', { expiresIn });
+    await trackMessage(chatId, messageId, "temp", "temp", { expiresIn });
   }
-  
+
   return messageId;
 }
 
@@ -489,7 +479,7 @@ export async function cleanupTemporary(chatId: number): Promise<number> {
 export async function replaceInCategory(
   chatId: number,
   category: MessageCategory,
-  newMessageId: number
+  newMessageId: number,
 ): Promise<void> {
   await messageManager.deleteCategory(chatId, category, { except: newMessageId });
 }

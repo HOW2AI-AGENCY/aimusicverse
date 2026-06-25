@@ -12,13 +12,13 @@ The MusicVerse AI music player is a feature-rich, performant audio playback syst
 import { usePlayerStore } from '@/hooks/usePlayerState';
 
 function MyComponent() {
-  const { 
+  const {
     activeTrack,
     isPlaying,
     playTrack,
     pauseTrack,
     nextTrack,
-    previousTrack 
+    previousTrack
   } = usePlayerStore();
 
   return (
@@ -39,12 +39,12 @@ function MyComponent() {
 import { usePlaybackQueue } from '@/hooks/usePlaybackQueue';
 
 function QueueManager() {
-  const { 
+  const {
     queue,
     addTrack,
     removeTrack,
     setQueue,
-    clear 
+    clear
   } = usePlaybackQueue();
 
   return (
@@ -85,9 +85,9 @@ function CustomPlayer({ track }) {
       <button onClick={togglePlay}>
         {isPlaying ? 'Pause' : 'Play'}
       </button>
-      <input 
-        type="range" 
-        value={currentTime} 
+      <input
+        type="range"
+        value={currentTime}
         max={duration}
         onChange={(e) => seek(Number(e.target.value))}
       />
@@ -102,6 +102,7 @@ function CustomPlayer({ track }) {
 ### Player State
 
 The player state is managed by Zustand and includes:
+
 - **activeTrack**: Currently playing/selected track
 - **isPlaying**: Playback status
 - **queue**: Array of tracks
@@ -113,6 +114,7 @@ The player state is managed by Zustand and includes:
 ### Audio Sources
 
 The player supports multiple audio sources with automatic fallback:
+
 1. **Streaming URL** (preferred): Optimized for streaming
 2. **Local Audio URL**: Cached local file
 3. **Audio URL**: Original source
@@ -145,7 +147,7 @@ const { addTrack, addTracks, setQueue } = usePlaybackQueue();
 
 // Add single track
 addTrack(track, false); // Add to end
-addTrack(track, true);  // Add and play now
+addTrack(track, true); // Add and play now
 
 // Add multiple tracks
 addTracks([track1, track2], true); // Add and play first
@@ -171,8 +173,8 @@ toggleRepeat(); // off → all → one → off
 ```typescript
 const { playerMode, expandPlayer, minimizePlayer } = usePlayerStore();
 
-expandPlayer();    // Show expanded player
-minimizePlayer();  // Show compact player
+expandPlayer(); // Show expanded player
+minimizePlayer(); // Show compact player
 ```
 
 ## Advanced Features
@@ -182,14 +184,14 @@ minimizePlayer();  // Show compact player
 For better performance, use the optimized audio player:
 
 ```typescript
-import { useOptimizedAudioPlayer } from '@/hooks/useOptimizedAudioPlayer';
+import { useOptimizedAudioPlayer } from "@/hooks/useOptimizedAudioPlayer";
 
 function HighPerformancePlayer({ track, nextTrack }) {
   const player = useOptimizedAudioPlayer({
     trackId: track.id,
     streamingUrl: track.streaming_url,
     nextTrackUrl: nextTrack?.streaming_url,
-    enablePreload: true // Preload next track
+    enablePreload: true, // Preload next track
   });
 
   // Same API as regular player, but with:
@@ -221,11 +223,11 @@ useEffect(() => {
 ```typescript
 const { error } = useOptimizedAudioPlayer({
   trackId: track.id,
-  audioUrl: track.audio_url
+  audioUrl: track.audio_url,
 });
 
 if (error) {
-  console.error('Playback error:', error);
+  console.error("Playback error:", error);
   // Show error message to user
 }
 ```
@@ -233,17 +235,17 @@ if (error) {
 ### Performance Monitoring
 
 ```typescript
-import { markPerformance, calculateQueueMemory } from '@/lib/performance-utils';
+import { markPerformance, calculateQueueMemory } from "@/lib/performance-utils";
 
 // Measure operation time
-const measure = markPerformance('queue-load');
+const measure = markPerformance("queue-load");
 loadQueue();
 const duration = measure.end();
-console.log('Loaded in', duration, 'ms');
+console.log("Loaded in", duration, "ms");
 
 // Monitor queue memory
 const memStats = calculateQueueMemory(queue);
-console.log('Queue size:', memStats.totalFormatted);
+console.log("Queue size:", memStats.totalFormatted);
 ```
 
 ## Best Practices
@@ -330,13 +332,13 @@ function MyPlayer() {
   return (
     <div>
       <PlaybackControls size="medium" />
-      
+
       <ProgressBar
         currentTime={currentTime}
         duration={duration}
         onSeek={(time) => seek(time)}
       />
-      
+
       <VolumeControl
         volume={volume}
         muted={muted}
@@ -367,12 +369,9 @@ const trackInfo = useMemo(() => {
 ### 2. Debounce Rapid Updates
 
 ```typescript
-import { debounce } from '@/lib/performance-utils';
+import { debounce } from "@/lib/performance-utils";
 
-const debouncedSeek = useMemo(
-  () => debounce((time) => seek(time), 100),
-  [seek]
-);
+const debouncedSeek = useMemo(() => debounce((time) => seek(time), 100), [seek]);
 ```
 
 ### 3. Use Virtual Scrolling for Large Queues
@@ -401,7 +400,7 @@ const player = useOptimizedAudioPlayer({
   trackId: track.id,
   audioUrl: track.audio_url,
   nextTrackUrl: queue[currentIndex + 1]?.audio_url,
-  enablePreload: true // Default: true
+  enablePreload: true, // Default: true
 });
 ```
 
@@ -452,10 +451,10 @@ See inline JSDoc comments in source files for detailed API documentation.
 
 ```typescript
 function FullPlayer() {
-  const { 
-    activeTrack, 
-    isPlaying, 
-    playTrack, 
+  const {
+    activeTrack,
+    isPlaying,
+    playTrack,
     pauseTrack,
     nextTrack,
     previousTrack,
@@ -463,12 +462,12 @@ function FullPlayer() {
     expandPlayer
   } = usePlayerStore();
 
-  const { 
-    currentTime, 
+  const {
+    currentTime,
     duration,
     buffered,
     loading,
-    seek 
+    seek
   } = useAudioPlayer({
     trackId: activeTrack?.id || '',
     streamingUrl: activeTrack?.streaming_url,
@@ -518,6 +517,7 @@ function FullPlayer() {
 ## Contributing
 
 When contributing to the player system:
+
 1. Follow existing code patterns
 2. Add JSDoc comments
 3. Include tests

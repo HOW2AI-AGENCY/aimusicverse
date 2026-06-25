@@ -126,21 +126,25 @@ Vercel provides excellent integration with React, TypeScript, and automatic HTTP
 #### Setup Steps
 
 1. **Install Vercel CLI**
+
    ```bash
    npm install -g vercel
    ```
 
 2. **Login to Vercel**
+
    ```bash
    vercel login
    ```
 
 3. **Deploy Project**
+
    ```bash
    vercel --prod
    ```
 
 4. **Configure Environment Variables**
+
    ```bash
    vercel env add SUPABASE_URL production
    vercel env add SUPABASE_ANON_KEY production
@@ -193,11 +197,13 @@ Create `vercel.json` in project root:
 #### Setup Steps
 
 1. **Install Netlify CLI**
+
    ```bash
    npm install -g netlify-cli
    ```
 
 2. **Build and Deploy**
+
    ```bash
    netlify deploy --prod
    ```
@@ -397,6 +403,7 @@ supabase storage set-policy-public audio-files
 Before deploying to production, ensure:
 
 ### Security
+
 - [ ] Environment variables are set correctly
 - [ ] No hardcoded secrets in code
 - [ ] SSL certificates are configured
@@ -405,6 +412,7 @@ Before deploying to production, ensure:
 - [ ] Authentication is properly configured
 
 ### Performance
+
 - [ ] Bundle size is under 950KB
 - [ ] Image optimization is enabled
 - [ ] Caching is configured
@@ -412,6 +420,7 @@ Before deploying to production, ensure:
 - [ ] Compression is enabled (gzip/brotli)
 
 ### Monitoring
+
 - [ ] Sentry is configured
 - [ ] Error tracking is enabled
 - [ ] Analytics is set up
@@ -419,6 +428,7 @@ Before deploying to production, ensure:
 - [ ] Performance monitoring is active
 
 ### Testing
+
 - [ ] All tests pass (`npm test`)
 - [ ] Type check passes (`npm run typecheck`)
 - [ ] Build succeeds (`npm run build`)
@@ -426,6 +436,7 @@ Before deploying to production, ensure:
 - [ ] Manual testing completed
 
 ### Backup & Recovery
+
 - [ ] Database backups are enabled
 - [ ] Recovery procedures are documented
 - [ ] Rollback plan is prepared
@@ -478,12 +489,14 @@ curl https://your-project.supabase.co/rest/v1/
 ### Build Failures
 
 **Issue**: Build fails with TypeScript errors
+
 ```bash
 # Solution: Check types
 npm run typecheck:strict
 ```
 
 **Issue**: Bundle size exceeds limit
+
 ```bash
 # Solution: Analyze bundle
 npm run size:why
@@ -492,12 +505,14 @@ npm run size:why
 ### Deployment Failures
 
 **Issue**: Environment variables not loading
+
 ```bash
 # Solution: Verify env vars are set
 vercel env ls
 ```
 
 **Issue**: Supabase connection fails
+
 ```bash
 # Solution: Test Supabase connection
 curl https://your-project.supabase.co/rest/v1/
@@ -506,11 +521,13 @@ curl https://your-project.supabase.co/rest/v1/
 ### Runtime Issues
 
 **Issue**: Audio playback fails
+
 - Check audio element pool configuration
 - Verify HTTPS is enabled (required for audio)
 - Test on different browsers
 
 **Issue**: Telegram Mini App doesn't load
+
 - Verify Mini App URL in BotFather
 - Check Web App SDK integration
 - Test with Telegram's debug mode

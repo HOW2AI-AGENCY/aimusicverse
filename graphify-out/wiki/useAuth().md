@@ -417,6 +417,7 @@ sequenceDiagram
 ## Connections by Relation
 
 ### calls
+
 - [[useFeatureAccess()]] `INFERRED`
 - [[useProfile()]] `INFERRED`
 - [[usePaywallTrigger()]] `INFERRED`
@@ -439,8 +440,9 @@ sequenceDiagram
 - [[MandatoryProfileSetup()]] `INFERRED`
 
 ### contains
+
 - [[AuthContext.tsx]] `EXTRACTED`
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

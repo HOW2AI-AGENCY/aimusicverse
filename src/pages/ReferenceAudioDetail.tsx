@@ -3,23 +3,23 @@
  * Shows details of uploaded reference audio with actions
  */
 
-import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/contexts/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Progress } from '@/components/ui/progress';
-import { toast } from 'sonner';
-import { 
-  ArrowLeft, 
-  Music2, 
-  Mic2, 
-  Guitar, 
-  Drum, 
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+import {
+  ArrowLeft,
+  Music2,
+  Mic2,
+  Guitar,
+  Drum,
   FileAudio,
   Sparkles,
   Copy,
@@ -30,16 +30,16 @@ import {
   FileText,
   Volume2,
   X,
-} from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { ReferenceAudioPlayer } from '@/components/audio-reference/ReferenceAudioPlayer';
-import { ReferenceStemPlayer } from '@/components/audio-reference/ReferenceStemPlayer';
-import { ReferenceActionsPanel } from '@/components/audio-reference/ReferenceActionsPanel';
-import { ExtractLyricsButton } from '@/components/audio-reference/ExtractLyricsButton';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { useReferenceStems } from '@/hooks/useReferenceStems';
-import { useTelegramBackButton } from '@/hooks/telegram/useTelegramBackButton';
-import { useTelegram } from '@/contexts/TelegramContext';
+} from "lucide-react";
+import { motion } from "@/lib/motion";
+import { ReferenceAudioPlayer } from "@/components/audio-reference/ReferenceAudioPlayer";
+import { ReferenceStemPlayer } from "@/components/audio-reference/ReferenceStemPlayer";
+import { ReferenceActionsPanel } from "@/components/audio-reference/ReferenceActionsPanel";
+import { ExtractLyricsButton } from "@/components/audio-reference/ExtractLyricsButton";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useReferenceStems } from "@/hooks/useReferenceStems";
+import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
+import { useTelegram } from "@/contexts/TelegramContext";
 
 interface ReferenceAudio {
   id: string;
@@ -73,23 +73,28 @@ interface ReferenceAudio {
 // Helper to build stems array for player
 function buildStemsArray(reference: ReferenceAudio) {
   const stems: { id: string; type: string; url: string; label: string }[] = [];
-  
+
   if (reference.vocal_stem_url) {
-    stems.push({ id: 'vocal', type: 'vocal', url: reference.vocal_stem_url, label: 'Вокал' });
+    stems.push({ id: "vocal", type: "vocal", url: reference.vocal_stem_url, label: "Вокал" });
   }
   if (reference.instrumental_stem_url) {
-    stems.push({ id: 'instrumental', type: 'instrumental', url: reference.instrumental_stem_url, label: 'Инструментал' });
+    stems.push({
+      id: "instrumental",
+      type: "instrumental",
+      url: reference.instrumental_stem_url,
+      label: "Инструментал",
+    });
   }
   if (reference.drums_stem_url) {
-    stems.push({ id: 'drums', type: 'drums', url: reference.drums_stem_url, label: 'Ударные' });
+    stems.push({ id: "drums", type: "drums", url: reference.drums_stem_url, label: "Ударные" });
   }
   if (reference.bass_stem_url) {
-    stems.push({ id: 'bass', type: 'bass', url: reference.bass_stem_url, label: 'Бас' });
+    stems.push({ id: "bass", type: "bass", url: reference.bass_stem_url, label: "Бас" });
   }
   if (reference.other_stem_url) {
-    stems.push({ id: 'other', type: 'other', url: reference.other_stem_url, label: 'Другое' });
+    stems.push({ id: "other", type: "other", url: reference.other_stem_url, label: "Другое" });
   }
-  
+
   return stems;
 }
 
@@ -105,24 +110,24 @@ export default function ReferenceAudioDetail() {
   // Setup Telegram back button
   const { shouldShowUIButton } = useTelegramBackButton({
     visible: true,
-    fallbackPath: '/library?tab=uploads',
+    fallbackPath: "/library?tab=uploads",
   });
 
   const handleGoBack = () => navigate(-1);
   const handleClose = () => close();
 
   // Fetch reference audio details
-  const { data: reference, isLoading, error } = useQuery({
-    queryKey: ['reference-audio', id],
+  const {
+    data: reference,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["reference-audio", id],
     queryFn: async () => {
-      if (!id) throw new Error('No ID provided');
-      
-      const { data, error } = await supabase
-        .from('reference_audio')
-        .select('*')
-        .eq('id', id)
-        .single();
-      
+      if (!id) throw new Error("No ID provided");
+
+      const { data, error } = await supabase.from("reference_audio").select("*").eq("id", id).single();
+
       if (error) throw error;
       return data as ReferenceAudio;
     },
@@ -132,43 +137,40 @@ export default function ReferenceAudioDetail() {
   // Delete mutation
   const deleteMutation = useMutation({
     mutationFn: async () => {
-      if (!id) throw new Error('No ID');
-      const { error } = await supabase
-        .from('reference_audio')
-        .delete()
-        .eq('id', id);
+      if (!id) throw new Error("No ID");
+      const { error } = await supabase.from("reference_audio").delete().eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success('Аудио удалено');
-      queryClient.invalidateQueries({ queryKey: ['reference-audio'] });
-      navigate('/library?tab=uploads');
+      toast.success("Аудио удалено");
+      queryClient.invalidateQueries({ queryKey: ["reference-audio"] });
+      navigate("/library?tab=uploads");
     },
     onError: (error) => {
-      toast.error('Ошибка удаления: ' + (error as Error).message);
+      toast.error("Ошибка удаления: " + (error as Error).message);
     },
   });
 
   // Re-analyze mutation
   const reanalyzeMutation = useMutation({
     mutationFn: async () => {
-      if (!reference) throw new Error('No reference');
-      
-      const { error } = await supabase.functions.invoke('analyze-reference-audio', {
+      if (!reference) throw new Error("No reference");
+
+      const { error } = await supabase.functions.invoke("analyze-reference-audio", {
         body: {
           audioUrl: reference.file_url,
           referenceId: reference.id,
         },
       });
-      
+
       if (error) throw error;
     },
     onSuccess: () => {
-      toast.success('Анализ запущен');
-      queryClient.invalidateQueries({ queryKey: ['reference-audio', id] });
+      toast.success("Анализ запущен");
+      queryClient.invalidateQueries({ queryKey: ["reference-audio", id] });
     },
     onError: (error) => {
-      toast.error('Ошибка анализа: ' + (error as Error).message);
+      toast.error("Ошибка анализа: " + (error as Error).message);
     },
   });
 
@@ -188,35 +190,32 @@ export default function ReferenceAudioDetail() {
 
   const handleSeparateStems = async () => {
     if (!reference || !user) return;
-    
+
     try {
-      toast.loading('Запуск разделения на стемы...');
-      
-      const { error } = await supabase.functions.invoke('separate-reference-stems', {
+      toast.loading("Запуск разделения на стемы...");
+
+      const { error } = await supabase.functions.invoke("separate-reference-stems", {
         body: {
           reference_id: reference.id,
           user_id: user.id,
-          mode: 'detailed', // 4 stems
+          mode: "detailed", // 4 stems
         },
       });
-      
+
       if (error) throw error;
       toast.dismiss();
-      toast.success('Разделение запущено. Это займёт 2-3 минуты.');
-      queryClient.invalidateQueries({ queryKey: ['reference-audio', id] });
+      toast.success("Разделение запущено. Это займёт 2-3 минуты.");
+      queryClient.invalidateQueries({ queryKey: ["reference-audio", id] });
     } catch (error) {
       toast.dismiss();
-      toast.error('Ошибка: ' + (error as Error).message);
+      toast.error("Ошибка: " + (error as Error).message);
     }
   };
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        >
+        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
           <Music2 className="w-8 h-8 text-primary" />
         </motion.div>
       </div>
@@ -236,18 +235,14 @@ export default function ReferenceAudioDetail() {
     );
   }
 
-  const analysisComplete = reference.analysis_status === 'completed';
+  const analysisComplete = reference.analysis_status === "completed";
   const hasStemUrls = reference.vocal_stem_url || reference.instrumental_stem_url;
 
   return (
     <ScrollArea className="h-full">
       <div className="container max-w-2xl mx-auto p-4 pb-24 space-y-6 pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+1rem),calc(env(safe-area-inset-top,0px)+1rem))]">
         {/* Header with safe area */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center gap-3"
-        >
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-3">
           {shouldShowUIButton && (
             <Button variant="ghost" size="icon" onClick={handleGoBack}>
               <ArrowLeft className="w-5 h-5" />
@@ -256,7 +251,7 @@ export default function ReferenceAudioDetail() {
           <div className="flex-1 min-w-0">
             <h1 className="text-xl font-bold truncate">{reference.file_name}</h1>
             <p className="text-sm text-muted-foreground">
-              Загружено {new Date(reference.created_at).toLocaleDateString('ru-RU')}
+              Загружено {new Date(reference.created_at).toLocaleDateString("ru-RU")}
             </p>
           </div>
           {shouldShowUIButton && (
@@ -295,7 +290,7 @@ export default function ReferenceAudioDetail() {
                   </Badge>
                 )}
               </div>
-              
+
               {/* Full-featured audio player with waveform */}
               {reference.file_url && (
                 <ReferenceAudioPlayer
@@ -305,7 +300,7 @@ export default function ReferenceAudioDetail() {
                   compact={false}
                 />
               )}
-              
+
               {/* File size info */}
               {reference.file_size && (
                 <p className="text-xs text-muted-foreground mt-3">
@@ -317,11 +312,7 @@ export default function ReferenceAudioDetail() {
         </motion.div>
 
         {/* Analysis Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
           <Card>
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
@@ -329,10 +320,14 @@ export default function ReferenceAudioDetail() {
                   <Sparkles className="w-5 h-5 text-primary" />
                   Анализ
                 </CardTitle>
-                <Badge variant={analysisComplete ? 'default' : 'secondary'}>
-                  {reference.analysis_status === 'completed' ? 'Готово' :
-                   reference.analysis_status === 'processing' ? 'Обработка...' :
-                   reference.analysis_status === 'failed' ? 'Ошибка' : 'Ожидает'}
+                <Badge variant={analysisComplete ? "default" : "secondary"}>
+                  {reference.analysis_status === "completed"
+                    ? "Готово"
+                    : reference.analysis_status === "processing"
+                      ? "Обработка..."
+                      : reference.analysis_status === "failed"
+                        ? "Ошибка"
+                        : "Ожидает"}
                 </Badge>
               </div>
             </CardHeader>
@@ -389,16 +384,14 @@ export default function ReferenceAudioDetail() {
               ) : (
                 <div className="text-center py-6">
                   <p className="text-muted-foreground mb-3">
-                    {reference.analysis_status === 'processing' 
-                      ? 'Анализ выполняется...' 
-                      : 'Анализ не выполнен'}
+                    {reference.analysis_status === "processing" ? "Анализ выполняется..." : "Анализ не выполнен"}
                   </p>
                   <Button
                     onClick={() => reanalyzeMutation.mutate()}
-                    disabled={reanalyzeMutation.isPending || reference.analysis_status === 'processing'}
+                    disabled={reanalyzeMutation.isPending || reference.analysis_status === "processing"}
                     variant="outline"
                   >
-                    <RefreshCw className={`w-4 h-4 mr-2 ${reanalyzeMutation.isPending ? 'animate-spin' : ''}`} />
+                    <RefreshCw className={`w-4 h-4 mr-2 ${reanalyzeMutation.isPending ? "animate-spin" : ""}`} />
                     Запустить анализ
                   </Button>
                 </div>
@@ -408,11 +401,7 @@ export default function ReferenceAudioDetail() {
         </motion.div>
 
         {/* Lyrics Section - only show if transcription exists OR stems ready (so user can extract) */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-lg flex items-center gap-2">
@@ -425,24 +414,18 @@ export default function ReferenceAudioDetail() {
                 <div className="p-3 rounded-lg bg-muted/30 max-h-48 overflow-y-auto">
                   <p className="text-sm whitespace-pre-wrap">{reference.transcription}</p>
                 </div>
-              ) : reference.stems_status === 'completed' && reference.has_vocals ? (
+              ) : reference.stems_status === "completed" && reference.has_vocals ? (
                 <div className="text-center py-4">
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Извлеките текст из вокального стема
-                  </p>
+                  <p className="text-sm text-muted-foreground mb-3">Извлеките текст из вокального стема</p>
                   <ExtractLyricsButton referenceId={reference.id} vocalStemUrl={reference.vocal_stem_url} />
                 </div>
               ) : reference.has_vocals ? (
                 <div className="text-center py-4">
-                  <p className="text-sm text-muted-foreground">
-                    Сначала разделите аудио на стемы, чтобы извлечь текст
-                  </p>
+                  <p className="text-sm text-muted-foreground">Сначала разделите аудио на стемы, чтобы извлечь текст</p>
                 </div>
               ) : (
                 <div className="text-center py-4">
-                  <p className="text-sm text-muted-foreground">
-                    Инструментальный трек без вокала
-                  </p>
+                  <p className="text-sm text-muted-foreground">Инструментальный трек без вокала</p>
                 </div>
               )}
             </CardContent>
@@ -450,11 +433,7 @@ export default function ReferenceAudioDetail() {
         </motion.div>
 
         {/* Stems Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.35 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
           <Card>
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
@@ -463,39 +442,32 @@ export default function ReferenceAudioDetail() {
                   Стемы
                 </CardTitle>
                 {reference.stems_status && (
-                  <Badge variant={reference.stems_status === 'completed' ? 'default' : 'secondary'}>
-                    {reference.stems_status === 'completed' ? 'Готово' :
-                     reference.stems_status === 'processing' ? 'Обработка...' : 
-                     reference.stems_status === 'failed' ? 'Ошибка' : 'Ожидает'}
+                  <Badge variant={reference.stems_status === "completed" ? "default" : "secondary"}>
+                    {reference.stems_status === "completed"
+                      ? "Готово"
+                      : reference.stems_status === "processing"
+                        ? "Обработка..."
+                        : reference.stems_status === "failed"
+                          ? "Ошибка"
+                          : "Ожидает"}
                   </Badge>
                 )}
               </div>
             </CardHeader>
             <CardContent>
-              {reference.stems_status === 'processing' && (
+              {reference.stems_status === "processing" && (
                 <div className="space-y-2 mb-4">
                   <Progress value={33} className="w-full" />
-                  <p className="text-xs text-muted-foreground text-center">
-                    Разделение на стемы... ~2-3 мин
-                  </p>
+                  <p className="text-xs text-muted-foreground text-center">Разделение на стемы... ~2-3 мин</p>
                 </div>
               )}
-              
+
               {hasStemUrls ? (
-                <ReferenceStemPlayer
-                  stems={buildStemsArray(reference)}
-                  compact={isMobile}
-                />
-              ) : reference.stems_status !== 'processing' ? (
+                <ReferenceStemPlayer stems={buildStemsArray(reference)} compact={isMobile} />
+              ) : reference.stems_status !== "processing" ? (
                 <div className="text-center py-4">
-                  <p className="text-sm text-muted-foreground mb-3">
-                    Разделите аудио на отдельные дорожки
-                  </p>
-                  <Button
-                    onClick={handleSeparateStems}
-                    variant="outline"
-                    className="gap-2"
-                  >
+                  <p className="text-sm text-muted-foreground mb-3">Разделите аудио на отдельные дорожки</p>
+                  <Button onClick={handleSeparateStems} variant="outline" className="gap-2">
                     <Layers className="w-4 h-4" />
                     Разделить на стемы
                   </Button>
@@ -508,11 +480,7 @@ export default function ReferenceAudioDetail() {
         <Separator />
 
         {/* Action Buttons - New integrated panel */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-        >
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
           <ReferenceActionsPanel reference={reference} />
         </motion.div>
 
@@ -523,22 +491,22 @@ export default function ReferenceAudioDetail() {
           transition={{ delay: 0.45 }}
           className="grid grid-cols-2 gap-3"
         >
-          <Button 
-            onClick={handleSeparateStems} 
-            variant="outline" 
+          <Button
+            onClick={handleSeparateStems}
+            variant="outline"
             className="gap-2"
-            disabled={reference.stems_status === 'processing' || !!hasStemUrls}
+            disabled={reference.stems_status === "processing" || !!hasStemUrls}
           >
             <Layers className="w-4 h-4" />
-            {hasStemUrls ? 'Стемы готовы' : 'Разделить'}
+            {hasStemUrls ? "Стемы готовы" : "Разделить"}
           </Button>
-          <Button 
-            onClick={() => reanalyzeMutation.mutate()} 
-            variant="outline" 
+          <Button
+            onClick={() => reanalyzeMutation.mutate()}
+            variant="outline"
             className="gap-2"
             disabled={reanalyzeMutation.isPending}
           >
-            <RefreshCw className={`w-4 h-4 ${reanalyzeMutation.isPending ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-4 h-4 ${reanalyzeMutation.isPending ? "animate-spin" : ""}`} />
             Переанализ
           </Button>
         </motion.div>

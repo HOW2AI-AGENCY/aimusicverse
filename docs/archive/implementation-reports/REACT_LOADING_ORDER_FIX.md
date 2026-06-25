@@ -3,6 +3,7 @@
 ## Problem Statement
 
 The production build was failing with the following error:
+
 ```
 Uncaught TypeError: Cannot read properties of undefined (reading 'createContext')
 at vendor-other-ySatH37R.js:11:3861
@@ -29,6 +30,7 @@ When Vite builds the application for production:
 ### 1. Custom Vite Plugin: `reactPriorityPlugin`
 
 Added a custom plugin in `vite.config.ts` that:
+
 - Runs in **production mode only** (`mode === "production"`)
 - Uses `enforce: "post"` to run after HTML generation
 - **Reorders modulepreload links** in the generated HTML
@@ -43,31 +45,31 @@ function reactPriorityPlugin(): Plugin {
       // Extract all modulepreload links
       const modulePreloadRegex = /<link\s+rel="modulepreload"\s+crossorigin\s+href="[^"]+"\s*\/?>/g;
       const matches = html.match(modulePreloadRegex) || [];
-      
+
       if (matches.length === 0) return html;
 
       // Separate React preload from others
-      const reactPreload = matches.filter(link => link.includes('vendor-react'));
-      const otherPreloads = matches.filter(link => !link.includes('vendor-react'));
+      const reactPreload = matches.filter((link) => link.includes("vendor-react"));
+      const otherPreloads = matches.filter((link) => !link.includes("vendor-react"));
 
       // Remove all modulepreload links
       let modifiedHtml = html;
-      matches.forEach(link => {
+      matches.forEach((link) => {
         modifiedHtml = modifiedHtml.replace(
-          new RegExp(`\\s*${link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*`, 'g'), 
-          '\n'
+          new RegExp(`\\s*${link.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*`, "g"),
+          "\n",
         );
       });
 
       // Clean up multiple newlines
-      modifiedHtml = modifiedHtml.replace(/\n{3,}/g, '\n');
+      modifiedHtml = modifiedHtml.replace(/\n{3,}/g, "\n");
 
       // Insert React preload first, then others, before </head>
-      const allPreloads = [...reactPreload, ...otherPreloads].join('\n  ');
-      modifiedHtml = modifiedHtml.replace('</head>', `  ${allPreloads}\n</head>`);
+      const allPreloads = [...reactPreload, ...otherPreloads].join("\n  ");
+      modifiedHtml = modifiedHtml.replace("</head>", `  ${allPreloads}\n</head>`);
 
       return modifiedHtml;
-    }
+    },
   };
 }
 ```
@@ -80,59 +82,78 @@ Enhanced the chunking strategy to better separate React dependencies:
 manualChunks: (id) => {
   if (id.includes("node_modules")) {
     // CRITICAL: React MUST be checked first with specific path matching
-    if (id.includes("/react/") || id.includes("/react-dom/") || 
-        id.includes("/react-is/") || id.includes("/scheduler/")) {
+    if (
+      id.includes("/react/") ||
+      id.includes("/react-dom/") ||
+      id.includes("/react-is/") ||
+      id.includes("/scheduler/")
+    ) {
       return "vendor-react";
     }
-    
+
     // React Router
     if (id.includes("react-router")) {
       return "vendor-react";
     }
-    
+
     // UI libraries that depend on React
-    if (id.includes("@radix-ui") || id.includes("cmdk") || 
-        id.includes("vaul") || id.includes("sonner") || 
-        id.includes("next-themes")) {
+    if (
+      id.includes("@radix-ui") ||
+      id.includes("cmdk") ||
+      id.includes("vaul") ||
+      id.includes("sonner") ||
+      id.includes("next-themes")
+    ) {
       return "vendor-radix";
     }
-    
+
     // Other React UI libraries
-    if (id.includes("react-virtuoso") || id.includes("embla-carousel-react") || 
-        id.includes("react-day-picker") || id.includes("react-resizable-panels")) {
+    if (
+      id.includes("react-virtuoso") ||
+      id.includes("embla-carousel-react") ||
+      id.includes("react-day-picker") ||
+      id.includes("react-resizable-panels")
+    ) {
       return "vendor-react-ui";
     }
-    
+
     // ... other chunks ...
-    
+
     return "vendor-other";
   }
-}
+};
 ```
 
 ## Result
 
 ### Before Fix
+
 ```html
-<link rel="modulepreload" crossorigin href="/assets/vendor-utils-*.js">
-<link rel="modulepreload" crossorigin href="/assets/vendor-other-*.js">  <!-- Loads first! -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-radix-*.js">
-<link rel="modulepreload" crossorigin href="/assets/vendor-react-*.js">  <!-- Too late! -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-utils-*.js" />
+<link rel="modulepreload" crossorigin href="/assets/vendor-other-*.js" />
+<!-- Loads first! -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-radix-*.js" />
+<link rel="modulepreload" crossorigin href="/assets/vendor-react-*.js" />
+<!-- Too late! -->
 ```
 
 ### After Fix
+
 ```html
-<link rel="modulepreload" crossorigin href="/assets/vendor-react-*.js">  <!-- Loads first! ✓ -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-utils-*.js">
-<link rel="modulepreload" crossorigin href="/assets/vendor-other-*.js">  <!-- Safe now! -->
-<link rel="modulepreload" crossorigin href="/assets/vendor-radix-*.js">
+<link rel="modulepreload" crossorigin href="/assets/vendor-react-*.js" />
+<!-- Loads first! ✓ -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-utils-*.js" />
+<link rel="modulepreload" crossorigin href="/assets/vendor-other-*.js" />
+<!-- Safe now! -->
+<link rel="modulepreload" crossorigin href="/assets/vendor-radix-*.js" />
 ```
 
 ## Chunk Size Summary
 
 After optimization:
+
 - `vendor-react` (227K) - React core
-- `vendor-radix` (197K) - Radix UI components  
+- `vendor-radix` (197K) - Radix UI components
 - `vendor-react-ui` (39K) - Other React UI libs
 - `vendor-other` (509K) - Remaining libraries
 

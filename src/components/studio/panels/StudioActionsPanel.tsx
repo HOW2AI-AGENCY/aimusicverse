@@ -4,24 +4,36 @@
  * Uses design system tokens (Spec 032)
  */
 
-import { useState } from 'react';
-import { 
-  Scissors, Split, Mic, Music, Shuffle, Clock, 
-  Wand2, Download, ArrowRight, BrainCircuit, Piano,
-  ChevronDown, ChevronUp, Loader2, FileAudio
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { useState } from "react";
+import {
+  Scissors,
+  Split,
+  Mic,
+  Music,
+  Shuffle,
+  Clock,
+  Wand2,
+  Download,
+  ArrowRight,
+  BrainCircuit,
+  Piano,
+  ChevronDown,
+  ChevronUp,
+  Loader2,
+  FileAudio,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
-import type { Track } from '@/types/track';
-import { glass } from '@/lib/glass';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import type { Track } from "@/types/track";
+import { glass } from "@/lib/glass";
 
 interface ActionItem {
   id: string;
@@ -32,7 +44,7 @@ interface ActionItem {
   available: boolean;
   processing?: boolean;
   badge?: string;
-  variant?: 'default' | 'primary';
+  variant?: "default" | "primary";
   submenu?: { label: string; onClick: () => void }[];
 }
 
@@ -48,7 +60,7 @@ interface StudioActionsPanelProps {
   hasStems: boolean;
   stemsCount?: number;
   isSeparating?: boolean;
-  onSeparate?: (mode: 'simple' | 'detailed') => void;
+  onSeparate?: (mode: "simple" | "detailed") => void;
   onReplaceSection?: () => void;
   onReplaceVocal?: () => void;
   onReplaceArrangement?: () => void;
@@ -60,7 +72,7 @@ interface StudioActionsPanelProps {
   onTranscribe?: () => void;
   onAnalyze?: () => void;
   className?: string;
-  variant?: 'horizontal' | 'vertical';
+  variant?: "horizontal" | "vertical";
 }
 
 export function StudioActionsPanel({
@@ -80,9 +92,9 @@ export function StudioActionsPanel({
   onTranscribe,
   onAnalyze,
   className,
-  variant = 'horizontal',
+  variant = "horizontal",
 }: StudioActionsPanelProps) {
-  const [expandedCategories, setExpandedCategories] = useState<string[]>(['editing']);
+  const [expandedCategories, setExpandedCategories] = useState<string[]>(["editing"]);
 
   const canSeparate = !!track.suno_id && !hasStems;
   const canReplace = !!track.suno_id && !!track.suno_task_id;
@@ -91,121 +103,123 @@ export function StudioActionsPanel({
 
   const categories: ActionCategory[] = [
     {
-      id: 'editing',
-      title: 'Редактирование',
+      id: "editing",
+      title: "Редактирование",
       icon: Scissors,
       actions: [
         {
-          id: 'separate',
+          id: "separate",
           icon: Split,
-          label: 'Разделить на стемы',
-          description: 'Вокал, барабаны, бас, мелодия',
+          label: "Разделить на стемы",
+          description: "Вокал, барабаны, бас, мелодия",
           available: canSeparate,
           processing: isSeparating,
-          variant: 'primary',
-          submenu: onSeparate ? [
-            { label: 'Простое (2 стема)', onClick: () => onSeparate('simple') },
-            { label: 'Детальное (6+ стемов)', onClick: () => onSeparate('detailed') },
-          ] : undefined,
+          variant: "primary",
+          submenu: onSeparate
+            ? [
+                { label: "Простое (2 стема)", onClick: () => onSeparate("simple") },
+                { label: "Детальное (6+ стемов)", onClick: () => onSeparate("detailed") },
+              ]
+            : undefined,
         },
         {
-          id: 'replace_section',
+          id: "replace_section",
           icon: Wand2,
-          label: 'Заменить секцию',
-          description: 'AI перегенерирует часть трека',
+          label: "Заменить секцию",
+          description: "AI перегенерирует часть трека",
           available: canReplace,
-          badge: 'AI',
+          badge: "AI",
           onClick: onReplaceSection,
         },
         {
-          id: 'trim',
+          id: "trim",
           icon: Clock,
-          label: 'Обрезать',
-          description: 'Выберите фрагмент',
+          label: "Обрезать",
+          description: "Выберите фрагмент",
           available: !!track.audio_url,
           onClick: onTrim,
         },
       ],
     },
     {
-      id: 'creation',
-      title: 'Создание',
+      id: "creation",
+      title: "Создание",
       icon: Wand2,
       actions: [
         // Add Vocal - for instrumental tracks (with or without stems)
         {
-          id: 'add_vocal',
+          id: "add_vocal",
           icon: Mic,
-          label: 'Добавить вокал',
-          description: 'Сгенерировать вокал для инструментала',
+          label: "Добавить вокал",
+          description: "Сгенерировать вокал для инструментала",
           available: canReplace && isInstrumental && !!onAddVocal,
-          badge: 'AI',
+          badge: "AI",
           onClick: onAddVocal,
         },
         {
-          id: 'replace_vocal',
+          id: "replace_vocal",
           icon: Mic,
-          label: 'Новый вокал',
-          description: 'Сохранить аранжировку',
+          label: "Новый вокал",
+          description: "Сохранить аранжировку",
           available: canReplace && hasVocals && hasStems,
-          badge: 'AI',
+          badge: "AI",
           onClick: onReplaceVocal,
         },
         {
-          id: 'replace_arrangement',
+          id: "replace_arrangement",
           icon: Music,
-          label: 'Новая аранжировка',
-          description: 'Сохранить вокал',
+          label: "Новая аранжировка",
+          description: "Сохранить вокал",
           available: canReplace && hasVocals && hasStems,
-          badge: 'AI',
+          badge: "AI",
           onClick: onReplaceArrangement,
         },
         {
-          id: 'remix',
+          id: "remix",
           icon: Shuffle,
-          label: 'Ремикс',
-          description: 'Новая версия трека',
+          label: "Ремикс",
+          description: "Новая версия трека",
           available: !!track.suno_id,
-          badge: 'AI',
+          badge: "AI",
           onClick: onRemix,
         },
         {
-          id: 'extend',
+          id: "extend",
           icon: ArrowRight,
-          label: 'Расширить',
-          description: 'Продлить композицию',
+          label: "Расширить",
+          description: "Продлить композицию",
           available: !!track.suno_id,
-          badge: 'AI',
+          badge: "AI",
           onClick: onExtend,
         },
       ],
     },
     {
-      id: 'analysis',
-      title: 'Анализ',
+      id: "analysis",
+      title: "Анализ",
       icon: BrainCircuit,
       actions: [
         {
-          id: 'midi',
+          id: "midi",
           icon: Piano,
-          label: 'MIDI',
-          description: 'Транскрипция в MIDI',
+          label: "MIDI",
+          description: "Транскрипция в MIDI",
           available: hasStems || !!track.suno_id,
           onClick: onMIDI,
         },
         {
-          id: 'transcribe',
+          id: "transcribe",
           icon: FileAudio,
-          label: 'Ноты',
-          description: 'Транскрипция в ноты',
+          label: "Ноты",
+          description: "Транскрипция в ноты",
           available: hasStems || !!track.suno_id,
           onClick: onTranscribe,
         },
         {
-          id: 'analyze',
+          id: "analyze",
           icon: BrainCircuit,
-          label: 'AI Анализ',
-          description: 'Определить стиль и настроение',
+          label: "AI Анализ",
+          description: "Определить стиль и настроение",
           available: !!track.audio_url,
           onClick: onAnalyze,
         },
@@ -214,48 +228,41 @@ export function StudioActionsPanel({
   ];
 
   const toggleCategory = (categoryId: string) => {
-    setExpandedCategories(prev =>
-      prev.includes(categoryId)
-        ? prev.filter(id => id !== categoryId)
-        : [...prev, categoryId]
+    setExpandedCategories((prev) =>
+      prev.includes(categoryId) ? prev.filter((id) => id !== categoryId) : [...prev, categoryId],
     );
   };
 
   // Horizontal variant - compact buttons row
-  if (variant === 'horizontal') {
-    const primaryActions = categories.flatMap(c => c.actions).filter(a => a.available).slice(0, 6);
+  if (variant === "horizontal") {
+    const primaryActions = categories
+      .flatMap((c) => c.actions)
+      .filter((a) => a.available)
+      .slice(0, 6);
 
     return (
-      <div className={cn(
-        "px-4 sm:px-6 py-2 border-b border-border/30",
-        glass.subtle,
-        className
-      )}>
+      <div className={cn("px-4 sm:px-6 py-2 border-b border-border/30", glass.subtle, className)}>
         <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
           <span className="text-xs text-muted-foreground font-medium shrink-0">Действия:</span>
-          
+
           {primaryActions.map((action) => {
             const Icon = action.icon;
-            
+
             // Actions with submenu
             if (action.submenu) {
               return (
                 <DropdownMenu key={action.id}>
                   <DropdownMenuTrigger asChild>
                     <Button
-                      variant={action.variant === 'primary' ? 'default' : 'outline'}
+                      variant={action.variant === "primary" ? "default" : "outline"}
                       size="sm"
                       className={cn(
                         "h-8 gap-1.5 shrink-0",
-                        action.variant === 'primary' && "bg-primary text-primary-foreground"
+                        action.variant === "primary" && "bg-primary text-primary-foreground",
                       )}
                       disabled={action.processing}
                     >
-                      {action.processing ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Icon className="w-4 h-4" />
-                      )}
+                      {action.processing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Icon className="w-4 h-4" />}
                       <span className="hidden sm:inline">{action.label}</span>
                     </Button>
                   </DropdownMenuTrigger>
@@ -273,20 +280,16 @@ export function StudioActionsPanel({
             return (
               <Button
                 key={action.id}
-                variant={action.variant === 'primary' ? 'default' : 'outline'}
+                variant={action.variant === "primary" ? "default" : "outline"}
                 size="sm"
                 className={cn(
                   "h-8 gap-1.5 shrink-0",
-                  action.variant === 'primary' && "bg-primary text-primary-foreground"
+                  action.variant === "primary" && "bg-primary text-primary-foreground",
                 )}
                 onClick={action.onClick}
                 disabled={action.processing || !action.onClick}
               >
-                {action.processing ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                ) : (
-                  <Icon className="w-4 h-4" />
-                )}
+                {action.processing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Icon className="w-4 h-4" />}
                 <span className="hidden sm:inline">{action.label}</span>
                 {action.badge && (
                   <Badge variant="secondary" className="ml-1 text-[10px] px-1 py-0">
@@ -305,23 +308,16 @@ export function StudioActionsPanel({
   return (
     <div className={cn("space-y-2 p-4", className)}>
       {categories.map((category) => {
-        const availableActions = category.actions.filter(a => a.available);
+        const availableActions = category.actions.filter((a) => a.available);
         if (availableActions.length === 0) return null;
 
         const CategoryIcon = category.icon;
         const isExpanded = expandedCategories.includes(category.id);
 
         return (
-          <Collapsible
-            key={category.id}
-            open={isExpanded}
-            onOpenChange={() => toggleCategory(category.id)}
-          >
+          <Collapsible key={category.id} open={isExpanded} onOpenChange={() => toggleCategory(category.id)}>
             <CollapsibleTrigger asChild>
-              <Button
-                variant="ghost"
-                className="w-full justify-between h-10 px-3"
-              >
+              <Button variant="ghost" className="w-full justify-between h-10 px-3">
                 <div className="flex items-center gap-2">
                   <CategoryIcon className="w-4 h-4" />
                   <span className="font-medium">{category.title}</span>
@@ -329,14 +325,10 @@ export function StudioActionsPanel({
                     {availableActions.length}
                   </Badge>
                 </div>
-                {isExpanded ? (
-                  <ChevronUp className="w-4 h-4" />
-                ) : (
-                  <ChevronDown className="w-4 h-4" />
-                )}
+                {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </Button>
             </CollapsibleTrigger>
-            
+
             <CollapsibleContent className="space-y-1 mt-1">
               {availableActions.map((action) => {
                 const Icon = action.icon;
@@ -351,10 +343,12 @@ export function StudioActionsPanel({
                           disabled={action.processing}
                         >
                           <div className="flex items-start gap-3 w-full">
-                            <div className={cn(
-                              "p-2 rounded-lg shrink-0",
-                              action.variant === 'primary' ? "bg-primary/10 text-primary" : "bg-muted"
-                            )}>
+                            <div
+                              className={cn(
+                                "p-2 rounded-lg shrink-0",
+                                action.variant === "primary" ? "bg-primary/10 text-primary" : "bg-muted",
+                              )}
+                            >
                               {action.processing ? (
                                 <Loader2 className="w-4 h-4 animate-spin" />
                               ) : (
@@ -371,9 +365,7 @@ export function StudioActionsPanel({
                                 )}
                               </div>
                               {action.description && (
-                                <p className="text-xs text-muted-foreground mt-0.5">
-                                  {action.description}
-                                </p>
+                                <p className="text-xs text-muted-foreground mt-0.5">{action.description}</p>
                               )}
                             </div>
                           </div>
@@ -399,10 +391,12 @@ export function StudioActionsPanel({
                     disabled={action.processing || !action.onClick}
                   >
                     <div className="flex items-start gap-3 w-full">
-                      <div className={cn(
-                        "p-2 rounded-lg shrink-0",
-                        action.variant === 'primary' ? "bg-primary/10 text-primary" : "bg-muted"
-                      )}>
+                      <div
+                        className={cn(
+                          "p-2 rounded-lg shrink-0",
+                          action.variant === "primary" ? "bg-primary/10 text-primary" : "bg-muted",
+                        )}
+                      >
                         {action.processing ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
                         ) : (
@@ -419,9 +413,7 @@ export function StudioActionsPanel({
                           )}
                         </div>
                         {action.description && (
-                          <p className="text-xs text-muted-foreground mt-0.5">
-                            {action.description}
-                          </p>
+                          <p className="text-xs text-muted-foreground mt-0.5">{action.description}</p>
                         )}
                       </div>
                       <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />

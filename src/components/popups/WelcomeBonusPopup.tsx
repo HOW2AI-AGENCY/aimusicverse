@@ -3,45 +3,42 @@
  * Shows +50 credits bonus with confetti animation
  */
 
-import { useEffect, useState, memo } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Sparkles, Gift, PartyPopper } from 'lucide-react';
-import { ECONOMY } from '@/lib/economy';
-import confetti from 'canvas-confetti';
+import { useEffect, useState, memo } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Sparkles, Gift, PartyPopper } from "lucide-react";
+import { ECONOMY } from "@/lib/economy";
+import confetti from "canvas-confetti";
 
 interface WelcomeBonusPopupProps {
   open: boolean;
   onClose: () => void;
 }
 
-export const WelcomeBonusPopup = memo(function WelcomeBonusPopup({
-  open,
-  onClose,
-}: WelcomeBonusPopupProps) {
+export const WelcomeBonusPopup = memo(function WelcomeBonusPopup({ open, onClose }: WelcomeBonusPopupProps) {
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
     if (open) {
       // Delay content appearance for dramatic effect
       const timer = setTimeout(() => setShowContent(true), 300);
-      
+
       // Fire confetti
       const fireConfetti = () => {
         confetti({
           particleCount: 100,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ['#8B5CF6', '#EC4899', '#F59E0B', '#10B981'],
+          colors: ["#8B5CF6", "#EC4899", "#F59E0B", "#10B981"],
         });
       };
-      
+
       const confettiTimer = setTimeout(fireConfetti, 500);
-      
+
       // Auto-close after 6 seconds
       const closeTimer = setTimeout(onClose, 6000);
-      
+
       return () => {
         clearTimeout(timer);
         clearTimeout(confettiTimer);
@@ -61,23 +58,23 @@ export const WelcomeBonusPopup = memo(function WelcomeBonusPopup({
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ type: 'spring', damping: 15 }}
+              transition={{ type: "spring", damping: 15 }}
               className="flex flex-col items-center text-center py-6"
             >
               {/* Icon */}
               <motion.div
                 initial={{ rotate: -20, scale: 0 }}
                 animate={{ rotate: 0, scale: 1 }}
-                transition={{ delay: 0.2, type: 'spring' }}
+                transition={{ delay: 0.2, type: "spring" }}
                 className="relative mb-6"
               >
                 <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-purple-500/20 flex items-center justify-center">
                   <Gift className="w-10 h-10 text-primary" />
                 </div>
                 <motion.div
-                  animate={{ 
+                  animate={{
                     scale: [1, 1.2, 1],
-                    rotate: [0, 10, -10, 0]
+                    rotate: [0, 10, -10, 0],
                   }}
                   transition={{ duration: 2, repeat: Infinity }}
                   className="absolute -top-2 -right-2"
@@ -110,7 +107,7 @@ export const WelcomeBonusPopup = memo(function WelcomeBonusPopup({
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: 0.5, type: 'spring', damping: 10 }}
+                transition={{ delay: 0.5, type: "spring", damping: 10 }}
                 className="relative mb-6"
               >
                 <div className="px-8 py-4 rounded-2xl bg-gradient-to-r from-primary/20 via-purple-500/20 to-pink-500/20 border border-primary/30">
@@ -125,21 +122,21 @@ export const WelcomeBonusPopup = memo(function WelcomeBonusPopup({
                     </span>
                   </motion.div>
                 </div>
-                
+
                 {/* Floating particles */}
                 {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
                     className="absolute w-2 h-2 rounded-full bg-primary/60"
-                    initial={{ 
-                      x: 0, 
+                    initial={{
+                      x: 0,
                       y: 0,
-                      opacity: 0 
+                      opacity: 0,
                     }}
-                    animate={{ 
+                    animate={{
                       x: [0, (i - 2) * 30],
                       y: [0, -40 - i * 10],
-                      opacity: [0, 1, 0]
+                      opacity: [0, 1, 0],
                     }}
                     transition={{
                       duration: 2,
@@ -147,8 +144,8 @@ export const WelcomeBonusPopup = memo(function WelcomeBonusPopup({
                       delay: i * 0.3,
                     }}
                     style={{
-                      left: '50%',
-                      top: '50%',
+                      left: "50%",
+                      top: "50%",
                     }}
                   />
                 ))}
@@ -165,11 +162,7 @@ export const WelcomeBonusPopup = memo(function WelcomeBonusPopup({
               </motion.p>
 
               {/* CTA Button */}
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.7 }}
-              >
+              <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.7 }}>
                 <Button
                   onClick={onClose}
                   className="px-8 bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90"

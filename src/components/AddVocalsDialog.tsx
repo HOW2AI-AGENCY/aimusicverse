@@ -1,18 +1,18 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Loader2, Mic2, Info } from 'lucide-react';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { Track } from '@/types/track';
-import { logger } from '@/lib/logger';
-import { validatePromptForGeneration, showGenerationError } from '@/lib/errorHandling';
-import { InlineLyricsEditor } from '@/components/common/InlineLyricsEditor';
-import { GenerationAdvancedSettings, GenerationSettings } from '@/components/common/GenerationAdvancedSettings';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useAddVocalsProgress } from '@/hooks/generation/useAddVocalsProgress';
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2, Mic2, Info } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { Track } from "@/types/track";
+import { logger } from "@/lib/logger";
+import { validatePromptForGeneration, showGenerationError } from "@/lib/errorHandling";
+import { InlineLyricsEditor } from "@/components/common/InlineLyricsEditor";
+import { GenerationAdvancedSettings, GenerationSettings } from "@/components/common/GenerationAdvancedSettings";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useAddVocalsProgress } from "@/hooks/generation/useAddVocalsProgress";
 
 interface AddVocalsDialogProps {
   open: boolean;
@@ -21,33 +21,33 @@ interface AddVocalsDialogProps {
 }
 
 export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogProps) => {
-  const [lyrics, setLyrics] = useState('');
-  const [style, setStyle] = useState(track.style || 'pop, powerful vocals, professional singing');
-  const [title, setTitle] = useState('');
-  const [negativeTags, setNegativeTags] = useState('instrumental only, low quality, distorted');
+  const [lyrics, setLyrics] = useState("");
+  const [style, setStyle] = useState(track.style || "pop, powerful vocals, professional singing");
+  const [title, setTitle] = useState("");
+  const [negativeTags, setNegativeTags] = useState("instrumental only, low quality, distorted");
   const [loading, setLoading] = useState(false);
   const [showProgress, setShowProgress] = useState(false);
-  
+
   // Progress tracking hook
   const progress = useAddVocalsProgress();
-  
+
   // Advanced settings
   const [advancedSettings, setAdvancedSettings] = useState<GenerationSettings>({
     audioWeight: 0.7,
     styleWeight: 0.6,
     weirdnessConstraint: 0.3,
-    model: 'V4_5PLUS',
-    vocalGender: '',
+    model: "V4_5PLUS",
+    vocalGender: "",
   });
 
   const handleSubmit = async () => {
     if (!track.audio_url) {
-      toast.error('У трека отсутствует аудио файл');
+      toast.error("У трека отсутствует аудио файл");
       return;
     }
 
     if (!lyrics.trim()) {
-      toast.error('Добавьте текст песни');
+      toast.error("Добавьте текст песни");
       return;
     }
 
@@ -62,18 +62,18 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
 
     setLoading(true);
     progress.setSubmitting();
-    
+
     try {
-      const effectiveTitle = title.trim() || track.title || 'Трек с вокалом';
-      const effectiveStyle = style.trim() || 'pop, vocals';
-      
+      const effectiveTitle = title.trim() || track.title || "Трек с вокалом";
+      const effectiveStyle = style.trim() || "pop, vocals";
+
       const body: Record<string, unknown> = {
         audioUrl: track.audio_url,
         prompt: lyrics,
         customMode: true,
         style: effectiveStyle,
         title: effectiveTitle,
-        negativeTags: negativeTags.trim() || 'low quality, distorted, noise',
+        negativeTags: negativeTags.trim() || "low quality, distorted, noise",
         projectId: track.project_id,
         audioWeight: advancedSettings.audioWeight,
         styleWeight: advancedSettings.styleWeight,
@@ -85,7 +85,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
         body.vocalGender = advancedSettings.vocalGender;
       }
 
-      const { data, error } = await supabase.functions.invoke('suno-add-vocals', { body });
+      const { data, error } = await supabase.functions.invoke("suno-add-vocals", { body });
 
       if (error) throw error;
 
@@ -96,25 +96,25 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
       if (taskId && newTrackId) {
         // Start tracking progress
         progress.startTracking(taskId, newTrackId);
-        
+
         // Close main dialog, show progress dialog
         onOpenChange(false);
         setShowProgress(true);
-        
-        toast.success('Добавление вокала началось! 🎤', {
-          description: 'Следите за прогрессом в окне',
+
+        toast.success("Добавление вокала началось! 🎤", {
+          description: "Следите за прогрессом в окне",
         });
       } else {
         // Fallback if no IDs returned (legacy behavior)
-        toast.success('Добавление вокала началось! 🎤', {
-          description: 'Новый трек появится в библиотеке через 1-3 минуты',
+        toast.success("Добавление вокала началось! 🎤", {
+          description: "Новый трек появится в библиотеке через 1-3 минуты",
         });
         onOpenChange(false);
       }
     } catch (error) {
-      logger.error('Add vocals error', { error });
+      logger.error("Add vocals error", { error });
       showGenerationError(error);
-      progress.setError(error instanceof Error ? error.message : 'Ошибка добавления вокала');
+      progress.setError(error instanceof Error ? error.message : "Ошибка добавления вокала");
     } finally {
       setLoading(false);
     }
@@ -123,7 +123,6 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
   const handleStyleChange = (newStyle: string) => {
     setStyle(newStyle);
   };
-
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -140,7 +139,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
           <div className="p-3 bg-muted rounded-lg">
             <p className="text-sm">
               <Mic2 className="w-4 h-4 inline mr-2" />
-              Инструментальный трек: <span className="font-semibold">{track.title || 'Без названия'}</span>
+              Инструментальный трек: <span className="font-semibold">{track.title || "Без названия"}</span>
             </p>
           </div>
 
@@ -155,12 +154,7 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
           {/* Lyrics editor with inline AI panel */}
           <div>
             <Label className="mb-2 block">Текст песни (Lyrics) *</Label>
-            <InlineLyricsEditor
-              value={lyrics}
-              onChange={setLyrics}
-              onStyleChange={handleStyleChange}
-              minRows={10}
-            />
+            <InlineLyricsEditor value={lyrics} onChange={setLyrics} onStyleChange={handleStyleChange} minRows={10} />
           </div>
 
           {/* Style */}
@@ -212,17 +206,14 @@ export const AddVocalsDialog = ({ open, onOpenChange, track }: AddVocalsDialogPr
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Отмена
             </Button>
-            <Button 
-              onClick={handleSubmit} 
-              disabled={loading || !track.audio_url || !lyrics.trim()}
-            >
+            <Button onClick={handleSubmit} disabled={loading || !track.audio_url || !lyrics.trim()}>
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Обработка...
                 </>
               ) : (
-                'Добавить вокал'
+                "Добавить вокал"
               )}
             </Button>
           </div>

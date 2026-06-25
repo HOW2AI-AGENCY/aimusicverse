@@ -3,8 +3,8 @@
  * Uses @dnd-kit/sortable for smooth drag interactions
  */
 
-import { memo, useCallback, useMemo } from 'react';
-import { logger } from '@/lib/logger';
+import { memo, useCallback, useMemo } from "react";
+import { logger } from "@/lib/logger";
 import {
   DndContext,
   closestCenter,
@@ -13,23 +13,23 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
   useSortable,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { AnimatePresence } from '@/lib/motion';
-import { StudioTrack } from '@/stores/useUnifiedStudioStore';
-import { StudioTrackRow } from './StudioTrackRow';
-import { StudioPendingTrackRow } from './StudioPendingTrackRow';
-import { cn } from '@/lib/utils';
-import { useStemTypeTranscriptionStatus, StemTranscriptionData } from '@/hooks/studio/useStemTypeTranscriptionStatus';
-import { useQuery } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { AnimatePresence } from "@/lib/motion";
+import { StudioTrack } from "@/stores/useUnifiedStudioStore";
+import { StudioTrackRow } from "./StudioTrackRow";
+import { StudioPendingTrackRow } from "./StudioPendingTrackRow";
+import { cn } from "@/lib/utils";
+import { useStemTypeTranscriptionStatus, StemTranscriptionData } from "@/hooks/studio/useStemTypeTranscriptionStatus";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 interface SortableTrackListProps {
   tracks: StudioTrack[];
@@ -46,7 +46,19 @@ interface SortableTrackListProps {
   onSeek: (time: number) => void;
   onRemove: (trackId: string) => void;
   onVersionChange: (trackId: string, label: string) => void;
-  onAction: (trackId: string, action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'replace_instrumental' | 'extend' | 'replace_section' | 'transcribe' | 'view_notation') => void;
+  onAction: (
+    trackId: string,
+    action:
+      | "download"
+      | "effects"
+      | "reference"
+      | "add_vocals"
+      | "replace_instrumental"
+      | "extend"
+      | "replace_section"
+      | "transcribe"
+      | "view_notation",
+  ) => void;
 }
 
 interface SortableTrackItemProps {
@@ -65,21 +77,22 @@ interface SortableTrackItemProps {
   onSeek: (time: number) => void;
   onRemove: () => void;
   onVersionChange?: (label: string) => void;
-  onAction?: (action: 'download' | 'effects' | 'reference' | 'add_vocals' | 'replace_instrumental' | 'extend' | 'replace_section' | 'transcribe' | 'view_notation') => void;
+  onAction?: (
+    action:
+      | "download"
+      | "effects"
+      | "reference"
+      | "add_vocals"
+      | "replace_instrumental"
+      | "extend"
+      | "replace_section"
+      | "transcribe"
+      | "view_notation",
+  ) => void;
 }
 
-const SortableTrackItem = memo(function SortableTrackItem({
-  track,
-  ...props
-}: SortableTrackItemProps) {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: track.id });
+const SortableTrackItem = memo(function SortableTrackItem({ track, ...props }: SortableTrackItemProps) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: track.id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -87,7 +100,7 @@ const SortableTrackItem = memo(function SortableTrackItem({
     zIndex: isDragging ? 10 : undefined,
   };
 
-  if (track.status === 'pending') {
+  if (track.status === "pending") {
     return (
       <div ref={setNodeRef} style={style}>
         <StudioPendingTrackRow
@@ -96,7 +109,7 @@ const SortableTrackItem = memo(function SortableTrackItem({
             name: track.name,
             type: track.type,
             taskId: track.taskId,
-            status: 'pending',
+            status: "pending",
           }}
           onCancel={props.onRemove}
         />
@@ -108,21 +121,18 @@ const SortableTrackItem = memo(function SortableTrackItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={cn(
-        "relative",
-        isDragging && "opacity-80 shadow-xl ring-2 ring-primary/50 rounded-xl"
-      )}
+      className={cn("relative", isDragging && "opacity-80 shadow-xl ring-2 ring-primary/50 rounded-xl")}
       {...attributes}
     >
       {/* Drag handle overlay - only on desktop */}
       <div
         {...listeners}
         className="absolute left-0 top-0 bottom-0 w-8 cursor-grab active:cursor-grabbing z-10 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 hover:opacity-100 transition-opacity"
-        style={{ touchAction: 'none' }}
+        style={{ touchAction: "none" }}
       >
         <div className="w-1 h-8 rounded-full bg-muted-foreground/30" />
       </div>
-      
+
       <StudioTrackRow
         track={track}
         isPlaying={props.isPlaying}
@@ -177,34 +187,34 @@ export const SortableTrackList = memo(function SortableTrackList({
   // Fetch full transcription data for all stems that have transcriptions
   // Also fetch by track_id directly for main tracks without stems
   const { data: transcriptionsMap, isLoading: loadingTranscriptions } = useQuery({
-    queryKey: ['stem-transcriptions-full', sourceTrackId, stemTypes.sort().join(',')],
+    queryKey: ["stem-transcriptions-full", sourceTrackId, stemTypes.sort().join(",")],
     queryFn: async (): Promise<Record<string, StemTranscriptionData>> => {
       if (!sourceTrackId || stemTypes.length === 0) return {};
 
       // Get stems for this track
       const { data: stems, error: stemsError } = await supabase
-        .from('track_stems')
-        .select('id, stem_type')
-        .eq('track_id', sourceTrackId)
-        .in('stem_type', stemTypes);
+        .from("track_stems")
+        .select("id, stem_type")
+        .eq("track_id", sourceTrackId)
+        .in("stem_type", stemTypes);
 
       const result: Record<string, StemTranscriptionData> = {};
 
       if (stemsError || !stems?.length) {
-        console.log('[SortableTrackList] No stems found for', sourceTrackId, stemTypes);
+        console.log("[SortableTrackList] No stems found for", sourceTrackId, stemTypes);
         // Try to fetch transcriptions directly by track_id for 'main' type
-        if (stemTypes.includes('main')) {
+        if (stemTypes.includes("main")) {
           const { data: mainTrans } = await supabase
-            .from('stem_transcriptions')
-            .select('*')
-            .eq('track_id', sourceTrackId)
-            .order('created_at', { ascending: false })
+            .from("stem_transcriptions")
+            .select("*")
+            .eq("track_id", sourceTrackId)
+            .order("created_at", { ascending: false })
             .limit(1)
             .maybeSingle();
-          
+
           if (mainTrans) {
-            result['main'] = {
-              stemType: 'main',
+            result["main"] = {
+              stemType: "main",
               stemId: mainTrans.stem_id,
               midiUrl: mainTrans.midi_url,
               pdfUrl: mainTrans.pdf_url,
@@ -221,41 +231,49 @@ export const SortableTrackList = memo(function SortableTrackList({
         return result;
       }
 
-      const stemIds = stems.map(s => s.id);
+      const stemIds = stems.map((s) => s.id);
 
       // Get transcriptions for these stems
       const { data: transcriptions, error: transError } = await supabase
-        .from('stem_transcriptions')
-        .select('*')
-        .in('stem_id', stemIds);
+        .from("stem_transcriptions")
+        .select("*")
+        .in("stem_id", stemIds);
 
       if (transError) {
-        logger.warn('[SortableTrackList] Error fetching transcriptions', { error: transError });
-        return result;
-      }
-      
-      if (!transcriptions?.length) {
-        console.log('[SortableTrackList] No transcriptions found for stemIds:', stemIds);
+        logger.warn("[SortableTrackList] Error fetching transcriptions", { error: transError });
         return result;
       }
 
-      console.log('[SortableTrackList] Found transcriptions:', transcriptions.length, 'for stems:', stems.map(s => s.stem_type));
+      if (!transcriptions?.length) {
+        console.log("[SortableTrackList] No transcriptions found for stemIds:", stemIds);
+        return result;
+      }
+
+      console.log(
+        "[SortableTrackList] Found transcriptions:",
+        transcriptions.length,
+        "for stems:",
+        stems.map((s) => s.stem_type),
+      );
 
       // Build map: stemType -> transcription data (reuse result already declared above)
-      
+
       for (const trans of transcriptions) {
-        const stem = stems.find(s => s.id === trans.stem_id);
+        const stem = stems.find((s) => s.id === trans.stem_id);
         if (!stem) continue;
 
         // Normalize notes array
         let normalizedNotes: any[] | null = null;
         if (trans.notes && Array.isArray(trans.notes)) {
-          normalizedNotes = trans.notes.map((n: any) => {
-            const pitch = typeof n?.pitch === 'number' ? n.pitch : 60;
-            const startTime = typeof n?.startTime === 'number' ? n.startTime : (typeof n?.start_time === 'number' ? n.start_time : 0);
-            const duration = typeof n?.duration === 'number' ? n.duration : (typeof n?.dur === 'number' ? n.dur : 0.25);
-            return { pitch, startTime, endTime: startTime + duration, duration };
-          }).filter((n: any) => Number.isFinite(n.pitch) && Number.isFinite(n.startTime));
+          normalizedNotes = trans.notes
+            .map((n: any) => {
+              const pitch = typeof n?.pitch === "number" ? n.pitch : 60;
+              const startTime =
+                typeof n?.startTime === "number" ? n.startTime : typeof n?.start_time === "number" ? n.start_time : 0;
+              const duration = typeof n?.duration === "number" ? n.duration : typeof n?.dur === "number" ? n.dur : 0.25;
+              return { pitch, startTime, endTime: startTime + duration, duration };
+            })
+            .filter((n: any) => Number.isFinite(n.pitch) && Number.isFinite(n.startTime));
         }
 
         result[stem.stem_type] = {
@@ -271,8 +289,8 @@ export const SortableTrackList = memo(function SortableTrackList({
           keyDetected: trans.key_detected,
           durationSeconds: trans.duration_seconds ? Number(trans.duration_seconds) : null,
         };
-        
-        console.log('[SortableTrackList] Mapped transcription for', stem.stem_type, ':', {
+
+        console.log("[SortableTrackList] Mapped transcription for", stem.stem_type, ":", {
           hasNotes: !!normalizedNotes?.length,
           hasMidi: !!trans.midi_url,
           hasPdf: !!trans.pdf_url,
@@ -287,7 +305,7 @@ export const SortableTrackList = memo(function SortableTrackList({
 
   // DnD kit needs stable item IDs
   const trackIds = useMemo(() => tracks.map((t) => t.id), [tracks]);
-  
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -296,51 +314,51 @@ export const SortableTrackList = memo(function SortableTrackList({
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const { active, over } = event;
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
 
-    if (over && active.id !== over.id) {
-      const oldIndex = tracks.findIndex((t) => t.id === active.id);
-      const newIndex = tracks.findIndex((t) => t.id === over.id);
-      
-      if (oldIndex !== -1 && newIndex !== -1) {
-        onReorder(oldIndex, newIndex);
+      if (over && active.id !== over.id) {
+        const oldIndex = tracks.findIndex((t) => t.id === active.id);
+        const newIndex = tracks.findIndex((t) => t.id === over.id);
+
+        if (oldIndex !== -1 && newIndex !== -1) {
+          onReorder(oldIndex, newIndex);
+        }
       }
-    }
-  }, [tracks, onReorder]);
+    },
+    [tracks, onReorder],
+  );
 
   return (
-    <DndContext
-      sensors={sensors}
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-    >
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={trackIds} strategy={verticalListSortingStrategy}>
         <AnimatePresence>
           {tracks.map((track) => {
             // Check if this track is the source track (main track that can be extended/replaced)
             // A track is the source if: it has type 'main' OR the track.id matches the original source
-            const stemTypesArr = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
-            const isSourceTrack = track.type === 'main' || 
+            const stemTypesArr = ["vocal", "instrumental", "drums", "bass", "other"];
+            const isSourceTrack =
+              track.type === "main" ||
               (tracks.length > 0 && tracks[0].id === track.id && !stemTypesArr.includes(track.type)) ||
               (sourceTrackId != null && track.id === sourceTrackId);
-            
+
             // Check if track has transcription (by stem type for this studio project)
             const transcription = transcriptionsMap?.[track.type] || null;
             // hasTranscription = true if we have transcription data with files or status says so
             const hasTranscription = !!(
-              transcriptionStatus?.[track.type] || 
-              transcription?.midiUrl || 
-              transcription?.pdfUrl || 
-              transcription?.gp5Url || 
+              transcriptionStatus?.[track.type] ||
+              transcription?.midiUrl ||
+              transcription?.pdfUrl ||
+              transcription?.gp5Url ||
               transcription?.mxmlUrl ||
               (transcription?.notes && transcription.notes.length > 0) ||
               (transcription?.notesCount && transcription.notesCount > 0)
             );
-            
+
             return (
               <SortableTrackItem
                 key={track.id}

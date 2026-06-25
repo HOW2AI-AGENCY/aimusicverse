@@ -1,8 +1,8 @@
 // ProfileStats Component - Sprint 011 Task T022
 // Displays follower, following, and track counts
 
-import { Users, UserPlus, Music } from 'lucide-react';
-import type { ProfileStats as Stats } from '@/types/profile';
+import { Users, UserPlus, Music } from "lucide-react";
+import type { ProfileStats as Stats } from "@/types/profile";
 
 interface ProfileStatsProps {
   stats: Stats;
@@ -11,12 +11,7 @@ interface ProfileStatsProps {
   onTracksClick?: () => void;
 }
 
-export function ProfileStats({
-  stats,
-  onFollowersClick,
-  onFollowingClick,
-  onTracksClick,
-}: ProfileStatsProps) {
+export function ProfileStats({ stats, onFollowersClick, onFollowingClick, onTracksClick }: ProfileStatsProps) {
   const formatCount = (count: number): string => {
     if (count >= 1000000) {
       return `${(count / 1000000).toFixed(1)}M`;

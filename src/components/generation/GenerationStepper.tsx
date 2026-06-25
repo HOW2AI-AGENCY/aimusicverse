@@ -1,6 +1,6 @@
-import { motion } from '@/lib/motion';
-import { Check, Circle, ChevronRight } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { motion } from "@/lib/motion";
+import { Check, Circle, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Step {
   id: string;
@@ -13,22 +13,17 @@ interface GenerationStepperProps {
   steps: Step[];
   currentStep: number;
   onStepClick?: (index: number) => void;
-  variant?: 'horizontal' | 'vertical' | 'compact';
+  variant?: "horizontal" | "vertical" | "compact";
 }
 
-export function GenerationStepper({ 
-  steps, 
-  currentStep, 
-  onStepClick,
-  variant = 'horizontal' 
-}: GenerationStepperProps) {
-  if (variant === 'compact') {
+export function GenerationStepper({ steps, currentStep, onStepClick, variant = "horizontal" }: GenerationStepperProps) {
+  if (variant === "compact") {
     return (
       <div className="flex items-center gap-1">
         {steps.map((step, index) => {
           const isCompleted = index < currentStep;
           const isCurrent = index === currentStep;
-          
+
           return (
             <motion.div
               key={step.id}
@@ -45,7 +40,7 @@ export function GenerationStepper({
                   isCompleted && "bg-primary",
                   isCurrent && "bg-primary w-6",
                   !isCompleted && !isCurrent && "bg-muted-foreground/30",
-                  index <= currentStep && onStepClick && "cursor-pointer"
+                  index <= currentStep && onStepClick && "cursor-pointer",
                 )}
               />
             </motion.div>
@@ -55,14 +50,14 @@ export function GenerationStepper({
     );
   }
 
-  if (variant === 'vertical') {
+  if (variant === "vertical") {
     return (
       <div className="flex flex-col gap-1">
         {steps.map((step, index) => {
           const isCompleted = index < currentStep;
           const isCurrent = index === currentStep;
           const Icon = step.icon;
-          
+
           return (
             <div key={step.id} className="flex items-start gap-3">
               <div className="flex flex-col items-center">
@@ -74,7 +69,7 @@ export function GenerationStepper({
                     isCompleted && "bg-primary border-primary text-primary-foreground",
                     isCurrent && "border-primary bg-primary/10",
                     !isCompleted && !isCurrent && "border-muted-foreground/30 text-muted-foreground",
-                    index <= currentStep && onStepClick && "cursor-pointer hover:scale-110"
+                    index <= currentStep && onStepClick && "cursor-pointer hover:scale-110",
                   )}
                   whileHover={index <= currentStep ? { scale: 1.05 } : {}}
                   whileTap={index <= currentStep ? { scale: 0.95 } : {}}
@@ -87,22 +82,16 @@ export function GenerationStepper({
                     <span className="text-xs font-medium">{index + 1}</span>
                   )}
                 </motion.button>
-                
+
                 {index < steps.length - 1 && (
-                  <div className={cn(
-                    "w-0.5 h-8 mt-1",
-                    index < currentStep ? "bg-primary" : "bg-muted-foreground/30"
-                  )} />
+                  <div
+                    className={cn("w-0.5 h-8 mt-1", index < currentStep ? "bg-primary" : "bg-muted-foreground/30")}
+                  />
                 )}
               </div>
-              
+
               <div className="flex-1 pt-1">
-                <p className={cn(
-                  "text-sm font-medium",
-                  isCurrent && "text-primary"
-                )}>
-                  {step.label}
-                </p>
+                <p className={cn("text-sm font-medium", isCurrent && "text-primary")}>{step.label}</p>
               </div>
             </div>
           );
@@ -118,7 +107,7 @@ export function GenerationStepper({
         const isCompleted = index < currentStep;
         const isCurrent = index === currentStep;
         const Icon = step.icon;
-        
+
         return (
           <div key={step.id} className="flex items-center flex-1 last:flex-none">
             <motion.button
@@ -126,7 +115,7 @@ export function GenerationStepper({
               disabled={index > currentStep}
               className={cn(
                 "flex flex-col items-center gap-1.5 min-w-[60px]",
-                index <= currentStep && onStepClick && "cursor-pointer"
+                index <= currentStep && onStepClick && "cursor-pointer",
               )}
               whileHover={index <= currentStep ? { scale: 1.05 } : {}}
               whileTap={index <= currentStep ? { scale: 0.95 } : {}}
@@ -136,7 +125,7 @@ export function GenerationStepper({
                   "w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all",
                   isCompleted && "bg-primary border-primary text-primary-foreground",
                   isCurrent && "border-primary bg-primary/10 text-primary",
-                  !isCompleted && !isCurrent && "border-muted-foreground/30 text-muted-foreground"
+                  !isCompleted && !isCurrent && "border-muted-foreground/30 text-muted-foreground",
                 )}
                 initial={false}
                 animate={isCurrent ? { scale: [1, 1.1, 1] } : {}}
@@ -150,15 +139,17 @@ export function GenerationStepper({
                   <span className="text-sm font-medium">{index + 1}</span>
                 )}
               </motion.div>
-              
-              <span className={cn(
-                "text-xs font-medium text-center whitespace-nowrap",
-                isCurrent ? "text-primary" : "text-muted-foreground"
-              )}>
+
+              <span
+                className={cn(
+                  "text-xs font-medium text-center whitespace-nowrap",
+                  isCurrent ? "text-primary" : "text-muted-foreground",
+                )}
+              >
                 {step.label}
               </span>
             </motion.button>
-            
+
             {index < steps.length - 1 && (
               <div className="flex-1 mx-2 h-0.5 relative overflow-hidden">
                 <div className="absolute inset-0 bg-muted-foreground/30" />

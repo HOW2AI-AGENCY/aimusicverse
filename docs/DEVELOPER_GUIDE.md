@@ -105,11 +105,13 @@ SUNO_API_KEY=sk-...                   # DO NOT expose client-side
 ### Browser DevTools
 
 **React DevTools**
+
 - Install browser extension
 - Use Components tab to inspect React tree
 - Use Profiler tab for performance analysis
 
 **Redux DevTools**
+
 - Works with Zustand via middleware
 - Enable in development mode only
 
@@ -259,6 +261,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 
 **Types**:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation
@@ -269,6 +272,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `chore`: Maintenance
 
 **Examples**:
+
 ```
 feat(player): add crossfade between tracks
 
@@ -341,11 +345,11 @@ function calculateDuration(start: number, end: number) {
 
 ```typescript
 // ✅ Good
-const AUDIO_FORMATS = ['mp3', 'wav', 'ogg'] as const;
-type AudioFormat = typeof AUDIO_FORMATS[number];
+const AUDIO_FORMATS = ["mp3", "wav", "ogg"] as const;
+type AudioFormat = (typeof AUDIO_FORMATS)[number];
 
 // ❌ Avoid
-const AUDIO_FORMATS = ['mp3', 'wav', 'ogg'];
+const AUDIO_FORMATS = ["mp3", "wav", "ogg"];
 ```
 
 ### React Component Guidelines
@@ -463,7 +467,7 @@ export const Card = ({ className, ...props }) => (
 
 ```typescript
 // src/stores/playerStore.ts
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface PlayerState {
   isPlaying: boolean;
@@ -481,11 +485,11 @@ export const usePlayerStore = create<PlayerState>((set) => ({
 **2. Use TanStack Query for server state**
 
 ```typescript
-import { useQuery } from '@tanstack/react-query';
+import { useQuery } from "@tanstack/react-query";
 
 function useTrack(trackId: string) {
   return useQuery({
-    queryKey: ['track', trackId],
+    queryKey: ["track", trackId],
     queryFn: () => fetchTrack(trackId),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
@@ -537,11 +541,11 @@ npm test src/hooks/usePlayerStore.test.ts
 
 ```typescript
 // src/hooks/usePlayerStore.test.ts
-import { renderHook, act } from '@testing-library/react';
-import { usePlayerStore } from './usePlayerStore';
+import { renderHook, act } from "@testing-library/react";
+import { usePlayerStore } from "./usePlayerStore";
 
-describe('usePlayerStore', () => {
-  it('should play track', () => {
+describe("usePlayerStore", () => {
+  it("should play track", () => {
     const { result } = renderHook(() => usePlayerStore());
 
     act(() => {
@@ -551,7 +555,7 @@ describe('usePlayerStore', () => {
     expect(result.current.isPlaying).toBe(true);
   });
 
-  it('should pause track', () => {
+  it("should pause track", () => {
     const { result } = renderHook(() => usePlayerStore());
 
     act(() => {
@@ -592,10 +596,10 @@ npm run test:e2e:report
 
 ```typescript
 // tests/e2e/player.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('should play track', async ({ page }) => {
-  await page.goto('/library');
+test("should play track", async ({ page }) => {
+  await page.goto("/library");
 
   // Click first track
   await page.locator('[data-testid="track-card"]').first().click();
@@ -617,23 +621,25 @@ test('should play track', async ({ page }) => {
 **Console Logging** (use logger utility):
 
 ```typescript
-import { logger } from '@/lib/logger';
+import { logger } from "@/lib/logger";
 
 // Development only
-logger.debug('Detailed debug info', { userId, trackId });
-logger.info('Informational message');
-logger.warn('Warning message');
-logger.error('Error message', error);
+logger.debug("Detailed debug info", { userId, trackId });
+logger.info("Informational message");
+logger.warn("Warning message");
+logger.error("Error message", error);
 
 // Production: only errors are logged to Sentry
 ```
 
 **React DevTools**:
+
 - Inspect component props and state
 - Trace component re-renders
 - Profile performance
 
 **Network Tab**:
+
 - Monitor API requests
 - Check request/response payloads
 - Debug failed requests
@@ -676,27 +682,27 @@ console.log({
 **2. React Query cache issues**
 
 ```typescript
-import { useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from "@tanstack/react-query";
 
 function Debug() {
   const queryClient = useQueryClient();
 
   // Inspect cache
-  console.log(queryClient.getQueryData(['tracks']));
+  console.log(queryClient.getQueryData(["tracks"]));
 
   // Invalidate cache
-  queryClient.invalidateQueries(['tracks']);
+  queryClient.invalidateQueries(["tracks"]);
 }
 ```
 
 **3. Zustand store state**
 
 ```typescript
-import { usePlayerStore } from '@/stores/playerStore';
+import { usePlayerStore } from "@/stores/playerStore";
 
 function Debug() {
   const state = usePlayerStore();
-  console.log('Player state:', state);
+  console.log("Player state:", state);
 }
 ```
 
@@ -733,7 +739,7 @@ import MyNewPage from './pages/MyNewPage';
 
 ```typescript
 // src/hooks/useMyHook.ts
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export function useMyHook() {
   const [value, setValue] = useState(null);
@@ -777,15 +783,12 @@ touch supabase/functions/my-function/index.ts
 
 ```typescript
 // supabase/functions/my-function/index.ts
-import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 serve(async (req) => {
   const { data } = await req.json();
 
-  return new Response(
-    JSON.stringify({ result: 'success' }),
-    { headers: { 'Content-Type': 'application/json' } }
-  );
+  return new Response(JSON.stringify({ result: "success" }), { headers: { "Content-Type": "application/json" } });
 });
 ```
 
@@ -796,7 +799,7 @@ serve(async (req) => {
 ### 1. Lazy Load Heavy Components
 
 ```typescript
-const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 ```
 
 ### 2. Memoize Expensive Computations
@@ -831,9 +834,9 @@ import { Virtuoso } from 'react-virtuoso';
 ### 5. Debounce User Input
 
 ```typescript
-import { useDebouncedValue } from 'use-debounce';
+import { useDebouncedValue } from "use-debounce";
 
-const [searchTerm, setSearchTerm] = useState('');
+const [searchTerm, setSearchTerm] = useState("");
 const [debouncedTerm] = useDebouncedValue(searchTerm, 300);
 ```
 
@@ -847,11 +850,11 @@ const [debouncedTerm] = useDebouncedValue(searchTerm, 300);
 
 ```typescript
 // ❌ BAD - imports Tone at module level
-import * as Tone from 'tone';
+import * as Tone from "tone";
 
 // ✅ GOOD - dynamic import
 async function useSynth() {
-  const Tone = await import('tone');
+  const Tone = await import("tone");
   const synth = new Tone.Synth().toDestination();
 }
 ```
@@ -862,7 +865,7 @@ async function useSynth() {
 // Invalidate after mutation
 mutate(data, {
   onSuccess: () => {
-    queryClient.invalidateQueries(['tracks']);
+    queryClient.invalidateQueries(["tracks"]);
   },
 });
 ```
@@ -876,7 +879,7 @@ const playAudio = async () => {
     await audio.play();
   } catch (error) {
     // iOS requires user gesture
-    console.error('Playback failed:', error);
+    console.error("Playback failed:", error);
   }
 };
 ```
@@ -889,7 +892,7 @@ if (window.Telegram?.WebApp) {
   const telegram = window.Telegram.WebApp;
   telegram.ready();
 } else {
-  console.warn('Not running in Telegram WebApp');
+  console.warn("Not running in Telegram WebApp");
 }
 ```
 
@@ -898,6 +901,7 @@ if (window.Telegram?.WebApp) {
 ## Resources
 
 ### Official Documentation
+
 - [React 19 Docs](https://react.dev/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
 - [Vite Guide](https://vitejs.dev/guide/)
@@ -906,12 +910,14 @@ if (window.Telegram?.WebApp) {
 - [Zustand](https://github.com/pmndrs/zustand)
 
 ### Project Documentation
+
 - [Architecture Guide](./COMPREHENSIVE_ARCHITECTURE.md)
 - [Hooks Reference](./HOOKS_REFERENCE.md)
 - [API Reference](./API_REFERENCE.md)
 - [Database Schema](./DATABASE.md)
 
 ### Community
+
 - [GitHub Issues](https://github.com/HOW2AI-AGENCY/aimusicverse/issues)
 - [Telegram Support](https://t.me/musicverse_support)
 

@@ -12,7 +12,7 @@
  * keeps working while new code imports from this file.
  */
 
-import type { Variants, Transition } from '@/lib/motion';
+import type { Variants, Transition } from "@/lib/motion";
 import {
   fadeIn,
   slideUp,
@@ -31,7 +31,7 @@ import {
   bounceTransition,
   MOTION_DURATION,
   MOTION_EASING,
-} from '@/lib/motion';
+} from "@/lib/motion";
 
 // Canonical preset names used by Phase 7 codemods.
 // Aliases mapped to existing variants so we keep one implementation.
@@ -62,7 +62,7 @@ export const transitions = {
 export const interactiveTap = {
   whileHover: { scale: 1.01 },
   whileTap: { scale: 0.98 },
-  transition: { type: 'spring', stiffness: 400, damping: 25 } as Transition,
+  transition: { type: "spring", stiffness: 400, damping: 25 } as Transition,
 } as const;
 
 export { MOTION_DURATION, MOTION_EASING };

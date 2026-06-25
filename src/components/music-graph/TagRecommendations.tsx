@@ -1,25 +1,25 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  Sparkles, TrendingUp, History, Link2, Copy, Check, 
-  ChevronDown, ChevronUp, Lightbulb, Zap
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
-import { 
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
-import { 
-  useTagRecommendations, 
-  useTagPopularity, 
-  useSuccessfulCombinations 
-} from '@/hooks/useTagRecommendations';
+import { useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import {
+  Sparkles,
+  TrendingUp,
+  History,
+  Link2,
+  Copy,
+  Check,
+  ChevronDown,
+  ChevronUp,
+  Lightbulb,
+  Zap,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
+import { useTagRecommendations, useTagPopularity, useSuccessfulCombinations } from "@/hooks/useTagRecommendations";
 
 interface TagRecommendationsProps {
   currentTags?: string[];
@@ -29,22 +29,17 @@ interface TagRecommendationsProps {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  genre: 'hsl(var(--primary))',
-  mood: '#22c55e',
-  instrument: '#f59e0b',
-  vocal: '#ec4899',
-  production: '#8b5cf6',
-  structure: '#06b6d4',
-  era: '#84cc16',
-  tempo: '#f97316',
+  genre: "hsl(var(--primary))",
+  mood: "#22c55e",
+  instrument: "#f59e0b",
+  vocal: "#ec4899",
+  production: "#8b5cf6",
+  structure: "#06b6d4",
+  era: "#84cc16",
+  tempo: "#f97316",
 };
 
-export function TagRecommendations({ 
-  currentTags = [], 
-  genre, 
-  onTagSelect,
-  className 
-}: TagRecommendationsProps) {
+export function TagRecommendations({ currentTags = [], genre, onTagSelect, className }: TagRecommendationsProps) {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     recommendations: true,
     popular: false,
@@ -57,7 +52,7 @@ export function TagRecommendations({
   const { data: combinations, isLoading: loadingCombinations } = useSuccessfulCombinations();
 
   const toggleSection = (section: string) => {
-    setExpandedSections(prev => ({
+    setExpandedSections((prev) => ({
       ...prev,
       [section]: !prev[section],
     }));
@@ -66,7 +61,7 @@ export function TagRecommendations({
   const handleCopyTag = async (tag: string) => {
     await navigator.clipboard.writeText(tag);
     setCopiedTag(tag);
-    toast.success('Тег скопирован');
+    toast.success("Тег скопирован");
     setTimeout(() => setCopiedTag(null), 2000);
   };
 
@@ -81,10 +76,7 @@ export function TagRecommendations({
   return (
     <div className={cn("space-y-4", className)}>
       {/* AI Recommendations */}
-      <Collapsible 
-        open={expandedSections.recommendations} 
-        onOpenChange={() => toggleSection('recommendations')}
-      >
+      <Collapsible open={expandedSections.recommendations} onOpenChange={() => toggleSection("recommendations")}>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" className="w-full justify-between p-4 h-auto">
             <div className="flex items-center gap-2">
@@ -93,28 +85,20 @@ export function TagRecommendations({
               </div>
               <div className="text-left">
                 <h3 className="font-semibold text-sm">Рекомендации для вас</h3>
-                <p className="text-xs text-muted-foreground">
-                  {recommendations.length} персональных предложений
-                </p>
+                <p className="text-xs text-muted-foreground">{recommendations.length} персональных предложений</p>
               </div>
             </div>
-            {expandedSections.recommendations ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+            {expandedSections.recommendations ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </CollapsibleTrigger>
-        
+
         <CollapsibleContent>
           <ScrollArea className="h-64 px-4">
             <div className="space-y-2 pb-4">
               {recommendations.length === 0 ? (
                 <div className="text-center py-6">
                   <Lightbulb className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">
-                    Выберите теги, чтобы получить рекомендации
-                  </p>
+                  <p className="text-sm text-muted-foreground">Выберите теги, чтобы получить рекомендации</p>
                 </div>
               ) : (
                 recommendations.map((rec, idx) => (
@@ -131,11 +115,11 @@ export function TagRecommendations({
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-medium text-sm">{rec.tag}</span>
                           {rec.category && (
-                            <Badge 
-                              variant="outline" 
+                            <Badge
+                              variant="outline"
                               className="text-[10px] px-1.5"
-                              style={{ 
-                                borderColor: CATEGORY_COLORS[rec.category] + '50',
+                              style={{
+                                borderColor: CATEGORY_COLORS[rec.category] + "50",
                                 color: CATEGORY_COLORS[rec.category],
                               }}
                             >
@@ -147,9 +131,7 @@ export function TagRecommendations({
                         {rec.relatedTags.length > 0 && (
                           <div className="flex items-center gap-1 mt-2">
                             <Link2 className="w-3 h-3 text-muted-foreground" />
-                            <span className="text-[10px] text-muted-foreground">
-                              {rec.relatedTags.join(', ')}
-                            </span>
+                            <span className="text-[10px] text-muted-foreground">{rec.relatedTags.join(", ")}</span>
                           </div>
                         )}
                       </div>
@@ -169,10 +151,10 @@ export function TagRecommendations({
                         )}
                       </Button>
                     </div>
-                    
+
                     {/* Score indicator */}
                     <div className="mt-2 h-1 bg-muted rounded-full overflow-hidden">
-                      <motion.div 
+                      <motion.div
                         className="h-full bg-primary"
                         initial={{ width: 0 }}
                         animate={{ width: `${rec.score * 100}%` }}
@@ -188,10 +170,7 @@ export function TagRecommendations({
       </Collapsible>
 
       {/* Popular Tags */}
-      <Collapsible 
-        open={expandedSections.popular} 
-        onOpenChange={() => toggleSection('popular')}
-      >
+      <Collapsible open={expandedSections.popular} onOpenChange={() => toggleSection("popular")}>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" className="w-full justify-between p-4 h-auto">
             <div className="flex items-center gap-2">
@@ -200,19 +179,13 @@ export function TagRecommendations({
               </div>
               <div className="text-left">
                 <h3 className="font-semibold text-sm">Популярные теги</h3>
-                <p className="text-xs text-muted-foreground">
-                  Самые используемые в сообществе
-                </p>
+                <p className="text-xs text-muted-foreground">Самые используемые в сообществе</p>
               </div>
             </div>
-            {expandedSections.popular ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+            {expandedSections.popular ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </CollapsibleTrigger>
-        
+
         <CollapsibleContent>
           <div className="px-4 pb-4">
             {loadingPopularity ? (
@@ -234,14 +207,12 @@ export function TagRecommendations({
                       variant="outline"
                       className={cn(
                         "cursor-pointer hover:bg-primary/10 transition-colors",
-                        currentTags.includes(item.tag) && "bg-primary/20 border-primary"
+                        currentTags.includes(item.tag) && "bg-primary/20 border-primary",
                       )}
                       onClick={() => handleTagClick(item.tag)}
                     >
                       {item.tag}
-                      <span className="ml-1 text-[10px] text-muted-foreground">
-                        {item.count}
-                      </span>
+                      <span className="ml-1 text-[10px] text-muted-foreground">{item.count}</span>
                     </Badge>
                   </motion.div>
                 ))}
@@ -252,10 +223,7 @@ export function TagRecommendations({
       </Collapsible>
 
       {/* Successful Combinations */}
-      <Collapsible 
-        open={expandedSections.combinations} 
-        onOpenChange={() => toggleSection('combinations')}
-      >
+      <Collapsible open={expandedSections.combinations} onOpenChange={() => toggleSection("combinations")}>
         <CollapsibleTrigger asChild>
           <Button variant="ghost" className="w-full justify-between p-4 h-auto">
             <div className="flex items-center gap-2">
@@ -264,32 +232,22 @@ export function TagRecommendations({
               </div>
               <div className="text-left">
                 <h3 className="font-semibold text-sm">Успешные комбинации</h3>
-                <p className="text-xs text-muted-foreground">
-                  Проверенные сочетания тегов
-                </p>
+                <p className="text-xs text-muted-foreground">Проверенные сочетания тегов</p>
               </div>
             </div>
-            {expandedSections.combinations ? (
-              <ChevronUp className="w-4 h-4" />
-            ) : (
-              <ChevronDown className="w-4 h-4" />
-            )}
+            {expandedSections.combinations ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </Button>
         </CollapsibleTrigger>
-        
+
         <CollapsibleContent>
           <ScrollArea className="h-48 px-4">
             <div className="space-y-2 pb-4">
               {loadingCombinations ? (
-                [...Array(5)].map((_, i) => (
-                  <Skeleton key={i} className="h-16 w-full" />
-                ))
+                [...Array(5)].map((_, i) => <Skeleton key={i} className="h-16 w-full" />)
               ) : (combinations || []).length === 0 ? (
                 <div className="text-center py-6">
                   <History className="w-8 h-8 text-muted-foreground mx-auto mb-2" />
-                  <p className="text-sm text-muted-foreground">
-                    Пока нет данных о комбинациях
-                  </p>
+                  <p className="text-sm text-muted-foreground">Пока нет данных о комбинациях</p>
                 </div>
               ) : (
                 (combinations || []).map((combo, idx) => (
@@ -301,8 +259,8 @@ export function TagRecommendations({
                     className="p-3 rounded-xl bg-card border border-border hover:border-amber-500/30 transition-colors"
                   >
                     <div className="flex flex-wrap gap-1 mb-2">
-                      {combo.tags.map(tag => (
-                        <Badge 
+                      {combo.tags.map((tag) => (
+                        <Badge
                           key={tag}
                           variant="secondary"
                           className="cursor-pointer hover:bg-amber-500/20"
@@ -312,9 +270,7 @@ export function TagRecommendations({
                         </Badge>
                       ))}
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                      Использовано {combo.count} раз
-                    </p>
+                    <p className="text-xs text-muted-foreground">Использовано {combo.count} раз</p>
                   </motion.div>
                 ))
               )}

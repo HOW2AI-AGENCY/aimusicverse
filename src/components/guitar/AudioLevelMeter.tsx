@@ -3,10 +3,10 @@
  * Shows input signal level with color-coded bars
  */
 
-import { useEffect, useRef, useState } from 'react';
-import { motion } from '@/lib/motion';
-import { Activity, AlertTriangle, Volume2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useEffect, useRef, useState } from "react";
+import { motion } from "@/lib/motion";
+import { Activity, AlertTriangle, Volume2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AudioLevelMeterProps {
   isActive?: boolean;
@@ -14,11 +14,7 @@ interface AudioLevelMeterProps {
   className?: string;
 }
 
-export function AudioLevelMeter({ 
-  isActive = false, 
-  mediaStream = null,
-  className 
-}: AudioLevelMeterProps) {
+export function AudioLevelMeter({ isActive = false, mediaStream = null, className }: AudioLevelMeterProps) {
   const [level, setLevel] = useState(0);
   const [peakLevel, setPeakLevel] = useState(0);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -32,7 +28,7 @@ export function AudioLevelMeter({
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      if (audioContextRef.current?.state === 'running') {
+      if (audioContextRef.current?.state === "running") {
         audioContextRef.current.close();
       }
       setLevel(0);
@@ -60,7 +56,7 @@ export function AudioLevelMeter({
       if (!analyserRef.current) return;
 
       analyserRef.current.getByteFrequencyData(dataArray);
-      
+
       // Calculate average level
       const sum = dataArray.reduce((acc, val) => acc + val, 0);
       const average = sum / dataArray.length;
@@ -69,7 +65,7 @@ export function AudioLevelMeter({
       setLevel(normalizedLevel);
 
       // Update peak level (decays slowly)
-      setPeakLevel(prev => {
+      setPeakLevel((prev) => {
         if (normalizedLevel > prev) {
           return normalizedLevel;
         }
@@ -88,7 +84,7 @@ export function AudioLevelMeter({
       if (sourceRef.current) {
         sourceRef.current.disconnect();
       }
-      if (audioContextRef.current?.state === 'running') {
+      if (audioContextRef.current?.state === "running") {
         audioContextRef.current.close();
       }
     };
@@ -96,52 +92,52 @@ export function AudioLevelMeter({
 
   // Determine color based on level
   const getColorClass = (level: number) => {
-    if (level < 30) return 'bg-green-500';
-    if (level < 70) return 'bg-yellow-500';
-    if (level < 85) return 'bg-orange-500';
-    return 'bg-red-500';
+    if (level < 30) return "bg-green-500";
+    if (level < 70) return "bg-yellow-500";
+    if (level < 85) return "bg-orange-500";
+    return "bg-red-500";
   };
 
   const getLevelStatus = (level: number) => {
-    if (level < 10) return { text: 'Тихо', icon: Volume2, color: 'text-muted-foreground' };
-    if (level < 30) return { text: 'Низкий', icon: Volume2, color: 'text-green-500' };
-    if (level < 70) return { text: 'Хорошо', icon: Activity, color: 'text-green-500' };
-    if (level < 85) return { text: 'Громко', icon: Activity, color: 'text-orange-500' };
-    return { text: 'Перегруз!', icon: AlertTriangle, color: 'text-red-500' };
+    if (level < 10) return { text: "Тихо", icon: Volume2, color: "text-muted-foreground" };
+    if (level < 30) return { text: "Низкий", icon: Volume2, color: "text-green-500" };
+    if (level < 70) return { text: "Хорошо", icon: Activity, color: "text-green-500" };
+    if (level < 85) return { text: "Громко", icon: Activity, color: "text-orange-500" };
+    return { text: "Перегруз!", icon: AlertTriangle, color: "text-red-500" };
   };
 
   const status = getLevelStatus(level);
   const StatusIcon = status.icon;
 
   return (
-    <div className={cn('space-y-3', className)}>
+    <div className={cn("space-y-3", className)}>
       {/* Level bars */}
       <div className="relative h-16 bg-muted/30 rounded-lg overflow-hidden border border-border">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 via-yellow-500/10 via-orange-500/10 to-red-500/10" />
-        
+
         {/* Segmented bars */}
         <div className="absolute inset-0 flex gap-1 p-2">
           {Array.from({ length: 20 }).map((_, i) => {
             const segmentLevel = (i + 1) * 5;
             const isActive = level >= segmentLevel;
             const isPeak = peakLevel >= segmentLevel && peakLevel < segmentLevel + 5;
-            
+
             return (
               <motion.div
                 key={i}
                 className={cn(
-                  'flex-1 rounded-sm transition-all duration-75',
-                  isActive ? getColorClass(segmentLevel) : 'bg-muted',
-                  isPeak && 'ring-2 ring-white'
+                  "flex-1 rounded-sm transition-all duration-75",
+                  isActive ? getColorClass(segmentLevel) : "bg-muted",
+                  isPeak && "ring-2 ring-white",
                 )}
                 initial={{ scaleY: 0 }}
-                animate={{ 
+                animate={{
                   scaleY: isActive ? 1 : 0.3,
                   opacity: isActive ? 1 : 0.3,
                 }}
                 transition={{ duration: 0.05 }}
-                style={{ transformOrigin: 'bottom' }}
+                style={{ transformOrigin: "bottom" }}
               />
             );
           })}
@@ -162,12 +158,10 @@ export function AudioLevelMeter({
       {/* Status and level info */}
       <div className="flex items-center justify-between text-sm">
         <div className="flex items-center gap-2">
-          <StatusIcon className={cn('w-4 h-4', status.color)} />
-          <span className={cn('font-medium', status.color)}>
-            {status.text}
-          </span>
+          <StatusIcon className={cn("w-4 h-4", status.color)} />
+          <span className={cn("font-medium", status.color)}>{status.text}</span>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <span className="text-xs text-muted-foreground">
             Текущий: <span className="font-mono font-semibold">{Math.round(level)}%</span>
@@ -190,7 +184,7 @@ export function AudioLevelMeter({
               ⚠️ Сигнал слишком тихий. Увеличьте громкость или подойдите ближе к микрофону.
             </motion.div>
           )}
-          
+
           {level > 85 && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}

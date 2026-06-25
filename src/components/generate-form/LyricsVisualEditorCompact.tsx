@@ -3,11 +3,11 @@
  * No drag-drop, no stats panel - just sections as cards with timeline
  */
 
-import { useState, useEffect, useMemo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, Sparkles, ChevronDown } from 'lucide-react';
+import { useState, useEffect, useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Plus, Trash2, Sparkles, ChevronDown } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,12 +15,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
   DropdownMenuLabel,
-} from '@/components/ui/dropdown-menu';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 interface LyricSection {
   id: string;
-  type: 'intro' | 'verse' | 'chorus' | 'bridge' | 'outro' | 'hook' | 'pre' | 'drop' | 'breakdown';
+  type: "intro" | "verse" | "chorus" | "bridge" | "outro" | "hook" | "pre" | "drop" | "breakdown";
   content: string;
   tags?: string[];
 }
@@ -32,40 +32,40 @@ interface LyricsVisualEditorCompactProps {
 }
 
 const SECTION_TYPES = [
-  { value: 'intro', label: 'Intro', icon: '🎬', color: 'bg-emerald-500/20 text-emerald-400' },
-  { value: 'verse', label: 'Verse', icon: '📝', color: 'bg-sky-500/20 text-sky-400' },
-  { value: 'pre', label: 'Pre', icon: '⬆️', color: 'bg-amber-500/20 text-amber-400' },
-  { value: 'chorus', label: 'Chorus', icon: '🎵', color: 'bg-violet-500/20 text-violet-400' },
-  { value: 'hook', label: 'Hook', icon: '🎤', color: 'bg-pink-500/20 text-pink-400' },
-  { value: 'bridge', label: 'Bridge', icon: '🌉', color: 'bg-orange-500/20 text-orange-400' },
-  { value: 'drop', label: 'Drop', icon: '💥', color: 'bg-red-500/20 text-red-400' },
-  { value: 'breakdown', label: 'Break', icon: '🔊', color: 'bg-cyan-500/20 text-cyan-400' },
-  { value: 'outro', label: 'Outro', icon: '🔚', color: 'bg-slate-500/20 text-slate-400' },
+  { value: "intro", label: "Intro", icon: "🎬", color: "bg-emerald-500/20 text-emerald-400" },
+  { value: "verse", label: "Verse", icon: "📝", color: "bg-sky-500/20 text-sky-400" },
+  { value: "pre", label: "Pre", icon: "⬆️", color: "bg-amber-500/20 text-amber-400" },
+  { value: "chorus", label: "Chorus", icon: "🎵", color: "bg-violet-500/20 text-violet-400" },
+  { value: "hook", label: "Hook", icon: "🎤", color: "bg-pink-500/20 text-pink-400" },
+  { value: "bridge", label: "Bridge", icon: "🌉", color: "bg-orange-500/20 text-orange-400" },
+  { value: "drop", label: "Drop", icon: "💥", color: "bg-red-500/20 text-red-400" },
+  { value: "breakdown", label: "Break", icon: "🔊", color: "bg-cyan-500/20 text-cyan-400" },
+  { value: "outro", label: "Outro", icon: "🔚", color: "bg-slate-500/20 text-slate-400" },
 ] as const;
 
 const QUICK_TEMPLATES = [
-  { name: 'Pop', icon: '🎤', sections: ['verse', 'chorus', 'verse', 'chorus', 'bridge', 'chorus'] },
-  { name: 'Рэп', icon: '🎙️', sections: ['verse', 'hook', 'verse', 'hook'] },
-  { name: 'EDM', icon: '🎧', sections: ['intro', 'verse', 'drop', 'verse', 'drop', 'outro'] },
+  { name: "Pop", icon: "🎤", sections: ["verse", "chorus", "verse", "chorus", "bridge", "chorus"] },
+  { name: "Рэп", icon: "🎙️", sections: ["verse", "hook", "verse", "hook"] },
+  { name: "EDM", icon: "🎧", sections: ["intro", "verse", "drop", "verse", "drop", "outro"] },
 ];
 
 function parseLyrics(text: string): LyricSection[] {
   if (!text.trim()) return [];
 
   const parsed: LyricSection[] = [];
-  const lines = text.split('\n');
+  const lines = text.split("\n");
   let currentSection: LyricSection | null = null;
 
   for (const line of lines) {
     const sectionMatch = line.match(/^\[(\w+)(?:\s+\d+)?(?:,\s*[^\]]+)?\]/i);
-    
+
     if (sectionMatch) {
       if (currentSection) {
         parsed.push(currentSection);
       }
 
-      const type = sectionMatch[1].toLowerCase() as LyricSection['type'];
-      const validType = SECTION_TYPES.find(t => t.value === type) ? type : 'verse';
+      const type = sectionMatch[1].toLowerCase() as LyricSection["type"];
+      const validType = SECTION_TYPES.find((t) => t.value === type) ? type : "verse";
       const afterTag = line.slice(sectionMatch[0].length).trim();
 
       currentSection = {
@@ -78,12 +78,12 @@ function parseLyrics(text: string): LyricSection[] {
       if (!currentSection) {
         currentSection = {
           id: `verse-${Date.now()}-${Math.random()}`,
-          type: 'verse',
-          content: '',
+          type: "verse",
+          content: "",
           tags: [],
         };
       }
-      currentSection.content += (currentSection.content ? '\n' : '') + line;
+      currentSection.content += (currentSection.content ? "\n" : "") + line;
     }
   }
 
@@ -95,10 +95,12 @@ function parseLyrics(text: string): LyricSection[] {
 }
 
 function sectionsToLyrics(sections: LyricSection[]): string {
-  return sections.map(section => {
-    const tagName = section.type.charAt(0).toUpperCase() + section.type.slice(1);
-    return `[${tagName}]\n${section.content}`;
-  }).join('\n\n');
+  return sections
+    .map((section) => {
+      const tagName = section.type.charAt(0).toUpperCase() + section.type.slice(1);
+      return `[${tagName}]\n${section.content}`;
+    })
+    .join("\n\n");
 }
 
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
@@ -116,39 +118,39 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
     onChange(sectionsToLyrics(newSections));
   };
 
-  const addSection = (type: LyricSection['type']) => {
+  const addSection = (type: LyricSection["type"]) => {
     const newSection: LyricSection = {
       id: `${type}-${Date.now()}`,
       type,
-      content: '',
+      content: "",
       tags: [],
     };
     updateSections([...sections, newSection]);
   };
 
   const updateSectionContent = (id: string, content: string) => {
-    updateSections(sections.map(s => s.id === id ? { ...s, content } : s));
+    updateSections(sections.map((s) => (s.id === id ? { ...s, content } : s)));
   };
 
-  const changeSectionType = (id: string, newType: LyricSection['type']) => {
-    updateSections(sections.map(s => s.id === id ? { ...s, type: newType } : s));
+  const changeSectionType = (id: string, newType: LyricSection["type"]) => {
+    updateSections(sections.map((s) => (s.id === id ? { ...s, type: newType } : s)));
   };
 
   const deleteSection = (id: string) => {
-    updateSections(sections.filter(s => s.id !== id));
+    updateSections(sections.filter((s) => s.id !== id));
   };
 
   const applyTemplate = (sectionTypes: string[]) => {
     const newSections = sectionTypes.map((type, i) => ({
       id: `${type}-${Date.now()}-${i}`,
-      type: type as LyricSection['type'],
-      content: '',
+      type: type as LyricSection["type"],
+      content: "",
       tags: [],
     }));
     updateSections(newSections);
   };
 
-  const charCount = useMemo(() => value.replace(/\[.*?\]/g, '').trim().length, [value]);
+  const charCount = useMemo(() => value.replace(/\[.*?\]/g, "").trim().length, [value]);
 
   return (
     <div className="space-y-2">
@@ -156,7 +158,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
       {sections.length > 0 && (
         <div className="flex flex-wrap gap-1">
           {sections.map((section) => {
-            const typeInfo = SECTION_TYPES.find(t => t.value === section.type);
+            const typeInfo = SECTION_TYPES.find((t) => t.value === section.type);
             return (
               <Badge
                 key={section.id}
@@ -173,23 +175,25 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
       {/* Sections */}
       <div className="space-y-2 max-h-[280px] overflow-y-auto">
         {sections.map((section) => {
-          const typeInfo = SECTION_TYPES.find(t => t.value === section.type);
+          const typeInfo = SECTION_TYPES.find((t) => t.value === section.type);
           return (
             <div
               key={section.id}
               className={cn(
                 "rounded-lg border border-border/40 overflow-hidden",
-                "bg-gradient-to-br from-muted/30 to-transparent"
+                "bg-gradient-to-br from-muted/30 to-transparent",
               )}
             >
               {/* Section header */}
               <div className="flex items-center justify-between px-2 py-1.5 bg-muted/30">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className={cn(
-                      "flex items-center gap-1 text-xs font-medium rounded px-1.5 py-0.5",
-                      typeInfo?.color
-                    )}>
+                    <button
+                      className={cn(
+                        "flex items-center gap-1 text-xs font-medium rounded px-1.5 py-0.5",
+                        typeInfo?.color,
+                      )}
+                    >
                       <span>{typeInfo?.icon}</span>
                       <span>{typeInfo?.label}</span>
                       <ChevronDown className="w-3 h-3 opacity-60" />
@@ -247,11 +251,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
               <DropdownMenuLabel className="text-[10px]">Добавить секцию</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {SECTION_TYPES.map((t) => (
-                <DropdownMenuItem
-                  key={t.value}
-                  onClick={() => addSection(t.value)}
-                  className="text-xs"
-                >
+                <DropdownMenuItem key={t.value} onClick={() => addSection(t.value)} className="text-xs">
                   <span className="mr-2">{t.icon}</span>
                   {t.label}
                 </DropdownMenuItem>
@@ -259,11 +259,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-[10px]">Шаблоны</DropdownMenuLabel>
               {QUICK_TEMPLATES.map((t) => (
-                <DropdownMenuItem
-                  key={t.name}
-                  onClick={() => applyTemplate(t.sections)}
-                  className="text-xs"
-                >
+                <DropdownMenuItem key={t.name} onClick={() => applyTemplate(t.sections)} className="text-xs">
                   <span className="mr-2">{t.icon}</span>
                   {t.name}
                 </DropdownMenuItem>
@@ -286,11 +282,12 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
         </div>
 
         {/* Char count */}
-        <span className={cn(
-          "text-[10px] px-1.5 py-0.5 rounded bg-muted",
-          charCount > 2800 ? "text-destructive" : 
-          charCount > 2500 ? "text-yellow-500" : "text-muted-foreground"
-        )}>
+        <span
+          className={cn(
+            "text-[10px] px-1.5 py-0.5 rounded bg-muted",
+            charCount > 2800 ? "text-destructive" : charCount > 2500 ? "text-yellow-500" : "text-muted-foreground",
+          )}
+        >
           {charCount}/3000
         </span>
       </div>

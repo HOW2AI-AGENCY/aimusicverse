@@ -2,10 +2,10 @@
  * Shows project readiness status for publishing
  * Displays how many tracks have master versions selected
  */
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { CheckCircle2, Clock, Star, AlertCircle } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { CheckCircle2, Clock, Star, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ProjectReadinessIndicatorProps {
   totalTracks: number;
@@ -13,10 +13,10 @@ interface ProjectReadinessIndicatorProps {
   className?: string;
 }
 
-export function ProjectReadinessIndicator({ 
-  totalTracks, 
+export function ProjectReadinessIndicator({
+  totalTracks,
   tracksWithMaster,
-  className 
+  className,
 }: ProjectReadinessIndicatorProps) {
   const progress = totalTracks > 0 ? (tracksWithMaster / totalTracks) * 100 : 0;
   const isReady = totalTracks > 0 && tracksWithMaster === totalTracks;
@@ -47,37 +47,24 @@ export function ProjectReadinessIndicator({
             </>
           )}
         </div>
-        <Badge 
+        <Badge
           variant={isReady ? "default" : "secondary"}
-          className={cn(
-            "gap-1",
-            isReady && "bg-green-500 hover:bg-green-600"
-          )}
+          className={cn("gap-1", isReady && "bg-green-500 hover:bg-green-600")}
         >
           <Star className="w-3 h-3" />
           {tracksWithMaster}/{totalTracks} мастер
         </Badge>
       </div>
-      
-      <Progress 
-        value={progress} 
-        className={cn(
-          "h-2",
-          isReady && "[&>div]:bg-green-500"
-        )}
-      />
-      
+
+      <Progress value={progress} className={cn("h-2", isReady && "[&>div]:bg-green-500")} />
+
       {!isReady && hasAnyMaster && (
         <p className="text-xs text-muted-foreground">
           Выберите мастер-версию для всех треков чтобы опубликовать проект
         </p>
       )}
-      
-      {!hasAnyMaster && (
-        <p className="text-xs text-muted-foreground">
-          Сгенерируйте треки и выберите мастер-версии
-        </p>
-      )}
+
+      {!hasAnyMaster && <p className="text-xs text-muted-foreground">Сгенерируйте треки и выберите мастер-версии</p>}
     </div>
   );
 }

@@ -19,17 +19,20 @@ function reactPriorityPlugin(): Plugin {
       const modulePreloadRegex = /<link\s+rel="modulepreload"\s+crossorigin\s+href="[^"]+"\s*\/?>/g;
       const matches = html.match(modulePreloadRegex) || [];
       if (matches.length === 0) return html;
-      const reactPreload = matches.filter(link => link.includes('vendor-react'));
-      const otherPreloads = matches.filter(link => !link.includes('vendor-react'));
+      const reactPreload = matches.filter((link) => link.includes("vendor-react"));
+      const otherPreloads = matches.filter((link) => !link.includes("vendor-react"));
       let modifiedHtml = html;
-      matches.forEach(link => {
-        modifiedHtml = modifiedHtml.replace(new RegExp(`\\s*${link.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*`, 'g'), '\n');
+      matches.forEach((link) => {
+        modifiedHtml = modifiedHtml.replace(
+          new RegExp(`\\s*${link.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\s*`, "g"),
+          "\n",
+        );
       });
-      modifiedHtml = modifiedHtml.replace(/\n{3,}/g, '\n');
-      const allPreloads = [...reactPreload, ...otherPreloads].join('\n  ');
-      modifiedHtml = modifiedHtml.replace('</head>', `  ${allPreloads}\n</head>`);
+      modifiedHtml = modifiedHtml.replace(/\n{3,}/g, "\n");
+      const allPreloads = [...reactPreload, ...otherPreloads].join("\n  ");
+      modifiedHtml = modifiedHtml.replace("</head>", `  ${allPreloads}\n</head>`);
       return modifiedHtml;
-    }
+    },
   };
 }
 
@@ -42,22 +45,25 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     mode === "production" && reactPriorityPlugin(),
-    mode === "production" && visualizer({
-      filename: "./dist/stats.html",
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-    }),
-    mode === "production" && viteCompression({
-      algorithm: "gzip",
-      ext: ".gz",
-      threshold: 10240,
-    }),
-    mode === "production" && viteCompression({
-      algorithm: "brotliCompress",
-      ext: ".br",
-      threshold: 10240,
-    })
+    mode === "production" &&
+      visualizer({
+        filename: "./dist/stats.html",
+        open: false,
+        gzipSize: true,
+        brotliSize: true,
+      }),
+    mode === "production" &&
+      viteCompression({
+        algorithm: "gzip",
+        ext: ".gz",
+        threshold: 10240,
+      }),
+    mode === "production" &&
+      viteCompression({
+        algorithm: "brotliCompress",
+        ext: ".br",
+        threshold: 10240,
+      }),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -114,19 +120,27 @@ export default defineConfig(({ mode }) => ({
     },
     rollupOptions: {
       treeshake: {
-        moduleSideEffects: 'no-external',
+        moduleSideEffects: "no-external",
         preset: "recommended",
       },
       output: {
         manualChunks: (id) => {
           if (id.includes("node_modules")) {
             // React MUST be first for proper loading order
-            if (id.includes("/react/") || id.includes("/react-dom/") ||
-              id.includes("/react-is/") || id.includes("/scheduler/")) {
+            if (
+              id.includes("/react/") ||
+              id.includes("/react-dom/") ||
+              id.includes("/react-is/") ||
+              id.includes("/scheduler/")
+            ) {
               return "vendor-react";
             }
-            if (id.includes("react-router") || id.includes("zustand") ||
-              id.includes("use-sync-external-store") || id.includes("react-redux")) {
+            if (
+              id.includes("react-router") ||
+              id.includes("zustand") ||
+              id.includes("use-sync-external-store") ||
+              id.includes("react-redux")
+            ) {
               return "vendor-react";
             }
             // opensheetmusicdisplay - ENORMOUS (1.2MB), always lazy loaded
@@ -152,10 +166,17 @@ export default defineConfig(({ mode }) => ({
               return "vendor-query";
             }
             // Radix UI + ecosystem
-            if (id.includes("@radix-ui") || id.includes("cmdk") || id.includes("vaul") ||
-              id.includes("sonner") || id.includes("next-themes") ||
-              id.includes("react-remove-scroll") || id.includes("use-callback-ref") ||
-              id.includes("use-sidecar") || id.includes("detect-node-es")) {
+            if (
+              id.includes("@radix-ui") ||
+              id.includes("cmdk") ||
+              id.includes("vaul") ||
+              id.includes("sonner") ||
+              id.includes("next-themes") ||
+              id.includes("react-remove-scroll") ||
+              id.includes("use-callback-ref") ||
+              id.includes("use-sidecar") ||
+              id.includes("detect-node-es")
+            ) {
               return "vendor-radix";
             }
             // Icons
@@ -179,8 +200,12 @@ export default defineConfig(({ mode }) => ({
               return "vendor-forms";
             }
             // React UI (must be in same chunk to avoid circular deps)
-            if (id.includes("react-virtuoso") || id.includes("embla-carousel-react") ||
-              id.includes("react-day-picker") || id.includes("react-resizable-panels")) {
+            if (
+              id.includes("react-virtuoso") ||
+              id.includes("embla-carousel-react") ||
+              id.includes("react-day-picker") ||
+              id.includes("react-resizable-panels")
+            ) {
               return "vendor-react-ui";
             }
             // Charts - always lazy, keep together
@@ -192,14 +217,24 @@ export default defineConfig(({ mode }) => ({
               return "vendor-utils";
             }
             // Everything else - but Sentry + large libs go to vendor-other
-            if (id.includes("@sentry") || id.includes("canvas-confetti") ||
-              id.includes("qrcode") || id.includes("dompurify") ||
-              id.includes("use-debounce") || id.includes("@use-gesture") ||
-              id.includes("class-variance-authority") || id.includes("tailwind-merge") ||
-              id.includes("clsx") || id.includes("input-otp") ||
-              id.includes("lovable-tagger") || id.includes("@tonejs") ||
-              id.includes("fast-check") || id.includes("jszip") ||
-              id.includes("lamejs") || id.includes("web-audio-beat-detector")) {
+            if (
+              id.includes("@sentry") ||
+              id.includes("canvas-confetti") ||
+              id.includes("qrcode") ||
+              id.includes("dompurify") ||
+              id.includes("use-debounce") ||
+              id.includes("@use-gesture") ||
+              id.includes("class-variance-authority") ||
+              id.includes("tailwind-merge") ||
+              id.includes("clsx") ||
+              id.includes("input-otp") ||
+              id.includes("lovable-tagger") ||
+              id.includes("@tonejs") ||
+              id.includes("fast-check") ||
+              id.includes("jszip") ||
+              id.includes("lamejs") ||
+              id.includes("web-audio-beat-detector")
+            ) {
               return "vendor-other";
             }
             // Catch-all for any missed node_modules
@@ -230,8 +265,11 @@ export default defineConfig(({ mode }) => ({
             return "feature-generation-form";
           }
           // Studio - merged to avoid circular deps
-          if (id.includes("/components/studio/mixer/") || id.includes("/components/studio/editor/") ||
-            id.includes("/components/studio/timeline/")) {
+          if (
+            id.includes("/components/studio/mixer/") ||
+            id.includes("/components/studio/editor/") ||
+            id.includes("/components/studio/timeline/")
+          ) {
             return "feature-studio";
           }
           if (id.includes("/components/studio/unified/")) {

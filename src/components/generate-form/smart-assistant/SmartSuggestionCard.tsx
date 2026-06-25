@@ -3,24 +3,15 @@
  * Individual suggestion card with apply/dismiss actions
  */
 
-import { memo, useCallback } from 'react';
-import { motion } from '@/lib/motion';
-import { 
-  Sparkles, 
-  Music, 
-  Heart, 
-  TrendingUp, 
-  Shuffle,
-  ChevronRight,
-  X,
-  Zap,
-} from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { cn } from '@/lib/utils';
-import type { SmartSuggestion } from './types';
+import { memo, useCallback } from "react";
+import { motion } from "@/lib/motion";
+import { Sparkles, Music, Heart, TrendingUp, Shuffle, ChevronRight, X, Zap } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { cn } from "@/lib/utils";
+import type { SmartSuggestion } from "./types";
 
 interface SmartSuggestionCardProps {
   suggestion: SmartSuggestion;
@@ -39,17 +30,17 @@ const TYPE_ICONS = {
 } as const;
 
 const TYPE_COLORS = {
-  prompt: 'text-primary',
-  style: 'text-blue-500',
-  mood: 'text-pink-500',
-  continuation: 'text-green-500',
-  variation: 'text-orange-500',
+  prompt: "text-primary",
+  style: "text-blue-500",
+  mood: "text-pink-500",
+  continuation: "text-green-500",
+  variation: "text-orange-500",
 } as const;
 
 const ENERGY_BADGES = {
-  low: { label: 'Спокойный', className: 'bg-blue-500/10 text-blue-500' },
-  medium: { label: 'Средний', className: 'bg-yellow-500/10 text-yellow-500' },
-  high: { label: 'Энергичный', className: 'bg-red-500/10 text-red-500' },
+  low: { label: "Спокойный", className: "bg-blue-500/10 text-blue-500" },
+  medium: { label: "Средний", className: "bg-yellow-500/10 text-yellow-500" },
+  high: { label: "Энергичный", className: "bg-red-500/10 text-red-500" },
 } as const;
 
 export const SmartSuggestionCard = memo(function SmartSuggestionCard({
@@ -60,7 +51,7 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
   index = 0,
 }: SmartSuggestionCardProps) {
   const Icon = TYPE_ICONS[suggestion.type] || Sparkles;
-  const iconColor = TYPE_COLORS[suggestion.type] || 'text-primary';
+  const iconColor = TYPE_COLORS[suggestion.type] || "text-primary";
   const energy = suggestion.metadata?.energy;
   const energyBadge = energy ? ENERGY_BADGES[energy] : null;
 
@@ -68,10 +59,13 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
     onApply(suggestion);
   }, [onApply, suggestion]);
 
-  const handleDismiss = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    onDismiss(suggestion.id);
-  }, [onDismiss, suggestion.id]);
+  const handleDismiss = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      onDismiss(suggestion.id);
+    },
+    [onDismiss, suggestion.id],
+  );
 
   if (compact) {
     return (
@@ -89,9 +83,7 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
         >
           <Icon className={cn("h-3 w-3", iconColor)} />
           {suggestion.title}
-          {suggestion.confidence >= 0.8 && (
-            <Zap className="h-3 w-3 text-yellow-500" />
-          )}
+          {suggestion.confidence >= 0.8 && <Zap className="h-3 w-3 text-yellow-500" />}
         </Button>
       </motion.div>
     );
@@ -108,7 +100,7 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
         className={cn(
           "p-3 cursor-pointer transition-all group relative",
           "hover:bg-accent hover:border-primary/50",
-          "active:scale-[0.98]"
+          "active:scale-[0.98]",
         )}
         onClick={handleApply}
       >
@@ -124,11 +116,13 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
 
         <div className="flex items-start gap-3">
           {/* Icon */}
-          <div className={cn(
-            "mt-0.5 p-2 rounded-md bg-primary/10 transition-colors",
-            "group-hover:bg-primary group-hover:text-primary-foreground",
-            iconColor
-          )}>
+          <div
+            className={cn(
+              "mt-0.5 p-2 rounded-md bg-primary/10 transition-colors",
+              "group-hover:bg-primary group-hover:text-primary-foreground",
+              iconColor,
+            )}
+          >
             <Icon className="h-4 w-4" />
           </div>
 
@@ -141,16 +135,11 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
             </div>
 
             {/* Description */}
-            <p className="text-xs text-muted-foreground line-clamp-2 mb-2">
-              {suggestion.description}
-            </p>
+            <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{suggestion.description}</p>
 
             {/* Confidence bar */}
             <div className="flex items-center gap-2 mb-2">
-              <Progress 
-                value={suggestion.confidence * 100} 
-                className="h-1 flex-1"
-              />
+              <Progress value={suggestion.confidence * 100} className="h-1 flex-1" />
               <span className="text-[10px] text-muted-foreground w-8 text-right">
                 {Math.round(suggestion.confidence * 100)}%
               </span>
@@ -159,28 +148,19 @@ export const SmartSuggestionCard = memo(function SmartSuggestionCard({
             {/* Tags & metadata */}
             <div className="flex flex-wrap gap-1">
               {energyBadge && (
-                <Badge 
-                  variant="secondary" 
-                  className={cn("text-[10px] h-5 px-1.5", energyBadge.className)}
-                >
+                <Badge variant="secondary" className={cn("text-[10px] h-5 px-1.5", energyBadge.className)}>
                   {energyBadge.label}
                 </Badge>
               )}
               {suggestion.tags.slice(0, 2).map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="text-[10px] h-5 px-1.5"
-                >
+                <Badge key={tag} variant="secondary" className="text-[10px] h-5 px-1.5">
                   {tag}
                 </Badge>
               ))}
             </div>
 
             {/* Reasoning */}
-            <p className="text-[10px] text-muted-foreground/70 mt-1.5 italic">
-              {suggestion.reasoning}
-            </p>
+            <p className="text-[10px] text-muted-foreground/70 mt-1.5 italic">{suggestion.reasoning}</p>
           </div>
         </div>
       </Card>

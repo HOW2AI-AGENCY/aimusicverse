@@ -3,22 +3,22 @@
  * Used in: AddVocalsDialog, AddInstrumentalDialog
  */
 
-import { useState } from 'react';
-import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Badge } from '@/components/ui/badge';
-import { Settings2, ChevronDown, Zap, Target, Sparkles } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Badge } from "@/components/ui/badge";
+import { Settings2, ChevronDown, Zap, Target, Sparkles } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface GenerationSettings {
   audioWeight: number;
   styleWeight: number;
   weirdnessConstraint: number;
-  model: 'V4_5PLUS' | 'V5';
-  vocalGender: 'm' | 'f' | '';
+  model: "V4_5PLUS" | "V5";
+  vocalGender: "m" | "f" | "";
 }
 
 interface Preset {
@@ -26,44 +26,44 @@ interface Preset {
   name: string;
   icon: React.ReactNode;
   description: string;
-  settings: Omit<GenerationSettings, 'vocalGender'>;
+  settings: Omit<GenerationSettings, "vocalGender">;
 }
 
 const PRESETS: Preset[] = [
   {
-    id: 'precise',
-    name: 'Точное следование',
+    id: "precise",
+    name: "Точное следование",
     icon: <Target className="w-3 h-3" />,
-    description: 'Максимально следует оригиналу',
+    description: "Максимально следует оригиналу",
     settings: {
       audioWeight: 0.9,
       styleWeight: 0.8,
       weirdnessConstraint: 0.1,
-      model: 'V4_5PLUS',
+      model: "V4_5PLUS",
     },
   },
   {
-    id: 'balanced',
-    name: 'Баланс',
+    id: "balanced",
+    name: "Баланс",
     icon: <Zap className="w-3 h-3" />,
-    description: 'Оптимальный баланс точности и креатива',
+    description: "Оптимальный баланс точности и креатива",
     settings: {
       audioWeight: 0.7,
       styleWeight: 0.6,
       weirdnessConstraint: 0.3,
-      model: 'V4_5PLUS',
+      model: "V4_5PLUS",
     },
   },
   {
-    id: 'creative',
-    name: 'Креативный',
+    id: "creative",
+    name: "Креативный",
     icon: <Sparkles className="w-3 h-3" />,
-    description: 'Больше свободы для AI',
+    description: "Больше свободы для AI",
     settings: {
       audioWeight: 0.5,
       styleWeight: 0.4,
       weirdnessConstraint: 0.6,
-      model: 'V5',
+      model: "V5",
     },
   },
 ];
@@ -82,12 +82,12 @@ export function GenerationAdvancedSettings({
   settings,
   onChange,
   showVocalGender = true,
-  vocalGenderLabel = 'Пол вокала',
+  vocalGenderLabel = "Пол вокала",
   className,
   defaultOpen = false,
 }: GenerationAdvancedSettingsProps) {
   const [open, setOpen] = useState(defaultOpen);
-  const [activePreset, setActivePreset] = useState<string | null>('balanced');
+  const [activePreset, setActivePreset] = useState<string | null>("balanced");
 
   const handlePresetSelect = (preset: Preset) => {
     setActivePreset(preset.id);
@@ -97,10 +97,7 @@ export function GenerationAdvancedSettings({
     });
   };
 
-  const handleSettingChange = <K extends keyof GenerationSettings>(
-    key: K,
-    value: GenerationSettings[K]
-  ) => {
+  const handleSettingChange = <K extends keyof GenerationSettings>(key: K, value: GenerationSettings[K]) => {
     setActivePreset(null); // Clear preset when manually changing
     onChange({
       ...settings,
@@ -119,7 +116,7 @@ export function GenerationAdvancedSettings({
           <ChevronDown className={cn("w-4 h-4 transition-transform", open && "rotate-180")} />
         </Button>
       </CollapsibleTrigger>
-      
+
       <CollapsibleContent className="space-y-4 pt-4">
         {/* Presets */}
         <div className="space-y-2">
@@ -132,16 +129,14 @@ export function GenerationAdvancedSettings({
                 className={cn(
                   "p-2 rounded-lg border text-left transition-all",
                   "hover:border-primary/50 hover:bg-accent/50",
-                  activePreset === preset.id && "border-primary bg-primary/10"
+                  activePreset === preset.id && "border-primary bg-primary/10",
                 )}
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   {preset.icon}
                   <span className="text-xs font-medium">{preset.name}</span>
                 </div>
-                <p className="text-[10px] text-muted-foreground line-clamp-1">
-                  {preset.description}
-                </p>
+                <p className="text-[10px] text-muted-foreground line-clamp-1">{preset.description}</p>
               </button>
             ))}
           </div>
@@ -155,14 +150,12 @@ export function GenerationAdvancedSettings({
           </div>
           <Slider
             value={[settings.audioWeight]}
-            onValueChange={([v]) => handleSettingChange('audioWeight', v)}
+            onValueChange={([v]) => handleSettingChange("audioWeight", v)}
             min={0}
             max={1}
             step={0.05}
           />
-          <p className="text-xs text-muted-foreground">
-            Выше = точнее следует ритму и мелодии оригинала
-          </p>
+          <p className="text-xs text-muted-foreground">Выше = точнее следует ритму и мелодии оригинала</p>
         </div>
 
         {/* Style Weight */}
@@ -173,14 +166,12 @@ export function GenerationAdvancedSettings({
           </div>
           <Slider
             value={[settings.styleWeight]}
-            onValueChange={([v]) => handleSettingChange('styleWeight', v)}
+            onValueChange={([v]) => handleSettingChange("styleWeight", v)}
             min={0}
             max={1}
             step={0.05}
           />
-          <p className="text-xs text-muted-foreground">
-            Выше = точнее соответствует указанному стилю
-          </p>
+          <p className="text-xs text-muted-foreground">Выше = точнее соответствует указанному стилю</p>
         </div>
 
         {/* Weirdness */}
@@ -191,23 +182,18 @@ export function GenerationAdvancedSettings({
           </div>
           <Slider
             value={[settings.weirdnessConstraint]}
-            onValueChange={([v]) => handleSettingChange('weirdnessConstraint', v)}
+            onValueChange={([v]) => handleSettingChange("weirdnessConstraint", v)}
             min={0}
             max={1}
             step={0.05}
           />
-          <p className="text-xs text-muted-foreground">
-            Выше = более экспериментальный результат
-          </p>
+          <p className="text-xs text-muted-foreground">Выше = более экспериментальный результат</p>
         </div>
 
         {/* Model */}
         <div className="space-y-2">
           <Label className="text-sm">Модель</Label>
-          <Select 
-            value={settings.model} 
-            onValueChange={(v) => handleSettingChange('model', v as 'V4_5PLUS' | 'V5')}
-          >
+          <Select value={settings.model} onValueChange={(v) => handleSettingChange("model", v as "V4_5PLUS" | "V5")}>
             <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
@@ -222,9 +208,9 @@ export function GenerationAdvancedSettings({
         {showVocalGender && (
           <div className="space-y-2">
             <Label className="text-sm">{vocalGenderLabel}</Label>
-            <Select 
-              value={settings.vocalGender || 'any'} 
-              onValueChange={(v) => handleSettingChange('vocalGender', v === 'any' ? '' : v as 'm' | 'f')}
+            <Select
+              value={settings.vocalGender || "any"}
+              onValueChange={(v) => handleSettingChange("vocalGender", v === "any" ? "" : (v as "m" | "f"))}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Не указано" />

@@ -2,9 +2,9 @@
  * Hook to fetch failed generation tasks for the current user
  */
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface FailedGeneration {
   id: string;
@@ -22,16 +22,16 @@ export function useFailedGenerations() {
   const queryClient = useQueryClient();
 
   const query = useQuery({
-    queryKey: ['failed_generations', user?.id],
+    queryKey: ["failed_generations", user?.id],
     queryFn: async () => {
       if (!user?.id) return [];
-      
+
       const { data, error } = await supabase
-        .from('generation_tasks')
-        .select('id, track_id, prompt, status, error_message, generation_mode, model_used, created_at')
-        .eq('user_id', user.id)
-        .eq('status', 'failed')
-        .order('created_at', { ascending: false })
+        .from("generation_tasks")
+        .select("id, track_id, prompt, status, error_message, generation_mode, model_used, created_at")
+        .eq("user_id", user.id)
+        .eq("status", "failed")
+        .order("created_at", { ascending: false })
         .limit(10);
 
       if (error) throw new Error(error.message);
@@ -43,7 +43,7 @@ export function useFailedGenerations() {
   });
 
   const refetch = () => {
-    queryClient.invalidateQueries({ queryKey: ['failed_generations', user?.id] });
+    queryClient.invalidateQueries({ queryKey: ["failed_generations", user?.id] });
   };
 
   return {

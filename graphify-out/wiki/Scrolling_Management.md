@@ -10,9 +10,9 @@
 - [bestValueProduct](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L117) (1 connections)
 - [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L32) (1 connections)
 - [{
-    data: subscriptionProducts,
-    isLoading: isLoadingProducts,
-    error: productsError,
+  data: subscriptionProducts,
+  isLoading: isLoadingProducts,
+  error: productsError,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L96) (1 connections)
 - [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L149) (1 connections)
 - [{ initiatePayment, flowState, resetFlow }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L114) (1 connections)
@@ -24,12 +24,12 @@
 - [showExpirationWarning](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L161) (1 connections)
 - [showTrialHighlight](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L93) (1 connections)
 - [{
-    subscription,
-    isLoading: isLoadingStatus,
-    isActive,
-    tier,
-    expiresAt,
-    daysRemaining,
+  subscription,
+  isLoading: isLoadingStatus,
+  isActive,
+  tier,
+  expiresAt,
+  daysRemaining,
   }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L102) (1 connections)
 - [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/Subscription.tsx#L90) (1 connections)
 
@@ -49,4 +49,4 @@
 
 ---
 
-*Part of the graphify knowledge wiki. See [[index]] to navigate.*
+_Part of the graphify knowledge wiki. See [[index]] to navigate._

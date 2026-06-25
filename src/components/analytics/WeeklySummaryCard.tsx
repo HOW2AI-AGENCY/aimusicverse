@@ -4,20 +4,19 @@
  * Uses unified glassmorphism and design tokens
  */
 
-import { memo } from 'react';
-import { Music, Heart, Play, TrendingUp, TrendingDown, Minus } from 'lucide-react';
-import { motion } from '@/lib/motion';
-import { useAnalyticsData } from '@/hooks/useAnalyticsData';
-import { Skeleton } from '@/components/ui/skeleton';
-import { RefinedCard } from '@/components/ui/RefinedCard';
-import { cn } from '@/lib/utils';
+import { memo } from "react";
+import { Music, Heart, Play, TrendingUp, TrendingDown, Minus } from "lucide-react";
+import { motion } from "@/lib/motion";
+import { useAnalyticsData } from "@/hooks/useAnalyticsData";
+import { Skeleton } from "@/components/ui/skeleton";
+import { RefinedCard } from "@/components/ui/RefinedCard";
+import { cn } from "@/lib/utils";
 
 const ChangeIndicator = memo(function ChangeIndicator({ value }: { value: number }) {
   if (value > 0) {
     return (
       <span className="flex items-center text-caption text-emerald-400">
-        <TrendingUp className="w-3 h-3 mr-0.5" />
-        +{value}
+        <TrendingUp className="w-3 h-3 mr-0.5" />+{value}
       </span>
     );
   }
@@ -31,8 +30,7 @@ const ChangeIndicator = memo(function ChangeIndicator({ value }: { value: number
   }
   return (
     <span className="flex items-center text-caption text-muted-foreground">
-      <Minus className="w-3 h-3 mr-0.5" />
-      0
+      <Minus className="w-3 h-3 mr-0.5" />0
     </span>
   );
 });
@@ -54,47 +52,43 @@ export const WeeklySummaryCard = memo(function WeeklySummaryCard() {
   const stats = [
     {
       icon: Music,
-      label: 'Треков',
+      label: "Треков",
       value: summary.tracks,
       change: summary.tracksChange,
-      color: 'text-primary',
-      bg: 'bg-primary/15',
+      color: "text-primary",
+      bg: "bg-primary/15",
     },
     {
       icon: Heart,
-      label: 'Лайков',
+      label: "Лайков",
       value: summary.likes,
       change: summary.likesChange,
-      color: 'text-rose-400',
-      bg: 'bg-rose-500/15',
+      color: "text-rose-400",
+      bg: "bg-rose-500/15",
     },
     {
       icon: Play,
-      label: 'Прослушиваний',
+      label: "Прослушиваний",
       value: summary.plays,
       change: summary.playsChange,
-      color: 'text-emerald-400',
-      bg: 'bg-emerald-500/15',
+      color: "text-emerald-400",
+      bg: "bg-emerald-500/15",
     },
   ];
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-    >
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
       <RefinedCard variant="glass" hoverLift>
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-body-sm font-semibold text-foreground">За эту неделю</h3>
           <span className="text-caption text-muted-foreground">vs прошлая неделя</span>
         </div>
-        
+
         <div className="grid grid-cols-3 gap-3">
           {stats.map((stat) => (
             <div key={stat.label} className="text-center">
               <div className={cn("w-8 h-8 rounded-lg mx-auto mb-1 flex items-center justify-center", stat.bg)}>
-                <stat.icon className={cn('w-4 h-4', stat.color)} />
+                <stat.icon className={cn("w-4 h-4", stat.color)} />
               </div>
               <p className="text-lg font-bold tabular-nums">{stat.value}</p>
               <p className="text-caption text-muted-foreground mb-1">{stat.label}</p>

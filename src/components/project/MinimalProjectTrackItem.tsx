@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef, memo, useMemo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { 
-  GripVertical, 
-  Play, 
-  Sparkles, 
+import { useState, useEffect, useRef, memo, useMemo } from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  GripVertical,
+  Play,
+  Sparkles,
   MoreVertical,
   FileText,
   CheckCircle2,
@@ -18,30 +18,26 @@ import {
   FileCheck,
   Wand2,
   Loader2,
-  Music
-} from 'lucide-react';
-import { ProjectTrack } from '@/hooks/useProjectTracks';
-import { cn } from '@/lib/utils';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
+  Music,
+} from "lucide-react";
+import { ProjectTrack } from "@/hooks/useProjectTracks";
+import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { useProjectTracks } from '@/hooks/useProjectTracks';
+} from "@/components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useProjectTracks } from "@/hooks/useProjectTracks";
 
-import { toast } from 'sonner';
-import { EditTrackDialog } from './EditTrackDialog';
-import { TrackVersionsPanel } from './TrackVersionsPanel';
-import { motion } from '@/lib/motion';
+import { toast } from "sonner";
+import { EditTrackDialog } from "./EditTrackDialog";
+import { TrackVersionsPanel } from "./TrackVersionsPanel";
+import { motion } from "@/lib/motion";
 
 interface GenerationStatus {
   progress: number;
@@ -59,65 +55,65 @@ interface MinimalProjectTrackItemProps {
 }
 
 const STATUS_CONFIG = {
-  draft: { 
-    icon: FileEdit, 
-    label: 'Черновик', 
-    color: 'text-muted-foreground',
-    bg: 'bg-muted/50'
+  draft: {
+    icon: FileEdit,
+    label: "Черновик",
+    color: "text-muted-foreground",
+    bg: "bg-muted/50",
   },
-  in_progress: { 
-    icon: Clock, 
-    label: 'Генерация', 
-    color: 'text-blue-500',
-    bg: 'bg-blue-500/10'
+  in_progress: {
+    icon: Clock,
+    label: "Генерация",
+    color: "text-blue-500",
+    bg: "bg-blue-500/10",
   },
-  completed: { 
-    icon: CheckCircle2, 
-    label: 'Готов', 
-    color: 'text-green-500',
-    bg: 'bg-green-500/10'
+  completed: {
+    icon: CheckCircle2,
+    label: "Готов",
+    color: "text-green-500",
+    bg: "bg-green-500/10",
   },
-  error: { 
-    icon: AlertCircle, 
-    label: 'Ошибка', 
-    color: 'text-destructive',
-    bg: 'bg-destructive/10'
+  error: {
+    icon: AlertCircle,
+    label: "Ошибка",
+    color: "text-destructive",
+    bg: "bg-destructive/10",
   },
 };
 
 const LYRICS_STATUS_CONFIG = {
-  draft: { 
-    icon: FileEdit, 
-    label: 'Черновик', 
-    color: 'text-muted-foreground',
+  draft: {
+    icon: FileEdit,
+    label: "Черновик",
+    color: "text-muted-foreground",
     canGenerate: true,
-    tooltip: 'Лирика в черновике'
+    tooltip: "Лирика в черновике",
   },
-  prompt: { 
-    icon: FileQuestion, 
-    label: 'Промпт', 
-    color: 'text-amber-500',
+  prompt: {
+    icon: FileQuestion,
+    label: "Промпт",
+    color: "text-amber-500",
     canGenerate: false,
-    tooltip: 'Это промпт для генерации, а не готовая лирика. Сгенерируйте текст через AI Wizard.'
+    tooltip: "Это промпт для генерации, а не готовая лирика. Сгенерируйте текст через AI Wizard.",
   },
-  generated: { 
-    icon: Wand2, 
-    label: 'AI', 
-    color: 'text-blue-500',
+  generated: {
+    icon: Wand2,
+    label: "AI",
+    color: "text-blue-500",
     canGenerate: true,
-    tooltip: 'Лирика сгенерирована AI'
+    tooltip: "Лирика сгенерирована AI",
   },
-  approved: { 
-    icon: FileCheck, 
-    label: 'Готово', 
-    color: 'text-green-500',
+  approved: {
+    icon: FileCheck,
+    label: "Готово",
+    color: "text-green-500",
     canGenerate: true,
-    tooltip: 'Лирика одобрена'
+    tooltip: "Лирика одобрена",
   },
 };
 
-export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({ 
-  track, 
+export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
+  track,
   dragHandleProps,
   isDragging,
   onGenerate,
@@ -131,16 +127,16 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
   const [versionsExpanded, setVersionsExpanded] = useState(!!track.linked_track);
   const { deleteTrack } = useProjectTracks(track.project_id);
   const { activeTrack, isPlaying, playTrack, pauseTrack } = usePlayerStore();
-  
-  const status = (track.status as keyof typeof STATUS_CONFIG) || 'draft';
+
+  const status = (track.status as keyof typeof STATUS_CONFIG) || "draft";
   const statusConfig = STATUS_CONFIG[status];
   const StatusIcon = statusConfig.icon;
 
   // Get lyrics status - default to 'draft' if not set
-  const lyricsStatus = (track.lyrics_status as keyof typeof LYRICS_STATUS_CONFIG) || 'draft';
+  const lyricsStatus = (track.lyrics_status as keyof typeof LYRICS_STATUS_CONFIG) || "draft";
   const lyricsStatusConfig = LYRICS_STATUS_CONFIG[lyricsStatus];
   const LyricsStatusIcon = lyricsStatusConfig.icon;
-  
+
   const hasLinkedTrack = !!track.track_id && !!track.linked_track;
   const linkedTrack = track.linked_track;
   const isCurrentTrack = activeTrack?.id === linkedTrack?.id;
@@ -151,8 +147,8 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
 
   // Check if ready to generate - need lyrics >= 50 chars and not just a prompt
   const isReadyToGenerate = useMemo(() => {
-    if (lyricsStatus === 'prompt') return false;
-    const lyricsText = track.lyrics || linkedTrack?.lyrics || '';
+    if (lyricsStatus === "prompt") return false;
+    const lyricsText = track.lyrics || linkedTrack?.lyrics || "";
     return lyricsText.length >= 50;
   }, [track.lyrics, linkedTrack?.lyrics, lyricsStatus]);
 
@@ -171,7 +167,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
 
   const handlePlay = () => {
     if (!linkedTrack) return;
-    
+
     if (isPlayingThis) {
       pauseTrack();
     } else {
@@ -187,31 +183,31 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
   };
 
   const handleDelete = () => {
-    if (confirm('Удалить трек из треклиста?')) {
+    if (confirm("Удалить трек из треклиста?")) {
       deleteTrack(track.id);
-      toast.success('Трек удален');
+      toast.success("Трек удален");
     }
   };
 
   const handleGenerateClick = () => {
     // Check if lyrics status is 'prompt' - redirect to lyrics wizard
-    if (lyricsStatus === 'prompt') {
-      toast.warning('Сначала сгенерируйте текст песни', {
-        description: 'В поле сейчас только промпт для генерации. Используйте AI Lyrics Wizard.',
+    if (lyricsStatus === "prompt") {
+      toast.warning("Сначала сгенерируйте текст песни", {
+        description: "В поле сейчас только промпт для генерации. Используйте AI Lyrics Wizard.",
         action: {
-          label: 'AI Wizard',
+          label: "AI Wizard",
           onClick: () => onOpenLyricsWizard?.(),
         },
       });
       return;
     }
-    
+
     // Check if we have any lyrics at all
     if (!track.lyrics && !linkedTrack?.lyrics) {
-      toast.warning('Требуется текст песни', {
-        description: 'Напишите лирику или используйте AI Wizard.',
+      toast.warning("Требуется текст песни", {
+        description: "Напишите лирику или используйте AI Wizard.",
         action: {
-          label: 'AI Wizard',
+          label: "AI Wizard",
           onClick: () => onOpenLyricsWizard?.(),
         },
       });
@@ -219,102 +215,83 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
     }
 
     // Check minimum lyrics length
-    const lyricsText = track.lyrics || linkedTrack?.lyrics || '';
+    const lyricsText = track.lyrics || linkedTrack?.lyrics || "";
     if (lyricsText.length < 50) {
-      toast.warning('Текст песни слишком короткий', {
-        description: 'Минимум 50 символов. Дополните текст или используйте AI Wizard.',
+      toast.warning("Текст песни слишком короткий", {
+        description: "Минимум 50 символов. Дополните текст или используйте AI Wizard.",
         action: {
-          label: 'Редактор',
+          label: "Редактор",
           onClick: () => onOpenLyrics?.(),
         },
       });
       return;
     }
-    
+
     onGenerate();
   };
 
   return (
     <>
-      <div 
+      <div
         className={cn(
           "rounded-lg bg-card/50 border border-border/50 transition-all overflow-hidden",
           isDragging && "shadow-lg border-primary scale-[1.02]",
-          !isDragging && "hover:bg-card hover:border-border"
+          !isDragging && "hover:bg-card hover:border-border",
         )}
       >
         {/* Main row - larger padding on mobile for touch */}
-        <div className={cn(
-          "flex items-center gap-2",
-          isMobile ? "p-3" : "p-2"
-        )}>
+        <div className={cn("flex items-center gap-2", isMobile ? "p-3" : "p-2")}>
           {/* Drag Handle - larger on mobile */}
           <div
             {...dragHandleProps}
-            className={cn(
-              "touch-manipulation cursor-grab active:cursor-grabbing",
-              isMobile && "p-1.5 -m-1"
-            )}
+            className={cn("touch-manipulation cursor-grab active:cursor-grabbing", isMobile && "p-1.5 -m-1")}
           >
-            <GripVertical className={cn(
-              "text-muted-foreground",
-              isMobile ? "w-5 h-5" : "w-3.5 h-3.5"
-            )} />
+            <GripVertical className={cn("text-muted-foreground", isMobile ? "w-5 h-5" : "w-3.5 h-3.5")} />
           </div>
 
           {/* Position */}
-          <div className={cn(
-            "rounded-md flex items-center justify-center font-semibold text-xs shrink-0",
-            isMobile ? "w-7 h-7" : "w-6 h-6",
-            statusConfig.bg,
-            statusConfig.color
-          )}>
+          <div
+            className={cn(
+              "rounded-md flex items-center justify-center font-semibold text-xs shrink-0",
+              isMobile ? "w-7 h-7" : "w-6 h-6",
+              statusConfig.bg,
+              statusConfig.color,
+            )}
+          >
             {track.position}
           </div>
 
           {/* Cover - show master version cover if available, otherwise linked track cover */}
           {(hasLinkedTrack || versionsExpanded) && (
-            <div className={cn(
-              "rounded-lg overflow-hidden shrink-0 bg-secondary shadow-sm",
-              isMobile ? "w-12 h-12" : "w-8 h-8"
-            )}>
+            <div
+              className={cn(
+                "rounded-lg overflow-hidden shrink-0 bg-secondary shadow-sm",
+                isMobile ? "w-12 h-12" : "w-8 h-8",
+              )}
+            >
               {linkedTrack?.cover_url ? (
-                <img
-                  src={linkedTrack.cover_url}
-                  alt={track.title}
-                  className="w-full h-full object-cover"
-                />
+                <img src={linkedTrack.cover_url} alt={track.title} className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
-                  <Music className={cn(
-                    "text-primary/50",
-                    isMobile ? "w-4 h-4" : "w-3 h-3"
-                  )} />
+                  <Music className={cn("text-primary/50", isMobile ? "w-4 h-4" : "w-3 h-3")} />
                 </div>
               )}
             </div>
           )}
 
-            {/* Content */}
+          {/* Content */}
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1">
-              <span className={cn(
-                "font-medium truncate",
-                isMobile ? "text-sm" : "text-xs"
-              )}>{track.title}</span>
-              <Badge 
-                variant="outline" 
-                className={cn(
-                  "text-[9px] h-3.5 px-1 shrink-0",
-                  statusConfig.color,
-                  "border-current/30"
-                )}
+              <span className={cn("font-medium truncate", isMobile ? "text-sm" : "text-xs")}>{track.title}</span>
+              <Badge
+                variant="outline"
+                className={cn("text-[9px] h-3.5 px-1 shrink-0", statusConfig.color, "border-current/30")}
               >
                 <StatusIcon className="w-2 h-2 mr-0.5" />
-                {isMobile ? '' : statusConfig.label}
+                {isMobile ? "" : statusConfig.label}
               </Badge>
             </div>
-            
+
             {/* Track params indicators */}
             {(track.bpm_target || track.key_signature || track.energy_level) && (
               <div className="flex items-center gap-1 mt-0.5">
@@ -335,31 +312,35 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 )}
               </div>
             )}
-            
+
             {/* Hide style_prompt on mobile to save space */}
             {!isMobile && track.style_prompt && (
-              <p className="text-[10px] text-muted-foreground truncate">
-                {track.style_prompt}
-              </p>
+              <p className="text-[10px] text-muted-foreground truncate">{track.style_prompt}</p>
             )}
 
             {/* Lyrics preview with status indicator */}
             {hasLyricsContent && (
-              <motion.div 
+              <motion.div
                 className={cn(
                   "flex items-center gap-0.5 text-[9px] text-muted-foreground/70 rounded px-0.5 -mx-0.5",
-                  lyricsJustUpdated && "bg-primary/20"
+                  lyricsJustUpdated && "bg-primary/20",
                 )}
-                animate={lyricsJustUpdated ? { 
-                  backgroundColor: ['hsl(var(--primary) / 0.3)', 'hsl(var(--primary) / 0)'] 
-                } : {}}
+                animate={
+                  lyricsJustUpdated
+                    ? {
+                        backgroundColor: ["hsl(var(--primary) / 0.3)", "hsl(var(--primary) / 0)"],
+                      }
+                    : {}
+                }
                 transition={{ duration: 2 }}
               >
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <span className={cn("flex items-center gap-0.5", lyricsStatusConfig.color)}>
                       <LyricsStatusIcon className="w-2.5 h-2.5" />
-                      {lyricsJustUpdated && <span className="text-[8px] text-primary font-medium ml-0.5">Обновлено!</span>}
+                      {lyricsJustUpdated && (
+                        <span className="text-[8px] text-primary font-medium ml-0.5">Обновлено!</span>
+                      )}
                     </span>
                   </TooltipTrigger>
                   <TooltipContent side="top" className="text-xs">
@@ -367,17 +348,14 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                   </TooltipContent>
                 </Tooltip>
                 <span className="truncate">
-                  {(linkedTrack?.lyrics || track.lyrics || '').replace(/\[.*?\]/g, '').slice(0, 40)}...
+                  {(linkedTrack?.lyrics || track.lyrics || "").replace(/\[.*?\]/g, "").slice(0, 40)}...
                 </span>
               </motion.div>
             )}
           </div>
 
           {/* Actions - larger touch targets on mobile */}
-          <div className={cn(
-            "flex items-center shrink-0",
-            isMobile ? "gap-1" : "gap-0.5"
-          )}>
+          <div className={cn("flex items-center shrink-0", isMobile ? "gap-1" : "gap-0.5")}>
             {/* Lyrics Button */}
             <Button
               size="icon"
@@ -387,7 +365,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 onOpenLyrics?.();
               }}
               className={isMobile ? "h-9 w-9" : "h-7 w-7"}
-              title={hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
+              title={hasLyricsContent ? "Просмотр лирики" : "Написать лирику"}
             >
               <FileText className={isMobile ? "w-4 h-4" : "w-3.5 h-3.5"} />
             </Button>
@@ -404,12 +382,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 <span className="text-[9px] text-primary/60">{generationStatus.progress}%</span>
               </motion.div>
             ) : hasLinkedTrack ? (
-              <Button
-                size="icon"
-                variant="ghost"
-                onClick={handlePlay}
-                className={isMobile ? "h-9 w-9" : "h-7 w-7"}
-              >
+              <Button size="icon" variant="ghost" onClick={handlePlay} className={isMobile ? "h-9 w-9" : "h-7 w-7"}>
                 {isPlayingThis ? (
                   <Pause className={isMobile ? "w-4 h-4" : "w-3.5 h-3.5"} />
                 ) : (
@@ -427,19 +400,19 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                       "gap-0.5",
                       isMobile ? "h-9 px-3 text-xs" : "h-7 px-2 text-[10px]",
                       !isReadyToGenerate && "opacity-50 cursor-not-allowed",
-                      lyricsStatus === 'prompt' ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90"
+                      lyricsStatus === "prompt" ? "bg-amber-500/80 hover:bg-amber-500" : "bg-primary/90",
                     )}
                   >
                     <Sparkles className={isMobile ? "w-3.5 h-3.5" : "w-3 h-3"} />
-                    {!isMobile && 'Создать'}
+                    {!isMobile && "Создать"}
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="top" className="text-xs max-w-[200px]">
-                  {lyricsStatus === 'prompt' 
-                    ? 'Сначала сгенерируйте текст песни через AI Wizard' 
-                    : !hasLyricsContent 
-                      ? 'Требуется текст песни (минимум 50 символов)'
-                      : 'Нажмите для генерации трека'}
+                  {lyricsStatus === "prompt"
+                    ? "Сначала сгенерируйте текст песни через AI Wizard"
+                    : !hasLyricsContent
+                      ? "Требуется текст песни (минимум 50 символов)"
+                      : "Нажмите для генерации трека"}
                 </TooltipContent>
               </Tooltip>
             )}
@@ -457,7 +430,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={onOpenLyrics}>
                   <FileText className="w-4 h-4 mr-2" />
-                  {hasLyricsContent ? 'Просмотр лирики' : 'Написать лирику'}
+                  {hasLyricsContent ? "Просмотр лирики" : "Написать лирику"}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={onOpenLyricsWizard}>
                   <Sparkles className="w-4 h-4 mr-2" />
@@ -470,10 +443,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
                     Генерировать
                   </DropdownMenuItem>
                 )}
-                <DropdownMenuItem 
-                  onClick={handleDelete}
-                  className="text-destructive focus:text-destructive"
-                >
+                <DropdownMenuItem onClick={handleDelete} className="text-destructive focus:text-destructive">
                   <Trash2 className="w-4 h-4 mr-2" />
                   Удалить
                 </DropdownMenuItem>
@@ -494,11 +464,7 @@ export const MinimalProjectTrackItem = memo(function MinimalProjectTrackItem({
         </div>
       </div>
 
-      <EditTrackDialog
-        open={editOpen}
-        onOpenChange={setEditOpen}
-        track={track}
-      />
+      <EditTrackDialog open={editOpen} onOpenChange={setEditOpen} track={track} />
     </>
   );
 });

@@ -3,10 +3,10 @@
  * SectionReferenceDisplay - Show analysis results from audio reference for lyrics sections
  */
 
-import { Music2, Gauge, Key, Palette, Zap, Guitar, Tag, Mic } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { ReferenceAnalysis } from '@/hooks/useSectionNotes';
-import { cn } from '@/lib/utils';
+import { Music2, Gauge, Key, Palette, Zap, Guitar, Tag, Mic } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ReferenceAnalysis } from "@/hooks/useSectionNotes";
+import { cn } from "@/lib/utils";
 
 interface SectionReferenceDisplayProps {
   analysis: ReferenceAnalysis;
@@ -14,11 +14,7 @@ interface SectionReferenceDisplayProps {
   className?: string;
 }
 
-export function SectionReferenceDisplay({ 
-  analysis, 
-  compact = false,
-  className 
-}: SectionReferenceDisplayProps) {
+export function SectionReferenceDisplay({ analysis, compact = false, className }: SectionReferenceDisplayProps) {
   if (compact) {
     return (
       <div className={cn("flex flex-wrap gap-1.5", className)}>
@@ -122,7 +118,7 @@ export function SectionReferenceDisplay({
             Инструменты
           </p>
           <div className="flex flex-wrap gap-1">
-            {analysis.instruments.map(inst => (
+            {analysis.instruments.map((inst) => (
               <Badge key={inst} variant="outline" className="text-xs">
                 {inst}
               </Badge>
@@ -161,7 +157,7 @@ export function SectionReferenceDisplay({
             Предложенные теги
           </p>
           <div className="flex flex-wrap gap-1">
-            {analysis.suggested_tags.map(tag => (
+            {analysis.suggested_tags.map((tag) => (
               <Badge key={tag} className="text-xs">
                 {tag}
               </Badge>

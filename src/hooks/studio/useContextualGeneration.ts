@@ -2,11 +2,11 @@
  * useContextualGeneration - Hook for AI-powered contextual stem generation
  */
 
-import { useState } from 'react';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { getStemLabel } from '@/lib/stemLabels';
+import { useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { getStemLabel } from "@/lib/stemLabels";
 
 export interface TrackContext {
   bpm?: number;
@@ -20,7 +20,7 @@ export interface TrackContext {
   style_description?: string;
 }
 
-export type StemType = 'drums' | 'bass' | 'piano' | 'strings' | 'synth' | 'sfx' | 'guitar' | 'pad';
+export type StemType = "drums" | "bass" | "piano" | "strings" | "synth" | "sfx" | "guitar" | "pad";
 
 export interface GenerationParams {
   stemType: StemType;
@@ -47,14 +47,14 @@ export function useContextualGeneration({ trackId, trackUrl }: UseContextualGene
   const [generationProgress, setGenerationProgress] = useState(0);
 
   // Fetch track context
-  const { 
-    data: trackContext, 
+  const {
+    data: trackContext,
     isLoading: isLoadingContext,
     refetch: refetchContext,
   } = useQuery<TrackContext>({
-    queryKey: ['track-context', trackId],
+    queryKey: ["track-context", trackId],
     queryFn: async () => {
-      const { data, error } = await supabase.functions.invoke('analyze-track-context', {
+      const { data, error } = await supabase.functions.invoke("analyze-track-context", {
         body: { audioUrl: trackUrl, trackId },
       });
 
@@ -69,8 +69,8 @@ export function useContextualGeneration({ trackId, trackUrl }: UseContextualGene
   const generateStemMutation = useMutation<GenerationResult, Error, GenerationParams>({
     mutationFn: async (params) => {
       setGenerationProgress(10);
-      
-      const { data, error } = await supabase.functions.invoke('generate-contextual-stem', {
+
+      const { data, error } = await supabase.functions.invoke("generate-contextual-stem", {
         body: {
           trackId,
           trackUrl,
@@ -82,7 +82,7 @@ export function useContextualGeneration({ trackId, trackUrl }: UseContextualGene
       });
 
       if (error) throw error;
-      
+
       setGenerationProgress(100);
       return data as GenerationResult;
     },
@@ -91,7 +91,7 @@ export function useContextualGeneration({ trackId, trackUrl }: UseContextualGene
     },
     onSuccess: (data) => {
       // Invalidate stems query to refresh the list
-      queryClient.invalidateQueries({ queryKey: ['track-stems', trackId] });
+      queryClient.invalidateQueries({ queryKey: ["track-stems", trackId] });
       toast.success(`${getStemLabel(data.stemType)} успешно создан`);
     },
     onError: (error) => {
@@ -109,7 +109,7 @@ export function useContextualGeneration({ trackId, trackUrl }: UseContextualGene
     trackContext,
     isLoadingContext,
     refetchContext,
-    
+
     // Generation
     generateStem: generateStemMutation.mutate,
     generateStemAsync: generateStemMutation.mutateAsync,
@@ -124,17 +124,20 @@ export function useContextualGeneration({ trackId, trackUrl }: UseContextualGene
 export { getStemLabel };
 
 // Stem type icons mapping
-export const stemTypeConfig: Record<StemType, { 
-  emoji: string; 
-  label: string;
-  description: string;
-}> = {
-  drums: { emoji: '🥁', label: 'Ударные', description: 'Ритм-секция: кик, снэйр, хэты' },
-  bass: { emoji: '🎸', label: 'Бас', description: 'Басовая линия и грув' },
-  piano: { emoji: '🎹', label: 'Пианино', description: 'Мелодия и аккорды' },
-  strings: { emoji: '🎻', label: 'Струнные', description: 'Оркестровые струнные' },
-  synth: { emoji: '🎛️', label: 'Синтезатор', description: 'Электронные текстуры' },
-  sfx: { emoji: '✨', label: 'SFX', description: 'Эффекты и переходы' },
-  guitar: { emoji: '🎸', label: 'Гитара', description: 'Электро или акустика' },
-  pad: { emoji: '🌊', label: 'Пэд', description: 'Атмосферные текстуры' },
+export const stemTypeConfig: Record<
+  StemType,
+  {
+    emoji: string;
+    label: string;
+    description: string;
+  }
+> = {
+  drums: { emoji: "🥁", label: "Ударные", description: "Ритм-секция: кик, снэйр, хэты" },
+  bass: { emoji: "🎸", label: "Бас", description: "Басовая линия и грув" },
+  piano: { emoji: "🎹", label: "Пианино", description: "Мелодия и аккорды" },
+  strings: { emoji: "🎻", label: "Струнные", description: "Оркестровые струнные" },
+  synth: { emoji: "🎛️", label: "Синтезатор", description: "Электронные текстуры" },
+  sfx: { emoji: "✨", label: "SFX", description: "Эффекты и переходы" },
+  guitar: { emoji: "🎸", label: "Гитара", description: "Электро или акустика" },
+  pad: { emoji: "🌊", label: "Пэд", description: "Атмосферные текстуры" },
 };

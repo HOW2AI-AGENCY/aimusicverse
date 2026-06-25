@@ -2,14 +2,14 @@
  * ProjectTracklistSection - Tracklist with drag-drop
  */
 
-import { memo } from 'react';
-import { Button } from '@/components/ui/button';
-import { Music, Plus, Sparkles } from 'lucide-react';
-import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { MinimalProjectTrackItem } from '@/components/project/MinimalProjectTrackItem';
-import { UnlinkedTracksSection } from '@/components/project/UnlinkedTracksSection';
-import { cn } from '@/lib/utils';
-import type { ProjectTrack } from '@/hooks/useProjectTracks';
+import { memo } from "react";
+import { Button } from "@/components/ui/button";
+import { Music, Plus, Sparkles } from "lucide-react";
+import { DragDropContext, Droppable, Draggable, DropResult } from "@hello-pangea/dnd";
+import { MinimalProjectTrackItem } from "@/components/project/MinimalProjectTrackItem";
+import { UnlinkedTracksSection } from "@/components/project/UnlinkedTracksSection";
+import { cn } from "@/lib/utils";
+import type { ProjectTrack } from "@/hooks/useProjectTracks";
 
 interface ProjectTracklistSectionProps {
   projectId: string;
@@ -56,12 +56,7 @@ export const ProjectTracklistSection = memo(function ProjectTracklistSection({
             <Plus className="w-4 h-4" />
             Добавить трек
           </Button>
-          <Button 
-            variant="outline" 
-            onClick={onGenerateTracklist}
-            disabled={isGenerating}
-            className="gap-2"
-          >
+          <Button variant="outline" onClick={onGenerateTracklist} disabled={isGenerating} className="gap-2">
             <Sparkles className="w-4 h-4" />
             Сгенерировать AI
           </Button>
@@ -75,18 +70,11 @@ export const ProjectTracklistSection = memo(function ProjectTracklistSection({
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="project-tracks">
           {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="space-y-2"
-            >
+            <div {...provided.droppableProps} ref={provided.innerRef} className="space-y-2">
               {tracks.map((track, index) => (
                 <Draggable key={track.id} draggableId={track.id} index={index}>
                   {(provided, snapshot) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...(provided.draggableProps as any)}
-                    >
+                    <div ref={provided.innerRef} {...(provided.draggableProps as any)}>
                       <MinimalProjectTrackItem
                         track={track}
                         dragHandleProps={provided.dragHandleProps}

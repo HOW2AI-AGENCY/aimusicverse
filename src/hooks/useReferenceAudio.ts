@@ -1,6 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/hooks/useAuth';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface ReferenceAudio {
   id: string;
@@ -41,15 +41,15 @@ export function useReferenceAudio() {
   const queryClient = useQueryClient();
 
   const { data: audioList = [], isLoading } = useQuery({
-    queryKey: ['reference-audio', user?.id],
+    queryKey: ["reference-audio", user?.id],
     queryFn: async () => {
       if (!user) return [];
-      
+
       const { data, error } = await supabase
-        .from('reference_audio')
-        .select('*')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+        .from("reference_audio")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
         .limit(200);
 
       if (error) throw error;
@@ -81,10 +81,10 @@ export function useReferenceAudio() {
       styleDescription?: string;
       analysisStatus?: string;
     }) => {
-      if (!user) throw new Error('Not authenticated');
+      if (!user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
-        .from('reference_audio')
+        .from("reference_audio")
         .insert({
           user_id: user.id,
           file_name: params.fileName,
@@ -106,7 +106,7 @@ export function useReferenceAudio() {
           energy: params.energy,
           instruments: params.instruments,
           style_description: params.styleDescription,
-          analysis_status: params.analysisStatus ?? 'pending',
+          analysis_status: params.analysisStatus ?? "pending",
         })
         .select()
         .single();
@@ -115,7 +115,7 @@ export function useReferenceAudio() {
       return data as ReferenceAudio;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reference-audio', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["reference-audio", user?.id] });
     },
   });
 
@@ -169,28 +169,25 @@ export function useReferenceAudio() {
       if (params.analysisMetadata !== undefined) updateData.analysis_metadata = params.analysisMetadata;
 
       const { error } = await supabase
-        .from('reference_audio')
+        .from("reference_audio")
         .update(updateData as any)
-        .eq('id', params.id);
+        .eq("id", params.id);
 
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reference-audio', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["reference-audio", user?.id] });
     },
   });
 
   const deleteAudioMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase
-        .from('reference_audio')
-        .delete()
-        .eq('id', id);
+      const { error } = await supabase.from("reference_audio").delete().eq("id", id);
 
       if (error) throw error;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reference-audio', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["reference-audio", user?.id] });
     },
   });
 
@@ -208,16 +205,16 @@ export function useReferenceAudio() {
       forceReprocess?: boolean;
       referenceId?: string;
     }) => {
-      if (!user) throw new Error('Not authenticated');
+      if (!user) throw new Error("Not authenticated");
 
-      const { data, error } = await supabase.functions.invoke('process-audio-pipeline', {
+      const { data, error } = await supabase.functions.invoke("process-audio-pipeline", {
         body: {
           audio_url: params.audioUrl,
           user_id: user.id,
           file_name: params.fileName,
           file_size: params.fileSize,
           duration_seconds: params.durationSeconds,
-          source: params.source ?? 'web',
+          source: params.source ?? "web",
           telegram_file_id: params.telegramFileId,
           skip_stems: params.skipStems,
           skip_lyrics: params.skipLyrics,
@@ -228,19 +225,19 @@ export function useReferenceAudio() {
 
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
-      
+
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['reference-audio', user?.id] });
+      queryClient.invalidateQueries({ queryKey: ["reference-audio", user?.id] });
     },
   });
 
   // Get analyzed audio ready for reference use
-  const analyzedAudio = audioList.filter(a => a.analysis_status === 'completed');
-  
+  const analyzedAudio = audioList.filter((a) => a.analysis_status === "completed");
+
   // Get audio with available stems
-  const audioWithStems = audioList.filter(a => a.stems_status === 'completed');
+  const audioWithStems = audioList.filter((a) => a.stems_status === "completed");
 
   return {
     audioList,

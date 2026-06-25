@@ -4,52 +4,52 @@
  * Desktop: Two-column layout with tabs + content side by side
  */
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { useNavigate } from 'react-router-dom';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import { ProBadge } from '@/components/ui/pro-badge';
-import { ArrowLeft, Mic, Guitar, Music, Zap, FileMusic, Sparkles, Drum, Disc3 } from 'lucide-react';
-import { RealtimeChordVisualizer } from '@/components/chord-detection/RealtimeChordVisualizer';
-import { GuitarTabEditor } from '@/components/tab-editor/GuitarTabEditor';
-import { DrumMachineClean } from '@/components/drum-machine/pro';
-import { PromptDJMixer } from '@/components/prompt-dj';
-import { toast } from 'sonner';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
+import { useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
+import { useNavigate } from "react-router-dom";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { ProBadge } from "@/components/ui/pro-badge";
+import { ArrowLeft, Mic, Guitar, Music, Zap, FileMusic, Sparkles, Drum, Disc3 } from "lucide-react";
+import { RealtimeChordVisualizer } from "@/components/chord-detection/RealtimeChordVisualizer";
+import { GuitarTabEditor } from "@/components/tab-editor/GuitarTabEditor";
+import { DrumMachineClean } from "@/components/drum-machine/pro";
+import { PromptDJMixer } from "@/components/prompt-dj";
+import { toast } from "sonner";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 const tools = [
-  { id: 'drums', label: 'Драм машина', icon: Drum, description: 'Создавайте ритмы и паттерны' },
-  { id: 'promptdj', label: 'DJ Mixer', icon: Disc3, description: 'Микшируйте промпты для генерации' },
-  { id: 'chords', label: 'Аккорды', icon: Mic, description: 'Распознавание аккордов в реальном времени' },
-  { id: 'tabs', label: 'Табулатуры', icon: Guitar, description: 'Редактор гитарных табов' },
+  { id: "drums", label: "Драм машина", icon: Drum, description: "Создавайте ритмы и паттерны" },
+  { id: "promptdj", label: "DJ Mixer", icon: Disc3, description: "Микшируйте промпты для генерации" },
+  { id: "chords", label: "Аккорды", icon: Mic, description: "Распознавание аккордов в реальном времени" },
+  { id: "tabs", label: "Табулатуры", icon: Guitar, description: "Редактор гитарных табов" },
 ];
 
 export default function CreativeTools() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const [activeTab, setActiveTab] = useState('drums');
+  const [activeTab, setActiveTab] = useState("drums");
 
   const handleProgressionExport = (progression: string) => {
-    toast.success('Прогрессия скопирована', {
+    toast.success("Прогрессия скопирована", {
       description: progression,
     });
   };
 
-  const handleTabExport = (format: 'midi' | 'gp5' | 'pdf') => {
+  const handleTabExport = (format: "midi" | "gp5" | "pdf") => {
     toast.info(`Экспорт в ${format.toUpperCase()}...`, {
-      description: 'Эта функция будет доступна в следующем обновлении',
+      description: "Эта функция будет доступна в следующем обновлении",
     });
   };
 
   const renderToolContent = (toolId: string) => {
     switch (toolId) {
-      case 'drums':
+      case "drums":
         return <DrumMachineClean />;
-      case 'promptdj':
+      case "promptdj":
         return <PromptDJMixer />;
-      case 'chords':
+      case "chords":
         return (
           <>
             <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
@@ -67,7 +67,7 @@ export default function CreativeTools() {
             <RealtimeChordVisualizer onProgressionExport={handleProgressionExport} />
           </>
         );
-      case 'tabs':
+      case "tabs":
         return (
           <>
             <div className="mb-4 p-4 bg-muted/30 rounded-xl border border-primary/10">
@@ -105,18 +105,13 @@ export default function CreativeTools() {
               className={cn(
                 "w-full p-4 rounded-xl text-left transition-all",
                 "border border-border/50 hover:border-primary/30",
-                isActive 
-                  ? "bg-primary/10 border-primary/40 ring-1 ring-primary/20" 
-                  : "bg-card/50 hover:bg-card"
+                isActive ? "bg-primary/10 border-primary/40 ring-1 ring-primary/20" : "bg-card/50 hover:bg-card",
               )}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
             >
               <div className="flex items-center gap-3">
-                <div className={cn(
-                  "p-2 rounded-lg",
-                  isActive ? "bg-primary/20" : "bg-muted"
-                )}>
+                <div className={cn("p-2 rounded-lg", isActive ? "bg-primary/20" : "bg-muted")}>
                   <Icon className={cn("w-5 h-5", isActive ? "text-primary" : "text-muted-foreground")} />
                 </div>
                 <div>
@@ -127,12 +122,12 @@ export default function CreativeTools() {
             </motion.button>
           );
         })}
-        
+
         {/* Guitar Studio Link */}
         <Button
           variant="outline"
           className="w-full h-auto py-4 justify-start bg-gradient-to-r from-orange-500/5 to-red-500/5 border-orange-500/20 hover:from-orange-500/10 hover:to-red-500/10 mt-4"
-          onClick={() => navigate('/guitar-studio')}
+          onClick={() => navigate("/guitar-studio")}
         >
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-gradient-to-br from-orange-500 to-red-500">
@@ -211,13 +206,13 @@ export default function CreativeTools() {
 
             <TabsContent value="chords" className="mt-0">
               <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
-                {renderToolContent('chords')}
+                {renderToolContent("chords")}
               </motion.div>
             </TabsContent>
 
             <TabsContent value="tabs" className="mt-0">
               <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
-                {renderToolContent('tabs')}
+                {renderToolContent("tabs")}
               </motion.div>
             </TabsContent>
           </motion.div>
@@ -235,7 +230,7 @@ export default function CreativeTools() {
           variant="outline"
           size="lg"
           className="w-full h-auto py-6 justify-start bg-gradient-to-r from-orange-500/5 to-red-500/5 border-orange-500/20 hover:from-orange-500/10 hover:to-red-500/10"
-          onClick={() => navigate('/guitar-studio')}
+          onClick={() => navigate("/guitar-studio")}
         >
           <div className="flex items-center gap-4 w-full">
             <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 shadow-lg">
@@ -258,28 +253,18 @@ export default function CreativeTools() {
   );
 
   return (
-    <div 
+    <div
       className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 pb-24"
       style={{
-        paddingTop: 'max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))',
+        paddingTop:
+          "max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px))",
       }}
     >
-      <div className={cn(
-        "container mx-auto px-4 py-4",
-        isMobile ? "max-w-4xl" : "max-w-7xl"
-      )}>
+      <div className={cn("container mx-auto px-4 py-4", isMobile ? "max-w-4xl" : "max-w-7xl")}>
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-6"
-        >
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="mb-6">
           <div className="flex items-center gap-4 mb-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate(-1)}
-            >
+            <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
               <ArrowLeft className="h-5 w-5" />
             </Button>
             <div className="flex items-center gap-3 flex-1">
@@ -291,9 +276,7 @@ export default function CreativeTools() {
                   <h1 className="text-2xl font-bold">Креативные инструменты</h1>
                   <ProBadge size="md" showIcon />
                 </div>
-                <p className="text-sm text-muted-foreground">
-                  Создавайте музыкальные идеи и конвертируйте в треки
-                </p>
+                <p className="text-sm text-muted-foreground">Создавайте музыкальные идеи и конвертируйте в треки</p>
               </div>
             </div>
           </div>

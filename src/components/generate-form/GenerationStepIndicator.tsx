@@ -1,6 +1,6 @@
-import { motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Check } from 'lucide-react';
+import { motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Check } from "lucide-react";
 
 export interface StepDef {
   label: string;
@@ -18,17 +18,10 @@ interface GenerationStepIndicatorProps {
 /**
  * Linear/Arc-inspired stepper. Aurora-tinted, animated, mobile-first.
  */
-export function GenerationStepIndicator({
-  currentStep,
-  steps,
-  className,
-}: GenerationStepIndicatorProps) {
+export function GenerationStepIndicator({ currentStep, steps, className }: GenerationStepIndicatorProps) {
   return (
     <div
-      className={cn(
-        'flex items-center gap-1.5 overflow-x-auto scrollbar-hide -mx-1 px-1 py-0.5',
-        className,
-      )}
+      className={cn("flex items-center gap-1.5 overflow-x-auto scrollbar-hide -mx-1 px-1 py-0.5", className)}
       role="list"
       aria-label="Прогресс создания трека"
     >
@@ -43,15 +36,15 @@ export function GenerationStepIndicator({
               layout
               initial={false}
               animate={{ scale: isActive ? 1 : 0.97 }}
-              transition={{ type: 'spring', stiffness: 380, damping: 28 }}
+              transition={{ type: "spring", stiffness: 380, damping: 28 }}
               className={cn(
-                'relative flex items-center gap-1.5 h-7 pl-1 pr-2.5 rounded-full border text-[11px] font-medium leading-none tracking-tight transition-colors',
+                "relative flex items-center gap-1.5 h-7 pl-1 pr-2.5 rounded-full border text-[11px] font-medium leading-none tracking-tight transition-colors",
                 isActive &&
-                  'bg-primary/15 border-primary/45 text-foreground shadow-[0_0_0_1px_hsl(var(--primary)/0.25)_inset,0_0_18px_-4px_hsl(var(--primary)/0.45)]',
-                isCompleted && 'bg-primary/10 border-primary/35 text-primary',
-                isUpcoming && 'bg-muted/40 border-border/60 text-muted-foreground',
+                  "bg-primary/15 border-primary/45 text-foreground shadow-[0_0_0_1px_hsl(var(--primary)/0.25)_inset,0_0_18px_-4px_hsl(var(--primary)/0.45)]",
+                isCompleted && "bg-primary/10 border-primary/35 text-primary",
+                isUpcoming && "bg-muted/40 border-border/60 text-muted-foreground",
               )}
-              aria-current={isActive ? 'step' : undefined}
+              aria-current={isActive ? "step" : undefined}
             >
               {isActive && (
                 <motion.span
@@ -59,15 +52,15 @@ export function GenerationStepIndicator({
                   className="absolute inset-0 rounded-full ring-1 ring-primary/30"
                   initial={{ opacity: 0.6, scale: 1 }}
                   animate={{ opacity: 0, scale: 1.15 }}
-                  transition={{ duration: 1.6, repeat: Infinity, ease: 'easeOut' }}
+                  transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut" }}
                 />
               )}
               <span
                 className={cn(
-                  'relative inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-semibold tabular-nums',
-                  isActive && 'bg-primary text-primary-foreground',
-                  isCompleted && 'bg-primary/25 text-primary',
-                  isUpcoming && 'bg-muted-foreground/15 text-muted-foreground',
+                  "relative inline-flex items-center justify-center w-5 h-5 rounded-full text-[10px] font-semibold tabular-nums",
+                  isActive && "bg-primary text-primary-foreground",
+                  isCompleted && "bg-primary/25 text-primary",
+                  isUpcoming && "bg-muted-foreground/15 text-muted-foreground",
                 )}
                 aria-hidden
               >
@@ -79,8 +72,8 @@ export function GenerationStepIndicator({
             {index < steps.length - 1 && (
               <span
                 className={cn(
-                  'h-px w-4 rounded-full transition-colors',
-                  isCompleted || isActive ? 'bg-primary/40' : 'bg-border',
+                  "h-px w-4 rounded-full transition-colors",
+                  isCompleted || isActive ? "bg-primary/40" : "bg-border",
                 )}
                 aria-hidden
               />

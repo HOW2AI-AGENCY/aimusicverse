@@ -1,33 +1,32 @@
 /**
  * FeatureTutorialDialog - Interactive tutorial popup with carousel
- * 
+ *
  * Shows feature tips as a slideshow with animations
  * Triggered from DailyTipCard on homepage
  */
 
-import { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from '@/lib/motion';
-import { 
-  X, ChevronLeft, ChevronRight, Sparkles, Check,
-  Music2, Layers, Wand2, Mic2, Library, Share2
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { useState, useCallback } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from '@/components/ui/drawer';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { cn } from '@/lib/utils';
-import { hapticImpact } from '@/lib/haptic';
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Sparkles,
+  Check,
+  Music2,
+  Layers,
+  Wand2,
+  Mic2,
+  Library,
+  Share2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import { hapticImpact } from "@/lib/haptic";
 
 export interface TutorialSlide {
   id: string;
@@ -48,13 +47,7 @@ interface FeatureTutorialDialogProps {
   onComplete?: () => void;
 }
 
-function TutorialCarousel({ 
-  slides, 
-  onComplete 
-}: { 
-  slides: TutorialSlide[];
-  onComplete?: () => void;
-}) {
+function TutorialCarousel({ slides, onComplete }: { slides: TutorialSlide[]; onComplete?: () => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -64,42 +57,45 @@ function TutorialCarousel({
   const progress = ((currentIndex + 1) / slides.length) * 100;
 
   const goNext = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     if (isLast) {
       onComplete?.();
     } else {
       setDirection(1);
-      setCurrentIndex(prev => prev + 1);
+      setCurrentIndex((prev) => prev + 1);
     }
   }, [isLast, onComplete]);
 
   const goPrev = useCallback(() => {
-    hapticImpact('light');
+    hapticImpact("light");
     if (!isFirst) {
       setDirection(-1);
-      setCurrentIndex(prev => prev - 1);
+      setCurrentIndex((prev) => prev - 1);
     }
   }, [isFirst]);
 
-  const goToSlide = useCallback((index: number) => {
-    hapticImpact('light');
-    setDirection(index > currentIndex ? 1 : -1);
-    setCurrentIndex(index);
-  }, [currentIndex]);
+  const goToSlide = useCallback(
+    (index: number) => {
+      hapticImpact("light");
+      setDirection(index > currentIndex ? 1 : -1);
+      setCurrentIndex(index);
+    },
+    [currentIndex],
+  );
 
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? 50 : -50,
-      opacity: 0
+      opacity: 0,
     }),
     center: {
       x: 0,
-      opacity: 1
+      opacity: 1,
     },
     exit: (direction: number) => ({
       x: direction < 0 ? 50 : -50,
-      opacity: 0
-    })
+      opacity: 0,
+    }),
   };
 
   return (
@@ -110,7 +106,7 @@ function TutorialCarousel({
           className="h-full bg-gradient-to-r from-primary via-primary to-primary/60"
           initial={{ width: 0 }}
           animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
         />
       </div>
 
@@ -124,7 +120,7 @@ function TutorialCarousel({
             initial="enter"
             animate="center"
             exit="exit"
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             className="h-full flex flex-col"
           >
             {/* Icon header */}
@@ -132,7 +128,7 @@ function TutorialCarousel({
               <motion.div
                 initial={{ scale: 0.8, rotate: -10 }}
                 animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.1, type: 'spring', stiffness: 300 }}
+                transition={{ delay: 0.1, type: "spring", stiffness: 300 }}
                 className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center shadow-lg shadow-primary/10"
               >
                 {currentSlide.emoji ? (
@@ -141,7 +137,7 @@ function TutorialCarousel({
                   <currentSlide.icon className="w-7 h-7 text-primary" />
                 )}
               </motion.div>
-              
+
               <div>
                 <Badge variant="outline" className="mb-1 text-[10px]">
                   {currentIndex + 1} из {slides.length}
@@ -206,11 +202,11 @@ function TutorialCarousel({
             onClick={() => goToSlide(index)}
             className={cn(
               "h-2 rounded-full transition-all duration-300",
-              index === currentIndex 
-                ? "bg-primary w-6" 
-                : index < currentIndex 
-                  ? "bg-primary/40 w-2 hover:bg-primary/60" 
-                  : "bg-muted-foreground/20 w-2 hover:bg-muted-foreground/40"
+              index === currentIndex
+                ? "bg-primary w-6"
+                : index < currentIndex
+                  ? "bg-primary/40 w-2 hover:bg-primary/60"
+                  : "bg-muted-foreground/20 w-2 hover:bg-muted-foreground/40",
             )}
             aria-label={`Слайд ${index + 1}`}
           />
@@ -219,12 +215,7 @@ function TutorialCarousel({
 
       {/* Navigation buttons */}
       <div className="flex gap-3 p-4 border-t border-border/50">
-        <Button
-          variant="outline"
-          onClick={goPrev}
-          disabled={isFirst}
-          className="flex-1 h-11 rounded-xl"
-        >
+        <Button variant="outline" onClick={goPrev} disabled={isFirst} className="flex-1 h-11 rounded-xl">
           <ChevronLeft className="w-4 h-4 mr-1" />
           Назад
         </Button>
@@ -249,13 +240,7 @@ function TutorialCarousel({
   );
 }
 
-export function FeatureTutorialDialog({
-  open,
-  onOpenChange,
-  title,
-  slides,
-  onComplete
-}: FeatureTutorialDialogProps) {
+export function FeatureTutorialDialog({ open, onOpenChange, title, slides, onComplete }: FeatureTutorialDialogProps) {
   const isMobile = useIsMobile();
 
   const handleComplete = useCallback(() => {
@@ -298,88 +283,64 @@ export function FeatureTutorialDialog({
 export const TUTORIAL_SLIDES = {
   generation: [
     {
-      id: 'gen-1',
+      id: "gen-1",
       icon: Music2,
-      emoji: '🎵',
-      title: 'AI-генерация музыки',
-      description: 'Создавайте уникальные треки за секунды. Просто опишите желаемый стиль и настроение.',
-      features: [
-        'Поддержка 50+ музыкальных жанров',
-        'Автоматическое создание текста',
-        'A/B версии для сравнения'
-      ],
-      tip: 'Начните с простого описания: "энергичный поп-трек"'
+      emoji: "🎵",
+      title: "AI-генерация музыки",
+      description: "Создавайте уникальные треки за секунды. Просто опишите желаемый стиль и настроение.",
+      features: ["Поддержка 50+ музыкальных жанров", "Автоматическое создание текста", "A/B версии для сравнения"],
+      tip: 'Начните с простого описания: "энергичный поп-трек"',
     },
     {
-      id: 'gen-2',
+      id: "gen-2",
       icon: Wand2,
-      emoji: '⚡',
-      title: 'Быстрые пресеты',
-      description: 'Используйте готовые пресеты для мгновенного старта генерации без ввода промптов.',
-      features: [
-        'Rock, Pop, Hip-Hop, Electronic и другие',
-        'Настраиваемые параметры',
-        'Создание своих пресетов'
-      ],
-      tip: 'Свайпните горизонтально для просмотра всех пресетов'
-    }
+      emoji: "⚡",
+      title: "Быстрые пресеты",
+      description: "Используйте готовые пресеты для мгновенного старта генерации без ввода промптов.",
+      features: ["Rock, Pop, Hip-Hop, Electronic и другие", "Настраиваемые параметры", "Создание своих пресетов"],
+      tip: "Свайпните горизонтально для просмотра всех пресетов",
+    },
   ] as TutorialSlide[],
 
   studio: [
     {
-      id: 'studio-1',
+      id: "studio-1",
       icon: Layers,
-      emoji: '🎛️',
-      title: 'Stem Studio',
-      description: 'Разделяйте любой трек на отдельные дорожки: вокал, ударные, бас, инструменты.',
-      features: [
-        'AI-разделение за 30 секунд',
-        'Независимое управление громкостью',
-        'Экспорт отдельных стемов'
-      ],
-      tip: 'Попробуйте приглушить вокал для караоке-версии'
+      emoji: "🎛️",
+      title: "Stem Studio",
+      description: "Разделяйте любой трек на отдельные дорожки: вокал, ударные, бас, инструменты.",
+      features: ["AI-разделение за 30 секунд", "Независимое управление громкостью", "Экспорт отдельных стемов"],
+      tip: "Попробуйте приглушить вокал для караоке-версии",
     },
     {
-      id: 'studio-2',
+      id: "studio-2",
       icon: Mic2,
-      emoji: '🎤',
-      title: 'Запись и наложение',
-      description: 'Записывайте свой вокал или инструменты прямо поверх трека.',
-      features: [
-        'Живая запись с мониторингом',
-        'Автоопределение аккордов',
-        'Синхронизация с треком'
-      ]
-    }
+      emoji: "🎤",
+      title: "Запись и наложение",
+      description: "Записывайте свой вокал или инструменты прямо поверх трека.",
+      features: ["Живая запись с мониторингом", "Автоопределение аккордов", "Синхронизация с треком"],
+    },
   ] as TutorialSlide[],
 
   library: [
     {
-      id: 'lib-1',
+      id: "lib-1",
       icon: Library,
-      emoji: '📚',
-      title: 'Библиотека треков',
-      description: 'Все ваши треки в одном месте с удобной сортировкой и поиском.',
-      features: [
-        'Фильтры по жанру и дате',
-        'Быстрый поиск по названию',
-        'Группировка в плейлисты'
-      ],
-      tip: 'Свайп влево добавляет трек в очередь воспроизведения'
+      emoji: "📚",
+      title: "Библиотека треков",
+      description: "Все ваши треки в одном месте с удобной сортировкой и поиском.",
+      features: ["Фильтры по жанру и дате", "Быстрый поиск по названию", "Группировка в плейлисты"],
+      tip: "Свайп влево добавляет трек в очередь воспроизведения",
     },
     {
-      id: 'lib-2',
+      id: "lib-2",
       icon: Share2,
-      emoji: '🚀',
-      title: 'Шеринг и экспорт',
-      description: 'Делитесь треками в Telegram, скачивайте в разных форматах.',
-      features: [
-        'Публикация в Telegram Stories',
-        'Экспорт в MP3/WAV',
-        'Генерация QR-кода для шеринга'
-      ]
-    }
-  ] as TutorialSlide[]
+      emoji: "🚀",
+      title: "Шеринг и экспорт",
+      description: "Делитесь треками в Telegram, скачивайте в разных форматах.",
+      features: ["Публикация в Telegram Stories", "Экспорт в MP3/WAV", "Генерация QR-кода для шеринга"],
+    },
+  ] as TutorialSlide[],
 };
 
 export default FeatureTutorialDialog;

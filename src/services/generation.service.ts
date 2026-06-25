@@ -3,8 +3,8 @@
  * Business logic for music generation
  */
 
-import * as generationApi from '@/api/generation.api';
-import type { GenerationLog, GenerationStats, GenerationLogsFilter } from '@/api/generation.api';
+import * as generationApi from "@/api/generation.api";
+import type { GenerationLog, GenerationStats, GenerationLogsFilter } from "@/api/generation.api";
 
 // ==========================================
 // Types
@@ -33,21 +33,23 @@ export interface GenerationActivity {
  * Get generation activity with logs and stats
  */
 export async function getGenerationActivity(
-  timeRange: '1h' | '24h' | '7d' | '30d' = '24h'
+  timeRange: "1h" | "24h" | "7d" | "30d" = "24h",
 ): Promise<GenerationActivity> {
   const [logs, rawStats] = await Promise.all([
     generationApi.fetchGenerationLogs({ timeRange, limit: 50 }),
     generationApi.fetchGenerationStats(timeRange),
   ]);
 
-  const stats: GenerationSummary | null = rawStats ? {
-    total: rawStats.total_generations,
-    completed: rawStats.completed,
-    failed: rawStats.failed,
-    pending: rawStats.pending + rawStats.processing,
-    successRate: rawStats.success_rate,
-    avgDurationSeconds: rawStats.avg_duration_seconds,
-  } : null;
+  const stats: GenerationSummary | null = rawStats
+    ? {
+        total: rawStats.total_generations,
+        completed: rawStats.completed,
+        failed: rawStats.failed,
+        pending: rawStats.pending + rawStats.processing,
+        successRate: rawStats.success_rate,
+        avgDurationSeconds: rawStats.avg_duration_seconds,
+      }
+    : null;
 
   return {
     logs,
@@ -65,9 +67,9 @@ export async function getGenerationActivity(
  */
 export function filterLogsByStatus(
   logs: GenerationLog[],
-  status: 'completed' | 'failed' | 'pending' | 'processing'
+  status: "completed" | "failed" | "pending" | "processing",
 ): GenerationLog[] {
-  return logs.filter(log => log.status === status);
+  return logs.filter((log) => log.status === status);
 }
 
 /**
@@ -78,11 +80,11 @@ export function analyzeFailedLogs(logs: GenerationLog[]): {
   byError: Record<string, number>;
   recentErrors: GenerationLog[];
 } {
-  const failedLogs = logs.filter(log => log.status === 'failed');
-  
+  const failedLogs = logs.filter((log) => log.status === "failed");
+
   const byError: Record<string, number> = {};
-  failedLogs.forEach(log => {
-    const errorKey = log.error_message || 'Unknown error';
+  failedLogs.forEach((log) => {
+    const errorKey = log.error_message || "Unknown error";
     byError[errorKey] = (byError[errorKey] || 0) + 1;
   });
 
@@ -98,18 +100,18 @@ export function analyzeFailedLogs(logs: GenerationLog[]): {
  */
 export function calculateSuccessTrend(
   currentStats: GenerationStats,
-  previousStats: GenerationStats
-): { trend: 'up' | 'down' | 'stable'; change: number } {
+  previousStats: GenerationStats,
+): { trend: "up" | "down" | "stable"; change: number } {
   const currentRate = currentStats.success_rate;
   const previousRate = previousStats.success_rate;
   const change = currentRate - previousRate;
-  
+
   if (Math.abs(change) < 1) {
-    return { trend: 'stable', change: 0 };
+    return { trend: "stable", change: 0 };
   }
-  
+
   return {
-    trend: change > 0 ? 'up' : 'down',
+    trend: change > 0 ? "up" : "down",
     change: Math.abs(change),
   };
 }
@@ -127,21 +129,19 @@ export function analyzeGenerationDurations(logs: GenerationLog[]): {
   maxSeconds: number;
   p95Seconds: number;
 } {
-  const completedLogs = logs.filter(log => 
-    log.status === 'completed' && 
-    log.completed_at && 
-    log.created_at
-  );
+  const completedLogs = logs.filter((log) => log.status === "completed" && log.completed_at && log.created_at);
 
   if (completedLogs.length === 0) {
     return { avgSeconds: 0, minSeconds: 0, maxSeconds: 0, p95Seconds: 0 };
   }
 
-  const durations = completedLogs.map(log => {
-    const start = new Date(log.created_at).getTime();
-    const end = new Date(log.completed_at!).getTime();
-    return (end - start) / 1000;
-  }).sort((a, b) => a - b);
+  const durations = completedLogs
+    .map((log) => {
+      const start = new Date(log.created_at).getTime();
+      const end = new Date(log.completed_at!).getTime();
+      return (end - start) / 1000;
+    })
+    .sort((a, b) => a - b);
 
   const sum = durations.reduce((a, b) => a + b, 0);
   const p95Index = Math.floor(durations.length * 0.95);
@@ -164,10 +164,10 @@ export function analyzeGenerationDurations(logs: GenerationLog[]): {
 export function mergeRealtimeLogs(
   existingLogs: GenerationLog[],
   newLog: GenerationLog,
-  limit: number = 50
+  limit: number = 50,
 ): GenerationLog[] {
-  const existingIndex = existingLogs.findIndex(log => log.id === newLog.id);
-  
+  const existingIndex = existingLogs.findIndex((log) => log.id === newLog.id);
+
   if (existingIndex >= 0) {
     // Update existing log
     const updated = [...existingLogs];
@@ -185,6 +185,6 @@ export {
   fetchGenerationStats,
   subscribeToGenerationLogs,
   retryGenerationTask,
-} from '@/api/generation.api';
+} from "@/api/generation.api";
 
 export type { GenerationLog, GenerationStats, GenerationLogsFilter };

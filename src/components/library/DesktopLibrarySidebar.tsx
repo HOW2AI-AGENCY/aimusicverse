@@ -3,35 +3,35 @@
  * Shows generation form in the library for quick access on desktop
  */
 
-import { useState, useCallback, useRef, Suspense, lazy } from 'react';
-import { AnimatePresence, motion } from '@/lib/motion';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Sparkles, ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
-import { useProjects } from '@/hooks/useProjects';
-import { useArtists } from '@/hooks/useArtists';
-import { useTracks } from '@/hooks/useTracks';
-import { useGenerateForm, useAudioReference } from '@/hooks/generation';
-import { CollapsibleFormHeader } from '@/components/generate-form/CollapsibleFormHeader';
-import { GenerateFormActions } from '@/components/generate-form/GenerateFormActions';
-import { GenerateFormReferences } from '@/components/generate-form/GenerateFormReferences';
-import { GenerationLoadingState } from '@/components/generate-form/GenerationLoadingState';
-import { AudioActionDialog } from '@/components/generate-form/AudioActionDialog';
-import { ArtistSelector } from '@/components/generate-form/ArtistSelector';
-import { ProjectTrackSelector } from '@/components/generate-form/ProjectTrackSelector';
-import { PromptHistory } from '@/components/generate-form/PromptHistory';
-import { LyricsChatAssistant } from '@/components/generate-form/LyricsChatAssistant';
-import { StylePresetSelector } from '@/components/generate-form/StylePresetSelector';
+import { useState, useCallback, useRef, Suspense, lazy } from "react";
+import { AnimatePresence, motion } from "@/lib/motion";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Sparkles, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { useProjects } from "@/hooks/useProjects";
+import { useArtists } from "@/hooks/useArtists";
+import { useTracks } from "@/hooks/useTracks";
+import { useGenerateForm, useAudioReference } from "@/hooks/generation";
+import { CollapsibleFormHeader } from "@/components/generate-form/CollapsibleFormHeader";
+import { GenerateFormActions } from "@/components/generate-form/GenerateFormActions";
+import { GenerateFormReferences } from "@/components/generate-form/GenerateFormReferences";
+import { GenerationLoadingState } from "@/components/generate-form/GenerationLoadingState";
+import { AudioActionDialog } from "@/components/generate-form/AudioActionDialog";
+import { ArtistSelector } from "@/components/generate-form/ArtistSelector";
+import { ProjectTrackSelector } from "@/components/generate-form/ProjectTrackSelector";
+import { PromptHistory } from "@/components/generate-form/PromptHistory";
+import { LyricsChatAssistant } from "@/components/generate-form/LyricsChatAssistant";
+import { StylePresetSelector } from "@/components/generate-form/StylePresetSelector";
 
 // Lazy load heavy form components
-const GenerateFormSimple = lazy(() => 
-  import('@/components/generate-form/GenerateFormSimple').then(m => ({ default: m.GenerateFormSimple }))
+const GenerateFormSimple = lazy(() =>
+  import("@/components/generate-form/GenerateFormSimple").then((m) => ({ default: m.GenerateFormSimple })),
 );
-const GenerateFormCustom = lazy(() => 
-  import('@/components/generate-form/GenerateFormCustom').then(m => ({ default: m.GenerateFormCustom }))
+const GenerateFormCustom = lazy(() =>
+  import("@/components/generate-form/GenerateFormCustom").then((m) => ({ default: m.GenerateFormCustom })),
 );
 
 // Form skeleton for lazy loading
@@ -49,11 +49,7 @@ interface DesktopLibrarySidebarProps {
   className?: string;
 }
 
-export function DesktopLibrarySidebar({
-  isCollapsed,
-  onToggleCollapse,
-  className,
-}: DesktopLibrarySidebarProps) {
+export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className }: DesktopLibrarySidebarProps) {
   const { projects } = useProjects();
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
@@ -66,7 +62,7 @@ export function DesktopLibrarySidebar({
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [stylesOpen, setStylesOpen] = useState(false);
-  const [projectTrackStep, setProjectTrackStep] = useState<'project' | 'track'>('project');
+  const [projectTrackStep, setProjectTrackStep] = useState<"project" | "track">("project");
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
   // Form hook with sidebar-specific settings
@@ -78,19 +74,17 @@ export function DesktopLibrarySidebar({
     allTracks,
   });
 
-  const projectTracks = form.selectedProjectId
-    ? allTracks?.filter(t => t.project_id === form.selectedProjectId)
-    : [];
+  const projectTracks = form.selectedProjectId ? allTracks?.filter((t) => t.project_id === form.selectedProjectId) : [];
 
   const handleProjectSelect = (projectId: string) => {
     form.setSelectedProjectId(projectId);
-    const tracks = allTracks?.filter(t => t.project_id === projectId);
+    const tracks = allTracks?.filter((t) => t.project_id === projectId);
     if (tracks && tracks.length > 0) {
-      setProjectTrackStep('track');
+      setProjectTrackStep("track");
     } else {
       setProjectDialogOpen(false);
-      toast.info('Проект выбран', {
-        description: 'В проекте пока нет треков',
+      toast.info("Проект выбран", {
+        description: "В проекте пока нет треков",
       });
     }
   };
@@ -101,10 +95,12 @@ export function DesktopLibrarySidebar({
 
   if (isCollapsed) {
     return (
-      <div className={cn(
-        "w-12 flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col items-center py-4",
-        className
-      )}>
+      <div
+        className={cn(
+          "w-12 flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col items-center py-4",
+          className,
+        )}
+      >
         <Button
           variant="ghost"
           size="icon"
@@ -125,10 +121,7 @@ export function DesktopLibrarySidebar({
         animate={{ width: 340, opacity: 1 }}
         exit={{ width: 0, opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className={cn(
-          "flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col overflow-hidden",
-          className
-        )}
+        className={cn("flex-shrink-0 bg-card/50 border-r border-border/30 flex flex-col overflow-hidden", className)}
       >
         {/* Header */}
         <div className="px-3 py-3 border-b border-border/30 flex items-center justify-between">
@@ -146,12 +139,7 @@ export function DesktopLibrarySidebar({
               onModelChange={form.setModel}
               onOpenHistory={() => setHistoryOpen(true)}
             />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onToggleCollapse}
-              className="h-7 w-7"
-            >
+            <Button variant="ghost" size="icon" onClick={onToggleCollapse} className="h-7 w-7">
               <ChevronLeft className="w-4 h-4" />
             </Button>
           </div>
@@ -166,11 +154,7 @@ export function DesktopLibrarySidebar({
               exit={{ opacity: 0 }}
               className="absolute inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center"
             >
-              <GenerationLoadingState
-                stage="processing"
-                showCancel={false}
-                compact={true}
-              />
+              <GenerationLoadingState stage="processing" showCancel={false} compact={true} />
             </motion.div>
           )}
         </AnimatePresence>
@@ -206,7 +190,7 @@ export function DesktopLibrarySidebar({
             {/* Form Content */}
             <Suspense fallback={<FormSkeleton />}>
               <AnimatePresence mode="wait">
-                {form.mode === 'simple' ? (
+                {form.mode === "simple" ? (
                   <GenerateFormSimple
                     description={form.description}
                     onDescriptionChange={form.setDescription}
@@ -284,12 +268,12 @@ export function DesktopLibrarySidebar({
         open={projectDialogOpen}
         onOpenChange={(open) => {
           setProjectDialogOpen(open);
-          if (!open) setProjectTrackStep('project');
+          if (!open) setProjectTrackStep("project");
         }}
         projects={projects}
-        tracks={projectTrackStep === 'track' ? projectTracks : undefined}
-        selectedId={projectTrackStep === 'project' ? form.selectedProjectId : form.selectedTrackId}
-        onSelect={projectTrackStep === 'project' ? handleProjectSelect : form.handleTrackSelect}
+        tracks={projectTrackStep === "track" ? projectTracks : undefined}
+        selectedId={projectTrackStep === "project" ? form.selectedProjectId : form.selectedTrackId}
+        onSelect={projectTrackStep === "project" ? handleProjectSelect : form.handleTrackSelect}
       />
 
       <ArtistSelector
@@ -305,32 +289,32 @@ export function DesktopLibrarySidebar({
         onOpenChange={setAudioActionDialogOpen}
         onAudioSelected={(file, mode) => {
           form.setAudioFile(file);
-          form.setMode('custom');
-          if (mode === 'extend') {
+          form.setMode("custom");
+          if (mode === "extend") {
             form.setAudioWeight([0.9]);
           } else {
             form.setAudioWeight([0.5]);
           }
-          toast.success(mode === 'cover' ? 'Аудио для кавера' : 'Аудио для расширения');
+          toast.success(mode === "cover" ? "Аудио для кавера" : "Аудио для расширения");
         }}
         onAnalysisComplete={(styleDescription) => {
-          form.setMode('custom');
-          form.setStyle(prev => prev ? `${prev}\n\n${styleDescription}` : styleDescription);
+          form.setMode("custom");
+          form.setStyle((prev) => (prev ? `${prev}\n\n${styleDescription}` : styleDescription));
         }}
         onLyricsExtracted={(lyrics) => {
-          form.setMode('custom');
+          form.setMode("custom");
           form.setHasVocals(true);
           form.setLyrics(lyrics);
         }}
         onChordsDetected={(chords, progression) => {
-          form.setMode('custom');
+          form.setMode("custom");
           const chordInfo = `Guitar chord progression: ${progression}`;
-          form.setStyle(prev => prev ? `${prev}\n\n${chordInfo}` : chordInfo);
+          form.setStyle((prev) => (prev ? `${prev}\n\n${chordInfo}` : chordInfo));
         }}
         onOpenCoverDialog={(file, mode) => {
           setAudioActionDialogOpen(false);
-          form.setMode('custom');
-          form.setAudioWeight(mode === 'extend' ? [0.9] : [0.5]);
+          form.setMode("custom");
+          form.setAudioWeight(mode === "extend" ? [0.9] : [0.5]);
           setAdvancedOpen(true);
         }}
       />
@@ -340,14 +324,14 @@ export function DesktopLibrarySidebar({
         onOpenChange={setHistoryOpen}
         onSelectPrompt={(prompt) => {
           // Map wizard to custom if it exists in old history
-          const mode = prompt.mode === 'wizard' ? 'custom' : prompt.mode;
-          form.setMode(mode as 'simple' | 'custom');
-          if (mode === 'simple') {
-            form.setDescription(prompt.description || '');
+          const mode = prompt.mode === "wizard" ? "custom" : prompt.mode;
+          form.setMode(mode as "simple" | "custom");
+          if (mode === "simple") {
+            form.setDescription(prompt.description || "");
           } else {
-            form.setTitle(prompt.title || '');
-            form.setStyle(prompt.style || '');
-            form.setLyrics(prompt.lyrics || '');
+            form.setTitle(prompt.title || "");
+            form.setStyle(prompt.style || "");
+            form.setLyrics(prompt.lyrics || "");
           }
           if (prompt.model) form.setModel(prompt.model);
         }}
@@ -357,7 +341,7 @@ export function DesktopLibrarySidebar({
         open={lyricsAssistantOpen}
         onOpenChange={setLyricsAssistantOpen}
         onLyricsGenerated={(newLyrics) => {
-          form.setMode('custom');
+          form.setMode("custom");
           form.setHasVocals(true);
           form.setLyrics(newLyrics);
         }}
@@ -374,9 +358,9 @@ export function DesktopLibrarySidebar({
         onOpenChange={setStylesOpen}
         currentStyle={form.style}
         onSelect={(style, tags) => {
-          form.setMode('custom');
-          form.setStyle(prev => prev?.trim() ? `${prev}, ${style}` : style);
-          toast.success('Стиль применён');
+          form.setMode("custom");
+          form.setStyle((prev) => (prev?.trim() ? `${prev}, ${style}` : style));
+          toast.success("Стиль применён");
         }}
       />
     </>

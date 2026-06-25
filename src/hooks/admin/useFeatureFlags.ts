@@ -64,11 +64,13 @@ export function useToggleFeatureFlag() {
 
   return useMutation({
     mutationFn: async ({ id, enabled }: { id: string; enabled: boolean }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { error } = await supabase
         .from("feature_flags")
-        .update({ 
+        .update({
           enabled,
           updated_at: new Date().toISOString(),
           updated_by: user?.id || null,
@@ -83,9 +85,7 @@ export function useToggleFeatureFlag() {
       const previous = queryClient.getQueryData<FeatureFlag[]>(["feature-flags"]);
 
       queryClient.setQueryData<FeatureFlag[]>(["feature-flags"], (old) =>
-        old?.map((flag) =>
-          flag.id === id ? { ...flag, enabled } : flag
-        )
+        old?.map((flag) => (flag.id === id ? { ...flag, enabled } : flag)),
       );
 
       return { previous };
@@ -112,18 +112,20 @@ export function useUpdateFeatureFlag() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ 
-      id, 
-      updates 
-    }: { 
-      id: string; 
-      updates: Partial<Pick<FeatureFlag, 'rollout_percentage' | 'min_tier' | 'is_admin_only'>> 
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: Partial<Pick<FeatureFlag, "rollout_percentage" | "min_tier" | "is_admin_only">>;
     }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { error } = await supabase
         .from("feature_flags")
-        .update({ 
+        .update({
           ...updates,
           updated_at: new Date().toISOString(),
           updated_by: user?.id || null,
@@ -153,25 +155,23 @@ export function useIsFeatureEnabled(key: string): boolean {
 }
 
 // Group flags by category
-export function getFlagsByCategory(
-  flags: FeatureFlag[]
-): Map<string, FeatureFlag[]> {
+export function getFlagsByCategory(flags: FeatureFlag[]): Map<string, FeatureFlag[]> {
   const map = new Map<string, FeatureFlag[]>();
-  
+
   for (const category of FLAG_CATEGORIES) {
     const categoryFlags = flags.filter((f) => f.category === category.id);
     if (categoryFlags.length > 0) {
       map.set(category.id, categoryFlags);
     }
   }
-  
+
   // Add uncategorized flags
   const knownCategories = FLAG_CATEGORIES.map((c) => c.id);
   const uncategorized = flags.filter((f) => !knownCategories.includes(f.category));
-  
+
   if (uncategorized.length > 0) {
     map.set("other", uncategorized);
   }
-  
+
   return map;
 }

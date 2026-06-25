@@ -1,10 +1,10 @@
 /**
  * Hook to fetch all generated tracks for a project or project track slot
  */
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from 'sonner';
-import { useAuditLog } from '@/hooks/useAuditLog';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+import { useAuditLog } from "@/hooks/useAuditLog";
 
 export interface ProjectGeneratedTrack {
   id: string;
@@ -34,16 +34,20 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
   const { logAction } = useAuditLog();
 
   // Always fetch ALL tracks for the project to include orphaned tracks
-  const { data: tracks, isLoading, error } = useQuery({
-    queryKey: ['project-generated-tracks', projectId],
+  const {
+    data: tracks,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["project-generated-tracks", projectId],
     queryFn: async () => {
       if (!projectId) return [];
 
       const { data, error } = await supabase
-        .from('tracks')
-        .select('*')
-        .eq('project_id', projectId)
-        .order('created_at', { ascending: false });
+        .from("tracks")
+        .select("*")
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       return data as ProjectGeneratedTrack[];
@@ -55,62 +59,64 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
   const linkTrackToSlot = useMutation({
     mutationFn: async ({ trackId, targetProjectTrackId }: { trackId: string; targetProjectTrackId: string }) => {
       const { error } = await supabase
-        .from('tracks')
+        .from("tracks")
         .update({ project_track_id: targetProjectTrackId })
-        .eq('id', trackId);
+        .eq("id", trackId);
 
       if (error) throw error;
-      
+
       logAction({
-        entityType: 'track',
+        entityType: "track",
         entityId: trackId,
-        actorType: 'user',
-        actionType: 'linked_to_slot',
-        actionCategory: 'modification',
+        actorType: "user",
+        actionType: "linked_to_slot",
+        actionCategory: "modification",
         inputMetadata: { projectId, projectTrackId: targetProjectTrackId },
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
-      toast.success('Трек привязан к слоту');
+      queryClient.invalidateQueries({ queryKey: ["project-generated-tracks", projectId] });
+      toast.success("Трек привязан к слоту");
     },
     onError: () => {
-      toast.error('Ошибка привязки трека');
+      toast.error("Ошибка привязки трека");
     },
   });
 
   // Approve track for final project
   const approveTrack = useMutation({
     mutationFn: async (trackId: string) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { error } = await supabase
-        .from('tracks')
+        .from("tracks")
         .update({
           is_approved: true,
           approved_at: new Date().toISOString(),
           approved_by: user?.id,
         })
-        .eq('id', trackId);
+        .eq("id", trackId);
 
       if (error) throw error;
-      
+
       // Log approval for audit
       logAction({
-        entityType: 'track',
+        entityType: "track",
         entityId: trackId,
-        actorType: 'user',
-        actionType: 'approved',
-        actionCategory: 'approval',
+        actorType: "user",
+        actionType: "approved",
+        actionCategory: "approval",
         inputMetadata: { projectId },
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
-      toast.success('Трек одобрен');
+      queryClient.invalidateQueries({ queryKey: ["project-generated-tracks", projectId] });
+      toast.success("Трек одобрен");
     },
     onError: () => {
-      toast.error('Ошибка одобрения трека');
+      toast.error("Ошибка одобрения трека");
     },
   });
 
@@ -118,33 +124,33 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
   const rejectTrack = useMutation({
     mutationFn: async (trackId: string) => {
       const { error } = await supabase
-        .from('tracks')
+        .from("tracks")
         .update({
           is_approved: false,
           approved_at: null,
           approved_by: null,
           is_master: false,
         })
-        .eq('id', trackId);
+        .eq("id", trackId);
 
       if (error) throw error;
-      
+
       // Log rejection for audit
       logAction({
-        entityType: 'track',
+        entityType: "track",
         entityId: trackId,
-        actorType: 'user',
-        actionType: 'rejected',
-        actionCategory: 'approval',
+        actorType: "user",
+        actionType: "rejected",
+        actionCategory: "approval",
         inputMetadata: { projectId },
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
-      toast.success('Одобрение отменено');
+      queryClient.invalidateQueries({ queryKey: ["project-generated-tracks", projectId] });
+      toast.success("Одобрение отменено");
     },
     onError: () => {
-      toast.error('Ошибка');
+      toast.error("Ошибка");
     },
   });
 
@@ -152,62 +158,63 @@ export function useProjectGeneratedTracks(projectId: string | undefined, project
   const setMasterTrack = useMutation({
     mutationFn: async ({ trackId, projectTrackId }: { trackId: string; projectTrackId: string }) => {
       // First, unset any existing master for this project track slot
-      await supabase
-        .from('tracks')
-        .update({ is_master: false })
-        .eq('project_track_id', projectTrackId);
+      await supabase.from("tracks").update({ is_master: false }).eq("project_track_id", projectTrackId);
 
       // Then set the new master
       const { error } = await supabase
-        .from('tracks')
-        .update({ 
+        .from("tracks")
+        .update({
           is_master: true,
           is_approved: true,
           approved_at: new Date().toISOString(),
         })
-        .eq('id', trackId);
+        .eq("id", trackId);
 
       if (error) throw error;
 
       // Also update the project_track link
       await supabase
-        .from('project_tracks')
-        .update({ 
+        .from("project_tracks")
+        .update({
           track_id: trackId,
-          status: 'completed',
+          status: "completed",
         })
-        .eq('id', projectTrackId);
-      
+        .eq("id", projectTrackId);
+
       // Log master selection for audit
       logAction({
-        entityType: 'track',
+        entityType: "track",
         entityId: trackId,
-        actorType: 'user',
-        actionType: 'master_selected',
-        actionCategory: 'approval',
+        actorType: "user",
+        actionType: "master_selected",
+        actionCategory: "approval",
         inputMetadata: { projectId, projectTrackId },
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-generated-tracks', projectId] });
-      queryClient.invalidateQueries({ queryKey: ['project-tracks', projectId] });
-      toast.success('Выбрана мастер-версия');
+      queryClient.invalidateQueries({ queryKey: ["project-generated-tracks", projectId] });
+      queryClient.invalidateQueries({ queryKey: ["project-tracks", projectId] });
+      toast.success("Выбрана мастер-версия");
     },
     onError: () => {
-      toast.error('Ошибка выбора версии');
+      toast.error("Ошибка выбора версии");
     },
   });
 
   // Group tracks by project_track_id
-  const tracksBySlot = tracks?.reduce((acc, track) => {
-    const slotId = track.project_track_id || 'unlinked';
-    if (!acc[slotId]) acc[slotId] = [];
-    acc[slotId].push(track);
-    return acc;
-  }, {} as Record<string, ProjectGeneratedTrack[]>) || {};
+  const tracksBySlot =
+    tracks?.reduce(
+      (acc, track) => {
+        const slotId = track.project_track_id || "unlinked";
+        if (!acc[slotId]) acc[slotId] = [];
+        acc[slotId].push(track);
+        return acc;
+      },
+      {} as Record<string, ProjectGeneratedTrack[]>,
+    ) || {};
 
   // Get unlinked tracks (those without project_track_id)
-  const unlinkedTracks = tracksBySlot['unlinked'] || [];
+  const unlinkedTracks = tracksBySlot["unlinked"] || [];
 
   return {
     tracks,
@@ -233,36 +240,38 @@ export function usePublishProject() {
 
   return useMutation({
     mutationFn: async (projectId: string) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       const { error } = await supabase
-        .from('music_projects')
+        .from("music_projects")
         .update({
-          status: 'published',
+          status: "published",
           is_public: true,
           published_at: new Date().toISOString(),
           published_by: user?.id,
         })
-        .eq('id', projectId);
+        .eq("id", projectId);
 
       if (error) throw error;
-      
+
       // Log publication for audit
       logAction({
-        entityType: 'project',
+        entityType: "project",
         entityId: projectId,
-        actorType: 'user',
-        actionType: 'published',
-        actionCategory: 'publication',
+        actorType: "user",
+        actionType: "published",
+        actionCategory: "publication",
       });
     },
     onSuccess: (_, projectId) => {
-      queryClient.invalidateQueries({ queryKey: ['projects'] });
-      queryClient.invalidateQueries({ queryKey: ['project', projectId] });
-      toast.success('Проект опубликован!');
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["project", projectId] });
+      toast.success("Проект опубликован!");
     },
     onError: () => {
-      toast.error('Ошибка публикации');
+      toast.error("Ошибка публикации");
     },
   });
 }

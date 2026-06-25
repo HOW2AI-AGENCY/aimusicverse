@@ -1,9 +1,9 @@
 /**
  * useUnifiedStudio - Unified Studio Hook
- * 
+ *
  * Consolidates logic from multiple studio stores and hooks into a single
  * interface for both track and project modes.
- * 
+ *
  * This hook provides:
  * - Project/Track data access
  * - Playback controls
@@ -12,17 +12,17 @@
  * - Effects management
  * - History (undo/redo)
  * - Export functionality
- * 
+ *
  * @see ADR-011 for architecture decisions
  */
 
-import { useCallback, useMemo } from 'react';
-import { useUnifiedStudioStore } from '@/stores/useUnifiedStudioStore';
-import type { StudioTrack, StudioProject, TrackType } from '@/stores/useUnifiedStudioStore';
-import type { StemEffects } from '@/hooks/studio/types';
+import { useCallback, useMemo } from "react";
+import { useUnifiedStudioStore } from "@/stores/useUnifiedStudioStore";
+import type { StudioTrack, StudioProject, TrackType } from "@/stores/useUnifiedStudioStore";
+import type { StemEffects } from "@/hooks/studio/types";
 
 export interface UseUnifiedStudioOptions {
-  mode: 'track' | 'project';
+  mode: "track" | "project";
   id: string;
 }
 
@@ -33,7 +33,7 @@ export interface UnifiedStudioAPI {
   isLoading: boolean;
   isSaving: boolean;
   hasUnsavedChanges: boolean;
-  
+
   // Playback
   isPlaying: boolean;
   currentTime: number;
@@ -44,7 +44,7 @@ export interface UnifiedStudioAPI {
   stop: () => void;
   seek: (time: number) => void;
   setMasterVolume: (volume: number) => void;
-  
+
   // Track controls
   toggleMute: (trackId: string) => void;
   toggleSolo: (trackId: string) => void;
@@ -52,19 +52,19 @@ export interface UnifiedStudioAPI {
   setPan: (trackId: string, pan: number) => void;
   removeTrack: (trackId: string) => void;
   reorderTracks: (fromIndex: number, toIndex: number) => void;
-  
+
   // Version management
   setActiveVersion: (trackId: string, versionLabel: string) => void;
-  
+
   // History
   canUndo: boolean;
   canRedo: boolean;
   undo: () => void;
   redo: () => void;
-  
+
   // Save/Export
   save: () => Promise<boolean>;
-  
+
   // Helpers
   getTrackById: (trackId: string) => StudioTrack | undefined;
   getTracksByType: (type: TrackType) => StudioTrack[];
@@ -104,13 +104,13 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
   } = useUnifiedStudioStore();
 
   // Evaluate undo/redo state
-  const canUndo = typeof canUndoFn === 'function' ? canUndoFn() : !!canUndoFn;
-  const canRedo = typeof canRedoFn === 'function' ? canRedoFn() : !!canRedoFn;
+  const canUndo = typeof canUndoFn === "function" ? canUndoFn() : !!canUndoFn;
+  const canRedo = typeof canRedoFn === "function" ? canRedoFn() : !!canRedoFn;
 
   // Derived state with stem sorting (vocals always first)
   const tracks = useMemo(() => {
     const rawTracks = project?.tracks ?? [];
-    
+
     // Sort tracks: vocals first, then by type priority
     const typeOrder: Record<string, number> = {
       // Vocals always first (priority 0-1)
@@ -140,38 +140,39 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
       other: 15,
       main: -1, // Main track always first if present
     };
-    
+
     return [...rawTracks].sort((a, b) => {
       // Check both type and stemType (some tracks may use stemType)
-      const typeA = (a as any).stemType || a.type || 'other';
-      const typeB = (b as any).stemType || b.type || 'other';
-      
+      const typeA = (a as any).stemType || a.type || "other";
+      const typeB = (b as any).stemType || b.type || "other";
+
       // Normalize to lowercase
       const normalizedA = typeA.toLowerCase();
       const normalizedB = typeB.toLowerCase();
-      
+
       // Check if either contains 'vocal' anywhere in the name
-      const isVocalA = normalizedA.includes('vocal') || normalizedA === 'voice';
-      const isVocalB = normalizedB.includes('vocal') || normalizedB === 'voice';
-      
+      const isVocalA = normalizedA.includes("vocal") || normalizedA === "voice";
+      const isVocalB = normalizedB.includes("vocal") || normalizedB === "voice";
+
       // Vocals always come first
       if (isVocalA && !isVocalB) return -1;
       if (!isVocalA && isVocalB) return 1;
-      
+
       // Then sort by type order
       const orderA = typeOrder[normalizedA] ?? 99;
       const orderB = typeOrder[normalizedB] ?? 99;
       return orderA - orderB;
     });
   }, [project?.tracks]);
-  
+
   const duration = useMemo(() => {
     if (project?.durationSeconds) return project.durationSeconds;
     // Calculate from tracks if not set
     const maxDuration = tracks.reduce((max, track) => {
-      const trackDuration = track.clips?.reduce((clipMax, clip) => {
-        return Math.max(clipMax, clip.startTime + clip.duration);
-      }, 0) ?? 0;
+      const trackDuration =
+        track.clips?.reduce((clipMax, clip) => {
+          return Math.max(clipMax, clip.startTime + clip.duration);
+        }, 0) ?? 0;
       return Math.max(max, trackDuration);
     }, 0);
     return maxDuration || 180; // Default 3 minutes
@@ -181,44 +182,65 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
 
   // Check if stems exist
   const hasStems = useMemo(() => {
-    const stemTypes = ['vocal', 'instrumental', 'drums', 'bass', 'other'];
-    return tracks.some(t => stemTypes.includes(t.type));
+    const stemTypes = ["vocal", "instrumental", "drums", "bass", "other"];
+    return tracks.some((t) => stemTypes.includes(t.type));
   }, [tracks]);
 
   // Check for pending tracks
   const hasPendingTracks = useMemo(() => {
-    return tracks.some(t => t.status === 'pending' || t.status === 'processing');
+    return tracks.some((t) => t.status === "pending" || t.status === "processing");
   }, [tracks]);
 
   // Helper functions
-  const getTrackById = useCallback((trackId: string) => {
-    return tracks.find(t => t.id === trackId);
-  }, [tracks]);
+  const getTrackById = useCallback(
+    (trackId: string) => {
+      return tracks.find((t) => t.id === trackId);
+    },
+    [tracks],
+  );
 
-  const getTracksByType = useCallback((type: TrackType) => {
-    return tracks.filter(t => t.type === type);
-  }, [tracks]);
+  const getTracksByType = useCallback(
+    (type: TrackType) => {
+      return tracks.filter((t) => t.type === type);
+    },
+    [tracks],
+  );
 
   // Wrapped actions with mode-aware behavior
-  const toggleMute = useCallback((trackId: string) => {
-    toggleTrackMute(trackId);
-  }, [toggleTrackMute]);
+  const toggleMute = useCallback(
+    (trackId: string) => {
+      toggleTrackMute(trackId);
+    },
+    [toggleTrackMute],
+  );
 
-  const toggleSolo = useCallback((trackId: string) => {
-    toggleTrackSolo(trackId);
-  }, [toggleTrackSolo]);
+  const toggleSolo = useCallback(
+    (trackId: string) => {
+      toggleTrackSolo(trackId);
+    },
+    [toggleTrackSolo],
+  );
 
-  const setVolume = useCallback((trackId: string, volume: number) => {
-    setTrackVolume(trackId, volume);
-  }, [setTrackVolume]);
+  const setVolume = useCallback(
+    (trackId: string, volume: number) => {
+      setTrackVolume(trackId, volume);
+    },
+    [setTrackVolume],
+  );
 
-  const setPan = useCallback((trackId: string, pan: number) => {
-    setTrackPan(trackId, pan);
-  }, [setTrackPan]);
+  const setPan = useCallback(
+    (trackId: string, pan: number) => {
+      setTrackPan(trackId, pan);
+    },
+    [setTrackPan],
+  );
 
-  const setActiveVersion = useCallback((trackId: string, versionLabel: string) => {
-    setTrackActiveVersion(trackId, versionLabel);
-  }, [setTrackActiveVersion]);
+  const setActiveVersion = useCallback(
+    (trackId: string, versionLabel: string) => {
+      setTrackActiveVersion(trackId, versionLabel);
+    },
+    [setTrackActiveVersion],
+  );
 
   const save = useCallback(async () => {
     return saveProject();
@@ -231,7 +253,7 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
     isLoading,
     isSaving,
     hasUnsavedChanges,
-    
+
     // Playback
     isPlaying,
     currentTime,
@@ -242,7 +264,7 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
     stop,
     seek,
     setMasterVolume,
-    
+
     // Track controls
     toggleMute,
     toggleSolo,
@@ -250,19 +272,19 @@ export function useUnifiedStudio(options: UseUnifiedStudioOptions): UnifiedStudi
     setPan,
     removeTrack,
     reorderTracks,
-    
+
     // Version management
     setActiveVersion,
-    
+
     // History
     canUndo,
     canRedo,
     undo,
     redo,
-    
+
     // Save
     save,
-    
+
     // Helpers
     getTrackById,
     getTracksByType,

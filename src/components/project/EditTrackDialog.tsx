@@ -1,20 +1,15 @@
-import { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { useProjectTracks, ProjectTrack } from '@/hooks/useProjectTracks';
-import { toast } from 'sonner';
-import { Save, FileText, Sliders } from 'lucide-react';
-import { TrackParamsEditor } from './TrackParamsEditor';
+import { useState, useEffect } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { useProjectTracks, ProjectTrack } from "@/hooks/useProjectTracks";
+import { toast } from "sonner";
+import { Save, FileText, Sliders } from "lucide-react";
+import { TrackParamsEditor } from "./TrackParamsEditor";
 
 interface EditTrackDialogProps {
   open: boolean;
@@ -35,10 +30,10 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
   const { updateTrack } = useProjectTracks(track.project_id);
   const [formData, setFormData] = useState({
     title: track.title,
-    style_prompt: track.style_prompt || '',
-    notes: track.notes || '',
+    style_prompt: track.style_prompt || "",
+    notes: track.notes || "",
   });
-  
+
   const [trackParams, setTrackParams] = useState<TrackParams>({
     bpm_target: (track as any).bpm_target || null,
     key_signature: (track as any).key_signature || null,
@@ -52,8 +47,8 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
     if (open) {
       setFormData({
         title: track.title,
-        style_prompt: track.style_prompt || '',
-        notes: track.notes || '',
+        style_prompt: track.style_prompt || "",
+        notes: track.notes || "",
       });
       setTrackParams({
         bpm_target: (track as any).bpm_target || null,
@@ -68,7 +63,7 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
 
   const handleSubmit = () => {
     if (!formData.title.trim()) {
-      toast.error('Введите название трека');
+      toast.error("Введите название трека");
       return;
     }
 
@@ -83,7 +78,7 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
     });
 
     onOpenChange(false);
-    toast.success('Трек обновлен');
+    toast.success("Трек обновлен");
   };
 
   return (
@@ -94,7 +89,7 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
         </DialogHeader>
 
         <Tabs defaultValue="basic" className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="grid w-full grid-cols-2 mx-6 mb-2" style={{ width: 'calc(100% - 3rem)' }}>
+          <TabsList className="grid w-full grid-cols-2 mx-6 mb-2" style={{ width: "calc(100% - 3rem)" }}>
             <TabsTrigger value="basic" className="gap-1.5 text-xs">
               <FileText className="w-3.5 h-3.5" />
               Основные
@@ -139,11 +134,7 @@ export const EditTrackDialog = ({ open, onOpenChange, track }: EditTrackDialogPr
             </TabsContent>
 
             <TabsContent value="params" className="mt-0 pb-4">
-              <TrackParamsEditor
-                params={trackParams}
-                onChange={setTrackParams}
-                compact
-              />
+              <TrackParamsEditor params={trackParams} onChange={setTrackParams} compact />
             </TabsContent>
           </ScrollArea>
 

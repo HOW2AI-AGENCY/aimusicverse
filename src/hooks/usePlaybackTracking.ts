@@ -3,12 +3,12 @@
  * Increments play count when a new track starts playing
  */
 
-import { useEffect, useRef } from 'react';
-import { usePlayerStore } from '@/hooks/audio/usePlayerState';
-import { incrementPlayCount } from '@/api/tracks.api';
-import { logger } from '@/lib/logger';
+import { useEffect, useRef } from "react";
+import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { incrementPlayCount } from "@/api/tracks.api";
+import { logger } from "@/lib/logger";
 
-const log = logger.child({ module: 'PlaybackTracking' });
+const log = logger.child({ module: "PlaybackTracking" });
 
 export function usePlaybackTracking() {
   const { activeTrack, isPlaying } = usePlayerStore();
@@ -34,10 +34,10 @@ export function usePlaybackTracking() {
     const doIncrementPlayCount = async () => {
       try {
         await incrementPlayCount(activeTrack.id);
-        log.info('Play count incremented', { trackId: activeTrack.id });
+        log.info("Play count incremented", { trackId: activeTrack.id });
         lastTrackedId.current = activeTrack.id;
       } catch (err) {
-        log.error('Error incrementing play count', { error: err });
+        log.error("Error incrementing play count", { error: err });
       }
     };
 

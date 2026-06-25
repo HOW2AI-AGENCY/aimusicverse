@@ -2,11 +2,11 @@
 
 ## Версия: 2.1 (Native Telegram API)
 
-
 **Last Updated:** 2025-12-05  
 **Bot:** @AIMusicVerseBot
 
 ## 📋 Оглавление
+
 - [Обзор](#обзор)
 - [Технический стек](#технический-стек)
 - [Архитектура](#архитектура)
@@ -22,6 +22,7 @@
 MusicVerse Bot - это Telegram-бот с **реактивным интерфейсом в стиле Native App**. Вместо отправки множества сообщений, бот обновляет **одно активное сообщение** с медиа-контентом (изображения, обложки треков) и inline-кнопками.
 
 ### Ключевые особенности:
+
 - ✅ **SPA-подобный UX** внутри чата (без спама сообщениями)
 - ✅ **Реактивное обновление**: `editMessageMedia` для смены картинок
 - ✅ **Deep Linking**: `t.me/bot?start=track_123`
@@ -33,6 +34,7 @@ MusicVerse Bot - это Telegram-бот с **реактивным интерфе
 ## Технический стек
 
 ### Runtime & Framework
+
 ```json
 {
   "runtime": "Node.js 20+",
@@ -44,6 +46,7 @@ MusicVerse Bot - это Telegram-бот с **реактивным интерфе
 ```
 
 ### Основные зависимости
+
 ```typescript
 // package.json (extract)
 {
@@ -59,6 +62,7 @@ MusicVerse Bot - это Telegram-бот с **реактивным интерфе
 ## Архитектура
 
 ### Структура проекта
+
 ```
 supabase/functions/telegram-bot/
 ├── bot/
@@ -100,11 +104,14 @@ await ctx.reply("Трек 2");
 await ctx.reply("Трек 3");
 
 // ✅ Новый подход (обновление)
-await ctx.editMessageMedia({
-  type: "photo",
-  media: track.coverUrl,
-  caption: `🎧 ${track.title}`
-}, { reply_markup: playerControls });
+await ctx.editMessageMedia(
+  {
+    type: "photo",
+    media: track.coverUrl,
+    caption: `🎧 ${track.title}`,
+  },
+  { reply_markup: playerControls },
+);
 ```
 
 ---
@@ -123,13 +130,13 @@ export interface Track {
   id: string;
   title: string;
   artist: string;
-  duration: number;          // В секундах
-  coverUrl: string;          // URL обложки (для медиа)
-  audioUrl: string;          // URL mp3/wav файла
-  localAudioUrl?: string;    // Supabase Storage URL
-  fileId?: string;           // Telegram file_id (кэш)
-  tags: string[];            // ["Pop", "Electronic"]
-  status: 'pending' | 'completed' | 'failed';
+  duration: number; // В секундах
+  coverUrl: string; // URL обложки (для медиа)
+  audioUrl: string; // URL mp3/wav файла
+  localAudioUrl?: string; // Supabase Storage URL
+  fileId?: string; // Telegram file_id (кэш)
+  tags: string[]; // ["Pop", "Electronic"]
+  status: "pending" | "completed" | "failed";
 }
 
 /** Проект (альбом/плейлист) */
@@ -144,10 +151,10 @@ export interface Project {
 
 /** Состояние сессии бота */
 export interface SessionData {
-  currentTrackIndex: number;   // Текущий трек в библиотеке
+  currentTrackIndex: number; // Текущий трек в библиотеке
   currentProjectIndex: number; // Текущий проект
-  lastMessageId?: number;      // ID активного сообщения
-  view: 'main' | 'library' | 'projects' | 'settings';
+  lastMessageId?: number; // ID активного сообщения
+  view: "main" | "library" | "projects" | "settings";
 }
 
 /** Расширенный контекст бота */
@@ -174,12 +181,13 @@ export type BotContext = Context & SessionFlavor<SessionData>;
 ```
 
 **Реализация**:
+
 ```typescript
 bot.command("start", async (ctx) => {
   await ctx.replyWithPhoto(BANNER_URL, {
     caption: "🎵 <b>MusicVerse AI</b>\n\nВыберите раздел:",
     parse_mode: "HTML",
-    reply_markup: MainMenu
+    reply_markup: MainMenu,
   });
 });
 ```
@@ -204,24 +212,29 @@ bot.command("start", async (ctx) => {
 ```
 
 **Навигация**:
+
 - `⏮️` / `⏭️` → Смена трека (пагинация)
 - `▶️ PLAY` → Отправка аудио файла
 - `✂️ Stems` → Запрос на разделение на стемы
 
 **Реализация**:
+
 ```typescript
 // Обновление трека при навигации
 async function renderTrack(ctx: BotContext, index: number) {
   const tracks = await musicService.getTracks(ctx.from!.id);
   const track = tracks[index];
 
-  await ctx.editMessageMedia({
-    type: "photo",
-    media: track.coverUrl,
-    caption: formatTrackInfo(track, index, tracks.length)
-  }, { 
-    reply_markup: PlayerControls(track.id, index, tracks.length) 
-  });
+  await ctx.editMessageMedia(
+    {
+      type: "photo",
+      media: track.coverUrl,
+      caption: formatTrackInfo(track, index, tracks.length),
+    },
+    {
+      reply_markup: PlayerControls(track.id, index, tracks.length),
+    },
+  );
 }
 ```
 
@@ -256,28 +269,28 @@ const WEB_APP_URL = "https://music.how2ai.agency";
 
 export const createMainMenuKeyboard = () => {
   return new InlineKeyboard()
-    .webApp("🚀 OPEN STUDIO", { url: WEB_APP_URL }).row()
+    .webApp("🚀 OPEN STUDIO", { url: WEB_APP_URL })
+    .row()
     .text("🎹 Проекты", "nav_projects")
-    .text("🎧 Библиотека", "nav_library").row()
+    .text("🎧 Библиотека", "nav_library")
+    .row()
     .text("ℹ️ О платформе", "nav_about")
     .text("⚙️ Настройки", "nav_settings");
 };
 
-export const createPlayerControls = (
-  trackId: string, 
-  page: number, 
-  total: number
-) => {
+export const createPlayerControls = (trackId: string, page: number, total: number) => {
   const prev = page > 0 ? page - 1 : total - 1;
   const next = page < total - 1 ? page + 1 : 0;
 
   return new InlineKeyboard()
     .text("⏮️", `lib_page_${prev}`)
     .text("▶️ PLAY", `play_${trackId}`)
-    .text("⏭️", `lib_page_${next}`).row()
+    .text("⏭️", `lib_page_${next}`)
+    .row()
     .text("❤️", `like_${trackId}`)
     .text("⬇️ Файл", `dl_${trackId}`)
-    .text("✂️ Stems", `stems_${trackId}`).row()
+    .text("✂️ Stems", `stems_${trackId}`)
+    .row()
     .text("🔙 В меню", "nav_main");
 };
 ```
@@ -295,7 +308,7 @@ export const navigationHandler = new Composer<BotContext>();
 
 // Переход в библиотеку
 navigationHandler.callbackQuery("nav_library", async (ctx) => {
-  ctx.session.view = 'library';
+  ctx.session.view = "library";
   ctx.session.currentTrackIndex = 0;
   await renderTrack(ctx, 0);
   await ctx.answerCallbackQuery();
@@ -311,15 +324,18 @@ navigationHandler.callbackQuery(/lib_page_(\d+)/, async (ctx) => {
 
 // Возврат в главное меню
 navigationHandler.callbackQuery("nav_main", async (ctx) => {
-  ctx.session.view = 'main';
-  
-  await ctx.editMessageMedia({
-    type: "photo",
-    media: MAIN_BANNER_URL,
-    caption: "🏠 <b>Главное меню</b>\nВыберите раздел:",
-    parse_mode: "HTML"
-  }, { reply_markup: createMainMenuKeyboard() });
-  
+  ctx.session.view = "main";
+
+  await ctx.editMessageMedia(
+    {
+      type: "photo",
+      media: MAIN_BANNER_URL,
+      caption: "🏠 <b>Главное меню</b>\nВыберите раздел:",
+      parse_mode: "HTML",
+    },
+    { reply_markup: createMainMenuKeyboard() },
+  );
+
   await ctx.answerCallbackQuery();
 });
 
@@ -327,7 +343,7 @@ navigationHandler.callbackQuery("nav_main", async (ctx) => {
 async function renderTrack(ctx: BotContext, index: number) {
   const userId = ctx.from!.id.toString();
   const tracks = await musicService.getUserTracks(userId);
-  
+
   if (!tracks.length) {
     await ctx.answerCallbackQuery("❌ У вас нет треков");
     return;
@@ -337,14 +353,17 @@ async function renderTrack(ctx: BotContext, index: number) {
   const caption = formatTrackCaption(track, index, tracks.length);
 
   try {
-    await ctx.editMessageMedia({
-      type: "photo",
-      media: track.coverUrl,
-      caption,
-      parse_mode: "HTML"
-    }, { 
-      reply_markup: createPlayerControls(track.id, index, tracks.length) 
-    });
+    await ctx.editMessageMedia(
+      {
+        type: "photo",
+        media: track.coverUrl,
+        caption,
+        parse_mode: "HTML",
+      },
+      {
+        reply_markup: createPlayerControls(track.id, index, tracks.length),
+      },
+    );
   } catch (error) {
     console.error("Failed to update track:", error);
     await ctx.answerCallbackQuery("⚠️ Ошибка обновления");
@@ -352,10 +371,12 @@ async function renderTrack(ctx: BotContext, index: number) {
 }
 
 function formatTrackCaption(track: Track, index: number, total: number): string {
-  return `🎧 <b>${escapeHtml(track.title)}</b>\n` +
-         `👤 ${escapeHtml(track.artist)}\n` +
-         `🏷 <i>${track.tags.map(t => '#' + t).join(' ')}</i>\n\n` +
-         `💿 Трек ${index + 1} из ${total}`;
+  return (
+    `🎧 <b>${escapeHtml(track.title)}</b>\n` +
+    `👤 ${escapeHtml(track.artist)}\n` +
+    `🏷 <i>${track.tags.map((t) => "#" + t).join(" ")}</i>\n\n` +
+    `💿 Трек ${index + 1} из ${total}`
+  );
 }
 ```
 
@@ -374,11 +395,11 @@ export const mediaHandler = new Composer<BotContext>();
 // Воспроизведение трека
 mediaHandler.callbackQuery(/play_(.+)/, async (ctx) => {
   const trackId = ctx.match![1];
-  
+
   await ctx.answerCallbackQuery("🚀 Загружаем трек...");
-  
+
   const track = await musicService.getTrackById(trackId);
-  
+
   if (!track.audioUrl && !track.localAudioUrl) {
     await ctx.reply("❌ Трек недоступен");
     return;
@@ -391,9 +412,8 @@ mediaHandler.callbackQuery(/play_(.+)/, async (ctx) => {
     title: track.title,
     performer: track.artist,
     thumbnail: track.coverUrl,
-    caption: `▶️ <b>${escapeHtml(track.title)}</b>\n` +
-             `🎵 Длительность: ${formatDuration(track.duration)}`,
-    parse_mode: "HTML"
+    caption: `▶️ <b>${escapeHtml(track.title)}</b>\n` + `🎵 Длительность: ${formatDuration(track.duration)}`,
+    parse_mode: "HTML",
   });
 });
 
@@ -401,30 +421,30 @@ mediaHandler.callbackQuery(/play_(.+)/, async (ctx) => {
 mediaHandler.callbackQuery(/dl_(.+)/, async (ctx) => {
   const trackId = ctx.match![1];
   const track = await musicService.getTrackById(trackId);
-  
+
   await ctx.answerCallbackQuery("📥 Скачиваем...");
-  
+
   // Отправляем как документ (файл)
   await ctx.replyWithDocument(track.audioUrl, {
     caption: `📥 ${track.title}.mp3`,
-    file_name: `${sanitizeFilename(track.title)}.mp3`
+    file_name: `${sanitizeFilename(track.title)}.mp3`,
   });
 });
 
 // Запрос на stems
 mediaHandler.callbackQuery(/stems_(.+)/, async (ctx) => {
   const trackId = ctx.match![1];
-  
+
   await ctx.answerCallbackQuery("✂️ Задача создана!");
-  
+
   // Создаем задачу в БД
   await musicService.createStemsTask(trackId, ctx.from!.id);
-  
+
   await ctx.reply(
     "⏳ <b>Генерация стемов началась</b>\n\n" +
-    "Мы пришлем уведомление, когда файлы будут готовы.\n" +
-    "Обычно это занимает 2-5 минут.",
-    { parse_mode: "HTML" }
+      "Мы пришлем уведомление, когда файлы будут готовы.\n" +
+      "Обычно это занимает 2-5 минут.",
+    { parse_mode: "HTML" },
   );
 });
 
@@ -432,12 +452,10 @@ mediaHandler.callbackQuery(/stems_(.+)/, async (ctx) => {
 mediaHandler.callbackQuery(/like_(.+)/, async (ctx) => {
   const trackId = ctx.match![1];
   const userId = ctx.from!.id.toString();
-  
+
   const isLiked = await musicService.toggleLike(trackId, userId);
-  
-  await ctx.answerCallbackQuery(
-    isLiked ? "❤️ Добавлено в избранное" : "💔 Удалено из избранного"
-  );
+
+  await ctx.answerCallbackQuery(isLiked ? "❤️ Добавлено в избранное" : "💔 Удалено из избранного");
 });
 ```
 
@@ -449,7 +467,7 @@ mediaHandler.callbackQuery(/like_(.+)/, async (ctx) => {
 // index.ts
 bot.command("start", async (ctx) => {
   const payload = ctx.match; // "track_123abc" или ""
-  
+
   // Deep link на конкретный трек
   if (payload && payload.startsWith("track_")) {
     const trackId = payload.replace("track_", "");
@@ -464,16 +482,15 @@ bot.command("start", async (ctx) => {
 
   // Обычный старт -> Главное меню
   await ctx.replyWithPhoto(MAIN_BANNER_URL, {
-    caption: "🎵 <b>Добро пожаловать в MusicVerse</b>\n\n" +
-             "Создавайте музыку с помощью ИИ прямо в Telegram!",
+    caption: "🎵 <b>Добро пожаловать в MusicVerse</b>\n\n" + "Создавайте музыку с помощью ИИ прямо в Telegram!",
     parse_mode: "HTML",
-    reply_markup: createMainMenuKeyboard()
+    reply_markup: createMainMenuKeyboard(),
   });
 });
 
 async function showTrackById(ctx: BotContext, trackId: string) {
   const track = await musicService.getTrackById(trackId);
-  
+
   if (!track) {
     await ctx.reply("❌ Трек не найден");
     return;
@@ -482,7 +499,7 @@ async function showTrackById(ctx: BotContext, trackId: string) {
   await ctx.replyWithPhoto(track.coverUrl, {
     caption: formatTrackCaption(track, 0, 1),
     parse_mode: "HTML",
-    reply_markup: createPlayerControls(track.id, 0, 1)
+    reply_markup: createPlayerControls(track.id, 0, 1),
   });
 }
 ```
@@ -495,21 +512,22 @@ async function showTrackById(ctx: BotContext, trackId: string) {
 
 ```typescript
 // src/hooks/useTelegramAuth.ts
-import { useEffect } from 'react';
-import { authService } from '@/services/auth';
+import { useEffect } from "react";
+import { authService } from "@/services/auth";
 
 export const useTelegramAuth = () => {
   useEffect(() => {
     const initData = window.Telegram?.WebApp?.initData;
-    
+
     if (initData) {
       // Отправляем на бэкенд для валидации
-      authService.loginWithTelegram(initData)
-        .then(token => {
-          localStorage.setItem('auth_token', token);
+      authService
+        .loginWithTelegram(initData)
+        .then((token) => {
+          localStorage.setItem("auth_token", token);
         })
-        .catch(err => {
-          console.error('Telegram auth failed:', err);
+        .catch((err) => {
+          console.error("Telegram auth failed:", err);
         });
     }
   }, []);
@@ -520,28 +538,28 @@ export const useTelegramAuth = () => {
 
 ```typescript
 // supabase/functions/telegram-auth/index.ts
-import { createHmac } from 'crypto';
+import { createHmac } from "crypto";
 
 export async function validateTelegramAuth(initData: string, botToken: string) {
   const params = new URLSearchParams(initData);
-  const hash = params.get('hash');
-  params.delete('hash');
-  
+  const hash = params.get("hash");
+  params.delete("hash");
+
   // Сортируем параметры
   const sortedParams = Array.from(params.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([k, v]) => `${k}=${v}`)
-    .join('\n');
-  
+    .join("\n");
+
   // Проверяем подпись
-  const secret = createHmac('sha256', 'WebAppData').update(botToken).digest();
-  const calculatedHash = createHmac('sha256', secret).update(sortedParams).digest('hex');
-  
+  const secret = createHmac("sha256", "WebAppData").update(botToken).digest();
+  const calculatedHash = createHmac("sha256", secret).update(sortedParams).digest("hex");
+
   if (hash !== calculatedHash) {
-    throw new Error('Invalid auth signature');
+    throw new Error("Invalid auth signature");
   }
-  
-  return JSON.parse(params.get('user') || '{}');
+
+  return JSON.parse(params.get("user") || "{}");
 }
 ```
 
@@ -587,18 +605,15 @@ WEBHOOK_URL=https://xxx.supabase.co/functions/v1/telegram-bot
 ```typescript
 // supabase/functions/telegram-webhook-setup/index.ts
 const setWebhook = async () => {
-  const response = await fetch(
-    `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        url: WEBHOOK_URL,
-        allowed_updates: ['message', 'callback_query', 'inline_query']
-      })
-    }
-  );
-  
+  const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/setWebhook`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      url: WEBHOOK_URL,
+      allowed_updates: ["message", "callback_query", "inline_query"],
+    }),
+  });
+
   return response.json();
 };
 ```
@@ -614,16 +629,16 @@ async function safeEditMedia(ctx: BotContext, media: InputMediaPhoto) {
   try {
     await ctx.editMessageMedia(media);
   } catch (error) {
-    if (error.message.includes('message is not modified')) {
+    if (error.message.includes("message is not modified")) {
       // Игнорируем, если контент не изменился
       return;
     }
-    
+
     // Fallback: отправляем новое сообщение
     await ctx.replyWithPhoto(media.media, {
       caption: media.caption,
       parse_mode: media.parse_mode,
-      reply_markup: ctx.msg?.reply_markup
+      reply_markup: ctx.msg?.reply_markup,
     });
   }
 }
@@ -633,11 +648,7 @@ async function safeEditMedia(ctx: BotContext, media: InputMediaPhoto) {
 
 ```typescript
 function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 ```
 
@@ -648,7 +659,7 @@ bot.use(async (ctx, next) => {
   const start = Date.now();
   await next();
   const ms = Date.now() - start;
-  
+
   console.log(`[${ctx.from?.id}] ${ctx.updateType} - ${ms}ms`);
 });
 ```
@@ -658,18 +669,21 @@ bot.use(async (ctx, next) => {
 ## Roadmap
 
 ### Phase 1: Core (✅ Completed)
+
 - [x] Базовая навигация (main → library → projects)
 - [x] Плеер с пагинацией
 - [x] Отправка аудио файлов
 - [x] Deep linking
 
 ### Phase 2: Advanced Features (🚧 In Progress)
+
 - [ ] Inline mode (поиск треков в любом чате)
 - [ ] Stems generation UI
 - [ ] Share menu (stories, friends)
 - [ ] Emoji status integration
 
 ### Phase 3: Optimization (📋 Planned)
+
 - [ ] Redis для session storage
 - [ ] CDN для media files
 - [ ] Rate limiting
@@ -680,6 +694,7 @@ bot.use(async (ctx, next) => {
 ## Заключение
 
 Данная архитектура обеспечивает:
+
 - ✅ **UX на уровне нативного приложения** внутри Telegram
 - ✅ **Минимальный спам** (одно сообщение-интерфейс)
 - ✅ **Seamless интеграция** с Mini App

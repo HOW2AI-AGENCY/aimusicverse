@@ -1,5 +1,5 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
-import { useHaptic } from './useHaptic';
+import { useState, useRef, useCallback, useEffect } from "react";
+import { useHaptic } from "./useHaptic";
 
 interface UsePullToRefreshOptions {
   /** Threshold distance to trigger refresh (default: 80px) */
@@ -35,7 +35,7 @@ export function usePullToRefresh({
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isPulling, setIsPulling] = useState(false);
   const [container, setContainer] = useState<HTMLElement | null>(null);
-  
+
   const startYRef = useRef(0);
   const currentYRef = useRef(0);
   // Use refs to avoid stale closures in event handlers
@@ -63,7 +63,7 @@ export function usePullToRefresh({
     const handleTouchStart = (e: TouchEvent) => {
       // Only enable when scrolled to top
       if (container.scrollTop > 0) return;
-      
+
       startYRef.current = e.touches[0].clientY;
       isPullingRef.current = true;
       setIsPulling(true);
@@ -75,7 +75,7 @@ export function usePullToRefresh({
 
       currentYRef.current = e.touches[0].clientY;
       const distance = Math.max(0, currentYRef.current - startYRef.current);
-      
+
       // Apply resistance (logarithmic) for natural feel
       const resistedDistance = Math.min(threshold * 1.5, distance * 0.5);
       pullDistanceRef.current = resistedDistance;
@@ -104,7 +104,7 @@ export function usePullToRefresh({
         isRefreshingRef.current = true;
         setIsRefreshing(true);
         patterns.success();
-        
+
         try {
           await onRefreshRef.current();
         } finally {
@@ -118,14 +118,14 @@ export function usePullToRefresh({
       setPullDistance(0);
     };
 
-    container.addEventListener('touchstart', handleTouchStart, { passive: true });
-    container.addEventListener('touchmove', handleTouchMove, { passive: false });
-    container.addEventListener('touchend', handleTouchEnd);
+    container.addEventListener("touchstart", handleTouchStart, { passive: true });
+    container.addEventListener("touchmove", handleTouchMove, { passive: false });
+    container.addEventListener("touchend", handleTouchEnd);
 
     return () => {
-      container.removeEventListener('touchstart', handleTouchStart);
-      container.removeEventListener('touchmove', handleTouchMove);
-      container.removeEventListener('touchend', handleTouchEnd);
+      container.removeEventListener("touchstart", handleTouchStart);
+      container.removeEventListener("touchmove", handleTouchMove);
+      container.removeEventListener("touchend", handleTouchEnd);
     };
   }, [container, enabled, threshold, patterns]);
 

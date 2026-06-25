@@ -3,12 +3,12 @@
  * Features: auto-focus, clear button, safe area support
  */
 
-import { memo, useState, useRef, useEffect, forwardRef } from 'react';
-import { Search, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useHaptic } from '@/hooks/useHaptic';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { memo, useState, useRef, useEffect, forwardRef } from "react";
+import { Search, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useHaptic } from "@/hooks/useHaptic";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface MobileSearchBarProps {
   /** Search value */
@@ -27,16 +27,11 @@ interface MobileSearchBarProps {
   className?: string;
 }
 
-export const MobileSearchBar = memo(forwardRef<HTMLInputElement, MobileSearchBarProps>(
-  function MobileSearchBar({
-    value,
-    onChange,
-    placeholder = 'Поиск...',
-    autoFocus = false,
-    showCancel = false,
-    onCancel,
-    className,
-  }, ref) {
+export const MobileSearchBar = memo(
+  forwardRef<HTMLInputElement, MobileSearchBarProps>(function MobileSearchBar(
+    { value, onChange, placeholder = "Поиск...", autoFocus = false, showCancel = false, onCancel, className },
+    ref,
+  ) {
     const { patterns } = useHaptic();
     const [isFocused, setIsFocused] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -48,24 +43,24 @@ export const MobileSearchBar = memo(forwardRef<HTMLInputElement, MobileSearchBar
       const handleFocus = () => setIsFocused(true);
       const handleBlur = () => setIsFocused(false);
 
-      inputRef.current.addEventListener('focus', handleFocus);
-      inputRef.current.addEventListener('blur', handleBlur);
+      inputRef.current.addEventListener("focus", handleFocus);
+      inputRef.current.addEventListener("blur", handleBlur);
 
       return () => {
-        inputRef.current?.removeEventListener('focus', handleFocus);
-        inputRef.current?.removeEventListener('blur', handleBlur);
+        inputRef.current?.removeEventListener("focus", handleFocus);
+        inputRef.current?.removeEventListener("blur", handleBlur);
       };
     }, []);
 
     const handleClear = () => {
       patterns.tap();
-      onChange('');
+      onChange("");
       inputRef.current?.focus();
     };
 
     const handleCancel = () => {
       patterns.tap();
-      onChange('');
+      onChange("");
       inputRef.current?.blur();
       onCancel?.();
     };
@@ -90,7 +85,7 @@ export const MobileSearchBar = memo(forwardRef<HTMLInputElement, MobileSearchBar
               "placeholder:text-muted-foreground/60",
               "focus-visible:ring-2 focus-visible:ring-primary/30",
               "transition-all duration-200",
-              isFocused && "bg-secondary"
+              isFocused && "bg-secondary",
             )}
           />
 
@@ -109,17 +104,13 @@ export const MobileSearchBar = memo(forwardRef<HTMLInputElement, MobileSearchBar
 
         {/* Cancel Button (iOS style) */}
         {showCancel && isFocused && (
-          <Button
-            variant="ghost"
-            onClick={handleCancel}
-            className="text-sm font-medium text-primary shrink-0"
-          >
+          <Button variant="ghost" onClick={handleCancel} className="text-sm font-medium text-primary shrink-0">
             Отмена
           </Button>
         )}
       </div>
     );
-  }
-));
+  }),
+);
 
 export default MobileSearchBar;
