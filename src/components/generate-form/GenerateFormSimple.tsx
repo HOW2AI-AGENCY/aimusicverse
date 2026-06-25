@@ -301,10 +301,16 @@ export function GenerateFormSimple({
           )}
         </div>
       </FormSection>
+      </motion.div>
 
       <FormDivider />
 
       {/* ========== TITLE SECTION ========== */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, delay: 0.12 }}
+      >
       <FormSection>
         <div className="space-y-2 lg:space-y-3">
           <SectionLabel 
