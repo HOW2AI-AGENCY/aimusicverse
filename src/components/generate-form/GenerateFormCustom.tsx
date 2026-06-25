@@ -77,6 +77,8 @@ export function GenerateFormCustom({
   genre,
   mood,
   onOpenStyles,
+  customVoiceId,
+  onCustomVoiceIdChange,
 }: GenerateFormCustomProps) {
   return (
     <motion.div
