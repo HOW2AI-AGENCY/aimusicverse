@@ -971,16 +971,25 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           )}
         </AnimatePresence>
 
-        {/* Controls Section with enhanced glass effect - Telegram safe area */}
-        <motion.div 
-          className={cn("p-4 space-y-4", glass.player)}
+        {/* Controls Section — aurora-tinted glass, safe-area aware (iOS/Android/Telegram) */}
+        <motion.div
+          className={cn(
+            'relative p-4 space-y-4 border-t border-border/40',
+            'bg-gradient-to-b from-background/40 to-background/95 backdrop-blur-2xl',
+          )}
           style={{
-            paddingBottom: 'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))'
+            paddingBottom:
+              'calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))',
           }}
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.3 }}
         >
+          {/* Subtle aurora glow strip at the top edge */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-8 -top-px h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
+          />
           {/* Waveform Timeline */}
           <div data-testid="player-timeline">
             <WaveformProgressBar
