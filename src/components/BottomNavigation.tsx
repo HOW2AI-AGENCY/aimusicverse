@@ -86,11 +86,11 @@ export const BottomNavigation = memo(function BottomNavigation() {
                     onClick={handleGenerateClick}
                     className={cn(
                       "relative flex items-center justify-center w-12 h-12 rounded-2xl",
-                      "bg-primary text-primary-foreground",
-                      "shadow-[0_4px_14px_-2px_hsl(var(--primary)/0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.25)]",
-                      "active:scale-92 hover:scale-105 transition-all duration-150",
+                      "bg-gradient-to-br from-primary to-primary/80 text-primary-foreground",
+                      "aurora-glow",
+                      "active:scale-92 hover:scale-105 transition-all duration-200",
                       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                      activeGenCount > 0 && "ring-2 ring-primary/40 ring-offset-2 ring-offset-background"
+                      activeGenCount > 0 && "sheen ring-2 ring-primary/40 ring-offset-2 ring-offset-background"
                     )}
                     style={{ animationDelay: `${50 + index * 30}ms` }}
                     aria-label={item.label}
