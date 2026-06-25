@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="src/assets/logo.png" alt="MusicVerse AI Logo" width="200" height="200" style="border-radius: 24px; margin-bottom: 20px;" />
+  <img src="src\assets\aiimusicverse-banner.png" alt="MusicVerse AI Logo" width="700" height="200" style="border-radius: 24px; margin-bottom: 20px;" />
 </p>
 
-<h1 align="center">🎵 MusicVerse AI</h1>
+<h1 align="center">🎵 AI MusicVerse</h1>
 
 <p align="center">
   <strong>Профессиональная платформа AI для создания музыки в Telegram</strong><br>
@@ -58,10 +58,10 @@
   <a href="https://t.me/AIMusicVerse">
     <img src="https://img.shields.io/badge/News-Channel-26A5E4?style=for-the-badge&logo=telegram&logoColor=white" alt="News" />
   </a>
-  <a href="#-documentation">
+  <a href="#-документация">
     <img src="https://img.shields.io/badge/Docs-GitHub-4A5568?style=for-the-badge&logo=github" alt="Docs" />
   </a>
-  <a href="#-contributing">
+  <a href="#-участие-в-разработке">
     <img src="https://img.shields.io/badge/Contribute-GitHub-EF4444?style=for-the-badge&logo=github" alt="Contribute" />
   </a>
 </p>
@@ -144,7 +144,7 @@
 - **Виртуализованные списки** — Плавная прокрутка 1000+ треков
 - **Ленивая загрузка изображений** — Размытый эффект для обложек
 - **Режимы Grid и List** — Гибкие варианты просмотра
-- **Swipe-действия** — Быстрые мобильные опе��ации
+- **Swipe-действия** — Быстрые мобильные операции
 - **Управление версиями** — Переключение A/B версий
 - **Оптимизированные лайки** — Реал-тайм обновления
 - **Mobile-first UI** — Touch targets 44×56px
@@ -210,12 +210,13 @@
 ## 🎯 Быстрая навигация
 
 > **Статус проекта:** ✅ Production Ready | Оценка здоровья: 98/100 | Прогресс: 100%
+> **Последнее обновление:** 25 июня 2026
 
 ### 📊 Основная документация
 
 | 📋 Документ | 📝 Назначение | ✅ Статус |
 |:----|:----|:----|
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Полный статус проекта | ✅ Обновлён |
+| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Полный статус проекта | ✅ Обновлён (2026-06-25) |
 | [ROADMAP.md](ROADMAP.md) | Дорожная карта развития | ✅ Активна |
 | [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) | База знаний проекта | ✅ Комплексная |
 | [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Полная карта документации | ✅ Актуальна |
@@ -230,6 +231,16 @@
 | [GitHub Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions) | Автоматизация CI/CD |
 | [GitHub Projects](https://github.com/HOW2AI-AGENCY/aimusicverse/projects) | Доски задач |
 | [GitHub Discussions](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions) | Обсуждения сообщества |
+
+### 📋 Управление спринтами
+
+| 📄 Документ | 📝 Назначение |
+|:----|:----|
+| [SPRINTS/README.md](SPRINTS/README.md) | Обзор системы спринтов |
+| [SPRINTS/SPRINT-PROGRESS.md](SPRINTS/SPRINT-PROGRESS.md) | Текущий прогресс |
+| [SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md) | Продуктовый бэклог |
+| [SPRINTS/FUTURE_WORK_PLAN_2026.md](SPRINTS/FUTURE_WORK_PLAN_2026.md) | План на 2026 |
+| [SPRINTS/completed/](SPRINTS/completed/) | Архив завершённых спринтов |
 
 ---
 
@@ -246,7 +257,7 @@
 | **React компоненты** | 1,124+ | ✅ Оптимизировано | Хорошая структура |
 | **TypeScript файлы** | 1,957+ | ✅ Типизировано | Полное покрытие |
 | **E2E тесты** | 62+ | ✅ Комплексное | Покрытие |
-| **Unit тесты** | 27+ | ��� Хорошее | Граничные случаи |
+| **Unit тесты** | 27+ | ✅ Хорошее | Граничные случаи |
 | **API Endpoints** | 99+ | ✅ Полное | Edge функции |
 
 ### ⚡ Производительность
@@ -321,7 +332,7 @@ aimusicverse/
 ├── docs/                    # 100+ файлов документации
 ├── ADR/                     # Architecture Decisions
 ├── specs/                   # 6 спецификаций
-└── SPRINTS/                 # 35 завершено
+└── SPRINTS/                 # 35+ завершённых спринтов
 ```
 
 ---
@@ -465,6 +476,8 @@ VITE_TELEGRAM_BOT_TOKEN=ваш_token
 - [Дорожная карта](ROADMAP.md)
 - [История изменений](CHANGELOG.md)
 - [Известные проблемы](docs/KNOWN_ISSUES.md)
+- [Статус проекта](PROJECT_STATUS.md)
+- [Управление спринтами](SPRINTS/README.md)
 
 ---
 
@@ -551,6 +564,6 @@ MIT License — см. [LICENSE](LICENSE) для деталей.
 
 <p align="center">
   <sub>Сделано с ❤️ командой MusicVerse AI</sub><br>
-  <sub><strong>Версия:</strong> 1.0.0 | <strong>Обновлено:</strong> 24 июня 2024</sub><br><br>
+  <sub><strong>Версия:</strong> 1.0.0 | <strong>Обновлено:</strong> 25 июня 2026</sub><br><br>
   <a href="#-musicverse-ai">🔝 В начало</a>
 </p>
