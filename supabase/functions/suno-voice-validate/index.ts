@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders } from '../_shared/cors.ts';
-import { getServiceClient, getAuthUser, sunoFetch, callbackUrl } from '../_shared/voice.ts';
+import { getServiceClient, getAuthUser, sunoFetch, callbackUrl, toVoiceError } from '../_shared/voice.ts';
 
 const VOICE_CLONE_COST = 30;
 
@@ -98,7 +98,10 @@ serve(async (req) => {
 
     return json({ success: true, voice: row, taskId });
   } catch (e) {
-    return json({ error: String((e as Error).message) }, 500);
+    const err: any = e;
+    const status = err?.status || 500;
+    const code = err?.code || 'INTERNAL';
+    return json({ success: false, error: err?.message || 'Внутренняя ошибка', code }, status);
   }
 });
 

@@ -1,6 +1,6 @@
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
 import { corsHeaders } from '../_shared/cors.ts';
-import { getServiceClient, getAuthUser, sunoFetch } from '../_shared/voice.ts';
+import { getServiceClient, getAuthUser, sunoFetch, toVoiceError } from '../_shared/voice.ts';
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response(null, { headers: corsHeaders });
@@ -31,7 +31,10 @@ serve(async (req) => {
 
     return json({ success: true, available: !!available, data });
   } catch (e) {
-    return json({ error: String((e as Error).message) }, 500);
+    const err: any = e;
+    const status = err?.status || 500;
+    const code = err?.code || 'INTERNAL';
+    return json({ success: false, error: err?.message || 'Внутренняя ошибка', code }, status);
   }
 });
 
