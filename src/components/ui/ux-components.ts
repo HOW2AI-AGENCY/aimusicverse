@@ -88,11 +88,6 @@ export {
 export { Skeleton } from "./skeleton";
 
 // ============================================================================
-// INTERACTIVE COMPONENTS
-// ============================================================================
-export { InteractiveCard, InteractiveListItem, InteractiveButton } from "./InteractiveCard";
-
-// ============================================================================
 // SHIMMER EFFECTS
 // ============================================================================
 export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from "./Shimmer";
@@ -100,7 +95,9 @@ export { Shimmer, ShimmerBlock, ShimmerText, ShimmerAvatar } from "./Shimmer";
 // ============================================================================
 // FEEDBACK & NOTIFICATIONS
 // ============================================================================
-export { showToast, toast } from "./FeedbackToast";
+export { toast } from "sonner";
+export { notify as showToast } from "@/lib/toast";
+
 
 // ============================================================================
 // BADGES & INDICATORS
