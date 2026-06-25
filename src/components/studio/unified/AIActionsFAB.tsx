@@ -35,7 +35,9 @@ import {
   Guitar,
   FileText,
   FlaskConical,
-} from 'lucide-react';
+  SlidersHorizontal,
+  BarChart3,
+} from '@/lib/icons';
 
 interface AIActionsFABProps {
   onGenerate?: () => void;
@@ -52,7 +54,11 @@ interface AIActionsFABProps {
   onOpenMusicLab?: () => void;
   /** Open Lyrics editor (unified interface - no tabs) */
   onOpenLyrics?: () => void;
-  
+  /** Open Presets library (apply/save mixer & effects presets) */
+  onOpenPresets?: () => void;
+  /** Open studio statistics dashboard */
+  onOpenDashboard?: () => void;
+
   /** Operations that are currently disabled */
   disabledOperations?: StudioOperation[];
   /** Function to get reason why operation is disabled */
@@ -84,6 +90,8 @@ export const AIActionsFAB = memo(function AIActionsFAB({
   onAddInstrumental,
   onOpenMusicLab,
   onOpenLyrics,
+  onOpenPresets,
+  onOpenDashboard,
   disabledOperations = [],
   getDisabledReason,
   canSaveAsNewVersion = false,
@@ -115,6 +123,24 @@ export const AIActionsFAB = memo(function AIActionsFAB({
         icon: <FileText className="w-5 h-5" />,
         onClick: onOpenLyrics,
         color: 'bg-indigo-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      }] : []),
+      // Presets - apply/save mixer & effects presets
+      ...(onOpenPresets ? [{
+        id: 'presets' as StudioOperation,
+        label: 'Пресеты',
+        icon: <SlidersHorizontal className="w-5 h-5" />,
+        onClick: onOpenPresets,
+        color: 'bg-teal-500 text-white',
+        disabledColor: 'bg-muted text-muted-foreground',
+      }] : []),
+      // Dashboard - studio statistics
+      ...(onOpenDashboard ? [{
+        id: 'dashboard' as StudioOperation,
+        label: 'Статистика',
+        icon: <BarChart3 className="w-5 h-5" />,
+        onClick: onOpenDashboard,
+        color: 'bg-emerald-500 text-white',
         disabledColor: 'bg-muted text-muted-foreground',
       }] : []),
       // Record action
@@ -191,7 +217,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
 
     // Filter out actions without callbacks
     return baseActions.filter(action => action.onClick);
-  }, [onGenerate, onExtend, onCover, onAddVocals, onSeparateStems, onSaveAsVersion, onRecord, onAddInstrumental, onOpenMusicLab, onOpenLyrics, canSaveAsNewVersion]);
+  }, [onGenerate, onExtend, onCover, onAddVocals, onSeparateStems, onSaveAsVersion, onRecord, onAddInstrumental, onOpenMusicLab, onOpenLyrics, onOpenPresets, onOpenDashboard, canSaveAsNewVersion]);
 
   const toggleOpen = useCallback(() => {
     haptic.tap();
