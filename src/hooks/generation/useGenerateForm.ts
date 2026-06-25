@@ -106,6 +106,7 @@ export function useGenerateForm({
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState<number | null>(null);
   const [planTrackId, setPlanTrackId] = useState<string | undefined>();
+  const [customVoiceId, setCustomVoiceId] = useState<string | null>(null);
   const [isPublic, setIsPublic] = useState(true); // Track visibility - default public
 
   // Reset form
