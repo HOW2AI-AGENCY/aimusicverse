@@ -120,16 +120,16 @@ Single web application structure: `src/`, `supabase/`, `tests/` at repository ro
 ### Implementation for User Story 3
 
 - [x] T040 [P] [US3] Create usePresets hook in src/hooks/usePresets.ts (2026-06-25 — wraps presets.api.ts with TanStack Query: list/detail/create/update/delete/apply/clone)
-- [ ] T041 [P] [US3] Create useDashboardStats hook in src/hooks/useDashboardStats.ts
+- [~] T041 [P] [US3] Dashboard stats — reused existing real-data hook src/hooks/useUserStudioStats.ts (tracks/stems/MIDI/studioTime + weeklyChange + productivityScore) instead of building useDashboardStats. NOTE: src/api/dashboard.api.ts targets a non-existent RPC get_dashboard_stats — dead path, to be cleaned in Phase B.
 - [~] T042 [US3] Presets service — collapsed into usePresets hook + presets.api.ts per existing project pattern (see useLyricVersions); no separate src/services/presets.service.ts file created
-- [ ] T043 [US3] Create dashboard service in src/services/dashboard.service.ts
-- [ ] T044 [US3] Create ProfessionalDashboard component in src/components/studio/unified/ProfessionalDashboard.tsx (NOTE: a standalone ProfessionalDashboard already exists at src/pages/ProfessionalDashboard.tsx — needs unified-studio integration, not a new build)
+- [~] T043 [US3] Dashboard service — collapsed into useUserStudioStats hook per project pattern; no separate src/services/dashboard.service.ts
+- [x] T044 [US3] Integrate dashboard into unified studio (2026-06-25 — StudioDashboardSheet wraps existing real-data StatsSummaryCard + StatsWidget from src/components/professional/; standalone src/pages/ProfessionalDashboard.tsx left as-is for /professional-studio route)
 - [x] T045 [US3] Create PresetManager component in src/components/studio/unified/PresetManager.tsx (2026-06-25 — category tabs, search, apply/save/clone/delete, ownership grouping, 44px targets, haptics)
-- [ ] T046 [US3] Create workflow visualization component in src/components/studio/unified/WorkflowVisualization.tsx
-- [ ] T047 [US3] Create stats cards component in src/components/studio/unified/DashboardStatsCards.tsx
-- [x] T048 [US3] Integrate presets into StudioShell (2026-06-25 — StudioPresetsSheet wraps PresetManager; opened via "Пресеты" action in StudioActionsSheet, applies to project.id). Dashboard/stats integration still pending (T041/T043/T044/T046/T047).
+- [~] T046 [US3] Workflow visualization — existing src/components/professional/WorkflowVisualizer.tsx available; omitted from studio dashboard sheet (mock-driven). Reuse if real workflow data is wired later.
+- [~] T047 [US3] Stats cards — reused existing src/components/professional/StatsWidget.tsx (real data) instead of new DashboardStatsCards
+- [x] T048 [US3] Integrate presets + dashboard into StudioShell (2026-06-25 — StudioPresetsSheet via "Пресеты" + StudioDashboardSheet via "Статистика" in StudioActionsSheet)
 
-**Checkpoint**: Presets sub-story functional — users can browse, apply, save, clone, and delete presets from the studio actions sheet. Dashboard/stats portion of US3 remains open.
+**Checkpoint**: ✅ US3 functional — users can browse/apply/save/clone/delete presets AND view real studio statistics (tracks/stems/MIDI/time, productivity score) from the studio actions sheet.
 
 ---
 

@@ -45,6 +45,7 @@ export { MusicLabPanel } from './MusicLabPanel';
 export { StudioMusicLabSheet } from './StudioMusicLabSheet';
 export { PresetManager } from './PresetManager';
 export { StudioPresetsSheet } from './StudioPresetsSheet';
+export { StudioDashboardSheet } from './StudioDashboardSheet';
 export { NotationDrawer } from './NotationDrawer';
 export type { NotationDrawerProps } from './NotationDrawer';
 export { ChordOverlay } from './ChordOverlay';

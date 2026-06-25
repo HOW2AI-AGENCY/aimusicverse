@@ -272,6 +272,7 @@ export {
   Guitar,
   Drum,
   Keyboard,
+  FlaskConical,
   FileSliders,
   Sliders,
   SlidersVertical,

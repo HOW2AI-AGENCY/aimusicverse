@@ -26,7 +26,8 @@ import {
   FlaskConical,
   Layers,
   SlidersHorizontal,
-} from 'lucide-react';
+  BarChart3,
+} from '@/lib/icons';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { glass } from '@/lib/glass';
 
@@ -49,6 +50,8 @@ interface StudioActionsSheetProps {
   onOpenLyrics?: () => void;
   /** Open Presets library (apply/save mixer & effects presets) */
   onOpenPresets?: () => void;
+  /** Open studio statistics dashboard */
+  onOpenDashboard?: () => void;
   /** Open Batch Processing panel */
   onOpenBatchProcessing?: () => void;
 }
@@ -124,6 +127,7 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
   onOpenMusicLab,
   onOpenLyrics,
   onOpenPresets,
+  onOpenDashboard,
   onOpenBatchProcessing,
 }: StudioActionsSheetProps) {
   const handleAction = (action: () => void) => {
@@ -140,7 +144,7 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
 
         <div className="space-y-1">
           {/* Creative tools - MusicLab and Lyrics (unified interface) */}
-          {(onOpenMusicLab || onOpenLyrics || onOpenPresets) && (
+          {(onOpenMusicLab || onOpenLyrics || onOpenPresets || onOpenDashboard) && (
             <div className="space-y-1 pb-3 border-b border-border/50">
               {onOpenMusicLab && (
                 <ActionItem
@@ -165,6 +169,14 @@ export const StudioActionsSheet = memo(function StudioActionsSheet({
                   label="Пресеты"
                   description="Применить или сохранить настройки"
                   onClick={() => handleAction(onOpenPresets)}
+                />
+              )}
+              {onOpenDashboard && (
+                <ActionItem
+                  icon={<BarChart3 className="w-5 h-5" />}
+                  label="Статистика"
+                  description="Метрики и активность студии"
+                  onClick={() => handleAction(onOpenDashboard)}
                 />
               )}
             </div>
