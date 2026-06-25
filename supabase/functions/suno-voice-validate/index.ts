@@ -29,6 +29,17 @@ serve(async (req) => {
     // Check admin (admins skip credit deduction)
     const { data: isAdmin } = await supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' });
 
+    // Per-user active-voice cap (excluding failed)
+    const MAX_VOICES_PER_USER = 10;
+    const { count: activeCount } = await supabase
+      .from('custom_voices')
+      .select('id', { count: 'exact', head: true })
+      .eq('user_id', user.id)
+      .neq('status', 'failed');
+    if ((activeCount ?? 0) >= MAX_VOICES_PER_USER && !isAdmin) {
+      return json({ error: `Достигнут лимит ${MAX_VOICES_PER_USER} голосов. Удалите неиспользуемые.`, code: 'VOICE_LIMIT' }, 409);
+    }
+
     if (!isAdmin) {
       const { data: credits } = await supabase
         .from('user_credits').select('balance').eq('user_id', user.id).maybeSingle();
@@ -42,9 +53,9 @@ serve(async (req) => {
       if (dedErr) return json({ error: 'Credit deduction failed' }, 500);
     }
 
-    // Sign source URL for Suno to fetch
+    // Sign source URL for Suno to fetch (24h TTL — Suno processing can be slow)
     const { data: signed, error: signErr } = await supabase.storage
-      .from('voice-sources').createSignedUrl(sourcePath, 3600);
+      .from('voice-sources').createSignedUrl(sourcePath, 60 * 60 * 24);
     if (signErr || !signed) {
       if (!isAdmin) await supabase.rpc('secure_credit_update', {
         _user_id: user.id, _amount: VOICE_CLONE_COST,

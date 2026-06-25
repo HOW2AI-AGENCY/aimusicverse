@@ -84,6 +84,7 @@ serve(async (req) => {
       weirdnessConstraint,
       audioWeight,
       personaId,
+      voiceId,
     } = body;
 
     if (!audioUrl) {
@@ -183,6 +184,7 @@ serve(async (req) => {
     if (weirdnessConstraint !== undefined) sunoPayload.weirdnessConstraint = weirdnessConstraint;
     if (audioWeight !== undefined) sunoPayload.audioWeight = audioWeight;
     if (personaId) sunoPayload.personaId = personaId;
+    if (voiceId) sunoPayload.voiceId = voiceId;
 
     console.log('[suno-extend-audio] Sending to upload-extend endpoint:', {
       ...sunoPayload,

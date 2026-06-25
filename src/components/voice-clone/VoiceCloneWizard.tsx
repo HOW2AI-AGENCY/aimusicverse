@@ -1,13 +1,14 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw } from 'lucide-react';
-import { useVoiceCloneWizard } from '@/hooks/voice/useVoiceCloneWizard';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Progress } from '@/components/ui/progress';
+import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw, FileAudio } from 'lucide-react';
+import { useVoiceCloneWizard, STEP_INDEX } from '@/hooks/voice/useVoiceCloneWizard';
 import { useVoiceRecorder } from '@/hooks/voice/useVoiceRecorder';
-import { toast } from 'sonner';
 
 interface Props {
   open: boolean;
@@ -15,9 +16,15 @@ interface Props {
   onComplete?: (voiceId: string) => void;
 }
 
+const MIN_SOURCE_SEC = 5;
+const MAX_SEGMENT_SEC = 30;
+const MIN_PHRASE_REC_SEC = 5;
+
 export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
   const { step, voice, isWorking, startValidation, submitRecording, reRecord, reset } = useVoiceCloneWizard();
-  const recorder = useVoiceRecorder();
+  const phraseRecorder = useVoiceRecorder();
+  const sourceRecorder = useVoiceRecorder();
+  const [sourceTab, setSourceTab] = useState<'upload' | 'record'>('upload');
   const [file, setFile] = useState<File | null>(null);
   const [audioDuration, setAudioDuration] = useState(0);
   const [voiceName, setVoiceName] = useState('');
@@ -25,20 +32,40 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
   const [vocalStart, setVocalStart] = useState(0);
   const [vocalEnd, setVocalEnd] = useState(10);
   const [language, setLanguage] = useState('ru');
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Final blob used for validation (either uploaded file or mic recording)
+  const sourceBlob: Blob | null = sourceTab === 'upload' ? file : sourceRecorder.blob;
+
+  // Memoized object URL so we don't leak on every render
+  const sourceUrl = useMemo(() => {
+    if (!sourceBlob) return null;
+    return URL.createObjectURL(sourceBlob);
+  }, [sourceBlob]);
 
   useEffect(() => {
-    if (!file) { setAudioDuration(0); return; }
-    const url = URL.createObjectURL(file);
-    const a = new Audio(url);
+    return () => { if (sourceUrl) URL.revokeObjectURL(sourceUrl); };
+  }, [sourceUrl]);
+
+  const phraseUrl = useMemo(() => {
+    if (!phraseRecorder.blob) return null;
+    return URL.createObjectURL(phraseRecorder.blob);
+  }, [phraseRecorder.blob]);
+
+  useEffect(() => {
+    return () => { if (phraseUrl) URL.revokeObjectURL(phraseUrl); };
+  }, [phraseUrl]);
+
+  // Compute duration whenever the source blob changes
+  useEffect(() => {
+    if (!sourceBlob || !sourceUrl) { setAudioDuration(0); return; }
+    const a = new Audio(sourceUrl);
     a.onloadedmetadata = () => {
       const dur = isFinite(a.duration) ? a.duration : 0;
       setAudioDuration(dur);
       setVocalStart(0);
-      setVocalEnd(Math.min(10, Math.max(5, Math.floor(dur))));
-      URL.revokeObjectURL(url);
+      setVocalEnd(Math.min(10, Math.max(MIN_SOURCE_SEC, Math.floor(dur))));
     };
-  }, [file]);
+  }, [sourceBlob, sourceUrl]);
 
   useEffect(() => {
     if (step === 'ready' && voice?.voice_id && onComplete) {
@@ -50,12 +77,16 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     onOpenChange(false);
     setTimeout(() => {
       reset();
-      recorder.reset();
+      phraseRecorder.reset();
+      sourceRecorder.reset();
       setFile(null);
       setVoiceName('');
       setDescription('');
     }, 300);
   }
+
+  const stepIndex = STEP_INDEX[step] ?? 0;
+  const progressPct = (stepIndex / 6) * 100;
 
   return (
     <Dialog open={open} onOpenChange={(v) => v ? onOpenChange(v) : close()}>
@@ -64,6 +95,13 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
           <DialogTitle>Создать кастомный голос</DialogTitle>
           <DialogDescription>30 кредитов · 6 шагов</DialogDescription>
         </DialogHeader>
+
+        {step !== 'failed' && step !== 'ready' && (
+          <div className="space-y-1">
+            <Progress value={progressPct} className="h-1.5" />
+            <p className="text-xs text-muted-foreground text-right">Шаг {stepIndex} из 6</p>
+          </div>
+        )}
 
         {step === 'upload' && (
           <div className="space-y-4">
@@ -75,32 +113,72 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               <Label htmlFor="voice-desc">Описание (опционально)</Label>
               <Textarea id="voice-desc" value={description} onChange={(e) => setDescription(e.target.value)} rows={2} maxLength={200} />
             </div>
-            <div>
-              <Label htmlFor="voice-file">Исходное аудио (≤25 MB)</Label>
-              <Input id="voice-file" type="file" accept="audio/*"
-                onChange={(e) => setFile(e.target.files?.[0] || null)} />
-            </div>
-            {audioDuration > 0 && (
+
+            <Tabs value={sourceTab} onValueChange={(v) => setSourceTab(v as 'upload' | 'record')}>
+              <TabsList className="grid grid-cols-2 w-full">
+                <TabsTrigger value="upload"><FileAudio className="mr-2 h-4 w-4" />Загрузить</TabsTrigger>
+                <TabsTrigger value="record"><Mic className="mr-2 h-4 w-4" />Записать</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="upload" className="space-y-2 pt-3">
+                <Label htmlFor="voice-file">Исходное аудио (≤25 MB)</Label>
+                <Input id="voice-file" type="file" accept="audio/*"
+                  onChange={(e) => setFile(e.target.files?.[0] || null)} />
+              </TabsContent>
+
+              <TabsContent value="record" className="space-y-2 pt-3">
+                <p className="text-xs text-muted-foreground">
+                  Спойте 10–30 секунд в чистой акустике. Без музыки на фоне.
+                </p>
+                {sourceRecorder.state === 'idle' && !sourceRecorder.blob && (
+                  <Button variant="outline" className="w-full" onClick={sourceRecorder.start}>
+                    <Mic className="mr-2 h-4 w-4" />Начать запись
+                  </Button>
+                )}
+                {sourceRecorder.state === 'recording' && (
+                  <div className="space-y-2">
+                    <div className="text-center text-2xl font-mono">{sourceRecorder.duration.toFixed(1)}s</div>
+                    <Button variant="destructive" className="w-full" onClick={sourceRecorder.stop}>
+                      <Square className="mr-2 h-4 w-4" />Стоп
+                    </Button>
+                  </div>
+                )}
+                {sourceRecorder.state === 'stopped' && sourceRecorder.blob && (
+                  <Button variant="outline" size="sm" onClick={sourceRecorder.reset}>
+                    <RotateCcw className="mr-2 h-4 w-4" />Перезаписать
+                  </Button>
+                )}
+                {sourceRecorder.state === 'error' && (
+                  <p className="text-sm text-destructive">{sourceRecorder.error}</p>
+                )}
+              </TabsContent>
+            </Tabs>
+
+            {audioDuration > 0 && sourceUrl && (
               <div className="space-y-2">
                 <Label>Чистый вокальный сегмент: {vocalStart}с — {vocalEnd}с ({vocalEnd - vocalStart}с)</Label>
                 <div className="flex gap-2 items-center">
-                  <span className="text-xs text-muted-foreground w-8">Старт</span>
-                  <input type="range" min={0} max={Math.max(0, Math.floor(audioDuration) - 5)} value={vocalStart}
+                  <span className="text-xs text-muted-foreground w-12">Старт</span>
+                  <input type="range" min={0} max={Math.max(0, Math.floor(audioDuration) - MIN_SOURCE_SEC)} value={vocalStart}
                     onChange={(e) => {
                       const v = parseInt(e.target.value);
                       setVocalStart(v);
-                      if (vocalEnd - v < 5) setVocalEnd(v + 5);
-                      if (vocalEnd - v > 30) setVocalEnd(v + 30);
+                      if (vocalEnd - v < MIN_SOURCE_SEC) setVocalEnd(v + MIN_SOURCE_SEC);
+                      if (vocalEnd - v > MAX_SEGMENT_SEC) setVocalEnd(v + MAX_SEGMENT_SEC);
                     }} className="flex-1" />
                 </div>
                 <div className="flex gap-2 items-center">
-                  <span className="text-xs text-muted-foreground w-8">Конец</span>
-                  <input type="range" min={vocalStart + 5} max={Math.min(Math.floor(audioDuration), vocalStart + 30)}
+                  <span className="text-xs text-muted-foreground w-12">Конец</span>
+                  <input type="range" min={vocalStart + MIN_SOURCE_SEC} max={Math.min(Math.floor(audioDuration), vocalStart + MAX_SEGMENT_SEC)}
                     value={vocalEnd} onChange={(e) => setVocalEnd(parseInt(e.target.value))} className="flex-1" />
                 </div>
-                <audio ref={audioRef} src={file ? URL.createObjectURL(file) : undefined} controls className="w-full" />
+                <audio src={sourceUrl} controls className="w-full" />
+                {vocalEnd - vocalStart < MIN_SOURCE_SEC && (
+                  <p className="text-xs text-destructive">Сегмент должен быть минимум {MIN_SOURCE_SEC} сек.</p>
+                )}
               </div>
             )}
+
             <div>
               <Label htmlFor="lang">Язык фразы</Label>
               <select id="lang" value={language} onChange={(e) => setLanguage(e.target.value)}
@@ -111,15 +189,18 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                 <option value="fr">Français</option>
               </select>
             </div>
-            <Button className="w-full" disabled={!voiceName || !file || isWorking || vocalEnd - vocalStart < 5}
+
+            <Button className="w-full" disabled={!voiceName || !sourceBlob || isWorking || vocalEnd - vocalStart < MIN_SOURCE_SEC}
               onClick={() => {
-                if (!file) return;
+                if (!sourceBlob) return;
                 startValidation({
-                  voiceName, sourceFile: file, vocalStartS: vocalStart, vocalEndS: vocalEnd,
+                  voiceName, sourceFile: sourceBlob, vocalStartS: vocalStart, vocalEndS: vocalEnd,
                   language, description: description || undefined,
                 });
               }}>
-              {isWorking ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Загрузка…</> : <><Upload className="mr-2 h-4 w-4" />Начать (30 кредитов)</>}
+              {isWorking
+                ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Загрузка…</>
+                : <><Upload className="mr-2 h-4 w-4" />Начать (30 кредитов)</>}
             </Button>
           </div>
         )}
@@ -139,35 +220,39 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               <p className="mt-2 text-lg font-medium leading-snug">{voice.validate_phrase}</p>
             </div>
 
-            {recorder.state === 'idle' && (
-              <Button className="w-full" onClick={recorder.start}>
+            {phraseRecorder.state === 'idle' && (
+              <Button className="w-full" onClick={phraseRecorder.start}>
                 <Mic className="mr-2 h-4 w-4" />Записать
               </Button>
             )}
-            {recorder.state === 'recording' && (
+            {phraseRecorder.state === 'recording' && (
               <div className="space-y-2">
-                <div className="text-center text-2xl font-mono">{recorder.duration.toFixed(1)}s</div>
-                <Button variant="destructive" className="w-full" onClick={recorder.stop}>
+                <div className="text-center text-2xl font-mono">{phraseRecorder.duration.toFixed(1)}s</div>
+                <Button variant="destructive" className="w-full" onClick={phraseRecorder.stop}>
                   <Square className="mr-2 h-4 w-4" />Стоп
                 </Button>
               </div>
             )}
-            {recorder.state === 'stopped' && recorder.blob && (
+            {phraseRecorder.state === 'stopped' && phraseRecorder.blob && phraseUrl && (
               <div className="space-y-2">
-                <audio src={URL.createObjectURL(recorder.blob)} controls className="w-full" />
+                <audio src={phraseUrl} controls className="w-full" />
+                {phraseRecorder.duration < MIN_PHRASE_REC_SEC && (
+                  <p className="text-xs text-destructive">Запись слишком короткая ({phraseRecorder.duration.toFixed(1)}с). Минимум {MIN_PHRASE_REC_SEC}с.</p>
+                )}
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1" onClick={recorder.reset}>
+                  <Button variant="outline" className="flex-1" onClick={phraseRecorder.reset}>
                     <RotateCcw className="mr-2 h-4 w-4" />Перезаписать
                   </Button>
-                  <Button className="flex-1" disabled={isWorking}
-                    onClick={() => recorder.blob && submitRecording(recorder.blob)}>
+                  <Button className="flex-1"
+                    disabled={isWorking || phraseRecorder.duration < MIN_PHRASE_REC_SEC}
+                    onClick={() => phraseRecorder.blob && submitRecording(phraseRecorder.blob)}>
                     {isWorking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}Отправить
                   </Button>
                 </div>
               </div>
             )}
-            {recorder.state === 'error' && (
-              <p className="text-sm text-destructive">{recorder.error}</p>
+            {phraseRecorder.state === 'error' && (
+              <p className="text-sm text-destructive">{phraseRecorder.error}</p>
             )}
           </div>
         )}
@@ -195,8 +280,8 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
             <h3 className="text-lg font-semibold">Что-то пошло не так</h3>
             <p className="text-sm text-muted-foreground">{voice?.error_message || 'Попробуйте позже'}</p>
             <div className="flex gap-2 w-full">
-              {voice?.validate_phrase && recorder.blob ? (
-                <Button className="flex-1" onClick={() => recorder.blob && reRecord(recorder.blob)}>
+              {voice?.validate_phrase && phraseRecorder.blob ? (
+                <Button className="flex-1" onClick={() => phraseRecorder.blob && reRecord(phraseRecorder.blob)}>
                   Повторить
                 </Button>
               ) : null}

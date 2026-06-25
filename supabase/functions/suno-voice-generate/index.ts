@@ -20,7 +20,7 @@ serve(async (req) => {
     if (!row.validate_task_id) return json({ error: 'No validate_task_id' }, 400);
 
     const { data: signed } = await supabase.storage
-      .from('voice-verifications').createSignedUrl(verifyPath, 3600);
+      .from('voice-verifications').createSignedUrl(verifyPath, 60 * 60 * 24);
     if (!signed) return json({ error: 'Cannot sign verify URL' }, 500);
 
     const sunoRes = await sunoFetch('/generate', {
