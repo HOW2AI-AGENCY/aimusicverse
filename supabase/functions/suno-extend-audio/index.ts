@@ -269,10 +269,26 @@ serve(async (req) => {
     });
 
     if (deductError) {
-      console.error('[suno-extend-audio] Credit deduction error:', deductError);
-      // Don't fail the request, just log it
+      console.error(JSON.stringify({
+        tag: '[suno-extend-audio]',
+        event: 'credit_deduct_failed',
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: EXTEND_COST,
+        error: deductError.message,
+        hasVoiceId: !!voiceId,
+      }));
     } else {
-      console.log(`[suno-extend-audio] Deducted ${EXTEND_COST} credits from user ${user.id}`);
+      console.log(JSON.stringify({
+        tag: '[suno-extend-audio]',
+        event: 'credit_deducted',
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: EXTEND_COST,
+        hasVoiceId: !!voiceId,
+      }));
     }
 
     // Log credit transaction
