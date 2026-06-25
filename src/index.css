@@ -1917,3 +1917,64 @@ select:focus-visible,
  * ============================================================================ */
 
 @import './styles/micro-animations.css';
+
+/* ============================================================================
+ * Unified pill/chip utilities (Linear/Arc native vibe)
+ * ============================================================================ */
+@layer components {
+  /* Pill button used for filters/segmented controls */
+  .pill-chip {
+    @apply inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full
+           text-[13px] font-medium leading-none tracking-tight
+           border border-border/60 bg-muted/40 text-muted-foreground
+           transition-colors duration-150 select-none
+           hover:bg-muted/70 hover:text-foreground
+           active:scale-95;
+  }
+  .pill-chip[data-active="true"],
+  .pill-chip.is-active {
+    @apply bg-primary/15 text-foreground border-primary/40
+           shadow-[0_0_0_1px_hsl(var(--primary)/0.25)_inset];
+  }
+  .pill-chip-sm {
+    @apply h-7 px-2.5 text-[11px];
+  }
+  /* Read-only tag chip (e.g. genre/style tag on a track card) */
+  .tag-chip {
+    @apply inline-flex items-center h-6 px-2 rounded-full
+           text-[11px] font-medium leading-none tracking-tight
+           bg-foreground/[0.06] text-muted-foreground
+           border border-border/40;
+  }
+
+  /* Mobile list row at 64px density (TrackCard CompactVariant target) */
+  .row-64 {
+    @apply h-16 flex items-center gap-3 px-3
+           rounded-2xl border border-transparent
+           transition-colors duration-150
+           hover:bg-foreground/[0.04] active:bg-foreground/[0.06];
+  }
+  .row-64[data-active="true"],
+  .row-64.is-active {
+    @apply bg-primary/[0.08] border-primary/25;
+  }
+
+  /* Section header used across new mobile screens */
+  .section-title {
+    @apply font-display text-[13px] font-semibold uppercase tracking-[0.08em]
+           text-muted-foreground/80;
+  }
+}
+
+/* Utility: bottom padding that automatically clears nav + player + safe-area */
+@layer utilities {
+  .pb-bottom-stack {
+    padding-bottom: calc(var(--bottom-stack-h, 0px) + 0.75rem);
+  }
+  .pb-bottom-stack-lg {
+    padding-bottom: calc(var(--bottom-stack-h, 0px) + 1.5rem);
+  }
+  .bottom-above-stack {
+    bottom: calc(var(--bottom-stack-h, 0px) + 0.5rem);
+  }
+}
