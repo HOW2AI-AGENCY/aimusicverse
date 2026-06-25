@@ -372,3 +372,35 @@ Sprint 031 Phase 1-5 are **COMPLETE** with comprehensive implementation and test
 **Report Generated:** 2026-01-07
 **Author:** Claude Code (Sprint 031 Implementation)
 **Status:** 80% Complete (Phase 1-5 DONE, Phase 6 PENDING)
+
+---
+
+## 🔍 Post-Merge Audit (2026-06-25)
+
+**Context:** Sprint 031 Phase B (PR #295 `fc3ef7496`) merged into main. Subsequent cleanup commit `28c1e5aa9` ("remove 196 unused files") was audited for accidental regression of Phase B deliverables.
+
+### Findings
+
+✅ **Phase 2 (Store Unification)** — preserved. `useUnifiedStudioStore` refactored per Constitution v3.0.0 (>500 line limit) into modular slices under `src/stores/studio/` with backward-compatible re-export. All slices present:
+- `useProjectStore`, `useTrackStore`, `useViewStore`, `usePlaybackStore`, `useLyricsStore`, `useStudioHistoryStore`
+
+✅ **Phase 3 (Component Optimizations)** — preserved:
+- `OptimizedLyricsLine.tsx` (139 lines)
+- `OptimizedLyricsPanel.tsx` (192 lines)
+- `useLyricsSync.ts` (174 lines)
+- `VirtualizedTrackList.tsx` (501 lines)
+- `lyricsParser.ts` (164 lines)
+
+⚠️ **Phase 4 (DAW Timeline)** — **REGRESSION FIXED**:
+- `src/hooks/useBPMGrid.ts` was incorrectly removed by cleanup commit `28c1e5aa9` despite being referenced by `tests/unit/hooks/useBPMGrid.test.ts` and documented in `SPRINT-031-QUICKSTART.md`. **Restored from git history** (275 lines).
+- Other Phase 4 files intact: `bpmDetection.ts`, `beatSnap.ts`, `useRAFThrottle.ts`, `MobileDAWTimeline.tsx`, `AIActionsFAB.tsx`, `OptimizedWaveform.tsx`.
+
+✅ **Phase 5 (Testing)** — preserved. All performance benchmark, unit, and E2E test files present (component tests live in subdirs `tests/unit/components/lyrics/` and `library/`; task paths were nominally outdated but not broken).
+
+### Broken-Reference Scan
+
+Searched all 193 files deleted in cleanup commit for live `@/...` imports across `src/` and `tests/`. Only true breakage: `useBPMGrid.test.ts` → `@/hooks/useBPMGrid` (now fixed). Remaining hits are documentation only (KNOWLEDGE_BASE.md, archived sprint reports, ARCHITECTURE.md examples) — non-blocking.
+
+### Result
+
+**Audit Status:** ✅ **CLEAN** after restoring `useBPMGrid.ts`. All Sprint 031 Phase B deliverables present and functional on `main`.
