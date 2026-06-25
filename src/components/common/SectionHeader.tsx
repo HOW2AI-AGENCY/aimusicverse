@@ -16,12 +16,13 @@ import { useNavigate } from 'react-router-dom';
 import { Heading, Text } from '@/components/ui/typography';
 
 interface SectionHeaderProps {
-  /** Icon component from lucide-react */
-  icon: LucideIcon;
+  /** Icon component from lucide-react. Optional — can be replaced by `customIcon`. */
+  icon?: LucideIcon;
   /** Icon color class (e.g., "text-primary", "text-amber-500") */
   iconColor?: string;
   /** Gradient classes for icon background */
   iconGradient?: string;
+
   /** Main title */
   title: string;
   /** Optional subtitle/description */
