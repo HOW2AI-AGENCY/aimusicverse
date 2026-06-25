@@ -2,6 +2,7 @@ import { motion } from '@/lib/motion';
 import { TitleSection, StyleSection, VocalsToggle, LyricsSectionAdvanced, PrivacyToggle } from './sections';
 import { AdvancedSettings } from './AdvancedSettings';
 import { FormSection, FormDivider } from './FormSection';
+import { CustomVoicePicker } from '@/components/voice-clone/CustomVoicePicker';
 
 interface GenerateFormCustomProps {
   title: string;
