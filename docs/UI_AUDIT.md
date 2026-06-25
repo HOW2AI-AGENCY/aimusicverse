@@ -1,31 +1,35 @@
 # UI Audit & Unification Map
 
-Status: Phases 0, 1, 6, 7, 8 complete. Phases 3, 4 marked with `@deprecated`
-JSDoc on every legacy file. Phases 5, 9, 10 remain (codemod sweeps + final
-cleanup).
+Status: Phases 0, 1, 6, 7, 8 complete. Phase 3 EmptyState consolidation
+**done** — 3 legacy files are now thin shims over `UnifiedEmptyState`
+(≈ 550 lines of duplicate JSX removed). `FeedbackToast` is a thin shim
+over `@/lib/toast`. Phases 2 and 4 still have `@deprecated` markers
+awaiting import sweep. Phases 5, 9, 10 remain.
 
-Source of truth for the multi-phase plan in `.lovable/plan.md`. Every row below
-tells contributors which implementation is canonical and which paths must end
-up as thin `@deprecated` re-exports before being deleted in Phase 10.
+Source of truth for the multi-phase plan in `.lovable/plan.md`. Every row
+below tells contributors which implementation is canonical and which paths
+must end up as thin `@deprecated` re-exports before being deleted in
+Phase 10. See `docs/UI_UNIFICATION_STATUS.md` for live progress.
 
-> Scope: presentation layer only. Stores, hooks, edge functions, and APIs are
-> intentionally out of scope.
+> Scope: presentation layer only. Stores, hooks, edge functions, and APIs
+> are intentionally out of scope.
 
 ## Phase status
 
 | Phase | Topic                                | Status |
 | ----- | ------------------------------------ | ------ |
 | 0     | Inventory                            | ✅ this document |
-| 1     | Tokens + ESLint guardrails           | ✅ semantic surfaces, state, motion aliases added to `src/index.css` + `tailwind.config.ts`; `no-restricted-imports` already blocks `framer-motion` / `lucide-react` |
-| 2     | Base atoms (Button/Card/Input)       | ⏳ canon = shadcn; legacy `Refined*`, `InteractiveCard`, `glass-card` marked `@deprecated` |
-| 3     | EmptyState / Skeleton / Spinner      | ⏳ canon = `UnifiedEmptyState`; 3 legacy `EmptyState` + 3 legacy skeleton/loader files marked `@deprecated` |
-| 4     | TrackCard                            | ⏳ canon = `UnifiedTrackCard`; `RefinedTrackCard` marked `@deprecated`; per-page inline cards still to migrate |
-| 5     | Headers / layout                     | 🟡 canon = `UnifiedPageHeader` + `SectionHeader`; needs sweep of pages to drop ad-hoc `<h1>` |
-| 6     | Overlays                             | ✅ `UnifiedDialog` exists, added `ResponsiveOverlay` wrapper + `useConfirm()` |
-| 7     | Motion presets                       | ✅ `@/lib/motion-presets` shipped (re-exports `@/lib/motion`) |
-| 8     | Toast adapter                        | ✅ `@/lib/toast` (`notify.{success/error/info/warning/progress/update}`) |
+| 1     | Tokens + ESLint guardrails           | ✅ semantic surfaces, state, motion aliases in `src/index.css` + `tailwind.config.ts` |
+| 2     | Base atoms (Button/Card/Input)       | 🟡 canon = shadcn; legacy `Refined*`, `InteractiveCard`, `glass-card` marked `@deprecated`; import sweep in Phase 10 |
+| 3     | EmptyState / Skeleton / Spinner      | 🟢 EmptyState: 3 legacy files = thin shims over `UnifiedEmptyState`; skeleton/loader still `@deprecated` only |
+| 4     | TrackCard                            | 🟡 canon = `UnifiedTrackCard`; `RefinedTrackCard` marked `@deprecated`; per-page inline cards still to migrate |
+| 5     | Headers / layout                     | ⏳ canon = `UnifiedPageHeader` + `SectionHeader`; needs sweep of pages |
+| 6     | Overlays                             | ✅ `ResponsiveOverlay` + `useConfirm()` |
+| 7     | Motion presets                       | ✅ `@/lib/motion-presets` |
+| 8     | Toast adapter                        | ✅ `@/lib/toast` (`notify.*`); `FeedbackToast` = thin shim |
 | 9     | A11y sweep                           | ⏳ |
 | 10    | Hard delete + ESLint errors          | ⏳ |
+
 
 ## Legend
 
