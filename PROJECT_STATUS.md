@@ -80,6 +80,11 @@
 - [x] Обновлён импорт LyricsPanel.tsx на модульный путь
 - [x] Аудит 24 файлов с @deprecated маркерами
 
+### Sprint 9C: Lyrics Dead Code ✅ COMPLETE (2026-06-25)
+- [x] Удалено 10 мёртвых lyrics-файлов (~3,530 строк) ([PR #286](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/286))
+- [x] Очищены 7 barrel export файлов
+- [x] TypeScript: 0 ошибок
+
 ---
 
 ## 📊 Ключевые метрики
@@ -135,8 +140,8 @@
 
 | Метрика | Значение |
 |---------|----------|
-| Файлов .ts/.tsx | 1,781 |
-| Строк кода | ~379,000 |
+| Файлов .ts/.tsx | 1,770 |
+| Строк кода | ~375,000 |
 | React Components | 935+ |
 | Custom Hooks | 340+ |
 | Pages | 57+ |
