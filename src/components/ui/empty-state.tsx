@@ -1,7 +1,10 @@
 /**
- * EmptyState - Unified empty state component
- * Replaces scattered empty state patterns with consistent design
- * 
+ * @deprecated Use `UnifiedEmptyState` from `@/components/ui/unified-empty-state`.
+ * Kept temporarily for backwards compatibility — will be removed in Phase 10
+ * of the UI unification (`docs/UI_AUDIT.md`).
+ *
+ * EmptyState - Legacy implementation with preset variants and emoji support.
+ *
  * @example
  * ```tsx
  * <EmptyState

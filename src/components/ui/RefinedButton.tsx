@@ -1,8 +1,11 @@
 /**
+ * @deprecated Use shadcn `Button` from `@/components/ui/button` with the
+ * `premium` / `glass` / `icon-sm` variant where needed.
+ * Kept temporarily for backwards compatibility — will be removed in Phase 10
+ * of the UI unification (`docs/UI_AUDIT.md`).
+ *
  * Refined Button Component
  * Feature: 032-professional-ui
- * 
- * Enhanced button with micro-interactions and polish
  */
 
 import React, { forwardRef, ButtonHTMLAttributes, ReactNode } from 'react';
