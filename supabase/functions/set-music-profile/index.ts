@@ -32,7 +32,10 @@ serve(async (req) => {
     
     const supabase = getSupabaseClient();
     
-    const { trackId, userId } = await req.json() as SetMusicProfileRequest;
+    const { trackId } = await req.json() as SetMusicProfileRequest;
+    // Derive userId from verified JWT, never trust body
+    const userId = __auth.user?.id as string;
+
     
     if (!trackId || !userId) {
       return new Response(
