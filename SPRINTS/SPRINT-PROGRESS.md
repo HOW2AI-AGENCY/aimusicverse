@@ -9,6 +9,8 @@
 | Sprint 001-029 | ✅ ЗАВЕРШЕНЫ | 100% |
 | Sprint 030-032 | ✅ ЗАВЕРШЕНЫ | 100% |
 | Q1 2026 Plan | 🔄 АКТИВЕН | Phase 1-4 Complete, Sprints A-E Complete |
+| Phase 8: Codebase Optimization | ✅ ЗАВЕРШЁН | 100% — удалено 196 файлов, 45K строк |
+| Phase 9: Deduplication & Refactor | 📋 ЗАПЛАНИРОВАН | 0% |
 
 ---
 
@@ -121,8 +123,10 @@ All sprints 001-032 are completed and archived in `SPRINTS/completed/`.
 |---------|---------|------|
 | Users | 574+ | 1,000+ |
 | Tracks | 1,800+ | 5,000+ |
-| Components | 1,130+ | — |
-| Hooks | 390+ | — |
+| Files .ts/.tsx | 1,788 | — |
+| Lines of Code | 381K | — |
+| Components | 940+ | — |
+| Hooks | 340+ | — |
 | Pages | 57+ | — |
 | Edge Functions | 120+ | — |
 | Success Rate | ~88% | >92% |

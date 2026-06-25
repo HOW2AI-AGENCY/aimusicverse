@@ -3,7 +3,7 @@
 <div align="center">
 
 ![Building](https://img.shields.io/badge/статус-Production_Ready-brightgreen)
-![Health](https://img.shields.io/badge/здоровье-95%2F100-success)
+![Health](https://img.shields.io/badge/здоровье-97%2F100-success)
 ![Progress](https://img.shields.io/badge/прогресс-100%25-blue)
 
 **Последнее обновление**: 2026-06-25
@@ -65,6 +65,12 @@
 - [ ] Реализация UI Improvements
 - [ ] Platform integrations (Spotify, Apple Music)
 
+### Phase 8: Codebase Optimization ✅ COMPLETE (2026-06-25)
+- [x] Аудит кодовой базы (1,981 файл, 426K строк)
+- [x] Удаление 196 мёртвых файлов, 45,113 строк ([PR #283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283))
+- [x] Замена runtime console.log на logger в studio-компонентах
+- [x] Верификация: tsc --noEmit, grep-аудит импортов, проверка index-реэкспортов
+
 ---
 
 ## 📊 Ключевые метрики
@@ -120,8 +126,10 @@
 
 | Метрика | Значение |
 |---------|----------|
-| React Components | 1130+ |
-| Custom Hooks | 390+ |
+| Файлов .ts/.tsx | 1,788 |
+| Строк кода | 381,166 |
+| React Components | 940+ |
+| Custom Hooks | 340+ |
 | Pages | 57+ |
 | Services | 42 |
 | API Modules | 21 |
@@ -131,15 +139,21 @@
 
 ---
 
-## 🎯 Следующие шаги (Q2 2026)
+## 🎯 Следующие шаги (Q2-Q3 2026)
 
 ### Приоритет P0 (критичный)
-1. **Platform Integrations** — Spotify, Apple Music, YouTube export
-2. **API Development** — Public API для third-party integrations
+1. **Deduplicate Components** — Объединить 30+ дублирующихся компонентов (EmptyState ×2, BottomSheet ×2, AddTrackDialog ×3, VersionSelector ×3, StudioActionsPanel ×5)
+2. **Split Giant Files** — Разбить 50+ файлов >500 строк (StudioShell 1852, UnifiedStudioContent 1477, MobileFullscreenPlayer 1052)
 
 ### Приоритет P1 (высокий)
-3. **Spec 032: Professional UI** — Enhanced visual hierarchy
-4. **Spec 031: Mobile Studio V2** — Advanced creative tools
+3. **Consolidate Lyrics** — Собрать 30+ lyrics-компонентов из 6 директорий в одну структуру
+4. **Reorganize components/ui/** — Сгруппировать 90+ файлов по типу (forms, layout, feedback)
+5. **Spec 001: UI Improvements** — Реализация ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+
+### Приоритет P2 (средний)
+6. **Platform Integrations** — Spotify, Apple Music, YouTube export
+7. **API Development** — Public API для third-party integrations
+8. **Bundle Optimization** — Анализ и оптимизация размера бандла
 
 ---
 
@@ -151,8 +165,9 @@
 
 ### P2 — В процессе улучшения
 - 🔴 Generation failure rate ~12% → target <8%
-- 🟡 Bundle size optimisation pending (npm issue on Windows)
-- 🟡 TypeScript strict mode gaps
+- 🟡 30+ дубликатов компонентов → объединение
+- 🟡 50+ файлов >500 строк → рефакторинг
+- 🟡 Bundle size optimisation pending
 
 ### P3 — Плановые
 - 📋 Platform integrations
@@ -189,6 +204,16 @@
 ---
 
 ## 🔄 Недавние обновления (июнь 2026)
+
+### 2026-06-25 — Phase 8: Codebase Optimization
+
+**Достижения**:
+- ✅ Удалено **196 неиспользуемых файлов** (45,113 строк, -10.6% кодовой базы)
+- ✅ 47 мёртвых хуков, 85 мёртвых компонентов, 19 утилит, 4 тест-сироты
+- ✅ Замена console.log → logger в 5 studio-компонентах
+- ✅ TypeScript: 0 ошибок после удаления
+
+**PR**: [#283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283)
 
 ### 2026-06-25 — Sprint A: F1.1 — Улучшение надёжности генерации
 
