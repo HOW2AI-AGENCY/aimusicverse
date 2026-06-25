@@ -128,6 +128,11 @@ export function GenerateFormCustom({
               mood={mood}
             />
           </FormSection>
+          {onCustomVoiceIdChange && (
+            <FormSection>
+              <CustomVoicePicker value={customVoiceId ?? null} onChange={onCustomVoiceIdChange} />
+            </FormSection>
+          )}
         </>
       )}
 
