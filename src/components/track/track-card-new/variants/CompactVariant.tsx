@@ -11,7 +11,6 @@
 import { memo } from 'react';
 import { motion } from '@/lib/motion';
 import { MoreHorizontal } from 'lucide-react';
-import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { formatDuration } from '@/lib/player-utils';
