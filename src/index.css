@@ -1964,6 +1964,46 @@ select:focus-visible,
     @apply font-display text-[13px] font-semibold uppercase tracking-[0.08em]
            text-muted-foreground/80;
   }
+
+  /* Aurora-tinted surface used for premium cards/CTAs (Midnight + Aurora) */
+  .aurora-surface {
+    background:
+      radial-gradient(120% 80% at 0% 0%, hsl(var(--primary) / 0.18) 0%, transparent 55%),
+      radial-gradient(120% 80% at 100% 100%, hsl(142 71% 58% / 0.14) 0%, transparent 60%),
+      hsl(var(--card) / 0.6);
+    border: 1px solid hsl(var(--border) / 0.55);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+  }
+  .aurora-glow {
+    box-shadow:
+      0 0 0 1px hsl(var(--primary) / 0.25) inset,
+      0 8px 28px -6px hsl(var(--primary) / 0.45),
+      0 2px 8px -2px hsl(142 71% 58% / 0.35);
+  }
+  /* Subtle moving sheen for emphasis (CTAs, generating state) */
+  .sheen {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 35%,
+      hsl(0 0% 100% / 0.18) 50%,
+      transparent 65%
+    );
+    transform: translateX(-100%);
+    animation: sheen-sweep 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    pointer-events: none;
+  }
+  @keyframes sheen-sweep {
+    to { transform: translateX(100%); }
+  }
 }
 
 /* Utility: bottom padding that automatically clears nav + player + safe-area */
@@ -1977,4 +2017,9 @@ select:focus-visible,
   .bottom-above-stack {
     bottom: calc(var(--bottom-stack-h, 0px) + 0.5rem);
   }
+  /* Hairline divider that adapts to the active palette */
+  .hairline {
+    border-color: hsl(var(--border) / 0.6);
+  }
 }
+

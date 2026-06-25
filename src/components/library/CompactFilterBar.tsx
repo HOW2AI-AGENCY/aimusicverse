@@ -176,7 +176,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
         )}
       </div>
 
-      {/* Filter Chips - Horizontal Scroll with improved touch targets */}
+      {/* Filter Chips - Horizontal Scroll, unified pill style */}
       <div className="flex gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 pb-1.5">
         {FILTERS.map((filter) => {
           const isActive = activeFilter === filter.id;
@@ -187,11 +187,9 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               key={filter.id}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[44px] md:min-h-[36px] touch-manipulation",
-                isActive
-                  ? "bg-primary text-primary-foreground shadow-md"
-                  : "bg-muted/60 text-muted-foreground hover:text-foreground hover:bg-muted border border-border/50"
+                "pill-chip flex-shrink-0 touch-manipulation min-h-[44px] md:min-h-[36px]"
               )}
+              data-active={isActive}
               onClick={() => onFilterChange(filter.id)}
               aria-label={`Фильтр: ${filter.label}`}
               aria-pressed={isActive}
@@ -200,8 +198,8 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               <span>{filter.label}</span>
               {count !== undefined && count > 0 && (
                 <span className={cn(
-                  "text-[10px] px-1 rounded-full min-w-[16px] text-center tabular-nums",
-                  isActive ? surface.medium : "bg-muted"
+                  "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
+                  isActive ? "bg-primary/25 text-foreground" : "bg-foreground/10 text-muted-foreground"
                 )}>
                   {count > 99 ? '99+' : count}
                 </span>
@@ -209,24 +207,23 @@ export const CompactFilterBar = memo(function CompactFilterBar({
             </motion.button>
           );
         })}
-        
+
         {/* Status Filter Chips */}
         {onStatusFilterChange && STATUS_FILTERS.map((filter) => {
           const isActive = statusFilter === filter.id;
           const count = filter.id === 'failed' ? failedCount : undefined;
+          const isFailed = filter.id === 'failed';
 
           return (
             <motion.button
               key={filter.id}
               whileTap={{ scale: 0.95 }}
               className={cn(
-                "flex items-center gap-1.5 px-3.5 py-2 rounded-full whitespace-nowrap text-xs font-medium transition-all flex-shrink-0 min-h-[44px] md:min-h-[36px] touch-manipulation",
-                isActive
-                  ? filter.id === 'failed' 
-                    ? "bg-destructive text-destructive-foreground shadow-md"
-                    : "bg-green-600 text-white shadow-md"
-                  : "bg-muted/60 text-muted-foreground hover:text-foreground hover:bg-muted border border-border/50"
+                "pill-chip flex-shrink-0 touch-manipulation min-h-[44px] md:min-h-[36px]",
+                isActive && isFailed && "!bg-destructive/15 !text-destructive !border-destructive/40",
+                isActive && !isFailed && "!bg-emerald-500/15 !text-emerald-400 !border-emerald-500/40"
               )}
+              data-active={isActive}
               onClick={() => onStatusFilterChange(isActive ? 'all' : filter.id)}
               aria-label={`Фильтр: ${filter.label}`}
               aria-pressed={isActive}
@@ -235,8 +232,8 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               <span>{filter.label}</span>
               {count !== undefined && count > 0 && (
                 <span className={cn(
-                  "text-[10px] px-1 rounded-full min-w-[16px] text-center tabular-nums",
-                  isActive ? surface.medium : "bg-destructive/20 text-destructive"
+                  "text-[10px] px-1.5 py-0.5 rounded-full min-w-[18px] text-center tabular-nums",
+                  isActive ? "bg-destructive/25 text-destructive" : "bg-destructive/15 text-destructive"
                 )}>
                   {count > 99 ? '99+' : count}
                 </span>
