@@ -1,6 +1,5 @@
-<p align="center">
+
   <img src="src\assets\aiimusicverse-banner.png" alt="MusicVerse AI Logo" width="700" height="200" style="border-radius: 24px; margin-bottom: 20px;" />
-</p>
 
 <h1 align="center">🎵 AI MusicVerse</h1>
 
