@@ -72,7 +72,7 @@ import {
   formatLyricsForDisplay,
   type FormattedLyrics,
   type LyricsSection,
-} from '@/services/lyrics.service';
+} from '@/services/lyrics/lyrics-formatting.service';
 import { logger } from '@/lib/logger';
 
 // ============================================================================
