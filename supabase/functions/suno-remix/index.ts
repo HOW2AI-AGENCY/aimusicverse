@@ -319,10 +319,27 @@ serve(async (req) => {
     });
 
     if (deductError) {
-      console.error('[suno-remix] Credit deduction error:', deductError);
+      console.error(JSON.stringify({
+        tag: '[suno-remix]',
+        event: 'credit_deduct_failed',
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: COVER_COST,
+        error: deductError.message,
+        hasVoiceId: !!voiceId,
+      }));
       // Don't fail the request, just log it
     } else {
-      console.log(`[suno-remix] Deducted ${COVER_COST} credits from user ${user.id}`);
+      console.log(JSON.stringify({
+        tag: '[suno-remix]',
+        event: 'credit_deducted',
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: COVER_COST,
+        hasVoiceId: !!voiceId,
+      }));
     }
 
     // Log credit transaction
