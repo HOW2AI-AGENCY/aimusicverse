@@ -23,6 +23,7 @@ import { useWelcomeBonusCheck } from '@/hooks/useCreditsLimits';
 import { useAdminDailyStats } from '@/hooks/useAdminDailyStats';
 import { TELEGRAM_SAFE_AREA } from '@/constants/safe-area';
 import { KeyboardShortcutsProvider } from './navigation/KeyboardShortcutsProvider';
+import { SafeAreaContainer } from './layout/SafeAreaContainer';
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() => import('./onboarding/TelegramOnboarding').then(m => ({ default: m.TelegramOnboarding })));
@@ -325,23 +326,15 @@ export const MainLayout = () => {
             'calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem)',
         }}
       >
-        <div
-          className={cn(
-            'flex-1',
-            isDesktop
-              ? 'p-6'
-              : 'px-4 py-3'
-          )}
-          style={!isDesktop ? {
-            paddingLeft: 'max(1rem, var(--tg-safe-area-inset-left, 0px), env(safe-area-inset-left, 0px))',
-            paddingRight: 'max(1rem, var(--tg-safe-area-inset-right, 0px), env(safe-area-inset-right, 0px))',
-          } : undefined}
+        <SafeAreaContainer
+          sides={isDesktop ? [] : ['left', 'right']}
+          minPaddingRem={1}
+          className={cn('flex-1', isDesktop ? 'p-6' : 'py-3')}
         >
           <div className="mx-auto w-full max-w-screen-2xl">
             <Outlet />
           </div>
-          
-        </div>
+        </SafeAreaContainer>
       </main>
       {/* ResizablePlayer is rendered OUTSIDE <main> because #main-content has
           `contain: layout style` which would create a containing block for
