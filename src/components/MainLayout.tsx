@@ -32,6 +32,7 @@ const GamificationOnboarding = lazy(() => import('./gamification/GamificationOnb
 const GenerateSheet = lazy(() => import('./GenerateSheet').then(m => ({ default: m.GenerateSheet })));
 const GenerationResultSheet = lazy(() => import('./generate-form/GenerationResultSheet').then(m => ({ default: m.GenerationResultSheet })));
 const WelcomeBonusPopup = lazy(() => import('./popups/WelcomeBonusPopup').then(m => ({ default: m.WelcomeBonusPopup })));
+const SafeAreaDebugOverlay = lazy(() => import('./dev/SafeAreaDebugOverlay').then(m => ({ default: m.SafeAreaDebugOverlay })));
 
 const SIDEBAR_COLLAPSED_KEY = 'sidebar-collapsed';
 
@@ -367,6 +368,7 @@ export const MainLayout = () => {
           />
         </Suspense>
       )}
+      <Suspense fallback={null}><SafeAreaDebugOverlay /></Suspense>
     </div>
     </div>
     </KeyboardShortcutsProvider>
