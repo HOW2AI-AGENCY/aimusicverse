@@ -138,7 +138,7 @@ const Index = () => {
         sectionId="hero"
         className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
-        fallback={<HeroSkeleton />}
+        fallback={<div data-safe-skeleton=""><HeroSkeleton /></div>}
       >
         <FirstTimeHeroCard onCreateClick={handleCreate} />
       </HomeSection>
@@ -235,7 +235,7 @@ const Index = () => {
         sectionId="popular"
         className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
-        fallback={<Skeleton className="h-32 rounded-xl" />}
+        fallback={<div data-safe-skeleton=""><Skeleton className="h-32 rounded-xl" /></div>}
       >
         <RecentTracksSection maxTracks={5} />
       </HomeSection>
