@@ -90,6 +90,11 @@
 - [x] 30 компонентов + 4 хука с 0 импортёров
 - [x] TypeScript: 0 ошибок
 
+### Sprint 9E: Verification ✅ COMPLETE (2026-06-25)
+- [x] Исправлены битые barrel exports и импорты ([PR #288](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/288))
+- [x] Vite production build проходит (46s)
+- [x] TypeScript: 0 ошибок
+
 ---
 
 ## 📊 Ключевые метрики
@@ -161,12 +166,12 @@
 ## 🎯 Следующие шаги (Q2-Q3 2026)
 
 ### Приоритет P0 (критичный)
-1. **Sprint 9B: Split Giant Files** — Разбить 50+ файлов >500 строк
-2. **Sprint 9C: Consolidate Lyrics** — 30+ lyrics-компонентов из 6 директорий в одну
+1. **Spec 001: UI Improvements** — Реализация ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+2. **Bundle Size Optimization** — Анализ и оптимизация бандла
 
 ### Приоритет P1 (высокий)
-3. **Sprint 9D: Reorganize components/ui/** — Сгруппировать 90+ файлов
-4. **Spec 001: UI Improvements** — Реализация ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+3. **Reorganize components/ui/** — Сгруппировать 90+ файлов по категориям
+4. **@ts-nocheck cleanup** — Убрать @ts-nocheck из файлов и исправить типы
 
 ### Приоритет P2 (средний)
 5. **Platform Integrations** — Spotify, Apple Music, YouTube export

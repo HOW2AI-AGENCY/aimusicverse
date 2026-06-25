@@ -14,7 +14,7 @@
 | Sprint 9B: Deprecated Compat Layers | ✅ ЗАВЕРШЁН | 1,095 строк удалено |
 | Sprint 9C: Lyrics Dead Code | ✅ ЗАВЕРШЁН | 10 файлов, 3,530 строк |
 | Sprint 9D: Dead Code Sweep | ✅ ЗАВЕРШЁН | 34 файла, 10,360 строк |
-| Sprint 9E: Verification | 📋 ЗАПЛАНИРОВАН | 0% |
+| Sprint 9E: Verification & Fixes | ✅ ЗАВЕРШЁН | Build passes |
 
 ---
 
