@@ -73,8 +73,8 @@ interface InvoicePayload {
 function validateWebhookSignature(req: Request): boolean {
   const secretToken = Deno.env.get('TELEGRAM_WEBHOOK_SECRET_TOKEN');
   if (!secretToken) {
-    logger.warn('TELEGRAM_WEBHOOK_SECRET_TOKEN not configured');
-    return true; // Skip validation if not configured (dev mode)
+    logger.error('TELEGRAM_WEBHOOK_SECRET_TOKEN not configured - rejecting request (fail-closed)');
+    return false; // Fail closed: never accept unsigned webhooks
   }
 
   const headerToken = req.headers.get('x-telegram-bot-api-secret-token');
