@@ -32,14 +32,14 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@/components/ui/drawer';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { 
-  LyricsWorkspace, 
-  LyricsSection, 
-  SectionNotesPanel,
+import {
+  LyricsWorkspace,
+  LyricsSection,
   TagsEditor,
   LyricsHistoryBar,
   LyricsVersionsPanel,
 } from '@/components/lyrics-workspace';
+import { SectionNotesPanel } from '@/components/studio/unified/SectionNotesPanel';
 import { LyricsAIChatAgent } from '@/components/lyrics-workspace/LyricsAIChatAgent';
 import { MobileAIAgentPanel } from '@/components/lyrics-workspace/ai-agent/MobileAIAgentPanel';
 import { useLyricsTemplates } from '@/hooks/useLyricsTemplates';
