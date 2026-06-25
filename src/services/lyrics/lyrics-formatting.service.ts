@@ -195,7 +195,7 @@ export function getLyricsStatistics(content: string): LyricsStatistics {
     sectionsCount
   };
 
-  logger.debug('Lyrics statistics computed', statistics);
+  logger.debug('Lyrics statistics computed', { ...statistics });
 
   return statistics;
 }

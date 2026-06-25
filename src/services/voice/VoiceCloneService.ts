@@ -165,7 +165,7 @@ export class VoiceCloneService {
    * @returns Validation phrase string
    * @throws VoiceCloneServiceError if validation failed
    */
-  async getValidatePhrase(taskId: string): Promise<string> {
+  async getValidatePhrase(taskId: string): Promise<string | null> {
     logger.info('Step 2: Getting validation phrase', { taskId });
 
     try {
@@ -186,7 +186,7 @@ export class VoiceCloneService {
         );
       }
 
-      if (response.status === 'processing' || response.status === 'pending') {
+      if (response.status === 'pending' || response.status === 'processing_validate') {
         // Still processing, need to poll
         logger.info('Step 2: Still processing, poll required');
         return null; // Signal to poll
@@ -252,16 +252,19 @@ export class VoiceCloneService {
     taskId: string,
     options?: PollingOptions
   ): Promise<string> {
-    const pollingOptions = {
-      interval: options?.interval || this.config.pollingInterval,
-      maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts,
+    const pollingOptions: PollingOptions = {
+      interval: options?.interval || this.config.pollingInterval || DEFAULT_CONFIG.pollingInterval,
+      maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts || DEFAULT_CONFIG.maxPollingAttempts,
       onProgress: options?.onProgress,
       abortSignal: options?.abortSignal,
     };
 
+    const maxAttempts = pollingOptions.maxAttempts!;
+    const interval = pollingOptions.interval!;
+
     logger.info('Polling for validation phrase', { taskId, pollingOptions });
 
-    for (let attempt = 1; attempt <= pollingOptions.maxAttempts; attempt++) {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       if (pollingOptions.abortSignal?.aborted) {
         throw new VoiceCloneServiceError(
           'Polling aborted',
@@ -273,7 +276,7 @@ export class VoiceCloneService {
         );
       }
 
-      pollingOptions.onProgress?.(attempt, pollingOptions.maxAttempts);
+      pollingOptions.onProgress?.(attempt, maxAttempts);
 
       const result = await this.getValidatePhrase(taskId);
 
@@ -284,8 +287,8 @@ export class VoiceCloneService {
       }
 
       // Wait before next poll
-      if (attempt < pollingOptions.maxAttempts) {
-        await this.delay(pollingOptions.interval);
+      if (attempt < maxAttempts) {
+        await this.delay(interval);
       }
     }
 
@@ -293,7 +296,7 @@ export class VoiceCloneService {
       'Timeout waiting for validation phrase',
       'POLLING_TIMEOUT',
       408,
-      { maxAttempts: pollingOptions.maxAttempts },
+      { maxAttempts },
       'validate_phrase',
       true
     );
@@ -353,7 +356,7 @@ export class VoiceCloneService {
    * @returns Voice ID string
    * @throws VoiceCloneServiceError if generation failed
    */
-  async getVoiceId(taskId: string): Promise<string> {
+  async getVoiceId(taskId: string): Promise<string | null> {
     logger.info('Step 5: Getting voice ID', { taskId });
 
     try {
@@ -374,7 +377,7 @@ export class VoiceCloneService {
         );
       }
 
-      if (response.status === 'processing' || response.status === 'pending') {
+      if (response.status === 'pending' || response.status === 'processing_record') {
         // Still processing, need to poll
         logger.info('Step 5: Still processing, poll required');
         return null; // Signal to poll
@@ -409,16 +412,19 @@ export class VoiceCloneService {
     taskId: string,
     options?: PollingOptions
   ): Promise<string> {
-    const pollingOptions = {
-      interval: options?.interval || this.config.pollingInterval,
-      maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts,
+    const pollingOptions: PollingOptions = {
+      interval: options?.interval || this.config.pollingInterval || DEFAULT_CONFIG.pollingInterval,
+      maxAttempts: options?.maxAttempts || this.config.maxPollingAttempts || DEFAULT_CONFIG.maxPollingAttempts,
       onProgress: options?.onProgress,
       abortSignal: options?.abortSignal,
     };
 
+    const maxAttempts = pollingOptions.maxAttempts!;
+    const interval = pollingOptions.interval!;
+
     logger.info('Polling for voice ID', { taskId, pollingOptions });
 
-    for (let attempt = 1; attempt <= pollingOptions.maxAttempts; attempt++) {
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       if (pollingOptions.abortSignal?.aborted) {
         throw new VoiceCloneServiceError(
           'Polling aborted',
@@ -430,7 +436,7 @@ export class VoiceCloneService {
         );
       }
 
-      pollingOptions.onProgress?.(attempt, pollingOptions.maxAttempts);
+      pollingOptions.onProgress?.(attempt, maxAttempts);
 
       const result = await this.getVoiceId(taskId);
 
@@ -441,8 +447,8 @@ export class VoiceCloneService {
       }
 
       // Wait before next poll
-      if (attempt < pollingOptions.maxAttempts) {
-        await this.delay(pollingOptions.interval);
+      if (attempt < maxAttempts) {
+        await this.delay(interval);
       }
     }
 
@@ -450,7 +456,7 @@ export class VoiceCloneService {
       'Timeout waiting for voice ID',
       'POLLING_TIMEOUT',
       408,
-      { maxAttempts: pollingOptions.maxAttempts },
+      { maxAttempts },
       'wait_voice_id',
       true
     );

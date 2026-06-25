@@ -15,7 +15,7 @@
  */
 
 import React, { useState, useRef, useEffect } from 'react';
-import { WaveSurfer } from 'wavesurfer.js';
+import WaveSurfer from 'wavesurfer.js';
 import { logger } from '@/lib/logger';
 import { useVoiceCloning } from '@/hooks/useVoiceCloning';
 import { Button } from '@/components/ui/button';
@@ -49,7 +49,7 @@ export function VoiceCloningStudio({
     apiKey,
     baseUrl,
     onProgress: (progress) => {
-      logger.info('Voice cloning progress', progress);
+      logger.info('Voice cloning progress', { step: progress.step, percentage: progress.percentage, message: progress.message });
     },
     onComplete: (voiceId) => {
       logger.info('Voice cloning completed', { voiceId });
@@ -70,7 +70,7 @@ export function VoiceCloningStudio({
           }
 
           const wavesurfer = WaveSurfer.create({
-            container: waveformRef.current,
+            container: waveformRef.current!,
             waveColor: '#6366f1',
             progressColor: '#8b5cf6',
             cursorColor: '#a78bfa',
@@ -81,13 +81,13 @@ export function VoiceCloningStudio({
           });
 
           // Load audio file
-          const audioUrl = URL.createObjectURL(voiceCloning.audioFile);
+          const audioUrl = URL.createObjectURL(voiceCloning.audioFile as Blob);
           await wavesurfer.load(audioUrl);
 
           wavesurferRef.current = wavesurfer;
 
           // Enable segment selection
-          wavesurfer.on('region-click', (region) => {
+          (wavesurfer as any).on('region-click', (region: { start: number; end: number }) => {
             const start = region.start;
             const end = region.end;
             voiceCloning.setSegmentTimes(start, end);

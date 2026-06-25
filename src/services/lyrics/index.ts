@@ -32,8 +32,6 @@ export type {
   BatchLyricsResult,
   SaveLyricsRequest,
   SectionNotesBatchOperation,
-  ValidationResult,
-  ContentQualityMetrics,
   LyricsStatistics
 } from './lyrics-types';
 
@@ -101,17 +99,24 @@ export {
 // CONVENIENCE EXPORTS
 // ============================================================================
 
+// Import functions for deprecated re-exports
+import { getLyricsStatistics as _getLyricsStatistics } from './lyrics-validation.service';
+import {
+  formatLyricsForDisplay as _formatLyricsForDisplay,
+  extractLyricsSections as _extractLyricsSections,
+} from './lyrics-formatting.service';
+
 /**
  * @deprecated Use getLyricsStatistics from lyrics-validation.service instead
  */
-export const computeLyricsStats = getLyricsStatistics;
+export const computeLyricsStats = _getLyricsStatistics;
 
 /**
  * @deprecated Use formatLyricsForDisplay from lyrics-formatting.service instead
  */
-export const formatLyrics = formatLyricsForDisplay;
+export const formatLyrics = _formatLyricsForDisplay;
 
 /**
  * @deprecated Use extractLyricsSections from lyrics-formatting.service instead
  */
-export const parseLyricsStructure = extractLyricsSections;
+export const parseLyricsStructure = _extractLyricsSections;

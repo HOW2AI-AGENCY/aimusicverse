@@ -57,6 +57,9 @@ interface UseVoiceCloningReturn {
   audioFile: File | null;
   audioFileInfo: AudioFileInfo | null;
 
+  // Segment times
+  segmentTimes: { startS: number; endS: number } | null;
+
   // Validation phrase
   validatePhrase: string | null;
 
@@ -145,15 +148,15 @@ export function useVoiceCloning(options: UseVoiceCloningOptions): UseVoiceClonin
       totalSteps: 6,
       percentage: ((currentStepIndex + 1) / 6) * 100,
       message: getStepMessage(step),
-      validateTaskId,
-      generateTaskId,
-      voiceId,
+      validateTaskId: validateTaskId ?? undefined,
+      generateTaskId: generateTaskId ?? undefined,
+      voiceId: voiceId ?? undefined,
       isValidating,
       isPhraseLoading,
       isGenerating,
       isGettingVoiceId,
       isChecking,
-      error: error || undefined,
+      error: error ? { code: 'UNKNOWN', message: error.message, details: error } : undefined,
       ...progress,
     };
 
@@ -459,6 +462,7 @@ export function useVoiceCloning(options: UseVoiceCloningOptions): UseVoiceClonin
 
     audioFile,
     audioFileInfo,
+    segmentTimes,
     validatePhrase,
 
     recordingUrl,
