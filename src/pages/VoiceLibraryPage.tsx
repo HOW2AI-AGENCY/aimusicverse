@@ -24,7 +24,12 @@ export default function VoiceLibraryPage() {
           <h1 className="text-2xl font-bold flex items-center gap-2"><Mic2 className="h-6 w-6" />Голоса</h1>
           <p className="text-sm text-muted-foreground">Создавайте кастомные голоса и используйте их в генерации</p>
         </div>
-        <Button onClick={() => setWizardOpen(true)}><Plus className="mr-2 h-4 w-4" />Новый голос</Button>
+        <div className="flex gap-2">
+          <Button variant="outline" asChild>
+            <Link to="/voices/history"><History className="mr-2 h-4 w-4" />История</Link>
+          </Button>
+          <Button onClick={() => setWizardOpen(true)}><Plus className="mr-2 h-4 w-4" />Новый голос</Button>
+        </div>
       </div>
 
       {isLoading && <p className="text-sm text-muted-foreground">Загрузка…</p>}
