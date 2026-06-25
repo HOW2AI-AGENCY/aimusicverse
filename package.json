@@ -20,17 +20,34 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:report": "playwright show-report",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "lint:filenames": "node scripts/lint-filenames.js",
     "migrate:filenames": "node scripts/migrate-filenames.js",
     "migrate:filenames:dry": "node scripts/migrate-filenames.js --dry-run",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "size": "size-limit",
     "size:why": "size-limit --why",
     "size:track": "node scripts/track-bundle-size.js",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky",
+    "typecheck": "tsc --noEmit",
+    "typecheck:strict": "tsc --noEmit --strict",
+    "check-all": "npm run lint && npm run format:check && npm run typecheck && npm run test",
+    "clean": "rm -rf dist coverage storybook-static node_modules",
+    "ci:build": "npm run lint && npm run build && npm run test:coverage"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,css}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -64,7 +81,6 @@
     "@radix-ui/react-toggle-group": "^1.1.11",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-spring/web": "^10.0.3",
-    "@rollup/rollup-win32-x64-msvc": "^4.62.2",
     "@sentry/react": "^10.31.0",
     "@supabase/supabase-js": "^2.86.0",
     "@tailwindcss/postcss": "^4.1.17",
@@ -156,6 +172,8 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-storybook": "^0.8.0",
     "fast-check": "^4.5.3",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.0.0",
     "playwright": "^1.57.0",
     "rollup-plugin-visualizer": "^6.0.5",
     "storybook": "^8.1.0",
