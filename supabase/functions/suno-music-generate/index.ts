@@ -178,6 +178,7 @@ serve(async (req) => {
       weirdnessConstraint,
       audioWeight,
       personaId,
+      voiceId,
       projectId,
       artistId,
       planTrackId, // Link to project_tracks for status update
