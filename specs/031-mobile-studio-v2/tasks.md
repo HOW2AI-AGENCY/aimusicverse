@@ -5,6 +5,14 @@
 
 **Tests**: Tests are OPTIONAL per spec - not explicitly requested. Test tasks omitted to focus on implementation.
 
+> **⚠️ Audit reconciliation (2026-06-25):** `SPRINT-PROGRESS.md` previously claimed Sprint 031 "100% complete" — this is inaccurate. Reality:
+> - **US1 (Lyrics)** ✅ implemented (LyricsPanel, useLyricVersions, SectionNotesPanel wired into StudioShell).
+> - **US2 (MusicLab)** 🟡 partially implemented but under *different* names than tasks below (`MusicLabPanel` uses `useRealtimeChordDetection`/`usePromptDJ`, not the planned `useRecordings`/`useChordDetection`). Checkboxes below were never updated.
+> - **US3 (Presets)** 🟡 hook + PresetManager component now built (this session); dashboard sub-tasks still open.
+> - **US4–US8** mostly exist in scattered/legacy form (`useBatchStemProcessing`, `PianoRoll`, `AIActionsFAB`, `useStudioKeyboardShortcuts`, `SectionReplacementHistory`) but are **not** integrated into the unified StudioShell as specced.
+>
+> Treat the checkboxes as a planning artifact, not ground truth — verify against `src/` before starting any task.
+
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
 ## Format: `[ID] [P?] [Story] Description`
@@ -111,17 +119,17 @@ Single web application structure: `src/`, `supabase/`, `tests/` at repository ro
 
 ### Implementation for User Story 3
 
-- [ ] T040 [P] [US3] Create usePresets hook in src/hooks/usePresets.ts
+- [x] T040 [P] [US3] Create usePresets hook in src/hooks/usePresets.ts (2026-06-25 — wraps presets.api.ts with TanStack Query: list/detail/create/update/delete/apply/clone)
 - [ ] T041 [P] [US3] Create useDashboardStats hook in src/hooks/useDashboardStats.ts
-- [ ] T042 [US3] Create presets service in src/services/presets.service.ts (depends on T040, T041)
+- [~] T042 [US3] Presets service — collapsed into usePresets hook + presets.api.ts per existing project pattern (see useLyricVersions); no separate src/services/presets.service.ts file created
 - [ ] T043 [US3] Create dashboard service in src/services/dashboard.service.ts
-- [ ] T044 [US3] Create ProfessionalDashboard component in src/components/studio/unified/ProfessionalDashboard.tsx
-- [ ] T045 [US3] Create PresetManager component in src/components/studio/unified/PresetManager.tsx
+- [ ] T044 [US3] Create ProfessionalDashboard component in src/components/studio/unified/ProfessionalDashboard.tsx (NOTE: a standalone ProfessionalDashboard already exists at src/pages/ProfessionalDashboard.tsx — needs unified-studio integration, not a new build)
+- [x] T045 [US3] Create PresetManager component in src/components/studio/unified/PresetManager.tsx (2026-06-25 — category tabs, search, apply/save/clone/delete, ownership grouping, 44px targets, haptics)
 - [ ] T046 [US3] Create workflow visualization component in src/components/studio/unified/WorkflowVisualization.tsx
 - [ ] T047 [US3] Create stats cards component in src/components/studio/unified/DashboardStatsCards.tsx
-- [ ] T048 [US3] Integrate ProfessionalDashboard into StudioShell in src/components/studio/unified/StudioShell.tsx
+- [x] T048 [US3] Integrate presets into StudioShell (2026-06-25 — StudioPresetsSheet wraps PresetManager; opened via "Пресеты" action in StudioActionsSheet, applies to project.id). Dashboard/stats integration still pending (T041/T043/T044/T046/T047).
 
-**Checkpoint**: User Story 3 fully functional - users can view stats and manage presets
+**Checkpoint**: Presets sub-story functional — users can browse, apply, save, clone, and delete presets from the studio actions sheet. Dashboard/stats portion of US3 remains open.
 
 ---
 

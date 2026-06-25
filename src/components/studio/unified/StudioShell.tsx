@@ -49,6 +49,7 @@ import { AutoSaveIndicator } from './AutoSaveIndicator';
 import { LyricsPanel } from './LyricsPanel';
 import { StudioLyricsSheet } from './StudioLyricsSheet';
 import { StudioMusicLabSheet } from './StudioMusicLabSheet';
+import { StudioPresetsSheet } from './StudioPresetsSheet';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -223,6 +224,9 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
   
   // Lyrics sheet state (opens as overlay, not tab)
   const [showLyricsSheet, setShowLyricsSheet] = useState(false);
+
+  // Presets sheet state (Sprint 031 US3 - opens as overlay)
+  const [showPresetsSheet, setShowPresetsSheet] = useState(false);
 
   // Section editor store
   const {
@@ -1360,6 +1364,16 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         onBack={handleBack}
         onOpenMusicLab={() => setShowMusicLabSheet(true)}
         onOpenLyrics={() => setShowLyricsSheet(true)}
+        onOpenPresets={() => setShowPresetsSheet(true)}
+      />
+
+      {/* Presets Sheet - apply/save mixer & effects presets (Sprint 031 US3) */}
+      <StudioPresetsSheet
+        open={showPresetsSheet}
+        onOpenChange={setShowPresetsSheet}
+        trackId={project.id}
+        currentSettings={{ mixer: { volume: project.masterVolume, pan: 0 } }}
+        defaultCategory="mastering"
       />
 
       {/* Mobile Mixer Sheet */}
