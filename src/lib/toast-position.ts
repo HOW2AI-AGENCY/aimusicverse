@@ -10,31 +10,30 @@
  */
 export function getToastStyles(isMobile: boolean, telegramOffset: number = 0) {
   if (isMobile) {
-    // Use the unified `--bottom-stack-h` CSS var (BottomNav + Player + safe-area)
-    // published by MainLayout, plus a small extra gap and Telegram-specific offset.
+    // Symmetric gutters: position the toaster as a full-width container with
+    // 16px insets, then constrain each toast via Sonner's `--width` CSS var.
+    // This avoids Sonner's internal centering drifting on narrow viewports.
     return {
       bottom: `calc(var(--bottom-stack-h, 0px) + 1rem + ${telegramOffset}px)`,
-
-      // Force true centering on mobile (Sonner's internal layout can drift in Telegram)
-      left: '50%',
-      right: 'auto',
-      transform: 'translateX(-50%)',
-
-      // IMPORTANT: use 100% (not 100vw) to avoid Telegram/scrollbar viewport quirks
-      width: 'calc(100% - 2rem)',
-      maxWidth: 'min(28rem, calc(100% - 2rem))',
+      left: '1rem',
+      right: '1rem',
+      width: 'auto',
+      transform: 'none',
+      // Each toast fills the container minus its own internal margins
+      ['--width' as string]: 'min(28rem, calc(100vw - 2rem))',
+      ['--mobile-offset' as string]: '0px',
     };
   }
 
   return {
     // Top positioning with Telegram safe area
     top: 'max(calc(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 1rem), calc(env(safe-area-inset-top, 0px) + 1rem))',
-    // Centered on desktop
     left: '50%',
     right: 'auto',
     transform: 'translateX(-50%)',
     width: 'auto',
     maxWidth: '24rem',
+    ['--width' as string]: '24rem',
   };
 }
 
