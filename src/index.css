@@ -235,12 +235,12 @@ All colors MUST be HSL.
     --glass-border: 226 30% 22%;
     --glass-shadow: 0 8px 32px 0 hsl(240 60% 2% / 0.55);
 
-    --gradient-primary: linear-gradient(135deg, hsl(142 71% 58%), hsl(199 89% 60%));
+    --gradient-primary: linear-gradient(135deg, hsl(152 42% 56%), hsl(199 70% 62%));
     --gradient-card: linear-gradient(135deg, hsl(227 38% 12% / 0.85), hsl(240 46% 6% / 0.65));
-    --gradient-hero: linear-gradient(135deg, hsl(142 71% 58% / 0.12), hsl(262 75% 68% / 0.12));
-    --gradient-telegram: linear-gradient(135deg, hsl(199 89% 60%), hsl(262 75% 68%));
-    --gradient-generate: linear-gradient(135deg, hsl(142 71% 58%), hsl(199 89% 60%));
-    --gradient-success: linear-gradient(135deg, hsl(142 71% 58%), hsl(160 70% 50%));
+    --gradient-hero: linear-gradient(135deg, hsl(152 42% 56% / 0.12), hsl(262 55% 70% / 0.12));
+    --gradient-telegram: linear-gradient(135deg, hsl(199 70% 62%), hsl(262 55% 70%));
+    --gradient-generate: linear-gradient(135deg, hsl(152 42% 56%), hsl(199 70% 62%));
+    --gradient-success: linear-gradient(135deg, hsl(152 42% 56%), hsl(160 45% 52%));
 
     --shadow-glass: 0 4px 24px 0 hsl(240 60% 2% / 0.5);
     --shadow-hover: 0 8px 32px 0 hsl(207 90% 54% / 0.2);
@@ -1969,7 +1969,7 @@ select:focus-visible,
   .aurora-surface {
     background:
       radial-gradient(120% 80% at 0% 0%, hsl(var(--primary) / 0.18) 0%, transparent 55%),
-      radial-gradient(120% 80% at 100% 100%, hsl(142 71% 58% / 0.14) 0%, transparent 60%),
+      radial-gradient(120% 80% at 100% 100%, hsl(152 42% 56% / 0.14) 0%, transparent 60%),
       hsl(var(--card) / 0.6);
     border: 1px solid hsl(var(--border) / 0.55);
     backdrop-filter: blur(18px) saturate(160%);
@@ -1979,7 +1979,7 @@ select:focus-visible,
     box-shadow:
       0 0 0 1px hsl(var(--primary) / 0.25) inset,
       0 8px 28px -6px hsl(var(--primary) / 0.45),
-      0 2px 8px -2px hsl(142 71% 58% / 0.35);
+      0 2px 8px -2px hsl(152 42% 56% / 0.35);
   }
   /* Subtle moving sheen for emphasis (CTAs, generating state) */
   .sheen {
