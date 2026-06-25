@@ -115,7 +115,7 @@ export default function Library() {
 
   // Get selected track data for detail panel
   const selectedTrack = selectedTrackId
-    ? filteredTracks.find(t => t.id === selectedTrackId)
+    ? filteredTracks.find(t => t.id === selectedTrackId) ?? null
     : null;
 
   // Keyboard shortcuts for desktop
@@ -134,7 +134,7 @@ export default function Library() {
         if (isPlaying) {
           pauseTrack();
         } else if (selectedTrack) {
-          handlePlay(selectedTrack as any);
+          handlePlay(selectedTrack);
         }
       }
 
@@ -160,7 +160,7 @@ export default function Library() {
       // Enter: Open in detail panel or play
       if (e.code === 'Enter' && selectedTrack) {
         e.preventDefault();
-        handlePlay(selectedTrack as any);
+        handlePlay(selectedTrack);
       }
 
       // Escape: Close detail panel
@@ -445,8 +445,8 @@ export default function Library() {
           {!isMobile && selectedTrackId && (
             <div className="w-[40%] min-w-[320px] max-w-[480px] bg-card/50 border-l border-border/30 flex-shrink-0">
               <TrackDetailPanel
-                track={selectedTrack as any}
-                onPlay={handlePlay as any}
+                track={selectedTrack}
+                onPlay={handlePlay}
                 onClose={() => setSelectedTrackId(null)}
               />
             </div>
