@@ -34,6 +34,7 @@ serve(async (req) => {
       coverAudioUrl,
       stemMode,
       defaultParamFlag,
+      voiceId,
     } = body;
 
     console.log(`[suno-generate] Legacy proxy - action: ${action}`);
