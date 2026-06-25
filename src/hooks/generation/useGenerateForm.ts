@@ -787,6 +787,7 @@ export function useGenerateForm({
               projectId: selectedProjectId || initialProjectId,
               planTrackId: planTrackId,
               parentTrackId: parentTrackId,
+              voiceId: customVoiceId || undefined,
               isPublic, // Track visibility
             },
           });
