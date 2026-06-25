@@ -99,7 +99,16 @@ Deno.serve(async (req) => {
 
     // Metrics endpoint
     if (url.pathname === '/metrics') {
+      const { authorize } = await import('../_shared/auth.ts');
+      const auth = await authorize(req, { requireAdmin: true });
+      if (!auth.ok) {
+        return new Response(JSON.stringify({ error: auth.error }), {
+          status: auth.status,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
       const supabase = getSupabaseClient();
+
       
       const { data, error } = await supabase.rpc('get_telegram_bot_metrics', { 
         _time_period: url.searchParams.get('period') || '24 hours' 
