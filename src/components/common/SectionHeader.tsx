@@ -127,15 +127,19 @@ export const SectionHeader = memo(function SectionHeader({
             <Heading level={headingLevel} className="truncate text-sm sm:text-base">
               {title}
             </Heading>
-            {badge && (
-              <Badge
-                variant={badge.variant || "secondary"}
-                className={cn("text-[10px] h-4 gap-0.5 shrink-0", badge.className)}
-              >
-                {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
-                {badge.label}
-              </Badge>
-            )}
+            {badge &&
+              (typeof badge === "object" && badge !== null && "label" in badge ? (
+                <Badge
+                  variant={badge.variant || "secondary"}
+                  className={cn("text-[10px] h-4 gap-0.5 shrink-0", badge.className)}
+                >
+                  {badge.icon && <badge.icon className="w-2.5 h-2.5" />}
+                  {badge.label}
+                </Badge>
+              ) : (
+                badge
+              ))}
+
           </div>
           {subtitle && (
             <Text variant={textSize} className="truncate text-muted-foreground">
