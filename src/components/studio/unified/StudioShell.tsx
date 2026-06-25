@@ -1322,6 +1322,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
           }}
           onOpenMusicLab={() => setShowMusicLabSheet(true)}
           onOpenLyrics={() => setShowLyricsSheet(true)}
+          onOpenPresets={() => setShowPresetsSheet(true)}
+          onOpenDashboard={() => setShowDashboardSheet(true)}
           disabledOperations={operationLock.blockedOperations}
           getDisabledReason={operationLock.getBlockReason}
           canSaveAsNewVersion={operationLock.canSaveAsNewVersion}
