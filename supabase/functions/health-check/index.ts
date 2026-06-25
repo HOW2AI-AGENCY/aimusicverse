@@ -38,6 +38,22 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Allow cron with shared secret, otherwise require admin auth
+  const cronSecret = Deno.env.get('CRON_SECRET');
+  const isCron = !!cronSecret && req.headers.get('x-cron-secret') === cronSecret;
+  if (!isCron) {
+    const { authorize } = await import('../_shared/auth.ts');
+    const auth = await authorize(req, { requireAdmin: true });
+    if (!auth.ok) {
+      return new Response(JSON.stringify({ error: auth.error }), {
+        status: auth.status,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+  }
+
+
+
   const startTime = Date.now();
   logger.info('Starting health check');
 
