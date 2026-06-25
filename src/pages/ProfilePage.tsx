@@ -145,6 +145,7 @@ export const ProfilePage = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.1 }}
       className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:gap-4"
+      data-safe-skeleton={statsLoading ? "" : undefined}
     >
       {statItems.map((stat) => (
         <Card key={stat.label} className="p-4 lg:p-5 glass-card border-border/50 transition-all hover:shadow-md hover:scale-[1.02]">
