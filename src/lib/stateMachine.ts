@@ -104,7 +104,7 @@ export function createMachine<
 
       // Debug log in development
       if (import.meta.env.DEV) {
-        console.debug(`[StateMachine] ${previousState} -> ${nextState} (${event})`);
+        logger.debug(`[StateMachine] ${previousState} -> ${nextState} (${event})`);
       }
     },
 

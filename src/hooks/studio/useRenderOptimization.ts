@@ -4,6 +4,7 @@
  */
 
 import { useCallback, useRef, useMemo, useEffect, useState } from 'react';
+import { logger } from '@/lib/logger';
 
 /**
  * Batches multiple state updates into a single render
@@ -175,7 +176,7 @@ export function useRenderTracker(
     });
 
     if (changedProps.length > 0) {
-      console.log(`[RenderTracker] ${componentName} re-rendered due to:`, changedProps);
+      logger.info(`[RenderTracker] ${componentName} re-rendered`, { changedProps });
     }
 
     prevPropsRef.current = { ...props };

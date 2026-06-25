@@ -1,94 +1,74 @@
-# План оптимизации и улучшения MusicVerse AI
+# План дальнейшей работы над MusicVerse AI
 
-На основе аудита: 40+ страниц, 890+ компонентов, 200+ хуков, 80+ Edge Functions, Sprint 030 (98/100). Ниже — приоритизированный план работ.
+Опираясь на завершённые Этапы 1–2 (motion tree-shaking, lazy images, audio cleanup, ESLint guard, SEO на 6 страницах, фикс динамических импортов), ниже — структурированный план следующих итераций.
 
----
+## Этап 3 — Стабильность и качество кода (приоритет: высокий)
 
-## ЭТАП 1. Производительность и бандл (P0, 1–2 недели)
+1. **Полная миграция `console.*` → `logger`** (~33 файла)
+   - Группы: `src/lib/*`, `src/services/*`, `src/components/admin/*`, `src/hooks/*`
+   - Сохранение сигнатур: `console.error(msg, err)` → `logger.error(msg, err, ctx?)`
+   - Отдельный проход по edge-функциям (`supabase/functions/*`) пропускаем — там свой logger
+2. **Фикс существующих ошибок типизации**
+   - `TrackCardSkeleton`, `TrackListSkeleton` — устранить TS-ошибки (обнаружены ранее)
+   - Запустить `tsgo` глобально, собрать список и закрыть пакетами по 5–10 файлов
+3. **ESLint расширение**
+   - Запретить прямой `from "lucide-react"` (заставлять `@/lib/icons`)
+   - Запретить `console.*` (warn-уровень) кроме `src/lib/logger.ts`
 
-**Цель:** удержать бандл ≤ 950 KB, поднять LCP/INP на мобильных.
+## Этап 4 — Производительность (приоритет: высокий)
 
-- Анализ `npm run size:why`, выделить топ-10 тяжёлых чанков.
-- Перевести оставшиеся `framer-motion` импорты на `@/lib/motion`; запретить прямой импорт через ESLint-правило.
-- Lazy-load для тяжёлых страниц: `studio-v2`, `LyricsStudio`, `GuitarStudio`, `Analytics`, `AdminDashboard`.
-- Виртуализация всех списков > 50 элементов (`Library`, `Playlists`, `Community`, `Artists`) через `react-virtuoso`.
-- Заменить `<img>` на `LazyImage` везде (audit-скрипт).
-- Удалить `Index.tsx.backup` и прочие мёртвые файлы.
-- Добавить preconnect/preload для критичных доменов (Supabase, CDN обложек).
+4. **Bundle audit**
+   - Запустить `npm run size:why`, выявить топ-5 чанков-перевесов
+   - Кандидаты на разделение: `feature-studio` (UnifiedStudioStore 38KB), `vendor-tone`, `vendor-wavesurfer`
+   - Lazy-load Tone.js/Wavesurfer только в Studio-маршрутах
+5. **Audio Element Pool — полная миграция**
+   - Перевести оставшиеся `new Audio()` в `ABCompareOverlay`, `QuickCompare`, `SectionVariantOverlay` на `audioElementPool.acquire/release`
+   - Критично для iOS Safari (>10 элементов = краш)
+6. **Image optimization pipeline**
+   - Подключить `vite-imagetools` для AVIF/WebP вариантов hero/cover изображений
+   - Preload LCP-изображения на `Index`, `Pricing`, `AlbumView`
 
-**Метрики приёмки:** bundle ≤ 900 KB, LCP < 2.5s на 4G, INP < 200ms.
+## Этап 5 — UX и мобильный опыт (приоритет: средний)
 
----
+7. **Telegram Mini App полировка**
+   - Аудит safe-area на всех страницах (особенно модалки/sheets)
+   - Унификация `BackButton` через `useTelegramBackButton` (см. mem://infrastructure/telegram/back-button-navigation)
+   - `MainButton` для ключевых CTA (генерация, публикация)
+8. **Haptic feedback**
+   - Применить стандарт `impact()` ко всем интерактивам по ТЗ из mem://ux/standardized-haptic-feedback
+9. **SEOHead — расширение покрытия**
+   - Добавить на остальные 30 публичных страниц (динамические: ProjectDetail, TrackDetail)
+   - JSON-LD `MusicRecording`, `MusicAlbum`, `Person` для богатых сниппетов
 
-## ЭТАП 2. Аудио-система и плеер (P0, 1 неделя)
+## Этап 6 — Архитектурный рефакторинг (приоритет: средний)
 
-**Цель:** убрать iOS-краши и рассинхрон версий A/B.
+10. **Разделение крупных файлов**
+    - `useUnifiedStudioStore` (38KB) → доменные slices: playback, sections, stems, history
+    - `GlobalAudioProvider` (625 строк) → выделить хуки: `useAudioElement`, `useMediaSession`, `usePlaybackQueue`
+11. **API/Service layer консистентность**
+    - Аудит: все компоненты обращаются к Supabase ТОЛЬКО через `src/api/*` или `src/services/*`
+    - Запрет прямого `supabase.from()` в компонентах через ESLint-правило
 
-- Аудит всех `new Audio()` в коде — оставить только `GlobalAudioProvider` + `audioElementPool`.
-- Гарантировать cleanup (`pause()` + `src=''`) при unmount компонентов с превью.
-- Атомарное переключение версий: транзакция `is_primary` + `active_version_id` через RPC.
-- Кеш waveform в IndexedDB по `trackId` (проверить попадания).
-- Тесты: Playwright-сценарии play/pause/switch/seek на Mobile Safari.
+## Этап 7 — Тесты и CI (приоритет: ниже)
 
----
+12. **Unit-coverage критичных модулей**
+    - `audioElementPool`, `logger`, `secure_credit_update`, `useVersionSwitcher` — цель 80%
+13. **E2E Playwright smoke**
+    - Сценарии: генерация → A/B → публикация; стем-сепарация; шаринг в Telegram
+14. **Bundle-size gate в CI** (если ещё нет) — fail > 950 KB
 
-## ЭТАП 3. Мобильная UX и Telegram (P1, 1–2 недели)
+## Технические заметки
 
-- Унификация safe-area: `--tg-content-safe-area-inset-*` + `env(safe-area-inset-*)` через util-класс.
-- Заменить оставшиеся `<Dialog>` на `MobileBottomSheet` (vaul) на мобильных.
-- Touch targets ≥ 44×44 (axe + ручной чек на главных экранах).
-- Haptic feedback на ключевых действиях (play, like, generate, switch version).
-- Back Button и Main Button proxy hooks применить во всех вложенных экранах.
-- E2E на ширинах 360/390/414/640/768 px для главной, библиотеки, студии, плеера.
+- Все изменения — инкрементальными PR (3–5 файлов за раз), без переноса бизнес-логики
+- Перед каждым этапом — `tsgo` и `npm run size`
+- Логирование изменений — в `.lovable/plan.md` для трассируемости
 
----
+## Что НЕ делаем сейчас
 
-## ЭТАП 4. Архитектура и качество кода (P1, 2 недели)
-
-- Разбить «крупные» сторы/компоненты > 500 строк: `useUnifiedStudioStore` (38KB) → domain slices (playback, mixer, sections, stems).
-- Заменить оставшиеся `console.*` на `logger` (ESLint-правило `no-console`).
-- Привести API↔Service↔Hook слои к единому шаблону; удалить дубли (`useTracks` vs прямые запросы).
-- Удалить дублирующие version-селекторы — оставить только `UnifiedVersionSelector`.
-- Включить `strict` + `noUncheckedIndexedAccess` в `tsconfig`, починить ошибки.
-- Покрытие unit-тестами критичных хуков (player, versioning, credits) до 70%.
-
----
-
-## ЭТАП 5. Backend, безопасность, наблюдаемость (P1, 1 неделя)
-
-- Линтер БД: `supabase linter` + фикс warning'ов.
-- Аудит RLS на новых таблицах; e2e-тест «чужой пользователь не видит чужое».
-- Привести все Edge Functions к общему скелету `_shared/auth.ts` + структурированному логу.
-- Sentry: проверить sourcemaps, добавить release health, алерты по ошибкам плеера и генерации.
-- Архивирование `api_usage_logs` / `error_logs` старше 30 дней (cron).
-
----
-
-## ЭТАП 6. Доступность и SEO (P2, 3–5 дней)
-
-- WCAG AA: focus-visible ring везде, контрасты, aria-label у иконочных кнопок.
-- Семантика: один H1 на страницу, корректные landmark'и.
-- SEO: meta description, OG/Twitter, JSON-LD (MusicGroup/MusicRecording) для публичных страниц трека и артиста.
-- Canonical + sitemap.xml для публичных маршрутов.
+- Большой UI-редизайн (нет запроса от пользователя)
+- Миграция на React Server Components / Next.js (стек зафиксирован)
+- Замена Zustand на Redux/Jotai (текущий стек стабилен)
 
 ---
 
-## ЭТАП 7. Документация и DX (P2, постоянно)
-
-- Обновить `KNOWLEDGE_BASE.md`, `PROJECT_STATUS.md`, `docs/PLAYER_ARCHITECTURE.md`.
-- Storybook для базовых UI + плеера + версии-селектора.
-- CI gate: `npm run lint && size && test && test:e2e:mobile` обязательны.
-
----
-
-## Порядок выполнения
-
-```text
-Неделя 1: ЭТАП 1 + ЭТАП 2 (perf + audio)
-Неделя 2: ЭТАП 3 (mobile/Telegram UX)
-Неделя 3: ЭТАП 4 (refactor + types)
-Неделя 4: ЭТАП 5 + ЭТАП 6 (backend/sec + a11y/seo)
-Параллельно: ЭТАП 7
-```
-
-После твоего «ок» начну с ЭТАПА 1 (perf-аудит и lazy-loading) — или скажи, с какого этапа стартовать.
+**Вопрос перед стартом:** с какого этапа начинаем? Рекомендую **Этап 3 (п.1 — console→logger по группам) + п.4 (bundle audit)** параллельно, так как они независимы и дают быстрый измеримый эффект.

@@ -8,8 +8,9 @@
  */
 
 // Core skeleton components
+// Core skeleton components
+export { TrackCardSkeleton, TrackGridSkeleton as TrackGridSkeletonCard } from '@/components/ui/skeleton/TrackCardSkeleton';
 export {
-  TrackCardSkeleton,
   TrackRowSkeleton,
   TrackListSkeleton,
   TrackGridSkeleton,
