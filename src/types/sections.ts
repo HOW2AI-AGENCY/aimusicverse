@@ -66,3 +66,9 @@ export function getSectionLabel(type: SectionType, counter: number): string {
   const needsCounter = ['verse', 'chorus', 'pre-chorus', 'hook', 'unknown'].includes(type);
   return needsCounter ? `${base} ${counter}` : base;
 }
+
+/** A time range that has been replaced/regenerated within a track. */
+export interface ReplacedRange {
+  start: number;
+  end: number;
+}
