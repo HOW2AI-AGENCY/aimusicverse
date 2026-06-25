@@ -38,7 +38,7 @@ export function AppHeader({
   rightAction,
   titleElement,
   className,
-  showLogo = true,
+  showLogo = false,
   breadcrumbs,
   showBreadcrumbs = false,
 }: AppHeaderProps) {
@@ -55,53 +55,29 @@ export function AppHeader({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     >
-      {/* Centered Logo - compact */}
+      {/* Optional centered Logo (off by default) */}
       {showLogo && (
-        <motion.div 
-          className="flex justify-center mb-2"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.1, duration: 0.3 }}
-        >
-          <motion.div
-            className="flex flex-col items-center"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <motion.div
-              className="relative"
-              animate={{ 
-                boxShadow: [
-                  '0 0 15px hsl(207 90% 54% / 0.2)',
-                  '0 0 25px hsl(207 90% 54% / 0.3)',
-                  '0 0 15px hsl(207 90% 54% / 0.2)'
-                ]
-              }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <AppLogo size="md" variant="default" />
-            </motion.div>
-            <h1 className="text-xs font-bold text-gradient leading-tight mt-1">
-              MusicVerse AI
-            </h1>
-          </motion.div>
-        </motion.div>
+        <div className="flex justify-center mb-2">
+          <AppLogo size="sm" variant="default" />
+        </div>
       )}
 
-      {/* Page header row */}
+      {/* Mobile: stacked & centered. Desktop: title centered with side actions */}
       <motion.div 
-        className="flex items-center justify-between gap-2"
+        className="flex flex-col items-center gap-2 sm:flex-row sm:items-center sm:justify-between"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.15, duration: 0.3 }}
+        transition={{ delay: 0.1, duration: 0.3 }}
       >
-        {/* Left action or spacer */}
-        <div className="flex items-center gap-2 flex-shrink-0 min-w-[40px]">
-          {leftAction}
-        </div>
+        {/* Left action (desktop only spacer) */}
+        {leftAction && (
+          <div className="hidden sm:flex items-center gap-2 flex-shrink-0 min-w-[40px]">
+            {leftAction}
+          </div>
+        )}
 
-        {/* Title section with optional breadcrumbs */}
-        <div className="flex flex-col items-center flex-1 min-w-0">
+        {/* Title section */}
+        <div className="flex flex-col items-center sm:flex-1 min-w-0">
           {(breadcrumbs || showBreadcrumbs) && (
             <Breadcrumbs 
               items={breadcrumbs} 
@@ -120,21 +96,23 @@ export function AppHeader({
                 {icon}
               </motion.div>
             )}
-            <div className="text-center min-w-0 flex-1">
+            <div className="text-center min-w-0">
               {titleElement || (
                 <h2 className="text-base sm:text-lg font-bold truncate">{title}</h2>
               )}
               {subtitle && (
-                <p className="text-xs text-muted-foreground">{subtitle}</p>
+                <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{subtitle}</p>
               )}
             </div>
           </div>
         </div>
 
-        {/* Right action or spacer */}
-        <div className="flex items-center gap-1.5 flex-shrink-0 min-w-[40px] justify-end">
-          {rightAction}
-        </div>
+        {/* Actions: centered row on mobile, right-aligned on desktop */}
+        {rightAction && (
+          <div className="flex items-center gap-1.5 flex-wrap justify-center sm:justify-end sm:flex-nowrap sm:flex-shrink-0 sm:min-w-[40px]">
+            {rightAction}
+          </div>
+        )}
       </motion.div>
     </motion.header>
   );
