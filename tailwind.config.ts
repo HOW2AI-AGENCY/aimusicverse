@@ -40,9 +40,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['Roboto Mono', 'monospace'],
-        display: ['Inter', 'sans-serif'], // Can be replaced with a distinctive font
+        sans: ['"DM Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'Roboto Mono', 'monospace'],
+        display: ['"Space Grotesk"', '"DM Sans"', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         // Professional Typography Scale (from 032-professional-ui spec)

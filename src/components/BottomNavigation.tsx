@@ -77,35 +77,35 @@ export const BottomNavigation = memo(function BottomNavigation() {
         role="navigation"
         aria-label="Главная навигация"
       >
-        <div className="flex items-center justify-around h-14 lg:h-16">
+        <div className="flex items-center justify-between h-14 px-1">
           {navItems.map((item, index) => {
             if (item.isCenter) {
               return (
-                <div key={item.path} className="relative overflow-visible">
+                <div key={item.path} className="relative flex-1 flex items-center justify-center overflow-visible">
                   <button
                     onClick={handleGenerateClick}
                     className={cn(
-                      "relative flex items-center justify-center w-14 h-14 lg:w-16 lg:h-16 -my-2 lg:-my-3 rounded-full",
-                      "bg-gradient-to-br from-primary to-generate shadow-md shadow-primary/25",
-                      "fab nav-item-enter active:scale-92 hover:scale-105 hover:shadow-lg hover:shadow-primary/35 transition-all duration-150",
-                      activeGenCount > 0 && "ring-2 ring-primary/50 ring-offset-2 ring-offset-background"
+                      "relative flex items-center justify-center w-12 h-12 rounded-2xl",
+                      "bg-primary text-primary-foreground",
+                      "shadow-[0_4px_14px_-2px_hsl(var(--primary)/0.55),inset_0_1px_0_0_hsl(0_0%_100%/0.25)]",
+                      "active:scale-92 hover:scale-105 transition-all duration-150",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                      activeGenCount > 0 && "ring-2 ring-primary/40 ring-offset-2 ring-offset-background"
                     )}
                     style={{ animationDelay: `${50 + index * 30}ms` }}
                     aria-label={item.label}
                     title={item.label}
                   >
-                    {/* Pulsing ring when generations are active - CSS animation */}
                     {activeGenCount > 0 && (
-                      <span className="absolute inset-0 rounded-full bg-primary/30 fab-pulse" />
+                      <span className="absolute inset-0 rounded-2xl bg-primary/30 fab-pulse" />
                     )}
-                    <Plus className="w-4.5 h-4.5 lg:w-5 lg:h-5 text-primary-foreground relative z-10" />
+                    <Plus className="w-5 h-5 relative z-10" strokeWidth={2.4} />
                   </button>
-                  
-                  {/* Active generations badge */}
+
                   {activeGenCount > 0 && (
-                    <div className="absolute -top-1.5 -right-1.5 z-20 badge-pop">
-                      <Badge 
-                        className="h-5 min-w-5 px-1 text-[10px] bg-destructive text-destructive-foreground border-2 border-background shadow-sm"
+                    <div className="absolute -top-1 -right-0.5 z-20 badge-pop">
+                      <Badge
+                        className="h-4 min-w-4 px-1 text-[9px] leading-none bg-destructive text-destructive-foreground border-2 border-background shadow-sm"
                       >
                         {activeGenCount > 9 ? '9+' : activeGenCount}
                       </Badge>
@@ -123,11 +123,12 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 key={item.path}
                 onClick={handleClick}
                 className={cn(
-                  "relative flex flex-col items-center justify-center gap-0.5 lg:gap-1 px-3 lg:px-4 py-2 rounded-xl lg:rounded-2xl",
-                  "min-h-touch min-w-touch nav-item-enter active:scale-92 hover:scale-105 transition-all duration-150",
+                  "relative flex flex-1 flex-col items-center justify-center gap-0.5 py-1.5 rounded-xl",
+                  "transition-colors duration-200 select-none",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
                   active
-                    ? "text-primary bg-primary/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                    ? "text-foreground"
+                    : "text-muted-foreground/80 hover:text-foreground"
                 )}
                 style={{ animationDelay: `${50 + index * 30}ms` }}
                 onMouseEnter={() => handlePreload(item.path)}
@@ -136,30 +137,30 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 aria-current={active ? 'page' : undefined}
                 title={item.label}
               >
-                <div className={cn(
-                  "relative transition-transform duration-200",
-                  active && "scale-110 -translate-y-0.5"
-                )}>
-                  <item.icon className="w-4.5 h-4.5 lg:w-5 lg:h-5" />
-                </div>
+                {/* Subtle pill indicator behind icon when active */}
                 <span
                   className={cn(
-                    "text-[9px] lg:text-[10px] transition-all duration-200",
-                    typographyClass.caption,
-                    active ? "font-semibold" : "font-medium"
+                    "absolute top-1 h-7 w-10 rounded-full bg-primary/12 ring-1 ring-primary/25 transition-all duration-200",
+                    active ? "opacity-100 scale-100" : "opacity-0 scale-75"
                   )}
-                  style={{ fontSize: undefined }}
+                  aria-hidden
+                />
+                <item.icon
+                  className={cn(
+                    "relative w-[18px] h-[18px] transition-transform duration-200",
+                    active && "text-primary"
+                  )}
+                  strokeWidth={active ? 2.4 : 2}
+                />
+                <span
+                  className={cn(
+                    "relative text-[10px] leading-none tracking-tight transition-all duration-200",
+                    typographyClass.caption,
+                    active ? "font-semibold text-foreground" : "font-medium"
+                  )}
                 >
                   {item.label}
                 </span>
-
-                {/* Active indicator - CSS transition */}
-                <div
-                  className={cn(
-                    "absolute inset-0 rounded-xl lg:rounded-2xl bg-primary/5 border border-primary/20 transition-all duration-200",
-                    active ? "opacity-100 scale-100" : "opacity-0 scale-90"
-                  )}
-                />
               </button>
             );
           })}
