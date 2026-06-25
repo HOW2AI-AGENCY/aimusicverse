@@ -269,3 +269,9 @@ verify_jwt = true
 
 [functions.cleanup-old-data]
 verify_jwt = false
+
+[functions.suno-voice-validate-callback]
+verify_jwt = false
+
+[functions.suno-voice-generate-callback]
+verify_jwt = false
