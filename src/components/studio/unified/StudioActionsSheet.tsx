@@ -27,7 +27,7 @@ import {
   Layers,
   SlidersHorizontal,
   BarChart3,
-} from 'lucide-react';
+} from '@/lib/icons';
 import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 import { glass } from '@/lib/glass';
 
