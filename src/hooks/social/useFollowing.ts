@@ -40,7 +40,6 @@ export function useFollowing({ userId, searchQuery = '', pageSize = DEFAULT_PAGE
           )
         `)
         .eq('follower_id', userId)
-        .eq('status', 'active')
         .order('created_at', { ascending: false })
         .range(from, to);
 
@@ -55,7 +54,6 @@ export function useFollowing({ userId, searchQuery = '', pageSize = DEFAULT_PAGE
           .from('user_follows')
           .select('follower_id')
           .eq('following_id', user.id)
-          .eq('status', 'active');
 
         if (followersData) {
           usersFollowingCurrentUser = new Set(followersData.map((f) => f.follower_id));

@@ -77,7 +77,7 @@ export function TelemetryOverview({ data, isLoading }: TelemetryOverviewProps) {
                 <XAxis type="number" fontSize={10} />
                 <YAxis type="category" dataKey="name" width={80} fontSize={9} className="sm:text-[12px]" />
                 <Tooltip 
-                  formatter={(value: number) => [value.toLocaleString(), 'Событий']}
+                  formatter={(value: any) => [value.toLocaleString(), 'Событий']}
                   contentStyle={{ 
                     backgroundColor: 'hsl(var(--popover))',
                     border: '1px solid hsl(var(--border))',

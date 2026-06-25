@@ -140,7 +140,7 @@ export const useProjectTracks = (projectId: string | undefined) => {
     mutationFn: async ({ id, updates }: { id: string; updates: Partial<ProjectTrack> }) => {
       const { data, error } = await supabase
         .from('project_tracks')
-        .update(updates)
+        .update(updates as any)
         .eq('id', id)
         .select()
         .single();

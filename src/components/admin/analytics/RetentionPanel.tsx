@@ -176,7 +176,7 @@ export function RetentionPanel({ timePeriod, isLoading }: RetentionPanelProps) {
                     borderRadius: '8px',
                     fontSize: '12px',
                   }}
-                  formatter={(value: number, name: string) => {
+                  formatter={(value: any, name: any) => {
                     const labels: Record<string, string> = {
                       d1: 'Day 1',
                       d7: 'Day 7',

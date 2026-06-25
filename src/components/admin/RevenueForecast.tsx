@@ -299,7 +299,7 @@ export function RevenueForecast() {
                   borderRadius: '8px',
                   fontSize: '11px',
                 }}
-                formatter={(value: number, name: string) => {
+                formatter={(value: any, name: any) => {
                   const labels: Record<string, string> = {
                     revenue: 'Факт',
                     forecast: 'Прогноз',

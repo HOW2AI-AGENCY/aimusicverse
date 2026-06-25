@@ -205,7 +205,7 @@ export function PerformanceMetricsPanel({ timePeriod }: PerformanceMetricsPanelP
                 />
                 <Tooltip 
                   contentStyle={{ fontSize: 12 }}
-                  formatter={(value: number) => [`${Math.round(value)}ms`, 'LCP']}
+                  formatter={(value: any) => [`${Math.round(value)}ms`, 'LCP']}
                 />
                 <Line 
                   type="monotone" 

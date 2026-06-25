@@ -211,7 +211,7 @@ export function ProjectCreationWizard({ open, onOpenChange }: ProjectCreationWiz
                     if (Object.keys(updateData).length > 0) {
                       const { error: updateError } = await supabase
                         .from('music_projects')
-                        .update(updateData)
+                        .update(updateData as any)
                         .eq('id', data.id);
                         
                       if (updateError) {
