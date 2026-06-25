@@ -394,20 +394,22 @@ export default function Library() {
 
               {/* Track List Content */}
               {isLoading ? (
-                isMobile ? (
-                  viewMode === "grid" ? <MobileGridSkeleton count={4} /> : <MobileListSkeleton count={5} />
-                ) : (
-                  <div className={viewMode === "grid"
-                    ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
-                    : "flex flex-col gap-1.5"
-                  }>
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      viewMode === 'grid'
-                        ? <TrackCardSkeleton key={i} />
-                        : <TrackRowSkeleton key={i} />
-                    ))}
-                  </div>
-                )
+                <div data-safe-skeleton="">
+                  {isMobile ? (
+                    viewMode === "grid" ? <MobileGridSkeleton count={4} /> : <MobileListSkeleton count={5} />
+                  ) : (
+                    <div className={viewMode === "grid"
+                      ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+                      : "flex flex-col gap-1.5"
+                    }>
+                      {Array.from({ length: 6 }).map((_, i) => (
+                        viewMode === 'grid'
+                          ? <TrackCardSkeleton key={i} />
+                          : <TrackRowSkeleton key={i} />
+                      ))}
+                    </div>
+                  )}
+                </div>
               ) : filteredTracks.length === 0 && !hasActiveGenerations ? (
                 <EmptyLibraryState searchQuery={searchQuery} navigate={navigate} />
               ) : (
