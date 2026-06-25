@@ -119,6 +119,29 @@ All colors MUST be HSL.
     --focus-ring-offset: 2px;
     --focus-ring-color: hsl(207 90% 54%);
 
+    /* === Unified semantic surfaces (Phase 1 UI unification) ===
+       Use these instead of bg-white / bg-black / bg-[#...] in components. */
+    --surface-1: 0 0% 100%;            /* page-level cards */
+    --surface-2: 220 20% 98%;          /* nested cards on surface-1 */
+    --surface-3: 220 15% 94%;          /* nested controls inside surface-2 */
+    --overlay-scrim: 220 25% 10% / 0.5; /* dialog/sheet backdrop */
+    --ring-focus: hsl(207 90% 54% / 0.5);
+
+    /* Semantic state tokens (paired with -foreground for text on top) */
+    --state-success: 160 70% 42%;
+    --state-success-foreground: 0 0% 100%;
+    --state-warning: 38 95% 50%;
+    --state-warning-foreground: 220 25% 10%;
+    --state-danger: 0 72% 51%;
+    --state-danger-foreground: 0 0% 100%;
+    --state-info: 207 90% 54%;
+    --state-info-foreground: 0 0% 100%;
+
+    /* Motion aliases (short names used by Phase 7 motion-presets) */
+    --motion-fast: var(--duration-fast);
+    --motion-base: var(--duration-normal);
+    --motion-slow: var(--duration-slow);
+
     /* === Unified layout chrome heights (Block: redesign 2026) ===
        Published by MainLayout but kept with safe fallbacks so any component
        can `padding-bottom: calc(var(--bottom-stack-h) + 12px)` without math. */
