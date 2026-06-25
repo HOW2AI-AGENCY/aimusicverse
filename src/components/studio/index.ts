@@ -22,7 +22,6 @@ export type { StudioTrackState, StemActionType } from './actions/StudioActionsPa
 export { StemActionSheet } from './actions/StemActionSheet';
 
 // Multi-track DAW components (MultiTrackStudioLayout removed - use unified studio)
-export { AddTrackDialog } from './AddTrackDialog';
 export { SFXGeneratorPanel } from './SFXGeneratorPanel';
 export { InstrumentalGeneratorPanel } from './InstrumentalGeneratorPanel';
 
