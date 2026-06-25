@@ -34,6 +34,18 @@ serve(async (req) => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // SECURITY: Only callable internally by trusted service-role contexts
+  // (e.g. stars-webhook). Never expose to authenticated user tokens — this
+  // function grants XP, credits, achievements, and referral rewards to
+  // arbitrary userIds passed in the request body.
+  if (!isServiceRoleToken(req)) {
+    console.warn('reward-purchase: rejected non-service-role call');
+    return new Response(
+      JSON.stringify({ success: false, error: 'Forbidden' }),
+      { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    );
+  }
+
   try {
     const supabase = getSupabaseClient();
 
