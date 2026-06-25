@@ -361,45 +361,42 @@ All colors MUST be HSL.
     transition-duration: 0.1s;
   }
 
-  /* Island Navigation - Enhanced Modern iOS-style floating bar */
+  /* Island Navigation - Arc/Linear-style native floating tab bar */
   .island-nav {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
     margin: 0 auto;
-    width: calc(100% - 1rem);
-    max-width: 26rem;
-    /* iPhone safe area: учитываем и Telegram переменные, и стандартный env() */
+    width: calc(100% - 1.25rem);
+    max-width: 28rem;
     margin-bottom: max(
       var(--tg-safe-area-inset-bottom, 0px),
       env(safe-area-inset-bottom, 0px),
       0.5rem
     );
-    background: hsl(var(--background) / 0.9);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid hsl(var(--border) / 0.5);
-    border-radius: 1.75rem;
-    padding: 0.5rem;
+    background: hsl(var(--background) / 0.78);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid hsl(var(--border) / 0.55);
+    border-radius: 1.5rem;
+    padding: 0.375rem;
     box-shadow:
-      0 4px 20px -2px hsl(220 40% 10% / 0.1),
-      0 8px 36px -4px hsl(220 40% 10% / 0.14),
-      0 0 0 1px hsl(var(--border) / 0.25),
-      inset 0 1px 0 0 hsl(0 0% 100% / 0.08),
-      inset 0 -1px 0 0 hsl(0 0% 0% / 0.05);
+      0 1px 0 0 hsl(0 0% 100% / 0.04) inset,
+      0 -1px 0 0 hsl(0 0% 0% / 0.25) inset,
+      0 12px 32px -8px hsl(240 60% 2% / 0.6),
+      0 4px 12px -2px hsl(240 60% 2% / 0.45);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark .island-nav {
-    background: hsl(var(--background) / 0.8);
-    border: 1px solid hsl(var(--border) / 0.6);
+    background: hsl(240 46% 5% / 0.72);
+    border: 1px solid hsl(226 30% 22% / 0.7);
     box-shadow:
-      0 4px 20px -2px hsl(220 50% 5% / 0.5),
-      0 8px 36px -4px hsl(220 50% 5% / 0.7),
-      0 0 0 1px hsl(var(--border) / 0.35),
-      inset 0 1px 0 0 hsl(0 0% 100% / 0.1),
-      inset 0 -1px 0 0 hsl(0 0% 0% / 0.1);
+      0 1px 0 0 hsl(0 0% 100% / 0.06) inset,
+      0 -1px 0 0 hsl(0 0% 0% / 0.4) inset,
+      0 16px 40px -10px hsl(240 60% 2% / 0.75),
+      0 4px 14px -2px hsl(240 60% 2% / 0.55);
   }
 
   /* Button Enhancements - More tactile and premium with improved touch feedback */
