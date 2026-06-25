@@ -10,21 +10,25 @@ const logger = createLogger('suno-music-generate');
  * Per SunoAPI docs (https://docs.sunoapi.org/suno-api/generate-music):
  * Model parameter accepts: V5, V4_5PLUS, V4_5, V4, V3_5 - NOT chirp-* names
  */
-const VALID_MODELS = ['V5', 'V4_5PLUS', 'V4_5', 'V4', 'V3_5'];
-const DEFAULT_MODEL = 'V4_5';
+const VALID_MODELS = ['V5_5', 'V5', 'V4_5PLUS', 'V4_5ALL', 'V4_5', 'V4', 'V3_5'];
+const DEFAULT_MODEL = 'V5';
 
-// Deprecated models that should be auto-migrated
+// Deprecated / legacy model aliases that should be auto-migrated
 const DEPRECATED_MODELS: Record<string, string> = {
-  'V4AUK': 'V4_5',      // V4AUK deprecated - migrate to V4_5
-  'V4_5ALL': 'V4_5',    // V4_5ALL deprecated - migrate to V4_5
-  'chirp-v4': 'V4',     // Legacy chirp names
+  'V4AUK': 'V4_5',
+  'chirp-v4': 'V4',
   'chirp-v3-5': 'V3_5',
+  'chirp-auk': 'V4_5ALL',
+  'chirp-bluejay': 'V4_5PLUS',
+  'chirp-crow': 'V5',
 };
 
 // Fallback chain for model errors
 const MODEL_FALLBACK_CHAIN: Record<string, string> = {
+  'V5_5': 'V5',
   'V5': 'V4_5PLUS',
-  'V4_5PLUS': 'V4_5',
+  'V4_5PLUS': 'V4_5ALL',
+  'V4_5ALL': 'V4_5',
   'V4_5': 'V4',
   'V4': 'V3_5',
 };
@@ -42,10 +46,11 @@ const ERROR_MESSAGES: Record<string, string> = {
 
 // Model-specific generation costs in user credits
 const MODEL_COSTS: Record<string, number> = {
+  V5_5: 14,
   V5: 12,
   V4_5PLUS: 12,
-  V4_5: 12,
   V4_5ALL: 12,
+  V4_5: 12,
   V4: 10,
   V3_5: 10,
 };
