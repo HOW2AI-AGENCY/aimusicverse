@@ -224,7 +224,8 @@ serve(async (req) => {
     const {
       audio_url,
       audio_base64,
-      user_id,
+      user_id: _bodyUserId,
+
       file_name = 'audio.mp3',
       file_size,
       duration_seconds,
