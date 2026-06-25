@@ -118,6 +118,30 @@ All colors MUST be HSL.
     --focus-ring-width: 2px;
     --focus-ring-offset: 2px;
     --focus-ring-color: hsl(207 90% 54%);
+
+    /* === Unified layout chrome heights (Block: redesign 2026) ===
+       Published by MainLayout but kept with safe fallbacks so any component
+       can `padding-bottom: calc(var(--bottom-stack-h) + 12px)` without math. */
+    --header-h: 56px;
+    --bottom-nav-h: 0px;          /* set by MainLayout when nav visible */
+    --player-h: 0px;              /* set by MainLayout when player active */
+    --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px));
+    --bottom-stack-h: calc(var(--bottom-nav-h) + var(--player-h) + var(--safe-bottom));
+
+    /* === Semantic z-index scale (canonical source of truth) ===
+       Mirrors src/constants/z-index.ts so CSS-only files can stay in sync. */
+    --z-base: 0;
+    --z-raised: 10;
+    --z-sticky-header: 30;        /* MobileHeaderBar */
+    --z-overlay: 40;
+    --z-bottom-nav: 50;           /* TabBar */
+    --z-player: 60;               /* CompactPlayer — ABOVE nav */
+    --z-contextual: 70;           /* Hints */
+    --z-fullscreen: 90;           /* MobileFullscreenPlayer, Studio */
+    --z-dialog: 140;
+    --z-sheet: 150;
+    --z-dropdown: 200;
+    --z-toast: 300;               /* Toasts/announcements — top of the world */
     
     /* Section-specific accent colors - harmonized with primary */
     --generate: 250 80% 60%;
