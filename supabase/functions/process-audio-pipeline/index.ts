@@ -242,7 +242,9 @@ serve(async (req) => {
       action,
       user_classification,
     } = body;
-    
+    // Derive user_id from verified JWT (or service-role override), never trust body
+    const user_id = __auth.isService ? (_bodyUserId as string) : (__auth.user?.id as string);
+
     // Use base64 for Replicate APIs if available, otherwise fall back to URL
     const audioInputForReplicate = audio_base64 || audio_url;
 
@@ -254,6 +256,7 @@ serve(async (req) => {
     if (!audio_url || !user_id) {
       throw new Error('audio_url and user_id are required');
     }
+
 
     // === CHECK FOR EXISTING ANALYSIS (skip if force_reprocess) ===
     if (!force_reprocess && !reference_id) {
