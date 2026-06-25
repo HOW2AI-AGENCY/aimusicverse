@@ -85,7 +85,7 @@ export function useKlangioSaveAnalysis() {
         // Update existing
         const { data, error } = await supabase
           .from('audio_analysis')
-          .update(analysisData)
+          .update(analysisData as any)
           .eq('id', existing.id)
           .select()
           .single();
