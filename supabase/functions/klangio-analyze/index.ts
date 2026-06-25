@@ -227,7 +227,10 @@ serve(async (req) => {
 
     supabase = getSupabaseClient();
 
-    const { audio_url, mode, model, outputs, vocabulary, user_id, title, stem_type } = await req.json() as KlangioRequest;
+    const { audio_url, mode, model, outputs, vocabulary, title, stem_type } = await req.json() as KlangioRequest;
+    // Derive user_id from verified JWT, never trust the body
+    const user_id = __auth.user?.id;
+
 
     if (!audio_url || !mode) {
       return new Response(
