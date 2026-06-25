@@ -60,7 +60,7 @@ export const SimplifiedTagsRow = memo(function SimplifiedTagsRow({
       ))}
 
       {parsedTags.hiddenCount > 0 && (
-        <span className="text-[9px] text-muted-foreground/50">+{parsedTags.hiddenCount}</span>
+        <span className="text-[10px] text-muted-foreground" aria-label={`Ещё ${parsedTags.hiddenCount} тегов`}>+{parsedTags.hiddenCount}</span>
       )}
     </div>
   );
