@@ -12,6 +12,7 @@ interface SEOHeadProps {
   ogType?: 'website' | 'article' | 'music.song' | 'music.album';
   canonical?: string;
   noIndex?: boolean;
+  jsonLd?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const BASE_TITLE = 'MusicVerse';
@@ -25,6 +26,7 @@ export function SEOHead({
   ogType = 'website',
   canonical,
   noIndex = false,
+  jsonLd,
 }: SEOHeadProps) {
   useEffect(() => {
     // Update document title
@@ -66,7 +68,7 @@ export function SEOHead({
     setMeta('twitter:title', fullTitle);
     setMeta('twitter:description', description);
 
-    // Canonical URL
+    // Canonical + og:url
     if (canonical) {
       let link = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
       if (!link) {
@@ -75,6 +77,7 @@ export function SEOHead({
         document.head.appendChild(link);
       }
       link.href = canonical;
+      setMeta('og:url', canonical, true);
     }
 
     // Robots meta
@@ -82,11 +85,25 @@ export function SEOHead({
       setMeta('robots', 'noindex, nofollow');
     }
 
+    // JSON-LD structured data
+    const jsonLdId = 'seo-head-jsonld';
+    const existing = document.getElementById(jsonLdId);
+    if (existing) existing.remove();
+    if (jsonLd) {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.id = jsonLdId;
+      script.text = JSON.stringify(jsonLd);
+      document.head.appendChild(script);
+    }
+
     // Cleanup on unmount - restore base title
     return () => {
       document.title = BASE_TITLE;
+      const stale = document.getElementById(jsonLdId);
+      if (stale) stale.remove();
     };
-  }, [title, description, keywords, ogImage, ogType, canonical, noIndex]);
+  }, [title, description, keywords, ogImage, ogType, canonical, noIndex, jsonLd]);
 
   return null;
 }
