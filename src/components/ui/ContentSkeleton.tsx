@@ -1,6 +1,8 @@
 /**
+ * @deprecated Use the canonical skeletons from `@/components/ui/skeleton/*`.
+ * Will be removed in Phase 10 of the UI unification (`docs/UI_AUDIT.md`).
+ *
  * ContentSkeleton - Generic content loading skeletons
- * For various UI sections like headers, stats, sections
  */
 
 import { memo } from 'react';
