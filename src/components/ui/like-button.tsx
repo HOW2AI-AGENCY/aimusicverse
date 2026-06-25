@@ -53,6 +53,8 @@ export function LikeButton({
       size={size}
       onClick={handleClick}
       disabled={isLoading}
+      aria-label={isLiked ? "Убрать лайк" : "Поставить лайк"}
+      aria-pressed={isLiked}
       className={cn(
         "relative transition-all",
         isGlass && cn(glassButton.default, "border-0"),
