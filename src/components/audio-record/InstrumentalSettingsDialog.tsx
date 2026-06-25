@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -54,17 +54,39 @@ export const InstrumentalSettingsDialog = ({
   const selectedMood = MOODS.find((m) => m.value === mood);
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[85vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Settings2 className="w-5 h-5 text-primary" />
-            Настройки инструментала
-          </DialogTitle>
-          <p className="text-sm text-muted-foreground">Выберите стиль и параметры для AI-генерации</p>
-        </DialogHeader>
-
-        <ScrollArea className="flex-1 -mx-6 px-6">
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Настройки инструментала"
+      description="Выберите стиль и параметры для AI-генерации"
+      footer={
+        <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t">
+          <Button variant="ghost" onClick={handleReset} disabled={isProcessing} className="sm:mr-auto">
+            Сбросить
+          </Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isProcessing}>
+            Отмена
+          </Button>
+          <Button onClick={handleConfirm} disabled={isProcessing} className="gap-2">
+            {isProcessing ? (
+              <>
+                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
+                  <Zap className="w-4 h-4" />
+                </motion.div>
+                Генерация...
+              </>
+            ) : (
+              <>
+                <Zap className="w-4 h-4" />
+                Сгенерировать
+              </>
+            )}
+          </Button>
+        </div>
+      }
+    >
+      <ScrollArea className="flex-1 -mx-6 px-6">
           <div className="space-y-6 pb-4">
             {/* Genre Selection */}
             <div className="space-y-3">
@@ -207,30 +229,6 @@ export const InstrumentalSettingsDialog = ({
           </div>
         </ScrollArea>
 
-        <DialogFooter className="flex-col sm:flex-row gap-2 pt-4 border-t">
-          <Button variant="ghost" onClick={handleReset} disabled={isProcessing} className="sm:mr-auto">
-            Сбросить
-          </Button>
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isProcessing}>
-            Отмена
-          </Button>
-          <Button onClick={handleConfirm} disabled={isProcessing} className="gap-2">
-            {isProcessing ? (
-              <>
-                <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
-                  <Zap className="w-4 h-4" />
-                </motion.div>
-                Генерация...
-              </>
-            ) : (
-              <>
-                <Zap className="w-4 h-4" />
-                Сгенерировать
-              </>
-            )}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    </UnifiedDialog>
   );
 };

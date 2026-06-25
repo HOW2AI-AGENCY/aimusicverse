@@ -3,19 +3,17 @@
  */
 
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Music, Mic2, Guitar, Volume2 } from "@/lib/icons";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ReferenceAudio {
@@ -38,7 +36,6 @@ interface AddVocalsToReferenceDialogProps {
 type Mode = "add_vocals" | "add_instrumental";
 
 export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVocalsToReferenceDialogProps) {
-  const isMobile = useIsMobile();
   const [mode, setMode] = useState<Mode>("add_vocals");
   const [prompt, setPrompt] = useState("");
   const [customMode, setCustomMode] = useState(false);
@@ -232,35 +229,15 @@ export function AddVocalsToReferenceDialog({ open, onOpenChange, audio }: AddVoc
     </div>
   );
 
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[90vh]">
-          <DrawerHeader>
-            <DrawerTitle className="flex items-center gap-2">
-              <Volume2 className="w-5 h-5" />
-              {mode === "add_vocals" ? "Добавить вокал" : "Новая аранжировка"}
-            </DrawerTitle>
-            <DrawerDescription>Создайте новый трек на основе загруженного аудио</DrawerDescription>
-          </DrawerHeader>
-          <ScrollArea className="p-4 max-h-[70vh]">{content}</ScrollArea>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Volume2 className="w-5 h-5" />
-            {mode === "add_vocals" ? "Добавить вокал" : "Новая аранжировка"}
-          </DialogTitle>
-          <DialogDescription>Создайте новый трек на основе загруженного аудио</DialogDescription>
-        </DialogHeader>
-        {content}
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title={mode === "add_vocals" ? "Добавить вокал" : "Новая аранжировка"}
+      description="Создайте новый трек на основе загруженного аудио"
+    >
+      <ScrollArea className="max-h-[70vh]">{content}</ScrollArea>
+    </UnifiedDialog>
   );
 }

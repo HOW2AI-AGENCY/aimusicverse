@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
@@ -56,25 +56,14 @@ export function ProjectTrackSelector({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[80vh]">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            {type === "project" ? (
-              <>
-                <FolderOpen className="w-5 h-5" />
-                Выберите проект
-              </>
-            ) : (
-              <>
-                <Music className="w-5 h-5" />
-                Выберите трек
-              </>
-            )}
-          </DialogTitle>
-        </DialogHeader>
-
-        <ScrollArea className="h-[60vh] pr-4">
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title={type === "project" ? "Выберите проект" : "Выберите трек"}
+      size="xl"
+    >
+      <ScrollArea className="h-[60vh] pr-4">
           {type === "project" && (!projects || projects.length === 0) && (
             <div className="flex flex-col items-center justify-center py-12 text-center">
               <FolderOpen className="w-16 h-16 text-muted-foreground opacity-50 mb-4" />
@@ -174,8 +163,7 @@ export function ProjectTrackSelector({
               ))}
             </div>
           )}
-        </ScrollArea>
-      </DialogContent>
-    </Dialog>
+      </ScrollArea>
+    </UnifiedDialog>
   );
 }

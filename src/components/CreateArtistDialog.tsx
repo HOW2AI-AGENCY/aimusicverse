@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,10 +8,10 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { User, Sparkles, Image as ImageIcon, X, Plus, Play, Pause, Music } from "@/lib/icons";
 import { useArtists } from "@/hooks/useArtists";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { surface } from "@/lib/overlay-colors";
 
@@ -401,36 +400,15 @@ export function CreateArtistDialog({ open, onOpenChange, fromTrack }: CreateArti
     </div>
   );
 
-  // Use Sheet on mobile for better UX
-  if (isMobile) {
-    return (
-      <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="bottom" className="h-[90vh] flex flex-col p-0">
-          <SheetHeader className="px-4 py-3 border-b shrink-0">
-            <SheetTitle className="flex items-center gap-2 text-base">
-              <Sparkles className="w-4 h-4 text-primary" />
-              Создать AI Артиста
-            </SheetTitle>
-          </SheetHeader>
-          <ScrollArea className="flex-1 px-4 py-3">{formContent}</ScrollArea>
-          <div className="px-4 pb-6 pt-2 shrink-0 border-t bg-background">{actionButtons}</div>
-        </SheetContent>
-      </Sheet>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[85vh] flex flex-col p-0">
-        <DialogHeader className="px-6 py-4 border-b shrink-0">
-          <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
-            Создать AI Артиста
-          </DialogTitle>
-        </DialogHeader>
-        <ScrollArea className="flex-1 px-6 py-4">{formContent}</ScrollArea>
-        <div className="px-6 pb-6 shrink-0">{actionButtons}</div>
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Создать AI Артиста"
+      footer={actionButtons}
+    >
+      <ScrollArea className="flex-1">{formContent}</ScrollArea>
+    </UnifiedDialog>
   );
 }

@@ -5,7 +5,7 @@
 
 import { memo, useState } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Crown, Wand2, Music, Headphones, Download, Zap, ArrowRight, ArrowLeft, Check, Sparkles } from "@/lib/icons";
@@ -99,75 +99,14 @@ export const ProOnboardingDialog = memo(function ProOnboardingDialog({
   const progress = ((currentStep + 1) / totalSteps) * 100;
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-          <div className="flex items-center justify-between">
-            <DialogTitle className="flex items-center gap-2">
-              <Crown className="w-5 h-5 text-primary" />
-              PRO-функции
-            </DialogTitle>
-            <span className="text-xs text-muted-foreground">
-              {currentStep + 1} / {totalSteps}
-            </span>
-          </div>
-          <Progress value={progress} className="h-1 mt-2" />
-        </DialogHeader>
-
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={step.id}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.2 }}
-            className="py-4 space-y-5"
-          >
-            {/* Icon and title */}
-            <div className="flex items-center gap-4">
-              <div
-                className={cn(
-                  "w-14 h-14 rounded-xl flex items-center justify-center",
-                  "bg-gradient-to-br",
-                  step.gradient,
-                )}
-              >
-                <Icon className="w-7 h-7 text-white" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold">{step.title}</h3>
-                <p className="text-sm text-muted-foreground">{step.description}</p>
-              </div>
-            </div>
-
-            {/* Features list */}
-            <ul className="space-y-3">
-              {step.features.map((feature, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex items-center gap-3"
-                >
-                  <div
-                    className={cn(
-                      "w-6 h-6 rounded-full flex items-center justify-center",
-                      "bg-gradient-to-br",
-                      step.gradient,
-                    )}
-                  >
-                    <Check className="w-3.5 h-3.5 text-white" />
-                  </div>
-                  <span className="text-sm">{feature}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Navigation buttons */}
-        <div className="flex items-center justify-between pt-4 border-t">
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={(isOpen) => !isOpen && onClose()}
+      title="PRO-функции"
+      size="lg"
+      footer={
+        <div className="flex items-center justify-between">
           <div>
             {currentStep > 0 ? (
               <Button variant="ghost" onClick={handlePrev}>
@@ -195,7 +134,69 @@ export const ProOnboardingDialog = memo(function ProOnboardingDialog({
             )}
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      }
+    >
+      <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center gap-2">
+          <Crown className="w-5 h-5 text-primary" />
+          <span className="text-xs text-muted-foreground">
+            {currentStep + 1} / {totalSteps}
+          </span>
+        </div>
+      </div>
+      <Progress value={progress} className="h-1 mb-4" />
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={step.id}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -20 }}
+          transition={{ duration: 0.2 }}
+          className="py-4 space-y-5"
+        >
+          {/* Icon and title */}
+          <div className="flex items-center gap-4">
+            <div
+              className={cn(
+                "w-14 h-14 rounded-xl flex items-center justify-center",
+                "bg-gradient-to-br",
+                step.gradient,
+              )}
+            >
+              <Icon className="w-7 h-7 text-white" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold">{step.title}</h3>
+              <p className="text-sm text-muted-foreground">{step.description}</p>
+            </div>
+          </div>
+
+          {/* Features list */}
+          <ul className="space-y-3">
+            {step.features.map((feature, i) => (
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                className="flex items-center gap-3"
+              >
+                <div
+                  className={cn(
+                    "w-6 h-6 rounded-full flex items-center justify-center",
+                    "bg-gradient-to-br",
+                    step.gradient,
+                  )}
+                >
+                  <Check className="w-3.5 h-3.5 text-white" />
+                </div>
+                <span className="text-sm">{feature}</span>
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+      </AnimatePresence>
+    </UnifiedDialog>
   );
 });

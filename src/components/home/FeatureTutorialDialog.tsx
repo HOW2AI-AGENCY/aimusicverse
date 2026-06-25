@@ -8,7 +8,7 @@
 
 import { memo, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Dialog, DialogContent, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import {
@@ -253,89 +253,16 @@ export const FeatureTutorialDialog = memo(function FeatureTutorialDialog({
   const currentSlideData = slides[currentSlide];
 
   return (
-    <Dialog
+    <UnifiedDialog
+      variant="modal"
       open={open}
       onOpenChange={(v) => {
         if (!v) handleClose();
         else onOpenChange(v);
       }}
-    >
-      <DialogContent className={cn("sm:max-w-md p-0 gap-0 overflow-hidden", glass.card)}>
-        {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-border/30">
-          <DialogTitle className={cn(typographyClass.body.md, "font-semibold text-foreground")}>
-            {tutorial.title}
-          </DialogTitle>
-          <button
-            onClick={handleClose}
-            className={cn(
-              "w-8 h-8 rounded-full flex items-center justify-center",
-              "hover:bg-accent transition-colors touch-manipulation",
-            )}
-          >
-            <X className="w-4 h-4 text-muted-foreground" />
-          </button>
-        </div>
-        <DialogDescription className="sr-only">Туториал по функции {tutorial.title}</DialogDescription>
-
-        {/* Slide content */}
-        <div className="relative min-h-[280px] p-6">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlide}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.2 }}
-              className="flex flex-col items-center text-center"
-            >
-              {/* Icon */}
-              <motion.div
-                className={cn("w-16 h-16 rounded-2xl flex items-center justify-center mb-4", glass.subtle)}
-                animate={{ scale: [1, 1.05, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                {currentSlideData.icon}
-              </motion.div>
-
-              {/* Title */}
-              <h3 className={cn(typographyClass.heading.h4, "mb-2")}>{currentSlideData.title}</h3>
-
-              {/* Description */}
-              <p className={cn(typographyClass.body.sm, "text-muted-foreground mb-4 max-w-sm")}>
-                {currentSlideData.description}
-              </p>
-
-              {/* Tip */}
-              {currentSlideData.tip && (
-                <div className={cn("rounded-lg px-4 py-2", glass.subtle)}>
-                  <p className={cn(typographyClass.caption, "italic text-muted-foreground")}>{currentSlideData.tip}</p>
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Pagination dots */}
-        <div className="flex justify-center gap-1.5 pb-4">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => {
-                hapticFeedback("light");
-                setCurrentSlide(idx);
-              }}
-              className={cn(
-                "w-2 h-2 rounded-full transition-all duration-200",
-                idx === currentSlide ? "bg-primary w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50",
-              )}
-              aria-label={`Слайд ${idx + 1}`}
-            />
-          ))}
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center gap-2 p-4 border-t border-border/30">
+      title={tutorial.title}
+      footer={
+        <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={handlePrev} disabled={isFirstSlide} className="flex-1">
             <ChevronLeft className="w-4 h-4 mr-1" />
             Назад
@@ -345,7 +272,63 @@ export const FeatureTutorialDialog = memo(function FeatureTutorialDialog({
             {!isLastSlide && <ChevronRight className="w-4 h-4 ml-1" />}
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      }
+    >
+      {/* Slide content */}
+      <div className="relative min-h-[280px] p-6">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.2 }}
+            className="flex flex-col items-center text-center"
+          >
+            {/* Icon */}
+            <motion.div
+              className={cn("w-16 h-16 rounded-2xl flex items-center justify-center mb-4", glass.subtle)}
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              {currentSlideData.icon}
+            </motion.div>
+
+            {/* Title */}
+            <h3 className={cn(typographyClass.heading.h4, "mb-2")}>{currentSlideData.title}</h3>
+
+            {/* Description */}
+            <p className={cn(typographyClass.body.sm, "text-muted-foreground mb-4 max-w-sm")}>
+              {currentSlideData.description}
+            </p>
+
+            {/* Tip */}
+            {currentSlideData.tip && (
+              <div className={cn("rounded-lg px-4 py-2", glass.subtle)}>
+                <p className={cn(typographyClass.caption, "italic text-muted-foreground")}>{currentSlideData.tip}</p>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Pagination dots */}
+      <div className="flex justify-center gap-1.5 pb-4">
+        {slides.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => {
+              hapticFeedback("light");
+              setCurrentSlide(idx);
+            }}
+            className={cn(
+              "w-2 h-2 rounded-full transition-all duration-200",
+              idx === currentSlide ? "bg-primary w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50",
+            )}
+            aria-label={`Слайд ${idx + 1}`}
+          />
+        ))}
+      </div>
+    </UnifiedDialog>
   );
 });

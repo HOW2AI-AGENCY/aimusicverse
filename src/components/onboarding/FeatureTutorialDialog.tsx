@@ -22,9 +22,7 @@ import {
 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { UnifiedDialog } from "@/components/dialog";
 import { cn } from "@/lib/utils";
 import { hapticImpact } from "@/lib/haptic";
 
@@ -241,41 +239,20 @@ function TutorialCarousel({ slides, onComplete }: { slides: TutorialSlide[]; onC
 }
 
 export function FeatureTutorialDialog({ open, onOpenChange, title, slides, onComplete }: FeatureTutorialDialogProps) {
-  const isMobile = useIsMobile();
-
   const handleComplete = useCallback(() => {
     onComplete?.();
     onOpenChange(false);
   }, [onComplete, onOpenChange]);
 
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[85vh] max-h-[600px]">
-          <DrawerHeader className="border-b py-3">
-            <DrawerTitle className="flex items-center gap-2 text-base">
-              <Sparkles className="w-4 h-4 text-primary" />
-              {title}
-            </DrawerTitle>
-          </DrawerHeader>
-          <TutorialCarousel slides={slides} onComplete={handleComplete} />
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md h-[550px] p-0 overflow-hidden gap-0">
-        <DialogHeader className="p-4 border-b">
-          <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-primary" />
-            {title}
-          </DialogTitle>
-        </DialogHeader>
-        <TutorialCarousel slides={slides} onComplete={handleComplete} />
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title={title}
+    >
+      <TutorialCarousel slides={slides} onComplete={handleComplete} />
+    </UnifiedDialog>
   );
 }
 

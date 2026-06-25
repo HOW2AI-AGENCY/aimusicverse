@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Sparkles, Languages, Check } from "@/lib/icons";
@@ -116,120 +116,117 @@ export function AIActionsDialog({ open, onOpenChange, projectId, field, onApply 
   };
 
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-primary" />
-            AI Actions
-          </DialogTitle>
-        </DialogHeader>
-
-        {mode === "menu" && (
-          <div className="space-y-4">
-            {!field && (
-              <div>
-                <h3 className="font-semibold mb-2 flex items-center gap-2">
-                  <Languages className="w-4 h-4" />
-                  Перевод проекта
-                </h3>
-                <div className="flex gap-2">
-                  <Button
-                    onClick={() => handleTranslate("en")}
-                    disabled={isLoading}
-                    variant="outline"
-                    className="flex-1"
-                  >
-                    🇬🇧 На английский
-                  </Button>
-                  <Button
-                    onClick={() => handleTranslate("ru")}
-                    disabled={isLoading}
-                    variant="outline"
-                    className="flex-1"
-                  >
-                    🇷🇺 На русский
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {field && (
-              <div>
-                <h3 className="font-semibold mb-2">Улучшить поле: {field}</h3>
-                <Button onClick={handleGetOptions} disabled={isLoading} className="w-full">
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Генерация вариантов...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-4 h-4 mr-2" />
-                      Получить варианты улучшений
-                    </>
-                  )}
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={handleClose}
+      title="AI Actions"
+      size="xl"
+    >
+      {mode === "menu" && (
+        <div className="space-y-4">
+          {!field && (
+            <div>
+              <h3 className="font-semibold mb-2 flex items-center gap-2">
+                <Languages className="w-4 h-4" />
+                Перевод проекта
+              </h3>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => handleTranslate("en")}
+                  disabled={isLoading}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  На английский
+                </Button>
+                <Button
+                  onClick={() => handleTranslate("ru")}
+                  disabled={isLoading}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  На русский
                 </Button>
               </div>
-            )}
-          </div>
-        )}
-
-        {mode === "options" && (
-          <div className="space-y-4">
-            <Button variant="ghost" size="sm" onClick={() => setMode("menu")} className="mb-2">
-              ← Назад
-            </Button>
-
-            {isLoading ? (
-              <div className="flex items-center justify-center py-8">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
-              </div>
-            ) : (
-              <>
-                <div className="space-y-3">
-                  {options.map((option, index) => (
-                    <div
-                      key={index}
-                      className={`p-4 border rounded-lg cursor-pointer transition-all ${
-                        selectedOption === index
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:border-primary/50"
-                      }`}
-                      onClick={() => setSelectedOption(index)}
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <h4 className="font-semibold">{option.title}</h4>
-                          <Badge variant="secondary" className="text-xs">
-                            {option.tone}
-                          </Badge>
-                        </div>
-                        {selectedOption === index && <Check className="w-5 h-5 text-primary" />}
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-2">{option.explanation}</p>
-                      <div className="text-sm bg-muted p-2 rounded">{option.value}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <Button onClick={handleApplyOption} disabled={selectedOption === null || isLoading} className="w-full">
-                  Применить выбранный вариант
-                </Button>
-              </>
-            )}
-          </div>
-        )}
-
-        {mode === "translate" && (
-          <div className="flex items-center justify-center py-8">
-            <div className="text-center">
-              <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-4" />
-              <p className="text-muted-foreground">Перевод проекта...</p>
             </div>
+          )}
+
+          {field && (
+            <div>
+              <h3 className="font-semibold mb-2">Улучшить поле: {field}</h3>
+              <Button onClick={handleGetOptions} disabled={isLoading} className="w-full">
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Генерация вариантов...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Получить варианты улучшений
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {mode === "options" && (
+        <div className="space-y-4">
+          <Button variant="ghost" size="sm" onClick={() => setMode("menu")} className="mb-2">
+            ← Назад
+          </Button>
+
+          {isLoading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <>
+              <div className="space-y-3">
+                {options.map((option, index) => (
+                  <div
+                    key={index}
+                    className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                      selectedOption === index
+                        ? "border-primary bg-primary/5"
+                        : "border-border hover:border-primary/50"
+                    }`}
+                    onClick={() => setSelectedOption(index)}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <h4 className="font-semibold">{option.title}</h4>
+                        <Badge variant="secondary" className="text-xs">
+                          {option.tone}
+                        </Badge>
+                      </div>
+                      {selectedOption === index && <Check className="w-5 h-5 text-primary" />}
+                    </div>
+                    <p className="text-sm text-muted-foreground mb-2">{option.explanation}</p>
+                    <div className="text-sm bg-muted p-2 rounded">{option.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              <Button onClick={handleApplyOption} disabled={selectedOption === null || isLoading} className="w-full">
+                Применить выбранный вариант
+              </Button>
+            </>
+          )}
+        </div>
+      )}
+
+      {mode === "translate" && (
+        <div className="flex items-center justify-center py-8">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-muted-foreground">Перевод проекта...</p>
           </div>
-        )}
-      </DialogContent>
-    </Dialog>
+        </div>
+      )}
+    </UnifiedDialog>
   );
 }
