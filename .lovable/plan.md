@@ -1,35 +1,75 @@
-## Фаза 0 — Восстановить гейты качества
+## Контекст
 
-Цель: вернуть рабочие typecheck + lint, чтобы «зелёный» CI снова что-то значил. Только локальные, безопасные правки.
+Базовая интеграция Suno Voice API уже выполнена:
 
-### Что делаем
+- **БД:** таблица `custom_voices` + бакеты `voice-sources`, `voice-verifications` с RLS на `auth.uid()`.
+- **Edge-функции:** `suno-voice-validate`, `-validate-info`, `-validate-callback`, `-generate`, `-generate-callback`, `-record-info`, `-check-voice`, `-regenerate`, плюс альтернативный `webhook-voice`.
+- **Фронтенд:** `voiceCloneApi`, `useVoiceCloneWizard` (polling), `useVoiceRecorder`, `useCustomVoices` (с realtime), `VoiceCloneWizard`, `CustomVoicePicker`, страницы `VoiceLibraryPage` и `VoiceHistoryPage`.
+- **Генерация:** `suno-music-generate` уже пробрасывает `voiceId` в Suno; `CustomVoicePicker` подключён в `GenerateFormCustom`.
+- **Кредиты:** в `suno-voice-validate` уже списывается 30 кредитов через `secure_credit_update` с авто-рефандом при ошибках.
 
-1. **Починить `eslint.config.js`**
-   - Невалидное правило `no-console: []` ломает запуск ESLint.
-   - Заменить на `"no-console": ["error", { "allow": ["warn", "error"] }]` (соответствует правилу проекта «только logger»).
-   - Прогнать `npm run lint`, убедиться что конфиг валиден (ошибки в коде допустимы — их чиним отдельно).
+Этот план — аудит + точечные правки, без перезаписи архитектуры.
 
-2. **Убрать битый реэкспорт BottomSheet**
-   - `src/components/ui/ux-components.ts:119` импортирует несуществующий `./BottomSheet`.
-   - Найти всех потребителей через `rg "from.*ux-components.*BottomSheet"` и `rg "ux-components\").*BottomSheet"`.
-   - Перевести их на канонический `@/components/mobile/MobileBottomSheet`.
-   - Удалить строку реэкспорта.
+## Что делаем
 
-3. **Исправить 3 TS-ошибки**
-   - `AnalyticsDashboard.tsx:222,242` — `GenerationStatsPanel` и `DeeplinkAnalyticsPanel` не принимают пропсы. Прочитать сигнатуры компонентов; либо убрать `data`/`isLoading`/`timeRange` из вызова, либо (если данные реально нужны) добавить пропсы в сами панели. Решение — по факту того, использует ли панель данные внутри (если использует свой хук — убираем пропсы; если пустая — добавляем пропсы и прокидываем).
-   - `StudioTranscriptionPanel.tsx:122` — `logger.debug(a, b, c, d)` вызвать как `logger.debug(msg, { ...context })`.
+### 1. Бэкенд: чистка дублей и багов
 
-4. **Верификация**
-   - `tsgo` / `tsc --noEmit` → 0 ошибок.
-   - `npm run lint` → конфиг загружается.
-   - Быстрый smoke в preview: открыть страницы, где использовались затронутые компоненты (Admin Analytics, Studio Transcription, любой экран с BottomSheet через ux-components).
+- **Удалить `supabase/functions/webhook-voice/`** — это устаревший дубль. Он использует `crypto.createHmac(...)` (Node API, недоступно в Deno) и сломан при запуске. Действующие колбэки — `suno-voice-validate-callback` и `suno-voice-generate-callback`. Убедиться, что `callbackUrl(...)` в `suno-voice-validate` / `-generate` указывает именно на них.
+- **`suno-voice-validate-callback` / `-generate-callback`:** добавить HMAC-проверку подписи (`SUNO_WEBHOOK_SECRET`) через `crypto.subtle` (WebCrypto, не Node). Если секрет не задан — логировать warning и пропускать (dev). Запросить секрет через `add_secret` отдельным шагом перед включением проверки.
+- **Подписанная ссылка на источник:** TTL 1 час недостаточен для медленной обработки Suno. Поднять до 24 часов в `suno-voice-validate` и `suno-voice-generate` (а `source_audio_url` хранить как путь, а не подписанный URL — он протухает).
+- **Идемпотентность колбэков:** в `*-callback` пропускать запись, если она уже в финальном статусе (`ready` / `failed`), чтобы повторные доставки от Suno не перетирали `voice_id`.
+- **Записывать `verify_path` и `generate_task_id`** в `custom_voices` в `suno-voice-generate` (сейчас только статус обновляется) — нужны для отладки и `regenerate`.
 
-### Что НЕ делаем в этой фазе
+### 2. Фронтенд: UX мастера и стабильность
 
-- Не трогаем бандл, дубли, гигантские файлы, тесты, CI-хуки — это Фазы 1–3.
-- Не правим существующие lint-ошибки в коде (только конфиг).
-- Не меняем поведение компонентов — только сигнатуры/импорты.
+- **`VoiceCloneWizard`:** заменить `Dialog` на `MobileBottomSheet` на мобильных (правило проекта: на мобилах — sheet/drawer). Добавить пошаговый прогресс-бар (1/6 … 6/6) и таймер ожидания на шагах `validating` / `generating`.
+- **Источник аудио (шаг 1):** добавить таб «Записать с микрофона» через существующий `useVoiceRecorder` (минимум 10 сек, рекомендация — петь). Запись и upload используют тот же путь, что и файл.
+- **Сегмент вокала:** заменить два `<input type=range>` на двойной range-слайдер по волне (можно простой — два бегунка над `<audio>`), показывать длительность и предупреждение при <5 сек.
+- **Realtime-апдейты вместо polling:** так как `useCustomVoices` уже подписан на `custom_voices` через realtime, поднять подписку в `useVoiceCloneWizard` и слушать обновления текущей строки. Polling оставить как fallback (включается, если за 10 сек не прилетел realtime-event).
+- **Очистка ресурсов:** в `VoiceCloneWizard` каждый рендер вызывает `URL.createObjectURL(file)` для `<audio>` — мемоизировать и `revokeObjectURL` в cleanup, иначе течёт память.
+- **Запись:** валидировать длительность ≥ 10 сек и ≤ 30 сек перед отправкой, проверить MIME (`audio/webm;codecs=opus`), показать peak-meter (уже есть утилиты в `lib/audio`).
+- **Состояние `failed`:** показывать сумму возврата кредитов и кнопку «Попробовать снова» (re-run без повторного списания, если предыдущая попытка вернула кредиты).
 
-### Результат
+### 3. Интеграция в генерацию
 
-Typecheck зелёный, ESLint снова запускается, мёртвый импорт убран. После этого можно безопасно браться за Фазу 1 (бандл).
+- **`GenerateFormCustom`:** показывать `CustomVoicePicker` только когда выбран режим с вокалом, скрывать при `instrumental=true`.
+- **Проверка `voiceId`:** перед отправкой в `suno-music-generate` дёргать `voiceCloneApi.checkVoice(voiceId)`; если недоступен — блокировать сабмит с понятной ошибкой.
+- **Extend / Cover:** проверить `suno-extend-audio` и `suno-remix` — пробросить `voiceId` так же, как в `suno-music-generate` (сейчас отсутствует).
+- **Аналитика:** логировать `voice_clone_started/completed/failed` и `generation_with_custom_voice` через существующий `logger` / analytics-хук.
+
+### 4. Безопасность и качество
+
+- **RLS-аудит** на `custom_voices`: подтвердить, что `SELECT/UPDATE/DELETE` строго `auth.uid() = user_id`, `INSERT` запрещён клиенту (создание только через edge-функцию с service role).
+- **Лимиты:** добавить cap «не больше N активных голосов на юзера» (например, 10) в `suno-voice-validate` с понятной ошибкой.
+- **Логи:** в edge-функциях заменить `console.error` на структурированный `logger` (если есть `_shared/logger.ts`).
+- **Типы:** прогнать `tsgo` после изменений; обновить `voice-types.ts` если поменяется API.
+
+### 5. Проверка
+
+- `tsgo --noEmit` зелёный.
+- Smoke-тест через Playwright: открыть `/voice-library`, открыть мастер, загрузить короткий wav, дойти до шага записи (Suno вызывать не будем — мок через edge-логи).
+- Ручной прогон end-to-end на staging Suno-ключе: validate → phrase → record → generate → ready → использовать в Custom-генерации.
+
+## Что НЕ делаем
+
+- Не переписываем существующие компоненты с нуля, не меняем схему `custom_voices`.
+- Не добавляем Telegram-боту команды для клонирования голоса (отдельный спринт).
+- Не трогаем `suno-music-generate` дальше проброса `voiceId` (он уже работает).
+
+## Технические детали
+
+| Файл | Изменение |
+|---|---|
+| `supabase/functions/webhook-voice/` | Удалить целиком |
+| `supabase/functions/suno-voice-validate-callback/index.ts` | HMAC через WebCrypto, idempotency-guard |
+| `supabase/functions/suno-voice-generate-callback/index.ts` | То же + запись `voice_id` только если `status != 'ready'` |
+| `supabase/functions/suno-voice-validate/index.ts` | TTL signed URL = 24h, лимит активных голосов |
+| `supabase/functions/suno-voice-generate/index.ts` | Сохранять `verify_path`, `generate_task_id` |
+| `supabase/functions/suno-extend-audio/index.ts` | Принимать и пробрасывать `voiceId` |
+| `supabase/functions/suno-remix/index.ts` | То же |
+| `src/components/voice-clone/VoiceCloneWizard.tsx` | Mobile sheet, прогресс-бар, таб «запись», fix memory leak, мемоизация URL |
+| `src/hooks/voice/useVoiceCloneWizard.ts` | Realtime-подписка + polling fallback |
+| `src/components/generate-form/GenerateFormCustom.tsx` | Скрывать picker при instrumental, pre-check `checkVoice` |
+| `supabase/migrations/<new>.sql` | (если нужно) индекс по `user_id,status` для лимита |
+
+После реализации: `manage_security_finding` не нужен (security-фиксы из прошлых сессий не затрагиваются).
