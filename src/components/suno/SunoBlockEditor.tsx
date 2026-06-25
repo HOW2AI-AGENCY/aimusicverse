@@ -244,7 +244,7 @@ export const SunoBlockEditor = ({
                             {(provided) => (
                               <div
                                 ref={provided.innerRef}
-                                {...provided.draggableProps}
+                                {...(provided.draggableProps as any)}
                               >
                                 <SectionBlock
                                   section={section}

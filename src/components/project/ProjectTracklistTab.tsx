@@ -322,7 +322,7 @@ export const ProjectTracklistTab = ({ project, tracks, isLoading }: ProjectTrack
                       {(provided, snapshot) => (
                         <Card
                           ref={provided.innerRef}
-                          {...provided.draggableProps}
+                          {...(provided.draggableProps as any)}
                           className={cn(
                             'glass-card transition-all',
                             snapshot.isDragging 
