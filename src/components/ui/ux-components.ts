@@ -19,9 +19,10 @@ export { PullToRefresh } from './PullToRefresh';
 // ============================================================================
 // ANIMATIONS
 // ============================================================================
-export { AnimatedList, AnimatedGrid } from './AnimatedList';
 export { PageTransition, AnimatedSection, FadeIn, ScaleIn } from './PageTransition';
-export { AnimatedCounter } from './AnimatedCounter';
+// Removed during UI unification (Phase 3): AnimatedList, AnimatedGrid, AnimatedCounter.
+// Use motion presets from `@/lib/motion-presets` directly.
+
 
 // ============================================================================
 // LOADING STATES
