@@ -884,7 +884,7 @@ export function useGenerateForm({
     mode, description, title, lyrics, style, hasVocals, model,
     negativeTags, vocalGender, styleWeight, weirdnessConstraint, audioWeight,
     audioFile, audioDuration, selectedArtistId, selectedProjectId, initialProjectId, planTrackId,
-    artists, navigate, onOpenChange, resetForm, activeReference, clearAudioReference,
+    customVoiceId, artists, navigate, onOpenChange, resetForm, activeReference, clearAudioReference,
     trackGeneration, generationCost, userBalance, canGenerate, invalidateCredits, loading,
   ]);
 
