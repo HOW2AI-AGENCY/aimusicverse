@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useLyricsTemplates } from "@/hooks/useLyricsTemplates";
-import { Loader2, FileText, Music, Tag } from "@/lib/icons";
+import { Loader2, Music, Tag } from "@/lib/icons";
 
 interface SaveTemplateDialogProps {
   open: boolean;
@@ -45,60 +45,14 @@ export function SaveTemplateDialog({ open, onOpenChange, lyrics, style, genre, m
     .trim();
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5 text-primary" />
-            Сохранить в библиотеку
-          </DialogTitle>
-        </DialogHeader>
-
-        <div className="space-y-4">
-          <div>
-            <Label htmlFor="template-name">Название шаблона</Label>
-            <Input
-              id="template-name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Например: Романтичная баллада"
-              className="mt-1.5"
-            />
-          </div>
-
-          {/* Preview */}
-          <div className="p-3 rounded-lg bg-muted/50 space-y-2">
-            {lyricsPreview && <p className="text-sm text-muted-foreground line-clamp-2">"{lyricsPreview}..."</p>}
-
-            <div className="flex flex-wrap gap-1.5">
-              {style && (
-                <Badge variant="secondary" className="text-xs">
-                  <Music className="w-3 h-3 mr-1" />
-                  {style.slice(0, 30)}
-                  {style.length > 30 ? "..." : ""}
-                </Badge>
-              )}
-              {genre && (
-                <Badge variant="outline" className="text-xs">
-                  {genre}
-                </Badge>
-              )}
-              {mood && (
-                <Badge variant="outline" className="text-xs">
-                  {mood}
-                </Badge>
-              )}
-              {tags && tags.length > 0 && (
-                <Badge variant="outline" className="text-xs">
-                  <Tag className="w-3 h-3 mr-1" />
-                  {tags.length} тегов
-                </Badge>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <DialogFooter>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Сохранить в библиотеку"
+      size="md"
+      footer={
+        <div className="flex gap-2 justify-end">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Отмена
           </Button>
@@ -112,8 +66,52 @@ export function SaveTemplateDialog({ open, onOpenChange, lyrics, style, genre, m
               "Сохранить"
             )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </div>
+      }
+    >
+      <div className="space-y-4">
+        <div>
+          <Label htmlFor="template-name">Название шаблона</Label>
+          <Input
+            id="template-name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Например: Романтичная баллада"
+            className="mt-1.5"
+          />
+        </div>
+
+        {/* Preview */}
+        <div className="p-3 rounded-lg bg-muted/50 space-y-2">
+          {lyricsPreview && <p className="text-sm text-muted-foreground line-clamp-2">"{lyricsPreview}..."</p>}
+
+          <div className="flex flex-wrap gap-1.5">
+            {style && (
+              <Badge variant="secondary" className="text-xs">
+                <Music className="w-3 h-3 mr-1" />
+                {style.slice(0, 30)}
+                {style.length > 30 ? "..." : ""}
+              </Badge>
+            )}
+            {genre && (
+              <Badge variant="outline" className="text-xs">
+                {genre}
+              </Badge>
+            )}
+            {mood && (
+              <Badge variant="outline" className="text-xs">
+                {mood}
+              </Badge>
+            )}
+            {tags && tags.length > 0 && (
+              <Badge variant="outline" className="text-xs">
+                <Tag className="w-3 h-3 mr-1" />
+                {tags.length} тегов
+              </Badge>
+            )}
+          </div>
+        </div>
+      </div>
+    </UnifiedDialog>
   );
 }

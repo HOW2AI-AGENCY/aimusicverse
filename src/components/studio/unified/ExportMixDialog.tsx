@@ -1,6 +1,5 @@
 import { useState, useCallback } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -9,7 +8,6 @@ import { Switch } from "@/components/ui/switch";
 import { Download, X, FileAudio, Loader2 } from "@/lib/icons";
 import { useMixExport, ExportFormat, ExportQuality, Mp3Bitrate } from "@/hooks/studio/useMixExport";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useTelegramSecondaryButton } from "@/hooks/telegram/useTelegramSecondaryButton";
 
 interface ExportMixDialogProps {
@@ -31,7 +29,6 @@ export function ExportMixDialog({
   masterVolume,
   trackTitle = "mix",
 }: ExportMixDialogProps) {
-  const isMobile = useIsMobile();
   const [format, setFormat] = useState<ExportFormat>("wav");
   const [quality, setQuality] = useState<ExportQuality>("high");
   const [mp3Bitrate, setMp3Bitrate] = useState<Mp3Bitrate>(320);
@@ -246,37 +243,16 @@ export function ExportMixDialog({
     </>
   );
 
-  // Mobile: use Drawer
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[90vh]">
-          <DrawerHeader>
-            <DrawerTitle className="flex items-center gap-2">
-              <FileAudio className="h-5 w-5" />
-              Экспорт микса
-            </DrawerTitle>
-            <DrawerDescription>{activeTracksCount} активных дорожек будут объединены в один файл</DrawerDescription>
-          </DrawerHeader>
-          <div className="px-4 pb-safe overflow-y-auto">{content}</div>
-        </DrawerContent>
-      </Drawer>
-    );
-  }
-
-  // Desktop: use Dialog
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <FileAudio className="h-5 w-5" />
-            Экспорт микса
-          </DialogTitle>
-          <DialogDescription>{activeTracksCount} активных дорожек будут объединены в один файл</DialogDescription>
-        </DialogHeader>
-        {content}
-      </DialogContent>
-    </Dialog>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Экспорт микса"
+      description={`${activeTracksCount} активных дорожек будут объединены в один файл`}
+      size="sm"
+    >
+      {content}
+    </UnifiedDialog>
   );
 }

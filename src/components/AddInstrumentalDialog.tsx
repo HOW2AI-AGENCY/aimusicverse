@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -137,14 +137,13 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Music className="w-5 h-5" />
-            Добавить инструментал
-          </DialogTitle>
-        </DialogHeader>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Добавить инструментал"
+      size="lg"
+    >
 
         <div className="space-y-4">
           {/* Progress indicator */}
@@ -267,7 +266,6 @@ export const AddInstrumentalDialog = ({ open, onOpenChange, track }: AddInstrume
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+    </UnifiedDialog>
   );
 };

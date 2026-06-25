@@ -4,7 +4,6 @@
 
 // Touch & Gesture hooks
 export { useLongPress } from "../useLongPress";
-export { useSwipeGesture } from "../useSwipeGesture";
 export { useGestures } from "../useGestures";
 
 // Keyboard hooks
@@ -29,9 +28,6 @@ export {
 
 // Optimistic updates
 export { useOptimisticUpdate } from "../useOptimisticUpdate";
-
-// Bottom sheet gestures
-export { useBottomSheetGestures } from "../useBottomSheetGestures";
 
 // Pull to refresh
 export { usePullToRefresh } from "../usePullToRefresh";

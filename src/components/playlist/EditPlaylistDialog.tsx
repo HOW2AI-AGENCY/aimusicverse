@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ImagePlus, Loader2 } from "@/lib/icons";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -85,91 +85,96 @@ export function EditPlaylistDialog({ playlist, open, onOpenChange }: EditPlaylis
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Редактировать плейлист</DialogTitle>
-        </DialogHeader>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Cover */}
-          <div className="space-y-2">
-            <Label>Обложка</Label>
-            <div className="flex gap-3 items-center">
-              <div className="w-20 h-20 rounded-lg overflow-hidden bg-muted shrink-0">
-                {coverUrl ? (
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    src={coverUrl}
-                    alt="Cover"
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                    <ImagePlus className="h-8 w-8" />
-                  </div>
-                )}
-              </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                onClick={handleGenerateCover}
-                disabled={isGeneratingCover}
-              >
-                {isGeneratingCover ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    Генерация...
-                  </>
-                ) : (
-                  "Сгенерировать обложку"
-                )}
-              </Button>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Редактировать плейлист"
+      size="sm"
+      footer={
+        <div className="flex justify-end gap-2">
+          <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            Отмена
+          </Button>
+          <Button
+            type="submit"
+            form="edit-playlist-form"
+            disabled={!title.trim() || isSubmitting}
+          >
+            {isSubmitting ? "Сохранение..." : "Сохранить"}
+          </Button>
+        </div>
+      }
+    >
+      <form id="edit-playlist-form" onSubmit={handleSubmit} className="space-y-4">
+        {/* Cover */}
+        <div className="space-y-2">
+          <Label>Обложка</Label>
+          <div className="flex gap-3 items-center">
+            <div className="w-20 h-20 rounded-lg overflow-hidden bg-muted shrink-0">
+              {coverUrl ? (
+                <img
+                  loading="lazy"
+                  decoding="async"
+                  src={coverUrl}
+                  alt="Cover"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                  <ImagePlus className="h-8 w-8" />
+                </div>
+              )}
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="edit-title">Название</Label>
-            <Input
-              id="edit-title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Мой плейлист"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="edit-description">Описание</Label>
-            <Textarea
-              id="edit-description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Опишите плейлист..."
-              rows={3}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label htmlFor="edit-public">Публичный</Label>
-              <p className="text-sm text-muted-foreground">Другие пользователи смогут видеть плейлист</p>
-            </div>
-            <Switch id="edit-public" checked={isPublic} onCheckedChange={setIsPublic} />
-          </div>
-
-          <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-              Отмена
-            </Button>
-            <Button type="submit" disabled={!title.trim() || isSubmitting}>
-              {isSubmitting ? "Сохранение..." : "Сохранить"}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleGenerateCover}
+              disabled={isGeneratingCover}
+            >
+              {isGeneratingCover ? (
+                <>
+                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                  Генерация...
+                </>
+              ) : (
+                "Сгенерировать обложку"
+              )}
             </Button>
           </div>
-        </form>
-      </DialogContent>
-    </Dialog>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="edit-title">Название</Label>
+          <Input
+            id="edit-title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Мой плейлист"
+            required
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="edit-description">Описание</Label>
+          <Textarea
+            id="edit-description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Опишите плейлист..."
+            rows={3}
+          />
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div className="space-y-0.5">
+            <Label htmlFor="edit-public">Публичный</Label>
+            <p className="text-sm text-muted-foreground">Другие пользователи смогут видеть плейлист</p>
+          </div>
+          <Switch id="edit-public" checked={isPublic} onCheckedChange={setIsPublic} />
+        </div>
+      </form>
+    </UnifiedDialog>
   );
 }

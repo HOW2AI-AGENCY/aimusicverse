@@ -79,14 +79,14 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
     >
       <div className="flex items-center gap-2 px-3 pb-2.5 min-h-[52px]">
         {/* Leading */}
-        <div className="flex items-center gap-1 shrink-0 w-10">
+        <div className="flex items-center gap-1 shrink-0 w-11">
           {leading ||
             (showBack && onBack && (
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleBack}
-                className="h-10 w-10 rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
+                className="h-11 w-11 min-w-[44px] min-h-[44px] rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
                 aria-label="Назад"
               >
                 <ArrowLeft className="w-5 h-5" strokeWidth={2.2} />
@@ -116,7 +116,7 @@ export const MobileHeaderBar = memo(function MobileHeaderBar({
                 variant="ghost"
                 size="icon"
                 onClick={handleMore}
-                className="h-10 w-10 rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
+                className="h-11 w-11 min-w-[44px] min-h-[44px] rounded-full hover:bg-muted/60 active:scale-95 transition-transform"
                 aria-label="Дополнительно"
               >
                 <MoreVertical className="w-5 h-5" strokeWidth={2.2} />

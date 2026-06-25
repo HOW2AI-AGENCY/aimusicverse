@@ -5,7 +5,7 @@
  */
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { UnifiedDialog } from "@/components/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -68,15 +68,13 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Clock className="w-5 h-5 text-primary" />
-            Расширить трек
-          </DialogTitle>
-          <DialogDescription>AI продлит трек или добавит новое вступление</DialogDescription>
-        </DialogHeader>
+    <UnifiedDialog
+      variant="modal"
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Расширить трек"
+      description="AI продлит трек или добавит новое вступление"
+    >
 
         <div className="space-y-4 py-2">
           {/* Current Track */}
@@ -180,7 +178,6 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
             )}
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+    </UnifiedDialog>
   );
 }
