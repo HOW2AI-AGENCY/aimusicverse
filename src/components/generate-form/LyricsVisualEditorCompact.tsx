@@ -143,6 +143,61 @@ export function applyTemplateToSections(
 
 export { parseLyrics, sectionsToLyrics };
 
+// ---- Dev metrics types & helpers ----
+export interface SyncFocusSnapshot {
+  sectionId: string | null;
+  tagName: string | null;
+  selectionStart: number | null;
+  selectionEnd: number | null;
+  valueLength: number | null;
+}
+export interface SyncSnapshot {
+  id: string;
+  ts: number;
+  phase: "before" | "after";
+  syncIndex: number;
+  sections: Array<{ id: string; type: string; content: string }>;
+  focus: SyncFocusSnapshot;
+}
+export interface LyricsEditorMetrics {
+  renders: number;
+  externalSyncs: number;
+  lastRenderAt: number;
+  snapshots: SyncSnapshot[];
+  reset?: () => void;
+}
+
+const MAX_SNAPSHOTS = 200;
+
+function captureFocusSnapshot(): SyncFocusSnapshot {
+  if (typeof document === "undefined") {
+    return { sectionId: null, tagName: null, selectionStart: null, selectionEnd: null, valueLength: null };
+  }
+  const el = document.activeElement as HTMLElement | null;
+  if (!el) return { sectionId: null, tagName: null, selectionStart: null, selectionEnd: null, valueLength: null };
+  const sectionId = el.getAttribute?.("data-section-id") ?? null;
+  const ta = el as HTMLTextAreaElement;
+  const isField = typeof ta.selectionStart === "number";
+  return {
+    sectionId,
+    tagName: el.tagName?.toLowerCase() ?? null,
+    selectionStart: isField ? ta.selectionStart : null,
+    selectionEnd: isField ? ta.selectionEnd : null,
+    valueLength: isField && typeof ta.value === "string" ? ta.value.length : null,
+  };
+}
+
+function pushSnapshot(snap: SyncSnapshot) {
+  if (typeof window === "undefined") return;
+  const w = window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics };
+  const m = w.__lyricsEditorMetrics;
+  if (!m) return;
+  const arr = m.snapshots ?? (m.snapshots = []);
+  arr.push(snap);
+  if (arr.length > MAX_SNAPSHOTS) arr.splice(0, arr.length - MAX_SNAPSHOTS);
+}
+
+
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
   // Track the last lyrics string we emitted, so external changes (mode switch, AI, templates)
@@ -155,24 +210,20 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   const syncCountRef = useRef(0);
   renderCountRef.current += 1;
   if (import.meta.env?.DEV) {
-    const w = window as unknown as {
-      __lyricsEditorMetrics?: {
-        renders: number;
-        externalSyncs: number;
-        lastRenderAt: number;
-        reset?: () => void;
-      };
-    };
+    const w = window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics };
+    const existing = w.__lyricsEditorMetrics;
     w.__lyricsEditorMetrics = {
       renders: renderCountRef.current,
       externalSyncs: syncCountRef.current,
       lastRenderAt: performance.now(),
+      snapshots: existing?.snapshots ?? [],
       reset: () => {
         renderCountRef.current = 0;
         syncCountRef.current = 0;
         if (w.__lyricsEditorMetrics) {
           w.__lyricsEditorMetrics.renders = 0;
           w.__lyricsEditorMetrics.externalSyncs = 0;
+          w.__lyricsEditorMetrics.snapshots = [];
         }
       },
     };
@@ -189,6 +240,27 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
         if (prev && prev.type === p.type) return { ...p, id: prev.id };
         return p;
       });
+      if (import.meta.env?.DEV) {
+        const focus = captureFocusSnapshot();
+        const ts = Date.now();
+        const syncId = `sync-${ts}-${syncCountRef.current}`;
+        pushSnapshot({
+          id: syncId,
+          ts,
+          phase: "before",
+          syncIndex: syncCountRef.current,
+          sections: sections.map((s) => ({ id: s.id, type: s.type, content: s.content })),
+          focus,
+        });
+        pushSnapshot({
+          id: syncId,
+          ts,
+          phase: "after",
+          syncIndex: syncCountRef.current,
+          sections: merged.map((s) => ({ id: s.id, type: s.type, content: s.content })),
+          focus,
+        });
+      }
       setSections(merged);
     }
     lastEmittedRef.current = value;
@@ -335,6 +407,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
                 onChange={(e) => updateSectionContent(section.id, e.target.value)}
                 placeholder="Текст секции — каждая строка с новой строки..."
                 rows={3}
+                data-section-id={section.id}
                 className="border-0 rounded-none bg-transparent text-sm leading-relaxed resize-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
               />
               <div className="flex items-center justify-between px-2 py-1 text-[10px] text-muted-foreground/70 bg-muted/10 border-t border-border/30">
