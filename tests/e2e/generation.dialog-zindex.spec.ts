@@ -94,10 +94,10 @@ for (const vp of [
 
       // Computed: dialog effective z-index >= decoy (200).
       const effectiveZ = await dialog.evaluate((el) => {
-        let node: HTMLElement | null = el;
+        let node: Element | null = el;
         let max = 0;
         while (node && node !== document.body) {
-          const z = parseInt(getComputedStyle(node).zIndex, 10);
+          const z = parseInt(getComputedStyle(node as Element).zIndex, 10);
           if (!Number.isNaN(z)) max = Math.max(max, z);
           node = node.parentElement;
         }
