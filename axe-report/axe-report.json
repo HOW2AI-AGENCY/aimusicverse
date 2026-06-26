@@ -1,163 +1,48 @@
 {
   "/": [
     {
-      "id": "region",
-      "impact": "moderate",
-      "tags": [
-        "cat.keyboard",
-        "best-practice"
-      ],
-      "description": "Ensure all page content is contained by landmarks",
-      "help": "All page content should be contained by landmarks",
-      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/region?application=axeAPI",
-      "nodes": [
-        {
-          "any": [
-            {
-              "id": "region",
-              "data": {
-                "isIframe": false
-              },
-              "relatedNodes": [],
-              "impact": "moderate",
-              "message": "Some page content is not contained by landmarks"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "moderate",
-          "html": "<h1 class=\"text-3xl font-bold text-center mb-2\" style=\"opacity: 1; transform: none;\">MusicVerse AI</h1>",
-          "target": [
-            ".text-3xl"
-          ],
-          "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
-        },
-        {
-          "any": [
-            {
-              "id": "region",
-              "data": {
-                "isIframe": false
-              },
-              "relatedNodes": [],
-              "impact": "moderate",
-              "message": "Some page content is not contained by landmarks"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "moderate",
-          "html": "<p class=\"text-lg text-muted-foreground text-center mb-8\" style=\"opacity: 1; transform: none;\">\u0421\u043e\u0437\u0434\u0430\u0432\u0430\u0439 \u043c\u0443\u0437\u044b\u043a\u0443 \u0441 \u043f\u043e\u043c\u043e\u0449\u044c\u044e AI</p>",
-          "target": [
-            ".text-lg"
-          ],
-          "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
-        }
-      ]
-    }
-  ],
-  "/library": [
-    {
-      "id": "heading-order",
+      "id": "landmark-no-duplicate-main",
       "impact": "moderate",
       "tags": [
         "cat.semantics",
         "best-practice"
       ],
-      "description": "Ensure the order of headings is semantically correct",
-      "help": "Heading levels should only increase by one",
-      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/heading-order?application=axeAPI",
+      "description": "Ensure the document has at most one main landmark",
+      "help": "Document should not have more than one main landmark",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-main?application=axeAPI",
       "nodes": [
         {
           "any": [
             {
-              "id": "heading-order",
+              "id": "page-no-duplicate-main",
               "data": null,
-              "relatedNodes": [],
+              "relatedNodes": [
+                {
+                  "html": "<main id=\"main-content\" class=\"flex-1 flex flex-col overflow-y-auto relative transition-all duration-300 ml-64 pt-9\" style=\"min-height: var(--tg-viewport-stable-height, 100vh); padding-bottom: calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem);\">",
+                  "target": [
+                    "#main-content"
+                  ]
+                }
+              ],
               "impact": "moderate",
-              "message": "Heading order invalid"
+              "message": "Document has more than one main landmark"
             }
           ],
           "all": [],
           "none": [],
           "impact": "moderate",
-          "html": "<h4 class=\"text-h4 truncate text-sm sm:text-base\">\u041f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u043e\u0435</h4>",
+          "html": "<div role=\"main\" aria-label=\"\u041f\u0440\u0438\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435\" class=\"h-full flex flex-col items-center justify-center px-6 pb-20\" style=\"opacity: 1; transform: none;\">",
           "target": [
-            "#section-featured > .space-y-3 > .justify-between.flex.items-center > .gap-2\\.5.sm\\:gap-3.flex > .min-w-0.flex-1 > .sm\\:gap-2.gap-1\\.5.flex > h4"
+            ".px-6"
           ],
-          "failureSummary": "Fix any of the following:\n  Heading order invalid"
+          "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
         }
       ]
     }
   ],
-  "/pricing": [
-    {
-      "id": "heading-order",
-      "impact": "moderate",
-      "tags": [
-        "cat.semantics",
-        "best-practice"
-      ],
-      "description": "Ensure the order of headings is semantically correct",
-      "help": "Heading levels should only increase by one",
-      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/heading-order?application=axeAPI",
-      "nodes": [
-        {
-          "any": [
-            {
-              "id": "heading-order",
-              "data": null,
-              "relatedNodes": [],
-              "impact": "moderate",
-              "message": "Heading order invalid"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "moderate",
-          "html": "<h4 class=\"text-h4 truncate text-sm sm:text-base\">\u041f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u043e\u0435</h4>",
-          "target": [
-            "#section-featured > .space-y-3 > .justify-between.flex.items-center > .gap-2\\.5.sm\\:gap-3.flex > .min-w-0.flex-1 > .sm\\:gap-2.gap-1\\.5.flex > h4"
-          ],
-          "failureSummary": "Fix any of the following:\n  Heading order invalid"
-        }
-      ]
-    }
-  ],
-  "/auth": [
-    {
-      "id": "heading-order",
-      "impact": "moderate",
-      "tags": [
-        "cat.semantics",
-        "best-practice"
-      ],
-      "description": "Ensure the order of headings is semantically correct",
-      "help": "Heading levels should only increase by one",
-      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/heading-order?application=axeAPI",
-      "nodes": [
-        {
-          "any": [
-            {
-              "id": "heading-order",
-              "data": null,
-              "relatedNodes": [],
-              "impact": "moderate",
-              "message": "Heading order invalid"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "moderate",
-          "html": "<h4 class=\"text-h4 truncate text-sm sm:text-base\">\u041f\u043e\u043f\u0443\u043b\u044f\u0440\u043d\u043e\u0435</h4>",
-          "target": [
-            "#section-featured > .space-y-3 > .justify-between.flex.items-center > .gap-2\\.5.sm\\:gap-3.flex > .min-w-0.flex-1 > .sm\\:gap-2.gap-1\\.5.flex > h4"
-          ],
-          "failureSummary": "Fix any of the following:\n  Heading order invalid"
-        }
-      ]
-    }
-  ],
+  "/library": [],
+  "/pricing": [],
+  "/auth": [],
   "/community": [
     {
       "id": "heading-order",
