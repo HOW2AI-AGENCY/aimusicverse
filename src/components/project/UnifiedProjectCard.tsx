@@ -274,14 +274,14 @@ const GridCard = memo(function GridCard({
 
       {/* Info */}
       <div className={cn("space-y-2", isMobile ? "p-3.5" : "p-3")}>
-        <h3
+        <h2
           className={cn(
             "font-bold truncate group-hover:text-primary transition-colors",
             isMobile ? "text-base" : "text-sm",
           )}
         >
           {project.title}
-        </h3>
+        </h2>
         <div className="flex items-center gap-1.5 flex-wrap">
           {project.genre && (
             <Badge variant="secondary" className={cn(isMobile ? "text-[10px] h-5 px-2" : "text-[9px] h-4 px-1.5")}>
