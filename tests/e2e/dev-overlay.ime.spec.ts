@@ -34,23 +34,50 @@ async function prepare(page: Page) {
 test.describe("IME composition does not trigger hotkey", () => {
   test.use({ viewport: { width: 1280, height: 800 } });
 
-  test("composing inside textarea + hotkey keypress is a no-op", async ({ page }) => {
+  test("composing inside textarea + hotkey keypress is a no-op (multi-char, paused)", async ({
+    page,
+  }) => {
     await prepare(page);
 
-    // Drive a realistic IME session: compositionstart → updates → end.
-    await page.evaluate(() => {
-      const ta = document.getElementById("e2e-ime") as HTMLTextAreaElement;
-      ta.dispatchEvent(new CompositionEvent("compositionstart", { data: "" }));
-      ta.dispatchEvent(new CompositionEvent("compositionupdate", { data: "に" }));
-      ta.dispatchEvent(new CompositionEvent("compositionupdate", { data: "にほ" }));
-    });
+    // Simulate a realistic multi-character IME session with pauses, firing
+    // the hotkey both on compositionupdate AND right before compositionend.
+    const phases = ["に", "にほ", "にほん", "にほんご"];
+    for (const data of phases) {
+      const phaseResult = await page.evaluate((d) => {
+        const ta = document.getElementById("e2e-ime") as HTMLTextAreaElement;
+        if (d === "に") {
+          ta.dispatchEvent(new CompositionEvent("compositionstart", { data: "" }));
+        }
+        ta.dispatchEvent(new CompositionEvent("compositionupdate", { data: d }));
+        // Fire the hotkey under isComposing=true → MUST be ignored.
+        const ev = new KeyboardEvent("keydown", {
+          key: "M",
+          code: "KeyM",
+          ctrlKey: true,
+          shiftKey: true,
+          isComposing: true,
+          bubbles: true,
+          cancelable: true,
+        });
+        window.dispatchEvent(ev);
+        return {
+          overlayMounted: !!document.querySelector(
+            '[aria-label="Lyrics editor render metrics (dev)"]',
+          ),
+          defaultPrevented: ev.defaultPrevented,
+        };
+      }, data);
+      expect(
+        phaseResult.overlayMounted,
+        `overlay must stay hidden on compositionupdate "${data}"`,
+      ).toBe(false);
+      expect(phaseResult.defaultPrevented).toBe(false);
+      // Human-like pause between candidate updates.
+      await page.waitForTimeout(80);
+    }
 
-    // While composition is "active", fire the hotkey via a synthetic event
-    // carrying isComposing=true (the only signal a browser would provide).
-    const triggered = await page.evaluate(() => {
-      const before = !!document.querySelector(
-        '[aria-label="Lyrics editor render metrics (dev)"]',
-      );
+    // Fire one more hotkey immediately BEFORE compositionend (still composing).
+    const beforeEnd = await page.evaluate(() => {
       const ev = new KeyboardEvent("keydown", {
         key: "M",
         code: "KeyM",
@@ -61,26 +88,27 @@ test.describe("IME composition does not trigger hotkey", () => {
         cancelable: true,
       });
       window.dispatchEvent(ev);
-      const after = !!document.querySelector(
+      return !!document.querySelector(
         '[aria-label="Lyrics editor render metrics (dev)"]',
       );
-      return { before, after, defaultPrevented: ev.defaultPrevented };
     });
-    expect(triggered.before).toBe(false);
-    expect(triggered.after).toBe(false);
-    expect(triggered.defaultPrevented).toBe(false);
+    expect(beforeEnd).toBe(false);
 
-    // Commit the composition — textarea must hold the composed value.
+    // End composition and commit the value.
     await page.evaluate(() => {
       const ta = document.getElementById("e2e-ime") as HTMLTextAreaElement;
-      ta.dispatchEvent(new CompositionEvent("compositionend", { data: "日本" }));
-      ta.value = "日本";
+      ta.dispatchEvent(new CompositionEvent("compositionend", { data: "日本語" }));
+      ta.value = "日本語";
       ta.dispatchEvent(new Event("input", { bubbles: true }));
     });
 
-    const value = await page.locator("#e2e-ime").inputValue();
-    expect(value).toBe("日本");
+    // Hotkey fired RIGHT AFTER compositionend but with focus still inside the
+    // textarea — handler's "focus is in textarea" guard must still block it.
+    await page.locator("#e2e-ime").focus();
+    await page.keyboard.press("Control+Shift+M");
     await expect(page.locator(OVERLAY)).toHaveCount(0);
+
+    expect(await page.locator("#e2e-ime").inputValue()).toBe("日本語");
   });
 
   test("regular typing in textarea is not intercepted by hotkey handler", async ({ page }) => {
