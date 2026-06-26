@@ -103,9 +103,14 @@ function sectionsToLyrics(sections: LyricSection[]): string {
     .join("\n\n");
 }
 
-// Stable signature ignoring volatile IDs — used to detect real content changes.
-function sectionsSignature(sections: LyricSection[]): string {
-  return JSON.stringify(sections.map((s) => ({ type: s.type, content: s.content })));
+// Structural equality ignoring volatile IDs — avoids JSON.stringify allocations on every keystroke.
+function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i].type !== b[i].type || a[i].content !== b[i].content) return false;
+  }
+  return true;
 }
 
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
@@ -117,7 +122,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   useEffect(() => {
     if (value === lastEmittedRef.current) return;
     const parsed = parseLyrics(value);
-    if (sectionsSignature(parsed) !== sectionsSignature(sections)) {
+    if (!sectionsEqual(parsed, sections)) {
       // Preserve existing IDs where possible to keep React keys + focus stable.
       const merged = parsed.map((p, i) => {
         const prev = sections[i];
