@@ -116,9 +116,40 @@ function Sparkline({
   );
 }
 
+/**
+ * Detect "mobile-ish" environments where the dev-overlay must never appear:
+ *  - narrow viewport (<768px) — covers phones in portrait
+ *  - coarse pointer (touch-only) — covers phones/tablets without a mouse
+ *  - no physical keyboard → the Ctrl/Cmd+Shift+M hotkey is unreachable anyway
+ * On SSR (no window) we default to "mobile" to stay safe.
+ */
+function useIsMobileDevice(): boolean {
+  const [isMobile, setIsMobile] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    const narrow = window.matchMedia("(max-width: 767px)").matches;
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    return narrow || coarse;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mqlNarrow = window.matchMedia("(max-width: 767px)");
+    const mqlCoarse = window.matchMedia("(pointer: coarse)");
+    const update = () => setIsMobile(mqlNarrow.matches || mqlCoarse.matches);
+    mqlNarrow.addEventListener("change", update);
+    mqlCoarse.addEventListener("change", update);
+    return () => {
+      mqlNarrow.removeEventListener("change", update);
+      mqlCoarse.removeEventListener("change", update);
+    };
+  }, []);
+  return isMobile;
+}
+
 export function LyricsEditorMetricsOverlay() {
+  const isMobile = useIsMobileDevice();
+
   // Hidden by default to avoid covering mobile UI / intercepting clicks above
-  // modals. Toggle with Ctrl/Cmd+Shift+M; preference is persisted.
+  // modals. Toggle with Ctrl/Cmd+Shift+M (desktop only); preference is persisted.
   const [visible, setVisible] = useState<boolean>(() => {
     try {
       return localStorage.getItem(VISIBLE_KEY) === "1";
