@@ -216,10 +216,11 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-5 w-5 text-muted-foreground hover:text-destructive"
+                  aria-label="Удалить секцию"
+                  className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-destructive"
                   onClick={() => deleteSection(section.id)}
                 >
-                  <Trash2 className="w-3 h-3" />
+                  <Trash2 className="w-4 h-4" />
                 </Button>
               </div>
 

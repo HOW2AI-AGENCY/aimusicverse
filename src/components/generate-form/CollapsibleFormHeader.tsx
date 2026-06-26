@@ -91,11 +91,11 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-full hover:bg-muted flex-shrink-0"
+            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted flex-shrink-0"
             onClick={onClose}
             aria-label="Закрыть"
           >
-            <X className="w-4 h-4 text-muted-foreground" />
+            <X className="w-5 h-5 text-muted-foreground" />
           </Button>
         )}
       </div>
@@ -119,7 +119,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 onClick={() => onModeChange?.(modeKey)}
                 aria-pressed={isActive}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 min-h-[36px] rounded-xl text-xs font-semibold transition-all duration-200",
+                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200",
                   isActive
                     ? "bg-background text-foreground shadow-sm ring-1 ring-border/60"
                     : "text-muted-foreground hover:text-foreground",
@@ -138,7 +138,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-1 min-h-[36px] px-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted transition-all"
+                className="flex items-center gap-1 min-h-[44px] min-w-[44px] px-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted transition-all"
                 aria-label={`Модель ${currentModel.name}`}
               >
                 <span className="text-sm leading-none">{currentModel.emoji}</span>
@@ -171,7 +171,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted flex-shrink-0"
+            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl bg-muted/40 border border-border/50 hover:bg-muted flex-shrink-0"
             onClick={(e) => {
               e.stopPropagation();
               onOpenHistory();
