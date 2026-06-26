@@ -58,7 +58,7 @@ export function LikeButton({
       className={cn(
         "relative transition-all",
         isGlass && cn(glassButton.default, "border-0"),
-        isLiked && "text-red-500 hover:text-red-600",
+        isLiked && "text-destructive hover:text-destructive",
         className,
       )}
     >
@@ -87,7 +87,7 @@ export function LikeButton({
           animate={{ opacity: [0, 1, 0] }}
           transition={{ duration: 0.5 }}
         >
-          <Heart className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-red-500/30" />
+          <Heart className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 text-destructive/30" />
         </motion.div>
       )}
     </Button>
