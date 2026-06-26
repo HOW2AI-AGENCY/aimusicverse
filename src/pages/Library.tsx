@@ -31,6 +31,7 @@ import { motion } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { ErrorBoundaryWrapper } from "@/components/ErrorBoundaryWrapper";
+import { PageErrorState } from "@/components/errors/PageErrorState";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { GeneratingTrackSkeleton } from "@/components/library/GeneratingTrackSkeleton";
 import { TrackCardSkeleton, TrackRowSkeleton } from "@/components/ui/skeleton-components";
@@ -91,6 +92,7 @@ export default function Library() {
     isFetchingNextPage,
     fetchNextPage,
     refetchTracks,
+    tracksError,
     deleteTrack,
     toggleLike,
     logPlay,
@@ -199,6 +201,15 @@ export default function Library() {
   // Redirect if not authenticated
   if (!isAuthenticated) {
     return <Navigate to="/auth" replace />;
+  }
+
+  // Error state
+  if (tracksError && !isLoading) {
+    return (
+      <ErrorBoundaryWrapper>
+        <PageErrorState error={tracksError} onRetry={() => refetchTracks()} />
+      </ErrorBoundaryWrapper>
+    );
   }
 
   return (

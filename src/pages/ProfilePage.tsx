@@ -24,6 +24,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useOnboarding } from "@/hooks/useOnboarding";
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useUserStats } from "@/hooks/useUserStats";
+import { PageErrorState } from "@/components/errors/PageErrorState";
 import { motion } from "@/lib/motion";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
@@ -34,7 +35,7 @@ import { DesktopDashboardLayout } from "@/components/layout/desktop";
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const { hapticFeedback, user: telegramUser } = useTelegram();
-  const { data: profile } = useProfile();
+  const { data: profile, error: profileError, refetch: refetchProfile } = useProfile();
   const { logout } = useAuth();
   const { startOnboarding } = useOnboarding();
   const { data: adminAuth } = useAdminAuth();
@@ -46,6 +47,11 @@ export const ProfilePage = () => {
     visible: true,
     fallbackPath: "/",
   });
+
+  // Error state
+  if (profileError) {
+    return <PageErrorState error={profileError} onRetry={() => refetchProfile()} />;
+  }
 
   const displayUser = profile || telegramUser;
 
