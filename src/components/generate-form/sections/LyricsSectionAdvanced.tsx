@@ -9,7 +9,7 @@
  * - Template quick-actions
  */
 
-import { memo, useState, useMemo, useCallback } from "react";
+import { memo, useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
@@ -82,6 +82,25 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
   const [showQuickTemplates, setShowQuickTemplates] = useState(false);
+
+  // Preserve cursor/selection in the text-mode textarea across mode switches.
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const selectionRef = useRef<{ start: number; end: number } | null>(null);
+
+  useEffect(() => {
+    if (viewMode !== "text") return;
+    const el = textareaRef.current;
+    const sel = selectionRef.current;
+    if (!el || !sel) return;
+    const len = el.value.length;
+    const start = Math.min(sel.start, len);
+    const end = Math.min(sel.end, len);
+    try {
+      el.setSelectionRange(start, end);
+    } catch {
+      /* noop */
+    }
+  }, [viewMode]);
 
   // Validation
   const lyricsValidation = useMemo(() => checkArtistValidation(lyrics), [lyrics]);
@@ -215,9 +234,18 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <div className="relative group">
             {/* Main textarea with premium styling */}
             <Textarea
+              ref={textareaRef}
               placeholder="Начните писать текст или выберите шаблон..."
               value={lyrics}
-              onChange={(e) => onLyricsChange(e.target.value)}
+              onChange={(e) => {
+                const el = e.currentTarget;
+                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+                onLyricsChange(el.value);
+              }}
+              onSelect={(e) => {
+                const el = e.currentTarget;
+                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+              }}
               rows={10}
               className={cn(
                 "text-sm min-h-[220px] max-h-[400px] overflow-y-auto whitespace-pre-wrap",
