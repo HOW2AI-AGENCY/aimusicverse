@@ -43,8 +43,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
       richColors
       // No offset - controlled via positionStyles for symmetry
       offset={0}
-      // Limit visible toasts on mobile to prevent clutter
-      visibleToasts={isMobile ? 2 : 3}
+      // Limit visible toasts on mobile to 1 — drastically cuts notification spam
+      visibleToasts={isMobile ? 1 : 3}
       // Gap between stacked toasts
       gap={8}
       style={{
