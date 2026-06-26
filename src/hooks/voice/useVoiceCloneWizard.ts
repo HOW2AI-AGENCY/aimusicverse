@@ -108,20 +108,21 @@ export function useVoiceCloneWizard() {
     [stopPolling, stopRealtime],
   );
 
+  const failWith = useCallback((err: unknown, fallback: string) => {
+    const msg = err instanceof Error ? err.message : typeof err === "string" ? err : fallback;
+    setLastError(msg);
+    setStep("failed");
+    return msg;
+  }, []);
+
   const startValidation = useCallback(
-    async (params: {
-      voiceName: string;
-      sourceFile: Blob;
-      vocalStartS: number;
-      vocalEndS: number;
-      language?: string;
-      description?: string;
-      style?: string;
-    }) => {
+    async (params: ValidateParams) => {
       if (!user?.id) throw new Error("Not authenticated");
+      lastActionRef.current = { kind: "validate", params };
+      setLastError(null);
       setIsWorking(true);
       try {
-        const type = (params.sourceFile as any).type || "";
+        const type = (params.sourceFile as unknown as { type?: string }).type || "";
         const ext = type.includes("wav") ? "wav" : type.includes("webm") ? "webm" : "mp3";
         const sourcePath = await voiceCloneApi.uploadSource(user.id, params.sourceFile, ext);
         const res = await voiceCloneApi.validate({
@@ -139,13 +140,12 @@ export function useVoiceCloneWizard() {
         pollValidate(res.taskId);
       } catch (e) {
         logger.error("Voice validate failed", e as Error);
-        toast.error((e as Error).message);
-        setStep("failed");
+        failWith(e, "Не удалось начать клонирование");
       } finally {
         setIsWorking(false);
       }
     },
-    [user?.id, subscribeToRow],
+    [user?.id, subscribeToRow, failWith],
   );
 
   const pollValidate = useCallback(
@@ -156,8 +156,7 @@ export function useVoiceCloneWizard() {
         try {
           if (Date.now() - startedAt > POLL_TIMEOUT) {
             stopPolling();
-            setStep("failed");
-            toast.error("Timeout waiting for phrase");
+            failWith(null, "Превышено время ожидания контрольной фразы");
             return;
           }
           const r = await voiceCloneApi.validateInfo(taskId);
@@ -167,20 +166,21 @@ export function useVoiceCloneWizard() {
             setStep("phrase_ready");
           } else if (r.status === "failed") {
             stopPolling();
-            setStep("failed");
-            toast.error("Validation failed");
+            failWith(null, "Проверка не удалась");
           }
         } catch (e) {
           logger.warn("validate-info poll error", { e });
         }
       }, POLL_INTERVAL);
     },
-    [stopPolling],
+    [stopPolling, failWith],
   );
 
   const submitRecording = useCallback(
     async (audio: Blob) => {
       if (!user?.id || !voice) return;
+      lastActionRef.current = { kind: "submit", audio };
+      setLastError(null);
       setIsWorking(true);
       try {
         const verifyPath = await voiceCloneApi.uploadVerification(user.id, audio, "webm");
@@ -189,13 +189,12 @@ export function useVoiceCloneWizard() {
         pollGenerate(res.taskId);
       } catch (e) {
         logger.error("Voice generate failed", e as Error);
-        toast.error((e as Error).message);
-        setStep("failed");
+        failWith(e, "Не удалось отправить запись");
       } finally {
         setIsWorking(false);
       }
     },
-    [user?.id, voice],
+    [user?.id, voice, failWith],
   );
 
   const pollGenerate = useCallback(
@@ -206,8 +205,7 @@ export function useVoiceCloneWizard() {
         try {
           if (Date.now() - startedAt > POLL_TIMEOUT) {
             stopPolling();
-            setStep("failed");
-            toast.error("Timeout generating voice");
+            failWith(null, "Превышено время генерации голоса");
             return;
           }
           const r = await voiceCloneApi.recordInfo(taskId);
@@ -220,23 +218,23 @@ export function useVoiceCloneWizard() {
             }
             setVoice((v) => (v ? { ...v, voice_id: r.voiceId!, status: "ready", is_available: true } : v));
             setStep("ready");
-            toast.success("Voice ready!");
           } else if (r.status === "failed") {
             stopPolling();
-            setStep("failed");
-            toast.error("Voice generation failed");
+            failWith(null, "Генерация голоса не удалась");
           }
         } catch (e) {
           logger.warn("record-info poll error", { e });
         }
       }, POLL_INTERVAL);
     },
-    [stopPolling],
+    [stopPolling, failWith],
   );
 
   const reRecord = useCallback(
     async (audio: Blob) => {
       if (!user?.id || !voice) return;
+      lastActionRef.current = { kind: "rerecord", audio };
+      setLastError(null);
       setIsWorking(true);
       try {
         const verifyPath = await voiceCloneApi.uploadVerification(user.id, audio, "webm");
@@ -244,20 +242,47 @@ export function useVoiceCloneWizard() {
         setStep("generating");
         pollGenerate(res.taskId);
       } catch (e) {
-        toast.error((e as Error).message);
+        logger.error("Voice re-record failed", e as Error);
+        failWith(e, "Не удалось повторно отправить запись");
       } finally {
         setIsWorking(false);
       }
     },
-    [user?.id, voice, pollGenerate],
+    [user?.id, voice, pollGenerate, failWith],
   );
+
+  const retryLast = useCallback(async () => {
+    const action = lastActionRef.current;
+    if (!action) return;
+    setLastError(null);
+    if (action.kind === "validate") return startValidation(action.params);
+    if (action.kind === "submit") return submitRecording(action.audio);
+    if (action.kind === "rerecord") return reRecord(action.audio);
+  }, [startValidation, submitRecording, reRecord]);
 
   const reset = useCallback(() => {
     stopPolling();
     stopRealtime();
     setVoice(null);
     setStep("upload");
+    setLastError(null);
+    lastActionRef.current = null;
   }, [stopPolling, stopRealtime]);
+
+  return {
+    step,
+    voice,
+    isWorking,
+    lastError,
+    canRetry: lastActionRef.current !== null,
+    startValidation,
+    submitRecording,
+    reRecord,
+    retryLast,
+    reset,
+  };
+}
+
 
   return { step, voice, isWorking, startValidation, submitRecording, reRecord, reset };
 }
