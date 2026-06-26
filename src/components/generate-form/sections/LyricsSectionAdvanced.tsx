@@ -74,7 +74,7 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 }: LyricsSectionAdvancedProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
-  const [showVisualEditor, setShowVisualEditor] = useState(false);
+  const [showVisualEditor, setShowVisualEditor] = useState(true);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
   const [showQuickTemplates, setShowQuickTemplates] = useState(false);
@@ -204,8 +204,8 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               className={cn(
                 "text-sm min-h-[220px] max-h-[400px] overflow-y-auto whitespace-pre-wrap",
                 "pb-12 pt-3 px-3 rounded-xl resize-none",
-                "bg-gradient-to-b from-muted/20 to-muted/40",
-                "border-muted-foreground/20 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
+                "bg-muted/30 text-foreground placeholder:text-muted-foreground",
+                "border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
                 "transition-all duration-200",
                 (lyrics.length > 2800 || hasError) &&
                   "border-destructive/50 focus:border-destructive focus:ring-destructive/20",
