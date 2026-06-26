@@ -8,7 +8,7 @@
  */
 
 import { useCallback } from "react";
-import { logger } from "@/lib/logger";
+
 
 type HapticImpactStyle = "light" | "medium" | "heavy" | "rigid" | "soft";
 type HapticNotificationType = "error" | "success" | "warning";
