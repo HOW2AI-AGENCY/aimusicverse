@@ -1,60 +1,66 @@
+## Текущая ситуация
 
-## Problem
+Запрос объединяет 6 крупных направлений + аудит регрессий. Это слишком много для одного безопасного прохода — высокий риск повторно сломать то, что уже чинили (стемы, разметка). Предлагаю разбить на проверяемые этапы и начать с **аудита регрессий**, потому что вернувшиеся удалённые компоненты и поехавшая разметка — самое срочное.
 
-There are two voice-clone entry points that don't talk to the generation form:
+## План работ (поэтапно)
 
-- `VoiceCloneDialog` (generate-form/) — writes to `reference_audio` with a `clone_group_id`. Does **not** produce a `voice_id`, so the form's `customVoiceId` field can never receive it. This is what the "Голос" chip in `GenerateSheet` and `DesktopLibrarySidebar` currently opens.
-- `VoiceCloneWizard` (voice-clone/) — the real Suno-backed flow that creates a `custom_voices` row with a real `voice_id`, already exposes `onComplete(voiceId)`. It is only used on `/voices`.
+### Этап 0 — Аудит регрессий (СНАЧАЛА, отдельным проходом)
+Цель: понять что и почему вернулось/поехало, прежде чем накатывать новые изменения.
 
-Meanwhile `useGenerateForm` already exposes `customVoiceId` / `setCustomVoiceId`, and `CustomVoicePicker` reads `custom_voices` and lists voices where `status === "ready" && is_available`.
+1. Найти упоминания «Стемы готовы» / `StemsReady` / связанных тостов и баннеров — определить какой коммит/файл их вернул.
+2. Проверить `MainLayout`, `BottomNav`, `Index`, `GenerateSheet`, `VoiceCloneWizard` на конфликтующую разметку (двойные обёртки, дублирующиеся headers, потерянные safe-area отступы).
+3. Запустить Playwright на `/` (mobile 424x783) и сделать скриншоты: hero, фид, BottomNav, открытие GenerateSheet, открытие VoiceCloneWizard.
+4. Сверить с тем, что должно быть согласно `mem://ui/unified-system` и `mem://ui/standardized-section-header-component-pattern`.
+5. Отчёт пользователю: список регрессий + предложение точечных фиксов.
 
-Result: after cloning from the generate panel, nothing is selected; the user has to leave to `/voices` and re-open the form.
+**Останавливаюсь и показываю результат до перехода к следующим этапам.**
 
-## Plan
+### Этап 1 — Унификация toast/hint системы
+- Единый `notify.step({ stage, title, description, action? })` поверх `src/lib/toast.ts`.
+- Aria-атрибуты: `role="status"` для info/success, `role="alert"` для error, `aria-live="polite"`.
+- Применить в `VoiceCloneWizard` и `GenerateSheet` (заменить разрозненные `toast.*` вызовы).
 
-### 1. Swap the dialog used by the generation entry points
-Replace `VoiceCloneDialog` with `VoiceCloneWizard` in:
-- `src/components/GenerateSheet.tsx` (the "Голос" action chip)
-- `src/components/library/DesktopLibrarySidebar.tsx` (desktop "Голос" button)
+### Этап 2 — Скелетоны, empty/error состояния
+- Использовать существующий `UnifiedSkeleton` (см. `specs/002-ui-component-unification/contracts/unified-skeleton.types.ts`).
+- Списки голосов в `CustomVoicePicker`, результаты генерации в `GenerationResultSheet`: skeleton с фиксированной высотой → empty (`EmptyState`) → error (`ErrorState` с retry) → данные. Без скачков верстки (reserve aspect-ratio).
 
-Pass `onComplete={(voiceId) => …}`:
-- `form.setCustomVoiceId(voiceId)`
-- `form.setMode("custom")` and open advanced (`setAdvancedOpen(true)` + persist) so `CustomVoicePicker` is visible
-- Scroll the form to the picker and show `notify.success("Голос «…» подключён к генерации")`
-- Invalidate `["custom-voices", userId]` so the picker shows it immediately (the wizard already triggers realtime, but a manual invalidate guarantees instant UI)
+### Этап 3 — Унификация диалогов
+- Привести `GenerateSheet` и `VoiceCloneWizard` к единому шаблону:
+  - `SectionHeader` сверху (заголовок + шаг N/M + close).
+  - Тело со скроллом.
+  - Sticky footer с primary/secondary кнопкой и единым `LoadingButton` состоянием.
+- Focus trap, `aria-labelledby`, `aria-describedby`, возврат фокуса на триггер при закрытии.
+- Esc/swipe-down закрытие там, где безопасно.
 
-### 2. Make the just-cloned voice selectable even before "ready"
-`CustomVoicePicker` currently filters to `status==="ready" && is_available`. When the form pre-selects the new `voiceId` we want the dropdown to still show it with a status badge:
-- Pass `value` into the filter: always include the currently selected voice in the list.
-- For non-ready entries, render the item with a small "готовится…" badge and keep it selectable so the user's choice persists.
+### Этап 4 — Accessibility сквозной проход
+- Tab-навигация по BottomNav, GenerateSheet, VoiceCloneWizard.
+- `aria-label` на icon-only кнопках.
+- `focus-visible` рингование (через `src/styles/focus.css`).
+- Прогон axe на `/`, `/library`, `/auth`.
 
-### 3. Retire `VoiceCloneDialog` from the generation flow
-Keep the file (still imported in other places? — no, only the two replaced entry points use it). Remove the import + mount from both files. Delete `src/components/generate-form/VoiceCloneDialog.tsx` to avoid divergence, since `VoiceCloneWizard` covers the same UX with the correct backend wiring.
+### Этап 5 — Mobile-first редизайн главной страницы (отдельный спринт, с визуальными направлениями)
+- Скриншот текущей `/`, 3 направления через `design--create_directions` (locked: dark theme, primary `#3B82F6`, SF Pro/Inter).
+- Пользователь выбирает → реализую: hero, секции (Featured/Recent/Popular), BottomNav, MainLayout, общие отступы/типографика.
+- Обновить перелинковку (карточки → детали трека, hero CTA → `/generate`, секции → `/library?filter=...`).
 
-### 4. Update sprint notes
-Append to `.lovable/plan.md` a new closed task line under Sprint 4.5 / a new "Voice clone integration" section:
-- ✅ VoiceCloneWizard используется из формы генерации; результат автоматически выставляет `customVoiceId`, переключает в Custom mode и раскрывает advanced.
-- ✅ `CustomVoicePicker` показывает выбранный голос, даже если он ещё в статусе `pending/generating`.
+### Этап 6 — Финализация
+- Обновить `.lovable/plan.md` (статусы Sprint 4.6 + новый Sprint 4.7).
+- Обновить `mem://index.md` если появятся новые правила.
+- E2E: `tests/e2e/home.navigation.spec.ts` + `voice-clone.flow.spec.ts` зелёные.
 
-### Acceptance
-- Open the generate sheet → tap "Голос" → wizard runs → on success the form is in Custom mode, advanced is open, `CustomVoicePicker` shows the new voice selected with the active ring, no manual import.
-- Picker keeps the selection while the voice is still processing and updates label/badge to "готов" via existing realtime when it flips.
-- `tsgo --noEmit` clean.
+## Что делаю прямо сейчас
 
-## Technical notes
-- `VoiceCloneWizard.onComplete` fires inside its `useEffect` when `step === "ready" && voice.voice_id` is present, so wiring is straightforward.
-- Need `useQueryClient` in both call sites for the targeted invalidate; alternatively rely on the existing realtime subscription in `useCustomVoices` (kept as belt-and-suspenders).
-- No DB changes, no edge function changes.
+Только **Этап 0** — аудит регрессий. Никаких правок кода до подтверждения находок. После аудита покажу список проблем и спрошу, какие чинить в первую очередь и переходим ли к Этапам 1–4 (Этап 5 — отдельно, с выбором дизайн-направления).
 
----
+## Технические детали
 
-## Спринт 4.6 — Интеграция Voice Clone в форму генерации
+- Регрессии «Стемы готовы»: грепаю `rg -n "Стемы готовы|StemsReady|stems_ready"` + `git log` на `src/components/stem-studio/` и `src/components/player/` (через `chat_search`, не через stateful git).
+- Layout-аудит: Playwright headless, viewport 424x783, скриншоты в `/tmp/browser/audit-regressions/`.
+- Источник истины для UI-примитивов: `mem://ui/unified-system`.
+- Toast-обёртка уже есть (`src/lib/toast.ts` с дедупликацией) — расширяю её, не создаю новую.
 
-### Задачи
-1. ✅ **Замена диалога.** `VoiceCloneDialog` (писал в `reference_audio`, не давал `voice_id`) удалён. `GenerateSheet` и `DesktopLibrarySidebar` теперь монтируют `VoiceCloneWizard` (Suno-флоу с реальным `custom_voices.voice_id`).
-2. ✅ **Авто-выбор клонированного голоса.** `onComplete(voiceId)` выставляет `form.setCustomVoiceId(voiceId)`, переключает форму в `custom` mode, раскрывает advanced и инвалидирует `["custom-voices", userId]`, чтобы `CustomVoicePicker` сразу показал новый голос.
-3. ✅ **Сохранение выбора во время обработки.** `CustomVoicePicker` теперь включает выбранный `voiceId` в список, даже если он ещё `pending/generating`, со статусной плашкой «готовится». Выбор пользователя не сбрасывается до момента, когда realtime обновит статус на `ready`.
-4. ✅ **Синхронизация со стемами.** `VoiceCloneWizard` получил третью вкладку «Стемы» (`useUserVocalStems`) — клонирование можно запустить прямо из вокального стема библиотеки, перезагрузка стема доступна одной кнопкой.
-5. ✅ **Toast-обратная связь по шагам.** Wizard эмитит `notify.info/success/error` на переходах `validating → phrase_ready → generating → ready/failed`, плюс toast при подгрузке стема.
-6. ✅ **Picker для pending-голосов.** В `CustomVoicePicker` выбранный, но ещё не готовый голос остаётся selectable (с янтарным ring + относительный timestamp), остальные pending элементы — disabled.
-7. ✅ **E2E контракт.** `tests/e2e/voice-clone.flow.spec.ts` фиксирует data-testid контракт (`voice-clone-wizard`, `voice-tab-library`, `custom-voice-picker-trigger`), от которого зависит автоподстановка голоса в форму.
+## Риски и контроль
+
+- **Не трогаю** `src/integrations/supabase/*`, `supabase/config.toml`, бизнес-логику генерации.
+- После каждого этапа — Playwright скриншот + проверка консоли на ошибки.
+- Если этап ломает существующий функционал — откатываю изменения этого этапа и спрашиваю.
