@@ -1,7 +1,17 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { useState } from "react";
-import { LyricsVisualEditorCompact } from "@/components/generate-form/LyricsVisualEditorCompact";
+import {
+  LyricsVisualEditorCompact,
+  applyTemplateToSections,
+  parseLyrics,
+  sectionsEqual,
+  sectionsToLyrics,
+} from "@/components/generate-form/LyricsVisualEditorCompact";
+
+const POP = ["verse", "chorus", "verse", "chorus", "bridge", "chorus"];
+const RAP = ["verse", "hook", "verse", "hook"];
+const EDM = ["intro", "verse", "drop", "verse", "drop", "outro"];
 
 function Host({ initial }: { initial: string }) {
   const [lyrics, setLyrics] = useState(initial);
@@ -18,71 +28,107 @@ function metrics() {
     .__lyricsEditorMetrics;
 }
 
-describe("LyricsVisualEditorCompact — templates & metrics", () => {
-  it("applying Pop template creates 6 sections with expected types", async () => {
-    render(<Host initial="" />);
-    fireEvent.click(screen.getByRole("button", { name: /Секция/i }));
-    // Pop template option becomes available in the dropdown
-    const popItem = await screen.findByText("Pop");
-    fireEvent.click(popItem);
-
-    const out = screen.getByTestId("out").textContent || "";
-    // Pop = verse, chorus, verse, chorus, bridge, chorus
-    expect(out.match(/\[Verse\]/g)?.length).toBe(2);
-    expect(out.match(/\[Chorus\]/g)?.length).toBe(3);
-    expect(out.match(/\[Bridge\]/g)?.length).toBe(1);
+describe("applyTemplateToSections", () => {
+  it("Pop template produces 6 sections of expected types", () => {
+    const out = applyTemplateToSections([], POP, 1);
+    expect(out.map((s) => s.type)).toEqual(POP);
+    expect(out.every((s) => s.content === "")).toBe(true);
   });
 
-  it("switching templates preserves user content for matching section types", async () => {
-    render(<Host initial="[Verse]\nMy first verse line\n\n[Chorus]\nMy chorus line" />);
-
-    // Apply Rap template (verse, hook, verse, hook) — existing verse content should carry over.
-    fireEvent.click(screen.getByRole("button", { name: /Секция/i }));
-    fireEvent.click(await screen.findByText("Рэп"));
-
-    const out = screen.getByTestId("out").textContent || "";
-    expect(out).toContain("My first verse line");
-    // Hooks are brand-new slots — they start empty (chorus content does NOT bleed into hook).
-    expect(out).not.toContain("My chorus line");
+  it("Rap template preserves prior verse content in document order, hooks start empty", () => {
+    const prev = parseLyrics("[Verse]\nMy first verse\n\n[Chorus]\nMy chorus");
+    const out = applyTemplateToSections(prev, RAP, 1);
+    expect(out.map((s) => s.type)).toEqual(RAP);
+    expect(out[0].content).toBe("My first verse"); // verse → carried over
+    expect(out[1].content).toBe(""); // hook → new slot, empty
+    expect(out[2].content).toBe(""); // no second verse in source
+    expect(out[3].content).toBe("");
   });
 
-  it("EDM template starts new slots empty (drop/intro/outro had no prior content)", async () => {
-    render(<Host initial="[Verse]\nverse content" />);
-    fireEvent.click(screen.getByRole("button", { name: /Секция/i }));
-    fireEvent.click(await screen.findByText("EDM"));
-
-    const out = screen.getByTestId("out").textContent || "";
-    // EDM = intro, verse, drop, verse, drop, outro — first verse keeps content, second is empty.
-    expect(out).toMatch(/\[Intro\]\s*\n\s*\[Verse\]\s*\nverse content/);
-    expect(out).toContain("[Drop]");
-    expect(out).toContain("[Outro]");
+  it("EDM template carries verse into first verse slot, second verse + drops + outro stay empty", () => {
+    const prev = parseLyrics("[Verse]\nverse content");
+    const out = applyTemplateToSections(prev, EDM, 1);
+    expect(out.map((s) => s.type)).toEqual(EDM);
+    expect(out[0].content).toBe(""); // intro
+    expect(out[1].content).toBe("verse content"); // verse → carried
+    expect(out[2].content).toBe(""); // drop
+    expect(out[3].content).toBe(""); // second verse — pool exhausted
+    expect(out[5].content).toBe(""); // outro
   });
 
-  it("typing in a section does NOT trigger external sync (no clobber)", () => {
+  it("multiple matching sources are popped in document order", () => {
+    const prev = parseLyrics("[Verse]\nfirst\n\n[Verse]\nsecond\n\n[Verse]\nthird");
+    const out = applyTemplateToSections(prev, ["verse", "chorus", "verse"], 1);
+    expect(out[0].content).toBe("first");
+    expect(out[2].content).toBe("second");
+  });
+});
+
+describe("sectionsEqual", () => {
+  it("ignores volatile IDs and compares only type+content", () => {
+    const a = [
+      { id: "x1", type: "verse" as const, content: "a" },
+      { id: "x2", type: "chorus" as const, content: "b" },
+    ];
+    const b = [
+      { id: "y1", type: "verse" as const, content: "a" },
+      { id: "y2", type: "chorus" as const, content: "b" },
+    ];
+    expect(sectionsEqual(a, b)).toBe(true);
+    expect(sectionsEqual(a, [{ ...b[0], content: "c" }, b[1]])).toBe(false);
+    expect(sectionsEqual(a, [a[0]])).toBe(false);
+  });
+
+  it("is faster than JSON.stringify on large inputs", () => {
+    const big = Array.from({ length: 500 }, (_, i) => ({
+      id: `id-${i}`,
+      type: "verse" as const,
+      content: `line ${i} `.repeat(20),
+    }));
+    const copy = big.map((s) => ({ ...s, id: s.id + "x" }));
+
+    const t1 = performance.now();
+    for (let i = 0; i < 100; i++) sectionsEqual(big, copy);
+    const fast = performance.now() - t1;
+
+    const t2 = performance.now();
+    for (let i = 0; i < 100; i++) {
+      JSON.stringify(big.map((s) => ({ type: s.type, content: s.content })));
+    }
+    const slow = performance.now() - t2;
+
+    // Structural compare should easily beat JSON.stringify on the same payload.
+    expect(fast).toBeLessThan(slow);
+  });
+});
+
+describe("LyricsVisualEditorCompact — render metrics", () => {
+  it("typing does not trigger external sync (no parent → child clobber)", () => {
     render(<Host initial="[Verse]\nhi" />);
     const before = metrics()?.externalSyncs ?? 0;
     const textarea = screen.getAllByRole("textbox")[0] as HTMLTextAreaElement;
-    for (const ch of ["a", "b", "c", "d", "e"]) {
+    for (const ch of "abcde") {
       fireEvent.change(textarea, { target: { value: textarea.value + ch } });
     }
     const after = metrics()?.externalSyncs ?? 0;
-    // 5 keystrokes, 0 external resyncs — sections were never rebuilt from the round-tripped string.
     expect(after - before).toBe(0);
   });
 
-  it("section sync without JSON.stringify scales linearly and stays fast", () => {
-    // 100 sections × parse + compare — must complete well under 50ms.
-    const large = Array.from({ length: 100 }, (_, i) => `[Verse]\nline ${i}`).join("\n\n");
+  it("identical re-emits of the value prop do not trigger external sync", () => {
     const onChange = vi.fn();
-    const t0 = performance.now();
-    const { rerender } = render(<LyricsVisualEditorCompact value={large} onChange={onChange} />);
-    // Re-emit identical value 20 times — sectionsEqual short-circuits without allocations.
+    const big = Array.from({ length: 50 }, (_, i) => `[Verse]\nline ${i}`).join("\n\n");
+    const { rerender } = render(<LyricsVisualEditorCompact value={big} onChange={onChange} />);
+    const baseline = metrics()?.externalSyncs ?? 0;
     for (let i = 0; i < 20; i++) {
-      rerender(<LyricsVisualEditorCompact value={large} onChange={onChange} />);
+      rerender(<LyricsVisualEditorCompact value={big} onChange={onChange} />);
     }
-    const dt = performance.now() - t0;
-    expect(dt).toBeLessThan(500);
-    // External sync must not have fired for identical re-emits.
-    expect(metrics()?.externalSyncs ?? 0).toBe(0);
+    expect((metrics()?.externalSyncs ?? 0) - baseline).toBe(0);
+  });
+
+  it("sectionsToLyrics round-trip is stable (parse → emit → parse equal)", () => {
+    const src = "[Verse]\nhello\n\n[Chorus]\nworld";
+    const parsed = parseLyrics(src);
+    const round = parseLyrics(sectionsToLyrics(parsed));
+    expect(sectionsEqual(parsed, round)).toBe(true);
   });
 });
