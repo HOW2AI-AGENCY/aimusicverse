@@ -314,7 +314,9 @@ export function PresetManager({ trackId, currentSettings, defaultCategory = "cus
             </Button>
           </div>
         }
-      />
+      >
+        <></>
+      </UnifiedDialog>
     </div>
   );
 }

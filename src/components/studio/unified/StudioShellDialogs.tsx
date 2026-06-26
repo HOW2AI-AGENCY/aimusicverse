@@ -30,6 +30,8 @@ import type { AudioTrack } from "@/hooks/studio/useStudioAudioEngine";
 import type { StemEffects } from "@/hooks/studio/types";
 import { defaultStemEffects } from "@/hooks/studio/stemEffectsConfig";
 import type { Track } from "@/types/track";
+import type { DetectedSection } from "@/types/sections";
+import type { useStudioOperationLock } from "@/hooks/studio/useStudioOperationLock";
 
 interface TrackEffectsState {
   [trackId: string]: StemEffects;
@@ -44,15 +46,11 @@ export interface StudioShellDialogsProps {
   currentTime: number;
   isPlaying: boolean;
   audioTracks: AudioTrack[];
-  detectedSections: Array<{ label: string; start: number; end: number }>;
+  detectedSections: DetectedSection[];
   hasUnsavedChanges: boolean;
   isSaving: boolean;
   isSeparating: boolean;
-  operationLock: {
-    blockedOperations: string[];
-    getBlockReason: (op: string) => string | undefined;
-    canSaveAsNewVersion: boolean;
-  };
+  operationLock: ReturnType<typeof useStudioOperationLock>;
 
   // Dialog states
   showActionsSheet: boolean;
