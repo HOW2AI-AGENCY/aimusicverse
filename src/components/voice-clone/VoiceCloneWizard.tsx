@@ -181,15 +181,19 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
               />
             </div>
 
-            <Tabs value={sourceTab} onValueChange={(v) => setSourceTab(v as "upload" | "record")}>
-              <TabsList className="grid grid-cols-2 w-full">
-                <TabsTrigger value="upload">
+            <Tabs value={sourceTab} onValueChange={(v) => setSourceTab(v as "upload" | "record" | "library")}>
+              <TabsList className="grid grid-cols-3 w-full">
+                <TabsTrigger value="upload" data-testid="voice-tab-upload">
                   <FileAudio className="mr-2 h-4 w-4" />
-                  Загрузить
+                  Файл
                 </TabsTrigger>
-                <TabsTrigger value="record">
+                <TabsTrigger value="record" data-testid="voice-tab-record">
                   <Mic className="mr-2 h-4 w-4" />
-                  Записать
+                  Микрофон
+                </TabsTrigger>
+                <TabsTrigger value="library" data-testid="voice-tab-library">
+                  <Library className="mr-2 h-4 w-4" />
+                  Стемы
                 </TabsTrigger>
               </TabsList>
 
@@ -229,6 +233,57 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
                   </Button>
                 )}
                 {sourceRecorder.state === "error" && <p className="text-sm text-destructive">{sourceRecorder.error}</p>}
+              </TabsContent>
+
+              <TabsContent value="library" className="space-y-2 pt-3">
+                <p className="text-xs text-muted-foreground">
+                  Выберите вокальный стем из своей библиотеки. Он будет использован как исходник для клонирования.
+                </p>
+                {stemsQuery.isLoading && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground py-4 justify-center">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Загружаем ваши стемы…
+                  </div>
+                )}
+                {!stemsQuery.isLoading && (stemsQuery.data?.length ?? 0) === 0 && (
+                  <p className="text-xs text-muted-foreground py-4 text-center">
+                    Вокальных стемов пока нет. Сначала отделите вокал в Studio.
+                  </p>
+                )}
+                {(stemsQuery.data?.length ?? 0) > 0 && (
+                  <div className="max-h-48 overflow-y-auto rounded-md border divide-y" role="listbox">
+                    {stemsQuery.data!.map((s) => {
+                      const active = selectedStem?.id === s.id;
+                      return (
+                        <button
+                          key={s.id}
+                          type="button"
+                          role="option"
+                          aria-selected={active}
+                          data-testid="voice-stem-item"
+                          disabled={stemLoading}
+                          onClick={() => pickStem(s)}
+                          className={`w-full text-left px-3 py-2 text-sm hover:bg-muted/50 flex items-center justify-between gap-2 ${active ? "bg-primary/10" : ""}`}
+                        >
+                          <span className="truncate">
+                            <span className="font-medium">{s.trackTitle}</span>
+                            <span className="ml-2 text-xs text-muted-foreground">{s.stemType}</span>
+                          </span>
+                          {active && stemLoading && <Loader2 className="h-3 w-3 animate-spin shrink-0" />}
+                          {active && !stemLoading && stemBlob && (
+                            <CheckCircle2 className="h-3 w-3 text-primary shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+                {selectedStem && (
+                  <Button variant="ghost" size="sm" onClick={() => pickStem(selectedStem)} disabled={stemLoading}>
+                    <RotateCcw className="mr-2 h-3 w-3" />
+                    Перезагрузить стем
+                  </Button>
+                )}
               </TabsContent>
             </Tabs>
 
