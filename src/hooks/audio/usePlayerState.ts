@@ -269,6 +269,10 @@ export const usePlayerStore = create<PlayerState>()(
       volume: 1.0, // Default volume
       playerMode: "minimized",
       preservedTime: null, // Time preservation for mode switches
+      playbackStatus: "idle",
+      playbackError: null,
+      setPlaybackStatus: (status, error = null) =>
+        set({ playbackStatus: status, playbackError: status === "error" ? error : null }),
 
       /**
        * Play track action - delegates to playerLogic and auto-opens player UI
