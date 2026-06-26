@@ -46,15 +46,11 @@ export interface StudioShellDialogsProps {
   currentTime: number;
   isPlaying: boolean;
   audioTracks: AudioTrack[];
-  detectedSections: Array<{ label: string; start: number; end: number }>;
+  detectedSections: DetectedSection[];
   hasUnsavedChanges: boolean;
   isSaving: boolean;
   isSeparating: boolean;
-  operationLock: {
-    blockedOperations: string[];
-    getBlockReason: (op: string) => string | undefined;
-    canSaveAsNewVersion: boolean;
-  };
+  operationLock: ReturnType<typeof useStudioOperationLock>;
 
   // Dialog states
   showActionsSheet: boolean;
