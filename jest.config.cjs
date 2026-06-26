@@ -18,6 +18,25 @@ const config = {
       "ts-jest",
       {
         tsconfig: "tsconfig.app.json",
+        diagnostics: { ignoreDiagnostics: [1343] },
+        astTransformers: {
+          before: [
+            {
+              path: "ts-jest-mock-import-meta",
+              options: {
+                metaObjectReplacement: {
+                  env: {
+                    VITE_SUPABASE_URL: "http://localhost:54321",
+                    VITE_SUPABASE_ANON_KEY: "test-key",
+                    MODE: "test",
+                    DEV: true,
+                    PROD: false,
+                  },
+                },
+              },
+            },
+          ],
+        },
       },
     ],
   },
