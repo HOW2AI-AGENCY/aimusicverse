@@ -476,7 +476,19 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           onSelect={form.handleArtistSelect}
         />
 
-        <VoiceCloneDialog open={voiceCloneOpen} onOpenChange={setVoiceCloneOpen} />
+        <VoiceCloneWizard
+          open={voiceCloneOpen}
+          onOpenChange={setVoiceCloneOpen}
+          onComplete={(voiceId) => {
+            form.setCustomVoiceId(voiceId);
+            form.setMode("custom");
+            handleAdvancedToggle(true);
+            qc.invalidateQueries({ queryKey: ["custom-voices", user?.id] });
+            notify.success("Голос подключён к генерации", {
+              description: "Выбран в разделе «Кастомный голос».",
+            });
+          }}
+        />
 
         {/* Audio Action Dialog - for cover/extend operations */}
         <AudioActionDialog
