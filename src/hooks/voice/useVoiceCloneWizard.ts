@@ -25,11 +25,22 @@ export const STEP_INDEX: Record<WizardStep, number> = {
 const POLL_INTERVAL = 5000; // slower — realtime is primary
 const POLL_TIMEOUT = 5 * 60 * 1000;
 
+export type ValidateParams = {
+  voiceName: string;
+  sourceFile: Blob;
+  vocalStartS: number;
+  vocalEndS: number;
+  language?: string;
+  description?: string;
+  style?: string;
+};
+
 export type LastAction =
-  | { kind: "validate"; params: Parameters<ReturnType<typeof useVoiceCloneWizard>["startValidation"]>[0] }
+  | { kind: "validate"; params: ValidateParams }
   | { kind: "submit"; audio: Blob }
   | { kind: "rerecord"; audio: Blob }
   | null;
+
 
 export function useVoiceCloneWizard() {
   const { user } = useAuth();
