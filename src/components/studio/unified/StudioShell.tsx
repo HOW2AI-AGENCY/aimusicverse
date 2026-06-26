@@ -442,12 +442,12 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         // Use h-dvh for correct mobile viewport (avoids URL bar jump)
         "flex flex-col h-dvh bg-background overflow-x-hidden",
         // Mobile-first unified safe-area + island-dock tokens (Sprint 1 tokens)
-        "pt-safe-top pb-safe-top", // safe-area top fallback
-        isMobile && "pb-dock-safe", // mobile: leave room for transport bar + dock + safe-area-bottom
-        !isMobile && "pb-safe-top", // desktop: just safe-area-bottom
+        "pt-safe-top",
+        isMobile ? "pb-dock-safe" : "pb-safe-bottom",
         className,
       )}
     >
+
 
       <StudioShellHeader
         projectName={project.name}
