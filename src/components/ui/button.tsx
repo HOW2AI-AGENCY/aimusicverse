@@ -14,7 +14,7 @@ const buttonVariants = cva(
     // Disabled state
     "disabled:pointer-events-none disabled:opacity-50",
     // Active press feedback
-    "active:scale-[0.96]",
+    "active:scale-[0.97]",
     // Icon sizing
     "[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
     // Touch optimization

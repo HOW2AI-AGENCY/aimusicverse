@@ -299,7 +299,7 @@ export function TouchableListItem({
         interactive && "cursor-pointer",
         interactive &&
           "hover:bg-accent/50 focus-visible:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
-        pressable && "active:bg-accent active:scale-[0.99] transition-all duration-100",
+        pressable && "active:bg-accent active:scale-[0.97] transition-all duration-200",
         active && "bg-accent",
         className,
       )}

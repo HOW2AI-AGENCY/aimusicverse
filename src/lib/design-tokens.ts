@@ -175,6 +175,19 @@ export const touchTargets = {
 export type TouchTargetValue = (typeof touchTargets)[keyof typeof touchTargets];
 
 // ============================================================================
+// SCALE TOKENS (Standardized animation scale values)
+// ============================================================================
+
+export const scaleTokens = {
+  /** Active/press state for buttons and interactive elements */
+  press: 'scale-[0.97]',
+  /** Hover state for cards and hoverable elements */
+  hover: 'scale-[1.02]',
+  /** Pop/attention animations (badges, notifications) */
+  pop: 'scale-[1.1]',
+} as const;
+
+// ============================================================================
 // MOTION DURATION
 // ============================================================================
 
@@ -477,7 +490,7 @@ export const interactiveStates = {
   /** Hover with background */
   hoverBg: "hover:bg-accent transition-colors duration-150",
   /** Pressed state */
-  pressed: "active:scale-[0.98] transition-transform duration-100",
+  pressed: "active:scale-[0.97] transition-transform duration-200",
   /** Disabled state */
   disabled: "disabled:opacity-50 disabled:pointer-events-none",
 } as const;

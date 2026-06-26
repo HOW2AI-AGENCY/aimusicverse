@@ -11,7 +11,7 @@ const cardVariants = cva("rounded-2xl border text-card-foreground transition-all
       enhanced: "card-enhanced",
       flat: "border-border bg-card",
       interactive:
-        "border-border/60 bg-card cursor-pointer hover:border-primary/50 hover:shadow-md active:scale-[0.99]",
+        "border-border/60 bg-card cursor-pointer hover:border-primary/50 hover:shadow-md active:scale-[0.97]",
       selected: "border-2 border-primary bg-card shadow-sm shadow-primary/10",
     },
     padding: {

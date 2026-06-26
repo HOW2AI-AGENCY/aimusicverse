@@ -55,7 +55,7 @@ export function FloatingMainButton({
                 "shadow-xl shadow-primary/25",
                 "rounded-2xl",
                 "transition-all duration-200",
-                "active:scale-[0.98]",
+                "active:scale-[0.97]",
                 "disabled:opacity-50 disabled:cursor-not-allowed",
                 className,
               )}
