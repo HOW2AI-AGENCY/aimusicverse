@@ -255,7 +255,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         >
           {/* Compact Header with safe area for Telegram */}
           <div
-            className="px-3 border-b bg-background/95 backdrop-blur-xl flex-shrink-0"
+            className="px-5 border-b border-border/40 bg-background/95 backdrop-blur-xl flex-shrink-0"
             style={{
               paddingTop:
                 "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
@@ -271,38 +271,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onModelChange={form.setModel}
               onClose={handleCloseRequest}
             />
-
-            {/* Step indicator — Linear/Arc stepper, reflects form state */}
-            <div className="pt-1 pb-2">
-              <GenerationStepIndicator
-                currentStep={(() => {
-                  if (!form.hasVocals && form.mode === "simple") {
-                    // type chosen but never not-chosen, so jump past
-                  }
-                  if (form.mode === "custom") {
-                    if (!form.style.trim()) return 0;
-                    if (!form.lyrics.trim() && form.hasVocals) return 1;
-                    return 2;
-                  }
-                  if (!form.description.trim()) return 0;
-                  if (!form.title.trim()) return 1;
-                  return 2;
-                })()}
-                steps={
-                  form.mode === "custom"
-                    ? [
-                        { label: "Стиль", done: !!form.style.trim() },
-                        { label: "Текст", done: !!form.lyrics.trim() || !form.hasVocals },
-                        { label: "Готово", done: !!form.style.trim() && (!form.hasVocals || !!form.lyrics.trim()) },
-                      ]
-                    : [
-                        { label: "Описание", done: !!form.description.trim() },
-                        { label: "Название", done: !!form.title.trim() },
-                        { label: "Готово", done: !!form.description.trim() },
-                      ]
-                }
-              />
-            </div>
           </div>
 
           {/* Loading Overlay - with proper safe area centering */}
