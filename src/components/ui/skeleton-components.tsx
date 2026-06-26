@@ -709,7 +709,14 @@ export const HorizontalCardsSkeleton = memo(function HorizontalCardsSkeleton({
   return (
     <div className={cn("flex gap-3 overflow-hidden", className)}>
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className={cn("flex-shrink-0 rounded-2xl border border-border/60 bg-card p-3 space-y-2", cardWidth, cardHeight)}>
+        <div
+          key={i}
+          className={cn(
+            "flex-shrink-0 rounded-2xl border border-border/60 bg-card p-3 space-y-2",
+            cardWidth,
+            cardHeight,
+          )}
+        >
           <Skeleton className="w-12 h-12 rounded-full mx-auto" />
           <Skeleton className="h-4 w-3/4 mx-auto" />
           <Skeleton className="h-3 w-1/2 mx-auto" />

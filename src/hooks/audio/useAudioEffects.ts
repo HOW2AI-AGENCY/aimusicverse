@@ -20,8 +20,14 @@ interface UseAudioEffectsOptions {
 }
 
 export function useAudioEffects({
-  audioRef, isLoadingRef, playPromiseRef,
-  activeTrack, isPlaying, volume, pauseTrack, isStartupPeriod,
+  audioRef,
+  isLoadingRef,
+  playPromiseRef,
+  activeTrack,
+  isPlaying,
+  volume,
+  pauseTrack,
+  isStartupPeriod,
 }: UseAudioEffectsOptions) {
   const isPlayingRef = useRef(isPlaying);
   isPlayingRef.current = isPlaying;
@@ -49,7 +55,10 @@ export function useAudioEffects({
       if (isLoadingRef.current) {
         const waitForLoad = new Promise<void>((resolve) => {
           const check = () => {
-            if (!isLoadingRef.current || audio.readyState >= 2) { resolve(); return; }
+            if (!isLoadingRef.current || audio.readyState >= 2) {
+              resolve();
+              return;
+            }
             setTimeout(check, 50);
           };
           check();
@@ -66,11 +75,17 @@ export function useAudioEffects({
       try {
         const { resumeAudioContext, ensureAudioRoutedToDestination } = await import("@/lib/audioContextManager");
         if (!(await resumeAudioContext(3))) await ensureAudioRoutedToDestination();
-      } catch { /* ignore */ }
+      } catch {
+        /* ignore */
+      }
 
       // Wait for pending play promise
       if (playPromiseRef.current) {
-        try { await playPromiseRef.current; } catch { /* ignore */ }
+        try {
+          await playPromiseRef.current;
+        } catch {
+          /* ignore */
+        }
         playPromiseRef.current = null;
       }
 
@@ -110,13 +125,20 @@ export function useAudioEffects({
             attemptPlay();
           }
         }, 5000);
-        return () => { isCleanedUp = true; audio.removeEventListener("canplay", handleCanPlay); if (playTimeoutId) clearTimeout(playTimeoutId); };
+        return () => {
+          isCleanedUp = true;
+          audio.removeEventListener("canplay", handleCanPlay);
+          if (playTimeoutId) clearTimeout(playTimeoutId);
+        };
       }
     } else {
       if (playPromiseRef.current) playPromiseRef.current = null;
       audio.pause();
     }
 
-    return () => { isCleanedUp = true; if (playTimeoutId) clearTimeout(playTimeoutId); };
+    return () => {
+      isCleanedUp = true;
+      if (playTimeoutId) clearTimeout(playTimeoutId);
+    };
   }, [isPlaying, activeTrack?.id, volume, pauseTrack, audioRef, isLoadingRef, playPromiseRef, isStartupPeriod]);
 }

@@ -61,10 +61,7 @@ export function GlobalAudioProvider({ children }: { children: React.ReactNode })
   const { activeTrack, isPlaying, repeat, volume, pauseTrack, nextTrack } = usePlayerStore();
 
   // Resolve audio source URL from track
-  const { getAudioSource, isMobileBrowser, mobileBrowserInfo } = useAudioSourceResolver(
-    activeTrack,
-    isStartupPeriod,
-  );
+  const { getAudioSource, isMobileBrowser, mobileBrowserInfo } = useAudioSourceResolver(activeTrack, isStartupPeriod);
 
   // Optimized audio player with caching and prefetch
   useOptimizedAudioPlayer({

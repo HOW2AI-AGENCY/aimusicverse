@@ -26,19 +26,10 @@ export const PageErrorState = memo(function PageErrorState({
   title = "Ошибка загрузки",
 }: PageErrorStateProps) {
   const message =
-    error instanceof Error
-      ? error.message
-      : typeof error === "string"
-        ? error
-        : "Произошла непредвиденная ошибка";
+    error instanceof Error ? error.message : typeof error === "string" ? error : "Произошла непредвиденная ошибка";
 
   return (
-    <div
-      className={cn(
-        "min-h-[50vh] flex flex-col items-center justify-center gap-4 px-6 text-center",
-        className,
-      )}
-    >
+    <div className={cn("min-h-[50vh] flex flex-col items-center justify-center gap-4 px-6 text-center", className)}>
       <div className="p-3 rounded-full bg-destructive/10">
         <AlertTriangle className="w-8 h-8 text-destructive" />
       </div>

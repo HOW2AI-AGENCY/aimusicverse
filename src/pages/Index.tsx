@@ -344,7 +344,6 @@ const Index = () => {
             onProfileClick={goToProfile}
           />
 
-
           <BotContextBanner />
 
           {isMobile ? renderMobileLayout() : renderDesktopLayout()}

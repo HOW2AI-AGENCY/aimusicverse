@@ -11,10 +11,7 @@ import { toast } from "sonner";
 import { detectMobileBrowser, isAudioFormatSupported } from "@/lib/audioFormatUtils";
 import type { Track } from "@/types/track";
 
-export function useAudioSourceResolver(
-  activeTrack: Track | null | undefined,
-  isStartupPeriod: () => boolean,
-) {
+export function useAudioSourceResolver(activeTrack: Track | null | undefined, isStartupPeriod: () => boolean) {
   const mobileBrowserInfo = useRef(detectMobileBrowser());
   const isMobileBrowser = mobileBrowserInfo.current.isMobile;
 
@@ -40,9 +37,7 @@ export function useAudioSourceResolver(
 
       toast.error("Трек не готов к воспроизведению", {
         description:
-          activeTrack.status === "processing"
-            ? "Трек еще генерируется, подождите..."
-            : "Файл трека отсутствует",
+          activeTrack.status === "processing" ? "Трек еще генерируется, подождите..." : "Файл трека отсутствует",
       });
 
       return null;
@@ -76,8 +71,7 @@ export function useAudioSourceResolver(
         return true;
       });
 
-      const finalSources =
-        compatibleSources.length > 0 ? compatibleSources : sources;
+      const finalSources = compatibleSources.length > 0 ? compatibleSources : sources;
 
       const selectedSource = finalSources[0];
       logger.info("Selected audio source for mobile", {
@@ -128,14 +122,10 @@ export function useAudioSourceResolver(
       });
       return source;
     } catch (err) {
-      logger.error(
-        "Invalid audio URL",
-        err instanceof Error ? err : new Error(String(err)),
-        {
-          source: source.substring(0, 100),
-          trackId: activeTrack.id,
-        },
-      );
+      logger.error("Invalid audio URL", err instanceof Error ? err : new Error(String(err)), {
+        source: source.substring(0, 100),
+        trackId: activeTrack.id,
+      });
       if (!isStartupPeriod()) {
         toast.error("Ошибка URL аудио", {
           description: "Неверный формат ссылки на аудиофайл",

@@ -115,7 +115,9 @@ export function PlayerControls({
       if (!isInView) {
         isProgrammaticScrollRef.current = true;
         container.scrollTo({ top: Math.max(0, targetScrollTop), behavior: "smooth" });
-        setTimeout(() => { isProgrammaticScrollRef.current = false; }, 400);
+        setTimeout(() => {
+          isProgrammaticScrollRef.current = false;
+        }, 400);
       }
     });
   }, [activeLineIndex, activeWordIndex, userScrolling, isPlaying]);
@@ -124,10 +126,14 @@ export function PlayerControls({
     (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
       setHorizontalDragOffset(0);
       if (info.offset.x < -HORIZONTAL_SWIPE_THRESHOLD || info.velocity.x < -HORIZONTAL_VELOCITY_THRESHOLD) {
-        hapticImpact("medium"); onNextTrack(); return;
+        hapticImpact("medium");
+        onNextTrack();
+        return;
       }
       if (info.offset.x > HORIZONTAL_SWIPE_THRESHOLD || info.velocity.x > HORIZONTAL_VELOCITY_THRESHOLD) {
-        hapticImpact("medium"); onPreviousTrack(); return;
+        hapticImpact("medium");
+        onPreviousTrack();
+        return;
       }
     },
     [onNextTrack, onPreviousTrack],
@@ -144,7 +150,8 @@ export function PlayerControls({
       if (clientX === undefined) return;
       const isLeftSide = clientX < window.innerWidth / 2;
       if (now - lastTapRef.current.time < DOUBLE_TAP_DELAY) {
-        e.preventDefault(); e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
         const newTime = Math.max(0, Math.min(currentTime + (isLeftSide ? -SEEK_AMOUNT : SEEK_AMOUNT), duration));
         onSeek(newTime);
         hapticImpact("medium");

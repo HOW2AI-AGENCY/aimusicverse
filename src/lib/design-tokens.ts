@@ -180,11 +180,11 @@ export type TouchTargetValue = (typeof touchTargets)[keyof typeof touchTargets];
 
 export const scaleTokens = {
   /** Active/press state for buttons and interactive elements */
-  press: 'scale-[0.97]',
+  press: "scale-[0.97]",
   /** Hover state for cards and hoverable elements */
-  hover: 'scale-[1.02]',
+  hover: "scale-[1.02]",
   /** Pop/attention animations (badges, notifications) */
-  pop: 'scale-[1.1]',
+  pop: "scale-[1.1]",
 } as const;
 
 // ============================================================================

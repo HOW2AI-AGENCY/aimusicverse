@@ -28,7 +28,8 @@ const restrictedImports = {
     },
     {
       group: ["@/components/ui/skeleton-loader", "@/components/ui/ContentSkeleton"],
-      message: "Deprecated — use skeleton-components from '@/components/ui/skeleton-components' or Skeleton from '@/components/ui/skeleton'.",
+      message:
+        "Deprecated — use skeleton-components from '@/components/ui/skeleton-components' or Skeleton from '@/components/ui/skeleton'.",
     },
     {
       group: ["@/components/ui/loading-state"],

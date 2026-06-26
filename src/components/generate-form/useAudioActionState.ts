@@ -124,7 +124,9 @@ export function useAudioActionState({
   }, [isAnalyzing, analysisResult]);
 
   const uploadAndGetUrl = async (file: File): Promise<string> => {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) throw new Error("Не авторизован");
 
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
@@ -139,7 +141,9 @@ export function useAudioActionState({
       throw new Error(`Ошибка загрузки: ${uploadError.message}`);
     }
 
-    const { data: { publicUrl } } = supabase.storage.from("project-assets").getPublicUrl(fileName);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("project-assets").getPublicUrl(fileName);
     return publicUrl;
   };
 

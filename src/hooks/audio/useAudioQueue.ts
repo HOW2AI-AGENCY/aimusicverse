@@ -18,24 +18,14 @@ interface UseAudioQueueOptions {
   nextTrack: () => void;
 }
 
-export function useAudioQueue({
-  audioRef,
-  activeTrack,
-  isPlaying,
-  repeat,
-  nextTrack,
-}: UseAudioQueueOptions) {
+export function useAudioQueue({ audioRef, activeTrack, isPlaying, repeat, nextTrack }: UseAudioQueueOptions) {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
     const handleEnded = () => {
       logger.debug("Track ended", { trackId: activeTrack?.id });
-      playerAnalytics.trackComplete(
-        activeTrack?.id || "",
-        audio.currentTime,
-        audio.duration,
-      );
+      playerAnalytics.trackComplete(activeTrack?.id || "", audio.currentTime, audio.duration);
 
       if (repeat === "one") {
         if (audio.src && audio.duration > 0) {

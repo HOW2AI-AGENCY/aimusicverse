@@ -177,7 +177,10 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     };
 
     const timer = setTimeout(ensureAudio, 100);
-    return () => { mounted = false; clearTimeout(timer); };
+    return () => {
+      mounted = false;
+      clearTimeout(timer);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -204,7 +207,10 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     enabled: !!lyricsLines?.length,
   });
 
-  const handleWordClick = (t: number) => { hapticImpact("light"); seek(t); };
+  const handleWordClick = (t: number) => {
+    hapticImpact("light");
+    seek(t);
+  };
 
   // Vertical swipe-to-close handler
   const handleVerticalDragEnd = useCallback(
@@ -273,13 +279,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
 
         <FullscreenVisualizer show={showVisualizer} isPlaying={isPlaying} visualizerData={visualizerData} />
 
-        <PlayerProgress
-          track={track}
-          audioUrl={audioUrl}
-          currentTime={currentTime}
-          duration={duration}
-          onSeek={seek}
-        />
+        <PlayerProgress track={track} audioUrl={audioUrl} currentTime={currentTime} duration={duration} onSeek={seek} />
       </div>
 
       <PlayerActions

@@ -42,12 +42,7 @@ export function AudioActionInput({
   onCloudSelect,
 }: AudioActionInputProps) {
   if (showGuitarMode) {
-    return (
-      <GuitarModeRecorder
-        onRecordingComplete={onGuitarRecordingComplete}
-        onCancel={onCancelGuitarMode}
-      />
-    );
+    return <GuitarModeRecorder onRecordingComplete={onGuitarRecordingComplete} onCancel={onCancelGuitarMode} />;
   }
 
   return (
@@ -66,13 +61,7 @@ export function AudioActionInput({
           <Upload className="w-5 h-5" />
           <span className="text-xs">Загрузить</span>
         </Button>
-        <input
-          id="audio-file-input-dialog"
-          type="file"
-          accept="audio/*"
-          className="hidden"
-          onChange={onFileUpload}
-        />
+        <input id="audio-file-input-dialog" type="file" accept="audio/*" className="hidden" onChange={onFileUpload} />
 
         <Button
           type="button"

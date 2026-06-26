@@ -1,15 +1,7 @@
 import { useState, useRef, useEffect, useId } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Play,
-  Pause,
-  X,
-  Loader2,
-  FileText,
-  Check,
-  Rocket,
-} from "@/lib/icons";
+import { Play, Pause, X, Loader2, FileText, Check, Rocket } from "@/lib/icons";
 import { formatTime } from "@/lib/player-utils";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { registerStudioAudio, unregisterStudioAudio, pauseAllStudioAudio } from "@/hooks/studio/useStudioAudio";

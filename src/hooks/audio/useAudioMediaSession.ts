@@ -15,8 +15,7 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { logger } from "@/lib/logger";
 
 export function useAudioMediaSession() {
-  const { activeTrack, isPlaying, pauseTrack, nextTrack, previousTrack } =
-    usePlayerStore();
+  const { activeTrack, isPlaying, pauseTrack, nextTrack, previousTrack } = usePlayerStore();
 
   useEffect(() => {
     if (!("mediaSession" in navigator)) return;
@@ -26,9 +25,7 @@ export function useAudioMediaSession() {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: activeTrack.title || "Unknown Track",
         artist: "MusicVerse AI",
-        artwork: activeTrack.cover_url
-          ? [{ src: activeTrack.cover_url, sizes: "512x512", type: "image/jpeg" }]
-          : [],
+        artwork: activeTrack.cover_url ? [{ src: activeTrack.cover_url, sizes: "512x512", type: "image/jpeg" }] : [],
       });
     }
 
@@ -39,10 +36,30 @@ export function useAudioMediaSession() {
     if (!("mediaSession" in navigator)) return;
 
     const handlers: Array<[MediaSessionAction, MediaSessionActionHandler]> = [
-      ["play", () => { usePlayerStore.getState().playTrack(usePlayerStore.getState().activeTrack!); }],
-      ["pause", () => { pauseTrack(); }],
-      ["nexttrack", () => { nextTrack(); }],
-      ["previoustrack", () => { previousTrack(); }],
+      [
+        "play",
+        () => {
+          usePlayerStore.getState().playTrack(usePlayerStore.getState().activeTrack!);
+        },
+      ],
+      [
+        "pause",
+        () => {
+          pauseTrack();
+        },
+      ],
+      [
+        "nexttrack",
+        () => {
+          nextTrack();
+        },
+      ],
+      [
+        "previoustrack",
+        () => {
+          previousTrack();
+        },
+      ],
     ];
 
     for (const [action, handler] of handlers) {
@@ -55,7 +72,11 @@ export function useAudioMediaSession() {
 
     return () => {
       for (const [action] of handlers) {
-        try { navigator.mediaSession.setActionHandler(action, null); } catch { /* ignore */ }
+        try {
+          navigator.mediaSession.setActionHandler(action, null);
+        } catch {
+          /* ignore */
+        }
       }
     };
   }, [pauseTrack, nextTrack, previousTrack]);

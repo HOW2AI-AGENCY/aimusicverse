@@ -9,12 +9,7 @@ import { useEffect, useRef, type MutableRefObject } from "react";
 import { logger } from "@/lib/logger";
 import { toast } from "sonner";
 import { recordError } from "@/lib/telemetry";
-import {
-  AUDIO_ERROR_MESSAGES,
-  DEFAULT_ERROR_INFO,
-  buildErrorContext,
-  collectFallbackUrls,
-} from "./audioErrorMessages";
+import { AUDIO_ERROR_MESSAGES, DEFAULT_ERROR_INFO, buildErrorContext, collectFallbackUrls } from "./audioErrorMessages";
 import type { Track } from "@/types/track";
 
 interface UseAudioErrorRecoveryOptions {
@@ -33,12 +28,21 @@ const MAX_NETWORK_RETRIES = 3;
 const MAX_FORMAT_RETRIES = 2;
 
 export function useAudioErrorRecovery({
-  audioRef, playPromiseRef, activeTrack, isPlaying,
-  isMobileBrowser, mobileBrowserInfo, pauseTrack, nextTrack, isStartupPeriod,
+  audioRef,
+  playPromiseRef,
+  activeTrack,
+  isPlaying,
+  isMobileBrowser,
+  mobileBrowserInfo,
+  pauseTrack,
+  nextTrack,
+  isStartupPeriod,
 }: UseAudioErrorRecoveryOptions) {
   const retryStateRef = useRef({
-    networkRetryCount: 0, formatRetryCount: 0,
-    hasAttemptedBlobRecovery: false, attemptedUrls: new Set<string>(),
+    networkRetryCount: 0,
+    formatRetryCount: 0,
+    hasAttemptedBlobRecovery: false,
+    attemptedUrls: new Set<string>(),
   });
   const lastTrackIdRef = useRef<string | null>(null);
 
@@ -49,8 +53,10 @@ export function useAudioErrorRecovery({
     if (activeTrack?.id !== lastTrackIdRef.current) {
       lastTrackIdRef.current = activeTrack?.id || null;
       retryStateRef.current = {
-        networkRetryCount: 0, formatRetryCount: 0,
-        hasAttemptedBlobRecovery: false, attemptedUrls: new Set<string>(),
+        networkRetryCount: 0,
+        formatRetryCount: 0,
+        hasAttemptedBlobRecovery: false,
+        attemptedUrls: new Set<string>(),
       };
     }
 
@@ -62,14 +68,22 @@ export function useAudioErrorRecovery({
       const wasPlaying = isPlaying;
       audio.src = fallbackUrl;
       audio.load();
-      audio.addEventListener("canplay", async function onCanPlay() {
-        audio.removeEventListener("canplay", onCanPlay);
-        if (currentTime > 0 && !isNaN(currentTime)) audio.currentTime = currentTime;
-        if (wasPlaying) {
-          try { await audio.play(); logger.info("Playback recovered", context); }
-          catch (e) { logger.warn("Recovery play failed", { error: e instanceof Error ? e.message : String(e) }); }
-        }
-      }, { once: true });
+      audio.addEventListener(
+        "canplay",
+        async function onCanPlay() {
+          audio.removeEventListener("canplay", onCanPlay);
+          if (currentTime > 0 && !isNaN(currentTime)) audio.currentTime = currentTime;
+          if (wasPlaying) {
+            try {
+              await audio.play();
+              logger.info("Playback recovered", context);
+            } catch (e) {
+              logger.warn("Recovery play failed", { error: e instanceof Error ? e.message : String(e) });
+            }
+          }
+        },
+        { once: true },
+      );
     };
 
     const handleError = () => {
@@ -81,8 +95,11 @@ export function useAudioErrorRecovery({
       const errorCode = audio.error?.code || 0;
       const errorInfo = AUDIO_ERROR_MESSAGES[errorCode] || DEFAULT_ERROR_INFO;
       const extraCtx = {
-        networkRetryCount: state.networkRetryCount, formatRetryCount: state.formatRetryCount,
-        isMobile: isMobileBrowser, browser: mobileBrowserInfo.current.browserName, os: mobileBrowserInfo.current.osName,
+        networkRetryCount: state.networkRetryCount,
+        formatRetryCount: state.formatRetryCount,
+        isMobile: isMobileBrowser,
+        browser: mobileBrowserInfo.current.browserName,
+        os: mobileBrowserInfo.current.osName,
       };
       const errorContext = buildErrorContext(audio, activeTrack, extraCtx);
 
@@ -92,7 +109,10 @@ export function useAudioErrorRecovery({
         const fallbacks = collectFallbackUrls(activeTrack, state.attemptedUrls);
         if (fallbacks.length > 0) {
           state.attemptedUrls.add(fallbacks[0]);
-          logger.info("Network error, trying alternative URL", { ...errorContext, fallbackUrl: fallbacks[0].substring(0, 60) });
+          logger.info("Network error, trying alternative URL", {
+            ...errorContext,
+            fallbackUrl: fallbacks[0].substring(0, 60),
+          });
           recoverWithUrl(fallbacks[0], { trackId: activeTrack?.id, fallbackUrl: fallbacks[0].substring(0, 60) });
           return;
         }
@@ -104,7 +124,10 @@ export function useAudioErrorRecovery({
             audio.src = `${cur}${sep}retry=${Date.now()}`;
             audio.load();
             if (isPlaying) audio.play().catch(() => {});
-            if (!inStartup) toast.info("Повторная попытка загрузки...", { description: `Попытка ${state.networkRetryCount} из ${MAX_NETWORK_RETRIES}` });
+            if (!inStartup)
+              toast.info("Повторная попытка загрузки...", {
+                description: `Попытка ${state.networkRetryCount} из ${MAX_NETWORK_RETRIES}`,
+              });
           }, retryDelay);
           return;
         }
@@ -124,22 +147,36 @@ export function useAudioErrorRecovery({
         }
         if (chain.length > 0) {
           state.attemptedUrls.add(chain[0]);
-          logger.info("Format error, attempting fallback", { ...errorContext, fallbackUrl: chain[0].substring(0, 60), isRetry });
+          logger.info("Format error, attempting fallback", {
+            ...errorContext,
+            fallbackUrl: chain[0].substring(0, 60),
+            isRetry,
+          });
           const ct = audio.currentTime;
           const wp = isPlaying;
           audio.src = chain[0];
           audio.load();
-          audio.addEventListener("canplay", async function onCanPlay() {
-            audio.removeEventListener("canplay", onCanPlay);
-            if (ct > 0 && !isNaN(ct)) audio.currentTime = ct;
-            if (wp) {
-              try { await audio.play(); logger.info("Recovered after format error", { trackId: activeTrack?.id }); }
-              catch (e) {
-                logger.error("Format recovery play failed", e, errorContext);
-                recordError(`audio:${errorCode}:recovery_failed`, audio.error?.message || "Recovery failed", errorContext);
+          audio.addEventListener(
+            "canplay",
+            async function onCanPlay() {
+              audio.removeEventListener("canplay", onCanPlay);
+              if (ct > 0 && !isNaN(ct)) audio.currentTime = ct;
+              if (wp) {
+                try {
+                  await audio.play();
+                  logger.info("Recovered after format error", { trackId: activeTrack?.id });
+                } catch (e) {
+                  logger.error("Format recovery play failed", e, errorContext);
+                  recordError(
+                    `audio:${errorCode}:recovery_failed`,
+                    audio.error?.message || "Recovery failed",
+                    errorContext,
+                  );
+                }
               }
-            }
-          }, { once: true });
+            },
+            { once: true },
+          );
           return;
         }
         logger.error("Format error with no fallbacks", null, errorContext);
@@ -150,13 +187,19 @@ export function useAudioErrorRecovery({
       if (!inStartup) recordError(`audio:${errorCode}`, audio.error?.message || "Unknown audio error", errorContext);
       if (!inStartup) toast.error(errorInfo.ru, { description: errorInfo.action });
       pauseTrack();
-      retryTimeoutId = setTimeout(() => { nextTrack(); }, 2000);
+      retryTimeoutId = setTimeout(() => {
+        nextTrack();
+      }, 2000);
     };
 
     const handleStalled = async () => {
       logger.warn("Audio playback stalled", { trackId: activeTrack?.id, currentTime: audio.currentTime });
       if (playPromiseRef.current) {
-        try { await playPromiseRef.current; } catch { /* ignore */ }
+        try {
+          await playPromiseRef.current;
+        } catch {
+          /* ignore */
+        }
         playPromiseRef.current = null;
       }
       const ct = audio.currentTime;
@@ -179,5 +222,15 @@ export function useAudioErrorRecovery({
       audio.removeEventListener("suspend", handleSuspend);
       if (retryTimeoutId) clearTimeout(retryTimeoutId);
     };
-  }, [audioRef, playPromiseRef, activeTrack, isPlaying, isMobileBrowser, mobileBrowserInfo, pauseTrack, nextTrack, isStartupPeriod]);
+  }, [
+    audioRef,
+    playPromiseRef,
+    activeTrack,
+    isPlaying,
+    isMobileBrowser,
+    mobileBrowserInfo,
+    pauseTrack,
+    nextTrack,
+    isStartupPeriod,
+  ]);
 }

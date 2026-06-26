@@ -44,7 +44,10 @@ export const DEFAULT_ERROR_INFO: AudioErrorInfo = {
 /** Build error context object for logging/telemetry. */
 export function buildErrorContext(
   audio: HTMLAudioElement,
-  activeTrack: { id?: string; title?: string; streaming_url?: string; audio_url?: string; local_audio_url?: string } | null | undefined,
+  activeTrack:
+    | { id?: string; title?: string; streaming_url?: string; audio_url?: string; local_audio_url?: string }
+    | null
+    | undefined,
   extra: Record<string, unknown>,
 ) {
   const errorCode = audio.error?.code || 0;
@@ -55,8 +58,7 @@ export function buildErrorContext(
     errorType: errorInfo.errorType,
     errorMessage: audio.error?.message,
     isPipelineError:
-      audio.error?.message?.includes("PIPELINE_ERROR_READ") ||
-      audio.error?.message?.includes("FFmpegDemuxer"),
+      audio.error?.message?.includes("PIPELINE_ERROR_READ") || audio.error?.message?.includes("FFmpegDemuxer"),
     trackId: activeTrack?.id,
     title: activeTrack?.title,
     source: audio.src?.substring(0, 100),
@@ -78,9 +80,7 @@ export function collectFallbackUrls(
   activeTrack: { streaming_url?: string; audio_url?: string; local_audio_url?: string } | null | undefined,
   attemptedUrls: Set<string>,
 ): string[] {
-  return [
-    activeTrack?.streaming_url,
-    activeTrack?.audio_url,
-    activeTrack?.local_audio_url,
-  ].filter((url): url is string => !!url && !attemptedUrls.has(url));
+  return [activeTrack?.streaming_url, activeTrack?.audio_url, activeTrack?.local_audio_url].filter(
+    (url): url is string => !!url && !attemptedUrls.has(url),
+  );
 }
