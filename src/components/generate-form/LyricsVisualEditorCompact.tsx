@@ -104,7 +104,7 @@ function sectionsToLyrics(sections: LyricSection[]): string {
 }
 
 // Structural equality ignoring volatile IDs — avoids JSON.stringify allocations on every keystroke.
-function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
+export function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
   if (a === b) return true;
   if (a.length !== b.length) return false;
   for (let i = 0; i < a.length; i++) {
@@ -112,6 +112,36 @@ function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
   }
   return true;
 }
+
+/**
+ * Build a new section list from a template, carrying over user content for
+ * matching section types in document order.  Pure & exported for tests.
+ */
+export function applyTemplateToSections(
+  prev: LyricSection[],
+  sectionTypes: readonly string[],
+  now: number = Date.now(),
+): LyricSection[] {
+  const pools = new Map<string, string[]>();
+  for (const s of prev) {
+    if (!s.content) continue;
+    const list = pools.get(s.type) ?? [];
+    list.push(s.content);
+    pools.set(s.type, list);
+  }
+  return sectionTypes.map((type, i) => {
+    const pool = pools.get(type);
+    const content = pool && pool.length ? pool.shift()! : "";
+    return {
+      id: `${type}-${now}-${i}`,
+      type: type as LyricSection["type"],
+      content,
+      tags: [],
+    };
+  });
+}
+
+export { parseLyrics, sectionsToLyrics };
 
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
