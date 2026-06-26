@@ -3,13 +3,13 @@
 <div align="center">
 
 ![Status](https://img.shields.io/badge/статус-Production_Ready-brightgreen)
-![Health](https://img.shields.io/badge/здоровье-97%2F100-success)
-![Phase](https://img.shields.io/badge/фаза-9_в_процессе-blue)
-![Sprint](https://img.shields.io/badge/sprint-9A_завершён-green)
+![Health](https://img.shields.io/badge/здоровье-98%2F100-success)
+![Phase](https://img.shields.io/badge/фаза-10B_завершён-blue)
+![Sprint](https://img.shields.io/badge/tests-320_passing-green)
 
 **🚀 AI-платформа для создания музыки в Telegram Mini App**
 
-**Последнее обновление**: 2026-06-26
+**Последнее обновление**: 2026-06-27
 
 </div>
 
@@ -94,6 +94,12 @@
 - [ ] **9D:** Реорганизация components/ui/ (группировка 90+ файлов)
 - [ ] **9E:** Финальная верификация (tsc, build, size, tests)
 
+### Phase 10: Testing & Quality ✅ / 🔄 (2026-06-26 — 2026-06-27)
+
+- [x] **10A:** Миграция Jest → Vitest, починка 22 test suites (237 тестов)
+- [x] **10B:** Unit-тесты критических путей: Player, Auth, Versioning, Generation (320 тестов)
+- [ ] **10C:** E2E-тесты ключевых сценариев (Playwright)
+
 ---
 
 ## 📊 Ключевые метрики
@@ -164,6 +170,9 @@
 | Edge Functions   | 120+     |
 | Database Tables  | 45+      |
 | Docs             | 305+     |
+| **Unit Tests**   | **320**  |
+| **Test Suites**  | **24**   |
+| **Test Runner**  | Vitest 4.x |
 
 ---
 
@@ -171,20 +180,22 @@
 
 ### Приоритет P0 (критичный)
 
-1. **Deduplicate Components** — Объединить 30+ дублирующихся компонентов (EmptyState ×2, BottomSheet ×2, AddTrackDialog ×3, VersionSelector ×3, StudioActionsPanel ×5)
-2. **Split Giant Files** — Разбить 50+ файлов >500 строк (StudioShell 1852, UnifiedStudioContent 1477, MobileFullscreenPlayer 1052)
+1. ~~**Unit-тесты критических путей**~~ ✅ DONE — 320 тестов (Player, Auth, Versioning, Generation)
+2. **E2E-тесты ключевых сценариев** — Playwright (генерация, библиотека, плеер, версии)
+3. **Split Giant Files (9B)** — Разбить 50+ файлов >500 строк (StudioShell 1852, UnifiedStudioContent 1477)
 
 ### Приоритет P1 (высокий)
 
-3. **Consolidate Lyrics** — Собрать 30+ lyrics-компонентов из 6 директорий в одну структуру
-4. **Reorganize components/ui/** — Сгруппировать 90+ файлов по типу (forms, layout, feedback)
-5. **Spec 001: UI Improvements** — Реализация ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+4. **Sprint 033: UI Improvements** — Реализация Spec 001 ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+5. **Sprint 034: Generation Reliability** — Снижение failure rate с 12% до <8%
+6. **Онбординг ревамп** — Снижение bounce rate с 72%
 
 ### Приоритет P2 (средний)
 
-6. **Platform Integrations** — Spotify, Apple Music, YouTube export
-7. **API Development** — Public API для third-party integrations
-8. **Bundle Optimization** — Анализ и оптимизация размера бандла
+7. **Sprint 035: Platform Integrations** — Spotify, Apple Music, YouTube export
+8. **Public API** — Для third-party integrations
+9. **Consolidate Lyrics (9C)** — 30+ lyrics-компонентов → единая структура
+10. **Reorganize components/ui/ (9D)** — 90+ файлов → группировка по типу
 
 ---
 
@@ -198,8 +209,9 @@
 ### P2 — В процессе улучшения
 
 - 🔴 Generation failure rate ~12% → target <8%
-- 🟡 30+ дубликатов компонентов → объединение
+- ✅ ~~Тестовое покрытие — почти нулевое~~ → 320 unit-тестов
 - 🟡 50+ файлов >500 строк → рефакторинг
+- 🟡 E2E тесты не написаны → Sprint 10C
 - 🟡 Bundle size optimisation pending
 
 ### P3 — Плановые
@@ -229,15 +241,35 @@
 | ----------------------------- | --------------- | ------------------------------------------------- |
 | **Sprints 001-032**           | ✅ Завершены    | [Архив](SPRINTS/completed/)                       |
 | **Voice Cloning**             | ✅ Завершён     | [Документация](docs/VOICE_CLONING_INTEGRATION.md) |
-| **Spec 001: UI Improvements** | 🔄 В процессе   | [Спецификация](specs/001-ui-improvements/spec.md) |
-| **Performance Scaling**       | ⏳ Запланирован | Q3 2026                                           |
-| **Platform Integrations**     | 📋 Q3 2026      | Spotify, Apple Music                              |
+| **Phase 10: Testing**         | ✅ 10A-10B Done  | 320 unit-тестов, Vitest 4.x                       |
+| **Sprint 033: UI Improvements** | ⏳ Запланирован | [Спецификация](specs/001-ui-improvements/spec.md) |
+| **Sprint 034: Gen Reliability** | ⏳ Запланирован | Failure rate 12% → <8%                           |
+| **Sprint 035: Integrations**  | 📋 Q3-Q4 2026   | Spotify, Apple Music, YouTube                     |
 
 </div>
 
 ---
 
 ## 🔄 Недавние обновления (июнь 2026)
+
+### 2026-06-27 — Phase 10: Testing & Quality
+
+**Phase 10A: Test Infrastructure Migration**
+- ✅ Миграция тестового раннера Jest → Vitest 4.x
+- ✅ Исправление нативных биндингов Windows (npm optional deps bug)
+- ✅ Глобальный мок Supabase клиента в vitest.setup.ts
+- ✅ Удаление 6 тестов с несуществующими импортами, перенос 5 integration тестов
+- ✅ Починка 22 failing test suites → 237 тестов проходят
+
+**Phase 10B: Critical Path Unit Tests**
+- ✅ Player Store — 39 тестов (play, queue, shuffle, repeat, volume, modes)
+- ✅ Auth Context — 5 тестов (provider/consumer, loading states)
+- ✅ Version Switcher — 14+4 тестов (fetch, switch, setPrimary, cache)
+- ✅ Generation Draft — 10 тестов (save, load, expiry, debounce)
+- ✅ Generation Result — 11 тестов (show, close, dedup, session flags)
+- ✅ **Итого: 320 тестов, 24 test suites**
+
+**Коммиты:** `173fb677`, `2fadff06`, `9b2558d2`, `701aad7c`
 
 ### 2026-06-25 — Phase 9A: Deduplication
 

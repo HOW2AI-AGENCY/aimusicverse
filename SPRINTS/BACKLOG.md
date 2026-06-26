@@ -12,6 +12,8 @@
 - **E006: Качество кода и надежность**
 - **E007: Mobile-First UI/UX Redesign** ✅ COMPLETE
 - **E008: Phase 9 — Deduplication & Refactoring** 🔄 IN PROGRESS
+- **E010: Phase 10 — Testing & Quality** ✅ 10A-10B DONE, 10C PLANNED
+- **E011: Product Development** ⏳ PLANNED (Q3-Q4 2026)
 
 ## Статус реализации E007: Mobile-First UI/UX Redesign
 
@@ -72,7 +74,7 @@
 | T015 | Обновить npm-зависимости и устранить уязвимости                    | Средний     | ✅ Done        | E001 |
 | T016 | Исправить все ошибки ESLint                                        | Высокий     | ✅ Done        | E006 |
 | T017 | Улучшить типизацию TypeScript (устранить `any`)                    | Высокий     | ✅ Done        | E006 |
-| T018 | Расширить тестовое покрытие                                        | Средний     | ✅ Done        | E006 |
+| T018 | Расширить тестовое покрытие                                        | Средний     | 🔄 In Progress | E006 |
 | T019 | Улучшить навигацию в `GenerateWizard`                              | Средний     | To Do          | E005 |
 | T020 | Рефакторинг `GenerateWizard`: строгая типизация                    | Низкий      | To Do          | E006 |
 | T021 | Улучшить UX диалогов Upload                                        | Низкий      | To Do          | E005 |
@@ -111,8 +113,66 @@
 | T047 | **9C: Консолидация Lyrics-экосистемы**                    | Средний     | ⏳ Planned     | E008 |
 | T048 | **9D: Реорганизация components/ui/**                      | Средний     | ⏳ Planned     | E008 |
 | T049 | **9E: Финальная верификация (tsc, build, size, tests)**   | Высокий     | ⏳ Planned     | E008 |
-| T050 | **Тестовое покрытие: unit-тесты критического пути**       | Критический | ⏳ Planned     | E008 |
-| T051 | **Тестовое покрытие: E2E-тесты ключевых сценариев**       | Высокий     | ⏳ Planned     | E008 |
+| T050 | **Тестовое покрытие: unit-тесты критического пути**       | Критический | ✅ Done        | E010 |
+| T051 | **Тестовое покрытие: E2E-тесты ключевых сценариев**       | Высокий     | ⏳ Planned     | E010 |
+
+---
+
+## 🆕 E010: Testing & Quality (2026-06)
+
+### Обзор
+
+Миграция тестового раннера Jest → Vitest, восстановление тестовой инфраструктуры и написание unit-тестов для критических путей приложения.
+
+| ID   | Название                                                     | Приоритет   | Статус         | Эпик |
+| ---- | ------------------------------------------------------------ | ----------- | -------------- | ---- |
+| T063 | **10A: Миграция Jest → Vitest**                              | Критический | ✅ Done        | E010 |
+| T064 | **10A: Исправление нативных биндингов Windows**              | Критический | ✅ Done        | E010 |
+| T065 | **10A: Глобальный мок Supabase для тестов**                  | Критический | ✅ Done        | E010 |
+| T066 | **10A: Починка 22 failing test suites (237 тестов)**         | Критический | ✅ Done        | E010 |
+| T067 | **10B: Unit-тесты Player Store (39 тестов)**                 | Высокий     | ✅ Done        | E010 |
+| T068 | **10B: Unit-тесты Auth Context (5 тестов)**                  | Высокий     | ✅ Done        | E010 |
+| T069 | **10B: Unit-тесты Version Switcher (18 тестов)**             | Высокий     | ✅ Done        | E010 |
+| T070 | **10B: Unit-тесты Generation Draft (10 тестов)**             | Высокий     | ✅ Done        | E010 |
+| T071 | **10B: Unit-тесты Generation Result (11 тестов)**            | Высокий     | ✅ Done        | E010 |
+| T072 | **10C: E2E-тесты генерации трека**                           | Высокий     | ⏳ Planned     | E010 |
+| T073 | **10C: E2E-тесты навигации по библиотеке**                   | Средний     | ⏳ Planned     | E010 |
+| T074 | **10C: E2E-тесты плеера (play/pause/queue)**                 | Средний     | ⏳ Planned     | E010 |
+| T075 | **10C: E2E-тесты переключения версий A/B**                   | Средний     | ⏳ Planned     | E010 |
+| T076 | **10C: E2E-тесты mobile viewport**                           | Средний     | ⏳ Planned     | E010 |
+
+### Результаты Phase 10A-10B
+
+- **Тестовый раннер:** Jest → Vitest 4.x (globals, jsdom, path mapping)
+- **Тестов до миграции:** 5 файлов, 0 проходящих
+- **Тестов после Phase 10B:** 24 файла, 320 проходящих, 8 skipped, 31 todo
+- **Покрытие критических путей:** Player, Auth, Versioning, Generation
+
+### Новые тестовые файлы
+
+| Файл | Тестов | Покрытие |
+| ---- | ------ | -------- |
+| `src/__tests__/stores/playerStore.test.ts` | 39 | Player store: play, queue, shuffle, repeat, volume, modes |
+| `tests/unit/hooks/useAuth.test.ts` | 5 | Auth context: provider, consumer, loading states |
+| `tests/unit/hooks/useVersionSwitcher.test.ts` | 18 | Version fetch, switch, setPrimary, cache, loading |
+| `tests/unit/hooks/useGenerateDraft.test.ts` | 10 | Draft save, load, expiry, auto-save, debounce |
+| `tests/unit/hooks/useGenerationResult.test.ts` | 11 | Result sheet: show, close, clear, dedup, session |
+
+---
+
+## 🆕 E011: Product Development (Q3-Q4 2026)
+
+| ID   | Название                                                     | Приоритет   | Статус         | Эпик |
+| ---- | ------------------------------------------------------------ | ----------- | -------------- | ---- |
+| T077 | **Sprint 033: Реализация Spec 001 UI Improvements**          | Высокий     | ⏳ Planned     | E011 |
+| T078 | **Sprint 034: Снижение failure rate генерации (<8%)**        | Высокий     | ⏳ Planned     | E011 |
+| T079 | **Sprint 034: Dashboard метрик генерации**                   | Средний     | ⏳ Planned     | E011 |
+| T080 | **Sprint 035: Spotify export**                               | Средний     | ⏳ Planned     | E011 |
+| T081 | **Sprint 035: Apple Music export**                           | Средний     | ⏳ Planned     | E011 |
+| T082 | **Sprint 035: YouTube export**                               | Средний     | ⏳ Planned     | E011 |
+| T083 | **Sprint 035: Public API для third-party интеграций**        | Низкий      | ⏳ Planned     | E011 |
+| T084 | **A/B тестирование UX (онбординг, конверсия)**               | Средний     | ⏳ Planned     | E011 |
+| T085 | **Онбординг ревамп (снижение bounce rate с 72%)**            | Высокий     | ⏳ Planned     | E011 |
 
 ---
 
