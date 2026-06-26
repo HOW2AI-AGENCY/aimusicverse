@@ -66,26 +66,28 @@
 
 **Файлы:** `src/components/player/CompactPlayer.tsx`, `FullscreenPlayer.tsx`, `MobileFullscreenPlayer.tsx`, `ResizablePlayer.tsx`.
 
-### Задачи
-1. **CompactPlayer редизайн (mobile-first):**
-   - Сетка: `[cover 40px][title+artist flex-1][prev|play|next]`;
-   - кнопки 44×44, иконки 20px, gap 8px;
-   - прогресс — `h-1` под нижней границей, ширина = ширине бара (a не контента);
-   - убрать мигание: один источник `currentTime` из `useAudioTime` + `useDeferredValue`, без локальных setState на каждом `timeupdate` (throttle 100мс через `rAF`).
-2. **Waveform/Timeline синхронизация:**
-   - вынести в `WaveformTimeline` компонент с единым ref-контейнером;
-   - canvas waveform + overlay таймлайн рендерятся в один `<div ref>` с `width: 100%`;
-   - на ресайз — `ResizeObserver` пересчитывает шкалу;
-   - убрать дубль-рендер waveform (сейчас два инстанса конкурируют).
-3. **Fullscreen аудит кнопок:**
-   - перечислить все экшены: play/pause, prev/next, seek ±15, shuffle, repeat, like, version A/B, queue, share, more, close;
-   - проверить hookup каждой к `usePlayerStore`/мутациям; отсутствующие реализовать или скрыть;
-   - расположение по группам: верх (close/more), центр (cover+waveform+meta), низ (transport+secondary actions);
-   - safe-area сверху/снизу.
-4. **Like ошибка** (`Error toggling like {errorMessage:"[object Object]"}`): починить сериализацию ошибки в `useLikes`, корректный `toAppError`, тост с человекочитаемым текстом.
-5. **Haptic guard:** обернуть `WebApp.HapticFeedback.impactOccurred` в проверку `isVersionAtLeast('6.1')` — убрать warn-спам.
+### Статус: 🟡 частично (loading/error UI + waveform антимигание + дедуп тостов)
 
-**Приёмка:** waveform не моргает, прогресс совпадает с временем, все кнопки фуллскрина работают, like без ошибок.
+### Задачи
+1. ✅ **Гранулярный playback status.** В `usePlayerStore` добавлен `playbackStatus: 'idle'|'loading'|'buffering'|'playing'|'paused'|'error'` + `playbackError`. `GlobalAudioProvider` синхронизирует его из событий `<audio>` (`loadstart/waiting/playing/pause/ended/canplay/error`). `CompactPlayer` рендерит спиннер при загрузке/буферизации, иконку ошибки + alert-баннер при сбое, hairline-индикатор буферизации под waveform.
+2. ✅ **Mobile layout transport row.** Кнопки play/next/close уезжают вправо (`ml-auto`), cover/title зажаты в `flex-shrink-0` / `flex-1 min-w-0` — перекрытий и схлопывания при длинных названиях нет на 360/375/424px.
+3. ✅ **Waveform антимигание.** `WaveformCanvas` переписан: размер канваса (`canvas.width/height`) меняется только через `ResizeObserver` при реальной смене CSS-размера/DPR. Эффект отрисовки больше не дёргает `canvas.width = ...` на каждом тике прогресса — это была причина мерцания на мобильных. `setTransform(dpr,...)` вместо накопительного `scale()`.
+4. ⏳ **Fullscreen аудит кнопок** — отложено.
+5. ✅ **Like ошибка** — починено в предыдущей итерации.
+6. ✅ **Haptic guard 6.1+** — починено в предыдущей итерации.
+
+---
+
+## Спринт 4.5 — Унификация уведомлений (Sonner dedup)
+
+### Задачи
+1. ✅ **Дедуп тостов.** Новый `src/lib/toast.ts` оборачивает `sonner.toast.*` и присваивает стабильный `id = "t:${message}::${description}"`. Повторный вызов с тем же текстом обновляет существующий тост, а не плодит новый.
+2. ✅ **Перенос точки входа.** `src/components/ui/sonner.tsx` ре-экспортирует `toast` из `@/lib/toast`, поэтому все существующие импорты `from "@/components/ui/sonner"` автоматически дедуплицируются.
+3. ✅ **GlobalAudioProvider** переключён на дедуплицирующий `@/lib/toast` — retry-спам ("Повторная попытка загрузки…") теперь обновляет один тост.
+4. ✅ **Mobile visibleToasts = 1** (было 2). На мобильных всегда не более одного видимого тоста, лишние тихо стэкуются под ним.
+
+---
+
 
 ---
 

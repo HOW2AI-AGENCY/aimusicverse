@@ -1,8 +1,11 @@
 import { useTheme } from "@/contexts/ThemeContext";
-import { Toaster as Sonner, toast } from "sonner";
+import { Toaster as Sonner } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getToastStyles, Z_INDEX } from "@/lib/toast-position";
 import { cn } from "@/lib/utils";
+// Re-exported toast is the deduping wrapper so any consumer importing
+// `toast` from this module automatically gets id-based deduplication.
+import { toast } from "@/lib/toast";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
@@ -43,8 +46,8 @@ const Toaster = ({ ...props }: ToasterProps) => {
       richColors
       // No offset - controlled via positionStyles for symmetry
       offset={0}
-      // Limit visible toasts on mobile to prevent clutter
-      visibleToasts={isMobile ? 2 : 3}
+      // Limit visible toasts on mobile to 1 — drastically cuts notification spam
+      visibleToasts={isMobile ? 1 : 3}
       // Gap between stacked toasts
       gap={8}
       style={{

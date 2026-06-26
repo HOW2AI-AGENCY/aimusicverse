@@ -1,66 +1,45 @@
 /**
- * Toast Adapter — Phase 8 UI unification
+ * Deduping toast wrapper around sonner.
  *
- * Canonical API for showing user-visible feedback. Wraps `sonner` so callers
- * never depend on the underlying library directly and we can swap or augment
- * it later (analytics, Sentry breadcrumbs, telemetry) in a single place.
+ * Sonner does not deduplicate identical messages out of the box, so a
+ * retry-spam scenario (e.g. audio recovery, network errors) can produce
+ * 5-10 stacked toasts on mobile. This wrapper assigns a stable `id`
+ * derived from message+description so re-firing the same toast simply
+ * replaces the existing one instead of stacking.
  *
- * @example
- *   import { notify } from '@/lib/toast';
- *   notify.success('Трек сохранён');
- *   notify.error('Не удалось сгенерировать', { description: err.message });
- *   const id = notify.progress('Шаг 1/3 — проверка голоса');
- *   notify.update(id, { type: 'success', message: 'Готово' });
+ * Drop-in compatible with `toast.success / error / info / warning / message`.
+ * Caller can still pass an explicit `id` to override.
  */
+import { toast as sonnerToast, type ExternalToast } from "sonner";
 
-import { toast as sonner, type ExternalToast } from "sonner";
+type Message = string | React.ReactNode;
 
-type ToastOptions = Pick<ExternalToast, "description" | "duration" | "action" | "id" | "icon" | "className">;
+function stableId(message: Message, opts?: ExternalToast): string {
+  if (opts?.id) return String(opts.id);
+  const base = typeof message === "string" ? message : "toast";
+  const desc = typeof opts?.description === "string" ? opts.description : "";
+  return `t:${base}::${desc}`;
+}
 
-type ProgressUpdate =
-  | { type: "success"; message: string; description?: string }
-  | { type: "error"; message: string; description?: string }
-  | { type: "info"; message: string; description?: string }
-  | { type: "dismiss" };
+function wrap(
+  fn: (message: Message, opts?: ExternalToast) => string | number,
+): (message: Message, opts?: ExternalToast) => string | number {
+  return (message, opts) => fn(message, { ...opts, id: stableId(message, opts) });
+}
 
-const DEFAULT_DURATION = 4000;
-const ERROR_DURATION = 6000;
+export const toast = Object.assign(wrap(sonnerToast as never), {
+  success: wrap(sonnerToast.success.bind(sonnerToast) as never),
+  error: wrap(sonnerToast.error.bind(sonnerToast) as never),
+  info: wrap(sonnerToast.info.bind(sonnerToast) as never),
+  warning: wrap(sonnerToast.warning.bind(sonnerToast) as never),
+  message: wrap(sonnerToast.message.bind(sonnerToast) as never),
+  loading: wrap(sonnerToast.loading.bind(sonnerToast) as never),
+  dismiss: sonnerToast.dismiss.bind(sonnerToast),
+  promise: sonnerToast.promise.bind(sonnerToast),
+  custom: sonnerToast.custom.bind(sonnerToast),
+});
 
-export const notify = {
-  success(message: string, options?: ToastOptions) {
-    return sonner.success(message, { duration: DEFAULT_DURATION, ...options });
-  },
-  error(message: string, options?: ToastOptions) {
-    return sonner.error(message, { duration: ERROR_DURATION, ...options });
-  },
-  info(message: string, options?: ToastOptions) {
-    return sonner.message(message, { duration: DEFAULT_DURATION, ...options });
-  },
-  warning(message: string, options?: ToastOptions) {
-    return sonner.warning(message, { duration: ERROR_DURATION, ...options });
-  },
-  /** Long-running operation. Returns a toast id you can update with `update()`. */
-  progress(message: string, options?: ToastOptions) {
-    return sonner.loading(message, { duration: Infinity, ...options });
-  },
-  /** Update or dismiss a previously shown toast (typically a progress one). */
-  update(id: string | number, change: ProgressUpdate) {
-    if (change.type === "dismiss") {
-      sonner.dismiss(id);
-      return;
-    }
-    const payload = {
-      id,
-      description: change.description,
-      duration: change.type === "error" ? ERROR_DURATION : DEFAULT_DURATION,
-    };
-    if (change.type === "success") sonner.success(change.message, payload);
-    else if (change.type === "error") sonner.error(change.message, payload);
-    else sonner.message(change.message, payload);
-  },
-  dismiss(id?: string | number) {
-    sonner.dismiss(id);
-  },
-};
+export type { ExternalToast };
 
-export type Notify = typeof notify;
+export const notify = toast;
+
