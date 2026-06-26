@@ -6,9 +6,12 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw, FileAudio } from "@/lib/icons";
+import { Loader2, Mic, Square, Upload, CheckCircle2, AlertCircle, RotateCcw, FileAudio, Library } from "@/lib/icons";
 import { useVoiceCloneWizard, STEP_INDEX } from "@/hooks/voice/useVoiceCloneWizard";
 import { useVoiceRecorder } from "@/hooks/voice/useVoiceRecorder";
+import { useUserVocalStems, type UserVocalStem } from "@/hooks/voice/useUserVocalStems";
+import { notify } from "@/lib/notifications";
+import { logger } from "@/lib/logger";
 
 interface Props {
   open: boolean;
