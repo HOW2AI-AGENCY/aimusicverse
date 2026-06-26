@@ -1,8 +1,10 @@
 /**
  * SimplifiedTagsRow - Compact tags display for track cards
  *
- * Shows max 2 tags + overflow indicator
- * Cleaner than ScrollableTagsRow for card use
+ * Renders tags on a single row (no wrap) so card height stays constant.
+ * - Splits raw strings on `,` `/` `|` `;` (handled by parser)
+ * - Each chip is truncated with max-width so long tag values don't break layout
+ * - Overflow shown as "+N" badge that opens nothing (visual hint only)
  */
 
 import { memo, useMemo } from "react";
@@ -36,31 +38,47 @@ export const SimplifiedTagsRow = memo(function SimplifiedTagsRow({
 }: SimplifiedTagsRowProps) {
   const parsedTags = useMemo(() => getDisplayTags(style, tags, maxTags), [style, tags, maxTags]);
 
-  if (parsedTags.visible.length === 0) {
-    return <span className={cn("text-[10px] text-muted-foreground/50 italic", className)}>—</span>;
-  }
-
+  // Always reserve a single-row strip so card height stays identical
+  // regardless of whether tags are present, short, long, or many.
   return (
-    <div className={cn("flex items-center gap-1 flex-wrap", className)}>
-      {parsedTags.visible.map((tag, index) => (
-        <button
-          key={`${tag.normalized}-${index}`}
-          onClick={(e) => {
-            e.stopPropagation();
-            onClick?.(tag.value);
-          }}
-          className={cn(
-            "px-1.5 py-0.5 rounded text-[10px] font-medium transition-all duration-200",
-            "cursor-pointer active:scale-95 hover:brightness-110",
-            CATEGORY_COLORS[tag.category],
-          )}
-        >
-          {tag.value}
-        </button>
-      ))}
+    <div
+      className={cn(
+        "flex items-center gap-1 flex-nowrap min-w-0 overflow-hidden h-5",
+        className,
+      )}
+    >
+      {parsedTags.visible.length === 0 ? (
+        <span className="text-[10px] text-muted-foreground/40 italic" aria-hidden>
+          —
+        </span>
+      ) : (
+        parsedTags.visible.map((tag, index) => (
+          <button
+            key={`${tag.normalized}-${index}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick?.(tag.value);
+            }}
+            title={tag.value}
+            className={cn(
+              "shrink min-w-0 max-w-[88px] px-1.5 py-0.5 rounded text-[10px] font-medium leading-none",
+              "truncate whitespace-nowrap transition-all duration-200",
+              "cursor-pointer active:scale-95 hover:brightness-110",
+              CATEGORY_COLORS[tag.category],
+            )}
+          >
+            {tag.value}
+          </button>
+        ))
+      )}
 
       {parsedTags.hiddenCount > 0 && (
-        <span className="text-[10px] text-muted-foreground" aria-label={`Ещё ${parsedTags.hiddenCount} тегов`}>+{parsedTags.hiddenCount}</span>
+        <span
+          className="shrink-0 ml-auto text-[10px] text-muted-foreground tabular-nums"
+          aria-label={`Ещё ${parsedTags.hiddenCount} тегов`}
+        >
+          +{parsedTags.hiddenCount}
+        </span>
       )}
     </div>
   );
