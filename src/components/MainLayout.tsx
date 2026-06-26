@@ -85,7 +85,7 @@ export const MainLayout = () => {
   useEffect(() => {
     const root = document.documentElement;
     const showBottomNav = !isDesktop && !isMobileLandscape && !hasOwnBottomNav;
-    const navH = showBottomNav ? 64 : 0; // BottomNav ~64px (safe-area added in padding calc)
+    const navH = showBottomNav ? 84 : 0; // BottomNav dock ~64px + 0.5rem bottom margin + buffer
     const playerH = hasActiveTrack ? (isDesktop ? 96 : 72) : 0;
     // Publish BOTH legacy and canonical names so old call-sites + new
     // `--bottom-stack-h` math both resolve correctly.
