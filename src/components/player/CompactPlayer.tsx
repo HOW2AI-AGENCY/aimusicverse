@@ -59,6 +59,10 @@ const formatTime = (s: number) => {
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume } =
     usePlayerStore();
+  const playbackStatus = usePlayerStore((s) => s.playbackStatus);
+  const playbackError = usePlayerStore((s) => s.playbackError);
+  const isLoading = playbackStatus === "loading" || playbackStatus === "buffering";
+  const hasError = playbackStatus === "error";
   const { currentTime, duration, buffered, seek } = useAudioTime();
   const { toggleLike } = useTracks();
   const [showExpandHint, setShowExpandHint] = useState(false);
