@@ -1,10 +1,12 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "@/lib/icons";
+import { useGesture } from "@use-gesture/react";
 
 import { cn } from "@/lib/utils";
 import { backdrop } from "@/lib/overlay-colors";
 import { VisuallyHidden } from "./visually-hidden";
+import { hapticImpact } from "@/lib/haptic";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -39,8 +41,14 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
   accessibleTitle?: string;
   /**
    * If true, render as a native bottom-sheet on mobile (<640px) — slide-up from bottom,
-   * full width, drag-handle, safe-area-bottom padding. Default false (centered modal everywhere).
-   * Opt-in to avoid breaking dialogs that rely on centered/constrained geometry.
+   * full width, drag-handle, safe-area-bottom padding, swipe-to-dismiss.
+   *
+   * NOTE: This is opt-in (mobileSheet={true}) rather than auto-detected to avoid breaking
+   * existing dialogs that rely on centered/constrained geometry. For true mobile-first UX,
+   * consider using the Drawer component from vaul which auto-detects viewport.
+   *
+   * Future improvement: Auto-detect mobile viewport and make bottom sheet the default
+   * behavior with a desktopMode opt-out prop. See analysis: 96 dialogs exist, 0 use this prop.
    */
   mobileSheet?: boolean;
 }
@@ -58,75 +66,76 @@ function useSwipeDownToClose(
   contentRef: React.RefObject<HTMLDivElement | null>,
   closeRef: React.RefObject<HTMLButtonElement | null>,
 ) {
+  const nodeRef = contentRef;
+
+  const bind = useGesture(
+    {
+      onDrag: ({ movement: [mx, my], velocity: [vx, vy], last, first, tap, event }) => {
+        if (!enabled) return;
+
+        const node = nodeRef.current;
+        if (!node) return;
+
+        // Check viewport and preferences
+        const isMobile = window.matchMedia("(max-width: 639.98px)").matches;
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (!isMobile || prefersReducedMotion) return;
+
+        // Check if touch input
+        const pointerEvent = event as PointerEvent;
+        if (pointerEvent.pointerType !== "touch") return;
+
+        // Skip if content is scrollable
+        if (node.scrollTop > 0 || node.scrollHeight > node.clientHeight + 10) return;
+
+        // Skip if target is interactive
+        const target = pointerEvent.target as HTMLElement | null;
+        if (target?.closest(
+          "input, textarea, select, button, a[href], [contenteditable='true'], " +
+          "[role='button'], [role='slider'], [role='switch'], [tabindex]:not([tabindex='-1']), " +
+          "[data-no-swipe], [data-no-swipe-area]"
+        )) return;
+
+        // Handle drag start
+        if (first) {
+          node.style.transition = "none";
+        }
+
+        // Track movement (only positive Y for swipe down)
+        const delta = Math.max(0, my);
+        if (delta > 0) {
+          node.style.transform = `translate3d(0, ${delta}px, 0)`;
+        }
+
+        // Handle drag end
+        if (last) {
+          const shouldClose = delta > 96 || (vy > 0.6 && delta > 20);
+          if (shouldClose) {
+            hapticImpact("light");
+            closeRef.current?.click();
+          }
+
+          // Animate back or away
+          node.style.transition = "transform 200ms cubic-bezier(0.32, 0.72, 0, 1)";
+          node.style.transform = "";
+        }
+      },
+    },
+    {
+      drag: {
+        filterTaps: true,
+        threshold: 5,
+        from: () => [0, 0], // Start from current position
+        rubberband: false,
+      },
+    },
+  );
+
+  // Only bind when enabled
   React.useEffect(() => {
-    if (!enabled) return;
-    const node = contentRef.current;
-    if (!node) return;
-    if (typeof window === "undefined") return;
-
-    const isMobile = () => window.matchMedia("(max-width: 639.98px)").matches;
-    const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    let startY = 0;
-    let currentY = 0;
-    let dragging = false;
-    let startTime = 0;
-
-    const reset = () => {
-      node.style.transform = "";
-      node.style.transition = "";
-      dragging = false;
-    };
-
-    const onPointerDown = (e: PointerEvent) => {
-      if (!isMobile() || reducedMotion()) return;
-      if (e.pointerType !== "touch") return;
-      // Skip if the gesture starts on a scrollable region that's already scrolled
-      if (node.scrollTop > 0) return;
-      // Skip if target is an interactive control (let it handle the gesture)
-      const target = e.target as HTMLElement | null;
-      if (target?.closest("input, textarea, select, [contenteditable='true'], [data-no-swipe]")) return;
-      startY = e.clientY;
-      currentY = startY;
-      startTime = performance.now();
-      dragging = true;
-      node.style.transition = "none";
-    };
-
-    const onPointerMove = (e: PointerEvent) => {
-      if (!dragging) return;
-      currentY = e.clientY;
-      const delta = Math.max(0, currentY - startY);
-      node.style.transform = `translate3d(0, ${delta}px, 0)`;
-    };
-
-    const onPointerUp = () => {
-      if (!dragging) return;
-      const delta = currentY - startY;
-      const elapsed = performance.now() - startTime;
-      const velocity = delta / Math.max(elapsed, 1); // px/ms
-      const shouldClose = delta > 96 || velocity > 0.6;
-      if (shouldClose) {
-        closeRef.current?.click();
-      }
-      node.style.transition = "transform 200ms cubic-bezier(0.32, 0.72, 0, 1)";
-      node.style.transform = "";
-      window.setTimeout(reset, 220);
-    };
-
-    node.addEventListener("pointerdown", onPointerDown, { passive: true });
-    node.addEventListener("pointermove", onPointerMove, { passive: true });
-    node.addEventListener("pointerup", onPointerUp, { passive: true });
-    node.addEventListener("pointercancel", onPointerUp, { passive: true });
-
-    return () => {
-      node.removeEventListener("pointerdown", onPointerDown);
-      node.removeEventListener("pointermove", onPointerMove);
-      node.removeEventListener("pointerup", onPointerUp);
-      node.removeEventListener("pointercancel", onPointerUp);
-      reset();
-    };
-  }, [enabled, contentRef, closeRef]);
+    if (!enabled || !nodeRef.current) return;
+    return bind(nodeRef.current);
+  }, [enabled, bind]);
 }
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
@@ -137,7 +146,7 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
 
     const innerRef = React.useRef<HTMLDivElement | null>(null);
     const closeRef = React.useRef<HTMLButtonElement | null>(null);
-    React.useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
+    React.useImperativeHandle(ref, () => innerRef.current ?? undefined);
     useSwipeDownToClose(mobileSheet, innerRef, closeRef);
 
     return (

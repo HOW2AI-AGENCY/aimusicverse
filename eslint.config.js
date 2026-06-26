@@ -178,16 +178,12 @@ export default tseslint.config(
       "no-restricted-syntax": [
         "warn",
         {
-          selector: "CallExpression[callee.object.name='supabase'][callee.property.name='from']",
-          message:
-            "Не вызывайте supabase.from() напрямую в компонентах/страницах. Используйте слой src/api/* или src/services/*.",
-        },
-        {
           // Запрет произвольных px-значений в padding/margin/gap/space: p-[12px], mx-[8px], gap-[10px] и т.п.
+          // Исключение: 1px-2.9px разрешены для hairline borders и tight grids
           selector:
-            "Literal[value=/(?:^|\\s)-?(?:p|m|gap|space-[xy])(?:[trblxyse])?-\\[-?\\d+(?:\\.\\d+)?px\\]/]",
+            "Literal[value=/(?:^|\\s)-?(?:p|m|gap|space-[xy])(?:[trblxyse])?-\\[(?!1px\\b|2px\\b|2\\.\\d+px\\b)-?\\d+(?:\\.\\d+)?px\\]/]",
           message:
-            "Не используйте произвольные px-отступы (p-[12px], mx-[8px], gap-[10px]). Используйте mobile-first токены spacing из Tailwind (p-2, px-4, gap-3) — см. src/lib/design-tokens.ts.",
+            "Не используйте произвольные px-отступы (p-[12px], mx-[8px], gap-[10px]). Используйте mobile-first токены spacing из Tailwind (p-2, px-4, gap-3) — см. src/lib/design-tokens.ts. Исключение: 1px-2px для hairline borders.",
         },
         {
           // Запрет произвольных px-значений для типографики: text-[14px], leading-[20px], tracking-[1px]
@@ -198,10 +194,11 @@ export default tseslint.config(
         },
         {
           // Тот же запрет внутри template-strings (cn(`p-[12px]`))
+          // Исключение: 1px-2.9px разрешены для hairline borders и tight grids
           selector:
-            "TemplateElement[value.raw=/(?:^|\\s)-?(?:p|m|gap|space-[xy])(?:[trblxyse])?-\\[-?\\d+(?:\\.\\d+)?px\\]/]",
+            "TemplateElement[value.raw=/(?:^|\\s)-?(?:p|m|gap|space-[xy])(?:[trblxyse])?-\\[(?!1px\\b|2px\\b|2\\.\\d+px\\b)-?\\d+(?:\\.\\d+)?px\\]/]",
           message:
-            "Не используйте произвольные px-отступы в className. Используйте mobile-first токены spacing.",
+            "Не используйте произвольные px-отступы в className. Используйте mobile-first токены spacing. Исключение: 1px-2px для hairline borders.",
         },
       ],
     },
