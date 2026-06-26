@@ -49,7 +49,7 @@ export const SectionLabel = memo(function SectionLabel({
           <PopoverTrigger asChild>
             <button
               type="button"
-              className="inline-flex items-center justify-center h-11 w-11 -my-2 -mx-2 text-muted-foreground/60 hover:text-muted-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-full"
+              className="inline-flex shrink-0 items-center justify-center h-11 w-11 -my-2 -mx-2 text-muted-foreground/60 hover:text-muted-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-full"
               aria-label="Показать подсказку"
             >
               <HelpCircle className="w-4 h-4" />
