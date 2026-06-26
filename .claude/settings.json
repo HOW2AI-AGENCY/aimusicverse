@@ -22,7 +22,11 @@
       "Bash(gh issue *)",
       "Bash(xargs wc -l)",
       "Bash(awk '{print $5, $9}')",
-      "Bash(rm /d/.MUSICVERSE/aimusicverse/bun.lock /d/.MUSICVERSE/aimusicverse/bunfig.toml)"
+      "Bash(rm /d/.MUSICVERSE/aimusicverse/bun.lock /d/.MUSICVERSE/aimusicverse/bunfig.toml)",
+      "Bash(npx eslint *)",
+      "Bash(npm list *)",
+      "Bash(npx tsc *)",
+      "Bash(node -e ' *)"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse"
