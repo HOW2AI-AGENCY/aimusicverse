@@ -7,7 +7,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Sparkles, ChevronDown } from "@/lib/icons";
+import { Plus, Trash2, Sparkles, ChevronDown, Eraser, CornerDownLeft } from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
