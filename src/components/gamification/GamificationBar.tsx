@@ -243,8 +243,9 @@ export const GamificationBar = memo(function GamificationBar({ className }: Gami
             whileHover={{ x: 2 }}
             whileTap={{ scale: 0.9 }}
             className={cn("p-1 sm:p-1.5 rounded-lg transition-colors", interactive.hover)}
+            aria-label="Открыть награды"
           >
-            <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" />
+            <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-muted-foreground" aria-hidden="true" />
           </motion.button>
         </div>
 
