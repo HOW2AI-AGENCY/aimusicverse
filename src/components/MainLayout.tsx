@@ -307,6 +307,15 @@ export const MainLayout = () => {
                 <Sidebar collapsed onCollapsedChange={() => {}} />
               </div>
             )}
+
+            {/* Mobile portrait drawer trigger + Sheet — Sprint 3.1 */}
+            {!isDesktop && !isMobileLandscape && (
+              <MobileNavDrawer
+                open={mobileNavOpen}
+                onOpenChange={setMobileNavOpen}
+              />
+            )}
+
             <main
               id="main-content"
               className={cn(
