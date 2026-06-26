@@ -1,8 +1,11 @@
 import { useTheme } from "@/contexts/ThemeContext";
-import { Toaster as Sonner, toast } from "sonner";
+import { Toaster as Sonner } from "sonner";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { getToastStyles, Z_INDEX } from "@/lib/toast-position";
 import { cn } from "@/lib/utils";
+// Re-exported toast is the deduping wrapper so any consumer importing
+// `toast` from this module automatically gets id-based deduplication.
+import { toast } from "@/lib/toast";
 
 type ToasterProps = React.ComponentProps<typeof Sonner>;
 
