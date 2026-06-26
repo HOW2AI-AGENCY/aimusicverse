@@ -3,7 +3,7 @@
  * No drag-drop, no stats panel - just sections as cards with timeline
  */
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
@@ -103,19 +103,37 @@ function sectionsToLyrics(sections: LyricSection[]): string {
     .join("\n\n");
 }
 
+// Stable signature ignoring volatile IDs — used to detect real content changes.
+function sectionsSignature(sections: LyricSection[]): string {
+  return JSON.stringify(sections.map((s) => ({ type: s.type, content: s.content })));
+}
+
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
+  // Track the last lyrics string we emitted, so external changes (mode switch, AI, templates)
+  // re-sync the editor without clobbering in-progress edits on every keystroke.
+  const lastEmittedRef = useRef<string>(sectionsToLyrics(parseLyrics(value)));
 
   useEffect(() => {
+    if (value === lastEmittedRef.current) return;
     const parsed = parseLyrics(value);
-    if (JSON.stringify(parsed) !== JSON.stringify(sections)) {
-      setSections(parsed);
+    if (sectionsSignature(parsed) !== sectionsSignature(sections)) {
+      // Preserve existing IDs where possible to keep React keys + focus stable.
+      const merged = parsed.map((p, i) => {
+        const prev = sections[i];
+        if (prev && prev.type === p.type) return { ...p, id: prev.id };
+        return p;
+      });
+      setSections(merged);
     }
-  }, [value]);
+    lastEmittedRef.current = value;
+  }, [value, sections]);
 
   const updateSections = (newSections: LyricSection[]) => {
     setSections(newSections);
-    onChange(sectionsToLyrics(newSections));
+    const next = sectionsToLyrics(newSections);
+    lastEmittedRef.current = next;
+    onChange(next);
   };
 
   const addSection = (type: LyricSection["type"]) => {
