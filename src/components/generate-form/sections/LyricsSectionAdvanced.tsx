@@ -22,6 +22,7 @@ import { SectionLabel, SECTION_HINTS } from "../SectionLabel";
 import { ValidationMessage, checkArtistValidation } from "../ValidationMessage";
 import { useNavigate } from "react-router-dom";
 import { useTelegram } from "@/contexts/TelegramContext";
+import { LyricsPreview } from "../LyricsPreview";
 import {
   LayoutGrid,
   AlignLeft,
@@ -33,6 +34,7 @@ import {
   Music2,
   Mic2,
   FileText,
+  Eye,
 } from "@/lib/icons";
 
 interface LyricsSectionAdvancedProps {
