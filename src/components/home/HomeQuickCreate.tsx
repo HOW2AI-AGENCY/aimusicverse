@@ -54,16 +54,16 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
       {/* Content */}
       <div className="relative z-10">
         {/* Header with improved visual hierarchy */}
-        <div className="flex items-start justify-between mb-4 lg:mb-5 gap-3">
-          <div className="flex items-center gap-3 lg:gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 lg:mb-5 gap-3">
+          <div className="flex items-center gap-3 lg:gap-4 min-w-0 flex-1">
             <motion.div
-              className="w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary/40 to-primary/15 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/30"
+              className="shrink-0 w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary/40 to-primary/15 flex items-center justify-center shadow-lg shadow-primary/20 border border-primary/30"
               animate={{ rotate: [0, 4, -4, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
             >
               <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary drop-shadow-sm" />
             </motion.div>
-            <div>
+            <div className="min-w-0 flex-1">
               <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight">Создать музыку</h2>
               <p className="text-xs sm:text-sm lg:text-base text-muted-foreground leading-snug">
                 AI сгенерирует трек за минуту
@@ -71,8 +71,8 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
             </div>
           </div>
           {/* Credits cost badge */}
-          <span className="px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
-            🎵 10-12 кредитов
+          <span className="self-start sm:self-auto px-2.5 py-1 lg:px-3 lg:py-1.5 text-[10px] sm:text-xs lg:text-sm font-bold bg-gradient-to-r from-primary/20 to-generate/15 text-primary rounded-full border border-primary/30 whitespace-nowrap shadow-sm">
+            🎵 10–12 кредитов
           </span>
         </div>
 
