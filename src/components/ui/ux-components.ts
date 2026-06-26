@@ -129,11 +129,6 @@ export { Collapsible as CollapsibleSection, Accordion, ExpandableText } from "./
 // ============================================================================
 export { ChipInput, ChipSelector } from "./ChipInput";
 
-// ============================================================================
-// REFINED COMPONENTS
-// ============================================================================
-export { RefinedCard, CardHeader, CardContent, CardFooter, FeatureCard, StatCard } from "./RefinedCard";
-
 export { LoadingOverlay, ProgressOverlay, SkeletonOverlay } from "./LoadingOverlay";
 export { StatusBadge, StatusDot } from "./StatusBadge";
 

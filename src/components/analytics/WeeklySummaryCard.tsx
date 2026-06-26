@@ -41,7 +41,7 @@ export const WeeklySummaryCard = memo(function WeeklySummaryCard() {
 
   if (isLoading) {
     return (
-      <Card variant="glass">
+      <Card variant="glass" padding="default">
         <Skeleton className="h-24 w-full" />
       </Card>
     );
@@ -78,7 +78,7 @@ export const WeeklySummaryCard = memo(function WeeklySummaryCard() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-      <Card variant="glass" hoverLift>
+      <Card variant="glass" padding="default" className="hover:-translate-y-0.5 transition-transform">
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-body-sm font-semibold text-foreground">За эту неделю</h3>
           <span className="text-caption text-muted-foreground">vs прошлая неделя</span>
