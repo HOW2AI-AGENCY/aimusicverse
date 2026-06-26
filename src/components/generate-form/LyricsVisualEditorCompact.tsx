@@ -119,6 +119,18 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   // re-sync the editor without clobbering in-progress edits on every keystroke.
   const lastEmittedRef = useRef<string>(sectionsToLyrics(parseLyrics(value)));
 
+  // Dev-only render metrics — warn if external syncs happen suspiciously often,
+  // which would indicate we're clobbering local state on each keystroke again.
+  const renderCountRef = useRef(0);
+  const syncCountRef = useRef(0);
+  renderCountRef.current += 1;
+  if (import.meta.env?.DEV) {
+    (window as unknown as { __lyricsEditorMetrics?: Record<string, number> }).__lyricsEditorMetrics = {
+      renders: renderCountRef.current,
+      externalSyncs: syncCountRef.current,
+    };
+  }
+
   useEffect(() => {
     if (value === lastEmittedRef.current) return;
     const parsed = parseLyrics(value);
