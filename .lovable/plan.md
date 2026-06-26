@@ -45,3 +45,12 @@ Append to `.lovable/plan.md` a new closed task line under Sprint 4.5 / a new "Vo
 - `VoiceCloneWizard.onComplete` fires inside its `useEffect` when `step === "ready" && voice.voice_id` is present, so wiring is straightforward.
 - Need `useQueryClient` in both call sites for the targeted invalidate; alternatively rely on the existing realtime subscription in `useCustomVoices` (kept as belt-and-suspenders).
 - No DB changes, no edge function changes.
+
+---
+
+## Спринт 4.6 — Интеграция Voice Clone в форму генерации
+
+### Задачи
+1. ✅ **Замена диалога.** `VoiceCloneDialog` (писал в `reference_audio`, не давал `voice_id`) удалён. `GenerateSheet` и `DesktopLibrarySidebar` теперь монтируют `VoiceCloneWizard` (Suno-флоу с реальным `custom_voices.voice_id`).
+2. ✅ **Авто-выбор клонированного голоса.** `onComplete(voiceId)` выставляет `form.setCustomVoiceId(voiceId)`, переключает форму в `custom` mode, раскрывает advanced и инвалидирует `["custom-voices", userId]`, чтобы `CustomVoicePicker` сразу показал новый голос.
+3. ✅ **Сохранение выбора во время обработки.** `CustomVoicePicker` теперь включает выбранный `voiceId` в список, даже если он ещё `pending/generating`, со статусной плашкой «готовится». Выбор пользователя не сбрасывается до момента, когда realtime обновит статус на `ready`.
