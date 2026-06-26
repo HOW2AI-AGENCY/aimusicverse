@@ -1,0 +1,73 @@
+# MusicVerse AI - Sprint Monitoring Makefile
+# Version: 1.0.0
+# Last Updated: 2026-06-26
+
+.PHONY: help update-daily update-weekly report-only github-sync check-health clean install
+
+# Default target
+help:
+	@echo "MusicVerse AI - Sprint Monitoring System"
+	@echo ""
+	@echo "Available commands:"
+	@echo "  make update-daily     - Run daily sprint status update"
+	@echo "  make update-weekly   - Run comprehensive weekly update"
+	@echo "  make report-only     - Generate reports only"
+	@echo "  make github-sync     - Sync with GitHub Issues"
+	@echo "  make check-health    - Check project health score"
+	@echo "  make clean           - Clean generated files"
+	@echo "  make install         - Install dependencies and setup cron"
+	@echo ""
+	@echo "Quick start:"
+	@echo "  make update-daily    # Run daily update"
+	@echo "  make update-weekly  # Run full weekly update (Monday mornings)"
+	@echo ""
+
+# Daily update
+update-daily:
+	@echo "🔄 Running daily sprint status update..."
+	@bash scripts/update-sprint-status.sh --daily
+	@echo "✅ Daily update complete!"
+
+# Weekly update
+update-weekly:
+	@echo "🔄 Running weekly comprehensive update..."
+	@bash scripts/update-sprint-status.sh --weekly
+	@echo "✅ Weekly update complete!"
+
+# Report generation only
+report-only:
+	@echo "📊 Generating reports..."
+	@bash scripts/update-sprint-status.sh --report-only
+	@echo "✅ Reports generated!"
+
+# GitHub sync
+github-sync:
+	@echo "🔗 Syncing with GitHub Issues..."
+	@bash scripts/update-sprint-status.sh --github-sync
+	@echo "✅ GitHub sync complete!"
+
+# Health check
+check-health:
+	@echo "🏥 Checking project health..."
+	@bash scripts/update-sprint-status.sh --health-check
+	@echo "✅ Health check complete!"
+
+# Clean generated files
+clean:
+	@echo "🧹 Cleaning generated files..."
+	@rm -rf SPRINTS/reports/*.tmp
+	@rm -f .sprint-update.log
+	@echo "✅ Clean complete!"
+
+# Install dependencies and setup
+install:
+	@echo "📦 Installing dependencies..."
+	@npm install --save-dev json-server gh-docs
+	@echo "🔧 Setting up cron jobs..."
+	@echo "Add these lines to your crontab (crontab -e):"
+	@echo "# Daily sprint update at 11 PM"
+	@echo "0 23 * * * cd $(PWD) && bash scripts/update-sprint-status.sh --daily"
+	@echo ""
+	@echo "# Weekly comprehensive update on Monday at 9 AM"
+	@echo "0 9 * * 1 cd $(PWD) && bash scripts/update-sprint-status.sh --weekly"
+	@echo "✅ Setup complete!"

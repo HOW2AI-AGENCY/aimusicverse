@@ -14,7 +14,18 @@
       "Bash(git branch *)",
       "Bash(chmod +x scripts/cleanup-stale-branches.sh)",
       "Bash(./cleanup-stale-branches.sh --dry-run)",
-      "Bash(gh pr *)"
+      "Bash(gh pr *)",
+      "Skill(code-review:code-review)",
+      "Skill(code-review:code-review:*)",
+      "Bash(python3 -c \"import graphify\")",
+      "Bash(python3 -c \"import sys; print\\(sys.executable\\)\")",
+      "Bash(gh issue *)",
+      "Bash(xargs wc -l)",
+      "Bash(awk '{print $5, $9}')",
+      "Bash(rm /d/.MUSICVERSE/aimusicverse/bun.lock /d/.MUSICVERSE/aimusicverse/bunfig.toml)"
+    ],
+    "additionalDirectories": [
+      "D:\\.MUSICVERSE\\aimusicverse"
     ]
   }
 }

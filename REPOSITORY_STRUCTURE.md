@@ -1,7 +1,9 @@
 # 📁 Структура репозитория MusicVerse AI
 
-**Последнее обновление:** 25 июня 2026  
-**Версия:** 1.0.0 | **Статус:** ✅ Production Ready
+**Последнее обновление:** 2026-06-26  
+**Версия:** 2.0.0 | **Статус:** ✅ Production Ready
+
+**Примечание:** Этот файл объединяет содержание REPOSITORY_STRUCTURE.md и PROJECT_STRUCTURE.md для единообразной документации структуры репозитория.
 
 ---
 
@@ -39,7 +41,7 @@ graph TB
 aimusicverse/
 ├── README.md                          # 🎯 Главная точка входа
 ├── README_EN.md                       # 🇬🇧 English версия README
-├── REPOSITORY_STRUCTURE.md            # 📁 Этот файл - структура репо
+├── REPOSITORY_STRUCTURE.md            # 📁 Этот файл - объединенная структура репо
 ├── PROJECT_STATUS.md                  # 📊 Текущий статус проекта
 ├── ROADMAP.md                         # 🗺️ Дорожная карта
 ├── CHANGELOG.md                       # 📜 История изменений
@@ -50,11 +52,11 @@ aimusicverse/
 ├── CLAUDE.md                          # 🤖 Инструкции для Claude Code
 ├── DOCUMENTATION_INDEX.md             # 📚 Индекс документации
 ├── KNOWLEDGE_BASE.md                  # 🧠 База знаний
-├── PROJECT_STRUCTURE.md               # 🏗️ Структура проекта
+├── AGENTS.md                          # 🤖 Документация агентов
+├── KNOWN_ISSUES_TRACKED.md            # 🐛 Отслеживаемые проблемы
 │
 ├── package.json                       # 📦 Зависимости проекта
-├── package-lock.json                  # 🔒 Locked зависимости
-├── bun.lock                           # 🥟 Bun lock файл
+├── package-lock.json                  # 🔒 Locked зависимости (npm - primary)
 ├── tsconfig.json                      # ⚙️ TS конфигурация
 ├── tsconfig.app.json                  # ⚙️ TS App конфигурация
 ├── tsconfig.node.json                 # ⚙️ TS Node конфигурация
@@ -74,7 +76,6 @@ aimusicverse/
 ├── .env.example                       # 📝 Пример .env
 ├── components.json                    # 🧩 shadcn/ui конфигурация
 ├── babel.config.js                    # 🌀 Babel конфигурация
-├── bunfig.toml                        # 🥟 Bun конфигурация
 ├── lighthouserc.json                  # 🏮 Lighthouse конфигурация
 ├── index.html                         # 🌐 Entry HTML
 └── vitest.shims.d.ts                  # 🧪 Vitest типы
