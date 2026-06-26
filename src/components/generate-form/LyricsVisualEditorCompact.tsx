@@ -135,6 +135,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
     if (value === lastEmittedRef.current) return;
     const parsed = parseLyrics(value);
     if (!sectionsEqual(parsed, sections)) {
+      syncCountRef.current += 1;
       // Preserve existing IDs where possible to keep React keys + focus stable.
       const merged = parsed.map((p, i) => {
         const prev = sections[i];
