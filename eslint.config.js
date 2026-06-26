@@ -169,5 +169,42 @@ export default tseslint.config(
       ],
     },
   },
+  // Mobile-first design tokens: запрет произвольных px-пэддингов/марджинов и хардкода font-size/leading
+  // в className. Используйте Tailwind spacing scale (p-2, px-4, gap-3) и type-токены (text-sm/base/lg).
+  // Single source of truth — src/lib/design-tokens.ts и tailwind.config.ts.
+  {
+    files: ["src/components/**/*.{ts,tsx}"],
+    rules: {
+      "no-restricted-syntax": [
+        "warn",
+        {
+          selector: "CallExpression[callee.object.name='supabase'][callee.property.name='from']",
+          message:
+            "Не вызывайте supabase.from() напрямую в компонентах/страницах. Используйте слой src/api/* или src/services/*.",
+        },
+        {
+          // Запрет произвольных px-значений в padding/margin/gap/space: p-[12px], mx-[8px], gap-[10px] и т.п.
+          selector:
+            "Literal[value=/(?:^|\\s)-?(?:p|m|gap|space-[xy])(?:[trblxyse])?-\\[-?\\d+(?:\\.\\d+)?px\\]/]",
+          message:
+            "Не используйте произвольные px-отступы (p-[12px], mx-[8px], gap-[10px]). Используйте mobile-first токены spacing из Tailwind (p-2, px-4, gap-3) — см. src/lib/design-tokens.ts.",
+        },
+        {
+          // Запрет произвольных px-значений для типографики: text-[14px], leading-[20px], tracking-[1px]
+          selector:
+            "Literal[value=/(?:^|\\s)(?:text|leading|tracking)-\\[-?\\d+(?:\\.\\d+)?px\\]/]",
+          message:
+            "Не задавайте размер/leading/tracking в px. Используйте type-токены (text-sm/base/lg, leading-tight/normal/relaxed).",
+        },
+        {
+          // Тот же запрет внутри template-strings (cn(`p-[12px]`))
+          selector:
+            "TemplateElement[value.raw=/(?:^|\\s)-?(?:p|m|gap|space-[xy])(?:[trblxyse])?-\\[-?\\d+(?:\\.\\d+)?px\\]/]",
+          message:
+            "Не используйте произвольные px-отступы в className. Используйте mobile-first токены spacing.",
+        },
+      ],
+    },
+  },
   prettier,
 );
