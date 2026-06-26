@@ -265,6 +265,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
                   {section.content.split("\n").filter((l) => l.trim()).length} стр · {section.content.length} симв
                 </span>
               </div>
+            </div>
           );
         })}
       </div>
