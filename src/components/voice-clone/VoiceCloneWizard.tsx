@@ -461,16 +461,22 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
         )}
 
         {step === "failed" && (
-          <div className="py-6 flex flex-col items-center gap-3 text-center">
+          <div className="py-6 flex flex-col items-center gap-3 text-center" data-testid="voice-clone-failed">
             <AlertCircle className="h-12 w-12 text-destructive" />
             <h3 className="text-lg font-semibold">Что-то пошло не так</h3>
-            <p className="text-sm text-muted-foreground">{voice?.error_message || "Попробуйте позже"}</p>
+            <p className="text-sm text-muted-foreground">{lastError || voice?.error_message || "Попробуйте позже"}</p>
             <div className="flex gap-2 w-full">
-              {voice?.validate_phrase && phraseRecorder.blob ? (
-                <Button className="flex-1" onClick={() => phraseRecorder.blob && reRecord(phraseRecorder.blob)}>
+              {canRetry && (
+                <Button
+                  className="flex-1"
+                  disabled={isWorking}
+                  data-testid="voice-clone-retry"
+                  onClick={() => void retryLast()}
+                >
+                  {isWorking ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RotateCcw className="mr-2 h-4 w-4" />}
                   Повторить
                 </Button>
-              ) : null}
+              )}
               <Button variant="outline" className="flex-1" onClick={close}>
                 Закрыть
               </Button>
@@ -481,3 +487,4 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     </Dialog>
   );
 }
+
