@@ -118,16 +118,20 @@ export function ProjectsTab({ onProjectSelect, selectedProjectId }: ProjectsTabP
               size="icon"
               className={cn("h-8 w-8 transition-all", viewMode === "grid" && "shadow-sm")}
               onClick={() => setViewMode("grid")}
+              aria-label="Сетка"
+              aria-pressed={viewMode === "grid"}
             >
-              <LayoutGrid className="w-4 h-4" />
+              <LayoutGrid className="w-4 h-4" aria-hidden="true" />
             </Button>
             <Button
               variant={viewMode === "list" ? "secondary" : "ghost"}
               size="icon"
               className={cn("h-8 w-8 transition-all", viewMode === "list" && "shadow-sm")}
               onClick={() => setViewMode("list")}
+              aria-label="Список"
+              aria-pressed={viewMode === "list"}
             >
-              <LayoutList className="w-4 h-4" />
+              <LayoutList className="w-4 h-4" aria-hidden="true" />
             </Button>
           </div>
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
