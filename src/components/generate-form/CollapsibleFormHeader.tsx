@@ -171,7 +171,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted flex-shrink-0"
+            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-xl bg-muted/40 border border-border/50 hover:bg-muted flex-shrink-0"
             onClick={(e) => {
               e.stopPropagation();
               onOpenHistory();
