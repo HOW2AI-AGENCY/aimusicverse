@@ -20,6 +20,7 @@ import {
   Sparkles,
 } from "@/lib/icons";
 import type { ViewMode } from "@/stores/useUnifiedStudioStore";
+import type { AutoSaveStatus } from "@/hooks/studio/useAutoSave";
 
 interface StudioShellHeaderProps {
   projectName: string;
