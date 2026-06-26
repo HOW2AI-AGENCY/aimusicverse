@@ -167,6 +167,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
+              onOpenVoiceClone={() => setVoiceCloneOpen(true)}
             />
 
             {/* References */}

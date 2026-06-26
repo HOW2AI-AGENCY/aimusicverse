@@ -49,6 +49,7 @@ import { PromptHistory } from "./generate-form/PromptHistory";
 import { LyricsChatAssistant } from "./generate-form/LyricsChatAssistant";
 import { StylePresetSelector } from "./generate-form/StylePresetSelector";
 import { CreditBalanceWarning } from "./generate-form/CreditBalanceWarning";
+import { VoiceCloneDialog } from "./generate-form/VoiceCloneDialog";
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
@@ -84,6 +85,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
+  const [voiceCloneOpen, setVoiceCloneOpen] = useState(false);
   // Legacy UploadAudioDialog states removed - now using unified form
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
@@ -304,7 +306,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
                 onOpenProjectDialog={() => setProjectDialogOpen(true)}
                 onOpenArtistDialog={() => setArtistDialogOpen(true)}
+                onOpenVoiceClone={() => setVoiceCloneOpen(true)}
               />
+
 
               {/* Selected References Indicators */}
               <GenerateFormReferences
