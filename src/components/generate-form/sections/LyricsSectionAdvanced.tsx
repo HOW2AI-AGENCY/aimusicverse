@@ -22,6 +22,7 @@ import { SectionLabel, SECTION_HINTS } from "../SectionLabel";
 import { ValidationMessage, checkArtistValidation } from "../ValidationMessage";
 import { useNavigate } from "react-router-dom";
 import { useTelegram } from "@/contexts/TelegramContext";
+import { LyricsPreview } from "../LyricsPreview";
 import {
   LayoutGrid,
   AlignLeft,
@@ -33,6 +34,7 @@ import {
   Music2,
   Mic2,
   FileText,
+  Eye,
 } from "@/lib/icons";
 
 interface LyricsSectionAdvancedProps {
@@ -74,7 +76,9 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 }: LyricsSectionAdvancedProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
-  const [showVisualEditor, setShowVisualEditor] = useState(true);
+  const [viewMode, setViewMode] = useState<"text" | "visual" | "preview">("visual");
+  const showVisualEditor = viewMode === "visual";
+  const showPreview = viewMode === "preview";
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
   const [showQuickTemplates, setShowQuickTemplates] = useState(false);
@@ -99,10 +103,10 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
     [hapticFeedback, onLyricsChange],
   );
 
-  const toggleEditor = useCallback(
-    (visual: boolean) => {
+  const switchView = useCallback(
+    (mode: "text" | "visual" | "preview") => {
       hapticFeedback("light");
-      setShowVisualEditor(visual);
+      setViewMode(mode);
     },
     [hapticFeedback],
   );
@@ -166,32 +170,46 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               </AnimatePresence>
             </motion.div>
 
-            {/* View toggle */}
+            {/* View toggle: text / visual / preview */}
             <div className="flex items-center gap-1 p-1 rounded-xl bg-muted/50">
               <Button
-                variant={!showVisualEditor ? "secondary" : "ghost"}
+                variant={viewMode === "text" ? "secondary" : "ghost"}
                 size="icon"
                 aria-label="Текстовый редактор"
+                aria-pressed={viewMode === "text"}
                 className="h-9 w-9 min-h-[44px] min-w-[44px]"
-                onClick={() => toggleEditor(false)}
+                onClick={() => switchView("text")}
               >
                 <AlignLeft className="h-4 w-4" />
               </Button>
               <Button
-                variant={showVisualEditor ? "secondary" : "ghost"}
+                variant={viewMode === "visual" ? "secondary" : "ghost"}
                 size="icon"
-                aria-label="Визуальный редактор"
+                aria-label="Визуальный редактор секций"
+                aria-pressed={viewMode === "visual"}
                 className="h-9 w-9 min-h-[44px] min-w-[44px]"
-                onClick={() => toggleEditor(true)}
+                onClick={() => switchView("visual")}
               >
                 <LayoutGrid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "preview" ? "secondary" : "ghost"}
+                size="icon"
+                aria-label="Предпросмотр текста"
+                aria-pressed={viewMode === "preview"}
+                className="h-9 w-9 min-h-[44px] min-w-[44px]"
+                onClick={() => switchView("preview")}
+              >
+                <Eye className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
 
         {/* Editor area */}
-        {showVisualEditor ? (
+        {showPreview ? (
+          <LyricsPreview value={lyrics} />
+        ) : showVisualEditor ? (
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
           <div className="relative group">

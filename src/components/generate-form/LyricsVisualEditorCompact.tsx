@@ -7,7 +7,7 @@ import { useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Sparkles, ChevronDown } from "@/lib/icons";
+import { Plus, Trash2, Sparkles, ChevronDown, Eraser, CornerDownLeft } from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -185,21 +185,23 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
               )}
             >
               {/* Section header */}
-              <div className="flex items-center justify-between px-2 py-1.5 bg-muted/30">
+              <div className="flex items-center justify-between gap-2 px-2 py-1.5 bg-muted/30">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button
+                      type="button"
+                      aria-label={`Тип секции: ${typeInfo?.label}`}
                       className={cn(
-                        "flex items-center gap-1 text-xs font-medium rounded px-1.5 py-0.5",
+                        "flex items-center gap-1 text-xs font-medium rounded-md px-2 py-1 min-h-[32px]",
                         typeInfo?.color,
                       )}
                     >
-                      <span>{typeInfo?.icon}</span>
+                      <span aria-hidden>{typeInfo?.icon}</span>
                       <span>{typeInfo?.label}</span>
                       <ChevronDown className="w-3 h-3 opacity-60" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="min-w-[120px]">
+                  <DropdownMenuContent align="start" className="min-w-[140px]">
                     {SECTION_TYPES.map((t) => (
                       <DropdownMenuItem
                         key={t.value}
@@ -213,25 +215,56 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="Удалить секцию"
-                  className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-destructive"
-                  onClick={() => deleteSection(section.id)}
-                >
-                  <Trash2 className="w-4 h-4" />
-                </Button>
+                <div className="flex items-center gap-0.5">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Добавить строку"
+                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-primary"
+                    onClick={() =>
+                      updateSectionContent(
+                        section.id,
+                        section.content ? section.content + "\n" : "",
+                      )
+                    }
+                  >
+                    <CornerDownLeft className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Очистить секцию"
+                    disabled={!section.content}
+                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-foreground disabled:opacity-40"
+                    onClick={() => updateSectionContent(section.id, "")}
+                  >
+                    <Eraser className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Удалить секцию"
+                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-destructive"
+                    onClick={() => deleteSection(section.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
 
               {/* Content */}
               <Textarea
                 value={section.content}
                 onChange={(e) => updateSectionContent(section.id, e.target.value)}
-                placeholder="Текст секции..."
+                placeholder="Текст секции — каждая строка с новой строки..."
                 rows={3}
-                className="border-0 rounded-none bg-transparent text-xs resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="border-0 rounded-none bg-transparent text-sm leading-relaxed resize-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
               />
+              <div className="flex items-center justify-between px-2 py-1 text-[10px] text-muted-foreground/70 bg-muted/10 border-t border-border/30">
+                <span>
+                  {section.content.split("\n").filter((l) => l.trim()).length} стр · {section.content.length} симв
+                </span>
+              </div>
             </div>
           );
         })}

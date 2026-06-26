@@ -107,6 +107,8 @@ export {
   Square,
   Trash,
   Trash2,
+  Eraser,
+  CornerDownLeft,
   Edit,
   Edit2,
   Edit3,
