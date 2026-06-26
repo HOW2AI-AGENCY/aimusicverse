@@ -20,6 +20,7 @@ import { GenerateFormActions } from "@/components/generate-form/GenerateFormActi
 import { GenerateFormReferences } from "@/components/generate-form/GenerateFormReferences";
 import { GenerationLoadingState } from "@/components/generate-form/GenerationLoadingState";
 import { AudioActionDialog } from "@/components/generate-form/AudioActionDialog";
+import { VoiceCloneDialog } from "@/components/generate-form/VoiceCloneDialog";
 import { ArtistSelector } from "@/components/generate-form/ArtistSelector";
 import { ProjectTrackSelector } from "@/components/generate-form/ProjectTrackSelector";
 import { PromptHistory } from "@/components/generate-form/PromptHistory";
@@ -59,6 +60,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false);
+  const [voiceCloneOpen, setVoiceCloneOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [stylesOpen, setStylesOpen] = useState(false);
@@ -167,6 +169,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
+              onOpenVoiceClone={() => setVoiceCloneOpen(true)}
             />
 
             {/* References */}
@@ -283,6 +286,8 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         selectedArtistId={form.selectedArtistId}
         onSelect={form.handleArtistSelect}
       />
+
+      <VoiceCloneDialog open={voiceCloneOpen} onOpenChange={setVoiceCloneOpen} />
 
       <AudioActionDialog
         open={audioActionDialogOpen}

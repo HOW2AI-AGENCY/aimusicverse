@@ -78,6 +78,7 @@ export {
   Music4,
   Mic,
   Mic2,
+  MicVocal,
   MicOff,
   Headphones,
   Radio,
