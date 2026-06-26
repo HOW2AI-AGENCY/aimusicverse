@@ -102,11 +102,22 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
       });
       onComplete?.(voice.voice_id);
     } else if (step === "failed") {
+      const description = lastError || voice?.error_message || "Попробуйте ещё раз.";
       notify.error("Клонирование не удалось", {
-        description: voice?.error_message || "Попробуйте ещё раз.",
+        description,
+        duration: 10_000,
+        action: canRetry
+          ? {
+              label: "Повторить",
+              onClick: () => {
+                void retryLast();
+              },
+            }
+          : undefined,
       });
     }
-  }, [step, voice?.voice_id, voice?.voice_name, voice?.error_message, onComplete]);
+  }, [step, voice?.voice_id, voice?.voice_name, voice?.error_message, lastError, canRetry, retryLast, onComplete]);
+
 
   function close() {
     onOpenChange(false);
