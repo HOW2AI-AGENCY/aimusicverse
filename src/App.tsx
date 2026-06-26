@@ -349,6 +349,7 @@ const App = () => (
                     </Routes>
                   </RouteWithTransition>
                 </Suspense>
+                {import.meta.env.DEV && <LyricsEditorMetricsOverlay />}
               </NavigationProvider>
             </UIProviders>
           </BrowserRouter>
