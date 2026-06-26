@@ -24,8 +24,9 @@ const MAX_SEGMENT_SEC = 30;
 const MIN_PHRASE_REC_SEC = 5;
 
 export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
-  const { step, voice, isWorking, lastError, canRetry, startValidation, submitRecording, reRecord, retryLast, reset } =
+  const { step, voice, isWorking, lastError, canRetry, startValidation, submitRecording, retryLast, reset } =
     useVoiceCloneWizard();
+
 
   const phraseRecorder = useVoiceRecorder();
   const sourceRecorder = useVoiceRecorder();
