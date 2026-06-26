@@ -62,18 +62,11 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
 
-  // Prefetch covers for smooth transitions
   usePrefetchTrackCovers(queue, currentIndex, { count: 3 });
-
-  // Prefetch next audio for instant track switching
   usePrefetchNextAudio(queue, currentIndex, { enabled: true });
 
-  // Get audio URL for waveform
-  const audioUrl = useMemo(() => {
-    return track.streaming_url || track.audio_url;
-  }, [track.streaming_url, track.audio_url]);
+  const audioUrl = useMemo(() => track.streaming_url || track.audio_url, [track.streaming_url, track.audio_url]);
 
-  // Restore preserved time on mount (from mode switch)
   useEffect(() => {
     if (preservedTime !== null && audioElement && !isNaN(preservedTime)) {
       const timer = setTimeout(() => {
@@ -86,7 +79,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     }
   }, [preservedTime, audioElement, clearPreservedTime]);
 
-  // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
   useEffect(() => {
     let mounted = true;
     let hasRecovered = false;
@@ -185,34 +177,23 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     };
 
     const timer = setTimeout(ensureAudio, 100);
-
-    return () => {
-      mounted = false;
-      clearTimeout(timer);
-    };
+    return () => { mounted = false; clearTimeout(timer); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
 
-  // Prefer master/active version's suno IDs and lyrics when provided (correct A/B sync)
   const sunoTaskId = currentVersion?.suno_task_id ?? track.suno_task_id ?? null;
   const sunoId = currentVersion?.suno_id ?? track.suno_id ?? null;
   const trackLyrics = currentVersion?.lyrics ?? track.lyrics ?? null;
-
   const { data: lyricsData } = useTimestampedLyrics(sunoTaskId, sunoId);
-
-  // Parse lyrics using extracted hook
   const { lyricsLines, plainLyrics } = useParsedLyrics(lyricsData?.alignedWords, trackLyrics);
 
-  // Flatten words from parsed lines for synchronization hook
   const flattenedWords = useMemo(() => {
     if (!lyricsLines) return [];
     return lyricsLines.flat();
   }, [lyricsLines]);
 
-  // Use unified synchronization hook for precise timing
   const {
     activeLineIndex,
     activeWordIndex,
@@ -223,12 +204,9 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     enabled: !!lyricsLines?.length,
   });
 
-  const handleWordClick = (startTime: number) => {
-    hapticImpact("light");
-    seek(startTime);
-  };
+  const handleWordClick = (t: number) => { hapticImpact("light"); seek(t); };
 
-  // Vertical swipe-to-close handler (for header area)
+  // Vertical swipe-to-close handler
   const handleVerticalDragEnd = useCallback(
     (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
       const { velocity, offset } = info;
