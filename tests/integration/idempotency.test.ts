@@ -8,7 +8,6 @@
  * 3. Idempotency_key field provides additional protection
  */
 
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 describe('Idempotency and duplicate transaction prevention', () => {

@@ -9,7 +9,6 @@
  * 5. Different keys have independent rate limits
  */
 
-import { describe, it, expect, beforeEach } from '@jest/globals';
 
 // Mock the rate limiter since it uses Deno-specific timers
 interface RateLimitConfig {

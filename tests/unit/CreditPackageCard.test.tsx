@@ -5,7 +5,6 @@
  * Tests: price display, featured badge, selection
  */
 
-import { describe, it, expect, vi } from '@jest/globals';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CreditPackageCard } from '@/components/payments/CreditPackageCard';
 

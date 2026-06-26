@@ -3,7 +3,7 @@
  * Tests for memoization, re-render optimization, and word-level sync
  */
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import { OptimizedLyricsLine, LyricsLineData } from '@/components/lyrics/OptimizedLyricsLine';
 
@@ -181,7 +181,7 @@ describe('OptimizedLyricsLine - T022', () => {
       );
 
       const element = screen.getByText('Test lyrics line').closest('div');
-      element?.dblclick();
+      if (element) fireEvent.dblClick(element);
 
       expect(onDoubleClick).toHaveBeenCalledWith(mockLine, 0);
     });

@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **State Management:** Zustand 5.0 (global) + TanStack Query 5.90 (server state)
 - **Audio Processing:** Tone.js 14.9, Wavesurfer.js 7.8
 - **Telegram Integration:** @twa-dev/sdk 8.0.2
-- **Testing:** Jest 30.2 (unit), Playwright 1.57 (E2E)
+- **Testing:** Vitest 4.x (unit), Playwright 1.57 (E2E)
 
 ## Development Commands
 
@@ -27,7 +27,7 @@ npm run build:dev        # Development build with sourcemaps
 npm preview              # Preview production build
 
 # Testing
-npm test                 # Run Jest unit tests
+npm test                 # Run Vitest unit tests
 npm run test:coverage    # Unit tests with coverage report
 npm run test:e2e         # Run all Playwright E2E tests
 npm run test:e2e:headed  # E2E tests with visible browser
@@ -237,19 +237,20 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 
 ## Testing Strategy
 
-### Unit Tests (Jest)
+### Unit Tests (Vitest)
 
-**Configuration:** `jest.config.cjs`
+**Configuration:** `vitest.config.ts`
 
 - Test environment: jsdom
+- Globals: enabled (no import needed for describe/it/expect)
 - Path mapping: `@/` → `./src/`
+- Setup: `src/__tests__/vitest.setup.ts` (mocks for matchMedia, Telegram, Supabase, Audio, etc.)
 - Timeout: 10s (for property-based tests)
 
 **Test Patterns:**
 
-- `**/__tests__/**/*.test.ts(x)`
-- `**/*.spec.ts(x)`
-- `**/tests/**/*.test.ts(x)`
+- `src/__tests__/**/*.{test,spec}.{ts,tsx}`
+- `tests/unit/**/*.{test,spec}.{ts,tsx}`
 
 **Testing Libraries:**
 
@@ -257,6 +258,7 @@ This is a **native Telegram Mini App**, not a web app with Telegram login:
 - `@testing-library/jest-dom` - DOM matchers
 - `fast-check` - Property-based testing
 - `axe-core` - Accessibility testing
+- `fake-indexeddb` - IndexedDB mocking
 
 ### E2E Tests (Playwright)
 

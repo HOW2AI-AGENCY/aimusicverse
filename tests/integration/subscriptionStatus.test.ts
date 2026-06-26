@@ -9,7 +9,6 @@
  * 4. Returns expired subscription as inactive
  */
 
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 describe('get_subscription_status() function', () => {

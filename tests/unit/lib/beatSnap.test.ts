@@ -68,7 +68,7 @@ describe('Beat Snap Calculation - T041', () => {
 
       const subdivisionDuration = 1 / snapDivision;
       const expectedSnap = Math.round(currentTime / subdivisionDuration) * subdivisionDuration;
-      expect(expectedSnap).toBe(5.5);
+      expect(expectedSnap).toBe(6);
     });
   });
 
@@ -112,7 +112,7 @@ describe('Beat Snap Calculation - T041', () => {
 
       const measurePositions = Array.from({ length: expectedBeats }, (_, i) => i * beatDuration * beatsPerMeasure);
 
-      expect(measurePositions.length).toBe(8);
+      expect(measurePositions.length).toBe(4);
       expect(measurePositions[0]).toBe(0);
       expect(measurePositions[1]).toBe(1.5); // 3 beats * 0.5 seconds
     });

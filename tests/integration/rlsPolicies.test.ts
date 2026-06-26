@@ -11,7 +11,6 @@
  * 6. Service role bypasses RLS
  */
 
-import { describe, it, expect, beforeAll, afterAll } from '@jest/globals';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 describe('Row Level Security (RLS) policies', () => {

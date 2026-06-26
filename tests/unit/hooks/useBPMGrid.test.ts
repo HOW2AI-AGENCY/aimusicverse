@@ -3,7 +3,7 @@
  * Tests for BPM grid functionality, snap, and MBT formatting
  */
 
-import { renderHook, waitFor } from '@testing-library/react';
+import { renderHook, waitFor, act } from '@testing-library/react';
 import { vi, beforeEach, afterEach } from 'vitest';
 import { useBPMGrid } from '@/hooks/useBPMGrid';
 
@@ -85,7 +85,9 @@ describe('useBPMGrid - T082', () => {
       );
 
       // Set manual BPM
-      result.current.setBPM(140);
+      act(() => {
+        result.current.setBPM(140);
+      });
 
       expect(result.current.bpm).toBe(140);
       expect(result.current.bpmResult).toEqual({
@@ -212,7 +214,9 @@ describe('useBPMGrid - T082', () => {
         })
       );
 
-      result.current.setSnapDivision(8);
+      act(() => {
+        result.current.setSnapDivision(8);
+      });
 
       expect(result.current.snapOptions.snapDivision).toBe(8);
     });
