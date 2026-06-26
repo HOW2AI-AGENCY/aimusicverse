@@ -30,7 +30,7 @@ import {
   Trash2,
   Upload,
 } from "@/lib/icons";
-import { EmptyState } from "@/components/common/EmptyState";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 import { useAudioReference } from "@/hooks/useAudioReference";
 import { useReferenceAudio, ReferenceAudio } from "@/hooks/useReferenceAudio";
 import { useReferenceAudioPlayer } from "@/hooks/audio/useReferenceAudioPlayer";
@@ -343,7 +343,8 @@ export function ReferenceDrawer({ open, onOpenChange, onSelect, defaultMode }: R
                   <ReferenceItemSkeleton />
                 </div>
               ) : filteredReferences.length === 0 ? (
-                <EmptyState
+                <UnifiedEmptyState
+                  type="custom"
                   icon={searchQuery ? Search : Upload}
                   title={searchQuery ? "Ничего не найдено" : "Нет сохранённых референсов"}
                   description={
@@ -351,7 +352,7 @@ export function ReferenceDrawer({ open, onOpenChange, onSelect, defaultMode }: R
                       ? "Загрузите или запишите аудио для использования как референс"
                       : "Попробуйте другой запрос"
                   }
-                  variant="compact"
+                  compact
                 />
               ) : (
                 <div className="space-y-3 pb-4">

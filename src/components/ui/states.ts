@@ -4,5 +4,4 @@
  */
 
 // Unified state components
-export { EmptyState } from "./empty-state";
-export { LoadingState, SkeletonCard, SkeletonList, SkeletonGrid } from "./loading-state";
+export { UnifiedEmptyState as EmptyState } from "./unified-empty-state";

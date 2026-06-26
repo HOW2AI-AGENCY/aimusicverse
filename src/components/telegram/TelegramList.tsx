@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { PullToRefresh } from "@/components/ui/PullToRefresh";
 import { SwipeableListItem } from "@/components/ui/SwipeableListItem";
-import { EmptyState } from "@/components/ui/EmptyState";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 import { hapticPatterns } from "./TelegramHaptics";
 import { Search, Music } from "@/lib/icons";
 
@@ -64,7 +64,8 @@ export function TelegramList<T>({
       {loading && loadingSkeleton ? (
         loadingSkeleton
       ) : items.length === 0 && emptyState ? (
-        <EmptyState
+        <UnifiedEmptyState
+          type="custom"
           icon={emptyState.icon || <Music className="w-12 h-12" />}
           title={emptyState.title}
           description={emptyState.description}
@@ -163,7 +164,8 @@ export function TelegramGrid<T>({
       {loading && loadingSkeleton ? (
         loadingSkeleton
       ) : items.length === 0 && emptyState ? (
-        <EmptyState
+        <UnifiedEmptyState
+          type="custom"
           icon={emptyState.icon || <Search className="w-12 h-12" />}
           title={emptyState.title}
           description={emptyState.description}

@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Play, Pause, Music, Mic, Cloud, Check } from "@/lib/icons";
-import { EmptyState } from "@/components/common/EmptyState";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -98,11 +98,12 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
 
   if (!audioList || audioList.length === 0) {
     return (
-      <EmptyState
+      <UnifiedEmptyState
+        type="custom"
         icon={Cloud}
         title="Нет загруженных файлов"
         description="Загрузите аудио через Telegram бот или сделайте запись. Если вы записывали аудио, но оно не появилось — проверьте подключение к интернету и повторите запись"
-        variant="compact"
+        compact
       />
     );
   }
@@ -196,7 +197,7 @@ export function CloudAudioPicker({ onSelect, selectedId }: CloudAudioPickerProps
           })}
 
           {filteredAudio.length === 0 && (
-            <EmptyState icon={Search} title="Ничего не найдено" variant="compact" animated={false} className="py-6" />
+            <UnifiedEmptyState type="custom" icon={Search} title="Ничего не найдено" compact className="py-6" />
           )}
         </div>
       </ScrollArea>

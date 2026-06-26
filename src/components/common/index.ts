@@ -13,7 +13,7 @@
  * - UnifiedActionBar: Horizontal action bar
  */
 
-export { EmptyState } from "./EmptyState";
+export { UnifiedEmptyState as EmptyState } from "@/components/ui/unified-empty-state";
 export { SectionHeader } from "./SectionHeader";
 export { ResponsiveGrid, GRID_PRESETS } from "./ResponsiveGrid";
 export { InlineLyricsEditor } from "./InlineLyricsEditor";

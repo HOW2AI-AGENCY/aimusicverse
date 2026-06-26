@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search, Palette, Sparkles, Music, Check, TrendingUp } from "@/lib/icons";
-import { EmptyState } from "@/components/common/EmptyState";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 import { cn } from "@/lib/utils";
 import { useSavedStylePresets } from "@/hooks/usePromptHistorySync";
 import { QUICK_MIX_PRESETS, GENRE_PRESETS, MOOD_PRESETS } from "@/lib/prompt-dj-presets";
@@ -205,12 +205,12 @@ export function StylePresetSelector({ open, onOpenChange, onSelect, currentStyle
                   <div className="animate-spin w-5 h-5 border-2 border-primary border-t-transparent rounded-full" />
                 </div>
               ) : filteredSaved.length === 0 ? (
-                <EmptyState
+                <UnifiedEmptyState
+                  type="custom"
                   icon={Palette}
                   title={searchQuery ? "Ничего не найдено" : "Нет сохранённых стилей"}
                   description="Сохраняйте любимые стили при генерации для быстрого доступа"
-                  variant="compact"
-                  animated={false}
+                  compact
                 />
               ) : (
                 filteredSaved.map((preset: any) => (

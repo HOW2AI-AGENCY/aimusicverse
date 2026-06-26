@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { FileText, Search, Clock, Tag, Check } from "@/lib/icons";
-import { EmptyState } from "@/components/common/EmptyState";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
@@ -71,10 +71,11 @@ export function SavedLyricsSelector({ open, onOpenChange, onSelect }: SavedLyric
               <div className="animate-spin w-6 h-6 border-2 border-primary border-t-transparent rounded-full" />
             </div>
           ) : filteredTemplates.length === 0 ? (
-            <EmptyState
+            <UnifiedEmptyState
+              type="custom"
               icon={FileText}
               title={searchQuery ? "Ничего не найдено" : "Нет сохранённых текстов"}
-              variant="compact"
+              compact
             />
           ) : (
             <div className="space-y-2 pb-4">

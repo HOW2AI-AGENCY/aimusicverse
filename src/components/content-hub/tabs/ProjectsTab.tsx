@@ -3,7 +3,7 @@ import { useProjects } from "@/hooks/useProjects";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FolderOpen, Search, Plus, LayoutGrid, LayoutList, Sparkles, TrendingUp } from "@/lib/icons";
-import { EmptyState } from "@/components/common/EmptyState";
+import { UnifiedEmptyState } from "@/components/ui/unified-empty-state";
 import { ProjectCreationWizard } from "@/components/project/ProjectCreationWizard";
 import { toast } from "sonner";
 import { VirtualizedProjectsList } from "@/components/content-hub/VirtualizedProjectsList";
@@ -188,19 +188,18 @@ export function ProjectsTab({ onProjectSelect, selectedProjectId }: ProjectsTabP
           selectedProjectId={selectedProjectId}
         />
       ) : (
-        <EmptyState
+        <UnifiedEmptyState
+          type="custom"
           icon={FolderOpen}
           title={searchQuery ? "Ничего не найдено" : "Нет проектов"}
-          variant="compact"
-          actions={
+          compact
+          action={
             !searchQuery
-              ? [
-                  {
-                    label: "Создать проект",
-                    onClick: () => setCreateSheetOpen(true),
-                    icon: Plus,
-                  },
-                ]
+              ? {
+                  label: "Создать проект",
+                  onClick: () => setCreateSheetOpen(true),
+                  icon: Plus,
+                }
               : undefined
           }
         />

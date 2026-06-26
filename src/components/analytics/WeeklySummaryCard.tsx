@@ -9,7 +9,7 @@ import { Music, Heart, Play, TrendingUp, TrendingDown, Minus } from "@/lib/icons
 import { motion } from "@/lib/motion";
 import { useAnalyticsData } from "@/hooks/useAnalyticsData";
 import { Skeleton } from "@/components/ui/skeleton";
-import { RefinedCard } from "@/components/ui/RefinedCard";
+import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const ChangeIndicator = memo(function ChangeIndicator({ value }: { value: number }) {
@@ -41,9 +41,9 @@ export const WeeklySummaryCard = memo(function WeeklySummaryCard() {
 
   if (isLoading) {
     return (
-      <RefinedCard variant="glass">
+      <Card variant="glass">
         <Skeleton className="h-24 w-full" />
-      </RefinedCard>
+      </Card>
     );
   }
 
@@ -78,7 +78,7 @@ export const WeeklySummaryCard = memo(function WeeklySummaryCard() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
-      <RefinedCard variant="glass" hoverLift>
+      <Card variant="glass" hoverLift>
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-body-sm font-semibold text-foreground">За эту неделю</h3>
           <span className="text-caption text-muted-foreground">vs прошлая неделя</span>
@@ -106,7 +106,7 @@ export const WeeklySummaryCard = memo(function WeeklySummaryCard() {
             </p>
           </div>
         )}
-      </RefinedCard>
+      </Card>
     </motion.div>
   );
 });

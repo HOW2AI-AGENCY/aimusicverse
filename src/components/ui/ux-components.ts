@@ -42,7 +42,7 @@ export { ProgressiveImage, AvatarImage } from "./ProgressiveImage";
 // ============================================================================
 // EMPTY STATES
 // ============================================================================
-export { EmptyState } from "./EmptyState";
+export { UnifiedEmptyState as EmptyState } from "./unified-empty-state";
 
 // ============================================================================
 // SKELETONS - Complete skeleton library for loading states

@@ -21,7 +21,7 @@ import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { PullToRefreshWrapper } from "@/components/library/PullToRefreshWrapper";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HeroSkeleton } from "@/components/ui/ContentSkeleton";
+import { HeroSkeleton } from "@/components/ui/skeleton-components";
 import { Clock } from "@/lib/icons";
 import { homeSectionColors } from "@/lib/design-colors";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
