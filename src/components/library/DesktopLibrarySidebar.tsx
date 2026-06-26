@@ -68,6 +68,8 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
   const [stylesOpen, setStylesOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<"project" | "track">("project");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const qc = useQueryClient();
+  const { user } = useAuth();
 
   // Form hook with sidebar-specific settings
   const form = useGenerateForm({
