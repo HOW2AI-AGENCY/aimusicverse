@@ -83,6 +83,25 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
   const [showQuickTemplates, setShowQuickTemplates] = useState(false);
 
+  // Preserve cursor/selection in the text-mode textarea across mode switches.
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const selectionRef = useRef<{ start: number; end: number } | null>(null);
+
+  useEffect(() => {
+    if (viewMode !== "text") return;
+    const el = textareaRef.current;
+    const sel = selectionRef.current;
+    if (!el || !sel) return;
+    const len = el.value.length;
+    const start = Math.min(sel.start, len);
+    const end = Math.min(sel.end, len);
+    try {
+      el.setSelectionRange(start, end);
+    } catch {
+      /* noop */
+    }
+  }, [viewMode]);
+
   // Validation
   const lyricsValidation = useMemo(() => checkArtistValidation(lyrics), [lyrics]);
   const hasError = lyricsValidation?.level === "error";
