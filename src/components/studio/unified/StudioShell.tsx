@@ -395,7 +395,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
 
   // Handle track actions from mobile UI
   const handleMobileTrackAction = useCallback((trackId: string, action: string) => {
-    const track = project.tracks.find((t) => t.id === trackId);
+    const track = project?.tracks.find((t) => t.id === trackId);
     if (!track) return;
     switch (action) {
       case "download": if (track.audioUrl) window.open(track.audioUrl, "_blank"); break;
