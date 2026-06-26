@@ -131,7 +131,7 @@ const TrackCard = memo(function TrackCard({
             </span>
           )}
         </div>
-        <h4 className="text-sm font-semibold truncate mb-0.5">{preset.label}</h4>
+        <div className="text-sm font-semibold truncate mb-0.5">{preset.label}</div>
         <p className="text-[10px] text-muted-foreground line-clamp-2 leading-tight">
           {preset.description.split(",").slice(0, 2).join(", ")}
         </p>
