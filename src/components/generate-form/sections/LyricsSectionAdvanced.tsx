@@ -167,22 +167,24 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
             </motion.div>
 
             {/* View toggle */}
-            <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/50">
+            <div className="flex items-center gap-1 p-1 rounded-xl bg-muted/50">
               <Button
                 variant={!showVisualEditor ? "secondary" : "ghost"}
                 size="icon"
-                className="h-6 w-6"
+                aria-label="Текстовый редактор"
+                className="h-9 w-9 min-h-[44px] min-w-[44px]"
                 onClick={() => toggleEditor(false)}
               >
-                <AlignLeft className="h-3 w-3" />
+                <AlignLeft className="h-4 w-4" />
               </Button>
               <Button
                 variant={showVisualEditor ? "secondary" : "ghost"}
                 size="icon"
-                className="h-6 w-6"
+                aria-label="Визуальный редактор"
+                className="h-9 w-9 min-h-[44px] min-w-[44px]"
                 onClick={() => toggleEditor(true)}
               >
-                <LayoutGrid className="h-3 w-3" />
+                <LayoutGrid className="h-4 w-4" />
               </Button>
             </div>
           </div>
