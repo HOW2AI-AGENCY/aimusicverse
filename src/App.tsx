@@ -21,6 +21,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { lazyWithRetry } from "@/lib/performance";
+import { LyricsEditorMetricsOverlay } from "@/components/dev/LyricsEditorMetricsOverlay";
 
 // Consolidated providers for cleaner architecture
 import { CoreProviders, UIProviders, FeatureProviders } from "@/providers";
@@ -348,6 +349,7 @@ const App = () => (
                     </Routes>
                   </RouteWithTransition>
                 </Suspense>
+                {import.meta.env.DEV && <LyricsEditorMetricsOverlay />}
               </NavigationProvider>
             </UIProviders>
           </BrowserRouter>

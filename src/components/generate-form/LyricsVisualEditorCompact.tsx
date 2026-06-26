@@ -155,9 +155,26 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   const syncCountRef = useRef(0);
   renderCountRef.current += 1;
   if (import.meta.env?.DEV) {
-    (window as unknown as { __lyricsEditorMetrics?: Record<string, number> }).__lyricsEditorMetrics = {
+    const w = window as unknown as {
+      __lyricsEditorMetrics?: {
+        renders: number;
+        externalSyncs: number;
+        lastRenderAt: number;
+        reset?: () => void;
+      };
+    };
+    w.__lyricsEditorMetrics = {
       renders: renderCountRef.current,
       externalSyncs: syncCountRef.current,
+      lastRenderAt: performance.now(),
+      reset: () => {
+        renderCountRef.current = 0;
+        syncCountRef.current = 0;
+        if (w.__lyricsEditorMetrics) {
+          w.__lyricsEditorMetrics.renders = 0;
+          w.__lyricsEditorMetrics.externalSyncs = 0;
+        }
+      },
     };
   }
 
