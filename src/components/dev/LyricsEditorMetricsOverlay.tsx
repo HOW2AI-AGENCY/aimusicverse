@@ -178,25 +178,39 @@ export function LyricsEditorMetricsOverlay() {
   const rafRef = useRef<number | null>(null);
   const historyIntervalRef = useRef<number | null>(null);
 
-  // Hotkey toggle
+  // Hotkey toggle — desktop only, and never while the user is typing in an
+  // input/textarea/contenteditable (avoids clobbering native shortcuts and
+  // text selection). Also bail out if any IME composition is active.
   useEffect(() => {
+    if (isMobile) return;
     const onKey = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "M" || e.key === "m")) {
-        e.preventDefault();
-        setVisible((v) => {
-          const next = !v;
-          try {
-            localStorage.setItem(VISIBLE_KEY, next ? "1" : "0");
-          } catch {
-            /* noop */
-          }
-          return next;
-        });
+      if (!((e.ctrlKey || e.metaKey) && e.shiftKey)) return;
+      if (e.key !== "M" && e.key !== "m") return;
+      if (e.repeat || e.isComposing) return;
+      const t = e.target as HTMLElement | null;
+      const tag = t?.tagName;
+      if (
+        tag === "INPUT" ||
+        tag === "TEXTAREA" ||
+        tag === "SELECT" ||
+        t?.isContentEditable
+      ) {
+        return;
       }
+      e.preventDefault();
+      setVisible((v) => {
+        const next = !v;
+        try {
+          localStorage.setItem(VISIBLE_KEY, next ? "1" : "0");
+        } catch {
+          /* noop */
+        }
+        return next;
+      });
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [isMobile]);
 
   // History sampler — always runs while visible, regardless of collapsed state.
   useEffect(() => {
