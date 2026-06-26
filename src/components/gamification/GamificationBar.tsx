@@ -290,7 +290,7 @@ const StatPill = memo(function StatPill({ icon, value, color, onClick, pulse, gl
         "relative flex items-center gap-1 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg",
         "text-[10px] sm:text-xs font-semibold whitespace-nowrap",
         "border backdrop-blur-sm",
-        "transition-colors duration-150",
+        "transition-colors duration-200",
         colorStyles[color],
         onClick && "cursor-pointer hover:brightness-110",
         glow && "shadow-md shadow-orange-500/20",

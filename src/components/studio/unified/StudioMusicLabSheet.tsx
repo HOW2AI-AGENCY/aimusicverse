@@ -206,7 +206,7 @@ export const StudioMusicLabSheet = memo(function StudioMusicLabSheet({
                           <Card
                             key={option.type}
                             className={cn(
-                              "cursor-pointer transition-all active:scale-[0.98]",
+                              "cursor-pointer transition-all active:scale-[0.97]",
                               isSelected && "ring-2 ring-primary",
                             )}
                             onClick={() => musicLab.setRecordingType(option.type)}

@@ -406,7 +406,7 @@ export const RecordTrackDrawer = memo(function RecordTrackDrawer({
                         className={cn(
                           // Touch-friendly - 80px minimum height
                           "flex flex-col items-center gap-2 p-3 min-h-[80px] rounded-xl",
-                          "border-2 cursor-pointer transition-all active:scale-[0.98]",
+                          "border-2 cursor-pointer transition-all active:scale-[0.97]",
                           isSelected ? "border-primary bg-primary/10" : "border-border/50 hover:border-border bg-card",
                         )}
                       >

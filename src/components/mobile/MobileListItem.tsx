@@ -77,7 +77,7 @@ export const MobileListItem = memo(
           className={cn(
             "flex items-center gap-3 p-3 min-h-[56px]",
             "transition-all duration-200 touch-manipulation",
-            onClick && !disabled && ["cursor-pointer active:scale-[0.98]", "hover:bg-accent/50 active:bg-accent"],
+            onClick && !disabled && ["cursor-pointer active:scale-[0.97]", "hover:bg-accent/50 active:bg-accent"],
             active && "bg-accent/70",
             disabled && "opacity-50 cursor-not-allowed",
             !children && "rounded-lg",

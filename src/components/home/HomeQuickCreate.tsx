@@ -115,7 +115,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
               "flex items-center justify-center",
               "hover:bg-card hover:border-primary/30 hover:shadow-md",
               "active:scale-95",
-              "transition-all duration-150",
+              "transition-all duration-200",
             )}
             style={{ transform: isExpanded ? "rotate(45deg)" : "rotate(0deg)" }}
           >
@@ -168,7 +168,7 @@ const QuickCreateOption = memo(function QuickCreateOption({
         "border border-border/40",
         "hover:bg-card hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5",
         "active:scale-95",
-        "transition-all duration-150",
+        "transition-all duration-200",
         "group",
       )}
     >

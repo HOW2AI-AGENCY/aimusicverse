@@ -56,7 +56,7 @@ const Pad = memo(function Pad({ sound, isActive, isMuted, isSolo, hasSoloActive,
         "flex flex-col items-center justify-center gap-2",
         "touch-none select-none cursor-pointer",
         "overflow-hidden",
-        isPressed && "scale-[0.96]",
+        isPressed && "scale-[0.97]",
         !isAudible && "opacity-30 grayscale",
       )}
       style={{

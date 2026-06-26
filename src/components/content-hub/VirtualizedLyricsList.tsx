@@ -40,7 +40,7 @@ export function VirtualizedLyricsList({ templates, onSelect, onDelete }: Virtual
             className={cn(
               "p-3 rounded-xl bg-card/50 border border-border/50",
               "hover:bg-card hover:border-border cursor-pointer transition-all",
-              "active:scale-[0.99] touch-manipulation",
+              "active:scale-[0.97] touch-manipulation",
             )}
           >
             <div className="flex items-start justify-between gap-2">

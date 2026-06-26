@@ -69,7 +69,7 @@ export function StemsActionButton({ onAction, isProcessing, variant = "icon" }: 
               className={cn(
                 "flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all",
                 "hover:border-primary hover:bg-primary/5",
-                "active:scale-[0.98]",
+                "active:scale-[0.97]",
               )}
             >
               <div className="p-2 rounded-lg bg-green-500/15 text-green-600 dark:text-green-400">
@@ -88,7 +88,7 @@ export function StemsActionButton({ onAction, isProcessing, variant = "icon" }: 
               className={cn(
                 "flex items-start gap-3 p-4 rounded-xl border-2 text-left transition-all",
                 "hover:border-primary hover:bg-primary/5",
-                "active:scale-[0.98]",
+                "active:scale-[0.97]",
               )}
             >
               <div className="p-2 rounded-lg bg-purple-500/15 text-purple-600 dark:text-purple-400">

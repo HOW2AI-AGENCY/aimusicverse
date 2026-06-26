@@ -336,7 +336,7 @@ export const MobileDAWTimeline = memo(function MobileDAWTimeline({
                     className={cn(
                       "absolute top-0.5 bottom-0.5 rounded border transition-all",
                       "flex items-center justify-center overflow-hidden",
-                      "hover:scale-[1.02] active:scale-[0.98]",
+                      "hover:scale-[1.02] active:scale-[0.97]",
                       colors.bg,
                       colors.border,
                       section.isReplaced && "ring-1 ring-primary",

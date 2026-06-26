@@ -162,7 +162,7 @@ export const MusicLabPanel = memo(function MusicLabPanel({
                 return (
                   <Card
                     key={option.type}
-                    className="cursor-pointer active:scale-[0.98] transition-transform"
+                    className="cursor-pointer active:scale-[0.97] transition-transform"
                     onClick={() => handleRecordingSelect(option.type)}
                   >
                     <CardContent className="p-4 flex items-center gap-4">

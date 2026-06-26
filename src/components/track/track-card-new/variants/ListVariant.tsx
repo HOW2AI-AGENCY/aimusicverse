@@ -66,8 +66,8 @@ export const ListVariant = memo(function ListVariant({
       className={cn(
         "group grid grid-cols-[64px_1fr_44px] items-center gap-3 p-2.5 sm:p-3 transition-all touch-manipulation rounded-xl min-h-[80px]",
         "bg-card/60 backdrop-blur-sm border-border/40",
-        !isMobile && "hover:bg-muted/60 hover:shadow-md hover:scale-[1.01] hover:ring-1 hover:ring-primary/20",
-        isMobile && "active:bg-muted/70 active:scale-[0.99]",
+        !isMobile && "hover:bg-muted/60 hover:shadow-md hover:scale-[1.02] hover:ring-1 hover:ring-primary/20",
+        isMobile && "active:bg-muted/70 active:scale-[0.97]",
         isCurrentlyPlaying && "ring-1 ring-primary/30 bg-primary/5",
         className,
       )}

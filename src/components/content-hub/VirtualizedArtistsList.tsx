@@ -32,7 +32,7 @@ export function VirtualizedArtistsList({ artists, onSelect }: VirtualizedArtists
           "relative group p-3 rounded-xl text-left",
           "bg-card/50 border border-border/50",
           "hover:bg-card hover:border-border",
-          "transition-all active:scale-[0.98] touch-manipulation",
+          "transition-all active:scale-[0.97] touch-manipulation",
         )}
       >
         {/* Avatar */}

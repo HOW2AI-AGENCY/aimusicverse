@@ -189,7 +189,7 @@ const GridCard = memo(function GridCard({
         "group relative overflow-hidden rounded-2xl cursor-pointer touch-manipulation",
         "bg-gradient-to-br from-card/95 to-card/85 border border-border/60",
         "hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10",
-        "transition-all duration-300 active:scale-[0.98]",
+        "transition-all duration-300 active:scale-[0.97]",
         className,
       )}
     >
@@ -329,7 +329,7 @@ const ListCard = memo(function ListCard({
       className={cn(
         "group relative overflow-hidden rounded-xl bg-gradient-to-br from-card/80 to-card/40",
         "border border-border/50 hover:border-primary/30 transition-all duration-200",
-        "active:scale-[0.99] touch-manipulation",
+        "active:scale-[0.97] touch-manipulation",
         className,
       )}
     >

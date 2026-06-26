@@ -75,7 +75,7 @@ export const AudioHubQuickActions = memo(function AudioHubQuickActions() {
             className={cn(
               "relative overflow-hidden cursor-pointer",
               "hover:shadow-md transition-all duration-200",
-              "active:scale-[0.98]",
+              "active:scale-[0.97]",
             )}
             onClick={() => handleAction(action)}
           >

@@ -187,7 +187,7 @@ export const PlayerActionsBar = memo(function PlayerActionsBar({
                   disabled={action.disabled}
                   className={cn(
                     config.button,
-                    "touch-manipulation rounded-xl transition-all duration-150",
+                    "touch-manipulation rounded-xl transition-all duration-200",
                     "hover:bg-foreground/[0.08] active:scale-92",
                     action.active && "bg-primary/15 ring-1 ring-primary/35",
                     action.active && action.activeClass,

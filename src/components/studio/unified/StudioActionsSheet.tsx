@@ -87,7 +87,7 @@ const ActionItem = memo(function ActionItem({
       className={cn(
         "flex items-center gap-3 w-full p-3 rounded-xl transition-all touch-manipulation",
         glass.subtle,
-        "hover:ring-1 hover:ring-primary/20 active:scale-[0.98]",
+        "hover:ring-1 hover:ring-primary/20 active:scale-[0.97]",
         variant === "primary" && "ring-1 ring-primary/30",
         variant === "destructive" && "text-destructive",
         disabled && "opacity-50 cursor-not-allowed",

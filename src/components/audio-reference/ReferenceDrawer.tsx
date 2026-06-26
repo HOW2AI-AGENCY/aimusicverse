@@ -132,7 +132,7 @@ function ReferenceItem({
   };
 
   return (
-    <div className={cn("p-3 rounded-xl border bg-card transition-all", "hover:border-primary/30 active:scale-[0.99]")}>
+    <div className={cn("p-3 rounded-xl border bg-card transition-all", "hover:border-primary/30 active:scale-[0.97]")}>
       <div className="flex items-start gap-3">
         {/* Play button - 44px touch target */}
         <Button

@@ -174,7 +174,7 @@ export const CommentSuggestions = memo(function CommentSuggestions({
               "text-xs sm:text-sm font-medium",
               "bg-primary/10 text-primary hover:bg-primary/20",
               "active:scale-95",
-              "transition-all duration-150",
+              "transition-all duration-200",
               "border border-primary/20",
             )}
             whileHover={{ scale: 1.05 }}
@@ -198,7 +198,7 @@ export const CommentSuggestions = memo(function CommentSuggestions({
               "w-full text-left px-3 py-2 rounded-lg",
               "text-sm text-muted-foreground hover:text-foreground",
               "bg-muted/50 hover:bg-muted",
-              "transition-colors duration-150",
+              "transition-colors duration-200",
               "flex items-center gap-2",
             )}
             whileHover={{ x: 2 }}
@@ -223,7 +223,7 @@ export const CommentSuggestions = memo(function CommentSuggestions({
               "text-xs text-muted-foreground",
               "bg-muted hover:bg-muted/80",
               "active:scale-95",
-              "transition-all duration-150",
+              "transition-all duration-200",
             )}
             whileTap={{ scale: 0.95 }}
             role="listitem"

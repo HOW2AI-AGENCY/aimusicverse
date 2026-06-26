@@ -204,7 +204,7 @@ export function GenreTabsSection({
                     "data-[state=active]:border-primary/30 data-[state=active]:bg-primary/10",
                     glass.subtle,
                     "data-[state=inactive]:text-muted-foreground",
-                    "hover:bg-card/70 active:scale-[0.98]",
+                    "hover:bg-card/70 active:scale-[0.97]",
                     "whitespace-nowrap",
                   )}
                 >

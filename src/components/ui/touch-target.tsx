@@ -91,7 +91,7 @@ export const TouchableIcon: React.FC<TouchableIconProps> = ({
       disabled={disabled}
       className={cn(
         "inline-flex items-center justify-center rounded-md",
-        "transition-colors duration-150",
+        "transition-colors duration-200",
         "hover:bg-muted active:bg-muted-foreground/20",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         "disabled:opacity-50 disabled:pointer-events-none",
@@ -127,7 +127,7 @@ export const TouchableLink: React.FC<TouchableLinkProps> = ({ href, icon, childr
       href={href}
       className={cn(
         "inline-flex items-center justify-center gap-2",
-        "transition-colors duration-150",
+        "transition-colors duration-200",
         "hover:text-primary active:text-primary/80",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md",
         minSize === 44 && "min-h-[44px] px-3",

@@ -85,7 +85,7 @@ export function PaymentPackageSelector({ products, selectedProduct, onSelect }: 
               className={cn(
                 "relative w-full p-4 rounded-2xl border-2 transition-all duration-300",
                 "flex items-center gap-4 text-left",
-                "touch-manipulation active:scale-[0.98]",
+                "touch-manipulation active:scale-[0.97]",
                 isSelected
                   ? "border-primary bg-primary/5 shadow-lg shadow-primary/10"
                   : "border-border bg-card hover:border-primary/50 hover:bg-accent/50",

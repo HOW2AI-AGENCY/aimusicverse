@@ -71,7 +71,7 @@ export const ProfessionalVariant = memo(function ProfessionalVariant({
           "group relative flex items-center gap-3 p-2.5 rounded-xl transition-all",
           "bg-card/50 backdrop-blur-sm border border-transparent",
           "hover:bg-card hover:border-border/50 hover:shadow-lg hover:shadow-primary/5 hover:ring-1 hover:ring-primary/20",
-          "active:scale-[0.99]",
+          "active:scale-[0.97]",
           isCurrentlyPlaying && "bg-primary/5 border-primary/20 shadow-lg shadow-primary/10 ring-1 ring-primary/30",
           className,
         )}

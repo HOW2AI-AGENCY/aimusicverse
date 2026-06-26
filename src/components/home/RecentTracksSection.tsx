@@ -103,7 +103,7 @@ export const RecentTracksSection = memo(function RecentTracksSection({
               className={cn(
                 "group flex items-center gap-3 p-3 rounded-xl text-left transition-all duration-200",
                 glass.subtle,
-                "hover:border-primary/40 hover:scale-[1.01]",
+                "hover:border-primary/40 hover:scale-[1.02]",
                 isCurrentTrack && "border-primary/50 bg-primary/5 ring-1 ring-primary/20",
               )}
             >

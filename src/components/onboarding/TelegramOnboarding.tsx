@@ -287,7 +287,7 @@ export function TelegramOnboarding() {
             "w-full h-14 rounded-2xl text-lg font-semibold",
             "bg-gradient-to-r shadow-lg transition-all duration-300",
             slide.gradient,
-            "hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]",
+            "hover:shadow-xl hover:scale-[1.02] active:scale-[0.97]",
           )}
         >
           {isLastSlide ? (
