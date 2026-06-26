@@ -111,7 +111,7 @@ export function SEOHead({
 // Preset configurations for common pages
 export const SEO_PRESETS = {
   home: {
-    title: undefined, // Uses base title
+    title: "Платформа для генерации музыки с AI",
     description:
       "Создавайте уникальную музыку с помощью ИИ. Генерация, редактирование и публикация треков в один клик.",
     keywords: ["главная", "создание музыки", "AI генератор"],
