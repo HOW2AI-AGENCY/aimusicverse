@@ -24,6 +24,8 @@ import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
 import { TELEGRAM_SAFE_AREA } from "@/constants/safe-area";
 import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvider";
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
+import { MobileNavDrawer } from "./layout/MobileNavDrawer";
+
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() =>
@@ -120,6 +122,10 @@ export const MainLayout = () => {
     }
     return false;
   });
+
+  // Mobile drawer (S3.1): exposes full Sidebar nav on portrait mobile via Sheet.
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
 
   // When viewport shrinks to compact-desktop range, auto-collapse unless the
   // user has explicitly chosen the expanded state.
@@ -303,6 +309,15 @@ export const MainLayout = () => {
                 <Sidebar collapsed onCollapsedChange={() => {}} />
               </div>
             )}
+
+            {/* Mobile portrait drawer trigger + Sheet — Sprint 3.1 */}
+            {!isDesktop && !isMobileLandscape && (
+              <MobileNavDrawer
+                open={mobileNavOpen}
+                onOpenChange={setMobileNavOpen}
+              />
+            )}
+
             <main
               id="main-content"
               className={cn(
