@@ -444,7 +444,6 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         </div>
       </>
     );
-    );
   } else if (variant === "mid") {
     maxWidth = "max-w-3xl";
     body = (
