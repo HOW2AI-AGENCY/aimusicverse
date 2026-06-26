@@ -123,8 +123,7 @@ export const MainLayout = () => {
     return false;
   });
 
-  // Mobile drawer (S3.1): exposes full Sidebar nav on portrait mobile via Sheet.
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+
 
 
   // When viewport shrinks to compact-desktop range, auto-collapse unless the
