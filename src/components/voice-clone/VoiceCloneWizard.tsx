@@ -83,11 +83,28 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
     };
   }, [sourceBlob, sourceUrl]);
 
+  // Toasts driven by wizard state transitions — so users always know what's happening.
+  const lastStepRef = useRef(step);
   useEffect(() => {
-    if (step === "ready" && voice?.voice_id && onComplete) {
-      onComplete(voice.voice_id);
+    if (step === lastStepRef.current) return;
+    lastStepRef.current = step;
+    if (step === "validating") {
+      notify.info("Голос анализируется", { description: "Готовим контрольную фразу…" });
+    } else if (step === "phrase_ready") {
+      notify.success("Фраза готова", { description: "Спойте её — это нужно для клонирования." });
+    } else if (step === "generating") {
+      notify.info("Клонируем голос", { description: "Это может занять 1–3 минуты." });
+    } else if (step === "ready" && voice?.voice_id) {
+      notify.success(`Голос «${voice.voice_name}» готов`, {
+        description: "Подставлен в форму генерации.",
+      });
+      onComplete?.(voice.voice_id);
+    } else if (step === "failed") {
+      notify.error("Клонирование не удалось", {
+        description: voice?.error_message || "Попробуйте ещё раз.",
+      });
     }
-  }, [step, voice?.voice_id, onComplete]);
+  }, [step, voice?.voice_id, voice?.voice_name, voice?.error_message, onComplete]);
 
   function close() {
     onOpenChange(false);
@@ -96,9 +113,31 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
       phraseRecorder.reset();
       sourceRecorder.reset();
       setFile(null);
+      setStemBlob(null);
+      setSelectedStem(null);
       setVoiceName("");
       setDescription("");
     }, 300);
+  }
+
+  async function pickStem(stem: UserVocalStem) {
+    setSelectedStem(stem);
+    setStemBlob(null);
+    setStemLoading(true);
+    try {
+      const res = await fetch(stem.audioUrl);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      setStemBlob(blob);
+      if (!voiceName) setVoiceName(stem.trackTitle.slice(0, 40));
+      notify.success("Стем загружен", { description: stem.trackTitle });
+    } catch (e) {
+      logger.error("Stem fetch failed", e as Error);
+      notify.error("Не удалось загрузить стем", { description: (e as Error).message });
+      setSelectedStem(null);
+    } finally {
+      setStemLoading(false);
+    }
   }
 
   const stepIndex = STEP_INDEX[step] ?? 0;
