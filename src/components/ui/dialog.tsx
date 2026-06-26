@@ -37,10 +37,16 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
   hideTitle?: boolean;
   /** Accessible title for screen readers when no visible DialogTitle is present */
   accessibleTitle?: string;
+  /**
+   * If true, render as a native bottom-sheet on mobile (<640px) — slide-up from bottom,
+   * full width, drag-handle, safe-area-bottom padding. Default false (centered modal everywhere).
+   * Opt-in to avoid breaking dialogs that rely on centered/constrained geometry.
+   */
+  mobileSheet?: boolean;
 }
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, hideTitle = false, accessibleTitle = "Диалоговое окно", ...props }, ref) => {
+  ({ className, children, hideTitle = false, accessibleTitle = "Диалоговое окно", mobileSheet = false, ...props }, ref) => {
     // Check if this is a fullscreen dialog (has h-[100dvh], h-screen, or h-[100vh] in className)
     const isFullscreen =
       className?.includes("h-[100dvh]") || className?.includes("h-screen") || className?.includes("h-[100vh]");
@@ -51,18 +57,20 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
         <DialogPrimitive.Content
           ref={ref}
           className={cn(
-            // Desktop: centered modal with zoom
-            "fixed z-[141] grid gap-4 border border-border/50 bg-background shadow-2xl duration-200",
+            // Default: centered modal at all viewport sizes (preserves existing dialog geometry)
+            "fixed left-[50%] top-[50%] z-[141] grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border/50 bg-background p-6 shadow-2xl duration-200",
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-            // Mobile-first: bottom sheet with rounded top, slide up. Includes safe-area + drag handle.
-            "inset-x-0 bottom-0 w-full max-h-[92dvh] overflow-y-auto rounded-t-2xl px-5 pt-6 pb-[max(env(safe-area-inset-bottom),1rem)]",
-            "data-[state=open]:slide-in-from-bottom data-[state=closed]:slide-out-to-bottom",
-            // Mobile drag handle pseudo-element
-            "before:content-[''] before:absolute before:top-2 before:left-1/2 before:-translate-x-1/2 before:h-1 before:w-10 before:rounded-full before:bg-muted-foreground/30 sm:before:hidden",
-            // Desktop overrides (>=640px): centered, max-width, zoom anim, rounded
-            "sm:inset-auto sm:left-[50%] sm:top-[50%] sm:bottom-auto sm:w-full sm:max-w-lg sm:translate-x-[-50%] sm:translate-y-[-50%] sm:rounded-xl sm:p-6 sm:max-h-[90vh]",
-            "sm:data-[state=open]:slide-in-from-bottom-0 sm:data-[state=closed]:slide-out-to-bottom-0",
-            "sm:data-[state=closed]:zoom-out-95 sm:data-[state=open]:zoom-in-95",
+            "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+            "data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+            "sm:rounded-xl",
+            // Opt-in: native bottom-sheet on mobile only
+            mobileSheet && [
+              "max-sm:left-0 max-sm:top-auto max-sm:bottom-0 max-sm:translate-x-0 max-sm:translate-y-0",
+              "max-sm:max-w-none max-sm:w-full max-sm:max-h-[92dvh] max-sm:overflow-y-auto",
+              "max-sm:rounded-t-2xl max-sm:rounded-b-none max-sm:px-5 max-sm:pt-6 max-sm:pb-[max(env(safe-area-inset-bottom),1rem)]",
+              "max-sm:data-[state=open]:slide-in-from-bottom max-sm:data-[state=closed]:slide-out-to-bottom",
+              "max-sm:before:content-[''] max-sm:before:absolute max-sm:before:top-2 max-sm:before:left-1/2 max-sm:before:-translate-x-1/2 max-sm:before:h-1 max-sm:before:w-10 max-sm:before:rounded-full max-sm:before:bg-muted-foreground/30",
+            ],
             className,
           )}
           style={
@@ -91,6 +99,7 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
   },
 );
 DialogContent.displayName = DialogPrimitive.Content.displayName;
+
 
 
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
