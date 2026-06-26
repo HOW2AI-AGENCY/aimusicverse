@@ -92,9 +92,9 @@ jobs:
           path: dist/
 
   e2e:
-    name: E2E Tests
+    name: E2E Tests (Desktop)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     needs: build
 
     steps:
@@ -118,7 +118,7 @@ jobs:
           name: dist
           path: dist
 
-      - name: Run E2E tests
+      - name: Run desktop E2E tests
         run: npm run test:e2e:chromium
         env:
           CI: true
@@ -127,5 +127,57 @@ jobs:
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-desktop
           path: playwright-report/
+
+  e2e-mobile:
+    # Dedicated mobile-emulation pass for z-index / hotkey / portal regressions.
+    # Scoped to the focused specs so per-PR feedback stays fast.
+    name: E2E Tests (Mobile emulation)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers (chromium + webkit)
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Run mobile E2E (z-index, portal, hotkey, IME, taps)
+        env:
+          CI: true
+        run: |
+          npx playwright test \
+            tests/e2e/dev-overlay.hotkey.spec.ts \
+            tests/e2e/dev-overlay.ime.spec.ts \
+            tests/e2e/dev-overlay.telegram-web.spec.ts \
+            tests/e2e/generation.dialog-portal.spec.ts \
+            tests/e2e/generation.dialog-zindex.spec.ts \
+            tests/e2e/generation.mobile-taps.spec.ts \
+            --project="Mobile Chrome" \
+            --project="Mobile Safari" \
+            --retries=2
+
+      - name: Upload mobile E2E report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report-mobile
+          path: playwright-report/
+
