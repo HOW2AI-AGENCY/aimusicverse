@@ -49,7 +49,6 @@ import { PromptHistory } from "./generate-form/PromptHistory";
 import { LyricsChatAssistant } from "./generate-form/LyricsChatAssistant";
 import { StylePresetSelector } from "./generate-form/StylePresetSelector";
 import { CreditBalanceWarning } from "./generate-form/CreditBalanceWarning";
-import { CreditBalanceIndicator } from "./generate-form/CreditBalanceIndicator";
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
