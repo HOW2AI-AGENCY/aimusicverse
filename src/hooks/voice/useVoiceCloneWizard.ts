@@ -25,14 +25,22 @@ export const STEP_INDEX: Record<WizardStep, number> = {
 const POLL_INTERVAL = 5000; // slower — realtime is primary
 const POLL_TIMEOUT = 5 * 60 * 1000;
 
+export type LastAction =
+  | { kind: "validate"; params: Parameters<ReturnType<typeof useVoiceCloneWizard>["startValidation"]>[0] }
+  | { kind: "submit"; audio: Blob }
+  | { kind: "rerecord"; audio: Blob }
+  | null;
+
 export function useVoiceCloneWizard() {
   const { user } = useAuth();
   const [step, setStep] = useState<WizardStep>("upload");
   const [voice, setVoice] = useState<CustomVoice | null>(null);
   const [isWorking, setIsWorking] = useState(false);
+  const [lastError, setLastError] = useState<string | null>(null);
   const pollRef = useRef<number | null>(null);
   const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null);
   const voiceRowIdRef = useRef<string | null>(null);
+  const lastActionRef = useRef<LastAction>(null);
 
   const stopPolling = useCallback(() => {
     if (pollRef.current) {
@@ -55,6 +63,7 @@ export function useVoiceCloneWizard() {
     },
     [stopPolling, stopRealtime],
   );
+
 
   // Realtime subscription to current voice row
   const subscribeToRow = useCallback(
