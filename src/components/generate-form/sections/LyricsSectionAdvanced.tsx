@@ -76,7 +76,9 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 }: LyricsSectionAdvancedProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
-  const [showVisualEditor, setShowVisualEditor] = useState(true);
+  const [viewMode, setViewMode] = useState<"text" | "visual" | "preview">("visual");
+  const showVisualEditor = viewMode === "visual";
+  const showPreview = viewMode === "preview";
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
   const [showQuickTemplates, setShowQuickTemplates] = useState(false);
