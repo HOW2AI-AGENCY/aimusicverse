@@ -1,6 +1,8 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-06-25
+**Последнее обновление**: 2026-06-26
+
+> 📌 **Важно**: Это документ отслеживает все спринты и их статусы. Для детального плана задач смотрите [SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md).
 
 ## 📊 Общий статус
 
@@ -153,4 +155,6 @@ All sprints 001-032 are completed and archived in `SPRINTS/completed/`.
 
 ---
 
-_Обновлено: 2026-06-25_
+_Обновлено: 2026-06-26_
+
+> 🔗 Навигация: [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) • [PROJECT_STATUS.md](../PROJECT_STATUS.md) • [BACKLOG.md](BACKLOG.md)

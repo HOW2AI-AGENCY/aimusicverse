@@ -6,31 +6,75 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+server.log
+*.log.gz
 tmpclaude-*.cwd
 tmpclaude-*
 
 # Dependencies
 node_modules
-dist
-dist-ssr
-*.local
-
-# Environment variables (keeping .env public as it contains only public data)
-# .env contains public keys (Supabase anon key, Telegram bot token, etc.)
-# No secrets should be stored in .env
-.env.local
-.env.*.local
+bun_modules
+.pnpm-store
 
 # Build outputs
+dist
+dist-ssr
 build
-coverage
+out
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+# Environment variables
+.env.local
+.env.*.local
+.env.production.local
+.env.development.local
+.env.test.local
+
+# Test coverage
+coverage
+.nyc_output
+playwright-report/
+test-results/
+*.lcov
+.v8-coverage
+
+# Cache directories
+.cache
+.temp
+.tmp
+.vite/cache
+.turbo
+.next/cache
+.graphite
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+
+# Editor/IDE
+.vscode
 .idea
+*.swp
+*.swo
+*~
+Session.vim
+Sessionx.vim
+.netrwhist
+
+# OS generated files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+~$*
+
+# Misc
+*.local
 *.suo
 *.ntvs*
 *.njsproj
@@ -44,68 +88,15 @@ storybook-static
 # Verification artifacts
 *.png
 verify.cjs
+*.html
 
-# Temporary files
-*.tmp
-*.swp
-*.bak
-*.swo
-*.cache
-*.temp
-*.placeholder
-supabase/.temp/
-
-# System temporary files
-Thumbs.db
-ehthumbs.db
-Desktop.ini
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-~$*
-
-# Editor temporary files
-*~
-.#*
-\#*\#
-.*.sw[a-z]
-*.un~
-Session.vim
-Sessionx.vim
-.netrwhist
-
-# Build/CI temporary files
-.tsbuildinfo
-*.tsbuildinfo
-.vite/cache
-.turbo
-.next/cache
-
-# Testing temporary files
-.nyc_output
-playwright-report/
-test-results/
-*.lcov
-.v8-coverage
-
-# Log files (expanded)
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-server.log
-*.log.gz
-
-# Database temporary files
-*.sqlite
-*.sqlite3
-*.db
-*.db-journal
-
-# Claude Code settings
+# Claude Code
 .claude/settings.local.json
 .claude/cache/
+
+# Supabase
+supabase/.temp/
+supabase/functions/.temp/
+
+# Graphify generated artifacts (can be regenerated)
+graphify-out/
