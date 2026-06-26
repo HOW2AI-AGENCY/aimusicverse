@@ -135,20 +135,20 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
       </div>
 
       {/* Phone frame */}
-      <div className="relative w-[360px] bg-[#1a1a2e] rounded-[32px] p-3 shadow-xl">
+      <div className="relative w-[360px] bg-card rounded-[32px] p-3 shadow-xl">
         {/* Notch */}
         <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full" />
 
         {/* Screen */}
-        <div className="bg-[#0f0f1a] rounded-[24px] overflow-hidden mt-6">
+        <div className="bg-background rounded-[24px] overflow-hidden mt-6">
           {/* Chat header */}
-          <div className="bg-[#1a1a2e] px-4 py-3 flex items-center gap-3">
+          <div className="bg-card px-4 py-3 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold">
               M
             </div>
             <div className="flex-1">
               <div className="font-semibold text-white">MusicVerse Bot</div>
-              <div className="text-xs text-gray-400">бот</div>
+              <div className="text-xs text-muted-foreground">бот</div>
             </div>
           </div>
 
@@ -163,7 +163,7 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
 
               {/* Caption */}
               <div
-                className="bg-[#2a2a4a] px-3 py-2 text-sm text-white"
+                className="bg-muted px-3 py-2 text-sm text-white"
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(renderCaption(getCaption()), {
                     ALLOWED_TAGS: ["strong", "em", "br", "b", "i", "u", "s", "code"],
@@ -173,16 +173,16 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
               />
 
               {/* Buttons */}
-              <div className="bg-[#2a2a4a] rounded-b-xl overflow-hidden">
+              <div className="bg-muted rounded-b-xl overflow-hidden">
                 {rows.map((rowItems, rowIndex) => (
-                  <div key={rowIndex} className="flex border-t border-[#1a1a2e]">
+                  <div key={rowIndex} className="flex border-t border-card">
                     {rowItems.map((item, itemIndex) => (
                       <button
                         key={item.id}
                         className={`
-                          flex-1 py-2.5 px-2 text-center text-sm text-blue-400 
-                          hover:bg-[#3a3a5a] transition-colors
-                          ${itemIndex > 0 ? "border-l border-[#1a1a2e]" : ""}
+                          flex-1 py-2.5 px-2 text-center text-sm text-primary 
+                          hover:bg-muted/80 transition-colors
+                          ${itemIndex > 0 ? "border-l border-card" : ""}
                         `}
                         style={{ flexBasis: `${(item.column_span / 2) * 100}%` }}
                         onClick={() => handleButtonClick(item)}
@@ -199,9 +199,9 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
 
                 {/* Back button for submenus */}
                 {currentMenu !== "main" && (
-                  <div className="flex border-t border-[#1a1a2e]">
+                  <div className="flex border-t border-card">
                     <button
-                      className="flex-1 py-2.5 px-2 text-center text-sm text-blue-400 hover:bg-[#3a3a5a] transition-colors"
+                      className="flex-1 py-2.5 px-2 text-center text-sm text-primary hover:bg-muted/80 transition-colors"
                       onClick={handleBack}
                     >
                       <span className="flex items-center justify-center gap-1.5">
@@ -216,8 +216,8 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
           </div>
 
           {/* Input area */}
-          <div className="bg-[#1a1a2e] px-3 py-2 flex items-center gap-2">
-            <div className="flex-1 bg-[#2a2a4a] rounded-full px-4 py-2 text-sm text-gray-400">Сообщение</div>
+          <div className="bg-card px-3 py-2 flex items-center gap-2">
+            <div className="flex-1 bg-muted rounded-full px-4 py-2 text-sm text-muted-foreground">Сообщение</div>
           </div>
         </div>
       </div>
