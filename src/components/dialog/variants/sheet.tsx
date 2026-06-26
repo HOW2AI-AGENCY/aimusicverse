@@ -45,14 +45,20 @@ export function SheetDialog({
   className,
 }: SheetDialogProps) {
   const { patterns } = useHaptic();
-  const [currentSnapPoint, setCurrentSnapPoint] = useState(defaultSnapPoint);
+  // Clamp snap index to a valid array position so an out-of-range
+  // `defaultSnapPoint` (e.g. config drift) can never produce `undefined`,
+  // which then propagates as NaN into `maxHeight` styles.
+  const safeDefaultSnap = Math.min(Math.max(defaultSnapPoint, 0), Math.max(snapPoints.length - 1, 0));
+  const [currentSnapPoint, setCurrentSnapPoint] = useState(safeDefaultSnap);
   const containerRef = useRef<HTMLDivElement>(null);
   const y = useMotionValue(0);
-  const height = typeof window !== "undefined" ? window.innerHeight : 667;
+  const height = typeof window !== "undefined" && Number.isFinite(window.innerHeight) ? window.innerHeight : 667;
 
   // Transform drag gesture for backdrop opacity
   const backdropOpacity = useTransform(y, [0, 200], [1, 0]);
-  const snapHeight = snapPoints[currentSnapPoint] * height;
+  const rawSnapRatio = snapPoints[currentSnapPoint];
+  const snapRatio = Number.isFinite(rawSnapRatio) ? (rawSnapRatio as number) : 0.9;
+  const snapHeight = snapRatio * height;
 
   // Handle drag to close with haptic feedback
   const handleDragEnd = useCallback(
