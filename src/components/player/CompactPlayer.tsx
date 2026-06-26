@@ -412,7 +412,7 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
                 className="absolute left-0 right-0 -bottom-0.5 h-0.5 overflow-hidden rounded-full bg-primary/10"
                 aria-hidden="true"
               >
-                <div className="h-full w-1/3 bg-primary/70 animate-[shimmer_1.2s_ease-in-out_infinite]" />
+                <div className="h-full w-1/3 bg-primary/70 animate-shimmer" />
               </div>
             )}
           </div>
