@@ -1,57 +1,30 @@
-/**
- * Mobile Fullscreen Player
- *
- * Redesigned fullscreen player optimized for mobile devices.
- * Features:
- * - Blurred album cover background
- * - Synchronized lyrics with word highlighting (improved sync)
- * - Large touch-friendly controls
- * - Audio visualizer with equalizer
- * - Clear timeline visualization
- */
-
-import { useState, useEffect, useRef, useMemo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight, Mic2 } from "@/lib/icons";
-import { Button } from "@/components/ui/button";
-import { WaveformProgressBar } from "./WaveformProgressBar";
-import { Track } from "@/types/track";
-import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
+/** Mobile Fullscreen Player - composes subcomponents for the fullscreen mobile experience. */
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGlobalAudioPlayer } from "@/hooks/audio/useGlobalAudioPlayer";
 import { useAudioVisualizer } from "@/hooks/audio/useAudioVisualizer";
+import { useTimestampedLyrics } from "@/hooks/useTimestampedLyrics";
 import { useLyricsSynchronization } from "@/hooks/lyrics/useLyricsSynchronization";
 import { useParsedLyrics } from "@/hooks/lyrics/useParsedLyrics";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { usePrefetchTrackCovers } from "@/hooks/audio/usePrefetchTrackCovers";
 import { usePrefetchNextAudio } from "@/hooks/audio/usePrefetchNextAudio";
-import { SynchronizedWord } from "@/components/lyrics/SynchronizedWord";
 import { FullscreenBackground } from "./FullscreenBackground";
 import { FullscreenVisualizer } from "./FullscreenVisualizer";
-import { QueueSheet } from "./QueueSheet";
-import { VersionSwitcher } from "./VersionSwitcher";
-import { UnifiedPlayerControls } from "./UnifiedPlayerControls";
-import { PlayerActionsBar } from "./PlayerActionsBar";
-import { KaraokeView } from "./KaraokeView";
-import { DoubleTapSeekFeedback } from "./DoubleTapSeekFeedback";
-import { PlayerGestureHints } from "./PlayerGestureHints";
-import { cn } from "@/lib/utils";
-import { glassButton } from "@/lib/glass";
-import { motion, AnimatePresence, PanInfo } from "@/lib/motion";
+import { PlayerTrackInfo } from "./PlayerTrackInfo";
+import { PlayerControls } from "./PlayerControls";
+import { PlayerProgress } from "./PlayerProgress";
+import { PlayerActions } from "./PlayerActions";
+import { Track } from "@/types/track";
+import { motion, PanInfo } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { logger } from "@/lib/logger";
 import "@/styles/lyrics-sync.css";
 
 // Swipe thresholds
-const DRAG_CLOSE_THRESHOLD = 100; // px distance for vertical close
-const VELOCITY_THRESHOLD = 500; // px/s velocity for vertical close
-const HORIZONTAL_SWIPE_THRESHOLD = 80; // px distance for track switch
-const HORIZONTAL_VELOCITY_THRESHOLD = 400; // px/s velocity for track switch
-
-// Double-tap seek constants
-const DOUBLE_TAP_DELAY = 300; // ms between taps
-const SEEK_AMOUNT = 10; // seconds to seek
+const DRAG_CLOSE_THRESHOLD = 100;
+const VELOCITY_THRESHOLD = 500;
 
 interface MobileFullscreenPlayerProps {
   track: Track;
@@ -65,20 +38,9 @@ interface MobileFullscreenPlayerProps {
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
-  const navigate = useNavigate();
   const [queueOpen, setQueueOpen] = useState(false);
-  const [userScrolling, setUserScrolling] = useState(false);
   const [showVisualizer, setShowVisualizer] = useState(true);
-  const [horizontalDragOffset, setHorizontalDragOffset] = useState(0);
   const [karaokeMode, setKaraokeMode] = useState(false);
-  const [doubleTapSide, setDoubleTapSide] = useState<"left" | "right" | null>(null);
-  const lyricsContainerRef = useRef<HTMLDivElement>(null);
-  const activeLineRef = useRef<HTMLDivElement>(null);
-  const activeWordRef = useRef<HTMLSpanElement>(null);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const lastScrollTopRef = useRef<number>(0);
-  const lastTapRef = useRef<{ time: number; x: number }>({ time: 0, x: 0 });
-  const isProgrammaticScrollRef = useRef(false);
 
   // Telegram BackButton integration - closes fullscreen player
   useTelegramBackButton({
@@ -92,10 +54,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     pauseTrack,
     nextTrack,
     previousTrack,
-    repeat,
-    shuffle,
-    toggleRepeat,
-    toggleShuffle,
     volume,
     preservedTime,
     clearPreservedTime,
@@ -118,7 +76,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   // Restore preserved time on mount (from mode switch)
   useEffect(() => {
     if (preservedTime !== null && audioElement && !isNaN(preservedTime)) {
-      // Small delay to ensure audio is ready
       const timer = setTimeout(() => {
         if (audioElement && preservedTime !== null) {
           audioElement.currentTime = preservedTime;
@@ -130,7 +87,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   }, [preservedTime, audioElement, clearPreservedTime]);
 
   // CRITICAL: Resume AudioContext and ensure audio routing when fullscreen opens
-  // With blob URL recovery for format errors
   useEffect(() => {
     let mounted = true;
     let hasRecovered = false;
@@ -144,16 +100,13 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       try {
         const { resumeAudioContext, ensureAudioRoutedToDestination } = await import("@/lib/audioContextManager");
 
-        // Resume AudioContext
         const resumed = await resumeAudioContext(3);
         if (!resumed) {
           logger.warn("Failed to resume AudioContext on fullscreen open");
         }
 
-        // Ensure audio is routed to destination
         await ensureAudioRoutedToDestination();
 
-        // Sync volume with audio element
         if (audioElement && mounted) {
           audioElement.volume = volume;
 
@@ -161,7 +114,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           const isBlobSource = audioSrc?.startsWith("blob:");
           const canonicalUrl = track.streaming_url || track.audio_url;
 
-          // Try to resume playback
           if (isPlaying && audioElement.paused && audioSrc) {
             logger.info("Attempting to resume audio on mobile fullscreen open", {
               isBlobSource,
@@ -174,7 +126,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
             } catch (playErr) {
               const error = playErr as Error;
 
-              // If blob URL fails with format error, recover with canonical URL
               if (
                 (error.name === "NotSupportedError" || audioElement.error?.code === 4) &&
                 isBlobSource &&
@@ -190,7 +141,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
                 audioElement.src = canonicalUrl;
                 audioElement.load();
 
-                // Wait for audio to be ready, then restore position and play
                 audioElement.addEventListener(
                   "canplay",
                   async function onCanPlay() {
@@ -234,7 +184,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       }
     };
 
-    // Small delay to ensure component is fully mounted
     const timer = setTimeout(ensureAudio, 100);
 
     return () => {
@@ -242,7 +191,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
       clearTimeout(timer);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run only once on mount
+  }, []);
 
   // Audio visualizer data
   const visualizerData = useAudioVisualizer(audioElement, isPlaying, { barCount: 48, smoothing: 0.75 });
@@ -264,143 +213,19 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
   }, [lyricsLines]);
 
   // Use unified synchronization hook for precise timing
-  // Enable when we have lyrics (sync works even when paused for highlighting)
   const {
     activeLineIndex,
     activeWordIndex,
     currentTime: syncedTime,
-    isWordActive,
-    isWordPast,
     constants,
   } = useLyricsSynchronization({
     words: flattenedWords,
     enabled: !!lyricsLines?.length,
   });
 
-  // Handle user scroll detection
-  useEffect(() => {
-    const container = lyricsContainerRef.current;
-    if (!container) return;
-
-    const handleScroll = () => {
-      // Ignore programmatic scrolls
-      if (isProgrammaticScrollRef.current) return;
-
-      const currentScrollTop = container.scrollTop;
-      const scrollDelta = Math.abs(currentScrollTop - lastScrollTopRef.current);
-
-      if (scrollDelta > 5) {
-        setUserScrolling(true);
-
-        if (scrollTimeoutRef.current) {
-          clearTimeout(scrollTimeoutRef.current);
-        }
-
-        // Increased timeout to 5 seconds for better UX
-        scrollTimeoutRef.current = setTimeout(() => {
-          setUserScrolling(false);
-        }, 5000);
-      }
-
-      lastScrollTopRef.current = currentScrollTop;
-    };
-
-    const handleTouchStart = () => {
-      setUserScrolling(true);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-
-    const handleTouchEnd = () => {
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      // Increased timeout to 5 seconds
-      scrollTimeoutRef.current = setTimeout(() => {
-        setUserScrolling(false);
-      }, 5000);
-    };
-
-    container.addEventListener("scroll", handleScroll, { passive: true });
-    container.addEventListener("touchstart", handleTouchStart, { passive: true });
-    container.addEventListener("touchend", handleTouchEnd, { passive: true });
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      container.removeEventListener("touchstart", handleTouchStart);
-      container.removeEventListener("touchend", handleTouchEnd);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  // Auto-scroll to active word/line - keep in upper third of screen
-  // Works both when playing AND paused (highlighting should persist)
-  useEffect(() => {
-    if (activeLineIndex < 0 || !lyricsContainerRef.current || userScrolling) return;
-
-    // Only auto-scroll when playing, but highlighting still works when paused
-    if (!isPlaying) return;
-
-    const container = lyricsContainerRef.current;
-
-    // Try word-level scroll first for more precision
-    const activeWord = container.querySelector(`[data-word-index="${activeWordIndex}"]`) as HTMLElement;
-    const activeLine = activeLineRef.current;
-    const targetElement = activeWord || activeLine;
-
-    if (!targetElement) return;
-
-    // Use requestAnimationFrame for smoother scroll timing
-    requestAnimationFrame(() => {
-      const containerRect = container.getBoundingClientRect();
-      const elementRect = targetElement.getBoundingClientRect();
-
-      // Calculate where the element currently is relative to container
-      const elementTopInContainer = elementRect.top - containerRect.top + container.scrollTop;
-
-      // Target: position active element at 30% from top of visible area
-      const targetScrollTop = elementTopInContainer - containerRect.height * 0.3;
-
-      // Check if element is already roughly in view (between 20%-50% from top)
-      const currentElementPos = elementRect.top - containerRect.top;
-      const isInView = currentElementPos > containerRect.height * 0.2 && currentElementPos < containerRect.height * 0.5;
-
-      // Only scroll if element is not already in the target area
-      if (!isInView) {
-        isProgrammaticScrollRef.current = true;
-        container.scrollTo({
-          top: Math.max(0, targetScrollTop),
-          behavior: "smooth",
-        });
-
-        // Reset programmatic flag after scroll completes
-        setTimeout(() => {
-          isProgrammaticScrollRef.current = false;
-        }, 400);
-      }
-    });
-  }, [activeLineIndex, activeWordIndex, userScrolling, isPlaying]);
-
-  const handleSeek = (value: number[]) => {
-    seek(value[0]);
-  };
-
   const handleWordClick = (startTime: number) => {
     hapticImpact("light");
     seek(startTime);
-  };
-
-  const handlePlayPause = () => {
-    hapticImpact("medium");
-    if (isPlaying) {
-      pauseTrack();
-    } else {
-      // Don't pass track to avoid reloading audio - just resume
-      playTrack();
-    }
   };
 
   // Vertical swipe-to-close handler (for header area)
@@ -408,74 +233,12 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
       const { velocity, offset } = info;
 
-      // Close if dragged down far enough or fast enough
       if (offset.y > DRAG_CLOSE_THRESHOLD || velocity.y > VELOCITY_THRESHOLD) {
         hapticImpact("light");
         onClose();
       }
     },
     [onClose],
-  );
-
-  // Horizontal swipe for track switching (Spotify/Apple Music style)
-  const handleHorizontalDragEnd = useCallback(
-    (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-      const { velocity, offset } = info;
-      setHorizontalDragOffset(0);
-
-      // Swipe left = next track
-      if (offset.x < -HORIZONTAL_SWIPE_THRESHOLD || velocity.x < -HORIZONTAL_VELOCITY_THRESHOLD) {
-        hapticImpact("medium");
-        nextTrack();
-        return;
-      }
-
-      // Swipe right = previous track
-      if (offset.x > HORIZONTAL_SWIPE_THRESHOLD || velocity.x > HORIZONTAL_VELOCITY_THRESHOLD) {
-        hapticImpact("medium");
-        previousTrack();
-        return;
-      }
-    },
-    [nextTrack, previousTrack],
-  );
-
-  // Track horizontal drag for visual feedback
-  const handleHorizontalDrag = useCallback((_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    setHorizontalDragOffset(info.offset.x);
-  }, []);
-
-  // Double-tap seek handler (like YouTube/TikTok)
-  const handleDoubleTapSeek = useCallback(
-    (e: React.TouchEvent | React.MouseEvent) => {
-      const now = Date.now();
-      const clientX = "touches" in e ? e.touches[0]?.clientX : e.clientX;
-      if (clientX === undefined) return;
-
-      const screenWidth = window.innerWidth;
-      const isLeftSide = clientX < screenWidth / 2;
-
-      // Check for double-tap
-      if (now - lastTapRef.current.time < DOUBLE_TAP_DELAY) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const seekDelta = isLeftSide ? -SEEK_AMOUNT : SEEK_AMOUNT;
-        const newTime = Math.max(0, Math.min(currentTime + seekDelta, duration));
-
-        seek(newTime);
-        hapticImpact("medium");
-
-        // Visual feedback
-        setDoubleTapSide(isLeftSide ? "left" : "right");
-        setTimeout(() => setDoubleTapSide(null), 500);
-
-        lastTapRef.current = { time: 0, x: 0 };
-      } else {
-        lastTapRef.current = { time: now, x: clientX };
-      }
-    },
-    [currentTime, duration, seek],
   );
 
   return (
@@ -496,7 +259,6 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
         className="absolute top-0 left-0 right-0 h-14 z-20 flex flex-col items-center justify-center cursor-grab active:cursor-grabbing touch-manipulation"
         aria-label="Потяните вниз чтобы закрыть"
       >
-        {/* Visible drag indicator */}
         <motion.div
           className="w-12 h-1.5 bg-muted-foreground/40 rounded-full mt-3 shadow-sm"
           whileHover={{ width: 48, backgroundColor: "hsl(var(--muted-foreground) / 0.6)" }}
@@ -509,323 +271,50 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
 
       {/* Content */}
       <div className="relative flex-1 flex flex-col min-h-0 overflow-hidden">
-        {/* Header with glass effect - Telegram safe area */}
-        <motion.header
-          className="flex items-center justify-between p-4"
-          style={{
-            paddingTop:
-              "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem, env(safe-area-inset-top, 0px) + 0.75rem))",
-          }}
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.3 }}
-        >
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                hapticImpact("light");
-                onClose();
-              }}
-              className={cn("h-11 w-11 rounded-full touch-manipulation transition-colors", glassButton.default)}
-              aria-label="Закрыть плеер"
-            >
-              <X className="h-5 w-5" />
-            </Button>
-          </motion.div>
+        <PlayerTrackInfo
+          track={track}
+          showVisualizer={showVisualizer}
+          onToggleVisualizer={() => setShowVisualizer((prev) => !prev)}
+          hasLyrics={!!lyricsLines}
+          onKaraokeMode={() => setKaraokeMode(true)}
+          onQueueOpen={() => setQueueOpen(true)}
+          onClose={onClose}
+        />
 
-          <motion.div
-            className="text-center flex-1 px-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-          >
-            <div className="flex items-center justify-center gap-1.5 mb-0.5">
-              <h2 className="font-display font-semibold text-[17px] leading-tight truncate tracking-tight text-foreground">
-                {track.title || "Без названия"}
-              </h2>
-            </div>
-            <p className="text-[12px] text-muted-foreground/80 truncate tracking-tight">{track.style || ""}</p>
-            {/* Version Switcher */}
-            <div className="flex justify-center mt-2">
-              <VersionSwitcher track={track} size="compact" />
-            </div>
-          </motion.div>
-
-          <div className="flex items-center gap-2">
-            {/* Visualizer toggle */}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact("light");
-                  setShowVisualizer((prev) => !prev);
-                }}
-                className={cn(
-                  "h-11 w-11 rounded-full touch-manipulation transition-colors",
-                  glassButton.default,
-                  showVisualizer && "bg-primary/20 border-primary/30",
-                )}
-                aria-label={showVisualizer ? "Скрыть визуализацию" : "Показать визуализацию"}
-              >
-                <BarChart3 className="h-5 w-5" />
-              </Button>
-            </motion.div>
-
-            {/* Karaoke mode button */}
-            {lyricsLines && (
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
-                    hapticImpact("light");
-                    setKaraokeMode(true);
-                  }}
-                  className={cn("h-11 w-11 rounded-full touch-manipulation transition-colors", glassButton.default)}
-                  aria-label="Режим караоке"
-                >
-                  <Mic2 className="h-5 w-5" />
-                </Button>
-              </motion.div>
-            )}
-
-            {/* Queue button */}
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  hapticImpact("light");
-                  setQueueOpen(true);
-                }}
-                className={cn("h-11 w-11 rounded-full touch-manipulation transition-colors", glassButton.default)}
-                aria-label="Открыть очередь"
-              >
-                <ListMusic className="h-5 w-5" />
-              </Button>
-            </motion.div>
-          </div>
-        </motion.header>
-
-        {/* Lyrics Section with Horizontal Swipe and Double-Tap Seek */}
-        <motion.div
-          drag="x"
-          dragConstraints={{ left: 0, right: 0 }}
-          dragElastic={{ left: 0.2, right: 0.2 }}
-          onDrag={handleHorizontalDrag}
-          onDragEnd={handleHorizontalDragEnd}
-          onTouchStart={handleDoubleTapSeek}
-          className="flex-1 relative min-h-0 flex flex-col touch-pan-y"
-        >
-          {/* Double-tap seek feedback */}
-          <AnimatePresence>
-            {doubleTapSide && <DoubleTapSeekFeedback side={doubleTapSide} seekAmount={SEEK_AMOUNT} />}
-          </AnimatePresence>
-          {/* Swipe indicators */}
-          <AnimatePresence>
-            {Math.abs(horizontalDragOffset) > 20 && (
-              <>
-                {horizontalDragOffset > 20 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: Math.min(horizontalDragOffset / HORIZONTAL_SWIPE_THRESHOLD, 1) * 0.6 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 z-10"
-                  >
-                    <ChevronLeft className="w-8 h-8 text-muted-foreground" />
-                  </motion.div>
-                )}
-                {horizontalDragOffset < -20 && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{
-                      opacity: Math.min(Math.abs(horizontalDragOffset) / HORIZONTAL_SWIPE_THRESHOLD, 1) * 0.6,
-                    }}
-                    exit={{ opacity: 0 }}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 z-10"
-                  >
-                    <ChevronRight className="w-8 h-8 text-muted-foreground" />
-                  </motion.div>
-                )}
-              </>
-            )}
-          </AnimatePresence>
-
-          {/* User scroll indicator with re-enable button */}
-          <AnimatePresence>
-            {userScrolling && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="absolute top-2 right-2 z-10 flex items-center gap-2"
-              >
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => setUserScrolling(false)}
-                  className="h-7 px-2 text-xs bg-muted/90 backdrop-blur-sm"
-                >
-                  Вкл. автоскролл
-                </Button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <div
-            ref={lyricsContainerRef}
-            className="flex-1 overflow-y-auto px-4 py-4"
-            style={{
-              overscrollBehavior: "contain",
-              touchAction: "pan-y",
-            }}
-          >
-            {lyricsLines ? (
-              // Synchronized lyrics with improved timing using useLyricsSynchronization
-              <div className="flex flex-col items-center text-center space-y-1 pb-[30vh] lyrics-container-enter">
-                {(() => {
-                  let globalWordIndex = 0;
-                  return lyricsLines.map((line, lineIndex) => {
-                    const isActiveLine = lineIndex === activeLineIndex;
-                    const isPastLine = activeLineIndex > -1 && lineIndex < activeLineIndex;
-                    const lineStart = line[0]?.startS ?? 0;
-
-                    return (
-                      <motion.div
-                        key={lineIndex}
-                        ref={isActiveLine ? activeLineRef : null}
-                        onClick={() => handleWordClick(lineStart)}
-                        animate={{
-                          scale: isActiveLine ? 1.02 : 1,
-                          opacity: isActiveLine ? 1 : isPastLine ? 0.35 : 0.5,
-                        }}
-                        transition={{ duration: 0.15, ease: "easeOut" }}
-                        className={cn(
-                          "px-3 py-1 rounded-lg cursor-pointer w-full lyric-line",
-                          "will-change-[transform,opacity,background-color] transform-gpu",
-                          isActiveLine && "bg-primary/10 lyric-line--active",
-                        )}
-                      >
-                        <div className="flex flex-wrap justify-center gap-x-1.5 gap-y-0.5">
-                          {line.map((word, wordIndex) => {
-                            const currentGlobalIndex = globalWordIndex++;
-                            // Use sync hook's look-ahead timing
-                            const adjustedTime = syncedTime + constants.WORD_LOOK_AHEAD_MS / 1000;
-                            const endTolerance = constants.WORD_END_TOLERANCE_MS / 1000;
-                            const isActiveWord =
-                              isActiveLine && adjustedTime >= word.startS && adjustedTime <= word.endS + endTolerance;
-                            const isPastWord = syncedTime > word.endS + endTolerance;
-
-                            return (
-                              <SynchronizedWord
-                                key={`${lineIndex}-${wordIndex}-${word.startS}`}
-                                word={word.word}
-                                isActive={isActiveWord}
-                                isPast={isPastWord}
-                                data-word-index={currentGlobalIndex}
-                                className="text-lg font-medium"
-                                activeClassName="text-primary scale-110 font-bold"
-                                pastClassName="text-foreground/70"
-                                futureClassName="text-foreground/50"
-                              />
-                            );
-                          })}
-                        </div>
-                      </motion.div>
-                    );
-                  });
-                })()}
-              </div>
-            ) : plainLyrics ? (
-              // Plain text lyrics
-              <div className="min-h-full flex items-center justify-center">
-                <p className="text-center text-lg leading-relaxed whitespace-pre-wrap text-foreground/90">
-                  {plainLyrics}
-                </p>
-              </div>
-            ) : (
-              // No lyrics available
-              <div className="min-h-full flex items-center justify-center">
-                <p className="text-muted-foreground text-center">Текст песни недоступен</p>
-              </div>
-            )}
-          </div>
-        </motion.div>
+        <PlayerControls
+          lyricsLines={lyricsLines}
+          plainLyrics={plainLyrics}
+          isPlaying={isPlaying}
+          currentTime={currentTime}
+          duration={duration}
+          syncState={{ activeLineIndex, activeWordIndex, syncedTime, constants }}
+          onSeek={seek}
+          onNextTrack={nextTrack}
+          onPreviousTrack={previousTrack}
+        />
 
         <FullscreenVisualizer show={showVisualizer} isPlaying={isPlaying} visualizerData={visualizerData} />
 
-        {/* Controls Section — aurora-tinted glass, safe-area aware (iOS/Android/Telegram) */}
-        <motion.div
-          className={cn(
-            "relative p-4 space-y-4 border-t border-border/40",
-            "bg-gradient-to-b from-background/40 to-background/95 backdrop-blur-2xl",
-          )}
-          style={{
-            paddingBottom:
-              "calc(max(var(--tg-safe-area-inset-bottom, 0px) + 1rem, env(safe-area-inset-bottom, 0px) + 1rem))",
-          }}
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.3 }}
-        >
-          {/* Subtle aurora glow strip at the top edge */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-8 -top-px h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
-          />
-          {/* Waveform Timeline */}
-          <div data-testid="player-timeline">
-            <WaveformProgressBar
-              audioUrl={audioUrl}
-              trackId={track.id}
-              currentTime={currentTime}
-              duration={duration}
-              onSeek={(time) => seek(time)}
-              mode="standard"
-              showBeatGrid={true}
-              showLabels={true}
-              className="px-2"
-            />
-          </div>
-
-          {/* Main Controls - UnifiedPlayerControls */}
-          <div data-testid="player-transport">
-            <UnifiedPlayerControls
-              variant="fullscreen"
-              size="lg"
-              showVolume={false}
-              showShuffleRepeat={true}
-              showSeekButtons={true}
-              seekSeconds={10}
-            />
-          </div>
-
-          {/* Secondary Actions - PlayerActionsBar */}
-          <PlayerActionsBar track={track} variant="horizontal" size="md" showStudioButton={true} />
-        </motion.div>
+        <PlayerProgress
+          track={track}
+          audioUrl={audioUrl}
+          currentTime={currentTime}
+          duration={duration}
+          onSeek={seek}
+        />
       </div>
 
-      {/* First-run gesture cheatsheet */}
-      <PlayerGestureHints />
-
-      {/* Queue Sheet */}
-      <QueueSheet open={queueOpen} onOpenChange={setQueueOpen} />
-
-      {/* Karaoke Mode */}
-      <AnimatePresence>
-        {karaokeMode && lyricsLines && (
-          <KaraokeView
-            lyricsLines={lyricsLines}
-            currentTime={syncedTime}
-            isPlaying={isPlaying}
-            activeLineIndex={activeLineIndex}
-            onClose={() => setKaraokeMode(false)}
-            onSeek={handleWordClick}
-          />
-        )}
-      </AnimatePresence>
+      <PlayerActions
+        queueOpen={queueOpen}
+        onQueueOpenChange={setQueueOpen}
+        karaokeMode={karaokeMode}
+        onKaraokeModeClose={() => setKaraokeMode(false)}
+        lyricsLines={lyricsLines}
+        syncedTime={syncedTime}
+        isPlaying={isPlaying}
+        activeLineIndex={activeLineIndex}
+        onSeek={handleWordClick}
+      />
     </motion.div>
   );
 }
