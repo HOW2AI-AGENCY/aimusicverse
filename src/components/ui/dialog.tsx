@@ -134,8 +134,9 @@ function useSwipeDownToClose(
   // Only bind when enabled
   React.useEffect(() => {
     if (!enabled || !nodeRef.current) return;
-    return bind(nodeRef.current);
-  }, [enabled, bind]);
+    bind(nodeRef.current);
+  }, [enabled, bind, nodeRef]);
+
 }
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
