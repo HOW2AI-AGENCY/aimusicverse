@@ -282,7 +282,3 @@ export function useVoiceCloneWizard() {
     reset,
   };
 }
-
-
-  return { step, voice, isWorking, startValidation, submitRecording, reRecord, reset };
-}
