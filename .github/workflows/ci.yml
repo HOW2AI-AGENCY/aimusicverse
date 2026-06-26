@@ -167,8 +167,10 @@ jobs:
             tests/e2e/dev-overlay.hotkey.spec.ts \
             tests/e2e/dev-overlay.ime.spec.ts \
             tests/e2e/dev-overlay.telegram-web.spec.ts \
+            tests/e2e/dev-overlay.force-visible.spec.ts \
             tests/e2e/generation.dialog-portal.spec.ts \
             tests/e2e/generation.dialog-zindex.spec.ts \
+            tests/e2e/generation.dialog-orientation.spec.ts \
             tests/e2e/generation.mobile-taps.spec.ts \
             --project="Mobile Chrome" \
             --project="Mobile Safari" \
