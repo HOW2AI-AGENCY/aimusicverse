@@ -207,7 +207,9 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
         </div>
 
         {/* Editor area */}
-        {showVisualEditor ? (
+        {showPreview ? (
+          <LyricsPreview value={lyrics} />
+        ) : showVisualEditor ? (
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
           <div className="relative group">
