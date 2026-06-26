@@ -215,9 +215,18 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
           <div className="relative group">
             {/* Main textarea with premium styling */}
             <Textarea
+              ref={textareaRef}
               placeholder="Начните писать текст или выберите шаблон..."
               value={lyrics}
-              onChange={(e) => onLyricsChange(e.target.value)}
+              onChange={(e) => {
+                const el = e.currentTarget;
+                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+                onLyricsChange(el.value);
+              }}
+              onSelect={(e) => {
+                const el = e.currentTarget;
+                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+              }}
               rows={10}
               className={cn(
                 "text-sm min-h-[220px] max-h-[400px] overflow-y-auto whitespace-pre-wrap",
