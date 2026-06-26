@@ -49,7 +49,9 @@ import { PromptHistory } from "./generate-form/PromptHistory";
 import { LyricsChatAssistant } from "./generate-form/LyricsChatAssistant";
 import { StylePresetSelector } from "./generate-form/StylePresetSelector";
 import { CreditBalanceWarning } from "./generate-form/CreditBalanceWarning";
-import { VoiceCloneDialog } from "./generate-form/VoiceCloneDialog";
+import { VoiceCloneWizard } from "./voice-clone/VoiceCloneWizard";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
@@ -73,6 +75,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
   const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
+  const qc = useQueryClient();
+  const { user } = useAuth();
 
   // Get active audio reference for hasReferenceAudio check
   const { activeReference } = useAudioReference();
@@ -474,7 +478,19 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           onSelect={form.handleArtistSelect}
         />
 
-        <VoiceCloneDialog open={voiceCloneOpen} onOpenChange={setVoiceCloneOpen} />
+        <VoiceCloneWizard
+          open={voiceCloneOpen}
+          onOpenChange={setVoiceCloneOpen}
+          onComplete={(voiceId) => {
+            form.setCustomVoiceId(voiceId);
+            form.setMode("custom");
+            handleAdvancedToggle(true);
+            qc.invalidateQueries({ queryKey: ["custom-voices", user?.id] });
+            notify.success("Голос подключён к генерации", {
+              description: "Выбран в разделе «Кастомный голос».",
+            });
+          }}
+        />
 
         {/* Audio Action Dialog - for cover/extend operations */}
         <AudioActionDialog

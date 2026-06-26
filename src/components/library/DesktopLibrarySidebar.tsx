@@ -20,7 +20,9 @@ import { GenerateFormActions } from "@/components/generate-form/GenerateFormActi
 import { GenerateFormReferences } from "@/components/generate-form/GenerateFormReferences";
 import { GenerationLoadingState } from "@/components/generate-form/GenerationLoadingState";
 import { AudioActionDialog } from "@/components/generate-form/AudioActionDialog";
-import { VoiceCloneDialog } from "@/components/generate-form/VoiceCloneDialog";
+import { VoiceCloneWizard } from "@/components/voice-clone/VoiceCloneWizard";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import { ArtistSelector } from "@/components/generate-form/ArtistSelector";
 import { ProjectTrackSelector } from "@/components/generate-form/ProjectTrackSelector";
 import { PromptHistory } from "@/components/generate-form/PromptHistory";
@@ -66,6 +68,8 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
   const [stylesOpen, setStylesOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<"project" | "track">("project");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const qc = useQueryClient();
+  const { user } = useAuth();
 
   // Form hook with sidebar-specific settings
   const form = useGenerateForm({
@@ -287,7 +291,17 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         onSelect={form.handleArtistSelect}
       />
 
-      <VoiceCloneDialog open={voiceCloneOpen} onOpenChange={setVoiceCloneOpen} />
+      <VoiceCloneWizard
+        open={voiceCloneOpen}
+        onOpenChange={setVoiceCloneOpen}
+        onComplete={(voiceId) => {
+          form.setCustomVoiceId(voiceId);
+          form.setMode("custom");
+          setAdvancedOpen(true);
+          qc.invalidateQueries({ queryKey: ["custom-voices", user?.id] });
+          toast.success("Голос подключён к генерации");
+        }}
+      />
 
       <AudioActionDialog
         open={audioActionDialogOpen}
