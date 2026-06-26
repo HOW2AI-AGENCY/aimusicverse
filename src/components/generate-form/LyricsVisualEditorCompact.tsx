@@ -143,6 +143,61 @@ export function applyTemplateToSections(
 
 export { parseLyrics, sectionsToLyrics };
 
+// ---- Dev metrics types & helpers ----
+export interface SyncFocusSnapshot {
+  sectionId: string | null;
+  tagName: string | null;
+  selectionStart: number | null;
+  selectionEnd: number | null;
+  valueLength: number | null;
+}
+export interface SyncSnapshot {
+  id: string;
+  ts: number;
+  phase: "before" | "after";
+  syncIndex: number;
+  sections: Array<{ id: string; type: string; content: string }>;
+  focus: SyncFocusSnapshot;
+}
+export interface LyricsEditorMetrics {
+  renders: number;
+  externalSyncs: number;
+  lastRenderAt: number;
+  snapshots: SyncSnapshot[];
+  reset?: () => void;
+}
+
+const MAX_SNAPSHOTS = 200;
+
+function captureFocusSnapshot(): SyncFocusSnapshot {
+  if (typeof document === "undefined") {
+    return { sectionId: null, tagName: null, selectionStart: null, selectionEnd: null, valueLength: null };
+  }
+  const el = document.activeElement as HTMLElement | null;
+  if (!el) return { sectionId: null, tagName: null, selectionStart: null, selectionEnd: null, valueLength: null };
+  const sectionId = el.getAttribute?.("data-section-id") ?? null;
+  const ta = el as HTMLTextAreaElement;
+  const isField = typeof ta.selectionStart === "number";
+  return {
+    sectionId,
+    tagName: el.tagName?.toLowerCase() ?? null,
+    selectionStart: isField ? ta.selectionStart : null,
+    selectionEnd: isField ? ta.selectionEnd : null,
+    valueLength: isField && typeof ta.value === "string" ? ta.value.length : null,
+  };
+}
+
+function pushSnapshot(snap: SyncSnapshot) {
+  if (typeof window === "undefined") return;
+  const w = window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics };
+  const m = w.__lyricsEditorMetrics;
+  if (!m) return;
+  const arr = m.snapshots ?? (m.snapshots = []);
+  arr.push(snap);
+  if (arr.length > MAX_SNAPSHOTS) arr.splice(0, arr.length - MAX_SNAPSHOTS);
+}
+
+
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
   // Track the last lyrics string we emitted, so external changes (mode switch, AI, templates)
