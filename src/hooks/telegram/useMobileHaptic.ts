@@ -35,21 +35,35 @@ interface HapticFeedback {
   isAvailable: boolean;
 }
 
+const MIN_HAPTIC_VERSION = 6.1;
+
+function isHapticSupported(): boolean {
+  try {
+    const webApp = window.Telegram?.WebApp;
+    if (!webApp?.HapticFeedback) return false;
+    return parseFloat(webApp.version || "0") >= MIN_HAPTIC_VERSION;
+  } catch {
+    return false;
+  }
+}
+
 export function useMobileHaptic(): HapticFeedback {
   const hapticAPI = window.Telegram?.WebApp?.HapticFeedback;
-  const isAvailable = !!hapticAPI;
+  const isAvailable = isHapticSupported();
 
   const impact = useCallback(
     (style: HapticImpactStyle = "light") => {
+      if (!isAvailable) return;
       try {
         hapticAPI?.impactOccurred(style);
-      } catch (error) {
+      } catch {
         // Silently fail - haptic feedback is not critical
-        logger.warn("Haptic feedback not available", { error: String(error) });
       }
     },
-    [hapticAPI],
+    [hapticAPI, isAvailable],
   );
+
+
 
   const notification = useCallback(
     (type: HapticNotificationType) => {
