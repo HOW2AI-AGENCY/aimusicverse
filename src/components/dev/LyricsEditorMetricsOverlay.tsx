@@ -117,11 +117,13 @@ function Sparkline({
 }
 
 export function LyricsEditorMetricsOverlay() {
+  // Hidden by default to avoid covering mobile UI / intercepting clicks above
+  // modals. Toggle with Ctrl/Cmd+Shift+M; preference is persisted.
   const [visible, setVisible] = useState<boolean>(() => {
     try {
-      return localStorage.getItem(VISIBLE_KEY) !== "0";
+      return localStorage.getItem(VISIBLE_KEY) === "1";
     } catch {
-      return true;
+      return false;
     }
   });
   const [collapsed, setCollapsed] = useState<boolean>(() => {
