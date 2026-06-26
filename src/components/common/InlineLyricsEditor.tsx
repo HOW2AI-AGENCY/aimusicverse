@@ -17,7 +17,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { logger } from "@/lib/logger";
 import { useLyricsTemplates, LyricsTemplate } from "@/hooks/useLyricsTemplates";
-import { VoiceInputButton } from "@/components/ui/voice-input-button";
+import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
 import { cn } from "@/lib/utils";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 

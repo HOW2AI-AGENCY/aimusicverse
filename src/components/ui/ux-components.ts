@@ -6,13 +6,12 @@
  * Import from this file for consistent UX patterns across the app.
  *
  * @example
- * import { TouchFeedback, AnimatedList, EmptyState } from '@/components/ui/ux-components';
+ * import { AnimatedList, EmptyState } from '@/components/ui/ux-components';
  */
 
 // ============================================================================
 // TOUCH & INTERACTION
 // ============================================================================
-export { TouchFeedback, PressableCard, IconTouchButton } from "./TouchFeedback";
 export { SwipeableListItem } from "./SwipeableListItem";
 export { PullToRefresh } from "./PullToRefresh";
 
