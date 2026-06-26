@@ -103,10 +103,10 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
     [hapticFeedback, onLyricsChange],
   );
 
-  const toggleEditor = useCallback(
-    (visual: boolean) => {
+  const switchView = useCallback(
+    (mode: "text" | "visual" | "preview") => {
       hapticFeedback("light");
-      setShowVisualEditor(visual);
+      setViewMode(mode);
     },
     [hapticFeedback],
   );
