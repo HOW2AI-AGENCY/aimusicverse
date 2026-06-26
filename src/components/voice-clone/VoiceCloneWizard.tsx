@@ -145,7 +145,7 @@ export function VoiceCloneWizard({ open, onOpenChange, onComplete }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={(v) => (v ? onOpenChange(v) : close())}>
-      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto" data-testid="voice-clone-wizard">
         <DialogHeader>
           <DialogTitle>Создать кастомный голос</DialogTitle>
           <DialogDescription>30 кредитов · 6 шагов</DialogDescription>
