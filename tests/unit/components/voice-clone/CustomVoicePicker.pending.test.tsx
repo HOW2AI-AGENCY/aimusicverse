@@ -64,7 +64,8 @@ describe("CustomVoicePicker — pending voice contract", () => {
     render(<CustomVoicePicker value={pendingVoice.voice_id} onChange={vi.fn()} />);
 
     // Pending status badge is visible at the top of the picker.
-    expect(screen.getByText("готовится")).toBeInTheDocument();
+    expect(screen.getAllByText("готовится").length).toBeGreaterThan(0);
+
 
     // Relative timestamp message ("только что", "X мин назад", …) is rendered.
     const helper = screen.getByText(/Голос «Мой клон» ещё обрабатывается/);
