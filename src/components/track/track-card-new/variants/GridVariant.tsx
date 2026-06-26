@@ -189,14 +189,17 @@ export const GridVariant = memo(function GridVariant({
             )}
           </div>
 
-          {/* Content - simplified */}
-          <div className="p-3 space-y-1.5">
-            <div className="flex items-center justify-between gap-1.5 sm:gap-2">
-              <h3 className="font-semibold text-xs sm:text-sm truncate flex-1 leading-tight">
+          {/* Content - fixed height so tag length never changes card size */}
+          <div className="p-3 flex flex-col gap-1.5 h-[68px]">
+            <div className="flex items-start justify-between gap-1.5 sm:gap-2 min-h-0">
+              <h3
+                className="font-semibold text-xs sm:text-sm flex-1 min-w-0 leading-tight line-clamp-2 break-words"
+                title={track.title || undefined}
+              >
                 {track.title || "Без названия"}
               </h3>
 
-              <div className="flex items-center gap-0.5 flex-shrink-0">
+              <div className="flex items-center gap-0.5 flex-shrink-0 -mt-1">
                 {/* Quick Like */}
                 <QuickLikeButton trackId={track.id} isLiked={(track as any).is_liked} size="sm" variant="minimal" />
 
@@ -221,9 +224,16 @@ export const GridVariant = memo(function GridVariant({
               </div>
             </div>
 
-            {/* Tags - max 2 visible */}
-            <SimplifiedTagsRow style={track.style} tags={track.tags} onClick={onTagClick} maxTags={2} />
+            {/* Tags - single row, capped width, never wraps */}
+            <SimplifiedTagsRow
+              style={track.style}
+              tags={track.tags}
+              onClick={onTagClick}
+              maxTags={2}
+              className="mt-auto"
+            />
           </div>
+
         </Card>
       </motion.div>
 
