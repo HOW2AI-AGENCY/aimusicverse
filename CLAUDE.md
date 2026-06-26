@@ -382,6 +382,19 @@ await switchVersion(versionB.id);
    <LazyImage src={url} alt="..." />
    ```
 
+### UI Component Decision Tree
+
+**Empty States:** Always use `UnifiedEmptyState` from `@/components/ui/unified-empty-state`
+**Skeletons:** Use pre-built skeletons from `@/components/ui/skeleton-components` or base `Skeleton` from `@/components/ui/skeleton`
+**Cards:** Use `Card` from `@/components/ui/card` with variants: `default`, `glass`, `enhanced`, `flat`, `interactive`, `selected`
+**Buttons:** Use `Button` from `@/components/ui/button` — extend with variants, don't create new button components
+**Dialogs (desktop):** Use `Dialog` from `@/components/ui/dialog`
+**Sheets (mobile):** Use `Sheet` from `@/components/ui/sheet` or `MobileBottomSheet` for gesture support
+**Touch targets:** Use `TouchTarget` from `@/components/ui/touch-target`
+**Loading:** Use `LoadingSpinner` from `@/components/ui/LoadingSpinner` or skeleton components
+**Animation scales:** Use standard values — press: `scale-[0.97]`, hover: `scale-[1.02]`, pop: `scale-[1.1]`
+**Animation durations:** Use `duration-200` (default) or `duration-300` (complex), defined in design-tokens
+
 ### Working with Supabase
 
 **API Layer** (`src/api/*.api.ts`):
@@ -585,16 +598,22 @@ Logger persists to sessionStorage and integrates with Sentry.
 25. **Don't skip input validation** - Use Zod for client + server validation
 26. **Don't expose secrets in frontend** - Only in Edge Functions
 
+### UI Optimization
+
+27. **Don't import deprecated UI shims** - EmptyState, RefinedCard, skeleton-loader, ContentSkeleton, loading-state are deleted
+28. **Don't use non-standard animation scales** - Use `scale-[0.97]` (press), `scale-[1.02]` (hover), `scale-[1.1]` (pop)
+29. **Don't hardcode hex colors** - Use semantic tokens (primary, destructive, muted-foreground, etc.)
+
 ### Post-Generation Flow
 
-27. **Don't redirect to library without showing result** - Use `GenerationResultSheet`
-28. **Don't skip expectGenerationResult()** - Call before starting generation
-29. **Don't forget to integrate GenerationResultSheet** - Must be in `MainLayout`
+30. **Don't redirect to library without showing result** - Use `GenerationResultSheet`
+31. **Don't skip expectGenerationResult()** - Call before starting generation
+32. **Don't forget to integrate GenerationResultSheet** - Must be in `MainLayout`
 
 ### Telegram Bot Integration
 
-30. **Don't ignore deep link parameters** - Parse `startapp` and show `BotContextBanner`
-31. **Don't skip bot context** - User should know why they navigated from bot
+33. **Don't ignore deep link parameters** - Parse `startapp` and show `BotContextBanner`
+34. **Don't skip bot context** - User should know why they navigated from bot
 
 ## Getting Help
 

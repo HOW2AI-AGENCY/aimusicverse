@@ -17,6 +17,24 @@ const restrictedImports = {
       message: "Импортируйте иконки из '@/lib/icons' — централизованный реестр для оптимизации бандла.",
     },
   ],
+  patterns: [
+    {
+      group: ["@/components/ui/EmptyState", "@/components/ui/empty-state", "@/components/common/EmptyState"],
+      message: "Deprecated — use UnifiedEmptyState from '@/components/ui/unified-empty-state'.",
+    },
+    {
+      group: ["@/components/ui/RefinedCard"],
+      message: "Deprecated — use Card from '@/components/ui/card'.",
+    },
+    {
+      group: ["@/components/ui/skeleton-loader", "@/components/ui/ContentSkeleton"],
+      message: "Deprecated — use skeleton-components from '@/components/ui/skeleton-components' or Skeleton from '@/components/ui/skeleton'.",
+    },
+    {
+      group: ["@/components/ui/loading-state"],
+      message: "Deprecated — use LoadingSpinner from '@/components/ui/LoadingSpinner' or skeleton components.",
+    },
+  ],
 };
 
 // Rules downgraded to "warn" to unblock CI. These represent accumulated
