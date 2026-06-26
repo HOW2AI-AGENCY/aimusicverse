@@ -287,6 +287,8 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         onSelect={form.handleArtistSelect}
       />
 
+      <VoiceCloneDialog open={voiceCloneOpen} onOpenChange={setVoiceCloneOpen} />
+
       <AudioActionDialog
         open={audioActionDialogOpen}
         onOpenChange={setAudioActionDialogOpen}
