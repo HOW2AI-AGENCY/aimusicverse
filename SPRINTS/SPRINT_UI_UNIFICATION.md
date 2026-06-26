@@ -27,8 +27,8 @@ logic, stores, hooks, edge functions, or APIs**.
 | 6   | `ResponsiveOverlay` + `useConfirm`               | ✅                                       |
 | 7   | Motion presets (`@/lib/motion-presets`)          | ✅                                       |
 | 8   | Toast adapter (`@/lib/toast`)                    | ✅                                       |
-| 9   | A11y sweep (axe-core on key routes)              | ⏳                                       |
-| 10  | Hard delete + ESLint `error` rules               | ⏳                                       |
+| 9   | A11y sweep (axe-core on key routes)              | ✅                                       |
+| 10  | Hard delete + ESLint `error` rules               | ✅                                       |
 
 ## Tasks
 
