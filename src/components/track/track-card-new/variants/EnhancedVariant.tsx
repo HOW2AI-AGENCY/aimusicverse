@@ -312,7 +312,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
 
             {/* Content - increased padding for mobile */}
             <div className={cn("relative", compact ? "p-2.5" : "p-3 sm:p-2.5")}>
-              <h3
+              <h2
                 className={cn(
                   "font-semibold line-clamp-1 transition-colors",
                   compact ? "text-[11px]" : "text-xs",
@@ -320,7 +320,7 @@ export const EnhancedVariant = memo(function EnhancedVariant({
                 )}
               >
                 {track.title || "Без названия"}
-              </h3>
+              </h2>
 
               {/* Creator Info */}
               {(track.creator_name || track.creator_username) && (
