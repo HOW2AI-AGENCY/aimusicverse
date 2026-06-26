@@ -273,16 +273,17 @@ const App = () => (
                         <Route path="/voices/history" element={<VoiceHistoryPage />} />
                        </Route>
 
-                      {/* Legacy /track/:id → /player/:id redirect */}
-                      <Route path="/track/:trackId" element={<Navigate to="/player" replace />} />
+                      {/* Legacy /track/:id alias → fullscreen player */}
                       <Route
-                        path="/track/:trackId/*"
+                        path="/track/:trackId"
                         element={
                           <ProtectedRoute>
                             <MobilePlayerPage />
                           </ProtectedRoute>
                         }
                       />
+
+
 
 
 
