@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://aimusicverse.lovable.app/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/auth</loc><changefreq>monthly</changefreq><priority>0.4</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/blog</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/community</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/artists</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/playlists</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/projects</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/music-lab</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/lyrics-studio</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/guitar-studio</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/audio-hub</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/templates</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/music-graph</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/pricing</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/subscription</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/buy-credits</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://aimusicverse.lovable.app/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+</urlset>
