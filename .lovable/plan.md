@@ -1,66 +1,136 @@
-## Контекст
+## Цель
 
-Большая часть UI-унификации (фазы 0, 1, 6, 7, 8 + EmptyState/Toast в фазе 3) и Sprint 031 Phase B завершены и стабильны. Остаются три класса работ: миграция оставшихся импортов на канонические компоненты, чистка `lucide-react`/legacy-диалогов и финальная заморозка через ESLint+удаление. Бизнес-логика, сторы, edge-функции и БД не трогаем.
+Довести мобильный UI MusicVerse AI до уровня нативного приложения: единые токены, bottom-sheet попапы, безопасные зоны, целостность ключевых экранов. Работаем мобайл-ферст (390×844), затем масштабируем на tablet/desktop.
 
-Контрольные находки разведки:
-- `RefinedTrackCard`, `RefinedButton`, `GlowButton`, `InteractiveCard` уже без активных импортов в `src/` (можно удалять, не только депрекейтить).
-- `framer-motion` напрямую импортирует **1** файл (почти всё уже через `@/lib/motion`).
-- `lucide-react` напрямую импортируют **815** файлов — это нарушение Core-памяти (иконки только через `@/lib/icons`).
-- 8 одноразовых `*Dialog.tsx` в корне `src/components/` (`AddInstrumentalDialog`, `AddVocalsDialog`, `AudioCoverDialog`, `AudioExtendDialog`, `ConfirmationDialog`, `CreateArtistDialog`, `ExtendTrackDialog`, `NewArrangementDialog`) ещё на сыром `Dialog`, не на `ResponsiveOverlay`/`useConfirm`.
-- Главные секции (`FeaturedSection`, `RecentTracksSection`, `TracksGridSection`, `CreativePresetsSection`, `GenreTabsSection`, `CollapsibleSection`) ещё не приведены к каноничным `SectionHeader` + `UnifiedTrackCard`.
+## Спринт 1 — Фундамент токенов и примитивов (2–3 дня)
 
-## План (по фазам, каждая — отдельный мерж)
+**S1.1** Единые mobile-first токены в `src/styles/spacing.css` + `tailwind.config.ts`:
+- spacing scale `xs/sm/md/lg/xl/2xl` (4/8/12/16/24/32)
+- safe-area utilities: `pt-safe`, `pb-safe-dock`, `px-safe`
+- touch-target: `min-h-touch` (44), `min-h-touch-lg` (48)
 
-### Фаза A — Финал Phase 2/4 (атомы и TrackCard) ⏱ ~30 мин
-1. Удалить пустые/неиспользуемые файлы: `components/track/variants/index.ts`, `ui/RefinedTrackCard.tsx`, `ui/RefinedButton.tsx` (если есть), `ui/GlowButton.tsx`, `ui/InteractiveCard.tsx`, `ui/glass-card.tsx` — только те, где `rg` подтвердил 0 импортов.
-2. Перед удалением каждого — повторный `rg -l` по `src/` и `tests/`; при единичном остатке заменить на канон в той же фазе.
-3. Обновить `docs/UI_AUDIT.md` и `docs/UI_UNIFICATION_STATUS.md` (фазы 2 и 4 → ✅).
+**S1.2** Mobile-first типография в `src/styles/typography.css`:
+- `text-h1/h2/h3/h4/body/body-sm/caption` с line-height
+- `text-balance` / `text-pretty` хелперы для RU
+- увеличить `tap-line-height` для интерактивных элементов
 
-### Фаза B — Phase 5: домашние секции ⏱ ~1 час
-1. Привести `components/home/{Featured,RecentTracks,TracksGrid,CreativePresets,GenreTabs,Collapsible}Section.tsx` к паттерну `<SectionHeader title subtitle action />` + сетка `UnifiedTrackCard variant=...`.
-2. Удалить локальные дубли заголовков/карточек внутри секций.
-3. Скриншот-проверка `/` и `/library` через Playwright (мобиль 424×783 + десктоп 1280×1800), сравнить с текущим состоянием.
+**S1.3** ESLint rule: запретить `pb-[Npx]`, `pt-[Npx]`, `text-[Npx]` в `src/components/**` (только токены).
 
-### Фаза C — Phase 6 финал: миграция диалогов ⏱ ~1.5 часа
-1. По одному перевести 8 диалогов на `ResponsiveOverlay` (mobile → `MobileBottomSheet`, desktop → `Dialog`).
-2. `ConfirmationDialog` заменить колл-сайтами на `useConfirm()` (хук уже есть).
-3. Прогнать сценарии: Extend, Cover, Add Vocals, Add Instrumental, Create Artist, New Arrangement — Playwright по каждому, проверить safe-area и хаптику.
+**S1.4** Аудит и удаление дубликатов: оставить один `EmptyState`, один `LoadingSpinner`, один `SectionHeader`.
 
-### Фаза D — Иконки: миграция на `@/lib/icons` ⏱ ~1 час (codemod)
-1. Codemod-скрипт: заменить `from "lucide-react"` → `from "@/lib/icons"` во всех 815 файлах; недостающие иконки автоматически дописать в реэкспорт `src/lib/icons.ts`.
-2. Прогнать `tsgo` и сборку; точечно поправить отсутствующие иконки.
-3. Добавить ESLint-правило `no-restricted-imports` (lucide-react → error).
+**Acceptance**: грep `text-\[`/`p[xtblr]-\[` в `src/components` = 0; storybook новых токенов.
 
-### Фаза E — Phase 9: доступность ✅ ЗАВЕРШЕНО (2026-06-26)
-1. ✅ `axe-core` через Playwright прогнан на `/`, `/library`, `/pricing`, `/auth`, `/community`, `/projects`, `/rewards` (см. `scripts/axe-report.py` + `axe-report/`).
-2. ✅ Все нарушения critical/serious/moderate устранены: aria-label на icon-buttons (GamificationBar, Rewards Info, ProjectsTab view-mode, UnifiedProjectCard menu), aria-label у `Progress`, `<aside>` сайдбара, role=region для splash, heading-order поправлен на h2 (SectionHeader, CardTitle, UnifiedProjectCard, EnhancedVariant).
-3. ✅ ESLint a11y-правила включены (см. `eslint.config.js`).
+---
 
-### Фаза F — Phase 10: заморозка ✅ ЗАВЕРШЕНО (2026-06-26)
-1. ✅ Депрекейтнутые шимы (`glass-card`, `track/variants/index`) удалены ранее в фазах A–B.
-2. ✅ ESLint `no-restricted-imports` и `quiet`-режим включены в CI.
-3. ✅ SEO-чекер `scripts/seo-check.mjs` подключён как `postbuild` + шаг в `.github/workflows/ci.yml`; Playwright-спек `tests/e2e/seo.spec.ts` ловит регрессии meta/canonical/OG.
+## Спринт 2 — Диалоги и попапы как native bottom-sheet (3–4 дня)
 
-## Гарантии безопасности
+**S2.1** Полировка `Dialog` mobile-варианта (база уже сделана): drag-to-dismiss через `vaul`, snap-points `[0.5, 0.9]`, haptic на open/close/snap.
 
-- Никаких правок в `src/integrations/supabase/*`, `supabase/config.toml`, edge-функциях, сторах, бизнес-хуках.
-- Каждая фаза — отдельный коммит; после каждой проверяем сборку (`tsgo`) и preview-рендер.
-- Логирование — только через `logger`; иконки — только через `@/lib/icons`; цвета — только семантические токены.
-- Перед удалением любого файла — повторный `rg`-скан по `src/`, `tests/`, `supabase/` и активной документации.
+**S2.2** Унификация: `AlertDialog`, `Sheet`, `Drawer` → единый рендер через `UnifiedDialog` варианты (modal/sheet/alert). Удалить локальные ad-hoc модалки.
 
-## Что НЕ входит в этот план (вынесено в backlog)
+**S2.3** Фокус и a11y:
+- focus-trap (Radix даёт), `aria-modal`, `aria-labelledby`
+- Esc + swipe-down + backdrop-tap закрытие
+- возврат фокуса на триггер после закрытия
+- `inert` на фоновом контенте
 
-- Sprint 031 US2/US4–US8 (мобильная Studio V2) — отдельная вертикаль, не блокирует UI-чистку.
-- Bundle-оптимизация и performance-бенчмарки — Sprint 032 уже закрыт; новый раунд оптимизаций после фазы D (иконки) даст естественный буст.
-- Рефакторинг сторов/хуков — вне рамок презентационного слоя.
+**S2.4** Стиль: glassmorphism overlay (`backdrop-blur-xl`), spring-анимация (`damping 25, stiffness 300`), тень `shadow-2xl`, edge-glow.
+
+**S2.5** Миграция конкретных попапов: `WelcomeBonusPopup`, `AudioExtendDialog`, `AudioCoverDialog`, `NewArrangementDialog`, `CreateArtistDialog`, `GenerateSheet`, `PresetManager` — заменить кастомные обёртки на унифицированный примитив.
+
+**Acceptance**: 0 кастомных fixed-position модалок; axe-core по 10 диалогам = 0 critical/serious.
+
+---
+
+## Спринт 3 — Боковое меню и навигация (2 дня)
+
+**S3.1** Mobile drawer для Sidebar: триггер hamburger в `MobileHeaderBar` → `Sheet side="left"` со списком разделов, swipe-to-close, safe-area top/bottom.
+
+**S3.2** Bottom-dock island: проверить `--nav-h`, добавить blur overlay, активный таб с pill-индикатором, haptic на смену таба.
+
+**S3.3** Edge-rail (landscape) — выровнять иконки по safe-area-left, увеличить tap-target до 48px.
+
+**S3.4** Back-button hook для всех вложенных экранов (Telegram BackButton + браузерный).
+
+**Acceptance**: Lighthouse mobile a11y ≥ 95; нет перекрытия dock с CTA.
+
+---
+
+## Спринт 4 — Ключевые экраны: Library + Pricing (3 дня)
+
+**S4.1 Library**:
+- list/grid toggle с сохранением в localStorage
+- track card: 72px высота, обложка 56×56, title 16/600, meta 13/400
+- swipe-actions (like, queue, delete) через `SwipeableListItem`
+- sticky filter bar под header, фильтры в bottom-sheet
+- pull-to-refresh
+
+**S4.2 Pricing**:
+- сегмент-контрол month/year (native iOS-style)
+- карточки тарифов вертикальным стеком, "Popular" badge с gradient-border
+- CTA фиксированный внизу с safe-area-bottom
+- FAQ как accordion
+
+**Acceptance**: скриншоты обоих экранов на 390/430/768; touch-target ≥ 44 везде.
+
+---
+
+## Спринт 5 — Studio (мобильная DAW) (4–5 дней)
+
+**S5.1** Layout: header 56px + scroll-канвас + bottom transport bar 72px + AI-FAB.
+
+**S5.2** Track lanes: горизонтальный pinch-zoom, вертикальный список треков; mute/solo/volume в выезжающем правом sheet.
+
+**S5.3** Transport bar: play/pause 56px центр, skip ±15s, scrubber с waveform-thumb, время справа.
+
+**S5.4** AI Actions FAB: expandable speed-dial (Generate / Extend / Cover / Add Vocals) с haptic.
+
+**S5.5** Section editor → fullscreen sheet с lyrics-sync.
+
+**Acceptance**: e2e сценарий "открыть трек → play → extend → сохранить" проходит на iPhone 12 viewport.
+
+---
+
+## Спринт 6 — Auth + Onboarding (2 дня)
+
+**S6.1 Auth**:
+- одностраничная форма, single-column, поля 56px высотой
+- soft-keyboard handling (`visualViewport`), CTA липкий над клавиатурой
+- Google + Email + Telegram inline, без табов
+- ошибки inline, не toast
+
+**S6.2 Onboarding**: 3-шаговый horizontal swiper с dot-pagination, skip top-right, CTA bottom со swafe-area.
+
+**Acceptance**: forms.spec e2e green; reduced-motion вариант без анимаций.
+
+---
+
+## Спринт 7 — Полировка и регрессии (2 дня)
+
+**S7.1** Visual regression: Playwright + pixelmatch по 12 ключевым экранам × {390, 430, 768, 1280}.
+
+**S7.2** Темная/светлая темы — проверить контраст всех новых токенов (WCAG AA).
+
+**S7.3** Reduced-motion: все spring/slide заменить на fade при `prefers-reduced-motion`.
+
+**S7.4** Финальный axe + lighthouse прогон; обновить `SPRINT_UI_UNIFICATION.md` и `mem://`.
+
+**Acceptance**: Lighthouse mobile ≥ 95 по всем 4 категориям; 0 axe violations на 7 routes.
+
+---
 
 ## Технические детали
 
-- **Codemod иконок (Фаза D)**: `node` + `ts-morph` или простой `rg --files-with-matches | xargs sed -i`; список используемых иконок собирается AST-проходом, дописывается в `src/lib/icons.ts` как `export { Foo, Bar } from "lucide-react"`.
-- **ResponsiveOverlay API**: `<ResponsiveOverlay open onOpenChange title description footer>{children}</ResponsiveOverlay>` — breakpoint `md` решает sheet vs dialog.
-- **`useConfirm`**: `const confirm = useConfirm(); if (await confirm({ title, description, destructive })) { ... }`.
-- **A11y прогон**: `await injectAxe(page); const violations = await getViolations(page);` сохранять в `tests/a11y/<route>.json`.
+- Все варианты — Tailwind + CSS variables, без новых зависимостей кроме `vaul` (уже есть).
+- Анимации — `@/lib/motion` (framer-motion tree-shaken), spring presets из `motion-presets.ts`.
+- Тесты — `tests/e2e/mobile.*.spec.ts`, отчёт axe в `axe-report/`.
+- Каждый спринт = отдельный PR + запись в `SPRINTS/completed/`.
 
-## Дальнейшие шаги
+## Риски
 
-После одобрения переключиться в build mode и идти фазами A → F, мерж после каждой.
+- Bottom-sheet миграция может задеть >40 диалогов — ожидаем визуальные регрессии, страхуем визуальными снапшотами в S7.
+- Studio переработка тяжёлая, при нехватке времени S5.2 (pinch-zoom) → отдельный спринт.
+
+## Объём
+
+~18–20 рабочих дней, 7 спринтов, ~45 задач. Можно урезать до MVP (S1+S2+S3+S4) за 10 дней.
