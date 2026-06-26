@@ -474,6 +474,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           onSelect={form.handleArtistSelect}
         />
 
+        <VoiceCloneDialog open={voiceCloneOpen} onOpenChange={setVoiceCloneOpen} />
+
         {/* Audio Action Dialog - for cover/extend operations */}
         <AudioActionDialog
           open={audioActionDialogOpen}
