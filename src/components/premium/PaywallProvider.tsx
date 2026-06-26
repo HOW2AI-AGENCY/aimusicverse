@@ -4,6 +4,7 @@
  */
 
 import { createContext, useContext, useState, useCallback, ReactNode, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { SmartPaywallDialog } from "./SmartPaywallDialog";
 import { usePaywallTrigger, PaywallTriggerReason } from "@/hooks/usePaywallTrigger";
 
@@ -28,6 +29,11 @@ export function usePaywall() {
 // Session-level guard: only auto-show once per browser session
 const SESSION_KEY = "paywall_shown_this_session";
 
+// Routes where the paywall must never auto-open — these are entry / browsing
+// surfaces where an unsolicited bottom sheet over the feed is a regression.
+// Explicit `showPaywall(reason)` calls still work everywhere.
+const PAYWALL_AUTO_SHOW_DENYLIST = ["/", "/index", "/auth", "/onboarding", "/library", "/community"];
+
 interface PaywallProviderProps {
   children: ReactNode;
 }
@@ -36,6 +42,7 @@ export function PaywallProvider({ children }: PaywallProviderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [currentReason, setCurrentReason] = useState<PaywallTriggerReason>("soft_upsell");
   const hasAutoShownRef = useRef(false);
+  const location = useLocation();
 
   const {
     shouldShow: shouldAutoShow,
@@ -48,6 +55,9 @@ export function PaywallProvider({ children }: PaywallProviderProps) {
 
   // Auto-show paywall based on triggers (with cooldown + session guard)
   useEffect(() => {
+    // Don't auto-show on entry / browsing routes.
+    if (PAYWALL_AUTO_SHOW_DENYLIST.includes(location.pathname)) return;
+
     // Don't auto-show if already shown this session or this component lifecycle
     const shownThisSession = sessionStorage.getItem(SESSION_KEY) === "true";
     if (shownThisSession || hasAutoShownRef.current) return;
@@ -63,7 +73,7 @@ export function PaywallProvider({ children }: PaywallProviderProps) {
 
       return () => clearTimeout(timeout);
     }
-  }, [shouldAutoShow, autoReason, isInCooldown, isOpen]);
+  }, [shouldAutoShow, autoReason, isInCooldown, isOpen, location.pathname]);
 
   const showPaywall = useCallback((reason: PaywallTriggerReason) => {
     setCurrentReason(reason);
