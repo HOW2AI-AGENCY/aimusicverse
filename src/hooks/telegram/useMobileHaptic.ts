@@ -67,22 +67,25 @@ export function useMobileHaptic(): HapticFeedback {
 
   const notification = useCallback(
     (type: HapticNotificationType) => {
+      if (!isAvailable) return;
       try {
         hapticAPI?.notificationOccurred(type);
-      } catch (error) {
-        logger.warn("Haptic feedback not available", { error: String(error) });
+      } catch {
+        /* silent */
       }
     },
-    [hapticAPI],
+    [hapticAPI, isAvailable],
   );
 
   const selectionChanged = useCallback(() => {
+    if (!isAvailable) return;
     try {
       hapticAPI?.selectionChanged();
-    } catch (error) {
-      logger.warn("Haptic feedback not available", { error: String(error) });
+    } catch {
+      /* silent */
     }
-  }, [hapticAPI]);
+  }, [hapticAPI, isAvailable]);
+
 
   return {
     impact,
