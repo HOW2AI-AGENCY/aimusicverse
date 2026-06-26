@@ -143,7 +143,7 @@ export const GridVariant = memo(function GridVariant({
             "group overflow-hidden cursor-pointer touch-manipulation transition-all duration-200 rounded-2xl",
             "bg-card/80 backdrop-blur-sm border-border/40",
             "hover:ring-2 hover:ring-primary/20 hover:shadow-lg hover:shadow-primary/5 hover:border-primary/30",
-            isMobile && "active:scale-[0.97]",
+            "active:scale-[0.97]",
             !isMobile && "hover:bg-card/95",
             isCurrentlyPlaying && "ring-2 ring-primary shadow-glow bg-primary/5",
             className,
@@ -175,6 +175,9 @@ export const GridVariant = memo(function GridVariant({
             />
 
             {/* Play Overlay */}
+            {/* Subtle gradient overlay for text readability */}
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent pointer-events-none" />
+
             <PlayOverlay isPlaying={isCurrentlyPlaying} isMobile={isMobile} onPlay={handlePlay} />
 
             {/* Stem badge - only when stems available */}
@@ -190,7 +193,7 @@ export const GridVariant = memo(function GridVariant({
           </div>
 
           {/* Content - simplified */}
-          <div className="p-3 space-y-1.5">
+          <div className="p-3 sm:p-4 space-y-2">
             <div className="flex items-center justify-between gap-1.5 sm:gap-2">
               <h3 className="font-semibold text-xs sm:text-sm truncate flex-1 leading-tight">
                 {track.title || "Без названия"}

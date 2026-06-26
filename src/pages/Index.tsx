@@ -278,7 +278,7 @@ const Index = () => {
         {sections.featured}
         {sections.newTracksGrid}
       </div>
-      <aside className="xl:col-span-4 min-w-0 overflow-hidden xl:sticky xl:top-6 space-y-4">
+      <aside className="xl:col-span-4 min-w-0 overflow-hidden xl:sticky xl:top-6 space-y-4 xl:space-y-6">
         {sections.stats}
         {sections.gamification}
         {sections.dailyTip}

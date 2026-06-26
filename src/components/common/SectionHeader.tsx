@@ -109,8 +109,8 @@ export const SectionHeader = memo(function SectionHeader({
   const textSize = variant === "compact" ? ("caption" as const) : ("caption" as const);
 
   return (
-    <div className={cn("flex items-center justify-between", className)}>
-      <div className="flex items-center gap-2.5 sm:gap-3">
+    <div className={cn("flex items-center justify-between border-b border-border/30 pb-2", className)}>
+      <div className="flex items-center gap-2 sm:gap-3">
         <motion.div
           className={cn(
             sizes.container,

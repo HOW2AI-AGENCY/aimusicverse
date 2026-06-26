@@ -88,7 +88,7 @@ export const TracksGridSection = memo(function TracksGridSection({
         <GridSkeleton count={Math.min(maxTracks, 4)} columns={columns} SkeletonComponent={TrackCardSkeleton} />
       ) : (
         <>
-          <ResponsiveGrid columns={columns} gap={2}>
+          <ResponsiveGrid columns={columns} gap={3}>
             {displayTracks.map((track) => (
               <UnifiedTrackCard key={track.id} variant="enhanced" track={track} onRemix={onRemix} />
             ))}

@@ -51,7 +51,7 @@ export const CompactVariant = memo(function CompactVariant({
       >
         <div
           data-active={isCurrentlyPlaying ? "true" : undefined}
-          className={cn("row-64 group cursor-pointer touch-manipulation select-none", className)}
+          className={cn("row-64 min-h-[72px] py-2 group cursor-pointer touch-manipulation select-none", className)}
           onClick={handleCardClick}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -93,7 +93,7 @@ export const CompactVariant = memo(function CompactVariant({
             <Button
               size="icon"
               variant="ghost"
-              className="w-10 h-10 rounded-full opacity-60 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 hover:bg-foreground/[0.06]"
+              className="w-10 h-10 rounded-full opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex-shrink-0 hover:bg-foreground/[0.06]"
               onClick={(e) => {
                 e.stopPropagation();
                 openSheet();
