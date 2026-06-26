@@ -23,7 +23,6 @@ import { GenerateFormActions } from "./generate-form/GenerateFormActions";
 import { GenerateFormReferences } from "./generate-form/GenerateFormReferences";
 import { GenerationLoadingState } from "./generate-form/GenerationLoadingState";
 import { CollapsibleFormHeader } from "./generate-form/CollapsibleFormHeader";
-import { GenerationStepIndicator } from "./generate-form/GenerationStepIndicator";
 
 // Lazy load heavy form components - Wizard removed for UX simplification
 const GenerateFormSimple = lazy(() =>
