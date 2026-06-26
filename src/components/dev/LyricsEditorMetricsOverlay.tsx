@@ -318,6 +318,9 @@ export function LyricsEditorMetricsOverlay() {
     downloadBlob(toCSV(history), `lyrics-metrics-${Date.now()}.csv`, "text/csv;charset=utf-8;");
   }, [history]);
 
+  // Never render on mobile/touch devices: the overlay would cover form
+  // controls and intercept taps, and the toggle hotkey isn't reachable.
+  if (isMobile) return null;
   if (!visible) return null;
 
   return (
