@@ -258,30 +258,27 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               </div>
             </div>
 
-            {/* AI suggestion button - appears when empty */}
+            {/* AI suggestion button - appears when empty, positioned above floating toolbar */}
             {!lyrics && (
               <motion.button
+                type="button"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className={cn(
-                  "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-                  "flex flex-col items-center gap-2 p-4 rounded-xl",
-                  "bg-primary/5 border border-dashed border-primary/30",
-                  "hover:bg-primary/10 hover:border-primary/50",
-                  "transition-all duration-200 cursor-pointer group/ai",
+                  "absolute left-1/2 -translate-x-1/2 top-6",
+                  "flex items-center gap-2 px-3 py-2 rounded-full",
+                  "bg-primary/10 border border-dashed border-primary/40",
+                  "hover:bg-primary/15 hover:border-primary/60",
+                  "transition-all duration-200 cursor-pointer",
                 )}
                 onClick={() => {
                   hapticFeedback("medium");
                   onOpenLyricsAssistant();
                 }}
+                aria-label="Создать текст с AI"
               >
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover/ai:bg-primary/20 transition-colors">
-                  <Wand2 className="w-5 h-5 text-primary" />
-                </div>
-                <div className="text-center">
-                  <p className="text-sm font-medium text-primary">Создать с AI</p>
-                  <p className="text-[10px] text-muted-foreground">Нажмите для генерации</p>
-                </div>
+                <Wand2 className="w-4 h-4 text-primary" />
+                <span className="text-xs font-medium text-primary">Создать с AI</span>
               </motion.button>
             )}
           </div>
