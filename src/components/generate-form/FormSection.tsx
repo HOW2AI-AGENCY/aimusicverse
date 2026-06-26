@@ -23,5 +23,6 @@ export const FormSection = memo(function FormSection({ children, className, elev
  * FormDivider - Visual separator between form sections
  */
 export const FormDivider = memo(function FormDivider({ className }: { className?: string }) {
-  return <div className={cn("h-px bg-border/40 my-4", className)} />;
+  // Invisible spacer — symmetric vertical rhythm without harsh hairlines.
+  return <div className={cn("h-1", className)} aria-hidden />;
 });
