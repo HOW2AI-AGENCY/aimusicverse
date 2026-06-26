@@ -34,7 +34,6 @@ export type { StudioAction, StudioState } from "./hooks/useEnhancedStudioLogger"
 export { useStudioTrackState } from "./hooks/useStudioTrackState";
 
 // Unified studio components
-export { UnifiedStudioContent } from "./unified/UnifiedStudioContent";
 export { IntegratedStemTracks } from "./unified/IntegratedStemTracks";
 export { SectionVariantOverlay } from "./unified/SectionVariantOverlay";
 export { StudioVersionSelector } from "./unified/StudioVersionSelector";

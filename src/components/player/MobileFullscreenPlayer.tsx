@@ -22,20 +22,22 @@ import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { useGlobalAudioPlayer } from "@/hooks/audio/useGlobalAudioPlayer";
 import { useAudioVisualizer } from "@/hooks/audio/useAudioVisualizer";
 import { useLyricsSynchronization } from "@/hooks/lyrics/useLyricsSynchronization";
+import { useParsedLyrics } from "@/hooks/lyrics/useParsedLyrics";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { usePrefetchTrackCovers } from "@/hooks/audio/usePrefetchTrackCovers";
 import { usePrefetchNextAudio } from "@/hooks/audio/usePrefetchNextAudio";
 import { SynchronizedWord } from "@/components/lyrics/SynchronizedWord";
+import { FullscreenBackground } from "./FullscreenBackground";
+import { FullscreenVisualizer } from "./FullscreenVisualizer";
 import { QueueSheet } from "./QueueSheet";
 import { VersionSwitcher } from "./VersionSwitcher";
-import { VersionBadge } from "./VersionBadge";
 import { UnifiedPlayerControls } from "./UnifiedPlayerControls";
 import { PlayerActionsBar } from "./PlayerActionsBar";
 import { KaraokeView } from "./KaraokeView";
 import { DoubleTapSeekFeedback } from "./DoubleTapSeekFeedback";
 import { PlayerGestureHints } from "./PlayerGestureHints";
 import { cn } from "@/lib/utils";
-import { glass, glassButton } from "@/lib/glass";
+import { glassButton } from "@/lib/glass";
 import { motion, AnimatePresence, PanInfo } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { logger } from "@/lib/logger";
@@ -60,12 +62,6 @@ interface MobileFullscreenPlayerProps {
     suno_id?: string | null;
     lyrics?: string | null;
   } | null;
-}
-
-interface AlignedWord {
-  word: string;
-  startS: number;
-  endS: number;
 }
 
 export function MobileFullscreenPlayer({ track, onClose, currentVersion }: MobileFullscreenPlayerProps) {
@@ -258,123 +254,8 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
 
   const { data: lyricsData } = useTimestampedLyrics(sunoTaskId, sunoId);
 
-  // Parse lyrics and group into lines with robust error handling
-  const { lyricsLines, plainLyrics, parseError } = useMemo(() => {
-    let words: AlignedWord[] = [];
-
-    // Helper to check if word is a structural tag
-    const isStructuralTag = (text: string) => {
-      if (!text || typeof text !== "string") return false;
-      return /^\[?(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda|Куплет|Припев|Бридж|Аутро|Интро)(\s*\d*)?\]?$/i.test(
-        text.trim(),
-      );
-    };
-
-    // Helper to clean structural tags from plain text
-    const cleanLyrics = (text: string) => {
-      if (!text || typeof text !== "string") return "";
-      return text
-        .replace(
-          /\[(Verse|Chorus|Bridge|Outro|Intro|Hook|Pre-Chorus|Post-Chorus|Refrain|Interlude|Break|Solo|Instrumental|Ad-lib|Coda|Куплет|Припев|Бридж|Аутро|Интро)(\s*\d*)?\]/gi,
-          "",
-        )
-        .replace(/\n{3,}/g, "\n\n")
-        .trim();
-    };
-
-    // Validate aligned word structure
-    const isValidAlignedWord = (w: unknown): w is AlignedWord => {
-      if (!w || typeof w !== "object") return false;
-      const obj = w as Record<string, unknown>;
-      return (
-        typeof obj.word === "string" &&
-        typeof obj.startS === "number" &&
-        typeof obj.endS === "number" &&
-        isFinite(obj.startS) &&
-        isFinite(obj.endS)
-      );
-    };
-
-    try {
-      if (lyricsData?.alignedWords && Array.isArray(lyricsData.alignedWords) && lyricsData.alignedWords.length > 0) {
-        // Filter out structural tags and validate words from API response
-        words = (lyricsData.alignedWords as unknown[])
-          .filter(isValidAlignedWord)
-          .filter((w) => !isStructuralTag(w.word));
-      } else if (trackLyrics) {
-        // Try to parse lyrics from track if no API data
-        try {
-          if (trackLyrics.trim().startsWith("{") || trackLyrics.trim().startsWith("[")) {
-            const parsed = JSON.parse(trackLyrics);
-            if (parsed?.alignedWords && Array.isArray(parsed.alignedWords)) {
-              words = (parsed.alignedWords as unknown[])
-                .filter(isValidAlignedWord)
-                .filter((w) => !isStructuralTag(w.word));
-            }
-          }
-        } catch (jsonErr) {
-          // Not JSON or invalid JSON, treat as plain text
-          logger.debug("Lyrics not JSON, using as plain text", { error: jsonErr });
-          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
-        }
-
-        if (words.length === 0) {
-          // No valid aligned words found, use plain text
-          return { lyricsLines: null, plainLyrics: cleanLyrics(trackLyrics), parseError: false };
-        }
-      }
-
-      if (words.length === 0) {
-        return { lyricsLines: null, plainLyrics: null, parseError: false };
-      }
-
-      // Group words into lines - detect line breaks or group by ~5-8 words
-      const lines: AlignedWord[][] = [];
-      let currentLine: AlignedWord[] = [];
-
-      words.forEach((word) => {
-        // Skip structural tags that might have slipped through
-        if (isStructuralTag(word.word)) return;
-
-        const hasLineBreak = word.word.includes("\n");
-
-        if (hasLineBreak) {
-          const parts = word.word.split("\n");
-          parts.forEach((part, index) => {
-            if (part.trim() && !isStructuralTag(part)) {
-              currentLine.push({ ...word, word: part.trim() });
-            }
-            if (index < parts.length - 1) {
-              if (currentLine.length > 0) {
-                lines.push([...currentLine]);
-                currentLine = [];
-              }
-            }
-          });
-        } else if (word.word.trim()) {
-          currentLine.push(word);
-
-          // Create new line at punctuation or every ~6 words for readability
-          const endsWithPunctuation = /[.!?;]$/.test(word.word.trim());
-          if (endsWithPunctuation || currentLine.length >= 6) {
-            lines.push([...currentLine]);
-            currentLine = [];
-          }
-        }
-      });
-
-      if (currentLine.length > 0) {
-        lines.push(currentLine);
-      }
-
-      return { lyricsLines: lines.length > 0 ? lines : null, plainLyrics: null, parseError: false };
-    } catch (err) {
-      logger.error("Error parsing lyrics", err);
-      // Fallback to plain text on any error
-      const fallbackText = trackLyrics ? cleanLyrics(trackLyrics) : null;
-      return { lyricsLines: null, plainLyrics: fallbackText, parseError: true };
-    }
-  }, [lyricsData, trackLyrics]);
+  // Parse lyrics using extracted hook
+  const { lyricsLines, plainLyrics } = useParsedLyrics(lyricsData?.alignedWords, trackLyrics);
 
   // Flatten words from parsed lines for synchronization hook
   const flattenedWords = useMemo(() => {
@@ -624,69 +505,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
         />
         <span className="text-[10px] text-muted-foreground/50 mt-1">↓ свайп</span>
       </motion.div>
-      {/* Animated Blurred Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        {track.cover_url ? (
-          <>
-            {/* Primary blurred cover */}
-            <motion.img
-              src={track.cover_url}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover blur-3xl"
-              initial={{ scale: 1.2, opacity: 0 }}
-              animate={{
-                scale: [1.1, 1.15, 1.1],
-                opacity: 1,
-              }}
-              transition={{
-                scale: { duration: 8, repeat: Infinity, ease: "easeInOut" },
-                opacity: { duration: 0.5 },
-              }}
-            />
-            {/* Secondary pulsing glow */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-b from-primary/20 via-transparent to-background"
-              animate={{ opacity: [0.3, 0.5, 0.3] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            />
-            {/* Dark overlay for readability */}
-            <div className="absolute inset-0 bg-background/70 backdrop-blur-sm" />
-
-            {/* Animated particles */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {[...Array(6)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute w-2 h-2 rounded-full bg-primary/20"
-                  style={{
-                    left: `${15 + i * 15}%`,
-                    top: `${20 + (i % 3) * 25}%`,
-                  }}
-                  animate={{
-                    y: [0, -30, 0],
-                    opacity: [0.2, 0.5, 0.2],
-                    scale: [1, 1.5, 1],
-                  }}
-                  transition={{
-                    duration: 3 + i * 0.5,
-                    repeat: Infinity,
-                    delay: i * 0.3,
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
-            </div>
-          </>
-        ) : (
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-b from-primary/30 via-primary/10 to-background"
-            animate={{
-              backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-            }}
-            transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-          />
-        )}
-      </div>
+      <FullscreenBackground coverUrl={track.cover_url} />
 
       {/* Content */}
       <div className="relative flex-1 flex flex-col min-h-0 overflow-hidden">
@@ -935,62 +754,7 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
           </div>
         </motion.div>
 
-        {/* Audio Visualizer Section */}
-        <AnimatePresence>
-          {showVisualizer && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="relative overflow-hidden"
-            >
-              <div className="px-4 py-3 bg-gradient-to-t from-background/80 to-transparent">
-                {/* Fallback indicator */}
-                {visualizerData.isFallback && (
-                  <div className="text-[10px] text-muted-foreground/50 text-center mb-1">Визуализация недоступна</div>
-                )}
-                {/* Visualizer bars */}
-                <div className="flex items-end justify-center gap-[2px] h-16">
-                  {visualizerData.frequencies.map((freq, index) => {
-                    const isCenter = Math.abs(index - visualizerData.frequencies.length / 2) < 8;
-                    const heightPercent = Math.max(8, freq * 100);
-                    // Reduce opacity for fallback visualization
-                    const baseOpacity = visualizerData.isFallback ? 0.4 : 0.6;
-
-                    return (
-                      <motion.div
-                        key={index}
-                        className="rounded-full"
-                        style={{
-                          width: isCenter ? "3px" : "2px",
-                          backgroundColor: `hsl(var(--primary) / ${0.3 + freq * 0.7})`,
-                          boxShadow:
-                            !visualizerData.isFallback && freq > 0.6 ? `0 0 8px hsl(var(--primary) / 0.5)` : "none",
-                        }}
-                        animate={{
-                          height: `${heightPercent}%`,
-                          opacity: isPlaying ? baseOpacity + freq * 0.4 : 0.3,
-                        }}
-                        transition={{ duration: 0.05 }}
-                      />
-                    );
-                  })}
-                </div>
-
-                {/* Visualizer average indicator */}
-                <motion.div
-                  className="mt-2 mx-auto h-0.5 rounded-full bg-gradient-to-r from-transparent via-primary to-transparent"
-                  animate={{
-                    width: `${30 + visualizerData.average * 70}%`,
-                    opacity: isPlaying ? (visualizerData.isFallback ? 0.3 : 0.4) + visualizerData.average * 0.6 : 0.2,
-                  }}
-                  transition={{ duration: 0.1 }}
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <FullscreenVisualizer show={showVisualizer} isPlaying={isPlaying} visualizerData={visualizerData} />
 
         {/* Controls Section — aurora-tinted glass, safe-area aware (iOS/Android/Telegram) */}
         <motion.div

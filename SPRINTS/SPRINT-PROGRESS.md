@@ -14,10 +14,10 @@
 | Q1 2026 Plan                        | 🔄 АКТИВЕН    | Phase 1-4 Complete, Sprints A-E Complete |
 | Phase 8: Dead Code Removal          | ✅ ЗАВЕРШЁН   | 196 файлов, 45K строк                    |
 | Sprint 9A: Deduplication            | ✅ ЗАВЕРШЁН   | 5 дубликатов, 1.35K строк                |
-| Sprint 9B: Deprecated Compat Layers | ✅ ЗАВЕРШЁН   | 1,095 строк удалено                      |
-| Sprint 9C: Lyrics Dead Code         | ✅ ЗАВЕРШЁН   | 10 файлов, 3,530 строк                   |
-| Sprint 9D: Dead Code Sweep          | ✅ ЗАВЕРШЁН   | 34 файла, 10,360 строк                   |
-| Sprint 9E: Verification & Fixes     | ✅ ЗАВЕРШЁН   | Build passes                             |
+| Sprint 9B: Split Giant Files        | 🔄 В ПРОЦЕССЕ | 50+ файлов >500 строк (StudioShell 1873, UnifiedStudioContent 1451, MobileFullscreenPlayer 1067) |
+| Sprint 9C: Lyrics Consolidation     | ⏳ ЗАПЛАНИРОВАН | 30+ lyrics-компонентов из 6 директорий   |
+| Sprint 9D: Reorganize components/ui | ⏳ ЗАПЛАНИРОВАН | 90+ файлов требуют группировки           |
+| Sprint 9E: Final Verification       | ⏳ ЗАПЛАНИРОВАН | tsc, build, size, tests                  |
 
 ---
 
