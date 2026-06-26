@@ -69,6 +69,11 @@ interface PlayerState {
   // UI state
   playerMode: PlayerMode; // Current player display mode
 
+  // Granular playback status (driven by audio element events)
+  playbackStatus: PlaybackStatus;
+  playbackError: string | null;
+  setPlaybackStatus: (status: PlaybackStatus, error?: string | null) => void;
+
   // Time preservation across player mode transitions
   preservedTime: number | null; // Preserved currentTime when switching modes
 
