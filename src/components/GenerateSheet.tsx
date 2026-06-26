@@ -49,7 +49,9 @@ import { PromptHistory } from "./generate-form/PromptHistory";
 import { LyricsChatAssistant } from "./generate-form/LyricsChatAssistant";
 import { StylePresetSelector } from "./generate-form/StylePresetSelector";
 import { CreditBalanceWarning } from "./generate-form/CreditBalanceWarning";
-import { VoiceCloneDialog } from "./generate-form/VoiceCloneDialog";
+import { VoiceCloneWizard } from "./voice-clone/VoiceCloneWizard";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
