@@ -9,7 +9,7 @@
  * - Template quick-actions
  */
 
-import { memo, useState, useMemo, useCallback } from "react";
+import { memo, useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
