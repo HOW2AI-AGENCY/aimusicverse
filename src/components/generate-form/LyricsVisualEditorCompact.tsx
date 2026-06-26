@@ -207,28 +207,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   };
 
   const applyTemplate = (sectionTypes: string[]) => {
-    // Preserve user content for matching section types in document order:
-    // for each template slot we pop the first existing section of the same type
-    // that still has content.  This way switching Pop → Rap keeps the verses you
-    // already wrote, while truly new slots (e.g. EDM drop) start empty.
-    const pools = new Map<string, string[]>();
-    for (const s of sections) {
-      if (!s.content) continue;
-      const list = pools.get(s.type) ?? [];
-      list.push(s.content);
-      pools.set(s.type, list);
-    }
-    const newSections = sectionTypes.map((type, i) => {
-      const pool = pools.get(type);
-      const content = pool && pool.length ? pool.shift()! : "";
-      return {
-        id: `${type}-${Date.now()}-${i}`,
-        type: type as LyricSection["type"],
-        content,
-        tags: [],
-      };
-    });
-    updateSections(newSections);
+    updateSections(applyTemplateToSections(sections, sectionTypes));
   };
 
   const charCount = useMemo(() => value.replace(/\[.*?\]/g, "").trim().length, [value]);
