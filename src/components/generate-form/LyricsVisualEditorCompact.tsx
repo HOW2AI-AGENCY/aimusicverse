@@ -104,7 +104,7 @@ function sectionsToLyrics(sections: LyricSection[]): string {
 }
 
 // Structural equality ignoring volatile IDs — avoids JSON.stringify allocations on every keystroke.
-function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
+export function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
   if (a === b) return true;
   if (a.length !== b.length) return false;
   for (let i = 0; i < a.length; i++) {
@@ -113,16 +113,59 @@ function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
   return true;
 }
 
+/**
+ * Build a new section list from a template, carrying over user content for
+ * matching section types in document order.  Pure & exported for tests.
+ */
+export function applyTemplateToSections(
+  prev: LyricSection[],
+  sectionTypes: readonly string[],
+  now: number = Date.now(),
+): LyricSection[] {
+  const pools = new Map<string, string[]>();
+  for (const s of prev) {
+    if (!s.content) continue;
+    const list = pools.get(s.type) ?? [];
+    list.push(s.content);
+    pools.set(s.type, list);
+  }
+  return sectionTypes.map((type, i) => {
+    const pool = pools.get(type);
+    const content = pool && pool.length ? pool.shift()! : "";
+    return {
+      id: `${type}-${now}-${i}`,
+      type: type as LyricSection["type"],
+      content,
+      tags: [],
+    };
+  });
+}
+
+export { parseLyrics, sectionsToLyrics };
+
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
   // Track the last lyrics string we emitted, so external changes (mode switch, AI, templates)
   // re-sync the editor without clobbering in-progress edits on every keystroke.
   const lastEmittedRef = useRef<string>(sectionsToLyrics(parseLyrics(value)));
 
+  // Dev-only render metrics — warn if external syncs happen suspiciously often,
+  // which would indicate we're clobbering local state on each keystroke again.
+  const renderCountRef = useRef(0);
+  const syncCountRef = useRef(0);
+  renderCountRef.current += 1;
+  if (import.meta.env?.DEV) {
+    (window as unknown as { __lyricsEditorMetrics?: Record<string, number> }).__lyricsEditorMetrics = {
+      renders: renderCountRef.current,
+      externalSyncs: syncCountRef.current,
+    };
+  }
+
   useEffect(() => {
     if (value === lastEmittedRef.current) return;
     const parsed = parseLyrics(value);
     if (!sectionsEqual(parsed, sections)) {
+      syncCountRef.current += 1;
       // Preserve existing IDs where possible to keep React keys + focus stable.
       const merged = parsed.map((p, i) => {
         const prev = sections[i];
@@ -164,13 +207,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   };
 
   const applyTemplate = (sectionTypes: string[]) => {
-    const newSections = sectionTypes.map((type, i) => ({
-      id: `${type}-${Date.now()}-${i}`,
-      type: type as LyricSection["type"],
-      content: "",
-      tags: [],
-    }));
-    updateSections(newSections);
+    updateSections(applyTemplateToSections(sections, sectionTypes));
   };
 
   const charCount = useMemo(() => value.replace(/\[.*?\]/g, "").trim().length, [value]);
