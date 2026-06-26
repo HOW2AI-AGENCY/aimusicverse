@@ -91,11 +91,11 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-full hover:bg-muted flex-shrink-0"
+            className="h-11 w-11 min-h-[44px] min-w-[44px] rounded-full hover:bg-muted flex-shrink-0"
             onClick={onClose}
             aria-label="Закрыть"
           >
-            <X className="w-4 h-4 text-muted-foreground" />
+            <X className="w-5 h-5 text-muted-foreground" />
           </Button>
         )}
       </div>
