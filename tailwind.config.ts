@@ -164,7 +164,14 @@ export default {
         "15": "3.75rem", // 60px
         "18": "4.5rem", // 72px
         "safe-bottom": "max(var(--safe-area-bottom), 1rem)",
+        // Mobile-first safe-area + dock-aware tokens
+        "safe-top": "max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px))",
+        "safe-left": "max(env(safe-area-inset-left, 0px), var(--tg-safe-area-inset-left, 0px))",
+        "safe-right": "max(env(safe-area-inset-right, 0px), var(--tg-safe-area-inset-right, 0px))",
+        "dock": "var(--nav-h, 84px)",
+        "dock-safe": "calc(var(--nav-h, 84px) + max(env(safe-area-inset-bottom, 0px), 0.5rem))",
       },
+
       minHeight: {
         touch: "var(--touch-target-min)",
         "touch-lg": "var(--touch-target-comfortable)",
