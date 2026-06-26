@@ -458,8 +458,9 @@ const ProjectActionsMenu = memo(function ProjectActionsMenu({
             variant === "secondary" && "backdrop-blur-md shadow-lg",
             variant === "ghost" && "opacity-0 group-hover:opacity-100 transition-opacity",
           )}
+          aria-label="Действия проекта"
         >
-          <MoreVertical className="w-4 h-4" />
+          <MoreVertical className="w-4 h-4" aria-hidden="true" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="z-50">
