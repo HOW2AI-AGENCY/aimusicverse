@@ -291,7 +291,17 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         onSelect={form.handleArtistSelect}
       />
 
-      <VoiceCloneDialog open={voiceCloneOpen} onOpenChange={setVoiceCloneOpen} />
+      <VoiceCloneWizard
+        open={voiceCloneOpen}
+        onOpenChange={setVoiceCloneOpen}
+        onComplete={(voiceId) => {
+          form.setCustomVoiceId(voiceId);
+          form.setMode("custom");
+          setAdvancedOpen(true);
+          qc.invalidateQueries({ queryKey: ["custom-voices", user?.id] });
+          toast.success("Голос подключён к генерации");
+        }}
+      />
 
       <AudioActionDialog
         open={audioActionDialogOpen}
