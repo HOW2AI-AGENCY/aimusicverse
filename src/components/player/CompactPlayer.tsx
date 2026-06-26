@@ -24,6 +24,8 @@ import {
   Volume2,
   VolumeX,
   Volume1,
+  Loader2,
+  AlertCircle,
 } from "@/lib/icons";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
