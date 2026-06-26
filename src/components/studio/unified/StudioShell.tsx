@@ -407,7 +407,7 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
       case "transcribe": setSelectedTranscriptionTrack(track); setShowTranscriptionPanel(true); break;
       case "download_all": setShowDownloadPanel(true); break;
       case "replace_instrumental": {
-        const vocalTrack = project.tracks.find((t) => t.type === "vocal");
+        const vocalTrack = project?.tracks.find((t) => t.type === "vocal");
         if (vocalTrack) { setSelectedArrangementTrack(vocalTrack); setShowArrangementDialog(true); }
         else toast.error("Вокальный трек не найден");
         break;
