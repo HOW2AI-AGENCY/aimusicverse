@@ -138,7 +138,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="flex items-center gap-1 min-h-[36px] px-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted transition-all"
+                className="flex items-center gap-1 min-h-[44px] min-w-[44px] px-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted transition-all"
                 aria-label={`Модель ${currentModel.name}`}
               >
                 <span className="text-sm leading-none">{currentModel.emoji}</span>
