@@ -1,0 +1,24 @@
+# MusicVerse
+
+> AI-powered music creation platform: generate, edit, mix, and publish tracks with artificial intelligence. Available as a web app and Telegram Mini App.
+
+## Pages
+
+- [Home](/): Overview of MusicVerse — AI music generation, editor, and community.
+- [Community](/community): Discover public AI-generated tracks from other authors.
+- [Artists](/artists): Browse AI artists and human creators on the platform.
+- [Playlists](/playlists): Curated and user-made playlists.
+- [Blog](/blog): Articles, guides and product updates.
+- [Pricing](/pricing): Plans, credits, and subscription tiers.
+- [Music Lab](/music-lab): Creative AI tools for sound design and experiments.
+- [Lyrics Studio](/lyrics-studio): AI lyrics writing, analysis, and editing.
+- [Guitar Studio](/guitar-studio): Guitar recording, chord and tab analysis.
+- [Audio Hub](/audio-hub): Upload, record, and manage reference audio.
+- [Templates](/templates): Starting points for new tracks and projects.
+- [Music Graph](/music-graph): Explore tags and connections between tracks.
+
+## Optional
+
+- [Auth](/auth): Sign in / sign up.
+- [Terms](/terms): Terms of service.
+- [Privacy](/privacy): Privacy policy.
