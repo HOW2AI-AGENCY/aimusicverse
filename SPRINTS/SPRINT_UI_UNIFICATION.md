@@ -1,7 +1,7 @@
 # Sprint: UI Unification
 
 Owner: UI/UX
-Status: 🟢 In progress (Phases 0, 1, 6, 7, 8 complete; Phase 3 EmptyState complete)
+Status: 🟢 Phases 0–10 complete (a11y axe-core 0/0/0, SEO checker in CI)
 Tracker: `docs/UI_UNIFICATION_STATUS.md`
 Plan: `.lovable/plan.md`
 Map: `docs/UI_AUDIT.md`
@@ -27,8 +27,8 @@ logic, stores, hooks, edge functions, or APIs**.
 | 6   | `ResponsiveOverlay` + `useConfirm`               | ✅                                       |
 | 7   | Motion presets (`@/lib/motion-presets`)          | ✅                                       |
 | 8   | Toast adapter (`@/lib/toast`)                    | ✅                                       |
-| 9   | A11y sweep (axe-core on key routes)              | ⏳                                       |
-| 10  | Hard delete + ESLint `error` rules               | ⏳                                       |
+| 9   | A11y sweep (axe-core on key routes)              | ✅                                       |
+| 10  | Hard delete + ESLint `error` rules               | ✅                                       |
 
 ## Tasks
 

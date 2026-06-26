@@ -118,6 +118,8 @@ export function QuickStartOverlay({
         {step === "welcome" && (
           <motion.div
             key="welcome"
+            role="region"
+            aria-label="Приветствие"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}

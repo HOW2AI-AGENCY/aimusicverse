@@ -105,7 +105,7 @@ export const SectionHeader = memo(function SectionHeader({
     );
 
   // Design system typography mapping
-  const headingLevel = variant === "large" ? ("h3" as const) : ("h4" as const);
+  const headingLevel = "h2" as const;
   const textSize = variant === "compact" ? ("caption" as const) : ("caption" as const);
 
   return (
