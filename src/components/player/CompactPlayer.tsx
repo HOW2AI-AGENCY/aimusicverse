@@ -243,15 +243,31 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       variant="ghost"
       size="icon"
       onClick={handlePlayPause}
+      disabled={isLoading}
       className={cn(
         "rounded-full bg-primary/10 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all",
         variant === "desktop" ? "h-12 w-12" : "h-11 w-11",
         "min-h-[44px] min-w-[44px]",
+        hasError && "bg-destructive/15 hover:bg-destructive/25",
       )}
-      aria-label={isPlaying ? "Пауза" : "Воспроизвести"}
+      aria-label={
+        hasError
+          ? `Ошибка: ${playbackError || "не удалось загрузить"}`
+          : isLoading
+            ? "Загрузка трека"
+            : isPlaying
+              ? "Пауза"
+              : "Воспроизвести"
+      }
+      aria-busy={isLoading}
+      title={hasError ? playbackError || "Ошибка воспроизведения" : undefined}
       data-testid="compact-player-play"
     >
-      {isPlaying ? (
+      {hasError ? (
+        <AlertCircle className={cn("text-destructive", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} />
+      ) : isLoading ? (
+        <Loader2 className={cn("animate-spin", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} />
+      ) : isPlaying ? (
         <Pause className={cn(variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} fill="currentColor" />
       ) : (
         <Play className={cn("ml-0.5", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} fill="currentColor" />
