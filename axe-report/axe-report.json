@@ -1,45 +1,5 @@
 {
-  "/": [
-    {
-      "id": "landmark-no-duplicate-main",
-      "impact": "moderate",
-      "tags": [
-        "cat.semantics",
-        "best-practice"
-      ],
-      "description": "Ensure the document has at most one main landmark",
-      "help": "Document should not have more than one main landmark",
-      "helpUrl": "https://dequeuniversity.com/rules/axe/4.10/landmark-no-duplicate-main?application=axeAPI",
-      "nodes": [
-        {
-          "any": [
-            {
-              "id": "page-no-duplicate-main",
-              "data": null,
-              "relatedNodes": [
-                {
-                  "html": "<main id=\"main-content\" class=\"flex-1 flex flex-col overflow-y-auto relative transition-all duration-300 ml-64 pt-9\" style=\"min-height: var(--tg-viewport-stable-height, 100vh); padding-bottom: calc(var(--nav-h, 0px) + var(--player-h, 0px) + max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px)) + 0.75rem);\">",
-                  "target": [
-                    "#main-content"
-                  ]
-                }
-              ],
-              "impact": "moderate",
-              "message": "Document has more than one main landmark"
-            }
-          ],
-          "all": [],
-          "none": [],
-          "impact": "moderate",
-          "html": "<div role=\"main\" aria-label=\"\u041f\u0440\u0438\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435\" class=\"h-full flex flex-col items-center justify-center px-6 pb-20\" style=\"opacity: 1; transform: none;\">",
-          "target": [
-            ".px-6"
-          ],
-          "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
-        }
-      ]
-    }
-  ],
+  "/": [],
   "/library": [],
   "/pricing": [],
   "/auth": [],
