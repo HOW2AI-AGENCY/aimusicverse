@@ -436,21 +436,19 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     );
   }
 
-  const telegramSafeAreaTop = "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px), env(safe-area-inset-top, 0px)))";
-  const telegramSafeAreaBottom = "calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)))";
-
   return (
     <div
-      className={cn("flex flex-col h-screen bg-background overflow-x-hidden", className)}
-      style={{
-        paddingTop: isMobile
-          ? "calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px) + 0.75rem, env(safe-area-inset-top, 0px) + 0.75rem))"
-          : telegramSafeAreaTop,
-        paddingBottom: isMobile
-          ? "calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5.5rem)"
-          : telegramSafeAreaBottom,
-      }}
+      className={cn(
+        // Use h-dvh for correct mobile viewport (avoids URL bar jump)
+        "flex flex-col h-dvh bg-background overflow-x-hidden",
+        // Mobile-first unified safe-area + island-dock tokens (Sprint 1 tokens)
+        "pt-safe-top pb-safe-top", // safe-area top fallback
+        isMobile && "pb-dock-safe", // mobile: leave room for transport bar + dock + safe-area-bottom
+        !isMobile && "pb-safe-top", // desktop: just safe-area-bottom
+        className,
+      )}
     >
+
       <StudioShellHeader
         projectName={project.name}
         trackCount={project.tracks.length}
