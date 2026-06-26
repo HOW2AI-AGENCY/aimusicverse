@@ -16,7 +16,7 @@
  */
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import { CustomVoicePicker } from "../CustomVoicePicker";
+import { CustomVoicePicker } from "@/components/voice-clone/CustomVoicePicker";
 
 vi.mock("@/hooks/voice/useCustomVoices", () => ({
   useCustomVoices: vi.fn(),
