@@ -8,6 +8,20 @@ interface Props {
   onChange: (voiceId: string | null) => void;
 }
 
+function formatRelative(iso?: string | null): string {
+  if (!iso) return "";
+  const dt = new Date(iso).getTime();
+  if (!Number.isFinite(dt)) return "";
+  const diff = Date.now() - dt;
+  if (diff < 60_000) return "только что";
+  const mins = Math.floor(diff / 60_000);
+  if (mins < 60) return `${mins} мин назад`;
+  const hours = Math.floor(mins / 60);
+  if (hours < 24) return `${hours} ч назад`;
+  const days = Math.floor(hours / 24);
+  return `${days} дн назад`;
+}
+
 export function CustomVoicePicker({ value, onChange }: Props) {
   const { voices, isLoading } = useCustomVoices();
   const ready = voices.filter((v: CustomVoice) => v.voice_id && v.status === "ready" && v.is_available);
@@ -16,16 +30,17 @@ export function CustomVoicePicker({ value, onChange }: Props) {
   // so the user's selection persists after VoiceCloneWizard completes.
   const selectedPending =
     value && !ready.some((v) => v.voice_id === value)
-      ? voices.find((v) => v.voice_id === value) ?? null
+      ? (voices.find((v) => v.voice_id === value) ?? null)
       : null;
 
   const items = selectedPending ? [selectedPending, ...ready] : ready;
   const selected = value ? items.find((v) => v.voice_id === value) : null;
   const isActive = !!selected;
   const isPending = !!selectedPending;
+  const pendingRelative = isPending ? formatRelative(selectedPending?.created_at) : "";
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1" data-testid="custom-voice-picker">
       <label className="text-xs font-medium flex items-center gap-1">
         <Mic2 className={cn("h-3 w-3", isActive && "text-primary")} />
         Кастомный голос
@@ -44,8 +59,12 @@ export function CustomVoicePicker({ value, onChange }: Props) {
       </label>
       <Select value={value ?? "none"} onValueChange={(v) => onChange(v === "none" ? null : v)}>
         <SelectTrigger
-          className={cn(isActive && "border-primary/60 ring-1 ring-primary/30 bg-primary/5")}
+          className={cn(
+            isActive && "border-primary/60 ring-1 ring-primary/30 bg-primary/5",
+            isPending && "border-amber-500/50 ring-1 ring-amber-500/20 bg-amber-500/5",
+          )}
           aria-label={isActive ? `Выбран голос ${selected?.voice_name}` : "Кастомный голос не выбран"}
+          data-testid="custom-voice-picker-trigger"
         >
           <SelectValue placeholder="Без кастомного голоса" />
         </SelectTrigger>
@@ -58,10 +77,19 @@ export function CustomVoicePicker({ value, onChange }: Props) {
           )}
           {items.map((v) => {
             const pending = v.status !== "ready" || !v.is_available;
+            // Pending items are non-selectable in the list (because they aren't usable yet),
+            // BUT if the currently-active value is this pending voice, we keep it visible
+            // and selectable so the form's selection survives re-opens.
+            const keepEnabled = v.voice_id === value;
             return (
-              <SelectItem key={v.voice_id!} value={v.voice_id!}>
+              <SelectItem
+                key={v.voice_id!}
+                value={v.voice_id!}
+                disabled={pending && !keepEnabled}
+                data-testid="custom-voice-option"
+              >
                 <span className="inline-flex items-center gap-2">
-                  {v.voice_name}
+                  <span className="truncate max-w-[180px]">{v.voice_name}</span>
                   {pending && (
                     <span className="text-[10px] text-amber-500 inline-flex items-center gap-1">
                       <Loader2 className="h-3 w-3 animate-spin" />
@@ -86,7 +114,8 @@ export function CustomVoicePicker({ value, onChange }: Props) {
       )}
       {isPending && selected && (
         <p className="text-[11px] text-amber-600 dark:text-amber-400">
-          Голос «{selected.voice_name}» ещё обрабатывается. Он будет применён, когда статус станет «готов».
+          Голос «{selected.voice_name}» ещё обрабатывается{pendingRelative ? ` · создан ${pendingRelative}` : ""}. Выбор
+          сохранён — он подключится автоматически, как только статус станет «готов».
         </p>
       )}
     </div>
