@@ -50,7 +50,7 @@ import { useOptimizedAudioPlayer } from "@/hooks/audio/useOptimizedAudioPlayer";
 import { usePlaybackPosition } from "@/hooks/audio/usePlaybackPosition";
 import { usePlayerAnalytics } from "@/hooks/audio/usePlayerAnalytics";
 import { logger } from "@/lib/logger";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { playerAnalytics, recordError } from "@/lib/telemetry";
 import { detectMobileBrowser, isAudioFormatSupported, logAudioDiagnostics } from "@/lib/audioFormatUtils";
 
