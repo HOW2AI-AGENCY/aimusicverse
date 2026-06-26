@@ -119,7 +119,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 onClick={() => onModeChange?.(modeKey)}
                 aria-pressed={isActive}
                 className={cn(
-                  "flex items-center justify-center gap-1.5 min-h-[36px] rounded-xl text-xs font-semibold transition-all duration-200",
+                  "flex items-center justify-center gap-1.5 min-h-[44px] rounded-xl text-xs font-semibold transition-all duration-200",
                   isActive
                     ? "bg-background text-foreground shadow-sm ring-1 ring-border/60"
                     : "text-muted-foreground hover:text-foreground",
