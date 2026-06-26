@@ -155,24 +155,20 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   const syncCountRef = useRef(0);
   renderCountRef.current += 1;
   if (import.meta.env?.DEV) {
-    const w = window as unknown as {
-      __lyricsEditorMetrics?: {
-        renders: number;
-        externalSyncs: number;
-        lastRenderAt: number;
-        reset?: () => void;
-      };
-    };
+    const w = window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics };
+    const existing = w.__lyricsEditorMetrics;
     w.__lyricsEditorMetrics = {
       renders: renderCountRef.current,
       externalSyncs: syncCountRef.current,
       lastRenderAt: performance.now(),
+      snapshots: existing?.snapshots ?? [],
       reset: () => {
         renderCountRef.current = 0;
         syncCountRef.current = 0;
         if (w.__lyricsEditorMetrics) {
           w.__lyricsEditorMetrics.renders = 0;
           w.__lyricsEditorMetrics.externalSyncs = 0;
+          w.__lyricsEditorMetrics.snapshots = [];
         }
       },
     };
@@ -189,6 +185,27 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
         if (prev && prev.type === p.type) return { ...p, id: prev.id };
         return p;
       });
+      if (import.meta.env?.DEV) {
+        const focus = captureFocusSnapshot();
+        const ts = Date.now();
+        const syncId = `sync-${ts}-${syncCountRef.current}`;
+        pushSnapshot({
+          id: syncId,
+          ts,
+          phase: "before",
+          syncIndex: syncCountRef.current,
+          sections: sections.map((s) => ({ id: s.id, type: s.type, content: s.content })),
+          focus,
+        });
+        pushSnapshot({
+          id: syncId,
+          ts,
+          phase: "after",
+          syncIndex: syncCountRef.current,
+          sections: merged.map((s) => ({ id: s.id, type: s.type, content: s.content })),
+          focus,
+        });
+      }
       setSections(merged);
     }
     lastEmittedRef.current = value;
