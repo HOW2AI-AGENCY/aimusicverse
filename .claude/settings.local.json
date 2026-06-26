@@ -15,7 +15,7 @@
       "Bash(git checkout:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(\"c:\\\\Users\\\\oat70\\\\Documents\\\\[ALBERT]MUSICVERSE\\\\FINAL\\\\vs\\\\tma\\\\aimusicverse\\\\specs\\\\001-ui-improvements\\\\plan.md\")",
+      "Bash(cat specs/001-ui-improvements/plan.md)",
       "Bash(powershell:*)",
       "Bash(findstr:*)",
       "Read(//c/**)",
@@ -29,7 +29,7 @@
       "Bash(python -c \"import sys; open\\('graphify-out/.graphify_root', 'w', encoding='utf-8'\\).write\\(sys.stdin.read\\(\\).strip\\(\\)\\)\")",
       "Bash(git status *)",
       "Bash(git push *)",
-      "Bash(printf 'C:\\\\\\\\Users\\\\\\\\oat70\\\\\\\\AppData\\\\\\\\Roaming\\\\\\\\uv\\\\\\\\tools\\\\\\\\graphifyy\\\\\\\\Scripts\\\\\\\\python.exe')",
+      "Bash(python --version)",
       "Bash(git pull *)",
       "Bash(git stash *)"
     ],
