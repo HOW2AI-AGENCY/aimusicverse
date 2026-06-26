@@ -407,6 +407,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
                 onChange={(e) => updateSectionContent(section.id, e.target.value)}
                 placeholder="Текст секции — каждая строка с новой строки..."
                 rows={3}
+                data-section-id={section.id}
                 className="border-0 rounded-none bg-transparent text-sm leading-relaxed resize-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
               />
               <div className="flex items-center justify-between px-2 py-1 text-[10px] text-muted-foreground/70 bg-muted/10 border-t border-border/30">
