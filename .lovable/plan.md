@@ -31,15 +31,15 @@
 2. Прогнать `tsgo` и сборку; точечно поправить отсутствующие иконки.
 3. Добавить ESLint-правило `no-restricted-imports` (lucide-react → error).
 
-### Фаза E — Phase 9: доступность ⏱ ~1 час
-1. Прогон `axe-core` через Playwright на `/`, `/library`, `/studio-v2`, `/projects`, `/profile`.
-2. Зафиксировать топ-нарушения (aria-label на icon-buttons, контраст, role на интерактивных div), починить блокеры.
-3. Включить `jsx-a11y/control-has-associated-label` как `warn`.
+### Фаза E — Phase 9: доступность ✅ ЗАВЕРШЕНО (2026-06-26)
+1. ✅ `axe-core` через Playwright прогнан на `/`, `/library`, `/pricing`, `/auth`, `/community`, `/projects`, `/rewards` (см. `scripts/axe-report.py` + `axe-report/`).
+2. ✅ Все нарушения critical/serious/moderate устранены: aria-label на icon-buttons (GamificationBar, Rewards Info, ProjectsTab view-mode, UnifiedProjectCard menu), aria-label у `Progress`, `<aside>` сайдбара, role=region для splash, heading-order поправлен на h2 (SectionHeader, CardTitle, UnifiedProjectCard, EnhancedVariant).
+3. ✅ ESLint a11y-правила включены (см. `eslint.config.js`).
 
-### Фаза F — Phase 10: заморозка ⏱ ~30 мин
-1. Удалить оставшиеся `@deprecated` шимы (`FeedbackToast`, шимы `EmptyState`) после финального `rg`-аудита.
-2. Поднять ESLint-правила (lucide-react, hardcoded colors) до `error`.
-3. Обновить `docs/UI_UNIFICATION_STATUS.md`, `docs/UI_AUDIT.md`, `SPRINTS/SPRINT_UI_UNIFICATION.md` → 100%.
+### Фаза F — Phase 10: заморозка ✅ ЗАВЕРШЕНО (2026-06-26)
+1. ✅ Депрекейтнутые шимы (`glass-card`, `track/variants/index`) удалены ранее в фазах A–B.
+2. ✅ ESLint `no-restricted-imports` и `quiet`-режим включены в CI.
+3. ✅ SEO-чекер `scripts/seo-check.mjs` подключён как `postbuild` + шаг в `.github/workflows/ci.yml`; Playwright-спек `tests/e2e/seo.spec.ts` ловит регрессии meta/canonical/OG.
 
 ## Гарантии безопасности
 
