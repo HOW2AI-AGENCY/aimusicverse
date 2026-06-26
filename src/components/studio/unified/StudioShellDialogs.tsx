@@ -30,6 +30,8 @@ import type { AudioTrack } from "@/hooks/studio/useStudioAudioEngine";
 import type { StemEffects } from "@/hooks/studio/types";
 import { defaultStemEffects } from "@/hooks/studio/stemEffectsConfig";
 import type { Track } from "@/types/track";
+import type { DetectedSection } from "@/types/sections";
+import type { useStudioOperationLock } from "@/hooks/studio/useStudioOperationLock";
 
 interface TrackEffectsState {
   [trackId: string]: StemEffects;
