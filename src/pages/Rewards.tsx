@@ -67,8 +67,9 @@ const SectionHeader = ({
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="p-1 rounded-full hover:bg-muted/50 transition-colors"
+            aria-label={`Подробнее: ${title}`}
           >
-            <Info className="w-3.5 h-3.5 text-muted-foreground" />
+            <Info className="w-3.5 h-3.5 text-muted-foreground" aria-hidden="true" />
           </motion.button>
         </TooltipTrigger>
         <TooltipContent side="right" className="max-w-[200px] text-xs">
