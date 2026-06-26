@@ -147,7 +147,7 @@ const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.C
 
     const innerRef = React.useRef<HTMLDivElement | null>(null);
     const closeRef = React.useRef<HTMLButtonElement | null>(null);
-    React.useImperativeHandle(ref, () => innerRef.current ?? undefined);
+    React.useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
     useSwipeDownToClose(mobileSheet, innerRef, closeRef);
 
     return (
