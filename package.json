@@ -44,7 +44,9 @@
     "test:security:fix": "npm audit fix",
     "test:sast": "echo 'SAST scanning with GitHub Advanced Security or Snyk'",
     "security:scan": "npm run test:security && npm run test:sast",
-    "security:check": "npm audit && echo '✅ Security check complete'"
+    "security:check": "npm audit && echo '✅ Security check complete'",
+    "seo:check": "node scripts/seo-check.mjs",
+    "postbuild": "node scripts/seo-check.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
