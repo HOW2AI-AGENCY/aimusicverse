@@ -75,6 +75,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
   const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
+  const qc = useQueryClient();
+  const { user } = useAuth();
 
   // Get active audio reference for hasReferenceAudio check
   const { activeReference } = useAudioReference();
