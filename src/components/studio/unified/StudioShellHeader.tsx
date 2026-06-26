@@ -36,9 +36,9 @@ interface StudioShellHeaderProps {
   isSaving: boolean;
   isOfflineCapable: boolean;
   isOnline: boolean;
-  autoSaveStatus: string;
-  autoSaveLastSavedAt: Date | null;
-  autoSaveTimeSinceLastSave: string | null;
+  autoSaveStatus: AutoSaveStatus;
+  autoSaveLastSavedAt: string | null;
+  autoSaveTimeSinceLastSave: number | null;
   onBack: () => void;
   onSave: () => void;
   onExport: () => void;
