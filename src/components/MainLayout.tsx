@@ -24,6 +24,8 @@ import { useAdminDailyStats } from "@/hooks/useAdminDailyStats";
 import { TELEGRAM_SAFE_AREA } from "@/constants/safe-area";
 import { KeyboardShortcutsProvider } from "./navigation/KeyboardShortcutsProvider";
 import { SafeAreaContainer } from "./layout/SafeAreaContainer";
+import { MobileNavDrawer } from "./layout/MobileNavDrawer";
+
 
 // Lazy load heavy dialogs - not needed on initial render
 const TelegramOnboarding = lazy(() =>
