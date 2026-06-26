@@ -334,13 +334,16 @@ const Index = () => {
           className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:py-6 relative z-10"
           style={{ paddingBottom: wrapperPaddingBottom }}
         >
-          <SEOHead {...SEO_PRESETS.home} />
+          <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />
+
+          <h1 className="sr-only">MusicVerse — Платформа для генерации музыки с AI</h1>
 
           <HomeHeader
             userName={displayUser?.first_name || displayUser?.username?.split("@")[0]}
             userPhotoUrl={displayUser?.photo_url}
             onProfileClick={goToProfile}
           />
+
 
           <BotContextBanner />
 
