@@ -6,7 +6,6 @@
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 import { RuleTester } from "eslint";
-import { describe, it } from "vitest";
 // @ts-expect-error - JS plugin without types
 import plugin from "../../eslint-rules/section-tokens.js";
 
@@ -22,51 +21,45 @@ const ruleTester = new RuleTester({
   },
 });
 
-describe("eslint section-tokens/no-saturated-brand", () => {
-  it("runs RuleTester", () => {
-    ruleTester.run("no-saturated-brand", rule, {
-      valid: [
-        { code: `const c = "bg-card/60 border border-border/50";` },
-        { code: `const c = "text-primary border-primary/20 ring-primary";` },
-        { code: `const c = "bg-primary-foreground";` },
-        { code: `const c = \`bg-card/60\`;` },
-        // allow-comment on same line
-        { code: `const c = "bg-primary"; // section-tokens-allow` },
-        // allow-next-line marker
-        {
-          code: [
-            `// section-tokens-allow-next-line`,
-            `const c = "bg-primary";`,
-          ].join("\n"),
-        },
+ruleTester.run("section-tokens/no-saturated-brand", rule, {
+  valid: [
+    { code: `const c = "bg-card/60 border border-border/50";` },
+    { code: `const c = "text-primary border-primary/20 ring-primary";` },
+    { code: `const c = "bg-primary-foreground";` },
+    { code: `const c = \`bg-card/60\`;` },
+    { code: `const c = "bg-primary"; // section-tokens-allow` },
+    {
+      code: [
+        `// section-tokens-allow-next-line`,
+        `const c = "bg-primary";`,
+      ].join("\n"),
+    },
+  ],
+  invalid: [
+    {
+      code: `const c = "rounded-2xl bg-primary p-4";`,
+      output: `const c = "rounded-2xl bg-card/60 p-4";`,
+      errors: [{ messageId: "forbidden" }],
+    },
+    {
+      code: `const c = "bg-accent/40";`,
+      output: `const c = "bg-card/60";`,
+      errors: [{ messageId: "forbidden" }],
+    },
+    {
+      code: `const c = "bg-gradient-primary";`,
+      output: `const c = "bg-gradient-to-br from-card/60 via-background to-muted/40";`,
+      errors: [{ messageId: "forbidden" }],
+    },
+    {
+      code: "const c = `from-primary via-accent to-primary/50`;",
+      output: "const c = `from-card/60 via-background to-muted/40`;",
+      errors: [
+        { messageId: "forbidden" },
+        { messageId: "forbidden" },
+        { messageId: "forbidden" },
       ],
-      invalid: [
-        {
-          code: `const c = "rounded-2xl bg-primary p-4";`,
-          output: `const c = "rounded-2xl bg-card/60 p-4";`,
-          errors: [{ messageId: "forbidden" }],
-        },
-        {
-          code: `const c = "bg-accent/40";`,
-          output: `const c = "bg-card/60";`,
-          errors: [{ messageId: "forbidden" }],
-        },
-        {
-          code: `const c = "bg-gradient-primary";`,
-          output: `const c = "bg-gradient-to-br from-card/60 via-background to-muted/40";`,
-          errors: [{ messageId: "forbidden" }],
-        },
-        {
-          code: "const c = `from-primary via-accent to-primary/50`;",
-          output:
-            "const c = `from-card/60 via-background to-muted/40`;",
-          errors: [
-            { messageId: "forbidden" },
-            { messageId: "forbidden" },
-            { messageId: "forbidden" },
-          ],
-        },
-      ],
-    });
-  });
+    },
+  ],
 });
+
