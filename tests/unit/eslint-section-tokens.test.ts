@@ -52,8 +52,9 @@ ruleTester.run("section-tokens/no-saturated-brand", rule, {
       errors: [{ messageId: "forbidden" }],
     },
     {
+      // Template literals are flagged but not auto-fixed (output = code).
       code: "const c = `from-primary via-accent to-primary/50`;",
-      output: "const c = `from-card/60 via-background to-muted/40`;",
+      output: null,
       errors: [
         { messageId: "forbidden" },
         { messageId: "forbidden" },

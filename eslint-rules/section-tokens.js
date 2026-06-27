@@ -57,6 +57,18 @@ const noSaturatedBrand = {
       if (!hit) return;
       if (isAllowed(node)) return;
 
+      // For string Literals we can safely rewrite the verbatim source
+      // (including surrounding quotes). TemplateElements are reported
+      // without auto-fix because their range semantics differ across
+      // parsers — run `npm run check:section-tokens -- --fix` for those.
+      if (node.type !== "Literal") {
+        context.report({
+          node,
+          messageId: "forbidden",
+          data: { matched: hit.matched, suggestion: hit.rule.replacement },
+        });
+        return;
+      }
       const original = sourceCode.getText(node);
       const { output } = rewriteText(original);
       context.report({
