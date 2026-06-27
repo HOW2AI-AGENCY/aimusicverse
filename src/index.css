@@ -1,3 +1,5 @@
+@import "./styles/micro-animations.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -2097,9 +2099,9 @@ select:focus-visible,
 /* ============================================================================
  * ADDITIONAL STYLE IMPORTS
  * Feature: 032-professional-ui
+ * (micro-animations.css is imported at the top of the file — @import rules
+ *  must precede all other statements per CSS spec)
  * ============================================================================ */
-
-@import "./styles/micro-animations.css";
 
 /* ============================================================================
  * Unified pill/chip utilities (Linear/Arc native vibe)
