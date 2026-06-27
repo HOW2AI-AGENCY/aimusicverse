@@ -42,7 +42,8 @@
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
       "D:\\.MUSICVERSE\\aimusicverse\\.husky",
-      "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
+      "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out",
+      "\\d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
     ]
   }
 }
