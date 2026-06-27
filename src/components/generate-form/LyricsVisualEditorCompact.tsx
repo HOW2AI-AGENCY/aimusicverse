@@ -3,11 +3,11 @@
  * No drag-drop, no stats panel - just sections as cards with timeline
  */
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Sparkles, ChevronDown } from "@/lib/icons";
+import { Plus, Trash2, Sparkles, ChevronDown, Eraser, CornerDownLeft } from "@/lib/icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -103,19 +103,174 @@ function sectionsToLyrics(sections: LyricSection[]): string {
     .join("\n\n");
 }
 
+// Structural equality ignoring volatile IDs — avoids JSON.stringify allocations on every keystroke.
+export function sectionsEqual(a: LyricSection[], b: LyricSection[]): boolean {
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i].type !== b[i].type || a[i].content !== b[i].content) return false;
+  }
+  return true;
+}
+
+/**
+ * Build a new section list from a template, carrying over user content for
+ * matching section types in document order.  Pure & exported for tests.
+ */
+export function applyTemplateToSections(
+  prev: LyricSection[],
+  sectionTypes: readonly string[],
+  now: number = Date.now(),
+): LyricSection[] {
+  const pools = new Map<string, string[]>();
+  for (const s of prev) {
+    if (!s.content) continue;
+    const list = pools.get(s.type) ?? [];
+    list.push(s.content);
+    pools.set(s.type, list);
+  }
+  return sectionTypes.map((type, i) => {
+    const pool = pools.get(type);
+    const content = pool && pool.length ? pool.shift()! : "";
+    return {
+      id: `${type}-${now}-${i}`,
+      type: type as LyricSection["type"],
+      content,
+      tags: [],
+    };
+  });
+}
+
+export { parseLyrics, sectionsToLyrics };
+
+// ---- Dev metrics types & helpers ----
+export interface SyncFocusSnapshot {
+  sectionId: string | null;
+  tagName: string | null;
+  selectionStart: number | null;
+  selectionEnd: number | null;
+  valueLength: number | null;
+}
+export interface SyncSnapshot {
+  id: string;
+  ts: number;
+  phase: "before" | "after";
+  syncIndex: number;
+  sections: Array<{ id: string; type: string; content: string }>;
+  focus: SyncFocusSnapshot;
+}
+export interface LyricsEditorMetrics {
+  renders: number;
+  externalSyncs: number;
+  lastRenderAt: number;
+  snapshots: SyncSnapshot[];
+  reset?: () => void;
+}
+
+const MAX_SNAPSHOTS = 200;
+
+function captureFocusSnapshot(): SyncFocusSnapshot {
+  if (typeof document === "undefined") {
+    return { sectionId: null, tagName: null, selectionStart: null, selectionEnd: null, valueLength: null };
+  }
+  const el = document.activeElement as HTMLElement | null;
+  if (!el) return { sectionId: null, tagName: null, selectionStart: null, selectionEnd: null, valueLength: null };
+  const sectionId = el.getAttribute?.("data-section-id") ?? null;
+  const ta = el as HTMLTextAreaElement;
+  const isField = typeof ta.selectionStart === "number";
+  return {
+    sectionId,
+    tagName: el.tagName?.toLowerCase() ?? null,
+    selectionStart: isField ? ta.selectionStart : null,
+    selectionEnd: isField ? ta.selectionEnd : null,
+    valueLength: isField && typeof ta.value === "string" ? ta.value.length : null,
+  };
+}
+
+function pushSnapshot(snap: SyncSnapshot) {
+  if (typeof window === "undefined") return;
+  const w = window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics };
+  const m = w.__lyricsEditorMetrics;
+  if (!m) return;
+  const arr = m.snapshots ?? (m.snapshots = []);
+  arr.push(snap);
+  if (arr.length > MAX_SNAPSHOTS) arr.splice(0, arr.length - MAX_SNAPSHOTS);
+}
+
+
 export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: LyricsVisualEditorCompactProps) {
   const [sections, setSections] = useState<LyricSection[]>(() => parseLyrics(value));
+  // Track the last lyrics string we emitted, so external changes (mode switch, AI, templates)
+  // re-sync the editor without clobbering in-progress edits on every keystroke.
+  const lastEmittedRef = useRef<string>(sectionsToLyrics(parseLyrics(value)));
+
+  // Dev-only render metrics — warn if external syncs happen suspiciously often,
+  // which would indicate we're clobbering local state on each keystroke again.
+  const renderCountRef = useRef(0);
+  const syncCountRef = useRef(0);
+  renderCountRef.current += 1;
+  if (import.meta.env?.DEV) {
+    const w = window as unknown as { __lyricsEditorMetrics?: LyricsEditorMetrics };
+    const existing = w.__lyricsEditorMetrics;
+    w.__lyricsEditorMetrics = {
+      renders: renderCountRef.current,
+      externalSyncs: syncCountRef.current,
+      lastRenderAt: performance.now(),
+      snapshots: existing?.snapshots ?? [],
+      reset: () => {
+        renderCountRef.current = 0;
+        syncCountRef.current = 0;
+        if (w.__lyricsEditorMetrics) {
+          w.__lyricsEditorMetrics.renders = 0;
+          w.__lyricsEditorMetrics.externalSyncs = 0;
+          w.__lyricsEditorMetrics.snapshots = [];
+        }
+      },
+    };
+  }
 
   useEffect(() => {
+    if (value === lastEmittedRef.current) return;
     const parsed = parseLyrics(value);
-    if (JSON.stringify(parsed) !== JSON.stringify(sections)) {
-      setSections(parsed);
+    if (!sectionsEqual(parsed, sections)) {
+      syncCountRef.current += 1;
+      // Preserve existing IDs where possible to keep React keys + focus stable.
+      const merged = parsed.map((p, i) => {
+        const prev = sections[i];
+        if (prev && prev.type === p.type) return { ...p, id: prev.id };
+        return p;
+      });
+      if (import.meta.env?.DEV) {
+        const focus = captureFocusSnapshot();
+        const ts = Date.now();
+        const syncId = `sync-${ts}-${syncCountRef.current}`;
+        pushSnapshot({
+          id: syncId,
+          ts,
+          phase: "before",
+          syncIndex: syncCountRef.current,
+          sections: sections.map((s) => ({ id: s.id, type: s.type, content: s.content })),
+          focus,
+        });
+        pushSnapshot({
+          id: syncId,
+          ts,
+          phase: "after",
+          syncIndex: syncCountRef.current,
+          sections: merged.map((s) => ({ id: s.id, type: s.type, content: s.content })),
+          focus,
+        });
+      }
+      setSections(merged);
     }
-  }, [value]);
+    lastEmittedRef.current = value;
+  }, [value, sections]);
 
   const updateSections = (newSections: LyricSection[]) => {
     setSections(newSections);
-    onChange(sectionsToLyrics(newSections));
+    const next = sectionsToLyrics(newSections);
+    lastEmittedRef.current = next;
+    onChange(next);
   };
 
   const addSection = (type: LyricSection["type"]) => {
@@ -141,13 +296,7 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
   };
 
   const applyTemplate = (sectionTypes: string[]) => {
-    const newSections = sectionTypes.map((type, i) => ({
-      id: `${type}-${Date.now()}-${i}`,
-      type: type as LyricSection["type"],
-      content: "",
-      tags: [],
-    }));
-    updateSections(newSections);
+    updateSections(applyTemplateToSections(sections, sectionTypes));
   };
 
   const charCount = useMemo(() => value.replace(/\[.*?\]/g, "").trim().length, [value]);
@@ -185,21 +334,23 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
               )}
             >
               {/* Section header */}
-              <div className="flex items-center justify-between px-2 py-1.5 bg-muted/30">
+              <div className="flex items-center justify-between gap-2 px-2 py-1.5 bg-muted/30">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button
+                      type="button"
+                      aria-label={`Тип секции: ${typeInfo?.label}`}
                       className={cn(
-                        "flex items-center gap-1 text-xs font-medium rounded px-1.5 py-0.5",
+                        "flex items-center gap-1 text-xs font-medium rounded-md px-2 py-1 min-h-[32px]",
                         typeInfo?.color,
                       )}
                     >
-                      <span>{typeInfo?.icon}</span>
+                      <span aria-hidden>{typeInfo?.icon}</span>
                       <span>{typeInfo?.label}</span>
                       <ChevronDown className="w-3 h-3 opacity-60" />
                     </button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start" className="min-w-[120px]">
+                  <DropdownMenuContent align="start" className="min-w-[140px]">
                     {SECTION_TYPES.map((t) => (
                       <DropdownMenuItem
                         key={t.value}
@@ -213,24 +364,57 @@ export function LyricsVisualEditorCompact({ value, onChange, onAIGenerate }: Lyr
                   </DropdownMenuContent>
                 </DropdownMenu>
 
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="h-5 w-5 text-muted-foreground hover:text-destructive"
-                  onClick={() => deleteSection(section.id)}
-                >
-                  <Trash2 className="w-3 h-3" />
-                </Button>
+                <div className="flex items-center gap-0.5">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Добавить строку"
+                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-primary"
+                    onClick={() =>
+                      updateSectionContent(
+                        section.id,
+                        section.content ? section.content + "\n" : "",
+                      )
+                    }
+                  >
+                    <CornerDownLeft className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Очистить секцию"
+                    disabled={!section.content}
+                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-foreground disabled:opacity-40"
+                    onClick={() => updateSectionContent(section.id, "")}
+                  >
+                    <Eraser className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Удалить секцию"
+                    className="h-9 w-9 min-h-[44px] min-w-[44px] text-muted-foreground hover:text-destructive"
+                    onClick={() => deleteSection(section.id)}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
 
               {/* Content */}
               <Textarea
                 value={section.content}
                 onChange={(e) => updateSectionContent(section.id, e.target.value)}
-                placeholder="Текст секции..."
+                placeholder="Текст секции — каждая строка с новой строки..."
                 rows={3}
-                className="border-0 rounded-none bg-transparent text-xs resize-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                data-section-id={section.id}
+                className="border-0 rounded-none bg-transparent text-sm leading-relaxed resize-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
               />
+              <div className="flex items-center justify-between px-2 py-1 text-[10px] text-muted-foreground/70 bg-muted/10 border-t border-border/30">
+                <span>
+                  {section.content.split("\n").filter((l) => l.trim()).length} стр · {section.content.length} симв
+                </span>
+              </div>
             </div>
           );
         })}

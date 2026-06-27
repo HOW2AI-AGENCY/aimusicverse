@@ -24,6 +24,8 @@ import {
   Volume2,
   VolumeX,
   Volume1,
+  Loader2,
+  AlertCircle,
 } from "@/lib/icons";
 import { useAudioTime } from "@/hooks/audio/useAudioTime";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
@@ -57,6 +59,10 @@ const formatTime = (s: number) => {
 export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: CompactPlayerProps) {
   const { isPlaying, playTrack, pauseTrack, nextTrack, previousTrack, closePlayer, queue, volume, setVolume } =
     usePlayerStore();
+  const playbackStatus = usePlayerStore((s) => s.playbackStatus);
+  const playbackError = usePlayerStore((s) => s.playbackError);
+  const isLoading = playbackStatus === "loading" || playbackStatus === "buffering";
+  const hasError = playbackStatus === "error";
   const { currentTime, duration, buffered, seek } = useAudioTime();
   const { toggleLike } = useTracks();
   const [showExpandHint, setShowExpandHint] = useState(false);
@@ -237,15 +243,31 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
       variant="ghost"
       size="icon"
       onClick={handlePlayPause}
+      disabled={isLoading}
       className={cn(
         "rounded-full bg-primary/10 hover:bg-primary/20 hover:scale-105 active:scale-95 transition-all",
         variant === "desktop" ? "h-12 w-12" : "h-11 w-11",
         "min-h-[44px] min-w-[44px]",
+        hasError && "bg-destructive/15 hover:bg-destructive/25",
       )}
-      aria-label={isPlaying ? "Пауза" : "Воспроизвести"}
+      aria-label={
+        hasError
+          ? `Ошибка: ${playbackError || "не удалось загрузить"}`
+          : isLoading
+            ? "Загрузка трека"
+            : isPlaying
+              ? "Пауза"
+              : "Воспроизвести"
+      }
+      aria-busy={isLoading}
+      title={hasError ? playbackError || "Ошибка воспроизведения" : undefined}
       data-testid="compact-player-play"
     >
-      {isPlaying ? (
+      {hasError ? (
+        <AlertCircle className={cn("text-destructive", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} />
+      ) : isLoading ? (
+        <Loader2 className={cn("animate-spin", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} />
+      ) : isPlaying ? (
         <Pause className={cn(variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} fill="currentColor" />
       ) : (
         <Play className={cn("ml-0.5", variant === "desktop" ? "h-6 w-6" : "h-5 w-5")} fill="currentColor" />
@@ -377,24 +399,44 @@ export const CompactPlayer = memo(function CompactPlayer({ track, onExpand }: Co
         <div
           onClick={handleExpand}
           onKeyDown={handleExpandKey}
-          className="px-3 pt-3 pb-1.5 cursor-pointer min-h-[44px] flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
+          className="px-3 pt-3 pb-1.5 cursor-pointer min-h-[44px] flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 rounded-md"
           role="button"
           tabIndex={0}
           aria-label="Развернуть плеер"
         >
-          <Waveform heightClass="h-6" />
+          <div className="flex-1 min-w-0 relative">
+            <Waveform heightClass="h-6" />
+            {/* Buffering hairline — non-flickering CSS-only indicator */}
+            {isLoading && (
+              <div
+                className="absolute left-0 right-0 -bottom-0.5 h-0.5 overflow-hidden rounded-full bg-primary/10"
+                aria-hidden="true"
+              >
+                <div className="h-full w-1/3 bg-primary/70 animate-shimmer" />
+              </div>
+            )}
+          </div>
           <motion.div
-            className="ml-2 flex-shrink-0"
+            className="flex-shrink-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: showExpandHint ? 0.6 : 0.35 }}
           >
             <ChevronUp className="w-4 h-4 text-muted-foreground" />
           </motion.div>
         </div>
-        <div className="flex items-center gap-2 px-3 pb-3">
-          {Cover}
-          {TitleBlock}
-          <div className="flex items-center gap-0.5 flex-shrink-0">
+        {hasError && (
+          <div
+            role="alert"
+            className="mx-3 mb-1.5 flex items-center gap-1.5 rounded-md bg-destructive/10 px-2 py-1 text-[11px] text-destructive"
+          >
+            <AlertCircle className="h-3 w-3 flex-shrink-0" />
+            <span className="line-clamp-1">{playbackError || "Ошибка воспроизведения"}</span>
+          </div>
+        )}
+        <div className="flex items-center gap-2 px-3 pb-3 min-w-0">
+          <div className="flex-shrink-0">{Cover}</div>
+          <div className="flex-1 min-w-0">{TitleBlock}</div>
+          <div className="flex items-center gap-1 flex-shrink-0 ml-auto">
             {PlayButton}
             {NextButton}
             {CloseButton}

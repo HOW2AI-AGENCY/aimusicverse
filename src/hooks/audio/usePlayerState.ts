@@ -36,6 +36,17 @@ type VersionMode = "active" | "all";
 type PlayerMode = "compact" | "fullscreen" | "minimized";
 
 /**
+ * Playback status — granular UI state surfaced by GlobalAudioProvider.
+ * - 'idle'      : no track loaded / fully stopped
+ * - 'loading'   : new track loading (initial fetch)
+ * - 'buffering' : playing but waiting for more data
+ * - 'playing'   : actively playing
+ * - 'paused'    : paused by user
+ * - 'error'     : load/playback failure (see playbackError)
+ */
+export type PlaybackStatus = "idle" | "loading" | "buffering" | "playing" | "paused" | "error";
+
+/**
  * Player state interface defining all state properties and actions
  */
 interface PlayerState {
@@ -57,6 +68,11 @@ interface PlayerState {
 
   // UI state
   playerMode: PlayerMode; // Current player display mode
+
+  // Granular playback status (driven by audio element events)
+  playbackStatus: PlaybackStatus;
+  playbackError: string | null;
+  setPlaybackStatus: (status: PlaybackStatus, error?: string | null) => void;
 
   // Time preservation across player mode transitions
   preservedTime: number | null; // Preserved currentTime when switching modes
@@ -253,6 +269,10 @@ export const usePlayerStore = create<PlayerState>()(
       volume: 1.0, // Default volume
       playerMode: "minimized",
       preservedTime: null, // Time preservation for mode switches
+      playbackStatus: "idle",
+      playbackError: null,
+      setPlaybackStatus: (status, error = null) =>
+        set({ playbackStatus: status, playbackError: status === "error" ? error : null }),
 
       /**
        * Play track action - delegates to playerLogic and auto-opens player UI

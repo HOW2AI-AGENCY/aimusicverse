@@ -23,7 +23,6 @@ import { GenerateFormActions } from "./generate-form/GenerateFormActions";
 import { GenerateFormReferences } from "./generate-form/GenerateFormReferences";
 import { GenerationLoadingState } from "./generate-form/GenerationLoadingState";
 import { CollapsibleFormHeader } from "./generate-form/CollapsibleFormHeader";
-import { GenerationStepIndicator } from "./generate-form/GenerationStepIndicator";
 
 // Lazy load heavy form components - Wizard removed for UX simplification
 const GenerateFormSimple = lazy(() =>
@@ -50,7 +49,9 @@ import { PromptHistory } from "./generate-form/PromptHistory";
 import { LyricsChatAssistant } from "./generate-form/LyricsChatAssistant";
 import { StylePresetSelector } from "./generate-form/StylePresetSelector";
 import { CreditBalanceWarning } from "./generate-form/CreditBalanceWarning";
-import { CreditBalanceIndicator } from "./generate-form/CreditBalanceIndicator";
+import { VoiceCloneWizard } from "./voice-clone/VoiceCloneWizard";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 // UploadAudioDialog removed - now using unified form for cover/extend
 import {
   AlertDialog,
@@ -74,6 +75,8 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const { artists } = useArtists();
   const { tracks: allTracks } = useTracks();
   const { hapticFeedback, enableClosingConfirmation, disableClosingConfirmation } = useTelegram();
+  const qc = useQueryClient();
+  const { user } = useAuth();
 
   // Get active audio reference for hasReferenceAudio check
   const { activeReference } = useAudioReference();
@@ -86,6 +89,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false); // For reference audio selection
+  const [voiceCloneOpen, setVoiceCloneOpen] = useState(false);
   // Legacy UploadAudioDialog states removed - now using unified form
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
@@ -255,7 +259,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
         >
           {/* Compact Header with safe area for Telegram */}
           <div
-            className="px-3 border-b bg-background/95 backdrop-blur-xl flex-shrink-0"
+            className="px-5 border-b border-border/40 bg-background/95 backdrop-blur-xl flex-shrink-0"
             style={{
               paddingTop:
                 "max(calc(var(--tg-content-safe-area-inset-top, 0px) + 0.5rem), calc(env(safe-area-inset-top, 0px) + 0.5rem))",
@@ -271,38 +275,6 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
               onModelChange={form.setModel}
               onClose={handleCloseRequest}
             />
-
-            {/* Step indicator — Linear/Arc stepper, reflects form state */}
-            <div className="pt-1 pb-2">
-              <GenerationStepIndicator
-                currentStep={(() => {
-                  if (!form.hasVocals && form.mode === "simple") {
-                    // type chosen but never not-chosen, so jump past
-                  }
-                  if (form.mode === "custom") {
-                    if (!form.style.trim()) return 0;
-                    if (!form.lyrics.trim() && form.hasVocals) return 1;
-                    return 2;
-                  }
-                  if (!form.description.trim()) return 0;
-                  if (!form.title.trim()) return 1;
-                  return 2;
-                })()}
-                steps={
-                  form.mode === "custom"
-                    ? [
-                        { label: "Стиль", done: !!form.style.trim() },
-                        { label: "Текст", done: !!form.lyrics.trim() || !form.hasVocals },
-                        { label: "Готово", done: !!form.style.trim() && (!form.hasVocals || !!form.lyrics.trim()) },
-                      ]
-                    : [
-                        { label: "Описание", done: !!form.description.trim() },
-                        { label: "Название", done: !!form.title.trim() },
-                        { label: "Готово", done: !!form.description.trim() },
-                      ]
-                }
-              />
-            </div>
           </div>
 
           {/* Loading Overlay - with proper safe area centering */}
@@ -326,7 +298,7 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           </AnimatePresence>
 
           <ScrollArea className="flex-1 overflow-x-hidden">
-            <div className="px-4 py-3 space-y-3 w-full max-w-full min-w-0 overflow-x-hidden">
+            <div className="px-5 py-4 space-y-4 w-full max-w-full min-w-0 overflow-x-hidden">
               {/* Credit Balance Warning */}
               <CreditBalanceWarning
                 balance={form.userBalance}
@@ -338,7 +310,9 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                 onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
                 onOpenProjectDialog={() => setProjectDialogOpen(true)}
                 onOpenArtistDialog={() => setArtistDialogOpen(true)}
+                onOpenVoiceClone={() => setVoiceCloneOpen(true)}
               />
+
 
               {/* Selected References Indicators */}
               <GenerateFormReferences
@@ -413,27 +387,23 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
             </div>
           </ScrollArea>
 
-          {/* Footer - keyboard-aware padding */}
+          {/* Footer - keyboard-aware padding, gradient mask for premium dock feel */}
           <div
-            className="p-4 border-t bg-background/95 backdrop-blur"
+            className="px-5 pt-3 pb-4 border-t border-border/40 bg-background/95 backdrop-blur-xl"
             style={{
-              // Применяем padding для клавиатуры + safe-area (Telegram + iOS)
               paddingBottom: isKeyboardOpen
                 ? `${keyboardHeight + 16}px`
                 : "max(1rem, var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px))",
               transition: "padding-bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
             }}
           >
-            {/* Credit balance indicator */}
-            <div className="flex items-center justify-between mb-2">
-              <CreditBalanceIndicator balance={form.userBalance} cost={form.generationCost} />
-              {form.loading && <span className="text-xs text-muted-foreground animate-pulse">Создание...</span>}
-            </div>
+            {/* Slim progress hairline only while loading */}
             {form.loading && (
-              <div className="mb-1.5">
-                <Progress value={33} className="h-1" />
+              <div className="mb-2.5">
+                <Progress value={33} className="h-0.5" />
               </div>
             )}
+
             <div className="flex gap-2">
               {/* SecondaryButton fallback - Save Draft */}
               {shouldShowSecondaryUIButton && (
@@ -444,31 +414,38 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
                   }}
                   variant="outline"
                   disabled={form.loading || !hasUnsavedData}
-                  className="flex-1 h-12 text-sm font-semibold rounded-xl"
+                  className="flex-1 h-12 text-sm font-semibold rounded-2xl border-border/60"
                 >
-                  Сохранить черновик
+                  Черновик
                 </Button>
               )}
-              {/* MainButton fallback - Generate */}
+              {/* MainButton fallback - Generate (primary CTA, prototype-aligned) */}
               {shouldShowUIButton && (
                 <Button
                   onClick={handleGenerate}
                   disabled={form.loading || !form.canGenerate}
                   className={cn(
-                    "h-12 text-sm font-semibold gap-2 bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 rounded-xl disabled:opacity-50",
+                    "h-14 text-sm font-bold gap-2 rounded-2xl flex flex-col items-center justify-center leading-none transition-all active:scale-[0.98]",
+                    "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground",
+                    "shadow-[0_8px_24px_-8px_hsl(var(--primary)/0.45)] hover:shadow-[0_10px_28px_-8px_hsl(var(--primary)/0.55)]",
                     shouldShowSecondaryUIButton ? "flex-1" : "w-full",
-                    !form.canGenerate && !form.loading && "bg-muted text-muted-foreground hover:bg-muted",
+                    !form.canGenerate && !form.loading && "opacity-50 cursor-not-allowed shadow-none",
                   )}
                 >
                   {form.loading ? (
-                    <>
+                    <span className="flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      Создание...
-                    </>
+                      Создание…
+                    </span>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4" />
-                      Сгенерировать
+                      <span className="flex items-center gap-2 text-[15px]">
+                        <Sparkles className="w-4 h-4" />
+                        Сгенерировать
+                      </span>
+                      <span className="text-[10px] font-medium uppercase tracking-wider text-primary-foreground/70">
+                        {form.generationCost} кредитов
+                      </span>
                     </>
                   )}
                 </Button>
@@ -499,6 +476,20 @@ export const GenerateSheet = ({ open, onOpenChange, projectId: initialProjectId 
           artists={artists}
           selectedArtistId={form.selectedArtistId}
           onSelect={form.handleArtistSelect}
+        />
+
+        <VoiceCloneWizard
+          open={voiceCloneOpen}
+          onOpenChange={setVoiceCloneOpen}
+          onComplete={(voiceId) => {
+            form.setCustomVoiceId(voiceId);
+            form.setMode("custom");
+            handleAdvancedToggle(true);
+            qc.invalidateQueries({ queryKey: ["custom-voices", user?.id] });
+            notify.success("Голос подключён к генерации", {
+              description: "Выбран в разделе «Кастомный голос».",
+            });
+          }}
         />
 
         {/* Audio Action Dialog - for cover/extend operations */}

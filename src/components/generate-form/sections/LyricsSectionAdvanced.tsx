@@ -9,7 +9,7 @@
  * - Template quick-actions
  */
 
-import { memo, useState, useMemo, useCallback } from "react";
+import { memo, useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
@@ -22,6 +22,7 @@ import { SectionLabel, SECTION_HINTS } from "../SectionLabel";
 import { ValidationMessage, checkArtistValidation } from "../ValidationMessage";
 import { useNavigate } from "react-router-dom";
 import { useTelegram } from "@/contexts/TelegramContext";
+import { LyricsPreview } from "../LyricsPreview";
 import {
   LayoutGrid,
   AlignLeft,
@@ -33,6 +34,7 @@ import {
   Music2,
   Mic2,
   FileText,
+  Eye,
 } from "@/lib/icons";
 
 interface LyricsSectionAdvancedProps {
@@ -74,10 +76,31 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
 }: LyricsSectionAdvancedProps) {
   const navigate = useNavigate();
   const { hapticFeedback } = useTelegram();
-  const [showVisualEditor, setShowVisualEditor] = useState(false);
+  const [viewMode, setViewMode] = useState<"text" | "visual" | "preview">("visual");
+  const showVisualEditor = viewMode === "visual";
+  const showPreview = viewMode === "preview";
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [templateSelectorOpen, setTemplateSelectorOpen] = useState(false);
   const [showQuickTemplates, setShowQuickTemplates] = useState(false);
+
+  // Preserve cursor/selection in the text-mode textarea across mode switches.
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const selectionRef = useRef<{ start: number; end: number } | null>(null);
+
+  useEffect(() => {
+    if (viewMode !== "text") return;
+    const el = textareaRef.current;
+    const sel = selectionRef.current;
+    if (!el || !sel) return;
+    const len = el.value.length;
+    const start = Math.min(sel.start, len);
+    const end = Math.min(sel.end, len);
+    try {
+      el.setSelectionRange(start, end);
+    } catch {
+      /* noop */
+    }
+  }, [viewMode]);
 
   // Validation
   const lyricsValidation = useMemo(() => checkArtistValidation(lyrics), [lyrics]);
@@ -99,10 +122,10 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
     [hapticFeedback, onLyricsChange],
   );
 
-  const toggleEditor = useCallback(
-    (visual: boolean) => {
+  const switchView = useCallback(
+    (mode: "text" | "visual" | "preview") => {
       hapticFeedback("light");
-      setShowVisualEditor(visual);
+      setViewMode(mode);
     },
     [hapticFeedback],
   );
@@ -166,44 +189,69 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               </AnimatePresence>
             </motion.div>
 
-            {/* View toggle */}
-            <div className="flex items-center gap-0.5 p-0.5 rounded-lg bg-muted/50">
+            {/* View toggle: text / visual / preview */}
+            <div className="flex items-center gap-1 p-1 rounded-xl bg-muted/50">
               <Button
-                variant={!showVisualEditor ? "secondary" : "ghost"}
+                variant={viewMode === "text" ? "secondary" : "ghost"}
                 size="icon"
-                className="h-6 w-6"
-                onClick={() => toggleEditor(false)}
+                aria-label="Текстовый редактор"
+                aria-pressed={viewMode === "text"}
+                className="h-9 w-9 min-h-[44px] min-w-[44px]"
+                onClick={() => switchView("text")}
               >
-                <AlignLeft className="h-3 w-3" />
+                <AlignLeft className="h-4 w-4" />
               </Button>
               <Button
-                variant={showVisualEditor ? "secondary" : "ghost"}
+                variant={viewMode === "visual" ? "secondary" : "ghost"}
                 size="icon"
-                className="h-6 w-6"
-                onClick={() => toggleEditor(true)}
+                aria-label="Визуальный редактор секций"
+                aria-pressed={viewMode === "visual"}
+                className="h-9 w-9 min-h-[44px] min-w-[44px]"
+                onClick={() => switchView("visual")}
               >
-                <LayoutGrid className="h-3 w-3" />
+                <LayoutGrid className="h-4 w-4" />
+              </Button>
+              <Button
+                variant={viewMode === "preview" ? "secondary" : "ghost"}
+                size="icon"
+                aria-label="Предпросмотр текста"
+                aria-pressed={viewMode === "preview"}
+                className="h-9 w-9 min-h-[44px] min-w-[44px]"
+                onClick={() => switchView("preview")}
+              >
+                <Eye className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </div>
 
         {/* Editor area */}
-        {showVisualEditor ? (
+        {showPreview ? (
+          <LyricsPreview value={lyrics} />
+        ) : showVisualEditor ? (
           <LyricsVisualEditorCompact value={lyrics} onChange={onLyricsChange} onAIGenerate={onOpenLyricsAssistant} />
         ) : (
           <div className="relative group">
             {/* Main textarea with premium styling */}
             <Textarea
+              ref={textareaRef}
               placeholder="Начните писать текст или выберите шаблон..."
               value={lyrics}
-              onChange={(e) => onLyricsChange(e.target.value)}
+              onChange={(e) => {
+                const el = e.currentTarget;
+                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+                onLyricsChange(el.value);
+              }}
+              onSelect={(e) => {
+                const el = e.currentTarget;
+                selectionRef.current = { start: el.selectionStart ?? 0, end: el.selectionEnd ?? 0 };
+              }}
               rows={10}
               className={cn(
                 "text-sm min-h-[220px] max-h-[400px] overflow-y-auto whitespace-pre-wrap",
                 "pb-12 pt-3 px-3 rounded-xl resize-none",
-                "bg-gradient-to-b from-muted/20 to-muted/40",
-                "border-muted-foreground/20 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
+                "bg-muted/30 text-foreground placeholder:text-muted-foreground",
+                "border-border/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20",
                 "transition-all duration-200",
                 (lyrics.length > 2800 || hasError) &&
                   "border-destructive/50 focus:border-destructive focus:ring-destructive/20",
@@ -256,30 +304,27 @@ export const LyricsSectionAdvanced = memo(function LyricsSectionAdvanced({
               </div>
             </div>
 
-            {/* AI suggestion button - appears when empty */}
+            {/* AI suggestion button - appears when empty, positioned above floating toolbar */}
             {!lyrics && (
               <motion.button
+                type="button"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className={cn(
-                  "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-                  "flex flex-col items-center gap-2 p-4 rounded-xl",
-                  "bg-primary/5 border border-dashed border-primary/30",
-                  "hover:bg-primary/10 hover:border-primary/50",
-                  "transition-all duration-200 cursor-pointer group/ai",
+                  "absolute left-1/2 -translate-x-1/2 top-6",
+                  "flex items-center gap-2 px-3 py-2 rounded-full",
+                  "bg-primary/10 border border-dashed border-primary/40",
+                  "hover:bg-primary/15 hover:border-primary/60",
+                  "transition-all duration-200 cursor-pointer",
                 )}
                 onClick={() => {
                   hapticFeedback("medium");
                   onOpenLyricsAssistant();
                 }}
+                aria-label="Создать текст с AI"
               >
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center group-hover/ai:bg-primary/20 transition-colors">
-                  <Wand2 className="w-5 h-5 text-primary" />
-                </div>
-                <div className="text-center">
-                  <p className="text-sm font-medium text-primary">Создать с AI</p>
-                  <p className="text-[10px] text-muted-foreground">Нажмите для генерации</p>
-                </div>
+                <Wand2 className="w-4 h-4 text-primary" />
+                <span className="text-xs font-medium text-primary">Создать с AI</span>
               </motion.button>
             )}
           </div>

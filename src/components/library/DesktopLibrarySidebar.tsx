@@ -20,6 +20,9 @@ import { GenerateFormActions } from "@/components/generate-form/GenerateFormActi
 import { GenerateFormReferences } from "@/components/generate-form/GenerateFormReferences";
 import { GenerationLoadingState } from "@/components/generate-form/GenerationLoadingState";
 import { AudioActionDialog } from "@/components/generate-form/AudioActionDialog";
+import { VoiceCloneWizard } from "@/components/voice-clone/VoiceCloneWizard";
+import { useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/hooks/useAuth";
 import { ArtistSelector } from "@/components/generate-form/ArtistSelector";
 import { ProjectTrackSelector } from "@/components/generate-form/ProjectTrackSelector";
 import { PromptHistory } from "@/components/generate-form/PromptHistory";
@@ -59,11 +62,14 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
   const [projectDialogOpen, setProjectDialogOpen] = useState(false);
   const [artistDialogOpen, setArtistDialogOpen] = useState(false);
   const [audioActionDialogOpen, setAudioActionDialogOpen] = useState(false);
+  const [voiceCloneOpen, setVoiceCloneOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [lyricsAssistantOpen, setLyricsAssistantOpen] = useState(false);
   const [stylesOpen, setStylesOpen] = useState(false);
   const [projectTrackStep, setProjectTrackStep] = useState<"project" | "track">("project");
   const [advancedOpen, setAdvancedOpen] = useState(false);
+  const qc = useQueryClient();
+  const { user } = useAuth();
 
   // Form hook with sidebar-specific settings
   const form = useGenerateForm({
@@ -167,6 +173,7 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
               onOpenAudioDialog={() => setAudioActionDialogOpen(true)}
               onOpenProjectDialog={() => setProjectDialogOpen(true)}
               onOpenArtistDialog={() => setArtistDialogOpen(true)}
+              onOpenVoiceClone={() => setVoiceCloneOpen(true)}
             />
 
             {/* References */}
@@ -282,6 +289,18 @@ export function DesktopLibrarySidebar({ isCollapsed, onToggleCollapse, className
         artists={artists}
         selectedArtistId={form.selectedArtistId}
         onSelect={form.handleArtistSelect}
+      />
+
+      <VoiceCloneWizard
+        open={voiceCloneOpen}
+        onOpenChange={setVoiceCloneOpen}
+        onComplete={(voiceId) => {
+          form.setCustomVoiceId(voiceId);
+          form.setMode("custom");
+          setAdvancedOpen(true);
+          qc.invalidateQueries({ queryKey: ["custom-voices", user?.id] });
+          toast.success("Голос подключён к генерации");
+        }}
       />
 
       <AudioActionDialog

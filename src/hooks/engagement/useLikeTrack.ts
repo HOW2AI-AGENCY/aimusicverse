@@ -68,8 +68,15 @@ export function useLikeTrack(trackId: string, initialLiked?: boolean) {
       if (context?.previousLiked !== undefined) {
         queryClient.setQueryData(["track-like", trackId, user?.id], context.previousLiked);
       }
-      logger.error("Error toggling like", error instanceof Error ? error : new Error(String(error)));
-      toast.error("Не удалось обновить лайк");
+      const errMsg =
+        error instanceof Error
+          ? error.message
+          : typeof error === "object" && error !== null
+            ? ((error as { message?: string }).message ?? JSON.stringify(error))
+            : String(error);
+      logger.error("Error toggling like", { trackId, message: errMsg, raw: error });
+      toast.error(errMsg.includes("row-level security") ? "Войдите, чтобы лайкать" : "Не удалось обновить лайк");
+
     },
     onSuccess: (result) => {
       // Invalidate related queries to sync like counts

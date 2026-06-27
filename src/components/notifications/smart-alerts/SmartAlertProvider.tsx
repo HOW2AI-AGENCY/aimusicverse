@@ -236,31 +236,10 @@ export function SmartAlertProvider({ children }: SmartAlertProviderProps) {
           }
         }
 
-        // Check for ready stems not visited (join with tracks to filter by user)
-        const { data: readyStems } = await supabase
-          .from("track_stems")
-          .select("track_id, tracks!inner(user_id)")
-          .eq("tracks.user_id", user.id)
-          .eq("status", "ready")
-          .limit(1);
+        // NOTE: автопоказ алёрта «Стемы готовы» удалён по требованию пользователя.
+        // Информация о готовых стемах доступна в студии/библиотеке без модального оверлея.
+        // Не возвращать сюда auto-show — см. mem://constraints/no-auto-stems-ready-alert.
 
-        if (readyStems && readyStems.length > 0 && canShowAlert("stems-ready")) {
-          showAlert({
-            id: "stems-ready",
-            type: "success",
-            title: "Стемы готовы!",
-            message: "Ваши стемы готовы для редактирования. Откройте студию, чтобы начать работу.",
-            illustration: "stems-ready",
-            priority: ALERT_PRIORITIES["stems-ready"],
-            featureKey: "stems",
-            actions: [
-              {
-                label: "Открыть студию",
-                onClick: () => navigate(`/studio/${readyStems[0].track_id}`),
-              },
-            ],
-          });
-        }
       } catch (error) {
         logger.error("Error checking alert conditions", error);
       }

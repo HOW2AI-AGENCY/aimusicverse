@@ -21,6 +21,7 @@ import { PageTransition } from "@/components/PageTransition";
 import { ProfileSetupGuard } from "@/components/profile/ProfileSetupGuard";
 import { NavigationProvider } from "@/components/NavigationProvider";
 import { lazyWithRetry } from "@/lib/performance";
+import { LyricsEditorMetricsOverlay } from "@/components/dev/LyricsEditorMetricsOverlay";
 
 // Consolidated providers for cleaner architecture
 import { CoreProviders, UIProviders, FeatureProviders } from "@/providers";
@@ -271,7 +272,21 @@ const App = () => (
                         <Route path="/payments/subscription" element={<Navigate to="/subscription" replace />} />
                         <Route path="/voices" element={<VoiceLibraryPage />} />
                         <Route path="/voices/history" element={<VoiceHistoryPage />} />
-                      </Route>
+                       </Route>
+
+                      {/* Legacy /track/:id alias → fullscreen player */}
+                      <Route
+                        path="/track/:trackId"
+                        element={
+                          <ProtectedRoute>
+                            <MobilePlayerPage />
+                          </ProtectedRoute>
+                        }
+                      />
+
+
+
+
 
                       {/* Routes without BottomNavigation */}
                       <Route path="/studio/:trackId" element={<Navigate to="/studio-v2" replace />} />
@@ -334,6 +349,7 @@ const App = () => (
                     </Routes>
                   </RouteWithTransition>
                 </Suspense>
+                {import.meta.env.DEV && <LyricsEditorMetricsOverlay />}
               </NavigationProvider>
             </UIProviders>
           </BrowserRouter>
