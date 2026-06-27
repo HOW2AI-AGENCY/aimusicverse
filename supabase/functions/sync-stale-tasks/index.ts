@@ -330,7 +330,7 @@ serve(async (req) => {
         const sunoData = await sunoResponse.json();
 
         if (sunoData.code !== 200) {
-          logger.error(`❌ SunoAPI query error for task ${task.id}:`, sunoData.msg);
+          logger.error("SunoAPI query error", null, { taskId: task.id, message: sunoData.msg });
 
           // Mark as failed if Suno API returns error
           await supabase
@@ -357,13 +357,13 @@ serve(async (req) => {
         }
 
         const taskData = sunoData.data;
-        logger.info(`📈 Task ${task.id} status:`, taskData.status);
+        logger.info("Task status", { taskId: task.id, status: taskData.status });
 
         // Check if generation is complete
         if (taskData.status === "SUCCESS" && taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
           const clips = taskData.response.sunoData;
           const firstClip = clips[0];
-          logger.info(`✅ Task ${task.id} completed! Processing ${clips.length} clips`);
+          logger.info("Task completed, processing clips", { taskId: task.id, clipCount: clips.length });
 
           // Download and save files for first clip
           let localAudioUrl = null;
@@ -400,7 +400,7 @@ serve(async (req) => {
               }
             }
           } catch (downloadError) {
-            logger.error(`⚠️ Error downloading files for task ${task.id}:`, downloadError);
+            logger.error("Error downloading files for task", downloadError, { taskId: task.id });
           }
 
           // Update track with snake_case field access
