@@ -365,7 +365,7 @@ A shared layout shell that paints itself with `bg-primary` / `bg-accent` / `bg-g
 
 Need a one-off exception? Add `// section-tokens-allow-next-line` directly above the line (justify it in the PR — these should be rare). The same opt-out works inline: `bg-primary // section-tokens-allow`.
 
-The ESLint config mirrors this rule as an **`error`** for the same files (`Section.tsx`, `PageContainer.tsx`, `SafeLayout.tsx`), so the violation also shows up in `npm run lint`. Unit tests for the scanner + codemod live in `tests/unit/check-section-tokens.test.ts`.
+The ESLint config mirrors this rule as a local plugin **`section-tokens/no-saturated-brand`** (rule id) wired for the same files (`Section.tsx`, `PageContainer.tsx`, `SafeLayout.tsx`). It is **auto-fixable**: `npm run lint:fix` (or "Fix on save" in your editor) rewrites forbidden tokens through the exact same codemod as `check:section-tokens -- --fix` — single source of truth lives in `scripts/check-section-tokens.mjs` (`FORBIDDEN` table + `rewriteText`). Unit tests: `tests/unit/check-section-tokens.test.ts` and `tests/unit/eslint-section-tokens.test.ts`.
 
 ### Visual regression (Section + cards)
 
