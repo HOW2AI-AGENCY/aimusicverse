@@ -119,7 +119,13 @@ export default function StudioHubPage() {
           paddingTop: getTelegramHeaderPaddingTop(),
         }}
       >
-        <div className="container flex h-14 items-center justify-between px-4">
+        <div
+          className={cn(
+            "mx-auto flex h-14 items-center justify-between",
+            sectionTokens.shellMaxWidth,
+            sectionTokens.containerPadding,
+          )}
+        >
           <h1 className="text-lg font-semibold">Студия v2</h1>
           <Button size="sm" onClick={() => navigate("/studio-v2/new")}>
             <Plus className="mr-2 h-4 w-4" />
@@ -128,7 +134,28 @@ export default function StudioHubPage() {
         </div>
       </header>
 
-      <main className="container px-4 py-6">
+      <main
+        className={cn(
+          "mx-auto py-6",
+          sectionTokens.shellMaxWidth,
+          sectionTokens.containerPadding,
+          sectionTokens.blockGap,
+        )}
+      >
+        <Section
+          sectionId="studio-projects"
+          eyebrow="Студия"
+          title="Ваши проекты"
+          subtitle="Откройте существующий проект или создайте новый"
+          density="auto"
+          maxWidth="full"
+          headerRight={
+            <Button size="sm" variant="outline" onClick={() => navigate("/studio-v2/new")}>
+              <Plus className="mr-1.5 h-3.5 w-3.5" />
+              Новый
+            </Button>
+          }
+        >
         {isLoading ? (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
