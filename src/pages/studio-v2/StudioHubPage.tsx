@@ -28,6 +28,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { StudioTrack } from "@/stores/useUnifiedStudioStore";
+import { Section, sectionTokens } from "@/components/layout/Section";
 
 interface StudioProjectRow {
   id: string;
