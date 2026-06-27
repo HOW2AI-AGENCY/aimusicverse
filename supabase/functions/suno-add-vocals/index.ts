@@ -218,7 +218,7 @@ serve(async (req) => {
       throw new Error("No taskId in Suno response");
     }
 
-    logger.info("✅ Suno add-vocals task created:", sunoTaskId);
+    logger.info("Suno add-vocals task created", { sunoTaskId });
 
     // Create track record
     const { data: track, error: trackError } = await supabase
@@ -240,7 +240,7 @@ serve(async (req) => {
       .single();
 
     if (trackError) {
-      logger.error("Track creation error:", trackError);
+      logger.error("Track creation error", trackError);
       throw trackError;
     }
 
@@ -260,11 +260,11 @@ serve(async (req) => {
       .single();
 
     if (taskError) {
-      logger.error("Task creation error:", taskError);
+      logger.error("Task creation error", taskError);
       throw taskError;
     }
 
-    logger.info("✅ Generation task created:", generationTask?.id);
+    logger.info("Generation task created", { taskId: generationTask?.id });
 
     return new Response(
       JSON.stringify({
@@ -276,7 +276,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    logger.error("Error in suno-add-vocals:", error);
+    logger.error("Error in suno-add-vocals", error);
     return new Response(JSON.stringify({ error: error.message || "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
