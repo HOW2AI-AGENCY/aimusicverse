@@ -12,22 +12,22 @@ interface GenerationProgressStageProps {
 }
 
 const stages = [
-  { id: "pending", label: "Очередь", icon: Sparkles, progress: 10 },
-  { id: "analyzing", label: "Анализ промпта", icon: Wand2, progress: 25 },
-  { id: "processing", label: "Генерация музыки", icon: Music2, progress: 50 },
-  { id: "streaming_ready", label: "▶️ Можно слушать!", icon: Music2, progress: 80 },
-  { id: "completed", label: "Готово!", icon: CheckCircle2, progress: 100 },
+  { id: "pending", label: "Анализирую запрос", subtitle: "Понимаю настроение и референсы", icon: Sparkles, progress: 10 },
+  { id: "analyzing", label: "Подбираю стиль и темп", subtitle: "Стиль · BPM · тональность", icon: Wand2, progress: 25 },
+  { id: "processing", label: "Генерирую вокал", subtitle: "Синтез голоса и мелодии", icon: Music2, progress: 50 },
+  { id: "streaming_ready", label: "Свожу трек", subtitle: "Микс, мастеринг, обложка", icon: Music2, progress: 80 },
+  { id: "completed", label: "Готово!", subtitle: "Трек готов к прослушиванию", icon: CheckCircle2, progress: 100 },
 ];
 
 function getStageInfo(status: string) {
-  const stageMap: Record<string, { label: string; progress: number; icon: React.ElementType }> = {
-    pending: { label: "В очереди", progress: 10, icon: Sparkles },
-    processing: { label: "Генерация музыки", progress: 50, icon: Music2 },
-    streaming_ready: { label: "Превью готово", progress: 80, icon: Music2 },
-    completed: { label: "Готово!", progress: 100, icon: CheckCircle2 },
-    failed: { label: "Ошибка", progress: 0, icon: AlertCircle },
+  const stageMap: Record<string, { label: string; subtitle: string; progress: number; icon: React.ElementType }> = {
+    pending: { label: "Анализирую запрос", subtitle: "Понимаю настроение и референсы", progress: 10, icon: Sparkles },
+    processing: { label: "Генерирую вокал", subtitle: "Синтез голоса и мелодии", progress: 50, icon: Music2 },
+    streaming_ready: { label: "Свожу трек", subtitle: "Микс, мастеринг, обложка", progress: 80, icon: Music2 },
+    completed: { label: "Готово!", subtitle: "Трек готов к прослушиванию", progress: 100, icon: CheckCircle2 },
+    failed: { label: "Ошибка", subtitle: "Попробуйте снова", progress: 0, icon: AlertCircle },
   };
-  return stageMap[status] || { label: "Обработка", progress: 30, icon: Loader2 };
+  return stageMap[status] || { label: "Обработка", subtitle: "Подождите…", progress: 30, icon: Loader2 };
 }
 
 function formatTime(seconds: number): string {
@@ -99,7 +99,9 @@ export function GenerationProgressStage({ status, prompt, estimatedTime, classNa
             </Badge>
           </div>
 
-          {prompt && <p className="text-sm text-muted-foreground truncate max-w-[200px]">{prompt}</p>}
+          {stageInfo.subtitle && (
+            <p className="text-sm text-muted-foreground">{stageInfo.subtitle}</p>
+          )}
 
           {estimatedTime && estimatedTime > 0 && !isCompleted && (
             <p className="text-xs text-muted-foreground mt-1">Осталось: {formatTime(estimatedTime)}</p>
@@ -113,9 +115,9 @@ export function GenerationProgressStage({ status, prompt, estimatedTime, classNa
 
         {/* Stage markers */}
         <div className="flex justify-between text-xs text-muted-foreground">
-          <span className={stageInfo.progress >= 10 ? "text-primary" : ""}>Начало</span>
+          <span className={stageInfo.progress >= 10 ? "text-primary" : ""}>Анализ</span>
           <span className={stageInfo.progress >= 50 ? "text-primary" : ""}>Генерация</span>
-          <span className={stageInfo.progress >= 80 ? "text-primary" : ""}>Обработка</span>
+          <span className={stageInfo.progress >= 80 ? "text-primary" : ""}>Сведение</span>
           <span className={stageInfo.progress >= 100 ? "text-green-500" : ""}>Готово</span>
         </div>
       </div>

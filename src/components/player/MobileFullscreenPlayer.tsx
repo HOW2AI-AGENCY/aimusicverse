@@ -12,7 +12,7 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight, Mic2 } from "@/lib/icons";
+import { X, ListMusic, BarChart3, ChevronLeft, ChevronRight, Mic2, Sparkles } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { WaveformProgressBar } from "./WaveformProgressBar";
 import { Track } from "@/types/track";
@@ -541,6 +541,12 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
+            <div className="flex items-center justify-center gap-1.5 mb-1">
+              <span className="inline-flex items-center gap-1 bg-primary/15 text-primary px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
+                <Sparkles className="w-3 h-3" />
+                Сгенерировано AI
+              </span>
+            </div>
             <div className="flex items-center justify-center gap-1.5 mb-0.5">
               <h2 className="font-display font-semibold text-[17px] leading-tight truncate tracking-tight text-foreground">
                 {track.title || "Без названия"}

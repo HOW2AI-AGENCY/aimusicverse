@@ -166,17 +166,17 @@ All colors MUST be HSL.
     --z-dropdown: 200;
     --z-toast: 300; /* Toasts/announcements — top of the world */
 
-    /* Section-specific accent colors - harmonized with primary */
-    --generate: 250 80% 60%;
-    --generate-glow: 250 80% 70%;
+    /* Section-specific accent colors - warm orange palette */
+    --generate: 20 100% 62%;
+    --generate-glow: 20 100% 50%;
     --library: 207 90% 54%;
     --library-glow: 207 90% 64%;
-    --projects: 175 70% 45%;
-    --projects-glow: 175 70% 55%;
+    --projects: 262 55% 70%;
+    --projects-glow: 262 55% 56%;
     --community: 330 75% 55%;
     --community-glow: 330 75% 65%;
-    --success: 160 70% 42%;
-    --success-glow: 160 70% 52%;
+    --success: 130 42% 64%;
+    --success-glow: 130 42% 50%;
     --warning: 38 95% 50%;
     --warning-glow: 38 95% 60%;
 
@@ -208,88 +208,88 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Dark theme - Midnight + Aurora (MusicVerse 2026)
-       Palette: #070713 / #0f1424 / #1a2240 / aurora green #4ade80 */
-    --background: 240 46% 5%; /* #070713 */
-    --foreground: 220 30% 96%;
+    /* Dark theme - Warm Dark + Orange Accent (MusicVerse 2026 redesign)
+       Palette: #140F0C (bg) / #1D1611 (surface) / #FF7A3D (accent) / #FFB23E→#FF6B4A (gradient) */
+    --background: 24 30% 6%; /* #140F0C */
+    --foreground: 27 30% 94%; /* #F6EFE8 */
 
-    --card: 226 41% 10%; /* #0f1424 */
-    --card-foreground: 220 30% 96%;
+    --card: 24 22% 9%; /* #1D1611 */
+    --card-foreground: 27 30% 94%;
 
-    --popover: 226 41% 11%;
-    --popover-foreground: 220 30% 96%;
+    --popover: 24 22% 10%;
+    --popover-foreground: 27 30% 94%;
 
-    /* Primary - Aurora mint (signature accent, desaturated for Linear/Arc-style refinement) */
-    --primary: 152 42% 56%; /* #62b48a — muted mint, no neon */
-    --primary-foreground: 240 46% 5%;
+    /* Primary - Warm orange accent */
+    --primary: 20 100% 62%; /* #FF7A3D */
+    --primary-foreground: 20 60% 9%; /* #2A1206 */
 
-    --secondary: 227 32% 16%;
-    --secondary-foreground: 220 25% 92%;
+    --secondary: 24 22% 12%;
+    --secondary-foreground: 27 20% 88%;
 
-    --muted: 227 28% 13%;
-    --muted-foreground: 222 16% 60%;
+    --muted: 24 18% 10%;
+    --muted-foreground: 22 12% 55%; /* #9A8A7C */
 
-    --accent: 227 42% 18%; /* #1a2240 */
-    --accent-foreground: 152 42% 66%;
+    --accent: 24 30% 14%;
+    --accent-foreground: 20 100% 62%;
 
     --destructive: 0 72% 56%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 226 30% 18%;
-    --input: 226 30% 18%;
-    --ring: 152 42% 56%;
+    --border: 24 25% 15%; /* #302419 */
+    --input: 24 25% 15%;
+    --ring: 20 100% 62%;
 
-    /* Section-specific accent colors (Midnight + Aurora, refined) */
-    --generate: 152 42% 56%; /* aurora mint */
-    --generate-glow: 152 42% 44%;
-    --library: 199 70% 62%; /* cyan companion, desaturated */
+    /* Section-specific accent colors (warm palette) */
+    --generate: 20 100% 62%; /* warm orange */
+    --generate-glow: 20 100% 50%;
+    --library: 199 70% 62%;
     --library-glow: 199 70% 48%;
-    --projects: 262 55% 70%; /* indigo, softer */
+    --projects: 262 55% 70%;
     --projects-glow: 262 55% 56%;
     --community: 330 55% 68%;
     --community-glow: 330 55% 52%;
-    --success: 152 42% 56%;
-    --success-glow: 152 42% 44%;
-    --warning: 38 80% 62%;
-    --warning-glow: 38 80% 50%;
+    --success: 130 42% 64%; /* #8FD694 */
+    --success-glow: 130 42% 50%;
+    --warning: 38 95% 60%;
+    --warning-glow: 38 95% 48%;
 
-    /* Glassmorphism - Midnight glass */
-    --glass-bg: 240 46% 5% / 0.72;
-    --glass-border: 226 30% 22%;
-    --glass-shadow: 0 8px 32px 0 hsl(240 60% 2% / 0.55);
+    /* Glassmorphism - Warm glass */
+    --glass-bg: 24 30% 6% / 0.72;
+    --glass-border: 24 25% 18%;
+    --glass-shadow: 0 8px 32px 0 hsl(24 40% 3% / 0.55);
 
-    --gradient-primary: linear-gradient(135deg, hsl(152 42% 56%), hsl(199 70% 62%));
-    --gradient-card: linear-gradient(135deg, hsl(227 38% 12% / 0.85), hsl(240 46% 6% / 0.65));
-    --gradient-hero: linear-gradient(135deg, hsl(152 42% 56% / 0.12), hsl(262 55% 70% / 0.12));
+    --gradient-primary: linear-gradient(135deg, #FFB23E, #FF6B4A);
+    --gradient-card: linear-gradient(135deg, hsl(24 22% 11% / 0.85), hsl(24 30% 7% / 0.65));
+    --gradient-hero: linear-gradient(135deg, hsl(20 100% 62% / 0.12), hsl(340 60% 50% / 0.12));
     --gradient-telegram: linear-gradient(135deg, hsl(199 70% 62%), hsl(262 55% 70%));
-    --gradient-generate: linear-gradient(135deg, hsl(152 42% 56%), hsl(199 70% 62%));
-    --gradient-success: linear-gradient(135deg, hsl(152 42% 56%), hsl(160 45% 52%));
+    --gradient-generate: linear-gradient(135deg, #FFB23E, #FF6B4A);
+    --gradient-success: linear-gradient(135deg, #8FD694, #6BC476);
 
-    --shadow-glass: 0 4px 24px 0 hsl(240 60% 2% / 0.5);
-    --shadow-hover: 0 8px 32px 0 hsl(207 90% 54% / 0.2);
-    --shadow-glow: 0 0 40px 0 hsl(207 90% 54% / 0.35);
+    --shadow-glass: 0 4px 24px 0 hsl(24 40% 3% / 0.5);
+    --shadow-hover: 0 8px 32px 0 hsl(20 100% 50% / 0.2);
+    --shadow-glow: 0 0 40px 0 hsl(20 100% 50% / 0.35);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-    --sidebar-background: 220 20% 6%;
-    --sidebar-foreground: 220 10% 95%;
-    --sidebar-primary: 207 90% 54%;
+    --sidebar-background: 24 20% 7%;
+    --sidebar-foreground: 27 10% 95%;
+    --sidebar-primary: 20 100% 62%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 15% 14%;
-    --sidebar-accent-foreground: 220 10% 95%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 207 90% 54%;
+    --sidebar-accent: 24 15% 14%;
+    --sidebar-accent-foreground: 27 10% 95%;
+    --sidebar-border: 24 15% 18%;
+    --sidebar-ring: 20 100% 62%;
 
     /* Dark-theme overrides for the Phase 1 semantic surfaces */
-    --surface-1: 226 41% 10%;
-    --surface-2: 227 32% 13%;
-    --surface-3: 227 28% 16%;
-    --overlay-scrim: 240 46% 5% / 0.7;
-    --ring-focus: hsl(152 42% 56% / 0.55);
-    --state-success: 152 42% 56%;
-    --state-success-foreground: 240 46% 5%;
+    --surface-1: 24 22% 9%; /* #1D1611 */
+    --surface-2: 24 18% 11%;
+    --surface-3: 24 18% 14%;
+    --overlay-scrim: 24 30% 6% / 0.7;
+    --ring-focus: hsl(20 100% 62% / 0.55);
+    --state-success: 130 42% 64%;
+    --state-success-foreground: 24 30% 6%;
     --state-warning: 38 95% 60%;
-    --state-warning-foreground: 240 46% 5%;
+    --state-warning-foreground: 24 30% 6%;
     --state-danger: 0 72% 56%;
     --state-danger-foreground: 0 0% 100%;
     --state-info: 207 90% 60%;

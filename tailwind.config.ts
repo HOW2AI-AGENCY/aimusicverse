@@ -40,9 +40,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"DM Sans"', "Inter", "system-ui", "sans-serif"],
+        sans: ['"Onest"', "Inter", "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "Roboto Mono", "monospace"],
-        display: ['"Space Grotesk"', '"DM Sans"', "system-ui", "sans-serif"],
+        display: ['"Unbounded"', '"Onest"', "system-ui", "sans-serif"],
       },
       fontSize: {
         // Professional Typography Scale (from 032-professional-ui spec)
@@ -203,7 +203,7 @@ export default {
         spring: "var(--ease-spring)",
       },
       backgroundImage: {
-        "gradient-telegram": "linear-gradient(135deg, hsl(207 90% 54%), hsl(250 80% 60%))",
+        "gradient-telegram": "linear-gradient(135deg, hsl(199 70% 62%), hsl(262 55% 70%))",
         "gradient-primary": "var(--gradient-primary)",
         "gradient-card": "var(--gradient-card)",
         "gradient-hero": "var(--gradient-hero)",
@@ -212,8 +212,8 @@ export default {
       },
       boxShadow: {
         glow: "var(--shadow-glow)",
-        "glow-sm": "0 0 15px 0 hsl(207 90% 54% / 0.2)",
-        "glow-lg": "0 0 50px 0 hsl(207 90% 54% / 0.4)",
+        "glow-sm": "0 0 15px 0 hsl(20 100% 62% / 0.2)",
+        "glow-lg": "0 0 50px 0 hsl(20 100% 62% / 0.4)",
         "glow-generate": "0 0 30px 0 hsl(var(--generate) / 0.4)",
         // Design system elevation levels (feature 032-professional-ui)
         "elevation-0": shadows.none,
@@ -266,10 +266,10 @@ export default {
         },
         "pulse-glow": {
           "0%, 100%": {
-            boxShadow: "0 0 20px hsl(207 90% 54% / 0.4)",
+            boxShadow: "0 0 20px hsl(20 100% 62% / 0.4)",
           },
           "50%": {
-            boxShadow: "0 0 30px hsl(207 90% 54% / 0.6)",
+            boxShadow: "0 0 30px hsl(20 100% 62% / 0.6)",
           },
         },
         shimmer: {
