@@ -341,7 +341,56 @@ debug without re-running locally:
 
 Every PR also gets an auto-posted CI summary comment with one-click links to the `smoke-<browser>` artifacts.
 
+### Auto-rerun only the failed browser
 
+If the parallel matrix fails, replay **only** the broken project locally with forced `trace=on` + `video=on` — no need to re-run the whole matrix:
+
+```bash
+npm run e2e:smoke:rerun                    # parallel, auto-reruns the failed browser
+bash scripts/e2e.sh --rerun-failed         # same thing
+bash scripts/e2e.sh --rerun-failed chromium firefox   # restrict the matrix
+```
+
+Rerun artifacts land in `test-results/smoke/pw-output-<browser>-rerun/` so they don't overwrite the original logs.
+
+### Section design tokens (anti-brightness guard)
+
+A shared layout shell that paints itself with `bg-primary` / `bg-accent` / `bg-gradient-primary` makes the whole app neon-bright. Two guards stop that from coming back:
+
+| Command | When to run |
+| --- | --- |
+| `npm run check:section-tokens` | Before committing changes to `src/components/layout/Section.tsx` (also runs in `prebuild` + pre-commit + CI). |
+| `npm run check:section-tokens -- --fix` | **Codemod** — auto-replaces forbidden tokens (`bg-primary` → `bg-card/60`, `bg-gradient-primary` → `bg-gradient-to-br from-card/60 via-background to-muted/40`, etc.). |
+| `npm run check:design-tokens` | Aggregate: CSS `@import` order + Section tokens. |
+
+Need a one-off exception? Add `// section-tokens-allow-next-line` directly above the line (justify it in the PR — these should be rare). The same opt-out works inline: `bg-primary // section-tokens-allow`.
+
+The ESLint config mirrors this rule as an **`error`** for the same files (`Section.tsx`, `PageContainer.tsx`, `SafeLayout.tsx`), so the violation also shows up in `npm run lint`. Unit tests for the scanner + codemod live in `tests/unit/check-section-tokens.test.ts`.
+
+### Visual regression (Section + cards)
+
+Catches "too bright" regressions and gradient drift without a human eyeballing screenshots. Two layers: pixel snapshot per Section **and** an average-luminance assertion (`< 0.32` on the dark theme).
+
+```bash
+npm run test:visual              # run against current code
+npm run test:visual:update       # refresh baselines after an INTENTIONAL color change
+```
+
+Run `test:visual` whenever you touch:
+- `src/index.css` (color tokens)
+- `tailwind.config.ts`
+- `src/components/layout/Section.tsx` or any shared card/section component
+
+If it fails with `avg luminance … > 0.32`, the surface is too bright — fix the token, don't bump the threshold. If it fails on pixel diff but the change is intentional, run `test:visual:update` and commit the snapshots under `tests/e2e/visual.section.spec.ts-snapshots/`.
+
+### When to run what (CI failed?)
+
+| Symptom | First command |
+| --- | --- |
+| White screen / app won't load | `npm run check:css-imports` then `npm run test:smoke:chromium` |
+| Smoke green locally, red in CI on one browser only | `npm run e2e:smoke:rerun` (matches CI matrix, retains video/trace) |
+| Sections look too bright / saturated | `npm run check:section-tokens` (then `-- --fix`), then `npm run test:visual` |
+| Bundler / cache acting weird | `npm run clean:cache` or `npm run reset` |
 
 ---
 
