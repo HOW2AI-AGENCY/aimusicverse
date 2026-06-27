@@ -6,7 +6,7 @@
  */
 
 import { useEffect, memo } from "react";
-import { usePerformanceTracking, type PerformanceMetric } from "@/hooks/analytics";
+import { usePerformanceTracking, type PerformanceMetric } from "@/hooks/analytics/usePerformanceTracking";
 import { logger } from "@/lib/logger";
 
 interface WebVitalsReporterProps {
