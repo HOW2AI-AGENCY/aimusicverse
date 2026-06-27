@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { toast } from "sonner";
+// toast removed — sync is now silent
 import { logger } from "@/lib/logger";
 
 const log = logger.child({ module: "SyncStaleTasks" });
