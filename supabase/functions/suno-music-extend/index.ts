@@ -2,24 +2,11 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+import { getApiModelName } from "../_shared/suno-models.ts";
+import { getGenerationCost, ECONOMY } from "../_shared/economy.ts";
 
 const logger = createLogger("suno-music-extend");
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
-
-/**
- * Per SunoAPI docs: Model values are V5, V4_5PLUS, V4_5, V4, V3_5
- */
-const VALID_MODELS = ["V5", "V4_5PLUS", "V4_5", "V4", "V3_5"];
-const DEFAULT_MODEL = "V4_5"; // Fixed: Unified with other functions
-
-function getApiModelName(uiKey: string): string {
-  if (uiKey === "V4_5ALL") return "V4_5"; // Fixed: Unified with other functions
-  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
-}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -48,7 +35,10 @@ serve(async (req) => {
     } = await supabase.auth.getUser(authHeader.replace("Bearer ", ""));
 
     if (userError || !user) {
-      throw new Error("Unauthorized");
+      return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        status: 401,
+      });
     }
 
     const body = await req.json();
@@ -87,6 +77,29 @@ serve(async (req) => {
 
     if (!sourceTrack.suno_id) {
       throw new Error("Source track does not have a Suno ID");
+    }
+
+    // Check and deduct credits
+    const extendCost = ECONOMY.EXTEND_GENERATION_COST;
+    const { data: userCredits } = await supabase
+      .from("user_credits")
+      .select("balance")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+    const userBalance = userCredits?.balance ?? 0;
+    if (userBalance < extendCost) {
+      logger.warn("Insufficient credits for extend", { balance: userBalance, required: extendCost });
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: `Недостаточно кредитов. Баланс: ${userBalance}, требуется: ${extendCost}`,
+          errorCode: "INSUFFICIENT_CREDITS",
+          balance: userBalance,
+          required: extendCost,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" }, status: 402 },
+      );
     }
 
     // When defaultParamFlag is false (custom mode), we need prompt, style, title
@@ -156,7 +169,7 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
-      console.error("Task creation error:", taskError);
+      logger.error("Task creation error", taskError);
       throw new Error("Failed to create generation task");
     }
 
@@ -180,7 +193,7 @@ serve(async (req) => {
     // Per SunoAPI docs:
     // defaultParamFlag=true: use original track params (no prompt/style/title needed)
     // defaultParamFlag=false: use custom params (prompt/style/title required)
-    const sunoPayload: any = {
+    const sunoPayload: Record<string, unknown> = {
       defaultParamFlag,
       audioId: sourceTrack.suno_id,
       model: effectiveModel,
@@ -222,7 +235,7 @@ serve(async (req) => {
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
 
-    console.log(`📥 Extend response (${duration}ms, $0.03)`);
+    logger.info("Extend response received", { durationMs: duration });
 
     // Log API call
     await supabase.from("api_usage_logs").insert({
@@ -238,7 +251,7 @@ serve(async (req) => {
     });
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      console.error("SunoAPI extend error:", sunoData);
+      logger.error("SunoAPI extend error", null, { response: sunoData });
 
       // Update task and track as failed
       await supabase
@@ -283,6 +296,16 @@ serve(async (req) => {
       })
       .eq("id", newTrack.id);
 
+    // Deduct credits
+    await supabase.rpc("deduct_credits", { p_user_id: user.id, p_amount: extendCost });
+    await supabase.from("credit_transactions").insert({
+      user_id: user.id,
+      amount: -extendCost,
+      type: "generation",
+      description: `Extend track: ${effectiveTitle}`,
+      metadata: { track_id: newTrack.id, source_track_id: sourceTrackId, model: effectiveModel },
+    });
+
     // Log the extension
     await supabase.from("track_change_log").insert({
       track_id: newTrack.id,
@@ -314,7 +337,7 @@ serve(async (req) => {
       },
     );
   } catch (error: any) {
-    console.error("Error in suno-music-extend:", error);
+    logger.error("Error in suno-music-extend", error);
     return new Response(
       JSON.stringify({
         success: false,

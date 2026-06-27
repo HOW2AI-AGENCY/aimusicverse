@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("suno-generate-cover-image");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -16,7 +15,7 @@ serve(async (req) => {
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
 
     if (!sunoApiKey) {
-      console.error("SUNO_API_KEY not configured");
+      logger.error("SUNO_API_KEY not configured");
       return new Response(JSON.stringify({ error: "API key not configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -71,7 +70,7 @@ serve(async (req) => {
       });
     }
 
-    console.log("Generating cover image for track:", trackId);
+    logger.info("Generating cover image for track", { trackId });
 
     const callBackUrl = `${supabaseUrl}/functions/v1/suno-cover-callback`;
 

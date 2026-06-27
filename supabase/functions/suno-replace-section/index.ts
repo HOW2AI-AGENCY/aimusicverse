@@ -2,15 +2,11 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 import { ECONOMY } from "../_shared/economy.ts";
 
 const logger = createLogger("suno-replace-section");
 const REPLACE_SECTION_COST = ECONOMY.REPLACE_SECTION_COST;
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
 
 const SUNO_API_URL = "https://api.sunoapi.org/api/v1/generate/replace-section";
 
@@ -132,7 +128,7 @@ serve(async (req) => {
     });
 
     // We need the suno_id (audioId) from the active version
-    const activeVersion = track.track_versions?.find((v: any) => v.id === track.active_version_id);
+    const activeVersion = track.track_versions?.find((v: Record<string, unknown>) => v.id === track.active_version_id);
     const audioId = activeVersion?.metadata?.suno_id || track.suno_id;
     const taskId = track.suno_task_id;
 
@@ -160,7 +156,7 @@ serve(async (req) => {
     // Get user's telegram chat ID for notifications
     const { data: profile } = await supabase
       .from("profiles")
-      .select("telegram_chat_id")
+      .select("telegram_id")
       .eq("user_id", user.id)
       .single();
 

@@ -11,15 +11,11 @@ import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { ECONOMY } from "../_shared/economy.ts";
+import { getApiModelName } from "../_shared/suno-models.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const VALID_MODELS = ["V5", "V4_5PLUS", "V4_5", "V4", "V3_5"];
-const DEFAULT_MODEL = "V4_5";
+const logger = createLogger("suno-remix");
 const COVER_COST = ECONOMY.COVER_GENERATION_COST; // 10 credits
-
-function getApiModelName(uiKey: string): string {
-  if (uiKey === "V4_5ALL") return "V4_5";
-  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
-}
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -58,7 +54,7 @@ serve(async (req) => {
       .single();
 
     if (creditsError) {
-      console.error("[suno-remix] Credits check error:", creditsError);
+      logger.error("Credits check error", creditsError);
       throw new Error("Failed to check credit balance");
     }
 
@@ -92,7 +88,7 @@ serve(async (req) => {
     }
 
     // Get original track info if audioId provided, otherwise use reference audio URL
-    let originalTrack: any = null;
+    let originalTrack: Record<string, unknown> | null = null;
     let uploadUrl = audioUrl;
     let basePrompt = prompt || "";
     let baseStyle = style || "";
@@ -121,7 +117,7 @@ serve(async (req) => {
     }
 
     // URL Validation logging for debugging cover errors
-    console.log("[suno-remix] URL Validation:", {
+    logger.info("URL Validation", {
       uploadUrl: uploadUrl,
       urlLength: uploadUrl.length,
       isSupabaseUrl: uploadUrl.includes("supabase"),
@@ -132,7 +128,7 @@ serve(async (req) => {
     // Validate URL accessibility before sending to Suno
     try {
       const urlCheck = await fetch(uploadUrl, { method: "HEAD" });
-      console.log("[suno-remix] URL accessibility check:", {
+      logger.info("URL accessibility check", {
         status: urlCheck.status,
         contentType: urlCheck.headers.get("content-type"),
         contentLength: urlCheck.headers.get("content-length"),
@@ -140,18 +136,18 @@ serve(async (req) => {
       });
 
       if (!urlCheck.ok) {
-        console.error("[suno-remix] URL not accessible:", {
+        logger.error("URL not accessible", undefined, {
           status: urlCheck.status,
           statusText: urlCheck.statusText,
         });
       }
     } catch (urlError) {
-      console.error("[suno-remix] URL validation failed:", urlError);
+      logger.error("URL validation failed", urlError as Error);
     }
 
     const effectiveModel = getApiModelName(model);
 
-    console.log("[suno-remix] Creating cover:", {
+    logger.info("Creating cover", {
       audioId,
       hasAudioUrl: !!audioUrl,
       uploadUrl: uploadUrl?.substring(0, 100),
@@ -177,7 +173,7 @@ serve(async (req) => {
       .single();
 
     if (newTrackError || !newTrack) {
-      console.error("[suno-remix] Failed to create track record:", newTrackError);
+      logger.error("Failed to create track record", newTrackError);
       throw new Error("Failed to create track record");
     }
 
@@ -201,7 +197,7 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
-      console.error("[suno-remix] Failed to create generation task:", taskError);
+      logger.error("Failed to create generation task", taskError);
       throw new Error("Failed to create generation task");
     }
 
@@ -231,7 +227,7 @@ serve(async (req) => {
     if (personaId) sunoPayload.personaId = personaId;
     if (voiceId) sunoPayload.voiceId = voiceId;
 
-    console.log("[suno-remix] Sending to upload-cover endpoint:", {
+    logger.info("Sending to upload-cover endpoint", {
       ...sunoPayload,
       uploadUrl: uploadUrl.substring(0, 50) + "...",
     });
@@ -250,7 +246,7 @@ serve(async (req) => {
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
 
-    console.log(`[suno-remix] Response (${duration}ms):`, JSON.stringify(sunoData).substring(0, 300));
+    logger.info(`Response (${duration}ms)`, { response: JSON.stringify(sunoData).substring(0, 300) });
 
     // Log API call
     await supabase.from("api_usage_logs").insert({
@@ -276,7 +272,7 @@ serve(async (req) => {
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       const errorMsg = sunoData.msg || `SunoAPI upload-cover failed (${sunoResponse.status})`;
-      console.error("[suno-remix] API error:", errorMsg, sunoData);
+      logger.error("API error", undefined, { errorMsg, sunoData });
 
       await supabase
         .from("generation_tasks")
@@ -328,31 +324,23 @@ serve(async (req) => {
     });
 
     if (deductError) {
-      console.error(
-        JSON.stringify({
-          tag: "[suno-remix]",
-          event: "credit_deduct_failed",
-          userId: user.id,
-          trackId: newTrack.id,
-          sunoTaskId,
-          amount: COVER_COST,
-          error: deductError.message,
-          hasVoiceId: !!voiceId,
-        }),
-      );
+      logger.error("Credit deduct failed", undefined, {
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: COVER_COST,
+        error: deductError.message,
+        hasVoiceId: !!voiceId,
+      });
       // Don't fail the request, just log it
     } else {
-      console.log(
-        JSON.stringify({
-          tag: "[suno-remix]",
-          event: "credit_deducted",
-          userId: user.id,
-          trackId: newTrack.id,
-          sunoTaskId,
-          amount: COVER_COST,
-          hasVoiceId: !!voiceId,
-        }),
-      );
+      logger.info("Credit deducted", {
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: COVER_COST,
+        hasVoiceId: !!voiceId,
+      });
     }
 
     // Log credit transaction
@@ -365,7 +353,7 @@ serve(async (req) => {
       metadata: { trackId: newTrack.id, sunoTaskId },
     });
 
-    console.log("[suno-remix] Success:", {
+    logger.success("Cover generation started", {
       trackId: newTrack.id,
       sunoTaskId,
       audioWeight,
@@ -386,7 +374,7 @@ serve(async (req) => {
     );
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    console.error("[suno-remix] Error:", errorMessage);
+    logger.error("Error", undefined, { errorMessage });
     return new Response(
       JSON.stringify({
         success: false,

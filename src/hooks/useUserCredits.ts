@@ -25,30 +25,7 @@ export function useUserCredits(modelKey?: string) {
   const queryClient = useQueryClient();
   const { isScreenshotMode } = useGuestMode();
 
-  // Return mock data in screenshot mode
-  if (isScreenshotMode) {
-    const mockUserCredits: UserCredits = {
-      balance: mockCredits.credits_balance,
-      total_earned: mockCredits.lifetime_credits,
-      total_spent: mockCredits.lifetime_credits - mockCredits.credits_balance,
-      experience: mockStats.experience,
-      level: mockStats.level,
-      current_streak: mockCredits.streak_days,
-    };
-
-    return {
-      credits: mockUserCredits,
-      balance: mockCredits.credits_balance,
-      isLoading: false,
-      error: null,
-      refetch: () => Promise.resolve(),
-      invalidate: () => {},
-      canGenerate: true,
-      generationCost: GENERATION_COST,
-      isAdmin: false,
-      apiBalance: null,
-    };
-  }
+  const enabled = !!user?.id && !isScreenshotMode;
 
   // Check admin status
   const { data: adminData } = useQuery({
@@ -58,7 +35,7 @@ export function useUserCredits(modelKey?: string) {
       const isAdmin = await creditsApi.checkAdminStatus(user.id);
       return { isAdmin };
     },
-    enabled: !!user?.id,
+    enabled,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -75,7 +52,7 @@ export function useUserCredits(modelKey?: string) {
         return 0;
       }
     },
-    enabled: isAdmin,
+    enabled: isAdmin && !isScreenshotMode,
     staleTime: 30000,
     refetchInterval: 60000,
   });
@@ -112,10 +89,35 @@ export function useUserCredits(modelKey?: string) {
         current_streak: data.current_streak,
       };
     },
-    enabled: !!user?.id,
+    enabled,
     staleTime: 30000,
     refetchInterval: 60000,
   });
+
+  // Return mock data in screenshot mode
+  if (isScreenshotMode) {
+    const mockUserCredits: UserCredits = {
+      balance: mockCredits.credits_balance,
+      total_earned: mockCredits.lifetime_credits,
+      total_spent: mockCredits.lifetime_credits - mockCredits.credits_balance,
+      experience: mockStats.experience,
+      level: mockStats.level,
+      current_streak: mockCredits.streak_days,
+    };
+
+    return {
+      credits: mockUserCredits,
+      balance: mockCredits.credits_balance,
+      isLoading: false,
+      error: null,
+      refetch: () => Promise.resolve(),
+      invalidate: () => {},
+      canGenerate: true,
+      generationCost: GENERATION_COST,
+      isAdmin: false,
+      apiBalance: null,
+    };
+  }
 
   // Dynamic generation cost based on model
   const generationCost = modelKey ? getModelCost(modelKey) : GENERATION_COST;

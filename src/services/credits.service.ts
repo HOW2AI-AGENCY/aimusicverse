@@ -165,15 +165,18 @@ export async function canAffordGeneration(userId: string): Promise<{
 /**
  * Deduct credits for generation (non-admin users only)
  */
-export async function chargeForGeneration(userId: string): Promise<void> {
+export async function chargeForGeneration(userId: string, modelKey?: string): Promise<void> {
   const isAdmin = await creditsApi.checkAdminStatus(userId);
   if (isAdmin) {
     logger.info("Admin user - skipping credit deduction");
     return;
   }
 
-  await creditsApi.deductCredits(userId, GENERATION_COST);
-  await creditsApi.logCreditTransaction(userId, -GENERATION_COST, "spend", "generation", "Генерация трека");
+  const cost = modelKey ? getModelCost(modelKey) : GENERATION_COST;
+  await creditsApi.deductCredits(userId, cost);
+  await creditsApi.logCreditTransaction(userId, -cost, "spend", "generation", "Генерация трека", {
+    model: modelKey,
+  });
 }
 
 /**

@@ -5,6 +5,7 @@
 
 // Model-specific generation costs
 export const MODEL_COSTS: Record<string, number> = {
+  V5_5: 14,
   V5: 12,
   V4_5PLUS: 12,
   V4_5: 12,
