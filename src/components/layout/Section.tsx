@@ -84,14 +84,17 @@ const densityToInnerPad: Record<SectionDensity, string> = {
 
 const toneToSurface: Record<SectionTone, string> = {
   plain: "",
+  // All surface tones use neutral card/border tokens — no saturated
+  // primary/accent washes. Keeps the home page calm and consistent
+  // with the rest of the design system (cards, sheets, popovers).
   subtle: "rounded-2xl bg-card/40 border border-border/40",
-  accent: "rounded-2xl bg-primary/[0.06] border border-primary/15",
+  accent: "rounded-2xl bg-card/60 border border-border/50",
   muted: "rounded-2xl bg-muted/30",
-  light: "rounded-2xl bg-background/80 border border-border/30",
-  dark: "rounded-2xl bg-foreground/[0.04] border border-foreground/10 dark:bg-black/30 dark:border-white/5",
+  light: "rounded-2xl bg-card/50 border border-border/30",
+  dark: "rounded-2xl bg-foreground/[0.03] border border-border/40 dark:bg-black/20 dark:border-white/5",
   blur: "rounded-2xl bg-card/50 backdrop-blur-xl border border-border/40 supports-[backdrop-filter]:bg-card/30",
   gradient:
-    "rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-background to-accent/10",
+    "rounded-2xl border border-border/40 bg-gradient-to-br from-card/60 via-background to-muted/40",
 };
 
 const maxWidthToClass: Record<SectionMaxWidth, string> = {
