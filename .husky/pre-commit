@@ -14,6 +14,13 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+echo "🎨 Validating Section design tokens (no saturated brand washes)..."
+node scripts/check-section-tokens.mjs
+if [ $? -ne 0 ]; then
+  echo "❌ Section token check failed — commit blocked."
+  exit 1
+fi
+
 # Run lint-staged for staged files
 npx lint-staged
 

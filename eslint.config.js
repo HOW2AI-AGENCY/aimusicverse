@@ -203,5 +203,33 @@ export default tseslint.config(
       ],
     },
   },
+  // Hard guard: no saturated brand washes in shared layout primitives.
+  // bg-primary / bg-accent / from-primary / via-accent / bg-gradient-primary
+  // make Section/Page shells neon-bright and break visual hierarchy.
+  // Mirrored by scripts/check-section-tokens.mjs for prebuild + pre-commit.
+  {
+    files: [
+      "src/components/layout/Section.tsx",
+      "src/components/layout/PageContainer.tsx",
+      "src/components/layout/SafeLayout.tsx",
+    ],
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector:
+            "Literal[value=/\\b(?:bg-(?:primary|accent)(?:\\/(?:[1-9]\\d?|100))?|from-(?:primary|accent)|via-(?:primary|accent)|to-(?:primary|accent)|bg-gradient-(?:primary|generate))\\b/]",
+          message:
+            "Section/Page shells must stay neutral. Replace bg-primary / bg-accent / from-primary / bg-gradient-primary with bg-card/60 + border-border/50, bg-muted/30 or a subtle from-card/60 via-background to-muted/40 gradient. Brand color is for text/icons/focus rings only.",
+        },
+        {
+          selector:
+            "TemplateElement[value.raw=/\\b(?:bg-(?:primary|accent)(?:\\/(?:[1-9]\\d?|100))?|from-(?:primary|accent)|via-(?:primary|accent)|to-(?:primary|accent)|bg-gradient-(?:primary|generate))\\b/]",
+          message:
+            "Section/Page shells must stay neutral. Replace bg-primary / bg-accent / from-primary / bg-gradient-primary in template strings with neutral surface tokens.",
+        },
+      ],
+    },
+  },
   prettier,
 );
