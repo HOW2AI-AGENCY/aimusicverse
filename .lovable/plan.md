@@ -1,83 +1,96 @@
-# Repository Documentation Audit & Redesign
 
-## Goal
-Полностью переработать оформление root-документации (README + ключевые `.md` файлы) и навигацию между ними: единый визуальный стиль, продвинутые компоненты GitHub-markdown (collapsible sections, alerts, mermaid-диаграммы, бейджи shields.io, таблицы возможностей), консистентная навигация, удаление дублей.
+# Полный аудит проекта MusicVerse AI и план работ
 
-## Scope
+## 1. Краткие итоги аудита
 
-**Audit (read-only, через sub-agents параллельно):**
-1. Root `.md` (18 файлов: README, README_RU, CLAUDE, KNOWLEDGE_BASE, REPOSITORY_STRUCTURE, DOCUMENTATION_INDEX, ARCHITECTURE_HUB, ROADMAP, CHANGELOG, CONTRIBUTING, SECURITY, MAINTENANCE, SUMMARY, REPOSITORY_IMPROVEMENTS_SUMMARY, PROJECT_STATUS, KNOWN_ISSUES_TRACKED, AGENTS, CODE_OF_CONDUCT).
-2. `docs/` (80+ файлов) — найти дубли (ARCHITECTURE vs ARCHITECTURE_ANALYSIS vs COMPREHENSIVE_ARCHITECTURE vs ARCHITECTURE_DIAGRAMS; NAVIGATION vs NAVIGATION_GUIDE; KNOWN_ISSUES vs root-версия; INDEX vs DOCUMENTATION_INDEX), битые ссылки, устаревшие даты.
-3. Проверить, что бейджи/badges актуальны (версии React 19.2, TS 5.9 и т.д.), ссылки рабочие.
+| Область | Состояние | Комментарий |
+|---|---|---|
+| Core platform (Sprint 001–032) | ✅ 100% | 935+ компонентов, 200+ хуков, 80+ edge functions |
+| Bundle | ✅ 918 KB / 950 KB | В пределах бюджета, но без запаса |
+| Unit-тесты | ✅ 82% | Над целью 80% |
+| E2E (Playwright) | 🟡 47 spec'ов есть, но фаза 10C формально 0% | Покрытие неровное: много spec'ов для dev-overlay/hints, мало для критических пользовательских сценариев (generate→play→library→share) |
+| CI/CD | 🟡 quality+build+docs+badges есть | Нет отдельного e2e job (mobile + desktop), нет визуальной регрессии, нет Lighthouse-бюджета |
+| Документация | ✅ Переработана 2026-06-27 | Style guide, mkdocs, link-check, badges-bot активны |
+| Известные баги | 🟡 3 open / 2 watch | iOS audio pool, Suno 429, Studio mobile stutter |
+| Code TODO | 🟡 23 шт. | AI-сюжеты в IdeaStep/LyricsStep, virtual scroll, srcset/blurhash, Studio loop/export/MIDI |
+| Reliability генерации | 🔴 failure rate 12% | Цель < 8% (Sprint 034, не начат) |
+| Spec 001 UI Improvements | 🔴 0% | Sprint 033 не начат |
+| Tech debt | 🟡 | `useUnifiedStudioStore` 38 KB, legacy generators, WCAG AA не завершён |
 
-**Findings deliverable:** `docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md` — список дублей, битых ссылок, рекомендаций к слиянию/архивированию.
+Главные риски: (a) запас bundle тает, (b) надёжность генерации, (c) отсутствие визуальной/E2E регрессии в CI на критических флоу, (d) накопление TODO в коде и тех. долга в Studio.
 
-## Redesign deliverables
+## 2. План работ (6 направлений, 4 спринта × 2 нед)
 
-### 1. New visual system for docs
-Единый header-блок для топ-документов:
-- Hero с центрированным логотипом, проектным tagline.
-- Badge-стек (build, version, license, coverage, bundle size, telegram, docs, contributors) — shields.io с консистентной цветовой палитрой (стиль `for-the-badge`).
-- Навигационная панель-чипы со ссылками на основные разделы.
-- Footer-блок «Related docs» по шаблону `docs/templates/HEADER_TEMPLATE.md`.
+### Спринт 033 — UI Improvements & Tech Debt Cleanup (2 нед)
+- Реализовать `specs/001-ui-improvements` (визуальная иерархия, анимации, фокус-стили)
+- Разбить `useUnifiedStudioStore` на доменные слайсы (playback / mixer / sections / lyrics)
+- Закрыть мелкие UI TODO: T019 (навигация GenerateWizard), T020 (типобезопасность), T021 (upload-диалоги), T022 (sort-иконка в Library), T024 (batch actions), T025 (BottomNavigation иерархия)
+- Заменить TODO в `useInfinitePublicTracks` и `TracksGridSection` на IntersectionObserver + react-virtuoso
 
-### 2. README.md (root) — полная переработка
-- Hero: логотип + tagline + badges (≥10) + nav chips.
-- GitHub Alerts (`> [!NOTE]`, `> [!TIP]`, `> [!WARNING]`) для статуса и quick-start.
-- Mermaid-диаграмма архитектуры (frontend → API → services → Supabase).
-- Feature matrix-таблица с emoji-иконками и статусами (✅/🚧/📋).
-- Collapsible `<details>` секции: Quick Start, Tech Stack, Project Structure, Scripts, Testing, Deployment, FAQ.
-- Скриншоты в `<table>` галерее (placeholder если нет).
-- Star-history бейдж, contributors-grid.
-- Footer с links на CONTRIBUTING/SECURITY/CODE_OF_CONDUCT/CHANGELOG.
+### Спринт 034 — Generation Reliability (2 нед)
+- Инструментировать `suno-music-generate`/`suno-extend-audio`/`suno-remix`: структурированные ошибки, корреляция task_id ↔ Sentry
+- Exponential back-off + очередь на 429; circuit-breaker на Suno API
+- Idempotency keys для retry, чтобы не списывать кредиты дважды
+- Алерты в админ-панели при росте failure rate > 8% за 1 ч
+- Цель: failure rate 12% → < 8%, time-to-first-clip P95 < 90 с
 
-### 3. README_RU.md
-Симметричная RU-версия с тем же оформлением.
+### Спринт 035 — E2E coverage & visual regression (2 нед)
+- Pуть-критические сценарии (Phase 10C): generate→result-sheet→play→version-switch, library→filter→player, auth→onboarding, voice-clone, stems
+- Раздельные CI-job: `e2e-desktop` (Chrome+Firefox+Safari) и `e2e-mobile` (Pixel5+iPhone12), с shards × 4 и retry 2
+- Screenshot-diff через `@playwright/test` `toHaveScreenshot` на 6 экранах (home, generate, library, player, studio, admin)
+- Lighthouse CI бюджет: perf ≥ 90, a11y ≥ 95, bundle ≤ 950 KB как failing gate
+- Накопить артефакты: HTML report + trace + видео при падении
 
-### 4. DOCUMENTATION_INDEX.md
-Полная переработка как навигационного хаба:
-- Категории (Getting Started / Architecture / Features / API / Guides / Operations / Archive) — таблицы со статусом и кратким описанием.
-- Mermaid-карта документации (зависимости между документами).
-- Поисковые подсказки и onboarding-пути для разных ролей (Frontend Dev / Backend Dev / Designer / PM / DevOps).
+### Спринт 036 — Mobile / iOS / Telegram stability (2 нед)
+- Закрыть Known Issue #1: hard-eviction `audioElementPool` при > 8 неактивных элементов, телеметрия pool-size
+- Studio mobile stutter: throttle waveform render до 30 FPS, off-main-thread в Worker
+- Telegram iOS 17.4 keyboard jump: переписать на `visualViewport` с дебаунсом 80 мс
+- Wavesurfer memory leak: `destroy()` в cleanup, регрессионный тест на 50 переключений
+- WCAG AA pass на Library + Studio (axe в CI, фикс контрастов и aria-labels)
 
-### 5. REPOSITORY_STRUCTURE.md
-- Mermaid tree для верхнего уровня + collapsible деревья для `src/`, `supabase/`, `docs/`.
-- Таблицы «директория → назначение → ключевые файлы».
+### Сквозные задачи (фоном, во всех спринтах)
+- Удалить/закрыть code-TODO list: AI-suggestions в Idea/LyricsStep (через `lovable-ai-gateway`), Artists.tsx навигация, admin alerts → suno-credits edge fn, srcset+blurhash в `imageOptimization.ts`
+- Обновить `KNOWN_ISSUES_TRACKED.md` и `PROJECT_STATUS.md` каждое окончание спринта
+- В каждый PR — авто-обновление badge через `update-badges.yml`
 
-### 6. CONTRIBUTING.md / SECURITY.md / CODE_OF_CONDUCT.md / CHANGELOG.md
-- Унифицированные header/footer, alerts, badge-блоки.
-- CHANGELOG — Keep a Changelog 1.1 + бейджи релизов.
+## 3. Технические детали
 
-### 7. ROADMAP.md & PROJECT_STATUS.md
-- Progress-bars (shields.io) по эпикам, Gantt-mermaid, статус-таблицы.
+### CI pipeline (целевой)
+```text
+quality → build (size-limit) → e2e-desktop (shards×4)
+                            → e2e-mobile  (shards×4)
+                            → lighthouse-ci (perf/a11y budget)
+                            → docs (mkdocs strict + lychee)
+                            → visual-diff (toHaveScreenshot)
+```
 
-### 8. Архивация / слияние
-- Перенести в `docs/archive/2026-06-27/`: `SUMMARY.md`, `REPOSITORY_IMPROVEMENTS_SUMMARY.md`, дубли в `docs/` (ARCHITECTURE_ANALYSIS, COMPREHENSIVE_ARCHITECTURE, NAVIGATION_GUIDE) — оставив единственный canonical документ со ссылками на архив.
-- Объединить root `KNOWN_ISSUES_TRACKED.md` + `docs/KNOWN_ISSUES.md` в один.
+### Метрики качества (gates)
+- Bundle gzip ≤ 950 KB (hard fail)
+- Unit coverage ≥ 80%
+- Lighthouse mobile: perf ≥ 90, a11y ≥ 95
+- E2E flake rate < 2%
+- Sentry error rate (24h) < 0.1%
+- Suno generation failure rate < 8%
 
-### 9. Templates
-- Обновить `docs/templates/HEADER_TEMPLATE.md` и добавить `FOOTER_TEMPLATE.md`, `BADGES_TEMPLATE.md` как single-source-of-truth.
+### Затрагиваемые файлы (примерно)
+- `.github/workflows/ci.yml` — добавить e2e-desktop/mobile/lighthouse-ci jobs
+- `playwright.config.ts` — projects `desktop`, `mobile-android`, `mobile-ios`, retries, sharding
+- `tests/e2e/critical/*.spec.ts` — новые сценарии
+- `src/stores/unifiedStudio/*.ts` — разбиение store
+- `supabase/functions/suno-*` — back-off, idempotency, structured logging
+- `src/components/generate-form/wizard/steps/{IdeaStep,LyricsStep}.tsx` — AI suggestions
+- `src/lib/imageOptimization.ts` — srcset + blurhash
+- `src/lib/audioElementPool.ts` — hard-eviction + телеметрия
 
-## Process (iterative с self-reflection)
+### Out of scope
+- Platform integrations (Spotify/Apple/YouTube) — Sprint 035+ по ROADMAP
+- React Native / Electron — Q1 2027
+- Marketplace MVP — отдельная инициатива
 
-1. **Pass 1 — Audit.** Параллельно 3 sub-agent'а: (a) root markdown, (b) `docs/`, (c) ссылки/бейджи/даты. Сводный отчёт.
-2. **Pass 2 — Design system.** Утвердить визуальный язык (badge palette, header/footer-шаблоны, alert-конвенции, mermaid theme).
-3. **Pass 3 — Rewrite.** Применить к топ-документам параллельными правками.
-4. **Pass 4 — Self-reflection.** Sub-agent перечитывает результаты, проверяет: согласованность tone-of-voice (RU/EN), валидность mermaid, рабочие ссылки (link-check), отсутствие дублей.
-5. **Pass 5 — Fixes & finalize.** Точечные правки по итогам ревью.
+## 4. Что делать прямо сейчас (приоритеты)
 
-## Technical notes
-- Все ссылки относительные, проверяются `scripts/check-links.js`.
-- Бейджи только через `shields.io` (style=for-the-badge, единая палитра: primary `#26A5E4`, success `#10B981`, warning `#F59E0B`, danger `#EF4444`, neutral `#475569`).
-- Mermaid — встроенный GitHub renderer, theme=`dark` совместимый.
-- НЕ трогаем код приложения, только `.md` и шаблоны в `docs/templates/`.
+1. Подтвердить порядок спринтов 033 → 034 → 035 → 036.
+2. Стартовать с CI-обвязки (e2e split + Lighthouse) — даёт защиту следующим спринтам.
+3. Параллельно — генерационный reliability, как самая болезненная пользовательская метрика.
 
-## Out of scope
-- Изменения логики приложения, тестов, CI.
-- Перевод страниц `docs/` файлов (только root README имеет RU-версию).
-- Создание новых скриншотов/видео (используем placeholder).
-
-## Outputs (files changed)
-- Rewritten: `README.md`, `README_RU.md`, `DOCUMENTATION_INDEX.md`, `REPOSITORY_STRUCTURE.md`, `CONTRIBUTING.md`, `SECURITY.md`, `CODE_OF_CONDUCT.md`, `CHANGELOG.md`, `ROADMAP.md`, `PROJECT_STATUS.md`, `ARCHITECTURE_HUB.md`, `KNOWN_ISSUES_TRACKED.md`.
-- New: `docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md`, `docs/templates/FOOTER_TEMPLATE.md`, `docs/templates/BADGES_TEMPLATE.md`.
-- Archived (moved): `SUMMARY.md`, `REPOSITORY_IMPROVEMENTS_SUMMARY.md`, дубли из `docs/` → `docs/archive/2026-06-27/`.
+Готов начать с любого пункта по вашему выбору — по умолчанию предлагаю Sprint 033 + параллельно настройку CI e2e.
