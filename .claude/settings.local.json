@@ -32,11 +32,17 @@
       "Bash(python --version)",
       "Bash(git pull *)",
       "Bash(git stash *)",
-      "Bash(node test_regex.js)"
+      "Bash(node test_regex.js)",
+      "Bash(echo \"=== Project CLAUDE.md ===\" && wc -l ./CLAUDE.md 2>/dev/null || echo \"0\" && echo \"\" && echo \"=== User Global CLAUDE.md ===\" && wc -l ~/.claude/CLAUDE.md 2>/dev/null || echo \"0\" && echo \"\" && echo \"=== Rules Directory ===\" && ls .claude/rules/*.md 2>/dev/null | wc -l || echo \"0\")",
+      "Read(//c/Users/oat70/.claude/**)",
+      "Bash(grep -oE '\\\\.[a-z]+$')",
+      "Bash(split -l 25 graphify-out/.graphify_uncached.txt graphify-out/.chunk_)",
+      "Bash(mkdir -p \"/d/.MUSICVERSE/aimusicverse/graphify-out\")"
     ],
     "additionalDirectories": [
       "D:\\.MUSICVERSE\\aimusicverse",
-      "D:\\.MUSICVERSE\\aimusicverse\\.husky"
+      "D:\\.MUSICVERSE\\aimusicverse\\.husky",
+      "d:\\d\\.MUSICVERSE\\aimusicverse\\graphify-out"
     ]
   }
 }
