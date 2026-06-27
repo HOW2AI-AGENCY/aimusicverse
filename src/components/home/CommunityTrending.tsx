@@ -48,7 +48,7 @@ export function CommunityTrending({ tracks, onTrackClick, className }: Community
               <div className="absolute inset-0 bg-gradient-radial from-white/25 to-transparent opacity-60" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-[14.5px] text-foreground/90 truncate">{track.title}</p>
+              <p className="font-semibold text-[14.5px] text-foreground/90 truncate">{track.title ?? "Без названия"}</p>
               <p className="text-[12.5px] text-muted-foreground mt-0.5 truncate">
                 AI · {track.style ?? ""}
               </p>
