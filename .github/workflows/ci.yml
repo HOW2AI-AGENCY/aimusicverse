@@ -263,10 +263,9 @@ jobs:
     # with a one-click link to the artifacts (boot log + stacktraces).
     # Runs even when previous jobs fail so failures are surfaced loudly.
     name: PR summary comment
-    if: github.event_name == 'pull_request'
+    if: always() && github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     needs: [quality, build, smoke]
-    if: always() && github.event_name == 'pull_request'
     permissions:
       pull-requests: write
       actions: read
