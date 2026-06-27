@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useRef } from "react";
-import { motion } from "@/lib/motion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "@/lib/motion";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Loader2, Mic, Music2, Palette, Copy, X } from "@/lib/icons";
+import { Sparkles, Loader2, Mic, Music2, Palette, Copy, X, ChevronDown } from "@/lib/icons";
 import { VoiceInputButton } from "@/components/ui/VoiceInputButton";
 import { SectionLabel, SECTION_HINTS } from "./SectionLabel";
 import { SmartPromptSuggestions } from "./SmartPromptSuggestions";
