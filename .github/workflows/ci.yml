@@ -147,6 +147,16 @@ jobs:
           name: playwright-report-desktop
           path: playwright-report/
 
+      - name: Upload smoke artifacts (boot log + stack traces)
+        # Persists musicverse_boot_log + early errors + console/page errors
+        # captured by tests/e2e/smoke.app-boots.spec.ts. Click the artifact
+        # in the PR to see exactly why the app failed to boot.
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-boot-log
+          path: test-results/smoke/
+
   e2e-mobile:
     # Dedicated mobile-emulation pass for z-index / hotkey / portal regressions.
     # Scoped to the focused specs so per-PR feedback stays fast.
