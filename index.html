@@ -72,15 +72,15 @@
     <link rel="dns-prefetch" href="https://apibox.erweima.ai" />
     <link rel="preconnect" href="https://apibox.erweima.ai" crossorigin />
 
-    <!-- Critical font with display:swap and reduced weight range for faster loading -->
+    <!-- Critical fonts with display:swap for faster loading -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
       media="print"
       onload="this.media = 'all'"
     />
     <noscript
-      ><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"
+      ><link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"
     /></noscript>
 
     <!-- Preload critical assets -->
@@ -138,6 +138,7 @@
       body {
         margin: 0;
         font-family:
+          "DM Sans",
           "Inter",
           system-ui,
           -apple-system,
@@ -154,7 +155,7 @@
         justify-content: center;
         background: hsl(220, 20%, 7%);
         color: #fff;
-        font-family: "Inter", system-ui, sans-serif;
+        font-family: "DM Sans", "Inter", system-ui, sans-serif;
         padding-top: max(env(safe-area-inset-top, 0px), var(--tg-safe-area-inset-top, 0px));
         padding-bottom: max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px));
       }
