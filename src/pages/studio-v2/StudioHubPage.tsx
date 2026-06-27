@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus, Music2, Clock, Layers, MoreVertical, Trash2 } from "@/lib/icons";
+import { Plus, Music2, Clock, Layers, MoreVertical, Trash2, Activity, Disc3 } from "@/lib/icons";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
+import { cn } from "@/lib/utils";
 import { useStudioProject } from "@/hooks/studio/useStudioProject";
 import { useTelegramBackButton } from "@/hooks/telegram/useTelegramBackButton";
 import { getTelegramHeaderPaddingTop } from "@/lib/telegramSafeArea";
