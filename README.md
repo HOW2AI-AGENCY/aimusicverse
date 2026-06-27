@@ -315,13 +315,33 @@ npm run reset               # clean:cache + npm install + full rebuild
 ### Smoke tests (local, same as CI)
 
 ```bash
-npm run test:smoke              # chromium + firefox + webkit
+npm run test:smoke              # serial: chromium + firefox + webkit
+npm run test:smoke:matrix       # parallel matrix (3 workers, 1 per browser)
 npm run test:smoke:chromium     # one engine, fastest
-bash scripts/e2e.sh chromium    # equivalent helper
+npm run test:smoke:report       # open the latest HTML report
+bash scripts/e2e.sh --parallel  # equivalent helper with per-browser stdout logs
 BROWSERS="chromium webkit" bash scripts/e2e.sh
 ```
 
-Artifacts land in `test-results/smoke/<browser>/` (boot log, early errors, console/page errors, route screenshots) — identical layout to the `smoke-<browser>` CI artifact. Every PR also gets an auto-posted summary comment with one-click links to those artifacts.
+The smoke spec boots the real React Router, validates the guest UI
+(`<main>` + nav landmark from `MainLayout`), opens `/auth` (auth surface),
+and visits `/studio-v2` to prove client-side routing.
+
+On **failure** it dumps a per-browser folder with everything needed to
+debug without re-running locally:
+
+`test-results/smoke/<browser>/`
+- `boot-log.json` — `musicverse_boot_log` from `sessionStorage`
+- `early-errors.json` — `window.__EARLY_ERRORS` captured by `index.html`
+- `console-errors.log` / `page-errors.log` — stack traces
+- `failed-requests.log` — 4xx/5xx + `requestfailed` events
+- `dom-map.json` — counts + samples for `main`, `nav`, `[data-testid]`, etc.
+- `failure-<ts>.png` — full-page screenshot
+- Playwright `trace.zip` + `video.webm` (`retain-on-failure`)
+
+Every PR also gets an auto-posted CI summary comment with one-click links to the `smoke-<browser>` artifacts.
+
+
 
 ---
 
