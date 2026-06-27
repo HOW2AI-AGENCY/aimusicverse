@@ -75,8 +75,25 @@ jobs:
         # Guard: fail fast if TypeScript errors exist before bundling.
         # This catches type errors that vite build might skip.
 
-      - name: Build
-        run: npm run build
+      - name: Validate CSS @import order (src/index.css)
+        run: npm run check:css-imports
+        # Hard fail on misplaced @import in src/index.css — these silently
+        # break Vite's CSS bundling and cause a white screen in the browser.
+
+      - name: Vite build (full log)
+        id: vite_build
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee vite-build.log
+        # Capture the FULL stdout+stderr of `vite build` so PR reviewers
+        # see every warning/error without re-running locally.
+
+      - name: Upload Vite build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vite-build-log
+          path: vite-build.log
 
       - name: SEO check (meta / canonical / OG / sitemap / robots)
         run: npm run seo:check

@@ -4,7 +4,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "check:css-imports": "node scripts/check-css-imports.mjs",
+    "prebuild": "node scripts/check-css-imports.mjs",
     "build": "vite build",
+    "clean:cache": "node scripts/clean-cache.mjs",
+    "reset": "node scripts/clean-cache.mjs && npm install && npm run build",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
