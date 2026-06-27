@@ -272,6 +272,7 @@ export default function StudioHubPage() {
             })}
           </div>
         )}
+        </Section>
       </main>
 
 
