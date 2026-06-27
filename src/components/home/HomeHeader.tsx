@@ -41,27 +41,28 @@ function getGreeting(): { text: string; icon: React.ReactNode; gradient: string 
     return {
       text: "Доброе утро",
       icon: <Sunrise className="w-4 h-4" />,
-      gradient: "from-amber-400 to-orange-400",
+      gradient: "from-emerald-300 to-teal-300",
     };
   } else if (hour >= 12 && hour < 17) {
     return {
       text: "Добрый день",
       icon: <Sun className="w-4 h-4" />,
-      gradient: "from-yellow-400 to-amber-400",
+      gradient: "from-cyan-300 to-emerald-300",
     };
   } else if (hour >= 17 && hour < 22) {
     return {
       text: "Добрый вечер",
       icon: <Sunset className="w-4 h-4" />,
-      gradient: "from-orange-400 to-rose-400",
+      gradient: "from-violet-300 to-fuchsia-300",
     };
   } else {
     return {
       text: "Доброй ночи",
       icon: <Moon className="w-4 h-4" />,
-      gradient: "from-blue-400 to-indigo-400",
+      gradient: "from-indigo-300 to-violet-300",
     };
   }
+
 }
 
 export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }: HomeHeaderProps) {
