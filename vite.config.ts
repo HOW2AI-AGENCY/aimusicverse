@@ -278,9 +278,10 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("/components/studio/")) {
             return "feature-studio";
           }
-          if (id.includes("/components/analytics/")) {
-            return "feature-analytics";
-          }
+          // Note: /components/analytics/ is intentionally NOT chunked here.
+          // Manual chunking caused a TDZ crash ("Cannot access 'w' before init")
+          // due to circular deps via the @/hooks/analytics barrel.
+
           // Stores
           if (id.includes("/stores/studio/")) {
             return "store-studio";
