@@ -1,92 +1,101 @@
+## Цель
 
-# План оптимизации и унификации главного экрана
-
-## Диагноз (что перегружает экран)
-
-На `/` сейчас одновременно рендерятся 10+ независимых секций, каждая со своим заголовком, иконкой, градиентом и собственным ритмом:
-
-- `GamificationBar`, `StatsHighlightBanner` — две полосы статистики подряд
-- `HomeQuickCreate`, `CreativePresetsSection`, `QuickStartCards` — **три** разных CTA-блока «создать»
-- `FeaturedSection`, `RecentTracksSection`, `TracksGridSection` — **три** ленты треков с разной плотностью
-- `DailyTipCard`, `ContinueDraftCard`, `BotContextBanner`, `FirstTimeHeroCard`, `NewUserProgress` — мелкие баннеры без общей рамки
-- Группирующие `HomeSectionGroup` имеют свои eyebrow-заголовки, плюс внутри почти каждой секции — собственный `SectionHeader`. Получается **двойной заголовок** на каждый блок.
-- Вертикальные отступы рассыпаны: `space-y-12 sm:space-y-14`, внутри групп `space-y-4`, внутри карточек ещё `space-y-3` — нет единой шкалы.
-
-Итог: визуальный шум, дублирование CTA, тройные ленты треков, конкурирующие акценты.
-
-## Цели
-
-1. Сократить число одновременно видимых секций до **4 смысловых блоков**.
-2. Унифицировать заголовки — один `SectionHeader` на секцию, без вложенных eyebrow.
-3. Единая шкала отступов: 8 / 16 / 24 / 40 px (внутри карточки / между карточками / между секциями / между блоками).
-4. Сгруппировать дубликаты CTA и лент треков.
-
-## Новая структура (4 блока)
-
-```text
-┌─ HERO / ONBOARDING ───────────────────────────┐
-│  Новый пользователь: FirstTimeHero + Progress │
-│  Возвращающийся:    ContinueDraft (если есть) │
-└───────────────────────────────────────────────┘
-┌─ CREATE ──────────────────────────────────────┐
-│  HomeQuickCreate  (основной CTA, большой)     │
-│  CreativePresets  (горизонтальный скролл)     │
-│  QuickStartCards  → свернуть в подсказки      │
-│                     внутри HomeQuickCreate     │
-└───────────────────────────────────────────────┘
-┌─ DISCOVER ────────────────────────────────────┐
-│  Табы: [Популярное] [Новинки] [Для вас]       │
-│  Одна лента треков, переключаемая табами      │
-│  (объединяет Featured + New + Recent)         │
-└───────────────────────────────────────────────┘
-┌─ YOU ─────────────────────────────────────────┐
-│  Компактная строка: Stats • Streak • Credits  │
-│  (объединяет GamificationBar + StatsBanner)   │
-│  DailyTip — свернуть в один dismissible toast │
-└───────────────────────────────────────────────┘
-```
-
-`BotContextBanner` показывается только при наличии deep-link параметра (уже так), остаётся над Hero.
-
-## Технические задачи
-
-### Фаза 1 — структурная унификация (без удаления компонентов)
-1. **`Index.tsx`**: переписать `sections` map в 4 кластера выше. Удалить вложенные `HomeSectionGroup` eyebrow, оставить только один заголовок на кластер.
-2. Ввести один контейнер ритма: `space-y-10` между кластерами, `space-y-6` внутри. Удалить локальные `mb-*`, `space-y-12/14/16`.
-3. Свернуть desktop/mobile в одну функцию `renderLayout()` — единственное отличие переносим в `xl:grid xl:grid-cols-12`.
-
-### Фаза 2 — объединение дубликатов
-4. **CreateBlock**: новый `src/components/home/CreateBlock.tsx`, который рендерит `HomeQuickCreate` и под ним 4-6 чипов-пресетов из `QuickStartCards` (как inline-chips, не отдельные карточки).
-5. **DiscoverTabs**: новый `src/components/home/DiscoverTabs.tsx` с табами `Tabs` (shadcn), внутри — один `TracksGridSection` с подставляемым источником данных. Убирает 3 ленты и 3 заголовка.
-6. **YouStrip**: объединить `GamificationBar` + `StatsHighlightBanner` в одну строку (горизонтальный flex с разделителями).
-
-### Фаза 3 — визуальный шум
-7. Убрать декоративный размытый blob (`fixed inset-0 ... bg-primary/10 blur-3xl`) — он добавляет визуальный шум на мобиле.
-8. `DailyTipCard` → одноразовый dismissible банер вверху Discover, не отдельная секция.
-9. Привести все `SectionHeader` к одному стилю: 14px title, 12px subtitle, без иконочных градиентов на мобиле (только цвет акцента).
-
-### Фаза 4 — токены отступов
-10. В `src/lib/design-spacing.ts` зафиксировать ровно 3 публичные функции: `blockGap()` = 40/48, `sectionGap()` = 24, `itemGap()` = 12/16. Удалить остальные. Прогнать home-компоненты на новые токены.
-
-## Файлы, которые будут изменены
-
-- `src/pages/Index.tsx` — переписать layout и `sections` map
-- `src/components/home/CreateBlock.tsx` *(новый)*
-- `src/components/home/DiscoverTabs.tsx` *(новый)*
-- `src/components/home/YouStrip.tsx` *(новый)*
-- `src/components/home/HomeSectionGroup.tsx` — упростить (убрать eyebrow по умолчанию)
-- `src/components/common/SectionHeader.tsx` — единый размер/вес
-- `src/lib/design-spacing.ts` — сократить API
-
-Старые компоненты (`FeaturedSection`, `RecentTracksSection`, `QuickStartCards`, `StatsHighlightBanner`, `DailyTipCard`) остаются — они будут использоваться внутри новых обёрток или на других страницах.
-
-## Критерий готовности
-
-- На первом экране (мобиль, 390×844) видны максимум: Header, Hero/CTA, начало Discover.
-- Не более **1 заголовка-eyebrow** на секцию.
-- Все вертикальные расстояния — кратны 8 px и берутся из трёх токенов.
-- Кол-во отдельных «карточек-баннеров» на экране ≤ 4.
+Закрыть последний пробел в design-system guard: дать ESLint собственное правило `section-tokens/no-saturated-brand` с автофиксом, синхронизированное с CLI codemod `scripts/check-section-tokens.mjs`. Затем запланировать следующие спринты по дизайн-системе, тестам и аудиту.
 
 ---
 
-Подтверди план — и я приступлю к Фазе 1.
+## Часть 1 — Реализация ESLint правила (этот спринт)
+
+### Технические детали
+
+**Новый пакет/файл:** `eslint-rules/section-tokens.js` (локальный ESLint plugin, без публикации).
+
+- Экспортирует `rules: { "no-saturated-brand": rule }`.
+- Правило работает на узлах `Literal` и `TemplateElement` (строки в JSX/`cn(...)`/`clsx(...)`).
+- Использует общий источник правды — импортирует `FORBIDDEN` и `rewriteText` из `scripts/check-section-tokens.mjs` (уже экспортируются), чтобы regex/замены не расходились с codemod.
+- `meta.fixable = "code"` → автофикс через `fixer.replaceText(node, rewritten)`.
+- `messages`:
+  - `forbidden`: `"Saturated brand token '{{matched}}' is not allowed in layout primitives. Use '{{suggestion}}' instead."`
+- `options[0].targets`: glob-список файлов, по умолчанию = `DEFAULT_TARGETS` из скрипта.
+- `options[0].allowComment`: `"section-tokens-allow"` (тот же маркер, что в CLI).
+
+**Интеграция:**
+
+- `eslint.config.js`: подключить локальный плагин через `import sectionTokens from "./eslint-rules/section-tokens.js"`, добавить блок `files: [...DEFAULT_TARGETS]` с `"section-tokens/no-saturated-brand": "error"`.
+- Снять старый `no-restricted-syntax`-блок (он давал хуже сообщение и не фиксил).
+- `package.json`: добавить `"lint:fix": "eslint . --fix"` (если ещё нет).
+
+**Тесты:** `tests/unit/eslint-section-tokens.test.ts` через `RuleTester` (ESLint flat API):
+- valid: `bg-card/60`, `text-primary`, `bg-primary-foreground`, allow-comment.
+- invalid: `bg-primary`, `from-accent`, `bg-gradient-primary` — c проверкой `output` после автофикса = результат `rewriteText`.
+
+**Документация:** дописать в `README.md` раздел Section tokens:
+- `npm run lint -- --fix` теперь чинит токены автоматически на сохранении в IDE.
+- CLI `npm run check:section-tokens -- --fix` остаётся для bulk/CI вне ESLint scope.
+
+### Definition of Done
+
+- `npm run lint` падает на `bg-primary` в `Section.tsx` с понятным сообщением.
+- `npm run lint -- --fix` приводит файл к тем же токенам, что `check-section-tokens --fix`.
+- Юнит-тесты ESLint правила и существующие тесты `check-section-tokens` зелёные.
+- Pre-commit и CI пайплайн без изменений (правило ловится через общий `npm run lint`).
+
+---
+
+## Часть 2 — Дорожная карта спринтов
+
+### Sprint 033 — Design System Guard Hardening (1 неделя)
+
+- T1. ESLint rule `section-tokens/no-saturated-brand` + автофикс (Часть 1 выше).
+- T2. Расширить `DEFAULT_TARGETS`: добавить `src/components/home/**`, `src/components/library/SectionHeader.tsx`, hero-карточки.
+- T3. ESLint правило `no-hex-literals` для `src/components/**` (бан `bg-[#...]`, `text-[#...]`) с авто-предложением токена из `docs/DESIGN_TOKENS.md`.
+- T4. Storybook story `Section.stories.tsx` с примерами правильного/неправильного использования + visual baseline.
+- T5. Обновить `docs/DESIGN_TOKENS.md` разделом «Запрещено в Section/Hero/Card» с диффами до/после.
+
+### Sprint 034 — Smoke & Visual Regression Stabilization (1 неделя)
+
+- T1. Включить WebKit в smoke-матрицу CI (сейчас best-effort) после стабилизации.
+- T2. Baseline для visual regression на 3 ключевых страницах: `/`, `/library`, `/studio`.
+- T3. PR-комментарий с inline-диффом скриншотов (через `actions/upload-artifact` + markdown image links).
+- T4. Авто-rerun только упавшего проекта в CI (перенос логики из `scripts/e2e.sh --rerun-failed`).
+- T5. Метрика flake-rate в `docs/CI_METRICS.md`, цель < 2%.
+
+### Sprint 035 — Supabase Audio Audit Follow-up (1–2 недели)
+
+По итогам `docs/audit/SUPABASE_AUDIO_AUDIT_2026-06-27.md`:
+
+- T1. Миграция `tracks.tags`: `text` → `text[]` + GIN index + бэкафилл из CSV.
+- T2. Унификация полей промптов: `prompt`, `style_prompt`, `lyrics_prompt` в одну JSONB колонку `generation_input` с zod-схемой.
+- T3. Структурный лог `api_usage_logs.request_payload` → JSONB с обязательными ключами (`model`, `tags[]`, `genre`, `mood`, `bpm`).
+- T4. RPC `search_tracks_by_facets(genres text[], tags text[], moods text[])` + индексы.
+- T5. Storage audit: единый префикс `tracks/{user_id}/{track_id}/{kind}` для audio/stems/cover.
+
+### Sprint 036 — Section/Card Dedup & Layout Tokens (1 неделя)
+
+- T1. Аудит дублей `Section`/`Hero`/`Card`/`Panel` → consolidation map в `docs/UI_DEDUP_2026-Q3.md`.
+- T2. Единый API `<Section tone="neutral|surface|muted">` без brand-вариантов.
+- T3. Codemod `scripts/migrate-section-variants.mjs` для замены legacy `variant="primary"`.
+- T4. Удалить deprecated компоненты с алиасами на 1 спринт.
+
+### Sprint 037 — Design Tokens Linter v2 (1 неделя)
+
+- T1. Динамический парс `index.css` → список валидных tokens, ESLint правило сверяет имена.
+- T2. CI job `check:tokens-drift` — diff между `index.css`, `tailwind.config.ts`, `design-tokens.ts`.
+- T3. Web-страница `/internal/tokens` (dev only) со всеми токенами и контрастом WCAG.
+
+---
+
+## Часть 3 — Бэклог (без спринта)
+
+- Lighthouse perf budget в CI (из `ROADMAP.md` → tech debt).
+- Split `useUnifiedStudioStore` на доменные slices.
+- WCAG AA pass на Library + Studio.
+- Multi-language UI (EN/RU/ES/DE) — Q4.
+
+---
+
+## Порядок исполнения
+
+1. Этот тикет: реализовать Часть 1 (ESLint rule + автофикс + тесты + README).
+2. После апрува — открыть Sprint 033 как первый по очереди.
+3. Спринты 034–037 запускать последовательно, каждый с retro в `SPRINTS/completed/`.
