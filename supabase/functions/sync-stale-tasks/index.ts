@@ -277,7 +277,7 @@ serve(async (req) => {
           logger.info("Track recovered successfully", { trackId: task.track_id });
           recoveredCount++;
         } catch (recoveryErr) {
-          logger.error(`❌ Error recovering track ${task.track_id}:`, recoveryErr);
+          logger.error("Error recovering track", recoveryErr, { trackId: task.track_id });
         }
       }
     }
@@ -297,11 +297,11 @@ serve(async (req) => {
     const { data: staleTasks, error: fetchError } = await staleQuery;
 
     if (fetchError) {
-      logger.error("Error fetching stale tasks:", fetchError);
+      logger.error("Error fetching stale tasks", fetchError);
       throw fetchError;
     }
 
-    logger.info(`📊 Found ${staleTasks?.length || 0} stale tasks to check with Suno API`);
+    logger.info("Found stale tasks to check with Suno API", { count: staleTasks?.length || 0 });
 
     let updatedCount = 0;
     let failedCount = 0;
@@ -309,7 +309,7 @@ serve(async (req) => {
 
     for (const task of staleTasks || []) {
       try {
-        logger.info(`\n🔍 Checking task ${task.id} (suno_task_id: ${task.suno_task_id})`);
+        logger.info("Checking task", { taskId: task.id, sunoTaskId: task.suno_task_id });
 
         // Query Suno API for task status
         const sunoResponse = await fetch(
@@ -323,7 +323,7 @@ serve(async (req) => {
         );
 
         if (!sunoResponse.ok) {
-          logger.error(`❌ Suno API error for task ${task.id}: ${sunoResponse.status}`);
+          logger.error("Suno API error", null, { taskId: task.id, status: sunoResponse.status });
           continue;
         }
 
