@@ -120,14 +120,23 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
 ) {
   const Tag = (as ?? "section") as ElementType;
   const hasHeader = Boolean(title || eyebrow || headerRight);
+  const hasSurface = tone !== "plain";
 
   return (
     <Tag
       ref={ref as never}
       id={sectionId ? `section-${sectionId}` : undefined}
       data-section-id={sectionId}
+      data-density={density}
+      data-tone={tone}
       aria-label={ariaLabel ?? title ?? eyebrow}
-      className={cn("w-full mx-auto", maxWidthToClass[maxWidth], toneToSurface[tone], className)}
+      className={cn(
+        "w-full mx-auto",
+        maxWidthToClass[maxWidth],
+        toneToSurface[tone],
+        hasSurface && densityToInnerPad[density],
+        className,
+      )}
     >
       {hasHeader && (
         <header
