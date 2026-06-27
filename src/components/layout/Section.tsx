@@ -18,8 +18,16 @@
 import { forwardRef, type ReactNode, type ElementType } from "react";
 import { cn } from "@/lib/utils";
 
-export type SectionDensity = "compact" | "comfortable" | "spacious";
-export type SectionTone = "plain" | "subtle" | "accent" | "muted";
+export type SectionDensity = "compact" | "comfortable" | "spacious" | "auto";
+export type SectionTone =
+  | "plain"
+  | "subtle"
+  | "accent"
+  | "muted"
+  | "light"
+  | "dark"
+  | "blur"
+  | "gradient";
 export type SectionMaxWidth = "content" | "wide" | "full";
 
 export interface SectionProps {
@@ -35,9 +43,12 @@ export interface SectionProps {
   sectionId?: string;
   /** aria-label override (defaults to title). */
   ariaLabel?: string;
-  /** Vertical density — affects internal spacing only. */
+  /**
+   * Vertical density.
+   * `auto` = compact on mobile, comfortable on `sm+`, spacious on `lg+`.
+   */
   density?: SectionDensity;
-  /** Background tone. `plain` = no surface, others paint a card. */
+  /** Background tone — `plain` paints nothing, others paint a surface. */
   tone?: SectionTone;
   /** Max content width. */
   maxWidth?: SectionMaxWidth;
@@ -54,19 +65,33 @@ const densityToBodyGap: Record<SectionDensity, string> = {
   compact: "space-y-3",
   comfortable: "space-y-4 sm:space-y-5",
   spacious: "space-y-6 sm:space-y-8",
+  auto: "space-y-3 sm:space-y-5 lg:space-y-7",
 };
 
 const densityToHeaderGap: Record<SectionDensity, string> = {
   compact: "mb-3",
   comfortable: "mb-4",
   spacious: "mb-5 sm:mb-6",
+  auto: "mb-3 sm:mb-4 lg:mb-6",
+};
+
+const densityToInnerPad: Record<SectionDensity, string> = {
+  compact: "p-3 sm:p-4",
+  comfortable: "p-4 sm:p-5",
+  spacious: "p-5 sm:p-7",
+  auto: "p-3 sm:p-5 lg:p-6",
 };
 
 const toneToSurface: Record<SectionTone, string> = {
   plain: "",
-  subtle: "rounded-2xl bg-card/40 border border-border/40 p-4 sm:p-5",
-  accent: "rounded-2xl bg-primary/[0.06] border border-primary/15 p-4 sm:p-5",
-  muted: "rounded-2xl bg-muted/30 p-4 sm:p-5",
+  subtle: "rounded-2xl bg-card/40 border border-border/40",
+  accent: "rounded-2xl bg-primary/[0.06] border border-primary/15",
+  muted: "rounded-2xl bg-muted/30",
+  light: "rounded-2xl bg-background/80 border border-border/30",
+  dark: "rounded-2xl bg-foreground/[0.04] border border-foreground/10 dark:bg-black/30 dark:border-white/5",
+  blur: "rounded-2xl bg-card/50 backdrop-blur-xl border border-border/40 supports-[backdrop-filter]:bg-card/30",
+  gradient:
+    "rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/10 via-background to-accent/10",
 };
 
 const maxWidthToClass: Record<SectionMaxWidth, string> = {
