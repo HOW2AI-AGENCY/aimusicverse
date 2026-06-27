@@ -77,8 +77,11 @@ jobs:
 
       - name: Validate CSS @import order (src/index.css)
         run: npm run check:css-imports
-        # Hard fail on misplaced @import in src/index.css — these silently
-        # break Vite's CSS bundling and cause a white screen in the browser.
+
+      - name: Validate Section design tokens (no saturated brand washes)
+        run: npm run check:section-tokens
+        # Mirror of the ESLint hard-block on src/components/layout/Section.tsx.
+        # Fails CI loudly with path:line + a suggested replacement.
 
       - name: Vite build (full log)
         id: vite_build
@@ -296,16 +299,28 @@ jobs:
               '',
               '| Check | Status | What it covers |',
               '| --- | --- | --- |',
-              `| CSS \`@import\` order + Vite build | ${buildJob} | \`check:css-imports\` + full \`vite build\` log |`,
-              `| Quality (lint / typecheck / unit) | ${cssImports} | ESLint, TypeScript, Vitest |`,
-              `| Smoke (chromium · firefox · webkit) | ${smokeJob} | App boots, router renders, no \`#error-display\` |`,
+              `| CSS \`@import\` order + Section tokens + Vite build | ${buildJob} | \`check:css-imports\` + \`check:section-tokens\` (no saturated brand washes in Section) + full \`vite build\` log |`,
+              `| Quality (lint / typecheck / unit) | ${cssImports} | ESLint (incl. Section brand-wash hard-block), TypeScript, Vitest |`,
+              `| Smoke (chromium · firefox · webkit) | ${smokeJob} | App boots, router renders, no \`#error-display\`, retain-on-failure trace + video |`,
               '',
-              '### 📎 Artifacts (boot log + stacktraces)',
+              '### 📎 Artifacts — open this run to download',
               '',
-              `- 🔎 [**Open all artifacts for this run**](${runUrl}#artifacts)`,
+              `- 🔎 [**All artifacts for this run**](${runUrl}#artifacts)`,
               `- 📄 \`vite-build-log\` — full \`vite build\` stdout/stderr`,
-              `- 🧪 \`smoke-chromium\` / \`smoke-firefox\` / \`smoke-webkit\` — per-browser \`boot-log.json\`, \`early-errors.json\`, \`console-errors.log\`, \`page-errors.log\`, route screenshots`,
+              `- 🧪 \`smoke-chromium\` — boot-log.json · early-errors.json · console/page-errors.log · failed-requests.log · dom-map.json · route screenshots · trace.zip · video.webm`,
+              `- 🧪 \`smoke-firefox\` — same per-browser bundle (Firefox)`,
+              `- 🧪 \`smoke-webkit\` — same per-browser bundle (WebKit)`,
               `- 🎭 \`playwright-report-desktop\` / \`playwright-report-mobile\` — HTML reports`,
+              '',
+              '### 🛟 If smoke failed',
+              '',
+              '1. Open the matching `smoke-<browser>` artifact above.',
+              '2. Inspect `boot-log.json` + `failed-requests.log` first — they explain 90% of failures.',
+              '3. Reproduce locally with the same trace/video:',
+              '   ```',
+              '   npm run e2e:smoke:rerun        # parallel matrix, auto-reruns only the failed browser',
+              '   npm run test:visual            # visual regression for Section + cards',
+              '   ```',
               '',
               `<sub>Run: [\`${context.runId}\`](${runUrl}) · commit \`${context.sha.substring(0,7)}\`</sub>`,
             ];
