@@ -435,7 +435,7 @@ serve(async (req) => {
             .eq("id", task.id);
 
           // Save ALL clips as versions
-          logger.info(`💾 Saving ${clips.length} versions...`);
+          logger.info("Saving versions", { count: clips.length });
           const versionLabels = ["A", "B", "C", "D", "E"];
 
           for (let i = 0; i < clips.length; i++) {
@@ -479,7 +479,7 @@ serve(async (req) => {
                 }
               }
             } catch (downloadError) {
-              logger.error(`⚠️ Error downloading files for version ${versionLabel}:`, downloadError);
+              logger.error("Error downloading files for version", downloadError, { versionLabel });
             }
 
             // Check if version exists
@@ -529,7 +529,7 @@ serve(async (req) => {
               }
             }
 
-            logger.info(`✅ Version ${versionLabel} saved`);
+            logger.info("Version saved", { versionLabel });
 
             // Log version creation
             await supabase.from("track_change_log").insert({
@@ -562,7 +562,7 @@ serve(async (req) => {
           if (task.telegram_chat_id) {
             try {
               const maxClipsToSend = Math.min(clips.length, 2);
-              logger.info(`📤 Sending ${maxClipsToSend} track version(s) via sync-stale-tasks`);
+              logger.info("Sending track versions via sync-stale-tasks", { count: maxClipsToSend });
 
               for (let i = 0; i < maxClipsToSend; i++) {
                 const clip = clips[i];
@@ -603,7 +603,7 @@ serve(async (req) => {
                 });
               }
             } catch (notifError) {
-              logger.error("Error sending Telegram notification:", notifError);
+              logger.error("Error sending Telegram notification", notifError);
             }
           }
 
@@ -611,7 +611,7 @@ serve(async (req) => {
         } else if (taskData.status && (taskData.status.includes("FAILED") || taskData.status.includes("ERROR"))) {
           // Mark as failed
           const errorMessage = taskData.errorMessage || "Generation failed";
-          logger.info(`❌ Task ${task.id} failed:`, errorMessage);
+          logger.info("Task failed", { taskId: task.id, errorMessage });
 
           await supabase
             .from("generation_tasks")
@@ -634,26 +634,22 @@ serve(async (req) => {
 
           failedCount++;
         } else {
-          logger.info(`⏳ Task ${task.id} still processing:`, taskData.status);
+          logger.info("Task still processing", { taskId: task.id, status: taskData.status });
         }
 
         updatedCount++;
       } catch (taskError: any) {
-        logger.error(`❌ Error processing task ${task.id}:`, taskError);
+        logger.error("Error processing task", taskError, { taskId: task.id });
       }
     }
 
-    logger.info("\n📊 Sync completed:", {
+    logger.info("Sync completed", {
       recovered: recoveryTasks?.filter((t) => t.tracks?.status !== "completed").length || 0,
       checked: staleTasks?.length || 0,
       updated: updatedCount,
       completed: completedCount,
       failed: failedCount,
     });
-
-    logger.info(
-      `📊 Sync completed: { recovered: ${recoveryTasks?.filter((t) => t.tracks?.status !== "completed").length || 0}, checked: ${staleTasks?.length || 0}, updated: ${updatedCount}, completed: ${completedCount}, failed: ${failedCount} }`,
-    );
 
     return new Response(
       JSON.stringify({
@@ -670,7 +666,7 @@ serve(async (req) => {
       },
     );
   } catch (error: any) {
-    logger.error("❌ Error in sync-stale-tasks:", error);
+    logger.error("Error in sync-stale-tasks", error);
     return new Response(
       JSON.stringify({
         success: false,
