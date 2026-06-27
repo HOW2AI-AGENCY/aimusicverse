@@ -1,108 +1,191 @@
-# MusicVerse AI
-
 <div align="center">
 
-![MusicVerse AI](https://img.shields.io/badge/MusicVerse-AI-blue)
-![Telegram Mini App](https://img.shields.io/badge/Telegram-Mini_App-26A5E4)
-![React](https://img.shields.io/badge/React-19.2-61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6)
-![Vite](https://img.shields.io/badge/Vite-5-646CFF)
-![Supabase](https://img.shields.io/badge/Supabase-2.86-3ECF8E)
-![Suno AI](https://img.shields.io/badge/Suno-AI_v5-FF6B6B)
+<img src="src/assets/logo.png" alt="MusicVerse AI" width="140"/>
 
-**AI-платформа для создания музыки в Telegram Mini App**
+# 🎵 MusicVerse AI
 
-[🇷🇺 Русская версия](README_RU.md) • [Возможности](#возможности) • [Архитектура](#архитектура) • [Документация](#документация) • [Разработка](#разработка) • [Дорожная карта](#дорожная-карта)
+**Professional AI-powered music creation — delivered as a Telegram Mini App.**
+
+<p>
+  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981"/></a>
+  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/releases"><img alt="Version" src="https://img.shields.io/github/v/release/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&color=475569"/></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&color=475569"/></a>
+  <a href="https://codecov.io/gh/HOW2AI-AGENCY/aimusicverse"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&logo=codecov&logoColor=white&color=10B981"/></a>
+  <img alt="Bundle" src="https://img.shields.io/badge/bundle-%3C950kb-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
+  <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
+</p>
+
+<p>
+  <img alt="React" src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-5-646CFF?style=for-the-badge&logo=vite&logoColor=white"/>
+  <img alt="Tailwind" src="https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white"/>
+  <img alt="Supabase" src="https://img.shields.io/badge/Lovable_Cloud-2.86-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/>
+  <img alt="Suno" src="https://img.shields.io/badge/Suno_AI-v5-9333EA?style=for-the-badge"/>
+</p>
+
+<p>
+  <a href="#-quick-start"><img src="https://img.shields.io/badge/🚀-Quick_Start-26A5E4?style=for-the-badge"/></a>
+  <a href="#-features"><img src="https://img.shields.io/badge/✨-Features-9333EA?style=for-the-badge"/></a>
+  <a href="#-architecture"><img src="https://img.shields.io/badge/🏛-Architecture-475569?style=for-the-badge"/></a>
+  <a href="DOCUMENTATION_INDEX.md"><img src="https://img.shields.io/badge/📚-Docs-10B981?style=for-the-badge"/></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/🤝-Contributing-F59E0B?style=for-the-badge"/></a>
+  <a href="ROADMAP.md"><img src="https://img.shields.io/badge/🗺-Roadmap-EF4444?style=for-the-badge"/></a>
+</p>
+
+[🇷🇺 Русская версия](README_RU.md) · [🌐 Live preview](https://aimusicverse.lovable.app) · [💬 Telegram bot](https://t.me/AIMusicVerseBot)
 
 </div>
 
 ---
 
-## 🎯 О проекте
+> [!NOTE]
+> **MusicVerse AI** generates, edits, mixes, and ships music end-to-end inside Telegram. It pairs **Suno AI v5** with a full DAW-style mobile studio, AI-assisted lyrics, stem separation, MIDI transcription, gamification, and Telegram-native UX (haptics, MainButton, Stories sharing).
 
-**MusicVerse AI** — профессиональная платформа для создания музыки с использованием искусственного интеллекта. Платформа позволяет генерировать, редактировать и делиться музыкой, используя передовые AI-модели (Suno AI v5). Построена как Telegram Mini App для глубокой интеграции с экосистемой Telegram.
+---
 
-### 🎁 Ключевые возможности
+## ✨ Features
+
+| Category | Capability | Status |
+| --- | --- | :---: |
+| 🤖 **Generation** | Suno v5 — 277+ styles, custom lyrics, instrumentals, A/B versions, extend & remix | ✅ |
+| 🎙️ **Voice Cloning** | 6-step voice clone, personalised generation, cross-genre library | ✅ |
+| 🎛️ **Studio** | 16-channel mixer, timeline, section regeneration, A/B comparison | ✅ |
+| 🪓 **Stems** | 4-stem separation (vocals · drums · bass · other) with mixer | ✅ |
+| 🎼 **MIDI** | 6 AI transcription models, multi-track export | ✅ |
+| 📝 **Lyrics AI** | 10+ tools — rhythm, rhyme, structure, translate, generate | ✅ |
+| 👥 **Social** | Profiles, likes, comments, follows, leaderboards, referrals | ✅ |
+| 🎮 **Gamification** | Daily check-ins, streaks, XP, 20+ achievements, Stars rewards | ✅ |
+| 💳 **Monetisation** | Telegram Stars, tiered subscriptions, credit packs | ✅ |
+| 📱 **Telegram-native** | MainButton, BackButton, haptics, Stories share, deep-links | ✅ |
+| 🧠 **Realtime co-creation** | Collaborative session, presence, live waveform | 🚧 |
+| 🌍 **Marketplace** | Sell beats / loops / voices | 📋 |
+
+---
+
+## 🏛 Architecture
+
+```mermaid
+flowchart LR
+    subgraph Client["📱 Telegram Mini App"]
+        UI[React 19 + Vite]
+        State[Zustand · React Query]
+        Audio[GlobalAudioProvider]
+    end
+    subgraph Cloud["☁️ Lovable Cloud (Supabase)"]
+        DB[(PostgreSQL + RLS)]
+        Edge[Edge Functions]
+        Storage[Object Storage]
+        Realtime[Realtime]
+    end
+    subgraph AI["🤖 AI Providers"]
+        Suno[Suno AI v5]
+        Klang[Klang.io MIDI]
+        Gateway[Lovable AI Gateway]
+    end
+    Client <-->|REST + Realtime| Cloud
+    Edge -->|HTTPS| AI
+    Edge -->|notify| Bot[🤖 Telegram Bot]
+    Bot -->|Stories · audio| Client
+```
+
+➡️ Full diagrams in [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) · [`docs/ARCHITECTURE_DIAGRAMS.md`](docs/ARCHITECTURE_DIAGRAMS.md)
+
+---
+
+## 🚀 Quick Start
+
+<details open>
+<summary><b>Prerequisites</b></summary>
+
+- Node.js **≥ 20**
+- npm **≥ 10** (or pnpm / bun)
+- Telegram desktop / mobile client (for Mini App testing)
+
+</details>
+
+<details open>
+<summary><b>Install &amp; run</b></summary>
+
+```bash
+git clone https://github.com/HOW2AI-AGENCY/aimusicverse.git
+cd aimusicverse
+npm install
+npm run dev          # → http://localhost:8080
+```
+
+</details>
+
+<details>
+<summary><b>Scripts</b></summary>
+
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Vite dev server (port 8080) |
+| `npm run build` | Production build |
+| `npm run preview` | Preview production build |
+| `npm test` | Vitest unit tests |
+| `npm run test:coverage` | Coverage report |
+| `npm run test:e2e` | Playwright E2E |
+| `npm run test:e2e:mobile` | Mobile emulation E2E |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier |
+| `npm run size` | Bundle-size guard (≤ 950 KB) |
+| `npm run storybook` | Storybook on :6006 |
+
+</details>
+
+<details>
+<summary><b>Environment variables</b></summary>
+
+See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Lovable Cloud auto-injects `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY` / `VITE_SUPABASE_PROJECT_ID`. Never edit `.env` manually.
+
+</details>
+
+---
+
+## 🧱 Tech Stack
 
 <table>
 <tr>
-<td width="50%">
+<td valign="top" width="50%">
 
-#### 🤖 AI-генерация музыки
-
-- Suno AI v5 с 277+ стилями
-- Собственные тексты песен
-- Инструментальные треки
-- Версионирование (A/B тесты)
-- Ремиксы и продолжения
-
-#### 🎛️ Профессиональный студия
-
-- Микшер с 16+ каналами
-- Временная шкала (timeline)
-- Разделение на stems (4 stems)
-- Редактирование секций
-- MIDI-транскрипция
-
-#### 🎙️ Voice Cloning Studio ⭐ НОВАЯ ФУНКЦИЯ
-
-- Suno Voice API интеграция
-- 6-шаговый процесс клонирования голоса
-- Создание собственных AI голосов
-- Персонализированная генерация музыки
-- Библиотека кастомных голосов
-- Голоса для всех жанров и стилей
-
-#### 📝 AI-ассистент текстов
-
-- 10+ инструментов для написания
-- Ритм-анализ и рифмы
-- Структура песен
-- Перевод языков
-- Генерация по жанру
+**Frontend**
+- React 19.2 · TypeScript 5.9 · Vite 5
+- Tailwind 3.4 · shadcn/ui · Radix UI
+- Zustand 5 · TanStack Query 5.90
+- Framer Motion (tree-shaken via `@/lib/motion`)
+- React Hook Form + Zod
+- react-virtuoso · vaul
 
 </td>
-<td width="50%">
+<td valign="top" width="50%">
 
-#### 👥 Социальные функции
+**Backend & AI**
+- Lovable Cloud (Supabase) — Postgres · Edge · Storage · Realtime
+- Suno AI v5 · Klang.io · Lovable AI Gateway
+- Deno Edge Functions (80+)
+- Telegram Bot API · @twa-dev/sdk 8.0
 
-- Профили артистов
-- Комментарии и лайки
-- Подписки и активность
-- Приглашения (рефералы)
-- Лидерборды
+</td>
+</tr>
+<tr>
+<td valign="top">
 
-#### 🎮 Геймификация
+**Audio**
+- Tone.js · Wavesurfer.js
+- Single `<audio>` via `GlobalAudioProvider`
+- iOS-safe audio element pool
+- IndexedDB waveform cache
 
-- Ежедневные чекины
-- Стрики (серии посещений)
-- Уровни и опыт
-- 20+ достижений
-- Балльная система
+</td>
+<td valign="top">
 
-#### 💳 Монетизация
-
-- Tinkoff платежи (RUB)
-- Кредитная система
-- Подписки PRO/PREMIUM
-- Тарифные пакеты
-
-#### 🎙️ Voice Cloning ⭐ НОВАЯ ФУНКЦИЯ
-
-- Клонирование голосов за 6 шагов
-- Персонализированные AI голоса
-- Библиотека кастомных голосов
-- Использование в генерации музыки
-- Webhook оповещения
-- Бонусы за активность
-
-#### 📱 Мобильная оптимизация
-
-- Haptic feedback
-- Swipe-жесты
-- Safe areas (iOS/Android)
-- 44x44px touch targets
-- Офлайн-режим
+**Quality**
+- Vitest 4 · Playwright 1.57
+- ESLint · Prettier · Husky · commitlint
+- size-limit (950 KB budget)
+- axe-core a11y · Storybook
 
 </td>
 </tr>
@@ -110,538 +193,119 @@
 
 ---
 
-## 📊 Статус проекта
+## 📂 Project Structure
 
-| Метрика                 | Текущее | Цель   | Прогресс      |
-| ----------------------- | ------- | ------ | ------------- |
-| 👥 Пользователи         | 574+    | 1,000+ | 🟡 57%        |
-| 🎵 Треков создано       | 1,800+  | 5,000+ | 🟡 36%        |
-| 📈 Месячных генераций   | 1,217+  | 2,000+ | 🟡 61%        |
-| ✅ Успешность генерации | ~88%    | >92%   | 🟡 Улучшается |
-| 📱 DAU                  | ~25     | 50+    | 🟡 50%        |
-
-**Общее состояние**: 🟢 **95/100** — Production Ready
-
-**Текущий фокус**: Voice Cloning Integration + UI Improvements (Spec 001)
-
----
-
-## 🔍 Здоровье репозитория
-
-**Последний аудит**: 2026-06-25 | [Полный отчёт](docs/REPOSITORY_AUDIT_REPORT_2026-06-25.md)
-
-| Метрика              | Оценка     | Статус                  |
-| -------------------- | ---------- | ----------------------- |
-| **Архитектура кода** | 98/100     | 🟢 Отлично              |
-| **Гигиена Git**      | 7/10       | 🟡 Улучшается           |
-| **Документация**     | 100/100    | 🟢 Отлично              |
-| **Безопасность**     | 90/100     | 🟢 Отлично              |
-| **Процессы**         | 90/100     | 🟢 Отлично              |
-| **Общее состояние**  | **95/100** | 🟢 **Production Ready** |
-
-### ✅ Реализованные улучшения (2026)
-
-#### ✅ Фаза 1: Немедленные действия
-
-- 🛠️ Внедрён commitlint для Conventional Commits
-- 🔍 Очистка устаревших веток (215 → 211)
-- 🔒 Скрипты безопасности (npm audit, SAST/DAST)
-- 📚 Документация безопасности (SECURITY_OPERATIONS.md)
-
-#### ✅ Фаза 2: Краткосрочные улучшения
-
-- 🏗️ **Рефакторинг сервисов**: Модульные файлы (<500 строк)
-- 📋 **Анализ TODO**: 23 элемента (0 критичных)
-- 🚀 **Руководства**: 5 документов (200+ страниц)
-- 🔧 **Troubleshooting & Error Codes**: Стандартизированная обработка
-
-#### ✅ Фаза 3: Voice Cloning Integration
-
-- 🎙️ **Voice Cloning Studio**: 6-шаговый процесс клонирования голосов
-- 🔌 **Suno Voice API**: Полная интеграция с webhook-обработкой
-- 🎤 **Custom Voices**: Создание и библиотека собственных AI голосов
-- 🗄️ **Database Schema**: Новые таблицы для голосов и задач
-
-#### 🔄 Фаза 4: UI Improvements (В процессе)
-
-- 📋 **Spec 001**: UI Improvements — спецификация, план, задачи ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
-- 🧪 Тестирование voice cloning workflow
-- 📋 Увеличение покрытия тестами (70% → 80%)
-
-**Здоровье репозитория**: 68/100 → **95/100** 🟢
-
----
-
----
-
-## 🏗️ Архитектура
-
-### Tech Stack
-
-<div align="center">
-
-| Категория      | Технологии                                                |
-| -------------- | --------------------------------------------------------- |
-| **Frontend**   | React 19.2 • TypeScript 5.9 • Vite 5.0 • Tailwind CSS 3.4 |
-| **Backend**    | Supabase (PostgreSQL) • Edge Functions (Deno)             |
-| **AI/ML**      | Suno API v5 • Tone.js • Web Audio API                     |
-| **State**      | Zustand • TanStack Query v5                               |
-| **UI**         | Radix UI • shadcn/ui • Framer Motion 12                   |
-| **Audio**      | wavesurfer.js • Tone.js • lamejs • MIDI.js                |
-| **Testing**    | Jest • Playwright • Vitest • axe-core                     |
-| **Monitoring** | Sentry • custom logging • api_usage_logs                  |
-
-</div>
-
-### Структура проекта
-
-```
-MusicVerse AI/
-├── src/
-│   ├── api/              # API-клиенты и интеграции
-│   │   └── ... (21 API modules)
-│   ├── components/       # 1130+ React-компонентов
-│   │   ├── ui/          # Базовые UI-компоненты (shadcn)
-│   │   ├── studio/      # Студия: микшер, timeline, editor
-│   │   │   └── voice-cloning/   # Voice cloning studio ⭐ НОВОЕ
-│   │   ├── lyrics/      # Lyrics wizard и tools
-│   │   ├── generate/    # Форма генерации
-│   │   ├── library/     # Библиотека треков
-│   │   └── social/      # Социальные компоненты
-│   ├── services/         # Бизнес-логика и данные
-│   │   ├── voice/       # Voice cloning сервис ⭐ НОВОЕ
-│   │   │   ├── VoiceCloneService.ts    # 6-шаговый процесс
-│   │   │   ├── voice-types.ts           # Типы и интерфейсы
-│   │   │   └── index.ts                  # Экспорты
-│   │   ├── lyrics/      # Lyrics сервисы (рефакторинг)
-│   │   └── ... (42 сервисных файла)
-│   ├── hooks/           # 390+ кастомных хуков
-│   │   ├── useVoiceCloning.ts   # Voice cloning хук
-│   │   ├── studio/      # Студийные хуки
-│   │   ├── generation/  # Хуки генерации
-│   │   └── ui/          # UI-хуки
-│   ├── pages/           # 57+ страниц
-│   │   ├── Studio.tsx
-│   │   ├── StemStudio.tsx
-│   │   ├── LyricsStudio.tsx
-│   │   ├── Projects.tsx
-│   │   └── Analytics.tsx
-│   ├── stores/          # Zustand stores
-│   ├── lib/             # Утилиты и оптимизации
-│   │   ├── motion.ts    # Framer Motion оптимизации
-│   │   ├── icons.ts     # Централизованные иконки
-│   │   ├── performance.ts # Debounce, throttle, memoize
-│   │   ├── errors/      # Type-safe error handling
-│   │   └── stateMachine.ts # State machine для complex flows
-│   ├── types/           # TypeScript типы
-│   │   ├── branded.ts   # Branded types (TrackId, UserId)
-│   │   └── audio.ts     # Audio-типы
-│   └── workers/         # Web Workers
-├── supabase/
-│   ├── functions/       # 120+ Edge Functions (Deno)
-│   │   ├── suno-music-generate/     # Основная генерация
-│   │   ├── suno-callbacks/          # Обработка callback
-│   │   ├── klangio-*/               # Анализ аудио
-│   │   ├── tinkoff-*/               # Платежи
-│   │   └── telegram-*/              # Telegram Bot
-│   ├── migrations/      # Database schema
-│   └── config.toml
-├── docs/                # 305+ документов
-├── tests/               # Unit и E2E тесты
-└── graphify-out/        # Knowledge graph
+```text
+aimusicverse/
+├── src/                  # React app (935+ components, 200+ hooks, 8 Zustand stores)
+│   ├── components/       # UI + features (player, studio, generate, lyrics, …)
+│   ├── hooks/            # Audio · generation · studio · telegram
+│   ├── stores/           # Zustand (player · studio · lyrics · mixer)
+│   ├── services/         # Business logic
+│   ├── api/              # Supabase queries
+│   ├── pages/            # Lazy-loaded routes
+│   └── lib/              # logger · errors · audio utils · motion
+├── supabase/             # 80+ Edge Functions + migrations + config
+├── docs/                 # Long-form docs (architecture · API · guides)
+├── tests/                # Unit (Vitest) + E2E (Playwright)
+├── ADR/                  # Architecture decision records
+├── SPRINTS/              # Sprint planning
+└── specs/                # SDD specs
 ```
 
-### Ключевые особенности архитектуры
+Detailed tree in [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md).
 
-#### 1. Music Generation Pipeline
+---
+
+## 📚 Documentation
+
+| Section | Entry point |
+| --- | --- |
+| 📖 **Full index** | [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) |
+| 🏛 **Architecture hub** | [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) |
+| 🧩 **Knowledge base** | [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) |
+| 🗂 **Repo structure** | [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md) |
+| 🗺 **Roadmap** | [`ROADMAP.md`](ROADMAP.md) |
+| 📊 **Project status** | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) |
+| 🪲 **Known issues** | [`KNOWN_ISSUES_TRACKED.md`](KNOWN_ISSUES_TRACKED.md) |
+| 🤝 **Contributing** | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
+| 🔒 **Security** | [`SECURITY.md`](SECURITY.md) |
+| 📝 **Changelog** | [`CHANGELOG.md`](CHANGELOG.md) |
+
+> [!TIP]
+> New to the project? Start with [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) → [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) → [`CONTRIBUTING.md`](CONTRIBUTING.md). Building a feature? Open [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) and pick your role-based onboarding path.
+
+---
+
+## 🧪 Testing & Quality
+
+```bash
+npm test                  # unit (Vitest)
+npm run test:coverage     # coverage
+npm run test:e2e          # E2E (desktop + mobile projects)
+npm run test:e2e:mobile   # Pixel 5 + iPhone 12
+npm run size              # bundle budget guard
+```
+
+> [!IMPORTANT]
+> CI runs split jobs for `e2e` (desktop) and `e2e-mobile` (Mobile Chrome + Mobile Safari). Z-index, IME, and dev-overlay specs are mandatory gates — see [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+---
+
+## 🗺 Roadmap snapshot
 
 ```mermaid
-graph LR
-    A[User Request] --> B[Validation]
-    B --> C[Credits Check]
-    C --> D[Suno API]
-    D --> E{Success?}
-    E -->|Yes| F[Processing]
-    E -->|No| G[Model Fallback]
-    G --> D
-    F --> H[Callback]
-    H --> I[Notification]
+gantt
+    title MusicVerse AI — 2026
+    dateFormat YYYY-MM
+    section Shipped
+    Unified Studio Mobile     :done, 2026-01, 2026-04
+    Voice Cloning             :done, 2026-03, 2026-05
+    section In progress
+    Realtime co-creation      :active, 2026-06, 2026-08
+    Marketplace MVP           :active, 2026-07, 2026-09
+    section Planned
+    Multi-language UI         : 2026-09, 2026-10
+    Public API                : 2026-10, 2026-12
 ```
 
-**Возможности**:
-
-- SunoAI v5 с автоматическим fallback (V5 → V4_5PLUS → V4_5 → V4 → V3_5)
-- Exponential backoff retry (3 попытки, задержки 1с-8с)
-- 30-секундный timeout protection
-- Автоматическое восстановление после ошибок
-- Пользовательские сообщения об ошибках
-
-#### 2. Performance Optimizations
-
-| Оптимизация          | Реализация                               | Эффект                 |
-| -------------------- | ---------------------------------------- | ---------------------- |
-| **Bundle Splitting** | vendor-react, vendor-framer, vendor-tone | Быстрая загрузка       |
-| **Lazy Loading**     | 15+ тяжелых компонентов                  | Меньший initial bundle |
-| **React.memo**       | TrackCard, MixerChannel, Waveform        | -60% re-renders        |
-| **Waveform Cache**   | IndexedDB + LRU (7 дней TTL)             | Мгновенный доступ      |
-| **RAF Playback**     | Оптимизированные time updates            | 55+ FPS scrolling      |
-
-#### 3. Type Safety
-
-- **Branded Types**: `TrackId`, `UserId`, `StemId`, `ProjectId`
-- **Type-safe Context**: WebKit fallback для AudioContext
-- **Error Typing**: `AppError`, `NetworkError`, `APIError`, `GenerationError`
+Full board: [`ROADMAP.md`](ROADMAP.md).
 
 ---
 
-## 🚀 Быстрый старт
+## 🤝 Contributing
 
-### Предrequisites
+Pull requests, bug reports, and design ideas are welcome.
 
-```bash
-# Требования
-- Node.js 22.15+
-- npm 10.8+
-- Supabase CLI (опционально для локальной разработки)
-```
+1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) (commit style, branch policy, review).
+2. Check [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+3. Open an [issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) or [discussion](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions).
 
-### Установка
-
-```bash
-# 1. Клонирование репозитория
-git clone https://github.com/HOW2AI-AGENCY/aimusicverse.git
-cd aimusicverse
-
-# 2. Установка зависимостей
-npm install
-
-# 3. Настройка окружения
-cp .env.example .env
-# Отредактируйте .env с вашими ключами
-
-# 4. Запуск dev-сервера
-npm run dev
-# → http://localhost:8080
-```
-
-### Доступные команды
-
-#### Разработка
-
-```bash
-npm run dev              # Dev-сервер (порт 8080)
-npm run build            # Production build
-npm run preview          # Превью production сборки
-```
-
-#### Тестирование
-
-```bash
-npm test                 # Jest unit-тесты
-npm run test:coverage    # С отчётом покрытия
-npm run test:e2e         # Playwright E2E (все браузеры)
-npm run test:e2e:mobile  # Мобильные тесты
-npm run test:e2e:ui      # С UI-интерфейсом
-```
-
-#### Качество кода
-
-```bash
-npm run lint             # ESLint проверка
-npm run format           # Prettier форматирование
-npm run size             # Bundle size анализ
-npm run size:why         # Подробный анализ состава
-```
+<a href="https://github.com/HOW2AI-AGENCY/aimusicverse/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=HOW2AI-AGENCY/aimusicverse" alt="Contributors"/>
+</a>
 
 ---
 
-## 📚 Документация
+## 🔒 Security & License
 
-### 📖 Основная документация
-
-| Документ                                                  | Описание                                        |
-| --------------------------------------------------------- | ----------------------------------------------- |
-| [Архитектура](docs/ARCHITECTURE.md)                       | Системная архитектура и паттерны проектирования |
-| [Производительность](docs/PERFORMANCE_OPTIMIZATION.md)    | Оптимизации: memoization, caching, lazy loading |
-| [Bundle оптимизация](docs/BUNDLE_OPTIMIZATION.md)         | Сплиттинг, tree-shaking, оптимизация импортов   |
-| [Тестирование](docs/TESTING_INFRASTRUCTURE.md)            | Стратегия тестирования и инфраструктура         |
-| [Обработка ошибок](docs/ERROR_HANDLING_INFRASTRUCTURE.md) | Type-safe error handling                        |
-| [База данных](docs/DATABASE.md)                           | Схема Supabase и связи                          |
-
-### 🎨 Feature-документация
-
-| Документ                                           | Описание                          |
-| -------------------------------------------------- | --------------------------------- |
-| [AI Lyrics Assistant](docs/AI_LYRICS_ASSISTANT.md) | Инструменты для написания текстов |
-| [Студия](docs/STEM_STUDIO.md)                      | Микшер, timeline, stem separation |
-| [Telegram Bot](docs/TELEGRAM_BOT_ARCHITECTURE.md)  | Архитектура бота                  |
-| [Платежи](docs/TELEGRAM_PAYMENTS.md)               | Tinkoff интеграция                |
-| [Mobile UI](docs/MOBILE_COMPONENTS.md)             | Мобильная оптимизация             |
-
-### 🛠️ Руководства для разработчиков
-
-| Документ                                             | Описание                  |
-| ---------------------------------------------------- | ------------------------- |
-| [Быстрый старт](docs/QUICK_START.md)                 | Руководство по разработке |
-| [Design System](docs/DESIGN_SYSTEM_COMPREHENSIVE.md) | Дизайн-система и токены   |
-| [Навигация](docs/NAVIGATION_SYSTEM.md)               | Система навигации         |
-| [Hooks Reference](docs/HOOKS_REFERENCE.md)           | Референс кастомных хуков  |
-| [Contributing](CONTRIBUTING.md)                      | Гайд по контрибьюции      |
-
-### 📋 Sprint-документация
-
-| Sprint                        | Статус          | Документ                                          |
-| ----------------------------- | --------------- | ------------------------------------------------- |
-| **Sprints 001-032**           | ✅ Завершены    | [Архив](SPRINTS/completed/)                       |
-| **Voice Cloning**             | ✅ Завершён     | [Документация](docs/VOICE_CLONING_INTEGRATION.md) |
-| **Spec 001: UI Improvements** | 🔄 В процессе   | [Спецификация](specs/001-ui-improvements/spec.md) |
-| **Sprint B**                  | ⏳ Запланирован | Performance Scaling                               |
-| **Sprint C**                  | 📋 Q3 2026      | Platform Integrations                             |
-
----
-
-## 🎨 Дизайн-система
-
-### Design Tokens
-
-```css
-/* Цвета */
---bg-primary: #0a0a0f;
---bg-secondary: #12121a;
---bg-glass: rgba(255, 255, 255, 0.05);
---text-primary: #ffffff;
---text-secondary: #a0a0b0;
---accent-primary: #6366f1;
---accent-success: #10b981;
---accent-warning: #f59e0b;
---accent-error: #ef4444;
-
---radius-sm: 8px;
---radius-md: 12px;
---radius-lg: 16px;
---radius-full: 9999px;
-```
-
-### Компоненты
-
-- **shadcn/ui** — базовые компоненты (Button, Dialog, Sheet, etc.)
-- **Кастомные** — TrackCard, MixerChannel, Waveform, LyricsEditor
-- **Анимации** — Framer Motion presets (fadeIn, slideUp, scaleIn)
-- **Иконки** — lucide-react (централизованные через `@/lib/icons`)
-
-### Принципы
-
-- **Mobile-first** — touch targets 44x44px минимум
-- **Safe Areas** — обработка iOS/Android безопасных зон
-- **Glassmorphism** — glass-эффекты с backdrop-blur
-- **Accessibility** — WCAG 2.1 AA compliance
-
----
-
-## 🧪 Тестирование
-
-### Покрытие
-
-<div align="center">
-
-| Тип             | Framework              | Тестов       | Покрытие     |
-| --------------- | ---------------------- | ------------ | ------------ |
-| **Unit**        | Jest + Testing Library | 27+ files    | 70%+         |
-| **E2E**         | Playwright             | 62+ tests    | 7 browsers   |
-| **Component**   | Storybook              | 50+ stories  | Interactions |
-| **Performance** | Custom                 | 4 benchmarks | FPS, Memory  |
-
-</div>
-
-### Запуск тестов
-
-```bash
-# Unit-тесты
-npm test
-
-# С покрытием
-npm run test:coverage
-
-# E2E (все браузеры)
-npm run test:e2e
-
-# Конкретный браузер
-npm run test:e2e:chromium
-npm run test:e2e:firefox
-npm run test:e2e:webkit
-
-# Мобильные
-npm run test:e2e:mobile
-
-# С UI
-npm run test:e2e:ui
-
-# Hints-система
-npm run test:e2e:hints
-```
-
----
-
-## 🔧 Конфигурация
-
-### Environment Variables
-
-```env
-# Supabase
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_ANON_KEY=eyJxxx...
-
-# Suno AI
-SUNO_API_KEY=sk-xxx
-
-# Telegram
-TELEGRAM_BOT_TOKEN=1234567890:ABCdef...
-MINI_APP_URL=https://your-app.vercel.app
-
-# Sentry (optional)
-SENTRY_DSN=https://xxx@sentry.io/xxx
-```
-
-### Bun vs npm
-
-Проект поддерживает оба менеджера:
-
-```bash
-# npm
-npm install
-npm run dev
-
-# bun (быстрее)
-bun install
-bun run dev
-```
-
----
-
-## 🤝 Контрибьюция
-
-### Workflow
-
-1. **Создайте ветку** от `main`
-
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-
-2. **Внесите изменения** и протестируйте локально
-
-   ```bash
-   npm run dev
-   npm test
-   ```
-
-3. **Проверьте код**
-
-   ```bash
-   npm run lint
-   npm run format
-   ```
-
-4. **Закоммитьте** с описательным сообщением
-
-   ```bash
-   git add .
-   git commit -m "feat: add amazing feature"
-   ```
-
-5. **Push и PR**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-
-### Стандарты кода
-
-- **TypeScript** — strict mode (target 100%)
-- **ESLint** — все правила обязательны
-- **Prettier** — автоматическое форматирование
-- **Commit messages** — Conventional Commits
-
----
-
-## 📈 Дорожная карта
-
-### Q2 2026 (Апрель-Июнь) — Завершается
-
-#### Voice Cloning Integration ✅
-
-- [x] Voice Cloning Studio (6-шаговый процесс)
-- [x] Suno Voice API интеграция + webhook handlers
-- [x] Voice Library + Voice History страницы
-- [x] Database migrations для voice cloning
-
-#### Reliability & Stability ✅
-
-- [x] Улучшение reliability генерации (retry + backoff + model fallback)
-- [x] CI/CD pipeline обновление
-
-#### Spec 001: UI Improvements 🔄 В процессе
-
-- [x] Спецификация, план, задачи, контракты
-- [ ] Реализация UI компонентов
-- [ ] Bundle анализ и оптимизация
-
-### Q3 2026 (Июль-Сентябрь)
-
-#### Performance Scaling ⏳
-
-- [ ] Оптимизация компонентов (PlaylistTrackItem, LyricsLine)
-- [ ] Database query оптимизация
-- [ ] Advanced caching (Service Worker)
-
-#### Platform Integrations 📋
-
-- [ ] Spotify / Apple Music / YouTube export
-- [ ] OAuth 2.0 flows
-- [ ] Public API development
-
----
-
-## 🚨 Известные проблемы
-
-### P1 — Критические (решённые)
-
-- ✅ Все P1-P4 issues закрыты (28 issues resolved)
-- ✅ Generation reliability improved (F1.1 complete)
-
-### P2 — В процессе улучшения
-
-- 🟡 Generation failure rate ~12% → target <8% (model fallback добавлен)
-- 🟡 Bundle size optimisation pending
-- 🟡 Spec 001: UI Improvements — в реализации
-
-### P3 — Плановые
-
-- 📋 Platform integrations (Spotify, Apple Music)
-- 📋 Public API
-- 📋 Performance Scaling (Q3 2026)
-
----
-
-## 📄 Лицензия
-
-Proprietary software. All rights reserved.
-
----
-
-## 🙏 Благодарности
-
-- [Suno AI](https://suno.com) — Music generation API
-- [Supabase](https://supabase.com) — Backend infrastructure
-- [Telegram](https://telegram.org) — Mini App platform
-- [shadcn/ui](https://ui.shadcn.com) — Component library
-- [Radix UI](https://www.radix-ui.com) — Accessible primitives
+- Vulnerability disclosure → [`SECURITY.md`](SECURITY.md).
+- Project licensed under terms in [`LICENSE`](LICENSE).
 
 ---
 
 <div align="center">
 
-**Сделано с ❤️ командой MusicVerse**
+### 🔗 Related Documentation
 
-[Website](https://musicspace.vercel.app) • [Telegram](https://t.me/musicspaceapp) • [Twitter](https://twitter.com/musicspaceapp)
+| 📚 Index | 🏛 Architecture | 🗺 Roadmap | 🤝 Contributing | 🔒 Security | 📝 Changelog |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
+
+**Made with ❤️ by the MusicVerse AI team**
+
+<sub>Last updated: 2026-06-27 · [Report issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) · [Discuss](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)</sub>
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HOW2AI-AGENCY/aimusicverse&type=Date)](https://star-history.com/#HOW2AI-AGENCY/aimusicverse&Date)
 
 </div>
