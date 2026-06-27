@@ -1,6 +1,7 @@
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import { Music, MicVocal, FolderOpen, AudioLines } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 interface GenerateFormActionsProps {
   onOpenAudioDialog: () => void;
