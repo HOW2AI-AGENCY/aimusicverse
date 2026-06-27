@@ -103,9 +103,9 @@ export default function StudioHubPage() {
 
       <main className="container px-4 py-6">
         {isLoading ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-32 rounded-xl" />
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {[1, 2, 3, 4].map((i) => (
+              <Skeleton key={i} className="h-[104px] rounded-xl" />
             ))}
           </div>
         ) : projects.length === 0 ? (
@@ -123,65 +123,103 @@ export default function StudioHubPage() {
             </Button>
           </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <Card
-                key={project.id}
-                className="group cursor-pointer transition-all hover:border-primary/50 hover:shadow-lg"
-                onClick={() => navigate(`/studio-v2/project/${project.id}`)}
-              >
-                <CardContent className="p-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium truncate">{project.name}</h3>
-                      {project.description && (
-                        <p className="text-sm text-muted-foreground truncate">{project.description}</p>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {projects.map((project) => {
+              const trackCount = getTrackCount(project.tracks);
+              const status = (project.status || "draft") as keyof typeof STATUS_META;
+              const meta = STATUS_META[status] ?? STATUS_META.draft;
+              const cover = COVER_GRADIENTS[hashIndex(project.id, COVER_GRADIENTS.length)];
+              const initials = (project.name || "?").trim().slice(0, 2).toUpperCase();
+              const updated = project.opened_at || project.updated_at;
+
+              return (
+                <Card
+                  key={project.id}
+                  className="group relative cursor-pointer overflow-hidden border-border/50 bg-card/50 backdrop-blur transition-all hover:border-primary/60 hover:shadow-lg hover:-translate-y-0.5"
+                  onClick={() => navigate(`/studio-v2/project/${project.id}`)}
+                >
+                  <div className="flex gap-3 p-3">
+                    {/* Cover swatch */}
+                    <div
+                      className={cn(
+                        "relative flex h-20 w-20 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-inner",
+                        cover,
                       )}
+                    >
+                      <span className="font-bold text-2xl tracking-tight drop-shadow">{initials}</span>
+                      <Disc3 className="absolute bottom-1 right-1 h-3.5 w-3.5 opacity-60" />
                     </div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100">
-                          <MoreVertical className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          className="text-destructive"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setDeleteId(project.id);
-                          }}
+
+                    {/* Body */}
+                    <div className="flex-1 min-w-0 flex flex-col">
+                      <div className="flex items-start justify-between gap-1">
+                        <h3 className="font-semibold text-sm leading-tight truncate flex-1">{project.name}</h3>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-6 w-6 -mt-1 -mr-1 opacity-60 group-hover:opacity-100"
+                            >
+                              <MoreVertical className="h-3.5 w-3.5" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem
+                              className="text-destructive"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setDeleteId(project.id);
+                              }}
+                            >
+                              <Trash2 className="mr-2 h-4 w-4" />
+                              Удалить
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+
+                      {project.description ? (
+                        <p className="text-xs text-muted-foreground line-clamp-1 mt-0.5">{project.description}</p>
+                      ) : (
+                        <p className="text-xs text-muted-foreground/60 italic mt-0.5">Без описания</p>
+                      )}
+
+                      {/* Status + meta chips */}
+                      <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
+                        <Badge
+                          variant="outline"
+                          className={cn("h-5 px-1.5 text-[10px] font-medium gap-1 border", meta.className)}
                         >
-                          <Trash2 className="mr-2 h-4 w-4" />
-                          Удалить
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                          <span className={cn("h-1.5 w-1.5 rounded-full", meta.dot)} />
+                          {meta.label}
+                        </Badge>
+                        <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                          <Layers className="h-3 w-3" />
+                          {trackCount}
+                        </span>
+                        {project.bpm ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground">
+                            <Activity className="h-3 w-3" />
+                            {project.bpm}
+                          </span>
+                        ) : null}
+                        {updated ? (
+                          <span className="inline-flex items-center gap-1 text-[10px] text-muted-foreground ml-auto">
+                            <Clock className="h-3 w-3" />
+                            {formatDistanceToNow(new Date(updated), { addSuffix: false, locale: ru })}
+                          </span>
+                        ) : null}
+                      </div>
+                    </div>
                   </div>
-
-                  <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                    <span className="flex items-center gap-1">
-                      <Layers className="h-3.5 w-3.5" />
-                      {getTrackCount(project.tracks)} дорожек
-                    </span>
-                    {project.bpm && <span>{project.bpm} BPM</span>}
-                  </div>
-
-                  <div className="mt-3 flex items-center gap-1 text-xs text-muted-foreground">
-                    <Clock className="h-3 w-3" />
-                    {project.opened_at || project.updated_at
-                      ? formatDistanceToNow(new Date(project.opened_at || project.updated_at!), {
-                          addSuffix: true,
-                          locale: ru,
-                        })
-                      : "Недавно"}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                </Card>
+              );
+            })}
           </div>
         )}
       </main>
+
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
