@@ -312,7 +312,20 @@ npm run reset               # clean:cache + npm install + full rebuild
 - before every `npm run build` (`prebuild` hook),
 - in CI before `vite build`.
 
+### Smoke tests (local, same as CI)
+
+```bash
+npm run test:smoke              # chromium + firefox + webkit
+npm run test:smoke:chromium     # one engine, fastest
+bash scripts/e2e.sh chromium    # equivalent helper
+BROWSERS="chromium webkit" bash scripts/e2e.sh
+```
+
+Artifacts land in `test-results/smoke/<browser>/` (boot log, early errors, console/page errors, route screenshots) — identical layout to the `smoke-<browser>` CI artifact. Every PR also gets an auto-posted summary comment with one-click links to those artifacts.
+
 ---
+
+
 
 
 
