@@ -179,7 +179,7 @@ serve(async (req) => {
           const lyrics = getLyrics(firstClip);
 
           if (!audioUrl) {
-            logger.error(`❌ No audio URL in clip for task ${task.id}`);
+            logger.error("No audio URL in clip", null, { taskId: task.id });
             continue;
           }
 
@@ -216,7 +216,7 @@ serve(async (req) => {
               }
             }
           } catch (downloadError) {
-            logger.error(`⚠️ Error downloading files for recovery:`, downloadError);
+            logger.error("Error downloading files for recovery", downloadError);
           }
 
           // Update main track record
