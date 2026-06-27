@@ -160,8 +160,10 @@ export const EnhancedVariant = memo(function EnhancedVariant({
               "group relative overflow-hidden border-0 bg-gradient-to-br from-card/80 to-card/40 backdrop-blur-sm h-full",
               "shadow-sm hover:shadow-lg hover:ring-1 hover:ring-primary/20 transition-all duration-200 cursor-pointer",
               isCurrentTrack && "ring-2 ring-primary ring-offset-1 ring-offset-background",
+              "card-waveform-hover",
               className,
             )}
+            data-playing={isCurrentlyPlaying ? "true" : undefined}
           >
             {/* Cover Image */}
             <div className="relative overflow-hidden rounded-t-lg aspect-square">

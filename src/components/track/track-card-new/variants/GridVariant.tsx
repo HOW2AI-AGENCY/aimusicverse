@@ -146,8 +146,10 @@ export const GridVariant = memo(function GridVariant({
             isMobile && "active:scale-[0.98]",
             !isMobile && "hover:bg-card/95",
             isCurrentlyPlaying && "ring-2 ring-primary shadow-glow bg-primary/5",
+            "card-waveform-hover",
             className,
           )}
+          data-playing={isCurrentlyPlaying ? "true" : undefined}
           onClick={handleCardClick}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}

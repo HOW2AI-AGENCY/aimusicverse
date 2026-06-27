@@ -27,7 +27,7 @@ const steps: OnboardingStep[] = [
       "Контроль над жанром и темпом",
     ],
     icon: Sparkles,
-    gradient: "from-purple-500 to-pink-500",
+    gradient: "from-primary to-emerald-400",
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ const steps: OnboardingStep[] = [
       "Автоматическая категоризация",
     ],
     icon: GitBranch,
-    gradient: "from-blue-500 to-cyan-500",
+    gradient: "from-sky-500 to-cyan-400",
   },
   {
     id: 3,
@@ -53,7 +53,7 @@ const steps: OnboardingStep[] = [
       "Идеально для ремиксов",
     ],
     icon: Music,
-    gradient: "from-green-500 to-emerald-500",
+    gradient: "from-emerald-500 to-primary",
   },
   {
     id: 4,
@@ -66,7 +66,7 @@ const steps: OnboardingStep[] = [
       "Расширение и улучшение композиций",
     ],
     icon: Wand2,
-    gradient: "from-orange-500 to-red-500",
+    gradient: "from-generate to-amber-400",
   },
   {
     id: 5,
@@ -79,7 +79,7 @@ const steps: OnboardingStep[] = [
       "Генерация в вашем стиле",
     ],
     icon: User,
-    gradient: "from-violet-500 to-purple-500",
+    gradient: "from-indigo-500 to-primary",
   },
   {
     id: 6,
@@ -92,7 +92,7 @@ const steps: OnboardingStep[] = [
       "Профессиональный результат",
     ],
     icon: Mic,
-    gradient: "from-yellow-500 to-orange-500",
+    gradient: "from-cyan-400 to-generate",
   },
 ];
 
@@ -142,12 +142,12 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
   const progress = ((currentStep + 1) / steps.length) * 100;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm safe-area-inset">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-sm safe-area-inset noise-overlay mesh-hero">
       <Card className="w-full max-w-2xl mx-4 glass-card overflow-hidden">
         {/* Progress bar */}
         <div className="h-1 bg-muted relative">
           <motion.div
-            className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-purple-500"
+            className="absolute inset-y-0 left-0 bg-gradient-to-r from-primary to-generate"
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
             transition={{ duration: 0.3 }}
@@ -189,7 +189,7 @@ export const OnboardingSlider = ({ onComplete, onSkip }: OnboardingSliderProps) 
 
               {/* Title & Description */}
               <div className="text-center space-y-2">
-                <h2 className="text-2xl font-bold text-foreground">{step.title}</h2>
+                <h2 className="text-2xl font-bold text-foreground font-display">{step.title}</h2>
                 <p className="text-muted-foreground">{step.description}</p>
               </div>
 
