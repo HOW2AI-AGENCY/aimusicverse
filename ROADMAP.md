@@ -1,223 +1,101 @@
-# Дорожная карта проекта MusicVerse AI
+<div align="center">
 
-**Last Updated**: 2026-06-25  
-**Current Status**: Production Ready (100%)  
-**Project Completion**: 100%
+# 🗺 Roadmap
 
----
+**Where MusicVerse AI is going — quarter by quarter.**
 
-## 🎯 Текущий статус (June 2026)
+<p>
+  <img alt="Progress" src="https://img.shields.io/badge/2026-95%25_complete-10B981?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-030-26A5E4?style=for-the-badge"/>
+  <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
+</p>
 
-### ✅ Completed (100%)
+<p>
+  <a href="README.md">🏠 Home</a> ·
+  <a href="DOCUMENTATION_INDEX.md">📚 Docs</a> ·
+  <a href="PROJECT_STATUS.md">📊 Status</a> ·
+  <a href="CHANGELOG.md">📝 Changelog</a>
+</p>
 
-**Core Platform**
-
-- ✅ Music Generation (Suno AI v5, 277+ styles)
-- ✅ A/B Versioning system
-- ✅ Track Management (library, playlists, stems)
-- ✅ Global Audio Player
-- ✅ Telegram Mini App SDK 2.0
-
-**Monetization**
-
-- ✅ Tinkoff Payment (RUB)
-- ✅ Referral program
-- ✅ Credit packages
-
-**Engagement**
-
-- ✅ Streak system
-- ✅ Gamification (levels, achievements)
-- ✅ Social features (comments, likes, follows)
-
-**Creative Tools**
-
-- ✅ AI Lyrics Assistant
-- ✅ Stem Separation
-- ✅ MIDI Transcription
-- ✅ Social features (profiles, following, comments, likes)
-
-**UI/UX Optimization (Q1 2026)**
-
-- ✅ Sprint A-E: Complete UI/UX overhaul
-- ✅ Z-index hierarchy standardization
-- ✅ Track card variants unification
-- ✅ Design system tokens
-- ✅ Documentation update
-- ✅ TypeScript error resolution (June 25, 2026)
-
-### Q2 2026 Goals (April-June)
-
-- 📋 Spec 032: Professional UI enhancements
-- 📋 Spec 031: Mobile Studio V2
-- 📋 Platform integrations (Spotify, Apple Music)
-- 📋 Public API development
+</div>
 
 ---
 
-## Q2 2026: Расширение функционала и монетизация
+## 📅 Timeline
 
-**Status**: In Progress (Q2 2026)
+```mermaid
+gantt
+    title MusicVerse AI — 2026 Roadmap
+    dateFormat YYYY-MM
+    axisFormat %b
+    section Shipped
+    Unified Studio Mobile        :done, 2026-01, 2026-04
+    Voice Cloning Studio         :done, 2026-03, 2026-05
+    Bundle Optimisation (<950kb) :done, 2026-04, 2026-05
+    Audio Section Replacement    :done, 2026-05, 2026-06
+    section In progress
+    Realtime co-creation         :active, 2026-06, 2026-08
+    Marketplace MVP              :active, 2026-07, 2026-09
+    A/B test framework           :active, 2026-06, 2026-07
+    section Planned
+    Multi-language UI            : 2026-09, 2026-10
+    Public Developer API         : 2026-10, 2026-12
+    Mobile-native (React Native) : 2026-11, 2027-02
+```
 
-### Цель
+## 🎯 Quarterly objectives
 
-Улучшить пользовательский опыт и внедрить монетизацию
+### Q3 2026 — Collaboration
 
-### Ключевые функции (In Progress)
+| # | Epic | Progress |
+| :---: | --- | :---: |
+| 1 | Realtime sessions (presence, cursors, waveform sync) | ![](https://img.shields.io/badge/45%25-F59E0B?style=flat-square) |
+| 2 | Marketplace MVP (beats / loops / voices) | ![](https://img.shields.io/badge/30%25-F59E0B?style=flat-square) |
+| 3 | A/B testing framework rollout | ![](https://img.shields.io/badge/70%25-10B981?style=flat-square) |
+| 4 | Lyrics co-editing | ![](https://img.shields.io/badge/10%25-475569?style=flat-square) |
 
-- **Platform Integration (Sprint 014)**: 138 tasks ready
-  - Экспорт в Spotify, Apple Music, YouTube, SoundCloud
-  - Release scheduling и distribution tracking
-  - RESTful API для музыкальной генерации
-  - API key management с OAuth 2.0
-  - Webhook system для событий
-  - JavaScript и Python SDKs
-- **Monetization (In Progress)**
-  - ✅ Telegram Stars payment system (210 tasks complete)
-  - ✅ Credit system и subscription management
-  - 📋 Pricing tiers и packages
-  - 📋 Refund и transaction management
+### Q4 2026 — Platform
 
-- **Quality & Testing (Sprint 015)**: 169 tasks ready
-  - > 80% test coverage (unit, integration, E2E)
-  - Lighthouse scores >90
-  - WCAG 2.1 AA accessibility
-  - Security audit
-  - Production monitoring
+| # | Epic | Status |
+| :---: | --- | :---: |
+| 1 | Multi-language UI (EN/RU/ES/DE) | 📋 |
+| 2 | Public Developer API | 📋 |
+| 3 | Webhooks for generations | 📋 |
+| 4 | Plugin SDK (lyrics tools) | 📋 |
 
-- **Advanced Features**
-  - Расширенные возможности генерации (ремиксы, продолжения)
-  - Публичные профили артистов ✅ (Implemented)
-  - Улучшенная система рекомендаций
-  - MIDI transcription ✅ (6 AI models)
+### Q1 2027 — Native expansion
 
-**Recent Updates (June 25, 2026)**
-
-- [x] Fixed TS2307 module resolution errors
-  - Created `src/components/ui/skeleton/TrackCardSkeleton.tsx`
-  - Created `src/components/ui/skeletons/TrackListSkeleton.tsx`
-- [x] Fixed TS2353 CSSProperties type errors
-- [x] Updated documentation and sprint tracking
-
----
-
-## Q3 2026: Социальные функции и сообщество
-
-**Status**: Complete (100%) - All features delivered in Q1 2026
-
-### Цель
-
-Создать сообщество вокруг платформы
-
-### Ключевые функции
-
-- ✅ **Social Features (Sprint 011 - 100% complete)**
-  - User profiles с verification system
-  - Following system с real-time updates
-  - Comment threading с @mentions
-  - Track и comment likes
-  - Activity feed и notifications
-  - Privacy controls и content moderation
-- 📋 **Remaining Q3 Goals**
-  - Совместные проекты (коллаборации)
-  - Еженедельные челленджи и конкурсы
-  - Leaderboards и достижения (gamification ✅ implemented)
-  - Community playlists
-  - Artist collaborations
+| # | Epic | Status |
+| :---: | --- | :---: |
+| 1 | React Native iOS app | 📋 |
+| 2 | React Native Android app | 📋 |
+| 3 | Desktop (Electron) studio | 📋 |
 
 ---
 
-## Q4 2026: Интеграция с другими платформами
+## 🧱 Tech debt & infra
 
-**Status**: Planned
-
-### Цель
-
-Расширить присутствие платформы
-
-### Ключевые функции (From Sprint 014)
-
-- 📋 Экспорт треков в стриминговые сервисы
-  - Spotify, Apple Music integration
-  - YouTube Music, SoundCloud
-  - Release scheduling
-- 📋 Интеграция с другими социальными сетями
-  - Instagram Stories integration
-  - TikTok Sound Library
-  - VK Music
-- 📋 API для сторонних разработчиков
-  - RESTful API (REST + GraphQL)
-  - JavaScript SDK
-  - Python SDK
-  - Webhook events
-  - Interactive documentation
+- [ ] Split `useUnifiedStudioStore` (38 KB) into domain slices
+- [ ] Migrate remaining legacy generators to `suno-music-generate`
+- [ ] Full WCAG AA pass on Library + Studio
+- [ ] Lighthouse perf budget enforcement in CI
 
 ---
 
-## 📊 Implementation Timeline
+## 📊 Sprint history
 
-### Q1 2026 ✅ COMPLETE
-
-- ✅ Sprint 030: Unified Studio Mobile (100%)
-- ✅ Sprint 031: Data Model & Optimization Phase 2 (100%)
-- ✅ Sprint 032: Final UI/UX Audit & Polish (100%)
-- ✅ UI/UX Sprints A-E: Complete overhaul
-- ✅ Z-index hierarchy standardization
-- ✅ Track card variants unification
-- ✅ Documentation update
-- ✅ TypeScript error resolution (June 25, 2026)
-
-### Q2 2026 (April-June)
-
-- 📋 Spec 032: Professional UI enhancements
-- 📋 Spec 031: Mobile Studio V2
-- 📋 Platform integrations (Spotify, Apple Music, YouTube)
-- 📋 Public API v1.0 development
-- 📋 Infrastructure hardening
-- 📋 Security enhancements
-
-### Q3-Q4 2026
-
-- Platform expansion
-- Community features
-- Advanced integrations
-- API ecosystem
+See [`SPRINTS/`](SPRINTS/) — 30 completed sprints, archived under [`SPRINTS/completed/`](SPRINTS/completed/).
 
 ---
 
-## 🎯 Success Metrics
+<div align="center">
 
-### Q1 2026 Complete ✅
+### 🔗 Related Documentation
 
-- ✅ 32/32 sprints completed (100%)
-- ✅ Core functionality operational
-- ✅ Mobile-first UI implemented
-- ✅ Social features 100% complete
-- ✅ UI/UX optimization complete
-- ✅ Documentation updated
-- ✅ TypeScript errors resolved
-- ✅ Production-ready platform
+| 📚 Index | 🏛 Architecture | 📊 Status | 📝 Changelog | 🪲 Issues |
+| :---: | :---: | :---: | :---: | :---: |
+| [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 
-### Q2 2026 Targets
+<sub>Last updated: 2026-06-27</sub>
 
-- Platform integration complete (Spotify, Apple Music, YouTube)
-- Monetization active and optimized
-- API v1.0 launched
-- > 95% test coverage
-- Lighthouse scores >90
-- 1,000+ active users
-- 5,000+ tracks generated
-
----
-
-**For detailed implementation plans, see:**
-
-- [PROJECT_STATUS.md](PROJECT_STATUS.md) - Current status tracking
-- [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) - Project knowledge base
-- [docs/Z_INDEX_HIERARCHY.md](docs/Z_INDEX_HIERARCHY.md) - Z-index system
-- [SPRINTS/README.md](SPRINTS/README.md) - Sprint management
-
----
-
-**Last Updated**: 2026-06-25  
-**Status**: 🟢 Production Ready
+</div>
