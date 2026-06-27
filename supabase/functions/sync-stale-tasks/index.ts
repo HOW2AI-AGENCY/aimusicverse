@@ -270,11 +270,11 @@ serve(async (req) => {
                   recovered: true,
                 },
               });
-              logger.info(`✅ Version ${versionLabel} created for recovered track`);
+              logger.info("Version created for recovered track", { versionLabel });
             }
           }
 
-          logger.info(`✅ Track ${task.track_id} recovered successfully`);
+          logger.info("Track recovered successfully", { trackId: task.track_id });
           recoveredCount++;
         } catch (recoveryErr) {
           logger.error(`❌ Error recovering track ${task.track_id}:`, recoveryErr);
