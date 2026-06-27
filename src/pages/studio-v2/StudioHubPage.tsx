@@ -41,6 +41,32 @@ interface StudioProjectRow {
   opened_at: string | null;
 }
 
+const STATUS_META = {
+  draft: { label: "Черновик", dot: "bg-slate-400", className: "border-slate-400/30 text-slate-300 bg-slate-400/10" },
+  mixing: { label: "Сведение", dot: "bg-blue-400", className: "border-blue-400/30 text-blue-300 bg-blue-400/10" },
+  mastering: { label: "Мастеринг", dot: "bg-purple-400", className: "border-purple-400/30 text-purple-300 bg-purple-400/10" },
+  completed: { label: "Готово", dot: "bg-emerald-400", className: "border-emerald-400/30 text-emerald-300 bg-emerald-400/10" },
+  archived: { label: "Архив", dot: "bg-zinc-500", className: "border-zinc-500/30 text-zinc-400 bg-zinc-500/10" },
+} as const;
+
+const COVER_GRADIENTS = [
+  "from-violet-500 to-fuchsia-600",
+  "from-blue-500 to-cyan-500",
+  "from-emerald-500 to-teal-600",
+  "from-orange-500 to-rose-500",
+  "from-pink-500 to-purple-600",
+  "from-amber-500 to-orange-600",
+  "from-cyan-500 to-blue-600",
+  "from-rose-500 to-red-600",
+];
+
+function hashIndex(s: string, mod: number): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+  return h % mod;
+}
+
+
 export default function StudioHubPage() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<StudioProjectRow[]>([]);
