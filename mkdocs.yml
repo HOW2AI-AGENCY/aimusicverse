@@ -1,0 +1,109 @@
+site_name: MusicVerse AI Docs
+site_description: Documentation for the MusicVerse AI Telegram Mini App
+site_url: https://aimusicverse.github.io/docs/
+repo_url: https://github.com/aimusicverse/musicverse
+edit_uri: edit/main/
+docs_dir: .
+site_dir: site
+
+theme:
+  name: material
+  language: en
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.action.edit
+    - toc.follow
+
+plugins:
+  - search
+  - awesome-pages
+  - git-revision-date-localized:
+      enable_creation_date: true
+      fallback_to_build_date: true
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+
+nav:
+  - Home: README.md
+  - Русский: README_RU.md
+  - Documentation Index: DOCUMENTATION_INDEX.md
+  - Architecture: ARCHITECTURE_HUB.md
+  - Repository Structure: REPOSITORY_STRUCTURE.md
+  - Project Status: PROJECT_STATUS.md
+  - Roadmap: ROADMAP.md
+  - Changelog: CHANGELOG.md
+  - Known Issues: KNOWN_ISSUES_TRACKED.md
+  - Contributing:
+      - Guide: CONTRIBUTING.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+      - Security: SECURITY.md
+      - Style Guide: docs/STYLE_GUIDE.md
+  - Docs:
+      - Index: docs/INDEX.md
+      - Navigation: docs/NAVIGATION.md
+
+exclude_docs: |
+  node_modules/
+  dist/
+  build/
+  coverage/
+  playwright-report/
+  test-results/
+  site/
+  .github/
+  .lovable/
+  src/
+  supabase/
+  tests/
+  scripts/
+  public/
+  docs/archive/
