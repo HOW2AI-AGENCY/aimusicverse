@@ -4,6 +4,16 @@
 echo "🔧 Running pre-commit checks..."
 echo ""
 
+# CSS @import order guard — fast, fail loud. Prevents the white-screen
+# class of bugs where a misplaced @import in src/index.css silently
+# breaks Vite's CSS bundling.
+echo "🎨 Validating CSS @import order..."
+node scripts/check-css-imports.mjs
+if [ $? -ne 0 ]; then
+  echo "❌ CSS @import check failed — commit blocked."
+  exit 1
+fi
+
 # Run lint-staged for staged files
 npx lint-staged
 

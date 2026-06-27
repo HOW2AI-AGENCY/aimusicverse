@@ -3,11 +3,11 @@
  * Build-time guard: ensures every @import in src/index.css appears
  * BEFORE any other CSS statement.
  *
- * CSS spec requires @import (and @charset / empty @layer) to precede
- * all other rules — otherwise PostCSS/Vite silently drops the import
- * and the app may fail to load in the browser.
+ * CSS spec: @import (and @charset, bare @layer) MUST precede every
+ * other rule. PostCSS/Vite silently drops misplaced @import → broken
+ * styles → white screen in the browser.
  *
- * Exits with code 1 and a readable message on violation.
+ * Exits with code 1 and a readable, actionable message on violation.
  */
 
 import fs from "node:fs";
@@ -17,8 +17,19 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
 
-// Files to validate. Add more entry CSS files here if needed.
 const TARGETS = ["src/index.css"];
+
+const RED = "\x1b[31m";
+const YELLOW = "\x1b[33m";
+const GREEN = "\x1b[32m";
+const CYAN = "\x1b[36m";
+const DIM = "\x1b[2m";
+const BOLD = "\x1b[1m";
+const RESET = "\x1b[0m";
+
+function color(c, s) {
+  return process.stdout.isTTY ? `${c}${s}${RESET}` : s;
+}
 
 let hasError = false;
 
@@ -32,18 +43,16 @@ for (const rel of TARGETS) {
   const src = fs.readFileSync(abs, "utf8");
   const lines = src.split(/\r?\n/);
 
-  // Track whether we've seen a non-import, non-comment, non-blank,
-  // non-@charset statement. After that point @import is illegal.
   let sawOtherStatement = false;
-  let inBlockComment = false;
   let firstOtherLine = -1;
   let firstOtherText = "";
+  let inBlockComment = false;
+  const violations = [];
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
     const trimmed = line.trim();
 
-    // Strip / track block comments
     if (inBlockComment) {
       const end = trimmed.indexOf("*/");
       if (end === -1) continue;
@@ -52,37 +61,26 @@ for (const rel of TARGETS) {
       if (!line) continue;
     } else {
       const start = trimmed.indexOf("/*");
-      if (start !== -1) {
-        const end = trimmed.indexOf("*/", start + 2);
-        if (end === -1) {
-          inBlockComment = true;
-          // before the comment may still be code
-          const before = trimmed.slice(0, start).trim();
-          if (!before) continue;
-          line = before;
-        }
+      if (start !== -1 && trimmed.indexOf("*/", start + 2) === -1) {
+        inBlockComment = true;
+        const before = trimmed.slice(0, start).trim();
+        if (!before) continue;
+        line = before;
       }
     }
 
     const code = (typeof line === "string" ? line : "").trim();
     if (!code) continue;
-    if (code.startsWith("//")) continue; // not real CSS but skip
+    if (code.startsWith("//")) continue;
     if (code.startsWith("/*") && code.endsWith("*/")) continue;
 
     const isImport = /^@import\b/i.test(code);
     const isCharset = /^@charset\b/i.test(code);
-    const isEmptyLayer = /^@layer\s+[^;{]+;$/i.test(code); // bare @layer decl
+    const isEmptyLayer = /^@layer\s+[^;{]+;$/i.test(code);
 
     if (isImport) {
       if (sawOtherStatement) {
-        hasError = true;
-        console.error(
-          `\n[check-css-imports] ❌ ${rel}:${i + 1}\n` +
-            `  @import must precede all other CSS statements.\n` +
-            `  Offending line ${i + 1}: ${code}\n` +
-            `  First non-import statement was line ${firstOtherLine + 1}: ${firstOtherText}\n` +
-            `  Fix: move every @import to the very top of ${rel} (only @charset and bare @layer may come before).\n`,
-        );
+        violations.push({ line: i + 1, text: code });
       }
       continue;
     }
@@ -95,11 +93,61 @@ for (const rel of TARGETS) {
       firstOtherText = code.slice(0, 120);
     }
   }
+
+  if (violations.length > 0) {
+    hasError = true;
+    const filePath = `${rel}`;
+    const absPath = path.relative(process.cwd(), abs) || rel;
+
+    console.error("");
+    console.error(color(RED + BOLD, `✖ CSS @import order violation in ${filePath}`));
+    console.error(color(DIM, `  ${absPath}`));
+    console.error("");
+    console.error(
+      color(YELLOW, `  The CSS spec requires every @import to appear BEFORE any other rule.`),
+    );
+    console.error(
+      color(YELLOW, `  Vite/PostCSS silently drops misplaced @import → broken styles → white screen.`),
+    );
+    console.error("");
+    console.error(color(BOLD, `  First non-import statement:`));
+    console.error(
+      color(DIM, `    ${filePath}:${firstOtherLine + 1}  `) + color(CYAN, firstOtherText),
+    );
+    console.error("");
+    console.error(color(BOLD, `  Misplaced @import statement(s):`));
+    for (const v of violations) {
+      console.error(color(RED, `    ✖ ${filePath}:${v.line}  ${v.text}`));
+    }
+    console.error("");
+    console.error(color(BOLD, `  How to fix:`));
+    console.error(`    1. Open ${color(CYAN, filePath)} in your editor.`);
+    console.error(`    2. Move every @import to the very TOP of the file.`);
+    console.error(`       Only @charset and bare @layer declarations may come before.`);
+    console.error(`    3. Save and re-run: ${color(CYAN, "npm run check:css-imports")}`);
+    console.error("");
+    console.error(color(BOLD, `  Correct structure:`));
+    console.error(color(GREEN, `    /* ✅ correct */`));
+    console.error(color(GREEN, `    @charset "UTF-8";`));
+    console.error(color(GREEN, `    @import "./styles/micro-animations.css";`));
+    console.error(color(GREEN, `    @import "./styles/other.css";`));
+    console.error(color(GREEN, `    `));
+    console.error(color(GREEN, `    @tailwind base;`));
+    console.error(color(GREEN, `    @tailwind components;`));
+    console.error(color(GREEN, `    @tailwind utilities;`));
+    console.error(color(GREEN, `    `));
+    console.error(color(GREEN, `    :root { --color: hsl(0 0% 100%); }`));
+    console.error("");
+    console.error(color(RED, `    /* ❌ wrong — @import after other rules is ignored */`));
+    console.error(color(RED, `    @tailwind base;`));
+    console.error(color(RED, `    @import "./styles/other.css";  /* dropped! */`));
+    console.error("");
+  }
 }
 
 if (hasError) {
-  console.error("[check-css-imports] Build aborted: fix the @import order above.");
+  console.error(color(RED + BOLD, "Build aborted: fix the @import order above."));
   process.exit(1);
 }
 
-console.log("[check-css-imports] ✅ @import order OK");
+console.log(color(GREEN, "[check-css-imports] ✓ @import order OK"));
