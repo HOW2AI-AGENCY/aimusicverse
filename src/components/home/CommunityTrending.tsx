@@ -42,7 +42,7 @@ export function CommunityTrending({ tracks, onTrackClick, className }: Community
             <div className="relative w-[50px] h-[50px] rounded-xl overflow-hidden flex-shrink-0">
               <LazyImage
                 src={track.cover_url ?? ""}
-                alt={track.title}
+                alt={track.title ?? "Track"}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-radial from-white/25 to-transparent opacity-60" />
