@@ -36,9 +36,9 @@ const SKELETON_COUNT = 4;
 // Lightweight skeleton component - optimized for scroll performance
 const TrackSkeleton = memo(function TrackSkeleton() {
   return (
-    <div className="flex-shrink-0 w-[155px] sm:w-[170px] lg:w-[190px] xl:w-[210px]" style={{ contain: "layout paint" }}>
+    <div className="flex-shrink-0 w-[165px] sm:w-[180px] lg:w-[200px] xl:w-[220px]" style={{ contain: "layout paint" }}>
       <div className="aspect-square rounded-xl bg-muted/20 animate-pulse" />
-      <div className="mt-2 space-y-1.5">
+      <div className="mt-3 space-y-2">
         <div className="h-3.5 w-4/5 bg-muted/15 rounded animate-pulse" />
         <div className="h-3 w-1/2 bg-muted/10 rounded animate-pulse" />
       </div>
@@ -79,16 +79,16 @@ export const FeaturedSection = memo(function FeaturedSection({
   // No animations on skeleton to prevent scroll jank
   if (isLoading && displayTracks.length === 0) {
     return (
-      <section className={cn("space-y-3", className)} style={{ contain: "layout" }}>
-        <div className="flex items-center gap-2 px-1">
-          <div className="w-8 h-8 rounded-lg bg-muted/20" />
-          <div className="space-y-1">
-            <div className="h-4 w-24 bg-muted/20 rounded" />
-            <div className="h-3 w-36 bg-muted/15 rounded" />
+      <section className={cn("space-y-6", className)} style={{ contain: "layout" }}>
+        <div className="flex items-center gap-3 px-1">
+          <div className="w-10 h-10 rounded-lg bg-muted/20" />
+          <div className="space-y-2">
+            <div className="h-4.5 w-28 bg-muted/20 rounded" />
+            <div className="h-3.5 w-40 bg-muted/15 rounded" />
           </div>
         </div>
         <div
-          className="flex gap-3 overflow-x-auto pb-2 scroll-smooth touch-pan-x"
+          className="flex gap-5 overflow-x-auto pb-4 scroll-smooth touch-pan-x"
           style={{ WebkitOverflowScrolling: "touch" }}
         >
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
@@ -106,7 +106,7 @@ export const FeaturedSection = memo(function FeaturedSection({
 
   return (
     <motion.section
-      className={cn("space-y-3", className)}
+      className={cn("space-y-6", className)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.25 }}
@@ -133,11 +133,11 @@ export const FeaturedSection = memo(function FeaturedSection({
 
       {/* Horizontal scroll container - responsive sizes */}
       <div
-        className="flex gap-3 lg:gap-4 overflow-x-auto pb-2 scroll-smooth touch-pan-x scrollbar-hide"
+        className="flex gap-5 lg:gap-6 overflow-x-auto pb-4 scroll-smooth touch-pan-x scrollbar-hide"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
         {displayTracks.map((track) => (
-          <div key={track.id} className="flex-shrink-0 w-[155px] sm:w-[170px] lg:w-[190px] xl:w-[210px] group">
+          <div key={track.id} className="flex-shrink-0 w-[165px] sm:w-[180px] lg:w-[200px] xl:w-[220px] group">
             <UnifiedTrackCard
               track={track}
               variant="grid"

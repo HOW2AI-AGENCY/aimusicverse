@@ -25,6 +25,7 @@ import { HeroSkeleton } from "@/components/ui/ContentSkeleton";
 import { Clock } from "@/lib/icons";
 import { homeSectionColors } from "@/lib/design-colors";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
+import { sectionGap, containerPadding, contentSpacing } from "@/lib/design-spacing";
 
 // Core home components
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
@@ -239,9 +240,10 @@ const Index = () => {
 
   // Desktop: 8/4 split — main column / sticky right rail.
   // Sections are clustered into semantic groups with consistent rhythm.
+  // Minimalist spacing: generous gaps for visual clarity
   const renderDesktopLayout = () => (
-    <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
-      <div className="xl:col-span-8 min-w-0 overflow-hidden space-y-10">
+    <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-16 items-start">
+      <div className="xl:col-span-8 min-w-0 overflow-hidden space-y-14 lg:space-y-16">
         <HomeSectionGroup>
           {sections.newUserHero}
           {sections.newUserProgress}
@@ -262,7 +264,7 @@ const Index = () => {
         </HomeSectionGroup>
       </div>
 
-      <aside className="xl:col-span-4 min-w-0 overflow-hidden xl:sticky xl:top-6 space-y-8">
+      <aside className="xl:col-span-4 min-w-0 overflow-hidden xl:sticky xl:top-8 space-y-12 lg:space-y-14">
         <HomeSectionGroup>
           {sections.stats}
           {sections.gamification}
@@ -278,8 +280,9 @@ const Index = () => {
   );
 
   // Mobile: single column with same semantic clusters.
+  // Minimalist spacing: generous gaps for visual clarity
   const renderMobileLayout = () => (
-    <div className="space-y-10">
+    <div className="space-y-12 sm:space-y-14">
       <HomeSectionGroup>
         {sections.gamification}
         {sections.newUserHero}
@@ -336,7 +339,10 @@ const Index = () => {
         )}
 
         <div
-          className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:py-6 relative z-10"
+          className={cn(
+            "w-full max-w-screen-2xl mx-auto pt-4 sm:pt-6 lg:pt-8 relative z-10",
+            "px-5 sm:px-6 lg:px-8 xl:px-10"
+          )}
           style={{ paddingBottom: wrapperPaddingBottom }}
         >
           <SEOHead {...SEO_PRESETS.home} canonical="https://aimusicverse.lovable.app/" />

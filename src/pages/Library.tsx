@@ -42,6 +42,7 @@ import { VirtualizedTrackList } from "@/components/library/VirtualizedTrackList"
 import { EmptyLibraryState } from "@/components/library/EmptyLibraryState";
 import { cn } from "@/lib/utils";
 import { AppHeader } from "@/components/layout/AppHeader";
+import { gridGap, containerPadding, contentSpacing, sectionGap } from "@/lib/design-spacing";
 import { NotificationBadge } from "@/components/NotificationBadge";
 import { SEOHead, SEO_PRESETS } from "@/components/SEOHead";
 import { DesktopLibrarySidebar } from "@/components/library/DesktopLibrarySidebar";
@@ -220,12 +221,12 @@ export default function Library() {
         )}
 
         {/* Main Content - with master-detail layout on desktop */}
-        <div className={cn("flex-1 min-w-0 flex", !isMobile && selectedTrackId && "gap-0")}>
+        <div className={cn("flex-1 min-w-0 flex", !isMobile && selectedTrackId && "gap-8")}>
           {/* Track List Section */}
           <div
             className={cn(
               "flex-1 min-w-0 flex flex-col",
-              !isMobile && selectedTrackId && "max-w-[60%] border-r border-border/30",
+              !isMobile && selectedTrackId && "max-w-[60%] border-r border-border/40",
             )}
           >
             {/* Unified Header */}
@@ -294,7 +295,7 @@ export default function Library() {
             />
 
             {/* Compact Search and Filters */}
-            <div className="z-20 bg-background border-b border-border/30 -mx-4 px-4 py-2">
+            <div className="z-20 bg-background border-b border-border/30 -mx-4 px-5 sm:px-6 py-4 sm:py-5">
               {isMobile ? (
                 <CompactFilterBar
                   searchQuery={searchQuery}
@@ -348,16 +349,16 @@ export default function Library() {
                 await refetchTracks();
               }}
               disabled={!isMobile}
-              className="py-2 sm:py-3 flex-1"
+              className="py-6 sm:py-8 flex-1"
             >
-              {!isMobile && <div className="mb-2" />}
+              {!isMobile && <div className="mb-4" />}
 
               {/* Active Tag Filter Indicator */}
               {tagFilter && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-2 px-4 py-2.5 mb-3 mx-4 bg-primary/10 border border-primary/20 rounded-xl"
+                  className="flex items-center gap-3 px-5 py-3 mb-6 mx-5 sm:mx-6 bg-primary/10 border border-primary/20 rounded-xl"
                 >
                   <Tag className="w-4 h-4 text-primary flex-shrink-0" />
                   <span className="text-sm text-primary font-medium truncate">Фильтр: {tagFilter}</span>
@@ -375,16 +376,16 @@ export default function Library() {
 
               {/* Active Generations Section */}
               {hasActiveGenerations && (
-                <div className="mb-4">
-                  <h2 className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1.5">
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                <div className="mb-8">
+                  <h2 className="text-xs font-medium text-muted-foreground mb-4 flex items-center gap-2">
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     Генерируется ({activeGenerations.length})
                   </h2>
                   <div
                     className={
                       viewMode === "grid"
-                        ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3"
-                        : "flex flex-col gap-1.5"
+                        ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-5 lg:gap-6"
+                        : "flex flex-col gap-3 sm:gap-4"
                     }
                   >
                     {activeGenerations.map((task) => (
@@ -413,8 +414,8 @@ export default function Library() {
                     <div
                       className={
                         viewMode === "grid"
-                          ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
-                          : "flex flex-col gap-1.5"
+                          ? "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5 lg:gap-6"
+                          : "flex flex-col gap-3 sm:gap-4"
                       }
                     >
                       {Array.from({ length: 6 }).map((_, i) =>

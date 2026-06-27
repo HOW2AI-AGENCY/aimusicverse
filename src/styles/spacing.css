@@ -1,19 +1,25 @@
 /**
- * Spacing Scale
+ * Minimalist Spacing Scale
  * Feature: 032-professional-ui
- * 
- * Consistent spacing based on 4px unit scale
- * Aligns with Tailwind's default spacing system
+ * Feature: Minimalist redesign with generous whitespace
+ *
+ * Enhanced spacing based on 8px base unit for clearer visual hierarchy
+ * More generous spacing creates luxurious, premium feel
  */
 
 :root {
-  /* Spacing Scale (4px base unit) */
-  --spacing-xs: 4px; /* 0.25rem - Tight spacing */
-  --spacing-sm: 8px; /* 0.5rem  - Compact */
-  --spacing-md: 12px; /* 0.75rem - Comfortable */
-  --spacing-lg: 16px; /* 1rem    - Standard */
-  --spacing-xl: 24px; /* 1.5rem  - Relaxed */
-  --spacing-2xl: 32px; /* 2rem    - Spacious */
+  /* Minimalist Spacing Scale (8px base unit) */
+  --spacing-micro: 4px; /* 0.25rem - Micro spacing for tight elements */
+  --spacing-tiny: 8px; /* 0.5rem  - Icon padding, very tight gaps */
+  --spacing-compact: 12px; /* 0.75rem - Small gaps within components */
+  --spacing-base: 16px; /* 1rem    - Standard element spacing */
+  --spacing-comfortable: 20px; /* 1.25rem - Comfortable card padding */
+  --spacing-relaxed: 24px; /* 1.5rem  - Relaxed component spacing */
+  --spacing-spacious: 32px; /* 2rem    - Generous padding */
+  --spacing-section: 48px; /* 3rem    - Section spacing */
+  --spacing-section-spacious: 64px; /* 4rem    - Large section breaks */
+  --spacing-section-luxury: 80px; /* 5rem    - Hero section spacing */
+  --spacing-section-grand: 96px; /* 6rem    - Maximum spacing */
 
   /* Safe Area Insets (for notches/islands) */
   --safe-area-top: env(safe-area-inset-top, 0px);
@@ -27,192 +33,237 @@
   --touch-target-large: 56px; /* Enhanced accessibility */
 }
 
-/* Margin Utilities */
-.m-xs {
-  margin: var(--spacing-xs);
+/* Minimalist Margin Utilities */
+.m-micro {
+  margin: var(--spacing-micro);
 }
-.m-sm {
-  margin: var(--spacing-sm);
+.m-tiny {
+  margin: var(--spacing-tiny);
 }
-.m-md {
-  margin: var(--spacing-md);
+.m-compact {
+  margin: var(--spacing-compact);
 }
-.m-lg {
-  margin: var(--spacing-lg);
+.m-base {
+  margin: var(--spacing-base);
 }
-.m-xl {
-  margin: var(--spacing-xl);
+.m-comfortable {
+  margin: var(--spacing-comfortable);
 }
-.m-2xl {
-  margin: var(--spacing-2xl);
+.m-relaxed {
+  margin: var(--spacing-relaxed);
 }
-
-.mt-xs {
-  margin-top: var(--spacing-xs);
+.m-spacious {
+  margin: var(--spacing-spacious);
 }
-.mt-sm {
-  margin-top: var(--spacing-sm);
-}
-.mt-md {
-  margin-top: var(--spacing-md);
-}
-.mt-lg {
-  margin-top: var(--spacing-lg);
-}
-.mt-xl {
-  margin-top: var(--spacing-xl);
-}
-.mt-2xl {
-  margin-top: var(--spacing-2xl);
+.m-section {
+  margin: var(--spacing-section);
 }
 
-.mb-xs {
-  margin-bottom: var(--spacing-xs);
+.mt-micro {
+  margin-top: var(--spacing-micro);
 }
-.mb-sm {
-  margin-bottom: var(--spacing-sm);
+.mt-tiny {
+  margin-top: var(--spacing-tiny);
 }
-.mb-md {
-  margin-bottom: var(--spacing-md);
+.mt-compact {
+  margin-top: var(--spacing-compact);
 }
-.mb-lg {
-  margin-bottom: var(--spacing-lg);
+.mt-base {
+  margin-top: var(--spacing-base);
 }
-.mb-xl {
-  margin-bottom: var(--spacing-xl);
+.mt-comfortable {
+  margin-top: var(--spacing-comfortable);
 }
-.mb-2xl {
-  margin-bottom: var(--spacing-2xl);
+.mt-relaxed {
+  margin-top: var(--spacing-relaxed);
 }
-
-.ml-xs {
-  margin-left: var(--spacing-xs);
+.mt-spacious {
+  margin-top: var(--spacing-spacious);
 }
-.ml-sm {
-  margin-left: var(--spacing-sm);
-}
-.ml-md {
-  margin-left: var(--spacing-md);
-}
-.ml-lg {
-  margin-left: var(--spacing-lg);
+.mt-section {
+  margin-top: var(--spacing-section);
 }
 
-.mr-xs {
-  margin-right: var(--spacing-xs);
+.mb-micro {
+  margin-bottom: var(--spacing-micro);
 }
-.mr-sm {
-  margin-right: var(--spacing-sm);
+.mb-tiny {
+  margin-bottom: var(--spacing-tiny);
 }
-.mr-md {
-  margin-right: var(--spacing-md);
+.mb-compact {
+  margin-bottom: var(--spacing-compact);
 }
-.mr-lg {
-  margin-right: var(--spacing-lg);
+.mb-base {
+  margin-bottom: var(--spacing-base);
 }
-
-/* Padding Utilities */
-.p-xs {
-  padding: var(--spacing-xs);
+.mb-comfortable {
+  margin-bottom: var(--spacing-comfortable);
 }
-.p-sm {
-  padding: var(--spacing-sm);
+.mb-relaxed {
+  margin-bottom: var(--spacing-relaxed);
 }
-.p-md {
-  padding: var(--spacing-md);
+.mb-spacious {
+  margin-bottom: var(--spacing-spacious);
 }
-.p-lg {
-  padding: var(--spacing-lg);
-}
-.p-xl {
-  padding: var(--spacing-xl);
-}
-.p-2xl {
-  padding: var(--spacing-2xl);
+.mb-section {
+  margin-bottom: var(--spacing-section);
 }
 
-.pt-xs {
-  padding-top: var(--spacing-xs);
+.ml-micro {
+  margin-left: var(--spacing-micro);
 }
-.pt-sm {
-  padding-top: var(--spacing-sm);
+.ml-tiny {
+  margin-left: var(--spacing-tiny);
 }
-.pt-md {
-  padding-top: var(--spacing-md);
+.ml-compact {
+  margin-left: var(--spacing-compact);
 }
-.pt-lg {
-  padding-top: var(--spacing-lg);
+.ml-base {
+  margin-left: var(--spacing-base);
 }
-.pt-xl {
-  padding-top: var(--spacing-xl);
-}
-.pt-2xl {
-  padding-top: var(--spacing-2xl);
+.ml-relaxed {
+  margin-left: var(--spacing-relaxed);
 }
 
-.pb-xs {
-  padding-bottom: var(--spacing-xs);
+.mr-micro {
+  margin-right: var(--spacing-micro);
 }
-.pb-sm {
-  padding-bottom: var(--spacing-sm);
+.mr-tiny {
+  margin-right: var(--spacing-tiny);
 }
-.pb-md {
-  padding-bottom: var(--spacing-md);
+.mr-compact {
+  margin-right: var(--spacing-compact);
 }
-.pb-lg {
-  padding-bottom: var(--spacing-lg);
+.mr-base {
+  margin-right: var(--spacing-base);
 }
-.pb-xl {
-  padding-bottom: var(--spacing-xl);
-}
-.pb-2xl {
-  padding-bottom: var(--spacing-2xl);
+.mr-relaxed {
+  margin-right: var(--spacing-relaxed);
 }
 
-.pl-xs {
-  padding-left: var(--spacing-xs);
+/* Minimalist Padding Utilities */
+.p-micro {
+  padding: var(--spacing-micro);
 }
-.pl-sm {
-  padding-left: var(--spacing-sm);
+.p-tiny {
+  padding: var(--spacing-tiny);
 }
-.pl-md {
-  padding-left: var(--spacing-md);
+.p-compact {
+  padding: var(--spacing-compact);
 }
-.pl-lg {
-  padding-left: var(--spacing-lg);
+.p-base {
+  padding: var(--spacing-base);
 }
-
-.pr-xs {
-  padding-right: var(--spacing-xs);
+.p-comfortable {
+  padding: var(--spacing-comfortable);
 }
-.pr-sm {
-  padding-right: var(--spacing-sm);
+.p-relaxed {
+  padding: var(--spacing-relaxed);
 }
-.pr-md {
-  padding-right: var(--spacing-md);
-}
-.pr-lg {
-  padding-right: var(--spacing-lg);
+.p-spacious {
+  padding: var(--spacing-spacious);
 }
 
-/* Gap Utilities (for flex/grid) */
-.gap-xs {
-  gap: var(--spacing-xs);
+.pt-micro {
+  padding-top: var(--spacing-micro);
 }
-.gap-sm {
-  gap: var(--spacing-sm);
+.pt-tiny {
+  padding-top: var(--spacing-tiny);
 }
-.gap-md {
-  gap: var(--spacing-md);
+.pt-compact {
+  padding-top: var(--spacing-compact);
 }
-.gap-lg {
-  gap: var(--spacing-lg);
+.pt-base {
+  padding-top: var(--spacing-base);
 }
-.gap-xl {
-  gap: var(--spacing-xl);
+.pt-comfortable {
+  padding-top: var(--spacing-comfortable);
 }
-.gap-2xl {
-  gap: var(--spacing-2xl);
+.pt-relaxed {
+  padding-top: var(--spacing-relaxed);
+}
+.pt-spacious {
+  padding-top: var(--spacing-spacious);
+}
+
+.pb-micro {
+  padding-bottom: var(--spacing-micro);
+}
+.pb-tiny {
+  padding-bottom: var(--spacing-tiny);
+}
+.pb-compact {
+  padding-bottom: var(--spacing-compact);
+}
+.pb-base {
+  padding-bottom: var(--spacing-base);
+}
+.pb-comfortable {
+  padding-bottom: var(--spacing-comfortable);
+}
+.pb-relaxed {
+  padding-bottom: var(--spacing-relaxed);
+}
+.pb-spacious {
+  padding-bottom: var(--spacing-spacious);
+}
+
+.pl-micro {
+  padding-left: var(--spacing-micro);
+}
+.pl-tiny {
+  padding-left: var(--spacing-tiny);
+}
+.pl-compact {
+  padding-left: var(--spacing-compact);
+}
+.pl-base {
+  padding-left: var(--spacing-base);
+}
+.pl-relaxed {
+  padding-left: var(--spacing-relaxed);
+}
+
+.pr-micro {
+  padding-right: var(--spacing-micro);
+}
+.pr-tiny {
+  padding-right: var(--spacing-tiny);
+}
+.pr-compact {
+  padding-right: var(--spacing-compact);
+}
+.pr-base {
+  padding-right: var(--spacing-base);
+}
+.pr-relaxed {
+  padding-right: var(--spacing-relaxed);
+}
+
+/* Minimalist Gap Utilities (for flex/grid) */
+.gap-micro {
+  gap: var(--spacing-micro);
+}
+.gap-tiny {
+  gap: var(--spacing-tiny);
+}
+.gap-compact {
+  gap: var(--spacing-compact);
+}
+.gap-base {
+  gap: var(--spacing-base);
+}
+.gap-comfortable {
+  gap: var(--spacing-comfortable);
+}
+.gap-relaxed {
+  gap: var(--spacing-relaxed);
+}
+.gap-spacious {
+  gap: var(--spacing-spacious);
+}
+.gap-section {
+  gap: var(--spacing-section);
 }
 
 /* Safe Area Spacing (for notches/islands) */

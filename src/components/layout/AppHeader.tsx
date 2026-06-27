@@ -45,9 +45,9 @@ export function AppHeader({
   return (
     <motion.header
       className={cn(
-        "sticky top-0 z-20 -mx-4 px-3",
+        "sticky top-0 z-20 -mx-4 px-5 sm:px-6",
         // Telegram content safe area for native buttons
-        "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.5rem),calc(env(safe-area-inset-top,0px)+0.5rem))] pb-2",
+        "pt-[max(calc(var(--tg-content-safe-area-inset-top,0px)+0.75rem),calc(env(safe-area-inset-top,0px)+0.75rem))] pb-4 sm:pb-5",
         glass.nav,
         className,
       )}
