@@ -90,6 +90,25 @@ export function GenerateFormSimple({
     onOpenStyles?.();
   }, [hapticFeedback, onOpenStyles, trackAction]);
 
+  // Collapsible "Тип трека" section (persisted, default collapsed)
+  const [trackTypeOpen, setTrackTypeOpen] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem("gen_form_track_type_open") === "1";
+    } catch {
+      return false;
+    }
+  });
+  const toggleTrackType = useCallback(() => {
+    hapticFeedback("light");
+    setTrackTypeOpen((v) => {
+      const nv = !v;
+      try {
+        localStorage.setItem("gen_form_track_type_open", nv ? "1" : "0");
+      } catch {}
+      return nv;
+    });
+  }, [hapticFeedback]);
+
   // Validation messages - now pass text for artist checking
   const descriptionValidation = validation.description.getMessage(description.length, description);
   const titleValidation = validation.title.getMessage(title.length);
