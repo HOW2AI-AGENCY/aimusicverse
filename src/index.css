@@ -2339,6 +2339,48 @@ select:focus-visible,
   background-size: 200% 100%;
 }
 
+/* Signature track card hover — waveform gradient border-bottom reveal */
+@keyframes waveform-scan {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.card-waveform-hover {
+  position: relative;
+}
+.card-waveform-hover::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--primary) / 0.6) 25%,
+    hsl(var(--generate) / 0.8) 50%,
+    hsl(var(--primary) / 0.6) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0 0 inherit inherit;
+  z-index: 2;
+}
+@media (hover: hover) {
+  .card-waveform-hover:hover::after {
+    opacity: 1;
+    animation: waveform-scan 2s linear infinite;
+  }
+}
+/* When card is actively playing */
+.card-waveform-hover[data-playing="true"]::after {
+  opacity: 1;
+  animation: waveform-scan 1.5s linear infinite;
+}
+
 /* Section divider with gradient fade */
 .section-divider {
   height: 1px;
