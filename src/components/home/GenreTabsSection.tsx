@@ -51,8 +51,8 @@ const GENRES: GenreConfig[] = [
     id: "rock",
     label: "Рок",
     icon: Guitar,
-    color: "text-orange-400",
-    gradient: "from-orange-500/20 to-amber-500/10",
+    color: "text-violet-300",
+    gradient: "from-violet-500/20 to-fuchsia-500/10",
     keywords: ["rock", "alternative", "indie", "metal", "punk", "grunge"],
   },
   {
@@ -67,10 +67,11 @@ const GENRES: GenreConfig[] = [
     id: "folk",
     label: "Фолк",
     icon: Leaf,
-    color: "text-amber-400",
-    gradient: "from-amber-500/20 to-yellow-500/10",
+    color: "text-emerald-300",
+    gradient: "from-emerald-500/20 to-teal-500/10",
     keywords: ["folk", "acoustic", "country", "americana"],
   },
+
 ];
 
 interface GenreTabsSectionProps {

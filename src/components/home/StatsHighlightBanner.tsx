@@ -28,10 +28,11 @@ const statColors = {
     border: "border-emerald-500/20",
   },
   ai: {
-    text: "text-amber-400",
-    bg: "bg-amber-500/15",
-    border: "border-amber-500/20",
+    text: "text-violet-300",
+    bg: "bg-violet-500/15",
+    border: "border-violet-500/20",
   },
+
   plays: {
     text: "text-purple-400",
     bg: "bg-purple-500/15",
