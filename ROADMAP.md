@@ -5,8 +5,8 @@
 **Where MusicVerse AI is going — quarter by quarter.**
 
 <p>
-  <img alt="Progress" src="https://img.shields.io/badge/2026-95%25_complete-10B981?style=for-the-badge"/>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-030-26A5E4?style=for-the-badge"/>
+  <img alt="Progress" src="https://img.shields.io/badge/2026-88%25_complete-F59E0B?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-032-26A5E4?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
 </p>
 
@@ -34,9 +34,10 @@ gantt
     Bundle Optimisation (<950kb) :done, 2026-04, 2026-05
     Audio Section Replacement    :done, 2026-05, 2026-06
     section In progress
-    Realtime co-creation         :active, 2026-06, 2026-08
-    Marketplace MVP              :active, 2026-07, 2026-09
-    A/B test framework           :active, 2026-06, 2026-07
+    UI Improvements Spec 001     :active, 2026-06, 2026-07
+    Realtime co-creation         :active, 2026-07, 2026-09
+    Marketplace MVP              :active, 2026-08, 2026-10
+    A/B test framework           :active, 2026-07, 2026-08
     section Planned
     Multi-language UI            : 2026-09, 2026-10
     Public Developer API         : 2026-10, 2026-12
@@ -84,7 +85,13 @@ gantt
 
 ## 📊 Sprint history
 
-See [`SPRINTS/`](SPRINTS/) — 30 completed sprints, archived under [`SPRINTS/completed/`](SPRINTS/completed/).
+See [`SPRINTS/`](SPRINTS/) — 32 completed sprints, archived under [`SPRINTS/completed/`](SPRINTS/completed/).
+
+### Completed
+- **Sprint 032** — Final UI/UX Audit & Polish
+- **Sprint 031** — Data Model & Optimization Phase 2
+- **Sprint 030** — Unified Studio Mobile
+- **Sprint 029** — Telegram Mobile Optimization
 
 ---
 

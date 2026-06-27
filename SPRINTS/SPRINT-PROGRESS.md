@@ -8,9 +8,10 @@
 
 | Sprint                              | Статус         | Прогресс                                 |
 | ----------------------------------- | -------------- | ---------------------------------------- |
-| Sprint 001-030                      | ✅ ЗАВЕРШЕНЫ   | 100%                                     |
-| Sprint 031 (Mobile Studio V2)       | 🔄 В ПРОЦЕССЕ  | US1 ✅ · US3 🟡 · US2/US4–8 частично     |
-| Sprint 032 (Professional UI)        | ✅ ЗАВЕРШЁН    | 100%                                     |
+| Sprint 001-032                      | ✅ ЗАВЕРШЕНЫ   | 100%                                     |
+| Sprint 033 (UI Improvements)        | ⏳ ЗАПЛАНИРОВАН | Spec 001 реализация                      |
+| Sprint 034 (Generation Reliability) | ⏳ ЗАПЛАНИРОВАН | Failure rate 12% → <8%                   |
+| Sprint 035 (Platform Integrations)  | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
 | Q1 2026 Plan                        | ✅ ЗАВЕРШЁН    | Phase 1-6 Complete, Sprints A-E Complete |
 | Phase 8: Dead Code Removal          | ✅ ЗАВЕРШЁН    | 196 файлов, 45K строк                    |
 | Sprint 9A: Deduplication            | ✅ ЗАВЕРШЁН    | 5 дубликатов, 1.35K строк                |

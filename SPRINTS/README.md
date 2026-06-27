@@ -7,12 +7,12 @@
 
 ## 📊 Quick Status
 
-| Status       | Count   | Description      |
-| ------------ | ------- | ---------------- |
-| ✅ Completed | 32      | All core sprints |
-| 🔄 Active    | Q2 2026 | Development plan |
+| Status       | Count   | Description                                  |
+| ------------ | ------- | -------------------------------------------- |
+| ✅ Completed | 32      | Core platform + UI/UX optimization (032)     |
+| 🔄 Active    | Q3 2026 | UI Improvements, Reliability, Integrations  |
 
-**Current Focus:** Q2 2026 Development Plan (All Phases 1-7 Complete)
+**Current Focus:** Q3 2026 — UI Improvements (Spec 001), Reliability (034), E2E Tests
 
 ---
 

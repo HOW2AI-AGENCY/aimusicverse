@@ -5,10 +5,10 @@
 **Snapshot of the project's current health, sprint progress, and key metrics.**
 
 <p>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-030-26A5E4?style=for-the-badge"/>
-  <img alt="Progress" src="https://img.shields.io/badge/overall-95%25-10B981?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-032-26A5E4?style=for-the-badge"/>
+  <img alt="Progress" src="https://img.shields.io/badge/overall-88%25-F59E0B?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
-  <img alt="Coverage" src="https://img.shields.io/badge/coverage-82%25-10B981?style=for-the-badge"/>
+  <img alt="E2E Coverage" src="https://img.shields.io/badge/e2e-0%25-475569?style=for-the-badge"/>
   <img alt="Bundle" src="https://img.shields.io/badge/bundle-918kb%2F950kb-10B981?style=for-the-badge"/>
 </p>
 
@@ -26,14 +26,22 @@
 > [!NOTE]
 > Updated weekly during sprint review. For real-time CI status see the [Actions tab](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
 
-## 🚦 Current sprint — `030` Unified Studio Mobile
+## 🚦 Current sprint — `032` Final UI/UX Audit & Polish ✅
 
 | Track | Progress |
 | --- | --- |
-| Mobile layout | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Stems redesign | ![](https://img.shields.io/badge/85%25-10B981?style=flat-square) |
-| Section replacement UX | ![](https://img.shields.io/badge/70%25-F59E0B?style=flat-square) |
-| Realtime co-creation prep | ![](https://img.shields.io/badge/45%25-F59E0B?style=flat-square) |
+| Z-index hierarchy | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Track card variants | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Glassmorphism consistency | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Touch feedback | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+
+## 🚦 Next up — `033` UI Improvements (Q3 2026)
+
+| Track | Progress |
+| --- | --- |
+| UI components update | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Bundle optimization | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Performance improvements | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🧮 Key metrics
 
