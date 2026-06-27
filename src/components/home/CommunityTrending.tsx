@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  */
 interface TrendingTrack {
   id: string;
-  title: string;
+  title: string | null;
   cover_url?: string | null;
   style?: string | null;
   play_count?: number | null;
