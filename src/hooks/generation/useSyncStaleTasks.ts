@@ -2,7 +2,7 @@ import { useEffect, useCallback, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { toast } from "sonner";
+// toast removed — sync is now silent
 import { logger } from "@/lib/logger";
 
 const log = logger.child({ module: "SyncStaleTasks" });
@@ -59,32 +59,17 @@ export function useSyncStaleTasks() {
         log.info("Sync completed", { result });
 
         // If any tracks were recovered or completed, refresh the queries
-        if (result.completed && result.completed > 0) {
-          if (showToast) {
-            toast.success(
-              `${result.completed} ${result.completed === 1 ? "трек восстановлен" : "треков восстановлено"}`,
-              {
-                description: "Треки синхронизированы с сервером",
-              },
-            );
-          }
+        // Silent background sync — no toast notifications.
+        // Track recovery happens automatically; user sees results via list refresh.
+        void showToast;
 
-          // Invalidate track queries to refresh the list
+        if (result.completed && result.completed > 0) {
           await queryClient.invalidateQueries({ queryKey: ["tracks-infinite"] });
           await queryClient.invalidateQueries({ queryKey: ["tracks"] });
           await queryClient.invalidateQueries({ queryKey: ["active_generations"] });
         }
 
         if (result.recovered && result.recovered > 0) {
-          if (showToast) {
-            toast.success(
-              `${result.recovered} ${result.recovered === 1 ? "трек восстановлен" : "треков восстановлено"}`,
-              {
-                description: "Данные треков восстановлены из кэша",
-              },
-            );
-          }
-
           await queryClient.invalidateQueries({ queryKey: ["tracks-infinite"] });
           await queryClient.invalidateQueries({ queryKey: ["tracks"] });
         }
