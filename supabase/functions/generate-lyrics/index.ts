@@ -1,6 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+
+const logger = createLogger("generate-lyrics");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -35,8 +38,8 @@ serve(async (req) => {
       theme,
       style,
       mood,
-      structure = "verse-chorus-verse-chorus-bridge-chorus",
-      artistPersona,
+      structure: _structure = "verse-chorus-verse-chorus-bridge-chorus",
+      artistPersona: _artistPersona,
       language = "en",
       trackId,
       projectId,
@@ -46,7 +49,7 @@ serve(async (req) => {
       throw new Error("Theme is required");
     }
 
-    console.log(`Generating lyrics for user: ${user.id}, language: ${language}`);
+    logger.info(`Generating lyrics for user: ${user.id}, language: ${language}`);
 
     // Build compact prompt for SunoAPI (max 200 chars limit)
     const promptParts: string[] = [];
@@ -68,7 +71,7 @@ serve(async (req) => {
       promptText = promptText.substring(0, 197) + "...";
     }
 
-    console.log(`Prompt (${promptText.length} chars):`, promptText);
+    logger.info(`Prompt (${promptText.length} chars):`, promptText);
 
     // Call SunoAPI to generate lyrics
     const callbackUrl = `${supabaseUrl}/functions/v1/lyrics-callback`;
@@ -87,7 +90,7 @@ serve(async (req) => {
 
     if (!sunoResponse.ok) {
       const errorText = await sunoResponse.text();
-      console.error("SunoAPI error:", sunoResponse.status, errorText);
+      logger.error("SunoAPI error:", sunoResponse.status, errorText);
       throw new Error(`SunoAPI error: ${sunoResponse.status} - ${errorText}`);
     }
 
@@ -98,7 +101,7 @@ serve(async (req) => {
     }
 
     const taskId = sunoData.data.taskId;
-    console.log("SunoAPI task created:", taskId);
+    logger.info("SunoAPI task created:", taskId);
 
     // Store task info in database for tracking
     await supabase.from("generation_tasks").insert({
@@ -151,7 +154,7 @@ serve(async (req) => {
       },
     });
 
-    console.log(`[generate-lyrics] Audit logged for lyrics generation request`);
+    logger.info(`[generate-lyrics] Audit logged for lyrics generation request`);
 
     return new Response(
       JSON.stringify({
@@ -165,7 +168,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    console.error("Error in generate-lyrics:", error);
+    logger.error("Error in generate-lyrics:", error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("cleanup-stale-tasks");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -39,19 +38,19 @@ serve(async (req) => {
       .lt("created_at", tenMinutesAgo);
 
     if (fetchError) {
-      console.error("Error fetching stale tasks:", fetchError);
+      logger.error("Error fetching stale tasks:", fetchError);
       throw fetchError;
     }
 
     if (!staleTasks || staleTasks.length === 0) {
-      console.log("No stale tasks found");
+      logger.info("No stale tasks found");
       return new Response(JSON.stringify({ success: true, message: "No stale tasks", checked: 0 }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
         status: 200,
       });
     }
 
-    console.log(`Found ${staleTasks.length} stale tasks, checking status...`);
+    logger.info(`Found ${staleTasks.length} stale tasks, checking status...`);
 
     let updated = 0;
     let failed = 0;
@@ -95,14 +94,14 @@ serve(async (req) => {
         );
 
         if (!sunoResponse.ok) {
-          console.error(`Suno API error for task ${task.id}:`, sunoResponse.status);
+          logger.error(`Suno API error for task ${task.id}:`, sunoResponse.status);
           continue;
         }
 
         const sunoData = await sunoResponse.json();
 
         if (sunoData.code !== 200) {
-          console.error(`Suno API returned error for task ${task.id}:`, sunoData);
+          logger.error(`Suno API returned error for task ${task.id}:`, sunoData);
           continue;
         }
 
@@ -120,8 +119,8 @@ serve(async (req) => {
             let localCoverUrl = null;
 
             try {
-              if (firstClip.audioUrl) {
-                const audioResponse = await fetch(firstClip.audioUrl);
+              if (firstClip.audio_url) {
+                const audioResponse = await fetch(firstClip.audio_url);
                 const audioBlob = await audioResponse.blob();
                 const audioFileName = `${trackId}_${Date.now()}.mp3`;
 
@@ -140,8 +139,8 @@ serve(async (req) => {
                 }
               }
 
-              if (firstClip.imageUrl) {
-                const coverResponse = await fetch(firstClip.imageUrl);
+              if (firstClip.image_url) {
+                const coverResponse = await fetch(firstClip.image_url);
                 const coverBlob = await coverResponse.blob();
                 const coverFileName = `${trackId}_cover_${Date.now()}.jpg`;
 
@@ -160,7 +159,7 @@ serve(async (req) => {
                 }
               }
             } catch (downloadError) {
-              console.error("Error downloading files:", downloadError);
+              logger.error("Error downloading files:", downloadError);
             }
 
             // Update track
@@ -168,10 +167,10 @@ serve(async (req) => {
               .from("tracks")
               .update({
                 status: "completed",
-                audio_url: firstClip.audioUrl,
-                streaming_url: firstClip.audioUrl,
+                audio_url: firstClip.audio_url,
+                streaming_url: firstClip.audio_url,
                 local_audio_url: localAudioUrl,
-                cover_url: firstClip.imageUrl,
+                cover_url: firstClip.image_url,
                 local_cover_url: localCoverUrl,
                 title: firstClip.title || task.tracks?.title || "Новый трек",
                 duration_seconds: firstClip.duration || null,
@@ -195,8 +194,8 @@ serve(async (req) => {
             // Create version
             await supabase.from("track_versions").insert({
               track_id: trackId,
-              audio_url: firstClip.audioUrl,
-              cover_url: firstClip.imageUrl,
+              audio_url: firstClip.audio_url,
+              cover_url: firstClip.image_url,
               duration_seconds: firstClip.duration,
               version_type: "original",
               is_primary: true,
@@ -225,7 +224,7 @@ serve(async (req) => {
             });
 
             updated++;
-            console.log(`Successfully synced task ${task.id}`);
+            logger.info(`Successfully synced task ${task.id}`);
           }
         } else if (taskData.status && (taskData.status.includes("FAILED") || taskData.status.includes("ERROR"))) {
           // Mark as failed
@@ -249,10 +248,10 @@ serve(async (req) => {
           }
 
           failed++;
-          console.log(`Marked task ${task.id} as failed`);
+          logger.info(`Marked task ${task.id} as failed`);
         }
       } catch (error) {
-        console.error(`Error processing task ${task.id}:`, error);
+        logger.error(`Error processing task ${task.id}:`, error);
       }
     }
 
@@ -269,7 +268,7 @@ serve(async (req) => {
       },
     );
   } catch (error: any) {
-    console.error("Error in cleanup-stale-tasks:", error);
+    logger.error("Error in cleanup-stale-tasks:", error);
     return new Response(
       JSON.stringify({
         success: false,
