@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("suno-convert-wav");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -16,7 +15,7 @@ serve(async (req) => {
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
 
     if (!sunoApiKey) {
-      console.error("SUNO_API_KEY not configured");
+      logger.error("SUNO_API_KEY not configured");
       return new Response(JSON.stringify({ error: "API key not configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -55,7 +54,7 @@ serve(async (req) => {
       });
     }
 
-    console.log("Converting to WAV format:", audioId);
+    logger.info("Converting to WAV format:", audioId);
 
     const callBackUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/suno-wav-callback`;
 
@@ -75,7 +74,7 @@ serve(async (req) => {
     const sunoData = await sunoResponse.json();
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      console.error("Suno API error:", sunoData);
+      logger.error("Suno API error:", sunoData);
       return new Response(JSON.stringify({ error: sunoData.msg || "Failed to convert to WAV" }), {
         status: sunoResponse.status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -88,7 +87,7 @@ serve(async (req) => {
       throw new Error("No taskId in Suno response");
     }
 
-    console.log("WAV conversion task created:", taskId);
+    logger.info("WAV conversion task created:", taskId);
 
     return new Response(
       JSON.stringify({
@@ -99,7 +98,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    console.error("Error in suno-convert-wav:", error);
+    logger.error("Error in suno-convert-wav:", error);
     return new Response(JSON.stringify({ error: error.message || "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
