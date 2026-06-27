@@ -210,3 +210,130 @@ jobs:
           name: playwright-report-mobile
           path: playwright-report/
 
+  smoke:
+    # Browser-matrix smoke that catches "white screen" regressions across
+    # engines. Runs the dedicated smoke spec which boots the real router,
+    # asserts no #error-display, and dumps boot log + stacktraces to
+    # test-results/smoke/<browser>/ for the PR comment to link to.
+    name: Smoke (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser (${{ matrix.browser }})
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run smoke spec — ${{ matrix.browser }}
+        env:
+          CI: true
+        run: |
+          set -o pipefail
+          npx playwright test tests/e2e/smoke.app-boots.spec.ts \
+            --project=${{ matrix.browser }} \
+            --reporter=list,html,json 2>&1 | tee smoke-${{ matrix.browser }}.log
+
+      - name: Upload smoke artifacts — ${{ matrix.browser }}
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-${{ matrix.browser }}
+          path: |
+            test-results/smoke/${{ matrix.browser }}/
+            smoke-${{ matrix.browser }}.log
+            playwright-report/
+
+  pr-comment:
+    # Posts a sticky PR comment summarising css-imports + smoke matrix
+    # with a one-click link to the artifacts (boot log + stacktraces).
+    # Runs even when previous jobs fail so failures are surfaced loudly.
+    name: PR summary comment
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: [quality, build, smoke]
+    if: always() && github.event_name == 'pull_request'
+    permissions:
+      pull-requests: write
+      actions: read
+      contents: read
+
+    steps:
+      - name: Compose & post sticky comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const need = ${{ toJSON(needs) }};
+
+            const status = (r) => {
+              if (!r) return '⚪ skipped';
+              if (r.result === 'success') return '✅ pass';
+              if (r.result === 'skipped') return '⚪ skipped';
+              if (r.result === 'cancelled') return '⚪ cancelled';
+              return '❌ fail';
+            };
+
+            const cssImports = status(need.quality);          // includes lint/typecheck/test; css-imports runs in build's prebuild
+            const buildJob   = status(need.build);             // includes "Validate CSS @import order" + vite-build.log
+            const smokeJob   = status(need.smoke);             // matrix smoke
+
+            const lines = [
+              '## 🤖 CI summary',
+              '',
+              '| Check | Status | What it covers |',
+              '| --- | --- | --- |',
+              `| CSS \`@import\` order + Vite build | ${buildJob} | \`check:css-imports\` + full \`vite build\` log |`,
+              `| Quality (lint / typecheck / unit) | ${cssImports} | ESLint, TypeScript, Vitest |`,
+              `| Smoke (chromium · firefox · webkit) | ${smokeJob} | App boots, router renders, no \`#error-display\` |`,
+              '',
+              '### 📎 Artifacts (boot log + stacktraces)',
+              '',
+              `- 🔎 [**Open all artifacts for this run**](${runUrl}#artifacts)`,
+              `- 📄 \`vite-build-log\` — full \`vite build\` stdout/stderr`,
+              `- 🧪 \`smoke-chromium\` / \`smoke-firefox\` / \`smoke-webkit\` — per-browser \`boot-log.json\`, \`early-errors.json\`, \`console-errors.log\`, \`page-errors.log\`, route screenshots`,
+              `- 🎭 \`playwright-report-desktop\` / \`playwright-report-mobile\` — HTML reports`,
+              '',
+              `<sub>Run: [\`${context.runId}\`](${runUrl}) · commit \`${context.sha.substring(0,7)}\`</sub>`,
+            ];
+            const body = lines.join('\n');
+            const marker = '<!-- ci-summary-comment -->';
+            const full = `${marker}\n${body}`;
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: full,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: full,
+              });
+            }
+
+
