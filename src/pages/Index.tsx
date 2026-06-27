@@ -26,6 +26,7 @@ import { Clock } from "@/lib/icons";
 import { homeSectionColors } from "@/lib/design-colors";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { sectionGap, containerPadding, contentSpacing } from "@/lib/design-spacing";
+import { cn } from "@/lib/utils";
 
 // Core home components
 import { HomeQuickCreate } from "@/components/home/HomeQuickCreate";
