@@ -280,24 +280,25 @@ All colors MUST be HSL.
     --sidebar-primary-foreground: 240 33% 10%;
     --sidebar-accent: 222 30% 18%;
 
-    --sidebar-accent-foreground: 27 10% 95%;
-    --sidebar-border: 24 15% 18%;
-    --sidebar-ring: 20 100% 62%;
+    --sidebar-accent-foreground: 220 20% 95%;
+    --sidebar-border: 222 30% 22%;
+    --sidebar-ring: 142 71% 58%;
 
     /* Dark-theme overrides for the Phase 1 semantic surfaces */
-    --surface-1: 24 22% 9%; /* #1D1611 */
-    --surface-2: 24 18% 11%;
-    --surface-3: 24 18% 14%;
-    --overlay-scrim: 24 30% 6% / 0.7;
-    --ring-focus: hsl(20 100% 62% / 0.55);
-    --state-success: 130 42% 64%;
-    --state-success-foreground: 24 30% 6%;
-    --state-warning: 38 95% 60%;
-    --state-warning-foreground: 24 30% 6%;
+    --surface-1: 218 50% 17%;        /* #16213e */
+    --surface-2: 222 45% 14%;
+    --surface-3: 222 35% 20%;
+    --overlay-scrim: 240 33% 8% / 0.7;
+    --ring-focus: hsl(142 71% 58% / 0.55);
+    --state-success: 142 71% 58%;
+    --state-success-foreground: 240 33% 8%;
+    --state-warning: 38 90% 60%;
+    --state-warning-foreground: 240 33% 8%;
     --state-danger: 0 72% 56%;
     --state-danger-foreground: 0 0% 100%;
-    --state-info: 207 90% 60%;
-    --state-info-foreground: 0 0% 100%;
+    --state-info: 199 70% 62%;
+    --state-info-foreground: 240 33% 8%;
+
   }
 }
 
