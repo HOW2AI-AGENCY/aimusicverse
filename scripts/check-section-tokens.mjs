@@ -39,25 +39,25 @@ const ALLOW_NEXT = /section-tokens-allow-next-line\b/;
 export const FORBIDDEN = [
   {
     id: "bg-brand",
-    pattern: /\bbg-(primary|accent)(\/(?:[1-9]\d?|100))?\b/g,
+    pattern: /\bbg-(primary|accent)(?!-foreground|-glow)(\/(?:[1-9]\d?|100))?\b/g,
     hint: "bg-card/60 + border border-border/50",
     replacement: "bg-card/60",
   },
   {
     id: "from-brand",
-    pattern: /\bfrom-(primary|accent)(\/(?:[1-9]\d?|100))?\b/g,
+    pattern: /\bfrom-(primary|accent)(?!-foreground|-glow)(\/(?:[1-9]\d?|100))?\b/g,
     hint: "from-card/60",
     replacement: "from-card/60",
   },
   {
     id: "via-brand",
-    pattern: /\bvia-(primary|accent)(\/(?:[1-9]\d?|100))?\b/g,
+    pattern: /\bvia-(primary|accent)(?!-foreground|-glow)(\/(?:[1-9]\d?|100))?\b/g,
     hint: "via-background",
     replacement: "via-background",
   },
   {
     id: "to-brand",
-    pattern: /\bto-(primary|accent)(\/(?:[1-9]\d?|100))?\b/g,
+    pattern: /\bto-(primary|accent)(?!-foreground|-glow)(\/(?:[1-9]\d?|100))?\b/g,
     hint: "to-muted/40",
     replacement: "to-muted/40",
   },
