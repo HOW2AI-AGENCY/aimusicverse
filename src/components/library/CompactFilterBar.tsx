@@ -6,7 +6,7 @@
 import { memo, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Search, SlidersHorizontal, X, Music2, Mic, Volume2, Layers, CheckCircle2, AlertCircle } from "@/lib/icons";
+import { Search, SlidersHorizontal, ArrowUpDown, X, Music2, Mic, Volume2, Layers, CheckCircle2, AlertCircle } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -126,7 +126,7 @@ export const CompactFilterBar = memo(function CompactFilterBar({
               onClick={() => setShowSortMenu(!showSortMenu)}
               aria-label="Сортировка"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <ArrowUpDown className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">{SORTS.find((s) => s.id === sortBy)?.label}</span>
             </Button>
 
