@@ -48,6 +48,7 @@ export {
   LayoutGrid,
   Filter,
   SlidersHorizontal,
+  ArrowUpDown,
   Maximize,
   Minimize,
   Maximize2,
