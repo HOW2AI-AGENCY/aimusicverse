@@ -38,7 +38,7 @@ serve(async (req) => {
       .lt("created_at", tenMinutesAgo);
 
     if (fetchError) {
-      logger.error("Error fetching stale tasks:", fetchError);
+      logger.error("Error fetching stale tasks", fetchError instanceof Error ? fetchError : null, { fetchError });
       throw fetchError;
     }
 
@@ -50,7 +50,7 @@ serve(async (req) => {
       });
     }
 
-    logger.info(`Found ${staleTasks.length} stale tasks, checking status...`);
+    logger.info("Found stale tasks, checking status", { count: staleTasks.length });
 
     let updated = 0;
     let failed = 0;
@@ -94,14 +94,14 @@ serve(async (req) => {
         );
 
         if (!sunoResponse.ok) {
-          logger.error(`Suno API error for task ${task.id}:`, sunoResponse.status);
+          logger.error("Suno API error for task", null, { taskId: task.id, status: sunoResponse.status });
           continue;
         }
 
         const sunoData = await sunoResponse.json();
 
         if (sunoData.code !== 200) {
-          logger.error(`Suno API returned error for task ${task.id}:`, sunoData);
+          logger.error("Suno API returned error for task", null, { taskId: task.id, sunoData });
           continue;
         }
 
@@ -159,7 +159,7 @@ serve(async (req) => {
                 }
               }
             } catch (downloadError) {
-              logger.error("Error downloading files:", downloadError);
+              logger.error("Error downloading files", downloadError instanceof Error ? downloadError : null, { downloadError });
             }
 
             // Update track
@@ -224,7 +224,7 @@ serve(async (req) => {
             });
 
             updated++;
-            logger.info(`Successfully synced task ${task.id}`);
+            logger.info("Successfully synced task", { taskId: task.id });
           }
         } else if (taskData.status && (taskData.status.includes("FAILED") || taskData.status.includes("ERROR"))) {
           // Mark as failed
@@ -248,10 +248,10 @@ serve(async (req) => {
           }
 
           failed++;
-          logger.info(`Marked task ${task.id} as failed`);
+          logger.info("Marked task as failed", { taskId: task.id });
         }
       } catch (error) {
-        logger.error(`Error processing task ${task.id}:`, error);
+        logger.error("Error processing task", error instanceof Error ? error : null, { taskId: task.id });
       }
     }
 
@@ -268,7 +268,7 @@ serve(async (req) => {
       },
     );
   } catch (error: any) {
-    logger.error("Error in cleanup-stale-tasks:", error);
+    logger.error("Error in cleanup-stale-tasks", error instanceof Error ? error : null);
     return new Response(
       JSON.stringify({
         success: false,

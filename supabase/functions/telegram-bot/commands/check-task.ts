@@ -200,7 +200,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
 
             // Generate custom MusicVerse cover (same as suno-music-callback)
             // Use direct HTTP call instead of supabase.functions.invoke for reliability
-            logger.info("Generating MusicVerse cover for track:", task.track_id);
+            logger.info("Generating MusicVerse cover for track", { trackId: task.track_id });
             try {
               const coverResponse = await fetch(`${BOT_CONFIG.supabaseUrl}/functions/v1/generate-track-cover`, {
                 method: "POST",
@@ -220,12 +220,12 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
 
               if (!coverResponse.ok) {
                 const errorText = await coverResponse.text();
-                logger.error("Cover generation error:", coverResponse.status, errorText);
+                logger.error("Cover generation error", null, { status: coverResponse.status, errorText });
               } else {
                 logger.info("MusicVerse cover generation started");
               }
             } catch (coverErr) {
-              logger.error("Cover generation invoke error:", coverErr);
+              logger.error("Cover generation invoke error", coverErr instanceof Error ? coverErr : null, { coverErr });
             }
 
             // Log completion
@@ -241,7 +241,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
               },
             });
           } catch (downloadError) {
-            logger.error("Error downloading and saving files:", downloadError);
+            logger.error("Error downloading and saving files", downloadError instanceof Error ? downloadError : null);
           }
         }
 
@@ -300,7 +300,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
       await editMessageText(chatId, messageId, statusText, { inline_keyboard: keyboard });
     }
   } catch (error) {
-    logger.error("Error in handleCheckTask:", error);
+    logger.error("Error in handleCheckTask", error instanceof Error ? error : null);
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     if (messageId) {
       await editMessageText(chatId, messageId, `❌ Ошибка при проверке: ${escapeMarkdown(errorMessage)}`, {

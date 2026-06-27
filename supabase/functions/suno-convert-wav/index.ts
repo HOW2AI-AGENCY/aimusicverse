@@ -54,7 +54,7 @@ serve(async (req) => {
       });
     }
 
-    logger.info("Converting to WAV format:", audioId);
+    logger.info("Converting to WAV format", { audioId });
 
     const callBackUrl = `${Deno.env.get("SUPABASE_URL")}/functions/v1/suno-wav-callback`;
 
@@ -74,7 +74,7 @@ serve(async (req) => {
     const sunoData = await sunoResponse.json();
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      logger.error("Suno API error:", sunoData);
+      logger.error("Suno API error", null, { sunoData });
       return new Response(JSON.stringify({ error: sunoData.msg || "Failed to convert to WAV" }), {
         status: sunoResponse.status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -87,7 +87,7 @@ serve(async (req) => {
       throw new Error("No taskId in Suno response");
     }
 
-    logger.info("WAV conversion task created:", taskId);
+    logger.info("WAV conversion task created", { taskId });
 
     return new Response(
       JSON.stringify({
@@ -98,7 +98,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    logger.error("Error in suno-convert-wav:", error);
+    logger.error("Error in suno-convert-wav", error);
     return new Response(JSON.stringify({ error: error.message || "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

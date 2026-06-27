@@ -39,7 +39,6 @@ serve(async (req) => {
       style,
       mood,
       structure = "verse-chorus-verse-chorus-bridge-chorus",
-      artistPersona,
       language = "en",
       trackId,
       projectId,
@@ -71,7 +70,7 @@ serve(async (req) => {
       promptText = promptText.substring(0, 197) + "...";
     }
 
-    logger.info(`Prompt (${promptText.length} chars):`, promptText);
+    logger.info(`Prompt (${promptText.length} chars)`, { prompt: promptText });
 
     // Call SunoAPI to generate lyrics
     const callbackUrl = `${supabaseUrl}/functions/v1/lyrics-callback`;
@@ -90,7 +89,7 @@ serve(async (req) => {
 
     if (!sunoResponse.ok) {
       const errorText = await sunoResponse.text();
-      logger.error("SunoAPI error:", sunoResponse.status, errorText);
+      logger.error("SunoAPI error", null, { status: sunoResponse.status, body: errorText });
       throw new Error(`SunoAPI error: ${sunoResponse.status} - ${errorText}`);
     }
 
@@ -101,7 +100,7 @@ serve(async (req) => {
     }
 
     const taskId = sunoData.data.taskId;
-    logger.info("SunoAPI task created:", taskId);
+    logger.info("SunoAPI task created", { taskId });
 
     // Store task info in database for tracking
     await supabase.from("generation_tasks").insert({

@@ -43,7 +43,7 @@ serve(async (req) => {
       // No body or invalid JSON, proceed without filter
     }
 
-    logger.info("🔄 Starting stale tasks sync...", userId ? `for user ${userId}` : "for all users");
+    logger.info("Starting stale tasks sync", { userId: userId || "all users" });
 
     // PHASE 1: Find tasks with completed status but track not updated
     // This handles cases where callback succeeded but track update failed
@@ -60,9 +60,9 @@ serve(async (req) => {
     const { data: recoveryTasks, error: recoveryError } = await recoveryQuery;
 
     if (recoveryError) {
-      logger.error("Error fetching recovery tasks:", recoveryError);
+      logger.error("Error fetching recovery tasks", recoveryError);
     } else {
-      logger.info(`📊 Found ${recoveryTasks?.length || 0} tasks for recovery check`);
+      logger.info("Found tasks for recovery check", { count: recoveryTasks?.length || 0 });
       let recoveredCount = 0;
 
       // Recover tracks where task completed but track didn't update
@@ -79,7 +79,7 @@ serve(async (req) => {
 
           if (existingVersion) continue; // Already processed
 
-          logger.info(`🔧 Recovering replace_section task ${task.id}`);
+          logger.info("Recovering replace_section task", { taskId: task.id });
 
           try {
             let clips = task.audio_clips;
@@ -88,7 +88,7 @@ serve(async (req) => {
             }
 
             if (!clips || !Array.isArray(clips) || clips.length === 0) {
-              logger.error(`❌ No valid clips in replace_section task ${task.id}`);
+              logger.error("No valid clips in replace_section task", null, { taskId: task.id });
               continue;
             }
 
@@ -96,7 +96,7 @@ serve(async (req) => {
             const audioUrl = getAudioUrl(clip);
 
             if (!audioUrl) {
-              logger.error(`❌ No audio URL in replace_section clip for task ${task.id}`);
+              logger.error("No audio URL in replace_section clip", null, { taskId: task.id });
               continue;
             }
 
@@ -115,7 +115,7 @@ serve(async (req) => {
                 }
               }
             } catch (downloadError) {
-              logger.error(`⚠️ Error downloading replace_section audio:`, downloadError);
+              logger.error("Error downloading replace_section audio", downloadError);
             }
 
             // Get next version label
@@ -148,18 +148,18 @@ serve(async (req) => {
               },
             });
 
-            logger.info(`✅ Replace section version ${nextLabel} created for task ${task.id}`);
+            logger.info("Replace section version created", { versionLabel: nextLabel, taskId: task.id });
             recoveredCount++;
             continue;
           } catch (recoveryErr) {
-            logger.error(`❌ Error recovering replace_section task ${task.id}:`, recoveryErr);
+            logger.error("Error recovering replace_section task", recoveryErr, { taskId: task.id });
             continue;
           }
         }
 
         if (!task.tracks || task.tracks.status === "completed") continue;
 
-        logger.info(`🔧 Recovering track ${task.track_id} from completed task ${task.id}`);
+        logger.info("Recovering track from completed task", { trackId: task.track_id, taskId: task.id });
 
         try {
           // Parse audio_clips - handle both string and object
@@ -169,7 +169,7 @@ serve(async (req) => {
           }
 
           if (!clips || !Array.isArray(clips) || clips.length === 0) {
-            logger.error(`❌ No valid clips in task ${task.id}`);
+            logger.error("No valid clips in task", null, { taskId: task.id });
             continue;
           }
 
