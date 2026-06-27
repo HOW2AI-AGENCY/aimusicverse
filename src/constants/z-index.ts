@@ -72,8 +72,8 @@ export const Z_INDEX = {
   immersive: 90,
 
   // Dialogs - modals, sheets (above fullscreen)
-  dialog: 140,
-  modal: 140,
+  dialog: 160,
+  modal: 160,
 
   // Sheets - bottom sheets, side sheets
   sheet: 150,
