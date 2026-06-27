@@ -90,7 +90,7 @@ serve(async (req) => {
       });
     }
 
-    logger.info("🎤 Adding vocals to instrumental:", {
+    logger.info("Adding vocals to instrumental", {
       customMode,
       model,
       userId: user.id,
@@ -103,7 +103,7 @@ serve(async (req) => {
     if (audioUrl) {
       // Use existing URL directly
       uploadUrl = audioUrl;
-      logger.info("✅ Using existing audio URL:", uploadUrl);
+      logger.info("Using existing audio URL", { uploadUrl });
     } else {
       // Upload audio to Supabase Storage
       const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || "audio.mp3"}`;
@@ -117,13 +117,13 @@ serve(async (req) => {
         } else {
           audioBuffer = new Uint8Array(audioFile.data);
         }
-        logger.info("✅ Audio buffer created:", audioBuffer.length, "bytes");
+        logger.info("Audio buffer created", { bytes: audioBuffer.length });
       } catch (error) {
-        logger.error("❌ Failed to decode audio file:", error);
+        logger.error("Failed to decode audio file", error);
         throw new Error("Invalid audio file format");
       }
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("project-assets")
         .upload(fileName, audioBuffer, {
           contentType: audioFile.type || "audio/mpeg",
@@ -131,7 +131,7 @@ serve(async (req) => {
         });
 
       if (uploadError) {
-        logger.error("❌ Upload error:", uploadError);
+        logger.error("Upload error", uploadError);
         return new Response(JSON.stringify({ error: `Failed to upload audio: ${uploadError.message}` }), {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -142,13 +142,11 @@ serve(async (req) => {
       const { data: publicUrlData } = supabase.storage.from("project-assets").getPublicUrl(fileName);
 
       uploadUrl = publicUrlData.publicUrl;
-      logger.info("✅ Audio uploaded:", uploadUrl);
+      logger.info("Audio uploaded", { uploadUrl });
     }
     const callBackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    logger.info("✅ Audio uploaded, calling Suno API add-vocals");
-    logger.info("📋 Upload URL:", uploadUrl);
-    logger.info("📋 Callback URL:", callBackUrl);
+    logger.info("Calling Suno API add-vocals", { uploadUrl, callBackUrl });
 
     // Build request body - per SunoAPI docs
     // Required: uploadUrl, prompt, title, style, negativeTags, callBackUrl
@@ -182,15 +180,12 @@ serve(async (req) => {
       requestBody.vocalGender = vocalGender;
     }
 
-    logger.info("📋 Suno add-vocals payload:", JSON.stringify(requestBody, null, 2));
-    logger.info(
-      "🎚️ Audio weight:",
-      effectiveAudioWeight,
-      "| Style weight:",
-      effectiveStyleWeight,
-      "| Weirdness:",
-      effectiveWeirdness,
-    );
+    logger.info("Suno add-vocals payload", {
+      requestBody,
+      audioWeight: effectiveAudioWeight,
+      styleWeight: effectiveStyleWeight,
+      weirdness: effectiveWeirdness,
+    });
 
     // Call Suno API
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/add-vocals", {
@@ -205,7 +200,7 @@ serve(async (req) => {
     const sunoData = await sunoResponse.json();
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      logger.error("❌ Suno API error:", JSON.stringify(sunoData, null, 2));
+      logger.error("Suno API error", null, { sunoData });
       return new Response(
         JSON.stringify({
           error: sunoData.msg || "Failed to add vocals",
@@ -219,7 +214,7 @@ serve(async (req) => {
     const sunoTaskId = sunoData.data?.taskId;
 
     if (!sunoTaskId) {
-      logger.error("❌ No taskId in Suno response:", JSON.stringify(sunoData, null, 2));
+      logger.error("No taskId in Suno response", null, { sunoData });
       throw new Error("No taskId in Suno response");
     }
 

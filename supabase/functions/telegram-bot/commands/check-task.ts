@@ -1,6 +1,9 @@
 import { getSupabaseClient } from "../core/supabase-client.ts";
 import { BOT_CONFIG } from "../config.ts";
 import { editMessageText } from "../telegram-api.ts";
+import { createLogger } from "../../_shared/logger.ts";
+
+const logger = createLogger("telegram-check-task");
 
 const supabase = getSupabaseClient();
 
@@ -113,10 +116,10 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
     interface SunoClip {
       id?: string;
       title?: string;
-      audioUrl?: string;
-      imageUrl?: string;
+      audio_url?: string;
+      image_url?: string;
       duration?: number;
-      modelName?: string;
+      model_name?: string;
       tags?: string[];
       lyric?: string;
     }
@@ -136,7 +139,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
         const clipTitle = clip.title || "Без названия";
         statusText += `\n${index + 1}\\. ${escapeMarkdown(clipTitle)}\n`;
         statusText += `   ⏱️ Длительность: ${clip.duration ? Math.floor(clip.duration) + " сек" : "N/A"}\n`;
-        statusText += `   🎨 Модель: ${escapeMarkdown(clip.modelName || "N/A")}\n`;
+        statusText += `   🎨 Модель: ${escapeMarkdown(clip.model_name || "N/A")}\n`;
       });
 
       // Update task status if SUCCESS and download audio files
@@ -148,9 +151,9 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
           let localAudioUrl = null;
 
           try {
-            if (firstClip.audioUrl) {
+            if (firstClip.audio_url) {
               // Download audio
-              const audioResponse = await fetch(firstClip.audioUrl);
+              const audioResponse = await fetch(firstClip.audio_url);
               const audioBlob = await audioResponse.blob();
               const audioFileName = `${task.track_id}_${Date.now()}.mp3`;
 
@@ -175,8 +178,8 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
               .from("tracks")
               .update({
                 status: "completed",
-                audio_url: firstClip.audioUrl,
-                streaming_url: firstClip.audioUrl,
+                audio_url: firstClip.audio_url,
+                streaming_url: firstClip.audio_url,
                 local_audio_url: localAudioUrl,
                 title: firstClip.title || task.tracks?.title,
                 duration_seconds: firstClip.duration || null,
@@ -189,7 +192,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
             // Create track version (cover will be updated by generate-track-cover)
             await supabase.from("track_versions").insert({
               track_id: task.track_id,
-              audio_url: firstClip.audioUrl,
+              audio_url: firstClip.audio_url,
               duration_seconds: firstClip.duration,
               version_type: "original",
               is_primary: true,
@@ -197,7 +200,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
 
             // Generate custom MusicVerse cover (same as suno-music-callback)
             // Use direct HTTP call instead of supabase.functions.invoke for reliability
-            console.log("Generating MusicVerse cover for track:", task.track_id);
+            logger.info("Generating MusicVerse cover for track:", task.track_id);
             try {
               const coverResponse = await fetch(`${BOT_CONFIG.supabaseUrl}/functions/v1/generate-track-cover`, {
                 method: "POST",
@@ -217,12 +220,12 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
 
               if (!coverResponse.ok) {
                 const errorText = await coverResponse.text();
-                console.error("Cover generation error:", coverResponse.status, errorText);
+                logger.error("Cover generation error:", coverResponse.status, errorText);
               } else {
-                console.log("MusicVerse cover generation started");
+                logger.info("MusicVerse cover generation started");
               }
             } catch (coverErr) {
-              console.error("Cover generation invoke error:", coverErr);
+              logger.error("Cover generation invoke error:", coverErr);
             }
 
             // Log completion
@@ -238,7 +241,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
               },
             });
           } catch (downloadError) {
-            console.error("Error downloading and saving files:", downloadError);
+            logger.error("Error downloading and saving files:", downloadError);
           }
         }
 
@@ -297,7 +300,7 @@ export async function handleCheckTask(chatId: number, userId: number, taskId: st
       await editMessageText(chatId, messageId, statusText, { inline_keyboard: keyboard });
     }
   } catch (error) {
-    console.error("Error in handleCheckTask:", error);
+    logger.error("Error in handleCheckTask:", error);
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
     if (messageId) {
       await editMessageText(chatId, messageId, `❌ Ошибка при проверке: ${escapeMarkdown(errorMessage)}`, {
