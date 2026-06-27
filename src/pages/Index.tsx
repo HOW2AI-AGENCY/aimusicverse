@@ -32,6 +32,8 @@ import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
 import { YouStrip } from "@/components/home/YouStrip";
+import { CommunityTrending } from "@/components/home/CommunityTrending";
+import { AiSuggestions } from "@/components/home/AiSuggestions";
 import { Section, sectionTokens } from "@/components/layout/Section";
 
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
@@ -129,6 +131,21 @@ const Index = () => {
     </Section>
   );
 
+  const trendingBlock = (
+    <Section sectionId="trending" density="comfortable" tone="plain">
+      <CommunityTrending
+        tracks={popularTracks}
+        onTrackClick={handleTrackClick}
+      />
+    </Section>
+  );
+
+  const aiSuggestBlock = (
+    <Section sectionId="ai-suggest" density="comfortable" tone="plain">
+      <AiSuggestions onCreateClick={handleCreate} />
+    </Section>
+  );
+
   const youBlock = user ? (
     <Section sectionId="you" eyebrow="Вы" title="Ваш прогресс" density="compact" tone="subtle">
       <YouStrip />
@@ -176,7 +193,9 @@ const Index = () => {
             <div className={cn("xl:col-span-8 min-w-0", sectionTokens.blockGap)}>
               {heroBlock}
               {createBlock}
+              {trendingBlock}
               {discoverBlock}
+              {aiSuggestBlock}
             </div>
 
             <aside className={cn("xl:col-span-4 min-w-0 xl:sticky xl:top-8", sectionTokens.blockGap)}>

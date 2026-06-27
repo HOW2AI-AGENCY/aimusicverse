@@ -171,6 +171,14 @@ export default function Artists() {
                           </h3>
                         </div>
 
+                        {artist.is_ai_generated && (
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="inline-flex items-center gap-1 bg-primary/15 text-primary px-2 py-0.5 rounded-full text-[11px] font-semibold">
+                              AI АРТИСТ
+                            </span>
+                          </div>
+                        )}
+
                         {artist.bio && <p className="text-sm text-muted-foreground mt-1 line-clamp-2">{artist.bio}</p>}
 
                         {artist.genre_tags && artist.genre_tags.length > 0 && (
