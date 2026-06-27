@@ -32,6 +32,7 @@ import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
 import { YouStrip } from "@/components/home/YouStrip";
+import { Section, sectionTokens } from "@/components/layout/Section";
 
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() =>
@@ -81,40 +82,58 @@ const Index = () => {
 
   const displayUser = profile || telegramUser;
 
-  // === 4 semantic clusters ===
+  // === 4 semantic clusters — every one wrapped in <Section/> ===
   const heroBlock = (
-    <div className="space-y-4">
+    <Section sectionId="hero" density="comfortable" tone="plain">
       {isNewUser ? (
         <FirstTimeHeroCard onCreateClick={handleCreate} />
       ) : (
         <ContinueDraftCard onContinue={handleCreate} />
       )}
-    </div>
+    </Section>
   );
 
   const createBlock = (
-    <div className="space-y-5">
+    <Section
+      sectionId="create"
+      eyebrow="Создать"
+      title="Что сегодня сочиняем?"
+      subtitle="Начните с быстрого ввода или выберите жанр"
+      density="comfortable"
+    >
       <HomeQuickCreate onCreateClick={handleCreate} />
       <CreativePresetsSection onTrackPresetSelect={handleQuickGenrePreset} />
-    </div>
+    </Section>
   );
 
   const discoverBlock = (
-    <DiscoverTabs
-      popularTracks={popularTracks}
-      recentTracks={recentTracks}
-      isLoading={isLoading}
-      hasMorePopular={hasMorePopular}
-      isLoadingMorePopular={isLoadingMorePopular}
-      onLoadMorePopular={fetchMorePopular}
-      hasMoreRecent={hasMoreRecent}
-      isLoadingMoreRecent={isLoadingMoreRecent}
-      onLoadMoreRecent={fetchMoreRecent}
-      onTrackClick={handleTrackClick}
-    />
+    <Section
+      sectionId="discover"
+      eyebrow="Сообщество"
+      title="Открыть для себя"
+      subtitle="Лучшие треки сообщества и свежие релизы"
+      density="comfortable"
+    >
+      <DiscoverTabs
+        popularTracks={popularTracks}
+        recentTracks={recentTracks}
+        isLoading={isLoading}
+        hasMorePopular={hasMorePopular}
+        isLoadingMorePopular={isLoadingMorePopular}
+        onLoadMorePopular={fetchMorePopular}
+        hasMoreRecent={hasMoreRecent}
+        isLoadingMoreRecent={isLoadingMoreRecent}
+        onLoadMoreRecent={fetchMoreRecent}
+        onTrackClick={handleTrackClick}
+      />
+    </Section>
   );
 
-  const youBlock = user ? <YouStrip /> : null;
+  const youBlock = user ? (
+    <Section sectionId="you" eyebrow="Вы" title="Ваш прогресс" density="compact" tone="subtle">
+      <YouStrip />
+    </Section>
+  ) : null;
 
   const bottomPadding = isMobile
     ? activeTrack
@@ -135,8 +154,9 @@ const Index = () => {
       <PullToRefreshWrapper onRefresh={refresh} disabled={!isMobile} className="relative">
         <div
           className={cn(
-            "w-full max-w-screen-xl mx-auto pt-4 sm:pt-6 lg:pt-8 relative z-10",
-            "px-4 sm:px-6 lg:px-8",
+            "w-full mx-auto pt-4 sm:pt-6 lg:pt-8 relative z-10",
+            sectionTokens.shellMaxWidth,
+            sectionTokens.containerPadding,
           )}
           style={{ paddingBottom: bottomPadding }}
         >
@@ -151,15 +171,15 @@ const Index = () => {
 
           <BotContextBanner />
 
-          {/* Unified rhythm: 40px between clusters on mobile, 56px on desktop */}
+          {/* Unified rhythm via sectionTokens.blockGap */}
           <div className="mt-6 grid grid-cols-1 xl:grid-cols-12 gap-10 xl:gap-12 items-start">
-            <div className="xl:col-span-8 min-w-0 space-y-10 xl:space-y-12">
+            <div className={cn("xl:col-span-8 min-w-0", sectionTokens.blockGap)}>
               {heroBlock}
               {createBlock}
               {discoverBlock}
             </div>
 
-            <aside className="xl:col-span-4 min-w-0 xl:sticky xl:top-8 space-y-10">
+            <aside className={cn("xl:col-span-4 min-w-0 xl:sticky xl:top-8", sectionTokens.blockGap)}>
               {youBlock}
             </aside>
           </div>

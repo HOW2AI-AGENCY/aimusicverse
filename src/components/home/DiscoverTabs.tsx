@@ -106,53 +106,44 @@ export const DiscoverTabs = memo(function DiscoverTabs({
   const columns = isMobile ? 2 : 4;
 
   return (
-    <section className="space-y-4" aria-label="Открыть для себя">
-      <header className="flex items-end justify-between gap-3">
-        <div className="min-w-0">
-          <h2 className="text-lg sm:text-xl font-semibold tracking-tight text-foreground">
-            Открыть для себя
-          </h2>
-          <p className="text-xs sm:text-sm text-muted-foreground">
-            Лучшие треки сообщества и свежие релизы
-          </p>
-        </div>
-      </header>
+    <Tabs
+      value={tab}
+      onValueChange={(v) => setTab(v as "popular" | "new")}
+      className="w-full space-y-4"
+    >
+      <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:inline-grid sm:grid-cols-2 h-9">
+        <TabsTrigger value="popular" className="text-xs sm:text-sm gap-1.5">
+          <TrendingUp className="h-3.5 w-3.5" />
+          Популярное
+        </TabsTrigger>
+        <TabsTrigger value="new" className="text-xs sm:text-sm gap-1.5">
+          <Sparkles className="h-3.5 w-3.5" />
+          Новинки
+        </TabsTrigger>
+      </TabsList>
 
-      <Tabs value={tab} onValueChange={(v) => setTab(v as "popular" | "new")} className="w-full">
-        <TabsList className="w-full sm:w-auto grid grid-cols-2 sm:inline-grid sm:grid-cols-2 h-9">
-          <TabsTrigger value="popular" className="text-xs sm:text-sm gap-1.5">
-            <TrendingUp className="h-3.5 w-3.5" />
-            Популярное
-          </TabsTrigger>
-          <TabsTrigger value="new" className="text-xs sm:text-sm gap-1.5">
-            <Sparkles className="h-3.5 w-3.5" />
-            Новинки
-          </TabsTrigger>
-        </TabsList>
+      <TabsContent value="popular" className="mt-0">
+        {isLoading && popularTracks.length === 0 ? (
+          <SkeletonGrid columns={columns} />
+        ) : (
+          <>
+            <Grid tracks={popularTracks} columns={columns} onTrackClick={onTrackClick} />
+            <LoadMore visible={hasMorePopular} loading={isLoadingMorePopular} onClick={onLoadMorePopular} />
+          </>
+        )}
+      </TabsContent>
 
-        <TabsContent value="popular" className="mt-4">
-          {isLoading && popularTracks.length === 0 ? (
-            <SkeletonGrid columns={columns} />
-          ) : (
-            <>
-              <Grid tracks={popularTracks} columns={columns} onTrackClick={onTrackClick} />
-              <LoadMore visible={hasMorePopular} loading={isLoadingMorePopular} onClick={onLoadMorePopular} />
-            </>
-          )}
-        </TabsContent>
-
-        <TabsContent value="new" className="mt-4">
-          {isLoading && recentTracks.length === 0 ? (
-            <SkeletonGrid columns={columns} />
-          ) : (
-            <>
-              <Grid tracks={recentTracks} columns={columns} onTrackClick={onTrackClick} />
-              <LoadMore visible={hasMoreRecent} loading={isLoadingMoreRecent} onClick={onLoadMoreRecent} />
-            </>
-          )}
-        </TabsContent>
-      </Tabs>
-    </section>
+      <TabsContent value="new" className="mt-0">
+        {isLoading && recentTracks.length === 0 ? (
+          <SkeletonGrid columns={columns} />
+        ) : (
+          <>
+            <Grid tracks={recentTracks} columns={columns} onTrackClick={onTrackClick} />
+            <LoadMore visible={hasMoreRecent} loading={isLoadingMoreRecent} onClick={onLoadMoreRecent} />
+          </>
+        )}
+      </TabsContent>
+    </Tabs>
   );
 });
 
