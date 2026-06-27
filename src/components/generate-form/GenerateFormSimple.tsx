@@ -129,42 +129,76 @@ export function GenerateFormSimple({
         transition={{ duration: 0.25, delay: 0.04 }}
       >
         <FormSection>
-          <div className="space-y-2 lg:space-y-3">
-            <SectionLabel label="Тип трека" hint={SECTION_HINTS.trackType} />
-            <div
-              className="grid grid-cols-2 gap-2 p-1 bg-muted/40 rounded-2xl border border-border/50"
-              role="group"
-              aria-label="Тип трека"
+          <div className="space-y-2">
+            <button
+              type="button"
+              onClick={toggleTrackType}
+              aria-expanded={trackTypeOpen}
+              aria-controls="track-type-panel"
+              className="w-full flex items-center justify-between gap-2 min-h-[40px] px-2 -mx-1 rounded-lg hover:bg-muted/40 transition-colors"
             >
-              <button
-                type="button"
-                onClick={() => handleVocalsToggle(true)}
-                aria-pressed={hasVocals}
-                className={cn(
-                  "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-all duration-200",
-                  hasVocals
-                    ? "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
-                )}
-              >
-                <Mic className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" aria-hidden="true" />
-                <span className="truncate">Вокал</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => handleVocalsToggle(false)}
-                aria-pressed={!hasVocals}
-                className={cn(
-                  "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-all duration-200",
-                  !hasVocals
-                    ? "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
-                )}
-              >
-                <Music2 className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" aria-hidden="true" />
-                <span className="truncate">Инструментал</span>
-              </button>
-            </div>
+              <div className="flex items-center gap-2 min-w-0">
+                <SectionLabel label="Тип трека" hint={SECTION_HINTS.trackType} />
+                <span className={cn(
+                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold",
+                  "bg-primary/15 text-primary border border-primary/25",
+                )}>
+                  {hasVocals ? <Mic className="w-3 h-3" /> : <Music2 className="w-3 h-3" />}
+                  {hasVocals ? "Вокал" : "Инструментал"}
+                </span>
+              </div>
+              <ChevronDown
+                className={cn("w-4 h-4 text-muted-foreground transition-transform shrink-0", trackTypeOpen && "rotate-180")}
+                aria-hidden="true"
+              />
+            </button>
+            <AnimatePresence initial={false}>
+              {trackTypeOpen && (
+                <motion.div
+                  id="track-type-panel"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div
+                    className="grid grid-cols-2 gap-2 p-1 bg-muted/40 rounded-2xl border border-border/50 mt-1"
+                    role="group"
+                    aria-label="Тип трека"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => handleVocalsToggle(true)}
+                      aria-pressed={hasVocals}
+                      className={cn(
+                        "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-all duration-200",
+                        hasVocals
+                          ? "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
+                      )}
+                    >
+                      <Mic className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" aria-hidden="true" />
+                      <span className="truncate">Вокал</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleVocalsToggle(false)}
+                      aria-pressed={!hasVocals}
+                      className={cn(
+                        "flex items-center justify-center gap-2 min-h-[44px] lg:min-h-[52px] px-3 lg:px-4 rounded-xl text-sm lg:text-base font-semibold transition-all duration-200",
+                        !hasVocals
+                          ? "bg-gradient-to-br from-primary to-primary/85 text-primary-foreground shadow-[0_4px_16px_-4px_hsl(var(--primary)/0.45)]"
+                          : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
+                      )}
+                    >
+                      <Music2 className="w-4 h-4 lg:w-5 lg:h-5 shrink-0" aria-hidden="true" />
+                      <span className="truncate">Инструментал</span>
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </FormSection>
       </motion.div>
