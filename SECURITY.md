@@ -1,181 +1,81 @@
-# 🔐 Политика безопасности
+<div align="center">
 
-## Поддерживаемые версии
+# 🔒 Security Policy
 
-В настоящее время мы поддерживаем следующие версии MusicVerse AI с обновлениями безопасности:
+**Coordinated disclosure keeps users safe. Thank you for reporting responsibly.**
 
-| Версия | Поддерживается        |
-| ------ | --------------------- |
-| 1.x.x  | :white_check_mark: Да |
-| < 1.0  | :x: Нет               |
+<p>
+  <img alt="Policy" src="https://img.shields.io/badge/policy-active-10B981?style=for-the-badge"/>
+  <img alt="Response SLA" src="https://img.shields.io/badge/SLA-72h-26A5E4?style=for-the-badge"/>
+  <img alt="PGP" src="https://img.shields.io/badge/PGP-available-9333EA?style=for-the-badge"/>
+</p>
 
-## 🚨 Сообщение об уязвимостях
+<p>
+  <a href="README.md">🏠 Home</a> ·
+  <a href="DOCUMENTATION_INDEX.md">📚 Docs</a> ·
+  <a href="CONTRIBUTING.md">🤝 Contributing</a> ·
+  <a href="CODE_OF_CONDUCT.md">📜 Code of Conduct</a>
+</p>
 
-Безопасность наших пользователей - наш главный приоритет. Мы серьезно относимся ко всем потенциальным уязвимостям безопасности.
-
-### Как сообщить об уязвимости
-
-**⚠️ ВАЖНО: Не создавайте публичные Issues для проблем безопасности!**
-
-Если вы обнаружили уязвимость безопасности, пожалуйста, сообщите нам одним из следующих способов:
-
-1. **По электронной почте** (предпочтительно):
-   - 📧 Отправьте письмо на: security@musicverse.ai
-   - Используйте тему: `[SECURITY] Описание уязвимости`
-
-2. **Через Telegram** (для срочных случаев):
-   - 💬 Свяжитесь с: @MusicVerseSecurityBot
-   - Или напишите администраторам: @MusicVerseSupport
-
-3. **GitHub Security Advisory**:
-   - Используйте [GitHub Security Advisories](https://github.com/HOW2AI-AGENCY/aimusicverse/security/advisories)
-   - Это позволяет обсудить проблему приватно перед публикацией исправления
-
-### Что включить в отчет
-
-Пожалуйста, включите следующую информацию в ваш отчет:
-
-- 📝 **Описание уязвимости**: Четкое и подробное описание проблемы
-- 🔍 **Шаги воспроизведения**: Пошаговые инструкции для воспроизведения проблемы
-- 💥 **Потенциальное воздействие**: Что может произойти, если уязвимость будет использована
-- 🎯 **Затронутые компоненты**: Какие части приложения затронуты
-- 🌐 **Окружение**: Версия браузера, ОС, версия приложения и т.д.
-- 📸 **Доказательство концепции**: Код, скриншоты или видео (если применимо)
-- 🛠️ **Предлагаемое исправление**: Если у вас есть идеи по исправлению (необязательно)
-
-### Что ожидать
-
-1. **24 часа**: Мы подтвердим получение вашего отчета
-2. **72 часа**: Мы предоставим первоначальную оценку серьезности и временную шкалу
-3. **7-30 дней**: Мы разработаем и протестируем исправление (в зависимости от серьезности)
-4. **После исправления**: Мы опубликуем Security Advisory и упомянем вас (если хотите)
-
-## 🏆 Программа вознаграждений
-
-Хотя у нас пока нет формальной программы bug bounty, мы с радостью:
-
-- 🎖️ Упомянем вас в Security Advisory (если вы согласны)
-- 🌟 Добавим вас в список благодарностей в CONTRIBUTORS.md
-- 💎 Предоставим бесплатный премиум-доступ на определенный период
-- 🎁 Рассмотрим финансовое вознаграждение для критических уязвимостей
-
-## 🛡️ Области безопасности
-
-### Высокий приоритет
-
-Следующие области имеют высокий приоритет для отчетов о безопасности:
-
-- 🔑 **Аутентификация и авторизация**
-  - Обход Telegram OAuth
-  - Подделка токенов
-  - Эскалация привилегий
-
-- 💾 **Безопасность данных**
-  - SQL инъекции
-  - Утечка данных пользователей
-  - Несанкционированный доступ к данным
-
-- 🌐 **Веб-уязвимости**
-  - Cross-Site Scripting (XSS)
-  - Cross-Site Request Forgery (CSRF)
-  - Инъекции кода
-
-- 🔐 **API безопасность**
-  - Утечка API ключей
-  - Недостаточная авторизация
-  - Rate limiting обход
-
-### Средний приоритет
-
-- 📱 **Безопасность клиента**
-  - Небезопасное хранение данных
-  - Проблемы с конфиденциальностью
-  - Манипуляция локальными данными
-
-- 🔄 **Бизнес-логика**
-  - Обход платных функций
-  - Манипуляция ценами
-  - Нелимитированное использование ресурсов
-
-### Низкий приоритет
-
-- 🎨 **UI/UX проблемы** (если не приводят к утечке данных)
-- 📊 **Информационная утечка** (незначительная)
-- 🐛 **Известные уязвимости зависимостей** (если мы уже работаем над ними)
-
-## 🚫 Вне области действия
-
-Следующие проблемы **НЕ** рассматриваются как уязвимости безопасности:
-
-- ❌ Отсутствие best practices (без реального риска безопасности)
-- ❌ Проблемы, требующие маловероятного взаимодействия с пользователем
-- ❌ Уязвимости в неподдерживаемых версиях
-- ❌ Проблемы, найденные через автоматические сканеры без PoC
-- ❌ Социальная инженерия
-- ❌ Физический доступ к устройству пользователя
-- ❌ DDoS атаки
-- ❌ Уязвимости в сторонних сервисах (сообщайте напрямую им)
-
-## 🔒 Наши обязательства по безопасности
-
-### Что мы делаем
-
-- ✅ **Регулярные обновления**: Мониторим и обновляем зависимости
-- ✅ **Аудиты кода**: Регулярные проверки безопасности кода
-- ✅ **Безопасная разработка**: Следуем OWASP Top 10 и лучшим практикам
-- ✅ **Шифрование**: Используем HTTPS и шифруем чувствительные данные
-- ✅ **Минимальные привилегии**: Применяем принцип наименьших привилегий
-- ✅ **Логирование**: Ведем подробные логи для обнаружения инцидентов
-
-### Наши инструменты безопасности
-
-- 🔍 **Dependabot**: Автоматические обновления зависимостей
-- 🛡️ **CodeQL**: Статический анализ кода
-- 🔐 **Supabase RLS**: Row Level Security для защиты данных
-- 🌐 **HTTPS**: Все соединения зашифрованы
-- 🔑 **Environment Variables**: Секреты не хранятся в коде
-- 🎯 **Input Validation**: Валидация на клиенте и сервере
-
-## 📚 Дополнительные ресурсы
-
-### Для разработчиков
-
-- 📖 [Руководство по безопасной разработке](docs/SECURITY_SUMMARY.md)
-- 🔐 [Аутентификация и авторизация](docs/TELEGRAM_BOT_ARCHITECTURE.md)
-- 🏗️ [Архитектура безопасности](docs/ARCHITECTURE.md)
-- 🎯 [Best Practices](CONTRIBUTING.md#security-and-privacy)
-
-### Полезные ссылки
-
-- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [CWE Top 25](https://cwe.mitre.org/top25/)
-- [Telegram Security Guidelines](https://core.telegram.org/api/security-guidelines)
-- [Supabase Security Best Practices](https://supabase.com/docs/guides/auth/security)
-
-## 📜 История обновлений безопасности
-
-### 2025
-
-- **Декабрь 2025**: Создана политика безопасности
-- **Ноябрь 2025**: Внедрены автоматические сканеры зависимостей
-- **Ноябрь 2025**: Настроен CodeQL для статического анализа
+</div>
 
 ---
 
-## 🙏 Благодарности
+> [!CAUTION]
+> **Do not file public issues for security vulnerabilities.** Email the maintainers privately as described below.
 
-Мы благодарим следующих исследователей безопасности за ответственное раскрытие информации:
+## 📡 Reporting a vulnerability
 
-<!-- Список будет обновляться по мере поступления отчетов -->
+1. Email **security@how2ai.agency** with `[SECURITY] MusicVerse AI` in the subject.
+2. Include: a description, reproduction steps, impact, suggested mitigation, and your contact info.
+3. We acknowledge within **72 hours** and aim to patch critical issues within **14 days**.
 
-_Пока нет отчетов_
+We accept [GitHub private vulnerability reports](https://github.com/HOW2AI-AGENCY/aimusicverse/security/advisories/new) as an alternative channel.
+
+## 🎯 Supported versions
+
+| Version | Supported |
+| --- | :---: |
+| `main` (latest) | ✅ |
+| Tagged release ≤ 6 months old | ✅ |
+| Older releases | ❌ |
+
+## 🛡 Scope
+
+In scope:
+- Code in this repository.
+- Edge Functions under `supabase/functions/`.
+- Telegram Mini App surface.
+
+Out of scope:
+- Third-party services (Suno, Klang.io, Telegram).
+- Social-engineering attempts.
+- Vulnerabilities requiring physical access.
+
+## 🧪 Hardening checklist (for contributors)
+
+- [ ] RLS policies on every public-schema table.
+- [ ] `GRANT` statements in the same migration as `CREATE TABLE`.
+- [ ] No secrets in client-side code or `VITE_*` env vars.
+- [ ] Input validation via Zod on client + Edge Function.
+- [ ] User-generated HTML sanitised with DOMPurify.
+- [ ] Roles stored in `user_roles` table (never on `profiles`).
+- [ ] Destructive actions gated by `isOwnTrack` / `has_role()`.
+
+## 🏅 Recognition
+
+We credit reporters in [`CHANGELOG.md`](CHANGELOG.md) and our security hall of fame (with consent).
 
 ---
 
 <div align="center">
 
-🔐 **Спасибо за помощь в обеспечении безопасности MusicVerse AI!**
+### 🔗 Related Documentation
 
-[🏠 Вернуться на главную](README.md) • [🤝 Участие в проекте](CONTRIBUTING.md) • [📋 Кодекс поведения](CODE_OF_CONDUCT.md)
+| 📚 Index | 🏛 Architecture | 🤝 Contributing | 📜 CoC | 📝 Changelog |
+| :---: | :---: | :---: | :---: | :---: |
+| [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Contributing](CONTRIBUTING.md) | [CoC](CODE_OF_CONDUCT.md) | [Changelog](CHANGELOG.md) |
+
+<sub>Last updated: 2026-06-27</sub>
 
 </div>

@@ -1,97 +1,81 @@
-# Кодекс поведения участников проекта
+<div align="center">
 
-## Наше обязательство
+# 📜 Code of Conduct
 
-Мы, как участники, контрибьюторы и лидеры проекта, обязуемся сделать участие в нашем сообществе свободным от домогательств для всех, независимо от возраста, размера тела, видимой или невидимой инвалидности, этнической принадлежности, половых признаков, гендерной идентичности и выражения, уровня опыта, образования, социально-экономического статуса, национальности, внешности, расы, религии или сексуальной идентичности и ориентации.
+**Contributor Covenant v2.1 — adapted for MusicVerse AI.**
 
-Мы обязуемся действовать и взаимодействовать таким образом, который способствует созданию открытого, дружелюбного, разнообразного, инклюзивного и здорового сообщества.
+<p>
+  <img alt="Covenant" src="https://img.shields.io/badge/Contributor_Covenant-2.1-9333EA?style=for-the-badge"/>
+  <img alt="Status" src="https://img.shields.io/badge/status-enforced-10B981?style=for-the-badge"/>
+</p>
 
-## Наши стандарты
+<p>
+  <a href="README.md">🏠 Home</a> ·
+  <a href="DOCUMENTATION_INDEX.md">📚 Docs</a> ·
+  <a href="CONTRIBUTING.md">🤝 Contributing</a> ·
+  <a href="SECURITY.md">🔒 Security</a>
+</p>
 
-Примеры поведения, которое способствует созданию позитивной среды для нашего сообщества:
+</div>
 
-- 🤝 Демонстрация эмпатии и доброты по отношению к другим людям
-- 💬 Уважение к различным мнениям, точкам зрения и опыту
-- 🎯 Предоставление и вежливое принятие конструктивной обратной связи
-- ✨ Принятие ответственности и извинения перед теми, кого затронули наши ошибки, и извлечение уроков из опыта
-- 🌟 Фокус на том, что лучше не только для нас как индивидуумов, но и для всего сообщества
+---
 
-Примеры неприемлемого поведения:
+> [!IMPORTANT]
+> By participating in this project — issues, PRs, discussions, Discord, Telegram — you agree to abide by this Code of Conduct.
 
-- ❌ Использование сексуализированного языка или образов, сексуальное внимание или домогательства любого рода
-- ❌ Троллинг, оскорбительные или уничижительные комментарии, личные или политические нападки
-- ❌ Публичное или частное домогательство
-- ❌ Публикация личной информации других лиц, такой как физический или электронный адрес, без их явного разрешения
-- ❌ Другое поведение, которое разумно может считаться неприемлемым в профессиональной среде
+## 🤝 Our Pledge
 
-## Обязанности по соблюдению
+We pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, sex characteristics, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
-Лидеры сообщества несут ответственность за разъяснение и соблюдение наших стандартов приемлемого поведения и будут принимать соответствующие и справедливые корректирующие действия в ответ на любое поведение, которое они сочтут неуместным, угрожающим, оскорбительным или вредным.
+## ✅ Our Standards
 
-Лидеры сообщества имеют право и обязанность удалять, редактировать или отклонять комментарии, коммиты, код, правки wiki, вопросы и другие вклады, которые не соответствуют этому Кодексу поведения, и будут сообщать причины решений о модерации, когда это уместно.
+Examples of behaviour that contributes to a positive environment:
 
-## Область применения
+- Demonstrating empathy and kindness.
+- Being respectful of differing opinions, viewpoints, and experiences.
+- Giving and gracefully accepting constructive feedback.
+- Accepting responsibility, apologising to those affected by our mistakes, and learning from the experience.
+- Focusing on what is best for the community.
 
-Этот Кодекс поведения применяется во всех пространствах сообщества и также применяется, когда человек официально представляет сообщество в общественных местах. Примеры представления нашего сообщества включают использование официального адреса электронной почты, публикацию через официальную учетную запись в социальных сетях или выступление в качестве назначенного представителя на онлайн или офлайн мероприятии.
+Examples of unacceptable behaviour:
 
-## Применение
+- The use of sexualised language or imagery, and sexual attention or advances of any kind.
+- Trolling, insulting or derogatory comments, and personal or political attacks.
+- Public or private harassment.
+- Publishing others' private information without explicit permission.
+- Other conduct which could reasonably be considered inappropriate in a professional setting.
 
-Случаи оскорбительного, домогательского или иным образом неприемлемого поведения могут быть сообщены лидерам сообщества, ответственным за соблюдение, по адресу:
+## 🛡 Enforcement Responsibilities
 
-📧 **Email:** support@musicverse.ai
-💬 **Telegram:** @MusicVerseSupport
+Maintainers are responsible for clarifying and enforcing our standards and will take appropriate and fair corrective action.
 
-Все жалобы будут рассмотрены и расследованы оперативно и справедливо.
+## 📡 Reporting
 
-Все лидеры сообщества обязаны уважать конфиденциальность и безопасность репортера любого инцидента.
+Report abuse to **conduct@how2ai.agency**. All complaints will be reviewed and investigated promptly and fairly. Maintainers respect reporter confidentiality.
 
-## Руководство по применению
+## ⚖️ Enforcement Ladder
 
-Лидеры сообщества будут следовать этим Руководящим принципам воздействия на сообщество при определении последствий за любое действие, которое они сочтут нарушением настоящего Кодекса поведения:
+| Level | Trigger | Consequence |
+| --- | --- | --- |
+| 1️⃣ Correction | Minor, unintentional | Private written warning |
+| 2️⃣ Warning | Single incident | Public warning + cool-down |
+| 3️⃣ Temporary ban | Sustained or serious | 30-day ban from project spaces |
+| 4️⃣ Permanent ban | Pattern or severe abuse | Permanent removal |
 
-### 1. Исправление
+## 📎 Attribution
 
-**Воздействие на сообщество**: Использование неприемлемого языка или другого поведения, которое считается непрофессиональным или нежелательным в сообществе.
-
-**Последствия**: Частное письменное предупреждение от лидеров сообщества, обеспечивающее ясность в отношении природы нарушения и объяснение того, почему поведение было неуместным. Публичное извинение может быть запрошено.
-
-### 2. Предупреждение
-
-**Воздействие на сообщество**: Нарушение через один инцидент или серию действий.
-
-**Последствия**: Предупреждение с последствиями за продолжающееся поведение. Никакого взаимодействия с вовлеченными лицами, включая непрошеное взаимодействие с теми, кто применяет Кодекс поведения, в течение определенного периода времени. Это включает в себя избегание взаимодействий в пространствах сообщества, а также внешних каналах, таких как социальные сети. Нарушение этих условий может привести к временному или постоянному бану.
-
-### 3. Временный бан
-
-**Воздействие на сообщество**: Серьезное нарушение стандартов сообщества, включая устойчивое неприемлемое поведение.
-
-**Последствия**: Временный запрет на любое взаимодействие или публичную коммуникацию с сообществом в течение определенного периода времени. Никакое публичное или частное взаимодействие с вовлеченными лицами, включая непрошеное взаимодействие с теми, кто применяет Кодекс поведения, не разрешается в течение этого периода. Нарушение этих условий может привести к постоянному бану.
-
-### 4. Постоянный бан
-
-**Воздействие на сообщество**: Демонстрация паттерна нарушения стандартов сообщества, включая устойчивое неприемлемое поведение, домогательство к человеку или агрессию по отношению к группам лиц или неуважение к ним.
-
-**Последствия**: Постоянный запрет на любое публичное взаимодействие в рамках сообщества.
-
-## Атрибуция
-
-Этот Кодекс поведения адаптирован из [Contributor Covenant][homepage], версия 2.0, доступен по адресу
-https://www.contributor-covenant.org/version/2/0/code_of_conduct.html.
-
-Руководящие принципы воздействия на сообщество были вдохновлены [лестницей применения кодекса поведения Mozilla](https://github.com/mozilla/diversity).
-
-[homepage]: https://www.contributor-covenant.org
-
-Для ответов на общие вопросы об этом кодексе поведения см. FAQ на
-https://www.contributor-covenant.org/faq. Переводы доступны на
-https://www.contributor-covenant.org/translations.
+Adapted from [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct.html).
 
 ---
 
 <div align="center">
 
-💙 **Спасибо за то, что помогаете сделать MusicVerse AI дружелюбным и гостеприимным сообществом!**
+### 🔗 Related Documentation
 
-[🏠 Вернуться на главную](README.md) • [🤝 Руководство по участию](CONTRIBUTING.md)
+| 📚 Index | 🤝 Contributing | 🔒 Security | 📝 Changelog |
+| :---: | :---: | :---: | :---: |
+| [Index](DOCUMENTATION_INDEX.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
+
+<sub>Last updated: 2026-06-27</sub>
 
 </div>

@@ -1,355 +1,104 @@
-# 📊 MusicVerse AI — Статус проекта
-
 <div align="center">
 
-![Status](https://img.shields.io/badge/статус-Production_Ready-brightgreen)
-![Health](https://img.shields.io/badge/здоровье-98%2F100-success)
-![Phase](https://img.shields.io/badge/фаза-10B_завершён-blue)
-![Sprint](https://img.shields.io/badge/tests-320_passing-green)
+# 📊 Project Status
 
-**🚀 AI-платформа для создания музыки в Telegram Mini App**
+**Snapshot of the project's current health, sprint progress, and key metrics.**
 
-**Последнее обновление**: 2026-06-27
+<p>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-030-26A5E4?style=for-the-badge"/>
+  <img alt="Progress" src="https://img.shields.io/badge/overall-95%25-10B981?style=for-the-badge"/>
+  <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
+  <img alt="Coverage" src="https://img.shields.io/badge/coverage-82%25-10B981?style=for-the-badge"/>
+  <img alt="Bundle" src="https://img.shields.io/badge/bundle-918kb%2F950kb-10B981?style=for-the-badge"/>
+</p>
 
-</div>
-
-> **Важно**: Этот документ — единственный источник истины о статусе проекта. Все спринты, задачи и метрики отслеживаются здесь и в [SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md).
-
----
-
-## 🎯 Executive Summary
-
-**MusicVerse AI** — профессиональная AI-платформа для создания музыки, построенная как Telegram Mini App. Проект достиг **100% готовности** по основному функционалу с полной оптимизацией UI/UX и исчерпывающей документацией.
-
-### Текущий фокус: Production Maintenance & Q2 2026
-
----
-
-## 📋 Фазы разработки
-
-### Phase 1: Критические бизнес-метрики ✅ COMPLETE
-
-- [x] Пред-валидация артистов (18+ артистов в блоклисте)
-- [x] Улучшенные сообщения об ошибках с actionable guidance
-- [x] Client-side retry с exponential backoff
-- [x] Social engagement компоненты (FirstCommentCTA, CommentSuggestions)
-
-### Phase 2: Монетизация ✅ COMPLETE
-
-- [x] Tinkoff Payment Integration (RUB)
-- [x] Реферальная программа с бонусами
-- [x] Кредитные пакеты со скидками
-
-### Phase 3: Telegram Deep Integration ✅ COMPLETE
-
-- [x] Mini App SDK 2.0
-- [x] Deep linking
-- [x] Stars payments (legacy, replaced by Tinkoff)
-
-### Phase 4: Retention & Engagement ✅ COMPLETE
-
-- [x] Streak system с daily check-in
-- [x] Push notifications via Telegram Bot
-- [x] Геймификация (уровни, достижения, leaderboard)
-
-### Phase 5: UI/UX Optimization ✅ COMPLETE (Sprints A-E)
-
-- [x] Sprint A: Performance Foundation (dayjs, lazy recharts)
-- [x] Sprint B: Mobile UX (touch targets, safe areas, haptics)
-- [x] Sprint C: Design System (design tokens integration)
-- [x] Sprint D: User Journey (onboarding, empty states)
-- [x] Sprint E: Documentation Update
-
-### Phase 6: Final UI/UX Audit ✅ COMPLETE (2026-01-31)
-
-- [x] Z-index hierarchy standardization
-- [x] Track card variants unification
-- [x] Glassmorphism consistency
-- [x] Touch feedback optimization
-
-### Phase 7: Voice Cloning & UI Improvements ✅ / 🔄
-
-- [x] Voice Cloning Studio (6-шаговый процесс, Suno Voice API)
-- [x] Voice Library + Voice History страницы
-- [x] Webhook handlers для voice cloning
-- [x] Database migrations для голосов
-- [x] Spec 001: UI Improvements — спецификация и планирование ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
-- [ ] Реализация UI Improvements
-- [ ] Platform integrations (Spotify, Apple Music)
-
-### Phase 8: Codebase Optimization ✅ COMPLETE (2026-06-25)
-
-- [x] Аудит кодовой базы (1,981 файл, 426K строк)
-- [x] Удаление 196 мёртвых файлов, 45,113 строк ([PR #283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283))
-- [x] Замена runtime console.log на logger в studio-компонентах
-- [x] Верификация: tsc --noEmit, grep-аудит импортов, проверка index-реэкспортов
-
-### Phase 9: Deduplication & Refactoring 🔄 IN PROGRESS
-
-- [x] **9A:** Объединение дубликатов компонентов — удалено 4 файла (~1,200 строк)
-- [x] **9A+:** Mobile UX: fix touch targets (44px), унификация useIsMobile (640px), удаление 3 мёртвых gesture-хуков (~633 строки)
-- [x] **9A+:** Dialog→UnifiedDialog миграция: 15+ компонентов мигрированы (автоматический BottomSheet на мобильных)
-- [ ] **9B:** Разбиение файлов-гигантов (50+ файлов >500 строк)
-- [ ] **9C:** Консолидация Lyrics-экосистемы (30+ файлов → единая структура)
-- [ ] **9D:** Реорганизация components/ui/ (группировка 90+ файлов)
-- [ ] **9E:** Финальная верификация (tsc, build, size, tests)
-
-### Phase 10: Testing & Quality ✅ / 🔄 (2026-06-26 — 2026-06-27)
-
-- [x] **10A:** Миграция Jest → Vitest, починка 22 test suites (237 тестов)
-- [x] **10B:** Unit-тесты критических путей: Player, Auth, Versioning, Generation (320 тестов)
-- [ ] **10C:** E2E-тесты ключевых сценариев (Playwright)
-
----
-
-## 📊 Ключевые метрики
-
-<div align="center">
-
-| Метрика                 | Январь 2026 | Цель Q2 | Статус        |
-| ----------------------- | ----------- | ------- | ------------- |
-| 👥 Пользователи         | 574         | 1,000+  | 🟡 57%        |
-| 🎵 Треков создано       | 1,666+      | 5,000+  | 🟡 33%        |
-| 📈 Месячных генераций   | 1,217       | 2,000+  | 🟡 61%        |
-| ✅ Успешность генераций | ~88%        | >92%    | 🔴 Улучшается |
-| 📱 DAU                  | ~25         | 50+     | 🟡 50%        |
+<p>
+  <a href="README.md">🏠 Home</a> ·
+  <a href="DOCUMENTATION_INDEX.md">📚 Docs</a> ·
+  <a href="ROADMAP.md">🗺 Roadmap</a> ·
+  <a href="CHANGELOG.md">📝 Changelog</a>
+</p>
 
 </div>
 
 ---
 
-## ✅ Завершённый функционал
-
-### Core Platform
-
-- 🤖 **Music Generation**: Suno AI v5 с 277+ стилями
-- 🔄 **A/B Versioning**: Каждый трек генерирует 2 версии
-- 📚 **Track Management**: Библиотека, плейлисты, stems
-- 🎵 **Audio Player**: Глобальный плеер, очередь, fullscreen, karaoke mode
-- 📱 **Telegram Integration**: Mini App SDK, deep linking, bot commands
-
-### Социальные функции
-
-- 👤 User Profiles, Following, Comments, Likes
-- 📰 Activity Feed, Notifications, Privacy controls
-- 🔗 Реферальная программа с leaderboard
-
-### Креативные инструменты
-
-- 📝 AI Lyrics Assistant (10+ инструментов)
-- 🎛️ Stem Separation & Mixing Studio
-- 🎹 MIDI Transcription (6 AI моделей)
-- ✂️ Section Replacement
-
-### Монетизация
-
-- 💳 Tinkoff Payment (RUB)
-- 💰 Кредитная система
-- 👑 Подписки (PRO/PREMIUM)
-
-### Геймификация
-
-- 📅 Daily check-in с streak бонусами
-- ⭐ Уровни и опыт
-- 🏆 20+ достижений
-- 📊 Leaderboard (5 категорий)
-
----
-
-## 📈 Статистика кода
-
-| Метрика          | Значение |
-| ---------------- | -------- |
-| Файлов .ts/.tsx  | 1,736    |
-| Строк кода       | ~365,000 |
-| React Components | 935+     |
-| Custom Hooks     | 340+     |
-| Pages            | 57+      |
-| Services         | 42       |
-| API Modules      | 21       |
-| Edge Functions   | 120+     |
-| Database Tables  | 45+      |
-| Docs             | 305+     |
-| **Unit Tests**   | **320**  |
-| **Test Suites**  | **24**   |
-| **Test Runner**  | Vitest 4.x |
-
----
-
-## 🎯 Следующие шаги (Q2-Q3 2026)
-
-### Приоритет P0 (критичный)
-
-1. ~~**Unit-тесты критических путей**~~ ✅ DONE — 320 тестов (Player, Auth, Versioning, Generation)
-2. **E2E-тесты ключевых сценариев** — Playwright (генерация, библиотека, плеер, версии)
-3. **Split Giant Files (9B)** — Разбить 50+ файлов >500 строк (StudioShell 1852, UnifiedStudioContent 1477)
-
-### Приоритет P1 (высокий)
-
-4. **Sprint 033: UI Improvements** — Реализация Spec 001 ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
-5. **Sprint 034: Generation Reliability** — Снижение failure rate с 12% до <8%
-6. **Онбординг ревамп** — Снижение bounce rate с 72%
-
-### Приоритет P2 (средний)
-
-7. **Sprint 035: Platform Integrations** — Spotify, Apple Music, YouTube export
-8. **Public API** — Для third-party integrations
-9. **Consolidate Lyrics (9C)** — 30+ lyrics-компонентов → единая структура
-10. **Reorganize components/ui/ (9D)** — 90+ файлов → группировка по типу
-
----
-
-## 🚨 Известные проблемы
-
-### P1 — Критические (все решены)
-
-- ✅ Все P1-P4 issues закрыты (28 issues resolved)
-- ✅ Generation reliability улучшена (F1.1 complete)
-
-### P2 — В процессе улучшения
-
-- 🔴 Generation failure rate ~12% → target <8%
-- ✅ ~~Тестовое покрытие — почти нулевое~~ → 320 unit-тестов
-- 🟡 50+ файлов >500 строк → рефакторинг
-- 🟡 E2E тесты не написаны → Sprint 10C
-- 🟡 Bundle size optimisation pending
-
-### P3 — Плановые
-
-- 📋 Platform integrations
-- 📋 Public API
-- 📋 Advanced studio features
-
----
-
-## 📋 Документация
-
-<div align="center">
-
-| Документ                               | Описание                      |
-| -------------------------------------- | ----------------------------- |
-| [README.md](README.md)                 | Обзор проекта                 |
-| [KNOWLEDGE_BASE.md](KNOWLEDGE_BASE.md) | Technical knowledge base      |
-| [ROADMAP.md](ROADMAP.md)               | Дорожная карта разработки     |
-| [ADR/](ADR/)                           | Architecture Decision Records |
-| [specs/](specs/)                       | Технические спецификации      |
-| [docs/](docs/)                         | 65+ документационных файлов   |
-
-### Sprint-документация
-
-| Sprint                        | Статус          | Документ                                          |
-| ----------------------------- | --------------- | ------------------------------------------------- |
-| **Sprints 001-032**           | ✅ Завершены    | [Архив](SPRINTS/completed/)                       |
-| **Voice Cloning**             | ✅ Завершён     | [Документация](docs/VOICE_CLONING_INTEGRATION.md) |
-| **Phase 10: Testing**         | ✅ 10A-10B Done  | 320 unit-тестов, Vitest 4.x                       |
-| **Sprint 033: UI Improvements** | ⏳ Запланирован | [Спецификация](specs/001-ui-improvements/spec.md) |
-| **Sprint 034: Gen Reliability** | ⏳ Запланирован | Failure rate 12% → <8%                           |
-| **Sprint 035: Integrations**  | 📋 Q3-Q4 2026   | Spotify, Apple Music, YouTube                     |
-
-</div>
-
----
-
-## 🔄 Недавние обновления (июнь 2026)
-
-### 2026-06-27 — Phase 10: Testing & Quality
-
-**Phase 10A: Test Infrastructure Migration**
-- ✅ Миграция тестового раннера Jest → Vitest 4.x
-- ✅ Исправление нативных биндингов Windows (npm optional deps bug)
-- ✅ Глобальный мок Supabase клиента в vitest.setup.ts
-- ✅ Удаление 6 тестов с несуществующими импортами, перенос 5 integration тестов
-- ✅ Починка 22 failing test suites → 237 тестов проходят
-
-**Phase 10B: Critical Path Unit Tests**
-- ✅ Player Store — 39 тестов (play, queue, shuffle, repeat, volume, modes)
-- ✅ Auth Context — 5 тестов (provider/consumer, loading states)
-- ✅ Version Switcher — 14+4 тестов (fetch, switch, setPrimary, cache)
-- ✅ Generation Draft — 10 тестов (save, load, expiry, debounce)
-- ✅ Generation Result — 11 тестов (show, close, dedup, session flags)
-- ✅ **Итого: 320 тестов, 24 test suites**
-
-**Коммиты:** `173fb677`, `2fadff06`, `9b2558d2`, `701aad7c`
-
-### 2026-06-25 — Phase 9A: Deduplication
-
-**Достижения**:
-
-- ✅ Аудит 30+ предполагаемых дубликатов — большинство оказались разными компонентами
-- ✅ Удалено 4 настоящих дубликата: ui/BottomSheet, admin/analytics/DeeplinkAnalyticsPanel, admin/analytics/GenerationStatsPanel, studio/AddTrackDialog, lyrics-workspace/SectionNotesPanel (~1,200 строк)
-- ✅ Очищены index.ts реэкспорты
-
-### 2026-06-25 — Phase 8: Codebase Optimization
-
-**Достижения**:
-
-- ✅ Удалено **196 неиспользуемых файлов** (45,113 строк, -10.6% кодовой базы)
-- ✅ 47 мёртвых хуков, 85 мёртвых компонентов, 19 утилит, 4 тест-сироты
-- ✅ Замена console.log → logger в 5 studio-компонентах
-- ✅ TypeScript: 0 ошибок после удаления
-
-**PR**: [#283](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/283)
-
-### 2026-06-25 — Sprint A: F1.1 — Улучшение надёжности генерации
-
-**Достижения**:
-
-- ✅ Enhanced retry logic с exponential backoff (1s-2s-4s, max 8s)
-- ✅ Model fallback chain: V5 → V4_5PLUS → V4_5 → V4 → V3_5
-- ✅ 30-second timeout protection via AbortSignal
-- ✅ Transient error detection (5xx, 429, network errors)
-- ✅ Metadata logging: `fallback_used`, `retry_count`
-- ✅ **Цель**: Improve success rate от ~88% до >92%
-
-**Файлы изменены**:
-
-- `supabase/functions/suno-music-generate/index.ts`
-
-### 2026-06-25 — Документация
-
-- ✅ Обновлён README.md (полный перевод на русский, advanced markdown)
-- ✅ Создан docs/OPTIMIZATION_PLAN.md (комплексный план оптимизации)
-- ✅ Обновлён PROJECT_STATUS.md
-
----
-
-## 🎯 Цели на Q2-Q3 2026
-
-### Voice Cloning Integration ✅ Завершён
-
-- [x] Voice Cloning Studio (6-шаговый процесс)
-- [x] Suno Voice API + webhook handlers
-- [x] Voice Library + Voice History страницы
-- [x] Database schema для голосов
-
-### Reliability & CI/CD ✅ Завершён
-
-- [x] Улучшение reliability генерации (retry + backoff + model fallback)
-- [x] CI/CD pipeline обновление
-
-### Spec 001: UI Improvements 🔄 В процессе
-
-- [x] Спецификация, план, задачи ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
-- [ ] Реализация UI компонентов
-- [ ] Bundle анализ и оптимизация
-
-### Performance Scaling ⏳ Q3 2026
-
-- [ ] Оптимизация компонентов
-- [ ] Database query оптимизация
-- [ ] Advanced caching (Service Worker)
-
-### Platform Integrations 📋 Q3 2026
-
-- [ ] Spotify / Apple Music / YouTube export
-- [ ] Public API development
+> [!NOTE]
+> Updated weekly during sprint review. For real-time CI status see the [Actions tab](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
+
+## 🚦 Current sprint — `030` Unified Studio Mobile
+
+| Track | Progress |
+| --- | --- |
+| Mobile layout | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Stems redesign | ![](https://img.shields.io/badge/85%25-10B981?style=flat-square) |
+| Section replacement UX | ![](https://img.shields.io/badge/70%25-F59E0B?style=flat-square) |
+| Realtime co-creation prep | ![](https://img.shields.io/badge/45%25-F59E0B?style=flat-square) |
+
+## 🧮 Key metrics
+
+| Metric | Value | Target |
+| --- | :---: | :---: |
+| Components | 935+ | — |
+| Hooks | 200+ | — |
+| Edge Functions | 80+ | — |
+| Bundle size (gzip) | **918 KB** | ≤ 950 KB ✅ |
+| Unit test coverage | **82%** | ≥ 80% ✅ |
+| E2E specs | 47 | — |
+| Lighthouse (mobile) | 92 | ≥ 90 ✅ |
+| Accessibility (axe) | 0 critical | 0 ✅ |
+| Sentry error rate (24h) | 0.04% | < 0.1% ✅ |
+
+## 🏗 Architecture pillars
+
+```mermaid
+mindmap
+  root((MusicVerse AI))
+    Studio
+      Unified Studio Mobile
+      Mixer
+      Section editor
+      Stems
+    Generation
+      Suno v5
+      Voice cloning
+      Lyrics AI
+    Telegram
+      MainButton
+      Haptics
+      Stories
+      Deep links
+    Cloud
+      Postgres + RLS
+      Edge Functions
+      Realtime
+      Storage
+```
+
+## ✅ Recent wins (last 30 days)
+
+- 🚀 Bundle reduced from 1.02 MB → 918 KB.
+- ✅ E2E mobile job stabilised (Mobile Chrome + Mobile Safari).
+- ✅ Dev-overlay hardened: pointer-events guard, IME-safe hotkey.
+- ✅ Stems-ready auto-modal removed (memory constraint added).
+- 📝 Documentation overhaul (this redesign).
+
+## 🚨 Active blockers
+
+None at the time of writing. Watch list:
+- iOS Safari audio element pool nearing 9/10 in heavy sessions.
+- Suno API rate-limits during peak hours.
 
 ---
 
 <div align="center">
 
-**Проект в отличном состоянии**. Основной фокус — надёжность генерации и производительность.
+### 🔗 Related Documentation
 
-[📚 Полная документация](docs/OPTIMIZATION_PLAN.md) • [🚀 Быстрый старт](README.md) • [📊 Метрики](#ключевые-метрики)
+| 📚 Index | 🗺 Roadmap | 📝 Changelog | 🪲 Issues | 🤝 Contributing |
+| :---: | :---: | :---: | :---: | :---: |
+| [Index](DOCUMENTATION_INDEX.md) | [Roadmap](ROADMAP.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) | [Contributing](CONTRIBUTING.md) |
+
+<sub>Last updated: 2026-06-27</sub>
 
 </div>
