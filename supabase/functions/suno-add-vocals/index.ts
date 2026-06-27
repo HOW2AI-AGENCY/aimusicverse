@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("suno-add-vocals");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -16,7 +15,7 @@ serve(async (req) => {
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
 
     if (!sunoApiKey) {
-      console.error("SUNO_API_KEY not configured");
+      logger.error("SUNO_API_KEY not configured");
       return new Response(JSON.stringify({ error: "API key not configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -91,7 +90,7 @@ serve(async (req) => {
       });
     }
 
-    console.log("🎤 Adding vocals to instrumental:", {
+    logger.info("Adding vocals to instrumental", {
       customMode,
       model,
       userId: user.id,
@@ -104,7 +103,7 @@ serve(async (req) => {
     if (audioUrl) {
       // Use existing URL directly
       uploadUrl = audioUrl;
-      console.log("✅ Using existing audio URL:", uploadUrl);
+      logger.info("Using existing audio URL", { uploadUrl });
     } else {
       // Upload audio to Supabase Storage
       const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || "audio.mp3"}`;
@@ -118,13 +117,13 @@ serve(async (req) => {
         } else {
           audioBuffer = new Uint8Array(audioFile.data);
         }
-        console.log("✅ Audio buffer created:", audioBuffer.length, "bytes");
+        logger.info("Audio buffer created", { bytes: audioBuffer.length });
       } catch (error) {
-        console.error("❌ Failed to decode audio file:", error);
+        logger.error("Failed to decode audio file", error);
         throw new Error("Invalid audio file format");
       }
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("project-assets")
         .upload(fileName, audioBuffer, {
           contentType: audioFile.type || "audio/mpeg",
@@ -132,7 +131,7 @@ serve(async (req) => {
         });
 
       if (uploadError) {
-        console.error("❌ Upload error:", uploadError);
+        logger.error("Upload error", uploadError);
         return new Response(JSON.stringify({ error: `Failed to upload audio: ${uploadError.message}` }), {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -143,13 +142,11 @@ serve(async (req) => {
       const { data: publicUrlData } = supabase.storage.from("project-assets").getPublicUrl(fileName);
 
       uploadUrl = publicUrlData.publicUrl;
-      console.log("✅ Audio uploaded:", uploadUrl);
+      logger.info("Audio uploaded", { uploadUrl });
     }
     const callBackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    console.log("✅ Audio uploaded, calling Suno API add-vocals");
-    console.log("📋 Upload URL:", uploadUrl);
-    console.log("📋 Callback URL:", callBackUrl);
+    logger.info("Calling Suno API add-vocals", { uploadUrl, callBackUrl });
 
     // Build request body - per SunoAPI docs
     // Required: uploadUrl, prompt, title, style, negativeTags, callBackUrl
@@ -183,15 +180,12 @@ serve(async (req) => {
       requestBody.vocalGender = vocalGender;
     }
 
-    console.log("📋 Suno add-vocals payload:", JSON.stringify(requestBody, null, 2));
-    console.log(
-      "🎚️ Audio weight:",
-      effectiveAudioWeight,
-      "| Style weight:",
-      effectiveStyleWeight,
-      "| Weirdness:",
-      effectiveWeirdness,
-    );
+    logger.info("Suno add-vocals payload", {
+      requestBody,
+      audioWeight: effectiveAudioWeight,
+      styleWeight: effectiveStyleWeight,
+      weirdness: effectiveWeirdness,
+    });
 
     // Call Suno API
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/generate/add-vocals", {
@@ -206,7 +200,7 @@ serve(async (req) => {
     const sunoData = await sunoResponse.json();
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      console.error("❌ Suno API error:", JSON.stringify(sunoData, null, 2));
+      logger.error("Suno API error", null, { sunoData });
       return new Response(
         JSON.stringify({
           error: sunoData.msg || "Failed to add vocals",
@@ -220,11 +214,11 @@ serve(async (req) => {
     const sunoTaskId = sunoData.data?.taskId;
 
     if (!sunoTaskId) {
-      console.error("❌ No taskId in Suno response:", JSON.stringify(sunoData, null, 2));
+      logger.error("No taskId in Suno response", null, { sunoData });
       throw new Error("No taskId in Suno response");
     }
 
-    console.log("✅ Suno add-vocals task created:", sunoTaskId);
+    logger.info("Suno add-vocals task created", { sunoTaskId });
 
     // Create track record
     const { data: track, error: trackError } = await supabase
@@ -246,7 +240,7 @@ serve(async (req) => {
       .single();
 
     if (trackError) {
-      console.error("Track creation error:", trackError);
+      logger.error("Track creation error", trackError);
       throw trackError;
     }
 
@@ -266,11 +260,11 @@ serve(async (req) => {
       .single();
 
     if (taskError) {
-      console.error("Task creation error:", taskError);
+      logger.error("Task creation error", taskError);
       throw taskError;
     }
 
-    console.log("✅ Generation task created:", generationTask?.id);
+    logger.info("Generation task created", { taskId: generationTask?.id });
 
     return new Response(
       JSON.stringify({
@@ -282,7 +276,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    console.error("Error in suno-add-vocals:", error);
+    logger.error("Error in suno-add-vocals", error);
     return new Response(JSON.stringify({ error: error.message || "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

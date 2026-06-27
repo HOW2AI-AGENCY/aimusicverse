@@ -3,35 +3,10 @@ import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+import { getApiModelName, MODEL_FALLBACK_CHAIN } from "../_shared/suno-models.ts";
+import { getGenerationCost } from "../_shared/economy.ts";
 
 const logger = createLogger("suno-music-generate");
-
-/**
- * Per SunoAPI docs (https://docs.sunoapi.org/suno-api/generate-music):
- * Model parameter accepts: V5, V4_5PLUS, V4_5, V4, V3_5 - NOT chirp-* names
- */
-const VALID_MODELS = ["V5_5", "V5", "V4_5PLUS", "V4_5ALL", "V4_5", "V4", "V3_5"];
-const DEFAULT_MODEL = "V5";
-
-// Deprecated / legacy model aliases that should be auto-migrated
-const DEPRECATED_MODELS: Record<string, string> = {
-  V4AUK: "V4_5",
-  "chirp-v4": "V4",
-  "chirp-v3-5": "V3_5",
-  "chirp-auk": "V4_5ALL",
-  "chirp-bluejay": "V4_5PLUS",
-  "chirp-crow": "V5",
-};
-
-// Fallback chain for model errors
-const MODEL_FALLBACK_CHAIN: Record<string, string> = {
-  V5_5: "V5",
-  V5: "V4_5PLUS",
-  V4_5PLUS: "V4_5ALL",
-  V4_5ALL: "V4_5",
-  V4_5: "V4",
-  V4: "V3_5",
-};
 
 // User-friendly error messages
 const ERROR_MESSAGES: Record<string, string> = {
@@ -43,38 +18,6 @@ const ERROR_MESSAGES: Record<string, string> = {
   "rate limit": "Слишком много запросов. Подождите минуту.",
   credits: "Недостаточно кредитов на балансе.",
 };
-
-// Model-specific generation costs in user credits
-const MODEL_COSTS: Record<string, number> = {
-  V5_5: 14,
-  V5: 12,
-  V4_5PLUS: 12,
-  V4_5ALL: 12,
-  V4_5: 12,
-  V4: 10,
-  V3_5: 10,
-};
-
-// Default cost for unknown models
-const DEFAULT_GENERATION_COST = 12;
-
-// Get generation cost for a specific model
-function getGenerationCost(modelKey: string): number {
-  return MODEL_COSTS[modelKey] ?? DEFAULT_GENERATION_COST;
-}
-
-/**
- * Convert UI model key to API model name with fallback
- */
-function getApiModelName(uiKey: string): string {
-  // Check for deprecated models first
-  if (DEPRECATED_MODELS[uiKey]) {
-    logger.info("Migrating deprecated model", { from: uiKey, to: DEPRECATED_MODELS[uiKey] });
-    return DEPRECATED_MODELS[uiKey];
-  }
-  // Return as-is if valid, otherwise default
-  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
-}
 
 /**
  * Get user-friendly error message
@@ -134,7 +77,6 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
-    const miniAppUrl = Deno.env.get("MINI_APP_URL");
 
     if (!sunoApiKey) {
       throw new Error("SUNO_API_KEY not configured");

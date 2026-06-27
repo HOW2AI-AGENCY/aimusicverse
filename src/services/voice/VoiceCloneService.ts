@@ -495,7 +495,7 @@ export class VoiceCloneService {
   private async callApi<T>(
     endpoint: string,
     method: "GET" | "POST" | "PUT" | "DELETE",
-    body?: any,
+    body?: Record<string, unknown> | FormData,
     headers?: Record<string, string>,
   ): Promise<T> {
     const url = `${this.config.baseUrl}${endpoint}`;
@@ -568,11 +568,7 @@ export class VoiceCloneService {
   /**
    * Handle and transform errors into VoiceCloneServiceError
    */
-  private handleError(error: any, step?: VoiceCloningStep): VoiceCloneServiceError {
-    if (error instanceof VoiceCloneServiceError) {
-      return error;
-    }
-
+  private handleError(error: unknown, step?: VoiceCloningStep): VoiceCloneServiceError {
     if (error instanceof VoiceCloneServiceError) {
       return error;
     }

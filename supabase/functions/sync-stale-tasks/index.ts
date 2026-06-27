@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("sync-stale-tasks");
 
 // Helper functions for snake_case field access (Suno API uses snake_case)
 const getAudioUrl = (clip: any) => clip.source_audio_url || clip.audio_url;
@@ -44,7 +43,7 @@ serve(async (req) => {
       // No body or invalid JSON, proceed without filter
     }
 
-    console.log("🔄 Starting stale tasks sync...", userId ? `for user ${userId}` : "for all users");
+    logger.info("Starting stale tasks sync", { userId: userId || "all users" });
 
     // PHASE 1: Find tasks with completed status but track not updated
     // This handles cases where callback succeeded but track update failed
@@ -61,9 +60,9 @@ serve(async (req) => {
     const { data: recoveryTasks, error: recoveryError } = await recoveryQuery;
 
     if (recoveryError) {
-      console.error("Error fetching recovery tasks:", recoveryError);
+      logger.error("Error fetching recovery tasks", recoveryError);
     } else {
-      console.log(`📊 Found ${recoveryTasks?.length || 0} tasks for recovery check`);
+      logger.info("Found tasks for recovery check", { count: recoveryTasks?.length || 0 });
       let recoveredCount = 0;
 
       // Recover tracks where task completed but track didn't update
@@ -80,7 +79,7 @@ serve(async (req) => {
 
           if (existingVersion) continue; // Already processed
 
-          console.log(`🔧 Recovering replace_section task ${task.id}`);
+          logger.info("Recovering replace_section task", { taskId: task.id });
 
           try {
             let clips = task.audio_clips;
@@ -89,7 +88,7 @@ serve(async (req) => {
             }
 
             if (!clips || !Array.isArray(clips) || clips.length === 0) {
-              console.error(`❌ No valid clips in replace_section task ${task.id}`);
+              logger.error("No valid clips in replace_section task", null, { taskId: task.id });
               continue;
             }
 
@@ -97,7 +96,7 @@ serve(async (req) => {
             const audioUrl = getAudioUrl(clip);
 
             if (!audioUrl) {
-              console.error(`❌ No audio URL in replace_section clip for task ${task.id}`);
+              logger.error("No audio URL in replace_section clip", null, { taskId: task.id });
               continue;
             }
 
@@ -116,7 +115,7 @@ serve(async (req) => {
                 }
               }
             } catch (downloadError) {
-              console.error(`⚠️ Error downloading replace_section audio:`, downloadError);
+              logger.error("Error downloading replace_section audio", downloadError);
             }
 
             // Get next version label
@@ -149,18 +148,18 @@ serve(async (req) => {
               },
             });
 
-            console.log(`✅ Replace section version ${nextLabel} created for task ${task.id}`);
+            logger.info("Replace section version created", { versionLabel: nextLabel, taskId: task.id });
             recoveredCount++;
             continue;
           } catch (recoveryErr) {
-            console.error(`❌ Error recovering replace_section task ${task.id}:`, recoveryErr);
+            logger.error("Error recovering replace_section task", recoveryErr, { taskId: task.id });
             continue;
           }
         }
 
         if (!task.tracks || task.tracks.status === "completed") continue;
 
-        console.log(`🔧 Recovering track ${task.track_id} from completed task ${task.id}`);
+        logger.info("Recovering track from completed task", { trackId: task.track_id, taskId: task.id });
 
         try {
           // Parse audio_clips - handle both string and object
@@ -170,7 +169,7 @@ serve(async (req) => {
           }
 
           if (!clips || !Array.isArray(clips) || clips.length === 0) {
-            console.error(`❌ No valid clips in task ${task.id}`);
+            logger.error("No valid clips in task", null, { taskId: task.id });
             continue;
           }
 
@@ -180,7 +179,7 @@ serve(async (req) => {
           const lyrics = getLyrics(firstClip);
 
           if (!audioUrl) {
-            console.error(`❌ No audio URL in clip for task ${task.id}`);
+            logger.error("No audio URL in clip", null, { taskId: task.id });
             continue;
           }
 
@@ -217,7 +216,7 @@ serve(async (req) => {
               }
             }
           } catch (downloadError) {
-            console.error(`⚠️ Error downloading files for recovery:`, downloadError);
+            logger.error("Error downloading files for recovery", downloadError);
           }
 
           // Update main track record
@@ -271,14 +270,14 @@ serve(async (req) => {
                   recovered: true,
                 },
               });
-              console.log(`✅ Version ${versionLabel} created for recovered track`);
+              logger.info("Version created for recovered track", { versionLabel });
             }
           }
 
-          console.log(`✅ Track ${task.track_id} recovered successfully`);
+          logger.info("Track recovered successfully", { trackId: task.track_id });
           recoveredCount++;
         } catch (recoveryErr) {
-          console.error(`❌ Error recovering track ${task.track_id}:`, recoveryErr);
+          logger.error("Error recovering track", recoveryErr, { trackId: task.track_id });
         }
       }
     }
@@ -298,11 +297,11 @@ serve(async (req) => {
     const { data: staleTasks, error: fetchError } = await staleQuery;
 
     if (fetchError) {
-      console.error("Error fetching stale tasks:", fetchError);
+      logger.error("Error fetching stale tasks", fetchError);
       throw fetchError;
     }
 
-    console.log(`📊 Found ${staleTasks?.length || 0} stale tasks to check with Suno API`);
+    logger.info("Found stale tasks to check with Suno API", { count: staleTasks?.length || 0 });
 
     let updatedCount = 0;
     let failedCount = 0;
@@ -310,7 +309,7 @@ serve(async (req) => {
 
     for (const task of staleTasks || []) {
       try {
-        console.log(`\n🔍 Checking task ${task.id} (suno_task_id: ${task.suno_task_id})`);
+        logger.info("Checking task", { taskId: task.id, sunoTaskId: task.suno_task_id });
 
         // Query Suno API for task status
         const sunoResponse = await fetch(
@@ -324,14 +323,14 @@ serve(async (req) => {
         );
 
         if (!sunoResponse.ok) {
-          console.error(`❌ Suno API error for task ${task.id}: ${sunoResponse.status}`);
+          logger.error("Suno API error", null, { taskId: task.id, status: sunoResponse.status });
           continue;
         }
 
         const sunoData = await sunoResponse.json();
 
         if (sunoData.code !== 200) {
-          console.error(`❌ SunoAPI query error for task ${task.id}:`, sunoData.msg);
+          logger.error("SunoAPI query error", null, { taskId: task.id, message: sunoData.msg });
 
           // Mark as failed if Suno API returns error
           await supabase
@@ -358,13 +357,13 @@ serve(async (req) => {
         }
 
         const taskData = sunoData.data;
-        console.log(`📈 Task ${task.id} status:`, taskData.status);
+        logger.info("Task status", { taskId: task.id, status: taskData.status });
 
         // Check if generation is complete
         if (taskData.status === "SUCCESS" && taskData.response?.sunoData && taskData.response.sunoData.length > 0) {
           const clips = taskData.response.sunoData;
           const firstClip = clips[0];
-          console.log(`✅ Task ${task.id} completed! Processing ${clips.length} clips`);
+          logger.info("Task completed, processing clips", { taskId: task.id, clipCount: clips.length });
 
           // Download and save files for first clip
           let localAudioUrl = null;
@@ -401,7 +400,7 @@ serve(async (req) => {
               }
             }
           } catch (downloadError) {
-            console.error(`⚠️ Error downloading files for task ${task.id}:`, downloadError);
+            logger.error("Error downloading files for task", downloadError, { taskId: task.id });
           }
 
           // Update track with snake_case field access
@@ -436,7 +435,7 @@ serve(async (req) => {
             .eq("id", task.id);
 
           // Save ALL clips as versions
-          console.log(`💾 Saving ${clips.length} versions...`);
+          logger.info("Saving versions", { count: clips.length });
           const versionLabels = ["A", "B", "C", "D", "E"];
 
           for (let i = 0; i < clips.length; i++) {
@@ -480,7 +479,7 @@ serve(async (req) => {
                 }
               }
             } catch (downloadError) {
-              console.error(`⚠️ Error downloading files for version ${versionLabel}:`, downloadError);
+              logger.error("Error downloading files for version", downloadError, { versionLabel });
             }
 
             // Check if version exists
@@ -530,7 +529,7 @@ serve(async (req) => {
               }
             }
 
-            console.log(`✅ Version ${versionLabel} saved`);
+            logger.info("Version saved", { versionLabel });
 
             // Log version creation
             await supabase.from("track_change_log").insert({
@@ -563,7 +562,7 @@ serve(async (req) => {
           if (task.telegram_chat_id) {
             try {
               const maxClipsToSend = Math.min(clips.length, 2);
-              console.log(`📤 Sending ${maxClipsToSend} track version(s) via sync-stale-tasks`);
+              logger.info("Sending track versions via sync-stale-tasks", { count: maxClipsToSend });
 
               for (let i = 0; i < maxClipsToSend; i++) {
                 const clip = clips[i];
@@ -604,7 +603,7 @@ serve(async (req) => {
                 });
               }
             } catch (notifError) {
-              console.error("Error sending Telegram notification:", notifError);
+              logger.error("Error sending Telegram notification", notifError);
             }
           }
 
@@ -612,7 +611,7 @@ serve(async (req) => {
         } else if (taskData.status && (taskData.status.includes("FAILED") || taskData.status.includes("ERROR"))) {
           // Mark as failed
           const errorMessage = taskData.errorMessage || "Generation failed";
-          console.log(`❌ Task ${task.id} failed:`, errorMessage);
+          logger.info("Task failed", { taskId: task.id, errorMessage });
 
           await supabase
             .from("generation_tasks")
@@ -635,26 +634,22 @@ serve(async (req) => {
 
           failedCount++;
         } else {
-          console.log(`⏳ Task ${task.id} still processing:`, taskData.status);
+          logger.info("Task still processing", { taskId: task.id, status: taskData.status });
         }
 
         updatedCount++;
       } catch (taskError: any) {
-        console.error(`❌ Error processing task ${task.id}:`, taskError);
+        logger.error("Error processing task", taskError, { taskId: task.id });
       }
     }
 
-    console.log("\n📊 Sync completed:", {
+    logger.info("Sync completed", {
       recovered: recoveryTasks?.filter((t) => t.tracks?.status !== "completed").length || 0,
       checked: staleTasks?.length || 0,
       updated: updatedCount,
       completed: completedCount,
       failed: failedCount,
     });
-
-    console.log(
-      `📊 Sync completed: { recovered: ${recoveryTasks?.filter((t) => t.tracks?.status !== "completed").length || 0}, checked: ${staleTasks?.length || 0}, updated: ${updatedCount}, completed: ${completedCount}, failed: ${failedCount} }`,
-    );
 
     return new Response(
       JSON.stringify({
@@ -671,7 +666,7 @@ serve(async (req) => {
       },
     );
   } catch (error: any) {
-    console.error("❌ Error in sync-stale-tasks:", error);
+    logger.error("Error in sync-stale-tasks", error);
     return new Response(
       JSON.stringify({
         success: false,

@@ -2,16 +2,11 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 import { sanitizeFilename } from "../_shared/sanitize-filename.ts";
-import { extractTitleFromFileName, sanitizeAndCleanTitle } from "../_shared/track-naming.ts";
 import { TrackNameBuilder } from "../_shared/track-name-builder.ts";
 
 const logger = createLogger("suno-upload-extend");
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-telegram-bot-secret",
-};
 
 /**
  * Per SunoAPI docs: Model values are V5, V4_5PLUS, V4_5, V4, V3_5
@@ -194,7 +189,7 @@ serve(async (req) => {
         audioBuffer = new Uint8Array(audioFile.data);
       }
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { error: uploadError } = await supabase.storage
         .from("project-assets")
         .upload(fileName, audioBuffer, {
           contentType: audioFile.type || "audio/mpeg",
@@ -269,17 +264,6 @@ serve(async (req) => {
     // CRITICAL: continueAt is REQUIRED for Suno extend API
     // If not provided, default to audio duration (extend from end) or 0
     const effectiveContinueAt = continueAt ?? (audioDuration ? Math.floor(audioDuration * 0.8) : 0);
-
-    if (effectiveContinueAt === null || effectiveContinueAt === undefined) {
-      logger.error("continueAt is required for extend operation");
-      return new Response(
-        JSON.stringify({
-          error: "Укажите точку продолжения (continueAt)",
-          errorCode: "CONTINUE_AT_REQUIRED",
-        }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
-      );
-    }
 
     logger.info("Using continueAt value", {
       continueAt: effectiveContinueAt,

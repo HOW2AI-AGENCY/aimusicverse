@@ -319,7 +319,7 @@ export interface VoiceCloneError {
   code: string;
   message: string;
   statusCode?: number;
-  details?: any;
+  details?: unknown;
   step?: VoiceCloningStep;
   retryable?: boolean;
 }
@@ -330,7 +330,7 @@ export interface VoiceCloneError {
 export interface VoiceApiErrorResponse {
   error: string;
   message?: string;
-  details?: any;
+  details?: unknown;
 }
 
 // ============================================================================

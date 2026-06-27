@@ -2,34 +2,13 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 import { sanitizeAndCleanTitle, generateFallbackTitle } from "../_shared/track-naming.ts";
 import { TrackNameBuilder, APP_NAME } from "../_shared/track-name-builder.ts";
 import { checkRateLimit, getRateLimitHeaders, RateLimitConfigs } from "../_shared/rate-limiter.ts";
+import { getGenerationCost } from "../_shared/economy.ts";
 
 const logger = createLogger("suno-music-callback");
-
-// Model-specific generation costs in user credits (must match suno-music-generate)
-const MODEL_COSTS: Record<string, number> = {
-  V5: 12,
-  V4_5PLUS: 12,
-  V4_5: 12,
-  V4_5ALL: 12,
-  V4: 10,
-  V3_5: 10,
-};
-
-// Default cost for unknown models
-const DEFAULT_GENERATION_COST = 12;
-
-// Get generation cost for a specific model
-function getGenerationCost(modelKey: string): number {
-  return MODEL_COSTS[modelKey] ?? DEFAULT_GENERATION_COST;
-}
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
 
 // Helper to get audio/image URLs - Suno API uses snake_case
 const getAudioUrl = (clip: any) => clip.source_audio_url || clip.audio_url;

@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("suno-wav-callback");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -16,7 +15,7 @@ serve(async (req) => {
     const supabase = getSupabaseClient();
 
     const payload = await req.json();
-    console.log("Received WAV conversion callback from SunoAPI:", JSON.stringify(payload, null, 2));
+    logger.info("Received WAV conversion callback from SunoAPI", { payload });
 
     const { code, msg, data } = payload;
     const { task_id, taskId, data: wavData } = data || {};
@@ -27,7 +26,7 @@ serve(async (req) => {
     }
 
     if (!isSunoSuccessCode(code)) {
-      console.error("WAV conversion failed:", msg);
+      logger.error("WAV conversion failed", undefined, { msg });
       return new Response(JSON.stringify({ success: true, status: "failed" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -38,7 +37,7 @@ serve(async (req) => {
       throw new Error("No WAV URL in callback data");
     }
 
-    console.log("WAV conversion completed, URL:", wavInfo.wavUrl);
+    logger.info("WAV conversion completed", { wavUrl: wavInfo.wavUrl });
 
     // Download WAV file
     const wavResponse = await fetch(wavInfo.wavUrl);
@@ -53,7 +52,7 @@ serve(async (req) => {
       });
 
     if (uploadError) {
-      console.error("Upload error:", uploadError);
+      logger.error("Upload error", uploadError);
       throw uploadError;
     }
 
@@ -61,23 +60,38 @@ serve(async (req) => {
 
     const localWavUrl = publicData.publicUrl;
 
-    console.log("WAV file saved:", localWavUrl);
+    logger.info("WAV file saved", { localWavUrl });
 
-    // Create notification
-    await supabase.from("notifications").insert({
-      user_id: wavInfo.userId || "system",
-      type: "track_generated",
-      title: "WAV конвертация завершена 🎵",
-      message: "Ваш трек сконвертирован в высокое качество WAV",
-      action_url: localWavUrl,
-    });
+    // Look up actual user_id from the generation task associated with this Suno task
+    let notificationUserId = wavInfo.userId;
+    if (!notificationUserId) {
+      const { data: taskRecord } = await supabase
+        .from("generation_tasks")
+        .select("user_id")
+        .eq("suno_task_id", sunoTaskId)
+        .single();
+      notificationUserId = taskRecord?.user_id;
+    }
+
+    // Create notification (skip if no user found)
+    if (!notificationUserId) {
+      logger.warn("No user_id found for WAV callback, skipping notification", { sunoTaskId });
+    } else {
+      await supabase.from("notifications").insert({
+        user_id: notificationUserId,
+        type: "track_generated",
+        title: "WAV конвертация завершена 🎵",
+        message: "Ваш трек сконвертирован в высокое качество WAV",
+        action_url: localWavUrl,
+      });
+    }
 
     return new Response(JSON.stringify({ success: true, wavUrl: localWavUrl }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
   } catch (error: any) {
-    console.error("Error in suno-wav-callback:", error);
+    logger.error("Error in suno-wav-callback", error);
     return new Response(
       JSON.stringify({
         success: false,

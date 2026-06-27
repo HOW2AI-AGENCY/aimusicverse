@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+import { createLogger } from "../_shared/logger.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("suno-check-status");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -60,10 +59,10 @@ serve(async (req) => {
       throw new Error("No Suno task ID found");
     }
 
-    console.log("Checking status for Suno task:", sunoTaskId, "useFallback:", useFallback);
+    logger.info("Checking status for Suno task:", sunoTaskId, "useFallback:", useFallback);
 
     // Helper function to fetch status with retry
-    const fetchStatusWithRetry = async (endpoint: string, maxRetries = 2): Promise<any> => {
+    const fetchStatusWithRetry = async (endpoint: string, maxRetries = 2): Promise<Record<string, unknown>> => {
       let lastError: Error | null = null;
 
       for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -88,7 +87,7 @@ serve(async (req) => {
 
           return data;
         } catch (error) {
-          console.error(`Attempt ${attempt + 1} failed:`, error);
+          logger.error(`Attempt ${attempt + 1} failed:`, error);
           lastError = error as Error;
 
           if (attempt < maxRetries) {
@@ -108,11 +107,11 @@ serve(async (req) => {
     try {
       if (useFallback) {
         // Use fallback endpoint directly if requested
-        console.log("Using fallback endpoint: GET /api/get");
+        logger.info("Using fallback endpoint: GET /api/get");
         sunoData = await fetchStatusWithRetry(`https://api.sunoapi.org/api/v1/generate/get?taskId=${sunoTaskId}`);
       } else {
         // Try primary endpoint
-        console.log("Using primary endpoint: record-info");
+        logger.info("Using primary endpoint: record-info");
         sunoData = await fetchStatusWithRetry(
           `https://api.sunoapi.org/api/v1/generate/record-info?taskId=${sunoTaskId}`,
         );
@@ -120,7 +119,7 @@ serve(async (req) => {
 
       taskData = sunoData.data;
     } catch (primaryError) {
-      console.error("Primary endpoint failed, trying fallback:", primaryError);
+      logger.error("Primary endpoint failed, trying fallback:", primaryError);
 
       // Log the error for debugging
       await supabase.from("api_usage_logs").insert({
@@ -134,15 +133,15 @@ serve(async (req) => {
 
       // Try fallback endpoint
       try {
-        console.log("Attempting fallback endpoint: GET /api/get");
+        logger.info("Attempting fallback endpoint: GET /api/get");
         sunoData = await fetchStatusWithRetry(
           `https://api.sunoapi.org/api/v1/generate/get?taskId=${sunoTaskId}`,
           1, // Fewer retries for fallback
         );
         taskData = sunoData.data;
-        console.log("Fallback endpoint succeeded");
+        logger.info("Fallback endpoint succeeded");
       } catch (fallbackError) {
-        console.error("Fallback endpoint also failed:", fallbackError);
+        logger.error("Fallback endpoint also failed:", fallbackError);
         throw new Error(`Both endpoints failed: ${(primaryError as Error).message}`);
       }
     }
@@ -157,13 +156,13 @@ serve(async (req) => {
       const isComplete = taskData.status === "SUCCESS" && clips.length >= 2;
       const isStreamingReady = clips.length === 1 || (!isComplete && firstClip.audioUrl);
 
-      console.log(
+      logger.info(
         `Task status: ${taskData.status}, clips: ${clips.length}, streaming ready: ${isStreamingReady}, complete: ${isComplete}`,
       );
 
       // If streaming ready but not complete, update with streaming URL
       if (isStreamingReady && !isComplete) {
-        console.log("Streaming ready - updating track with streaming URL");
+        logger.info("Streaming ready - updating track with streaming URL");
 
         await supabase
           .from("tracks")
@@ -200,9 +199,9 @@ serve(async (req) => {
 
       // If complete, download and save to storage
       if (isComplete) {
-        console.log("Task completed, downloading and saving files");
-        console.log("Track ID to update:", trackId);
-        console.log(
+        logger.info("Task completed, downloading and saving files");
+        logger.info("Track ID to update:", trackId);
+        logger.info(
           "First clip data:",
           JSON.stringify({
             title: firstClip.title,
@@ -258,11 +257,11 @@ serve(async (req) => {
             }
           }
         } catch (downloadError) {
-          console.error("Error downloading files:", downloadError);
+          logger.error("Error downloading files:", downloadError);
         }
 
         // Update track with complete data - use service role to bypass RLS
-        console.log("Updating track with ID:", trackId);
+        logger.info("Updating track with ID:", trackId);
 
         const { data: updatedTrack, error: trackUpdateError } = await supabase
           .from("tracks")
@@ -284,14 +283,14 @@ serve(async (req) => {
           .select();
 
         if (trackUpdateError) {
-          console.error("❌ Error updating track:", trackUpdateError);
+          logger.error("❌ Error updating track:", trackUpdateError);
           throw new Error(`Failed to update track: ${trackUpdateError.message}`);
         } else {
-          console.log("✅ Track updated successfully:", updatedTrack);
+          logger.info("✅ Track updated successfully:", updatedTrack);
         }
 
         // Update generation task
-        console.log("Updating generation task with ID:", task.id);
+        logger.info("Updating generation task with ID:", task.id);
 
         const { data: updatedTask, error: taskUpdateError } = await supabase
           .from("generation_tasks")
@@ -306,9 +305,9 @@ serve(async (req) => {
           .select();
 
         if (taskUpdateError) {
-          console.error("❌ Error updating generation task:", taskUpdateError);
+          logger.error("❌ Error updating generation task:", taskUpdateError);
         } else {
-          console.log("✅ Generation task updated successfully:", updatedTask);
+          logger.info("✅ Generation task updated successfully:", updatedTask);
         }
       }
 
@@ -331,7 +330,7 @@ serve(async (req) => {
         });
 
         if (versionError) {
-          console.error("Error creating track version:", versionError);
+          logger.error("Error creating track version:", versionError);
         }
       }
 
@@ -349,7 +348,7 @@ serve(async (req) => {
       });
 
       if (logError) {
-        console.error("Error logging completion:", logError);
+        logger.error("Error logging completion:", logError);
       }
 
       // Create notification
@@ -362,10 +361,10 @@ serve(async (req) => {
       });
 
       if (notifError) {
-        console.error("Error creating notification:", notifError);
+        logger.error("Error creating notification:", notifError);
       }
 
-      console.log("✅ Track generation fully completed and synced");
+      logger.info("✅ Track generation fully completed and synced");
 
       return new Response(
         JSON.stringify({
@@ -434,7 +433,7 @@ serve(async (req) => {
       );
     }
   } catch (error: any) {
-    console.error("Error in suno-check-status:", error);
+    logger.error("Error in suno-check-status:", error);
     return new Response(
       JSON.stringify({
         success: false,

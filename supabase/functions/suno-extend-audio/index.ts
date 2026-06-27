@@ -10,9 +10,12 @@
  */
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { ECONOMY } from "../_shared/economy.ts";
+
+const logger = createLogger("suno-extend-audio");
 
 const VALID_MODELS = ["V5", "V4_5PLUS", "V4_5", "V4", "V3_5"];
 const DEFAULT_MODEL = "V4_5";
@@ -59,7 +62,7 @@ serve(async (req) => {
       .single();
 
     if (creditsError) {
-      console.error("[suno-extend-audio] Credits check error:", creditsError);
+      logger.error("Credits check error", creditsError);
       throw new Error("Failed to check credit balance");
     }
 
@@ -96,7 +99,7 @@ serve(async (req) => {
     // Must be > 0 and < total duration of audio
     const effectiveContinueAt = typeof continueAt === "number" && continueAt > 0 ? continueAt : 30; // Default to 30 seconds if not specified
 
-    console.log("[suno-extend-audio] Request:", {
+    logger.info("Request", {
       audioUrl: audioUrl.substring(0, 80),
       continueAt: effectiveContinueAt,
       hasPrompt: !!prompt,
@@ -124,7 +127,7 @@ serve(async (req) => {
       .single();
 
     if (trackError || !newTrack) {
-      console.error("[suno-extend-audio] Track creation error:", trackError);
+      logger.error("Track creation error", trackError);
       throw new Error("Failed to create track record");
     }
 
@@ -148,7 +151,7 @@ serve(async (req) => {
       .single();
 
     if (taskError || !task) {
-      console.error("[suno-extend-audio] Task creation error:", taskError);
+      logger.error("Task creation error", taskError);
       throw new Error("Failed to create generation task");
     }
 
@@ -181,7 +184,7 @@ serve(async (req) => {
     if (personaId) sunoPayload.personaId = personaId;
     if (voiceId) sunoPayload.voiceId = voiceId;
 
-    console.log("[suno-extend-audio] Sending to upload-extend endpoint:", {
+    logger.info("Sending to upload-extend endpoint", {
       ...sunoPayload,
       uploadUrl: audioUrl.substring(0, 50) + "...",
     });
@@ -200,7 +203,7 @@ serve(async (req) => {
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
 
-    console.log(`[suno-extend-audio] Response (${duration}ms):`, JSON.stringify(sunoData).substring(0, 300));
+    logger.info(`Response (${duration}ms)`, { data: JSON.stringify(sunoData).substring(0, 300) });
 
     // Log API call
     await supabase.from("api_usage_logs").insert({
@@ -224,7 +227,7 @@ serve(async (req) => {
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       const errorMsg = sunoData.msg || `SunoAPI upload-extend failed (${sunoResponse.status})`;
-      console.error("[suno-extend-audio] API error:", errorMsg, sunoData);
+      logger.error("API error", null, { errorMsg, sunoData });
 
       await supabase
         .from("generation_tasks")
@@ -276,30 +279,22 @@ serve(async (req) => {
     });
 
     if (deductError) {
-      console.error(
-        JSON.stringify({
-          tag: "[suno-extend-audio]",
-          event: "credit_deduct_failed",
-          userId: user.id,
-          trackId: newTrack.id,
-          sunoTaskId,
-          amount: EXTEND_COST,
-          error: deductError.message,
-          hasVoiceId: !!voiceId,
-        }),
-      );
+      logger.error("Credit deduct failed", null, {
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: EXTEND_COST,
+        error: deductError.message,
+        hasVoiceId: !!voiceId,
+      });
     } else {
-      console.log(
-        JSON.stringify({
-          tag: "[suno-extend-audio]",
-          event: "credit_deducted",
-          userId: user.id,
-          trackId: newTrack.id,
-          sunoTaskId,
-          amount: EXTEND_COST,
-          hasVoiceId: !!voiceId,
-        }),
-      );
+      logger.info("Credit deducted", {
+        userId: user.id,
+        trackId: newTrack.id,
+        sunoTaskId,
+        amount: EXTEND_COST,
+        hasVoiceId: !!voiceId,
+      });
     }
 
     // Log credit transaction
@@ -312,7 +307,7 @@ serve(async (req) => {
       metadata: { trackId: newTrack.id, sunoTaskId },
     });
 
-    console.log("[suno-extend-audio] Success:", {
+    logger.info("Success", {
       trackId: newTrack.id,
       sunoTaskId,
       continueAt: effectiveContinueAt,
@@ -333,7 +328,7 @@ serve(async (req) => {
     );
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    console.error("[suno-extend-audio] Error:", errorMessage);
+    logger.error(errorMessage);
     return new Response(
       JSON.stringify({
         success: false,

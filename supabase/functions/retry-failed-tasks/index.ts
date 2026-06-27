@@ -1,23 +1,11 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { authorize } from "../_shared/auth.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { corsHeaders } from "../_shared/cors.ts";
+import { createLogger } from "../_shared/logger.ts";
+import { getApiModelName } from "../_shared/suno-models.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
-
-// Per SunoAPI docs (https://docs.sunoapi.org/suno-api/generate-music):
-// Model values are: V5, V4_5PLUS, V4_5, V4, V3_5 - NOT chirp-* names
-const VALID_MODELS = ["V5", "V4_5PLUS", "V4_5", "V4", "V3_5"];
-const DEFAULT_MODEL = "V4_5";
-
-function getApiModelName(uiKey: string): string {
-  // Map V4_5ALL to V4_5 (legacy key)
-  if (uiKey === "V4_5ALL") return "V4_5";
-  // Return as-is if valid, otherwise default
-  return VALID_MODELS.includes(uiKey) ? uiKey : DEFAULT_MODEL;
-}
+const logger = createLogger("retry-failed-tasks");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -41,7 +29,7 @@ serve(async (req) => {
 
     const supabase = getSupabaseClient();
 
-    const { taskIds, newModel = "chirp-auk" } = await req.json();
+    const { taskIds, newModel = "V4_5ALL" } = await req.json();
 
     if (!taskIds || !Array.isArray(taskIds) || taskIds.length === 0) {
       return new Response(JSON.stringify({ error: "taskIds array required" }), {
@@ -50,7 +38,7 @@ serve(async (req) => {
       });
     }
 
-    console.log(`Retrying ${taskIds.length} failed tasks with model: ${newModel}`);
+    logger.info(`Retrying ${taskIds.length} failed tasks with model: ${newModel}`);
 
     // Fetch failed tasks with their associated track data
     const { data: failedTasks, error: fetchError } = await supabase
@@ -60,7 +48,7 @@ serve(async (req) => {
       .eq("status", "failed");
 
     if (fetchError) {
-      console.error("Error fetching tasks:", fetchError);
+      logger.error("Error fetching tasks:", fetchError);
       throw fetchError;
     }
 
@@ -104,7 +92,7 @@ serve(async (req) => {
           .single();
 
         if (trackError || !newTrack) {
-          console.error("Error creating track:", trackError);
+          logger.error("Error creating track:", trackError);
           results.push({ taskId: task.id, success: false, error: "Failed to create track" });
           continue;
         }
@@ -126,13 +114,13 @@ serve(async (req) => {
           .single();
 
         if (taskInsertError || !newTask) {
-          console.error("Error creating task:", taskInsertError);
+          logger.error("Error creating task:", taskInsertError);
           results.push({ taskId: task.id, success: false, error: "Failed to create task" });
           continue;
         }
 
         // Prepare Suno API payload - use same format as suno-music-generate
-        const sunoPayload: any = {
+        const sunoPayload: Record<string, unknown> = {
           customMode,
           instrumental,
           model: apiModel, // Use 'model' like in working suno-music-generate
@@ -148,7 +136,7 @@ serve(async (req) => {
         if (track?.negative_tags) sunoPayload.negativeTags = track.negative_tags;
         if (track?.vocal_gender) sunoPayload.vocalGender = track.vocal_gender;
 
-        console.log(
+        logger.info(
           `Calling Suno API for task ${task.id} with model ${apiModel}, payload:`,
           JSON.stringify(sunoPayload),
         );
@@ -164,20 +152,20 @@ serve(async (req) => {
         });
 
         const sunoText = await sunoResponse.text();
-        console.log(`Suno API response for task ${task.id}:`, sunoText);
+        logger.info(`Suno API response for task ${task.id}:`, sunoText);
 
         let sunoData;
         try {
           sunoData = JSON.parse(sunoText);
         } catch (e) {
-          console.error("Failed to parse Suno response:", sunoText);
+          logger.error("Failed to parse Suno response:", sunoText);
           results.push({ taskId: task.id, success: false, error: "Invalid Suno response" });
           continue;
         }
 
         // Check for success - code 200 means success
         if (!sunoResponse.ok || sunoData.code !== 200) {
-          console.error("Suno API error:", sunoData);
+          logger.error("Suno API error:", sunoData);
 
           // Update task with error
           await supabase
@@ -222,7 +210,7 @@ serve(async (req) => {
             .eq("id", newTrack.id);
         }
 
-        console.log(`Successfully started generation for task ${task.id} -> ${newTask.id}`);
+        logger.info(`Successfully started generation for task ${task.id} -> ${newTask.id}`);
         results.push({
           taskId: task.id,
           newTaskId: newTask.id,
@@ -234,13 +222,13 @@ serve(async (req) => {
         // Add delay between requests to avoid rate limiting
         await new Promise((resolve) => setTimeout(resolve, 3000));
       } catch (err) {
-        console.error("Error processing task:", task.id, err);
+        logger.error("Error processing task:", task.id, err);
         results.push({ taskId: task.id, success: false, error: String(err) });
       }
     }
 
     const successCount = results.filter((r) => r.success).length;
-    console.log(`Retry complete: ${successCount}/${failedTasks.length} successful`);
+    logger.info(`Retry complete: ${successCount}/${failedTasks.length} successful`);
 
     return new Response(
       JSON.stringify({
@@ -252,7 +240,7 @@ serve(async (req) => {
       },
     );
   } catch (error) {
-    console.error("Error in retry-failed-tasks:", error);
+    logger.error("Error in retry-failed-tasks:", error);
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

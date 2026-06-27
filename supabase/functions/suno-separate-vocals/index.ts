@@ -2,7 +2,10 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
 import { corsHeaders } from "../_shared/cors.ts";
+import { createLogger } from "../_shared/logger.ts";
 import { getStemSeparationCost } from "../_shared/economy.ts";
+
+const logger = createLogger("suno-separate-vocals");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -22,7 +25,7 @@ serve(async (req) => {
     const body = await req.json();
     const { taskId, audioId, mode = "simple", userId } = body;
 
-    console.log("🎵 Vocal separation request:", { taskId, audioId, mode, userId });
+    logger.info("Vocal separation request", { taskId, audioId, mode, userId });
 
     if (!taskId || !audioId || !userId) {
       throw new Error("taskId, audioId, and userId are required");
@@ -30,7 +33,7 @@ serve(async (req) => {
 
     // Calculate cost based on mode
     const cost = getStemSeparationCost(mode as "simple" | "detailed");
-    console.log(`💰 Stem separation cost: ${cost} credits (mode: ${mode})`);
+    logger.info("Stem separation cost calculated", { cost, mode });
 
     // Check user credits balance
     const { data: userCredits, error: creditsError } = await supabase
@@ -40,12 +43,12 @@ serve(async (req) => {
       .single();
 
     if (creditsError || !userCredits) {
-      console.error("❌ Failed to check user credits:", creditsError);
+      logger.error("Failed to check user credits", creditsError);
       throw new Error("Failed to check user credits");
     }
 
     if (userCredits.balance < cost) {
-      console.error("❌ Insufficient credits:", { balance: userCredits.balance, required: cost });
+      logger.warn("Insufficient credits", { balance: userCredits.balance, required: cost });
       return new Response(
         JSON.stringify({
           success: false,
@@ -66,11 +69,11 @@ serve(async (req) => {
       .single();
 
     if (trackError || !track) {
-      console.error("❌ Track not found:", trackError);
+      logger.error("Track not found", trackError);
       throw new Error("Track not found or access denied");
     }
 
-    console.log("✅ Track verified:", track.id);
+    logger.info("Track verified", { trackId: track.id });
 
     const callbackUrl = `${supabaseUrl}/functions/v1/suno-vocal-callback`;
 
@@ -86,7 +89,7 @@ serve(async (req) => {
       callBackUrl: callbackUrl,
     };
 
-    console.log("📤 Calling Suno API:", requestBody);
+    logger.apiCall("SunoAPI", "vocal-removal/generate", { type: apiType, mode });
 
     const startTime = Date.now();
     const sunoResponse = await fetch("https://api.sunoapi.org/api/v1/vocal-removal/generate", {
@@ -101,8 +104,7 @@ serve(async (req) => {
     const duration = Date.now() - startTime;
     const sunoData = await sunoResponse.json();
 
-    console.log(`📥 Response (${duration}ms):`, JSON.stringify(sunoData, null, 2));
-    console.log(`💰 Cost: $0.02`);
+    logger.info("Suno API response", { duration, status: sunoResponse.status, code: sunoData.code });
 
     // Log API call
     const { error: logError } = await supabase.from("api_usage_logs").insert({
@@ -117,7 +119,7 @@ serve(async (req) => {
       estimated_cost: 0.02,
     });
 
-    if (logError) console.error("⚠️ Log error:", logError);
+    if (logError) logger.warn("Failed to log API usage", logError);
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
       throw new Error(sunoData.msg || "SunoAPI request failed");
@@ -128,7 +130,7 @@ serve(async (req) => {
       throw new Error("No taskId returned from separation API");
     }
 
-    console.log("✅ Separation initiated:", separationTaskId);
+    logger.info("Separation initiated", { separationTaskId });
 
     // Deduct credits after successful API call
     const { error: deductError } = await supabase.rpc("deduct_credits", {
@@ -140,21 +142,21 @@ serve(async (req) => {
     });
 
     if (deductError) {
-      console.error("⚠️ Failed to deduct credits:", deductError);
+      logger.warn("Failed to deduct credits", deductError);
       // Don't fail the request, but log it
     } else {
-      console.log(`✅ Deducted ${cost} credits for stem separation (${mode})`);
-    }
+      logger.info("Credits deducted", { cost, mode });
 
-    // Log credit transaction
-    await supabase.from("credit_transactions").insert({
-      user_id: userId,
-      amount: -cost,
-      transaction_type: "debit",
-      action_type: mode === "detailed" ? "stem_separation_detailed" : "stem_separation_simple",
-      description: `Разделение на стемы (${mode === "detailed" ? "детальное" : "простое"})`,
-      metadata: { track_id: track.id, mode, separation_task_id: separationTaskId },
-    });
+      // Log credit transaction only after successful deduction
+      await supabase.from("credit_transactions").insert({
+        user_id: userId,
+        amount: -cost,
+        transaction_type: "debit",
+        action_type: mode === "detailed" ? "stem_separation_detailed" : "stem_separation_simple",
+        description: `Разделение на стемы (${mode === "detailed" ? "детальное" : "простое"})`,
+        metadata: { track_id: track.id, mode, separation_task_id: separationTaskId },
+      });
+    }
 
     // Save separation task mapping for callback lookup
     const { error: taskError } = await supabase.from("stem_separation_tasks").insert({
@@ -167,7 +169,7 @@ serve(async (req) => {
     });
 
     if (taskError) {
-      console.error("⚠️ Failed to save separation task:", taskError);
+      logger.warn("Failed to save separation task", taskError);
     }
 
     // Log in track changelog
@@ -183,9 +185,10 @@ serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
-  } catch (error: any) {
-    console.error("❌ Error:", error);
-    return new Response(JSON.stringify({ success: false, error: error.message }), {
+  } catch (error: unknown) {
+    logger.error("Vocal separation failed", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
+    return new Response(JSON.stringify({ success: false, error: message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
