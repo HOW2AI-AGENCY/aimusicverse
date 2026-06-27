@@ -1,10 +1,8 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-// Note: createClient import removed - not used in this function
+import { createLogger } from "../_shared/logger.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("get-timestamped-lyrics");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -26,7 +24,7 @@ serve(async (req) => {
       throw new Error("SUNO_API_KEY not configured");
     }
 
-    console.log("Fetching timestamped lyrics:", { taskId, audioId });
+    logger.info("Fetching timestamped lyrics:", { taskId, audioId });
 
     const response = await fetch("https://api.sunoapi.org/api/v1/generate/get-timestamped-lyrics", {
       method: "POST",
@@ -42,7 +40,7 @@ serve(async (req) => {
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("Suno API error:", response.status, errorText);
+      logger.error("Suno API error:", response.status, errorText);
       return new Response(JSON.stringify({ error: "Failed to fetch timestamped lyrics", details: errorText }), {
         status: response.status,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -52,7 +50,7 @@ serve(async (req) => {
     const data = await response.json();
 
     if (data.code !== 200) {
-      console.error("Suno API returned error:", data);
+      logger.error("Suno API returned error:", data);
       const isInsufficientCredits = data.code === 429 || /credits/i.test(data.msg || "");
       return new Response(
         JSON.stringify({
@@ -65,11 +63,11 @@ serve(async (req) => {
       );
     }
 
-    console.log("Successfully fetched timestamped lyrics");
+    logger.info("Successfully fetched timestamped lyrics");
 
     return new Response(JSON.stringify(data.data), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (error) {
-    console.error("Error in get-timestamped-lyrics:", error);
+    logger.error("Error in get-timestamped-lyrics:", error);
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
