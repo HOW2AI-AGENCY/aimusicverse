@@ -1,6 +1,5 @@
 import { type ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { typographyClass } from "@/lib/design-tokens";
 
 /**
  * HomeSectionGroup — semantic cluster wrapper for the home page.
@@ -60,12 +59,7 @@ export const HomeSectionGroup = ({
               </p>
             )}
             {title && (
-              <h2
-                className={cn(
-                  "text-xl sm:text-2xl font-semibold tracking-tight text-foreground",
-                  typographyClass.heading,
-                )}
-              >
+              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground">
                 {title}
               </h2>
             )}
