@@ -34,12 +34,10 @@ interface DiscoverTabsProps {
 const Grid = memo(function Grid({
   tracks,
   columns,
-  onRemix,
   onTrackClick,
 }: {
   tracks: TrackData[];
   columns: number;
-  onRemix?: (id: string) => void;
   onTrackClick?: (id: string) => void;
 }) {
   if (!tracks.length) {
@@ -58,7 +56,6 @@ const Grid = memo(function Grid({
           track={track}
           variant="grid"
           onPlay={() => onTrackClick?.(track.id)}
-          onRemix={onRemix ? () => onRemix(track.id) : undefined}
           showActions={false}
         />
       ))}
