@@ -288,6 +288,34 @@ npm run size              # Bundle budget guard (max 950 KB)
 
 ---
 
+## 🛟 Troubleshooting: white screen / app won't load
+
+Use these scripts when the app refuses to boot, you see a blank screen,
+or `Загрузка занимает больше времени...` hangs in the browser.
+
+```bash
+npm run check:css-imports   # Validate @import order in src/index.css
+npm run clean:cache         # Wipe node_modules/.vite, dist, .turbo, coverage
+npm run reset               # clean:cache + npm install + full rebuild
+```
+
+| Symptom | Run first | Why |
+| --- | --- | --- |
+| White screen after a CSS edit | `npm run check:css-imports` | Misplaced `@import` in `src/index.css` is silently dropped by Vite and breaks all styles. The script points at the exact line and shows the correct structure. |
+| Dev server stuck / stale modules / weird HMR | `npm run clean:cache` then `npm run dev` | Clears `node_modules/.vite` + other caches that survive code changes. |
+| "Works in prod, broken locally" or vice versa | `npm run reset` | Full clean install + production build from scratch. |
+| CI build fails with CSS errors | Read the `vite-build-log` artifact in the PR | Full `vite build` stdout/stderr is uploaded on every PR; the `smoke-boot-log` artifact also contains `musicverse_boot_log` and any captured stack traces. |
+
+`check:css-imports` runs automatically:
+
+- on every commit via Husky `pre-commit` (commit is blocked on violation),
+- before every `npm run build` (`prebuild` hook),
+- in CI before `vite build`.
+
+---
+
+
+
 ## 📚 Documentation
 
 | Section | Entry point |
