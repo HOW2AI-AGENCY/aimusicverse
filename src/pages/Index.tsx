@@ -39,6 +39,7 @@ import { CreativePresetsSection } from "@/components/home/CreativePresetsSection
 import { StatsHighlightBanner } from "@/components/home/StatsHighlightBanner";
 import { DailyTipCard } from "@/components/home/DailyTipCard";
 import { HomeSection } from "@/components/home/HomeSection";
+import { HomeSectionGroup } from "@/components/home/HomeSectionGroup";
 
 // Lazy loaded components
 const GamificationBar = lazy(() =>
@@ -120,16 +121,11 @@ const Index = () => {
   }, [prefersReducedMotion, isLoading]);
 
   // ====== Section renderers (single source of truth, no duplication) ======
+  // Spacing is now controlled by parent group wrappers via `space-y-*`,
+  // individual `mb-*` margins removed for a unified rhythm.
   const sections = {
     gamification: user ? (
-      <HomeSection
-        key="gamification"
-        sectionId="gamification"
-        as="div"
-        className={isMobile ? "mb-4" : undefined}
-        animation={fadeInUp}
-        fallback={null}
-      >
+      <HomeSection key="gamification" sectionId="gamification" as="div" animation={fadeInUp} fallback={null}>
         <GamificationBar />
       </HomeSection>
     ) : null,
@@ -138,7 +134,6 @@ const Index = () => {
       <HomeSection
         key="newUserHero"
         sectionId="hero"
-        className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
         fallback={
           <div data-safe-skeleton="">
@@ -151,34 +146,21 @@ const Index = () => {
     ) : null,
 
     newUserProgress: isNewUser ? (
-      <HomeSection
-        key="newUserProgress"
-        sectionId="new-user-progress"
-        className={isMobile ? "mb-3" : undefined}
-        animation={lazySectionAnimation}
-        fallback={null}
-      >
+      <HomeSection key="newUserProgress" sectionId="new-user-progress" animation={lazySectionAnimation} fallback={null}>
         <NewUserProgress />
       </HomeSection>
     ) : null,
 
-    continueDraft: !isNewUser ? (
-      <ContinueDraftCard key="continueDraft" onContinue={handleCreate} className={isMobile ? "mb-3" : undefined} />
-    ) : null,
+    continueDraft: !isNewUser ? <ContinueDraftCard key="continueDraft" onContinue={handleCreate} /> : null,
 
     quickCreate: !isNewUser ? (
-      <HomeSection
-        key="quickCreate"
-        sectionId="quick-create"
-        className={isMobile ? "mb-3" : undefined}
-        animation={fadeInUp}
-      >
+      <HomeSection key="quickCreate" sectionId="quick-create" animation={fadeInUp}>
         <HomeQuickCreate onCreateClick={handleCreate} />
       </HomeSection>
     ) : null,
 
     stats: (
-      <HomeSection key="stats" sectionId="stats" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
+      <HomeSection key="stats" sectionId="stats" animation={fadeInUp}>
         <div data-testid="stats-highlight">
           <StatsHighlightBanner />
         </div>
@@ -186,18 +168,13 @@ const Index = () => {
     ),
 
     creativePresets: (
-      <HomeSection
-        key="creativePresets"
-        sectionId="quick-start"
-        className={isMobile ? "mb-4" : undefined}
-        animation={fadeInUp}
-      >
+      <HomeSection key="creativePresets" sectionId="quick-start" animation={fadeInUp}>
         <CreativePresetsSection onTrackPresetSelect={handleQuickGenrePreset} />
       </HomeSection>
     ),
 
     featured: (
-      <HomeSection key="featured" sectionId="featured" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
+      <HomeSection key="featured" sectionId="featured" animation={fadeInUp}>
         <FeaturedSection
           tracks={popularTracks}
           isLoading={isLoading}
@@ -211,7 +188,7 @@ const Index = () => {
     ),
 
     dailyTip: !isNewUser ? (
-      <HomeSection key="dailyTip" sectionId="daily-tip" className={isMobile ? "mb-3" : undefined} animation={fadeInUp}>
+      <HomeSection key="dailyTip" sectionId="daily-tip" animation={fadeInUp}>
         <DailyTipCard />
       </HomeSection>
     ) : null,
@@ -220,7 +197,6 @@ const Index = () => {
       <HomeSection
         key="recent"
         sectionId="popular"
-        className={isMobile ? "mb-3" : undefined}
         animation={fadeInUp}
         fallback={
           <div data-safe-skeleton="">
@@ -233,18 +209,13 @@ const Index = () => {
     ) : null,
 
     quickStart: !isNewUser ? (
-      <HomeSection
-        key="quickStart"
-        sectionId="quick-start-cards"
-        className={isMobile ? "mb-3" : undefined}
-        animation={fadeInUp}
-      >
+      <HomeSection key="quickStart" sectionId="quick-start-cards" animation={fadeInUp}>
         <QuickStartCards onPresetSelect={handleQuickStartPreset} />
       </HomeSection>
     ) : null,
 
     newTracksGrid: (
-      <LazySection key="newTracksGrid" className={isMobile ? "mb-3" : undefined} minHeight="120px" skipSuspense>
+      <LazySection key="newTracksGrid" minHeight="120px" skipSuspense>
         <HomeSection as="div" sectionId="new" animation={lazySectionAnimation}>
           <TracksGridSection
             title="✨ Новинки"
@@ -266,45 +237,79 @@ const Index = () => {
     ),
   };
 
-  // Desktop: 8/4 split — main column / sticky right rail. Order/content preserved.
+  // Desktop: 8/4 split — main column / sticky right rail.
+  // Sections are clustered into semantic groups with consistent rhythm.
   const renderDesktopLayout = () => (
-    <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 xl:gap-8 items-start">
-      <div className="xl:col-span-8 min-w-0 overflow-hidden space-y-4 xl:space-y-6">
-        {sections.newUserHero}
-        {sections.newUserProgress}
-        {sections.continueDraft}
-        {sections.quickCreate}
-        {sections.creativePresets}
-        {sections.featured}
-        {sections.newTracksGrid}
+    <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+      <div className="xl:col-span-8 min-w-0 overflow-hidden space-y-10">
+        <HomeSectionGroup>
+          {sections.newUserHero}
+          {sections.newUserProgress}
+          {sections.continueDraft}
+          {sections.quickCreate}
+        </HomeSectionGroup>
+
+        <HomeSectionGroup eyebrow="Создать" tone="primary">
+          {sections.creativePresets}
+        </HomeSectionGroup>
+
+        <HomeSectionGroup eyebrow="Сейчас популярно" tone="accent">
+          {sections.featured}
+        </HomeSectionGroup>
+
+        <HomeSectionGroup eyebrow="Свежее">
+          {sections.newTracksGrid}
+        </HomeSectionGroup>
       </div>
-      <aside className="xl:col-span-4 min-w-0 overflow-hidden xl:sticky xl:top-6 space-y-4">
-        {sections.stats}
-        {sections.gamification}
-        {sections.dailyTip}
-        {sections.recent}
-        {sections.quickStart}
+
+      <aside className="xl:col-span-4 min-w-0 overflow-hidden xl:sticky xl:top-6 space-y-8">
+        <HomeSectionGroup>
+          {sections.stats}
+          {sections.gamification}
+        </HomeSectionGroup>
+
+        <HomeSectionGroup eyebrow="Для вас" tone="muted">
+          {sections.dailyTip}
+          {sections.recent}
+          {sections.quickStart}
+        </HomeSectionGroup>
       </aside>
     </div>
   );
 
-  // Mobile single column — same content, mobile order.
+  // Mobile: single column with same semantic clusters.
   const renderMobileLayout = () => (
-    <>
-      {sections.gamification}
-      {sections.newUserHero}
-      {sections.newUserProgress}
-      {sections.continueDraft}
-      {sections.quickCreate}
-      {sections.stats}
-      {sections.creativePresets}
-      {sections.featured}
-      {sections.dailyTip}
-      {sections.recent}
-      {sections.quickStart}
-      {sections.newTracksGrid}
-    </>
+    <div className="space-y-10">
+      <HomeSectionGroup>
+        {sections.gamification}
+        {sections.newUserHero}
+        {sections.newUserProgress}
+        {sections.continueDraft}
+        {sections.quickCreate}
+      </HomeSectionGroup>
+
+      <HomeSectionGroup eyebrow="Создать" tone="primary">
+        {sections.stats}
+        {sections.creativePresets}
+      </HomeSectionGroup>
+
+      <HomeSectionGroup eyebrow="Сейчас популярно" tone="accent">
+        {sections.featured}
+      </HomeSectionGroup>
+
+      <HomeSectionGroup eyebrow="Для вас">
+        {sections.dailyTip}
+        {sections.recent}
+        {sections.quickStart}
+      </HomeSectionGroup>
+
+      <HomeSectionGroup eyebrow="Свежее">
+        {sections.newTracksGrid}
+      </HomeSectionGroup>
+    </div>
   );
+
+
 
   // Bottom spacing: BottomNav (~80px) + CompactPlayer (~72px when active) + safe-area.
   const wrapperPaddingBottom = isMobile
