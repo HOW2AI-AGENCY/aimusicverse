@@ -1,6 +1,8 @@
 /**
- * OptimizedTrackRow - Lightweight version of StudioTrackRow
- * Optimized for virtualized lists with minimal re-renders
+ * OptimizedTrackRow - Dense, cover-led track lane card
+ *
+ * Redesign: cover swatch on the left, single-row dense header,
+ * inline status chip, M/S/Vol controls right-aligned, waveform below.
  */
 
 import { memo, useCallback, useState } from "react";
@@ -15,59 +17,78 @@ import {
   Waves,
   Sliders,
   GripVertical,
+  Loader2,
+  AlertCircle,
+  CheckCircle2,
+  Clock,
 } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
 import { UnifiedWaveform, type StemType } from "@/components/waveform/UnifiedWaveform";
 
-// Track type configuration - static, not recreated
 const TRACK_CONFIG = {
   main: {
     icon: Music,
     shortLabel: "MAIN",
-    gradient: "from-primary/20 to-primary/5",
-    accent: "text-primary bg-primary/20 border-primary/30",
+    cover: "from-primary to-primary/60",
+    accent: "text-primary bg-primary/15 border-primary/30",
   },
   vocal: {
     icon: Mic2,
     shortLabel: "VOX",
-    gradient: "from-blue-500/20 to-blue-600/5",
-    accent: "text-blue-400 bg-blue-500/20 border-blue-500/30",
+    cover: "from-blue-500 to-blue-700",
+    accent: "text-blue-300 bg-blue-500/15 border-blue-500/30",
   },
   instrumental: {
     icon: Guitar,
     shortLabel: "INS",
-    gradient: "from-green-500/20 to-green-600/5",
-    accent: "text-green-400 bg-green-500/20 border-green-500/30",
+    cover: "from-emerald-500 to-emerald-700",
+    accent: "text-emerald-300 bg-emerald-500/15 border-emerald-500/30",
   },
   drums: {
     icon: Drum,
     shortLabel: "DRM",
-    gradient: "from-orange-500/20 to-orange-600/5",
-    accent: "text-orange-400 bg-orange-500/20 border-orange-500/30",
+    cover: "from-orange-500 to-red-600",
+    accent: "text-orange-300 bg-orange-500/15 border-orange-500/30",
   },
   bass: {
     icon: Waves,
     shortLabel: "BAS",
-    gradient: "from-purple-500/20 to-purple-600/5",
-    accent: "text-purple-400 bg-purple-500/20 border-purple-500/30",
+    cover: "from-purple-500 to-fuchsia-700",
+    accent: "text-purple-300 bg-purple-500/15 border-purple-500/30",
   },
   stem: {
     icon: Sliders,
     shortLabel: "STM",
-    gradient: "from-cyan-500/20 to-cyan-600/5",
-    accent: "text-cyan-400 bg-cyan-500/20 border-cyan-500/30",
+    cover: "from-cyan-500 to-sky-700",
+    accent: "text-cyan-300 bg-cyan-500/15 border-cyan-500/30",
   },
   other: {
     icon: Music,
     shortLabel: "OTH",
-    gradient: "from-gray-500/20 to-gray-600/5",
-    accent: "text-gray-400 bg-gray-500/20 border-gray-500/30",
+    cover: "from-zinc-500 to-zinc-700",
+    accent: "text-zinc-300 bg-zinc-500/15 border-zinc-500/30",
   },
 } as const;
 
 type TrackType = keyof typeof TRACK_CONFIG;
+export type TrackRowStatus = "ready" | "pending" | "processing" | "failed";
+
+const STATUS_META: Record<TrackRowStatus, { label: string; icon: typeof Loader2; className: string }> = {
+  ready: {
+    label: "Готово",
+    icon: CheckCircle2,
+    className: "text-emerald-300 bg-emerald-500/10 border-emerald-500/30",
+  },
+  pending: { label: "В очереди", icon: Clock, className: "text-amber-300 bg-amber-500/10 border-amber-500/30" },
+  processing: {
+    label: "Генерация",
+    icon: Loader2,
+    className: "text-sky-300 bg-sky-500/10 border-sky-500/30",
+  },
+  failed: { label: "Ошибка", icon: AlertCircle, className: "text-rose-300 bg-rose-500/10 border-rose-500/30" },
+};
 
 export interface OptimizedTrackRowProps {
   id: string;
@@ -81,6 +102,8 @@ export interface OptimizedTrackRowProps {
   currentTime: number;
   duration: number;
   hasSoloTracks?: boolean;
+  status?: TrackRowStatus;
+  coverUrl?: string;
   onToggleMute: (id: string) => void;
   onToggleSolo: (id: string) => void;
   onVolumeChange: (id: string, volume: number) => void;
@@ -88,103 +111,31 @@ export interface OptimizedTrackRowProps {
   onOpenMenu?: (id: string) => void;
 }
 
-// Memoized header controls
-const TrackControls = memo(function TrackControls({
-  id,
-  volume,
-  muted,
-  solo,
-  showVolume,
-  onToggleVolume,
-  onToggleMute,
-  onToggleSolo,
-  onOpenMenu,
+const ControlButton = memo(function ControlButton({
+  label,
+  active,
+  tone,
+  onClick,
 }: {
-  id: string;
-  volume: number;
-  muted: boolean;
-  solo: boolean;
-  showVolume: boolean;
-  onToggleVolume: () => void;
-  onToggleMute: () => void;
-  onToggleSolo: () => void;
-  onOpenMenu?: () => void;
+  label: string;
+  active: boolean;
+  tone: "destructive" | "primary";
+  onClick: () => void;
 }) {
   return (
-    <div className="flex items-center gap-1">
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={onToggleMute}
-        className={cn(
-          "h-8 w-8 p-0 rounded-lg font-mono text-[10px] font-bold touch-manipulation",
-          muted
-            ? "bg-destructive text-destructive-foreground"
-            : "text-muted-foreground hover:text-foreground hover:bg-muted",
-        )}
-      >
-        M
-      </Button>
-
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={onToggleSolo}
-        className={cn(
-          "h-8 w-8 p-0 rounded-lg font-mono text-[10px] font-bold touch-manipulation",
-          solo ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground hover:bg-muted",
-        )}
-      >
-        S
-      </Button>
-
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={onToggleVolume}
-        className={cn("h-8 px-2 rounded-lg text-[10px] font-mono touch-manipulation", showVolume && "bg-muted")}
-      >
-        {Math.round(volume * 100)}
-      </Button>
-
-      {onOpenMenu && (
-        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-lg touch-manipulation" onClick={onOpenMenu}>
-          <MoreHorizontal className="w-4 h-4" />
-        </Button>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={onClick}
+      className={cn(
+        "h-7 w-7 p-0 rounded-md font-mono text-[10px] font-bold touch-manipulation transition-colors",
+        active && tone === "destructive" && "bg-destructive text-destructive-foreground",
+        active && tone === "primary" && "bg-primary text-primary-foreground",
+        !active && "text-muted-foreground hover:text-foreground hover:bg-muted",
       )}
-    </div>
-  );
-});
-
-// Memoized volume slider
-const VolumeSlider = memo(function VolumeSlider({
-  volume,
-  muted,
-  onVolumeChange,
-  onToggleMute,
-}: {
-  volume: number;
-  muted: boolean;
-  onVolumeChange: (v: number) => void;
-  onToggleMute: () => void;
-}) {
-  return (
-    <div className="px-3 pb-2">
-      <div className="flex items-center gap-2">
-        <Button variant="ghost" size="icon" className="h-6 w-6" onClick={onToggleMute}>
-          {muted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
-        </Button>
-        <Slider
-          value={[volume]}
-          min={0}
-          max={1}
-          step={0.01}
-          onValueChange={(v) => onVolumeChange(v[0])}
-          className="flex-1"
-          disabled={muted}
-        />
-      </div>
-    </div>
+    >
+      {label}
+    </Button>
   );
 });
 
@@ -200,6 +151,8 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
   currentTime,
   duration,
   hasSoloTracks = false,
+  status = "ready",
+  coverUrl,
   onToggleMute,
   onToggleSolo,
   onVolumeChange,
@@ -210,11 +163,12 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
 
   const config = TRACK_CONFIG[type] || TRACK_CONFIG.other;
   const Icon = config.icon;
+  const statusMeta = STATUS_META[status];
+  const StatusIcon = statusMeta.icon;
 
-  // Effective muted state
   const effectiveMuted = muted || (hasSoloTracks && !solo);
+  const isBusy = status === "pending" || status === "processing";
 
-  // Stable callbacks with id bound
   const handleToggleMute = useCallback(() => onToggleMute(id), [id, onToggleMute]);
   const handleToggleSolo = useCallback(() => onToggleSolo(id), [id, onToggleSolo]);
   const handleVolumeChange = useCallback((v: number) => onVolumeChange(id, v), [id, onVolumeChange]);
@@ -222,55 +176,109 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
   const handleToggleVolume = useCallback(() => setShowVolume((v) => !v), []);
 
   return (
-    <div className={cn("relative", effectiveMuted && "opacity-50")}>
+    <div className={cn("relative", effectiveMuted && "opacity-60")}>
       <div
         className={cn(
-          "flex flex-col rounded-xl overflow-hidden",
-          "bg-gradient-to-r",
-          config.gradient,
-          "border border-border/30",
+          "flex flex-col rounded-xl overflow-hidden border border-border/40 bg-card/60 backdrop-blur",
+          "transition-shadow hover:shadow-md",
+          status === "failed" && "border-rose-500/40",
         )}
       >
-        {/* Header */}
-        <div className="flex items-center gap-2 px-3 py-2">
-          <GripVertical className="h-4 w-4 text-muted-foreground/50 cursor-grab" />
+        {/* Dense header row: grip · cover · name+status · controls */}
+        <div className="flex items-center gap-2 px-2 py-2">
+          <GripVertical className="h-4 w-4 text-muted-foreground/40 cursor-grab shrink-0" />
 
-          {/* Track icon + label */}
-          <div className="flex items-center gap-2 min-w-0 flex-1">
-            <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0 border", config.accent)}>
-              <Icon className="w-3.5 h-3.5" />
+          {/* Cover swatch */}
+          <div
+            className={cn(
+              "relative h-10 w-10 shrink-0 rounded-md overflow-hidden bg-gradient-to-br",
+              config.cover,
+              "flex items-center justify-center",
+            )}
+          >
+            {coverUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={coverUrl} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <Icon className="h-4 w-4 text-white/90" />
+            )}
+            <span className="absolute bottom-0 left-0 right-0 text-center text-[8px] font-mono font-bold text-white/90 bg-black/30 leading-tight py-px">
+              {config.shortLabel}
+            </span>
+          </div>
+
+          {/* Name + status */}
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-1.5">
+              <span className="text-sm font-semibold truncate">{name}</span>
             </div>
-            <div className="min-w-0 flex-1">
-              <span className="text-xs font-mono font-semibold truncate block">{name}</span>
-              <span className="text-[10px] text-muted-foreground">{config.shortLabel}</span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span
+                className={cn(
+                  "inline-flex items-center gap-1 px-1.5 h-4 rounded text-[9px] font-medium border",
+                  statusMeta.className,
+                )}
+              >
+                <StatusIcon className={cn("h-2.5 w-2.5", isBusy && "animate-spin")} />
+                {statusMeta.label}
+              </span>
+              <span className={cn("text-[10px] px-1 rounded border", config.accent)}>{config.shortLabel}</span>
             </div>
           </div>
 
-          <TrackControls
-            id={id}
-            volume={volume}
-            muted={muted}
-            solo={solo}
-            showVolume={showVolume}
-            onToggleVolume={handleToggleVolume}
-            onToggleMute={handleToggleMute}
-            onToggleSolo={handleToggleSolo}
-            onOpenMenu={onOpenMenu ? handleOpenMenu : undefined}
-          />
+          {/* Controls */}
+          <div className="flex items-center gap-0.5 shrink-0">
+            <ControlButton label="M" active={muted} tone="destructive" onClick={handleToggleMute} />
+            <ControlButton label="S" active={solo} tone="primary" onClick={handleToggleSolo} />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleToggleVolume}
+              className={cn(
+                "h-7 px-2 rounded-md text-[10px] font-mono touch-manipulation",
+                showVolume && "bg-muted",
+              )}
+            >
+              {Math.round(volume * 100)}
+            </Button>
+            {onOpenMenu && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-7 w-7 p-0 rounded-md touch-manipulation"
+                onClick={handleOpenMenu}
+              >
+                <MoreHorizontal className="w-4 h-4" />
+              </Button>
+            )}
+          </div>
         </div>
 
-        {/* Volume slider */}
+        {/* Inline volume slider */}
         {showVolume && (
-          <VolumeSlider
-            volume={volume}
-            muted={muted}
-            onVolumeChange={handleVolumeChange}
-            onToggleMute={handleToggleMute}
-          />
+          <div className="px-3 pb-2">
+            <div className="flex items-center gap-2">
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={handleToggleMute}>
+                {muted ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
+              </Button>
+              <Slider
+                value={[volume]}
+                min={0}
+                max={1}
+                step={0.01}
+                onValueChange={(v) => handleVolumeChange(v[0])}
+                className="flex-1"
+                disabled={muted}
+              />
+              <span className="text-[10px] font-mono text-muted-foreground w-7 text-right">
+                {Math.round(volume * 100)}
+              </span>
+            </div>
+          </div>
         )}
 
         {/* Waveform */}
-        <div className="h-14 relative">
+        <div className="h-12 relative bg-muted/20">
           {audioUrl ? (
             <>
               <UnifiedWaveform
@@ -281,7 +289,7 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
                 isMuted={muted}
                 stemType={type as StemType}
                 mode="stem"
-                height={56}
+                height={48}
                 onSeek={onSeek}
               />
               {duration > 0 && (
@@ -295,8 +303,17 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
               )}
             </>
           ) : (
-            <div className="h-full flex items-center justify-center bg-muted/20">
-              <span className="text-xs text-muted-foreground">Нет аудио</span>
+            <div className="h-full flex items-center justify-center gap-2">
+              {isBusy ? (
+                <>
+                  <Loader2 className="h-3 w-3 animate-spin text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">{statusMeta.label}…</span>
+                </>
+              ) : status === "failed" ? (
+                <span className="text-xs text-rose-300">Не удалось сгенерировать</span>
+              ) : (
+                <span className="text-xs text-muted-foreground">Нет аудио</span>
+              )}
             </div>
           )}
         </div>
