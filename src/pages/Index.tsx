@@ -32,6 +32,7 @@ import { ContinueDraftCard } from "@/components/home/ContinueDraftCard";
 import { CreativePresetsSection } from "@/components/home/CreativePresetsSection";
 import { DiscoverTabs } from "@/components/home/DiscoverTabs";
 import { YouStrip } from "@/components/home/YouStrip";
+import { Section, sectionTokens } from "@/components/layout/Section";
 
 const GenerateSheet = lazy(() => import("@/components/GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
 const MusicRecognitionDialog = lazy(() =>
