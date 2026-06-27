@@ -15,6 +15,7 @@
   <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
 </p>
 
+<!-- BADGES:START -->
 <p>
   <img alt="React" src="https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/>
@@ -23,6 +24,9 @@
   <img alt="Supabase" src="https://img.shields.io/badge/Lovable_Cloud-2.86-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white"/>
   <img alt="Suno" src="https://img.shields.io/badge/Suno_AI-v5-9333EA?style=for-the-badge"/>
 </p>
+<!-- BADGES:END -->
+
+
 
 <p>
   <a href="#-quick-start"><img src="https://img.shields.io/badge/🚀-Quick_Start-26A5E4?style=for-the-badge"/></a>
