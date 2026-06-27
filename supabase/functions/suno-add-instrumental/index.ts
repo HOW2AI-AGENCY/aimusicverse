@@ -1,11 +1,10 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { getSupabaseClient } from "../_shared/supabase-client.ts";
+import { createLogger } from "../_shared/logger.ts";
 import { isSunoSuccessCode } from "../_shared/suno.ts";
+import { corsHeaders } from "../_shared/cors.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+const logger = createLogger("suno-add-instrumental");
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -16,7 +15,7 @@ serve(async (req) => {
     const sunoApiKey = Deno.env.get("SUNO_API_KEY");
 
     if (!sunoApiKey) {
-      console.error("SUNO_API_KEY not configured");
+      logger.error("SUNO_API_KEY not configured");
       return new Response(JSON.stringify({ error: "API key not configured" }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -111,7 +110,7 @@ serve(async (req) => {
     // Use default negativeTags if not provided or empty
     const effectiveNegativeTags = negativeTags?.trim() || "low quality, distorted, amateur";
 
-    console.log("🎸 Adding instrumental to vocals:", {
+    logger.info("🎸 Adding instrumental to vocals:", {
       customMode,
       model,
       userId: user.id,
@@ -128,7 +127,7 @@ serve(async (req) => {
     if (audioUrl) {
       // Use existing URL directly
       uploadUrl = audioUrl;
-      console.log("✅ Using existing audio URL:", uploadUrl);
+      logger.info("✅ Using existing audio URL:", uploadUrl);
     } else {
       // Upload audio to Supabase Storage
       const fileName = `${user.id}/uploads/${Date.now()}-${audioFile.name || "audio.mp3"}`;
@@ -142,9 +141,9 @@ serve(async (req) => {
         } else {
           audioBuffer = new Uint8Array(audioFile.data);
         }
-        console.log("✅ Audio buffer created:", audioBuffer.length, "bytes");
+        logger.info("✅ Audio buffer created:", audioBuffer.length, "bytes");
       } catch (error) {
-        console.error("❌ Failed to decode audio file:", error);
+        logger.error("❌ Failed to decode audio file:", error);
         throw new Error("Invalid audio file format");
       }
 
@@ -156,7 +155,7 @@ serve(async (req) => {
         });
 
       if (uploadError) {
-        console.error("❌ Upload error:", uploadError);
+        logger.error("❌ Upload error:", uploadError);
         return new Response(JSON.stringify({ error: `Failed to upload audio: ${uploadError.message}` }), {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -167,13 +166,13 @@ serve(async (req) => {
       const { data: publicUrlData } = supabase.storage.from("project-assets").getPublicUrl(fileName);
 
       uploadUrl = publicUrlData.publicUrl;
-      console.log("✅ Audio uploaded:", uploadUrl);
+      logger.info("✅ Audio uploaded:", uploadUrl);
     }
     const callBackUrl = `${supabaseUrl}/functions/v1/suno-music-callback`;
 
-    console.log("✅ Audio uploaded, calling Suno API add-instrumental");
-    console.log("📋 Upload URL:", uploadUrl);
-    console.log("📋 Callback URL:", callBackUrl);
+    logger.info("✅ Audio uploaded, calling Suno API add-instrumental");
+    logger.info("📋 Upload URL:", uploadUrl);
+    logger.info("📋 Callback URL:", callBackUrl);
 
     // Build request body - per SunoAPI OpenAPI docs
     // Required: uploadUrl, title, tags, negativeTags, callBackUrl
@@ -205,8 +204,8 @@ serve(async (req) => {
       requestBody.vocalGender = vocalGender;
     }
 
-    console.log("📋 Suno add-instrumental payload:", JSON.stringify(requestBody, null, 2));
-    console.log(
+    logger.info("📋 Suno add-instrumental payload:", JSON.stringify(requestBody, null, 2));
+    logger.info(
       "🎚️ Audio weight:",
       effectiveAudioWeight,
       "| Style weight:",
@@ -228,7 +227,7 @@ serve(async (req) => {
     const sunoData = await sunoResponse.json();
 
     if (!sunoResponse.ok || !isSunoSuccessCode(sunoData.code)) {
-      console.error("❌ Suno API error:", JSON.stringify(sunoData, null, 2));
+      logger.error("❌ Suno API error:", JSON.stringify(sunoData, null, 2));
       return new Response(
         JSON.stringify({
           error: sunoData.msg || "Failed to add instrumental",
@@ -242,11 +241,11 @@ serve(async (req) => {
     const sunoTaskId = sunoData.data?.taskId;
 
     if (!sunoTaskId) {
-      console.error("❌ No taskId in Suno response:", JSON.stringify(sunoData, null, 2));
+      logger.error("❌ No taskId in Suno response:", JSON.stringify(sunoData, null, 2));
       throw new Error("No taskId in Suno response");
     }
 
-    console.log("✅ Suno add-instrumental task created:", sunoTaskId);
+    logger.info("✅ Suno add-instrumental task created:", sunoTaskId);
 
     // Create track record
     const { data: track, error: trackError } = await supabase
@@ -268,7 +267,7 @@ serve(async (req) => {
       .single();
 
     if (trackError) {
-      console.error("Track creation error:", trackError);
+      logger.error("Track creation error:", trackError);
       throw trackError;
     }
 
@@ -302,11 +301,11 @@ serve(async (req) => {
       .single();
 
     if (taskError) {
-      console.error("Task creation error:", taskError);
+      logger.error("Task creation error:", taskError);
       throw taskError;
     }
 
-    console.log("✅ Generation task created:", generationTask?.id, "openInStudio:", openInStudio);
+    logger.info("✅ Generation task created:", generationTask?.id, "openInStudio:", openInStudio);
 
     return new Response(
       JSON.stringify({
@@ -318,7 +317,7 @@ serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error: any) {
-    console.error("Error in suno-add-instrumental:", error);
+    logger.error("Error in suno-add-instrumental:", error);
     return new Response(JSON.stringify({ error: error.message || "Internal server error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
