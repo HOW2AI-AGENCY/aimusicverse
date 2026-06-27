@@ -41,7 +41,7 @@ const STEPS = [
 
 export const FirstTimeHeroCard = memo(function FirstTimeHeroCard({ onCreateClick, className }: FirstTimeHeroCardProps) {
   return (
-    <section className={cn("relative overflow-hidden rounded-2xl", className)}>
+    <section className={cn("relative overflow-hidden rounded-2xl noise-overlay mesh-hero", className)}>
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-background to-generate/10" />
 

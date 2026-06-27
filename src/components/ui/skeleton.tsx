@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 const skeletonVariants = cva("rounded-md bg-muted/60 relative overflow-hidden isolate", {
   variants: {
     animation: {
-      shimmer: "skeleton-shimmer-optimized",
+      shimmer: "skeleton-aurora",
       pulse: "animate-pulse",
       wave: "skeleton-wave",
       none: "opacity-60",

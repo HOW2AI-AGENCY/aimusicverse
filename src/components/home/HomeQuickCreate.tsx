@@ -43,7 +43,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
         "border border-primary/25",
         glass.subtle,
         "p-4 sm:p-5 lg:p-6",
-        "group",
+        "group noise-overlay",
         className,
       )}
     >
@@ -64,7 +64,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
               <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-primary drop-shadow-sm" />
             </motion.div>
             <div className="min-w-0 flex-1">
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight">Создать музыку</h2>
+              <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground leading-tight font-display">Создать музыку</h2>
               <p className="text-xs sm:text-sm lg:text-base text-muted-foreground leading-snug">
                 AI сгенерирует трек за минуту
               </p>
@@ -84,7 +84,7 @@ export const HomeQuickCreate = memo(function HomeQuickCreate({ onCreateClick, cl
               "flex-1 h-12 lg:h-14 min-h-touch",
               "bg-gradient-to-r from-primary to-generate",
               "text-white font-semibold lg:text-lg",
-              "shadow-lg shadow-primary/25",
+              "shadow-lg shadow-primary/25 glow-primary",
               "hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5",
               "active:scale-95",
               "transition-all duration-200",

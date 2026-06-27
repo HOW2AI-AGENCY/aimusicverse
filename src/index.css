@@ -308,6 +308,10 @@ All colors MUST be HSL.
     overflow-anchor: auto;
   }
 
+  h1, h2, h3, h4, h5 {
+    font-family: var(--font-display);
+  }
+
   body {
     @apply bg-background text-foreground;
     /* Адаптация под полноэкранный режим Telegram Mini App */
@@ -2196,4 +2200,156 @@ select:focus-visible,
   .hairline {
     border-color: hsl(var(--border) / 0.6);
   }
+}
+
+/* =========================================
+   Phase 2: Visual Identity — Noise, Glow, Atmosphere
+   ========================================= */
+
+/* Noise grain overlay — adds film-like texture to dark backgrounds */
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.dark .noise-overlay::after {
+  opacity: 0.05;
+}
+
+/* Aurora glow — signature radial glow behind hero/CTA elements */
+.aurora-glow {
+  position: relative;
+}
+.aurora-glow::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -20%;
+  right: -20%;
+  bottom: -40%;
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    hsl(var(--primary) / 0.12) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    ellipse at 70% 50%,
+    hsl(var(--generate) / 0.08) 0%,
+    transparent 50%
+  );
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(40px);
+}
+
+.dark .aurora-glow::before {
+  background: radial-gradient(
+    ellipse at 30% 50%,
+    hsl(152 42% 56% / 0.1) 0%,
+    transparent 50%
+  ),
+  radial-gradient(
+    ellipse at 70% 50%,
+    hsl(199 70% 62% / 0.07) 0%,
+    transparent 50%
+  );
+}
+
+/* Mesh gradient background for hero sections */
+.mesh-hero {
+  position: relative;
+  overflow: hidden;
+}
+.mesh-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 0%, hsl(var(--primary) / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, hsl(var(--generate) / 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, hsl(var(--library) / 0.04) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dark .mesh-hero::before {
+  background:
+    radial-gradient(ellipse at 20% 0%, hsl(152 42% 56% / 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 100%, hsl(262 55% 70% / 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, hsl(199 70% 62% / 0.04) 0%, transparent 60%);
+}
+
+/* Signature glow ring for primary action buttons */
+@keyframes aurora-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 20px hsl(var(--primary) / 0.25),
+      0 0 40px hsl(var(--primary) / 0.1);
+  }
+  50% {
+    box-shadow:
+      0 0 28px hsl(var(--primary) / 0.35),
+      0 0 56px hsl(var(--primary) / 0.15);
+  }
+}
+
+.glow-primary {
+  animation: aurora-pulse 3s ease-in-out infinite;
+}
+
+/* Branded skeleton shimmer — uses aurora gradient instead of generic grey */
+@keyframes aurora-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-aurora {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 0%,
+    hsl(var(--primary) / 0.08) 40%,
+    hsl(var(--generate) / 0.06) 60%,
+    hsl(var(--muted)) 100%
+  );
+  background-size: 200% 100%;
+  animation: aurora-shimmer 2s ease-in-out infinite;
+  border-radius: var(--radius);
+}
+
+.dark .skeleton-aurora {
+  background: linear-gradient(
+    90deg,
+    hsl(227 28% 13%) 0%,
+    hsl(152 42% 56% / 0.06) 40%,
+    hsl(199 70% 62% / 0.05) 60%,
+    hsl(227 28% 13%) 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Section divider with gradient fade */
+.section-divider {
+  height: 1px;
+  border: none;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    hsl(var(--border) / 0.5) 20%,
+    hsl(var(--primary) / 0.2) 50%,
+    hsl(var(--border) / 0.5) 80%,
+    transparent 100%
+  );
+  margin: 1.5rem 0;
 }

@@ -200,7 +200,7 @@ export const SectionHeader = memo(function SectionHeader({
         )}
         <div className="min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight">{title}</h3>
+            <h3 className="text-sm sm:text-base font-bold text-foreground leading-tight font-display">{title}</h3>
             {badge}
           </div>
           {subtitle && <p className="text-[11px] sm:text-xs text-muted-foreground truncate">{subtitle}</p>}

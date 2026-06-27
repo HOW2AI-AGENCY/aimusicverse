@@ -234,7 +234,7 @@ export const MainLayout = () => {
   return (
     <SmartAlertProvider>
       <KeyboardShortcutsProvider onOpenGenerateSheet={() => setGenerateSheetOpen(true)}>
-        <div className="flex flex-col h-screen bg-background">
+        <div className="flex flex-col h-screen bg-background noise-overlay">
           <div className="flex flex-1 min-h-0 overflow-hidden">
             {/* Skip to content for keyboard navigation */}
             <SkipToContent />

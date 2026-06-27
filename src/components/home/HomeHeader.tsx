@@ -101,7 +101,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
           </motion.div>
 
           <div className="flex-1 min-w-0">
-            <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold leading-tight">
+            <h2 className="text-xl lg:text-2xl xl:text-3xl font-bold leading-tight font-display">
               {text}
               {userName && <span className="text-primary">, {userName}</span>}
               <motion.span
