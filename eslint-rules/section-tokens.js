@@ -57,22 +57,15 @@ const noSaturatedBrand = {
       if (!hit) return;
       if (isAllowed(node)) return;
 
-      const { output } = rewriteText(raw);
+      const original = sourceCode.getText(node);
+      const { output } = rewriteText(original);
       context.report({
         node,
         messageId: "forbidden",
         data: { matched: hit.matched, suggestion: hit.rule.replacement },
         fix(fixer) {
-          if (output === raw) return null;
-          // Replace just the inner text of the literal/template element,
-          // preserving the surrounding quotes/backticks.
-          const [start, end] = node.range;
-          if (node.type === "Literal") {
-            const quote = sourceCode.getText(node).slice(0, 1);
-            return fixer.replaceTextRange([start, end], `${quote}${output}${quote}`);
-          }
-          // TemplateElement: replace just the raw text range (no quotes).
-          return fixer.replaceTextRange([start, end], output);
+          if (output === original) return null;
+          return fixer.replaceText(node, output);
         },
       });
     }
