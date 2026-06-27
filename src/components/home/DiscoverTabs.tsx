@@ -27,7 +27,7 @@ interface DiscoverTabsProps {
   hasMoreRecent?: boolean;
   isLoadingMoreRecent?: boolean;
   onLoadMoreRecent?: () => void;
-  onRemix?: (id: string) => void;
+
   onTrackClick?: (id: string) => void;
 }
 
@@ -98,7 +98,7 @@ export const DiscoverTabs = memo(function DiscoverTabs({
   hasMoreRecent,
   isLoadingMoreRecent,
   onLoadMoreRecent,
-  onRemix,
+  
   onTrackClick,
 }: DiscoverTabsProps) {
   const isMobile = useIsMobile();
@@ -135,7 +135,7 @@ export const DiscoverTabs = memo(function DiscoverTabs({
             <SkeletonGrid columns={columns} />
           ) : (
             <>
-              <Grid tracks={popularTracks} columns={columns} onRemix={onRemix} onTrackClick={onTrackClick} />
+              <Grid tracks={popularTracks} columns={columns} onTrackClick={onTrackClick} />
               <LoadMore visible={hasMorePopular} loading={isLoadingMorePopular} onClick={onLoadMorePopular} />
             </>
           )}
@@ -146,7 +146,7 @@ export const DiscoverTabs = memo(function DiscoverTabs({
             <SkeletonGrid columns={columns} />
           ) : (
             <>
-              <Grid tracks={recentTracks} columns={columns} onRemix={onRemix} onTrackClick={onTrackClick} />
+              <Grid tracks={recentTracks} columns={columns} onTrackClick={onTrackClick} />
               <LoadMore visible={hasMoreRecent} loading={isLoadingMoreRecent} onClick={onLoadMoreRecent} />
             </>
           )}
