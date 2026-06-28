@@ -48,15 +48,16 @@ export const MenuSearch = memo(function MenuSearch({ items, onNavigate, isActive
   };
 
   return (
-    <div className="relative mb-4">
+    <div className="relative mb-4" role="search" aria-label="Поиск по меню">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
         <Input
-          type="text"
+          type="search"
           placeholder="Поиск по меню..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="pl-10 pr-10 h-10 bg-muted/50 border-border/50 rounded-xl"
+          aria-label="Поиск по меню"
         />
         <AnimatePresence>
           {query && (

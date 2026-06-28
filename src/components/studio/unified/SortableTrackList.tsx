@@ -201,7 +201,7 @@ export const SortableTrackList = memo(function SortableTrackList({
       const result: Record<string, StemTranscriptionData> = {};
 
       if (stemsError || !stems?.length) {
-        console.log("[SortableTrackList] No stems found for", sourceTrackId, stemTypes);
+        logger.info("[SortableTrackList] No stems found for", { sourceTrackId, stemTypes });
         // Try to fetch transcriptions directly by track_id for 'main' type
         if (stemTypes.includes("main")) {
           const { data: mainTrans } = await supabase
@@ -245,16 +245,14 @@ export const SortableTrackList = memo(function SortableTrackList({
       }
 
       if (!transcriptions?.length) {
-        console.log("[SortableTrackList] No transcriptions found for stemIds:", stemIds);
+        logger.info("[SortableTrackList] No transcriptions found for stemIds", { stemIds });
         return result;
       }
 
-      console.log(
-        "[SortableTrackList] Found transcriptions:",
-        transcriptions.length,
-        "for stems:",
-        stems.map((s) => s.stem_type),
-      );
+      logger.info("[SortableTrackList] Found transcriptions", {
+        count: transcriptions.length,
+        stemTypes: stems.map((s) => s.stem_type),
+      });
 
       // Build map: stemType -> transcription data (reuse result already declared above)
 
@@ -290,7 +288,8 @@ export const SortableTrackList = memo(function SortableTrackList({
           durationSeconds: trans.duration_seconds ? Number(trans.duration_seconds) : null,
         };
 
-        console.log("[SortableTrackList] Mapped transcription for", stem.stem_type, ":", {
+        logger.info("[SortableTrackList] Mapped transcription for", {
+          stemType: stem.stem_type,
           hasNotes: !!normalizedNotes?.length,
           hasMidi: !!trans.midi_url,
           hasPdf: !!trans.pdf_url,

@@ -641,7 +641,7 @@ export function AudioActionDialog({
         <div className="space-y-3">
           {/* Audio Player - Compact */}
           <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 border">
-            <Button type="button" size="icon" variant="ghost" onClick={togglePlayback} className="h-9 w-9 shrink-0">
+            <Button type="button" size="icon" variant="ghost" onClick={togglePlayback} className="h-11 w-11 shrink-0">
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             </Button>
             <div className="flex-1 min-w-0">
@@ -695,7 +695,7 @@ export function AudioActionDialog({
                   type="button"
                   variant="outline"
                   size="sm"
-                  className="w-full h-9 gap-2 text-xs"
+                  className="w-full h-11 gap-2 text-xs"
                   onClick={extractLyrics}
                   disabled={isExtractingLyrics}
                 >
@@ -746,11 +746,11 @@ export function AudioActionDialog({
             )}
 
             <div className="flex gap-2">
-              <Button type="button" variant="outline" size="sm" onClick={handleRemove} className="flex-1 h-9">
+              <Button type="button" variant="outline" size="sm" onClick={handleRemove} className="flex-1 h-11">
                 Отменить
               </Button>
               {analysisResult && (
-                <Button type="button" variant="secondary" size="sm" onClick={handleConfirm} className="flex-1 h-9">
+                <Button type="button" variant="secondary" size="sm" onClick={handleConfirm} className="flex-1 h-11">
                   В форму генерации
                 </Button>
               )}
