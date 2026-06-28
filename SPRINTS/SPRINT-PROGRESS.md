@@ -10,11 +10,12 @@
 | -------------------------------------- | --------------- | ---------------------------------------- |
 | Sprint 001-033                         | ✅ ЗАВЕРШЕНЫ    | 100%                                     |
 | Sprint 034 (Generation Reliability)    | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                           |
-| Sprint 035 (E2E + Export)              | ⏳ ЗАПЛАНИРОВАН | E2E стабилизация, WAV/MP3/FLAC экспорт   |
+| **Архитектурный аудит (2026-06-28)**   | ✅ ЗАВЕРШЁН     | 3 параллельных агента, полный отчёт      |
+| Sprint 035 (Стабилизация + Чистка)     | ⏳ ЗАПЛАНИРОВАН | Дубликаты, rules-of-hooks, PlaybackStore |
 | Q1 2026 Plan                           | ✅ ЗАВЕРШЁН     | Phase 1-6 Complete, Sprints A-E Complete |
 | Phase 8: Dead Code Removal             | ✅ ЗАВЕРШЁН     | 196 файлов, 45K строк                    |
 | Sprint 9A: Deduplication               | ✅ ЗАВЕРШЁН     | 5 дубликатов, 1.35K строк                |
-| Sprint 9B: Split Giant Files           | ⏳ ЗАПЛАНИРОВАН | 50+ файлов >500 строк                    |
+| Sprint 9B: Split Giant Files           | ⏳ ЗАПЛАНИРОВАН | 33 файла >500 строк (уточнено аудитом)   |
 | Sprint 9C: Lyrics Consolidation        | ⏳ ЗАПЛАНИРОВАН | 30+ lyrics-компонентов из 6 директорий   |
 | Sprint 9D: Reorganize components/ui    | ⏳ ЗАПЛАНИРОВАН | 90+ файлов требуют группировки           |
 | Sprint 9E: Final Verification          | ⏳ ЗАПЛАНИРОВАН | tsc, build, size, tests                  |
@@ -23,10 +24,10 @@
 | **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии            |
 | **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                         |
 | **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                           |
-| **Sprint 035: E2E + Export**           | ⏳ ЗАПЛАНИРОВАН | E2E, export, 484 any→<50, CI build       |
-| **Sprint 036: Refactoring**            | ⏳ ЗАПЛАНИРОВАН | Split >500 LOC, store slicing, layers    |
-| **Sprint 037: Test Coverage**          | ⏳ ЗАПЛАНИРОВАН | Unit 362→500+, critical hooks, mutation  |
-| **Sprint 038: DX & Infra**             | ⏳ ЗАПЛАНИРОВАН | Service Worker, Lighthouse CI, Storybook |
+| **Sprint 035: Стабилизация + Чистка**  | ⏳ ЗАПЛАНИРОВАН | rules-of-hooks, 6 дубликатов, PlaybackStore, query keys, E2E |
+| **Sprint 036: Слои + Type Safety**     | ⏳ ЗАПЛАНИРОВАН | 30+ Supabase из компонентов, god-хуки, 342 any→<100          |
+| **Sprint 037: Тесты + Export**         | ⏳ ЗАПЛАНИРОВАН | Unit 7→50+, API/Service тесты, export WAV/MP3                |
+| **Sprint 038: DX + Мониторинг**        | ⏳ ЗАПЛАНИРОВАН | Sentry Perf, Lighthouse CI, Storybook 20+, cleanup           |
 
 ---
 

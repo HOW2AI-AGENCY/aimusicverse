@@ -5,10 +5,10 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-034-26A5E4?style=for-the-badge"/>
-  <img alt="Прогресс" src="https://img.shields.io/badge/overall-92%25-F59E0B?style=for-the-badge"/>
-  <img alt="Здоровье" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
-  <img alt="E2E покрытие" src="https://img.shields.io/badge/e2e-0%25-475569?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-035-26A5E4?style=for-the-badge"/>
+  <img alt="Прогресс" src="https://img.shields.io/badge/overall-93%25-F59E0B?style=for-the-badge"/>
+  <img alt="Здоровье" src="https://img.shields.io/badge/health-95%2F100-9333EA?style=for-the-badge"/>
+  <img alt="Unit тесты" src="https://img.shields.io/badge/unit--tests-7_files-EF4444?style=for-the-badge"/>
   <img alt="Бандл" src="https://img.shields.io/badge/bundle-918kb%2F950kb-10B981?style=for-the-badge"/>
 </p>
 
@@ -55,59 +55,70 @@
 | Delivery tracking (A/B clips)       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Снижение failure rate 12% → <8%     | ![](https://img.shields.io/badge/92%25-10B981?style=flat-square)  |
 
-## 🚦 `035` E2E + Экспорт (Q3 2026)
+## 🚦 `035` Стабилизация + Архитектурная чистка (Q3 2026) — ТЕКУЩИЙ
 
-| Задача                                | Прогресс                                                        |
-| ------------------------------------- | --------------------------------------------------------------- |
-| E2E стабилизация (47 spec → CI green) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Playwright CI pipeline                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Export service (WAV/MP3/FLAC)         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Устранение 484 `any` типов (→ <50)    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| ESLint strict rules                   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| npm run build в CI (zero warnings)    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Удаление неиспользуемых зависимостей  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                             | Прогресс                                                        |
+| -------------------------------------------------- | --------------------------------------------------------------- |
+| ESLint: `rules-of-hooks` → `"error"`               | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Удалить дубликаты хуков (6 дублей, -1700 строк)    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Консолидировать PlaybackStore (3 файла → 1)        | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Query key factory (`src/lib/queryKeys.ts`)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Защитить payment-маршруты (ProtectedRoute)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| E2E стабилизация (47 spec → CI green)               | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Playwright CI pipeline                              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
-## 🚦 `036` Рефакторинг и архитектура (Q3 2026)
+## 🚦 `036` Рефакторинг слоёв + Type Safety (Q3 2026)
 
-| Задача                                          | Прогресс                                                        |
-| ----------------------------------------------- | --------------------------------------------------------------- |
-| Разбить файлы >500 строк (30+ файлов)           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Разделить useUnifiedStudioStore (38KB)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Устранить нарушения слоёв (компоненты→supabase) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Консолидация lyrics-компонентов (6→2 папки)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Организация components/ui (90+ файлов)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                                  | Прогресс                                                        |
+| ------------------------------------------------------- | --------------------------------------------------------------- |
+| Вынести 30+ прямых вызовов Supabase из компонентов      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Разбить `useGenerateForm.ts` (1218 строк → 4 хука)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Разбить `usePromptDJEnhanced.ts` (1070 строк → 2 хука) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Создать недостающие API-файлы (payments, notifications)  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Типизировать API-слой (342 `any` → <50)                 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Разбить 8 oversized-компонентов (>800 строк)            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Generic undo/redo middleware для Zustand                 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🚦 `037` Тестовое покрытие (Q3–Q4 2026)
 
-| Задача                                     | Прогресс                                                        |
-| ------------------------------------------ | --------------------------------------------------------------- |
-| Unit-тесты 362 → 500+                      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Покрытие критических хуков (audio, studio) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Тесты API/Service слоёв                    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Mutation testing (Stryker)                 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                            | Прогресс                                                        |
+| ------------------------------------------------- | --------------------------------------------------------------- |
+| Unit-тесты API-слоя и сервисов (7 → 50+ файлов)  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Unit-тесты для god-хуков (после рефакторинга)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Унификация обработки ошибок в API (Result-паттерн) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Выбрать одну DnD-библиотеку (-50KB бандла)        | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Export service (WAV/MP3/FLAC)                      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🚦 `038` DX и инфраструктура (Q4 2026)
 
-| Задача                               | Прогресс                                                        |
-| ------------------------------------ | --------------------------------------------------------------- |
-| Service Worker + оффлайн             | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Lighthouse CI budget enforcement     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Storybook coverage (50+ компонентов) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Bundle size regression CI gate       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                | Прогресс                                                        |
+| ------------------------------------- | --------------------------------------------------------------- |
+| `structuredClone()` вместо JSON хаков | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Согласовать staleTime/gcTime defaults | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Service Worker + оффлайн              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Lighthouse CI budget enforcement      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Storybook coverage (20+ компонентов)  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🧮 Ключевые метрики
 
-| Метрика                |   Значение    |    Цель     |
-| ---------------------- | :-----------: | :---------: |
-| Компоненты             |      987      |      —      |
-| Хуки                   |      347      |      —      |
-| Edge Functions         |      130      |      —      |
-| Размер бандла (gzip)   |  **918 КБ**   | ≤ 950 КБ ✅ |
-| Покрытие unit-тестами  |    **82%**    |  ≥ 80% ✅   |
-| E2E спецификации       |      47       |      —      |
-| Lighthouse (мобильный) |      92       |   ≥ 90 ✅   |
-| Доступность (axe)      | 0 критических |    0 ✅     |
-| Ошибки Sentry (24ч)    |     0.04%     |  < 0.1% ✅  |
+| Метрика                  |    Значение     |     Цель      |
+| ------------------------ | :-------------: | :-----------: |
+| Компоненты               |       987       |       —       |
+| Хуки                     |       347       |       —       |
+| Edge Functions           |       120       |       —       |
+| Zustand Stores           |    12 + 8 sub   |       —       |
+| API-файлов               |       20        |       —       |
+| Сервисов                 |       18        |       —       |
+| Размер бандла (gzip)     |   **918 КБ**    |  ≤ 950 КБ ✅  |
+| Unit-тест файлов         |     **7**       |   200+ ❌     |
+| E2E спецификации         |       47        |   47 pass ❌  |
+| Файлов >500 строк        |     **33**      |     0 ❌      |
+| Использований `any`      |    **342**      |    <50 ❌     |
+| Дубликатов кода          |    **6 пар**    |     0 ❌      |
+| Нарушений слоёв          |     **30+**     |     0 ❌      |
+| Lighthouse (мобильный)   |       92        |   ≥ 90 ✅     |
+| Доступность (axe)        |  0 критических  |     0 ✅      |
+| Ошибки Sentry (24ч)      |      0.04%      |   < 0.1% ✅   |
 
 ## 🏗 Архитектурные столпы
 
@@ -141,38 +152,51 @@ mindmap
 - ✅ Auto-retry интегрирован в handleGenerate() (2 попытки + exponential backoff).
 - ✅ Dashboard метрик генерации (/admin/generation-metrics).
 - ✅ Structured failure tracking (failure_category, retry_count, generation_params).
-- ✅ Prompt pre-validation (длина, кодировка, запрещённый контент).
 - ✅ A/B framework активирован — PROMPT_SUGGESTIONS + WIZARD_STEPS (50/50).
-- ✅ Generation queue position UI с rate-limit awareness.
-- ✅ Failure pattern analysis RPC (get_generation_failure_patterns).
-- ✅ Sentry breadcrumbs для полного flow генерации.
 - ✅ Failure rate alerts — Edge Function + Telegram уведомления админам.
-- ✅ A/B тест 2-step vs 4-step wizard (WIZARD_STEPS experiment).
 - ✅ Delivery tracking — partial_delivery status + useDeliveryTracking hook.
 - ✅ Спринт 033: Полный аудит интерфейса — 18 задач в 4 фазах.
 - ✅ Миграция тестовой инфраструктуры Jest → Vitest + Husky pre-commit hooks.
-- ✅ Централизация экспортов lucide-react для оптимизации бандла.
-- ✅ Исправление TDZ-ошибки в analytics chunk.
 - ✅ Удаление мёртвого кода (196 файлов, 45K строк).
+- ✅ `useUnifiedStudioStore` рефакторинг: монолит 1361 строк → 6 слайсов.
 - 🚀 Бандл уменьшен с 1.02 МБ → 918 КБ.
 
-## ✅ Sprint 035 прогресс (текущий)
+## 🔍 Архитектурный аудит (2026-06-28)
 
-- ✅ TypeScript: 0 ошибок компиляции (было 50+).
-- ✅ 59 icon-экспортов добавлены в `src/lib/icons.ts`.
-- ✅ Удалены мёртвые barrel-экспорты.
-- ✅ `console.log` заменён на `logger` (2 файла).
-- ✅ Удалены 7 неиспользуемых зависимостей.
-- ✅ План спринтов 035-038 создан и утверждён.
-- 🔄 E2E стабилизация — в процессе.
-- 🔄 Export service — запланирован.
+Проведён всесторонний аудит тремя параллельными агентами. Ключевые находки:
+
+**Критические проблемы:**
+- 🔴 **7 unit-тест файлов** на 940+ компонентов (покрытие <1%)
+- 🔴 **30+ компонентов** вызывают `supabase.from()` напрямую, минуя API-слой
+- 🔴 **God-хуки:** `useGenerateForm.ts` (1218 строк), `usePromptDJEnhanced.ts` (1070 строк)
+- 🔴 **6 пар дублированного кода** (useMixExport, useOptimizedAudioPlayer, PromptDJ, PlaybackStore)
+
+**Средние проблемы:**
+- 🟠 342 использования `any` в src/
+- 🟠 `react-hooks/rules-of-hooks` понижено до `"warn"` (должно быть `"error"`)
+- 🟠 Нет query key factory для TanStack Query
+- 🟠 33 файла >500 строк (из них 9 хуков, 24 компонента)
+- 🟠 2 DnD-библиотеки одновременно (`@dnd-kit` + `@hello-pangea/dnd`)
+
+**Положительные стороны:**
+- ✅ Code splitting: 15+ vendor-чанков, все маршруты lazy-loaded
+- ✅ `useUnifiedStudioStore` уже рефакторен из 1361-строчного монолита
+- ✅ Дизайн-система с design tokens, семантическими цветами
+- ✅ CI/CD: 5 jobs, smoke-тесты в 3 браузерах
+- ✅ Нет захардкоженных секретов, минимальный XSS-риск
+- ✅ Telegram Bot — модульная архитектура (commands/callbacks/handlers)
+
+**Общая оценка: 6.1/10 → план улучшений до 8.4/10**
+
+Подробный план: `SPRINTS/SPRINT-035-038-PLAN.md`
 
 ## 🚨 Активные блокеры
 
-Нет на момент написания. Под наблюдением:
+Нет критических блокеров. Под наблюдением:
 
 - Пул аудио-элементов iOS Safari приближается к 9/10 в тяжёлых сессиях.
 - Лимиты Suno API в часы пик.
+- `react-hooks/rules-of-hooks: "warn"` — потенциальные runtime-краши.
 
 ---
 
@@ -184,6 +208,6 @@ mindmap
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-06-28</sub>
+<sub>Последнее обновление: 2026-06-28 (архитектурный аудит)</sub>
 
 </div>
