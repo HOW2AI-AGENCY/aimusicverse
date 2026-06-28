@@ -21,6 +21,8 @@ import { AdminQuickAccess } from "./AdminQuickAccess";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { glass } from "@/lib/glass";
 import { Heading } from "@/components/ui/Heading";
+import { MoreMenuHintTooltip } from "@/components/navigation/MoreMenuHintTooltip";
+import { useHintDismissal } from "@/hooks/useHintDismissal";
 
 // Use the same menu as bottom navigation "More" button
 const MoreMenuSheet = lazy(() =>
@@ -62,12 +64,12 @@ function getGreeting(): { text: string; icon: React.ReactNode; gradient: string 
       gradient: "from-indigo-300 to-violet-300",
     };
   }
-
 }
 
 export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }: HomeHeaderProps) {
   const { text, icon, gradient } = getGreeting();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [moreMenuHintVisible, dismissMoreMenuHint] = useHintDismissal("moreMenuHint");
   const unreadCount = useUnreadCount();
   const { hapticFeedback } = useTelegram();
   const isMobile = useIsMobile();
@@ -183,6 +185,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
 
           {/* Menu Button with notification badge - 44px touch target */}
           <div className="relative overflow-visible">
+            <MoreMenuHintTooltip visible={!moreMenuHintVisible} onDismiss={dismissMoreMenuHint} />
             <motion.button
               onClick={handleMenuClick}
               className={cn(

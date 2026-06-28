@@ -34,6 +34,7 @@ import { motion } from "@/lib/motion";
 import { QuickActionsBar } from "./QuickActionsBar";
 import { CollapsibleMenuSection } from "./CollapsibleMenuSection";
 import { MenuSearch } from "./MenuSearch";
+import { RecentlyUsedSection } from "./RecentlyUsedSection";
 
 interface MoreMenuSheetProps {
   open: boolean;
@@ -173,7 +174,11 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="rounded-t-3xl max-h-[85vh] overflow-y-auto pb-safe" aria-label="Дополнительное меню">
+      <SheetContent
+        side="bottom"
+        className="rounded-t-3xl max-h-[85vh] overflow-y-auto pb-safe"
+        aria-label="Дополнительное меню"
+      >
         <SheetHeader className="pb-2">
           <SheetTitle className="flex items-center gap-2 text-lg">
             <Grid3X3 className="w-5 h-5 text-primary" />
@@ -184,6 +189,9 @@ export function MoreMenuSheet({ open, onOpenChange }: MoreMenuSheetProps) {
         <div className="space-y-4 pt-2">
           {/* Search */}
           <MenuSearch items={allItems} onNavigate={handleNavigate} isActive={isActive} />
+
+          {/* Recently Used */}
+          <RecentlyUsedSection />
 
           {/* Quick Actions Bar */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
