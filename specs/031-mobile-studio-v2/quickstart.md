@@ -506,11 +506,11 @@ useEffect(() => {
 
 ## Resources
 
-- **Constitution**: [.specify/memory/constitution.md](../../../.specify/memory/constitution.md)
+- **Constitution**: [.specify/memory/constitution.md](../../.specify/memory/constitution.md)
 - **Data Model**: [data-model.md](./data-model.md)
 - **API Contracts**: [contracts/api-contracts.md](./contracts/api-contracts.md)
 - **Research**: [research.md](./research.md)
-- **Project Docs**: [../../../CLAUDE.md](../../../CLAUDE.md)
+- **Project Docs**: [CLAUDE.md](../../CLAUDE.md)
 
 ## Support
 

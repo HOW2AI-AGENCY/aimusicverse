@@ -172,7 +172,7 @@ interface PlaybackQueue {
 | Disabled text | N/A | No requirement | Any | Muted, lower contrast OK |
 
 **Implementation Notes**:
-- Use [color-contrast.ts](src/lib/color-contrast.ts) utility to validate colors
+- Use a color-contrast utility to validate colors
 - Run axe-core audit to verify compliance
 - Test with real users (screen reader, magnification, color blindness)
 - Document color palette with contrast ratios
