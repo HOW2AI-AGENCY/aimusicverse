@@ -24,6 +24,27 @@
 
 ## [Unreleased]
 
+### 🔧 Спринт 037 — Infrastructure Hardening & Developer Experience (2026-06-29)
+
+#### Добавлено
+
+- **21 unit-тест AudioElementPool** — singleton, acquire/release, priority eviction, статистика, releaseAll
+- **4 Storybook stories** — LazyImage, EmptyState, Button, LoadingSpinner с autodocs
+- **tsconfig.strict.json** — инкрементальная миграция на строгий TypeScript (noUnusedLocals, noUnusedParameters, strictNullChecks, и др.)
+- **docs/FSM_STATE_SCHEMA.md** — документация всех 4 state machines (Modal, Player, Generation, AudioContext)
+
+#### Исправлено
+
+- **TDZ краш админ-панели** (`Cannot access 'ft'/'ht' before initialization`) — устранена циклическая зависимость barrel export + слияние 8 взаимозависимых чанков в `feature-admin-studio` в `vite.config.ts`. Импорт `useGenerateForm` теперь прямой из модуля-источника.
+- Добавлены правила 10-11 в Common Pitfalls CLAUDE.md для предотвращения повторения
+
+#### Изменено
+
+- `vite.config.ts` manualChunks: слияние page-admin, feature-generation-form, feature-stem-studio, feature-lyrics-wizard, feature-studio, feature-studio-unified, store-studio, page-lyrics-studio → единый `feature-admin-studio`
+- `src/components/library/DesktopLibrarySidebar.tsx`: прямой импорт `useGenerateForm` из `@/hooks/generation/useGenerateForm`
+- SPRINTS/SPRINT-PROGRESS.md: Sprint 037 → ✅ COMPLETE, обновлены метрики
+- CLAUDE.md: обновлены дата, метрики, 2 новых правила для предотвращения barrel-циклов
+
 ### 📚 Спринт 035 — Редизайн документации репозитория
 
 #### Добавлено
@@ -184,6 +205,6 @@
 | :---------------------------------: | :--------------------------: | :-------------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Статус](PROJECT_STATUS.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Последнее обновление: 2026-06-28</sub>
+<sub>Последнее обновление: 2026-06-29</sub>
 
 </div>

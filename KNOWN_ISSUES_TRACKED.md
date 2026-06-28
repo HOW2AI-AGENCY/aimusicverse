@@ -26,41 +26,42 @@
 
 ## 🚦 Open
 
-| # | Area | Issue | Severity | Mitigation |
-| :---: | --- | --- | :---: | --- |
-| 1 | iOS Safari | Audio element pool can hit 9/10 in long sessions | 🟡 Medium | Force-release inactive players in `audioElementPool` |
-| 2 | Suno API | 429 rate-limits during peak hours | 🟡 Medium | Exponential back-off + queue UI in form |
-| 3 | Studio mobile | Section replacement preview stutters on low-end Android | 🟢 Low | Reduce timeline render frequency in dev branch |
+|  #  | Area          | Issue                                                   | Severity  | Mitigation                                           |
+| :-: | ------------- | ------------------------------------------------------- | :-------: | ---------------------------------------------------- |
+|  1  | iOS Safari    | Audio element pool can hit 9/10 in long sessions        | 🟡 Medium | Force-release inactive players in `audioElementPool` |
+|  2  | Suno API      | 429 rate-limits during peak hours                       | 🟡 Medium | Exponential back-off + queue UI in form              |
+|  3  | Studio mobile | Section replacement preview stutters on low-end Android |  🟢 Low   | Reduce timeline render frequency in dev branch       |
 
 ## 👀 Watchlist
 
-| Area | Symptom | Trigger |
-| --- | --- | --- |
-| Telegram WebView | Keyboard height jump on iOS 17.4 | Long lyrics editing |
-| Wavesurfer 7.8 | Memory growth after 50+ track switches | Library auto-play |
+| Area             | Symptom                                | Trigger             |
+| ---------------- | -------------------------------------- | ------------------- |
+| Telegram WebView | Keyboard height jump on iOS 17.4       | Long lyrics editing |
+| Wavesurfer 7.8   | Memory growth after 50+ track switches | Library auto-play   |
 
 ## ✅ Recently resolved (30 days)
 
-| Issue | Fix | Released |
-| --- | --- | --- |
-| Auto-open "Стемы готовы" modal | Removed auto-trigger in `SmartAlertProvider` | 2026-06-27 |
-| Dev-overlay intercepting taps on mobile | `pointer-events: none` when hidden | 2026-06-22 |
-| Hotkey `Cmd+Shift+M` firing during IME | Guard via `isComposing` | 2026-06-22 |
-| Dialog stacking under fixed overlays | Portal to `document.body` + z-index normalisation | 2026-06-20 |
-| Mobile tap ghosting on Generate button | Pointer-events + actionable wait | 2026-06-18 |
-| Bundle drift > 950 KB | Code-split + tree-shaken motion | 2026-06-12 |
-| Realtime channel leak in `useStems` | `removeChannel` on unmount | 2026-06-10 |
+| Issue                                                  | Fix                                                                                 | Released   |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------- | ---------- |
+| Auto-open "Стемы готовы" modal                         | Removed auto-trigger in `SmartAlertProvider`                                        | 2026-06-27 |
+| Dev-overlay intercepting taps on mobile                | `pointer-events: none` when hidden                                                  | 2026-06-22 |
+| Hotkey `Cmd+Shift+M` firing during IME                 | Guard via `isComposing`                                                             | 2026-06-22 |
+| Dialog stacking under fixed overlays                   | Portal to `document.body` + z-index normalisation                                   | 2026-06-20 |
+| Mobile tap ghosting on Generate button                 | Pointer-events + actionable wait                                                    | 2026-06-18 |
+| Admin page TDZ crash (`Cannot access ... before init`) | Fix barrel import cycle + merge 8 interdependent chunks into `feature-admin-studio` | 2026-06-29 |
+| Bundle drift > 950 KB                                  | Code-split + tree-shaken motion                                                     | 2026-06-12 |
+| Realtime channel leak in `useStems`                    | `removeChannel` on unmount                                                          | 2026-06-10 |
 
 ---
 
 ## 🧰 Triage rubric
 
-| Severity | Definition | Response SLA |
-| :---: | --- | :---: |
-| 🔴 Critical | Crash, data loss, payment failure | 24 h |
-| 🟠 High | Core flow broken (generate/play/save) | 72 h |
-| 🟡 Medium | Functional but degraded UX | 1 sprint |
-| 🟢 Low | Cosmetic / edge case | Backlog |
+|  Severity   | Definition                            | Response SLA |
+| :---------: | ------------------------------------- | :----------: |
+| 🔴 Critical | Crash, data loss, payment failure     |     24 h     |
+|   🟠 High   | Core flow broken (generate/play/save) |     72 h     |
+|  🟡 Medium  | Functional but degraded UX            |   1 sprint   |
+|   🟢 Low    | Cosmetic / edge case                  |   Backlog    |
 
 ---
 
@@ -68,10 +69,10 @@
 
 ### 🔗 Related Documentation
 
-| 📚 Index | 🗺 Roadmap | 📝 Changelog | 📊 Status | 🤝 Contributing |
-| :---: | :---: | :---: | :---: | :---: |
+|            📚 Index             |      🗺 Roadmap       |       📝 Changelog        |          📊 Status          |         🤝 Contributing         |
+| :-----------------------------: | :-------------------: | :-----------------------: | :-------------------------: | :-----------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Roadmap](ROADMAP.md) | [Changelog](CHANGELOG.md) | [Status](PROJECT_STATUS.md) | [Contributing](CONTRIBUTING.md) |
 
-<sub>Last updated: 2026-06-27</sub>
+<sub>Last updated: 2026-06-29</sub>
 
 </div>

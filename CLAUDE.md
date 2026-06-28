@@ -554,6 +554,8 @@ Logger persists to sessionStorage and integrates with Sentry.
 7. **Don't skip LazyImage** - All images must lazy load with blur placeholder
 8. **Don't animate width/height** - Use `transform: scale()` for 60 FPS
 9. **Don't render large lists without virtualization** - Use `react-virtuoso`
+10. **Don't create barrel re-export cycles** — When a barrel file (`index.ts`) re-exports a module that also imports from the same barrel, it creates a circular dependency that causes TDZ crashes at runtime. Always import directly from the source module if the barrel would create a cycle. Check `npm run build` for "Circular chunk" warnings.
+11. **Don't put interdependent modules in separate manualChunks** — If `vite.config.ts` manualChunks splits modules that import each other into different chunks, Rollup produces chunk-level TDZ errors. Merge them into a single chunk with a comment explaining why.
 
 ### Mobile & Touch
 
