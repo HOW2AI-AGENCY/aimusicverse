@@ -115,10 +115,10 @@ export function parseFullAnalysis(content: string): ExpandedAnalysisData | null 
       score: data.structure?.score || 0,
     },
     overallScore: data.overallScore || 0,
-    recommendations: (data.recommendations || []).map((r: any) => ({
-      type: r.type || "general",
-      text: r.text || "",
-      priority: r.priority || "medium",
+    recommendations: (data.recommendations || []).map((r: Record<string, unknown>) => ({
+      type: (r.type as string) || "general",
+      text: (r.text as string) || "",
+      priority: (r.priority as string) || "medium",
     })),
     quickActions: data.quickActions || [],
     // Extended fields
@@ -164,9 +164,9 @@ export function parseProducerReview(content: string): ProducerReviewData | null 
     topRecommendations: data.topRecommendations || [],
     recommendations:
       data.recommendations ||
-      data.topRecommendations?.map((r: any, i: number) => ({
-        priority: r.priority || i + 1,
-        text: r.text || "",
+      data.topRecommendations?.map((r: Record<string, unknown>, i: number) => ({
+        priority: (r.priority as number) || i + 1,
+        text: (r.text as string) || "",
       })) ||
       [],
     quickActions: data.quickActions || [],
