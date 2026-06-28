@@ -283,9 +283,14 @@ export default defineConfig(({ mode }) => ({
           // errors ("Cannot access X before initialization").
           if (
             id.includes("/pages/AdminDashboard") ||
+            id.includes("/pages/admin/") ||
             id.includes("/pages/LyricsStudio") ||
             id.includes("/pages/LyricsWorkspace") ||
+            id.includes("/pages/Studio") ||
+            id.includes("/pages/StudioHub") ||
+            id.includes("/pages/ProjectDetail") ||
             id.includes("/stores/studio/") ||
+            id.includes("/components/admin/") ||
             id.includes("/components/stem-studio/") ||
             id.includes("/components/audio-reference/") ||
             id.includes("/components/lyrics/") ||
@@ -295,7 +300,8 @@ export default defineConfig(({ mode }) => ({
             id.includes("/components/studio/editor/") ||
             id.includes("/components/studio/timeline/") ||
             id.includes("/components/studio/unified/") ||
-            id.includes("/components/studio/")
+            id.includes("/components/studio/") ||
+            id.includes("/components/performance/")
           ) {
             return "feature-admin-studio";
           }
