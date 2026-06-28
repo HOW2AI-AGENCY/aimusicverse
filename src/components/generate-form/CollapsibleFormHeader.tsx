@@ -143,7 +143,7 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 aria-label={`Модель ${currentModel.name}`}
               >
                 {(() => {
-                  const info = getModelDisplayInfo(currentModel.apiModel ?? currentModel.key);
+                  const info = getModelDisplayInfo(currentModel.apiModel ?? model);
                   const Icon = info?.icon;
                   return Icon ? (
                     <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" />
