@@ -7,10 +7,8 @@ import { AnimatePresence } from "@/lib/motion";
 import { useGenerationWizardStore, type WizardStep } from "@/stores/generationWizardStore";
 import { WizardProgress } from "./WizardProgress";
 import { IdeaStep } from "./steps/IdeaStep";
-import { StyleStep } from "./steps/StyleStep";
-import { VocalsStep } from "./steps/VocalsStep";
-import { LyricsStep } from "./steps/LyricsStep";
-import { SettingsStep } from "./steps/SettingsStep";
+import { StyleSettingsStep } from "./steps/StyleSettingsStep";
+import { VocalsLyricsStep } from "./steps/VocalsLyricsStep";
 import { PreviewStep } from "./steps/PreviewStep";
 
 interface GenerationWizardProps {
@@ -71,14 +69,10 @@ export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProp
     switch (currentStep) {
       case "idea":
         return <IdeaStep onNext={handleNext} />;
-      case "style":
-        return <StyleStep onNext={handleNext} onBack={prevStep} />;
-      case "vocals":
-        return <VocalsStep onNext={handleNext} onBack={prevStep} />;
-      case "lyrics":
-        return <LyricsStep onNext={handleNext} onBack={prevStep} />;
-      case "settings":
-        return <SettingsStep onNext={handleNext} onBack={prevStep} />;
+      case "style-settings":
+        return <StyleSettingsStep onNext={handleNext} onBack={prevStep} />;
+      case "vocals-lyrics":
+        return <VocalsLyricsStep onNext={handleNext} onBack={prevStep} />;
       case "preview":
         return <PreviewStep onGenerate={handleGenerate} onBack={prevStep} isLoading={isLoading} />;
       default:

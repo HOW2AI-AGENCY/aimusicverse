@@ -5,7 +5,10 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export type WizardStep = "idea" | "style" | "vocals" | "lyrics" | "settings" | "preview";
+export type WizardStep = "idea" | "style-settings" | "vocals-lyrics" | "preview";
+
+/** @deprecated Use new 4-step flow. Kept for migration compatibility. */
+export type LegacyWizardStep = "idea" | "style" | "vocals" | "lyrics" | "settings" | "preview";
 
 export interface WizardData {
   // Step 1: Idea
@@ -61,7 +64,7 @@ interface GenerationWizardState {
   setAiProcessing: (processing: boolean) => void;
 }
 
-const STEPS_ORDER: WizardStep[] = ["idea", "style", "vocals", "lyrics", "settings", "preview"];
+const STEPS_ORDER: WizardStep[] = ["idea", "style-settings", "vocals-lyrics", "preview"];
 
 const INITIAL_DATA: WizardData = {
   ideaDescription: "",

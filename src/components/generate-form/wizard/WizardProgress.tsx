@@ -4,7 +4,7 @@
 
 import { memo } from "react";
 import { motion } from "@/lib/motion";
-import { Check, Lightbulb, Music, Mic, FileText, Settings, Sparkles } from "@/lib/icons";
+import { Check, Lightbulb, Music, Mic, Sparkles } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 import type { WizardStep } from "@/stores/generationWizardStore";
 
@@ -16,10 +16,8 @@ interface WizardProgressProps {
 
 const STEPS_CONFIG: { step: WizardStep; label: string; icon: typeof Lightbulb }[] = [
   { step: "idea", label: "Идея", icon: Lightbulb },
-  { step: "style", label: "Стиль", icon: Music },
-  { step: "vocals", label: "Вокал", icon: Mic },
-  { step: "lyrics", label: "Текст", icon: FileText },
-  { step: "settings", label: "Настройки", icon: Settings },
+  { step: "style-settings", label: "Стиль", icon: Music },
+  { step: "vocals-lyrics", label: "Вокал", icon: Mic },
   { step: "preview", label: "Генерация", icon: Sparkles },
 ];
 
