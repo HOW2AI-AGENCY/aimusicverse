@@ -1,17 +1,13 @@
 # Graph Report - D:\.MUSICVERSE\aimusicverse  (2026-06-28)
 
 ## Corpus Check
-- cluster-only mode — file stats not available
+- 2150 files · ~2,861,256 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 15925 nodes · 21942 edges · 1474 communities (1171 shown, 303 thin omitted)
-- Extraction: 82% EXTRACTED · 18% INFERRED · 0% AMBIGUOUS · INFERRED: 3851 edges (avg confidence: 0.8)
+- 16975 nodes · 23586 edges · 1290 communities detected
+- Extraction: 78% EXTRACTED · 22% INFERRED · 0% AMBIGUOUS · INFERRED: 5094 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
-
-## Graph Freshness
-- Built from commit: `b72c0c7f`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Community 0|Community 0]]
@@ -683,6 +679,7 @@
 - [[_COMMUNITY_Community 666|Community 666]]
 - [[_COMMUNITY_Community 667|Community 667]]
 - [[_COMMUNITY_Community 668|Community 668]]
+- [[_COMMUNITY_Community 669|Community 669]]
 - [[_COMMUNITY_Community 670|Community 670]]
 - [[_COMMUNITY_Community 671|Community 671]]
 - [[_COMMUNITY_Community 672|Community 672]]
@@ -691,20 +688,25 @@
 - [[_COMMUNITY_Community 675|Community 675]]
 - [[_COMMUNITY_Community 676|Community 676]]
 - [[_COMMUNITY_Community 677|Community 677]]
+- [[_COMMUNITY_Community 678|Community 678]]
 - [[_COMMUNITY_Community 679|Community 679]]
 - [[_COMMUNITY_Community 680|Community 680]]
 - [[_COMMUNITY_Community 681|Community 681]]
 - [[_COMMUNITY_Community 682|Community 682]]
 - [[_COMMUNITY_Community 683|Community 683]]
 - [[_COMMUNITY_Community 684|Community 684]]
+- [[_COMMUNITY_Community 685|Community 685]]
 - [[_COMMUNITY_Community 686|Community 686]]
+- [[_COMMUNITY_Community 687|Community 687]]
 - [[_COMMUNITY_Community 688|Community 688]]
 - [[_COMMUNITY_Community 689|Community 689]]
 - [[_COMMUNITY_Community 690|Community 690]]
 - [[_COMMUNITY_Community 691|Community 691]]
+- [[_COMMUNITY_Community 692|Community 692]]
 - [[_COMMUNITY_Community 693|Community 693]]
 - [[_COMMUNITY_Community 694|Community 694]]
 - [[_COMMUNITY_Community 695|Community 695]]
+- [[_COMMUNITY_Community 696|Community 696]]
 - [[_COMMUNITY_Community 697|Community 697]]
 - [[_COMMUNITY_Community 698|Community 698]]
 - [[_COMMUNITY_Community 699|Community 699]]
@@ -735,18 +737,23 @@
 - [[_COMMUNITY_Community 724|Community 724]]
 - [[_COMMUNITY_Community 725|Community 725]]
 - [[_COMMUNITY_Community 726|Community 726]]
+- [[_COMMUNITY_Community 727|Community 727]]
 - [[_COMMUNITY_Community 728|Community 728]]
+- [[_COMMUNITY_Community 729|Community 729]]
 - [[_COMMUNITY_Community 730|Community 730]]
+- [[_COMMUNITY_Community 731|Community 731]]
 - [[_COMMUNITY_Community 732|Community 732]]
 - [[_COMMUNITY_Community 733|Community 733]]
 - [[_COMMUNITY_Community 734|Community 734]]
 - [[_COMMUNITY_Community 735|Community 735]]
 - [[_COMMUNITY_Community 736|Community 736]]
+- [[_COMMUNITY_Community 737|Community 737]]
 - [[_COMMUNITY_Community 738|Community 738]]
 - [[_COMMUNITY_Community 739|Community 739]]
 - [[_COMMUNITY_Community 740|Community 740]]
 - [[_COMMUNITY_Community 741|Community 741]]
 - [[_COMMUNITY_Community 742|Community 742]]
+- [[_COMMUNITY_Community 743|Community 743]]
 - [[_COMMUNITY_Community 744|Community 744]]
 - [[_COMMUNITY_Community 745|Community 745]]
 - [[_COMMUNITY_Community 746|Community 746]]
@@ -773,9 +780,11 @@
 - [[_COMMUNITY_Community 767|Community 767]]
 - [[_COMMUNITY_Community 768|Community 768]]
 - [[_COMMUNITY_Community 769|Community 769]]
+- [[_COMMUNITY_Community 770|Community 770]]
 - [[_COMMUNITY_Community 771|Community 771]]
 - [[_COMMUNITY_Community 772|Community 772]]
 - [[_COMMUNITY_Community 773|Community 773]]
+- [[_COMMUNITY_Community 774|Community 774]]
 - [[_COMMUNITY_Community 775|Community 775]]
 - [[_COMMUNITY_Community 776|Community 776]]
 - [[_COMMUNITY_Community 777|Community 777]]
@@ -785,15 +794,20 @@
 - [[_COMMUNITY_Community 781|Community 781]]
 - [[_COMMUNITY_Community 782|Community 782]]
 - [[_COMMUNITY_Community 783|Community 783]]
+- [[_COMMUNITY_Community 784|Community 784]]
+- [[_COMMUNITY_Community 785|Community 785]]
 - [[_COMMUNITY_Community 786|Community 786]]
 - [[_COMMUNITY_Community 787|Community 787]]
 - [[_COMMUNITY_Community 788|Community 788]]
+- [[_COMMUNITY_Community 789|Community 789]]
 - [[_COMMUNITY_Community 790|Community 790]]
+- [[_COMMUNITY_Community 791|Community 791]]
 - [[_COMMUNITY_Community 792|Community 792]]
 - [[_COMMUNITY_Community 793|Community 793]]
 - [[_COMMUNITY_Community 794|Community 794]]
 - [[_COMMUNITY_Community 795|Community 795]]
 - [[_COMMUNITY_Community 796|Community 796]]
+- [[_COMMUNITY_Community 797|Community 797]]
 - [[_COMMUNITY_Community 798|Community 798]]
 - [[_COMMUNITY_Community 799|Community 799]]
 - [[_COMMUNITY_Community 800|Community 800]]
@@ -808,11 +822,14 @@
 - [[_COMMUNITY_Community 809|Community 809]]
 - [[_COMMUNITY_Community 810|Community 810]]
 - [[_COMMUNITY_Community 811|Community 811]]
+- [[_COMMUNITY_Community 812|Community 812]]
 - [[_COMMUNITY_Community 813|Community 813]]
+- [[_COMMUNITY_Community 814|Community 814]]
 - [[_COMMUNITY_Community 815|Community 815]]
 - [[_COMMUNITY_Community 816|Community 816]]
 - [[_COMMUNITY_Community 817|Community 817]]
 - [[_COMMUNITY_Community 818|Community 818]]
+- [[_COMMUNITY_Community 819|Community 819]]
 - [[_COMMUNITY_Community 820|Community 820]]
 - [[_COMMUNITY_Community 821|Community 821]]
 - [[_COMMUNITY_Community 822|Community 822]]
@@ -823,6 +840,7 @@
 - [[_COMMUNITY_Community 827|Community 827]]
 - [[_COMMUNITY_Community 828|Community 828]]
 - [[_COMMUNITY_Community 829|Community 829]]
+- [[_COMMUNITY_Community 830|Community 830]]
 - [[_COMMUNITY_Community 831|Community 831]]
 - [[_COMMUNITY_Community 832|Community 832]]
 - [[_COMMUNITY_Community 833|Community 833]]
@@ -831,11 +849,13 @@
 - [[_COMMUNITY_Community 836|Community 836]]
 - [[_COMMUNITY_Community 837|Community 837]]
 - [[_COMMUNITY_Community 838|Community 838]]
+- [[_COMMUNITY_Community 839|Community 839]]
 - [[_COMMUNITY_Community 840|Community 840]]
 - [[_COMMUNITY_Community 841|Community 841]]
 - [[_COMMUNITY_Community 842|Community 842]]
 - [[_COMMUNITY_Community 843|Community 843]]
 - [[_COMMUNITY_Community 844|Community 844]]
+- [[_COMMUNITY_Community 845|Community 845]]
 - [[_COMMUNITY_Community 846|Community 846]]
 - [[_COMMUNITY_Community 847|Community 847]]
 - [[_COMMUNITY_Community 848|Community 848]]
@@ -869,14 +889,18 @@
 - [[_COMMUNITY_Community 876|Community 876]]
 - [[_COMMUNITY_Community 877|Community 877]]
 - [[_COMMUNITY_Community 878|Community 878]]
+- [[_COMMUNITY_Community 879|Community 879]]
+- [[_COMMUNITY_Community 880|Community 880]]
 - [[_COMMUNITY_Community 881|Community 881]]
 - [[_COMMUNITY_Community 882|Community 882]]
 - [[_COMMUNITY_Community 883|Community 883]]
 - [[_COMMUNITY_Community 884|Community 884]]
 - [[_COMMUNITY_Community 885|Community 885]]
 - [[_COMMUNITY_Community 886|Community 886]]
+- [[_COMMUNITY_Community 887|Community 887]]
 - [[_COMMUNITY_Community 888|Community 888]]
 - [[_COMMUNITY_Community 889|Community 889]]
+- [[_COMMUNITY_Community 890|Community 890]]
 - [[_COMMUNITY_Community 891|Community 891]]
 - [[_COMMUNITY_Community 892|Community 892]]
 - [[_COMMUNITY_Community 893|Community 893]]
@@ -888,8 +912,11 @@
 - [[_COMMUNITY_Community 899|Community 899]]
 - [[_COMMUNITY_Community 900|Community 900]]
 - [[_COMMUNITY_Community 901|Community 901]]
+- [[_COMMUNITY_Community 902|Community 902]]
 - [[_COMMUNITY_Community 903|Community 903]]
+- [[_COMMUNITY_Community 904|Community 904]]
 - [[_COMMUNITY_Community 905|Community 905]]
+- [[_COMMUNITY_Community 906|Community 906]]
 - [[_COMMUNITY_Community 907|Community 907]]
 - [[_COMMUNITY_Community 908|Community 908]]
 - [[_COMMUNITY_Community 909|Community 909]]
@@ -919,8 +946,10 @@
 - [[_COMMUNITY_Community 933|Community 933]]
 - [[_COMMUNITY_Community 934|Community 934]]
 - [[_COMMUNITY_Community 935|Community 935]]
+- [[_COMMUNITY_Community 936|Community 936]]
 - [[_COMMUNITY_Community 937|Community 937]]
 - [[_COMMUNITY_Community 938|Community 938]]
+- [[_COMMUNITY_Community 939|Community 939]]
 - [[_COMMUNITY_Community 940|Community 940]]
 - [[_COMMUNITY_Community 941|Community 941]]
 - [[_COMMUNITY_Community 942|Community 942]]
@@ -938,22 +967,32 @@
 - [[_COMMUNITY_Community 954|Community 954]]
 - [[_COMMUNITY_Community 955|Community 955]]
 - [[_COMMUNITY_Community 956|Community 956]]
+- [[_COMMUNITY_Community 957|Community 957]]
 - [[_COMMUNITY_Community 958|Community 958]]
 - [[_COMMUNITY_Community 959|Community 959]]
 - [[_COMMUNITY_Community 960|Community 960]]
 - [[_COMMUNITY_Community 961|Community 961]]
+- [[_COMMUNITY_Community 962|Community 962]]
 - [[_COMMUNITY_Community 963|Community 963]]
+- [[_COMMUNITY_Community 964|Community 964]]
 - [[_COMMUNITY_Community 965|Community 965]]
+- [[_COMMUNITY_Community 966|Community 966]]
 - [[_COMMUNITY_Community 967|Community 967]]
 - [[_COMMUNITY_Community 968|Community 968]]
 - [[_COMMUNITY_Community 969|Community 969]]
+- [[_COMMUNITY_Community 970|Community 970]]
 - [[_COMMUNITY_Community 971|Community 971]]
+- [[_COMMUNITY_Community 972|Community 972]]
 - [[_COMMUNITY_Community 973|Community 973]]
+- [[_COMMUNITY_Community 974|Community 974]]
 - [[_COMMUNITY_Community 975|Community 975]]
 - [[_COMMUNITY_Community 976|Community 976]]
 - [[_COMMUNITY_Community 977|Community 977]]
 - [[_COMMUNITY_Community 978|Community 978]]
+- [[_COMMUNITY_Community 979|Community 979]]
 - [[_COMMUNITY_Community 980|Community 980]]
+- [[_COMMUNITY_Community 981|Community 981]]
+- [[_COMMUNITY_Community 982|Community 982]]
 - [[_COMMUNITY_Community 983|Community 983]]
 - [[_COMMUNITY_Community 984|Community 984]]
 - [[_COMMUNITY_Community 985|Community 985]]
@@ -962,12 +1001,14 @@
 - [[_COMMUNITY_Community 988|Community 988]]
 - [[_COMMUNITY_Community 989|Community 989]]
 - [[_COMMUNITY_Community 990|Community 990]]
+- [[_COMMUNITY_Community 991|Community 991]]
 - [[_COMMUNITY_Community 992|Community 992]]
 - [[_COMMUNITY_Community 993|Community 993]]
 - [[_COMMUNITY_Community 994|Community 994]]
 - [[_COMMUNITY_Community 995|Community 995]]
 - [[_COMMUNITY_Community 996|Community 996]]
 - [[_COMMUNITY_Community 997|Community 997]]
+- [[_COMMUNITY_Community 998|Community 998]]
 - [[_COMMUNITY_Community 999|Community 999]]
 - [[_COMMUNITY_Community 1000|Community 1000]]
 - [[_COMMUNITY_Community 1001|Community 1001]]
@@ -979,20 +1020,29 @@
 - [[_COMMUNITY_Community 1007|Community 1007]]
 - [[_COMMUNITY_Community 1008|Community 1008]]
 - [[_COMMUNITY_Community 1009|Community 1009]]
+- [[_COMMUNITY_Community 1010|Community 1010]]
 - [[_COMMUNITY_Community 1011|Community 1011]]
 - [[_COMMUNITY_Community 1012|Community 1012]]
 - [[_COMMUNITY_Community 1013|Community 1013]]
 - [[_COMMUNITY_Community 1014|Community 1014]]
 - [[_COMMUNITY_Community 1015|Community 1015]]
 - [[_COMMUNITY_Community 1016|Community 1016]]
+- [[_COMMUNITY_Community 1017|Community 1017]]
 - [[_COMMUNITY_Community 1018|Community 1018]]
 - [[_COMMUNITY_Community 1019|Community 1019]]
+- [[_COMMUNITY_Community 1020|Community 1020]]
+- [[_COMMUNITY_Community 1021|Community 1021]]
 - [[_COMMUNITY_Community 1022|Community 1022]]
+- [[_COMMUNITY_Community 1023|Community 1023]]
 - [[_COMMUNITY_Community 1024|Community 1024]]
 - [[_COMMUNITY_Community 1025|Community 1025]]
+- [[_COMMUNITY_Community 1026|Community 1026]]
+- [[_COMMUNITY_Community 1027|Community 1027]]
 - [[_COMMUNITY_Community 1028|Community 1028]]
+- [[_COMMUNITY_Community 1029|Community 1029]]
 - [[_COMMUNITY_Community 1030|Community 1030]]
 - [[_COMMUNITY_Community 1031|Community 1031]]
+- [[_COMMUNITY_Community 1032|Community 1032]]
 - [[_COMMUNITY_Community 1033|Community 1033]]
 - [[_COMMUNITY_Community 1034|Community 1034]]
 - [[_COMMUNITY_Community 1035|Community 1035]]
@@ -1008,6 +1058,7 @@
 - [[_COMMUNITY_Community 1045|Community 1045]]
 - [[_COMMUNITY_Community 1046|Community 1046]]
 - [[_COMMUNITY_Community 1047|Community 1047]]
+- [[_COMMUNITY_Community 1048|Community 1048]]
 - [[_COMMUNITY_Community 1049|Community 1049]]
 - [[_COMMUNITY_Community 1050|Community 1050]]
 - [[_COMMUNITY_Community 1051|Community 1051]]
@@ -1015,29 +1066,44 @@
 - [[_COMMUNITY_Community 1053|Community 1053]]
 - [[_COMMUNITY_Community 1054|Community 1054]]
 - [[_COMMUNITY_Community 1055|Community 1055]]
+- [[_COMMUNITY_Community 1056|Community 1056]]
 - [[_COMMUNITY_Community 1057|Community 1057]]
 - [[_COMMUNITY_Community 1058|Community 1058]]
 - [[_COMMUNITY_Community 1059|Community 1059]]
 - [[_COMMUNITY_Community 1060|Community 1060]]
+- [[_COMMUNITY_Community 1061|Community 1061]]
+- [[_COMMUNITY_Community 1062|Community 1062]]
+- [[_COMMUNITY_Community 1063|Community 1063]]
 - [[_COMMUNITY_Community 1064|Community 1064]]
+- [[_COMMUNITY_Community 1065|Community 1065]]
 - [[_COMMUNITY_Community 1066|Community 1066]]
 - [[_COMMUNITY_Community 1067|Community 1067]]
 - [[_COMMUNITY_Community 1068|Community 1068]]
 - [[_COMMUNITY_Community 1069|Community 1069]]
+- [[_COMMUNITY_Community 1070|Community 1070]]
 - [[_COMMUNITY_Community 1071|Community 1071]]
 - [[_COMMUNITY_Community 1072|Community 1072]]
+- [[_COMMUNITY_Community 1073|Community 1073]]
+- [[_COMMUNITY_Community 1074|Community 1074]]
 - [[_COMMUNITY_Community 1075|Community 1075]]
 - [[_COMMUNITY_Community 1076|Community 1076]]
 - [[_COMMUNITY_Community 1077|Community 1077]]
 - [[_COMMUNITY_Community 1078|Community 1078]]
 - [[_COMMUNITY_Community 1079|Community 1079]]
 - [[_COMMUNITY_Community 1080|Community 1080]]
+- [[_COMMUNITY_Community 1081|Community 1081]]
 - [[_COMMUNITY_Community 1082|Community 1082]]
+- [[_COMMUNITY_Community 1083|Community 1083]]
 - [[_COMMUNITY_Community 1084|Community 1084]]
+- [[_COMMUNITY_Community 1085|Community 1085]]
 - [[_COMMUNITY_Community 1086|Community 1086]]
 - [[_COMMUNITY_Community 1087|Community 1087]]
+- [[_COMMUNITY_Community 1088|Community 1088]]
 - [[_COMMUNITY_Community 1089|Community 1089]]
+- [[_COMMUNITY_Community 1090|Community 1090]]
 - [[_COMMUNITY_Community 1091|Community 1091]]
+- [[_COMMUNITY_Community 1092|Community 1092]]
+- [[_COMMUNITY_Community 1093|Community 1093]]
 - [[_COMMUNITY_Community 1094|Community 1094]]
 - [[_COMMUNITY_Community 1095|Community 1095]]
 - [[_COMMUNITY_Community 1096|Community 1096]]
@@ -1045,6 +1111,9 @@
 - [[_COMMUNITY_Community 1098|Community 1098]]
 - [[_COMMUNITY_Community 1099|Community 1099]]
 - [[_COMMUNITY_Community 1100|Community 1100]]
+- [[_COMMUNITY_Community 1101|Community 1101]]
+- [[_COMMUNITY_Community 1102|Community 1102]]
+- [[_COMMUNITY_Community 1103|Community 1103]]
 - [[_COMMUNITY_Community 1104|Community 1104]]
 - [[_COMMUNITY_Community 1105|Community 1105]]
 - [[_COMMUNITY_Community 1106|Community 1106]]
@@ -1056,30 +1125,46 @@
 - [[_COMMUNITY_Community 1112|Community 1112]]
 - [[_COMMUNITY_Community 1113|Community 1113]]
 - [[_COMMUNITY_Community 1114|Community 1114]]
+- [[_COMMUNITY_Community 1115|Community 1115]]
 - [[_COMMUNITY_Community 1116|Community 1116]]
+- [[_COMMUNITY_Community 1117|Community 1117]]
+- [[_COMMUNITY_Community 1118|Community 1118]]
 - [[_COMMUNITY_Community 1119|Community 1119]]
 - [[_COMMUNITY_Community 1120|Community 1120]]
 - [[_COMMUNITY_Community 1121|Community 1121]]
 - [[_COMMUNITY_Community 1122|Community 1122]]
 - [[_COMMUNITY_Community 1123|Community 1123]]
+- [[_COMMUNITY_Community 1124|Community 1124]]
 - [[_COMMUNITY_Community 1125|Community 1125]]
 - [[_COMMUNITY_Community 1126|Community 1126]]
 - [[_COMMUNITY_Community 1127|Community 1127]]
 - [[_COMMUNITY_Community 1128|Community 1128]]
+- [[_COMMUNITY_Community 1129|Community 1129]]
 - [[_COMMUNITY_Community 1130|Community 1130]]
 - [[_COMMUNITY_Community 1131|Community 1131]]
 - [[_COMMUNITY_Community 1132|Community 1132]]
 - [[_COMMUNITY_Community 1133|Community 1133]]
 - [[_COMMUNITY_Community 1134|Community 1134]]
+- [[_COMMUNITY_Community 1135|Community 1135]]
+- [[_COMMUNITY_Community 1136|Community 1136]]
+- [[_COMMUNITY_Community 1137|Community 1137]]
+- [[_COMMUNITY_Community 1138|Community 1138]]
+- [[_COMMUNITY_Community 1139|Community 1139]]
 - [[_COMMUNITY_Community 1140|Community 1140]]
+- [[_COMMUNITY_Community 1141|Community 1141]]
 - [[_COMMUNITY_Community 1142|Community 1142]]
 - [[_COMMUNITY_Community 1143|Community 1143]]
 - [[_COMMUNITY_Community 1144|Community 1144]]
+- [[_COMMUNITY_Community 1145|Community 1145]]
 - [[_COMMUNITY_Community 1146|Community 1146]]
 - [[_COMMUNITY_Community 1147|Community 1147]]
 - [[_COMMUNITY_Community 1148|Community 1148]]
 - [[_COMMUNITY_Community 1149|Community 1149]]
+- [[_COMMUNITY_Community 1150|Community 1150]]
+- [[_COMMUNITY_Community 1151|Community 1151]]
 - [[_COMMUNITY_Community 1152|Community 1152]]
+- [[_COMMUNITY_Community 1153|Community 1153]]
+- [[_COMMUNITY_Community 1154|Community 1154]]
 - [[_COMMUNITY_Community 1155|Community 1155]]
 - [[_COMMUNITY_Community 1156|Community 1156]]
 - [[_COMMUNITY_Community 1157|Community 1157]]
@@ -1087,21 +1172,42 @@
 - [[_COMMUNITY_Community 1159|Community 1159]]
 - [[_COMMUNITY_Community 1160|Community 1160]]
 - [[_COMMUNITY_Community 1161|Community 1161]]
+- [[_COMMUNITY_Community 1162|Community 1162]]
+- [[_COMMUNITY_Community 1163|Community 1163]]
+- [[_COMMUNITY_Community 1164|Community 1164]]
+- [[_COMMUNITY_Community 1165|Community 1165]]
+- [[_COMMUNITY_Community 1166|Community 1166]]
+- [[_COMMUNITY_Community 1167|Community 1167]]
+- [[_COMMUNITY_Community 1168|Community 1168]]
 - [[_COMMUNITY_Community 1169|Community 1169]]
 - [[_COMMUNITY_Community 1170|Community 1170]]
 - [[_COMMUNITY_Community 1171|Community 1171]]
+- [[_COMMUNITY_Community 1172|Community 1172]]
 - [[_COMMUNITY_Community 1173|Community 1173]]
+- [[_COMMUNITY_Community 1174|Community 1174]]
+- [[_COMMUNITY_Community 1175|Community 1175]]
 - [[_COMMUNITY_Community 1176|Community 1176]]
 - [[_COMMUNITY_Community 1177|Community 1177]]
+- [[_COMMUNITY_Community 1178|Community 1178]]
+- [[_COMMUNITY_Community 1179|Community 1179]]
 - [[_COMMUNITY_Community 1180|Community 1180]]
+- [[_COMMUNITY_Community 1181|Community 1181]]
+- [[_COMMUNITY_Community 1182|Community 1182]]
 - [[_COMMUNITY_Community 1183|Community 1183]]
 - [[_COMMUNITY_Community 1184|Community 1184]]
+- [[_COMMUNITY_Community 1185|Community 1185]]
 - [[_COMMUNITY_Community 1186|Community 1186]]
 - [[_COMMUNITY_Community 1187|Community 1187]]
+- [[_COMMUNITY_Community 1188|Community 1188]]
+- [[_COMMUNITY_Community 1189|Community 1189]]
 - [[_COMMUNITY_Community 1190|Community 1190]]
+- [[_COMMUNITY_Community 1191|Community 1191]]
 - [[_COMMUNITY_Community 1192|Community 1192]]
+- [[_COMMUNITY_Community 1193|Community 1193]]
+- [[_COMMUNITY_Community 1194|Community 1194]]
 - [[_COMMUNITY_Community 1195|Community 1195]]
 - [[_COMMUNITY_Community 1196|Community 1196]]
+- [[_COMMUNITY_Community 1197|Community 1197]]
 - [[_COMMUNITY_Community 1198|Community 1198]]
 - [[_COMMUNITY_Community 1199|Community 1199]]
 - [[_COMMUNITY_Community 1200|Community 1200]]
@@ -1111,27 +1217,66 @@
 - [[_COMMUNITY_Community 1204|Community 1204]]
 - [[_COMMUNITY_Community 1205|Community 1205]]
 - [[_COMMUNITY_Community 1206|Community 1206]]
+- [[_COMMUNITY_Community 1207|Community 1207]]
+- [[_COMMUNITY_Community 1208|Community 1208]]
+- [[_COMMUNITY_Community 1209|Community 1209]]
+- [[_COMMUNITY_Community 1210|Community 1210]]
+- [[_COMMUNITY_Community 1211|Community 1211]]
 - [[_COMMUNITY_Community 1212|Community 1212]]
+- [[_COMMUNITY_Community 1213|Community 1213]]
+- [[_COMMUNITY_Community 1214|Community 1214]]
 - [[_COMMUNITY_Community 1215|Community 1215]]
+- [[_COMMUNITY_Community 1216|Community 1216]]
 - [[_COMMUNITY_Community 1217|Community 1217]]
 - [[_COMMUNITY_Community 1218|Community 1218]]
 - [[_COMMUNITY_Community 1219|Community 1219]]
 - [[_COMMUNITY_Community 1220|Community 1220]]
+- [[_COMMUNITY_Community 1221|Community 1221]]
 - [[_COMMUNITY_Community 1222|Community 1222]]
 - [[_COMMUNITY_Community 1223|Community 1223]]
 - [[_COMMUNITY_Community 1224|Community 1224]]
+- [[_COMMUNITY_Community 1225|Community 1225]]
 - [[_COMMUNITY_Community 1226|Community 1226]]
+- [[_COMMUNITY_Community 1227|Community 1227]]
+- [[_COMMUNITY_Community 1228|Community 1228]]
 - [[_COMMUNITY_Community 1229|Community 1229]]
 - [[_COMMUNITY_Community 1230|Community 1230]]
 - [[_COMMUNITY_Community 1231|Community 1231]]
+- [[_COMMUNITY_Community 1232|Community 1232]]
+- [[_COMMUNITY_Community 1233|Community 1233]]
+- [[_COMMUNITY_Community 1234|Community 1234]]
+- [[_COMMUNITY_Community 1235|Community 1235]]
+- [[_COMMUNITY_Community 1236|Community 1236]]
+- [[_COMMUNITY_Community 1237|Community 1237]]
+- [[_COMMUNITY_Community 1238|Community 1238]]
+- [[_COMMUNITY_Community 1239|Community 1239]]
+- [[_COMMUNITY_Community 1240|Community 1240]]
+- [[_COMMUNITY_Community 1241|Community 1241]]
+- [[_COMMUNITY_Community 1242|Community 1242]]
+- [[_COMMUNITY_Community 1243|Community 1243]]
+- [[_COMMUNITY_Community 1244|Community 1244]]
+- [[_COMMUNITY_Community 1245|Community 1245]]
+- [[_COMMUNITY_Community 1246|Community 1246]]
+- [[_COMMUNITY_Community 1247|Community 1247]]
+- [[_COMMUNITY_Community 1248|Community 1248]]
+- [[_COMMUNITY_Community 1249|Community 1249]]
+- [[_COMMUNITY_Community 1250|Community 1250]]
+- [[_COMMUNITY_Community 1251|Community 1251]]
+- [[_COMMUNITY_Community 1252|Community 1252]]
+- [[_COMMUNITY_Community 1253|Community 1253]]
+- [[_COMMUNITY_Community 1254|Community 1254]]
+- [[_COMMUNITY_Community 1255|Community 1255]]
 - [[_COMMUNITY_Community 1256|Community 1256]]
 - [[_COMMUNITY_Community 1257|Community 1257]]
+- [[_COMMUNITY_Community 1258|Community 1258]]
+- [[_COMMUNITY_Community 1259|Community 1259]]
 - [[_COMMUNITY_Community 1260|Community 1260]]
 - [[_COMMUNITY_Community 1261|Community 1261]]
 - [[_COMMUNITY_Community 1262|Community 1262]]
 - [[_COMMUNITY_Community 1263|Community 1263]]
 - [[_COMMUNITY_Community 1264|Community 1264]]
 - [[_COMMUNITY_Community 1265|Community 1265]]
+- [[_COMMUNITY_Community 1266|Community 1266]]
 - [[_COMMUNITY_Community 1267|Community 1267]]
 - [[_COMMUNITY_Community 1268|Community 1268]]
 - [[_COMMUNITY_Community 1269|Community 1269]]
@@ -1139,6 +1284,7 @@
 - [[_COMMUNITY_Community 1271|Community 1271]]
 - [[_COMMUNITY_Community 1272|Community 1272]]
 - [[_COMMUNITY_Community 1273|Community 1273]]
+- [[_COMMUNITY_Community 1274|Community 1274]]
 - [[_COMMUNITY_Community 1275|Community 1275]]
 - [[_COMMUNITY_Community 1276|Community 1276]]
 - [[_COMMUNITY_Community 1277|Community 1277]]
@@ -1153,449 +1299,285 @@
 - [[_COMMUNITY_Community 1286|Community 1286]]
 - [[_COMMUNITY_Community 1287|Community 1287]]
 - [[_COMMUNITY_Community 1288|Community 1288]]
-- [[_COMMUNITY_Community 1449|Community 1449]]
-- [[_COMMUNITY_Community 1450|Community 1450]]
-- [[_COMMUNITY_Community 1451|Community 1451]]
-- [[_COMMUNITY_Community 1456|Community 1456]]
-- [[_COMMUNITY_Community 1457|Community 1457]]
-- [[_COMMUNITY_Community 1458|Community 1458]]
-- [[_COMMUNITY_Community 1460|Community 1460]]
-- [[_COMMUNITY_Community 1461|Community 1461]]
-- [[_COMMUNITY_Community 1462|Community 1462]]
-- [[_COMMUNITY_Community 1463|Community 1463]]
-- [[_COMMUNITY_Community 1468|Community 1468]]
-- [[_COMMUNITY_Community 1469|Community 1469]]
-- [[_COMMUNITY_Community 1470|Community 1470]]
-- [[_COMMUNITY_Community 1471|Community 1471]]
-- [[_COMMUNITY_Community 1472|Community 1472]]
-- [[_COMMUNITY_Community 1473|Community 1473]]
-- [[_COMMUNITY_Community 1475|Community 1475]]
-- [[_COMMUNITY_Community 1476|Community 1476]]
-- [[_COMMUNITY_Community 1477|Community 1477]]
-- [[_COMMUNITY_Community 1478|Community 1478]]
-- [[_COMMUNITY_Community 1479|Community 1479]]
-- [[_COMMUNITY_Community 1480|Community 1480]]
-- [[_COMMUNITY_Community 1481|Community 1481]]
-- [[_COMMUNITY_Community 1482|Community 1482]]
-- [[_COMMUNITY_Community 1483|Community 1483]]
-- [[_COMMUNITY_Community 1484|Community 1484]]
-- [[_COMMUNITY_Community 1485|Community 1485]]
-- [[_COMMUNITY_Community 1486|Community 1486]]
-- [[_COMMUNITY_Community 1487|Community 1487]]
-- [[_COMMUNITY_Community 1488|Community 1488]]
-- [[_COMMUNITY_Community 1489|Community 1489]]
-- [[_COMMUNITY_Community 1490|Community 1490]]
-- [[_COMMUNITY_Community 1491|Community 1491]]
-- [[_COMMUNITY_Community 1492|Community 1492]]
-- [[_COMMUNITY_Community 1493|Community 1493]]
-- [[_COMMUNITY_Community 1494|Community 1494]]
-- [[_COMMUNITY_Community 1495|Community 1495]]
-- [[_COMMUNITY_Community 1496|Community 1496]]
-- [[_COMMUNITY_Community 1497|Community 1497]]
-- [[_COMMUNITY_Community 1498|Community 1498]]
-- [[_COMMUNITY_Community 1499|Community 1499]]
-- [[_COMMUNITY_Community 1500|Community 1500]]
-- [[_COMMUNITY_Community 1502|Community 1502]]
-- [[_COMMUNITY_Community 1503|Community 1503]]
-- [[_COMMUNITY_Community 1504|Community 1504]]
-- [[_COMMUNITY_Community 1505|Community 1505]]
-- [[_COMMUNITY_Community 1506|Community 1506]]
-- [[_COMMUNITY_Community 1507|Community 1507]]
-- [[_COMMUNITY_Community 1508|Community 1508]]
+- [[_COMMUNITY_Community 1289|Community 1289]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `error` - 436 edges
-2. `from` - 428 edges
-3. `Select` - 303 edges
-4. `sendMessage()` - 133 edges
-5. `editMessageText()` - 129 edges
-6. `useAuth()` - 102 edges
-7. `answerCallbackQuery()` - 97 edges
-8. `invoke()` - 91 edges
-9. `supabase` - 77 edges
-10. `corsHeaders` - 72 edges
+1. `error` - 459 edges
+2. `from` - 439 edges
+3. `Select` - 309 edges
+4. `map` - 246 edges
+5. `now` - 204 edges
+6. `success` - 157 edges
+7. `sendMessage()` - 135 edges
+8. `editMessageText()` - 130 edges
+9. `useAuth()` - 115 edges
+10. `supabase` - 100 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `resetShortcuts()` --calls--> `from`  [INFERRED]
-  src/api/shortcuts.api.ts → supabase/functions/stars-admin-transactions/index.ts
-- `handleFileSelect()` --calls--> `error`  [INFERRED]
-  src/components/AudioCoverDialog.tsx → supabase/functions/generate-thumbnails/index.ts
-- `handleFileSelect()` --calls--> `error`  [INFERRED]
-  src/components/AudioExtendDialog.tsx → supabase/functions/generate-thumbnails/index.ts
-- `componentDidCatch()` --calls--> `error`  [INFERRED]
-  src/components/ErrorBoundaryWrapper.tsx → supabase/functions/generate-thumbnails/index.ts
-- `handleResolve()` --calls--> `error`  [INFERRED]
-  src/components/admin/AlertHistoryPanel.tsx → supabase/functions/generate-thumbnails/index.ts
-
-## Import Cycles
-- 1-file cycle: `supabase/functions/telegram-bot/callbacks/dynamic-menu.ts -> supabase/functions/telegram-bot/callbacks/dynamic-menu.ts`
-- 2-file cycle: `src/hooks/generation/index.ts -> src/hooks/generation/useGenerateForm.ts -> src/hooks/generation/index.ts`
-- 4-file cycle: `supabase/functions/telegram-bot/bot.ts -> supabase/functions/telegram-bot/callbacks/router.ts -> supabase/functions/telegram-bot/handlers/media-group.ts -> supabase/functions/telegram-bot/core/services/music.ts -> supabase/functions/telegram-bot/bot.ts`
-- 4-file cycle: `supabase/functions/telegram-bot/bot.ts -> supabase/functions/telegram-bot/callbacks/router.ts -> supabase/functions/telegram-bot/handlers/media.ts -> supabase/functions/telegram-bot/core/services/music.ts -> supabase/functions/telegram-bot/bot.ts`
-- 4-file cycle: `supabase/functions/telegram-bot/bot.ts -> supabase/functions/telegram-bot/callbacks/router.ts -> supabase/functions/telegram-bot/handlers/navigation.ts -> supabase/functions/telegram-bot/core/services/music.ts -> supabase/functions/telegram-bot/bot.ts`
+- `normalizePeaks()` --calls--> `map`  [INFERRED]
+  D:\.MUSICVERSE\aimusicverse\public\waveform-worker.js → D:\.MUSICVERSE\aimusicverse\tests\e2e\smoke.app-boots.spec.ts
+- `autoCorrelate()` --calls--> `abs`  [INFERRED]
+  D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarTuner.tsx → D:\.MUSICVERSE\aimusicverse\scripts\clean-cache.mjs
+- `calculateSuccessTrend()` --calls--> `abs`  [INFERRED]
+  D:\.MUSICVERSE\aimusicverse\src\services\generation.service.ts → D:\.MUSICVERSE\aimusicverse\scripts\clean-cache.mjs
+- `near()` --calls--> `abs`  [INFERRED]
+  D:\.MUSICVERSE\aimusicverse\tests\e2e\generation.dialog-zindex.spec.ts → D:\.MUSICVERSE\aimusicverse\scripts\clean-cache.mjs
+- `handleSubmit()` --calls--> `updatePlaylist()`  [INFERRED]
+  D:\.MUSICVERSE\aimusicverse\src\components\playlist\EditPlaylistDialog.tsx → D:\.MUSICVERSE\aimusicverse\src\api\playlists.api.ts
 
 ## Hyperedges (group relationships)
-- **Core User Pages of MusicVerse AI** — prd_pages_01_home_generation_form, prd_pages_02_library, prd_pages_03_profile_page, prd_pages_04_public_profile [EXTRACTED 1.00]
-- **Mobile UI Components Group** — mobile_ui_ux_professional_audit_2026_mobileheaderbar, mobile_ui_ux_professional_audit_2026_mobilefullscreenplayer, mobile_ui_ux_professional_audit_2026_bottomnavigation [EXTRACTED 1.00]
-- **Core MusicVerse Pages** — prd_pages_05settingsmd_settings_page, prd_pages_06projectsmd_projects_page, prd_pages_07projectdetailmd_project_detail_page, prd_pages_08artistsmd_artists_page, prd_pages_09playlistsmd_playlists_page, prd_pages_10blogmd_blog_page, prd_pages_11communitymd_community_page, prd_pages_12albumviewmd_album_view_page, prd_pages_13templatesmd_templates_page, prd_pages_14musiclabmd_music_lab_page, prd_pages_15lyricsstudiomd_lyrics_studio_page, prd_pages_16voicelibrarymd_voice_library_page, prd_pages_17voicehistorymd_voice_history_page, prd_pages_18studiohubmd_studio_hub_page, prd_pages_19unifiedstudiomd_unified_studio_page, prd_pages_20newstudioprojectmd_new_studio_project_page, prd_pages_21guitarstudiomd_guitar_studio_page, prd_pages_22audiohubmd_audio_hub_page, prd_pages_23referenceaudiodetailmd_reference_audio_detail_page [EXTRACTED 1.00]
-- **User Engagement and Growth Pages** — prd_pages_24onboardingmd_onboarding_page, prd_pages_25analyticsmd_analytics_page, prd_pages_26authmd_auth_page, prd_pages_27mobileplayermd_mobile_player_page, prd_pages_28buycreditsmd_buy_credits_page, prd_pages_31rewardsmd_rewards_page, prd_pages_32referralmd_referral_page [EXTRACTED 1.00]
-- **Admin and Moderation Pages** — prd_pages_43adminoverviewmd_admin_overview, prd_pages_48adminusersmd_admin_users [EXTRACTED 1.00]
-- **Tasks Implementing Epic E007: Mobile-First UI/UX Redesign** — backlog_epic_e007_mobile_first_ui_ux_redesign, backlog_task_t029_e007_us1_library_redesign, backlog_task_t030_e007_us2_player_optimization, backlog_task_t031_e007_us3_track_details, backlog_task_t032_e007_us4_track_actions, backlog_task_t033_e007_us5_homepage_discovery, backlog_task_t034_e007_us6_ai_assistant [EXTRACTED 1.00]
-- **Phase 9 Deduplication & Refactoring Sprint Sequence** — phase_9_deduplication_plan_sprint_9a, phase_9_deduplication_plan_sprint_9b, phase_9_deduplication_plan_sprint_9c, phase_9_deduplication_plan_sprint_9d, phase_9_deduplication_plan_sprint_9e [EXTRACTED 1.00]
-- **Sprint Sequence 034 to 037** — sprint_034_generation_reliability, sprint_035_e2e_and_platform_exports, sprint_036_quality_and_stability, sprint_037_infrastructure_hardening_and_developer_experience [EXTRACTED 1.00]
+- **Frontend Technology Stack** — react_19, typescript_5, vite_5, tailwind_css, shadcn_ui [EXTRACTED 1.00]
+- **Audio Processing Stack** — tone_js, wavesurfer_js, global_audio_provider, audio_element_pool [EXTRACTED 1.00]
+- **State Management Stack** — zustand, tanstack_query, player_store, unified_studio_store [EXTRACTED 1.00]
+- **Testing Infrastructure** — vitest, playwright, vitest_testing, playwright_e2e [EXTRACTED 1.00]
+- **Backend Infrastructure** — supabase, postgreSQL_15, edge_functions, row_level_security [EXTRACTED 1.00]
+- **Product Design Principles** — mobile_first_design, single_source_of_truth, progressive_disclosure [EXTRACTED 0.90]
+- **Telegram Bot Documentation Ecosystem** — TELEGRAM_BOT_ARCHITECTURE, TELEGRAM_BOT_COMMANDS_REFERENCE, TELEGRAM_BOT_MONITORING, TELEGRAM_BOT_UTILITIES [EXTRACTED 0.90]
+- **Security Documentation Suite** — SECURITY_CHECKLIST, SECURITY_OPERATIONS [EXTRACTED 0.90]
+- **API Resilience Patterns** — exponential_backoff, model_fallback_chain [EXTRACTED 0.85]
+- **Telegram Bot Technologies** — single_message_ui, inline_query, markdownv2_formatting, ztn_authentication [EXTRACTED 0.85]
+- **Telegram Integration Ecosystem** — telegram_bot_features, telegram_bot_implementation, telegram_mini_app_integration, telegram_mini_app_advanced_features, telegram_payments [EXTRACTED 0.95]
+- **Telegram Integration Sprint Sequence** — sprint_1_bot_core, sprint_2_mini_app, sprint_3_integration_payments, sprint_4_advanced_polish [EXTRACTED 1.00]
+- **Advanced Telegram Mini App Features** — biometric_authentication, qr_scanner_collaboration, share_to_story, cloudstorage_sync, device_sensors_api, secure_storage, fullscreen_api [EXTRACTED 0.90]
+- **Complete Testing Infrastructure** — unit_tests_jest, e2e_tests_playwright, accessibility_tests, performance_tests [EXTRACTED 1.00]
+- **User Experience Optimization Flow** — user_flow_generation, track_versioning_flow, studio_navigation_flow [EXTRACTED 0.85]
+- **Documentation Audit Ecosystem December 2025** — repo_docs_audit_2026, audit_complete_2025, audit_architecture_naming_2025, comprehensive_application_audit_2025, audit_navigation_2025 [EXTRACTED 0.95]
+- **Audio System Bug Fix Chain** — audio_player_no_sound_fix, audio_player_no_sound_fix_v2, audio_system_improvements_2025, bugfix_summary_stem_studio, black_screen_fix_summary [EXTRACTED 0.90]
+- **Architecture Compliance Validation Chain** — frontend_backend_separation_architecture, infrastructure_naming_conventions, musicverse_data_structure_diagram, audit_architecture_naming_2025, audit_summary_ru_2025_12_04 [EXTRACTED 0.90]
+- **Stakeholder Reporting Suite (Russian)** — audit_summary_ru_2025_12_03, audit_summary_ru_2025_12_04, audit_visual_summary, black_screen_fix_summary, audit_complete_2025 [EXTRACTED 0.85]
 
-## Communities (1474 total, 303 thin omitted)
+## Communities
 
 ### Community 0 - "Community 0"
-Cohesion: 0.02
-Nodes (193): fetchRecentBotEvents(), createAudioAnalysis(), createTempAnalysisTrack(), deleteTempAnalysisTrack(), fetchTrackAnalysis(), invokeMidiTranscription(), saveGuitarRecording(), uploadAudioForAnalysis() (+185 more)
+_This domain is responsible for handling user interactions with menus, including selection, cancellation, and auditing accessibility._
+Cohesion: 0.0
+Nodes (1211): authorize(), getAuthenticatedUser(), isServiceRoleToken(), requireAdmin(), requireAuth(), validateRequest(), corsHeaders, calculateGenerationCost() (+1203 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.02
-Nodes (97): config, formatTimeSince(), getStatusConfig(), Icon, audioRef, handleApply, handleClose, handlePlayVersion (+89 more)
+_This domain is responsible for managing and generating music-related content and user interactions within a creative platform._
+Cohesion: 0.0
+Nodes (1028): runAccessibilityAudit(), clearActiveMenu(), deleteActiveMenu(), deleteAndSendNewMenu(), getActiveMenuMessageId(), getMenuState(), sendNotification(), handleSubmit() (+1020 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.03
-Nodes (62): handleSubmit(), [isLoading, setIsLoading], [message, setMessage], [title, setTitle], AudioAnalysisService, uploadAndAnalyze(), [direction, setDirection], handleSubmit() (+54 more)
+_This domain is responsible for managing user interactions related to music preferences and suggestions._
+Cohesion: 0.0
+Nodes (407): Progress Tracker, Sprint A Progress, config, isSelected, isSuggested, [selectedType, setSelectedType], [styleHint, setStyleHint], {
+    trackContext,
+    isLoadingContext,
+    refetchContext,
+    generateStem,
+    isGenerating,
+    generationProgress,
+    lastGeneration,
+  } (+399 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.03
-Nodes (72): deleteAndSendNewMenu(), COST_TABLE, logApiCall(), analyserNode, audioContext, audioNodesResult, connectedAudioElement, disconnectAudio() (+64 more)
+_This domain manages user achievements, icons, and related data for tracking progress and engagement._
+Cohesion: 0.0
+Nodes (397): activeAudio, [activeVersion, setActiveVersion], animationRef, currentNewUrl, [currentTime, setCurrentTime], effectiveVolume, handleVariantSwitch(), haptic (+389 more)
 
 ### Community 4 - "Community 4"
-Cohesion: 0.03
-Nodes (70): authorize(), isServiceRoleToken(), validateRequest(), DEFAULT_COMMANDS, getBotCommands(), saveBotCommands(), updateBotCommands(), GestureManager (+62 more)
+_This domain is responsible for managing the process of generating and validating song lyrics through various steps and user interactions._
+Cohesion: 0.01
+Nodes (341): deleteAndSendNewMenuPhoto(), logger, setActiveMenuMessageId(), supabase, detectIntent(), extractMusicStyle(), getSuggestedAction(), getSuggestedResponse() (+333 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.06
-Nodes (31): {
-      action, // 'concept', 'tracklist', 'collaboration', 'analyze', 'improve'
-      projectType,
-      genre,
-      mood,
-      targetAudience,
-      theme,
-      artistPersona,
-      trackCount,
-      projectId,
-      title,
-      description,
-      concept,
-      field,
-      currentValue,
-      suggestion,
-      language, // Add language parameter
-    }, analyzeData, analyzePrompt, analyzeResponse, analyzeText, collabData, collabPrompt, collabResponse (+23 more)
+_This domain is responsible for managing accessibility features and rhythmic elements in a user interface._
+Cohesion: 0.01
+Nodes (302): AddTrackDialog(), getDefaultTrackName(), AlertDialog(), useAuth(), CreatePlaylistDialog(), EngagementChart(), EnhancedProfileSetup(), STEPS (+294 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.05
-Nodes (40): ANALYSIS_STEPS, AudioActionDialogProps, AudioMode, RecordingMode, GenerateFormReferences(), formatTime(), GenerationProgressStage(), GenerationProgressStageProps (+32 more)
+_This domain manages audio playback features, including version control, volume settings, and playback state._
+Cohesion: 0.01
+Nodes (357): extractJSON(), parseAIResponse(), parseChatResponse(), parseFullAnalysis(), parseLyricsResponse(), parseProducerReview(), AnnouncementContext, announcementLogger (+349 more)
 
 ### Community 7 - "Community 7"
-Cohesion: 0.04
-Nodes (144): analysisSessions, getAnalysisSession(), handleAnalyzeCallbacks(), handleAnalyzeCommand(), handleAnalyzeList(), handleAnalyzeSelect(), handleBeatAnalysis(), handleChordAnalysis() (+136 more)
+_This domain is responsible for managing audio content, user interactions, and administrative functionalities within a media playback environment._
+Cohesion: 0.01
+Nodes (190): checkContrastRatio(), idCounter, useId(), usePrefersReducedMotion(), useReducedMotionConfig(), AdminRoute(), AdminTracks(), AdminUsers() (+182 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.03
-Nodes (72): analysisMetadata, arousal, { audio, language = "ru" }, { audio_url, constant_tempo = false, use_dbn = false }, audioResult, audioSource, {
-      audioUrl,
-      trackId,
-      ddimSteps = 50,
-      guidanceScale = 3.5,
-      truncatedBatches = true,
-      seed,
-    }, { audioUrl, trackId, mode, callbackUrl } (+64 more)
+_This domain manages the behavior and presentation of tabbed navigation components, including their active states and content display._
+Cohesion: 0.01
+Nodes (209): analyzeAudioFile(), detectBPM(), detectChords(), detectKey(), generateMockNotes(), generateTagsFromAnalysis(), identifyChord(), MAJOR_PROFILE (+201 more)
 
 ### Community 9 - "Community 9"
-Cohesion: 0.02
-Nodes (121): corsHeaders, { action, projectId, field, language }, { action, prompt, content }, {
-      action,
-      theme,
-      mood,
-      genre,
-      language = "ru",
-      existingLyrics,
-      lyrics,
-      structure,
-      sectionType,
-      sectionName,
-      previousLyrics,
-      linesCount,
-      currentLyrics,
-      word,
-      context,
-      vocalTags,
-      instrumentTags,
-      dynamicTags,
-      emotionalCues,
-      useAdvancedTags,
-    }, AI_GATEWAY_URL, aiData, aiResponse, analysis (+113 more)
+_This domain is responsible for managing user interactions and visual elements within a web application._
+Cohesion: 0.01
+Nodes (205): Product Design Constitution, Platform Specification, Quality Gates Documentation, Safe Area Guidelines, Stem Studio Documentation, Suno AI API Documentation, Telegram Bot Architecture, Telegram Bot Commands Reference (+197 more)
 
 ### Community 10 - "Community 10"
-Cohesion: 0.03
-Nodes (61): badgeVariants, QUICK_IDEAS, CATEGORY_ICONS, GENRE_ICONS, getCategoryIcon(), getGenreIcon(), getMoodIcon(), MOOD_ICONS (+53 more)
+_This domain is responsible for managing audio processing and analysis, including recording, extracting lyrics, and tracking progress._
+Cohesion: 0.01
+Nodes (208): focusRingClasses, generateA11yId(), trapFocus(), handleCancel(), handleSelect(), Icon, addChip, canAddMore (+200 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.04
-Nodes (44): navigate, [activeTab, setActiveTab], currentArtists, { data: publicArtists }, CommentFormProps, GenerateFormCustom, GenerateFormSimple, GenerateSheet() (+36 more)
+_This domain is responsible for managing notes, including their creation, deletion, and updates within a grid interface._
+Cohesion: 0.01
+Nodes (214): cleanupIfNeeded(), gotoIndex(), OVERLAY_SELECTOR, pressHotkey(), ta, toggled, beforeEnd, OVERLAY (+206 more)
 
 ### Community 12 - "Community 12"
-Cohesion: 0.04
-Nodes (47): accessToken, botToken, creditsGranted, creditsSpent, creditsToDeduct, { data: authData, error: authError }, { data: authUser, error: authUserError }, { data: creditTransactions } (+39 more)
+_This domain is responsible for managing and categorizing various error types and handling asynchronous operations with retries and mutexes._
+Cohesion: 0.01
+Nodes (199): beatDuration, beatsPerMeasure, bpm, currentTime, duration, expectedBeats, expectedSnap, gridPositions (+191 more)
 
 ### Community 13 - "Community 13"
-Cohesion: 0.04
-Nodes (44): isAudioMessage(), handleUpdate(), BOT_CONFIG, CACHE_TTL, cachedConfig, cacheTimestamp, CHANNEL_URL, CHANNEL_USERNAME (+36 more)
+_This domain is responsible for managing and displaying the progress of a multi-stage process, including time calculations and visual indicators._
+Cohesion: 0.01
+Nodes (170): abs, __dirname, removed, root, TARGETS, contrastSafeColors, getAccessibleForeground(), getContrastRatio() (+162 more)
 
 ### Community 14 - "Community 14"
-Cohesion: 0.03
-Nodes (61): API_BASE, apiEndpoints, attempt, { audio_url, mode, model, outputs, vocabulary, title, stem_type }, avgInterval, baseEndpoint, baseRetryDelay, beatData (+53 more)
+_This domain is responsible for managing audio elements, their states, and interactions during playback and disconnection events._
+Cohesion: 0.01
+Nodes (146): ANALYSIS_STEPS, analysisIntervalRef, [analysisProgress, setAnalysisProgress], [analysisResult, setAnalysisResult], [analysisStep, setAnalysisStep], audio, [audioDuration, setAudioDuration], [audioFile, setAudioFile] (+138 more)
 
 ### Community 15 - "Community 15"
-Cohesion: 0.03
-Nodes (73): dependencies, canvas-confetti, class-variance-authority, clsx, cmdk, dayjs, @dnd-kit/core, @dnd-kit/sortable (+65 more)
+_This domain handles subscription tiers, expiration settings, and date manipulations for managing user subscriptions._
+Cohesion: 0.01
+Nodes (151): normalized, StatCard, stats, AdminAlerts, AdminBot, AdminBroadcast, AdminDashboard, AdminEconomy (+143 more)
 
 ### Community 16 - "Community 16"
-Cohesion: 0.03
-Nodes (65): AdminAlerts, AdminBot, AdminBroadcast, AdminDashboard, AdminEconomy, AdminFeedback, AdminLayout, AdminOverview (+57 more)
+_This domain is responsible for managing UI components, error handling, and data sorting in a user interface._
+Cohesion: 0.01
+Nodes (146): { addTrack }, [createProjectOpen, setCreateProjectOpen], filteredProjects, handleAddToProject(), [loading, setLoading], { projects, isLoading: projectsLoading }, [searchQuery, setSearchQuery], [selectedProjectId, setSelectedProjectId] (+138 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.06
-Nodes (52): corsHeaders, logger, logger, available, code, { count: activeCount }, data, { data: credits } (+44 more)
+_This domain is responsible for managing audio contexts and sound effects in a software application._
+Cohesion: 0.01
+Nodes (135): CACHE_VERSION, cacheAudioViaSW(), getAudioCacheSize(), getCachedAudioBlob(), isAudioCached(), isRegistering, isServiceWorkerSupported(), SW_PATH (+127 more)
 
 ### Community 18 - "Community 18"
-Cohesion: 0.13
-Nodes (32): handleApp(), handleAchievementsDeepLink(), handleAnalyzeDeepLink(), handleArtistDeepLink(), handleDeepLink(), handleInviteDeepLink(), handleLeaderboardDeepLink(), handlePaymentDeepLink() (+24 more)
+_This domain is responsible for managing user actions and navigation within a UI component._
+Cohesion: 0.02
+Nodes (118): DURATION_PRESETS, [expiresAt, setExpiresAt], handlePresetClick(), [isLoading, setIsLoading], [reason, setReason], SUBSCRIPTION_TIERS, [tier, setTier], addDays() (+110 more)
 
 ### Community 19 - "Community 19"
+_This domain is responsible for managing audio recording, analysis, and workflow navigation for guitar recordings._
 Cohesion: 0.02
-Nodes (65): ICON_SIZES, SectionHeader, SectionHeaderProps, SEO_PRESETS, SEOHead(), SEOHeadProps, blur, createGlass() (+57 more)
+Nodes (134): subscribeToBatchUpdates(), fetchFailurePatterns(), fetchGenerationStats(), fetchSuccessTimeline(), getInterval(), subscribeToGenerationLogs(), analyzeGenerationDurations(), calculateSuccessTrend() (+126 more)
 
 ### Community 20 - "Community 20"
-Cohesion: 0.03
-Nodes (59): achievementsToCheck, ACTION_REWARDS, artistName, body, bonusCredits, chatId, checkAndUnlockAchievements(), contentHash (+51 more)
+_This domain is responsible for managing audio playback and visual representation on a canvas, including handling user interactions and visual properties._
+Cohesion: 0.02
+Nodes (83): checkAudioHealth(), getAudioMetrics(), logAudioHealth(), AudioUpscaleButton(), activeIndex, currentStage, currentStageIndex, [elapsedTime, setElapsedTime] (+75 more)
 
 ### Community 21 - "Community 21"
-Cohesion: 0.04
-Nodes (35): sizeMap, sizes, variantStyles, breadcrumbItems, isLast, location, ROUTE_LABELS, AppHeader() (+27 more)
+_This domain is responsible for managing administrative functions and user interactions within a digital platform._
+Cohesion: 0.03
+Nodes (41): CACHE_TTL, cachedFormat, generateSrcSet(), getOptimizedImageUrl(), getTrackCoverUrl(), imageCache, MAX_CACHE_SIZE, preloadImages() (+33 more)
 
 ### Community 22 - "Community 22"
-Cohesion: 0.06
-Nodes (28): CHART_COLORS, ErrorCategory, FailedGeneration, formatDuration(), GenerationMetrics(), getSuccessRateColor(), MetricsSummary, ModelStat (+20 more)
+_This domain is responsible for rendering and managing the layout of musical measures and elements in a digital score._
+Cohesion: 0.03
+Nodes (66): [activeTab, setActiveTab], cn(), handleProgressionExport(), handleTabExport(), Icon, isActive, isMobile, navigate (+58 more)
 
 ### Community 23 - "Community 23"
-Cohesion: 0.08
-Nodes (34): cacheResponse(), evictOldEntries(), getCacheSize(), blob, addToMediaGroup(), clearMediaGroupSession(), getFileInfo(), getMediaGroupFiles() (+26 more)
+_This domain is responsible for formatting, validating, and parsing song lyrics with various tag manipulations._
+Cohesion: 0.03
+Nodes (41): APIError, AppError, AudioError, err(), ERROR_METADATA, GenerationError, InsufficientCreditsError, NetworkError (+33 more)
 
 ### Community 24 - "Community 24"
+_This domain is responsible for creating and managing interactive visual elements and their states in a user interface._
 Cohesion: 0.03
-Nodes (61): devDependencies, autoprefixer, axe-core, @chromatic-com/storybook, @commitlint/cli, @commitlint/config-conventional, eslint, eslint-config-prettier (+53 more)
+Nodes (62): handleNotificationClick(), [open, setOpen], { unreadCount }, accountNavItems, [accountOpen, setAccountOpen], active, { activeGenerations, generationCount }, adminNavItems (+54 more)
 
 ### Community 25 - "Community 25"
-Cohesion: 0.05
-Nodes (41): AudioFileInfo, AudioSegment, CheckVoiceAvailabilityRequest, CustomVoice, GenerateVoiceRequest, GenerateVoiceResponse, GetRecordInfoRequest, GetValidateInfoRequest (+33 more)
+_This domain is responsible for managing and rendering various interactive elements and their states within a user interface._
+Cohesion: 0.03
+Nodes (60): [activeTab, setActiveTab], [analysisError, setAnalysisError], [analysisStage, setAnalysisStage], audioLevel, [currentStep, setCurrentStep], handleStartRecording(), handleStopRecording(), interval (+52 more)
 
 ### Community 26 - "Community 26"
+_This domain is responsible for managing the state and behavior of various dialog components within the application._
 Cohesion: 0.03
-Nodes (59): scripts, build, build:dev, build-storybook, check-all, check:css-imports, check:design-tokens, check:section-tokens (+51 more)
+Nodes (60): { activeReference }, [advancedOpen, setAdvancedOpen], [artistDialogOpen, setArtistDialogOpen], { artists }, [audioActionDialogOpen, setAudioActionDialogOpen], chordInfo, [closeConfirmOpen, setCloseConfirmOpen], form (+52 more)
 
 ### Community 27 - "Community 27"
-Cohesion: 0.05
-Nodes (42): {
-      audio_url,
-      audio_base64,
-      user_id: _bodyUserId,
-
-      file_name = "audio.mp3",
-      file_size,
-      duration_seconds,
-      source = "unknown",
-      telegram_chat_id,
-      telegram_file_id,
-      telegram_message_id,
-      skip_stems = false,
-      skip_lyrics = false,
-      skip_analysis = false,
-      force_reprocess = false,
-      reference_id,
-      extract_lyrics_from_vocal = false,
-      action,
-      user_classification,
-    }, { audio_url, track_id, analyze_style = true }, audioInputForReplicate, audioType, bpmEstimate, bpmStr, { data: existingRef }, dbError (+34 more)
+_This domain encompasses the development and integration of an AI-powered assistant, focusing on accessibility, performance, and user experience._
+Cohesion: 0.03
+Nodes (50): actions, handleAction(), navigate, defaultProps, element, initialRender, mockLine, onClick (+42 more)
 
 ### Community 28 - "Community 28"
-Cohesion: 0.05
-Nodes (44): isInsufficient, isLow, remaining, handleTopUp(), { hapticFeedback }, { isFreeUser, isBalanceLimitReached }, isInsufficient, isLow (+36 more)
-
-### Community 29 - "Community 29"
-Cohesion: 0.06
-Nodes (38): chargeResult, { data: product }, { data: product, error: productError }, { data: result, error: processError }, { data: subscriptions, error: fetchError }, { data: transaction, error: txError }, defaultFailUrl, defaultSuccessUrl (+30 more)
-
-### Community 30 - "Community 30"
-Cohesion: 0.07
-Nodes (22): QueuePosition(), DeliveryStats, useDeliveryTracking(), GenerateFormState, GenerationMode, UseGenerateFormProps, QueueStatus, useGenerationQueue() (+14 more)
-
-### Community 31 - "Community 31"
-Cohesion: 0.04
-Nodes (45): useAuth(), PAGE_SIZE, useActivityFeed(), useFeedSummary(), useFollowingIds(), useLikedCreatorIds(), useBlockedUsers(), useBlockUser() (+37 more)
-
-### Community 32 - "Community 32"
-Cohesion: 0.04
-Nodes (43): artStyle, attempts, bpmKey, colorPalette, composition, conceptHint, contextResponse, { data: project } (+35 more)
-
-### Community 33 - "Community 33"
-Cohesion: 0.04
-Nodes (52): AlertPayload, buildAlertMessage(), buildTestMessage(), escapeMarkdown(), logger, sendAlertToAdmins(), adminChatIds, adminUserIds (+44 more)
-
-### Community 34 - "Community 34"
-Cohesion: 0.16
-Nodes (34): deleteAndSendNewMenuPhoto(), logger, sendNotification(), setActiveMenuMessageId(), supabase, handleHelp(), getMenuImage(), createKeyValue() (+26 more)
-
-### Community 35 - "Community 35"
-Cohesion: 0.27
-Nodes (7): cleanupOldGuitarSessions(), clearGuitarSession(), GUITAR_SESSIONS, handleCancelGuitar(), handleGuitarAgain(), handleGuitarCommand(), supabase
-
-### Community 36 - "Community 36"
-Cohesion: 0.05
-Nodes (70): downloadAsBase64(), getFileUrl(), getUserProfile(), handleAddInstrumentalAction(), handleAddVocalsAction(), handleAudioActionCallback(), handleCoverAction(), handleEditStyleAction() (+62 more)
-
-### Community 37 - "Community 37"
-Cohesion: 0.04
-Nodes (39): activeLine, {
-    activeLineIndex,
-    currentTime: syncedTime,
-    constants,
-  }, activeLineRef, adjustedTime, container, containerRect, currentLinePos, { data: lyricsData } (+31 more)
-
-### Community 38 - "Community 38"
-Cohesion: 0.04
-Nodes (41): amount, duration, end, formattedAmount, frame(), handleGoToGenerate(), handleGoToLibrary(), handleOpenInTelegram() (+33 more)
-
-### Community 39 - "Community 39"
-Cohesion: 0.04
-Nodes (36): filterStructuralTagWords(), isStructuralTag(), STRUCTURAL_TAG_PATTERNS, activeIdx, [activeLineIndex, setActiveLineIndex], containerRef, { data: lyricsData, isLoading: loading }, detectSectionType() (+28 more)
-
-### Community 40 - "Community 40"
-Cohesion: 0.04
-Nodes (34): Progress Tracker, Sprint A Progress, color, height, hasErrors, isComplete, overallProgress, STEM_TYPE_LABELS (+26 more)
-
-### Community 41 - "Community 41"
-Cohesion: 0.04
-Nodes (43): [activeWordIndex, setActiveWordIndex], AUTO_SCROLL_DISTANCE_THRESHOLD, AUTO_SCROLL_RESUME_DELAY, container, containerRect, [copied, setCopied], currentLine, currentPosition (+35 more)
-
-### Community 42 - "Community 42"
+_This domain is responsible for handling audio recording, analysis, and playback functionalities._
 Cohesion: 0.04
 Nodes (42): computedNotesDuration, currentTime, defaultHeight, duration, effectiveBpm, effectiveMidiUrl, effectiveMusicXmlUrl, handleDownload (+34 more)
 
-### Community 43 - "Community 43"
-Cohesion: 0.03
-Nodes (109): runAccessibilityAudit(), clearActiveMenu(), deleteActiveMenu(), getActiveMenuMessageId(), getMenuState(), buildCompletedActionKeyboard(), buildUploadedActionKeyboard(), consumePendingClassification() (+101 more)
-
-### Community 44 - "Community 44"
+### Community 29 - "Community 29"
+_This domain is responsible for caching, preloading, and optimizing images for improved performance and user experience._
 Cohesion: 0.05
-Nodes (41): addNote, containerRef, deleteNote, deleteSelectedNotes, dragNote, dragStartPos, [editMode, setEditMode], gridLines (+33 more)
+Nodes (37): filterStructuralTagWords(), isStructuralTag(), splitWordByLineBreaks(), STRUCTURAL_TAG_PATTERNS, activeIdx, [activeLineIndex, setActiveLineIndex], containerRef, { data: lyricsData, isLoading: loading } (+29 more)
 
-### Community 45 - "Community 45"
+### Community 30 - "Community 30"
+_This domain is responsible for managing and displaying character counts and related UI elements for user input validation._
 Cohesion: 0.05
-Nodes (42): [aiPanelOpen, setAiPanelOpen], enrichedTags, [globalTags, setGlobalTags], handleBack, handleLoadTemplate, handleNewDocument, handleOpenNotes, handleSave (+34 more)
+Nodes (42): [activeWordIndex, setActiveWordIndex], AUTO_SCROLL_DISTANCE_THRESHOLD, AUTO_SCROLL_RESUME_DELAY, container, containerRect, [copied, setCopied], currentLine, currentPosition (+34 more)
 
-### Community 46 - "Community 46"
-Cohesion: 0.03
-Nodes (53): PlaybackStatus, playerLogic, PlayerMode, PlayerState, RepeatMode, usePlayerStore, VersionMode, CommentForm() (+45 more)
+### Community 31 - "Community 31"
+_This domain is responsible for managing audio playback, synchronization, and performance optimization in a multimedia application._
+Cohesion: 0.05
+Nodes (41): [aiPanelOpen, setAiPanelOpen], enrichedTags, [globalTags, setGlobalTags], handleBack, handleLoadTemplate, handleNewDocument, handleOpenNotes, handleSave (+33 more)
 
-### Community 47 - "Community 47"
-Cohesion: 0.06
-Nodes (15): LyricsFormatter, sanitizeTag(), wrapInBrackets(), errorCount, handleAutoFix(), infoCount, [isExpanded, setIsExpanded], validation (+7 more)
+### Community 32 - "Community 32"
+_This domain is responsible for overseeing the planning, execution, and evaluation of sprint cycles in software development._
+Cohesion: 0.08
+Nodes (35): addCredits(), deductCredits(), fetchSunoApiBalance(), fetchUserCredits(), hasCheckedInToday(), logCreditTransaction(), recordCheckin(), upsertUserCredits() (+27 more)
 
-### Community 48 - "Community 48"
+### Community 33 - "Community 33"
+_This domain is responsible for managing user interactions related to privacy, blocking users, reporting comments, and overseeing moderation activities._
 Cohesion: 0.07
-Nodes (28): assignToExperiment(), Experiment, EXPERIMENTS, ExperimentVariant, getExperimentAssignments(), getExperimentOrFlag(), getVariant(), isControl() (+20 more)
+Nodes (32): trackButtonClick(), trackEvent(), trackFeatureUsed(), trackGeneration(), trackGenerationMetrics(), trackOnboardingStep(), trackPageView(), trackTrackLiked() (+24 more)
 
-### Community 49 - "Community 49"
-Cohesion: 0.03
-Nodes (41): Collapsible, CollapsibleContent, CollapsibleTrigger, BottomNavigation, GenerateSheet, navItems, GamificationOnboarding, GenerateSheet (+33 more)
-
-### Community 50 - "Community 50"
-Cohesion: 0.09
-Nodes (16): [expanded, setExpanded], { hapticFeedback }, MenuItem, MenuSearch, MenuSearchProps, adminSection, MenuItem, MenuSection (+8 more)
-
-### Community 51 - "Community 51"
-Cohesion: 0.10
-Nodes (10): EmptyState, variantDefaults, inputRef, [isSearchExpanded, setIsSearchExpanded], { patterns }, ProjectsTabProps, statusLabels, typeLabels (+2 more)
-
-### Community 52 - "Community 52"
-Cohesion: 0.05
-Nodes (36): allTags, category, combinedText, { data: existingMetaTags }, { data: existingStyles }, { data: existingTags }, { data: tagId, error: syncError }, { data: track, error } (+28 more)
-
-### Community 53 - "Community 53"
-Cohesion: 0.21
-Nodes (14): ALL_NOISE_WORDS, applyPatterns(), capitalizeTitle(), cleanGenreTags(), escapeRegex(), extractTitleFromFileName(), generateFallbackTitle(), GENRE_TAGS (+6 more)
-
-### Community 54 - "Community 54"
-Cohesion: 0.07
-Nodes (28): showProgress, [audioDuration, setAudioDuration], [audioFile, setAudioFile], [audioPreviewUrl, setAudioPreviewUrl], availableModels, clearAudio(), [durationError, setDurationError], file (+20 more)
-
-### Community 55 - "Community 55"
+### Community 34 - "Community 34"
+_This domain manages the playback and control of musical notes, including their duration, volume, and user interactions._
 Cohesion: 0.05
 Nodes (37): LazyAddTrackDrawer, LazyAddVocalsDrawer, LazyAdvancedSettings, LazyAudioCoverDialog, LazyAudioExtendDialog, LazyAudioVisualizer, LazyBroadcastPanel, LazyDesktopFullscreenPlayer (+29 more)
 
-### Community 56 - "Community 56"
+### Community 35 - "Community 35"
+_This domain is responsible for managing user onboarding and gamification features to enhance user interaction and experience._
 Cohesion: 0.05
-Nodes (30): removeItem(), [dismissed, setDismissed], DRAFT_EXPIRY_MS, DRAFT_KEY, [draft, setDraft], handleDismiss(), { hapticFeedback }, parsed (+22 more)
+Nodes (36): [activeTab, setActiveTab], [advancedSettings, setAdvancedSettings], isProcessing, [loading, setLoading], [lyrics, setLyrics], [negativeTags, setNegativeTags], progress, showProgress (+28 more)
 
-### Community 57 - "Community 57"
-Cohesion: 0.07
-Nodes (23): AlertDialog, AlertDialogPortal, AlertDialogTrigger, useLikeTrack(), HAPTIC_GUIDE, hapticSelectionChanged(), isHapticAvailable(), isHapticSupported() (+15 more)
-
-### Community 58 - "Community 58"
-Cohesion: 0.06
-Nodes (27): statColors, StatsHighlightBanner, StatsHighlightBannerProps, densityToBodyGap, densityToHeaderGap, densityToInnerPad, maxWidthToClass, Section (+19 more)
-
-### Community 59 - "Community 59"
+### Community 36 - "Community 36"
+_This domain is responsible for tracking progress, documenting decisions, and managing tasks within a project._
 Cohesion: 0.05
-Nodes (35): activityItems, afterScrollCount, commentsList, commentText, deliveryTime, firstActivity, firstTrack, firstUserCard (+27 more)
+Nodes (27): analysisColors, chordColors, effectColors, emotionalColors, errorCodeColors, getRankColor(), hintColors, homeSectionColors (+19 more)
 
-### Community 60 - "Community 60"
-Cohesion: 0.09
-Nodes (18): Avatar, [isLoaded, setIsLoaded], optimizedSrc, Comment, CommentItem(), CommentItemProps, CommentsList(), CommentsListProps (+10 more)
+### Community 37 - "Community 37"
+_This domain is responsible for managing the display and interaction of scrolling lyrics, including active line tracking and auto-scrolling behavior._
+Cohesion: 0.05
+Nodes (36): activityItems, afterScrollCount, commentsList, commentText, deliveryTime, firstActivity, firstTrack, firstUserCard (+28 more)
 
-### Community 61 - "Community 61"
+### Community 38 - "Community 38"
+_This domain is responsible for managing the creation and configuration of artists and their associated projects._
 Cohesion: 0.05
 Nodes (35): barHeight, barW, barWidth, barX, canvas, canvasHeight, canvasRef, computedStyle (+27 more)
 
-### Community 62 - "Community 62"
+### Community 39 - "Community 39"
+_This domain is responsible for managing the editing, saving, and versioning of lyrics within a project, including handling user interactions and UI states._
 Cohesion: 0.06
 Nodes (34): beatLines, containerWidth, contentWidth, currentScroll, handleCanvasClick, handleFitToScreen, handleKeyDown(), handleMouseDown (+26 more)
 
-### Community 63 - "Community 63"
-Cohesion: 0.09
-Nodes (9): getPromptUsageCount(), INSPIRATION_PROMPTS, LyricsParser, HISTORY_KEY, loadLocalHistory(), loadLocalSaved(), SAVED_KEY, usePromptHistorySync() (+1 more)
+### Community 40 - "Community 40"
+_This domain is responsible for enhancing audio playback experiences through optimized performance, caching, and user interaction features._
+Cohesion: 0.06
+Nodes (30): [activeChord, setActiveChord], alpha, canvas, canvasRef, centerX, centerY, ctx, current (+22 more)
 
-### Community 64 - "Community 64"
-Cohesion: 0.09
-Nodes (21): barDuration, barNumber, beatCount, beatDuration, bpm, disabledOperations, getDisabledReason, handleMasterMuteToggle (+13 more)
+### Community 41 - "Community 41"
+_This domain is responsible for tracking user interactions and events within an application to analyze engagement and feature usage._
+Cohesion: 0.06
+Nodes (32): activeTracksCount, bitrateOptions, [format, setFormat], formatOptions, handleCancelExport, handleExport(), { isExporting, exportProgress, exportMix, cancelExport, downloadBlob }, [limiter, setLimiter] (+24 more)
 
-### Community 65 - "Community 65"
-Cohesion: 0.08
-Nodes (22): CHANNEL_USERNAME, commandsResult, { content, userId, contentType }, errorMessage, generateMidi(), { isSpam, score }, maxLengths, midiData (+14 more)
-
-### Community 66 - "Community 66"
-Cohesion: 0.05
-Nodes (38): actionLabel, actionUrl, batch, batchSize, botMention, chat_ids, { data: adminIds }, { data: allUsers } (+30 more)
-
-### Community 67 - "Community 67"
+### Community 42 - "Community 42"
+_This domain is responsible for various functionalities related to audio processing, visualization, and user interaction within an application._
 Cohesion: 0.06
 Nodes (31): [activeTab, setActiveTab], aiContext, [generatedLyrics, setGeneratedLyrics], handleApplyLyrics, handleKeyDown, handleQuickActionSelect, handleRecommendationSelect, handleScroll (+23 more)
 
-### Community 68 - "Community 68"
+### Community 43 - "Community 43"
+_This domain is responsible for building prompts and managing settings related to music creation and customization._
 Cohesion: 0.06
 Nodes (28): canPull, computeItemKey, containerRef, gridComponents, GridContainer, GridFooter, GridItemWrapper, handleGridEndReached (+20 more)
 
-### Community 69 - "Community 69"
-Cohesion: 0.08
-Nodes (29): markDeeplinkConversion(), getItem(), markConversion(), trackDeeplink(), loadData(), calculateRetentionDays(), FIRST_GENERATION_DATE_KEY, FIRST_GENERATION_KEY (+21 more)
-
-### Community 70 - "Community 70"
+### Community 44 - "Community 44"
+_This domain is responsible for managing the deployment and testing of software components, ensuring functionality, security, and performance._
 Cohesion: 0.06
 Nodes (31): applyPreset, {
     channels,
@@ -1622,225 +1604,170 @@ Nodes (31): applyPreset, {
     forceRegenerateInLive,
   }, customChannel, { description, bpm }, [dismissedSuggestions, setDismissedSuggestions], drumData, handleApplyQuickStart, handleApplySuggestion (+23 more)
 
-### Community 71 - "Community 71"
-Cohesion: 0.05
-Nodes (30): DropdownMenu, DropdownMenuGroup, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger (+22 more)
-
-### Community 72 - "Community 72"
+### Community 45 - "Community 45"
+_This domain is responsible for defining and managing various color schemes used across different components and functionalities in the application._
 Cohesion: 0.06
 Nodes (33): chargeId, creditsAfterDuplicate, creditsAfterFirst, data, { data: inactiveProduct }, { data: product }, { data: profile }, { data: profile1 } (+25 more)
 
-### Community 73 - "Community 73"
+### Community 46 - "Community 46"
+_This domain manages the state and functionality related to audio file handling, including settings, processing status, and user interactions._
 Cohesion: 0.06
-Nodes (27): activeAudio, [activeVersion, setActiveVersion], animationRef, currentNewUrl, [currentTime, setCurrentTime], effectiveVolume, haptic, hasVariantB (+19 more)
+Nodes (31): abs, absPath, before, BOLD, code, CYAN, DIM, __dirname (+23 more)
 
-### Community 74 - "Community 74"
-Cohesion: 0.05
-Nodes (38): AI Lyrics Assistant, API Layer, Bundle Size Limit (950 KB), Code Splitting Strategy, Component Layer, Deno Edge Functions, Gamification System, Generation Form (+30 more)
-
-### Community 75 - "Community 75"
+### Community 47 - "Community 47"
+_This domain is responsible for managing user interactions and activities within a digital platform._
 Cohesion: 0.07
 Nodes (19): aiAssistant, [aiPrompt, setAiPrompt], broadcast, [content, setContent], [coverUrl, setCoverUrl], createPost, [excerpt, setExcerpt], generateCover (+11 more)
 
-### Community 76 - "Community 76"
-Cohesion: 0.07
-Nodes (33): cloudStorage, getItems(), getJSON(), getTelegramCloudStorage(), isCloudStorageAvailable(), log, setItem(), setJSON() (+25 more)
-
-### Community 77 - "Community 77"
+### Community 48 - "Community 48"
+_This domain focuses on enhancing the efficiency and effectiveness of software performance through various optimization strategies and user story implementations._
 Cohesion: 0.07
 Nodes (30): activeIdx, [activeLineIndex, setActiveLineIndex], activeLineRef, adjustedTime, backingVocal, cleanedLyrics, cleanWord, contentIdx (+22 more)
 
-### Community 78 - "Community 78"
+### Community 49 - "Community 49"
+_This domain manages the synchronization and display of lyrics in relation to the current playback time of a media element._
+Cohesion: 0.09
+Nodes (9): LyricsFormatter, sanitizeTag(), wrapInBrackets(), isValidSectionTag(), LyricsValidator, normalizeSectionTag(), RUSSIAN_TAGS, RUSSIAN_TO_ENGLISH_MAP (+1 more)
+
+### Community 50 - "Community 50"
+_This domain is responsible for managing track-related functionalities, including adding, updating, generating, and organizing tracks within a project._
 Cohesion: 0.06
-Nodes (31): body, box, button, buttonCount, buttons, content, createButton, dialog (+23 more)
+Nodes (30): body, box, buttonCount, buttons, content, createButton, dialog, errorBoundary (+22 more)
 
-### Community 79 - "Community 79"
+### Community 51 - "Community 51"
+_This domain is responsible for handling the interactive visualization of musical notes and their properties on a canvas._
 Cohesion: 0.06
-Nodes (31): ariaLabels, body, bodyBox, buttonBox, buttonCount, buttons, criticalErrors, currentUrl (+23 more)
+Nodes (32): adminToken, adminUserId, { data: adminSession }, { data: adminUser }, { data: allSubs }, { data: allTransactions }, { data, error }, { data: product } (+24 more)
 
-### Community 80 - "Community 80"
-Cohesion: 0.05
-Nodes (27): Calendar(), AI_TOOLS, badgeVariants, BATCH_FETCH_LIMIT, buttonVariants, DYNAMIC_TAGS, EMOTIONAL_CUES, GENRE_FETCH_LIMIT (+19 more)
-
-### Community 81 - "Community 81"
-Cohesion: 0.06
-Nodes (30): [activeTab, setActiveTab], allTracks, canPull, containerRef, { data: publicArtists, isLoading: artistsLoading }, { data: publicContent, isLoading: tracksLoading, refetch: refetchTracks }, filteredArtists, filteredTracks (+22 more)
-
-### Community 82 - "Community 82"
+### Community 52 - "Community 52"
+_This domain is responsible for managing the rendering and interaction of graphical elements on a canvas._
 Cohesion: 0.06
 Nodes (27): BASS_BOTTOM_LINE_PITCH, beatProgress, endMeasure, FLAT_POSITIONS_TREBLE, KEY_SIGNATURES, lineY, measureOffset, measureX (+19 more)
 
-### Community 83 - "Community 83"
-Cohesion: 0.06
-Nodes (28): animationRef, audio, audioRef, barHeight, barWidth, canvas, canvasRef, chordColors (+20 more)
-
-### Community 84 - "Community 84"
-Cohesion: 0.06
-Nodes (30): analyserRef, audioChunksRef, audioContextRef, [audioLevel, setAudioLevel], barCount, chordDetection, config, detectedChordsRef (+22 more)
-
-### Community 85 - "Community 85"
-Cohesion: 0.06
-Nodes (22): [activeVariant, setActiveVariant], animationRef, audio, audioRef, availableVariants, barProgress, [currentTime, setCurrentTime], getCurrentUrl (+14 more)
-
-### Community 86 - "Community 86"
+### Community 53 - "Community 53"
+_This domain focuses on enhancing the quality, monitoring, and management of audio playback functionalities in software applications._
 Cohesion: 0.06
 Nodes (31): [activeMidiUrl, setActiveMidiUrl], [activeTab, setActiveTab], config, files, handleDownloadMidi, handleExportMidi, handlePlayMidi, handleTranscribe (+23 more)
 
-### Community 87 - "Community 87"
+### Community 54 - "Community 54"
+_This domain manages the state and behavior of a chat interface, including message handling, tool execution, and user interactions._
 Cohesion: 0.06
 Nodes (31): absolutePos, BEATS_PER_MEASURE, containerRef, editor, endPosition, existing, handleCellClick, handleFretInput (+23 more)
 
-### Community 88 - "Community 88"
+### Community 55 - "Community 55"
+_This domain is responsible for guiding users through a multi-step process to generate creative content, such as ideas, lyrics, and styles._
+Cohesion: 0.06
+Nodes (21): Calendar(), AI_TOOLS, badgeVariants, buttonVariants, DYNAMIC_TAGS, EMOTIONAL_CUES, GENRE_OPTIONS, GENRES (+13 more)
+
+### Community 56 - "Community 56"
+_This domain is responsible for managing transactions, user profiles, and invoice data related to payment operations._
+Cohesion: 0.06
+Nodes (30): [activeTab, setActiveTab], allTracks, canPull, containerRef, { data: publicArtists, isLoading: artistsLoading }, { data: publicContent, isLoading: tracksLoading, refetch: refetchTracks }, filteredArtists, filteredTracks (+22 more)
+
+### Community 57 - "Community 57"
+_This domain is responsible for creating, updating, and broadcasting posts with associated metadata and AI-generated content._
+Cohesion: 0.06
+Nodes (31): ariaLabels, body, bodyBox, buttonBox, buttonCount, buttons, criticalErrors, currentUrl (+23 more)
+
+### Community 58 - "Community 58"
+_This domain is responsible for managing the interaction and state of a grid component, including pull-to-refresh functionality and touch event handling._
 Cohesion: 0.07
 Nodes (26): colors, containerRef, currentPercent, endPercent, [endTime, setEndTime], getPositionFromEvent, handleClose, handleMove() (+18 more)
 
-### Community 89 - "Community 89"
+### Community 59 - "Community 59"
+_This domain is responsible for generating, previewing, and managing music tracks and their associated settings._
 Cohesion: 0.07
-Nodes (28): Comp, contextValue, handleKeyDown(), isMobile, { isMobile, state }, { isMobile, state, openMobile, setOpenMobile }, open, [_open, _setOpen] (+20 more)
+Nodes (27): ALL_SUNO_TAG_CATEGORIES, ANTI_PATTERNS, BEST_PRACTICES, COMPOUND_TAG_TEMPLATES, CONFLICTING_TAGS, DRILL_TRAP_TAGS, DYNAMICS_TAGS, extractTagsFromLyrics() (+19 more)
 
-### Community 90 - "Community 90"
-Cohesion: 0.07
-Nodes (25): ALL_SUNO_TAG_CATEGORIES, ANTI_PATTERNS, BEST_PRACTICES, COMPOUND_TAG_TEMPLATES, CONFLICTING_TAGS, DRILL_TRAP_TAGS, DYNAMICS_TAGS, findSunoMetaTag() (+17 more)
+### Community 60 - "Community 60"
+_This domain is responsible for handling and manipulating song lyrics, including their display, interaction, and extraction of relevant data._
+Cohesion: 0.06
+Nodes (29): altCount, body, bodyBox, criticalErrors, errors, fallback, focusedElement, h1 (+21 more)
 
-### Community 91 - "Community 91"
-Cohesion: 0.05
-Nodes (36): authenticateWithTelegram(), getAuthenticatedUser(), log, requireAdmin(), requireAuth(), setSession(), logger, callerId (+28 more)
-
-### Community 92 - "Community 92"
-Cohesion: 0.07
-Nodes (29): BOT_MENTION, canSend, {
-      chat_id,
-      chatId,
-      user_id,
-      status,
-      track_id,
-      trackId,
-      type,
-      error_message,
-      audioUrl,
-      coverUrl,
-      videoUrl,
-      title,
-      duration,
-      tags,
-      style,
-      versionsCount,
-      versionLabel,
-      currentVersion,
-      totalVersions,
-      generationMode,
-      audioClips,
-    }, clipCoverUrl, docTypeLabels, { document_url, document_type, filename, track_title }, durationFormatted, escapedError (+21 more)
-
-### Community 93 - "Community 93"
+### Community 61 - "Community 61"
+_This domain is responsible for managing dialog components, including their creation, content handling, and error management._
 Cohesion: 0.07
 Nodes (26): animate(), [animatedLevel, setAnimatedLevel], animationFrameRef, animationRef, dataArrayRef, [isClipping, setIsClipping], isVertical, [level, setLevel] (+18 more)
 
-### Community 94 - "Community 94"
-Cohesion: 0.25
-Nodes (17): AUTO_DELETE_TIMINGS, scheduleMessageDelete(), sendAutoDeleteMessage(), sendErrorNotification(), sendSuccessNotification(), CACHE_TTL, formatPeriod(), getQualityBadge() (+9 more)
-
-### Community 95 - "Community 95"
+### Community 62 - "Community 62"
+_This domain is responsible for managing administrative user sessions, tokens, and associated data transactions._
 Cohesion: 0.07
 Nodes (29): clipSchema, commentSchema, createCommentSchema, createProjectParamsSchema, createReportSchema, generationParamsSchema, lyricsFormDataSchema, noteTypeSchema (+21 more)
 
-### Community 96 - "Community 96"
+### Community 63 - "Community 63"
+_This domain is responsible for handling MIDI files, their playback, export, and transcription functionalities._
+Cohesion: 0.07
+Nodes (29): accessibleCards, accessibleCount, actionsButton, actionsCount, body, bodyBox, contentCount, emptyCount (+21 more)
+
+### Community 64 - "Community 64"
+_This domain is responsible for providing tools and structures to facilitate the creation and organization of creative content, such as stories, poems, and other artistic expressions._
 Cohesion: 0.07
 Nodes (26): actions, { avgFPS }, delta, droppedFramePercentage, event, finalMemory, frameDrops, growthMB (+18 more)
 
-### Community 97 - "Community 97"
-Cohesion: 0.06
-Nodes (30): [activeChord, setActiveChord], alpha, canvas, canvasRef, centerX, centerY, ctx, current (+22 more)
-
-### Community 98 - "Community 98"
-Cohesion: 0.17
-Nodes (5): GenreConfig, GENRES, GenreTabsSectionProps, displayTracks, GENRE_DB_VALUES
-
-### Community 99 - "Community 99"
+### Community 65 - "Community 65"
+_This domain manages the display and interaction of audio tracks and artists, including functionalities for pulling and refreshing content._
 Cohesion: 0.07
-Nodes (26): [autoGenerateTracklist, setAutoGenerateTracklist], [createdProjectId, setCreatedProjectId], { createProject, isCreating }, [description, setConcept], [generatedTracksCount, setGeneratedTracksCount], { generateTracklist, isGenerating, tracks }, [genre, setGenre], GENRES (+18 more)
+Nodes (27): AuthContext, authenticateWithTelegram, authLogger, checkProfile, {
+      data: { subscription },
+    }, { initData, isDevelopmentMode }, [loading, setLoading], loadingTimeout (+19 more)
 
-### Community 100 - "Community 100"
-Cohesion: 0.05
-Nodes (29): aiContent, { data: separationTask, error: taskError }, { data: version, error: versionError }, encodeVarLen(), filePath, generateMidiFile(), instrumentContext, localUrl (+21 more)
+### Community 66 - "Community 66"
+_This domain is responsible for sanitizing, formatting, and generating metadata for music tracks._
+Cohesion: 0.07
+Nodes (26): bottomBase, bottomStyle, { currentTime, duration, buffered, seek }, { gestureHandlers }, handleClose, handleExpand, handleExpandKey, handleLike (+18 more)
 
-### Community 101 - "Community 101"
-Cohesion: 0.14
-Nodes (11): ButtonBuilder, buttonGrid(), confirmationKeyboard(), mediaPlayerKeyboard(), navigationKeyboard(), paginationKeyboard(), quickButtons(), shareButton() (+3 more)
-
-### Community 102 - "Community 102"
-Cohesion: 0.16
-Nodes (6): Message, toast, Z_INDEX, getTelegramOffset(), Toaster(), ToasterProps
-
-### Community 103 - "Community 103"
-Cohesion: 0.13
-Nodes (20): buildDynamicKeyboard(), buildKeyboard(), createButton(), DEFAULT_IMAGES, formatMenuCaption(), getMainMenuKeyboard(), getMenuImageUrl(), getMenuItem() (+12 more)
-
-### Community 104 - "Community 104"
+### Community 67 - "Community 67"
+_This domain is responsible for managing the state and behavior of UI elements and interactions within a web application._
 Cohesion: 0.07
 Nodes (23): beatLines, betweenGrid, bpm, dragPositions, dragTimeDisplays, event, finalPosition, gridLines (+15 more)
 
-### Community 105 - "Community 105"
+### Community 68 - "Community 68"
+_This domain is responsible for managing the status and actions related to media processing, including video and audio features._
 Cohesion: 0.07
 Nodes (25): barHeight, barWidth, canvas, canvasHeight, canvasRef, clampedContinueAt, containerRef, continuePercent (+17 more)
 
-### Community 106 - "Community 106"
-Cohesion: 0.07
-Nodes (15): audio, audioRef, [currentTime, setCurrentTime], [duration, setDuration], [error, setError], handleSeek, handleSliderSeek, handleToggleMute (+7 more)
-
-### Community 107 - "Community 107"
+### Community 69 - "Community 69"
+_This domain is responsible for managing and processing various types of tags related to music and audio content._
 Cohesion: 0.08
-Nodes (23): [activeTab, setActiveTab], ASPECT_RATIO, BANNER_HEIGHT, BANNER_WIDTH, buildPrompt(), [cropImage, setCropImage], [cropPosition, setCropPosition], [cropScale, setCropScale] (+15 more)
+Nodes (16): audio, audioRef, [currentTime, setCurrentTime], [duration, setDuration], [error, setError], handleDownload(), handleSeek, handleSliderSeek (+8 more)
 
-### Community 108 - "Community 108"
+### Community 70 - "Community 70"
+_This domain is responsible for managing and rendering media playback controls and tracking user interactions with the media player._
 Cohesion: 0.07
 Nodes (24): activeColor, angle, arcProgress, calculateNewValue, containerRef, DISABLED_COLOR, handleDoubleTap, handlePointerDown (+16 more)
 
-### Community 109 - "Community 109"
+### Community 71 - "Community 71"
+_This domain is responsible for animating and visualizing audio data in real-time._
 Cohesion: 0.08
 Nodes (25): bind, bpmMarkers, colors, containerRef, containerWidth, handleEnd(), handleMove(), handlePlayheadDrag (+17 more)
 
-### Community 110 - "Community 110"
-Cohesion: 0.11
-Nodes (26): addToReferralChain(), assignToExperiment(), buildDeeplinkUrl(), collectDeviceInfo(), currentContext, deeplinkLogger, detectSource(), getConversionStages() (+18 more)
-
-### Community 111 - "Community 111"
-Cohesion: 0.12
-Nodes (9): clearAudioCache(), globalGestureManager, resetGlobalGestureManager(), initSentry(), init(), CACHE_TTL_MS, clearValidationCache(), findAccessibleUrl() (+1 more)
-
-### Community 112 - "Community 112"
+### Community 72 - "Community 72"
+_This domain is responsible for managing various schemas related to music project creation, comments, reports, and track details._
 Cohesion: 0.07
-Nodes (32): cooldownCache, DEDUPE_TIMEOUT_MS, delay(), formatNotificationMessage(), getProgressBar(), getStatusInfo(), isProcessing, log (+24 more)
+Nodes (26): chargeId, { data: existing }, { data: first, error: firstError }, { data: found }, { data: product }, { data: second, error: secondError }, { data: user }, { data: user2 } (+18 more)
 
-### Community 113 - "Community 113"
-Cohesion: 0.07
-Nodes (26): afterClear, baseMemory, beforeClear, finalMeasurement, finalMemory, growth, hasLeak, i (+18 more)
-
-### Community 114 - "Community 114"
+### Community 73 - "Community 73"
+_This domain is responsible for tracking and analyzing the performance metrics of a system, including memory usage, frame rates, and load times._
 Cohesion: 0.09
 Nodes (23): cleanTag(), getDisplayTags(), INSTRUMENT_PATTERNS, isValidTag(), MOOD_PATTERNS, parseStyleTags(), parseTrackTags(), STRUCTURE_PATTERNS (+15 more)
 
-### Community 115 - "Community 115"
-Cohesion: 0.08
-Nodes (18): [activeTab, setActiveTab], [copied, setCopied], DEFAULT_STYLE, emoji, getSectionTypeColor(), handleCopy(), hasNoTags, Icon (+10 more)
-
-### Community 116 - "Community 116"
-Cohesion: 0.11
-Nodes (11): FeatureGate(), FeatureWithBadge(), MidiTranscriptionActions(), STEM_ICONS, STEM_LABELS, MobileTrackActionSheet(), TIER_HIERARCHY, useFeatureAccess() (+3 more)
-
-### Community 117 - "Community 117"
-Cohesion: 0.08
-Nodes (23): { activeTrack, isPlaying, playTrack, pauseTrack }, { deleteTrack }, [editOpen, setEditOpen], handleDelete(), hasLinkedTrack, hasLyricsContent, isCurrentTrack, isMobile (+15 more)
-
-### Community 118 - "Community 118"
+### Community 74 - "Community 74"
+_This domain manages audio playback, chord progression, and user interaction for a music application._
 Cohesion: 0.08
 Nodes (19): angle, animationRef, canvas, canvasRef, centerX, centerY, containerRef, ctx (+11 more)
 
-### Community 119 - "Community 119"
+### Community 75 - "Community 75"
+_This domain is responsible for managing and interacting with musical notes and their visual representation on a digital interface._
+Cohesion: 0.08
+Nodes (21): [activeTab, setActiveTab], ASPECT_RATIO, BANNER_HEIGHT, BANNER_WIDTH, buildPrompt(), [cropImage, setCropImage], [cropPosition, setCropPosition], [cropScale, setCropScale] (+13 more)
+
+### Community 76 - "Community 76"
+_This domain is responsible for auditing processes and managing sprint activities, including documentation, bug fixes, and improvement plans._
 Cohesion: 0.08
 Nodes (20): bars, containerRef, [dragStartX, setDragStartX], endPercent, getTimeFromPosition, handleContainerClick, handleDragStart, [hoveredSection, setHoveredSection] (+12 more)
 
-### Community 120 - "Community 120"
+### Community 77 - "Community 77"
+_This domain is responsible for managing and manipulating media sections, including their properties and user interactions._
 Cohesion: 0.08
 Nodes (22): {
     data: notes,
@@ -1856,7 +1783,8 @@ Nodes (22): {
     isResolving,
   }, [editContent, setEditContent], [editingNoteId, setEditingNoteId], [editType, setEditType], filteredNotes, [filters, setFilters], groupedNotes, handleCreateNote (+14 more)
 
-### Community 121 - "Community 121"
+### Community 78 - "Community 78"
+_This domain is responsible for managing and assessing the accessibility features and metrics of a web application._
 Cohesion: 0.08
 Nodes (24): {
     actionState,
@@ -1869,155 +1797,84 @@ Nodes (24): {
     enableVideoStatusFetch,
   }, hasHdAudio, isUpscaling, showAddInstrumental, showAddVocals, showCopyLink, showCover, showDetails (+16 more)
 
-### Community 122 - "Community 122"
-Cohesion: 0.14
-Nodes (20): handleGenerate(), supabase, buildMessage(), createDivider(), createErrorMessage(), createHeader(), createLoadingMessage(), createProgressBar() (+12 more)
-
-### Community 123 - "Community 123"
-Cohesion: 0.15
-Nodes (19): detectIntent(), extractMusicStyle(), getSuggestedAction(), getSuggestedResponse(), INTENT_PATTERNS, isMusicPrompt(), checkAuth(), consumePendingUpload() (+11 more)
-
-### Community 124 - "Community 124"
+### Community 79 - "Community 79"
+_This domain is responsible for managing and visualizing timing and positioning of musical beats and events in a grid-based interface._
 Cohesion: 0.08
-Nodes (23): analyserRef, animationRef, AUDIO_SETTINGS, [audioBlob, setAudioBlob], audioContextRef, [audioLevel, setAudioLevel], [audioUrl, setAudioUrl], chunksRef (+15 more)
+Nodes (21): { activeReference }, [advancedOpen, setAdvancedOpen], [artistDialogOpen, setArtistDialogOpen], { artists }, [audioActionDialogOpen, setAudioActionDialogOpen], chordInfo, form, GenerateFormCustom (+13 more)
 
-### Community 125 - "Community 125"
-Cohesion: 0.09
-Nodes (19): broadcast, { data: templates }, fileInputRef, handleFileChange(), handleImageUpload(), [imageFile, setImageFile], [imageUrl, setImageUrl], [message, setMessage] (+11 more)
-
-### Community 126 - "Community 126"
-Cohesion: 0.08
-Nodes (19): artistName, [avatarUrl, setAvatarUrl], [bio, setBio], { createArtist, isCreating }, [genreTags, setGenreTags], handleSubmit(), { hapticFeedback }, isMobile (+11 more)
-
-### Community 127 - "Community 127"
-Cohesion: 0.08
-Nodes (23): animationRef, applyCrossfade, audioContextRef, crossfadePoint, [currentTime, setCurrentTime], effectiveVolume, gainNodesRef, isCrossfading (+15 more)
-
-### Community 128 - "Community 128"
+### Community 80 - "Community 80"
+_This domain is responsible for managing image cropping functionality, including user interactions and image processing parameters._
 Cohesion: 0.08
 Nodes (21): [activeTab, setActiveTab], context, handleApplyLyrics, handleKeyDown, handleQuickAction, handleSend, handleStartWorkflow, handleToolExecute (+13 more)
 
-### Community 129 - "Community 129"
-Cohesion: 0.09
-Nodes (14): EnhancedProfileSetup(), STEPS, PrivacySettings(), ProfileSetupGuard(), useKeyboardAware(), useKeyboardAwareContainer(), useKeyboardPadding(), useNotificationSettings() (+6 more)
-
-### Community 130 - "Community 130"
+### Community 81 - "Community 81"
+_This domain manages the interaction and visualization of a timeline, including playhead movement, progress tracking, and user input handling._
 Cohesion: 0.08
-Nodes (17): analysisColors, chordColors, effectColors, emotionalColors, errorCodeColors, hintColors, homeSectionColors, overlayColors (+9 more)
+Nodes (23): animationRef, applyCrossfade, audioContextRef, crossfadePoint, [currentTime, setCurrentTime], effectiveVolume, gainNodesRef, isCrossfading (+15 more)
 
-### Community 131 - "Community 131"
+### Community 82 - "Community 82"
+_This domain is responsible for managing and displaying accessible cards and their related actions, counts, and filters._
 Cohesion: 0.09
-Nodes (22): createDefaultViewSettings(), CreateProjectParams, ProjectStatus, StemsMode, StudioClip, StudioLyricVersion, StudioMode, StudioProject (+14 more)
+Nodes (22): [audioDuration, setAudioDuration], [audioFile, setAudioFile], [audioPreviewUrl, setAudioPreviewUrl], availableModels, clearAudio(), [continueAt, setContinueAt], [durationError, setDurationError], file (+14 more)
 
-### Community 132 - "Community 132"
-Cohesion: 0.08
-Nodes (30): accessLog, cacheAudio(), cacheHits, cacheMisses, cleanupExpiredEntries(), cleanupIfNeeded(), DB_NAME, DB_VERSION (+22 more)
-
-### Community 133 - "Community 133"
-Cohesion: 0.09
-Nodes (23): [audioDuration, setAudioDuration], [audioFile, setAudioFile], [audioPreviewUrl, setAudioPreviewUrl], availableModels, clearAudio(), [continueAt, setContinueAt], [durationError, setDurationError], file (+15 more)
-
-### Community 134 - "Community 134"
-Cohesion: 0.09
-Nodes (20): cancelled, canvasRef, container, containerRef, draw, [error, setError], { generatePeaks }, { get: getCached, set: setCached } (+12 more)
-
-### Community 135 - "Community 135"
+### Community 83 - "Community 83"
+_This domain is responsible for tracking and measuring memory usage and growth during program execution._
 Cohesion: 0.09
 Nodes (20): actions, [broadcastMessage, setBroadcastMessage], [broadcastOpen, setBroadcastOpen], [broadcastTitle, setBroadcastTitle], [costOpen, setCostOpen], [creditAmount, setCreditAmount], [creditOpen, setCreditOpen], [creditReason, setCreditReason] (+12 more)
 
-### Community 136 - "Community 136"
+### Community 84 - "Community 84"
+_This domain is responsible for handling and processing charge-related data and errors in a system._
 Cohesion: 0.09
-Nodes (22): [currentIndex, setCurrentIndex], currentSlide, [currentSlide, setCurrentSlide], currentSlideData, [direction, setDirection], goNext, goPrev, goToSlide (+14 more)
+Nodes (18): artistName, [avatarUrl, setAvatarUrl], [bio, setBio], { createArtist, isCreating }, [genreTags, setGenreTags], { hapticFeedback }, isMobile, [moodTags, setMoodTags] (+10 more)
 
-### Community 137 - "Community 137"
+### Community 85 - "Community 85"
+_This domain is responsible for rendering and managing interactive graphical elements on a canvas._
+Cohesion: 0.09
+Nodes (19): broadcast, { data: templates }, fileInputRef, handleFileChange(), [imageFile, setImageFile], [imageUrl, setImageUrl], loadTemplate(), [message, setMessage] (+11 more)
+
+### Community 86 - "Community 86"
+_This domain is responsible for managing audio playback, including controls for play, pause, volume, and seeking within the audio track._
 Cohesion: 0.09
 Nodes (21): activeIndex, colors, containerRef, handleClick, [hoveredSection, setHoveredSection], init(), isActive, isHovered (+13 more)
 
-### Community 138 - "Community 138"
-Cohesion: 0.12
-Nodes (17): ERROR_RATE_LIMIT, errorCounts, errorRateWindow, featureTimers, flushIntervalId, flushMetrics(), generationAnalytics, getErrorStats() (+9 more)
-
-### Community 139 - "Community 139"
-Cohesion: 0.05
-Nodes (48): { artistName, styleDescription, artistId }, aspectRatio, authHeader, boostedStyle, buffer, commands, config, content (+40 more)
-
-### Community 140 - "Community 140"
-Cohesion: 0.08
-Nodes (23): CACHE_TTL_MS, cachedStats, cacheKey, cacheTimestamp, creditRevenue, { data: breakdown }, { data, error, count }, { data: profileData } (+15 more)
-
-### Community 141 - "Community 141"
-Cohesion: 0.25
-Nodes (7): displayUrl, fileInputRef, handleRemoveAvatar(), initials, [isUploading, setIsUploading], [previewUrl, setPreviewUrl], { user }
-
-### Community 142 - "Community 142"
-Cohesion: 0.27
-Nodes (12): trackButtonClick(), trackEvent(), trackFeatureUsed(), trackGeneration(), trackGenerationMetrics(), trackOnboardingStep(), trackPageView(), trackTrackLiked() (+4 more)
-
-### Community 143 - "Community 143"
-Cohesion: 0.18
-Nodes (17): BOT_MENTION, checkUploadPending(), handleCancelCommand(), handleCoverCommand(), handleExtendCommand(), parseAudioOptions(), supabase, handleCommand() (+9 more)
-
-### Community 144 - "Community 144"
-Cohesion: 0.08
-Nodes (23): stopRecording(), audio, audioRef, chunksRef, [copiedProgression, setCopiedProgression], {
-    currentChord,
-    chordHistory,
-    chromagram,
-    isListening,
-    isInitializing,
-    volume,
-    startListening,
-    stopListening,
-    clearHistory,
-    exportProgression,
-  }, generateStyleDescription, handleComplete() (+15 more)
-
-### Community 145 - "Community 145"
+### Community 87 - "Community 87"
+_This domain manages the visual representation and playback of musical elements, including tabs, sheet music, and MIDI data._
 Cohesion: 0.09
-Nodes (13): audio, audioRef, [currentTime, setCurrentTime], duration, formatTime, handleSaveAsTrack(), interval, isMobile (+5 more)
+Nodes (20): [appliedId, setAppliedId], { applyPreset, isApplying }, badge, BadgeIcon, CATEGORIES, [category, setCategory], { clonePreset, isCloning }, { deletePreset, isDeleting } (+12 more)
 
-### Community 146 - "Community 146"
+### Community 88 - "Community 88"
+_This domain is responsible for managing and rendering a customizable progress indicator with interactive features._
 Cohesion: 0.09
-Nodes (21): ACCEPTED_TYPES, audioRef, [audioUrl, setAudioUrl], [duration, setDuration], [file, setFile], fileInputRef, handleClose, handleDragLeave (+13 more)
+Nodes (21): barDuration, barNumber, beatCount, beatDuration, bpm, disabledOperations, getDisabledReason, handleMasterMuteToggle (+13 more)
 
-### Community 147 - "Community 147"
-Cohesion: 0.15
-Nodes (19): addDays(), addHours(), addMonths(), differenceInDays(), differenceInHours(), differenceInMinutes(), differenceInSeconds(), endOfDay() (+11 more)
+### Community 89 - "Community 89"
+_This domain is responsible for rendering and interacting with graphical representations of nodes and edges on a canvas._
+Cohesion: 0.09
+Nodes (22): activeCount, activeItem, body, bottomNav, errors, fallback, focusedElement, hasFocus (+14 more)
 
-### Community 149 - "Community 149"
-Cohesion: 0.11
-Nodes (29): BOT_USERNAME, buildPlaylistShareCaption(), buildTrackCaption(), buildTrackShareCaption(), canDownloadFile(), canShareToStory(), canShareURL(), escapeMarkdown() (+21 more)
+### Community 90 - "Community 90"
+_This domain is responsible for managing and manipulating sections of content, including adding, updating, exporting, and importing text sections._
+Cohesion: 0.09
+Nodes (16): availableActions, canReplace, canSeparate, categories, CategoryIcon, [expandedCategories, setExpandedCategories], hasDetailedStems, hasSimpleStems (+8 more)
 
-### Community 150 - "Community 150"
-Cohesion: 0.12
-Nodes (22): answerInlineQuery(), BOT_MENTION, createTrackResult(), executeSearch(), getCacheTime(), getCategoryHints(), getCategorySwitchButton(), getPublicTracksForGuests() (+14 more)
+### Community 91 - "Community 91"
+_This domain is responsible for managing the layout and styling of user interface components, ensuring proper spacing and safe areas for content display._
+Cohesion: 0.09
+Nodes (20): { activeTrack, isPlaying, playTrack, pauseTrack }, coverUrl, [detailsOpen, setDetailsOpen], handleAddToPlaylist, handleCardClick, handleFollow, handlePlay, handleShare (+12 more)
 
-### Community 151 - "Community 151"
-Cohesion: 0.10
-Nodes (16): afterCooldown, btn, card, cardBox, clearHints(), COOLDOWN_MS, desktopBox, el (+8 more)
+### Community 92 - "Community 92"
+_This domain manages the playback, editing, and status of music tracks and their associated lyrics._
+Cohesion: 0.09
+Nodes (21): chargeId, { data }, { data: creditTx }, { data, error }, { data: fakeTx }, { data: firstCall }, { data: pendingTx }, { data: product } (+13 more)
 
-### Community 152 - "Community 152"
-Cohesion: 0.14
-Nodes (20): EMPTY_RESULT, usePromptValidation(), UsePromptValidationOptions, CONTRADICTORY_PAIRS, countEmojis(), findRepeatedWords(), getSpecialCharRatio(), LENGTH_LIMITS (+12 more)
-
-### Community 153 - "Community 153"
-Cohesion: 0.10
+### Community 93 - "Community 93"
+_This domain is responsible for managing and editing sections of lyrics, including their creation, duplication, deletion, and statistical analysis._
+Cohesion: 0.1
 Nodes (14): [activeTab, setActiveTab], currentItems, { data: items = [], isLoading }, [deleteItem, setDeleteItem], deleteMutation, [editingItem, setEditingItem], getActionIcon(), getActionLabel() (+6 more)
 
-### Community 154 - "Community 154"
-Cohesion: 0.13
-Nodes (19): DEFAULT_TITLES, getArtistDeepLink(), getGenerateDeepLink(), getInviteDeepLink(), getMiniAppDeepLink(), getPlaylistDeepLink(), getProfileDeepLink(), getProjectDeepLink() (+11 more)
-
-### Community 155 - "Community 155"
-Cohesion: 0.09
-Nodes (18): artistName, audioRef, [avatarUrl, setAvatarUrl], [bio, setBio], { createArtist, isCreating }, [genreTags, setGenreTags], handleGeneratePortrait(), handleSubmit() (+10 more)
-
-### Community 156 - "Community 156"
-Cohesion: 0.11
-Nodes (15): bgColor, color, DEVICE_ICONS, isGood, isPoor, PerformanceDashboard(), status, statusColors (+7 more)
-
-### Community 157 - "Community 157"
-Cohesion: 0.10
+### Community 94 - "Community 94"
+_This domain manages the playback and visualization of audio chords, including navigation and state management._
+Cohesion: 0.1
 Nodes (18): [activeTab, setActiveTab], audio, audioRef, handleComplete(), handleSaveRecording(), handleSelectSavedRecording(), {
     isAnalyzing,
     isRecording,
@@ -2032,221 +1889,63 @@ Nodes (18): [activeTab, setActiveTab], audio, audioRef, handleComplete(), handle
     clearRecording,
   }, isMobile (+10 more)
 
-### Community 158 - "Community 158"
-Cohesion: 0.10
-Nodes (15): [activeTab, setActiveTab], [addVocalsOpen, setAddVocalsOpen], audio, audioRef, [currentTime, setCurrentTime], handleDownload(), hasMidi, hasPdf (+7 more)
-
-### Community 159 - "Community 159"
-Cohesion: 0.10
+### Community 95 - "Community 95"
+_This domain is responsible for managing and processing lyrics, including user interactions and tool executions._
+Cohesion: 0.1
 Nodes (12): [activeTab, setActiveTab], draftLyrics, [editedLyrics, setEditedLyrics], [editedNotes, setEditedNotes], generatedLyrics, hasDraftLyrics, hasGeneratedLyrics, [isEditingLyrics, setIsEditingLyrics] (+4 more)
 
-### Community 160 - "Community 160"
-Cohesion: 0.10
-Nodes (16): availableActions, canReplace, canSeparate, categories, CategoryIcon, [expandedCategories, setExpandedCategories], hasDetailedStems, hasSimpleStems (+8 more)
-
-### Community 161 - "Community 161"
-Cohesion: 0.10
-Nodes (17): animationRef, audio, { data: lyricsData }, handleClose, handleProgressDismiss, isActive, [isAdvancedOpen, setIsAdvancedOpen], isMobile (+9 more)
-
-### Community 162 - "Community 162"
-Cohesion: 0.10
-Nodes (19): { data: existingTranscription, isLoading: loadingExisting }, { data: resolvedStemData }, detectedModel, displayResult, downloadFile, [engine, setEngine], hasFiles, [isTranscribing, setIsTranscribing] (+11 more)
-
-### Community 163 - "Community 163"
-Cohesion: 0.12
-Nodes (20): hapticNotification(), smartHaptic(), downloadTrack(), canDownload, canShare, [copied, setCopied], deepLink, handleCopy() (+12 more)
-
-### Community 164 - "Community 164"
-Cohesion: 0.10
+### Community 96 - "Community 96"
+_This domain is responsible for managing the playback of audio or video tracks, including controls for play, pause, volume, and track navigation._
+Cohesion: 0.1
 Nodes (19): colorMap, displayValue, handleMouseDown, handleTouchEnd, handleTouchMove, handleTouchStart, handleWheel, indicatorColor (+11 more)
 
-### Community 165 - "Community 165"
+### Community 97 - "Community 97"
+_This domain manages audio playback functionalities, including crossfading between tracks and controlling playback states._
 Cohesion: 0.11
-Nodes (8): captureAudioError(), captureError(), detectPlatform(), isSentryEnabled, SENTRY_DSN, setTag(), setUser(), setUserContext()
+Nodes (11): AppError, AuthError, getUserErrorMessage(), isAppError(), logError(), NetworkError, NotFoundError, PermissionError (+3 more)
 
-### Community 166 - "Community 166"
-Cohesion: 0.10
-Nodes (16): [activeTab, setActiveTab], batchUpdateMutation, [currentPage, setCurrentPage], { data: adminData, isLoading: isCheckingAdmin }, { data: reportsData, isLoading }, [entityFilter, setEntityFilter], handleBatchAction(), isAdmin (+8 more)
+### Community 98 - "Community 98"
+_This domain is responsible for creating, updating, deleting, and resolving notes while managing their loading states and filters._
+Cohesion: 0.1
+Nodes (19): bounceTransition, fadeIn, MOTION_DURATION, MOTION_EASING, pulse, quickTransition, scaleIn, scaleUp (+11 more)
 
-### Community 167 - "Community 167"
-Cohesion: 0.10
+### Community 99 - "Community 99"
+_This domain manages the configuration and display of LED segments based on various parameters and states._
+Cohesion: 0.14
+Nodes (19): DEDUPE_TIMEOUT_MS, delay(), isProcessing, log, MAX_RETRIES, MAX_STORED_KEYS, notificationQueue, notify (+11 more)
+
+### Community 100 - "Community 100"
+_This domain focuses on enhancing system performance and integrating music lab functionalities through iterative development and monitoring._
+Cohesion: 0.1
+Nodes (9): getNextZIndex(), getZIndex(), isValidZIndex(), Z_INDEX, Z_INDEX_VARS, zIndexDescriptions, zIndexLayers, zIndexTokens (+1 more)
+
+### Community 101 - "Community 101"
+_This domain encompasses the architecture, development, and maintenance of a music-related application with features for audio playback, AI integration, and Telegram bot functionalities._
+Cohesion: 0.1
 Nodes (18): [activeTab, setActiveTab], { data: artists, isLoading: artistsLoading }, { data: playlists, isLoading: playlistsLoading }, { data: profile, isLoading: profileLoading }, { data: projects, isLoading: projectsLoading }, { data: stats }, { data: tracks, isLoading: tracksLoading }, displayName (+10 more)
 
-### Community 168 - "Community 168"
-Cohesion: 0.10
-Nodes (19): box, close, closeBox, closeBtn, expandZone, focused, FULLSCREEN_VIEWPORTS, i (+11 more)
-
-### Community 169 - "Community 169"
-Cohesion: 0.10
-Nodes (20): deleteButton, enhancedProps, followButton, gridProps, height, likeButton, midiIndicator, mockTrack (+12 more)
-
-### Community 170 - "Community 170"
-Cohesion: 0.13
-Nodes (13): applyTemplateToSections(), LyricSection, LyricsVisualEditorCompact(), LyricsVisualEditorCompactProps, parseLyrics(), QUICK_TEMPLATES, SECTION_TYPES, sectionsEqual() (+5 more)
-
-### Community 171 - "Community 171"
-Cohesion: 0.12
-Nodes (3): { data: metrics }, isMobile, { data: stats }
-
-### Community 172 - "Community 172"
-Cohesion: 0.11
-Nodes (11): ACTION_TYPES, createMutation, EMOJI_OPTIONS, [formData, setFormData], handleChange(), handleImageUpload(), handleSubmit(), isSubmitting (+3 more)
-
-### Community 173 - "Community 173"
-Cohesion: 0.11
-Nodes (8): Z_INDEX_VARS, ZIndexKey, zIndexUtilities, getNextZIndex(), isValidZIndex(), zIndexDescriptions, zIndexLayers, zIndexTokens
-
-### Community 174 - "Community 174"
-Cohesion: 0.10
-Nodes (14): [activeTab, setActiveTab], allSelected, categories, CATEGORY_ICONS, categoryInfo, [customTag, setCustomTag], filteredTags, Icon (+6 more)
-
-### Community 175 - "Community 175"
-Cohesion: 0.11
-Nodes (16): animate(), animationRef, canvasRef, container, containerRef, [dimensions, setDimensions], draw, haptic (+8 more)
-
-### Community 176 - "Community 176"
-Cohesion: 0.10
-Nodes (18): ACTION_WIDTH, [actionTriggered, setActionTriggered], closeSwipe(), dragDirectionRef, handleActionClick, handleDrag(), [isOpen, setIsOpen], leftGlow (+10 more)
-
-### Community 177 - "Community 177"
-Cohesion: 0.08
-Nodes (24): { activeTrack, isPlaying, playTrack, pauseTrack, addToQueue }, coverUrl, duration, handleAddToQueue(), handleLike(), handleShare(), hasHD, isCurrentTrack (+16 more)
-
-### Community 178 - "Community 178"
+### Community 102 - "Community 102"
+_This domain manages the creation and editing of an artist's profile, including personal details, genre and mood tags, and associated tracks._
 Cohesion: 0.12
 Nodes (18): containerRef, [currentSlide, setCurrentSlide], [direction, setDirection], goToSlide, handleDragEnd, handleKeyDown(), handleSkip, { isActive, skipOnboarding, completeOnboarding } (+10 more)
 
-### Community 179 - "Community 179"
-Cohesion: 0.11
-Nodes (17): autoSelect, { data: groupedProducts, isLoading, error }, displayProducts, getSavingsText(), handleBack(), { isAdmin, isLoading: roleLoading }, isProcessing, navigate (+9 more)
-
-### Community 180 - "Community 180"
-Cohesion: 0.10
-Nodes (19): actions, audioUrl, config, handleAddToPlaylist, handleDownload, handleLike, handleOpenStudio, handlePiPToggle (+11 more)
-
-### Community 181 - "Community 181"
-Cohesion: 0.10
-Nodes (13): useGuestMode(), useDebounce(), ScreenshotModeBanner(), useFirstGeneratedTrack(), log, useGenerationRealtime(), useGuestAccess(), log (+5 more)
-
-### Community 182 - "Community 182"
-Cohesion: 0.10
+### Community 103 - "Community 103"
+_This domain is responsible for managing broadcast messages, credit transactions, and feature toggles._
+Cohesion: 0.1
 Nodes (19): containerRef, getSeekTimeFromPosition, handleClick, handleTouchEnd, handleTouchMove, handleTouchStart, haptic, [isLoading, setIsLoading] (+11 more)
 
-### Community 183 - "Community 183"
-Cohesion: 0.05
-Nodes (28): HISTORY_DEBOUNCE_MS, historyTimer, INITIAL_STATE, MAX_HISTORY_SIZE, useLyricsWizardStore, VALIDATION_DEBOUNCE_MS, validationTimer, zustand (+20 more)
+### Community 104 - "Community 104"
+_This domain is responsible for handling the creation, saving, and uploading of templates, along with managing associated data and user interactions._
+Cohesion: 0.1
+Nodes (16): activeTab, { artists: myArtists, isLoading: myLoading }, [createDialogOpen, setCreateDialogOpen], currentArtists, { data: publicArtists, isLoading: publicLoading }, [detailsPanelOpen, setDetailsPanelOpen], filteredMyArtists, filteredPublicArtists (+8 more)
 
-### Community 184 - "Community 184"
-Cohesion: 0.13
-Nodes (11): AppError, AuthError, getUserErrorMessage(), isAppError(), logError(), NetworkError, NotFoundError, PermissionError (+3 more)
-
-### Community 185 - "Community 185"
-Cohesion: 0.12
-Nodes (11): CACHE_TTL, cachedFormat, cleanupCache(), getCachedImage(), getOptimizedImageUrl(), getTrackCoverUrl(), imageCache, MAX_CACHE_SIZE (+3 more)
-
-### Community 186 - "Community 186"
-Cohesion: 0.10
-Nodes (17): [activeTab, setActiveTab], [analysisError, setAnalysisError], [analysisStage, setAnalysisStage], audioLevel, [currentStep, setCurrentStep], handleStopRecording(), interval, {
-    isAnalyzing,
-    isRecording,
-    analysisResult,
-    recordedAudioUrl,
-    progress,
-    progressPercent,
-    mediaStream,
-    startRecording,
-    stopRecording,
-    analyzeGuitarRecording,
-    clearRecording,
-  } (+9 more)
-
-### Community 187 - "Community 187"
-Cohesion: 0.10
+### Community 105 - "Community 105"
+_This domain is responsible for managing the state and actions related to different sections within a user interface._
+Cohesion: 0.1
 Nodes (17): [activeTab, setActiveTab], categories, categoryTags, filteredItems, genres, genreStyles, { graphData, isLoading, tags, styles }, graphFilter (+9 more)
 
-### Community 188 - "Community 188"
-Cohesion: 0.05
-Nodes (38): {
-      action,
-      trackId,
-      prompt,
-      lyrics,
-      style,
-      title,
-      makeInstrumental = false,
-      extendAudioUrl,
-      continueAt,
-      coverAudioUrl,
-      stemMode,
-      defaultParamFlag,
-      voiceId,
-    }, activityIds, archiveCutoffDate, archiveCutoffIso, archivedRecords, BATCH_SIZE, BLURHASH_COMPONENTS_X, BLURHASH_COMPONENTS_Y (+30 more)
-
-### Community 189 - "Community 189"
-Cohesion: 0.10
-Nodes (21): escapeMarkdown(), handleCheckTask(), logger, supabase, CACHE_TTL, cachedCustomImages, cacheTimestamp, FALLBACK_IMAGES (+13 more)
-
-### Community 190 - "Community 190"
-Cohesion: 0.10
-Nodes (17): duration, event, finalCounts, { fps }, i, initialCounts, meterUpdates, renderTime (+9 more)
-
-### Community 191 - "Community 191"
-Cohesion: 0.11
-Nodes (23): handlePlayAll(), handlePlayTrack(), togglePlayPause(), handlePlay(), handlePlayPreview(), handlePlay(), handleTogglePlayback(), handleTogglePlayback() (+15 more)
-
-### Community 192 - "Community 192"
-Cohesion: 0.11
-Nodes (15): analyser, analyserRef, animationFrameRef, audioContext, audioContextRef, dataArray, isActive, isPeak (+7 more)
-
-### Community 193 - "Community 193"
-Cohesion: 0.15
-Nodes (12): formatAsMeasureBeat(), generateGridPositions(), getBeatDuration(), getMeasurePosition(), getNearestGridPosition(), getSubdivisionDuration(), isOnGrid(), snapToGrid() (+4 more)
-
-### Community 194 - "Community 194"
-Cohesion: 0.11
-Nodes (15): [activeView, setActiveView], count, findBestStringAndFret(), intensity, key, maxCount, normalizedNotes, NOTE_NAMES (+7 more)
-
-### Community 195 - "Community 195"
-Cohesion: 0.12
-Nodes (14): [currentStep, setCurrentStep], handleComplete(), handleNext(), handleSkip(), { hapticFeedback }, hasCompletedOnboarding(), [isVisible, setIsVisible], progress (+6 more)
-
-### Community 196 - "Community 196"
-Cohesion: 0.11
-Nodes (13): { activeTrack, isPlaying, playTrack, pauseTrack }, [copied, setCopied], coverUrl, handleCreatorClick(), { hapticFeedback }, [imageError, setImageError], isCurrentlyPlaying, isCurrentTrack (+5 more)
-
-### Community 197 - "Community 197"
-Cohesion: 0.11
-Nodes (12): analysis, COMMON_PATTERNS, hasIssues, isEmpty, isEven, [isExpanded, setIsExpanded], isSection, isSelected (+4 more)
-
-### Community 198 - "Community 198"
-Cohesion: 0.11
-Nodes (15): currentItems, [drillLevel, setDrillLevel], filteredData, groupedData, groups, handleBack, handleSwipe(), Icon (+7 more)
-
-### Community 199 - "Community 199"
-Cohesion: 0.12
-Nodes (17): { data: studioStats }, defaultStats, Icon, isGrid, isTrendDown, isTrendUp, productivityScore, realStats (+9 more)
-
-### Community 200 - "Community 200"
-Cohesion: 0.11
-Nodes (16): activeVersion, { data: versions, isLoading }, handleDownload(), handleVersionSelect(), haptic, isActive, isMobile, [isOpen, setIsOpen] (+8 more)
-
-### Community 201 - "Community 201"
-Cohesion: 0.11
-Nodes (17): angle, cn(), config, db, dbScale, displayDb, ledCount, leds (+9 more)
-
-### Community 202 - "Community 202"
-Cohesion: 0.07
-Nodes (11): handleClick, handleDoubleClick, vitest, module, AUTO_SAVE_DELAY_MS, defaultDraft, DRAFT_EXPIRY_MS, DRAFT_KEY (+3 more)
-
-### Community 203 - "Community 203"
-Cohesion: 0.13
-Nodes (12): getTypeFromTag(), matchSectionToTimestamps(), normalizeText(), parseSectionsFromLyrics(), TAG_FILTER_PATTERN, TAG_PATTERN, createMusicalSections(), detectSectionsFromGaps() (+4 more)
-
-### Community 204 - "Community 204"
-Cohesion: 0.11
-Nodes (17): [activeTab, setActiveTab], checkAdminStatus(), config, [detailSheetOpen, setDetailSheetOpen], [feedback, setFeedback], [isAdmin, setIsAdmin], isMobile, [loading, setLoading] (+9 more)
-
-### Community 205 - "Community 205"
+### Community 106 - "Community 106"
+_This domain handles the display and timing of subscription-related notifications with visual effects._
 Cohesion: 0.12
 Nodes (18): analysisComplete, { close }, {
     data: reference,
@@ -2254,260 +1953,187 @@ Nodes (18): analysisComplete, { close }, {
     error,
   }, deleteMutation, handleClose(), handleGenerateCover(), handleGenerateExtend(), handleGoBack() (+10 more)
 
-### Community 206 - "Community 206"
-Cohesion: 0.18
-Nodes (24): deleteWizardState(), ENERGY_OPTIONS, getWizardState(), goBack(), handleEnergySelection(), handleGenerationWizardCallback(), handleMoodSelection(), handleStyleSelection() (+16 more)
+### Community 107 - "Community 107"
+_This domain focuses on ensuring the quality, security, and maintainability of code through reviews, analysis, and documentation._
+Cohesion: 0.1
+Nodes (16): [activeTab, setActiveTab], batchUpdateMutation, [currentPage, setCurrentPage], { data: adminData, isLoading: isCheckingAdmin }, { data: reportsData, isLoading }, [entityFilter, setEntityFilter], isAdmin, ITEMS_PER_PAGE (+8 more)
 
-### Community 207 - "Community 207"
+### Community 108 - "Community 108"
+_This domain is responsible for handling audio file properties, user interactions, and related metadata in an application._
+Cohesion: 0.1
+Nodes (17): duration, event, finalCounts, { fps }, i, initialCounts, meterUpdates, renderTime (+9 more)
+
+### Community 109 - "Community 109"
+_This domain is responsible for managing and manipulating musical elements and their associated actions within a software application._
+Cohesion: 0.11
+Nodes (15): analyser, analyserRef, animationFrameRef, audioContext, audioContextRef, dataArray, isActive, isPeak (+7 more)
+
+### Community 110 - "Community 110"
+_This domain is responsible for handling version comparison, filtering, and restoration functionalities._
+Cohesion: 0.11
+Nodes (15): currentItems, [drillLevel, setDrillLevel], filteredData, groupedData, groups, handleBack, handleSwipe(), Icon (+7 more)
+
+### Community 111 - "Community 111"
+_This domain manages audio playback controls, track settings, and user interactions in a music application._
+Cohesion: 0.11
+Nodes (17): angle, cn(), config, db, dbScale, displayDb, ledCount, leds (+9 more)
+
+### Community 112 - "Community 112"
+_This domain is responsible for managing the playback and interaction with music tracks, including user actions like play, pause, follow, and playlist management._
+Cohesion: 0.14
+Nodes (18): CONTRADICTORY_PAIRS, CONTROL_CHAR_PATTERN, countEmojis(), EMAIL_PATTERN, EMOJI_PATTERN, getSpecialCharRatio(), LENGTH_LIMITS, MULTI_NEWLINE_PATTERN (+10 more)
+
+### Community 113 - "Community 113"
+_This domain is responsible for managing transactions, user accounts, and related financial data._
 Cohesion: 0.13
-Nodes (9): logger, DEPRECATED_MODELS, getApiModelName(), MODEL_FALLBACK_CHAIN, VALID_MODELS, logger, ERROR_MESSAGES, logger (+1 more)
+Nodes (12): getTypeFromTag(), matchSectionToTimestamps(), normalizeText(), parseSectionsFromLyrics(), TAG_FILTER_PATTERN, TAG_PATTERN, createMusicalSections(), detectSectionsFromGaps() (+4 more)
 
-### Community 208 - "Community 208"
+### Community 114 - "Community 114"
+_This domain manages audio recording, playback, analysis, and saved recordings functionalities._
 Cohesion: 0.11
-Nodes (18): Suno AI API Documentation, Architecture Decision Records, Architecture Diagrams, Architecture Documentation Hub, Changelog, Contributing Guidelines, Conventional Commits, Database Schema (+10 more)
+Nodes (15): handleNavigate(), cover, COVER_GRADIENTS, [deleteId, setDeleteId], { deleteProject, isLoading: isDeleting }, handleDelete(), initials, [isLoading, setIsLoading] (+7 more)
 
-### Community 209 - "Community 209"
-Cohesion: 0.12
-Nodes (6): idCounter, useId(), usePrefersReducedMotion(), useReducedMotionConfig(), ReplacementTimelineOverlay(), useReferenceStemPlayback()
-
-### Community 210 - "Community 210"
-Cohesion: 0.11
-Nodes (17): [activeTab, setActiveTab], [audioWeight, setAudioWeight], [customStyle, setCustomStyle], effectiveStyle, handleClose, handleInstrumentSelect, handleSubmit, haptic (+9 more)
-
-### Community 211 - "Community 211"
-Cohesion: 0.13
-Nodes (13): ALL_TIME_INTERVAL, { data: errorTrends, isLoading: errorsLoading }, { data: generationStats, isLoading: generationLoading }, { data: telemetry, isLoading: telemetryLoading }, deeplinkTimeRange, handleExport(), isLoading, rpcPeriod (+5 more)
-
-### Community 212 - "Community 212"
-Cohesion: 0.11
-Nodes (15): ACCEPTED_TYPES, addFiles, analyzeAll, audioRef, fileInputRef, [files, setFiles], handleDragLeave, handleDragOver (+7 more)
-
-### Community 213 - "Community 213"
-Cohesion: 0.11
-Nodes (15): containerRef, [currentTime, setCurrentTime], durationDisplay, fileFormat, fileSize, initWavesurfer(), [isLoading, setIsLoading], [isPlaying, setIsPlaying] (+7 more)
-
-### Community 214 - "Community 214"
-Cohesion: 0.11
-Nodes (14): { data: groupedProducts, isLoading, error }, displayProducts, { hapticFeedback }, { isAdmin, isLoading: roleLoading }, isBestValue, isProcessing, LoadingState(), { pay: payWithTinkoff, isLoading: isTinkoffLoading } (+6 more)
-
-### Community 215 - "Community 215"
-Cohesion: 0.11
-Nodes (16): CHORD_FINGERINGS, chordData, FINGER_COLORS, fingerColor, fingering, fingerNum, fingers, fretSpacing (+8 more)
-
-### Community 216 - "Community 216"
-Cohesion: 0.11
-Nodes (14): { audioList, isLoading }, [audioList, setAudioList], audioRef, filteredAudio, filteredList, fullSourceId, [isLoading, setIsLoading], isPlaying (+6 more)
-
-### Community 217 - "Community 217"
-Cohesion: 0.11
-Nodes (15): [avatarUrl, setAvatarUrl], [bio, setBio], [genreTags, setGenreTags], handleDelete(), handleSave(), isOwner, [isPublic, setIsPublic], [moodTags, setMoodTags] (+7 more)
-
-### Community 218 - "Community 218"
-Cohesion: 0.11
-Nodes (17): availableStems, config, [error, setError], FORMAT_OPTIONS, handleTranscribe(), Icon, isSelected, [isTranscribing, setIsTranscribing] (+9 more)
-
-### Community 219 - "Community 219"
+### Community 115 - "Community 115"
+_This domain is responsible for managing and organizing tags and categories within an application._
 Cohesion: 0.12
 Nodes (17): [audioWeight, setAudioWeight], [continueAt, setContinueAt], extendProgress, handleOpenTrack(), handlePlayTrack(), loading, [model, setModel], navigate (+9 more)
 
-### Community 220 - "Community 220"
-Cohesion: 0.12
-Nodes (12): audio, audioRef, [currentTime, setCurrentTime], handleNoteClick(), [isPlaying, setIsPlaying], {
-    isReady,
-    isSyncEnabled,
-    isMuted,
-    volume,
-    setVolume,
-    setMuted,
-    setSyncEnabled,
-    initialize,
-    playNotePreview,
-    stopAll,
-  }, midiNotes, NOTE_NAMES (+4 more)
-
-### Community 221 - "Community 221"
+### Community 116 - "Community 116"
+_This domain is responsible for handling the creation, expiration, and dismissal of draft content within an application._
 Cohesion: 0.12
 Nodes (14): allNotifications, colorClass, colorMap, [deletingIds, setDeletingIds], handleNotificationClick(), hasExpiry, Icon, iconMap (+6 more)
 
-### Community 222 - "Community 222"
-Cohesion: 0.12
-Nodes (15): [activeTab, setActiveTab], ASSET_TYPES, [assetType, setAssetType], buildPrompt(), currentMediaUrl, [customPrompt, setCustomPrompt], entityTitle, [generatedUrl, setGeneratedUrl] (+7 more)
-
-### Community 223 - "Community 223"
+### Community 117 - "Community 117"
+_This domain is responsible for managing and interacting with music projects, including handling various dialogs and forms related to artists, tracks, and project details._
 Cohesion: 0.11
-Nodes (15): activeColor, angle, arcLength, centerRef, DISABLED_COLOR, getAngleFromCenter, handlePointerDown, handlePointerMove (+7 more)
+Nodes (16): CHORD_FINGERINGS, chordData, FINGER_COLORS, fingerColor, fingering, fingerNum, fingers, fretSpacing (+8 more)
 
-### Community 224 - "Community 224"
+### Community 118 - "Community 118"
+_This domain is responsible for handling the editing, generation, and status management of lyrics and notes in a collaborative environment._
 Cohesion: 0.11
 Nodes (16): [activeTab, setActiveTab], clearEmojiStatus, emojiCategories, [hasAccess, setHasAccess], isEmojiStatusAvailable, [isRequesting, setIsRequesting], [isSettingEmoji, setIsSettingEmoji], isTelegram (+8 more)
 
-### Community 225 - "Community 225"
+### Community 119 - "Community 119"
+_This domain is responsible for handling the creation, restoration, and management of different versions of content, along with user interactions and feedback._
 Cohesion: 0.11
-Nodes (14): audio, audioRef, [currentTime, setCurrentTime], duration, [isLoaded, setIsLoaded], [isLooping, setIsLooping], [isMuted, setIsMuted], [isPlaying, setIsPlaying] (+6 more)
+Nodes (17): [activeTab, setActiveTab], [audioWeight, setAudioWeight], [customStyle, setCustomStyle], effectiveStyle, handleClose, handleInstrumentSelect, handleSubmit, haptic (+9 more)
 
-### Community 226 - "Community 226"
-Cohesion: 0.11
-Nodes (16): activeIndex, activeVersion, { data: versions, isLoading }, handleVersionSelect(), haptic, indicesToPrefetch, isActive, isMobile (+8 more)
-
-### Community 227 - "Community 227"
+### Community 120 - "Community 120"
+_This domain is responsible for defining and managing various error types and their associated handling mechanisms in an application._
 Cohesion: 0.12
-Nodes (5): cancelIdleCallback, chunkArray(), getAdaptiveQuality(), isSlowConnection(), processBatched()
+Nodes (14): activeGenCount, { data: activeGenerations = [] }, frame, [generateOpen, setGenerateOpen], GenerateSheet, handleGenerateClick, handleNavigate, handlePreload (+6 more)
 
-### Community 228 - "Community 228"
-Cohesion: 0.11
-Nodes (14): benefits, bestValueProduct, containerVariants, {
-    data: subscriptionProducts,
-    isLoading: isLoadingProducts,
-    error: productsError,
-  }, { initiatePayment, flowState, resetFlow }, { isAdmin, isLoading: roleLoading }, itemVariants, LoadingState() (+6 more)
-
-### Community 229 - "Community 229"
-Cohesion: 0.11
-Nodes (21): createPayment(), fromStarsProduct(), getAllProducts(), getCreditPackages(), getProduct(), getRecommendedGateway(), getSubscriptions(), isStarsAvailable() (+13 more)
-
-### Community 230 - "Community 230"
+### Community 121 - "Community 121"
+_This domain is responsible for defining and managing animations and transitions for user interface components._
 Cohesion: 0.12
-Nodes (18): Settings Page, Projects Page, Project Detail Page, Artists Page, Playlists Page, Blog Page, Community Page, Album View Page (+10 more)
+Nodes (14): [avatarUrl, setAvatarUrl], [bio, setBio], [genreTags, setGenreTags], handleDelete(), isOwner, [isPublic, setIsPublic], [moodTags, setMoodTags], [name, setName] (+6 more)
 
-### Community 232 - "Community 232"
-Cohesion: 0.33
-Nodes (4): ContentHubTabs(), LyricsTab, ProjectsTab, tabs
-
-### Community 233 - "Community 233"
+### Community 122 - "Community 122"
+_This domain is responsible for defining various animation transitions and effects for user interface elements._
 Cohesion: 0.12
 Nodes (15): displaySteps, handleInit, handlePlayStop, handleRecord, handleSendToDJ, handleUseAsRef, hasSolo, isAudible (+7 more)
 
-### Community 234 - "Community 234"
-Cohesion: 0.12
-Nodes (16): analyserRef, animationFrameRef, audioContextRef, [cents, setCents], [currentNote, setCurrentNote], detectPitch, frequencyToNote(), [isActive, setIsActive] (+8 more)
-
-### Community 235 - "Community 235"
-Cohesion: 0.12
-Nodes (10): [audioElement, setAudioElement], audioRef, [detailRecording, setDetailRecording], [editingId, setEditingId], [editTitle, setEditTitle], fullSourceId, { pauseTrack, isPlaying: globalIsPlaying }, [playingId, setPlayingId] (+2 more)
-
-### Community 236 - "Community 236"
-Cohesion: 0.11
-Nodes (17): [creativity, setCreativity], handleExecute(), hasProjectContext, LANGUAGE_OPTIONS, projectConcept, projectGenre, projectMood, recommendedStructure (+9 more)
-
-### Community 237 - "Community 237"
+### Community 123 - "Community 123"
+_This domain is responsible for managing user interactions with media elements such as tracks and buttons for actions like follow, like, share, and delete._
 Cohesion: 0.12
 Nodes (14): { activeTrack, isPlaying, playTrack, pauseTrack }, hasAnyAssets, Icon, isCurrentTrack, isMaster, isTrackPlaying, masterVersion, navigate (+6 more)
 
-### Community 238 - "Community 238"
+### Community 124 - "Community 124"
+_This domain is responsible for managing the availability, downloading, and handling of file formats._
 Cohesion: 0.12
 Nodes (15): { activeTrack, isPlaying, playTrack, pauseTrack }, [activeVersionId, setActiveVersionId], fetchVersions, handlePreview, handleSwitch, haptic, [hasFetched, setHasFetched], if() (+7 more)
 
-### Community 239 - "Community 239"
+### Community 125 - "Community 125"
+_This domain is responsible for managing menu items, including their creation, updating, and image uploads._
 Cohesion: 0.12
 Nodes (15): activeVersion, config, { data: versions, isLoading }, handleVersionSelect(), haptic, isActive, isMobile, [isOpen, setIsOpen] (+7 more)
 
-### Community 240 - "Community 240"
+### Community 126 - "Community 126"
+_This domain is responsible for managing the creation, deletion, and organization of sections within a structured template system._
 Cohesion: 0.12
-Nodes (15): config, handleToggle(), haptic, hardwareStems, Icon, [isExpanded, setIsExpanded], [isHardwareMode, setIsHardwareMode], isMobile (+7 more)
+Nodes (15): config, ControlButton, effectiveMuted, handleOpenMenu, handleToggleMute, handleToggleSolo, handleToggleVolume, handleVolumeChange (+7 more)
 
-### Community 241 - "Community 241"
+### Community 127 - "Community 127"
+_This domain is responsible for managing and rendering animations on a canvas, including user interactions and visual feedback._
+Cohesion: 0.18
+Nodes (16): cleanupOldEntries(), clearWaveformCache(), DB_NAME, DB_VERSION, dbPromise, getCachedWaveform(), getDB(), getWaveform() (+8 more)
+
+### Community 128 - "Community 128"
+_This domain is responsible for managing the navigation and interaction with a series of slides in a user interface._
+Cohesion: 0.14
+Nodes (15): ALL_TIME_INTERVAL, { data: errorTrends, isLoading: errorsLoading }, { data: generationStats, isLoading: generationLoading }, { data: telemetry, isLoading: telemetryLoading }, deeplinkTimeRange, handleExport(), isLoading, rpcPeriod (+7 more)
+
+### Community 129 - "Community 129"
+_This domain is responsible for managing the visual representation and interaction of a slider UI component._
 Cohesion: 0.12
-Nodes (15): audioUrl, config, disabledActions, disabledReasons, effectiveMuted, handleAction, handleToggle, haptic (+7 more)
+Nodes (13): { data: groupedProducts, isLoading, error }, displayProducts, { hapticFeedback }, { isAdmin, isLoading: roleLoading }, isBestValue, isProcessing, { pay: payWithTinkoff, isLoading: isTinkoffLoading }, pricePerTrack (+5 more)
 
-### Community 242 - "Community 242"
-Cohesion: 0.15
-Nodes (13): createNotificationSound(), GENERATION_STAGES, log, NotificationContext, NotificationProvider(), useNotificationHub(), useCreateNotification(), useMarkAllAsRead() (+5 more)
+### Community 130 - "Community 130"
+_This domain is responsible for managing and displaying artist-related data, including user-specific and public artist information, loading states, and user interactions._
+Cohesion: 0.12
+Nodes (13): benefits, bestValueProduct, containerVariants, {
+    data: subscriptionProducts,
+    isLoading: isLoadingProducts,
+    error: productsError,
+  }, { initiatePayment, flowState, resetFlow }, { isAdmin, isLoading: roleLoading }, itemVariants, [searchParams] (+5 more)
 
-### Community 243 - "Community 243"
-Cohesion: 0.09
-Nodes (19): PAYWALL_AUTO_SHOW_DENYLIST, PaywallContext, PaywallContextValue, PaywallProviderProps, SmartPaywallDialog, useCreditsLimits(), useWelcomeBonusCheck(), COOLDOWN_MS (+11 more)
-
-### Community 244 - "Community 244"
-Cohesion: 0.13
-Nodes (10): logger, VALID_MODELS, logger, VALID_MODELS, APP_HANDLE, APP_NAME, buildTrackName(), getPerformerName() (+2 more)
-
-### Community 245 - "Community 245"
+### Community 131 - "Community 131"
+_This domain manages user interactions with music tracks, including audio dialogs, track actions, and user engagement features._
 Cohesion: 0.12
 Nodes (16): box, centerX, centerY, initialLikeCount, initialLikeState, likeBox, likeButton, MOBILE_HEIGHT (+8 more)
 
-### Community 246 - "Community 246"
-Cohesion: 0.15
-Nodes (8): calculateBonusPercent(), calculateReferralReward(), starsToCredits(), calculateGenerationCost(), getGenerationCost(), getStemSeparationCost(), MODEL_COSTS, logger
+### Community 132 - "Community 132"
+_This domain manages the state and interactions for exploring and filtering graph-related data and categories._
+Cohesion: 0.12
+Nodes (13): canonical, checks, DIST, errors, html, indexPath, ogUrl, PUBLIC (+5 more)
 
-### Community 247 - "Community 247"
-Cohesion: 0.18
-Nodes (11): checkAdminRole(), fetchBotMetrics(), fetchUserBalanceSummary(), fetchUsersWithBalances(), getCurrentUserAdminStatus(), getAdminDashboardData(), getLowBalanceUsers(), getUsersByBalance() (+3 more)
+### Community 133 - "Community 133"
+_This domain is responsible for managing and displaying reports, including pagination, filtering, and selection functionalities._
+Cohesion: 0.12
+Nodes (14): backdropOpacity, containerRef, [currentSnapPoint, setCurrentSnapPoint], DRAG_CLOSE_THRESHOLD, handleClose, handleDragEnd, height, { patterns } (+6 more)
 
-### Community 248 - "Community 248"
-Cohesion: 0.10
-Nodes (7): handleChannel(), decodeHtmlEntities(), highlightText(), htmlToMarkdown(), isSafeText(), sanitizeMarkdown(), smartTruncate()
-
-### Community 249 - "Community 249"
-Cohesion: 0.23
-Nodes (13): CACHE_VERSION, cacheAudioViaSW(), clearAudioCacheViaSW(), getAudioCacheSize(), getCachedAudioBlob(), isAudioCached(), isRegistering, isServiceWorkerSupported() (+5 more)
-
-### Community 250 - "Community 250"
-Cohesion: 0.07
-Nodes (27): AuthContext, authenticateWithTelegram, authLogger, checkProfile, {
-      data: { subscription },
-    }, { initData, isDevelopmentMode }, [loading, setLoading], loadingTimeout (+19 more)
-
-### Community 251 - "Community 251"
-Cohesion: 0.13
-Nodes (14): activeChord, [activeChordIndex, setActiveChordIndex], chordElement, handleChordTap, handleShowDiagram, isActive, isPast, left (+6 more)
-
-### Community 252 - "Community 252"
-Cohesion: 0.14
-Nodes (10): buttonId, contentId, contentRef, { hapticFeedback }, id, [isCollapsed, setIsCollapsed], [isOpen, setIsOpen], [openIds, setOpenIds] (+2 more)
-
-### Community 253 - "Community 253"
-Cohesion: 0.11
-Nodes (16): [activeTab, setActiveTab], filteredTemplates, [genre, setGenre], GENRES, handleAddTags(), handleGenerate(), handleImprove(), [language, setLanguage] (+8 more)
-
-### Community 254 - "Community 254"
+### Community 134 - "Community 134"
+_This domain is responsible for handling and processing notifications, including retries and delays for various events._
 Cohesion: 0.12
 Nodes (13): activeInStep, [activePads, setActivePads], handleInitialize, handlePadTrigger, handlePlayStop, handleRecord, handleReset, handleSendToPromptDJ (+5 more)
 
-### Community 255 - "Community 255"
+### Community 135 - "Community 135"
+_This domain is responsible for managing the navigation state and elements within a user interface._
 Cohesion: 0.12
-Nodes (15): activeIndex, currentStage, currentStageIndex, [elapsedTime, setElapsedTime], [estimatedTotal, setEstimatedTotal], GENERATION_STAGES, Icon, interval (+7 more)
+Nodes (15): activeChord, [activeChordIndex, setActiveChordIndex], chordElement, handleChordTap, handleShowDiagram, index, isActive, isPast (+7 more)
 
-### Community 256 - "Community 256"
-Cohesion: 0.13
-Nodes (10): backgroundMap, FixedOverlay(), zIndexMap, getSafeAreaBottom(), getSafeAreaTop(), LAYOUT_HEIGHTS, LAYOUT_SPACING, SAFE_AREA_CLASSES (+2 more)
-
-### Community 257 - "Community 257"
+### Community 136 - "Community 136"
+_This domain is responsible for managing audio event rendering and visual updates based on audio metrics._
 Cohesion: 0.12
 Nodes (14): aiSuggestions, availableTags, CATEGORY_ICONS, [expandedCategory, setExpandedCategory], filteredCategories, handleAddTag, handleKeyDown, handleRemoveTag (+6 more)
 
-### Community 258 - "Community 258"
-Cohesion: 0.22
-Nodes (7): completeSetup(), [isChecking, setIsChecking], [needsSetup, setNeedsSetup], [profile, setProfile], steps, STORAGE_KEY, [userId, setUserId]
+### Community 137 - "Community 137"
+_This domain is responsible for managing and displaying storage statistics and insights on a dashboard._
+Cohesion: 0.12
+Nodes (13): [activeTab, setActiveTab], ASSET_TYPES, [assetType, setAssetType], buildPrompt(), currentMediaUrl, [customPrompt, setCustomPrompt], entityTitle, [generatedUrl, setGeneratedUrl] (+5 more)
 
-### Community 259 - "Community 259"
-Cohesion: 0.11
-Nodes (13): handleActivateTrial(), [isActivating, setIsActivating], [isDismissed, setIsDismissed], { isEligible, trialDays, isLoading }, navigate(), queryClient, { user }, getGlobalNavigate() (+5 more)
-
-### Community 260 - "Community 260"
+### Community 138 - "Community 138"
+_This domain is responsible for analyzing audio data, managing audio contexts, and visualizing audio levels and peaks._
 Cohesion: 0.13
 Nodes (15): [autoTourDelay, setAutoTourDelay], currentIndex, currentScreen, handleKeyDown(), Icon, iconMap, isActive, [isAutoTour, setIsAutoTour] (+7 more)
 
-### Community 261 - "Community 261"
-Cohesion: 0.12
-Nodes (12): activeWordIndex, activeWordRef, containerRef, [editedText, setEditedText], isActive, [isEditing, setIsEditing], isPast, lastSyncedRangeRef (+4 more)
-
-### Community 262 - "Community 262"
-Cohesion: 0.12
-Nodes (14): { addTrack, addClip, currentProject }, [audio], [customPrompt, setCustomPrompt], {
-    data: analysis,
-    isLoading: isAnalyzing,
-    refetch: reanalyze,
-  }, [duration, setDuration], fullSourceId, [generatedUrl, setGeneratedUrl], generateMutation (+6 more)
-
-### Community 263 - "Community 263"
+### Community 139 - "Community 139"
+_This domain manages the display and interaction of hierarchical data structures, including filtering, grouping, and navigating through related items._
 Cohesion: 0.12
 Nodes (15): [currentTime, setCurrentTime], handleSeek, handleTogglePlayback, hasNotation, interval, isMobile, [isPlaying, setIsPlaying], { isReady, isMuted, volume, playNote, stopAll, setVolume, setMuted, initialize } (+7 more)
 
-### Community 264 - "Community 264"
+### Community 140 - "Community 140"
+_This domain manages the visualization and interaction of an audio timeline, including track selection, zooming, and playback controls._
 Cohesion: 0.12
 Nodes (15): [activeTab, setActiveTab], availableTabs, duration, handleDownload, handleOpenExternal, Icon, isMobile, [localPlaying, setLocalPlaying] (+7 more)
 
-### Community 265 - "Community 265"
+### Community 141 - "Community 141"
+_This domain is responsible for managing user profiles, including their data, interactions, and navigation within the application._
+Cohesion: 0.12
+Nodes (12): activeWordIndex, activeWordRef, containerRef, [editedText, setEditedText], isActive, [isEditing, setIsEditing], isPast, lastSyncedRangeRef (+4 more)
+
+### Community 142 - "Community 142"
+_This domain is responsible for handling subscription-related functionalities, including navigation, purchase processing, and displaying relevant content._
 Cohesion: 0.12
 Nodes (15): containerRef, containerWidth, {
     currentProject,
@@ -2523,97 +2149,70 @@ Nodes (15): containerRef, containerWidth, {
     moveClip,
   }, [dragClipId, setDragClipId], [dragOffset, setDragOffset], duration, handleClipDragEnd, handleClipDragStart (+7 more)
 
-### Community 266 - "Community 266"
+### Community 143 - "Community 143"
+_This domain is responsible for managing user authentication, including login forms, validation, and session handling._
 Cohesion: 0.12
-Nodes (15): { data: artist }, { data: project }, { data: referenceAudio }, { handleGenerateVideo, isProcessing }, handleTogglePrompt(), isCoverOrExtension, isLongPrompt, isMobile (+7 more)
+Nodes (5): circularStyles, sizeStyles, TOUCH_CLASSES, TOUCH_TARGET_MIN_SIZE, touchTarget
 
-### Community 267 - "Community 267"
+### Community 144 - "Community 144"
+_This domain is responsible for managing the state and actions related to data analysis processes, including loading, error handling, and user interactions._
+Cohesion: 0.13
+Nodes (10): backgroundMap, FixedOverlay(), zIndexMap, getSafeAreaBottom(), getSafeAreaTop(), LAYOUT_HEIGHTS, LAYOUT_SPACING, SAFE_AREA_CLASSES (+2 more)
+
+### Community 145 - "Community 145"
+_This domain is responsible for managing the state and retrieval of track data, including validation and prefetching mechanisms._
 Cohesion: 0.14
 Nodes (3): hasAudioUrl(), isPlayable(), isPublicPlayable()
 
-### Community 268 - "Community 268"
+### Community 146 - "Community 146"
+_This domain manages the state and behavior of a text editing interface, including cursor position, content management, and editing state._
+Cohesion: 0.19
+Nodes (14): getArtistDeepLink(), getGenerateDeepLink(), getInviteDeepLink(), getMiniAppDeepLink(), getPlaylistDeepLink(), getProfileDeepLink(), getProjectDeepLink(), getRecognizeDeepLink() (+6 more)
+
+### Community 147 - "Community 147"
+_This domain is responsible for handling notifications, including displaying, marking as read, and managing their state._
 Cohesion: 0.12
-Nodes (13): [activeTab, setActiveTab], AudioHubRecorder, AudioHubUploader, AudioRecordDialog, [guitarDialogOpen, setGuitarDialogOpen], GuitarRecordDialog, { hasAccess: hasGuitarStudio }, { hasAccess: hasPromptDJ } (+5 more)
+Nodes (14): [activeTab, setActiveTab], AudioHubRecorder, AudioHubUploader, AudioRecordDialog, [guitarDialogOpen, setGuitarDialogOpen], GuitarRecordDialog, handleProgressionExport(), { hasAccess: hasGuitarStudio } (+6 more)
 
-### Community 269 - "Community 269"
-Cohesion: 0.14
-Nodes (13): ERROR_MESSAGES, errorCode, errorInfo, handleGoBack(), handleRetry(), isTelegram, message, navigate (+5 more)
-
-### Community 270 - "Community 270"
+### Community 148 - "Community 148"
+_This domain is responsible for managing and manipulating guitar tab data and related musical information._
 Cohesion: 0.12
 Nodes (15): [activeTab, setActiveTab], initialTab, { isAuthenticated, loading: authLoading }, isMobile, navigate, { projects }, [searchParams], selectedProject (+7 more)
 
-### Community 271 - "Community 271"
+### Community 149 - "Community 149"
+_Manages artist information and settings including avatar, bio, genre tags, and privacy options._
+Cohesion: 0.18
+Nodes (10): checkAdminRole(), fetchBotMetrics(), fetchUserBalanceSummary(), getCurrentUserAdminStatus(), getAdminDashboardData(), getLowBalanceUsers(), getUsersByBalance(), getZeroBalanceUsers() (+2 more)
+
+### Community 150 - "Community 150"
+_This domain is responsible for representing and visualizing guitar chord fingerings and their associated attributes._
 Cohesion: 0.13
-Nodes (13): [copied, setCopied], { data: templates = [], isLoading }, [deleteId, setDeleteId], deleteMutation, filteredTemplates, handleUseTemplate(), { hapticFeedback }, incrementUsageMutation (+5 more)
+Nodes (14): background, containerClasses, defaultMessage, [dismissed, setDismissed], displayMessage, interval, [isVisible, setIsVisible], [loadingTime, setLoadingTime] (+6 more)
 
-### Community 273 - "Community 273"
-Cohesion: 0.09
-Nodes (11): ECONOMY, logger, logger, logger, logger, logger, logger, logger (+3 more)
-
-### Community 274 - "Community 274"
-Cohesion: 0.12
-Nodes (15): benchmarkResult, finalRenderCount, i, initialRenderCount, renderCounter, reRenderCount, { result }, { result, rerender } (+7 more)
-
-### Community 275 - "Community 275"
-Cohesion: 0.12
-Nodes (14): startSpan(), callback, delay, executionTime, fps, frameDuration, i, rafBased (+6 more)
-
-### Community 276 - "Community 276"
-Cohesion: 0.13
-Nodes (13): { activeTrack, isPlaying, playTrack, pauseTrack }, albumDescription, albumUrl, creatorName, { data: album, isLoading: albumLoading }, { data: tracks, isLoading: tracksLoading }, { id }, isCurrentTrack (+5 more)
-
-### Community 277 - "Community 277"
-Cohesion: 0.17
-Nodes (11): FailureCategory, FailurePattern, fetchFailurePatterns(), fetchGenerationLogs(), fetchGenerationStats(), fetchSuccessTimeline(), GenerationLog, GenerationLogsFilter (+3 more)
-
-### Community 278 - "Community 278"
-Cohesion: 0.13
-Nodes (14): barRef, handleLoopToggle, handleMouseDown, handlePlayPause, handleProgressSeek, handleSeek, handleSkipBack, handleSkipForward (+6 more)
-
-### Community 279 - "Community 279"
-Cohesion: 0.25
-Nodes (12): confirmTemplateGeneration(), getUserRecentStyles(), handleEnhancedQuickActionCallback(), handleRecentStyleSelection(), handleTemplateSelection(), logger, QUICK_TEMPLATES, saveRecentStyle() (+4 more)
-
-### Community 280 - "Community 280"
-Cohesion: 0.13
-Nodes (13): ChartContainer, ChartContext, color, colorConfig, { config }, configLabelKey, indicatorColor, itemConfig (+5 more)
-
-### Community 281 - "Community 281"
-Cohesion: 0.13
-Nodes (13): baseFret, CHORD_FINGERINGS, fingering, fretSpacing, maxFret, minFret, normalizedChord, sizeConfig (+5 more)
-
-### Community 282 - "Community 282"
-Cohesion: 0.13
-Nodes (14): adjustedFret, Component, componentProps, config, fingering, firstString, { frets, fingers = [], barres = [] }, lastString (+6 more)
-
-### Community 283 - "Community 283"
-Cohesion: 0.13
-Nodes (14): { anomalies, criticalCount, warningCount, hasCritical }, config, { data: activeUsers }, { data: alertStats }, { data: generationStats }, { data: healthStatus, refetch: refetchHealth }, isDegraded, isHealthy (+6 more)
-
-### Community 284 - "Community 284"
+### Community 151 - "Community 151"
+_This domain manages the selection and configuration of musical instruments, including their styles and audio settings._
 Cohesion: 0.13
 Nodes (11): { activeReference, recentReferences, isLoading, setFromCloud, clearActive, analysisStatus }, { deleteAudio }, filteredReferences, handleDelete, handlePlay, handleSelectCloud, { isPlaying, togglePlay, reset }, [playingId, setPlayingId] (+3 more)
 
-### Community 285 - "Community 285"
+### Community 152 - "Community 152"
+_This domain is responsible for managing and processing customizable AI prompts and presets._
 Cohesion: 0.13
-Nodes (11): buttonVariant, columns, container, Icon, iconSizes, { impact }, isMobile, scrollRef (+3 more)
+Nodes (13): baseFret, CHORD_FINGERINGS, fingering, fretSpacing, maxFret, minFret, normalizedChord, sizeConfig (+5 more)
 
-### Community 286 - "Community 286"
+### Community 153 - "Community 153"
+_This domain is responsible for managing audio projects, tracks, and user interactions within a digital audio workstation environment._
 Cohesion: 0.13
-Nodes (8): Icon, isSelected, PRIORITY_CONFIG, priorityConfig, QUICK_ACTION_ICONS, score, SECTION_CONFIG, sectionData
+Nodes (14): adjustedFret, Component, componentProps, config, fingering, firstString, { frets, fingers = [], barres = [] }, lastString (+6 more)
 
-### Community 287 - "Community 287"
-Cohesion: 0.13
-Nodes (13): handleStartRecording(), [activeTab, setActiveTab], appleMusicUrl, artworkUrl, [audioUrl, setAudioUrl], fileInputRef, handleMicrophoneClick(), handleUrlRecognize() (+5 more)
-
-### Community 288 - "Community 288"
+### Community 154 - "Community 154"
+_This domain handles the management and display of user feedback, including navigation, loading states, and user roles._
 Cohesion: 0.15
 Nodes (12): bufferedPercent, handlePointerDown(), handlePointerMove(), handleSeek(), handleSize, [isDragging, setIsDragging], [isHovering, setIsHovering], [localTime, setLocalTime] (+4 more)
 
-### Community 289 - "Community 289"
+### Community 155 - "Community 155"
+_This domain is responsible for managing scrolling behavior and performance metrics in a user interface._
 Cohesion: 0.14
-Nodes (9): cn(), { currentTrack, upNextTracks, remainingDuration }, getRepeatIcon(), { isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount }, [isSaving, setIsSaving], {
+Nodes (11): cn(), { currentTrack, upNextTracks, remainingDuration }, getRepeatIcon(), handleClearQueue(), handleToggleVersionMode(), { isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount }, [isSaving, setIsSaving], {
     queue,
     currentIndex,
     reorderQueue,
@@ -2626,23 +2225,22 @@ Nodes (9): cn(), { currentTrack, upNextTracks, remainingDuration }, getRepeatIco
     toggleShuffle,
     toggleRepeat,
     activeTrack,
-  }, sensors, totalDuration (+1 more)
+  } (+3 more)
 
-### Community 290 - "Community 290"
-Cohesion: 0.14
-Nodes (5): versionA, versionB, useTrackVersions(), useVersionSwitcher(), VersionComparison()
-
-### Community 291 - "Community 291"
+### Community 156 - "Community 156"
+_This domain is responsible for managing and exporting various analytics data and error trends over specified time intervals._
 Cohesion: 0.13
 Nodes (11): allTips, categoryLabels, [completedTips, setCompletedTips], currentTip, [currentTipIndex, setCurrentTipIndex], filteredTips, Icon, isCarousel (+3 more)
 
-### Community 292 - "Community 292"
-Cohesion: 0.12
-Nodes (13): ASPECT_RATIOS, aspectRatio, canvasRef, [cropMode, setCropMode], [cropPosition, setCropPosition], DEFAULT_PROMPTS, [generatedImage, setGeneratedImage], handleCrop (+5 more)
-
-### Community 293 - "Community 293"
+### Community 157 - "Community 157"
+_This domain handles the management and status of user subscriptions, including cancellation, transaction history, and renewal processes._
 Cohesion: 0.13
-Nodes (13): applyPreset, CHANNEL_COLORS, {
+Nodes (12): ASPECT_RATIOS, aspectRatio, canvasRef, [cropMode, setCropMode], [cropPosition, setCropPosition], DEFAULT_PROMPTS, [generatedImage, setGeneratedImage], handleCrop (+4 more)
+
+### Community 158 - "Community 158"
+_This domain is responsible for managing emoji statuses, access permissions, and user interactions related to emojis._
+Cohesion: 0.13
+Nodes (14): applyPreset, CHANNEL_COLORS, {
     channels,
     updateChannel,
     globalSettings,
@@ -2657,156 +2255,105 @@ Nodes (13): applyPreset, CHANNEL_COLORS, {
     currentPrompt,
     analyzerNode,
     removeTrack,
-  }, customChannel, { description, bpm }, drumData, handleDownload, handleUseAsReference (+5 more)
+  }, cn(), customChannel, { description, bpm }, drumData, handleDownload (+6 more)
 
-### Community 294 - "Community 294"
+### Community 159 - "Community 159"
+_This domain is responsible for managing and selecting different versions of a configuration or software component._
 Cohesion: 0.13
-Nodes (5): circularStyles, sizeStyles, TOUCH_CLASSES, TOUCH_TARGET_MIN_SIZE, touchTarget
+Nodes (14): barRef, handleLoopToggle, handleMouseDown, handlePlayPause, handleProgressSeek, handleSeek, handleSkipBack, handleSkipForward (+6 more)
 
-### Community 295 - "Community 295"
-Cohesion: 0.13
-Nodes (14): background, containerClasses, defaultMessage, [dismissed, setDismissed], displayMessage, interval, [isVisible, setIsVisible], [loadingTime, setLoadingTime] (+6 more)
-
-### Community 296 - "Community 296"
-Cohesion: 0.07
-Nodes (17): Alert, AlertDialog(), alertVariants, FollowButton(), useHapticFeedback(), useFollow(), useGestures(), useLikeComment() (+9 more)
-
-### Community 297 - "Community 297"
-Cohesion: 0.13
-Nodes (6): dbPromise, DEFAULT_CHANNELS, DEFAULT_SETTINGS, indexedDBStorage, usePromptDJStore, usePromptHistory()
-
-### Community 298 - "Community 298"
-Cohesion: 0.17
-Nodes (7): DEFAULT_CONFIG, getPrefetchManager(), log, PrefetchManager, prefetchManagerInstance, prefetchNextTracks(), preconnectToHost()
-
-### Community 299 - "Community 299"
-Cohesion: 0.17
-Nodes (8): CircuitBreaker, DEFAULT_OPTIONS, logger, retryFetch(), retryJsonFetch(), retryWithBackoff(), retryWithJitter(), sleep()
-
-### Community 300 - "Community 300"
-Cohesion: 0.13
-Nodes (14): genres, mockAchievements, mockArtists, mockCredits, mockGenerationFormData, mockLyrics, mockPlaylists, mockProfile (+6 more)
-
-### Community 301 - "Community 301"
-Cohesion: 0.24
-Nodes (12): escapeHtml(), expandLyrics(), extractLyricsSections(), formatLyricsForDisplay(), formatLyricsForExport(), FORMATTING_CONFIG, generateLyricsHTML(), generateLyricsMarkdown() (+4 more)
-
-### Community 302 - "Community 302"
-Cohesion: 0.07
-Nodes (25): cn(), getGlass(), createInteractive(), LikeButton(), imageOverlay(), paddingMap, PageContainer(), sectionSpacing (+17 more)
-
-### Community 303 - "Community 303"
-Cohesion: 0.17
-Nodes (10): [activeTab, setActiveTab], [advancedSettings, setAdvancedSettings], handleSubmit(), isProcessing, [loading, setLoading], [lyrics, setLyrics], [negativeTags, setNegativeTags], progress (+2 more)
-
-### Community 304 - "Community 304"
-Cohesion: 0.13
-Nodes (13): goHome(), card, goHome(), result, TEST_ID, boot(), bottomNav, box (+5 more)
-
-### Community 305 - "Community 305"
-Cohesion: 0.13
-Nodes (14): avgFPS, benchmarkResult, fpsSamples, height, i, item, maxScrolls, measureFrame() (+6 more)
-
-### Community 306 - "Community 306"
-Cohesion: 0.14
-Nodes (14): Product Design Constitution, Platform Specification, Quality Gates Documentation, Safe Area Guidelines, Stem Studio Documentation, A/B Versioning, MIDI Transcription, Mobile-First Design (+6 more)
-
-### Community 307 - "Community 307"
-Cohesion: 0.17
-Nodes (11): [creatingNew, setCreatingNew], filteredPlaylists, handleAddToPlaylist, handleCreateNewPlaylist, handleOpenChange, [newPlaylistName, setNewPlaylistName], {
-    playlists,
-    isLoading: playlistsLoading,
-    createPlaylist,
-    addTrackToPlaylist,
-    isCreating,
-    isAdding,
-  }, [searchQuery, setSearchQuery] (+3 more)
-
-### Community 308 - "Community 308"
-Cohesion: 0.24
-Nodes (13): detectTagType(), DYNAMIC_PATTERNS, extractTagFromWord(), extractTimingDuration(), getSectionType(), INSTRUMENT_PATTERNS, isStructuralTagValue(), parseFullLyrics() (+5 more)
-
-### Community 309 - "Community 309"
-Cohesion: 0.14
-Nodes (12): AUDIO_EXTENSIONS, AUDIO_URL_PATTERNS, cache, CACHE_NAME, cachedResponse, MAX_CACHE_SIZE_MB, networkResponse, response (+4 more)
-
-### Community 310 - "Community 310"
-Cohesion: 0.14
-Nodes (13): clipRef, effectiveDuration, handleResizeEnd, handleResizeMove, handleResizeStart, height, [initialWidth, setInitialWidth], [initialX, setInitialX] (+5 more)
-
-### Community 311 - "Community 311"
-Cohesion: 0.14
-Nodes (13): apis, audioSupport, dimensions, dynamicImport, es6Support, fetchTest, imageSupport, mediaQuerySupport (+5 more)
-
-### Community 312 - "Community 312"
-Cohesion: 0.14
-Nodes (12): cardRef, handleMouseLeave(), handleMouseMove(), [isFlipped, setIsFlipped], rotateX, rotateY, shineX, shineY (+4 more)
-
-### Community 313 - "Community 313"
-Cohesion: 0.18
-Nodes (12): addChip, canAddMore, filteredSuggestions, handleKeyDown(), handleSuggestionClick(), inputRef, [inputValue, setInputValue], [isFocused, setIsFocused] (+4 more)
-
-### Community 314 - "Community 314"
-Cohesion: 0.16
-Nodes (12): __dirname, DRY_RUN, failed, __filename, files, getFilesToMigrate(), isPascalCase(), migrated (+4 more)
-
-### Community 315 - "Community 315"
-Cohesion: 0.12
-Nodes (13): convertDateFnsFormat(), format(), formatDate(), formatCurrency(), formatDate(), fileInputRef, handleRecordingComplete(), { isRecording, recordingTime, startRecording, stopRecording } (+5 more)
-
-### Community 316 - "Community 316"
-Cohesion: 0.14
-Nodes (10): { activeReference, clearActive, analysisStatus }, defaultContinueAt, effectiveDur, effectiveDuration, handleContinueAtChange, handleModeChange, handleRemove, hasAnalysisData (+2 more)
-
-### Community 317 - "Community 317"
-Cohesion: 0.25
-Nodes (13): actions, handleCover(), handleExtend(), handleNewArrangement(), handleNewVocal(), handleOpenPromptDJ(), hasInstrumentalStem, hasStemsReady (+5 more)
-
-### Community 318 - "Community 318"
-Cohesion: 0.15
-Nodes (10): getRankColor(), [category, setCategory], { data: leaderboard, isLoading }, getRankBg(), getRankIcon(), isCurrentUser, rankBg, rankIcon (+2 more)
-
-### Community 319 - "Community 319"
-Cohesion: 0.14
-Nodes (8): [addVocalsOpen, setAddVocalsOpen], audio, audioRef, [currentTime, setCurrentTime], displayedChords, [isPlaying, setIsPlaying], [showAllChords, setShowAllChords], uniqueChords
-
-### Community 320 - "Community 320"
-Cohesion: 0.14
-Nodes (12): context, handleApplyRecommendations, handleKeyDown, handleQuickAction, handleSend, handleToolExecute, handleToolSelect, [input, setInput] (+4 more)
-
-### Community 321 - "Community 321"
-Cohesion: 0.14
-Nodes (13): config, { currentTime, duration, seek }, handleNext, handlePlayPause, handlePrevious, handleRepeat, handleSeekBackward, handleSeekForward (+5 more)
-
-### Community 322 - "Community 322"
-Cohesion: 0.14
-Nodes (12): angle, handleLabelBlur, handleLabelClick, handleLabelKeyDown, handlePointerDown, handlePointerMove, handlePointerUp, [isDragging, setIsDragging] (+4 more)
-
-### Community 323 - "Community 323"
-Cohesion: 0.14
-Nodes (12): [activeTasks, setActiveTasks], channel, completedTasks, [elapsedTime, setElapsedTime], estimatedProgress, failedTasks, interval, latestCompleted (+4 more)
-
-### Community 324 - "Community 324"
+### Community 160 - "Community 160"
+_This domain is responsible for managing product display, user roles, purchasing processes, and associated states._
 Cohesion: 0.14
 Nodes (13): emojiMap, groupedActions, handleAction, haptic, Icon, isDisabled, isGuitar, isMobile (+5 more)
 
-### Community 325 - "Community 325"
-Cohesion: 0.14
-Nodes (12): { addTrack, addClip, currentProject }, [audio], [duration, setDuration], fullSourceId, [generatedUrl, setGeneratedUrl], generateMutation, handleGenerate(), [isPlaying, setIsPlaying] (+4 more)
+### Community 161 - "Community 161"
+_This domain handles the management and processing of subscription products, including user roles, payment initiation, and product selection._
+Cohesion: 0.13
+Nodes (13): ChartContainer, ChartContext, color, colorConfig, { config }, configLabelKey, indicatorColor, itemConfig (+5 more)
 
-### Community 326 - "Community 326"
-Cohesion: 0.14
-Nodes (12): activeTracksCount, bitrateOptions, [format, setFormat], formatOptions, handleCancelExport, { isExporting, exportProgress, exportMix, cancelExport, downloadBlob }, [limiter, setLimiter], [mp3Bitrate, setMp3Bitrate] (+4 more)
+### Community 162 - "Community 162"
+_This domain manages user interactions with content through likes and additional features on a mobile interface._
+Cohesion: 0.13
+Nodes (14): genres, mockAchievements, mockArtists, mockCredits, mockGenerationFormData, mockLyrics, mockPlaylists, mockProfile (+6 more)
 
-### Community 327 - "Community 327"
+### Community 163 - "Community 163"
+_This domain is responsible for managing and calculating musical timing elements such as beats, measures, and subdivisions._
+Cohesion: 0.27
+Nodes (11): addSortIndicators(), enableUI(), getNthColumn(), getTable(), getTableBody(), getTableHeader(), loadColumns(), loadData() (+3 more)
+
+### Community 164 - "Community 164"
+_This domain is responsible for managing the generation of active items and handling user navigation within the application._
+Cohesion: 0.14
+Nodes (12): AUDIO_EXTENSIONS, AUDIO_URL_PATTERNS, cache, CACHE_NAME, cachedResponse, MAX_CACHE_SIZE_MB, networkResponse, response (+4 more)
+
+### Community 165 - "Community 165"
+_This domain is responsible for managing and filtering templates based on user-selected criteria such as genre, language, mood, and structure._
+Cohesion: 0.14
+Nodes (10): { activeReference, clearActive, analysisStatus }, defaultContinueAt, effectiveDur, effectiveDuration, handleContinueAtChange, handleModeChange, handleRemove, hasAnalysisData (+2 more)
+
+### Community 166 - "Community 166"
+_This domain is responsible for managing and manipulating musical patterns and audio playback in a sequencer application._
+Cohesion: 0.25
+Nodes (13): actions, handleCover(), handleExtend(), handleNewArrangement(), handleNewVocal(), handleOpenPromptDJ(), hasInstrumentalStem, hasStemsReady (+5 more)
+
+### Community 167 - "Community 167"
+_This domain manages the interaction and visualization of musical chords within a user interface._
+Cohesion: 0.14
+Nodes (12): balance, checkin, colorStyles, content, { data: canCheckin }, { data: credits, isLoading }, level, navigate (+4 more)
+
+### Community 168 - "Community 168"
+_This domain is responsible for managing the editing and display of text, including syntax highlighting and line handling._
+Cohesion: 0.14
+Nodes (13): descriptionValidation, handleBoostStyle, handleClear, handleCopy, handleOpenStyles, handleVocalsToggle, { hapticFeedback }, hasTrackedView (+5 more)
+
+### Community 169 - "Community 169"
+_This domain is responsible for managing and suggesting tags within a user interface, including functionalities for adding, removing, and searching tags._
+Cohesion: 0.14
+Nodes (13): activeConfig, [activeGenre, setActiveGenre], activeGenreTracks, {
+    data: infiniteData,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  }, GENRES, handleLoadMore, handleTabChange, Icon (+5 more)
+
+### Community 170 - "Community 170"
+_This domain manages the playback and organization of audio tracks, including their states and associated assets._
+Cohesion: 0.14
+Nodes (12): context, handleApplyRecommendations, handleKeyDown, handleQuickAction, handleSend, handleToolExecute, handleToolSelect, [input, setInput] (+4 more)
+
+### Community 171 - "Community 171"
+_Manages the state and behavior of an automated tour interface, including navigation, delays, and visibility of screens._
+Cohesion: 0.14
+Nodes (12): cardRef, handleMouseLeave(), handleMouseMove(), [isFlipped, setIsFlipped], rotateX, rotateY, shineX, shineY (+4 more)
+
+### Community 172 - "Community 172"
+_This domain manages the playback state and version control of media tracks._
+Cohesion: 0.14
+Nodes (13): config, { currentTime, duration, seek }, handleNext, handlePlayPause, handlePrevious, handleRepeat, handleSeekBackward, handleSeekForward (+5 more)
+
+### Community 173 - "Community 173"
+_This domain manages the playback controls and timeline interactions for media looping and navigation._
+Cohesion: 0.14
+Nodes (12): angle, handleLabelBlur, handleLabelClick, handleLabelKeyDown, handlePointerDown, handlePointerMove, handlePointerUp, [isDragging, setIsDragging] (+4 more)
+
+### Community 174 - "Community 174"
+_This domain is responsible for managing the playback of musical notes, including controlling playback state, volume, and MIDI parsing._
+Cohesion: 0.14
+Nodes (13): audioRef, barHeight, barWidth, canvas, canvasRef, centerY, ctx, diffs (+5 more)
+
+### Community 175 - "Community 175"
+_This domain manages the playback and parsing of music files, including MIDI and MusicXML formats, while handling user interactions and state management._
+Cohesion: 0.14
+Nodes (13): clipRef, effectiveDuration, handleResizeEnd, handleResizeMove, handleResizeStart, height, [initialWidth, setInitialWidth], [initialX, setInitialX] (+5 more)
+
+### Community 176 - "Community 176"
+_This domain is responsible for managing and editing lyrics text, including tracking active words and editing states._
 Cohesion: 0.14
 Nodes (12): [audioWeight, setAudioWeight], handleGenerate, [isLoading, setIsLoading], [negativeTags, setNegativeTags], PRESET_STYLES, [showAdvanced, setShowAdvanced], [step, setStep], [style, setStyle] (+4 more)
 
-### Community 328 - "Community 328"
-Cohesion: 0.14
-Nodes (13): downloadableTracks, downloadAllAsZip, [downloadedTracks, setDownloadedTracks], [downloadingTrackId, setDownloadingTrackId], [downloadProgress, setDownloadProgress], downloadTrack, [format, setFormat], getTrackAudioUrl (+5 more)
-
-### Community 329 - "Community 329"
+### Community 177 - "Community 177"
+_This domain is responsible for managing and interacting with a timeline interface for editing audio or video clips._
 Cohesion: 0.14
 Nodes (13): AI_TOOL_ICONS, categories, categoryLabels, handleAddNote, handleSave, handleSectionClick, {
     lyrics,
@@ -2828,35 +2375,28 @@ Nodes (13): AI_TOOL_ICONS, categories, categoryLabels, handleAddNote, handleSave
     deleteNote,
   }, [newNoteContent, setNewNoteContent] (+5 more)
 
-### Community 330 - "Community 330"
-Cohesion: 0.14
-Nodes (13): audioRef, barHeight, barWidth, canvas, canvasRef, centerY, ctx, diffs (+5 more)
-
-### Community 331 - "Community 331"
+### Community 178 - "Community 178"
+_This domain manages audio settings and user interactions for toggling features and configurations._
 Cohesion: 0.14
 Nodes (12): { hapticFeedback }, { hasAccess: canReplaceSection, requiredTier: replaceTier }, { hasAccess: canStemDetailed, requiredTier: stemDetailedTier }, hasAnyAction, [lockedFeature, setLockedFeature], showMidi, showReplaceSection, showStems (+4 more)
 
-### Community 332 - "Community 332"
-Cohesion: 0.24
-Nodes (7): useCustomVoices(), CustomVoicePicker(), formatRelative(), mockedUseCustomVoices, pendingVoice, readyVoice, Props
-
-### Community 333 - "Community 333"
+### Community 179 - "Community 179"
+_This domain is responsible for managing audio track interactions and visual feedback in a user interface._
 Cohesion: 0.14
 Nodes (12): { beatGrid }, beats, colors, config, containerRef, duration, height, MODE_CONFIGS (+4 more)
 
-### Community 334 - "Community 334"
+### Community 180 - "Community 180"
+_This domain is responsible for managing audio playback functionalities and user interactions related to audio files._
 Cohesion: 0.14
 Nodes (13): AUDIO_SYNC_DRIFT_THRESHOLD, BOOST_STYLE_MAX_LENGTH, DEFAULT_AUDIO_WEIGHT, DEFAULT_STYLE_WEIGHT, DEFAULT_WEIRDNESS, DRAFT_AUTO_SAVE_DELAY, FILE_READER_TIMEOUT, LYRICS_MAX_LENGTH (+5 more)
 
-### Community 335 - "Community 335"
-Cohesion: 0.19
-Nodes (11): useWaveformData(), applySmoothing(), cleanupWaveformAudioContext(), DEFAULT_SAMPLES, generateWaveformFromAudioBuffer(), generateWaveformFromBuffer(), generateWaveformFromUrl(), getAudioContext() (+3 more)
+### Community 181 - "Community 181"
+_This domain is responsible for managing and editing guitar tablature and musical notation._
+Cohesion: 0.24
+Nodes (13): detectTagType(), DYNAMIC_PATTERNS, extractTagFromWord(), extractTimingDuration(), getSectionType(), INSTRUMENT_PATTERNS, isStructuralTagValue(), parseFullLyrics() (+5 more)
 
-### Community 336 - "Community 336"
-Cohesion: 0.18
-Nodes (6): AudioBufferPool, getToneModule(), globalBufferPool, MAX_CACHE_SIZE, MAX_ENTRIES, ToneModule
-
-### Community 338 - "Community 338"
+### Community 182 - "Community 182"
+_This domain is responsible for determining the playability and accessibility of audio content._
 Cohesion: 0.14
 Nodes (12): { data: authData }, {
     data: products,
@@ -2864,79 +2404,38 @@ Nodes (12): { data: authData }, {
     error,
   }, err, { isAdmin, isLoading: roleLoading }, [purchasingProduct, setPurchasingProduct], queryClient, response, result (+4 more)
 
-### Community 339 - "Community 339"
-Cohesion: 0.16
-Nodes (13): handleBack(), handleWorkflowClick(), { hapticFeedback }, Icon, isCompleted, isCurrent, isMobile, isPending (+5 more)
-
-### Community 340 - "Community 340"
+### Community 183 - "Community 183"
+_This domain is responsible for generating various deep links and sharing URLs for different content types and platforms._
 Cohesion: 0.14
-Nodes (6): { data: leaderboard, isLoading: leaderboardLoading }, { data: stats, isLoading: statsLoading }, { hapticFeedback }, isMobile, referralLink, { share }
+Nodes (8): { data: leaderboard, isLoading: leaderboardLoading }, { data: stats, isLoading: statsLoading }, handleCopyCode(), handleCopyLink(), { hapticFeedback }, isMobile, referralLink, { share }
 
-### Community 341 - "Community 341"
-Cohesion: 0.24
-Nodes (13): createNotification(), deleteNotification(), deleteNotificationsByGroup(), log, notifyAchievement(), notifyFeatureAnnouncement(), notifyGenerationComplete(), notifyGenerationFailed() (+5 more)
-
-### Community 342 - "Community 342"
-Cohesion: 0.18
-Nodes (9): { activeTrack, isPlaying, playTrack }, { data: versions, isLoading }, gapClasses, isActive, isCurrentlyPlaying, label, originalTrackId, sizeClasses (+1 more)
-
-### Community 343 - "Community 343"
-Cohesion: 0.16
-Nodes (16): getDashboardData(), getGreeting(), getStreakEmoji(), getTierEmoji(), handleDashboard(), supabase, canGoBack(), clearNavigationState() (+8 more)
-
-### Community 344 - "Community 344"
+### Community 184 - "Community 184"
+_This domain handles user referral activities, including leaderboard tracking, statistics loading, QR code generation, and sharing functionalities._
 Cohesion: 0.14
-Nodes (12): LyricsPreview, LyricsPreviewProps, ParsedSection, SECTION_META, [copied, setCopied], handleCopy(), hiddenCount, openFullLyrics() (+4 more)
+Nodes (13): apis, audioSupport, dimensions, dynamicImport, es6Support, fetchTest, imageSupport, mediaQuerySupport (+5 more)
 
-### Community 345 - "Community 345"
-Cohesion: 0.18
-Nodes (13): [advancedSettings, setAdvancedSettings], handleOpenStudio(), handleOpenTrack(), handlePlayTrack(), handleSubmit(), instrumentalProgress, loading, navigate (+5 more)
+### Community 185 - "Community 185"
+_This domain is responsible for handling the creation, copying, usage, and deletion of templates within an application._
+Cohesion: 0.19
+Nodes (12): [advancedSettings, setAdvancedSettings], handleOpenStudio(), handleOpenTrack(), handlePlayTrack(), instrumentalProgress, loading, navigate, [negativeTags, setNegativeTags] (+4 more)
 
-### Community 346 - "Community 346"
-Cohesion: 0.27
-Nodes (11): analyzeAudioFile(), detectBPM(), detectChords(), detectKey(), generateMockNotes(), generateTagsFromAnalysis(), identifyChord(), MAJOR_PROFILE (+3 more)
-
-### Community 347 - "Community 347"
-Cohesion: 0.15
-Nodes (13): closeStudioContext(), createAudioContext(), getAudioContextClass(), getOrCreateStudioContext(), safeCloseAudioContext(), studioAudioContext, DESKTOP_AUDIO_LIMIT, detectAudioCapabilities() (+5 more)
-
-### Community 348 - "Community 348"
+### Community 186 - "Community 186"
+_This domain is responsible for managing error messages and user interactions related to error recovery in a web application._
 Cohesion: 0.15
 Nodes (6): currentItems, [currentMenu, setCurrentMenu], currentMenuItem, MAX_CHARS_FOR_PAIRING, [navigationStack, setNavigationStack], rows
 
-### Community 349 - "Community 349"
-Cohesion: 0.23
-Nodes (8): brand, createArtistId(), createPlaylistId(), createProjectId(), createStemId(), createTrackId(), createUserId(), isValidUUID()
-
-### Community 350 - "Community 350"
-Cohesion: 0.15
-Nodes (6): handleDelete(), handleFileUpload(), AudioBufferPool, bufferPoolInstance, DEFAULT_CONFIG, updateKeyboardHeight()
-
-### Community 351 - "Community 351"
-Cohesion: 0.15
-Nodes (11): { audioList, isLoading }, audioRef, displayList, fullSourceId, [isExpanded, setIsExpanded], isPlaying, isSelected, { pauseTrack, isPlaying: globalIsPlaying } (+3 more)
-
-### Community 352 - "Community 352"
-Cohesion: 0.29
-Nodes (10): createGenerationProgressMessage(), createProgressMessage(), createUploadProgressMessage(), escapeMarkdown(), formatEta(), formatProgressBar(), getSpinnerFrame(), PROGRESS_STAGES (+2 more)
-
-### Community 353 - "Community 353"
-Cohesion: 0.20
-Nodes (6): [activeTab, setActiveTab], filteredGenres, filteredQuickMixes, filteredSaved, { presets: savedPresets, isLoading }, [searchQuery, setSearchQuery]
-
-### Community 354 - "Community 354"
-Cohesion: 0.15
-Nodes (12): conversionRate, conversions, experiments, isWinner, MOCK_RESULTS, participants, [selectedExperiment, setSelectedExperiment], stats (+4 more)
-
-### Community 355 - "Community 355"
-Cohesion: 0.15
-Nodes (10): cls, days, Icon, lcp, rating, { stats, dailyTrend, deviceBreakdown, performanceScore, isLoading, thresholds }, tips, ttfb (+2 more)
-
-### Community 356 - "Community 356"
+### Community 187 - "Community 187"
+_This domain is responsible for tracking and managing the rendering performance and counts of various components in a system._
 Cohesion: 0.15
 Nodes (10): categorizedFlags, categoryFlags, { data: flags, isLoading, error, refetch }, enabledCount, [isExpanded, setIsExpanded], [showSettings, setShowSettings], toggleFlag, totalEnabled (+2 more)
 
-### Community 357 - "Community 357"
+### Community 188 - "Community 188"
+_This domain focuses on the architectural decisions and optimizations for building a comprehensive audio application, including frontend, performance, and integration aspects._
+Cohesion: 0.15
+Nodes (8): addComment, { data: comments = [], isLoading }, deleteComment, formInput, mappedComments, [replyTo, setReplyTo], [reportTarget, setReportTarget], title
+
+### Community 189 - "Community 189"
+_Manages the display and behavior of notifications, including visibility, timing, and user interactions._
 Cohesion: 0.15
 Nodes (10): activeInStep, [activePads, setActivePads], handleInitialize, handlePadTrigger, handlePlayStop, handleSendToPromptDJ, handleUseAsReference, {
     isReady,
@@ -2977,47 +2476,33 @@ Nodes (10): activeInStep, [activePads, setActivePads], handleInitialize, handleP
     exportToMidi,
   } (+2 more)
 
-### Community 358 - "Community 358"
-Cohesion: 0.14
-Nodes (11): COOLDOWN_HOURS, ENCOURAGEMENT_MESSAGES, EncouragementToast(), LikeEncouragementProvider(), showLikeHint, STORAGE_KEY, useIsMobile(), ProjectLyricsTab() (+3 more)
-
-### Community 359 - "Community 359"
-Cohesion: 0.17
-Nodes (11): canClaim, claimMission, { data: activity, isLoading }, handleAction(), isClaiming, isCompleted, missions, navigate (+3 more)
-
-### Community 360 - "Community 360"
-Cohesion: 0.20
-Nodes (6): { activeTrack, isPlaying }, { data: versions }, isCurrentlyPlaying, isCurrentTrack, [selectedVersionId, setSelectedVersionId], trackDuration
-
-### Community 361 - "Community 361"
-Cohesion: 0.15
-Nodes (9): audioContextRef, [beatsPerMeasure, setBeatsPerMeasure], [bpm, setBpm], [currentBeat, setCurrentBeat], interval, intervalRef, [isMuted, setIsMuted], [isPlaying, setIsPlaying] (+1 more)
-
-### Community 362 - "Community 362"
+### Community 190 - "Community 190"
+_This domain is responsible for managing audio playback, references, and user interactions with audio files._
 Cohesion: 0.15
 Nodes (11): colorStyles, FeatureTutorialDialog, handleAction, handleDismiss, { hapticFeedback }, Icon, [isVisible, setIsVisible], styles (+3 more)
 
-### Community 363 - "Community 363"
+### Community 191 - "Community 191"
+_This domain manages user encouragement messages and their display conditions based on user interactions and device type._
 Cohesion: 0.15
 Nodes (11): addSection, deleteSection, [detailsOpen, setDetailsOpen], hasNotes, isMobile, openDetails, SECTION_TYPES, [selectedSection, setSelectedSection] (+3 more)
 
-### Community 364 - "Community 364"
+### Community 192 - "Community 192"
+_This domain is responsible for defining and managing the layout and representation of guitar chord fingerings on a visual interface._
 Cohesion: 0.15
 Nodes (11): angle, handleDoubleClick, handlePointerDown, handlePointerMove, handlePointerUp, haptic, [isDragging, setIsDragging], [isEditing, setIsEditing] (+3 more)
 
-### Community 365 - "Community 365"
+### Community 193 - "Community 193"
+_This domain is responsible for managing and representing the fingering positions and configurations on a guitar fretboard._
 Cohesion: 0.15
-Nodes (10): { activeGenerations, generationCount }, currentGenerationIds, [dismissed, setDismissed], [expanded, setExpanded], [lastGenerationIds, setLastGenerationIds], mainGeneration, navigate, overallProgress (+2 more)
+Nodes (12): duration, handleLearnMore, haptic, IllustrationComponent, interval, primaryAction, [progress, setProgress], [showFeatureSheet, setShowFeatureSheet] (+4 more)
 
-### Community 366 - "Community 366"
-Cohesion: 0.06
-Nodes (24): SmartAlertContext, SmartAlertContextValue, SmartAlertProviderProps, duration, handleLearnMore, haptic, IllustrationComponent, interval (+16 more)
-
-### Community 367 - "Community 367"
+### Community 194 - "Community 194"
+_This domain is responsible for managing the availability, downloading, and sharing of file formats._
 Cohesion: 0.15
 Nodes (10): baseCredits, basePricePerCredit, bestValueId, currentPricePerCredit, isBestValue, isFeatured, isSelected, pricePerTrack (+2 more)
 
-### Community 368 - "Community 368"
+### Community 195 - "Community 195"
+_This domain is responsible for managing and displaying tips, including their categorization, completion status, and user interactions._
 Cohesion: 0.15
 Nodes (10): [cancelling, setCancelling], { data: activeSubscription, isLoading: subLoading }, { data: transactions = [], isLoading: txLoading }, [historyOpen, setHistoryOpen], {
     isActive,
@@ -3028,155 +2513,98 @@ Nodes (10): [cancelling, setCancelling], { data: activeSubscription, isLoading: 
     isLoading: statusLoading,
   }, isCancelled, isLoading, queryClient (+2 more)
 
-### Community 369 - "Community 369"
-Cohesion: 0.17
-Nodes (11): displayActions, handleActionClick(), { hapticFeedback }, hasProgress, Icon, isCompact, navigate, professionalActions (+3 more)
-
-### Community 370 - "Community 370"
+### Community 196 - "Community 196"
+_This domain is responsible for managing image cropping functionalities, including aspect ratios, crop modes, and image generation._
 Cohesion: 0.15
 Nodes (12): finalTranscript, i, interim, [interimTranscript, setInterimTranscript], [isListening, setIsListening], [isProcessing, setIsProcessing], isSupported, recognition (+4 more)
 
-### Community 371 - "Community 371"
-Cohesion: 0.17
-Nodes (10): categoryColors, categoryLabels, HintsSettings(), isAvailable, useCloudStorage(), useCloudStorageFlag(), CONTEXTUAL_HINTS, STORAGE_KEY (+2 more)
-
-### Community 372 - "Community 372"
+### Community 197 - "Community 197"
+_This domain is responsible for managing media assets, including their types, prompts, and generation states._
 Cohesion: 0.15
 Nodes (12): { data: lyricsData, isLoading: lyricsLoading }, { data: replacedSections }, { data: sourceTrack }, detectedSections, handleCloseEditor, handleSectionClick, mainTrack, replacedRanges (+4 more)
 
-### Community 373 - "Community 373"
+### Community 198 - "Community 198"
+_This domain manages MIDI models and user interactions for a music application, including emoji representations and haptic feedback._
 Cohesion: 0.15
 Nodes (10): bgColor, color, duration, getSectionStatus, isActive, isActiveSection, playSection, replacement (+2 more)
 
-### Community 374 - "Community 374"
+### Community 199 - "Community 199"
+_This domain is responsible for managing and displaying tips, including their state, dismissal, and editing functionalities._
 Cohesion: 0.15
 Nodes (12): [activeMode, setActiveMode], chordDetection, handleRecordingSelect, handleToggleChordDetection, haptic, Icon, isActive, { isActive: isPro } (+4 more)
 
-### Community 375 - "Community 375"
+### Community 200 - "Community 200"
+_This domain is responsible for controlling media playback and user interactions within a media player interface._
+Cohesion: 0.15
+Nodes (12): { attributes, listeners, setNodeRef, transform, transition, isDragging }, { data: transcriptionsMap, isLoading: loadingTranscriptions }, { data: transcriptionStatus }, handleDragEnd, hasTranscription, isSourceTrack, sensors, stemTypes (+4 more)
+
+### Community 201 - "Community 201"
+_This domain is responsible for managing and displaying a volume slider interface with interaction handling._
+Cohesion: 0.15
+Nodes (11): barCount, handleRecordToggle, Icon, isActive, { isActive: isPro }, isLocked, isSelected, MODE_TABS (+3 more)
+
+### Community 202 - "Community 202"
+_This domain is responsible for managing and rendering chart-related data and configurations._
 Cohesion: 0.15
 Nodes (12): activeIndex, colors, GAP_MERGE_THRESHOLD_S, isActive, isReplaced, isSectionReplaced, isSelected, left (+4 more)
 
-### Community 376 - "Community 376"
-Cohesion: 0.15
-Nodes (11): displayValue, handleMouseDown, handlePosition, handleTouchMove, handleTouchStart, [isDragging, setIsDragging], normalizedValue, styles (+3 more)
-
-### Community 377 - "Community 377"
+### Community 203 - "Community 203"
+_This domain is responsible for managing and storing application data using IndexedDB and default configurations._
 Cohesion: 0.15
 Nodes (11): element, handleError, handleLoad, [hasError, setHasError], imgRef, [isLoaded, setIsLoaded], observerRef, optimizedSrc (+3 more)
 
-### Community 378 - "Community 378"
+### Community 204 - "Community 204"
+_This domain is responsible for handling animations and motion preferences in a user interface._
 Cohesion: 0.15
 Nodes (12): bgClass, config, displayLabel, IconComponent, isCustomIcon, isSpinning, s, shouldPulse (+4 more)
 
-### Community 379 - "Community 379"
-Cohesion: 0.19
-Nodes (9): applyTelegramThemeParams(), applyThemeToDOM(), getStoredTheme(), getSystemTheme(), getTelegramTheme(), resolveTheme(), THEME_STORAGE_KEY, ThemeContext (+1 more)
+### Community 205 - "Community 205"
+_This domain is responsible for managing and selecting products based on various criteria such as rates, features, and user preferences._
+Cohesion: 0.15
+Nodes (11): displayValue, handleMouseDown, handlePosition, handleTouchMove, handleTouchStart, [isDragging, setIsDragging], normalizedValue, styles (+3 more)
 
-### Community 380 - "Community 380"
-Cohesion: 0.13
-Nodes (9): useReplaceSectionMutation(), STATUS_MESSAGES, STATUS_PROGRESS, useReplaceSectionProgress(), useReplaceSectionRealtime(), initialState, useSectionEditorStore, SECTION_PRESETS (+1 more)
+### Community 206 - "Community 206"
+_This domain is responsible for organizing and managing various aspects of music content, including genres, artists, tracks, achievements, and user profiles._
+Cohesion: 0.17
+Nodes (10): categoryColors, categoryLabels, HintsSettings(), isAvailable, useCloudStorage(), useCloudStorageFlag(), CONTEXTUAL_HINTS, STORAGE_KEY (+2 more)
 
-### Community 381 - "Community 381"
-Cohesion: 0.22
-Nodes (8): loading, handleSaveRecording(), dismiss(), HINTS, STORAGE_KEY, t, [visible, setVisible], handleSeparateStems()
-
-### Community 382 - "Community 382"
-Cohesion: 0.26
-Nodes (12): CACHE_EXPIRY_MS, cleanupExpiredLyrics(), DB_NAME, DB_VERSION, dbPromise, deleteCachedLyrics(), getCachedLyrics(), getCacheKey() (+4 more)
-
-### Community 383 - "Community 383"
-Cohesion: 0.18
-Nodes (3): calculateQueueMemory(), estimateMemorySize(), formatBytes()
-
-### Community 384 - "Community 384"
-Cohesion: 0.18
-Nodes (10): preloadNextImages(), requestIdleCallback, isProcessingQueue, isRoutePreloaded(), preloadCriticalRoutes(), preloadedRoutes, preloadQueue, preloadRoute() (+2 more)
-
-### Community 385 - "Community 385"
+### Community 207 - "Community 207"
+_This domain is responsible for handling user authentication, profile management, and user statistics display._
 Cohesion: 0.18
 Nodes (11): ActionIcon, content, ContentIcon, [glitchEffect, setGlitchEffect], glitchInterval, handleGoBack(), handlePrimaryAction(), { hapticFeedback, showBackButton, hideBackButton } (+3 more)
 
-### Community 386 - "Community 386"
+### Community 208 - "Community 208"
+_This domain is responsible for migrating files while ensuring naming conventions and handling migration results._
 Cohesion: 0.19
 Nodes (11): [currentStep, setCurrentStep], handleAction(), handleNext(), handleSkip(), { hapticFeedback }, Icon, isFirst, isLast (+3 more)
 
-### Community 387 - "Community 387"
-Cohesion: 0.26
-Nodes (12): analyzeContentQuality(), calculateReadabilityScore(), countStructuredSections(), detectLyricsStructure(), detectRepetitiveContent(), getLyricsStatistics(), hasStructuredSections(), LYRICS_CONSTRAINTS (+4 more)
+### Community 209 - "Community 209"
+_This domain is responsible for managing admin roles and user financial metrics._
+Cohesion: 0.27
+Nodes (12): createNotification(), deleteNotificationsByGroup(), log, notifyAchievement(), notifyFeatureAnnouncement(), notifyGenerationComplete(), notifyGenerationFailed(), notifyGenerationProgress() (+4 more)
 
-### Community 388 - "Community 388"
-Cohesion: 0.15
-Nodes (8): createStemMixerSlice(), DEFAULT_MIXER_STATE, DEFAULT_STEM_STATE, createTestStore(), defaultSelector, { get }, selector, state
+### Community 210 - "Community 210"
+_This domain manages the playback state and controls for media analysis and interaction._
+Cohesion: 0.23
+Nodes (8): brand, createArtistId(), createPlaylistId(), createProjectId(), createStemId(), createTrackId(), createUserId(), isValidUUID()
 
-### Community 389 - "Community 389"
-Cohesion: 0.16
-Nodes (16): handleNews(), handleTinkoffPaymentFailed(), handleTinkoffPaymentSuccess(), supabase, generateDeepLink(), getBotMention(), getGenerateDeepLink(), getInviteDeepLink() (+8 more)
-
-### Community 390 - "Community 390"
+### Community 211 - "Community 211"
+_This domain is responsible for managing and manipulating music arrangements and their associated data._
 Cohesion: 0.22
 Nodes (7): isSpamPattern(), MAX_LENGTHS, sanitizeText(), validateDescription(), validateMessage(), validatePrompt(), validateTitle()
 
-### Community 391 - "Community 391"
+### Community 212 - "Community 212"
+_This domain manages the playback, recording, and manipulation of musical patterns and tracks._
 Cohesion: 0.17
-Nodes (9): card, cardBox, footerTop, goHome(), HINT_STORAGE_KEY, prime(), TEST_ID, without (+1 more)
+Nodes (11): [customMode, setCustomMode], defaultStyle, hasLyrics, isMobile, [loading, setLoading], [prompt, setPrompt], [showTrackInfo, setShowTrackInfo], [style, setStyle] (+3 more)
 
-### Community 392 - "Community 392"
-Cohesion: 0.17
-Nodes (12): box, card, cardBox, count, el, gotoHomeWithHints(), HINT_STORAGE_KEY, ids (+4 more)
-
-### Community 393 - "Community 393"
-Cohesion: 0.15
-Nodes (12): effective, initialHasSolo, initialMutedIds, initialSoloIds, initialState, mockStems, newStates, nonSoloEffective (+4 more)
-
-### Community 394 - "Community 394"
-Cohesion: 0.17
-Nodes (10): handleCancel(), handleSelect(), Icon, handleSelect(), toggle(), handleVersionSelect(), triggerHapticFeedback(), config (+2 more)
-
-### Community 395 - "Community 395"
-Cohesion: 0.17
-Nodes (9): addToPlaylistMutation, createPlaylistMutation, { data: playlists, isLoading }, { data: trackInPlaylists }, [isCreating, setIsCreating], isInPlaylist, [newPlaylistName, setNewPlaylistName], queryClient (+1 more)
-
-### Community 396 - "Community 396"
+### Community 213 - "Community 213"
+_This domain is responsible for managing and manipulating sections of lyrics, including adding, deleting, and applying templates to them._
 Cohesion: 0.17
 Nodes (9): accessHint, canManage, { data: adminAuth, isLoading: adminAuthLoading }, { data: imageConfig, isLoading }, fileInputRefs, MENU_IMAGE_CONFIGS, queryClient, saveConfigMutation (+1 more)
 
-### Community 397 - "Community 397"
-Cohesion: 0.25
-Nodes (8): AdminUsers(), ADMIN_TAB_OPTIONS, useAdminDashboard(), useAdminStats(), useAdminUsers(), useToggleUserRole(), useBotMetrics(), useRecentMetricEvents()
-
-### Community 398 - "Community 398"
-Cohesion: 0.17
-Nodes (11): config, { data: alerts, isLoading, refetch }, { data: stats }, handleResolve(), isResolved, [resolutionNote, setResolutionNote], resolveAlert, [resolveDialogOpen, setResolveDialogOpen] (+3 more)
-
-### Community 399 - "Community 399"
-Cohesion: 0.20
-Nodes (9): normalized, StatCard, stats, referralKeys, useApplyReferralCode(), useReferralLink(), useReferralRewards(), useReferralStats() (+1 more)
-
-### Community 400 - "Community 400"
-Cohesion: 0.12
-Nodes (18): handleSubmit(), AppError, retryWithBackoff(), StorageError, toAppError(), BLOCKED_ARTIST_PATTERNS, checkForBlockedArtists(), detectErrorCodeFromMessage() (+10 more)
-
-### Community 401 - "Community 401"
-Cohesion: 0.17
-Nodes (11): [activeTab, setActiveTab], { data: artistTracks, isLoading: tracksLoading }, { data: canMakePrivate }, { data: stats }, [editDialogOpen, setEditDialogOpen], isActive, isCurrentlyPlaying, isOwner (+3 more)
-
-### Community 402 - "Community 402"
-Cohesion: 0.44
-Nodes (10): log, getSmartModel(), addResult(), main(), printResults(), results, validateCodeStructure(), validateDatabaseSchema() (+2 more)
-
-### Community 403 - "Community 403"
-Cohesion: 0.17
-Nodes (8): AUDIO_ERROR_TYPES, audioElements, { children, fallbackMessage }, componentDidCatch(), errorType, handleAudioError, { hasError, error, isRecovering }, recoveryHint
-
-### Community 404 - "Community 404"
-Cohesion: 0.17
-Nodes (11): endTime, expectedBPM, longAudioBPM, mainThreadNotBlocked, mockArrayBuffer, mockAudioBuffer, mockAudioContext, processingTime (+3 more)
-
-### Community 405 - "Community 405"
-Cohesion: 0.17
-Nodes (12): ExpandedPlayer Component, PlaybackControls Component, ProgressBar Component, QueueSheet Component, QueueItem Component, VolumeControl Component, Haptic Feedback Integration, Infinite Scroll Library (+4 more)
-
-### Community 406 - "Community 406"
+### Community 214 - "Community 214"
+_This domain is responsible for managing and applying various tags and suggestions related to music concepts and attributes._
 Cohesion: 0.17
 Nodes (10): [activeTab, setActiveTab], campaignData, { data: events, isLoading: eventsLoading, refetch: refetchEvents }, { data: stats, isLoading: statsLoading, refetch: refetchStats }, {
     data: summary,
@@ -3184,303 +2612,309 @@ Nodes (10): [activeTab, setActiveTab], campaignData, { data: events, isLoading: 
     refetch: refetchSummary,
   }, funnelData, heatmapData, isLoading (+2 more)
 
-### Community 407 - "Community 407"
+### Community 215 - "Community 215"
+_This domain is responsible for managing and applying templates, including user interactions and visual feedback._
 Cohesion: 0.17
 Nodes (4): COHORT_PERIODS, { data: cohorts, isLoading, error }, [selectedPeriod, setSelectedPeriod], summary
 
-### Community 408 - "Community 408"
+### Community 216 - "Community 216"
+_This domain is responsible for managing and displaying music tracks organized by genres, including fetching and handling user interactions with genre selections._
 Cohesion: 0.18
 Nodes (9): averages, { data: cohorts, isLoading, error }, dateRange, getRetentionColor(), RETENTION_COLUMNS, RetentionCell(), TIME_RANGE_OPTIONS, [timeRange, setTimeRange] (+1 more)
 
-### Community 409 - "Community 409"
+### Community 217 - "Community 217"
+_This domain manages user interactions and tool executions within a chat application._
 Cohesion: 0.17
 Nodes (9): handleDownload, handleNoteClick, NOTE_NAMES, NOTE_NAMES_RU, parsedTimeSignature, processedNotes, [selectedNoteIndex, setSelectedNoteIndex], stats (+1 more)
 
-### Community 410 - "Community 410"
+### Community 218 - "Community 218"
+_This domain manages the playback queue, track controls, and user interactions for a music player._
 Cohesion: 0.17
-Nodes (11): bar, [bboxes, setBboxes], [container, setContainer], [dir, setDir], [enabled, setEnabled], flag, [insets, setInsets], interval (+3 more)
+Nodes (11): [activeTab, setActiveTab], { data: artistTracks, isLoading: tracksLoading }, { data: canMakePrivate }, { data: stats }, [editDialogOpen, setEditDialogOpen], isActive, isCurrentlyPlaying, isOwner (+3 more)
 
-### Community 411 - "Community 411"
+### Community 219 - "Community 219"
+_This domain is responsible for managing media playback controls and configurations._
+Cohesion: 0.17
+Nodes (11): completedCount, [createSheetOpen, setCreateSheetOpen], [deleteConfirmId, setDeleteConfirmId], filteredProjects, isMobile, { projects, isLoading, deleteProject, isDeleting }, publishedCount, [searchQuery, setSearchQuery] (+3 more)
+
+### Community 220 - "Community 220"
+_This domain is responsible for managing music generation, playback, and channel settings in a digital audio environment._
 Cohesion: 0.17
 Nodes (10): { data: leaderboard, isLoading }, { data: userCredits }, isCurrentUser, navigate, position, RANK_COLORS, topThree, { user } (+2 more)
 
-### Community 412 - "Community 412"
-Cohesion: 0.17
-Nodes (11): isToday(), isYesterday(), ACTION_COLORS, ACTION_ICONS, colorClass, { data: transactions, isLoading }, dateKey, getDateLabel() (+3 more)
-
-### Community 413 - "Community 413"
-Cohesion: 0.17
-Nodes (8): challenges, { data: stats, isLoading }, daysLeft, isCompleted, progress, { user }, weekEnd, weekStart
-
-### Community 414 - "Community 414"
-Cohesion: 0.18
-Nodes (10): availableCount, [downloaded, setDownloaded], [downloading, setDownloading], EXPORT_FILES, getFileUrl(), handleDownload(), isAvailable, isDownloaded (+2 more)
-
-### Community 415 - "Community 415"
+### Community 221 - "Community 221"
+_This domain is responsible for handling the editing, processing, and management of song lyrics, including error handling and user interactions._
 Cohesion: 0.23
 Nodes (10): handleClose(), handleNext(), hasSeen, isActive, { isMobile, className: positionClass }, markSeen(), overlayOpen, reg (+2 more)
 
-### Community 416 - "Community 416"
+### Community 222 - "Community 222"
+_This domain is responsible for managing audio generation parameters and settings._
+Cohesion: 0.17
+Nodes (9): addToPlaylistMutation, createPlaylistMutation, { data: playlists, isLoading }, { data: trackInPlaylists }, [isCreating, setIsCreating], isInPlaylist, [newPlaylistName, setNewPlaylistName], queryClient (+1 more)
+
+### Community 223 - "Community 223"
+_This domain is responsible for managing lyrics, notes, and AI tool interactions within a music or content creation application._
+Cohesion: 0.17
+Nodes (11): [currentSlide, setCurrentSlide], currentSlideData, handleClose, handleNext, handlePrev, { hapticFeedback }, isFirstSlide, isLastSlide (+3 more)
+
+### Community 224 - "Community 224"
+_Manages user access to various features based on their subscription tier and provides haptic feedback for interactions._
 Cohesion: 0.17
 Nodes (9): count, FILTERS, { hapticFeedback }, Icon, [localFilter, setLocalFilter], [localSort, setLocalSort], [localStatus, setLocalStatus], SORTS (+1 more)
 
-### Community 417 - "Community 417"
+### Community 225 - "Community 225"
+_This domain is responsible for defining various styles and types of buttons in a user interface._
 Cohesion: 0.17
 Nodes (10): backdropOpacity, containerRef, currentHeight, [currentSnap, setCurrentSnap], DRAG_CLOSE_THRESHOLD, handleBackdropClick, handleDragEnd, { patterns } (+2 more)
 
-### Community 418 - "Community 418"
-Cohesion: 0.15
-Nodes (12): [customMode, setCustomMode], defaultStyle, handleSubmit(), hasLyrics, isMobile, [loading, setLoading], [prompt, setPrompt], [showTrackInfo, setShowTrackInfo] (+4 more)
-
-### Community 419 - "Community 419"
+### Community 226 - "Community 226"
+_This domain manages the input and selection of chips with suggestions and interactions._
 Cohesion: 0.18
-Nodes (11): handleNext(), handlePrev(), handleSkip(), handleTryNow(), { isActive, currentStep, nextStep, prevStep, skipOnboarding, completeOnboarding, goToStep }, isFirstStep, isLastStep, navigate (+3 more)
+Nodes (10): adminSection, allItems, allSections, handleNavigate(), { hapticFeedback }, { isAdmin }, location, menuSections (+2 more)
 
-### Community 420 - "Community 420"
+### Community 227 - "Community 227"
+_This domain is responsible for managing and displaying audio waveform data, including beat grids and visual configurations._
 Cohesion: 0.17
-Nodes (6): componentDidCatch(), context, { error, errorType, retryCount }, log, reason, Tone
+Nodes (11): [currentIndex, setCurrentIndex], currentSlide, [direction, setDirection], goNext, goPrev, goToSlide, handleComplete, isFirst (+3 more)
 
-### Community 421 - "Community 421"
+### Community 228 - "Community 228"
+_This domain is responsible for defining and managing various configuration parameters related to audio and text elements in media applications._
 Cohesion: 0.17
 Nodes (10): audio, [audioDuration, setAudioDuration], audioRef, barProgress, [currentTime, setCurrentTime], handleDownload, isPassed, [isPlaying, setIsPlaying] (+2 more)
 
-### Community 422 - "Community 422"
+### Community 229 - "Community 229"
+_This domain is responsible for analyzing and extracting structured information from song lyrics._
 Cohesion: 0.17
 Nodes (8): isActive, isHighlighted, MAX_SECTION_LINES, MIN_SECTION_LINES, mins, secs, SECTION_GAP_THRESHOLD, sections
 
-### Community 423 - "Community 423"
+### Community 230 - "Community 230"
+_This domain is responsible for creating, managing, and logging various types of notifications within a system._
 Cohesion: 0.17
-Nodes (11): [copied, setCopied], currentWord, handleCopy(), hasTimestampedLyrics, isActive, isPast, isWordActive, lyricsData (+3 more)
+Nodes (8): AUDIO_ERROR_TYPES, audioElements, { children, fallbackMessage }, componentDidCatch(), errorType, handleAudioError, { hasError, error, isRecovering }, recoveryHint
 
-### Community 424 - "Community 424"
+### Community 231 - "Community 231"
+_This domain is responsible for managing and supporting various media types and their interactions within web applications._
+Cohesion: 0.17
+Nodes (10): actions, disabledReason, handleAction, handleBackdropClick, haptic, isDisabled, [isOpen, setIsOpen], isOperationDisabled (+2 more)
+
+### Community 232 - "Community 232"
+_This domain encompasses documentation and tools aimed at improving the software development process and user experience._
+Cohesion: 0.17
+Nodes (10): { addTrack, addClip, addPendingTrack, resolvePendingTrack, removeTrack: removeTrackFromStore }, currentVersions, existingTrack, firstTrack, {
+    isMobile, project, sourceTrackId, sourceTrack, duration, currentTime, isPlaying,
+    audioTracks, detectedSections, hasUnsavedChanges, isSaving, isSeparating,
+    trackEffects, setTrackEffects,
+  }, navigate, { newTrackId, existingInstrumentalId, versions }, nextLabel (+2 more)
+
+### Community 233 - "Community 233"
+_This domain manages the current menu state and navigation stack for a user interface._
+Cohesion: 0.17
+Nodes (11): [creatingNew, setCreatingNew], filteredPlaylists, handleAddToPlaylist, handleCreateNewPlaylist, handleOpenChange, [newPlaylistName, setNewPlaylistName], {
+    playlists,
+    isLoading: playlistsLoading,
+    createPlaylist,
+    addTrackToPlaylist,
+    isCreating,
+    isAdding,
+  }, [searchQuery, setSearchQuery] (+3 more)
+
+### Community 234 - "Community 234"
+_This domain is responsible for handling user comments, including adding, deleting, and managing comment-related states._
+Cohesion: 0.17
+Nodes (11): BURST_ANGLES, currentIsLiked, handleClick, { hapticFeedback }, iconSizes, [isAnimating, setIsAnimating], { isLiked: hookIsLiked, isLoading, toggleLike }, sizeClasses (+3 more)
+
+### Community 235 - "Community 235"
+_This domain manages the drag-and-drop functionality and snap behavior of a UI component._
 Cohesion: 0.17
 Nodes (8): colors, FeatureCard, iconColorStyles, paddingStyles, RefinedCard, roundedStyles, trendColors, variantStyles
 
-### Community 425 - "Community 425"
-Cohesion: 0.20
-Nodes (8): useArtists(), useAuditLog(), useProjectDetailData(), useProjectGeneratedTracks(), usePublishProject(), useProjects(), log, useProjectTracks()
-
-### Community 426 - "Community 426"
-Cohesion: 0.12
-Nodes (7): useDebouncedStemControls(), sharedAudioContext, useMasterClock(), useOfflineStatus(), STEM_PRIORITY, useStemAudioCache(), useStudioOptimizations()
-
-### Community 427 - "Community 427"
+### Community 236 - "Community 236"
+_This domain manages user interactions and progress tracking within an application, focusing on check-ins, credits, and leveling up._
 Cohesion: 0.17
-Nodes (10): useAudioBufferPool(), log, usePredictiveGeneration(), CHANNEL_TYPES, DEFAULT_CHANNELS, DEFAULT_SETTINGS, globalAudioCache, NOTE_NAMES (+2 more)
+Nodes (9): handleThemeChange, handleToggle(), { hapticFeedback }, { resolvedTheme, setTheme }, { theme, resolvedTheme, setTheme, toggleTheme }, { theme, setTheme, resolvedTheme }, ThemeIcon, themeLabel (+1 more)
 
-### Community 428 - "Community 428"
+### Community 237 - "Community 237"
+_This domain manages the display and interaction with various music file formats and their related functionalities._
+Cohesion: 0.17
+Nodes (11): formatRelative(), isActive, isPending, items, keepEnabled, pending, pendingRelative, ready (+3 more)
+
+### Community 238 - "Community 238"
+_This domain manages the navigation and interaction within a tutorial slide presentation._
 Cohesion: 0.24
 Nodes (10): getStaggerStyle(), instantTransition, QUERY, reducedMotionVariants, safeAnimationClasses, useMotionDuration(), useMotionPreference(), useMotionSafe() (+2 more)
 
-### Community 429 - "Community 429"
+### Community 239 - "Community 239"
+_This domain is responsible for handling and displaying song lyrics with interactive features such as line selection and timestamp management._
 Cohesion: 0.27
 Nodes (9): log, useAnalysisByType(), useBeatAnalysis(), useChordAnalysis(), useEmotionAnalysis(), useFullAnalysis(), useMusicTheoryAnalysis(), useStyleAnalysis() (+1 more)
 
-### Community 430 - "Community 430"
-Cohesion: 0.17
-Nodes (11): disabledState, focusRing, hoverLift, interactiveButton, interactiveCard, interactiveListItem, loadingState, press (+3 more)
+### Community 240 - "Community 240"
+_This domain is responsible for managing user interactions and feedback within an application, enhancing the overall experience through features like timers, haptics, and illustrative components._
+Cohesion: 0.26
+Nodes (11): CACHE_EXPIRY_MS, cleanupExpiredLyrics(), DB_NAME, DB_VERSION, dbPromise, deleteCachedLyrics(), getCachedLyrics(), getCacheKey() (+3 more)
 
-### Community 431 - "Community 431"
-Cohesion: 0.21
-Nodes (7): calculateLineLookAhead(), calculateWordLookAhead(), findActiveLinePrecision(), findActiveWordPrecision(), PRECISION_SYNC, scoreWordMatch(), TimeSmootherAdvanced
-
-### Community 432 - "Community 432"
-Cohesion: 0.11
-Nodes (14): buildPromptFromChannels(), DURATION_OPTIONS, GENRE_PRESETS, INSTRUMENT_PRESETS, KEY_OPTIONS, MOOD_PRESETS, QUICK_MIX_PRESETS, SCALE_OPTIONS (+6 more)
-
-### Community 433 - "Community 433"
-Cohesion: 0.18
-Nodes (11): { createEmptyProject, createFromTrack, isLoading }, [description, setDescription], handleCreate(), handleModeChange(), [loadingTracks, setLoadingTracks], loadUserTracks(), [mode, setMode], [name, setName] (+3 more)
-
-### Community 434 - "Community 434"
+### Community 241 - "Community 241"
+_This domain manages the volume settings and related UI elements for an application._
 Cohesion: 0.17
 Nodes (8): filtered, [query, setQuery], [retryingId, setRetryingId], [statusFilter, setStatusFilter], t, taskId, [typeFilter, setTypeFilter], { voices, isLoading, deleteVoice }
 
-### Community 435 - "Community 435"
-Cohesion: 0.26
-Nodes (9): cleanupOldSessions(), clearRecognitionSession(), escapeMarkdown(), handleCancelRecognize(), handleRecognizeAgain(), handleRecognizeCommand(), RECOGNITION_SESSIONS, recognizeFromUrl() (+1 more)
+### Community 242 - "Community 242"
+_This domain is responsible for managing user interactions and state changes in a graphical user interface._
+Cohesion: 0.21
+Nodes (10): authenticateWithTelegram(), { enableGuestMode }, handleAuth(), handleGuestMode(), { isAuthenticated, loading, authenticateWithTelegram }, [isAuthenticating, setIsAuthenticating], log, navigate (+2 more)
 
-### Community 436 - "Community 436"
-Cohesion: 0.24
-Nodes (10): checkRateLimit(), checkRateLimitDb(), checkRateLimitFallback(), cleanupStaleEntries(), fallbackCache, getRateLimitInfo(), isRateLimited(), now (+2 more)
-
-### Community 437 - "Community 437"
+### Community 243 - "Community 243"
+_This domain is responsible for managing speech recognition processes, including handling transcripts and listening states._
 Cohesion: 0.17
-Nodes (10): baselineTop, box, card, lifted, liftedTop, store, TEST_ID, TG_INSET_BOTTOM (+2 more)
+Nodes (12): ExpandedPlayer Component, PlaybackControls Component, ProgressBar Component, QueueSheet Component, QueueItem Component, VolumeControl Component, Haptic Feedback Integration, Infinite Scroll Library (+4 more)
 
-### Community 438 - "Community 438"
-Cohesion: 0.17
-Nodes (11): benchmarkResult, { duration }, isCached, largeMockWaveformData, mockAudioBuffer, mockWaveformData, promises, { result } (+3 more)
-
-### Community 439 - "Community 439"
-Cohesion: 0.18
-Nodes (6): ariaUtils, contrastUtils, focusUtils, keyboardUtils, srUtils, TOUCH_TARGET
-
-### Community 440 - "Community 440"
-Cohesion: 0.18
-Nodes (8): { addTrack }, [createProjectOpen, setCreateProjectOpen], filteredProjects, handleAddToProject(), [loading, setLoading], { projects, isLoading: projectsLoading }, [searchQuery, setSearchQuery], [selectedProjectId, setSelectedProjectId]
-
-### Community 441 - "Community 441"
-Cohesion: 0.17
-Nodes (11): [customMode, setCustomMode], handleSubmit(), isMobile, [loading, setLoading], [lyrics, setLyrics], [mood, setMood], moodPresets, [style, setStyle] (+3 more)
-
-### Community 442 - "Community 442"
-Cohesion: 0.18
-Nodes (8): handleTabClick(), Icon, isActive, isDisabled, TABS, onTabChange, { result }, tabs
-
-### Community 443 - "Community 443"
-Cohesion: 0.18
-Nodes (9): activeButton, [expanded, setExpanded], Icon, PRIMARY_TOOL_IDS, primaryTools, scrollRef, SECONDARY_TOOL_IDS, secondaryTools (+1 more)
-
-### Community 444 - "Community 444"
-Cohesion: 0.18
-Nodes (10): completedStages, currentStageIndex, Icon, isActive, isCompleted, isPending, overallProgress, stages (+2 more)
-
-### Community 445 - "Community 445"
-Cohesion: 0.18
-Nodes (11): cameraInputRef, fileInputRef, handleFileInputChange(), handleFileUpload(), handleGeneratePortrait(), [isGenerating, setIsGenerating], isProcessing, [isUploading, setIsUploading] (+3 more)
-
-### Community 446 - "Community 446"
-Cohesion: 0.13
-Nodes (8): AudioUpscaleButton(), audio, useAudioUpscale(), subscriptionDialogCallback, useTrackActions(), useTrackActionsState(), useVideoGenerationStatus(), VideoSection()
-
-### Community 447 - "Community 447"
-Cohesion: 0.20
-Nodes (11): Architecture and Naming Conventions Audit, Comprehensive Audit Complete, Navigation Audit Results, Audit Summary RU 2025-12-03, Architecture Audit Summary RU, Black Screen Fix Summary, Comprehensive Application Audit 2025-12-03, Frontend/Backend Separation Architecture (+3 more)
-
-### Community 448 - "Community 448"
-Cohesion: 0.18
-Nodes (10): { data: adminAuth }, { data: posts, isLoading }, { data: selectedPost, isLoading: isLoadingPost }, deletePost, [editingPost, setEditingPost], isAdmin, [isCreating, setIsCreating], navigate (+2 more)
-
-### Community 449 - "Community 449"
-Cohesion: 0.20
-Nodes (6): Z_INDEX, HistoryPoint, LyricsEditorMetricsOverlay(), useIsMobileDevice(), LyricsEditorMetrics, SyncSnapshot
-
-### Community 450 - "Community 450"
+### Community 244 - "Community 244"
+_This domain manages user settings related to categories, hints, and storage options._
 Cohesion: 0.18
 Nodes (10): attempt, host, intervalMs, lastError, path, port, res, start (+2 more)
 
-### Community 451 - "Community 451"
+### Community 245 - "Community 245"
+_This domain manages the editing and display of song lyrics, including section selection and loading states._
 Cohesion: 0.18
-Nodes (7): COLORS, edgeFn, [expandedError, setExpandedError], isExpanded, map, s, stackInfo
+Nodes (10): config, { data: alerts, isLoading, refetch }, { data: stats }, isResolved, [resolutionNote, setResolutionNote], resolveAlert, [resolveDialogOpen, setResolveDialogOpen], [selectedAlertId, setSelectedAlertId] (+2 more)
 
-### Community 452 - "Community 452"
-Cohesion: 0.20
-Nodes (9): height, node, { nodePositions, pathData, maxValue }, PAGE_LABELS, UserJourneyPanel(), getPageLabel(), normalizePagePath(), PAGE_LABELS (+1 more)
-
-### Community 453 - "Community 453"
-Cohesion: 0.18
-Nodes (10): colors, height, hourLabels, intensity, maxCount, maxUsage, maxValue, successRate (+2 more)
-
-### Community 454 - "Community 454"
+### Community 246 - "Community 246"
+_This domain is responsible for managing music recording settings and user interactions related to chord detection and active modes._
 Cohesion: 0.18
 Nodes (6): commands, { data: config, isLoading }, [localCommands, setLocalCommands], [localMessages, setLocalMessages], [localNotifications, setLocalNotifications], updateConfig
 
-### Community 455 - "Community 455"
+### Community 247 - "Community 247"
+_This domain is responsible for handling the transcription process, including data management, user interactions, and UI state related to audio tracks and their transcriptions._
 Cohesion: 0.18
-Nodes (7): { data: paymentData, isLoading }, FORECAST_PERIODS, { forecast, trend, growthRate, projectedTotal, confidence }, [forecastDays, setForecastDays], labels, projectionStartDate, projectionStartIndex
+Nodes (8): COLORS, edgeFn, [expandedError, setExpandedError], isExpanded, map, parseStackTrace(), s, stackInfo
 
-### Community 456 - "Community 456"
-Cohesion: 0.18
-Nodes (10): { apiBalance }, apiCredits, coverageRatio, { data: summary, isLoading: summaryLoading }, {
-    data: users,
-    isLoading: usersLoading,
-    refetch,
-  }, exportUsers(), filteredUsers, [orderBy, setOrderBy] (+2 more)
+### Community 248 - "Community 248"
+_This domain manages the state and options for music recording functionalities._
+Cohesion: 0.2
+Nodes (9): height, node, { nodePositions, pathData, maxValue }, PAGE_LABELS, UserJourneyPanel(), getPageLabel(), normalizePagePath(), PAGE_LABELS (+1 more)
 
-### Community 457 - "Community 457"
+### Community 249 - "Community 249"
+_This domain is responsible for managing the visual state and properties of UI components, including their active status, selection, and layout attributes._
 Cohesion: 0.18
 Nodes (8): [bpm, setBpm], [customStyle, setCustomStyle], DEFAULT_BPM, [genre, setGenre], [mood, setMood], selectedGenre, selectedMood, [showAdvanced, setShowAdvanced]
 
-### Community 458 - "Community 458"
+### Community 250 - "Community 250"
+_This domain is responsible for managing the loading state and error handling of images in a web application._
+Cohesion: 0.2
+Nodes (10): ArrowIcon, handleShowMore(), headingLevel, ICON_SIZES, iconElement, iconWrapper, navigate, shouldShowMoreButton (+2 more)
+
+### Community 251 - "Community 251"
+_This domain is responsible for managing the configuration and display of user interface elements, including icons and status indicators._
+Cohesion: 0.18
+Nodes (10): bar, [bboxes, setBboxes], [container, setContainer], [dir, setDir], [enabled, setEnabled], flag, [insets, setInsets], interval (+2 more)
+
+### Community 252 - "Community 252"
+_This domain is responsible for managing the behavior and appearance of a slider UI element, including value handling and user interactions._
 Cohesion: 0.18
 Nodes (8): checkin, { data: canCheckin, isLoading: checkingStatus }, { data: credits }, generateStarMovements(), nextStreakBonus, { showStreak, showCredits }, [starMovements], streak
 
-### Community 459 - "Community 459"
+### Community 253 - "Community 253"
+_This domain is responsible for defining touch target sizes and classes for user interface elements in touch-based applications._
 Cohesion: 0.18
 Nodes (10): checkinDates, { data: checkins, isLoading }, dayNames, dayNum, dayOfWeek, isCheckedIn, isToday, last7Days (+2 more)
 
-### Community 460 - "Community 460"
+### Community 254 - "Community 254"
+_Manages user navigation through onboarding steps with actions and feedback._
+Cohesion: 0.18
+Nodes (9): availableModels, config, currentModel, Icon, info, isActive, lowBalance, MODE_CONFIG (+1 more)
+
+### Community 255 - "Community 255"
+_This domain manages the purchasing process of credit packages and related products for users._
 Cohesion: 0.18
 Nodes (9): [customInstruction, setCustomInstruction], [editedStyle, setEditedStyle], [editedTitle, setEditedTitle], [editMode, setEditMode], handleCustomEdit, handleQuickEdit, handleSaveMetadata, QUICK_EDIT_SUGGESTIONS (+1 more)
 
-### Community 461 - "Community 461"
-Cohesion: 0.22
-Nodes (10): HintContext, HintRegistryProvider(), LEGACY_ARRAY_KEYS, LEGACY_PREFIXES, migrateLegacy(), readSeen(), REQUEST_COOLDOWN_MS, STORAGE_KEY (+2 more)
+### Community 256 - "Community 256"
+_This domain is responsible for managing and manipulating audio mixer states and configurations in a software application._
+Cohesion: 0.18
+Nodes (10): [customMode, setCustomMode], isMobile, [loading, setLoading], [lyrics, setLyrics], [mood, setMood], moodPresets, [style, setStyle], [title, setTitle] (+2 more)
 
-### Community 462 - "Community 462"
+### Community 257 - "Community 257"
+_This domain is responsible for creating and validating unique identifiers for various media-related entities._
 Cohesion: 0.18
 Nodes (10): cleanWord, isActive, isFuture, isPast, nextActive, nextPast, prevActive, prevPast (+2 more)
 
-### Community 463 - "Community 463"
+### Community 258 - "Community 258"
+_This domain is responsible for validating and sanitizing text inputs to ensure they meet specific criteria._
 Cohesion: 0.18
-Nodes (9): actualRef, charCount, lineHeight, maxHeight, minHeight, newHeight, remaining, textarea (+1 more)
+Nodes (9): activeButton, [expanded, setExpanded], Icon, PRIMARY_TOOL_IDS, primaryTools, scrollRef, SECONDARY_TOOL_IDS, secondaryTools (+1 more)
 
-### Community 464 - "Community 464"
-Cohesion: 0.20
+### Community 259 - "Community 259"
+_This domain is responsible for handling audio data, including formatting, BPM analysis, and position snapping._
+Cohesion: 0.2
 Nodes (8): CATEGORY_COLORS, [copiedTag, setCopiedTag], { data: combinations, isLoading: loadingCombinations }, { data: popularity, isLoading: loadingPopularity }, [expandedSections, setExpandedSections], handleCopyTag(), handleTagClick(), recommendations
 
-### Community 465 - "Community 465"
+### Community 260 - "Community 260"
+_This domain is responsible for managing and manipulating the audio states and configurations in a software application._
 Cohesion: 0.18
-Nodes (6): apiLyrics, [editedLyrics, setEditedLyrics], handleRecognizeLyrics(), { isRecognizing, result, recognizeLyrics, clearResult }, [lyricsSource, setLyricsSource], [showLyricsDialog, setShowLyricsDialog]
+Nodes (8): apiLyrics, [editedLyrics, setEditedLyrics], handleCopyLyrics(), handleRecognizeLyrics(), handleUseLyrics(), { isRecognizing, result, recognizeLyrics, clearResult }, [lyricsSource, setLyricsSource], [showLyricsDialog, setShowLyricsDialog]
 
-### Community 466 - "Community 466"
+### Community 261 - "Community 261"
+_This domain is responsible for the implementation, optimization, and integration of creative tools across various sprints and platforms._
 Cohesion: 0.18
-Nodes (7): bestValueId, creditsAmount, discount, isSelected, label, priceRub, tracksCount
+Nodes (9): { activeTrack, isPlaying, playTrack }, { data: versions, isLoading }, gapClasses, isActive, isCurrentlyPlaying, label, originalTrackId, sizeClasses (+1 more)
 
-### Community 467 - "Community 467"
+### Community 262 - "Community 262"
+_This domain is responsible for creating and managing design assets and guidelines for user interfaces._
 Cohesion: 0.18
 Nodes (10): colorPalette, hasBasicInfo, hasContent, hasVisualStyle, IMAGE_STYLE_LABELS, language, LANGUAGE_MAP, PROJECT_TYPE_LABELS (+2 more)
 
-### Community 468 - "Community 468"
+### Community 263 - "Community 263"
+_This domain is responsible for the development, documentation, and optimization of the MusicVerse AI system and its related components._
+Cohesion: 0.18
+Nodes (10): DEFAULT_STATUS, DEFAULT_STATUS_LABELS, DEFAULT_TYPE_LABELS, handleClick, handleDelete, isMobile, isPublished, navigate (+2 more)
+
+### Community 264 - "Community 264"
+_This domain manages the state and behavior of a music player interface, including custom modes, loading states, and track information display._
 Cohesion: 0.18
 Nodes (10): containerRef, [dragStartRegion, setDragStartRegion], [dragStartX, setDragStartX], getPositionFromTime, getTimeFromPosition, handleMouseDown, handleMouseMove, handleMouseUp (+2 more)
 
-### Community 469 - "Community 469"
+### Community 265 - "Community 265"
+_This domain manages the state and behavior of a music player interface, including track information, lyrics display, and user settings._
+Cohesion: 0.18
+Nodes (8): lineHeight, lines, PanelHeader, result, scrollTop, targetLine, textarea, value
+
+### Community 266 - "Community 266"
+_This domain is responsible for managing image configurations and administrative authentication in a file upload context._
 Cohesion: 0.18
 Nodes (8): [cursorPosition, setCursorPosition], [isEditing, setIsEditing], lineTags, [localContent, setLocalContent], sectionLabel, syllableCount, tags, textareaRef
 
-### Community 470 - "Community 470"
+### Community 267 - "Community 267"
+_This domain is responsible for managing and displaying various analytics data and visualizations related to campaigns and events._
 Cohesion: 0.18
-Nodes (8): audioRef, { data: mainTrack }, { data: versions, isLoading }, { isProcessing, createVersionFromTrack, setVersionAsPrimary, deleteVersion }, meta, { pauseTrack, isPlaying: globalIsPlaying }, [playingId, setPlayingId], sourceId
+Nodes (10): [copied, setCopied], currentWord, hasTimestampedLyrics, isActive, isPast, isWordActive, lyricsData, lyricsRef (+2 more)
 
-### Community 471 - "Community 471"
-Cohesion: 0.18
-Nodes (9): clearRemixData(), getRemixData(), REMIX_DATA_KEY, setRemixData(), canRemix, [generateOpen, setGenerateOpen], handleRemixClick(), [selectedVersionId, setSelectedVersionId] (+1 more)
-
-### Community 472 - "Community 472"
+### Community 268 - "Community 268"
+_This domain is responsible for tracking and analyzing user retention metrics over specified time ranges._
 Cohesion: 0.18
 Nodes (9): charCount, hasValue, inputPaddingTop, isFloating, [isFocused, setIsFocused], isPassword, labelSizeClasses, [showPassword, setShowPassword] (+1 more)
 
-### Community 473 - "Community 473"
+### Community 269 - "Community 269"
+_This domain manages the interaction and processing of musical notes and their representations._
 Cohesion: 0.18
 Nodes (9): Form, FormControl, FormDescription, FormField, FormFieldContext, FormItem, FormItemContext, FormLabel (+1 more)
 
-### Community 474 - "Community 474"
-Cohesion: 0.18
-Nodes (10): [copied, setCopied], handleCopy(), handleSave(), hasCustomActions, iconClasses, isEmpty, [saving, setSaving], shouldHideWhenEmpty (+2 more)
-
-### Community 475 - "Community 475"
+### Community 270 - "Community 270"
+_This domain manages the playback and organization of music tracks, including user interactions and track statistics._
 Cohesion: 0.18
 Nodes (10): aspectClasses, avatarFallback, handleError, handleLoad, [hasError, setHasError], [isLoaded, setIsLoaded], objectFitClasses, roundedClasses (+2 more)
 
-### Community 476 - "Community 476"
-Cohesion: 0.20
-Nodes (9): handleThemeChange, handleToggle(), { hapticFeedback }, { resolvedTheme, setTheme }, { theme, resolvedTheme, setTheme, toggleTheme }, { theme, setTheme, resolvedTheme }, ThemeIcon, themeLabel (+1 more)
-
-### Community 477 - "Community 477"
+### Community 271 - "Community 271"
+_This domain is responsible for managing project-related data and user interactions within a project management application._
 Cohesion: 0.18
-Nodes (8): drumKits, kit808, kit909, kitAcoustic, kitEthnic, kitLoFi, kitTrap, presetPatterns
+Nodes (6): ariaUtils, contrastUtils, focusUtils, keyboardUtils, srUtils, TOUCH_TARGET
 
-### Community 478 - "Community 478"
-Cohesion: 0.36
-Nodes (8): calculateGapScore(), findBestEndPosition(), findBestStartPosition(), fuzzyWordMatch(), levenshteinDistance(), matchSectionToWords(), normalizeForMatching(), scoreSequenceMatch()
+### Community 272 - "Community 272"
+_This domain manages the configuration and state of user interface elements and modes._
+Cohesion: 0.18
+Nodes (10): { data: adminAuth }, { data: posts, isLoading }, { data: selectedPost, isLoading: isLoadingPost }, deletePost, [editingPost, setEditingPost], isAdmin, [isCreating, setIsCreating], navigate (+2 more)
 
-### Community 479 - "Community 479"
-Cohesion: 0.24
-Nodes (9): createSunoError(), detectErrorCode(), ERROR_MESSAGES, FAQ_URLS, getRetryDelay(), isRetryableError(), mapSunoError(), SunoError (+1 more)
-
-### Community 480 - "Community 480"
+### Community 273 - "Community 273"
+_This domain is responsible for managing user interactions and state transitions within a mobile interface._
 Cohesion: 0.18
 Nodes (9): dialogs, handlers, isMobile, mainButtonConfig, projectDescription, {
     projectId,
@@ -3503,72 +2937,64 @@ Nodes (9): dialogs, handlers, isMobile, mainButtonConfig, projectDescription, {
     updateTrack,
   }, projectTitle, projectUrl (+1 more)
 
-### Community 481 - "Community 481"
-Cohesion: 0.22
-Nodes (6): config, isSelected, isSuggested, [selectedType, setSelectedType], [styleHint, setStyleHint], {
-    trackContext,
-    isLoadingContext,
-    refetchContext,
-    generateStem,
-    isGenerating,
-    generationProgress,
-    lastGeneration,
-  }
+### Community 274 - "Community 274"
+_This domain is responsible for managing the display and interaction of tutorial features within a user interface._
+Cohesion: 0.2
+Nodes (10): { createEmptyProject, createFromTrack, isLoading }, [description, setDescription], handleCreate(), handleModeChange(), [loadingTracks, setLoadingTracks], [mode, setMode], [name, setName], navigate (+2 more)
 
-### Community 482 - "Community 482"
-Cohesion: 0.18
-Nodes (6): createPlaybackSlice(), DEFAULT_PLAYBACK_STATE, LOOP_MODE_CYCLE, createTestStore(), { get }, state
-
-### Community 483 - "Community 483"
-Cohesion: 0.18
-Nodes (9): activeOk, card, closeBtn, HINT_STORAGE_KEY, i, inner, overlay, statuses (+1 more)
-
-### Community 484 - "Community 484"
-Cohesion: 0.20
-Nodes (10): after, before, card, el, goHome(), HINT_STORAGE_KEY, longAnim, prime() (+2 more)
-
-### Community 485 - "Community 485"
+### Community 275 - "Community 275"
+_This domain is responsible for managing creator profiles, including loading states, following functionality, and user interactions._
 Cohesion: 0.18
 Nodes (9): compact, compactBox, count, last, lastBox, main, SAMPLE_TRACK, sections (+1 more)
 
-### Community 486 - "Community 486"
+### Community 276 - "Community 276"
+_This domain is responsible for filtering, sorting, and managing the status of data items in a user interface._
 Cohesion: 0.18
-Nodes (8): cb, closeBtn, expandZone, fs, fsBox, player, SAMPLE_TRACK, SIZES
+Nodes (10): currentExpiry, { data }, { data, error }, { data: user }, expiredAt, expiresAt, supabase, supabaseKey (+2 more)
 
-### Community 487 - "Community 487"
-Cohesion: 0.18
-Nodes (9): cb, cb2, mountFullscreen(), root, SAMPLE_TRACK, SCENARIOS, tb, timeline (+1 more)
+### Community 277 - "Community 277"
+_This domain is responsible for managing and displaying tool categories and their active states in a user interface._
+Cohesion: 0.2
+Nodes (11): Architecture and Naming Conventions Audit, Comprehensive Audit Complete, Navigation Audit Results, Audit Summary RU 2025-12-03, Architecture Audit Summary RU, Black Screen Fix Summary, Comprehensive Application Audit 2025-12-03, Frontend/Backend Separation Architecture (+3 more)
 
-### Community 488 - "Community 488"
-Cohesion: 0.12
-Nodes (6): calculateStatistics(), MemoryTracker, RenderCounter, runBenchmark(), runBenchmarkSuite(), withRenderCount()
+### Community 278 - "Community 278"
+_This domain handles user interactions with a draggable knob interface, managing states and events for editing and dragging actions._
+Cohesion: 0.24
+Nodes (9): checkedFiles, checkFileName(), IGNORE_PATTERNS, PATTERNS, shouldIgnore(), SRC_DIR, srcPath, violations (+1 more)
 
-### Community 489 - "Community 489"
-Cohesion: 0.27
-Nodes (8): ACTION_REWARDS, ActionType, getExperienceForLevel(), getLevelFromExperience(), getLevelProgress(), getUserGamificationStats(), processDailyCheckin(), rewardForAction()
-
-### Community 490 - "Community 490"
-Cohesion: 0.20
-Nodes (10): Telegram Bot Architecture, Telegram Bot Commands Reference, Telegram Bot Monitoring, Telegram Bot Utilities, Inline Query, MarkdownV2 Formatting, Single Message UI, Telegram Bot (+2 more)
-
-### Community 491 - "Community 491"
-Cohesion: 0.20
+### Community 279 - "Community 279"
+_This domain manages the behavior and state of a draggable modal interface, including backdrop opacity and drag events._
+Cohesion: 0.2
 Nodes (8): [advancedSettings, setAdvancedSettings], [loading, setLoading], [lyrics, setLyrics], [negativeTags, setNegativeTags], progress, [showProgress, setShowProgress], [style, setStyle], [title, setTitle]
 
-### Community 492 - "Community 492"
-Cohesion: 0.22
-Nodes (9): activeTab, CurrentTabIcon, { data: auth, isLoading: authLoading }, handleTabChange(), isMobile, location, navigate, TAB_OPTIONS (+1 more)
+### Community 280 - "Community 280"
+_This domain is responsible for handling the editing, recognition, and display of lyrics in a mobile or web application._
+Cohesion: 0.2
+Nodes (9): ACTION_TYPES, createMutation, EMOJI_OPTIONS, [formData, setFormData], handleChange(), handleSubmit(), isSubmitting, [isUploading, setIsUploading] (+1 more)
 
-### Community 493 - "Community 493"
-Cohesion: 0.22
-Nodes (7): AnnouncementContext, announcementLogger, DISMISSED_STORAGE_KEY, getDismissedIds(), MAX_QUEUE_SIZE, PRIORITY_WEIGHT, saveDismissedId()
+### Community 281 - "Community 281"
+_This domain manages navigation and access control within an admin interface._
+Cohesion: 0.2
+Nodes (8): { data: reports, isLoading }, { data: stats }, REASON_LABELS, STATUS_CONFIG, statusConfig, [statusFilter, setStatusFilter], StatusIcon, updateStatus
 
-### Community 494 - "Community 494"
-Cohesion: 0.43
-Nodes (6): attemptAudioRecovery(), checkAudioHealth(), getAudioMetrics(), logAudioHealth(), getBufferedPercentage(), end
+### Community 282 - "Community 282"
+_This domain manages the pricing and value attributes of credits and tracks in a digital marketplace._
+Cohesion: 0.2
+Nodes (8): [filter, setFilter], filteredJourneys, Icon, [isExpanded, setIsExpanded], isLast, JOURNEYS, OUTCOME_STYLES, outcomeStyle
 
-### Community 495 - "Community 495"
-Cohesion: 0.20
+### Community 283 - "Community 283"
+_This domain is responsible for handling the active and hovered versions of a software component, including their states and transitions._
+Cohesion: 0.2
+Nodes (8): conversionRate, conversionRates, Icon, maxCount, overallConversion, STAGE_CONFIG, stages, widthPercent
+
+### Community 284 - "Community 284"
+_This domain manages audio playback functionality, including duration, progress, and playback controls._
+Cohesion: 0.2
+Nodes (8): categorizedItems, { data: configItems, isLoading, error, refetch }, DEFAULT_VALUES, filteredItems, items, [searchQuery, setSearchQuery], totalChanged, updateConfig
+
+### Community 285 - "Community 285"
+_This domain manages the state and metadata for audio playback, including loading status, time tracking, and user selection of audio items._
+Cohesion: 0.2
 Nodes (8): [analysisResult, setAnalysisResult], { analyze, isAnalyzing }, handleAnalyze, handleReset, handleStart, handleStop, {
     isRecording,
     isPaused,
@@ -3584,147 +3010,83 @@ Nodes (8): [analysisResult, setAnalysisResult], { analyze, isAnalyzing }, handle
     resetRecording,
   }, [recordingMode, setRecordingMode]
 
-### Community 496 - "Community 496"
-Cohesion: 0.33
-Nodes (9): appendNavigationContext(), buildBreadcrumbPath(), createBreadcrumb(), createLocationIndicator(), createNavigationFooter(), getCurrentLocationLabel(), getRouteInfo(), ROUTE_CONFIG (+1 more)
-
-### Community 497 - "Community 497"
-Cohesion: 0.20
-Nodes (6): BREAKPOINTS, GAPS, GRID_COLS, LAYOUT_RATIOS, MAX_WIDTHS, SIDEBAR_WIDTHS
-
-### Community 498 - "Community 498"
-Cohesion: 0.20
-Nodes (8): currentChordIndex, handleChordClick, handleClose, handleExport, haptic, isCurrent, safeAreaBottom, uniqueChords
-
-### Community 499 - "Community 499"
-Cohesion: 0.20
-Nodes (8): conversionRate, conversionRates, Icon, maxCount, overallConversion, STAGE_CONFIG, stages, widthPercent
-
-### Community 500 - "Community 500"
-Cohesion: 0.20
-Nodes (7): [activeTab, setActiveTab], handleTabExport(), Icon, isActive, isMobile, navigate, tools
-
-### Community 501 - "Community 501"
-Cohesion: 0.22
-Nodes (5): log, useTelegramStorage(), DEFAULT_PREFERENCES, GENRE_KEYWORDS, useUserPreferences()
-
-### Community 502 - "Community 502"
-Cohesion: 0.10
-Nodes (9): { data: credits, isLoading }, { data: credits }, { data: stats }, { user }, challenges, { data: stats, isLoading }, isCompleted, progress (+1 more)
-
-### Community 503 - "Community 503"
-Cohesion: 0.24
-Nodes (9): checkedFiles, checkFileName(), IGNORE_PATTERNS, PATTERNS, shouldIgnore(), SRC_DIR, srcPath, violations (+1 more)
-
-### Community 504 - "Community 504"
-Cohesion: 0.20
-Nodes (8): categorizedItems, { data: configItems, isLoading, error, refetch }, DEFAULT_VALUES, filteredItems, items, [searchQuery, setSearchQuery], totalChanged, updateConfig
-
-### Community 505 - "Community 505"
-Cohesion: 0.20
-Nodes (9): { data: activeUsers }, { data: contentStats }, { data: errorStats }, { data: modelStats }, { data: modeStats }, { data: sourceStats }, MODE_LABELS, SOURCE_LABELS (+1 more)
-
-### Community 506 - "Community 506"
-Cohesion: 0.18
-Nodes (10): CheckIcon, checkIcons, { data: health, isLoading, refetch, isFetching }, [isSendingAlert, setIsSendingAlert], OverallIcon, sendTestAlert(), statusBgColors, statusColors (+2 more)
-
-### Community 507 - "Community 507"
-Cohesion: 0.20
-Nodes (8): { data: reports, isLoading }, { data: stats }, REASON_LABELS, STATUS_CONFIG, statusConfig, [statusFilter, setStatusFilter], StatusIcon, updateStatus
-
-### Community 508 - "Community 508"
-Cohesion: 0.20
-Nodes (7): colorClasses, COLORS, { data: gamificationData, isLoading: gamificationLoading }, { data: paymentData, isLoading: paymentLoading, refetch: refetchPayment }, formatCurrency(), isLoading, [period, setPeriod]
-
-### Community 509 - "Community 509"
-Cohesion: 0.20
-Nodes (8): [filter, setFilter], filteredJourneys, Icon, [isExpanded, setIsExpanded], isLast, JOURNEYS, OUTCOME_STYLES, outcomeStyle
-
-### Community 510 - "Community 510"
-Cohesion: 0.20
-Nodes (5): EngagementChart(), cachedModule, loadingPromise, useRecharts(), useAnalyticsData()
-
-### Community 511 - "Community 511"
-Cohesion: 0.20
+### Community 286 - "Community 286"
+_This domain is responsible for managing the visual representation and state of UI components related to color, selection, and positioning._
+Cohesion: 0.2
 Nodes (9): BreadcrumbIcon, handleBack, isMobile, isTelegramAvailable, navigate, safeAreaPadding, showNativeBackButton, variantClasses (+1 more)
 
-### Community 512 - "Community 512"
-Cohesion: 0.12
-Nodes (9): ModalDialog(), useHaptic(), useMusicLabStudio(), useOptimisticUpdate(), usePullToRefresh(), ANALYSIS_INTERVAL, FFT_SIZE, useRealtimeChordDetection() (+1 more)
+### Community 287 - "Community 287"
+_This domain is responsible for managing and recovering from audio playback errors in a user interface._
+Cohesion: 0.2
+Nodes (7): audio, audioRef, handleDownload(), { pauseTrack, isPlaying: globalIsPlaying }, [recordingTime, setRecordingTime], sourceId, timerRef
 
-### Community 513 - "Community 513"
-Cohesion: 0.20
-Nodes (6): audio, audioRef, { pauseTrack, isPlaying: globalIsPlaying }, [recordingTime, setRecordingTime], sourceId, timerRef
-
-### Community 514 - "Community 514"
-Cohesion: 0.20
+### Community 288 - "Community 288"
+_This domain manages the visual properties and behavior of UI sections during animations._
+Cohesion: 0.2
 Nodes (9): cn(), currentBar, currentBeat, handleMuteToggle, handleTapTempo, [isMuted, setIsMuted], [prevVolume, setPrevVolume], [showTapIndicator, setShowTapIndicator] (+1 more)
 
-### Community 515 - "Community 515"
-Cohesion: 0.22
-Nodes (9): { credits, isLoading }, handleClick(), { hapticFeedback }, iconSizes, isHot, isOnFire, navigate, sizeClasses (+1 more)
+### Community 289 - "Community 289"
+_This domain is responsible for creating, managing, and interacting with playlists in a music application._
+Cohesion: 0.2
+Nodes (6): [activeTab, setActiveTab], filteredGenres, filteredQuickMixes, filteredSaved, { presets: savedPresets, isLoading }, [searchQuery, setSearchQuery]
 
-### Community 516 - "Community 516"
-Cohesion: 0.20
-Nodes (9): energy, ENERGY_BADGES, energyBadge, handleApply, handleDismiss, Icon, iconColor, TYPE_COLORS (+1 more)
+### Community 290 - "Community 290"
+_This domain is responsible for handling theme changes and toggling between different visual themes in an application._
+Cohesion: 0.2
+Nodes (6): { hapticFeedback }, isMobile, [menuOpen, setMenuOpen], MoreMenuSheet, { text, icon, gradient }, unreadCount
 
-### Community 517 - "Community 517"
-Cohesion: 0.25
-Nodes (7): handleTap, { hapticFeedback }, { isLiked, toggleLike }, lastTapRef, [showHeart, setShowHeart], singleTapTimeoutRef, { user }
-
-### Community 518 - "Community 518"
-Cohesion: 0.20
+### Community 291 - "Community 291"
+_This domain is responsible for managing audio buffers, logging, predictive audio generation, and caching audio data for enhanced performance in audio applications._
+Cohesion: 0.2
 Nodes (9): FeatureTutorialDialog, handleCardClick, handleTutorialAction, { hapticFeedback }, [pendingPreset, setPendingPreset], presets, QuickStartCard, [selectedTutorial, setSelectedTutorial] (+1 more)
 
-### Community 519 - "Community 519"
-Cohesion: 0.20
+### Community 292 - "Community 292"
+_This domain is responsible for analyzing various aspects of music, including beats, chords, emotions, styles, and transcriptions._
+Cohesion: 0.2
 Nodes (3): SafeLayout(), safeAreaClasses, useTelegramSafeArea()
 
-### Community 520 - "Community 520"
-Cohesion: 0.20
+### Community 293 - "Community 293"
+_This domain is responsible for generating and retrieving optimized image URLs from various CDN providers._
+Cohesion: 0.2
 Nodes (9): hasAnyIcon, hasModel, hasStems, hasVocals, iconSize, isCover, isExtend, isInstrumental (+1 more)
 
-### Community 521 - "Community 521"
-Cohesion: 0.20
+### Community 294 - "Community 294"
+_Responsible for defining and managing spacing values used in design layouts._
+Cohesion: 0.2
 Nodes (7): [activeFilters, setActiveFilters], changeTypeFilters, filteredVersions, isMobile, { open, onOpenChange }, [showDeleteConfirm, setShowDeleteConfirm], timeAgo
 
-### Community 522 - "Community 522"
-Cohesion: 0.25
-Nodes (6): [canScrollLeft, setCanScrollLeft], [canScrollRight, setCanScrollRight], checkScroll, el, resizeObserver, scrollRef
+### Community 295 - "Community 295"
+_This domain is responsible for managing user authentication and guest mode functionalities._
+Cohesion: 0.2
+Nodes (6): DEFAULT_STYLE, emoji, parseLyrics(), SECTION_STYLES, style, TAG_EMOJIS
 
-### Community 523 - "Community 523"
-Cohesion: 0.24
-Nodes (8): colorClasses, getSeenHighlights(), handleClick(), [isVisible, setIsVisible], markHighlightSeen(), seen, STORAGE_KEY, timer
+### Community 296 - "Community 296"
+_This domain is responsible for managing and processing audio data, including waveform analysis and caching results._
+Cohesion: 0.2
+Nodes (9): ALERT_COOLDOWNS, ALERT_PRIORITIES, LAST_ALERT_KEY, MAX_ALERTS_ON_PAGE_LOAD, MAX_ALERTS_PER_SESSION, MIN_ALERT_INTERVAL, QUIET_ROUTES, SESSION_KEY (+1 more)
 
-### Community 524 - "Community 524"
-Cohesion: 0.43
-Nodes (7): buildHashtags(), buildSimpleCaption(), buildTelegramMetadata(), buildVersionCaption(), formatDuration(), getModeEmoji(), getModeLabel()
-
-### Community 525 - "Community 525"
-Cohesion: 0.20
-Nodes (6): [currentStep, setCurrentStep], Icon, ONBOARDING_STEPS, progress, step, totalSteps
-
-### Community 526 - "Community 526"
-Cohesion: 0.20
+### Community 297 - "Community 297"
+_This domain is responsible for managing audio playback and analysis, including timing and BPM calculations._
+Cohesion: 0.2
 Nodes (7): { balance, isLoading, isAdmin }, balanceColor, { hapticFeedback }, [isDismissed, setIsDismissed], { isFreeUser, isBalanceLimitReached }, [isOpen, setIsOpen], showButton
 
-### Community 527 - "Community 527"
-Cohesion: 0.20
+### Community 298 - "Community 298"
+_This domain encompasses various agents that assist in the selection, integration, and management of tools and processes for music production and development._
+Cohesion: 0.2
 Nodes (7): [bannerDialogOpen, setBannerDialogOpen], completedTracks, hasBanner, isComplete, isReadyToPublish, { mutate: publishProject, isPending }, totalTracks
 
-### Community 528 - "Community 528"
-Cohesion: 0.20
+### Community 299 - "Community 299"
+_This domain is responsible for managing and executing network requests with configurable parameters and error handling._
+Cohesion: 0.2
 Nodes (7): { activeTrack, isPlaying, playTrack, pauseTrack }, isCurrentTrack, [isExpanded, setIsExpanded], isTrackPlaying, selectedSlot, [selectedSlots, setSelectedSlots], { unlinkedTracks, isLoading, linkTrackToSlot, isLinking }
 
-### Community 529 - "Community 529"
-Cohesion: 0.20
+### Community 300 - "Community 300"
+_This domain is responsible for handling alerts, their resolution, and associated statistics in a user interface._
+Cohesion: 0.2
 Nodes (6): autoMidiEnabled, autoMidiModel, autoMidiStemsOnly, MIDI_MODELS, selectedModel, { settings, updateSettings, isUpdating }
 
-### Community 530 - "Community 530"
-Cohesion: 0.20
-Nodes (6): isSelected, themeOptions, ThemeSettings(), applyTheme(), THEME_STORAGE_KEY, useTheme()
-
-### Community 531 - "Community 531"
+### Community 301 - "Community 301"
+_This domain is responsible for managing application configuration, loading states, and local command, message, and notification data._
 Cohesion: 0.22
 Nodes (8): containerVariants, handleClose, handleKeyDown(), [isAdvancedOpen, setIsAdvancedOpen], isVisible, itemVariants, { selectedSection, customRange, editMode, clearSelection }, {
     startTime,
@@ -3744,183 +3106,123 @@ Nodes (8): containerVariants, handleClose, handleKeyDown(), [isAdvancedOpen, set
     reset,
   }
 
-### Community 532 - "Community 532"
-Cohesion: 0.17
-Nodes (11): allCached, [cacheSize, setCacheSize], checkAvailability(), formatBytes(), handlePrecache(), interval, { isOnline, isOfflineCapable, checkOfflineAvailability }, [isPrecaching, setIsPrecaching] (+3 more)
-
-### Community 533 - "Community 533"
-Cohesion: 0.20
-Nodes (9): controlsWidth, handleDragOver, handleDrop, hasSolo, isEffectivelyMuted, isMobile, laneRef, { toggleTrackMute, toggleTrackSolo, setTrackVolume, removeTrack, currentProject } (+1 more)
-
-### Community 534 - "Community 534"
-Cohesion: 0.20
-Nodes (9): { chords, beats, detectChords, detectBeats, resetChords, resetBeats }, [extendedChords, setExtendedChords], handleDetectBeats, handleDetectChords, handleSaveAll, hasSaveableResults, isLoading, [isOpen, setIsOpen] (+1 more)
-
-### Community 535 - "Community 535"
-Cohesion: 0.20
-Nodes (9): defaultLabel, [description, setDescription], [error, setError], handleSave, [isSaving, setIsSaving], [mode, setMode], [progress, setProgress], stemCount (+1 more)
-
-### Community 536 - "Community 536"
-Cohesion: 0.22
-Nodes (8): ActivityItem(), { changeLog, isLoading }, filteredLog, getStatusBadge(), iconMap, [isOpen, setIsOpen], mins, secs
-
-### Community 537 - "Community 537"
-Cohesion: 0.20
-Nodes (9): [animatedProgress, setAnimatedProgress], channel, interval, isFailed, [progress, setProgress], [stage, setStage], statusMessage, statusMessages (+1 more)
-
-### Community 538 - "Community 538"
-Cohesion: 0.20
-Nodes (8): config, handleEffects, handleMute, handleSolo, haptic, Icon, isMuted, STEM_CONFIG
-
-### Community 539 - "Community 539"
-Cohesion: 0.20
+### Community 302 - "Community 302"
+_This domain is responsible for managing and displaying data related to different cohorts over specified periods._
+Cohesion: 0.2
 Nodes (9): DESKTOP_ROW_HEIGHT, MOBILE_ROW_HEIGHT, props, rowHeight, shouldVirtualize, state, stem, transcription (+1 more)
 
-### Community 540 - "Community 540"
-Cohesion: 0.20
-Nodes (9): [activeId, setActiveId], activeLabel, activeVersion, isActive, [isLoading, setIsLoading], [isUpdating, setIsUpdating], label, queryClient (+1 more)
+### Community 303 - "Community 303"
+_This domain manages the configuration of music playback parameters such as BPM, genre, mood, and custom styles._
+Cohesion: 0.2
+Nodes (9): controlsWidth, handleDragOver, handleDrop, hasSolo, isEffectivelyMuted, isMobile, laneRef, { toggleTrackMute, toggleTrackSolo, setTrackVolume, removeTrack, currentProject } (+1 more)
 
-### Community 541 - "Community 541"
-Cohesion: 0.20
+### Community 304 - "Community 304"
+_This domain is responsible for rendering and managing blog content elements and their configurations._
+Cohesion: 0.2
+Nodes (8): currentChordIndex, handleChordClick, handleClose, handleExport, haptic, isCurrent, safeAreaBottom, uniqueChords
+
+### Community 305 - "Community 305"
+_This domain is responsible for rendering and managing interactive user interface elements, particularly icons and buttons._
+Cohesion: 0.2
+Nodes (9): audioRef, handleApply, handleClose, handlePlayVersion, hasExisting, hasMultipleVersions, [playingVersion, setPlayingVersion], [saveAction, setSaveAction] (+1 more)
+
+### Community 306 - "Community 306"
+_This domain manages audio patterns, playback controls, and track effects for a music sequencing application._
+Cohesion: 0.2
+Nodes (8): config, handleEffects, handleMute, handleSolo, haptic, Icon, isMuted, STEM_CONFIG
+
+### Community 307 - "Community 307"
+_This domain manages user rankings, leaderboard data, and user credits while providing navigation and position information._
+Cohesion: 0.2
 Nodes (9): colorClasses, hasStems, hasVocals, icons, isCover, isExtend, isInstrumental, StatusIcon (+1 more)
 
-### Community 542 - "Community 542"
-Cohesion: 0.20
+### Community 308 - "Community 308"
+_This domain manages user check-in data and related date information._
+Cohesion: 0.2
+Nodes (9): [activeId, setActiveId], activeLabel, activeVersion, isActive, [isLoading, setIsLoading], [isUpdating, setIsUpdating], label, queryClient (+1 more)
+
+### Community 309 - "Community 309"
+_This domain is responsible for validating user input and managing various user interface interactions and feedback._
+Cohesion: 0.2
+Nodes (8): closeRef, Dialog, DialogClose, DialogOverlay, DialogPortal, DialogTrigger, innerRef, isFullscreen
+
+### Community 310 - "Community 310"
+_This domain is responsible for managing the settings and states related to music composition and customization._
+Cohesion: 0.2
 Nodes (9): [editValue, setEditValue], handleCancel, handleClick, handleKeyDown, handleSave, inputRef, [isEditing, setIsEditing], sizeClasses (+1 more)
 
-### Community 543 - "Community 543"
-Cohesion: 0.20
-Nodes (7): colorMap, colors, config, containerClasses, rocker, sizeClasses, sizeConfig
+### Community 311 - "Community 311"
+_This domain manages audio playback controls, chord display, and user interactions in a music application._
+Cohesion: 0.2
+Nodes (7): AnimatedSection, FadeIn, PageTransition, ScaleIn, StaggerContainer, StaggerItem, variantClasses
 
-### Community 544 - "Community 544"
-Cohesion: 0.20
+### Community 312 - "Community 312"
+_This domain is responsible for managing playlists, including creating new playlists, adding tracks to existing ones, and tracking their loading states._
+Cohesion: 0.2
 Nodes (7): Icon, isClickable, isCompact, isCompleted, isCurrent, isVertical, progress
 
-### Community 545 - "Community 545"
-Cohesion: 0.22
-Nodes (9): loadPositions(), log, MAX_AGE_DAYS, MAX_STORED_POSITIONS, MIN_SAVE_POSITION, POSITION_STORAGE_KEY, SAVE_INTERVAL, savePositions() (+1 more)
+### Community 313 - "Community 313"
+_This domain is responsible for managing the visibility state and dimensions of UI elements._
+Cohesion: 0.2
+Nodes (6): BREAKPOINTS, GAPS, GRID_COLS, LAYOUT_RATIOS, MAX_WIDTHS, SIDEBAR_WIDTHS
 
-### Community 546 - "Community 546"
-Cohesion: 0.22
-Nodes (5): audioBufferToMp3(), audioBufferToWav(), DEFAULT_MASTERING, audioBufferToWav(), writeString()
+### Community 314 - "Community 314"
+_This domain is responsible for handling and manipulating date-related functionalities and progress tracking._
+Cohesion: 0.2
+Nodes (8): drumKits, kit808, kit909, kitAcoustic, kitEthnic, kitLoFi, kitTrap, presetPatterns
 
-### Community 548 - "Community 548"
-Cohesion: 0.29
-Nodes (5): completed, ONBOARDING_STEPS, resetOnboarding(), [showOnboarding, setShowOnboarding], timer
+### Community 315 - "Community 315"
+_This domain manages user actions and tool selections within a graphical interface._
+Cohesion: 0.2
+Nodes (4): GC_TIMES, prefetchTrack(), queryKeys, STALE_TIMES
 
-### Community 549 - "Community 549"
+### Community 316 - "Community 316"
+_This domain is responsible for managing the properties and behavior of a text area component, including its dimensions and character limits._
 Cohesion: 0.29
 Nodes (9): getStemColor(), getStemDisplayInfo(), getStemEmoji(), getStemIconName(), getStemLabel(), STEM_COLORS, STEM_EMOJIS, STEM_ICON_NAMES (+1 more)
 
-### Community 550 - "Community 550"
-Cohesion: 0.22
-Nodes (7): BOOT_LOG, bootLog(), error, errorMsg, mainLogger, root, rootElement
-
-### Community 551 - "Community 551"
-Cohesion: 0.20
+### Community 317 - "Community 317"
+_This domain manages the navigation and state of a slideshow or carousel component._
+Cohesion: 0.2
 Nodes (8): [createDialogOpen, setCreateDialogOpen], [editingPlaylist, setEditingPlaylist], handleDelete(), isMobile, { playlists, isLoading, deletePlaylist }, [searchParams], [selectedPlaylist, setSelectedPlaylist], [sharingPlaylist, setSharingPlaylist]
 
-### Community 552 - "Community 552"
+### Community 318 - "Community 318"
+_This domain manages the pricing and selection attributes of products._
 Cohesion: 0.22
-Nodes (5): card, goHome(), HINT_STORAGE_KEY, prime(), TEST_ID
+Nodes (9): activeTab, CurrentTabIcon, { data: auth, isLoading: authLoading }, handleTabChange(), isMobile, location, navigate, TAB_OPTIONS (+1 more)
 
-### Community 553 - "Community 553"
-Cohesion: 0.20
-Nodes (6): i, localStorageMock, mockPlayerState, mockUnifiedStudioState, tab, TabSwitchingTestComponent
+### Community 319 - "Community 319"
+_This domain manages the state and interactions related to AI-driven data analysis and dialog management._
+Cohesion: 0.2
+Nodes (9): count, dupes, EXPECTED_ORDER, fallback, hasReal, root, sectionIds, seen (+1 more)
 
-### Community 554 - "Community 554"
-Cohesion: 0.20
-Nodes (9): lint-staged, *.{json,md,css}, *.{ts,tsx}, name, optionalDependencies, @rolldown/binding-win32-x64-msvc, size-limit, type (+1 more)
+### Community 320 - "Community 320"
+_This domain is responsible for managing design-related attributes and settings for visual content._
+Cohesion: 0.2
+Nodes (9): canonical, desc, lang, ogUrl, resp, ROUTES, title, v (+1 more)
 
-### Community 555 - "Community 555"
-Cohesion: 0.22
-Nodes (8): DURATION_PRESETS, [expiresAt, setExpiresAt], handlePresetClick(), handleSubmit(), [isLoading, setIsLoading], [reason, setReason], SUBSCRIPTION_TIERS, [tier, setTier]
-
-### Community 556 - "Community 556"
-Cohesion: 0.36
-Nodes (6): extractJSON(), parseAIResponse(), parseChatResponse(), parseFullAnalysis(), parseLyricsResponse(), parseProducerReview()
-
-### Community 557 - "Community 557"
+### Community 321 - "Community 321"
+_This domain manages project statuses and types, including user interactions for navigation and modifications._
 Cohesion: 0.22
 Nodes (8): COLORS, dailyTrends, { data: alerts = [], isLoading }, hourlyDistribution, resolutionStats, SERVICE_COLORS, serviceBreakdown, weeklyPattern
 
-### Community 558 - "Community 558"
-Cohesion: 0.11
-Nodes (11): APIError, AudioError, err(), ERROR_METADATA, GenerationError, InsufficientCreditsError, NetworkError, ok() (+3 more)
-
-### Community 559 - "Community 559"
-Cohesion: 0.18
-Nodes (10): [addVocalsDialogOpen, setAddVocalsDialogOpen], [analysisProgress, setAnalysisProgress], [editedLyrics, setEditedLyrics], handleAnalyze(), handleExtractLyrics(), handleSaveLyrics(), [isAnalyzing, setIsAnalyzing], [isEditingLyrics, setIsEditingLyrics] (+2 more)
-
-### Community 560 - "Community 560"
-Cohesion: 0.22
-Nodes (5): useStudioAudioEngine(), useStudioAudioSetup(), DEFAULT_EFFECTS, useStudioEffectsEngine(), useStudioMixer()
-
-### Community 561 - "Community 561"
-Cohesion: 0.22
-Nodes (6): [activeElements, setActiveElements], interval, isAtLimit, isNearLimit, [stats, setStats], utilizationPercent
-
-### Community 562 - "Community 562"
-Cohesion: 0.22
-Nodes (9): Biometric Authentication, Device Sensors API, Fullscreen Mode API, QR Scanner for Collaboration, SecureStorage Encrypted Storage, ShareToStory Integration, Sprint 2 - Mini App Advanced, Telegram Mini Apps 2.0 (+1 more)
-
-### Community 563 - "Community 563"
-Cohesion: 0.22
-Nodes (6): [, alt, src], calloutStart, cells, flushCallout, imageMatch, target
-
-### Community 564 - "Community 564"
-Cohesion: 0.22
-Nodes (8): bundleSize, gzipSize, prevBundleSize, progress, progressColors, sizeDiff, status, statusColors
-
-### Community 565 - "Community 565"
-Cohesion: 0.31
-Nodes (8): CHORD_FINGERINGS, FINGER_COLORS, getAllChords(), getChordFingering(), getChordsByType(), hasChordFingering(), normalizeChord(), STRING_NAMES
-
-### Community 566 - "Community 566"
-Cohesion: 0.22
-Nodes (7): CHORD_COLORS, chordPositions, colorClass, currentChord, handleChordClick, haptic, isActive
-
-### Community 567 - "Community 567"
-Cohesion: 0.22
-Nodes (7): globalIdx, groupedRecs, Icon, label, [selectedIndex, setSelectedIndex], TYPE_ICONS, TYPE_LABELS
-
-### Community 568 - "Community 568"
-Cohesion: 0.33
-Nodes (6): contrastSafeColors, getAccessibleForeground(), getContrastRatio(), getRelativeLuminance(), hslToRgb(), parseHSL()
-
-### Community 569 - "Community 569"
-Cohesion: 0.22
-Nodes (8): hasAnyAction, showAddVocals, showCover, showExtend, showGenerateCover, showGenerateSimilar, showRemix, showVideo
-
-### Community 570 - "Community 570"
-Cohesion: 0.22
-Nodes (7): [activeTab, setActiveTab], handleTabChange, handleTrackPreset, { hapticFeedback }, Icon, isActive, TABS
-
-### Community 572 - "Community 572"
-Cohesion: 0.28
-Nodes (7): analyzeBundleSizes(), BUNDLE_DIR, formatSize(), getBundleFiles(), HISTORY_FILE, LIMITS, RESULTS_FILE
-
-### Community 573 - "Community 573"
-Cohesion: 0.58
-Nodes (8): update-sprint-status.sh script, analyze_blockers(), calculate_velocity(), log(), parse_all_sprints(), parse_sprint_file(), print_header(), print_section()
-
-### Community 574 - "Community 574"
+### Community 322 - "Community 322"
+_This domain manages the drag-and-drop functionality for positioning elements based on mouse interactions._
 Cohesion: 0.28
 Nodes (7): [editValue, setEditValue], handleCancel(), handleKeyDown(), handleSave(), hasChanged, [isEditing, setIsEditing], label
 
-### Community 575 - "Community 575"
-Cohesion: 0.22
-Nodes (8): bestCohort, COHORT_DATA, Icon, [isOpen, setIsOpen], maxVisitors, sortedCohorts, TrendIcon, worstCohort
-
-### Community 576 - "Community 576"
-Cohesion: 0.25
-Nodes (8): { data: stats, isLoading: statsLoading }, { data: transactions, isLoading: transactionsLoading }, filteredTransactions, getStatusBadgeVariant(), getStatusLabel(), handleExportCSV(), [searchQuery, setSearchQuery], [statusFilter, setStatusFilter]
-
-### Community 577 - "Community 577"
+### Community 323 - "Community 323"
+_This domain manages audio settings and user interactions for volume, mute, and solo functionalities._
 Cohesion: 0.22
 Nodes (3): TierIcon(), EditorTierIcon(), getTierIcon()
 
-### Community 578 - "Community 578"
+### Community 324 - "Community 324"
+_This domain is responsible for managing the visual representation and interaction of musical beats and their properties._
+Cohesion: 0.22
+Nodes (8): cameraInputRef, fileInputRef, [isGenerating, setIsGenerating], isProcessing, [isUploading, setIsUploading], [referenceImage, setReferenceImage], referenceInputRef, { user }
+
+### Community 325 - "Community 325"
+_This domain is responsible for managing the active tab, copied tags, expanded categories, and search functionality within a user interface._
 Cohesion: 0.22
 Nodes (7): colorClass, emoji, hasSolo, isEffectivelyMuted, {
     isPlaying,
@@ -3937,59 +3239,108 @@ Nodes (7): colorClass, emoji, hasSolo, isEffectivelyMuted, {
     setStemVolume,
   }, label, state
 
-### Community 579 - "Community 579"
+### Community 326 - "Community 326"
+_This domain manages the state and interactions of a 'like' feature in a user interface._
+Cohesion: 0.22
+Nodes (7): [, alt, src], BlogContentRenderer(), calloutStart, cells, flushCallout, imageMatch, target
+
+### Community 327 - "Community 327"
+_This domain is responsible for creating interactive animated button components with customizable styles and transitions._
 Cohesion: 0.25
 Nodes (7): [deleteConfirmId, setDeleteConfirmId], filteredTemplates, handleEdit(), navigate, [searchQuery, setSearchQuery], [selectedTemplate, setSelectedTemplate], { templates, isLoading, deleteTemplate }
 
-### Community 580 - "Community 580"
+### Community 328 - "Community 328"
+_This domain is responsible for creating, managing, and validating forms and their components in a user interface._
+Cohesion: 0.22
+Nodes (6): [activeElements, setActiveElements], interval, isAtLimit, isNearLimit, [stats, setStats], utilizationPercent
+
+### Community 329 - "Community 329"
+_This domain is responsible for managing image quality, loading states, and error handling in an optimized manner._
 Cohesion: 0.22
 Nodes (7): hasSoloActive, isActive, isAudible, isCurrentStep, isDownbeat, isGroupStart, step
 
-### Community 581 - "Community 581"
+### Community 330 - "Community 330"
+_This domain is responsible for managing image loading states, error handling, and styling for avatars and fallback images._
 Cohesion: 0.22
 Nodes (8): ERROR_ICONS, ErrorIcon, handleContactSupport, handleDismiss, handleFaqClick, handleRetry, navigate, [showExamples, setShowExamples]
 
-### Community 582 - "Community 582"
+### Community 331 - "Community 331"
+_This domain manages user interactions and state changes for a media item interface._
+Cohesion: 0.25
+Nodes (8): handleTopUp(), { hapticFeedback }, { isFreeUser, isBalanceLimitReached }, isInsufficient, isLow, navigate, showUpgradeOption, [upgradePopupOpen, setUpgradePopupOpen]
+
+### Community 332 - "Community 332"
+_This domain is responsible for tracking and managing user interactions and navigation paths within an application._
 Cohesion: 0.22
-Nodes (6): audioRef, isActive, isCompleted, isError, [playingIndex, setPlayingIndex], [selectedIndex, setSelectedIndex]
+Nodes (8): artistCheck, blockedArtist, config, hasExtras, Icon, levelConfig, [showExamples, setShowExamples], styleSuggestions
 
-### Community 583 - "Community 583"
-Cohesion: 0.28
-Nodes (6): currentIndex, handleKeyDown(), handleRedo, handleUndo, historyLength, { undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex }
+### Community 333 - "Community 333"
+_This domain encompasses utilities for enhancing web accessibility features and user interactions._
+Cohesion: 0.22
+Nodes (7): globalIdx, groupedRecs, Icon, label, [selectedIndex, setSelectedIndex], TYPE_ICONS, TYPE_LABELS
 
-### Community 584 - "Community 584"
+### Community 334 - "Community 334"
+_This domain is responsible for computing various types of rewards and bonuses for users._
+Cohesion: 0.22
+Nodes (8): currentIndex, DEFAULT_STEPS, Icon, isClickable, isCompleted, isCurrent, stepsConfig, TWO_STEP_CONFIG
+
+### Community 335 - "Community 335"
+_This domain is responsible for generating notifications for users mentioned in content while ensuring compliance with mention limits._
+Cohesion: 0.22
+Nodes (7): [activeTab, setActiveTab], handleTabChange, handleTrackPreset, { hapticFeedback }, Icon, isActive, TABS
+
+### Community 336 - "Community 336"
+_This domain is responsible for managing remix data and user interactions related to remixing functionality._
+Cohesion: 0.22
+Nodes (8): densityToBodyGap, densityToHeaderGap, densityToInnerPad, hasHeader, hasSurface, maxWidthToClass, Tag, toneToSurface
+
+### Community 337 - "Community 337"
+_This domain is responsible for managing posts, including authentication, creation, editing, deletion, and navigation within an admin interface._
+Cohesion: 0.22
+Nodes (8): count, FILTERS, isActive, isFailed, [isSearchFocused, setIsSearchFocused], [showSortMenu, setShowSortMenu], SORTS, STATUS_FILTERS
+
+### Community 338 - "Community 338"
+_This domain is responsible for creating and managing projects based on user input and selected tracks._
 Cohesion: 0.22
 Nodes (7): DRAG_CLOSE_THRESHOLD, handleBackdropClick, handleClose, handleDragEnd, { patterns }, VELOCITY_THRESHOLD, x
 
-### Community 585 - "Community 585"
+### Community 339 - "Community 339"
+_This domain is responsible for managing playback states and configurations in a media application._
 Cohesion: 0.22
-Nodes (7): AnimatedSection, FadeIn, PageTransition, ScaleIn, StaggerContainer, StaggerItem, variantClasses
+Nodes (5): CATEGORY_ICONS, GENRE_ICONS, getCategoryIcon(), MOOD_ICONS, PresetCard()
 
-### Community 586 - "Community 586"
-Cohesion: 0.20
-Nodes (9): [coverUrl, setCoverUrl], [description, setDescription], handleGenerateCover(), handleSubmit(), [isGeneratingCover, setIsGeneratingCover], [isPublic, setIsPublic], [isSubmitting, setIsSubmitting], [title, setTitle] (+1 more)
+### Community 340 - "Community 340"
+_This domain is responsible for managing and displaying data in a compact and organized manner, likely within a graphical interface._
+Cohesion: 0.22
+Nodes (8): [coverUrl, setCoverUrl], [description, setDescription], handleSubmit(), [isGeneratingCover, setIsGeneratingCover], [isPublic, setIsPublic], [isSubmitting, setIsSubmitting], [title, setTitle], { updatePlaylist }
 
-### Community 587 - "Community 587"
+### Community 341 - "Community 341"
+_This domain is responsible for handling user session states, including current and expired sessions, using Supabase for data storage._
 Cohesion: 0.22
 Nodes (7): Icon, [isLoading, setIsLoading], isSelected, REASON_MESSAGES, [selectedTier, setSelectedTier], TIERS, { user }
 
-### Community 588 - "Community 588"
+### Community 342 - "Community 342"
+_This domain is responsible for checking and validating file names against specified patterns while ignoring certain predefined patterns._
 Cohesion: 0.22
 Nodes (7): colors, isActive, isClickable, isHorizontal, isLast, statusColors, StepIcon
 
-### Community 589 - "Community 589"
+### Community 343 - "Community 343"
+_This domain is responsible for handling the generation, loading, and status management of reports and related statistics._
 Cohesion: 0.22
 Nodes (8): [editValue, setEditValue], handleCancel, handleCopy, handleSave, handleStartEdit, [isEditing, setIsEditing], tags, textareaRef
 
-### Community 590 - "Community 590"
+### Community 344 - "Community 344"
+_This domain is responsible for managing the filtering and display of journey data based on user interactions and preferences._
 Cohesion: 0.22
 Nodes (7): config, handleLabelClick, handleOpenChange, handlePresetSelect, handleToggleEnabled, handleTypeChangeClick, handleWeightChange
 
-### Community 591 - "Community 591"
+### Community 345 - "Community 345"
+_This domain is responsible for managing and displaying conversion rates and related visual elements in a user interface._
 Cohesion: 0.22
 Nodes (7): { analytics, getRecommendations, topRated, history }, config, deletePreset, handleApplyRecommendation, loadPreset, recommendations, userPresets
 
-### Community 592 - "Community 592"
+### Community 346 - "Community 346"
+_This domain is responsible for managing and displaying error states in a user interface._
 Cohesion: 0.22
 Nodes (8): containerVariants, handleApplyComparison, handleClose, handleDiscardComparison, itemVariants, [replacedSections, setReplacedSections], { selectedSection, customRange, clearSelection, latestCompletion, setLatestCompletion, editMode }, {
     startTime,
@@ -4011,232 +3362,179 @@ Nodes (8): containerVariants, handleApplyComparison, handleClose, handleDiscardC
     reset,
   }
 
-### Community 593 - "Community 593"
-Cohesion: 0.22
-Nodes (8): config, Icon, isCompleted, isFailed, isProcessing, isReady, STEM_ICONS, stemTypes
-
-### Community 594 - "Community 594"
+### Community 347 - "Community 347"
+_This domain is responsible for managing and filtering configuration items based on user input and state management._
 Cohesion: 0.22
 Nodes (6): completedCount, { data: sections, isLoading }, [expandedSection, setExpandedSection], groupedSections, [isOpen, setIsOpen], [playingId, setPlayingId]
 
-### Community 595 - "Community 595"
+### Community 348 - "Community 348"
+_This domain is responsible for managing audio recording and analysis functionalities._
+Cohesion: 0.22
+Nodes (7): CHORD_COLORS, chordPositions, colorClass, currentChord, handleChordClick, haptic, isActive
+
+### Community 349 - "Community 349"
+_This domain manages audio playback controls, states, and visual attributes such as color and emoji representation._
 Cohesion: 0.22
 Nodes (8): availableFiles, effectiveDuration, handleClose, handleDownload, haptic, [isDownloading, setIsDownloading], safeAreaBottom, safeAreaTop
 
-### Community 596 - "Community 596"
+### Community 350 - "Community 350"
+_This domain is responsible for managing the visibility and state of features within an application._
 Cohesion: 0.22
-Nodes (8): [copied, setCopied], displayText, [expanded, setExpanded], handleCopy(), isLong, lines, toggleExpand(), truncatedText
+Nodes (8): hasAnyAction, showAddVocals, showCover, showExtend, showGenerateCover, showGenerateSimilar, showRemix, showVideo
 
-### Community 598 - "Community 598"
-Cohesion: 0.13
-Nodes (13): displayCount, handleNotificationClick(), [open, setOpen], positionClasses, showBadge, sizeClasses, statusColors, { unreadCount } (+5 more)
-
-### Community 599 - "Community 599"
+### Community 351 - "Community 351"
+_This domain is responsible for managing navigation and user interface elements related to back navigation and responsive design._
 Cohesion: 0.22
-Nodes (5): GamificationContext, GamificationProvider(), RewardNotificationContext, useRewardNotificationContext(), useAchievementNotifications()
+Nodes (8): { data: artist }, { data: project }, { data: referenceAudio }, { handleGenerateVideo, isProcessing }, isCoverOrExtension, isOwner, promptAndLyricsSame, { user }
 
-### Community 600 - "Community 600"
+### Community 352 - "Community 352"
+_This domain is responsible for handling the display and interaction of modal dialogs, including content rendering and user focus management._
 Cohesion: 0.22
-Nodes (5): log, useAudioProcessing(), log, POLL_INTERVAL_MS, useProgressTracking()
+Nodes (8): DropdownMenu, DropdownMenuGroup, DropdownMenuPortal, DropdownMenuRadioGroup, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger
 
-### Community 601 - "Community 601"
+### Community 353 - "Community 353"
+_This domain is responsible for handling audio playback, recording, and downloading functionalities._
 Cohesion: 0.22
-Nodes (6): useAddToHistory(), useClearHistory(), useGenerationHistory(), STYLE_PATTERNS, SUGGESTION_TEMPLATES, useSmartAssistant()
+Nodes (8): [copied, setCopied], hasCustomActions, iconClasses, isEmpty, [saving, setSaving], shouldHideWhenEmpty, showCopyClear, sizeClasses
 
-### Community 602 - "Community 602"
-Cohesion: 0.22
-Nodes (5): accessOrder, CACHE_MAX_AGE_MS, CACHE_VERSION, MEMORY_CACHE_SIZE, memoryCache
-
-### Community 603 - "Community 603"
+### Community 354 - "Community 354"
+_This domain manages user check-in functionality, including status tracking, rewards, and streak bonuses._
 Cohesion: 0.42
 Nodes (8): useBreakpoint(), useIsDesktop(), useIsMobile(), useIsSmallPhone(), useIsTablet(), useMediaQuery(), useOrientation(), usePrefersReducedMotion()
 
-### Community 604 - "Community 604"
-Cohesion: 0.31
-Nodes (7): commonShortcuts, globalRegistry, matchesKeyCombo(), parseKeyCombo(), useKeyboardShortcuts(), usePlayerShortcuts(), useStudioKeyboardShortcuts()
+### Community 355 - "Community 355"
+_This domain is responsible for managing and filtering media content based on user interactions and search queries._
+Cohesion: 0.25
+Nodes (3): useIntersectionObserver(), useLazyImage(), useThrottledValue()
 
-### Community 606 - "Community 606"
-Cohesion: 0.40
-Nodes (4): exportLogs(), GenerationLogsPanel(), useGenerationLogs(), useGenerationStats()
-
-### Community 607 - "Community 607"
+### Community 356 - "Community 356"
+_This domain manages the state and behavior of a user interface for editing metadata and styles._
 Cohesion: 0.33
 Nodes (5): useMetaTags(), useTagPopularity(), useTagRecommendations(), useTagRelationships(), useTagUsageHistory()
 
-### Community 609 - "Community 609"
-Cohesion: 0.25
-Nodes (3): BREAKPOINTS, getDeviceType(), getViewportSize()
-
-### Community 610 - "Community 610"
-Cohesion: 0.15
-Nodes (6): formatRemainingTime(), formatDuration, formatTime, formatTimePrecise, formatDurationValue(), formatDuration()
-
-### Community 611 - "Community 611"
-Cohesion: 0.50
-Nodes (4): { data: adminAuth, isLoading }, handleClick(), { hapticFeedback }, navigate
-
-### Community 612 - "Community 612"
+### Community 357 - "Community 357"
+_This domain is responsible for ensuring that user interface elements are properly displayed within the safe areas of devices, accommodating for notches and other screen obstructions._
 Cohesion: 0.22
-Nodes (8): box, header, headerBox, overflow, tab, tablist, tablistBox, WIDTHS
+Nodes (5): log, useAudioProcessing(), log, POLL_INTERVAL_MS, useProgressTracking()
 
-### Community 613 - "Community 613"
+### Community 358 - "Community 358"
+_This domain is responsible for managing the state and behavior of filters and sorting options in a user interface._
+Cohesion: 0.31
+Nodes (8): CHORD_FINGERINGS, FINGER_COLORS, getAllChords(), getChordFingering(), getChordsByType(), hasChordFingering(), normalizeChord(), STRING_NAMES
+
+### Community 359 - "Community 359"
+_This domain is responsible for navigating between project views and managing project deletion operations._
+Cohesion: 0.25
+Nodes (5): DEFAULT_CONFIG, ENDPOINTS, getAudioDuration(), validateVoiceQuality(), VoiceCloneServiceError
+
+### Community 360 - "Community 360"
+_This domain is responsible for defining and managing various attributes of media items such as icons, models, stems, and vocals._
+Cohesion: 0.22
+Nodes (7): box, headerBox, overflow, tab, tablist, tablistBox, WIDTHS
+
+### Community 361 - "Community 361"
+_This domain is responsible for managing the display and interaction of primary and secondary tools in a user interface._
 Cohesion: 0.22
 Nodes (9): env-vars-telegram, generation-system, hooks-reference, klang-io-integration, languages-support, layout-system, meta-tags-system, mobile-components (+1 more)
 
-### Community 614 - "Community 614"
+### Community 362 - "Community 362"
+_This domain is responsible for parsing and styling lyrics, including the handling of emojis and section styles._
 Cohesion: 0.22
-Nodes (6): DIST, errors, PUBLIC, robots, sitemap, warn
+Nodes (9): Biometric Authentication, Device Sensors API, Fullscreen Mode API, QR Scanner for Collaboration, SecureStorage Encrypted Storage, ShareToStory Integration, Sprint 2 - Mini App Advanced, Telegram Mini Apps 2.0 (+1 more)
 
-### Community 615 - "Community 615"
-Cohesion: 0.32
-Nodes (8): Specification Quality Checklist: Mobile UI/UX Improvements, API Contracts: Mobile UI/UX Improvements, Data Model: Mobile UI/UX Improvements, Implementation Plan: Mobile UI/UX Improvements, Migration Guide: Mobile UI/UX Improvements, Research: Mobile UI/UX Improvements, Feature Specification: Mobile UI/UX Improvements, Tasks: Mobile UI/UX Improvements
-
-### Community 616 - "Community 616"
-Cohesion: 0.29
-Nodes (5): handleAction(), Icon, iconColor, navigate, timeAgo
-
-### Community 617 - "Community 617"
-Cohesion: 0.27
-Nodes (9): handleApplyOption(), handleClose(), handleGetOptions(), handleTranslate(), [isLoading, setIsLoading], [mode, setMode], [options, setOptions], resetState() (+1 more)
-
-### Community 618 - "Community 618"
+### Community 363 - "Community 363"
+_This domain is responsible for managing and displaying tag-related functionalities, including color categorization, copying tags, and handling user interactions._
 Cohesion: 0.25
-Nodes (7): { data: stats, isLoading }, generationStats, Header, { isAuthenticated, loading: authLoading }, isMobile, mainStats, successRate
+Nodes (7): { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying }, CompactPlayer, FullscreenPlayer, handleMaximize, handleMinimize, preserveCurrentTime, timer
 
-### Community 619 - "Community 619"
-Cohesion: 0.29
-Nodes (5): WebVitalsReporter, WebVitalsReporterProps, THRESHOLDS, usePerformanceTracking(), useWebVitalsReporter()
-
-### Community 620 - "Community 620"
-Cohesion: 0.40
-Nodes (4): isFromLinkedTrack, LYRICS_STATUS_CONFIG, lyricsText, statusConfig
-
-### Community 621 - "Community 621"
-Cohesion: 0.32
-Nodes (7): { enableGuestMode }, handleAuth(), handleGuestMode(), { isAuthenticated, loading, authenticateWithTelegram }, [isAuthenticating, setIsAuthenticating], navigate, { webApp, user, isInitialized, isDevelopmentMode }
-
-### Community 622 - "Community 622"
+### Community 364 - "Community 364"
+_This domain is responsible for configuring and managing alert settings and behaviors within an application._
 Cohesion: 0.25
-Nodes (5): beats, containerRef, [hoveredBeat, setHoveredBeat], measures, trackDuration
+Nodes (7): checkConfig, CheckIcon, config, {
+    data: healthStatus,
+    isLoading,
+    refetch,
+    dataUpdatedAt,
+  }, [isSendingTest, setIsSendingTest], statusConfig, StatusIcon
 
-### Community 623 - "Community 623"
-Cohesion: 0.25
-Nodes (7): blockedUserIds, { data: blockedUsers, isLoading }, { data: profiles }, navigate, profile, profileMap, { toggleBlock, isLoading: isUnblocking }
-
-### Community 624 - "Community 624"
-Cohesion: 0.25
-Nodes (5): Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, Comp
-
-### Community 625 - "Community 625"
-Cohesion: 0.25
-Nodes (6): Carousel, CarouselContent, CarouselContext, CarouselItem, CarouselNext, CarouselPrevious
-
-### Community 626 - "Community 626"
-Cohesion: 0.25
-Nodes (7): errors, observerSupport, providers, result, support, timing, viewports
-
-### Community 627 - "Community 627"
-Cohesion: 0.40
-Nodes (4): mockPlayerStore, mockStudioStore, { result }, tracks
-
-### Community 628 - "Community 628"
-Cohesion: 0.29
-Nodes (4): CHORD_TEMPLATES, cosineSimilarity(), detectChord(), NOTE_NAMES
-
-### Community 629 - "Community 629"
-Cohesion: 0.25
-Nodes (8): AddToPlaylistDialog Component, AnalysisTab Component, ChangelogTab Component, LyricsView Component, StemsTab Component, TrackDetailsSheet Component, VersionsTab Component, Sprint 009 Completion - Track Details & Actions
-
-### Community 630 - "Community 630"
-Cohesion: 0.25
-Nodes (4): interval, presetLabels, [reduction, setReduction], [selectedPreset, setSelectedPreset]
-
-### Community 631 - "Community 631"
+### Community 365 - "Community 365"
+_This domain is responsible for managing the playback and versioning of audio tracks._
 Cohesion: 0.25
 Nodes (7): barWidth, conversionRate, conversionRates, { data, isLoading }, Icon, maxCount, stages
 
-### Community 632 - "Community 632"
-Cohesion: 0.29
-Nodes (4): DEFAULT_SHORTCUTS, resetShortcuts(), updateShortcuts(), validateShortcutsConfig()
-
-### Community 634 - "Community 634"
-Cohesion: 0.25
-Nodes (6): chordNotes, {
-    currentChord,
-    chordHistory,
-    chromagram,
-    isListening,
-    isInitializing,
-    error,
-    volume,
-    startListening,
-    stopListening,
-    clearHistory,
-    exportProgression,
-  }, handleCopyProgression(), haptic, NOTE_LABELS, [showGuide, setShowGuide]
-
-### Community 635 - "Community 635"
-Cohesion: 0.67
-Nodes (3): fetchFunnelDropoffStats(), analyzeFunnelDropoff(), getFunnelDropoffStats()
-
-### Community 636 - "Community 636"
+### Community 366 - "Community 366"
+_This domain is responsible for managing user account balances, loading states, and permissions while providing feedback and display options._
 Cohesion: 0.25
 Nodes (7): ActionIcon, bottomStyle, handleActionClick, handleClick, { impact }, [isExpanded, setIsExpanded], positionClasses
 
-### Community 637 - "Community 637"
+### Community 367 - "Community 367"
+_This domain manages the dismissal of user notifications and feedback mechanisms based on user status._
 Cohesion: 0.25
 Nodes (7): ActionIcon, BadgeIcon, coverSize, isCompact, isDraggable, isMobile, StatusIcon
 
-### Community 638 - "Community 638"
+### Community 368 - "Community 368"
+_This domain is responsible for managing user account states, including balance, loading status, user roles, and UI interactions._
 Cohesion: 0.25
 Nodes (6): hasSoloActive, isAudible, isCurrentStep, isDownbeat, step, stepIndicators
 
-### Community 639 - "Community 639"
+### Community 369 - "Community 369"
+_This domain manages the state and actions related to publishing projects, including track completion and dialog visibility._
 Cohesion: 0.25
 Nodes (6): handlePointerDown, handlePointerLeave, handlePointerUp, hasSoloActive, isAudible, [isPressed, setIsPressed]
 
-### Community 640 - "Community 640"
+### Community 370 - "Community 370"
+_This domain manages MIDI settings and model selection for audio applications._
+Cohesion: 0.25
+Nodes (7): handleTap, { hapticFeedback }, { isLiked, toggleLike }, lastTapRef, [showHeart, setShowHeart], singleTapTimeoutRef, { user }
+
+### Community 371 - "Community 371"
+_This domain manages audio presets and saved mixes for user interaction in a mixing application._
 Cohesion: 0.25
 Nodes (7): filteredTracks, [isSaving, setIsSaving], isSelected, navigate, [searchQuery, setSearchQuery], [selectedTrackId, setSelectedTrackId], { tracks, isLoading }
 
-### Community 641 - "Community 641"
+### Community 372 - "Community 372"
+_This domain is responsible for managing time-related data and user interactions for setting and editing time ranges._
 Cohesion: 0.25
 Nodes (7): [expandedFaq, setExpandedFaq], faqItems, filteredFaq, helpTopics, isMobile, [searchQuery, setSearchQuery], [selectedTopic, setSelectedTopic]
 
-### Community 642 - "Community 642"
-Cohesion: 0.29
-Nodes (7): MOBILE_QUERY, POS_DESKTOP, POS_MOBILE_BASE, POS_MOBILE_NO_PLAYER, POS_MOBILE_WITH_PLAYER, useIsMobile(), useTipPosition()
-
-### Community 643 - "Community 643"
+### Community 373 - "Community 373"
+_This domain is responsible for managing and displaying various UI components and their attributes._
 Cohesion: 0.25
-Nodes (3): icon, SECTION_COLORS, TAG_ICONS
+Nodes (4): icon, parseLyrics(), SECTION_COLORS, TAG_ICONS
 
-### Community 644 - "Community 644"
+### Community 374 - "Community 374"
+_This domain is responsible for managing row heights and virtualization settings for different device types in a user interface._
 Cohesion: 0.25
 Nodes (6): ARTIST_PRESETS, [customStyle, setCustomStyle], hasLyrics, [mode, setMode], [selectedPreset, setSelectedPreset], STYLE_PRESETS
 
-### Community 645 - "Community 645"
-Cohesion: 0.50
-Nodes (3): actions, handleClick(), Icon
-
-### Community 646 - "Community 646"
+### Community 375 - "Community 375"
+_This domain is responsible for managing audio track properties and interactions within a digital audio workstation._
 Cohesion: 0.25
-Nodes (3): [showConfetti, setShowConfetti], text, timer
+Nodes (2): [showConfetti, setShowConfetti], timer
 
-### Community 648 - "Community 648"
+### Community 376 - "Community 376"
+_This domain is responsible for controlling the state and behavior of modal dialogs, including their visibility and interaction constraints._
+Cohesion: 0.25
+Nodes (6): containerRef, handleSeek, [isDragging, setIsDragging], [isHovering, setIsHovering], [localTime, setLocalTime], progress
+
+### Community 377 - "Community 377"
+_This domain is responsible for handling user interactions and data related to musical chords._
+Cohesion: 0.25
+Nodes (2): Icon, SOCIAL_FIELDS
+
+### Community 378 - "Community 378"
+_This domain is responsible for handling audio version playback, selection, and application of changes._
 Cohesion: 0.25
 Nodes (7): DEFAULT_STATUS, DEFAULT_STATUS_LABELS, DEFAULT_TYPE_LABELS, isPublished, ProjectStatusBadge, statusConfig, typeLabel
 
-### Community 649 - "Community 649"
-Cohesion: 0.25
-Nodes (7): energyPercent, hasNotes, hasParams, hasStylePrompt, hasTags, LYRICS_STATUS_CONFIG, VOCAL_STYLE_LABELS
-
-### Community 650 - "Community 650"
+### Community 379 - "Community 379"
+_This domain is responsible for managing audio effects, mute/solo states, and haptic feedback in an application._
 Cohesion: 0.25
 Nodes (4): [formData, setFormData], IMAGE_STYLES, [newKeyword, setNewKeyword], TYPOGRAPHY_STYLES
 
-### Community 651 - "Community 651"
-Cohesion: 0.25
+### Community 380 - "Community 380"
+_This domain is responsible for managing group actions and their associated states, including deletion and execution tracking._
+Cohesion: 0.29
 Nodes (7): {
     channels,
     updateChannel,
@@ -4259,31 +3557,28 @@ Nodes (7): {
     removeTrack,
   }, { description, bpm, kitName }, drumData, handleApplyPreset, handleUseAsReference(), handleVoiceTranscript, navigate
 
-### Community 652 - "Community 652"
-Cohesion: 0.25
-Nodes (7): { activeTrack, closePlayer, playerMode, setPlayerMode, preserveTime, volume, isPlaying }, CompactPlayer, FullscreenPlayer, handleMaximize, handleMinimize, preserveCurrentTime, timer
+### Community 381 - "Community 381"
+_This domain is responsible for defining various characteristics and metadata associated with music tracks._
+Cohesion: 0.29
+Nodes (5): handleAction(), Icon, iconColor, navigate, timeAgo
 
-### Community 653 - "Community 653"
+### Community 382 - "Community 382"
+_This domain is responsible for managing the active version and its loading and updating states._
+Cohesion: 0.25
+Nodes (6): [isInstrumental, setIsInstrumental], [isSubmitting, setIsSubmitting], [prompt, setPrompt], STYLE_PRESETS, [style, setStyle], [title, setTitle]
+
+### Community 383 - "Community 383"
+_This domain manages the state and behavior of an editable input field, including handling user interactions and saving changes._
 Cohesion: 0.25
 Nodes (5): isActive, isHighlighted, isPast, isUpcoming, WORD_TIMING_TOLERANCE
 
-### Community 654 - "Community 654"
-Cohesion: 0.22
-Nodes (7): handleSubmit(), [isInstrumental, setIsInstrumental], [isSubmitting, setIsSubmitting], [prompt, setPrompt], STYLE_PRESETS, [style, setStyle], [title, setTitle]
-
-### Community 655 - "Community 655"
+### Community 384 - "Community 384"
+_This domain manages the properties and behaviors of input fields in a user interface._
 Cohesion: 0.25
-Nodes (7): categories, CATEGORY_LABELS, categoryShortcuts, KeyBadge, KeyboardShortcutsDialog, ShortcutRow, SHORTCUTS
+Nodes (7): handleShare(), handleSkip, isMuted, mainAudioUrl, [showVolumeSlider, setShowVolumeSlider], timeout, toggleMute
 
-### Community 656 - "Community 656"
-Cohesion: 0.25
-Nodes (5): availableFormats, FILE_FORMATS, isSending, [sendingFile, setSendingFile], url
-
-### Community 657 - "Community 657"
-Cohesion: 0.25
-Nodes (6): handleSkip, isMuted, mainAudioUrl, [showVolumeSlider, setShowVolumeSlider], timeout, toggleMute
-
-### Community 658 - "Community 658"
+### Community 385 - "Community 385"
+_This domain is responsible for managing and applying various animation transitions and effects to UI components._
 Cohesion: 0.25
 Nodes (7): enrichedStems, handleMasterMuteToggle, handleMuteToggle, handleSoloToggle, handleVolumeChange, isVertical, {
     stemStates,
@@ -4300,111 +3595,149 @@ Nodes (7): enrichedStems, handleMasterMuteToggle, handleMuteToggle, handleSoloTo
     isStemEffectivelyMuted,
   }
 
-### Community 659 - "Community 659"
+### Community 386 - "Community 386"
+_This domain is responsible for defining and managing the visual attributes of graphical elements._
 Cohesion: 0.25
 Nodes (7): color, handleSeek, STEM_COLORS, STEM_ICONS, StemControls, StemLabel, waveformColors
 
-### Community 660 - "Community 660"
+### Community 387 - "Community 387"
+_This domain is responsible for defining and managing the layout parameters of a user interface._
 Cohesion: 0.25
 Nodes (5): handleSelect(), { impact, select }, MODES, [selectedMode, setSelectedMode], { shouldShowUIButton }
 
-### Community 661 - "Community 661"
+### Community 388 - "Community 388"
+_This domain is responsible for managing various types of drum kits and their associated preset patterns._
 Cohesion: 0.25
-Nodes (7): { activeTrack, repeat, toggleRepeat }, handleSpeedChange(), handleToggleLoop(), isCurrentTrack, isLooping, [playbackSpeed, setPlaybackSpeed], speedOptions
+Nodes (0): 
 
-### Community 662 - "Community 662"
+### Community 389 - "Community 389"
+_This domain is responsible for providing visual and textual representations of stems in a user interface._
 Cohesion: 0.25
-Nodes (5): [currentTime, setCurrentTime], { data: analysis, isLoading }, [isPlaying, setIsPlaying], { mutate: analyzeAudio, isPending }, { mutate: replicateAnalyze, isPending: isReplicatePending }
+Nodes (7): canDelete, [deleteDialogOpen, setDeleteDialogOpen], handleDelete, handleDrag, handleDragEnd, {
+    sheetOpen,
+    setSheetOpen,
+    isMobile,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+    isOwnTrack,
+  }, [swipeOffset, setSwipeOffset]
 
-### Community 663 - "Community 663"
+### Community 390 - "Community 390"
+_This domain is responsible for managing playlists, including creation, editing, deletion, and sharing functionalities._
 Cohesion: 0.25
-Nodes (6): handleCopyLink(), handleShare(), hasMultipleOptions, [isSharing, setIsSharing], { shareToStory }, trackLink
+Nodes (5): beats, containerRef, [hoveredBeat, setHoveredBeat], measures, trackDuration
 
-### Community 664 - "Community 664"
+### Community 391 - "Community 391"
+_This domain manages the state and behavior of tab navigation in a user interface._
+Cohesion: 0.25
+Nodes (6): [currentTime, setCurrentTime], { data: analysis, isLoading }, handleAnalyze(), [isPlaying, setIsPlaying], { mutate: analyzeAudio, isPending }, { mutate: replicateAnalyze, isPending: isReplicatePending }
+
+### Community 392 - "Community 392"
+_This domain is responsible for managing and displaying navigation elements such as breadcrumbs and location indicators within an application._
+Cohesion: 0.25
+Nodes (5): Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbPage, Comp
+
+### Community 393 - "Community 393"
+_This domain is responsible for managing and mocking application state and local storage for testing purposes._
+Cohesion: 0.25
+Nodes (6): Carousel, CarouselContent, CarouselContext, CarouselItem, CarouselNext, CarouselPrevious
+
+### Community 394 - "Community 394"
+_This domain is responsible for providing mock implementations and utilities for testing and simulating various functionalities._
+Cohesion: 0.25
+Nodes (6): [canScrollLeft, setCanScrollLeft], [canScrollRight, setCanScrollRight], checkScroll, el, resizeObserver, scrollRef
+
+### Community 395 - "Community 395"
+_This domain is responsible for handling different versions of a software component and managing queries related to them._
+Cohesion: 0.25
+Nodes (2): PaginationContent, PaginationItem
+
+### Community 396 - "Community 396"
+_This domain encompasses various agents and resources for integrating, managing, and securing a music-related application._
+Cohesion: 0.25
+Nodes (2): aspectClasses, WAVEFORM_HEIGHTS
+
+### Community 397 - "Community 397"
+_This domain focuses on the development and optimization of user interfaces and functionalities for music studio applications._
 Cohesion: 0.25
 Nodes (6): fontSizes, formattedValue, sizes, sizeStyles, styles, variantStyles
 
-### Community 667 - "Community 667"
+### Community 398 - "Community 398"
+_This domain is responsible for applying and detecting watermarks in audio files._
 Cohesion: 0.25
-Nodes (7): compressorPresets, defaultCompressorSettings, defaultEQSettings, defaultReverbSettings, defaultStemEffects, eqPresets, reverbPresets
+Nodes (0): 
 
-### Community 668 - "Community 668"
-Cohesion: 0.25
-Nodes (5): cacheHits, cacheMisses, DEFAULT_OPTIONS, globalCache, totalCacheSize
-
-### Community 670 - "Community 670"
-Cohesion: 0.29
-Nodes (5): getSeenHints(), HINT_IDS, HINT_PREFIX, HINTS_RESET_KEY, resetAllHints()
-
-### Community 671 - "Community 671"
-Cohesion: 0.25
-Nodes (4): defaultMixPresets, getStoredPresets(), savePresets(), STORAGE_KEY
-
-### Community 672 - "Community 672"
+### Community 399 - "Community 399"
+_This domain is responsible for managing and displaying various statistical trends and alerts related to data over different time frames._
 Cohesion: 0.39
 Nodes (7): CATEGORY_COLORS, GENRE_COLORS, useMetaTags(), useMusicGraphData(), useMusicStyles(), useStyleTagMappings(), useTagRelationships()
 
-### Community 673 - "Community 673"
+### Community 400 - "Community 400"
+_This domain manages the editing state and value of a user interface component._
 Cohesion: 0.25
-Nodes (7): COMPOUND_TAG_REGEX, CONFLICTING_TAGS, DYNAMIC_EFFECT_REGEX, RUSSIAN_TAG_REGEX, SILENCE_TAGS, SOLO_DESCRIPTOR_REGEX, TRANSFORM_REGEX
+Nodes (7): compressorPresets, defaultCompressorSettings, defaultEQSettings, defaultReverbSettings, defaultStemEffects, eqPresets, reverbPresets
 
-### Community 674 - "Community 674"
+### Community 401 - "Community 401"
+_This domain is responsible for managing templates, including editing, searching, and deleting them._
+Cohesion: 0.25
+Nodes (5): cacheHits, cacheMisses, DEFAULT_OPTIONS, globalCache, totalCacheSize
+
+### Community 402 - "Community 402"
+_This domain is responsible for tracking and managing the utilization and active status of resources within a system._
+Cohesion: 0.25
+Nodes (0): 
+
+### Community 403 - "Community 403"
+_This domain manages audio playback features including mute functionality, tempo tapping, and visual indicators for user interactions._
+Cohesion: 0.25
+Nodes (5): accessOrder, CACHE_MAX_AGE_MS, CACHE_VERSION, MEMORY_CACHE_SIZE, memoryCache
+
+### Community 404 - "Community 404"
+_This domain is responsible for managing and displaying error states, providing user support options, and facilitating error recovery actions._
+Cohesion: 0.25
+Nodes (1): setPrimaryVersionOptimistic()
+
+### Community 405 - "Community 405"
+_Manages user balance top-up processes and upgrade options._
+Cohesion: 0.25
+Nodes (6): { data: stats, isLoading }, generationStats, { isAuthenticated, loading: authLoading }, isMobile, mainStats, successRate
+
+### Community 406 - "Community 406"
+_This domain is responsible for managing artist-related configurations, visibility, and suggestions within an application._
 Cohesion: 0.32
 Nodes (6): errorDetails, errorMessage, handleGoBack(), handleGoHome(), { hapticFeedback, showBackButton, hideBackButton }, navigate
 
-### Community 675 - "Community 675"
-Cohesion: 0.43
-Nodes (7): playbackLogger, useLoopControls(), usePlaybackControls(), usePlaybackLoadingState(), usePlaybackProgress(), usePlaybackStatus(), usePlaybackStore
-
-### Community 676 - "Community 676"
+### Community 407 - "Community 407"
+_This domain is responsible for managing and rendering user interface elements such as icons and labels, along with their selection states._
 Cohesion: 0.25
-Nodes (7): callback, { logger }, mockMemory, mockNow, { result }, { result, rerender }, returnValue
+Nodes (7): blockedUserIds, { data: blockedUsers, isLoading }, { data: profiles }, navigate, profile, profileMap, { toggleBlock, isLoading: isUnblocking }
 
-### Community 677 - "Community 677"
+### Community 408 - "Community 408"
+_This domain handles the user interface and feedback for a mobile menu system, including visual elements and interaction states._
 Cohesion: 0.25
 Nodes (6): arrayBuffer, errorResult, peaks, response, result, { type, audioUrl, samples, id }
 
-### Community 679 - "Community 679"
+### Community 409 - "Community 409"
+_This domain is responsible for managing user interactions with tutorial features, including displaying dialogs and handling user actions._
+Cohesion: 0.36
+Nodes (5): authErrorResponse(), corsHeaders, errorResponse(), notFoundResponse(), validationErrorResponse()
+
+### Community 410 - "Community 410"
+_This domain manages the user interactions for a modal component, including drag and close functionalities._
 Cohesion: 0.25
-Nodes (6): boot(), card, landscape, portraitA, portraitB, TEST_ID
+Nodes (7): errors, observerSupport, providers, result, support, timing, viewports
 
-### Community 680 - "Community 680"
+### Community 411 - "Community 411"
+_This domain handles the creation and updating of playlists with attributes like title, description, cover image, and visibility status._
 Cohesion: 0.25
-Nodes (4): block, deps, pkg, rows
+Nodes (8): AddToPlaylistDialog Component, AnalysisTab Component, ChangelogTab Component, LyricsView Component, StemsTab Component, TrackDetailsSheet Component, VersionsTab Component, Sprint 009 Completion - Track Details & Actions
 
-### Community 682 - "Community 682"
-Cohesion: 0.33
-Nodes (5): { AxePuppeteer }, fs, pages, path, puppeteer
-
-### Community 683 - "Community 683"
-Cohesion: 0.29
-Nodes (6): category, CATEGORY_LABELS, { data: achievements, isLoading: loadingAchievements }, { data: userAchievements, isLoading: loadingUserAchievements }, isLoading, isUnlocked
-
-### Community 684 - "Community 684"
-Cohesion: 0.25
-Nodes (7): [customMode, setCustomMode], handleSubmit(), [loading, setLoading], [mode, setMode], [prompt, setPrompt], [style, setStyle], [title, setTitle]
-
-### Community 686 - "Community 686"
-Cohesion: 0.24
-Nodes (7): getRecommendedQuality(), shouldPrefetch(), getConnectionType(), getNetworkInfo(), useNetworkStatus(), log, useOptimizedAudioPlayer()
-
-### Community 688 - "Community 688"
-Cohesion: 0.29
-Nodes (7): Epic E007: Mobile-First UI/UX Redesign, Task T029: US1 Library Redesign, Task T030: US2 Player Optimization, Task T031: US3 Track Details, Task T032: US4 Track Actions, Task T033: US5 Homepage Discovery, Task T034: US6 AI Assistant
-
-### Community 689 - "Community 689"
-Cohesion: 0.29
-Nodes (5): currentChord, isActive, isPast, progressionString, uniqueChords
-
-### Community 690 - "Community 690"
-Cohesion: 0.29
-Nodes (4): [expandedUsers, setExpandedUsers], RISK_COLORS, RISK_LABELS, { users, summary, isLoading, refetch }
-
-### Community 691 - "Community 691"
-Cohesion: 0.29
-Nodes (5): change, { data, isLoading }, days, isNeutral, isPositive
-
-### Community 693 - "Community 693"
+### Community 412 - "Community 412"
+_This domain is responsible for managing the playback and linking of audio tracks to designated slots._
 Cohesion: 0.29
 Nodes (6): { data: dailyStats }, {
     data: stats,
@@ -4412,501 +3745,689 @@ Nodes (6): { data: dailyStats }, {
     refetch,
   }, { data: topUsers }, [days, setDays], successRate, TIME_PERIODS
 
-### Community 694 - "Community 694"
+### Community 413 - "Community 413"
+_This domain manages the editing state and actions for a text input, including editing, saving, copying, and canceling changes._
 Cohesion: 0.29
-Nodes (6): dismissed, handleDismiss(), [isVisible, setIsVisible], STORAGE_KEY, timer, { user }
+Nodes (4): [expandedUsers, setExpandedUsers], RISK_COLORS, RISK_LABELS, { users, summary, isLoading, refetch }
 
-### Community 695 - "Community 695"
+### Community 414 - "Community 414"
+_This domain is responsible for managing user interactions and state changes within a user interface._
+Cohesion: 0.29
+Nodes (5): change, { data, isLoading }, days, isNeutral, isPositive
+
+### Community 415 - "Community 415"
+_This domain is responsible for providing personalized recommendations and managing user preferences in a system._
+Cohesion: 0.29
+Nodes (5): currentChord, isActive, isPast, progressionString, uniqueChords
+
+### Community 416 - "Community 416"
+_This domain is responsible for managing the state and counts of groups, including their expansion and enabled status._
+Cohesion: 0.29
+Nodes (6): [customMode, setCustomMode], [loading, setLoading], [mode, setMode], [prompt, setPrompt], [style, setStyle], [title, setTitle]
+
+### Community 417 - "Community 417"
+_This domain manages the properties and characteristics of musical notes._
 Cohesion: 0.29
 Nodes (6): availableModes, cfg, currentMode, Icon, isActive, modeConfig
 
-### Community 697 - "Community 697"
-Cohesion: 0.06
-Nodes (20): backdrop, hardware, interactive, media, overlayText, pill, surface, PaymentButtonProps (+12 more)
+### Community 418 - "Community 418"
+_This domain manages the comparison and replacement of content sections with customizable options and state management._
+Cohesion: 0.29
+Nodes (5): fileInputRef, { isRecording, recordingTime, startRecording, stopRecording }, { saveAudio, updateAnalysis }, [uploading, setUploading], { user }
 
-### Community 698 - "Community 698"
+### Community 419 - "Community 419"
+_This domain is responsible for managing and manipulating various item variants and their associated properties within a user interface._
+Cohesion: 0.29
+Nodes (5): displayName, isOwner, likeComment, timeAgo, { user }
+
+### Community 420 - "Community 420"
+_This domain manages the visual representation and interaction of musical chords through color coding and user input handling._
+Cohesion: 0.29
+Nodes (4): handleCreateClick(), inputRef, [isSearchExpanded, setIsSearchExpanded], { patterns }
+
+### Community 421 - "Community 421"
+_This domain is responsible for managing the availability, download, and user interactions with files, including handling download states and UI layout considerations._
+Cohesion: 0.29
+Nodes (4): AlertVariant, ModalVariant, { open, onOpenChange }, SheetVariant
+
+### Community 422 - "Community 422"
+_This domain is responsible for managing the loading and generation of stem data, including associated icons and labels._
+Cohesion: 0.29
+Nodes (6): category, CATEGORY_LABELS, { data: achievements, isLoading: loadingAchievements }, { data: userAchievements, isLoading: loadingUserAchievements }, isLoading, isUnlocked
+
+### Community 423 - "Community 423"
+_This domain is responsible for managing various actions related to media content creation and manipulation._
+Cohesion: 0.29
+Nodes (5): handleClick, handleCreate, handleExpand, { hapticFeedback }, [isExpanded, setIsExpanded]
+
+### Community 424 - "Community 424"
+_This domain is responsible for managing project creation, loading states, and project filtering based on search queries._
 Cohesion: 0.29
 Nodes (5): handlePresetClick, { hapticFeedback }, navigate, ProjectPresetCard, visiblePresets
 
-### Community 699 - "Community 699"
+### Community 425 - "Community 425"
+_This domain is responsible for creating, loading, and filtering playlists based on user interactions and search queries._
 Cohesion: 0.29
 Nodes (6): { activeTrack, isPlaying }, isCurrentTrack, isTrackPlaying, navigate, recentTracks, { tracks, isLoading }
 
-### Community 700 - "Community 700"
-Cohesion: 0.29
-Nodes (6): active, BETA_ANNOUNCEMENTS, dismissedIds, handleDismiss(), now, [visibleAnnouncements, setVisibleAnnouncements]
-
-### Community 701 - "Community 701"
+### Community 426 - "Community 426"
+_This domain is responsible for creating and managing interactive dropdown menu components and their subcomponents in a user interface._
 Cohesion: 0.29
 Nodes (5): containerRef, observer, [overflow, setOverflow], [shouldAnimate, setShouldAnimate], textRef
 
-### Community 702 - "Community 702"
+### Community 427 - "Community 427"
+_This domain is responsible for managing clipboard actions and visual states in a user interface._
 Cohesion: 0.29
 Nodes (5): CATEGORY_COLORS, containerRef, contentRef, [isOverflowing, setIsOverflowing], parsedTags
 
-### Community 703 - "Community 703"
-Cohesion: 0.29
-Nodes (3): failCount, passCount, warnCount
+### Community 428 - "Community 428"
+_This domain is responsible for defining styles and behaviors of interactive UI elements like buttons and cards._
+Cohesion: 0.38
+Nodes (6): currentIndex, handleKeyDown(), handleRedo, handleUndo, historyLength, { undo, redo, canUndo, canRedo, getHistoryLength, getHistoryIndex }
 
-### Community 704 - "Community 704"
+### Community 429 - "Community 429"
+_This domain manages the visual and interactive states of user interface components._
 Cohesion: 0.29
 Nodes (5): hasLyrics, LANGUAGES, [preserveSyllables, setPreserveSyllables], sourceLanguage, [targetLanguage, setTargetLanguage]
 
-### Community 705 - "Community 705"
-Cohesion: 0.29
-Nodes (5): isComplete, isCurrent, isPending, isSkipped, result
-
-### Community 706 - "Community 706"
-Cohesion: 0.29
-Nodes (3): canDecrement, canIncrement, { patterns }
-
-### Community 707 - "Community 707"
+### Community 430 - "Community 430"
+_This domain manages drag interactions and motion preferences for UI components._
 Cohesion: 0.29
 Nodes (3): CATEGORY_LABELS, hasFilters, NODE_TYPE_LABELS
 
-### Community 708 - "Community 708"
-Cohesion: 0.29
-Nodes (5): Icon, latest, oldest, trend, trendItems
-
-### Community 709 - "Community 709"
+### Community 431 - "Community 431"
+_This domain is responsible for managing and responding to different screen sizes, orientations, and user preferences in a web application._
 Cohesion: 0.29
 Nodes (5): categoryColors, CategoryIcon, categoryIcons, genrePresets, Icon
 
-### Community 710 - "Community 710"
+### Community 432 - "Community 432"
+_This domain is responsible for optimizing image loading and visibility in web applications._
 Cohesion: 0.29
 Nodes (4): GENRES, Icon, isSelected, ROLES
 
-### Community 711 - "Community 711"
+### Community 433 - "Community 433"
+_This domain is responsible for managing and analyzing metadata tags, their popularity, recommendations, relationships, and usage history._
 Cohesion: 0.29
 Nodes (6): advancedChannels, ESSENTIAL_TYPES, essentialChannels, isMobile, knobSize, [showAll, setShowAll]
 
-### Community 712 - "Community 712"
+### Community 434 - "Community 434"
+_This domain is responsible for managing audio processing and tracking progress while logging relevant information._
 Cohesion: 0.29
 Nodes (5): handleRemove, handleToggle, isDisabled, isSelected, selectedInstruments
 
-### Community 713 - "Community 713"
+### Community 435 - "Community 435"
+_This domain is responsible for handling guitar chord fingerings, colors, and related functionalities._
 Cohesion: 0.29
-Nodes (3): height, presetLabels, [selectedPreset, setSelectedPreset]
+Nodes (6): displayUrl, fileInputRef, initials, [isUploading, setIsUploading], [previewUrl, setPreviewUrl], { user }
 
-### Community 714 - "Community 714"
+### Community 436 - "Community 436"
+_This domain is responsible for converting byte values into human-readable formats._
 Cohesion: 0.29
 Nodes (6): activeEffects, EFFECT_COLOR_MAP, eqActive, eqDetails, ratio, wetDryPercent
 
-### Community 715 - "Community 715"
+### Community 437 - "Community 437"
+_This domain is responsible for extracting and parsing various types of responses from AI and chat interactions._
 Cohesion: 0.29
-Nodes (5): handleUseAsReference(), [isLoading, setIsLoading], navigate, [open, setOpen], [selectedStem, setSelectedStem]
+Nodes (6): categories, CATEGORY_LABELS, categoryShortcuts, KeyBadge, ShortcutRow, SHORTCUTS
 
-### Community 716 - "Community 716"
+### Community 438 - "Community 438"
+_Manages the active tab state and facilitates data export functionalities._
 Cohesion: 0.29
-Nodes (6): handleClose, handleOpen, isMobile, [sheetOpen, setSheetOpen], sizeClasses, variantClasses
+Nodes (6): [activeTab, setActiveTab], handlePresetChange, handleReset, haptic, [isHardwareMode, setIsHardwareMode], isMobile
 
-### Community 717 - "Community 717"
-Cohesion: 0.33
-Nodes (5): coverUrl, duration, handleTagClick(), hasHD, navigate
-
-### Community 718 - "Community 718"
+### Community 439 - "Community 439"
+_This domain is responsible for managing and logging playback functionalities in a media application._
 Cohesion: 0.29
-Nodes (5): audioRef, { data: stems, isLoading }, { pauseTrack, isPlaying: globalIsPlaying }, [playingId, setPlayingId], sourceId
+Nodes (6): handleChange, handlePanChange, handleVolumeChange, masterVolume, { project, selectedTrackId, selectTrack, setMasterVolume }, { setTrackVolume, setTrackPan, toggleTrackMute, toggleTrackSolo, removeTrack }
 
-### Community 719 - "Community 719"
+### Community 440 - "Community 440"
+_This domain is responsible for managing the layout and behavior of tabbed interfaces in a user interface._
 Cohesion: 0.29
-Nodes (5): buttonSizeClasses, [imageError, setImageError], isGridSize, showOverlay, sizeClasses
+Nodes (6): availableFiles, {
+    data: transcription,
+    isLoading,
+    error,
+    refetch,
+  }, downloadFile, durationSeconds, [isDownloading, setIsDownloading], isMobile
 
-### Community 720 - "Community 720"
-Cohesion: 0.29
-Nodes (6): buttonSize, currentLabel, handleClick, Icon, iconSize, isStudioVersion
-
-### Community 721 - "Community 721"
-Cohesion: 0.29
-Nodes (3): MockIntersectionObserver, queryClient, UnifiedTrackCard
-
-### Community 722 - "Community 722"
+### Community 441 - "Community 441"
+_This domain is responsible for handling and rendering timestamp data in a user interface, including managing active line changes and re-renders._
 Cohesion: 0.29
 Nodes (5): config, displayTitle, [imageError, setImageError], showOverlay, SIZE_CONFIG
 
-### Community 723 - "Community 723"
+### Community 442 - "Community 442"
+_This domain focuses on enhancing mobile user experience, ensuring quality and security, and improving infrastructure for a mobile-first application._
+Cohesion: 0.29
+Nodes (5): buttonSizeClasses, [imageError, setImageError], isGridSize, showOverlay, sizeClasses
+
+### Community 443 - "Community 443"
+_This domain encompasses various audits and analyses related to project management, integration, and optimization in the context of music and AI technologies._
+Cohesion: 0.29
+Nodes (6): buttonSize, currentLabel, handleClick, Icon, iconSize, isStudioVersion
+
+### Community 444 - "Community 444"
+_This domain encompasses the planning, implementation, and documentation of refactoring efforts for user interface architecture._
+Cohesion: 0.29
+Nodes (6): handleClose, handleOpen, isMobile, [sheetOpen, setSheetOpen], sizeClasses, variantClasses
+
+### Community 445 - "Community 445"
+_This domain is responsible for defining and implementing standards for user interface components, animations, colors, and typography to ensure a cohesive and stylish design system._
+Cohesion: 0.33
+Nodes (5): coverUrl, duration, handleTagClick(), hasHD, navigate
+
+### Community 446 - "Community 446"
+_This domain focuses on the analysis, improvement, and development planning of the MusicVerse AI project and its related components._
 Cohesion: 0.29
 Nodes (5): DrawerClose, DrawerOverlay, DrawerPortal, DrawerTrigger, isFullscreen
 
-### Community 724 - "Community 724"
-Cohesion: 0.33
-Nodes (3): calculateStdDev(), detectZScoreAnomalies(), METRIC_CONFIGS
-
-### Community 725 - "Community 725"
+### Community 447 - "Community 447"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
 Cohesion: 0.29
-Nodes (3): CONFIG_LABELS, ECONOMY_CATEGORIES, getConfigByCategory()
+Nodes (6): displayCount, positionClasses, showBadge, sizeClasses, statusColors, variantClasses
 
-### Community 726 - "Community 726"
-Cohesion: 0.33
-Nodes (4): FLAG_CATEGORIES, getFlagsByCategory(), useFeatureFlags(), useIsFeatureEnabled()
-
-### Community 728 - "Community 728"
+### Community 448 - "Community 448"
+_This domain is responsible for managing and displaying the health status of configurations._
 Cohesion: 0.29
-Nodes (3): useHomePageData(), useInfinitePublicTracks(), usePublicContentBatch()
+Nodes (6): isBottomSheet, isFullscreen, Sheet, SheetClose, SheetPortal, SheetTrigger
 
-### Community 732 - "Community 732"
+### Community 449 - "Community 449"
+_This domain is responsible for managing error data and telemetry information, including their loading states and time period selection._
+Cohesion: 0.29
+Nodes (0): 
+
+### Community 450 - "Community 450"
+_This domain is responsible for managing and displaying conversion metrics and visual elements in a user interface._
+Cohesion: 0.29
+Nodes (4): generateStyleDescription(), generateTags(), log, NOTE_NAMES
+
+### Community 451 - "Community 451"
+_This domain is responsible for tracking and analyzing deeplink events and statistics._
 Cohesion: 0.43
 Nodes (4): useNewTracks(), usePopularTracks(), usePublicTracks(), useTrendingTracks()
 
-### Community 733 - "Community 733"
-Cohesion: 0.33
-Nodes (5): featured, starsProductsKeys, useFeaturedProducts(), useGroupedProducts(), useStarsProducts()
+### Community 452 - "Community 452"
+_This domain is responsible for managing and displaying health-related statistics and performance indicators._
+Cohesion: 0.29
+Nodes (6): BATCH_FETCH_LIMIT, GENRE_FETCH_LIMIT, GENRE_PLAYLISTS, GENRE_QUERIES, PUBLIC_CONTENT_GC_TIME, PUBLIC_CONTENT_STALE_TIME
 
-### Community 735 - "Community 735"
+### Community 453 - "Community 453"
+_This domain is responsible for handling and displaying tier icons in an editor context._
+Cohesion: 0.29
+Nodes (0): 
+
+### Community 454 - "Community 454"
+_Manages the state and behavior of the user interface components._
 Cohesion: 0.38
-Nodes (4): findSunoTag(), getAllSunoTags(), getTagLabel(), SUNO_TAG_CATEGORIES
+Nodes (5): findSunoTag(), getAllSunoTags(), getTagLabel(), parseTagsFromText(), SUNO_TAG_CATEGORIES
 
-### Community 738 - "Community 738"
-Cohesion: 0.52
-Nodes (6): useEffectiveStemVolume(), useIsStemMuted(), useMasterControls(), useStemActions(), useStemMixerStore, useStemState()
+### Community 455 - "Community 455"
+_This domain is responsible for managing and rendering various user interface icons and visual indicators._
+Cohesion: 0.33
+Nodes (5): DEFAULT_CONFIG, getPrefetchManager(), log, prefetchManagerInstance, prefetchNextTracks()
 
-### Community 739 - "Community 739"
+### Community 456 - "Community 456"
+_This domain manages user interactions for confirming or canceling actions, including visual feedback and haptic responses._
 Cohesion: 0.29
 Nodes (6): buckets, errors, fileApiSupport, quotaSupport, result, viewports
 
-### Community 740 - "Community 740"
-Cohesion: 0.29
-Nodes (6): followButton, {
-    isLiked,
-    likesCount,
-    toggleLike,
-    isLikePending,
-    isFollowing,
-    toggleFollow,
-    share,
-    isSharing,
-  }, likeButton, queryClient, shareButton, user
-
-### Community 741 - "Community 741"
-Cohesion: 0.29
-Nodes (4): RateLimitConfig, RateLimitConfigs, RateLimitEntry, rateLimitStore
-
-### Community 742 - "Community 742"
-Cohesion: 0.29
-Nodes (7): BottomNavigation Component, GenerateSheet Component, MobileFullscreenPlayer Component, MobileHeaderBar Component, Framer Motion Setup, Motion Variants, TelegramContext
-
-### Community 744 - "Community 744"
-Cohesion: 0.40
-Nodes (6): Specification Quality Checklist: Unified Telegram Mini App Interface Components, Implementation Plan: Unified Telegram Mini App Interface Components, Quickstart: Unified Telegram Mini App Interface Components, Research: Unified Telegram Mini App Interface Components, Feature Specification: Unified Telegram Mini App Interface Components, Tasks: Unified Telegram Mini App Interface Components
-
-### Community 745 - "Community 745"
+### Community 457 - "Community 457"
+_This domain is responsible for managing and representing various attributes related to music genres and their characteristics._
 Cohesion: 0.33
-Nodes (3): AdminRoute(), useAdminAuth(), useAdminBalance()
+Nodes (5): { AxePuppeteer }, fs, pages, path, puppeteer
 
-### Community 746 - "Community 746"
-Cohesion: 0.33
-Nodes (4): CurrentIcon, currentTab, ICON_MAP, TabIcon
-
-### Community 747 - "Community 747"
-Cohesion: 0.33
-Nodes (4): arousalPercent, emotionQuadrant, hasAdvancedData, valencePercent
-
-### Community 748 - "Community 748"
-Cohesion: 0.33
-Nodes (3): ANALYSIS_OPTIONS, Icon, isSelected
-
-### Community 749 - "Community 749"
-Cohesion: 0.33
-Nodes (4): { anomalies, criticalCount, warningCount, hasAnomalies, hasCritical }, [days, setDays], severityConfig, typeIcons
-
-### Community 751 - "Community 751"
-Cohesion: 0.33
-Nodes (6): Project Audit - Database, Security, Sprint Status, Chunk 9 - Audit & Implementation Reports (Dec 2025), Gamification Onboarding (5 steps), Public Profile with Tabs, Track Privacy Controls, UI/UX Improvement Plan - Fully Implemented
-
-### Community 752 - "Community 752"
-Cohesion: 0.33
-Nodes (6): Comprehensive Audit - Russian Language, Deep Commands System, Rich Notifications (10+ types), TelegramBridge Service, Voice-to-Music Pipeline, Telegram Integration Enhancement
-
-### Community 753 - "Community 753"
-Cohesion: 0.40
-Nodes (3): handleClick(), navigate, readingTime
-
-### Community 754 - "Community 754"
-Cohesion: 0.33
-Nodes (4): HISTORY_STORAGE_KEY, MAX_HISTORY_ITEMS, MIN_LISTEN_DURATION, usePlaybackHistory()
-
-### Community 755 - "Community 755"
-Cohesion: 0.33
-Nodes (5): Large, meta, Primary, Secondary, Small
-
-### Community 756 - "Community 756"
-Cohesion: 0.33
-Nodes (5): CHART_COLORS, chartData, labels, sortedCampaigns, summary
-
-### Community 757 - "Community 757"
-Cohesion: 0.33
-Nodes (4): [currentFeature, setCurrentFeature], hideComingSoon, [isOpen, setIsOpen], showComingSoon
-
-### Community 758 - "Community 758"
-Cohesion: 0.40
-Nodes (5): categoryColors, categoryIcons, handleAction(), navigate, positionClasses
-
-### Community 759 - "Community 759"
-Cohesion: 0.33
-Nodes (4): colors, labels, status, statusColors
-
-### Community 760 - "Community 760"
-Cohesion: 0.33
-Nodes (4): description, name, pricePerTrack, tracksCount
-
-### Community 761 - "Community 761"
-Cohesion: 0.33
-Nodes (5): chartData, labels, trend, trendColor, TrendIcon
-
-### Community 762 - "Community 762"
-Cohesion: 0.33
-Nodes (4): channel, { data, isLoading, refetch }, [pulse, setPulse], timer
-
-### Community 763 - "Community 763"
-Cohesion: 0.33
-Nodes (3): STEP_ICONS, TIME_RANGES, widthPercent
-
-### Community 764 - "Community 764"
-Cohesion: 0.33
-Nodes (5): chartData, COLORS, { data, isLoading }, { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend }, { recharts, isLoading: rechartsLoading }
-
-### Community 765 - "Community 765"
-Cohesion: 0.33
-Nodes (3): [activePreset, setActivePreset], [open, setOpen], PRESETS
-
-### Community 766 - "Community 766"
-Cohesion: 0.33
-Nodes (5): COLUMN_CLASSES, Icon, SIZE_CLASSES, sizes, VARIANT_CLASSES
-
-### Community 767 - "Community 767"
-Cohesion: 0.40
-Nodes (4): handleOpenProject(), navigate, statusInfo, typeLabel
-
-### Community 768 - "Community 768"
+### Community 458 - "Community 458"
+_This domain manages user interactions, specifically handling tap events and feedback mechanisms like liking content and providing haptic responses._
 Cohesion: 0.33
 Nodes (3): componentDidCatch(), isDev, log
 
-### Community 769 - "Community 769"
-Cohesion: 0.33
-Nodes (3): { data: stats, isLoading }, { hapticFeedback }, { link: referralLink, share }
-
-### Community 771 - "Community 771"
-Cohesion: 0.33
-Nodes (5): [expanded, setExpanded], handleApply, hasMore, { suggestions, isAnalyzing, dismissSuggestion, hasContext }, visibleSuggestions
-
-### Community 772 - "Community 772"
-Cohesion: 0.33
-Nodes (3): MusicXMLViewer(), log, useMusicXML()
-
-### Community 773 - "Community 773"
-Cohesion: 0.33
-Nodes (4): handlePresetClick, { hapticFeedback }, navigate, visiblePresets
-
-### Community 775 - "Community 775"
-Cohesion: 0.33
-Nodes (5): [animating, setAnimating], MobilePageTransition, MobileSlideUpTransition, [shouldRender, setShouldRender], timer
-
-### Community 776 - "Community 776"
+### Community 459 - "Community 459"
+_This domain is responsible for managing user actions and feedback within the application._
 Cohesion: 0.33
 Nodes (3): NavigationProvider(), adjacentRoutes, useRoutePreloader()
 
-### Community 777 - "Community 777"
-Cohesion: 0.40
+### Community 460 - "Community 460"
+_This domain manages error messages and user interactions related to deletion and retry actions._
+Cohesion: 0.33
+Nodes (4): { anomalies, criticalCount, warningCount, hasAnomalies, hasCritical }, [days, setDays], severityConfig, typeIcons
+
+### Community 461 - "Community 461"
+_This domain is responsible for managing and filtering audio tracks, including selection and navigation functionalities._
+Cohesion: 0.33
+Nodes (3): STEP_ICONS, TIME_RANGES, widthPercent
+
+### Community 462 - "Community 462"
+_This domain is responsible for managing frequently asked questions, including their visibility, filtering, and search functionalities._
+Cohesion: 0.33
+Nodes (5): chartData, labels, trend, trendColor, TrendIcon
+
+### Community 463 - "Community 463"
+_This domain is responsible for managing the active state of tabs and handling user interactions with them._
+Cohesion: 0.33
+Nodes (5): channel, { data, isLoading, refetch }, formatTimeSince(), [pulse, setPulse], timer
+
+### Community 464 - "Community 464"
+_This domain is responsible for displaying and parsing song lyrics with associated visual elements._
+Cohesion: 0.33
+Nodes (4): CurrentIcon, currentTab, ICON_MAP, TabIcon
+
+### Community 465 - "Community 465"
+_This domain manages artist presets and custom styles for a music player application._
+Cohesion: 0.33
+Nodes (5): chartData, COLORS, { data, isLoading }, { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend }, { recharts, isLoading: rechartsLoading }
+
+### Community 466 - "Community 466"
+_Manages the display of confetti animations based on a timer._
+Cohesion: 0.33
+Nodes (2): groupedHistory, mockHistory
+
+### Community 467 - "Community 467"
+_This domain manages the visual representation and interactivity of UI components based on their state and properties._
+Cohesion: 0.33
+Nodes (4): [currentFeature, setCurrentFeature], hideComingSoon, [isOpen, setIsOpen], showComingSoon
+
+### Community 468 - "Community 468"
+_This domain is responsible for managing social media icons and related fields._
+Cohesion: 0.4
+Nodes (3): handleClick(), navigate, readingTime
+
+### Community 469 - "Community 469"
+_This domain handles the management and updating of project-related data within a user interface._
+Cohesion: 0.33
+Nodes (2): DISMISSED_CTAS_KEY, FirstCommentCTA
+
+### Community 470 - "Community 470"
+_This domain manages form data and styling options for images and typography._
+Cohesion: 0.33
+Nodes (5): COLUMN_CLASSES, Icon, SIZE_CLASSES, sizes, VARIANT_CLASSES
+
+### Community 471 - "Community 471"
+_This domain is responsible for managing music generation, playback, and settings in a digital audio workstation._
+Cohesion: 0.4
+Nodes (4): handleOpenProject(), navigate, statusInfo, typeLabel
+
+### Community 472 - "Community 472"
+_This domain manages user actions and visual feedback in a user interface._
+Cohesion: 0.33
+Nodes (4): { data: stats, isLoading }, handleCopyCode(), { hapticFeedback }, { link: referralLink, share }
+
+### Community 473 - "Community 473"
+_This domain is responsible for managing the state of a form, including user inputs and submission status._
+Cohesion: 0.33
+Nodes (4): filteredTemplates, [searchQuery, setSearchQuery], [selectedId, setSelectedId], { templates, isLoading }
+
+### Community 474 - "Community 474"
+_This domain manages audio intervals and preset configurations for sound reduction and selection._
+Cohesion: 0.33
+Nodes (5): categories, filteredTemplates, Icon, PROMPT_TEMPLATES, [selectedCategory, setSelectedCategory]
+
+### Community 475 - "Community 475"
+_This domain is responsible for managing the state and visibility of sections in a user interface, including loading states and expanded sections._
+Cohesion: 0.33
+Nodes (5): [expanded, setExpanded], handleApply, hasMore, { suggestions, isAnalyzing, dismissSuggestion, hasContext }, visibleSuggestions
+
+### Community 476 - "Community 476"
+_This domain manages audio playback features including sharing, skipping, muting, and volume control._
+Cohesion: 0.33
+Nodes (3): MusicXMLViewer(), log, useMusicXML()
+
+### Community 477 - "Community 477"
+_This domain is responsible for managing audio stem states, including volume, mute, and solo functionalities._
+Cohesion: 0.4
+Nodes (5): categoryColors, categoryIcons, handleAction(), navigate, positionClasses
+
+### Community 478 - "Community 478"
+_This domain is responsible for managing and displaying color schemes and icons in a user interface for STEM-related applications._
+Cohesion: 0.33
+Nodes (4): handlePresetClick, { hapticFeedback }, navigate, visiblePresets
+
+### Community 479 - "Community 479"
+_This domain is responsible for managing and labeling versioning operations for software tracks._
+Cohesion: 0.33
+Nodes (5): colors, { formatted, isLoading }, Icon, statColors, stats
+
+### Community 480 - "Community 480"
+_This domain manages the selection and display of user interface modes based on user interactions._
+Cohesion: 0.33
+Nodes (3): ANALYSIS_OPTIONS, Icon, isSelected
+
+### Community 481 - "Community 481"
+_This domain is responsible for managing and displaying categories, their associated colors, and filtering options in a user interface._
+Cohesion: 0.33
+Nodes (5): [animating, setAnimating], MobilePageTransition, MobileSlideUpTransition, [shouldRender, setShouldRender], timer
+
+### Community 482 - "Community 482"
+_This domain is responsible for managing the lifecycle and interaction of audio tracks, including deletion, playback, and user interactions._
+Cohesion: 0.33
+Nodes (0): 
+
+### Community 483 - "Community 483"
+_This domain is responsible for managing and interacting with musical beats and their arrangement within a track._
+Cohesion: 0.4
 Nodes (3): cn(), getProductIcon(), STATUS_CONFIG
 
-### Community 778 - "Community 778"
+### Community 484 - "Community 484"
+_This domain is responsible for managing the current time and playback state of audio analysis, handling analysis requests, and tracking loading and pending states._
 Cohesion: 0.33
 Nodes (5): { data: masterVersion }, FullscreenDesktop, FullscreenMobile, isMobileViewport, resolved
 
-### Community 779 - "Community 779"
+### Community 485 - "Community 485"
+_This domain manages the drag-and-drop functionality with references to containers and content, tracking height and snap states._
 Cohesion: 0.33
 Nodes (4): closeTimer, confettiTimer, [showContent, setShowContent], timer
 
-### Community 780 - "Community 780"
+### Community 486 - "Community 486"
+_This domain is responsible for managing the display and navigation of carousel items in a user interface._
 Cohesion: 0.33
 Nodes (4): Icon, isHighlighted, TIER_FEATURES, TIERS
 
-### Community 781 - "Community 781"
+### Community 487 - "Community 487"
+_This domain is responsible for managing and displaying context menus and their related components in a user interface._
 Cohesion: 0.33
 Nodes (5): isPublished, projectType, status, STATUS_LABELS, TYPE_LABELS
 
-### Community 782 - "Community 782"
+### Community 488 - "Community 488"
+_This domain is responsible for defining and managing the visual attributes and configurations of user interface elements._
 Cohesion: 0.33
 Nodes (5): [elapsedTime, setElapsedTime], interval, [progress, setProgress], remainingTime, startTime
 
-### Community 783 - "Community 783"
+### Community 489 - "Community 489"
+_This domain manages the visibility and positioning of UI elements with configurable styles and timing._
 Cohesion: 0.33
-Nodes (3): isModified, presetLabels, [selectedPreset, setSelectedPreset]
+Nodes (5): ChannelControls, handleToggleMute, handleToggleSolo, handleVolumeChange, VolumeFader
 
-### Community 786 - "Community 786"
+### Community 490 - "Community 490"
+_This domain manages the scrollable state and behavior of a user interface component._
+Cohesion: 0.33
+Nodes (5): { actionState, isProcessing, dialogs, closeDialog, executeAction, handleConfirmDelete, stems }, isMobile, isOwner, [mobileSheetOpen, setMobileSheetOpen], { user }
+
+### Community 491 - "Community 491"
+_This domain is responsible for defining and managing various interactive components used in user input forms._
 Cohesion: 0.33
 Nodes (5): hasAnyAction, showCopyLink, showPlaylist, showProject, showTelegram
 
-### Community 787 - "Community 787"
+### Community 492 - "Community 492"
+_Responsible for managing and displaying paginated content and items._
+Cohesion: 0.33
+Nodes (4): arousalPercent, emotionQuadrant, hasAdvancedData, valencePercent
+
+### Community 493 - "Community 493"
+_This domain is responsible for managing font sizes, styles, and formatting for text presentation._
+Cohesion: 0.33
+Nodes (4): Display, Heading, Prose, variantClasses
+
+### Community 494 - "Community 494"
+_This domain is responsible for managing and retrieving color-coded categorizations and relationships related to music genres and styles._
 Cohesion: 0.33
 Nodes (3): DEEP_LINK_DESCRIPTIONS, DEEP_LINK_ROUTES, telegramLogger
 
-### Community 790 - "Community 790"
-Cohesion: 0.40
+### Community 495 - "Community 495"
+_This domain is responsible for managing and applying audio processing settings and presets for compressors, equalizers, reverb, and other effects._
+Cohesion: 0.33
+Nodes (1): log
+
+### Community 496 - "Community 496"
+_This domain is responsible for managing cache statistics and configurations for efficient data retrieval._
+Cohesion: 0.33
+Nodes (2): MAX_RENDER_SAMPLES, MEMORY_WARNING_THRESHOLD_MB
+
+### Community 497 - "Community 497"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 0.33
+Nodes (2): CONFIG_LABELS, ECONOMY_CATEGORIES
+
+### Community 498 - "Community 498"
+_This domain is responsible for managing the caching of data to optimize performance and reduce load times._
+Cohesion: 0.4
+Nodes (3): FLAG_CATEGORIES, useFeatureFlags(), useIsFeatureEnabled()
+
+### Community 499 - "Community 499"
+_Responsible for managing and updating the primary version of a software component using optimistic concurrency control._
+Cohesion: 0.33
+Nodes (5): DEFAULT_TITLES, INVALIDATE_QUERY_KEYS, OPERATION_ENDPOINTS, STATUS_MESSAGES, STATUS_PROGRESS
+
+### Community 500 - "Community 500"
+_This domain is responsible for handling configuration, listening to events, managing machine states, and processing results and snapshots while allowing for unsubscribe functionality._
+Cohesion: 0.4
 Nodes (4): CATEGORY_LABELS, getActionsForStemType(), getGroupedActions(), STEM_ACTIONS
 
-### Community 792 - "Community 792"
+### Community 501 - "Community 501"
+_This domain is responsible for managing user authentication and displaying statistical data related to user engagement and performance._
 Cohesion: 0.33
 Nodes (4): ANIMATION_FRAME_INTERVAL, CRITICAL_DRIFT, DRIFT_THRESHOLD, MAX_CORRECTION_ATTEMPTS
 
-### Community 793 - "Community 793"
-Cohesion: 0.33
-Nodes (4): DEFAULT_STEM_STATE, MAX_HISTORY, useMixerHistoryStore, useUndoRedo()
-
-### Community 795 - "Community 795"
+### Community 502 - "Community 502"
+_This domain is responsible for managing error states and navigation feedback in the application._
 Cohesion: 0.33
 Nodes (3): chordColors, stemColors, studioAnimations
 
-### Community 798 - "Community 798"
+### Community 503 - "Community 503"
+_This domain manages the functionality for blocking and unblocking users in a social platform._
+Cohesion: 0.33
+Nodes (1): MODEL_INFO
+
+### Community 504 - "Community 504"
+_This domain is responsible for handling audio data, including its analysis and error management._
+Cohesion: 0.33
+Nodes (5): Large, meta, Primary, Secondary, Small
+
+### Community 505 - "Community 505"
+_This domain is responsible for providing tools and functions to facilitate testing and mocking in software development._
 Cohesion: 0.33
 Nodes (5): lastBottom, main, nav, navBox, VIEWPORTS
 
-### Community 799 - "Community 799"
+### Community 506 - "Community 506"
+_This domain is responsible for managing and responding to various error conditions in an application._
 Cohesion: 0.33
-Nodes (5): box, mountPlayer(), overflow, player, SAMPLE_TRACK
+Nodes (6): Project Audit - Database, Security, Sprint Status, Chunk 9 - Audit & Implementation Reports (Dec 2025), Gamification Onboarding (5 steps), Public Profile with Tabs, Track Privacy Controls, UI/UX Improvement Plan - Fully Implemented
 
-### Community 800 - "Community 800"
+### Community 507 - "Community 507"
+_This domain is responsible for managing user interface components, their states, and interactions._
 Cohesion: 0.33
-Nodes (3): FORBIDDEN_TEXTS, MOBILE_VIEWPORTS, PUBLIC_ROUTES
+Nodes (6): Comprehensive Audit - Russian Language, Deep Commands System, Rich Notifications (10+ types), TelegramBridge Service, Voice-to-Music Pipeline, Telegram Integration Enhancement
 
-### Community 801 - "Community 801"
-Cohesion: 0.33
-Nodes (6): Fix: Inverted customMode Logic, Fix: Missing Credit Validation, Fix: Parameter Name Inconsistency, Fix: Race Condition in Credit Deduction, Track Generation Fixes - 10 Critical Issues, Improvement: Retry Logic for Audio Downloads
-
-### Community 802 - "Community 802"
+### Community 508 - "Community 508"
+_This domain is responsible for applying audio effects, visualizing sound waves, and optimizing performance for audio applications._
 Cohesion: 0.33
 Nodes (6): Improvement Sprint Plan - 5 Sprints (76 SP), Sprint 1 - Version System & Documentation, Sprint 2 - Testing & Validation, Sprint 3 - Telegram Bot Enhancement, Sprint 4 - Performance Optimization, Sprint 5 - Advanced Features & Polish
 
-### Community 803 - "Community 803"
+### Community 509 - "Community 509"
+_This domain focuses on integrating data analysis tools with cloud storage and Telegram mini apps for enhanced functionality and user experience._
+Cohesion: 0.33
+Nodes (6): Fix: Inverted customMode Logic, Fix: Missing Credit Validation, Fix: Parameter Name Inconsistency, Fix: Race Condition in Credit Deduction, Track Generation Fixes - 10 Critical Issues, Improvement: Retry Logic for Audio Downloads
+
+### Community 510 - "Community 510"
+_This domain is responsible for managing and displaying user performance metrics over specified time periods._
 Cohesion: 0.33
 Nodes (6): Infrastructure Audit - Storage & CDN Architecture, CDN Assets Table, Media Processing Queue, Storage Buckets (tracks, covers, stems, uploads, avatars, temp), Storage Management Tables (storage_usage, file_registry), Storage RLS Policies
 
-### Community 804 - "Community 804"
-Cohesion: 0.33
-Nodes (6): Voice Library Page, Voice History Page, Onboarding Page, Analytics Page, Auth Page, Mobile Player Page
+### Community 511 - "Community 511"
+_This domain manages user risk statuses and their visual representation._
+Cohesion: 0.4
+Nodes (3): BASE_DESCRIPTION, BASE_TITLE, SEO_PRESETS
 
-### Community 805 - "Community 805"
-Cohesion: 0.40
-Nodes (5): HapticFeedback, HapticImpactStyle, HapticNotificationType, isHapticSupported(), useMobileHaptic()
+### Community 512 - "Community 512"
+_This domain manages musical chord progressions and their states._
+Cohesion: 0.4
+Nodes (4): botLogger, isWebhookActive, [loading, setLoading], [webhookInfo, setWebhookInfo]
 
-### Community 806 - "Community 806"
-Cohesion: 0.40
-Nodes (5): Accessibility Testing, E2E Tests with Playwright, Performance Testing, Testing Infrastructure Documentation, Unit Tests with Jest
-
-### Community 807 - "Community 807"
-Cohesion: 0.40
-Nodes (4): Accordion, AccordionContent, AccordionItem, AccordionTrigger
-
-### Community 808 - "Community 808"
-Cohesion: 0.40
-Nodes (3): audioRef, hasReferenceAudio, [isPlaying, setIsPlaying]
-
-### Community 809 - "Community 809"
-Cohesion: 0.40
-Nodes (4): ANALYSIS_MODE_PROMPT, PRODUCER_REVIEW_PROMPT, SUNO_TAGS_REFERENCE, WRITING_MODE_PROMPT
-
-### Community 810 - "Community 810"
-Cohesion: 0.50
-Nodes (3): AIAssistantContext, useAIAssistant(), useIsAIAssistantEnabled()
-
-### Community 811 - "Community 811"
-Cohesion: 0.40
-Nodes (4): analysisOptions, { analyze, isAnalyzing, status, currentStep }, handleAnalyze(), [lastAnalyzedType, setLastAnalyzedType]
-
-### Community 815 - "Community 815"
-Cohesion: 0.40
-Nodes (3): artistName, examples, suggestions
-
-### Community 817 - "Community 817"
-Cohesion: 0.40
-Nodes (5): Audio Element Pool, Claude Code Development Instructions, GlobalAudioProvider, iOS Safari Compatibility, Single Audio Element Pattern
-
-### Community 818 - "Community 818"
-Cohesion: 0.40
-Nodes (5): Audio Player No Sound Fix, Audio Player No Sound Fix V2, Audio System Improvements 2025-12-09, Professional Platform Visual Summary, Bug Fix Summary - Stem Studio
-
-### Community 820 - "Community 820"
-Cohesion: 0.40
-Nodes (3): BiometricPrompt(), log, useTelegramBiometric()
-
-### Community 821 - "Community 821"
-Cohesion: 0.40
-Nodes (4): canSend, handleKeyDown, textarea, textareaRef
-
-### Community 822 - "Community 822"
-Cohesion: 0.40
-Nodes (3): idleInterval, [levels, setLevels], rafRef
-
-### Community 824 - "Community 824"
-Cohesion: 0.50
+### Community 513 - "Community 513"
+_This domain manages the configuration and state of different user interface modes and their associated icons._
+Cohesion: 0.5
 Nodes (4): { data, isLoading }, days, forecast(), linearRegression()
 
-### Community 825 - "Community 825"
-Cohesion: 0.40
+### Community 514 - "Community 514"
+_This domain manages user-related interactions and activities within a social platform._
+Cohesion: 0.4
 Nodes (4): COLORS, { data, isLoading }, isPositiveChange, revenueChange
 
-### Community 827 - "Community 827"
-Cohesion: 0.40
+### Community 515 - "Community 515"
+_This domain is responsible for managing user interactions with comment suggestions, including tracking events and providing haptic feedback._
+Cohesion: 0.4
+Nodes (3): HOUR_LABELS, HOURS, SourcesHeatmap()
+
+### Community 516 - "Community 516"
+_This domain is responsible for managing the search input and its expansion state in the user interface._
+Cohesion: 0.4
+Nodes (4): analysisOptions, { analyze, isAnalyzing, status, currentStep }, handleAnalyze(), [lastAnalyzedType, setLastAnalyzedType]
+
+### Community 517 - "Community 517"
+_This domain is responsible for managing different presentation variants of user interface components._
+Cohesion: 0.4
 Nodes (4): ChangeIndicator, { data, isLoading }, stats, summary
 
-### Community 828 - "Community 828"
-Cohesion: 0.40
+### Community 518 - "Community 518"
+_This domain manages the state and indicators of musical steps in a playback system._
+Cohesion: 0.4
+Nodes (3): COMMENT_SUGGESTIONS, CommentSuggestions, InlineCommentSuggestions
+
+### Community 519 - "Community 519"
+_This domain manages user interactions with pointer devices, tracking states like press and audio feedback._
+Cohesion: 0.4
 Nodes (4): GAP_SIZES, GRID_COLS, GRID_PRESETS, ResponsiveGrid
 
-### Community 829 - "Community 829"
-Cohesion: 0.40
+### Community 520 - "Community 520"
+_This domain handles the retrieval and management of user achievements and their associated loading states._
+Cohesion: 0.4
 Nodes (4): genreColors, genres, [isExpanded, setIsExpanded], PatternCard
 
-### Community 831 - "Community 831"
-Cohesion: 0.40
+### Community 521 - "Community 521"
+_This domain is responsible for managing the state and validation of an editing interface, including error handling and dialog visibility._
+Cohesion: 0.4
+Nodes (3): { data: credits }, { data: stats }, { user }
+
+### Community 522 - "Community 522"
+_Manages the state and behavior of a multi-step process interface._
+Cohesion: 0.4
+Nodes (3): [activeTab, setActiveTab], currentArtists, { data: publicArtists }
+
+### Community 523 - "Community 523"
+_This domain handles user subscriptions and task management within a query client context._
+Cohesion: 0.4
 Nodes (3): GenerationResultSheet, isCurrentlyPlaying, isSelected
 
-### Community 832 - "Community 832"
-Cohesion: 0.40
+### Community 524 - "Community 524"
+_This domain manages the state and interaction of UI elements that can be toggled, including haptic feedback and content visibility._
+Cohesion: 0.4
+Nodes (3): SECTION_META, sections, totalLines
+
+### Community 525 - "Community 525"
+_This domain is responsible for rendering track information and managing user interactions with track elements._
+Cohesion: 0.4
+Nodes (4): artistMatch, handleApplySuggestion, { hapticFeedback }, suggestions
+
+### Community 526 - "Community 526"
+_This domain manages user interactions with lyrics presets, providing feedback and navigation features._
+Cohesion: 0.4
+Nodes (4): canSend, handleKeyDown, textarea, textareaRef
+
+### Community 527 - "Community 527"
+_This domain manages the playback state and navigation of music tracks._
+Cohesion: 0.4
+Nodes (3): artistName, examples, suggestions
+
+### Community 528 - "Community 528"
+_This domain is responsible for managing the visual representation and overflow behavior of categorized content in a user interface._
+Cohesion: 0.4
 Nodes (4): ERROR_ICONS, iconColor, IconComponent, needsEdit
 
-### Community 833 - "Community 833"
-Cohesion: 0.40
+### Community 529 - "Community 529"
+_This domain is responsible for managing the state of actions that can be undone or redone in an application._
+Cohesion: 0.4
 Nodes (3): Icon, isCompleted, isCurrent
 
-### Community 836 - "Community 836"
-Cohesion: 0.40
+### Community 530 - "Community 530"
+_This domain is responsible for managing the translation of song lyrics between different languages while preserving syllable structure._
+Cohesion: 0.4
+Nodes (2): HINT_ALIASES, HINT_REGISTRY
+
+### Community 531 - "Community 531"
+_This domain manages category labels and node types for filtering data._
+Cohesion: 0.5
+Nodes (4): { data: adminAuth, isLoading }, handleClick(), { hapticFeedback }, navigate
+
+### Community 532 - "Community 532"
+_This domain is responsible for representing and analyzing trends in data over time._
+Cohesion: 0.4
 Nodes (4): completedCount, { hasGeneratedTrack, hasPlayedTrack, hasVisitedLibrary, completedOnboarding }, progress, steps
 
-### Community 837 - "Community 837"
-Cohesion: 0.40
+### Community 533 - "Community 533"
+_This domain is responsible for managing and displaying the network connectivity status and its suitability for streaming._
+Cohesion: 0.4
+Nodes (4): handlePresetClick, { hapticFeedback }, TRACK_PRESETS, TrackChip
+
+### Community 534 - "Community 534"
+_This domain is responsible for managing playback controls and user interactions for media content._
+Cohesion: 0.4
+Nodes (3): Icon, info, MODEL_DISPLAY
+
+### Community 535 - "Community 535"
+_This domain is responsible for creating and managing playlists with associated metadata._
+Cohesion: 0.4
 Nodes (3): CATEGORY_STYLES, categoryStyle, { visible, hiddenCount }
 
-### Community 838 - "Community 838"
-Cohesion: 0.14
-Nodes (8): IconComponent(), variantStyles, colorMap, iconMap, Popover, PopoverContent, PopoverTrigger, Switch
+### Community 536 - "Community 536"
+_This domain is responsible for managing visual representations and color coding of categories and genres._
+Cohesion: 0.4
+Nodes (4): CATEGORY_ICONS, categoryInfo, Icon, resolvedCategory
 
-### Community 844 - "Community 844"
-Cohesion: 0.40
+### Community 537 - "Community 537"
+_This domain is responsible for handling and validating song lyrics in a mobile context._
+Cohesion: 0.4
+Nodes (2): parseStructureContent(), sections
+
+### Community 538 - "Community 538"
+_This domain is responsible for managing the status and type labels of published content._
+Cohesion: 0.4
+Nodes (2): isSelected, OPTIMIZE_OPTIONS
+
+### Community 539 - "Community 539"
+_This domain is responsible for managing the playback and approval status of audio tracks._
+Cohesion: 0.4
+Nodes (2): [expanded, setExpanded], { patterns }
+
+### Community 540 - "Community 540"
+_This domain is responsible for managing and displaying different types of channels based on user preferences and device type._
+Cohesion: 0.4
 Nodes (4): [activeCategory, setActiveCategory], categories, filteredPresets, [searchQuery, setSearchQuery]
 
-### Community 846 - "Community 846"
-Cohesion: 0.60
-Nodes (3): OnboardingTrigger(), useOnboarding, useShouldShowOnboarding()
+### Community 541 - "Community 541"
+_This domain manages the user interface and state for uploading files, including displaying URLs and handling upload status._
+Cohesion: 0.4
+Nodes (4): breadcrumbItems, isLast, location, ROUTE_LABELS
 
-### Community 847 - "Community 847"
-Cohesion: 0.40
+### Community 542 - "Community 542"
+_This domain manages the loading and filtering of music tracks for a user feed._
+Cohesion: 0.4
+Nodes (2): filteredItems, [query, setQuery]
+
+### Community 543 - "Community 543"
+_This domain manages audio effect parameters and their visual representation._
+Cohesion: 0.4
+Nodes (4): description, name, pricePerTrack, tracksCount
+
+### Community 544 - "Community 544"
+_This domain manages the state and functionalities related to music composition features, including tab management and completion statistics._
+Cohesion: 0.4
 Nodes (4): chartData, { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Legend }, mounted, [recharts, setRecharts]
 
-### Community 848 - "Community 848"
-Cohesion: 0.11
-Nodes (20): [formData, setFormData], handleSubmit(), [trackParams, setTrackParams], { updateTrack }, createTrack(), deleteTrack(), fetchTrackById(), fetchTrackLikesWithUser() (+12 more)
-
-### Community 849 - "Community 849"
-Cohesion: 0.40
+### Community 545 - "Community 545"
+_This domain manages audio mixing presets for user customization and application._
+Cohesion: 0.4
 Nodes (4): hasContent, hasMetadata, language, LANGUAGE_MAP
 
-### Community 851 - "Community 851"
-Cohesion: 0.40
+### Community 546 - "Community 546"
+_This domain is responsible for managing visual elements and user interactions within the application._
+Cohesion: 0.4
+Nodes (3): idleInterval, [levels, setLevels], rafRef
+
+### Community 547 - "Community 547"
+_This domain is responsible for managing user-selected height presets and their associated labels in a user interface._
+Cohesion: 0.4
 Nodes (4): aWeight, bWeight, genreA, genreB
 
-### Community 852 - "Community 852"
-Cohesion: 0.40
+### Community 548 - "Community 548"
+_This domain is responsible for organizing and managing categories and their associated shortcuts and labels._
+Cohesion: 0.4
 Nodes (4): formatDuration, handleModeChange, {
     isRecording,
     isPaused,
@@ -4923,13 +4444,510 @@ Nodes (4): formatDuration, handleModeChange, {
     resetRecording,
   }, [mode, setMode]
 
-### Community 853 - "Community 853"
-Cohesion: 0.40
+### Community 549 - "Community 549"
+_This domain is responsible for managing user interactions and visual feedback within the application._
+Cohesion: 0.5
+Nodes (4): config, formatTimeSince(), getStatusConfig(), Icon
+
+### Community 550 - "Community 550"
+_Manages the active tab, hardware mode, and preset changes in a user interface._
+Cohesion: 0.4
+Nodes (4): handleEffects, handleMute, handleSolo, haptic
+
+### Community 551 - "Community 551"
+_This domain manages audio track properties such as volume, pan, mute, and solo states._
+Cohesion: 0.4
 Nodes (3): [expandedTrack, setExpandedTrack], isPending, toggleExpand
 
-### Community 854 - "Community 854"
-Cohesion: 0.40
-Nodes (4): audioTracks, exportTracks, firstTrack, {
+### Community 552 - "Community 552"
+_This domain is responsible for handling file availability, downloading, and managing transcription data._
+Cohesion: 0.4
+Nodes (3): handleSelect, haptic, isActive
+
+### Community 553 - "Community 553"
+_This domain is responsible for managing the copying of links and sharing them through various platforms while providing user feedback._
+Cohesion: 0.4
+Nodes (2): sizeStyles, variantStyles
+
+### Community 554 - "Community 554"
+_This domain is responsible for managing the properties and behavior of a button UI component._
+Cohesion: 0.4
+Nodes (1): hapticPatterns
+
+### Community 555 - "Community 555"
+_This domain is responsible for handling the open and close states of a modal component, including responsive behavior and styling._
+Cohesion: 0.4
+Nodes (3): BiometricPrompt(), log, useTelegramBiometric()
+
+### Community 556 - "Community 556"
+_This domain is responsible for managing media content attributes and user interactions related to playback features._
+Cohesion: 0.4
+Nodes (4): hasCreator, publicTrack, styleClass, titleClass
+
+### Community 557 - "Community 557"
+_This domain is responsible for rendering and styling icons within a user interface._
+Cohesion: 0.4
+Nodes (4): handleSwipeAddToQueue, handleSwipeSwitchVersion, { isOwnTrack }, { sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet }
+
+### Community 558 - "Community 558"
+_This domain is responsible for managing haptic feedback and visual icon representations in a user interface._
+Cohesion: 0.4
+Nodes (3): colorStyles, handleClick, styles
+
+### Community 559 - "Community 559"
+_This domain is responsible for creating and managing hierarchical menu structures in a user interface._
+Cohesion: 0.4
+Nodes (4): defaultScrollHeight, DIALOG_TABS, SHEET_TABS, tabs
+
+### Community 560 - "Community 560"
+_This domain is responsible for defining and managing the visual representation and styling of user interface elements._
+Cohesion: 0.4
+Nodes (4): Accordion, AccordionContent, AccordionItem, AccordionTrigger
+
+### Community 561 - "Community 561"
+_This domain is responsible for defining and managing the visual presentation and styling of user interface components._
+Cohesion: 0.4
+Nodes (4): classes, levelStyles, Tag, truncateStyles
+
+### Community 562 - "Community 562"
+_This domain is responsible for managing the display and behavior of various sheet components in a user interface._
+Cohesion: 0.4
+Nodes (3): IconComponent(), variantStyles, Switch
+
+### Community 563 - "Community 563"
+_This domain is responsible for managing color schemes and size configurations for user interface elements._
+Cohesion: 0.4
+Nodes (2): sizeConfig, variantConfig
+
+### Community 564 - "Community 564"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 0.4
+Nodes (4): Tooltip, TooltipContent, TooltipProvider, TooltipTrigger
+
+### Community 565 - "Community 565"
+_This domain is responsible for generating style descriptions and tags while also handling logging functionalities._
+Cohesion: 0.4
+Nodes (3): patterns, sizeClasses, variantClasses
+
+### Community 566 - "Community 566"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 0.4
+Nodes (3): APP_CONFIG, FEATURE_METADATA, getComingSoonFeatures()
+
+### Community 567 - "Community 567"
+_This domain is responsible for managing and retrieving various types of music tracks based on different criteria._
+Cohesion: 0.5
+Nodes (4): CATEGORY_LABELS, getActionsByCategory(), getActionsByPriority(), TRACK_ACTIONS
+
+### Community 568 - "Community 568"
+_This domain is responsible for calculating statistical metrics and detecting anomalies based on Z-scores._
+Cohesion: 0.4
+Nodes (1): LYRICS_PRESETS
+
+### Community 569 - "Community 569"
+_This domain is responsible for managing and retrieving configuration settings categorized by labels and economy categories._
+Cohesion: 0.4
+Nodes (1): PROJECT_PRESETS
+
+### Community 570 - "Community 570"
+_This domain is responsible for managing and utilizing feature flags to control application features dynamically._
+Cohesion: 0.4
+Nodes (1): QUICK_CREATE_PRESETS
+
+### Community 571 - "Community 571"
+_This domain is responsible for managing the fetching and caching of genre-related content in a system._
+Cohesion: 0.4
+Nodes (2): getAvailableGenres(), SUNO_TEMPLATES
+
+### Community 572 - "Community 572"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 0.5
+Nodes (3): AIAssistantContext, useAIAssistant(), useIsAIAssistantEnabled()
+
+### Community 573 - "Community 573"
+_This domain is responsible for manipulating and enhancing audio signals through compression, effects, equalization, and reverb._
+Cohesion: 0.4
+Nodes (1): TrackListContext
+
+### Community 574 - "Community 574"
+_This domain is responsible for handling the creation, retrieval, and parsing of SUNO tags and their associated labels._
+Cohesion: 0.4
+Nodes (4): actions, context, TelegramContext, { webApp, user, platform, initData, isInitialized, isDevelopmentMode }
+
+### Community 575 - "Community 575"
+_This domain is responsible for managing and controlling audio stem volumes, states, and actions within a mixing environment._
+Cohesion: 0.4
+Nodes (0): 
+
+### Community 576 - "Community 576"
+_This domain is responsible for tracking and managing changes in application state over time._
+Cohesion: 0.4
+Nodes (0): 
+
+### Community 577 - "Community 577"
+_This domain is responsible for identifying and managing duplicate entries in a collection while maintaining a specific order._
+Cohesion: 0.4
+Nodes (2): defaultTrackEffects, ToneModule
+
+### Community 578 - "Community 578"
+_This domain is responsible for managing file operations, handling errors, enforcing quotas, and providing views of file-related data._
+Cohesion: 0.4
+Nodes (2): log, NOTE_NAMES
+
+### Community 579 - "Community 579"
+_This domain manages user engagement features such as liking, following, and sharing content._
+Cohesion: 0.4
+Nodes (2): log, PITCH_MAP
+
+### Community 580 - "Community 580"
+_This domain is responsible for managing data retrieval and state handling in a client application._
+Cohesion: 0.4
+Nodes (1): analyticsKeys
+
+### Community 581 - "Community 581"
+_This domain is responsible for managing data retrieval and state management for queries in an application._
+Cohesion: 0.4
+Nodes (2): TABLET_MAX, TABLET_MIN
+
+### Community 582 - "Community 582"
+_This domain is responsible for managing audio files, user mixes, and integrating AI-driven stem separation functionalities._
+Cohesion: 0.5
+Nodes (3): THRESHOLDS, usePerformanceTracking(), useWebVitalsReporter()
+
+### Community 583 - "Community 583"
+_This domain is responsible for managing and optimizing the user interface components and their associated data models and requirements._
+Cohesion: 0.4
+Nodes (1): sharedAudioContext
+
+### Community 584 - "Community 584"
+_This domain focuses on enhancing project setup, improving audit processes, automating tasks, optimizing performance, hardening production environments, and refining UI/UX design._
+Cohesion: 0.4
+Nodes (1): sharedAudioContext
+
+### Community 585 - "Community 585"
+_This domain is responsible for maintaining and organizing documentation related to project archives, specifications, and sprint progress._
+Cohesion: 0.6
+Nodes (4): DEFAULT_CONFIG, usePinchZoom(), useStudioGestures(), useSwipeNavigation()
+
+### Community 586 - "Community 586"
+_This domain is responsible for automating web interactions and file system operations using Puppeteer._
+Cohesion: 0.4
+Nodes (1): ARTIST_REPLACEMENTS
+
+### Community 587 - "Community 587"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 0.5
+Nodes (3): batchLoad(), createLazyRoute(), lazyLoad()
+
+### Community 588 - "Community 588"
+_This domain is responsible for managing and logging errors in a React application, particularly in development environments._
+Cohesion: 0.4
+Nodes (2): generationMachineConfig, lyricsWizardMachineConfig
+
+### Community 589 - "Community 589"
+_This domain is responsible for monitoring and reporting on the presence and severity of anomalies in data over a specified time period._
+Cohesion: 0.5
+Nodes (2): getTelegramSafeAreaInsets(), wouldCollideWithSafeArea()
+
+### Community 590 - "Community 590"
+_This domain is responsible for managing the icons and labels associated with various actions within a user interface._
+Cohesion: 0.4
+Nodes (2): notify, toast
+
+### Community 591 - "Community 591"
+_This domain is responsible for monitoring and representing changes in data states over time._
+Cohesion: 0.4
+Nodes (2): bufferPoolInstance, DEFAULT_CONFIG
+
+### Community 592 - "Community 592"
+_This domain is responsible for representing data trends and associated visual elements in charts._
+Cohesion: 0.4
+Nodes (3): isMobile, isTelegramApp, { webApp }
+
+### Community 593 - "Community 593"
+_This domain manages the representation and behavior of icons and tabs in a user interface._
+Cohesion: 0.4
+Nodes (3): FeatureProviders, GamificationProvider, PaywallProvider
+
+### Community 594 - "Community 594"
+_This domain is responsible for rendering and displaying chart data using visual components._
+Cohesion: 0.4
+Nodes (4): ANALYSIS_MODE_PROMPT, PRODUCER_REVIEW_PROMPT, SUNO_TAGS_REFERENCE, WRITING_MODE_PROMPT
+
+### Community 595 - "Community 595"
+_This domain is responsible for managing user interactions and prompts within a digital platform._
+Cohesion: 0.4
+Nodes (4): btn, i, probe, top
+
+### Community 596 - "Community 596"
+_This domain handles the management and state of active presets and their visibility._
+Cohesion: 0.4
+Nodes (5): Audio Element Pool, Claude Code Development Instructions, GlobalAudioProvider, iOS Safari Compatibility, Single Audio Element Pattern
+
+### Community 597 - "Community 597"
+_This domain is responsible for defining and managing the visual styles and sizes of user interface elements._
+Cohesion: 0.4
+Nodes (5): Accessibility Testing, E2E Tests with Playwright, Performance Testing, Testing Infrastructure Documentation, Unit Tests with Jest
+
+### Community 598 - "Community 598"
+_This domain manages the referral link sharing process, including statistics tracking and user feedback._
+Cohesion: 0.4
+Nodes (5): Audio Player No Sound Fix, Audio Player No Sound Fix V2, Audio System Improvements 2025-12-09, Professional Platform Visual Summary, Bug Fix Summary - Stem Studio
+
+### Community 599 - "Community 599"
+_This domain is responsible for managing and filtering templates based on user search queries and selected identifiers._
+Cohesion: 0.4
+Nodes (5): CHANGELOG.md, CODE_OF_CONDUCT.md, SECURITY.md, Documentation Improvements - GitHub Best Practices, Epic E008 - Quality & Infrastructure Improvements
+
+### Community 600 - "Community 600"
+_This domain is responsible for organizing and filtering prompt templates by categories and managing their associated icons._
+Cohesion: 0.5
+Nodes (5): Developer Quick Start Guide, Russian Navigation Guide, Russian Developer Guide, Project Structure Overview, Russian Documentation System
+
+### Community 601 - "Community 601"
+_This domain is responsible for handling user suggestions, including their visibility, analysis, and dismissal._
+Cohesion: 0.5
+Nodes (3): reactHooksWarnRules, restrictedImports, techDebtWarnRules
+
+### Community 602 - "Community 602"
+_This domain is responsible for viewing and logging MusicXML files._
+Cohesion: 0.83
+Nodes (3): applyWatermark(), detectWatermark(), watermarkAudio()
+
+### Community 603 - "Community 603"
+_This domain is responsible for managing the visual representation and interaction of categories in the user interface._
+Cohesion: 0.5
+Nodes (2): VoiceApiError, voiceCloneApi
+
+### Community 604 - "Community 604"
+_This domain is responsible for managing user interactions and feedback within a UI component._
+Cohesion: 0.5
+Nodes (3): [isLoading, setIsLoading], [message, setMessage], [title, setTitle]
+
+### Community 605 - "Community 605"
+_This domain manages user interactions with preset options, including navigation and feedback mechanisms._
+Cohesion: 0.5
+Nodes (3): hasPremium, isAdmin, isModerator
+
+### Community 606 - "Community 606"
+_This domain is responsible for managing color schemes and loading states for user interface components._
+Cohesion: 0.5
+Nodes (3): COLORS, { data, isLoading }, lyricsData
+
+### Community 607 - "Community 607"
+_This domain is responsible for managing track selection and detail view interactions in a media application._
+Cohesion: 0.5
+Nodes (3): MOCK_COHORTS, MOCK_RETENTION_TREND, summaryStats
+
+### Community 608 - "Community 608"
+_This domain is responsible for comparing different versions of content and adapting the user interface for mobile devices._
+Cohesion: 0.5
+Nodes (2): DAYS, HOURS
+
+### Community 609 - "Community 609"
+_This domain is responsible for defining and styling icons used in user interfaces._
+Cohesion: 0.5
+Nodes (3): [activeTab, setActiveTab], availableTabs, [expanded, setExpanded]
+
+### Community 610 - "Community 610"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 0.5
+Nodes (3): { minPitch, maxPitch, normalizedNotes, pitchRange }, NOTE_NAMES, octaveLines
+
+### Community 611 - "Community 611"
+_This domain manages the visual representation and categorization of user interface components._
+Cohesion: 0.5
+Nodes (3): BlogCardSkeleton, BlogFeaturedSkeleton, BlogListSkeleton
+
+### Community 612 - "Community 612"
+_This domain is responsible for handling fullscreen display functionality across different viewport sizes._
+Cohesion: 0.5
+Nodes (3): sizeMap, sizes, variantStyles
+
+### Community 613 - "Community 613"
+_This domain is responsible for managing timers and controlling content visibility based on timing events._
+Cohesion: 0.5
+Nodes (3): [isOpen, setIsOpen], sizeConfig, SIZES
+
+### Community 614 - "Community 614"
+_This domain is responsible for managing visual elements related to colors and icons, including their sizes and associated classes._
+Cohesion: 0.5
+Nodes (2): EmptyState, variantDefaults
+
+### Community 615 - "Community 615"
+_This domain is responsible for managing visual elements and their states in a user interface._
+Cohesion: 0.5
+Nodes (1): BRANDED_PROMPTS
+
+### Community 616 - "Community 616"
+_This domain is responsible for managing the visual representation and selection of genres and roles in a user interface._
+Cohesion: 0.5
+Nodes (0): 
+
+### Community 617 - "Community 617"
+_This domain is responsible for managing the publication status and categorization of projects._
+Cohesion: 0.5
+Nodes (3): isInsufficient, isLow, remaining
+
+### Community 618 - "Community 618"
+_This domain is responsible for tracking and managing elapsed time, progress, and remaining time for a timed operation._
+Cohesion: 0.5
+Nodes (3): isActive, isCompleted, isUpcoming
+
+### Community 619 - "Community 619"
+_This domain handles the selection and removal of instruments in a user interface._
+Cohesion: 0.5
+Nodes (2): GENRE_THEME_MAP, INITIAL_MESSAGE_OPTIONS
+
+### Community 620 - "Community 620"
+_Handles the state and selection of preset labels in a user interface._
+Cohesion: 0.5
+Nodes (3): handleApply, handleRefresh, {
+    suggestions,
+    userContext,
+    isAnalyzing,
+    lastAnalyzedAt,
+    error,
+    analyze,
+    dismissSuggestion,
+    setProjectContext,
+    hasContext,
+  }
+
+### Community 621 - "Community 621"
+_This domain is responsible for managing the creation and description of icons._
+Cohesion: 0.5
+Nodes (3): columns, isMobile, [tab, setTab]
+
+### Community 622 - "Community 622"
+_This domain is responsible for managing user interactions and input actions such as navigating back, redoing actions, saving changes, and undoing previous actions._
+Cohesion: 0.5
+Nodes (3): FeaturedSection, SKELETON_COUNT, TrackSkeleton
+
+### Community 623 - "Community 623"
+_This domain manages the representation and loading of change log data, including icons and labels for different change types._
+Cohesion: 0.5
+Nodes (3): is4K, isUltraWide, maxWidthClasses
+
+### Community 624 - "Community 624"
+_This domain manages the configuration and presentation of images, including error handling and overlay display._
+Cohesion: 0.5
+Nodes (3): count, filterOptions, isActive
+
+### Community 625 - "Community 625"
+_This domain is responsible for managing the visual properties and states of UI components, including button sizes, image error handling, and layout configurations._
+Cohesion: 0.5
+Nodes (2): handleClick, handleDoubleClick
+
+### Community 626 - "Community 626"
+_Handles user report details and submission status._
+Cohesion: 0.5
+Nodes (2): OptimizedLyricsPanel, parseLyrics()
+
+### Community 627 - "Community 627"
+_This domain manages user interactions, dialog states, and action execution within a mobile interface._
+Cohesion: 0.5
+Nodes (1): CONTINUE_STYLES
+
+### Community 628 - "Community 628"
+_This domain is responsible for managing and displaying various content sharing actions and links._
+Cohesion: 0.5
+Nodes (1): STRUCTURE_TEMPLATES
+
+### Community 629 - "Community 629"
+_This domain is responsible for quantifying and categorizing emotional states and their intensities._
+Cohesion: 0.5
+Nodes (2): handleMore(), { patterns }
+
+### Community 630 - "Community 630"
+_This domain is responsible for creating, managing, and controlling dialog interactions within a user interface._
+Cohesion: 0.5
+Nodes (2): [expanded, setExpanded], { hapticFeedback }
+
+### Community 631 - "Community 631"
+_This domain is responsible for managing the behavior and state of a drawer component in a user interface._
+Cohesion: 0.5
+Nodes (2): colorMap, iconMap
+
+### Community 632 - "Community 632"
+_This domain is responsible for managing and responding to errors in a React application._
+Cohesion: 0.5
+Nodes (3): baseOpacity, heightPercent, isCenter
+
+### Community 633 - "Community 633"
+_This domain is responsible for managing and displaying a hierarchical navigation structure for user interfaces._
+Cohesion: 0.5
+Nodes (3): { attributes, listeners, setNodeRef, transform, transition, isDragging }, hasVersions, style
+
+### Community 634 - "Community 634"
+_This domain is responsible for rendering and structuring textual content in a user interface._
+Cohesion: 0.5
+Nodes (3): iconSizes, PremiumBadge, sizeClasses
+
+### Community 635 - "Community 635"
+_This domain is responsible for managing deep link descriptions and routes, along with logging activities related to Telegram._
+Cohesion: 0.5
+Nodes (2): FEATURE_NAMES, TIER_NAMES
+
+### Community 636 - "Community 636"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 0.5
+Nodes (3): displayBio, [isExpanded, setIsExpanded], shouldTruncate
+
+### Community 637 - "Community 637"
+_This domain is responsible for managing and optimizing navigation routes within an application._
+Cohesion: 0.5
+Nodes (3): [formData, setFormData], [trackParams, setTrackParams], { updateTrack }
+
+### Community 638 - "Community 638"
+_Responsible for recording and managing application logs for monitoring and debugging purposes._
+Cohesion: 0.5
+Nodes (3): CHANNEL_CONFIG, config, Icon
+
+### Community 639 - "Community 639"
+_This domain is responsible for managing rendering settings and memory usage thresholds._
+Cohesion: 0.5
+Nodes (3): iconSize, iconSizes, sizeClasses
+
+### Community 640 - "Community 640"
+_This domain is responsible for managing user accounts, authentication, and authorization within the application._
+Cohesion: 0.5
+Nodes (3): Icon, isActive, settingsTabs
+
+### Community 641 - "Community 641"
+_This domain is responsible for managing default titles, query invalidation, operation endpoints, status messages, and progress indicators for API responses._
+Cohesion: 0.5
+Nodes (3): GAMIFICATION_TOGGLES, GENERATION_TOGGLES, SOCIAL_TOGGLES
+
+### Community 642 - "Community 642"
+_This domain is responsible for handling and organizing actions associated with different stem types and categories._
+Cohesion: 0.5
+Nodes (3): [direction, setDirection], [isSubmitting, setIsSubmitting], [prompt, setPrompt]
+
+### Community 643 - "Community 643"
+_This domain is responsible for managing the timing and synchronization of animation frames to ensure smooth visual transitions._
+Cohesion: 0.5
+Nodes (2): lyricsChanged, [showLyrics, setShowLyrics]
+
+### Community 644 - "Community 644"
+_This domain is responsible for managing the visual representation of musical elements in a digital environment._
+Cohesion: 0.5
+Nodes (3): isMac, modKey, { undo, redo, canUndo, canRedo, historyLength, historyIndex }
+
+### Community 645 - "Community 645"
+_Responsible for managing and providing information about various models._
+Cohesion: 0.5
+Nodes (2): useStudioTrackState(), useTrackStems()
+
+### Community 646 - "Community 646"
+_This domain is responsible for managing the application state, including history tracking and undo/redo functionality._
+Cohesion: 0.5
+Nodes (1): [showPresets, setShowPresets]
+
+### Community 647 - "Community 647"
+_This domain is responsible for managing the layout and navigation elements of a web application._
+Cohesion: 0.5
+Nodes (3): audioTracks, firstTrack, {
     isMobile,
     projectId,
     projectName,
@@ -4943,214 +4961,29 @@ Nodes (4): audioTracks, exportTracks, firstTrack, {
     TRACK_COLORS,
   }
 
-### Community 855 - "Community 855"
-Cohesion: 0.40
-Nodes (3): handleSelect, haptic, isActive
+### Community 648 - "Community 648"
+_This domain is responsible for handling invoice-related operations and error management._
+Cohesion: 0.5
+Nodes (3): SECTION_LABELS, TAG_CONFIGS, UI_TRANSLATIONS
 
-### Community 858 - "Community 858"
-Cohesion: 0.40
-Nodes (4): botLogger, isWebhookActive, [loading, setLoading], [webhookInfo, setWebhookInfo]
-
-### Community 859 - "Community 859"
-Cohesion: 0.40
-Nodes (3): colorStyles, handleClick, styles
-
-### Community 860 - "Community 860"
-Cohesion: 0.40
-Nodes (4): defaultScrollHeight, DIALOG_TABS, SHEET_TABS, tabs
-
-### Community 861 - "Community 861"
-Cohesion: 0.40
-Nodes (4): handleSwipeAddToQueue, handleSwipeSwitchVersion, { isOwnTrack }, { sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet }
-
-### Community 862 - "Community 862"
-Cohesion: 0.40
-Nodes (4): hasCreator, publicTrack, styleClass, titleClass
-
-### Community 864 - "Community 864"
-Cohesion: 0.40
-Nodes (3): shimmer, shimmerClass, TrackListSkeleton()
-
-### Community 865 - "Community 865"
-Cohesion: 0.40
-Nodes (3): patterns, sizeClasses, variantClasses
-
-### Community 866 - "Community 866"
-Cohesion: 0.50
-Nodes (4): CATEGORY_LABELS, getActionsByCategory(), getActionsByPriority(), TRACK_ACTIONS
-
-### Community 870 - "Community 870"
-Cohesion: 0.40
-Nodes (4): actions, context, TelegramContext, { webApp, user, platform, initData, isInitialized, isDevelopmentMode }
-
-### Community 873 - "Community 873"
-Cohesion: 0.40
-Nodes (3): log, QUEUE_STATE_STORAGE_KEY, QUEUE_STORAGE_KEY
-
-### Community 874 - "Community 874"
-Cohesion: 0.40
-Nodes (3): log, RADIO_FETCH_LIMIT, TRACKS_THRESHOLD
-
-### Community 875 - "Community 875"
-Cohesion: 0.50
-Nodes (4): AI_TOOLS, calculateStats(), parseSections(), useLyricsStudio()
-
-### Community 878 - "Community 878"
-Cohesion: 0.60
-Nodes (4): DEFAULT_CONFIG, usePinchZoom(), useStudioGestures(), useSwipeNavigation()
-
-### Community 891 - "Community 891"
-Cohesion: 0.40
-Nodes (3): FeatureProviders, GamificationProvider, PaywallProvider
-
-### Community 893 - "Community 893"
-Cohesion: 0.50
-Nodes (5): Developer Quick Start Guide, Russian Navigation Guide, Russian Developer Guide, Project Structure Overview, Russian Documentation System
-
-### Community 894 - "Community 894"
-Cohesion: 0.40
-Nodes (5): Environment Variables Documentation, TelegramContext React Context Provider, Supabase Client, Suno Send Audio Edge Function, Telegram Bot Edge Function
-
-### Community 895 - "Community 895"
-Cohesion: 0.40
-Nodes (5): CHANGELOG.md, CODE_OF_CONDUCT.md, SECURITY.md, Documentation Improvements - GitHub Best Practices, Epic E008 - Quality & Infrastructure Improvements
-
-### Community 899 - "Community 899"
-Cohesion: 0.40
-Nodes (5): Sprint 9A: Deduplication, Sprint 9B: Split Giant Files, Sprint 9C: Lyrics Consolidation, Sprint 9D: Reorganize components/ui, Sprint 9E: Final Verification
-
-### Community 900 - "Community 900"
-Cohesion: 0.90
-Nodes (5): API Inventory, Home / Generation Form, Library, Profile Page, Public Profile Page
-
-### Community 901 - "Community 901"
-Cohesion: 0.40
-Nodes (3): __dirname, projectRoot, TARGETS
-
-### Community 903 - "Community 903"
-Cohesion: 0.50
-Nodes (3): hasPremium, isAdmin, isModerator
-
-### Community 905 - "Community 905"
-Cohesion: 0.50
-Nodes (3): [activeTab, setActiveTab], availableTabs, [expanded, setExpanded]
-
-### Community 907 - "Community 907"
-Cohesion: 0.67
-Nodes (3): actions, handleAction(), navigate
-
-### Community 908 - "Community 908"
-Cohesion: 0.50
-Nodes (3): isPassed, position, visibleBeats
-
-### Community 909 - "Community 909"
-Cohesion: 0.50
-Nodes (3): BlogCardSkeleton, BlogFeaturedSkeleton, BlogListSkeleton
-
-### Community 910 - "Community 910"
-Cohesion: 0.50
-Nodes (4): Bot API 9.x Updates, Sprint 3 - Integration Payments, Telegram Payments Integration, Telegram Stars Payments
-
-### Community 911 - "Community 911"
-Cohesion: 0.50
-Nodes (3): CHANNEL_CONFIG, config, Icon
-
-### Community 912 - "Community 912"
-Cohesion: 0.67
-Nodes (3): checkLinks(), getAllMarkdownFiles(), IGNORED_DIRS
-
-### Community 914 - "Community 914"
-Cohesion: 0.50
-Nodes (3): COLORS, { data, isLoading }, lyricsData
-
-### Community 917 - "Community 917"
-Cohesion: 0.50
-Nodes (3): MOCK_COHORTS, MOCK_RETENTION_TREND, summaryStats
-
-### Community 919 - "Community 919"
-Cohesion: 0.50
-Nodes (3): { minPitch, maxPitch, normalizedNotes, pitchRange }, NOTE_NAMES, octaveLines
-
-### Community 920 - "Community 920"
-Cohesion: 0.50
-Nodes (3): [isOpen, setIsOpen], sizeConfig, SIZES
-
-### Community 921 - "Community 921"
-Cohesion: 0.67
-Nodes (3): getLevelTitle(), LEVEL_TITLES, UserLevel()
-
-### Community 922 - "Community 922"
-Cohesion: 0.50
-Nodes (3): isActive, isCompleted, isUpcoming
-
-### Community 923 - "Community 923"
-Cohesion: 0.50
-Nodes (3): handleApply, handleRefresh, {
-    suggestions,
-    userContext,
-    isAnalyzing,
-    lastAnalyzedAt,
-    error,
-    analyze,
-    dismissSuggestion,
-    setProjectContext,
-    hasContext,
-  }
-
-### Community 925 - "Community 925"
-Cohesion: 0.50
-Nodes (3): is4K, isUltraWide, maxWidthClasses
-
-### Community 929 - "Community 929"
-Cohesion: 0.50
-Nodes (3): { attributes, listeners, setNodeRef, transform, transition, isDragging }, hasVersions, style
-
-### Community 930 - "Community 930"
-Cohesion: 0.50
-Nodes (3): iconSizes, PremiumBadge, sizeClasses
-
-### Community 932 - "Community 932"
-Cohesion: 0.50
-Nodes (3): displayBio, [isExpanded, setIsExpanded], shouldTruncate
-
-### Community 933 - "Community 933"
-Cohesion: 0.50
-Nodes (3): iconSize, iconSizes, sizeClasses
-
-### Community 934 - "Community 934"
-Cohesion: 0.50
-Nodes (3): Icon, isActive, settingsTabs
-
-### Community 935 - "Community 935"
-Cohesion: 0.50
-Nodes (3): GAMIFICATION_TOGGLES, GENERATION_TOGGLES, SOCIAL_TOGGLES
-
-### Community 938 - "Community 938"
-Cohesion: 0.50
-Nodes (3): isMac, modKey, { undo, redo, canUndo, canRedo, historyLength, historyIndex }
-
-### Community 940 - "Community 940"
-Cohesion: 0.50
+### Community 649 - "Community 649"
+_This domain is responsible for managing navigation and deep linking within the MusicVerse AI Platform._
+Cohesion: 0.5
 Nodes (3): columnClasses, gapClasses, handleItemPress
 
-### Community 941 - "Community 941"
+### Community 650 - "Community 650"
+_This domain encompasses the data model, implementation, documentation, and specifications for the Mobile Studio V2 application._
 Cohesion: 0.83
 Nodes (3): getTelegramSafeAreaBottom(), getTelegramSafeAreaTop(), TelegramSafeArea()
 
-### Community 943 - "Community 943"
-Cohesion: 0.50
-Nodes (3): showMp3, showStems, showWav
+### Community 651 - "Community 651"
+_This domain is responsible for generating various reports related to sprint execution and continuation in project management._
+Cohesion: 0.5
+Nodes (1): TelegramThemeContext
 
-### Community 945 - "Community 945"
-Cohesion: 0.67
-Nodes (3): { data: parentTrack, isLoading }, handleClick(), navigate
-
-### Community 946 - "Community 946"
-Cohesion: 0.50
-Nodes (3): isAllowed, queryClient, toggleRemixMutation
-
-### Community 948 - "Community 948"
-Cohesion: 0.50
+### Community 652 - "Community 652"
+_This domain is responsible for validating properties related to different types of dialog components._
+Cohesion: 0.5
 Nodes (3): handleMenuClick, handlePlayClick, {
     sheetOpen,
     setSheetOpen,
@@ -5163,169 +4996,4136 @@ Nodes (3): handleMenuClick, handlePlayClick, {
     openSheet,
   }
 
-### Community 949 - "Community 949"
-Cohesion: 0.50
-Nodes (3): colorMap, LEDIndicator, sizeMap
+### Community 653 - "Community 653"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 0.5
+Nodes (3): showMp3, showStems, showWav
 
-### Community 950 - "Community 950"
-Cohesion: 0.50
+### Community 654 - "Community 654"
+_This domain is responsible for managing search engine optimization elements such as descriptions and titles._
+Cohesion: 0.5
+Nodes (2): useAudioWatermark(), WatermarkActions()
+
+### Community 655 - "Community 655"
+_This domain handles the logging and status management of webhooks in an application._
+Cohesion: 0.67
+Nodes (3): { data: parentTrack, isLoading }, handleClick(), navigate
+
+### Community 656 - "Community 656"
+_This domain is responsible for defining visual elements and their layout in a user interface._
+Cohesion: 0.5
+Nodes (1): { data: changelog, isLoading }
+
+### Community 657 - "Community 657"
+_This domain manages the representation and loading state of color-coded financial changes, specifically focusing on revenue fluctuations._
+Cohesion: 0.5
+Nodes (3): isAllowed, queryClient, toggleRemixMutation
+
+### Community 658 - "Community 658"
+_This domain is responsible for organizing and visualizing time-related data._
+Cohesion: 0.5
+Nodes (3): AlertDialog, AlertDialogPortal, AlertDialogTrigger
+
+### Community 659 - "Community 659"
+_This domain is responsible for managing the visibility and state of user interface components._
+Cohesion: 0.5
+Nodes (3): Avatar, [isLoaded, setIsLoaded], optimizedSrc
+
+### Community 660 - "Community 660"
+_This domain is responsible for managing and executing data analysis processes and tracking their status._
+Cohesion: 0.5
+Nodes (2): Button(), buttonVariants
+
+### Community 661 - "Community 661"
+_This domain manages the loading state and change indicators for data statistics and summaries._
+Cohesion: 0.5
+Nodes (3): Collapsible, CollapsibleContent, CollapsibleTrigger
+
+### Community 662 - "Community 662"
+_This domain is responsible for managing and organizing historical data records._
+Cohesion: 0.5
+Nodes (1): sizeClasses
+
+### Community 663 - "Community 663"
+_This domain is responsible for rendering interactive icons within a container in a user interface._
+Cohesion: 0.5
 Nodes (3): sizeClasses, SkeletonCard, textSizeClasses
 
-### Community 951 - "Community 951"
-Cohesion: 0.50
+### Community 664 - "Community 664"
+_This domain is responsible for managing grid configurations and sizes for responsive design._
+Cohesion: 0.5
 Nodes (3): colorClasses, containerSizes, sizeClasses
 
-### Community 952 - "Community 952"
-Cohesion: 0.50
+### Community 665 - "Community 665"
+_This domain is responsible for handling project opening, navigation, and displaying status information and type labels._
+Cohesion: 0.5
+Nodes (3): Popover, PopoverContent, PopoverTrigger
+
+### Community 666 - "Community 666"
+_This domain is responsible for managing the state and interactions related to artist creation and selection in a user interface._
+Cohesion: 0.5
 Nodes (3): hasLeft, hasRight, { offset, isOpen, activeAction, handlers, executeAction, close }
 
-### Community 953 - "Community 953"
-Cohesion: 0.50
+### Community 667 - "Community 667"
+_This domain manages the state and behavior of audio elements in a system._
+Cohesion: 0.5
 Nodes (3): ToggleGroup, ToggleGroupContext, ToggleGroupItem
 
-### Community 954 - "Community 954"
-Cohesion: 0.50
+### Community 668 - "Community 668"
+_This domain is responsible for managing user credits and statistics._
+Cohesion: 0.5
 Nodes (3): IconTouchButton, PressableCard, TouchFeedback
 
-### Community 955 - "Community 955"
+### Community 669 - "Community 669"
+_This domain is responsible for assisting users in creating song lyrics based on various genres, moods, and structures._
 Cohesion: 0.67
 Nodes (3): emptyStateConfigs, isLucideIcon(), UnifiedEmptyState()
 
-### Community 961 - "Community 961"
-Cohesion: 0.67
-Nodes (3): DEFAULT_SYNC_THRESHOLD, useAudioSync(), useAutoSync()
+### Community 670 - "Community 670"
+_This domain is responsible for managing and displaying artist information within a user interface._
+Cohesion: 0.5
+Nodes (2): useVoiceInput(), VoiceInputButton()
 
-### Community 971 - "Community 971"
-Cohesion: 0.50
-Nodes (3): MAX_FILE_SIZE, SUPPORTED_FORMATS, useKlangioAnalysis()
+### Community 671 - "Community 671"
+_Manages the current status and selection of game entities._
+Cohesion: 0.5
+Nodes (3): colorMap, LEDIndicator, sizeMap
 
-### Community 975 - "Community 975"
+### Community 672 - "Community 672"
+_This domain is responsible for managing artist matching and providing feedback on suggestion applications._
+Cohesion: 0.5
+Nodes (2): shimmer, shimmerClass
+
+### Community 673 - "Community 673"
+_This domain manages character counting and validation against predefined limits._
+Cohesion: 0.5
+Nodes (3): isPassed, position, visibleBeats
+
+### Community 674 - "Community 674"
+_This domain is responsible for managing user input in a textarea component, including sending data and handling keyboard events._
+Cohesion: 0.5
+Nodes (1): MusicLabAudioContext
+
+### Community 675 - "Community 675"
+_This domain is responsible for providing artist names, examples of their work, and suggestions for similar artists or tracks._
+Cohesion: 0.5
+Nodes (0): 
+
+### Community 676 - "Community 676"
+_This domain is responsible for handling and displaying icons with specific colors and edit states._
+Cohesion: 0.5
+Nodes (1): analysisLogger
+
+### Community 677 - "Community 677"
+_This domain is responsible for managing and organizing hint aliases and their registrations._
+Cohesion: 0.5
+Nodes (1): DEFAULT_CONFIG
+
+### Community 678 - "Community 678"
+_This domain manages user authentication status and navigation within the application._
+Cohesion: 0.5
+Nodes (1): ConfirmContext
+
+### Community 679 - "Community 679"
+_This domain tracks user interactions and progress within an application._
+Cohesion: 0.5
+Nodes (0): 
+
+### Community 680 - "Community 680"
+_This domain is responsible for determining display characteristics such as 4K resolution and ultra-wide formats._
+Cohesion: 0.5
+Nodes (1): GENRE_DB_VALUES
+
+### Community 681 - "Community 681"
+_This domain is responsible for rendering visual elements and displaying information to users._
+Cohesion: 0.5
+Nodes (1): ToneModule
+
+### Community 682 - "Community 682"
+_This domain is responsible for managing and displaying icons associated with different categories._
+Cohesion: 0.5
+Nodes (1): generateNoteId()
+
+### Community 683 - "Community 683"
+_This domain handles the management and filtering of change types, including user confirmation for deletions and time tracking of changes._
+Cohesion: 0.5
+Nodes (2): OfflineBanner(), useOffline()
+
+### Community 684 - "Community 684"
+_This domain is responsible for parsing and organizing structured content into manageable sections._
 Cohesion: 0.67
 Nodes (3): paymentHistoryKeys, usePaymentHistory(), useRecentTransactions()
 
-### Community 977 - "Community 977"
+### Community 685 - "Community 685"
+_This domain manages the presentation and selection of analysis options in a user interface._
+Cohesion: 0.5
+Nodes (2): KLANGIO_MAX_DURATION_SECONDS, log
+
+### Community 686 - "Community 686"
+_Manages the expanded state of UI components._
 Cohesion: 0.67
 Nodes (3): sectionNotesKeys, useSectionNotes(), useSectionNotesData()
 
-### Community 980 - "Community 980"
-Cohesion: 0.50
+### Community 687 - "Community 687"
+_This domain is responsible for managing and filtering categories based on user input and active selections._
+Cohesion: 0.5
+Nodes (2): CREDITS_QUERY_KEY, SUBSCRIPTION_QUERY_KEY
+
+### Community 688 - "Community 688"
+_This domain is responsible for managing the navigation structure and state within an application._
+Cohesion: 0.5
+Nodes (1): DEFAULT_LEVELS
+
+### Community 689 - "Community 689"
+_This domain is responsible for managing and filtering search queries and their results._
+Cohesion: 0.5
+Nodes (2): STATUS_MESSAGES, STATUS_PROGRESS
+
+### Community 690 - "Community 690"
+_Represents the details of a music album including its description, name, price per track, and total track count._
+Cohesion: 0.5
+Nodes (2): STATUS_MESSAGES, STATUS_PROGRESS
+
+### Community 691 - "Community 691"
+_Responsible for configuring and managing the status of various entities within the system._
+Cohesion: 0.5
+Nodes (2): STATUS_MESSAGES, STATUS_PROGRESS
+
+### Community 692 - "Community 692"
+_This domain is responsible for rendering interactive line charts using the Recharts library._
+Cohesion: 0.5
+Nodes (2): DEBOUNCE_MS, EMPTY_RESULT
+
+### Community 693 - "Community 693"
+_This domain manages the playback and organization of audio tracks in a queue._
+Cohesion: 0.5
+Nodes (1): MIX_PRESETS
+
+### Community 694 - "Community 694"
+_This domain is responsible for managing and organizing content along with its associated metadata and language specifications._
+Cohesion: 0.67
+Nodes (3): DEFAULT_SYNC_THRESHOLD, useAudioSync(), useAutoSync()
+
+### Community 695 - "Community 695"
+_This domain is responsible for managing and calculating the weights of different media genres._
+Cohesion: 0.5
+Nodes (1): ToneModule
+
+### Community 696 - "Community 696"
+_This domain manages the onboarding process for users, tracking completed steps and timing the onboarding duration._
+Cohesion: 0.5
+Nodes (0): 
+
+### Community 697 - "Community 697"
+_This domain manages the functionalities related to recording audio, including state management and duration formatting._
+Cohesion: 0.5
+Nodes (1): DEFAULT_OPTIONS
+
+### Community 698 - "Community 698"
+_This domain handles the state and display of transcription data, including expansion toggling and loading status._
+Cohesion: 0.5
+Nodes (1): useStudioKeyboardShortcuts()
+
+### Community 699 - "Community 699"
+_This domain manages parameters and functions related to the comparison and display of compression differences._
+Cohesion: 0.5
+Nodes (2): OPERATION_LABELS, STEM_TYPES
+
+### Community 700 - "Community 700"
+_This domain is responsible for managing audio references and their differences._
+Cohesion: 0.67
+Nodes (3): isHapticSupported(), MIN_HAPTIC_VERSION, useMobileHaptic()
+
+### Community 701 - "Community 701"
+_This domain manages mobile media playback features, including volume display and progress tracking._
+Cohesion: 0.5
+Nodes (3): supabase, SUPABASE_PUBLISHABLE_KEY, SUPABASE_URL
+
+### Community 702 - "Community 702"
+_This domain is responsible for configuring and formatting time-related information and statuses._
+Cohesion: 0.5
 Nodes (3): interactiveTap, presets, transitions
 
-### Community 983 - "Community 983"
-Cohesion: 0.50
+### Community 703 - "Community 703"
+_This domain is responsible for managing audio effects, muting, soloing tracks, and providing haptic feedback._
+Cohesion: 0.5
+Nodes (0): 
+
+### Community 704 - "Community 704"
+_Manages the expansion state of a track in a user interface._
+Cohesion: 0.5
+Nodes (1): studioProjectToDAWProject()
+
+### Community 705 - "Community 705"
+_This domain is responsible for defining and managing styles related to size and variant options in a user interface._
+Cohesion: 0.5
 Nodes (3): [activeTab, setActiveTab], isMobile, settings
 
-### Community 985 - "Community 985"
-Cohesion: 0.50
+### Community 706 - "Community 706"
+_This domain is responsible for defining and managing patterns of haptic feedback for user interactions._
+Cohesion: 0.5
+Nodes (2): { voices, isLoading, deleteVoice, isDeleting }, [wizardOpen, setWizardOpen]
+
+### Community 707 - "Community 707"
+_This domain is responsible for managing and displaying metadata attributes of media items._
+Cohesion: 0.67
+Nodes (3): fetchFunnelDropoffStats(), analyzeFunnelDropoff(), getFunnelDropoffStats()
+
+### Community 708 - "Community 708"
+_This domain manages user interactions for media playback, including adding tracks to a queue, switching versions, and controlling playback state._
+Cohesion: 0.5
 Nodes (3): computeLyricsStats, formatLyrics, parseLyricsStructure
 
-### Community 986 - "Community 986"
-Cohesion: 0.50
+### Community 709 - "Community 709"
+_This domain is responsible for managing color styles and click interactions in user interface components._
+Cohesion: 0.5
+Nodes (1): TRACK_COLORS
+
+### Community 710 - "Community 710"
+_This domain is responsible for managing the display and behavior of tabs within a user interface._
+Cohesion: 0.5
 Nodes (3): LoggedIn, LoggedOut, meta
 
-### Community 987 - "Community 987"
-Cohesion: 0.50
+### Community 711 - "Community 711"
+_This domain is responsible for creating a collapsible content structure that allows users to expand and collapse sections of information._
+Cohesion: 0.5
 Nodes (3): LoggedIn, LoggedOut, meta
 
-### Community 988 - "Community 988"
-Cohesion: 0.50
+### Community 712 - "Community 712"
+_This domain is responsible for defining and managing alerts, including their descriptions and titles._
+Cohesion: 0.5
 Nodes (3): lamejs, Mp3Encoder, WavHeader
 
-### Community 990 - "Community 990"
-Cohesion: 0.50
-Nodes (3): reactHooksWarnRules, restrictedImports, techDebtWarnRules
-
-### Community 992 - "Community 992"
-Cohesion: 0.50
+### Community 713 - "Community 713"
+_This domain is responsible for defining and managing the visual styling and layout of user interface elements._
+Cohesion: 0.5
 Nodes (4): Grammy Framework Migration, Reactive Navigation System, Real-time Synchronization, Telegram Bot Native App Style
 
-### Community 993 - "Community 993"
-Cohesion: 0.50
-Nodes (4): Index Page, Library Page, PullToRefreshWrapper Component, TrackCardSkeleton Component
+### Community 714 - "Community 714"
+_This domain is responsible for defining and managing styles and tags for text presentation and truncation in a user interface._
+Cohesion: 0.5
+Nodes (4): Bot API 9.x Updates, Sprint 3 - Integration Payments, Telegram Payments Integration, Telegram Stars Payments
 
-### Community 994 - "Community 994"
-Cohesion: 0.50
-Nodes (3): __dirname, root, TARGETS
-
-### Community 995 - "Community 995"
-Cohesion: 0.50
-Nodes (4): Sprint 034: Generation Reliability, Sprint 035: E2E Tests and Platform Exports, Sprint 036: Quality and Stability, Sprint 037: Infrastructure Hardening & Developer Experience
-
-### Community 996 - "Community 996"
+### Community 715 - "Community 715"
+_This domain is responsible for rendering and managing user interface elements and their styles._
 Cohesion: 0.67
-Nodes (3): buildDynamicPrompt(), logger, simpleHash()
+Nodes (2): content, fs
 
-### Community 997 - "Community 997"
+### Community 716 - "Community 716"
+_This domain is responsible for managing the size and variant options of products._
 Cohesion: 0.67
-Nodes (3): Security Checklist, Security Operations Guide, Reactive Security
+Nodes (1): ProtectedRoute
 
-### Community 1002 - "Community 1002"
+### Community 717 - "Community 717"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
 Cohesion: 0.67
-Nodes (3): Audit Completion - Version System & Telegram, Version Management System (A/B), is_master vs is_primary Conflict
+Nodes (0): 
 
-### Community 1003 - "Community 1003"
+### Community 718 - "Community 718"
+_This domain is responsible for displaying contextual information to users through tooltips triggered by specific UI elements._
 Cohesion: 0.67
-Nodes (3): Blocker B001: iOS Safari audio crash, Blocker B003: Memory leak, Phase 6: Voice Cloning Integration
+Nodes (1): { currentMetrics, activeAlerts, healthStatus, isLoading, refetch }
 
-### Community 1005 - "Community 1005"
+### Community 719 - "Community 719"
+_This domain is responsible for configuring application settings and managing feature availability._
 Cohesion: 0.67
-Nodes (3): CDN Integration Functions (src/lib/cdn.ts), Sprint Execution Summary - Infrastructure Complete, Storage Helper Functions (src/lib/storage.ts)
+Nodes (2): changedCount, [isExpanded, setIsExpanded]
 
-### Community 1104 - "Community 1104"
+### Community 720 - "Community 720"
+_This domain is responsible for categorizing and retrieving actions based on their labels and priorities._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 721 - "Community 721"
+_Responsible for managing and storing preset lyrics for music applications._
+Cohesion: 0.67
+Nodes (2): beatsPerMeasure, measures
+
+### Community 722 - "Community 722"
+_Manages customizable settings and templates for project setups._
+Cohesion: 0.67
+Nodes (2): analysis, displayStrokes
+
+### Community 723 - "Community 723"
+_Responsible for creating and managing quick presets for user configurations._
+Cohesion: 0.67
+Nodes (2): DIALOG_CONFIG, DIALOG_PRESETS
+
+### Community 724 - "Community 724"
+_This domain is responsible for managing and retrieving available genres for media content._
+Cohesion: 0.67
+Nodes (2): DrumStepLengthSelector, stepLengths
+
+### Community 725 - "Community 725"
+_This domain is responsible for managing and manipulating z-index values for layering elements in a user interface._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 726 - "Community 726"
+_This domain manages the context and functionality of an AI assistant feature._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 727 - "Community 727"
+_Responsible for managing and organizing a list of tracks in a music application._
+Cohesion: 0.67
+Nodes (2): hasError, styleValidation
+
+### Community 728 - "Community 728"
+_This domain is responsible for managing the state and interactions of a Telegram bot application._
+Cohesion: 0.67
+Nodes (2): hasHeader, toneToClass
+
+### Community 729 - "Community 729"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 0.67
+Nodes (2): DesktopDashboardLayout, gapClasses
+
+### Community 730 - "Community 730"
+_This domain is responsible for managing and applying audio effects in a tone generation module._
+Cohesion: 0.67
+Nodes (2): isMobile, layoutRatio
+
+### Community 731 - "Community 731"
+_This domain is responsible for managing and recording log entries with specific note names._
+Cohesion: 0.67
+Nodes (2): sizeMap, sizes
+
+### Community 732 - "Community 732"
+_This domain is responsible for managing and mapping audio pitch data for sound manipulation and analysis._
+Cohesion: 0.67
+Nodes (1): STEP_INFO
+
+### Community 733 - "Community 733"
+_This domain manages the initiation and display logic for user onboarding experiences._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 734 - "Community 734"
+_Responsible for handling and managing keys used for analytics tracking and reporting._
+Cohesion: 0.67
+Nodes (1): WORKFLOWS
+
+### Community 735 - "Community 735"
+_This domain is responsible for managing cache keys and enforcing cache size limits._
+Cohesion: 1.0
+Nodes (2): getScoreLabel(), ProducerResultCard()
+
+### Community 736 - "Community 736"
+_Defines the maximum and minimum specifications for tablet devices._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 737 - "Community 737"
+_This domain is responsible for capturing and processing user voice commands through a button interface._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 738 - "Community 738"
+_This domain is responsible for defining and managing default thresholds for various parameters._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 739 - "Community 739"
+_This domain is responsible for tracking and reporting application performance metrics and thresholds._
+Cohesion: 0.67
+Nodes (2): feature, Icon
+
+### Community 740 - "Community 740"
+_Responsible for managing and sharing audio contexts across different components in an application._
+Cohesion: 0.67
+Nodes (1): { transactions, isLoading, hasMore, loadMore, isLoadingMore, refetch, isRefetching }
+
+### Community 741 - "Community 741"
+_Responsible for managing and sharing audio contexts across different components or modules._
+Cohesion: 0.67
+Nodes (2): containerRef, visibleLines
+
+### Community 742 - "Community 742"
+_This domain is responsible for managing user gestures and interactions within a software application._
+Cohesion: 0.67
+Nodes (2): lastOne, lastTwo
+
+### Community 743 - "Community 743"
+_This domain is responsible for managing biometric authentication processes and logging related activities._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 744 - "Community 744"
+_Responsible for managing and updating artist information and their replacements._
+Cohesion: 0.67
+Nodes (2): displayName, initials
+
+### Community 745 - "Community 745"
+_This domain is responsible for efficiently loading data in batches and on-demand to optimize performance._
+Cohesion: 0.67
+Nodes (1): SIZES
+
+### Community 746 - "Community 746"
+_This domain is responsible for managing and determining the safe area insets for user interface layouts._
+Cohesion: 0.67
+Nodes (2): isCompleted, isCurrent
+
+### Community 747 - "Community 747"
+_This domain is responsible for identifying the type of device and application being used._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 748 - "Community 748"
+_This domain is responsible for enhancing user interaction and monetization through features like gamification and paywalls._
+Cohesion: 0.67
+Nodes (2): VARIANT_CLASSES, variantConfig
+
+### Community 749 - "Community 749"
+_This domain is responsible for managing and storing information related to players and studios in a media application._
+Cohesion: 0.67
+Nodes (2): mood, style
+
+### Community 750 - "Community 750"
+_This domain is responsible for generating and managing prompts and tags related to content creation and analysis._
+Cohesion: 0.67
+Nodes (2): QUICK_PRESETS, QuickPresets()
+
+### Community 751 - "Community 751"
+_This domain encompasses the planning, documentation, and implementation processes for integrating Telegram functionalities into a system._
+Cohesion: 0.67
+Nodes (2): suggestions, SUGGESTIONS_RULES
+
+### Community 752 - "Community 752"
+_This domain is responsible for tracking and auditing the progress and continuity of software development sessions across various sprints._
+Cohesion: 0.67
+Nodes (1): TrackHistoryItem
+
+### Community 753 - "Community 753"
+_This domain is responsible for the standardization and integration of user interface components across applications._
+Cohesion: 0.67
+Nodes (2): modes, RecordingTypeSelector
+
+### Community 754 - "Community 754"
+_This domain is responsible for the implementation and integration of payment features within the Telegram platform._
+Cohesion: 0.67
+Nodes (1): barHeights
+
+### Community 755 - "Community 755"
+_This domain is responsible for documenting project statuses, specifications, and sprint progress in software development._
+Cohesion: 0.67
+Nodes (2): TELEGRAM_FEATURES, TelegramTab()
+
+### Community 756 - "Community 756"
+_This domain is responsible for managing the loading state and user messages in a user interface._
+Cohesion: 0.67
+Nodes (2): hasActiveEffects, [isOpen, setIsOpen]
+
+### Community 757 - "Community 757"
+_This domain manages user permissions and roles within a system._
+Cohesion: 0.67
+Nodes (1): duration
+
+### Community 758 - "Community 758"
+_This domain manages the loading and representation of song lyrics and associated color themes._
+Cohesion: 0.67
+Nodes (2): limitedTypes, moreCount
+
+### Community 759 - "Community 759"
+_This domain is responsible for analyzing user retention trends within defined cohorts._
+Cohesion: 0.67
+Nodes (2): OptimizedVolumeSlider, SIZES
+
+### Community 760 - "Community 760"
+_This domain is responsible for managing the active state and visibility of tabs in a user interface._
+Cohesion: 0.67
+Nodes (2): ActionItem, StudioActionsSheet
+
+### Community 761 - "Community 761"
+_This domain manages the range and normalization of musical pitches and notes._
+Cohesion: 0.67
+Nodes (1): {
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }
+
+### Community 762 - "Community 762"
+_This domain is responsible for providing loading placeholders for blog-related components._
+Cohesion: 0.67
+Nodes (2): CATEGORY_COLORS, parsedTags
+
+### Community 763 - "Community 763"
+_Manages the mapping and styles of product sizes and variants._
+Cohesion: 0.67
+Nodes (2): showDetails, showTogglePublic
+
+### Community 764 - "Community 764"
+_This domain manages the open/closed state of a modal and its size configuration._
+Cohesion: 0.67
+Nodes (1): TechInfoItem
+
+### Community 765 - "Community 765"
+_This domain manages the playback state and duration of media content._
+Cohesion: 0.67
+Nodes (2): Alert, alertVariants
+
+### Community 766 - "Community 766"
+_Responsible for creating and managing branded prompts for user engagement._
+Cohesion: 0.67
+Nodes (2): Card, cardVariants
+
+### Community 767 - "Community 767"
+_This domain is responsible for assessing the availability and sufficiency of resources._
+Cohesion: 0.67
+Nodes (2): Label, labelVariants
+
+### Community 768 - "Community 768"
+_This domain is responsible for managing and representing visual components such as colors and icons in a user interface._
+Cohesion: 0.67
+Nodes (1): { containerRef, isPulling, isRefreshing, pullDistance, progress }
+
+### Community 769 - "Community 769"
+_This domain is responsible for managing the mapping of genres to themes and defining initial message options for user interactions._
+Cohesion: 0.67
+Nodes (2): RadioGroup, RadioGroupItem
+
+### Community 770 - "Community 770"
+_This domain is responsible for managing user suggestions and analysis processes within a project context._
+Cohesion: 0.67
+Nodes (2): ScrollArea, ScrollBar
+
+### Community 771 - "Community 771"
+_This domain is responsible for managing the state and representation of tasks._
+Cohesion: 0.67
+Nodes (2): roundedClass, widths
+
+### Community 772 - "Community 772"
+_This domain is responsible for managing user interactions with preset options, including providing haptic feedback._
+Cohesion: 0.67
+Nodes (2): sizeClasses, skeletonVariants
+
+### Community 773 - "Community 773"
+_This domain is responsible for managing and processing data through counting, filtering options, and determining active states._
+Cohesion: 0.67
+Nodes (2): Toggle, toggleVariants
+
+### Community 774 - "Community 774"
+_This domain is responsible for managing the visibility and styling of categories, including tracking hidden items._
+Cohesion: 0.67
+Nodes (2): ResponsiveContainer, sizeStyles
+
+### Community 775 - "Community 775"
+_This domain is responsible for managing user input events such as single and double clicks._
+Cohesion: 0.67
+Nodes (2): completedCount, progress
+
+### Community 776 - "Community 776"
+_This domain is responsible for defining and managing the visual representation and labels of different section types._
+Cohesion: 0.67
+Nodes (1): telegramLogger
+
+### Community 777 - "Community 777"
+_This domain is responsible for managing visual elements and processes within the application._
+Cohesion: 0.67
+Nodes (1): telegramLogger
+
+### Community 778 - "Community 778"
+_This domain is responsible for managing the selection state and optimization options of items._
+Cohesion: 0.67
+Nodes (1): initialState
+
+### Community 779 - "Community 779"
+_This domain is responsible for managing and processing various patterns in the application._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 780 - "Community 780"
+_This domain is responsible for managing visual transitions between mobile application pages._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 781 - "Community 781"
+_This domain is responsible for managing and committing values in a transactional context._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 782 - "Community 782"
+_This domain is responsible for managing the expanded state of UI components and providing haptic feedback to enhance user interactions._
+Cohesion: 0.67
+Nodes (1): MIN_HAPTIC_VERSION
+
+### Community 783 - "Community 783"
+_This domain is responsible for managing visual elements like colors and icons used in the user interface._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 784 - "Community 784"
+_This domain is responsible for handling the display and functionality of offline banners in an application._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 785 - "Community 785"
+_This domain is responsible for managing the visual transitions and interactions of UI elements._
+Cohesion: 1.0
+Nodes (2): formatCount(), usePlatformStats()
+
+### Community 786 - "Community 786"
+_This domain is responsible for defining and managing the features and tiers of a software application._
+Cohesion: 0.67
+Nodes (1): STORAGE_KEY
+
+### Community 787 - "Community 787"
+_Manages the display and truncation of user biography information._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 788 - "Community 788"
+_This domain is responsible for calculations and properties related to circles._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 789 - "Community 789"
+_This domain is responsible for defining musical elements such as key signatures and vocal styles._
+Cohesion: 0.67
+Nodes (2): IMPORTANT_ACTIONS, useStudioActivityLogger()
+
+### Community 790 - "Community 790"
+_This domain is responsible for configuring and managing channel-related settings and icons._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 791 - "Community 791"
+_Manages the value and behavior of a slider component in a graphical user interface._
+Cohesion: 1.0
+Nodes (2): useSingleTrackEnhancedData(), useTrackEnhancedData()
+
+### Community 792 - "Community 792"
+_This domain manages the configuration and categorization of icon sizes and their corresponding CSS classes._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 793 - "Community 793"
+_This domain is responsible for managing the visual elements and their active states within the application settings._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 794 - "Community 794"
+_This domain manages the activation and configuration of various features within a software application._
+Cohesion: 0.67
+Nodes (1): audioLogger
+
+### Community 795 - "Community 795"
+_This domain manages the selection and tracking of various types._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 796 - "Community 796"
+_This domain manages keyboard shortcuts and command history for undo and redo functionality._
+Cohesion: 1.0
+Nodes (2): checkPiPSupport(), usePictureInPicture()
+
+### Community 797 - "Community 797"
+_Responsible for displaying and controlling the visibility of preset configurations._
+Cohesion: 0.67
+Nodes (1): AUDIO_SETTINGS_BY_MODE
+
+### Community 798 - "Community 798"
+_This domain is responsible for managing audio settings such as mute, solo, and volume adjustments._
+Cohesion: 0.67
+Nodes (1): stemTypeConfig
+
+### Community 799 - "Community 799"
+_This domain is responsible for managing user selections and providing haptic feedback based on the active state of the interface._
+Cohesion: 0.67
+Nodes (1): DEFAULT_STATE
+
+### Community 800 - "Community 800"
+_Responsible for adding new tracks to a music library or playlist._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 801 - "Community 801"
+_This domain is responsible for managing the display and configuration of user interface elements and their translations._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 802 - "Community 802"
+_This domain manages the visual arrangement and interaction of items in a grid format._
+Cohesion: 0.67
+Nodes (1): DEFAULT_STEM_STATE
+
+### Community 803 - "Community 803"
+_Manages safe area insets for Telegram's user interface._
+Cohesion: 0.67
+Nodes (1): DEFAULT_OPTIONS
+
+### Community 804 - "Community 804"
+_Manages and customizes themes for Telegram messaging applications._
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 805 - "Community 805"
+_This domain is responsible for handling user input prompts and managing the generation state._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 806 - "Community 806"
+_This domain manages user interactions with media playback and UI elements._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 807 - "Community 807"
+_This domain is responsible for displaying various audio file formats._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 808 - "Community 808"
+_This domain manages the loading state and navigation for a parent track entity._
+Cohesion: 0.67
+Nodes (1): log
+
+### Community 809 - "Community 809"
+_This domain is responsible for tracking changes in data and managing loading states._
+Cohesion: 0.67
+Nodes (2): SAMPLES, WORKER_COUNT
+
+### Community 810 - "Community 810"
+_This domain manages client access permissions and interactions with a remix mutation feature._
+Cohesion: 0.67
+Nodes (1): DEFAULT_EXCLUDE_KEYS
+
+### Community 811 - "Community 811"
+_This domain is responsible for managing the display and triggering of alert dialogs within an application._
+Cohesion: 0.67
+Nodes (2): navigate, { showBackButton, hideBackButton, hapticFeedback }
+
+### Community 812 - "Community 812"
+_This domain is responsible for defining the visual arrangement and animation behavior of user interface components._
+Cohesion: 0.67
+Nodes (2): navigate, { showBackButton, hideBackButton, hapticFeedback }
+
+### Community 813 - "Community 813"
+_This domain is responsible for managing the loading state and optimized source of images for avatars._
+Cohesion: 0.67
+Nodes (2): { data: metrics }, isMobile
+
+### Community 814 - "Community 814"
+_This domain is responsible for defining and managing the appearance and behavior of buttons in a user interface._
+Cohesion: 0.67
+Nodes (2): AnalyticsProvider, WebVitalsReporter
+
+### Community 815 - "Community 815"
+_This domain is responsible for managing expandable and collapsible user interface components._
+Cohesion: 0.67
+Nodes (2): CoreProviders, queryClient
+
+### Community 816 - "Community 816"
+_This domain is responsible for defining and managing various size classifications for UI components._
+Cohesion: 0.67
+Nodes (2): ACTIVE_REFERENCE_KEY, REFERENCE_EXPIRY_MS
+
+### Community 817 - "Community 817"
+_This domain is responsible for representing and providing information about emotional states._
+Cohesion: 0.67
+Nodes (2): DEFAULT_PROVIDER_FOR_TYPE, PROVIDER_CAPABILITIES
+
+### Community 818 - "Community 818"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (2): getTelegramHaptic(), getTelegramWebApp()
+
+### Community 819 - "Community 819"
+_This domain is responsible for displaying contextual information when a user hovers over a trigger element._
+Cohesion: 0.67
+Nodes (2): r, v
+
+### Community 820 - "Community 820"
+_This domain is responsible for defining and managing the various attributes related to product variations such as color, size, and container specifications._
+Cohesion: 0.67
+Nodes (2): html, response
+
+### Community 821 - "Community 821"
+_Responsible for displaying contextual information in a floating overlay triggered by user interaction._
+Cohesion: 0.67
+Nodes (1): queryClient
+
+### Community 822 - "Community 822"
+_This domain manages the state and behavior of a navigational component with directional controls and action handling._
+Cohesion: 0.67
+Nodes (1): handleClick
+
+### Community 823 - "Community 823"
+_This domain is responsible for managing a group of toggle items and their selection states._
+Cohesion: 0.67
+Nodes (1): queryClient
+
+### Community 824 - "Community 824"
+_This domain is responsible for handling touch interactions and providing visual feedback for user interface elements._
 Cohesion: 0.67
 Nodes (3): env-vars-feature-flags, optimization-plan, performance-optimization
 
-### Community 1106 - "Community 1106"
+### Community 825 - "Community 825"
+_This domain is responsible for managing visual representations of information through color and size mappings for LED indicators._
 Cohesion: 0.67
 Nodes (3): formatting-guide, onboarding-guide, phase2-completion
 
-### Community 1107 - "Community 1107"
+### Community 826 - "Community 826"
+_The domain is responsible for creating visual shimmer effects in user interfaces._
 Cohesion: 0.67
-Nodes (3): Bundle Size Optimization (<800 KB), Test Coverage Improvement (80%+), Sprint & Quality Audit
+Nodes (3): Security Checklist, Security Operations Guide, Reactive Security
 
-### Community 1108 - "Community 1108"
+### Community 827 - "Community 827"
+_This domain is responsible for assessing the status and visibility of beats in a musical or rhythmic context._
 Cohesion: 0.67
 Nodes (3): Inline Mode Music Generation, Telegram Bot Features, Voice Messages to Music
 
-### Community 1109 - "Community 1109"
-Cohesion: 0.67
-Nodes (3): Design Tokens, Spacing Utilities, Typography Components
-
-### Community 1110 - "Community 1110"
-Cohesion: 1.00
-Nodes (3): Buy Credits Page, Rewards, Referral
-
-### Community 1111 - "Community 1111"
-Cohesion: 0.67
-Nodes (3): Sprint 002 Test Plan - Testing & Validation, Telegram Share Functions Test Plan, Versioning System Test Plan
-
-### Community 1112 - "Community 1112"
-Cohesion: 0.67
-Nodes (3): Sprint 008 - Library & Player MVP, Sprint 009 - Track Details & Actions, Sprint Analysis Summary - Sprints 008 & 009
-
-### Community 1113 - "Community 1113"
+### Community 828 - "Community 828"
+_Responsible for managing audio contexts and processing audio data in a music application._
 Cohesion: 0.67
 Nodes (3): Studio Navigation Flow, Track Versioning Flow, Track Generation User Flow
 
+### Community 829 - "Community 829"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 0.67
+Nodes (3): Sprint 002 Test Plan - Testing & Validation, Telegram Share Functions Test Plan, Versioning System Test Plan
+
+### Community 830 - "Community 830"
+_Manages the initial state and storage key for application data persistence._
+Cohesion: 0.67
+Nodes (3): Bundle Size Optimization (<800 KB), Test Coverage Improvement (80%+), Sprint & Quality Audit
+
+### Community 831 - "Community 831"
+_Responsible for capturing and storing analysis-related logs for monitoring and debugging purposes._
+Cohesion: 0.67
+Nodes (3): CDN Integration Functions (src/lib/cdn.ts), Sprint Execution Summary - Infrastructure Complete, Storage Helper Functions (src/lib/storage.ts)
+
+### Community 832 - "Community 832"
+_Responsible for managing application settings and default parameters._
+Cohesion: 0.67
+Nodes (3): Audit Completion - Version System & Telegram, Version Management System (A/B), is_master vs is_primary Conflict
+
+### Community 833 - "Community 833"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 0.67
+Nodes (3): Sprint 008 - Library & Player MVP, Sprint 009 - Track Details & Actions, Sprint Analysis Summary - Sprints 008 & 009
+
+### Community 834 - "Community 834"
+_The ToneModule is responsible for manipulating and adjusting audio tone characteristics in sound processing applications._
+Cohesion: 1.0
+Nodes (1): shadows
+
+### Community 835 - "Community 835"
+_This domain is responsible for handling and retrieving payment history and recent transaction data._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 836 - "Community 836"
+_This domain is responsible for managing audio duration and logging related events._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 837 - "Community 837"
+_This domain manages the retrieval and usage of notes associated with specific sections._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 838 - "Community 838"
+_This domain is responsible for handling credit and subscription-related queries._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 839 - "Community 839"
+_This domain is responsible for logging MIDI model interactions and events._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 840 - "Community 840"
+_This domain is responsible for managing and manipulating audio track states and their corresponding stems in a studio environment._
+Cohesion: 1.0
+Nodes (1): tiers
+
+### Community 841 - "Community 841"
+_Handles default settings and options for software applications._
+Cohesion: 1.0
+Nodes (1): COLORS
+
+### Community 842 - "Community 842"
+_Manages and defines the default access levels for users in a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 843 - "Community 843"
+_This domain is responsible for tracking and communicating the status and progress of various processes or tasks._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 844 - "Community 844"
+_This domain is responsible for tracking and communicating the status and progress of processes or tasks._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 845 - "Community 845"
+_This domain is responsible for tracking and communicating the status and progress of processes or tasks._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 846 - "Community 846"
+_This domain is responsible for managing and applying preset configurations for audio mixing settings._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 847 - "Community 847"
+_This domain manages audio synchronization thresholds and methods for automatic and manual synchronization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 848 - "Community 848"
+_The ToneModule is responsible for managing and manipulating audio tone settings in a software application._
+Cohesion: 1.0
+Nodes (1): WebVitalsReporter
+
+### Community 849 - "Community 849"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): navigate
+
+### Community 850 - "Community 850"
+_Manages default settings and options for software applications._
+Cohesion: 1.0
+Nodes (1): AudioRecordDialog
+
+### Community 851 - "Community 851"
+_Manages and implements keyboard shortcuts for studio functionality._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 852 - "Community 852"
+_This domain is responsible for defining and managing various operational labels and types of stems used in processes._
+Cohesion: 1.0
+Nodes (1): MiniWaveform
+
+### Community 853 - "Community 853"
+_This domain is responsible for managing the configuration settings required to connect to a Supabase backend service._
+Cohesion: 1.0
+Nodes (1): layoutRatio
+
+### Community 854 - "Community 854"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (1): handleCopy
+
+### Community 855 - "Community 855"
+_This domain is responsible for managing audio glitches and musical notes in sound applications._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 856 - "Community 856"
+_This domain manages the active tab state and mobile settings for the user interface._
+Cohesion: 1.0
+Nodes (1): [selectedTrack, setSelectedTrack]
+
+### Community 857 - "Community 857"
+_This domain is responsible for retrieving and analyzing statistics related to drop-offs in a sales or conversion funnel._
+Cohesion: 1.0
+Nodes (1): DrumKitSelector
+
+### Community 858 - "Community 858"
+_Manages color coding for different tracks in a user interface._
+Cohesion: 1.0
+Nodes (1): DrumPad
+
+### Community 859 - "Community 859"
+_This domain manages the states of user login and logout processes._
+Cohesion: 1.0
+Nodes (1): PatternBank
+
+### Community 860 - "Community 860"
+_This domain manages the states of user login and logout activities._
+Cohesion: 1.0
+Nodes (1): { data: credits, isLoading }
+
+### Community 861 - "Community 861"
+_This domain is responsible for encoding audio data into MP3 format and handling WAV file headers._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 862 - "Community 862"
+_This domain is responsible for managing and processing errors within the application._
+Cohesion: 1.0
+Nodes (1): log
+
+### Community 863 - "Community 863"
+_This domain is responsible for monitoring and optimizing system performance through guidelines and documentation._
+Cohesion: 1.0
+Nodes (1): isAssistant
+
+### Community 864 - "Community 864"
+_This domain focuses on resolving issues related to React Hooks and data fetching with TanStack Query._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 865 - "Community 865"
+_This domain is responsible for ensuring the quality and performance of software applications through various testing and auditing processes._
+Cohesion: 1.0
+Nodes (1): TitleSection
+
+### Community 866 - "Community 866"
+_This domain is responsible for the requirements, specifications, and tasks associated with a mobile-first minimalist user interface redesign._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 867 - "Community 867"
+_This domain focuses on creating a user-friendly, minimalist interface optimized for mobile devices._
+Cohesion: 1.0
+Nodes (1): ContextHints
+
+### Community 868 - "Community 868"
+_This domain is responsible for enhancing and fixing the integration of Klang.io features, including logging and transcription functionalities._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 869 - "Community 869"
+_Responsible for managing access to protected resources based on user authentication status._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 870 - "Community 870"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): STEPS
+
+### Community 871 - "Community 871"
+_This domain is responsible for managing the expanded state of UI components and tracking the count of changes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 872 - "Community 872"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): displayTracks
+
+### Community 873 - "Community 873"
+_This domain is responsible for managing and displaying product details and images._
+Cohesion: 1.0
+Nodes (1): GamificationBar
+
+### Community 874 - "Community 874"
+_This domain is responsible for defining the rhythmic organization of musical compositions._
+Cohesion: 1.0
+Nodes (1): MobileNavDrawer
+
+### Community 875 - "Community 875"
+_This domain is responsible for analyzing and displaying stroke data._
+Cohesion: 1.0
+Nodes (1): SafeAreaContainer
+
+### Community 876 - "Community 876"
+_This domain is responsible for configuring and managing dialog settings and presets for user interactions._
+Cohesion: 1.0
+Nodes (1): SafeAreaSkeletonPlaceholder
+
+### Community 877 - "Community 877"
+_This domain is responsible for selecting and managing the lengths of drum steps in a musical composition._
+Cohesion: 1.0
+Nodes (1): isMobile
+
+### Community 878 - "Community 878"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): DesktopToolsGridLayout
+
+### Community 879 - "Community 879"
+_This domain is responsible for managing user identities and access control within the application._
+Cohesion: 1.0
+Nodes (1): LazySection
+
+### Community 880 - "Community 880"
+_Responsible for organizing and structuring forms into sections for better user experience._
+Cohesion: 1.0
+Nodes (1): PullToRefreshWrapper
+
+### Community 881 - "Community 881"
+_This domain manages the active and completion states of tasks._
+Cohesion: 1.0
+Nodes (1): DurationBadge
+
+### Community 882 - "Community 882"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): hasContent
+
+### Community 883 - "Community 883"
+_This domain is responsible for managing and selecting service providers._
+Cohesion: 1.0
+Nodes (1): ViewModeToggle
+
+### Community 884 - "Community 884"
+_This domain is responsible for managing validation errors and applying appropriate styles based on validation results._
+Cohesion: 1.0
+Nodes (1): cleanWord
+
+### Community 885 - "Community 885"
+_This domain is responsible for determining the layout and presentation of content based on the device type and screen dimensions._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 886 - "Community 886"
+_Responsible for displaying dynamic titles or messages in a scrolling format._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 887 - "Community 887"
+_This domain is responsible for handling and mapping various size attributes in the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 888 - "Community 888"
+_Responsible for sanitizing and normalizing input text data._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 889 - "Community 889"
+_Responsible for managing and rendering synchronized lines in a graphical interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 890 - "Community 890"
+_Responsible for tracking and managing information related to various steps in a process._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 891 - "Community 891"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): MobileSearchBar
+
+### Community 892 - "Community 892"
+_This domain is responsible for managing user identities and access control within the application._
+Cohesion: 1.0
+Nodes (1): MobileFormField
+
+### Community 893 - "Community 893"
+_This domain is responsible for defining, executing, and monitoring workflows within a system._
+Cohesion: 1.0
+Nodes (1): MobileSelect
+
+### Community 894 - "Community 894"
+_This domain is responsible for calculating and displaying score labels based on performance metrics._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 895 - "Community 895"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (1): FEATURE_DESCRIPTIONS
+
+### Community 896 - "Community 896"
+_This domain is responsible for defining and managing the visual styles and behaviors of UI components for a seamless user experience._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 897 - "Community 897"
+_This domain is responsible for handling and processing common string endings in text data._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 898 - "Community 898"
+_This domain is responsible for defining and managing structure templates used in various applications._
+Cohesion: 1.0
+Nodes (1): ONBOARDING_STEPS
+
+### Community 899 - "Community 899"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (1): StepIcon
+
+### Community 900 - "Community 900"
+_This domain is responsible for defining and managing visual elements and functionalities within a software application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 901 - "Community 901"
+_This domain is responsible for managing the state and operations related to loading and refetching data transactions._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 902 - "Community 902"
+_This domain is responsible for managing the visibility and rendering of content within a container._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 903 - "Community 903"
+_This domain is responsible for retrieving the last element from two different collections or sequences._
+Cohesion: 1.0
+Nodes (1): Icon
+
+### Community 904 - "Community 904"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (1): VersionBadge
+
+### Community 905 - "Community 905"
+_This domain is responsible for representing and managing user identification attributes._
+Cohesion: 1.0
+Nodes (1): BalanceIndicator
+
+### Community 906 - "Community 906"
+_This domain is responsible for defining, managing, and validating various size attributes within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 907 - "Community 907"
+_Manages the completion and current state of tasks._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 908 - "Community 908"
+_This domain is responsible for managing and configuring different variants of a product or service._
+Cohesion: 1.0
+Nodes (1): ProjectSettingsSheet
+
+### Community 909 - "Community 909"
+_This domain is responsible for capturing and managing the emotional and aesthetic preferences of users._
+Cohesion: 1.0
+Nodes (1): PROJECT_TEMPLATES
+
+### Community 910 - "Community 910"
+_This domain is responsible for generating and managing suggestions based on predefined rules._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 911 - "Community 911"
+_Responsible for managing and representing the heights of bars in a bar chart visualization._
+Cohesion: 1.0
+Nodes (1): MobileQuickActionsGrid
+
+### Community 912 - "Community 912"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): ProjectDialogs
+
+### Community 913 - "Community 913"
+_Responsible for managing the user interface and functionality for downloading files._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 914 - "Community 914"
+_This domain manages the open/closed state of UI components and tracks active effects._
+Cohesion: 1.0
+Nodes (1): QUICK_START_PRESETS
+
+### Community 915 - "Community 915"
+_This domain is responsible for handling and manipulating durations of time._
+Cohesion: 1.0
+Nodes (1): Visualizer
+
+### Community 916 - "Community 916"
+_This domain is responsible for handling the display and updates of song lyrics._
+Cohesion: 1.0
+Nodes (1): { data: stats, isLoading }
+
+### Community 917 - "Community 917"
+_This domain is responsible for managing and enforcing constraints on the types and counts of items._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 918 - "Community 918"
+_This domain is responsible for managing the state and representation of ongoing and placeholder transcriptions._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 919 - "Community 919"
+_This domain manages the playback and properties of audio tracks in a project._
+Cohesion: 1.0
+Nodes (1): KeyboardShortcutsDialog
+
+### Community 920 - "Community 920"
+_This domain is responsible for rendering and managing user interface elements related to grid layouts and track cards._
+Cohesion: 1.0
+Nodes (1): LyricsAutoScroll
+
+### Community 921 - "Community 921"
+_Manages the state and interactions of a sheet component in a user interface._
+Cohesion: 1.0
+Nodes (1): TranscriptionInProgress
+
+### Community 922 - "Community 922"
+_This domain is responsible for categorizing and managing visual representations of tags._
+Cohesion: 1.0
+Nodes (1): navigate
+
+### Community 923 - "Community 923"
+_This domain is responsible for displaying details and toggling the public visibility of entities._
+Cohesion: 1.0
+Nodes (1): navigate
+
+### Community 924 - "Community 924"
+_This domain is responsible for presenting detailed and simple views of stem data._
+Cohesion: 1.0
+Nodes (1): progress
+
+### Community 925 - "Community 925"
+_Responsible for managing and providing access to technical details and specifications of items._
+Cohesion: 1.0
+Nodes (1): isMobile
+
+### Community 926 - "Community 926"
+_This domain is responsible for managing user navigation and contextual information within an application._
+Cohesion: 1.0
+Nodes (1): left
+
+### Community 927 - "Community 927"
+_This domain is responsible for managing default settings and metadata configurations._
+Cohesion: 1.0
+Nodes (1): markers
+
+### Community 928 - "Community 928"
+_This domain is responsible for managing default settings and metadata configurations._
+Cohesion: 1.0
+Nodes (1): MobileActionsContent
+
+### Community 929 - "Community 929"
+_Manages the input and validation of one-time passwords (OTPs)._
+Cohesion: 1.0
+Nodes (1): MobileStudioPlayerBar
+
+### Community 930 - "Community 930"
+_This domain is responsible for managing and displaying product labels and their variants._
+Cohesion: 1.0
+Nodes (1): exportTracks
+
+### Community 931 - "Community 931"
+_This domain is responsible for defining and managing size classes and text size classes for user interface elements._
+Cohesion: 1.0
+Nodes (1): StudioPresetsSheet
+
+### Community 932 - "Community 932"
+_Manages a group of radio buttons allowing single selection from multiple options._
+Cohesion: 1.0
+Nodes (1): UnifiedStudioMobile
+
+### Community 933 - "Community 933"
+_This domain is responsible for managing and facilitating the scrolling functionality within user interfaces._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 934 - "Community 934"
+_This domain is responsible for managing default settings and metadata for software applications._
+Cohesion: 1.0
+Nodes (1): StudioShellMobileNav
+
+### Community 935 - "Community 935"
+_This domain is responsible for defining and managing the visual appearance of UI elements, including their shapes and widths._
+Cohesion: 1.0
+Nodes (1): StudioShellTransportBar
+
+### Community 936 - "Community 936"
+_This domain is responsible for organizing and displaying structured data in tabular format._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 937 - "Community 937"
+_This domain is responsible for managing toggle states and their variants in a software application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 938 - "Community 938"
+_Responsible for defining and managing the configurations of empty states in the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 939 - "Community 939"
+_This domain is responsible for managing the timing and styling of animations in user interfaces._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 940 - "Community 940"
+_This domain is responsible for monitoring and reporting the status of tasks, including completed and in-progress counts._
+Cohesion: 1.0
+Nodes (1): [isExpanded, setIsExpanded]
+
+### Community 941 - "Community 941"
+_Responsible for logging messages and events from the Telegram messaging platform._
+Cohesion: 1.0
+Nodes (1): VARIANT_CONFIGS
+
+### Community 942 - "Community 942"
+_Responsible for logging messages from Telegram for monitoring and analysis._
+Cohesion: 1.0
+Nodes (1): UnifiedTrackCard
+
+### Community 943 - "Community 943"
+_Defines the threshold for mobile device layouts in web applications._
+Cohesion: 1.0
+Nodes (1): PlayingIndicator
+
+### Community 944 - "Community 944"
+_This domain is responsible for managing and organizing playlists based on different music genres._
+Cohesion: 1.0
+Nodes (1): {
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }
+
+### Community 945 - "Community 945"
+_Manages the initial state configuration for the application._
+Cohesion: 1.0
+Nodes (1): EditableTrackTitle
+
+### Community 946 - "Community 946"
+_Responsible for capturing, storing, and managing log data for applications._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 947 - "Community 947"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 948 - "Community 948"
+_Responsible for recording and managing application events and errors._
+Cohesion: 1.0
+Nodes (1): VersionsSection
+
+### Community 949 - "Community 949"
+_This domain is responsible for managing the minimum version requirements for haptic feedback functionality._
+Cohesion: 1.0
+Nodes (1): TrackLyricsSection
+
+### Community 950 - "Community 950"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): TrackPromptSection
+
+### Community 951 - "Community 951"
+_Responsible for recording and managing application events and errors._
+Cohesion: 1.0
+Nodes (1): hasReferences
+
+### Community 952 - "Community 952"
+_Responsible for recording and managing log data for applications._
+Cohesion: 1.0
+Nodes (1): TrackStatsGrid
+
+### Community 953 - "Community 953"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 954 - "Community 954"
+_Responsible for managing and accessing persistent data storage keys._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 955 - "Community 955"
+_Responsible for recording and managing application events and errors._
+Cohesion: 1.0
+Nodes (1): badgeVariants
+
+### Community 956 - "Community 956"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Checkbox
+
+### Community 957 - "Community 957"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): HeroSkeleton
+
+### Community 958 - "Community 958"
+_This domain is responsible for handling and enhancing track-related data for improved analysis and usage._
+Cohesion: 1.0
+Nodes (1): EmptyState
+
+### Community 959 - "Community 959"
+_This domain is responsible for managing and utilizing stem type flags and track stem types._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 960 - "Community 960"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Input
+
+### Community 961 - "Community 961"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): hasLabel
+
+### Community 962 - "Community 962"
+_Responsible for recording and managing audio data for analysis and playback._
+Cohesion: 1.0
+Nodes (1): isReady
+
+### Community 963 - "Community 963"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 964 - "Community 964"
+_This domain handles the support and usage of Picture-in-Picture video playback functionality._
+Cohesion: 1.0
+Nodes (1): Separator
+
+### Community 965 - "Community 965"
+_Manages audio settings based on different modes of operation._
+Cohesion: 1.0
+Nodes (1): Slider
+
+### Community 966 - "Community 966"
+_Responsible for managing and defining the configuration settings for different stem types._
+Cohesion: 1.0
+Nodes (1): Table
+
+### Community 967 - "Community 967"
+_Manages the default state configuration for an application._
+Cohesion: 1.0
+Nodes (1): Tabs
+
+### Community 968 - "Community 968"
+_This domain is responsible for managing and prioritizing STEM-related tasks and resources._
+Cohesion: 1.0
+Nodes (1): Textarea
+
+### Community 969 - "Community 969"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): VisuallyHidden
+
+### Community 970 - "Community 970"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): { isRecording, isProcessing, toggleRecording }
+
+### Community 971 - "Community 971"
+_Handles the default state configuration for a system or application._
+Cohesion: 1.0
+Nodes (1): SafeArea
+
+### Community 972 - "Community 972"
+_Manages default settings and options for software applications._
+Cohesion: 1.0
+Nodes (1): WaveformCanvas
+
+### Community 973 - "Community 973"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 974 - "Community 974"
+_Responsible for capturing and managing log data for applications._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 975 - "Community 975"
+_Responsible for capturing and managing log data for applications._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 976 - "Community 976"
+_Responsible for recording and managing application events and errors._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 977 - "Community 977"
+_Responsible for recording and managing log entries for application events and errors._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 978 - "Community 978"
+_Responsible for defining keys to be excluded from default configurations._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 979 - "Community 979"
+_This domain manages user navigation elements and feedback mechanisms within an application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 980 - "Community 980"
+_This domain is responsible for managing user navigation and feedback within an application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 981 - "Community 981"
+_This domain is responsible for collecting and analyzing metrics related to mobile device usage._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 982 - "Community 982"
+_This domain is responsible for tracking and reporting web performance metrics and user experience indicators._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 983 - "Community 983"
+_This domain is responsible for managing data retrieval and interactions with external data sources._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 984 - "Community 984"
+_This domain is responsible for managing the lifecycle and expiration of active references in a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 985 - "Community 985"
+_This domain is responsible for defining default providers and their capabilities within a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 986 - "Community 986"
+_This domain is responsible for managing the expiration of data references in a storage system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 987 - "Community 987"
+_Manages the storage and retrieval of song lyrics history._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 988 - "Community 988"
+_This domain is responsible for logging and storing song lyrics._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 989 - "Community 989"
+_This domain is responsible for logging project activities and managing project-related data storage._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 990 - "Community 990"
+_Responsible for logging and managing tracking data._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 991 - "Community 991"
+_This domain is responsible for managing and logging the state and behavior of user interface views._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 992 - "Community 992"
+_Handles interactions with Telegram's haptic feedback and web application features._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 993 - "Community 993"
+_This domain is responsible for handling and processing client queries in a software application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 994 - "Community 994"
+_This domain is responsible for managing and executing queries related to client data._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 995 - "Community 995"
+_This domain is responsible for managing user login, registration, and session management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 996 - "Community 996"
+_This domain encompasses the design, usage, and support documentation for a music playback application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 997 - "Community 997"
+_This domain encompasses the features, implementation, and integration of a Telegram bot._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 998 - "Community 998"
+_This domain is responsible for managing and documenting the finalization of sprint activities and outcomes in agile project management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 999 - "Community 999"
+_This domain focuses on enhancing user interaction through various features and workflows._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1000 - "Community 1000"
+_This domain is responsible for the development and optimization of AI-driven music applications and their user interfaces._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1001 - "Community 1001"
+_This domain is responsible for planning, researching, and breaking down tasks related to the evaluation and improvement of user interface and user experience design._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1002 - "Community 1002"
+_This domain is responsible for structuring and presenting the visual components of a web page._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1003 - "Community 1003"
+_This domain is responsible for managing application settings and parameters._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1004 - "Community 1004"
+_This domain is responsible for creating, manipulating, and rendering shadows in graphical applications._
+Cohesion: 1.0
+Nodes (1): Constants
+
+### Community 1005 - "Community 1005"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1006 - "Community 1006"
+_Responsible for adding new instruments to a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1007 - "Community 1007"
+_Responsible for managing the addition of vocal tracks in audio projects._
+Cohesion: 1.0
+Nodes (1): dashboard
+
+### Community 1008 - "Community 1008"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): AudioHub
+
+### Community 1009 - "Community 1009"
+_Responsible for extending and managing track details in a user interface dialog._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1010 - "Community 1010"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1011 - "Community 1011"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1012 - "Community 1012"
+_This domain is responsible for managing the separation of concerns in software architecture through distinct layers such as presentation, business logic, and data access._
+Cohesion: 1.0
+Nodes (1): { data: stats }
+
+### Community 1013 - "Community 1013"
+_This domain is responsible for tracking system performance metrics, alerting on issues, and managing data loading states._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1014 - "Community 1014"
+_Responsible for defining, manipulating, and utilizing color representations in applications._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1015 - "Community 1015"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1016 - "Community 1016"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): UIProviders
+
+### Community 1017 - "Community 1017"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): [user, setUser]
+
+### Community 1018 - "Community 1018"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1019 - "Community 1019"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): mockProduct
+
+### Community 1020 - "Community 1020"
+_Responsible for reporting and analyzing web performance metrics._
+Cohesion: 1.0
+Nodes (2): env-vars-suno, env-vars-supabase
+
+### Community 1021 - "Community 1021"
+_Responsible for managing and facilitating user movement within a digital environment._
+Cohesion: 1.0
+Nodes (2): error-codes-system, error-handling-infrastructure
+
+### Community 1022 - "Community 1022"
+_Manages the user interface and functionality for recording audio._
+Cohesion: 1.0
+Nodes (2): Telegram Mini App Integration Guide, Z-Index Layering System
+
+### Community 1023 - "Community 1023"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (2): Sprint 4 - Advanced Polish, UI Unification Status
+
+### Community 1024 - "Community 1024"
+_Responsible for managing the proportional dimensions of user interface elements._
+Cohesion: 1.0
+Nodes (2): HMAC-SHA256 Validation, Telegram OAuth Flow Architecture
+
+### Community 1025 - "Community 1025"
+_Responsible for handling the copying of files or data._
+Cohesion: 1.0
+Nodes (2): CloudStorage Synchronization, Telegram Deep Linking
+
+### Community 1026 - "Community 1026"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (2): Sprint 1 - Bot Core, Telegram Bot Implementation
+
+### Community 1027 - "Community 1027"
+_Manages the currently selected track in a music or media application._
+Cohesion: 1.0
+Nodes (2): UI Audit and Unification Map, UI Unification Phase 10 - Icons Complete
+
+### Community 1028 - "Community 1028"
+_Responsible for selecting and managing different drum kits for musical applications._
+Cohesion: 1.0
+Nodes (2): Suno Voice API, Voice Cloning 6-Step Workflow
+
+### Community 1029 - "Community 1029"
+_Handles user interactions when a pointer device is pressed down._
+Cohesion: 1.0
+Nodes (2): Sprint 007 Closure - Mobile-First Setup, Sprint Closure Audit - Sprint 7 & 8 Status
+
+### Community 1030 - "Community 1030"
+_The PatternBank domain is responsible for managing and organizing design patterns for easy access and utilization._
+Cohesion: 1.0
+Nodes (2): Project Audit with Improvements, Code Quality - Lint Errors Fixed
+
+### Community 1031 - "Community 1031"
+_This domain handles the loading and management of credit data._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1032 - "Community 1032"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1033 - "Community 1033"
+_This domain is responsible for determining and managing user roles, specifically identifying if a user is an assistant._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1034 - "Community 1034"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1035 - "Community 1035"
+_Manages the title information and presentation within a document._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1036 - "Community 1036"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1037 - "Community 1037"
+_Manages and provides contextual hints to enhance user experience and interactions._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1038 - "Community 1038"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1039 - "Community 1039"
+_This domain is responsible for defining and managing the sequence of steps in a workflow or process._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1040 - "Community 1040"
+_Manages the association of music genres with their corresponding tracks._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1041 - "Community 1041"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1042 - "Community 1042"
+_Responsible for presenting track information to users._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1043 - "Community 1043"
+_Responsible for determining if the user is accessing the application from a mobile device._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1044 - "Community 1044"
+_This domain is responsible for identifying, tracking, and managing gaps within a system or process._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1045 - "Community 1045"
+_Manages the pull-to-refresh functionality for user interface components._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1046 - "Community 1046"
+_Responsible for displaying and managing durations in a user-friendly format._
+Cohesion: 1.0
+Nodes (1): contract_unified-dialog-types
+
+### Community 1047 - "Community 1047"
+_Responsible for managing and verifying the presence of content in various entities._
+Cohesion: 1.0
+Nodes (1): contract_unified-form-types
+
+### Community 1048 - "Community 1048"
+_Responsible for sanitizing and normalizing text input._
+Cohesion: 1.0
+Nodes (1): contract_unified-skeleton-types
+
+### Community 1049 - "Community 1049"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1050 - "Community 1050"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1051 - "Community 1051"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1052 - "Community 1052"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1053 - "Community 1053"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1054 - "Community 1054"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1055 - "Community 1055"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1056 - "Community 1056"
+_Responsible for defining and managing feature descriptions within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1057 - "Community 1057"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1058 - "Community 1058"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1059 - "Community 1059"
+_This domain is responsible for guiding new users through the initial setup and introduction to a system or application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1060 - "Community 1060"
+_StepIcon is responsible for visually representing the steps in a process within a user interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1061 - "Community 1061"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1062 - "Community 1062"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1063 - "Community 1063"
+_The Icon domain is responsible for managing and displaying graphical symbols that represent actions, objects, or concepts in a user interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1064 - "Community 1064"
+_Responsible for tracking and displaying the version of software components._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1065 - "Community 1065"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1066 - "Community 1066"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1067 - "Community 1067"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1068 - "Community 1068"
+_Responsible for providing a user interface to edit track details in a music or media application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1069 - "Community 1069"
+_Manages and stores settings related to project configurations._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1070 - "Community 1070"
+_This domain is responsible for defining and managing templates used for project creation and configuration._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1071 - "Community 1071"
+_Responsible for managing quick action functionalities within a mobile interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1072 - "Community 1072"
+_Responsible for managing and displaying project-related dialogs and interactions._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1073 - "Community 1073"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1074 - "Community 1074"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1075 - "Community 1075"
+_Manages predefined settings for quick application setup._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1076 - "Community 1076"
+_The Visualizer domain is responsible for transforming and presenting data in graphical formats to enhance understanding and insights._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1077 - "Community 1077"
+_This domain is responsible for defining, managing, and transitioning between different operational modes within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1078 - "Community 1078"
+_Manages the loading state and statistics data retrieval._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1079 - "Community 1079"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1080 - "Community 1080"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1081 - "Community 1081"
+_Determines whether the current device is a desktop computer._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1082 - "Community 1082"
+_Manages keyboard shortcuts for enhanced user interaction._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1083 - "Community 1083"
+_Responsible for guiding users through a digital environment or physical space._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1084 - "Community 1084"
+_Responsible for guiding users through various paths or routes within an application or environment._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1085 - "Community 1085"
+_This domain is responsible for monitoring and managing the advancement of tasks or projects over time._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1086 - "Community 1086"
+_Determines whether the user is accessing the application from a mobile device._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1087 - "Community 1087"
+_This domain is responsible for managing user login, registration, and session management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1088 - "Community 1088"
+_Responsible for creating, editing, and tracking markers within a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1089 - "Community 1089"
+_Responsible for managing and executing user actions within a mobile application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1090 - "Community 1090"
+_Responsible for exporting track data to various formats._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1091 - "Community 1091"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1092 - "Community 1092"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1093 - "Community 1093"
+_Manages the expanded or collapsed state of a UI component._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1094 - "Community 1094"
+_Responsible for managing and defining variant configurations in software systems._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1095 - "Community 1095"
+_Responsible for managing and displaying unified tracking information for various entities._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1096 - "Community 1096"
+_The PlayingIndicator is responsible for displaying the current status of a game or activity._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1097 - "Community 1097"
+_This domain manages the state and interactions of a sheet, including play controls and hover effects._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1098 - "Community 1098"
+_Responsible for managing and editing the titles of tracks in a media application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1099 - "Community 1099"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1100 - "Community 1100"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1101 - "Community 1101"
+_Responsible for handling and displaying different versions of software or documents._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1102 - "Community 1102"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1103 - "Community 1103"
+_Responsible for handling and displaying song lyrics within a music application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1104 - "Community 1104"
+_Manages the display and interaction of prompts within a track section._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1105 - "Community 1105"
+_This domain is responsible for managing and maintaining references within a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1106 - "Community 1106"
+_TrackStatsGrid is responsible for displaying and analyzing statistical data related to music tracks._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1107 - "Community 1107"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1108 - "Community 1108"
+_Manages the animated display of numerical values in a user interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1109 - "Community 1109"
+_This domain is responsible for managing and defining the aspect ratios of media elements._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1110 - "Community 1110"
+_Responsible for defining and managing different variants of badges within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1111 - "Community 1111"
+_Responsible for defining and managing different variants of cards within a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1112 - "Community 1112"
+_Checkboxes are UI elements that allow users to make binary choices in forms._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1113 - "Community 1113"
+_Represents a character template in a gaming environment._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1114 - "Community 1114"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1115 - "Community 1115"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1116 - "Community 1116"
+_This domain is responsible for monitoring and managing the advancement of tasks or projects over time._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1117 - "Community 1117"
+_Responsible for determining the operational status of a system or component._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1118 - "Community 1118"
+_This domain manages the state and behavior of a pull-to-refresh UI interaction._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1119 - "Community 1119"
+_The Separator domain is responsible for defining and managing the delimiters used to format and parse data strings._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1120 - "Community 1120"
+_ShimmerSkeleton is responsible for providing a loading animation effect to enhance user experience during data fetching._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1121 - "Community 1121"
+_Responsible for allowing users to select a value from a range through a sliding control._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1122 - "Community 1122"
+_Responsible for organizing and displaying content in a tabbed interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1123 - "Community 1123"
+_Responsible for capturing and managing multi-line text input from users._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1124 - "Community 1124"
+_VisuallyHidden is responsible for providing hidden content that is accessible to screen readers, enhancing web accessibility._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1125 - "Community 1125"
+_This domain manages the recording and processing states of audio functionality._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1126 - "Community 1126"
+_WaveformCanvas is responsible for rendering and displaying waveform signals in a graphical interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1127 - "Community 1127"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1128 - "Community 1128"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1129 - "Community 1129"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1130 - "Community 1130"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1131 - "Community 1131"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1132 - "Community 1132"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1133 - "Community 1133"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1134 - "Community 1134"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1135 - "Community 1135"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1136 - "Community 1136"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1137 - "Community 1137"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1138 - "Community 1138"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1139 - "Community 1139"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1140 - "Community 1140"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1141 - "Community 1141"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1142 - "Community 1142"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1143 - "Community 1143"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1144 - "Community 1144"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1145 - "Community 1145"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1146 - "Community 1146"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1147 - "Community 1147"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1148 - "Community 1148"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1149 - "Community 1149"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1150 - "Community 1150"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1151 - "Community 1151"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1152 - "Community 1152"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1153 - "Community 1153"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1154 - "Community 1154"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1155 - "Community 1155"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1156 - "Community 1156"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1157 - "Community 1157"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1158 - "Community 1158"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1159 - "Community 1159"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1160 - "Community 1160"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1161 - "Community 1161"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1162 - "Community 1162"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1163 - "Community 1163"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1164 - "Community 1164"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1165 - "Community 1165"
+_Responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1166 - "Community 1166"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1167 - "Community 1167"
+_This domain is responsible for defining and managing constant values used throughout the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1168 - "Community 1168"
+_This domain is responsible for managing user identity verification and access control within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1169 - "Community 1169"
+_Responsible for displaying and managing data visualizations and user interactions on a dashboard interface._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1170 - "Community 1170"
+_The AudioHub domain is responsible for managing audio files, playback, and related functionalities._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1171 - "Community 1171"
+_This domain is responsible for managing user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1172 - "Community 1172"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1173 - "Community 1173"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1174 - "Community 1174"
+_This domain is responsible for collecting, processing, and analyzing statistical data._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1175 - "Community 1175"
+_This domain is responsible for managing user identities, authentication processes, and access control within an application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1176 - "Community 1176"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1177 - "Community 1177"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1178 - "Community 1178"
+_UIProviders are responsible for delivering and managing user interface components and data in a software application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1179 - "Community 1179"
+_This domain is responsible for handling user data and updates._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1180 - "Community 1180"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1181 - "Community 1181"
+_Responsible for handling product-related data and operations._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1182 - "Community 1182"
+_This domain is responsible for rendering and managing the visual representation of audio waveforms._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1183 - "Community 1183"
+_This domain is responsible for ensuring uniform design elements and layout structures across user interfaces._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1184 - "Community 1184"
+_This domain is responsible for tracking and analyzing user interactions and component performance within the MusicVerse AI platform._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1185 - "Community 1185"
+_This domain is responsible for the development and tracking of social features within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1186 - "Community 1186"
+_This domain is responsible for creating and optimizing user interface components and hooks for enhanced user experience._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1187 - "Community 1187"
+_This domain is responsible for analyzing studio operations and generating completion reports._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1188 - "Community 1188"
+_This domain is responsible for generating and managing audit reports for repositories._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1189 - "Community 1189"
+_This domain is responsible for diagnosing and resolving sound issues in audio playback systems._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1190 - "Community 1190"
+_This domain focuses on enhancing software performance and auditing existing systems for improvements._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1191 - "Community 1191"
+_This domain is responsible for enhancing Telegram bot functionalities and implementing a payment system for user interactions._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1192 - "Community 1192"
+_This domain is responsible for managing and tracking the progress and documentation of sprints in an agile development process._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1193 - "Community 1193"
+_This domain is responsible for integrating guitar recording functionalities with Klang.io services for enhanced audio processing and management._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1194 - "Community 1194"
+_This domain focuses on enhancing music creation and analysis through AI-driven tools and recommendations._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1195 - "Community 1195"
+_This domain is responsible for migrating legacy features in the Mobile Studio V2 application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1196 - "Community 1196"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1197 - "Community 1197"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1198 - "Community 1198"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1199 - "Community 1199"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1200 - "Community 1200"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1201 - "Community 1201"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1202 - "Community 1202"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1203 - "Community 1203"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1204 - "Community 1204"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1205 - "Community 1205"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1206 - "Community 1206"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1207 - "Community 1207"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1208 - "Community 1208"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1209 - "Community 1209"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1210 - "Community 1210"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1211 - "Community 1211"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1212 - "Community 1212"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1213 - "Community 1213"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1214 - "Community 1214"
+_This domain is responsible for managing user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1215 - "Community 1215"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1216 - "Community 1216"
+_This domain is responsible for managing user identity verification and access control within a system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1217 - "Community 1217"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1218 - "Community 1218"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1219 - "Community 1219"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1220 - "Community 1220"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1221 - "Community 1221"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1222 - "Community 1222"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1223 - "Community 1223"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1224 - "Community 1224"
+_This domain is responsible for managing user identities and access control within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1225 - "Community 1225"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1226 - "Community 1226"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1227 - "Community 1227"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1228 - "Community 1228"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1229 - "Community 1229"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1230 - "Community 1230"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1231 - "Community 1231"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1232 - "Community 1232"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1233 - "Community 1233"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1234 - "Community 1234"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1235 - "Community 1235"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1236 - "Community 1236"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1237 - "Community 1237"
+_This domain is responsible for managing user identities and access control within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1238 - "Community 1238"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1239 - "Community 1239"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1240 - "Community 1240"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1241 - "Community 1241"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1242 - "Community 1242"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1243 - "Community 1243"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1244 - "Community 1244"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 1245 - "Community 1245"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): e2e_test_auth
+
+### Community 1246 - "Community 1246"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): e2e_test_generation
+
+### Community 1247 - "Community 1247"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): e2e_test_player
+
+### Community 1248 - "Community 1248"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): Full Logic and Interface Analysis (RU)
+
+### Community 1249 - "Community 1249"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (1): Music and Sound Wave Banner Image
+
+### Community 1250 - "Community 1250"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Accessibility Icon
+
+### Community 1251 - "Community 1251"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): Discord Icon
+
+### Community 1252 - "Community 1252"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): GitHub Icon
+
+### Community 1253 - "Community 1253"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (1): Tutorials Icon
+
+### Community 1254 - "Community 1254"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): YouTube Icon
+
+### Community 1255 - "Community 1255"
+_This domain is responsible for managing user identities, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Code of Conduct
+
+### Community 1256 - "Community 1256"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Security Policy
+
+### Community 1257 - "Community 1257"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Graphify Knowledge Graph
+
+### Community 1258 - "Community 1258"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): Music Player Troubleshooting Guide
+
+### Community 1259 - "Community 1259"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Project Management Guide
+
+### Community 1260 - "Community 1260"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Telegram Bot Integration Complete
+
+### Community 1261 - "Community 1261"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Telegram OAuth Integration
+
+### Community 1262 - "Community 1262"
+_This domain is responsible for managing user identities, including registration, login, and session management._
+Cohesion: 1.0
+Nodes (1): Telegram Integration Checklist
+
+### Community 1263 - "Community 1263"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Telegram Integration Quick Start
+
+### Community 1264 - "Community 1264"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Telegram Integration Sprint Plan
+
+### Community 1265 - "Community 1265"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Telegram Integration Sprint 3-4
+
+### Community 1266 - "Community 1266"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Telegram Integration Sprint 5-6
+
+### Community 1267 - "Community 1267"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Telegram Integration Executive Summary
+
+### Community 1268 - "Community 1268"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (1): Telegram Methods Quick Reference
+
+### Community 1269 - "Community 1269"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): Mini Apps Advanced Examples
+
+### Community 1270 - "Community 1270"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Telegram Mini Apps Integration Advanced
+
+### Community 1271 - "Community 1271"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Telegram Mini App Features
+
+### Community 1272 - "Community 1272"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Troubleshooting Guide
+
+### Community 1273 - "Community 1273"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): UX Audit - User Flows
+
+### Community 1274 - "Community 1274"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): UX Audit - Component Audit
+
+### Community 1275 - "Community 1275"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Voice Cloning Integration Guide
+
+### Community 1276 - "Community 1276"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Z-Index Hierarchy Documentation
+
+### Community 1277 - "Community 1277"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (1): Component Refactoring Priorities
+
+### Community 1278 - "Community 1278"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Music on Profiles Feature
+
+### Community 1279 - "Community 1279"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (1): Custom Emoji Status
+
+### Community 1280 - "Community 1280"
+_This domain is responsible for handling user accounts, authentication, and authorization within the system._
+Cohesion: 1.0
+Nodes (1): Browser Tests - Playwright Implementation
+
+### Community 1281 - "Community 1281"
+_This domain is responsible for handling user authentication, authorization, and profile management._
+Cohesion: 1.0
+Nodes (1): Documentation Update - Naming Conventions
+
+### Community 1282 - "Community 1282"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): Implementation Summary - Technical Debt Resolution
+
+### Community 1283 - "Community 1283"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): Interface Audit - Build Process Fixed
+
+### Community 1284 - "Community 1284"
+_This domain is responsible for handling user accounts, authentication, and authorization._
+Cohesion: 1.0
+Nodes (1): Project Audit - Synchronization & Quality
+
+### Community 1285 - "Community 1285"
+_This domain is responsible for managing user identities and access control within the application._
+Cohesion: 1.0
+Nodes (1): Project Improvements Summary
+
+### Community 1286 - "Community 1286"
+_This domain is responsible for managing user identities, including registration, login, and access control._
+Cohesion: 1.0
+Nodes (1): Sprint 008 Kickoff Checklist
+
+### Community 1287 - "Community 1287"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): Sprint 008 Progress Report
+
+### Community 1288 - "Community 1288"
+_This domain is responsible for handling user accounts, authentication, and authorization within the application._
+Cohesion: 1.0
+Nodes (1): Sprint Audit Summary - Final Report
+
+### Community 1289 - "Community 1289"
+_This domain is responsible for handling user accounts, authentication, and authorization processes._
+Cohesion: 1.0
+Nodes (1): GitHub Best Practices Implementation
+
 ## Knowledge Gaps
-- **8688 isolated node(s):** `CACHE_NAME`, `MAX_CACHE_SIZE_MB`, `AUDIO_EXTENSIONS`, `AUDIO_URL_PATTERNS`, `url` (+8683 more)
+- **9514 isolated node(s):** `restrictedImports`, `techDebtWarnRules`, `reactHooksWarnRules`, `fs`, `content` (+9509 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **303 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
-
-## Suggested Questions
-_Questions this graph is uniquely positioned to answer:_
-
-- **Why does `error` connect `Community 43` to `Community 0`, `Community 2`, `Community 3`, `Community 4`, `Community 7`, `Community 9`, `Community 13`, `Community 18`, `Community 20`, `Community 23`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 545`, `Community 41`, `Community 555`, `Community 45`, `Community 559`, `Community 54`, `Community 572`, `Community 66`, `Community 68`, `Community 69`, `Community 586`, `Community 76`, `Community 596`, `Community 598`, `Community 91`, `Community 94`, `Community 99`, `Community 103`, `Community 617`, `Community 107`, `Community 111`, `Community 112`, `Community 115`, `Community 122`, `Community 634`, `Community 124`, `Community 125`, `Community 126`, `Community 132`, `Community 133`, `Community 135`, `Community 137`, `Community 139`, `Community 141`, `Community 654`, `Community 144`, `Community 145`, `Community 149`, `Community 150`, `Community 663`, `Community 155`, `Community 157`, `Community 158`, `Community 671`, `Community 163`, `Community 166`, `Community 684`, `Community 172`, `Community 184`, `Community 188`, `Community 189`, `Community 200`, `Community 715`, `Community 204`, `Community 206`, `Community 211`, `Community 213`, `Community 217`, `Community 218`, `Community 222`, `Community 229`, `Community 234`, `Community 249`, `Community 253`, `Community 768`, `Community 259`, `Community 272`, `Community 279`, `Community 292`, `Community 303`, `Community 314`, `Community 315`, `Community 317`, `Community 325`, `Community 335`, `Community 848`, `Community 337`, `Community 341`, `Community 343`, `Community 344`, `Community 345`, `Community 350`, `Community 381`, `Community 394`, `Community 398`, `Community 400`, `Community 912`, `Community 403`, `Community 414`, `Community 418`, `Community 420`, `Community 423`, `Community 433`, `Community 435`, `Community 436`, `Community 440`, `Community 441`, `Community 445`, `Community 465`, `Community 471`, `Community 474`, `Community 479`, `Community 494`, `Community 506`?**
-  _High betweenness centrality (0.142) - this node is a cross-community bridge._
-- **Why does `from` connect `Community 0` to `Community 2`, `Community 3`, `Community 132`, `Community 4`, `Community 514`, `Community 7`, `Community 9`, `Community 394`, `Community 140`, `Community 141`, `Community 272`, `Community 17`, `Community 18`, `Community 20`, `Community 21`, `Community 150`, `Community 23`, `Community 279`, `Community 532`, `Community 29`, `Community 1055`, `Community 33`, `Community 34`, `Community 35`, `Community 36`, `Community 546`, `Community 166`, `Community 38`, `Community 545`, `Community 555`, `Community 43`, `Community 45`, `Community 172`, `Community 433`, `Community 56`, `Community 185`, `Community 315`, `Community 445`, `Community 189`, `Community 63`, `Community 69`, `Community 201`, `Community 458`, `Community 461`, `Community 206`, `Community 848`, `Community 337`, `Community 341`, `Community 214`, `Community 343`, `Community 346`, `Community 350`, `Community 94`, `Community 222`, `Community 864`, `Community 228`, `Community 229`, `Community 103`, `Community 107`, `Community 110`, `Community 112`, `Community 247`, `Community 632`, `Community 122`, `Community 125`?**
-  _High betweenness centrality (0.055) - this node is a cross-community bridge._
-- **Why does `Progress Tracker` connect `Community 40` to `Community 1027`, `Community 516`, `Community 649`, `Community 525`, `Community 144`, `Community 145`, `Community 146`, `Community 534`, `Community 535`, `Community 921`, `Community 537`, `Community 283`, `Community 156`, `Community 413`, `Community 157`, `Community 286`, `Community 162`, `Community 559`, `Community 47`, `Community 303`, `Community 564`, `Community 186`, `Community 444`, `Community 446`, `Community 575`, `Community 703`, `Community 705`, `Community 195`, `Community 323`, `Community 453`, `Community 582`, `Community 197`, `Community 326`, `Community 328`, `Community 205`, `Community 593`, `Community 339`, `Community 212`, `Community 218`, `Community 481`, `Community 354`, `Community 99`, `Community 359`, `Community 365`, `Community 369`, `Community 506`, `Community 115`, `Community 756`, `Community 502`, `Community 505`, `Community 634`, `Community 124`, `Community 255`?**
-  _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **Are the 430 inferred relationships involving `error` (e.g. with `runAccessibilityAudit()` and `handleSubmit()`) actually correct?**
-  _`error` has 430 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 427 inferred relationships involving `from` (e.g. with `fetchRecentBotEvents()` and `fetchUsersWithBalances()`) actually correct?**
-  _`from` has 427 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 302 inferred relationships involving `Select` (e.g. with `switchVersion()` and `fetchRecentBotEvents()`) actually correct?**
-  _`Select` has 302 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 131 inferred relationships involving `sendMessage()` (e.g. with `handleCommand()` and `handleUpdate()`) actually correct?**
-  _`sendMessage()` has 131 INFERRED edges - model-reasoned connections that need verification._
+- **Thin community `Community 834`** (2 nodes): `tailwind.config.ts`, `shadows`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 835`** (2 nodes): `vite.config.ts`, `reactPriorityPlugin()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 836`** (2 nodes): `ConfirmationDialog()`, `ConfirmationDialog.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 837`** (2 nodes): `TrackDetailDialog.tsx`, `TrackDetailDialog()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 838`** (2 nodes): `ActorCard()`, `ActorCard.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 839`** (2 nodes): `AdminUserCreditsDialog()`, `AdminUserCreditsDialog.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 840`** (2 nodes): `SubscriptionTiersManager.tsx`, `tiers`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 841`** (2 nodes): `TelemetryOverview.tsx`, `COLORS`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 842`** (2 nodes): `AdminDashboardHeader()`, `AdminDashboardHeader.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 843`** (2 nodes): `TracksTab.tsx`, `TracksTab()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 844`** (2 nodes): `UsersTab.tsx`, `UsersTab()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 845`** (2 nodes): `TierCreditsSection.tsx`, `TierCreditsSection()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 846`** (2 nodes): `TierDisplaySection.tsx`, `TierDisplaySection()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 847`** (2 nodes): `TierTelegramSection.tsx`, `TierTelegramSection()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 848`** (2 nodes): `WebVitalsReporter.tsx`, `WebVitalsReporter`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 849`** (2 nodes): `navigate`, `ArtistDetailPreview.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 850`** (2 nodes): `AudioRecordDialog`, `AudioRecordDialog.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 851`** (2 nodes): `ExtractLyricsButton.tsx`, `ExtractLyricsButton()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 852`** (2 nodes): `MiniWaveform.tsx`, `MiniWaveform`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 853`** (2 nodes): `DesktopContentHubLayout.tsx`, `layoutRatio`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 854`** (2 nodes): `VirtualizedLyricsList.tsx`, `handleCopy`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 855`** (2 nodes): `SubscriptionRequiredDialog.tsx`, `SubscriptionRequiredDialog()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 856`** (2 nodes): `DrumEffects.tsx`, `[selectedTrack, setSelectedTrack]`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 857`** (2 nodes): `DrumKitSelector.tsx`, `DrumKitSelector`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 858`** (2 nodes): `DrumPadGrid.tsx`, `DrumPad`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 859`** (2 nodes): `PatternBank.tsx`, `PatternBank`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 860`** (2 nodes): `{ data: credits, isLoading }`, `CreditsBalance.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 861`** (2 nodes): `SoundToggle.tsx`, `SoundToggle()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 862`** (2 nodes): `GenerateFormActions.tsx`, `log`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 863`** (2 nodes): `isAssistant`, `ChatMessageBubble.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 864`** (2 nodes): `PrivacyToggle.tsx`, `handleChange()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 865`** (2 nodes): `TitleSection.tsx`, `TitleSection`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 866`** (2 nodes): `VocalsToggle.tsx`, `handleChange()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 867`** (2 nodes): `ContextHints`, `ContextHints.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 868`** (2 nodes): `BotContextBanner()`, `BotContextBanner.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 869`** (2 nodes): `formatPlayCount()`, `CommunityTrending.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 870`** (2 nodes): `FirstTimeHeroCard.tsx`, `STEPS`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 871`** (2 nodes): `HomeSection.tsx`, `HomeSection()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 872`** (2 nodes): `TracksGridSection.tsx`, `displayTracks`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 873`** (2 nodes): `YouStrip.tsx`, `GamificationBar`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 874`** (2 nodes): `MobileNavDrawer.tsx`, `MobileNavDrawer`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 875`** (2 nodes): `SafeAreaContainer.tsx`, `SafeAreaContainer`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 876`** (2 nodes): `SafeAreaSkeletonPlaceholder.tsx`, `SafeAreaSkeletonPlaceholder`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 877`** (2 nodes): `DesktopContentLayout.tsx`, `isMobile`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 878`** (2 nodes): `DesktopToolsGridLayout.tsx`, `DesktopToolsGridLayout`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 879`** (2 nodes): `LazySection.tsx`, `LazySection`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 880`** (2 nodes): `PullToRefreshWrapper.tsx`, `PullToRefreshWrapper`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 881`** (2 nodes): `DurationBadge.tsx`, `DurationBadge`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 882`** (2 nodes): `TrackBadges.tsx`, `hasContent`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 883`** (2 nodes): `ViewModeToggle.tsx`, `ViewModeToggle`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 884`** (2 nodes): `SynchronizedWord.tsx`, `cleanWord`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 885`** (2 nodes): `GenrePicker.tsx`, `cn()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 886`** (2 nodes): `StructurePicker.tsx`, `cn()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 887`** (2 nodes): `EditableLyricsContent.tsx`, `EditableLyricsContent()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 888`** (2 nodes): `HookResultCard.tsx`, `HookResultCard()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 889`** (2 nodes): `TagsResultCard.tsx`, `TagsResultCard()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 890`** (2 nodes): `ProducerToolPanel.tsx`, `ProducerToolPanel()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 891`** (2 nodes): `MobileSearchBar.tsx`, `MobileSearchBar`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 892`** (2 nodes): `MobileFormField.tsx`, `MobileFormField`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 893`** (2 nodes): `MobileSelect.tsx`, `MobileSelect`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 894`** (2 nodes): `NodeDetails.tsx`, `NodeDetails()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 895`** (2 nodes): `FeatureDescriptions.ts`, `FEATURE_DESCRIPTIONS`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 896`** (2 nodes): `SmartAlertProviderWrapper.tsx`, `SmartAlertProviderWrapper()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 897`** (2 nodes): `OnboardingStepCard.tsx`, `OnboardingStepCard()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 898`** (2 nodes): `onboardingSteps.ts`, `ONBOARDING_STEPS`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 899`** (2 nodes): `TutorialStep.tsx`, `StepIcon`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 900`** (2 nodes): `PaymentMethodSelector.tsx`, `cn()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 901`** (2 nodes): `StarsPaymentButton.tsx`, `StarsPaymentButton()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 902`** (2 nodes): `SubscriptionCard.tsx`, `cn()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 903`** (2 nodes): `DoubleTapSeekFeedback.tsx`, `Icon`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 904`** (2 nodes): `VersionBadge.tsx`, `VersionBadge`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 905`** (2 nodes): `BalanceIndicator`, `BalanceIndicator.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 906`** (2 nodes): `ProfileStats.tsx`, `ProfileStats()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 907`** (2 nodes): `ProfileSetupStep4Banner.tsx`, `ProfileSetupStep4Banner()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 908`** (2 nodes): `ProjectSettingsSheet.tsx`, `ProjectSettingsSheet`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 909`** (2 nodes): `ProjectTemplateSelector.tsx`, `PROJECT_TEMPLATES`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 910`** (2 nodes): `ShareProjectCard.tsx`, `ShareProjectCard()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 911`** (2 nodes): `MobileQuickActionsGrid.tsx`, `MobileQuickActionsGrid`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 912`** (2 nodes): `ProjectDialogs.tsx`, `ProjectDialogs`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 913`** (2 nodes): `LiveVisualizer.tsx`, `LiveVisualizer()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 914`** (2 nodes): `QuickStartSheet.tsx`, `QUICK_START_PRESETS`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 915`** (2 nodes): `Visualizer.tsx`, `Visualizer`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 916`** (2 nodes): `UserStatsSection.tsx`, `{ data: stats, isLoading }`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 917`** (2 nodes): `PrivacyTab.tsx`, `PrivacyTab()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 918`** (2 nodes): `ProfileTab.tsx`, `ProfileTab()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 919`** (2 nodes): `KeyboardShortcutsDialog.tsx`, `KeyboardShortcutsDialog`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 920`** (2 nodes): `LyricsAutoScroll.tsx`, `LyricsAutoScroll`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 921`** (2 nodes): `TranscriptionInProgress.tsx`, `TranscriptionInProgress`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 922`** (2 nodes): `navigate`, `CleanStudioLayout.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 923`** (2 nodes): `StudioHeader.tsx`, `navigate`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 924`** (2 nodes): `StudioPlayerBar.tsx`, `progress`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 925`** (2 nodes): `UnifiedStudioLayout.tsx`, `isMobile`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 926`** (2 nodes): `Playhead.tsx`, `left`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 927`** (2 nodes): `TimelineRuler.tsx`, `markers`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 928`** (2 nodes): `MobileActionsContent.tsx`, `MobileActionsContent`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 929`** (2 nodes): `MobileStudioPlayerBar.tsx`, `MobileStudioPlayerBar`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 930`** (2 nodes): `StudioDialogs.tsx`, `exportTracks`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 931`** (2 nodes): `StudioPresetsSheet.tsx`, `StudioPresetsSheet`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 932`** (2 nodes): `UnifiedStudioMobile.tsx`, `UnifiedStudioMobile`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 933`** (2 nodes): `StudioShellHeader.tsx`, `cn()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 934`** (2 nodes): `StudioShellMobileNav.tsx`, `StudioShellMobileNav`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 935`** (2 nodes): `StudioShellTransportBar.tsx`, `StudioShellTransportBar`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 936`** (2 nodes): `useStudioDialogState.ts`, `useStudioDialogState()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 937`** (2 nodes): `useStudioShellState.ts`, `useStudioShellState()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 938`** (2 nodes): `TagMenu.tsx`, `TagMenu()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 939`** (2 nodes): `AddToHomeScreen()`, `AddToHomeScreen.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 940`** (2 nodes): `TrackCommentsSection.tsx`, `[isExpanded, setIsExpanded]`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 941`** (2 nodes): `types.ts`, `VARIANT_CONFIGS`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 942`** (2 nodes): `UnifiedTrackCard.tsx`, `UnifiedTrackCard`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 943`** (2 nodes): `PlayingIndicator.tsx`, `PlayingIndicator`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 944`** (2 nodes): `MinimalVariant.tsx`, `{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 945`** (2 nodes): `EditableTrackTitle.tsx`, `EditableTrackTitle`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 946`** (2 nodes): `RenameTrackDialog.tsx`, `RenameTrackDialog()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 947`** (2 nodes): `DeleteActions.tsx`, `DeleteActions()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 948`** (2 nodes): `VersionsSection.tsx`, `VersionsSection`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 949`** (2 nodes): `TrackLyricsSection.tsx`, `TrackLyricsSection`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 950`** (2 nodes): `TrackPromptSection.tsx`, `TrackPromptSection`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 951`** (2 nodes): `TrackReferencesSection.tsx`, `hasReferences`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 952`** (2 nodes): `TrackStatsGrid.tsx`, `TrackStatsGrid`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 953`** (2 nodes): `ShareToStoryButton.tsx`, `ShareToStoryButton()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 954`** (2 nodes): `TrackStudioSection.tsx`, `TrackStudioSection()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 955`** (2 nodes): `badgeVariants`, `badge.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 956`** (2 nodes): `Checkbox`, `checkbox.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 957`** (2 nodes): `HeroSkeleton`, `ContentSkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 958`** (2 nodes): `empty-state.tsx`, `EmptyState`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 959`** (2 nodes): `FloatingMainButton.tsx`, `FloatingMainButton()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 960`** (2 nodes): `input.tsx`, `Input`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 961`** (2 nodes): `progress.tsx`, `hasLabel`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 962`** (2 nodes): `pull-to-refresh-indicator.tsx`, `isReady`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 963`** (2 nodes): `resizable.tsx`, `ResizablePanelGroup()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 964`** (2 nodes): `separator.tsx`, `Separator`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 965`** (2 nodes): `slider.tsx`, `Slider`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 966`** (2 nodes): `table.tsx`, `Table`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 967`** (2 nodes): `tabs.tsx`, `Tabs`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 968`** (2 nodes): `textarea.tsx`, `Textarea`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 969`** (2 nodes): `visually-hidden.tsx`, `VisuallyHidden`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 970`** (2 nodes): `voice-input-button.tsx`, `{ isRecording, isProcessing, toggleRecording }`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 971`** (2 nodes): `safe-area.tsx`, `SafeArea`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 972`** (2 nodes): `WaveformCanvas.tsx`, `WaveformCanvas`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 973`** (2 nodes): `useAdminDailyStats.ts`, `useAdminDailyStats()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 974`** (2 nodes): `useAudioLevel.ts`, `useAudioLevel()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 975`** (2 nodes): `useAudioRecording.ts`, `useAudioRecording()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 976`** (2 nodes): `useBPMGrid.ts`, `useBPMGrid()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 977`** (2 nodes): `useEnhancedKeyboard.ts`, `useEnhancedKeyboard()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 978`** (2 nodes): `useHomePageEffects.ts`, `useHomePageEffects()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 979`** (2 nodes): `useLyricsRecognition.ts`, `useLyricsRecognition()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 980`** (2 nodes): `useMusicRecognition.ts`, `useMusicRecognition()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 981`** (2 nodes): `usePublicArtists.ts`, `usePublicArtists()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 982`** (2 nodes): `useReplacedSections.ts`, `useReplacedSections()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 983`** (2 nodes): `useStudioData.ts`, `useStudioData()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 984`** (2 nodes): `useSwipeActions.ts`, `useSwipeActions()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 985`** (2 nodes): `useTinkoffPayment.ts`, `useTinkoffPayment()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 986`** (2 nodes): `useTrackChangelog.tsx`, `useTrackChangelog()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 987`** (2 nodes): `useTrackVersionManagement.tsx`, `useTrackVersionManagement()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 988`** (2 nodes): `useUpsellThrottle.ts`, `useUpsellThrottle()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 989`** (2 nodes): `useQuickConversions.ts`, `useQuickConversions()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 990`** (2 nodes): `useSimulatedStemLevels.ts`, `useSimulatedStemLevels()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 991`** (2 nodes): `useWaveform.ts`, `useWaveform()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 992`** (2 nodes): `useDeliveryTracking.ts`, `useDeliveryTracking()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 993`** (2 nodes): `useLyricsSync.ts`, `useLyricsSync()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 994`** (2 nodes): `useProjectDetailDialogs.ts`, `useProjectDetailDialogs()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 995`** (2 nodes): `useProjectDetailState.ts`, `useProjectDetailState()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 996`** (2 nodes): `useLoopRegion.ts`, `useLoopRegion()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 997`** (2 nodes): `useMultiTrackAudio.ts`, `useMultiTrackAudio()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 998`** (2 nodes): `useOptimisticVersions.ts`, `useOptimisticVersions()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 999`** (2 nodes): `useStemControls.ts`, `useStemControls()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1000`** (2 nodes): `useStudioHandlers.ts`, `useStudioHandlers()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1001`** (2 nodes): `useTelegramSecondaryButton.ts`, `useTelegramSecondaryButton()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1002`** (2 nodes): `useTelegramSettingsButton.ts`, `useTelegramSettingsButton()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1003`** (2 nodes): `useVoiceRecorder.ts`, `useVoiceRecorder()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1004`** (2 nodes): `types.ts`, `Constants`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1005`** (2 nodes): `sanitizeFilename.ts`, `sanitizeFilename()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1006`** (2 nodes): `utils.ts`, `cn()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1007`** (2 nodes): `dashboard`, `AdminDashboard.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1008`** (2 nodes): `AudioHub`, `AudioHub.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1009`** (2 nodes): `AdminAlerts()`, `AdminAlerts.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1010`** (2 nodes): `AdminBroadcast()`, `AdminBroadcast.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1011`** (2 nodes): `AdminEconomy()`, `AdminEconomy.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1012`** (2 nodes): `{ data: stats }`, `AdminOverview.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1013`** (2 nodes): `AdminTariffs()`, `AdminTariffs.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1014`** (2 nodes): `AdminTelegram()`, `AdminTelegram.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1015`** (2 nodes): `AnalyticsDashboardPage()`, `AnalyticsDashboard.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1016`** (2 nodes): `UIProviders.tsx`, `UIProviders`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1017`** (2 nodes): `Page.tsx`, `[user, setUser]`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1018`** (2 nodes): `track.ts`, `isPlayableTrack()`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1019`** (2 nodes): `mockProduct`, `CreditPackageCard.test.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1020`** (2 nodes): `env-vars-suno`, `env-vars-supabase`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1021`** (2 nodes): `error-codes-system`, `error-handling-infrastructure`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1022`** (2 nodes): `Telegram Mini App Integration Guide`, `Z-Index Layering System`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1023`** (2 nodes): `Sprint 4 - Advanced Polish`, `UI Unification Status`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1024`** (2 nodes): `HMAC-SHA256 Validation`, `Telegram OAuth Flow Architecture`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1025`** (2 nodes): `CloudStorage Synchronization`, `Telegram Deep Linking`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1026`** (2 nodes): `Sprint 1 - Bot Core`, `Telegram Bot Implementation`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1027`** (2 nodes): `UI Audit and Unification Map`, `UI Unification Phase 10 - Icons Complete`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1028`** (2 nodes): `Suno Voice API`, `Voice Cloning 6-Step Workflow`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1029`** (2 nodes): `Sprint 007 Closure - Mobile-First Setup`, `Sprint Closure Audit - Sprint 7 & 8 Status`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1030`** (2 nodes): `Project Audit with Improvements`, `Code Quality - Lint Errors Fixed`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1031`** (1 nodes): `babel.config.js`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1032`** (1 nodes): `playwright.config.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1033`** (1 nodes): `postcss.config.js`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1034`** (1 nodes): `vitest.config.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1035`** (1 nodes): `vitest.shims.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1036`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1037`** (1 nodes): `UnifiedTrackCard.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1038`** (1 nodes): `useRealtimeTrackUpdates.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1039`** (1 nodes): `useTrackActions.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1040`** (1 nodes): `useTrackData.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1041`** (1 nodes): `useTrackVersionSwitcher.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1042`** (1 nodes): `MobileBottomSheet.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1043`** (1 nodes): `MobileHeaderBar.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1044`** (1 nodes): `UnifiedScreenLayout.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1045`** (1 nodes): `VirtualizedTrackList.contract.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1046`** (1 nodes): `contract_unified-dialog-types`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1047`** (1 nodes): `contract_unified-form-types`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1048`** (1 nodes): `contract_unified-skeleton-types`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1049`** (1 nodes): `vite-env.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1050`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1051`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1052`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1053`** (1 nodes): `BotTab.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1054`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1055`** (1 nodes): `OverviewTab.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1056`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1057`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1058`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1059`** (1 nodes): `TierPricingSection.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1060`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1061`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1062`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1063`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1064`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1065`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1066`** (1 nodes): `BlogHeroSection.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1067`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1068`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1069`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1070`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1071`** (1 nodes): `VirtualizedArtistsList.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1072`** (1 nodes): `VirtualizedProjectsList.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1073`** (1 nodes): `DialogHeader.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1074`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1075`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1076`** (1 nodes): `KitSelectorPro.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1077`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1078`** (1 nodes): `DesktopRewardsLayout.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1079`** (1 nodes): `FormSection.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1080`** (1 nodes): `GenerateFormCustom.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1081`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1082`** (1 nodes): `SectionLabel.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1083`** (1 nodes): `ChatMessageList.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1084`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1085`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1086`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1087`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1088`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1089`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1090`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1091`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1092`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1093`** (1 nodes): `AppHeader.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1094`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1095`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1096`** (1 nodes): `LibraryDialogs.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1097`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1098`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1099`** (1 nodes): `LoadingOverlay.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1100`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1101`** (1 nodes): `SectionTypePicker.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1102`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1103`** (1 nodes): `SectionReferenceDisplay.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1104`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1105`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1106`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1107`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1108`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1109`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1110`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1111`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1112`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1113`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1114`** (1 nodes): `AlertIllustrations.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1115`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1116`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1117`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1118`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1119`** (1 nodes): `FullscreenBackground.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1120`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1121`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1122`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1123`** (1 nodes): `BannerRequiredDialog.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1124`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1125`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1126`** (1 nodes): `ProjectQuickActions.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1127`** (1 nodes): `ProjectTracklistSection.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1128`** (1 nodes): `ControlPanel.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1129`** (1 nodes): `GlobalControls.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1130`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1131`** (1 nodes): `QuickMixPresets.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1132`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1133`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1134`** (1 nodes): `UnifiedTrackCard.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1135`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1136`** (1 nodes): `LibrarySkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1137`** (1 nodes): `ProjectsSkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1138`** (1 nodes): `SettingsSkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1139`** (1 nodes): `ActivityFeed.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1140`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1141`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1142`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1143`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1144`** (1 nodes): `SectionActions.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1145`** (1 nodes): `SectionValidation.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1146`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1147`** (1 nodes): `StemTrackSkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1148`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1149`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1150`** (1 nodes): `StudioDashboardSheet.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1151`** (1 nodes): `StudioShellHeader.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1152`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1153`** (1 nodes): `StudioHeader.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1154`** (1 nodes): `StudioShellContent.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1155`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1156`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1157`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1158`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1159`** (1 nodes): `track-card.types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1160`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1161`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1162`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1163`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1164`** (1 nodes): `ActionGrid.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1165`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1166`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1167`** (1 nodes): `TrackCoverSection.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1168`** (1 nodes): `TrackStyleSection.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1169`** (1 nodes): `TrackInfoSection.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1170`** (1 nodes): `command.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1171`** (1 nodes): `skeleton-loader.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1172`** (1 nodes): `states.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1173`** (1 nodes): `ux-components.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1174`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1175`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1176`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1177`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1178`** (1 nodes): `PageSkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1179`** (1 nodes): `ProfileSkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1180`** (1 nodes): `ProjectCardSkeleton.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1181`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1182`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1183`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1184`** (1 nodes): `ContextHelp.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1185`** (1 nodes): `TelegramContext.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1186`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1187`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1188`** (1 nodes): `common.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1189`** (1 nodes): `use-is-mobile.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1190`** (1 nodes): `use-mobile.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1191`** (1 nodes): `useAuth.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1192`** (1 nodes): `usePublicContent.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1193`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1194`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1195`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1196`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1197`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1198`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1199`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1200`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1201`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1202`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1203`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1204`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1205`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1206`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1207`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1208`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1209`** (1 nodes): `types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1210`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1211`** (1 nodes): `social.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1212`** (1 nodes): `common.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1213`** (1 nodes): `icons.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1214`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1215`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1216`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1217`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1218`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1219`** (1 nodes): `forms.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1220`** (1 nodes): `player.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1221`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1222`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1223`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1224`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1225`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1226`** (1 nodes): `lyrics-types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1227`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1228`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1229`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1230`** (1 nodes): `voice-types.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1231`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1232`** (1 nodes): `useUnifiedStudioStore.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1233`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1234`** (1 nodes): `Header.tsx`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1235`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1236`** (1 nodes): `activity.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1237`** (1 nodes): `analytics.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1238`** (1 nodes): `comment.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1239`** (1 nodes): `guitar.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1240`** (1 nodes): `profile.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1241`** (1 nodes): `social.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1242`** (1 nodes): `starsPayment.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1243`** (1 nodes): `studio-entities.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1244`** (1 nodes): `telegram.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1245`** (1 nodes): `e2e_test_auth`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1246`** (1 nodes): `e2e_test_generation`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1247`** (1 nodes): `e2e_test_player`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1248`** (1 nodes): `Full Logic and Interface Analysis (RU)`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1249`** (1 nodes): `Music and Sound Wave Banner Image`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1250`** (1 nodes): `Accessibility Icon`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1251`** (1 nodes): `Discord Icon`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1252`** (1 nodes): `GitHub Icon`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1253`** (1 nodes): `Tutorials Icon`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1254`** (1 nodes): `YouTube Icon`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1255`** (1 nodes): `Code of Conduct`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1256`** (1 nodes): `Security Policy`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1257`** (1 nodes): `Graphify Knowledge Graph`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1258`** (1 nodes): `Music Player Troubleshooting Guide`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1259`** (1 nodes): `Project Management Guide`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1260`** (1 nodes): `Telegram Bot Integration Complete`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1261`** (1 nodes): `Telegram OAuth Integration`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1262`** (1 nodes): `Telegram Integration Checklist`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1263`** (1 nodes): `Telegram Integration Quick Start`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1264`** (1 nodes): `Telegram Integration Sprint Plan`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1265`** (1 nodes): `Telegram Integration Sprint 3-4`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1266`** (1 nodes): `Telegram Integration Sprint 5-6`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1267`** (1 nodes): `Telegram Integration Executive Summary`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1268`** (1 nodes): `Telegram Methods Quick Reference`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1269`** (1 nodes): `Mini Apps Advanced Examples`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1270`** (1 nodes): `Telegram Mini Apps Integration Advanced`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1271`** (1 nodes): `Telegram Mini App Features`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1272`** (1 nodes): `Troubleshooting Guide`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1273`** (1 nodes): `UX Audit - User Flows`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1274`** (1 nodes): `UX Audit - Component Audit`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1275`** (1 nodes): `Voice Cloning Integration Guide`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1276`** (1 nodes): `Z-Index Hierarchy Documentation`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1277`** (1 nodes): `Component Refactoring Priorities`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1278`** (1 nodes): `Music on Profiles Feature`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1279`** (1 nodes): `Custom Emoji Status`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1280`** (1 nodes): `Browser Tests - Playwright Implementation`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1281`** (1 nodes): `Documentation Update - Naming Conventions`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1282`** (1 nodes): `Implementation Summary - Technical Debt Resolution`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1283`** (1 nodes): `Interface Audit - Build Process Fixed`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1284`** (1 nodes): `Project Audit - Synchronization & Quality`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1285`** (1 nodes): `Project Improvements Summary`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1286`** (1 nodes): `Sprint 008 Kickoff Checklist`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1287`** (1 nodes): `Sprint 008 Progress Report`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1288`** (1 nodes): `Sprint Audit Summary - Final Report`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 1289`** (1 nodes): `GitHub Best Practices Implementation`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.

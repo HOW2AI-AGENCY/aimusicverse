@@ -5,7 +5,7 @@
 **Команда**: 3 разработчика  
 **Статус**: 🚀 STARTED
 
-Полная документация: [SPRINT-025-TO-028-DETAILED-PLAN.md](./SPRINT-025-TO-028-DETAILED-PLAN.md#sprint-026-ux-unification)
+Полная документация: SPRINT-025-TO-028-DETAILED-PLAN (archived)
 
 ---
 
@@ -185,4 +185,4 @@ By the end of Sprint 026:
 **Создан**: 2025-12-11  
 **Владелец**: UX Lead + Frontend Engineers  
 **Предыдущий**: [SPRINT-025-OPTIMIZATION.md](./SPRINT-025-OPTIMIZATION.md)  
-**Следующий**: [SPRINT-027-ARCHITECTURE-CLEANUP.md](./SPRINT-027-ARCHITECTURE-CLEANUP.md)
+**Следующий**: SPRINT-027-AI-LYRICS-TOOLS.md

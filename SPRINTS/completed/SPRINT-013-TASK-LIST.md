@@ -123,7 +123,7 @@ Sprint 013 successfully implemented advanced audio features for Stem Studio incl
 - [x] **T071** Fix suno-music-extend - correct defaultParamFlag logic ✅
 - [x] **T072** Fix generate-track-cover - use google/gemini-3-pro-image-preview model ✅
 
-**SDD**: [specs/SDD-017-SunoAPI-Fixes.md](../specs/SDD-017-SunoAPI-Fixes.md)
+**SDD**: specs/SDD-017-SunoAPI-Fixes.md (archived)
 
 ### Phase 9: Audio Effects & Presets (Previously In Progress - Now Complete)
 

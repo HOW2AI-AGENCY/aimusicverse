@@ -244,7 +244,8 @@ export const UnifiedNotesViewer = memo(function UnifiedNotesViewer({
     if (converted.length > 0) {
       const minStart = Math.min(...converted.map((n) => n.startTime));
       const maxEnd = Math.max(...converted.map((n) => n.endTime));
-      console.log("[UnifiedNotesViewer] xmlNotesAsMidi converted", converted.length, "notes", {
+      logger.debug("xmlNotesAsMidi converted", {
+        count: converted.length,
         durationFromXml: parsedXml?.duration,
         minStart,
         maxEnd,

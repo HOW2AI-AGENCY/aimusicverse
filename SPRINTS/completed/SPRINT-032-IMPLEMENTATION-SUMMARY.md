@@ -62,7 +62,7 @@ import { QuickStartButton, QuickStartGrid } from '@/components/onboarding/QuickS
 
 **Files:**
 
-- [QuickStartButton.tsx](../src/components/onboarding/QuickStartButton.tsx)
+- [QuickStartButton.tsx](../../src/components/onboarding/QuickStartButton.tsx)
 
 ---
 
@@ -105,8 +105,8 @@ const error = mapSunoError(apiError, {
 
 **Files:**
 
-- [suno-error-mapper.ts](../src/lib/suno-error-mapper.ts)
-- [UserFriendlyError.tsx](../src/components/errors/UserFriendlyError.tsx)
+- [suno-error-mapper.ts](../../src/lib/suno-error-mapper.ts)
+- [UserFriendlyError.tsx](../../src/components/errors/UserFriendlyError.tsx)
 
 ---
 
@@ -147,7 +147,7 @@ cancelRetry();
 
 **Files:**
 
-- [useAutomaticRetry.ts](../src/hooks/useAutomaticRetry.ts)
+- [useAutomaticRetry.ts](../../src/hooks/useAutomaticRetry.ts)
 
 ---
 
@@ -180,7 +180,7 @@ import { FirstCommentCTA } from "@/components/comments/FirstCommentCTA";
 
 **Files:**
 
-- [FirstCommentCTA.tsx](../src/components/comments/FirstCommentCTA.tsx)
+- [FirstCommentCTA.tsx](../../src/components/comments/FirstCommentCTA.tsx)
 
 ---
 
@@ -216,7 +216,7 @@ import { CommentSuggestions } from "@/components/comments/CommentSuggestions";
 
 **Files:**
 
-- [CommentSuggestions.tsx](../src/components/comments/CommentSuggestions.tsx)
+- [CommentSuggestions.tsx](../../src/components/comments/CommentSuggestions.tsx)
 
 ---
 
@@ -260,8 +260,8 @@ import { PersonalizedRecommendations } from "@/components/discovery/Personalized
 
 **Files:**
 
-- [track-similarity.ts](../src/lib/track-similarity.ts)
-- [PersonalizedRecommendations.tsx](../src/components/discovery/PersonalizedRecommendations.tsx)
+- [track-similarity.ts](../../src/lib/track-similarity.ts)
+- [PersonalizedRecommendations.tsx](../../src/components/discovery/PersonalizedRecommendations.tsx)
 
 ---
 
@@ -444,9 +444,8 @@ import { PersonalizedRecommendations } from "@/components/discovery/Personalized
 
 ### Related Files
 
-- [Sprint Plan](./SPRINT-032-PLAN.md)
-- [Improvement Plan 2026](./IMPROVEMENT_PLAN_2026.md)
-- [PROJECT_STATUS.md](../PROJECT_STATUS.md)
+- [Improvement Plan 2026](../IMPROVEMENT_PLAN_2026.md)
+- [PROJECT_STATUS.md](../../PROJECT_STATUS.md)
 
 ### Components Created
 

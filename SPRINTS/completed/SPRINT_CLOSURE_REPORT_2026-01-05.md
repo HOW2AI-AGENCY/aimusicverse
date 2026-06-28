@@ -353,22 +353,18 @@ All active and in-progress sprints have been successfully closed as of January 5
 
 ### Sprint Documentation
 
-- [SPRINTS/README.md](SPRINTS/README.md) - Sprint overview
-- [SPRINTS/SPRINT-PROGRESS.md](SPRINTS/SPRINT-PROGRESS.md) - Progress tracking
-- [SPRINTS/PLANNED_SPRINTS_BACKLOG.md](SPRINTS/PLANNED_SPRINTS_BACKLOG.md) - Backlog
-- [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Sprint 030 details
+- [SPRINTS/README.md](../README.md) - Sprint overview
+- [SPRINTS/SPRINT-PROGRESS.md](../SPRINT-PROGRESS.md) - Progress tracking
+- [SPRINTS/SPRINT-030-UNIFIED-STUDIO-MOBILE.md](SPRINT-030-UNIFIED-STUDIO-MOBILE.md) - Sprint 030 details
 
 ### Specifications
 
-- [specs/001-unified-interface/](specs/001-unified-interface/) - Unified interface spec
-- [specs/sprint-014-platform-integration-export/](specs/sprint-014-platform-integration-export/) - Export spec
-- [specs/sprint-015-quality-testing-performance/](specs/sprint-015-quality-testing-performance/) - Testing spec
+- [specs/001-unified-interface/](../../specs/001-unified-interface/) - Unified interface spec
 
 ### Project Documentation
 
-- [PROJECT_STATUS.md](PROJECT_STATUS.md) - Overall status
-- [ROADMAP.md](ROADMAP.md) - Product roadmap
-- [SPRINT_MANAGEMENT.md](SPRINT_MANAGEMENT.md) - Process guide
+- [PROJECT_STATUS.md](../../PROJECT_STATUS.md) - Overall status
+- [ROADMAP.md](../../ROADMAP.md) - Product roadmap
 
 ---
 
