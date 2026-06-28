@@ -21,6 +21,7 @@ import {
   BarChart3,
   CreditCard,
   Settings as SettingsIcon,
+  MousePointerClick,
 } from "@/lib/icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion } from "@/lib/motion";
@@ -42,6 +43,7 @@ import { UserStatsSection } from "@/components/settings/UserStatsSection";
 import { ThemeSettings } from "@/components/settings/ThemeSettings";
 import { HintsSettings } from "@/components/settings/HintsSettings";
 import { MidiSettingsSection } from "@/components/settings/MidiSettingsSection";
+import { GestureSettingsPanel } from "@/components/gestures/GestureSettingsPanel";
 
 export default function Settings() {
   const settings = useSettingsPage();
@@ -102,6 +104,12 @@ export default function Settings() {
         );
       case "hints":
         return <HintsSettings />;
+      case "gestures":
+        return (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+            <GestureSettingsPanel />
+          </motion.div>
+        );
       case "midi":
         return (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
@@ -182,6 +190,10 @@ export default function Settings() {
                 <Lightbulb className="w-4 h-4" />
                 <span className="hidden sm:inline text-xs">Подсказки</span>
               </TabsTrigger>
+              <TabsTrigger value="gestures" className="gap-1 px-1">
+                <MousePointerClick className="w-4 h-4" />
+                <span className="hidden sm:inline text-xs">Жесты</span>
+              </TabsTrigger>
               <TabsTrigger value="midi" className="gap-1 px-1">
                 <Music className="w-4 h-4" />
                 <span className="hidden sm:inline text-xs">MIDI</span>
@@ -212,6 +224,9 @@ export default function Settings() {
             </TabsContent>
             <TabsContent value="hints" className="space-y-4">
               {renderContent("hints")}
+            </TabsContent>
+            <TabsContent value="gestures" className="space-y-4">
+              {renderContent("gestures")}
             </TabsContent>
             <TabsContent value="midi" className="space-y-4">
               {renderContent("midi")}

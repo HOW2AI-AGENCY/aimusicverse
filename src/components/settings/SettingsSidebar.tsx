@@ -4,7 +4,18 @@
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { User, Palette, Shield, Bell, Lightbulb, Music, Send, CreditCard, BarChart3 } from "@/lib/icons";
+import {
+  User,
+  Palette,
+  Shield,
+  Bell,
+  Lightbulb,
+  Music,
+  Send,
+  CreditCard,
+  BarChart3,
+  MousePointerClick,
+} from "@/lib/icons";
 
 interface SettingsSidebarProps {
   activeTab: string;
@@ -20,6 +31,7 @@ const settingsTabs = [
   { id: "privacy", label: "Приватность", icon: Shield, description: "Настройки доступа" },
   { id: "notifications", label: "Уведомления", icon: Bell, description: "Каналы и типы уведомлений" },
   { id: "hints", label: "Подсказки", icon: Lightbulb, description: "Обучающие подсказки" },
+  { id: "gestures", label: "Жесты", icon: MousePointerClick, description: "Настройки жестов в плеере" },
   { id: "midi", label: "MIDI", icon: Music, description: "Настройки MIDI-устройств" },
   { id: "telegram", label: "Telegram", icon: Send, description: "Интеграция с Telegram" },
 ];
