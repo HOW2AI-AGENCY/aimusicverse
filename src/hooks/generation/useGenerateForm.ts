@@ -24,6 +24,18 @@ import { expectGenerationResult } from "./useGenerationResult";
 import { useAutomaticRetry } from "@/hooks/useAutomaticRetry";
 import { isRetryableError } from "@/lib/suno-error-mapper";
 import { addUserActionBreadcrumb, captureGenerationError } from "@/lib/sentry";
+import { type FailureCategory } from "@/api/generation.api";
+
+function classifyFailure(error: unknown): FailureCategory {
+  const msg = (error instanceof Error ? error.message : String(error)).toLowerCase();
+  if (msg.includes("429") || msg.includes("rate") || msg.includes("limit")) return "rate_limit";
+  if (msg.includes("content") || msg.includes("policy") || msg.includes("moderat")) return "content_policy";
+  if (msg.includes("timeout") || msg.includes("timed out")) return "timeout";
+  if (msg.includes("network") || msg.includes("fetch") || msg.includes("cors")) return "network";
+  if (msg.includes("valid") || msg.includes("required") || msg.includes("too long")) return "validation";
+  if (msg.includes("edge function") || msg.includes("500") || msg.includes("502")) return "api_error";
+  return "unknown";
+}
 
 // Wizard mode removed for UX simplification - only 2 modes now
 export type GenerationMode = "simple" | "custom";
@@ -1020,6 +1032,31 @@ export function useGenerateForm({
         model: finalModel,
         retryAttempts: retryCount,
       });
+
+      const failureCategory = classifyFailure(error);
+      supabase
+        .from("generation_tasks")
+        .insert({
+          user_id: (await supabase.auth.getUser()).data.user?.id ?? "",
+          prompt: (mode === "simple" ? description : lyrics)?.slice(0, 500) || "",
+          status: "failed",
+          source: "mini_app",
+          error_message: errorMessage.slice(0, 500),
+          failure_category: failureCategory,
+          retry_count: retryCount,
+          model_used: finalModel,
+          generation_mode: submissionMode,
+          generation_params: {
+            mode,
+            model: finalModel,
+            hasVocals,
+            hasAudioFile: !!audioFile,
+            hasReference: !!activeReference,
+            promptLength: (mode === "simple" ? description : lyrics)?.length || 0,
+          },
+        })
+        .then(() => {})
+        .catch(() => {});
     } finally {
       setLoading(false);
     }

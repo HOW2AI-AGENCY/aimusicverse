@@ -8,18 +8,18 @@
 
 ## Текущее состояние проекта
 
-| Метрика                | Значение       | Цель           | Статус |
-| ---------------------- | -------------- | -------------- | ------ |
-| Спринт                 | 033 завершён   | —              | ✅     |
-| Прогресс               | 92%            | 95%+           | 🔄     |
-| Health Score            | 98/100         | ≥95            | ✅     |
-| Компоненты              | 940+           | —              | ✅     |
-| Бандл (gzip)            | 918 КБ         | ≤950 КБ        | ✅     |
-| Unit-тесты              | 362            | 500+           | 🔄     |
-| E2E-спецификации        | 50+            | 50+ pass       | ❌     |
-| Generation failure rate | ~12%           | <8%            | ❌     |
-| DAU                     | ~25            | 50+            | ❌     |
-| Пользователи            | 574+           | 1000+          | 🔄     |
+| Метрика                 | Значение     | Цель     | Статус |
+| ----------------------- | ------------ | -------- | ------ |
+| Спринт                  | 033 завершён | —        | ✅     |
+| Прогресс                | 92%          | 95%+     | 🔄     |
+| Health Score            | 98/100       | ≥95      | ✅     |
+| Компоненты              | 940+         | —        | ✅     |
+| Бандл (gzip)            | 918 КБ       | ≤950 КБ  | ✅     |
+| Unit-тесты              | 362          | 500+     | 🔄     |
+| E2E-спецификации        | 50+          | 50+ pass | ❌     |
+| Generation failure rate | ~12%         | <8%      | ❌     |
+| DAU                     | ~25          | 50+      | ❌     |
+| Пользователи            | 574+         | 1000+    | 🔄     |
 
 ### Открытые проблемы
 
@@ -56,31 +56,31 @@
 
 ### Фаза 1: Мониторинг и метрики (3 дня)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 034-01 | Dashboard метрик генерации (success rate, avg time, errors by type) | P0 | 1d | `src/pages/admin/GenerationMetrics.tsx`, `supabase/functions/generation-metrics/` |
-| 034-02 | Sentry breadcrumbs для полного flow генерации | P0 | 0.5d | `src/hooks/generation/useGenerateForm.ts`, `src/lib/logger.ts` |
-| 034-03 | Алерты при failure rate >10% (Edge Function + Telegram Bot notification) | P1 | 0.5d | `supabase/functions/generation-alert/` |
-| 034-04 | Логирование параметров провалившихся генераций (prompt, style, model, duration) | P0 | 1d | `supabase/functions/suno-music-generate/`, `supabase/functions/suno-music-callback/` |
+| #      | Задача                                                                             | Приоритет | Effort | Файлы                                                                  |
+| ------ | ---------------------------------------------------------------------------------- | --------- | ------ | ---------------------------------------------------------------------- |
+| 034-01 | ✅ Dashboard метрик генерации (success rate, avg time, errors by type)             | P0        | 1d     | `src/pages/admin/GenerationMetrics.tsx`, `src/App.tsx`                 |
+| 034-02 | ✅ Sentry breadcrumbs для полного flow генерации                                   | P0        | 0.5d   | `src/hooks/generation/useGenerateForm.ts`, `src/lib/sentry.ts`         |
+| 034-03 | Алерты при failure rate >10% (Edge Function + Telegram Bot notification)           | P1        | 0.5d   | `supabase/functions/generation-alert/`                                 |
+| 034-04 | ✅ Логирование параметров провалившихся генераций (prompt, style, model, duration) | P0        | 1d     | `src/hooks/generation/useGenerateForm.ts`, `src/api/generation.api.ts` |
 
 ### Фаза 2: Интеграция retry/fallback (4 дня)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 034-05 | **Интегрировать** `useAutomaticRetry` в `handleGenerate()` (хук готов, нужен wiring) | P0 | 0.5d | `src/hooks/generation/useGenerateForm.ts:594-993` |
-| 034-06 | Добавить `abort_reason`, `retry_count`, `failure_category` в `generation_tasks` | P0 | 0.5d | DB migration + `supabase/functions/suno-music-generate/` |
-| 034-07 | Prompt pre-validation (длина, запрещённые слова, кодировка) перед отправкой | P0 | 1d | `src/lib/prompt-validator.ts`, `src/hooks/generation/usePromptValidation.ts` |
-| 034-08 | Expose backend `MODEL_FALLBACK_CHAIN` в UI — показать пользователю fallback | P1 | 1d | `src/services/generation-fallback.service.ts` |
-| 034-09 | Очередь генераций с rate-limit awareness (UI показ позиции в очереди) | P1 | 1d | `src/hooks/generation/useGenerationQueue.ts`, `src/components/generate-form/QueuePosition.tsx` |
+| #      | Задача                                                                                  | Приоритет | Effort | Файлы                                                                                          |
+| ------ | --------------------------------------------------------------------------------------- | --------- | ------ | ---------------------------------------------------------------------------------------------- |
+| 034-05 | ✅ **Интегрировать** `useAutomaticRetry` в `handleGenerate()` (хук готов, нужен wiring) | P0        | 0.5d   | `src/hooks/generation/useGenerateForm.ts:594-993`                                              |
+| 034-06 | ✅ Добавить `abort_reason`, `retry_count`, `failure_category` в `generation_tasks`      | P0        | 0.5d   | `supabase/migrations/20260628120000_generation_failure_tracking.sql`                           |
+| 034-07 | ✅ Prompt pre-validation (длина, запрещённые слова, кодировка) перед отправкой          | P0        | 1d     | `src/lib/prompt-validator.ts`, `src/hooks/generation/usePromptValidation.ts`                   |
+| 034-08 | Expose backend `MODEL_FALLBACK_CHAIN` в UI — показать пользователю fallback             | P1        | 1d     | `src/services/generation-fallback.service.ts`                                                  |
+| 034-09 | Очередь генераций с rate-limit awareness (UI показ позиции в очереди)                   | P1        | 1d     | `src/hooks/generation/useGenerationQueue.ts`, `src/components/generate-form/QueuePosition.tsx` |
 
 ### Фаза 3: A/B тесты и анализ (3 дня)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 034-10 | **Активировать** `useExperiment` (хук готов) — первый эксперимент: prompt suggestions | P1 | 0.5d | `src/hooks/useExperiment.ts`, `src/components/generate-form/PromptSuggestions.tsx` |
-| 034-11 | A/B тест: 2-step vs 4-step generation wizard | P2 | 0.5d | `src/components/generate-form/` |
-| 034-12 | Анализ failure patterns (корреляция style/mood/duration с ошибками) — RPC функция | P1 | 1d | `supabase/functions/failure-analysis/` |
-| 034-13 | Delivery tracking: мониторинг получения обоих clip-ов (A/B версии) | P2 | 1d | `supabase/functions/suno-music-callback/` |
+| #      | Задача                                                                                   | Приоритет | Effort | Файлы                                                                |
+| ------ | ---------------------------------------------------------------------------------------- | --------- | ------ | -------------------------------------------------------------------- |
+| 034-10 | ✅ **Активировать** `useExperiment` (хук готов) — первый эксперимент: prompt suggestions | P1        | 0.5d   | `src/lib/ab-testing/index.ts` (PROMPT_SUGGESTIONS status=running)    |
+| 034-11 | A/B тест: 2-step vs 4-step generation wizard                                             | P2        | 0.5d   | `src/components/generate-form/`                                      |
+| 034-12 | ✅ Анализ failure patterns (корреляция style/mood/duration с ошибками) — RPC функция     | P1        | 1d     | `supabase/migrations/20260628120000_generation_failure_tracking.sql` |
+| 034-13 | Delivery tracking: мониторинг получения обоих clip-ов (A/B версии)                       | P2        | 1d     | `supabase/functions/suno-music-callback/`                            |
 
 ### Критерии успеха Sprint 034
 
@@ -102,24 +102,24 @@
 
 ### Фаза 1: E2E стабилизация (5 дней)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 035-01 | Починить smoke test (app boot, basic navigation) | P0 | 0.5d | `tests/e2e/smoke.app-boots.spec.ts` |
-| 035-02 | Починить homepage + navigation тесты | P0 | 1d | `tests/e2e/homepage.spec.ts`, `tests/e2e/navigation.spec.ts`, `tests/e2e/home.navigation.spec.ts` |
-| 035-03 | Починить player тесты (compact, fullscreen, a11y) | P0 | 1d | `tests/e2e/player.*.spec.ts` |
-| 035-04 | Починить library тесты | P1 | 0.5d | `tests/e2e/library.spec.ts` |
-| 035-05 | Починить generation тесты (dialog, mobile taps, portal) | P1 | 1d | `tests/e2e/generation.*.spec.ts` |
-| 035-06 | Настроить Playwright CI pipeline (GitHub Actions) | P0 | 1d | `.github/workflows/e2e.yml`, `playwright.config.ts` |
+| #      | Задача                                                  | Приоритет | Effort | Файлы                                                                                             |
+| ------ | ------------------------------------------------------- | --------- | ------ | ------------------------------------------------------------------------------------------------- |
+| 035-01 | Починить smoke test (app boot, basic navigation)        | P0        | 0.5d   | `tests/e2e/smoke.app-boots.spec.ts`                                                               |
+| 035-02 | Починить homepage + navigation тесты                    | P0        | 1d     | `tests/e2e/homepage.spec.ts`, `tests/e2e/navigation.spec.ts`, `tests/e2e/home.navigation.spec.ts` |
+| 035-03 | Починить player тесты (compact, fullscreen, a11y)       | P0        | 1d     | `tests/e2e/player.*.spec.ts`                                                                      |
+| 035-04 | Починить library тесты                                  | P1        | 0.5d   | `tests/e2e/library.spec.ts`                                                                       |
+| 035-05 | Починить generation тесты (dialog, mobile taps, portal) | P1        | 1d     | `tests/e2e/generation.*.spec.ts`                                                                  |
+| 035-06 | Настроить Playwright CI pipeline (GitHub Actions)       | P0        | 1d     | `.github/workflows/e2e.yml`, `playwright.config.ts`                                               |
 
 ### Фаза 2: Платформенные экспорты (5 дней)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 035-07 | Универсальный export service (скачивание WAV/MP3/FLAC) | P0 | 1d | `src/services/export.service.ts`, `supabase/functions/audio-export/` |
-| 035-08 | UI экспорта (формат, качество, метаданные) | P1 | 1d | `src/components/export/ExportDialog.tsx`, `src/hooks/useAudioExport.ts` |
-| 035-09 | Spotify-ready metadata (ID3 tags, cover art, ISRC placeholder) | P2 | 1d | `supabase/functions/audio-metadata/` |
-| 035-10 | YouTube-ready export (аудио + обложка → видео через FFmpeg) | P2 | 1.5d | `supabase/functions/video-export/` |
-| 035-11 | Share to Telegram Stories с аудио-превью | P1 | 0.5d | `src/services/telegram-stories.ts` |
+| #      | Задача                                                         | Приоритет | Effort | Файлы                                                                   |
+| ------ | -------------------------------------------------------------- | --------- | ------ | ----------------------------------------------------------------------- |
+| 035-07 | Универсальный export service (скачивание WAV/MP3/FLAC)         | P0        | 1d     | `src/services/export.service.ts`, `supabase/functions/audio-export/`    |
+| 035-08 | UI экспорта (формат, качество, метаданные)                     | P1        | 1d     | `src/components/export/ExportDialog.tsx`, `src/hooks/useAudioExport.ts` |
+| 035-09 | Spotify-ready metadata (ID3 tags, cover art, ISRC placeholder) | P2        | 1d     | `supabase/functions/audio-metadata/`                                    |
+| 035-10 | YouTube-ready export (аудио + обложка → видео через FFmpeg)    | P2        | 1.5d   | `supabase/functions/video-export/`                                      |
+| 035-11 | Share to Telegram Stories с аудио-превью                       | P1        | 0.5d   | `src/services/telegram-stories.ts`                                      |
 
 ### Критерии успеха Sprint 035
 
@@ -139,32 +139,32 @@
 
 ### Фаза 1: Рефакторинг гигантских файлов — Phase 9B (4 дня)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 036-01 | Разбить `GlobalAudioProvider.tsx` (982 строки) → hooks/state/queue | P0 | 1.5d | `src/components/GlobalAudioProvider.tsx` |
-| 036-02 | Разбить `SectionNotesPanel.tsx` (882 строки) + `IntegratedStemTracks.tsx` (875 строк) | P0 | 1d | `src/components/studio/` |
-| 036-03 | Разбить `MobileFullscreenPlayer.tsx` (837 строк) + `AudioActionDialog.tsx` (797 строк) | P1 | 1d | `src/components/player/`, `src/components/` |
-| 036-04 | Phase 9C: Консолидация Lyrics-экосистемы (30+ файлов из 6 директорий) | P2 | 0.5d | `src/components/lyrics/` |
+| #      | Задача                                                                                 | Приоритет | Effort | Файлы                                       |
+| ------ | -------------------------------------------------------------------------------------- | --------- | ------ | ------------------------------------------- |
+| 036-01 | Разбить `GlobalAudioProvider.tsx` (982 строки) → hooks/state/queue                     | P0        | 1.5d   | `src/components/GlobalAudioProvider.tsx`    |
+| 036-02 | Разбить `SectionNotesPanel.tsx` (882 строки) + `IntegratedStemTracks.tsx` (875 строк)  | P0        | 1d     | `src/components/studio/`                    |
+| 036-03 | Разбить `MobileFullscreenPlayer.tsx` (837 строк) + `AudioActionDialog.tsx` (797 строк) | P1        | 1d     | `src/components/player/`, `src/components/` |
+| 036-04 | Phase 9C: Консолидация Lyrics-экосистемы (30+ файлов из 6 директорий)                  | P2        | 0.5d   | `src/components/lyrics/`                    |
 
 > **Примечание:** `useUnifiedStudioStore` уже разбит до 29 строк (Phase 9A завершена).
 
 ### Фаза 2: Тестовое покрытие до 500+ (3 дня)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 036-05 | Unit-тесты для generation hooks (useGenerateForm, usePromptValidation) | P0 | 1d | `tests/unit/hooks/useGenerateForm.test.ts` |
-| 036-06 | Unit-тесты для audio utilities (audioElementPool, audioCache, waveformGenerator) | P1 | 1d | `tests/unit/lib/audio*.test.ts` |
-| 036-07 | Unit-тесты для export service + A/B framework | P1 | 0.5d | `tests/unit/services/export.test.ts`, `tests/unit/hooks/useABTest.test.ts` |
-| 036-08 | Property-based тесты для критических трансформаций | P2 | 0.5d | `tests/unit/lib/property-based.test.ts` |
+| #      | Задача                                                                           | Приоритет | Effort | Файлы                                                                      |
+| ------ | -------------------------------------------------------------------------------- | --------- | ------ | -------------------------------------------------------------------------- |
+| 036-05 | Unit-тесты для generation hooks (useGenerateForm, usePromptValidation)           | P0        | 1d     | `tests/unit/hooks/useGenerateForm.test.ts`                                 |
+| 036-06 | Unit-тесты для audio utilities (audioElementPool, audioCache, waveformGenerator) | P1        | 1d     | `tests/unit/lib/audio*.test.ts`                                            |
+| 036-07 | Unit-тесты для export service + A/B framework                                    | P1        | 0.5d   | `tests/unit/services/export.test.ts`, `tests/unit/hooks/useABTest.test.ts` |
+| 036-08 | Property-based тесты для критических трансформаций                               | P2        | 0.5d   | `tests/unit/lib/property-based.test.ts`                                    |
 
 ### Фаза 3: Service Worker и оффлайн (3 дня)
 
-| # | Задача | Приоритет | Effort | Файлы |
-| - | ------ | --------- | ------ | ----- |
-| 036-09 | Базовый Service Worker с Workbox (cache-first для статики) | P1 | 1d | `src/sw.ts`, `vite.config.ts` (VitePWA plugin) |
-| 036-10 | Cache-first для аудио CDN (прослушанные треки доступны оффлайн) | P1 | 1d | `src/sw.ts` |
-| 036-11 | Network-first для API (генерация, библиотека) | P2 | 0.5d | `src/sw.ts` |
-| 036-12 | Update notification UI ("Доступна новая версия") | P2 | 0.5d | `src/components/ui/UpdateNotification.tsx` |
+| #      | Задача                                                          | Приоритет | Effort | Файлы                                          |
+| ------ | --------------------------------------------------------------- | --------- | ------ | ---------------------------------------------- |
+| 036-09 | Базовый Service Worker с Workbox (cache-first для статики)      | P1        | 1d     | `src/sw.ts`, `vite.config.ts` (VitePWA plugin) |
+| 036-10 | Cache-first для аудио CDN (прослушанные треки доступны оффлайн) | P1        | 1d     | `src/sw.ts`                                    |
+| 036-11 | Network-first для API (генерация, библиотека)                   | P2        | 0.5d   | `src/sw.ts`                                    |
+| 036-12 | Update notification UI ("Доступна новая версия")                | P2        | 0.5d   | `src/components/ui/UpdateNotification.tsx`     |
 
 ### Критерии успеха Sprint 036
 
@@ -178,11 +178,11 @@
 
 ## Сводная таблица
 
-| Спринт | Фокус | Задач | Effort | Ключевая метрика |
-| ------ | ----- | ----- | ------ | ---------------- |
-| 034    | Надёжность генерации | 13 | 10д | Failure rate 12% → <8% |
-| 035    | E2E + Экспорт | 11 | 10д | E2E green CI + export |
-| 036    | Качество + SW | 12 | 10д | 500+ тестов, 0 файлов >800 строк |
+| Спринт | Фокус                | Задач | Effort | Ключевая метрика                 |
+| ------ | -------------------- | ----- | ------ | -------------------------------- |
+| 034    | Надёжность генерации | 13    | 10д    | Failure rate 12% → <8%           |
+| 035    | E2E + Экспорт        | 11    | 10д    | E2E green CI + export            |
+| 036    | Качество + SW        | 12    | 10д    | 500+ тестов, 0 файлов >800 строк |
 
 ## Зависимости между спринтами
 
@@ -201,12 +201,12 @@ Sprint 036 (Quality)
 
 ## Риски и митигации
 
-| Риск | Вероятность | Влияние | Митигация |
-| ---- | ----------- | ------- | --------- |
-| E2E тесты flaky из-за Suno API | Высокая | Средний | Мокать Suno API в тестах, тестировать UI flow |
-| Рефакторинг StudioShell ломает Studio | Средняя | Высокий | Сначала E2E тесты (Sprint 035), потом рефакторинг (036) |
-| Bundle size после SW > 950KB | Низкая | Средний | SW в отдельном entry point, не влияет на main bundle |
-| Suno API rate limits блокируют A/B тесты | Средняя | Средний | Кэширование результатов, тестирование в off-peak |
+| Риск                                     | Вероятность | Влияние | Митигация                                               |
+| ---------------------------------------- | ----------- | ------- | ------------------------------------------------------- |
+| E2E тесты flaky из-за Suno API           | Высокая     | Средний | Мокать Suno API в тестах, тестировать UI flow           |
+| Рефакторинг StudioShell ломает Studio    | Средняя     | Высокий | Сначала E2E тесты (Sprint 035), потом рефакторинг (036) |
+| Bundle size после SW > 950KB             | Низкая      | Средний | SW в отдельном entry point, не влияет на main bundle    |
+| Suno API rate limits блокируют A/B тесты | Средняя     | Средний | Кэширование результатов, тестирование в off-peak        |
 
 ---
 

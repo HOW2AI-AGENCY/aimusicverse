@@ -89,6 +89,8 @@ interface FailedGeneration {
   model_used: string | null;
   completed_at: string | null;
   status: string;
+  failure_category: string | null;
+  retry_count: number | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -276,7 +278,9 @@ function useRecentFailedGenerations() {
     queryFn: async (): Promise<FailedGeneration[]> => {
       const { data, error } = await supabase
         .from("generation_tasks")
-        .select("id, created_at, user_id, prompt, error_message, model_used, completed_at, status")
+        .select(
+          "id, created_at, user_id, prompt, error_message, model_used, completed_at, status, failure_category, retry_count",
+        )
         .in("status", ["failed", "error"])
         .order("created_at", { ascending: false })
         .limit(50);
