@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { motion, AnimatePresence } from "@/lib/motion";
-import { Loader2, ArrowDown } from "@/lib/icons";
+import { Loader2, ArrowDown, Check } from "@/lib/icons";
 import { cn } from "@/lib/utils";
 
 interface PullToRefreshIndicatorProps {
@@ -52,7 +52,7 @@ export const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
               <motion.div
                 animate={{
                   rotate: isReady ? 180 : 0,
-                  scale: isReady ? 1.1 : 1,
+                  scale: isReady ? [1, 1.15, 1.1] : 1,
                 }}
                 transition={{ duration: 0.2 }}
               >
@@ -60,6 +60,16 @@ export const PullToRefreshIndicator = memo(function PullToRefreshIndicator({
                   className={cn("w-5 h-5 transition-colors", isReady ? "text-primary" : "text-muted-foreground")}
                 />
               </motion.div>
+            )}
+
+            {/* Pulse ring when ready to release */}
+            {isReady && !isRefreshing && (
+              <motion.div
+                className="absolute inset-0 rounded-full border-2 border-primary"
+                initial={{ scale: 1, opacity: 0.6 }}
+                animate={{ scale: 1.5, opacity: 0 }}
+                transition={{ duration: 0.8, repeat: Infinity }}
+              />
             )}
           </div>
 
