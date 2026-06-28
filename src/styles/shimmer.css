@@ -1,0 +1,87 @@
+/**
+ * Shimmer Animation Styles
+ * Feature: 033-mobile-ui-improvements
+ *
+ * Skeleton loading animations with shimmer effect for content placeholders.
+ */
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted) / 0.3) 0%,
+    hsl(var(--muted) / 0.5) 20%,
+    hsl(var(--muted) / 0.8) 40%,
+    hsl(var(--muted) / 0.5) 60%,
+    hsl(var(--muted) / 0.3) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.shimmer-fast {
+  animation-duration: 1s;
+}
+
+.shimmer-slow {
+  animation-duration: 2s;
+}
+
+.shimmer-rounded {
+  border-radius: 8px;
+}
+
+.shimmer-circle {
+  border-radius: 50%;
+}
+
+.shimmer-text {
+  height: 1em;
+  margin-bottom: 0.5em;
+  border-radius: 4px;
+}
+
+.shimmer-text:last-child {
+  width: 60%;
+}
+
+.shimmer-title {
+  height: 1.5em;
+  width: 70%;
+  margin-bottom: 0.75em;
+  border-radius: 4px;
+}
+
+.shimmer-thumbnail {
+  aspect-ratio: 1;
+  border-radius: 8px;
+}
+
+.shimmer-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.shimmer-card-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shimmer,
+  .shimmer-fast,
+  .shimmer-slow {
+    animation: none;
+    background: hsl(var(--muted) / 0.4);
+  }
+}

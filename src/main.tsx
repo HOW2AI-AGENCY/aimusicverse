@@ -16,6 +16,9 @@ import "./styles/colors.css";
 import "./styles/spacing.css";
 import "./styles/shadows.css";
 import "./styles/animations.css";
+// Feature 033-mobile-ui-improvements: Accessibility and shimmer styles
+import "./styles/accessibility.css";
+import "./styles/shimmer.css";
 import { logger } from "./lib/logger";
 import { initSentry, captureError } from "./lib/sentry";
 import { initTelemetry } from "./lib/telemetry";
