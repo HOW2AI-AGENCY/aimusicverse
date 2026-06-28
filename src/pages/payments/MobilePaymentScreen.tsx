@@ -50,7 +50,6 @@ export default function MobilePaymentScreen() {
     },
   });
 
-  // Handle deep link parameters
   useEffect(() => {
     const productCode = searchParams.get("product");
     const autoSelect = searchParams.get("select");
@@ -62,7 +61,6 @@ export default function MobilePaymentScreen() {
         logger.info("Product pre-selected via deep link", { productCode });
       }
     } else if (autoSelect === "popular" && groupedProducts?.credits) {
-      // Auto-select featured/popular product
       const featured = groupedProducts.credits.find((p) => p.is_featured);
       if (featured) setSelectedProduct(featured);
     }

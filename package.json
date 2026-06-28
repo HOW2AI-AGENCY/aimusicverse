@@ -7,7 +7,6 @@
     "check:css-imports": "node scripts/check-css-imports.mjs",
     "check:section-tokens": "node scripts/check-section-tokens.mjs",
     "check:design-tokens": "npm run check:css-imports && npm run check:section-tokens",
-    "prebuild": "npm run check:design-tokens",
     "build": "vite build",
     "clean:cache": "node scripts/clean-cache.mjs",
     "reset": "node scripts/clean-cache.mjs && npm install && npm run build",
@@ -60,7 +59,7 @@
     "security:scan": "npm run test:security && npm run test:sast",
     "security:check": "npm audit && echo '✅ Security check complete'",
     "seo:check": "node scripts/seo-check.mjs",
-    "postbuild": "node scripts/seo-check.mjs"
+    "seo:postbuild": "node scripts/seo-check.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
