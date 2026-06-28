@@ -73,23 +73,23 @@ flowchart TD
     API --> Edge[Edge Functions / Supabase]
 ```
 
-| Layer | Path | Responsibility |
-| --- | --- | --- |
-| Pages | `src/pages/` | Route-level, lazy-loaded |
-| Components | `src/components/` | Presentation |
-| Hooks | `src/hooks/` | React Query + state |
-| Services | `src/services/` | Business logic |
-| API | `src/api/` | Typed Supabase queries |
-| Edge | `supabase/functions/` | Server-side jobs |
+| Layer      | Path                  | Responsibility           |
+| ---------- | --------------------- | ------------------------ |
+| Pages      | `src/pages/`          | Route-level, lazy-loaded |
+| Components | `src/components/`     | Presentation             |
+| Hooks      | `src/hooks/`          | React Query + state      |
+| Services   | `src/services/`       | Business logic           |
+| API        | `src/api/`            | Typed Supabase queries   |
+| Edge       | `supabase/functions/` | Server-side jobs         |
 
 ## 3. State strategy
 
-| Use case | Tool |
-| --- | --- |
-| Global player, studio, lyrics, mixer | Zustand |
-| Server state (queries, caching, optimistic) | TanStack Query |
-| Forms | React Hook Form + Zod |
-| Local UI | React hooks |
+| Use case                                    | Tool                  |
+| ------------------------------------------- | --------------------- |
+| Global player, studio, lyrics, mixer        | Zustand               |
+| Server state (queries, caching, optimistic) | TanStack Query        |
+| Forms                                       | React Hook Form + Zod |
+| Local UI                                    | React hooks           |
 
 ## 4. Audio architecture
 
@@ -153,15 +153,15 @@ See [`docs/TELEGRAM_BOT_ARCHITECTURE.md`](docs/TELEGRAM_BOT_ARCHITECTURE.md) · 
 
 Architecture Decision Records under [`ADR/`](ADR/). Notable:
 
-| ADR | Title |
-| --- | --- |
-| 001 | Technology stack choice |
-| 002 | Frontend architecture |
-| 003 | Performance optimisation |
+| ADR | Title                       |
+| --- | --------------------------- |
+| 001 | Technology stack choice     |
+| 002 | Frontend architecture       |
+| 003 | Performance optimisation    |
 | 004 | Audio playback optimisation |
-| 005 | State machine architecture |
-| 006 | Type-safe audio context |
-| 012 | Generation form compact UI |
+| 005 | State machine architecture  |
+| 006 | Type-safe audio context     |
+| 012 | Generation form compact UI  |
 
 ---
 
@@ -169,10 +169,16 @@ Architecture Decision Records under [`ADR/`](ADR/). Notable:
 
 ### 🔗 Related Documentation
 
-| 📚 Index | 🗂 Structure | 🗺 Roadmap | 🧩 KB | 📝 Changelog |
-| :---: | :---: | :---: | :---: | :---: |
-| [Index](DOCUMENTATION_INDEX.md) | [Structure](REPOSITORY_STRUCTURE.md) | [Roadmap](ROADMAP.md) | [Knowledge Base](KNOWLEDGE_BASE.md) | [Changelog](CHANGELOG.md) |
+|            📚 Index             |             🗂 Structure             |      🗺 Roadmap       |         🧩 KB          |       📝 Changelog        |
+| :-----------------------------: | :----------------------------------: | :-------------------: | :--------------------: | :-----------------------: |
+| [Index](DOCUMENTATION_INDEX.md) | [Structure](REPOSITORY_STRUCTURE.md) | [Roadmap](ROADMAP.md) | [CLAUDE.md](CLAUDE.md) | [Changelog](CHANGELOG.md) |
 
-<sub>Last updated: 2026-06-27</sub>
+---
+
+<div align="center">
+
+[← REPOSITORY_STRUCTURE.md](./REPOSITORY_STRUCTURE.md) · [↑ К индексу](./DOCUMENTATION_INDEX.md) · [ROADMAP.md →](./ROADMAP.md)
+
+<sub>Обновлено: 29.06.2026</sub>
 
 </div>

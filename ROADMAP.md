@@ -6,7 +6,7 @@
 
 <p>
   <img alt="Progress" src="https://img.shields.io/badge/2026-92%25_complete-F59E0B?style=for-the-badge"/>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-034-26A5E4?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-035-26A5E4?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
 </p>
 
@@ -35,7 +35,9 @@ gantt
     Audio Section Replacement    :done, 2026-05, 2026-06
     Interface Audit (033)        :done, 2026-06, 2026-06
     Generation Reliability (034) :done, 2026-06, 2026-06
+    Mobile UI Improvements (033)  :done, 2026-06, 2026-06
     section In progress
+    Repo Docs Revamp (035)        :active, 2026-06, 2026-07
     E2E + Export (035)           :active, 2026-07, 2026-08
     section Planned
     Refactoring (036)            : 2026-08, 2026-09
