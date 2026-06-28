@@ -78,14 +78,14 @@
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] Create gesture hint overlay component in src/components/gestures/GestureHintOverlay.tsx (explains double-tap seek and horizontal swipe)
-- [ ] T021 [P] Create gesture settings panel component in src/components/gestures/GestureSettingsPanel.tsx (enable/disable gestures, seek amount, hint overlay)
-- [ ] T022 [P] Create double-tap seek visual feedback component in src/components/player/DoubleTapSeekFeedback.tsx (animation showing -10s/+10s)
-- [ ] T023 [P] Create horizontal swipe chevron indicator component in src/components/player/SwipeChevronIndicator.tsx (shows left/right chevron)
-- [ ] T024 [US2] Update MobileFullscreenPlayer in src/components/player/MobileFullscreenPlayer.tsx (add gesture hint overlay, visual feedback, chevron indicator)
-- [ ] T025 [US2] Implement gesture hint dismissal logic in src/components/player/MobileFullscreenPlayer.tsx (store in GestureSettings)
-- [ ] T026 [US2] Add gesture settings section to Settings page in src/pages/Settings.tsx
-- [ ] T027 [US2] Test gesture discoverability (hint shows on first open, dismisses, visual feedback works)
+- [x] T020 [P] Create gesture hint overlay component in src/components/gestures/GestureHintOverlay.tsx (explains double-tap seek and horizontal swipe)
+- [x] T021 [P] Create gesture settings panel component in src/components/gestures/GestureSettingsPanel.tsx (enable/disable gestures, seek amount, hint overlay)
+- [x] T022 [P] Create double-tap seek visual feedback component in src/components/player/DoubleTapSeekFeedback.tsx (animation showing -10s/+10s)
+- [x] T023 [P] Create horizontal swipe chevron indicator component in src/components/player/SwipeChevronIndicator.tsx (shows left/right chevron)
+- [x] T024 [US2] Update MobileFullscreenPlayer in src/components/player/MobileFullscreenPlayer.tsx (add gesture hint overlay, visual feedback, chevron indicator)
+- [x] T025 [US2] Implement gesture hint dismissal logic in src/components/player/MobileFullscreenPlayer.tsx (store in GestureSettings)
+- [x] T026 [US2] Add gesture settings section to Settings page in src/pages/Settings.tsx
+- [x] T027 [US2] Test gesture discoverability (hint shows on first open, dismisses, visual feedback works)
 
 **Checkpoint**: Gesture discoverability complete - hint overlay functional, visual feedback clear, settings configurable
 
