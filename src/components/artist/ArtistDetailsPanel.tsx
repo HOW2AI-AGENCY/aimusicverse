@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "@/lib/motion";
 import { EditArtistDialog } from "./EditArtistDialog";
 import type { Artist } from "@/hooks/useArtists";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface ArtistDetailsPanelProps {
   artist: Artist | null;
@@ -98,7 +99,7 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
           {/* Background blur */}
           {artist.avatar_url && (
             <div className="absolute inset-0 overflow-hidden">
-              <img src={artist.avatar_url} alt="" className="w-full h-full object-cover blur-3xl opacity-30" />
+              <LazyImage src={artist.avatar_url} alt="" className="w-full h-full object-cover blur-3xl opacity-30" />
               <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-background" />
             </div>
           )}
@@ -215,7 +216,7 @@ export function ArtistDetailsPanel({ artist, open, onOpenChange }: ArtistDetails
                           {/* Cover */}
                           <div className="w-12 h-12 rounded-md overflow-hidden flex-shrink-0 bg-muted">
                             {track.cover_url ? (
-                              <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
+                              <LazyImage src={track.cover_url} alt="" className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
                                 <Music2 className="w-5 h-5 text-muted-foreground" />

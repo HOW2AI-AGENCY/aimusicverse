@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { surface } from "@/lib/overlay-colors";
 import { UnifiedDialog } from "@/components/dialog";
 import { CoverPromptSuggester } from "@/components/cover/CoverPromptSuggester";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface ProjectCoverEditorProps {
   projectId: string;
@@ -152,7 +153,7 @@ export function ProjectCoverEditor({
         <CardContent className="space-y-4">
           {currentCoverUrl ? (
             <div className="relative group">
-              <img src={currentCoverUrl} alt="Project cover" className="w-full aspect-square object-cover rounded-lg" />
+              <LazyImage src={currentCoverUrl} alt="Project cover" className="w-full aspect-square object-cover rounded-lg" />
               <div
                 className={cn(
                   "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center gap-2",

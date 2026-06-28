@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ExternalLink, Smartphone } from "@/lib/icons";
 import type { BotMenuItem } from "@/hooks/useBotMenuItems";
 import DOMPurify from "dompurify";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface BotMenuPreviewProps {
   items: BotMenuItem[];
@@ -158,7 +159,7 @@ export function BotMenuPreview({ items }: BotMenuPreviewProps) {
             <div className="max-w-[280px]">
               {/* Image */}
               <div className="rounded-t-xl overflow-hidden">
-                <img src={getImage()} alt="Menu" className="w-full h-40 object-cover" />
+                <LazyImage src={getImage()} alt="Menu" className="w-full h-40 object-cover" />
               </div>
 
               {/* Caption */}

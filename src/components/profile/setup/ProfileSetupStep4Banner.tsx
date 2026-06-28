@@ -10,6 +10,7 @@ import { logger } from "@/lib/logger";
 import { ImageGeneratorDialog } from "../ImageGeneratorDialog";
 import type { ProfileSetupData } from "./profile-setup.types";
 import { surface } from "@/lib/overlay-colors";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface ProfileSetupStep4BannerProps {
   data: ProfileSetupData;
@@ -78,7 +79,7 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
       <div className="relative aspect-[3/1] rounded-lg overflow-hidden border-2 border-dashed border-border bg-muted/30">
         {data.bannerUrl ? (
           <>
-            <img src={data.bannerUrl} alt="Баннер профиля" className="w-full h-full object-cover" />
+            <LazyImage src={data.bannerUrl} alt="Баннер профиля" className="w-full h-full object-cover" />
             <div
               className={cn(
                 "absolute inset-0 flex items-center justify-center gap-2 opacity-0 hover:opacity-100 transition-opacity",
@@ -162,7 +163,7 @@ export function ProfileSetupStep4Banner({ data, onUpdate, userId }: ProfileSetup
           <div className="absolute left-4 top-8">
             <div className="w-16 h-16 rounded-full border-4 border-background bg-muted overflow-hidden">
               {data.avatarUrl ? (
-                <img src={data.avatarUrl} alt="" className="w-full h-full object-cover" />
+                <LazyImage src={data.avatarUrl} alt="" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-xl font-bold text-muted-foreground">
                   {data.displayName?.[0]?.toUpperCase() || "?"}

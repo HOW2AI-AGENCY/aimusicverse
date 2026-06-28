@@ -13,6 +13,7 @@ import { useState, lazy, Suspense } from "react";
 import { motion } from "@/lib/motion";
 import { User, Sun, Moon, Sunrise, Sunset, Menu } from "@/lib/icons";
 import { cn } from "@/lib/utils";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { useUnreadCount } from "@/hooks/useNotifications";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { AppLogo } from "@/components/branding/AppLogo";
@@ -231,7 +232,7 @@ export function HomeHeader({ userName, userPhotoUrl, onProfileClick, className }
               transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             />
             {userPhotoUrl ? (
-              <img src={userPhotoUrl} alt="Avatar" className="w-full h-full object-cover relative z-10" />
+              <LazyImage src={userPhotoUrl} alt="Avatar" className="w-full h-full object-cover relative z-10" />
             ) : (
               <div className="w-full h-full bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center relative z-10">
                 <User className="w-5 h-5 text-primary" />

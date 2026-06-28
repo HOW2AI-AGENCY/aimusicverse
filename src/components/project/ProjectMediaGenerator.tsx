@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LazyImage } from "@/components/ui/lazy-image";
 import {
   Image,
   Square,
@@ -330,7 +331,7 @@ export function ProjectMediaGenerator({
                           : "aspect-[9/16]",
                     )}
                   >
-                    <img src={currentMediaUrl} alt="Current media" className="w-full h-full object-cover" />
+                    <LazyImage src={currentMediaUrl} alt="Current media" className="w-full h-full object-cover" />
                   </div>
                 </div>
 
@@ -476,7 +477,7 @@ export function ProjectMediaGenerator({
                           : "aspect-[9/16]",
                     )}
                   >
-                    <img src={generatedUrl} alt="Generated media" className="w-full h-full object-cover" />
+                    <LazyImage src={generatedUrl} alt="Generated media" className="w-full h-full object-cover" />
                   </div>
 
                   {/* Actions */}

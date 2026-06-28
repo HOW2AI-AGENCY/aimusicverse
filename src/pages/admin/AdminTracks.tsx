@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Music, Search, Globe, Lock } from "@/lib/icons";
 import { AdminTrackDetailsDialog } from "@/components/admin/AdminTrackDetailsDialog";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 export default function AdminTracks() {
   const [trackSearch, setTrackSearch] = useState("");
@@ -50,7 +51,7 @@ export default function AdminTracks() {
                   >
                     <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
                       {track.cover_url ? (
-                        <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
+                        <LazyImage src={track.cover_url} alt="" className="w-full h-full object-cover" />
                       ) : (
                         <div className="flex items-center justify-center h-full">
                           <Music className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />

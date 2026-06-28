@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface CleanStudioLayoutProps {
   trackTitle: string;
@@ -64,7 +65,7 @@ export function CleanStudioLayout({
           <div className="flex items-center gap-2 min-w-0 flex-1">
             {trackCoverUrl && (
               <div className="w-8 h-8 rounded-lg overflow-hidden shrink-0 bg-muted">
-                <img src={trackCoverUrl} alt="" className="w-full h-full object-cover" />
+                <LazyImage src={trackCoverUrl} alt="" className="w-full h-full object-cover" />
               </div>
             )}
 

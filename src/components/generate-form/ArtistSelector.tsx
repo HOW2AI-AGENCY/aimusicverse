@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { User, Music, Users, Sparkles } from "@/lib/icons";
 import { usePublicArtists } from "@/hooks/usePublicArtists";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface Artist {
   id: string;
@@ -62,7 +63,7 @@ export function ArtistSelector({ open, onOpenChange, artists, selectedArtistId, 
             <div className="flex items-center gap-3 w-full">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                 {artist.avatar_url ? (
-                  <img src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
+                  <LazyImage src={artist.avatar_url} alt={artist.name} className="w-full h-full object-cover" />
                 ) : (
                   <User className="w-5 h-5 text-primary" />
                 )}

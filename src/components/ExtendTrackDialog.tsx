@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { usePlayerStore } from "@/hooks/audio/usePlayerState";
 import { PromptValidationAlert } from "@/components/generate-form/PromptValidationAlert";
 import { validatePromptForGeneration } from "@/lib/errorHandling";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface ExtendTrackDialogProps {
   open: boolean;
@@ -177,7 +178,7 @@ export const ExtendTrackDialog = ({ open, onOpenChange, track }: ExtendTrackDial
         <div className="p-4 rounded-lg glass border border-border/50">
           <div className="flex items-center gap-3">
             {track.cover_url && (
-              <img src={track.cover_url} alt={track.title || ""} className="w-12 h-12 rounded object-cover" />
+              <LazyImage src={track.cover_url} alt={track.title || ""} className="w-12 h-12 rounded object-cover" />
             )}
             <div className="flex-1">
               <h3 className="font-semibold">{track.title || "Без названия"}</h3>

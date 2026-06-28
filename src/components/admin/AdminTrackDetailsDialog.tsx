@@ -22,6 +22,7 @@ import { format, ru } from "@/lib/date-utils";
 import { useRef, useState } from "react";
 import { formatDuration } from "@/lib/player-utils";
 import { ReferenceAudioPlayer } from "./ReferenceAudioPlayer";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface AdminTrack {
   id: string;
@@ -92,7 +93,7 @@ export function AdminTrackDetailsDialog({ open, onOpenChange, track }: AdminTrac
             <div className="flex gap-4">
               <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-muted flex-shrink-0">
                 {track.cover_url ? (
-                  <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
+                  <LazyImage src={track.cover_url} alt="" className="w-full h-full object-cover" />
                 ) : (
                   <div className="flex items-center justify-center h-full">
                     <Music className="h-8 w-8 text-muted-foreground" />
