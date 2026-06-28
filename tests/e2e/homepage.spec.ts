@@ -18,10 +18,20 @@ import { test, expect } from "@playwright/test";
 test.describe("Homepage Discovery - Sprint 010", () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to homepage
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
 
-    // Wait for app to be ready
-    await page.waitForLoadState("networkidle");
+    // Wait for app to be ready - use same logic as smoke test
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should load homepage without errors", async ({ page }) => {

@@ -174,10 +174,12 @@ test.describe("App smoke", () => {
     await page.goto("/auth", { waitUntil: "domcontentloaded" });
     await waitForAppMounted(page);
     // Auth screen should expose at least one interactive sign-in surface.
+    // In dev mode: "Войти как Test User" or "Попробовать без авторизации"
+    // In prod with Telegram: "Продолжить" or "Попробовать без авторизации"
     const authSurface = page
-      .locator(
-        "form, button:has-text(/войти|sign in|log in|telegram|continue|guest/i), [data-testid='auth-form']",
-      )
+      .getByRole("button", {
+        name: /войти|sign in|log in|telegram|continue|guest|попробовать|test user/i,
+      })
       .first();
     await expect(authSurface, "auth page interactive surface").toBeVisible({ timeout: 10_000 });
 

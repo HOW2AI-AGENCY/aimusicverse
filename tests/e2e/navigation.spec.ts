@@ -12,9 +12,20 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Bottom Navigation", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should display bottom navigation on mobile", async ({ page }) => {
@@ -71,10 +82,9 @@ test.describe("Route Navigation", () => {
 
   for (const route of routes) {
     test(`should navigate to ${route.name} without errors`, async ({ page }) => {
-      await page.goto(route.path);
-      await page.waitForLoadState("networkidle");
-      await page.waitForTimeout(2000);
-      
+      await page.goto(route.path, { waitUntil: "domcontentloaded" }, { waitUntil: "domcontentloaded" });
+      await page.waitForSelector("main", { timeout: 15000 });
+
       // Page should load without crashing
       const body = page.locator("body");
       await expect(body).toBeVisible();
@@ -97,9 +107,7 @@ test.describe("Route Navigation", () => {
 test.describe("Deep Links", () => {
   test("should handle track deep link", async ({ page }) => {
     // Try a track deep link pattern
-    await page.goto("/track/test-id-123");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/track/test-id-123", { waitUntil: "domcontentloaded" });
     
     // Should either show track or 404, not crash
     const body = page.locator("body");
@@ -107,18 +115,14 @@ test.describe("Deep Links", () => {
   });
 
   test("should handle project deep link", async ({ page }) => {
-    await page.goto("/projects/test-project-id");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/projects/test-project-id", { waitUntil: "domcontentloaded" });
     
     const body = page.locator("body");
     await expect(body).toBeVisible();
   });
 
   test("should handle user profile deep link", async ({ page }) => {
-    await page.goto("/user/test-user");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/user/test-user", { waitUntil: "domcontentloaded" });
     
     const body = page.locator("body");
     await expect(body).toBeVisible();
@@ -127,11 +131,9 @@ test.describe("Deep Links", () => {
 
 test.describe("Back Navigation", () => {
   test("should handle browser back button", async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
     
     await page.goBack();
     await page.waitForTimeout(1000);
@@ -142,11 +144,9 @@ test.describe("Back Navigation", () => {
   });
 
   test("should handle browser forward button", async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
     
     await page.goBack();
     await page.goForward();
@@ -160,15 +160,26 @@ test.describe("Back Navigation", () => {
 
 test.describe("Navigation Accessibility", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should have skip to main content link", async ({ page }) => {
     const skipLink = page.locator(
-      "a[href='#main'], a[href='#content'], [class*='skip'], a:has-text('Skip')"
-    );
+      "a[href='#main'], a[href='#content'], [class*='skip']"
+    ).or(page.getByRole("link", { name: /skip/i }));
     
     const skipCount = await skipLink.count();
     console.log(`Found ${skipCount} skip links`);
@@ -206,13 +217,11 @@ test.describe("Navigation Accessibility", () => {
 
 test.describe("Navigation Performance", () => {
   test("should navigate quickly between routes", async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     
     const startTime = Date.now();
     
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/library", { waitUntil: "domcontentloaded" });
     
     const navTime = Date.now() - startTime;
     
@@ -225,9 +234,9 @@ test.describe("Navigation Performance", () => {
   test("should not cause memory leaks on repeated navigation", async ({ page }) => {
     // Navigate back and forth multiple times
     for (let i = 0; i < 5; i++) {
-      await page.goto("/");
+      await page.goto("/", { waitUntil: "domcontentloaded" });
       await page.waitForTimeout(500);
-      await page.goto("/library");
+      await page.goto("/library", { waitUntil: "domcontentloaded" });
       await page.waitForTimeout(500);
     }
     

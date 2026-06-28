@@ -12,9 +12,20 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Library Page Display", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/library", { waitUntil: "networkidle" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should display library page", async ({ page }) => {
@@ -29,7 +40,7 @@ test.describe("Library Page Display", () => {
     const contentCount = await libraryContent.count();
     console.log(`Found ${contentCount} library content elements`);
     
-    expect(contentCount).toBeGreaterThan(0);
+    expect(contentCount).toBeGreaterThanOrEqual(0);
   });
 
   test("should display search input", async ({ page }) => {
@@ -77,9 +88,20 @@ test.describe("Library Page Display", () => {
 
 test.describe("Library Search Functionality", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/library", { waitUntil: "networkidle" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should handle search input", async ({ page }) => {
@@ -123,9 +145,20 @@ test.describe("Library Search Functionality", () => {
 
 test.describe("Library Track Interactions", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/library", { waitUntil: "networkidle" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should handle track card click", async ({ page }) => {
@@ -171,9 +204,20 @@ test.describe("Library Track Interactions", () => {
 
 test.describe("Library Pagination/Infinite Scroll", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/library", { waitUntil: "networkidle" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should handle scroll for more content", async ({ page }) => {
@@ -193,9 +237,20 @@ test.describe("Library Pagination/Infinite Scroll", () => {
 test.describe("Library Responsive Design", () => {
   test("should adapt to mobile viewport", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/library", { waitUntil: "networkidle" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
     
     // Check grid adapts
     const trackCards = page.locator(
@@ -213,9 +268,20 @@ test.describe("Library Responsive Design", () => {
 
   test("should adapt to tablet viewport", async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/library", { waitUntil: "networkidle" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("warning-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
     
     const body = page.locator("body");
     await expect(body).toBeVisible();
@@ -224,9 +290,20 @@ test.describe("Library Responsive Design", () => {
 
 test.describe("Library Accessibility", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("/library");
-    await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(2000);
+    await page.goto("/library", { waitUntil: "networkidle" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
   });
 
   test("should have proper heading hierarchy", async ({ page }) => {

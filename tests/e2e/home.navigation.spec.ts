@@ -20,8 +20,20 @@ test.describe("Home page navigation", () => {
   test.use({ viewport: { width: 1440, height: 900 } });
 
   test("renders expected sections in order, no duplicates", async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
 
     const sectionIds = await page.$$eval(
       "[data-section-id]",
@@ -47,8 +59,20 @@ test.describe("Home page navigation", () => {
   });
 
   test("StatsHighlight appears at most once", async ({ page }) => {
-    await page.goto("/");
-    await page.waitForLoadState("networkidle");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    // Wait for app to be ready
+    await page.waitForFunction(
+      () => {
+        const root = document.getElementById("root");
+        if (!root) return false;
+        const fallback = document.getElementById("loading-fallback");
+        const hasReal =
+          root.querySelector("main, [role='main'], nav, [role='navigation'], [data-testid]") != null;
+        return !fallback || hasReal;
+      },
+      { timeout: 20000 },
+    );
     const count = await page
       .locator('[data-testid="stats-highlight"]')
       .count();

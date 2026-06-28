@@ -469,6 +469,20 @@ gantt
 
 **Сделано с ❤️ командой MusicVerse AI**
 
+
+[![GitHub](https://www.shieldcn.dev/badge/GitHub-%40IVAN--MEER-181717.svg?logo=github&variant=branded&size=sm)](https://github.com/IVAN-MEER) [![Website](https://www.shieldcn.dev/badge/Website-how2ai.agency-181717.svg?logo=ri%3ALuLink&variant=branded&size=sm)](https://how2ai.agency)
+
+[![GitHub Followers](https://www.shieldcn.dev/github/followers/IVAN-MEER.svg?variant=secondary&size=sm)](https://github.com/IVAN-MEER?tab=followers) [![GitHub Stars](https://www.shieldcn.dev/github/user-stars/IVAN-MEER.svg?variant=secondary&size=sm)](https://github.com/IVAN-MEER?tab=repositories) [![Public Repos](https://www.shieldcn.dev/badge/Repos-851-2563eb.svg?logo=github&variant=secondary&size=sm)](https://github.com/IVAN-MEER?tab=repositories) ![Company](https://www.shieldcn.dev/badge/Company-HOW2AI-1f2937.svg?logo=building&variant=ghost&size=sm)
+
+</div>
+
+![JavaScript](https://www.shieldcn.dev/badge/-JavaScript-F7DF1E.svg?logo=javascript&variant=branded&size=sm) ![Supabase](https://www.shieldcn.dev/badge/-Supabase-3FCF8E.svg?logo=supabase&variant=branded&size=sm) ![PostgreSQL](https://www.shieldcn.dev/badge/-PostgreSQL-4169E1.svg?logo=postgresql&variant=branded&size=sm) ![ESLint](https://www.shieldcn.dev/badge/-ESLint-4B32C3.svg?logo=eslint&variant=branded&size=sm) ![Jest](https://www.shieldcn.dev/badge/-Jest-C21325.svg?logo=jest&variant=branded&size=sm) ![Prettier](https://www.shieldcn.dev/badge/-Prettier-F7B93E.svg?logo=prettier&variant=branded&size=sm)
+
+---
+
+
+
+
 <sub>[Сообщить о проблеме](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) · [Обсудить](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)</sub>
 
 [![Star History Chart](https://api.star-history.com/svg?repos=HOW2AI-AGENCY/aimusicverse&type=Date)](https://star-history.com/#HOW2AI-AGENCY/aimusicverse&Date)
