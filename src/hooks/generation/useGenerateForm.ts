@@ -21,7 +21,9 @@ import { showGenerationError, validatePromptForGeneration } from "@/lib/errorHan
 import { useAnalyticsTracking } from "@/hooks/useAnalyticsTracking";
 import { generationAnalytics, startTimer } from "@/lib/telemetry";
 import { expectGenerationResult } from "./useGenerationResult";
-// GenerationProvider type removed - only Suno is used
+import { useAutomaticRetry } from "@/hooks/useAutomaticRetry";
+import { isRetryableError } from "@/lib/suno-error-mapper";
+import { addUserActionBreadcrumb, captureGenerationError } from "@/lib/sentry";
 
 // Wizard mode removed for UX simplification - only 2 modes now
 export type GenerationMode = "simple" | "custom";
@@ -67,6 +69,32 @@ export function useGenerateForm({
   const { planTrackContext, clearPlanTrackContext } = usePlanTrackStore();
   const { draft, hasDraft, saveDraft, clearDraft } = useGenerateDraft();
   const { trackGeneration } = useAnalyticsTracking();
+
+  const {
+    retry,
+    cancelRetry,
+    isRetrying,
+    retryCount,
+    nextRetryIn,
+    canRetry,
+    reset: resetRetry,
+  } = useAutomaticRetry({
+    maxRetries: 2,
+    onRetry: (attempt) => {
+      addUserActionBreadcrumb(`generation_retry_attempt_${attempt}`, "generation");
+      toast.loading(`Повторная попытка ${attempt}/2...`, {
+        id: "generation-retry",
+      });
+    },
+    onRetrySuccess: (attempt) => {
+      addUserActionBreadcrumb(`generation_retry_success_attempt_${attempt}`, "generation");
+      toast.dismiss("generation-retry");
+    },
+    onRetryFailed: (error, attempts) => {
+      addUserActionBreadcrumb("generation_retry_exhausted", "generation", { attempts });
+      toast.dismiss("generation-retry");
+    },
+  });
 
   // Unified audio reference hook
   const { activeReference, clearActive: clearAudioReference } = useAudioReference();
@@ -664,6 +692,7 @@ export function useGenerateForm({
     });
 
     setLoading(true);
+    resetRetry();
 
     // Signal that we expect a result to show the GenerationResultSheet
     expectGenerationResult();
@@ -673,6 +702,14 @@ export function useGenerateForm({
 
     // Track generation start with telemetry
     generationAnalytics.trackStart(mode, hasVocals, !!(audioFile || activeReference?.audioUrl));
+
+    addUserActionBreadcrumb("generation_started", "generation", {
+      mode,
+      model: finalModel,
+      hasVocals,
+      hasAudioFile: !!audioFile,
+      hasReference: !!activeReference?.audioUrl,
+    });
 
     const submissionMode: "custom" | "extend" | "cover" =
       activeReference?.intendedMode === "extend"
@@ -744,136 +781,146 @@ export function useGenerateForm({
               : "Создаём новые треки (A/B)",
       });
 
-      let data, error;
+      addUserActionBreadcrumb("generation_api_call", "generation", {
+        submissionMode,
+        model: finalModel,
+      });
 
-      if (audioFile) {
-        // Validate file size before processing (max 50MB)
-        const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
-        if (audioFile.size > MAX_FILE_SIZE) {
-          toast.error("Файл слишком большой", {
-            description: `Максимальный размер: ${MAX_FILE_SIZE / 1024 / 1024}MB. Ваш файл: ${(audioFile.size / 1024 / 1024).toFixed(1)}MB`,
+      const invokeGeneration = async () => {
+        let data, error;
+
+        if (audioFile) {
+          // Validate file size before processing (max 50MB)
+          const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+          if (audioFile.size > MAX_FILE_SIZE) {
+            toast.error("Файл слишком большой", {
+              description: `Максимальный размер: ${MAX_FILE_SIZE / 1024 / 1024}MB. Ваш файл: ${(audioFile.size / 1024 / 1024).toFixed(1)}MB`,
+            });
+            return;
+          }
+
+          // Add timeout handling for FileReader operations (IMP007)
+          const fileData = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            const timeout = setTimeout(() => {
+              reader.abort();
+              reject(new Error("File reading timeout"));
+            }, FILE_READER_TIMEOUT);
+
+            reader.onload = () => {
+              clearTimeout(timeout);
+              resolve(reader.result as string);
+            };
+            reader.onerror = () => {
+              clearTimeout(timeout);
+              reject(reader.error);
+            };
+            reader.readAsDataURL(audioFile);
           });
-          return;
-        }
 
-        // Add timeout handling for FileReader operations (IMP007)
-        const fileData = await new Promise<string>((resolve, reject) => {
-          const reader = new FileReader();
-          const timeout = setTimeout(() => {
-            reader.abort();
-            reject(new Error("File reading timeout"));
-          }, FILE_READER_TIMEOUT);
-
-          reader.onload = () => {
-            clearTimeout(timeout);
-            resolve(reader.result as string);
-          };
-          reader.onerror = () => {
-            clearTimeout(timeout);
-            reject(reader.error);
-          };
-          reader.readAsDataURL(audioFile);
-        });
-
-        const result = await supabase.functions.invoke("suno-upload-extend", {
-          body: {
-            audioFile: {
-              name: audioFile.name,
-              type: audioFile.type,
-              data: fileData,
-            },
-            audioDuration: audioDuration || undefined,
-            customMode: mode === "custom", // Fixed: Use customMode instead of inverted defaultParamFlag
-            prompt: mode === "custom" && hasVocals ? lyrics : undefined,
-            style: mode === "custom" ? style : undefined,
-            title: title || undefined,
-            instrumental: !hasVocals,
-            model: finalModel,
-            personaId: personaId,
-            negativeTags: negativeTags || undefined,
-            vocalGender: vocalGender || undefined,
-            styleWeight: styleWeight[0],
-            weirdnessConstraint: weirdnessConstraint[0],
-            audioWeight: audioWeight[0],
-            projectId: selectedProjectId || initialProjectId,
-          },
-        });
-        data = result.data;
-        error = result.error;
-      } else {
-        // Check for remix parent track id
-        const parentTrackId = sessionStorage.getItem("parentTrackId") || undefined;
-
-        // If we have an audio reference in cover/extend mode, use legacy proxy that routes
-        // to the correct backend function with required parameters (audioUrl/continueAt).
-        if (
-          activeReference?.audioUrl &&
-          (activeReference.intendedMode === "extend" || activeReference.intendedMode === "cover")
-        ) {
-          // For extend: use continueAt from reference (set by user via ExtendRangeSelector)
-          // or fallback to near the end of the track
-          const duration = activeReference.durationSeconds || 60;
-          const continueAt = activeReference.continueAt ?? Math.max(5, duration - 5);
-
-          const result = await supabase.functions.invoke("suno-generate", {
-            body:
-              activeReference.intendedMode === "extend"
-                ? {
-                    action: "extend",
-                    extendAudioUrl: activeReference.audioUrl,
-                    continueAt,
-                    prompt: mode === "simple" ? description : prompt,
-                    style: mode === "custom" ? style : undefined,
-                    title: mode === "custom" ? title : undefined,
-                    defaultParamFlag: !prompt && !style, // Use original params if no custom input
-                    voiceId: customVoiceId || undefined,
-                  }
-                : {
-                    action: "cover",
-                    coverAudioUrl: activeReference.audioUrl,
-                    prompt: mode === "simple" ? description : prompt,
-                    style: mode === "custom" ? style : undefined,
-                    title: mode === "custom" ? title : undefined,
-                    audioWeight: audioWeight[0], // Pass audioWeight for cover control
-                    voiceId: customVoiceId || undefined,
-                  },
-          });
-          data = result.data;
-          error = result.error;
-        } else {
-          const result = await supabase.functions.invoke("suno-music-generate", {
+          const result = await supabase.functions.invoke("suno-upload-extend", {
             body: {
-              mode,
-              prompt: mode === "simple" ? description : prompt,
-              title: mode === "custom" ? title : undefined,
+              audioFile: {
+                name: audioFile.name,
+                type: audioFile.type,
+                data: fileData,
+              },
+              audioDuration: audioDuration || undefined,
+              customMode: mode === "custom", // Fixed: Use customMode instead of inverted defaultParamFlag
+              prompt: mode === "custom" && hasVocals ? lyrics : undefined,
               style: mode === "custom" ? style : undefined,
-              instrumental,
+              title: title || undefined,
+              instrumental: !hasVocals,
               model: finalModel,
+              personaId: personaId,
               negativeTags: negativeTags || undefined,
               vocalGender: vocalGender || undefined,
               styleWeight: styleWeight[0],
               weirdnessConstraint: weirdnessConstraint[0],
-              audioWeight: personaId ? audioWeight[0] : undefined,
-              personaId: personaId,
-              artistId: selectedArtistId,
+              audioWeight: audioWeight[0],
               projectId: selectedProjectId || initialProjectId,
-              planTrackId: planTrackId,
-              parentTrackId: parentTrackId,
-              voiceId: customVoiceId || undefined,
-              isPublic, // Track visibility
             },
           });
           data = result.data;
           error = result.error;
+        } else {
+          // Check for remix parent track id
+          const parentTrackId = sessionStorage.getItem("parentTrackId") || undefined;
+
+          // If we have an audio reference in cover/extend mode, use legacy proxy that routes
+          // to the correct backend function with required parameters (audioUrl/continueAt).
+          if (
+            activeReference?.audioUrl &&
+            (activeReference.intendedMode === "extend" || activeReference.intendedMode === "cover")
+          ) {
+            // For extend: use continueAt from reference (set by user via ExtendRangeSelector)
+            // or fallback to near the end of the track
+            const duration = activeReference.durationSeconds || 60;
+            const continueAt = activeReference.continueAt ?? Math.max(5, duration - 5);
+
+            const result = await supabase.functions.invoke("suno-generate", {
+              body:
+                activeReference.intendedMode === "extend"
+                  ? {
+                      action: "extend",
+                      extendAudioUrl: activeReference.audioUrl,
+                      continueAt,
+                      prompt: mode === "simple" ? description : prompt,
+                      style: mode === "custom" ? style : undefined,
+                      title: mode === "custom" ? title : undefined,
+                      defaultParamFlag: !prompt && !style, // Use original params if no custom input
+                      voiceId: customVoiceId || undefined,
+                    }
+                  : {
+                      action: "cover",
+                      coverAudioUrl: activeReference.audioUrl,
+                      prompt: mode === "simple" ? description : prompt,
+                      style: mode === "custom" ? style : undefined,
+                      title: mode === "custom" ? title : undefined,
+                      audioWeight: audioWeight[0], // Pass audioWeight for cover control
+                      voiceId: customVoiceId || undefined,
+                    },
+            });
+            data = result.data;
+            error = result.error;
+          } else {
+            const result = await supabase.functions.invoke("suno-music-generate", {
+              body: {
+                mode,
+                prompt: mode === "simple" ? description : prompt,
+                title: mode === "custom" ? title : undefined,
+                style: mode === "custom" ? style : undefined,
+                instrumental,
+                model: finalModel,
+                negativeTags: negativeTags || undefined,
+                vocalGender: vocalGender || undefined,
+                styleWeight: styleWeight[0],
+                weirdnessConstraint: weirdnessConstraint[0],
+                audioWeight: personaId ? audioWeight[0] : undefined,
+                personaId: personaId,
+                artistId: selectedArtistId,
+                projectId: selectedProjectId || initialProjectId,
+                planTrackId: planTrackId,
+                parentTrackId: parentTrackId,
+                voiceId: customVoiceId || undefined,
+                isPublic, // Track visibility
+              },
+            });
+            data = result.data;
+            error = result.error;
+          }
+
+          // Clear parent track id after use
+          if (parentTrackId) {
+            sessionStorage.removeItem("parentTrackId");
+          }
         }
 
-        // Clear parent track id after use
-        if (parentTrackId) {
-          sessionStorage.removeItem("parentTrackId");
-        }
-      }
+        if (error) throw error;
+        return data;
+      };
 
-      if (error) throw error;
+      const data = await retry(invokeGeneration);
 
       // Track generation started with analytics
       trackGeneration("started", {
@@ -933,11 +980,9 @@ export function useGenerateForm({
     } catch (error) {
       toast.dismiss(toastId);
       showGenerationError(error);
-      clearAudioReference(); // Cleanup on error
+      clearAudioReference();
 
-      // Track generation error with full context for error_logs
       const errorMessage = error instanceof Error ? error.message : "unknown";
-      // Extract error code from message or use generic
       const errorCode = errorMessage.includes("Edge Function")
         ? "EDGE_FUNCTION_ERROR"
         : errorMessage.includes("network") || errorMessage.includes("fetch")
@@ -945,6 +990,7 @@ export function useGenerateForm({
           : errorMessage.includes("timeout")
             ? "TIMEOUT"
             : "GENERATION_FAILED";
+
       generationAnalytics.trackError(mode, errorCode, {
         originalError: errorMessage,
         hasVocals,
@@ -952,8 +998,28 @@ export function useGenerateForm({
         hasAudioFile: !!audioFile,
         hasReference: !!activeReference,
         projectId: selectedProjectId || initialProjectId,
+        retryAttempts: retryCount,
       });
-      logger.error("Generation failed", error, { mode, hasVocals, model: finalModel });
+
+      captureGenerationError(error instanceof Error ? error : new Error(errorMessage), {
+        prompt: (mode === "simple" ? description : lyrics)?.slice(0, 200),
+        mode,
+        model: finalModel,
+        action: submissionMode,
+      });
+
+      addUserActionBreadcrumb("generation_failed", "generation", {
+        errorCode,
+        retryAttempts: retryCount,
+        wasRetryable: isRetryableError(error),
+      });
+
+      logger.error("Generation failed", error, {
+        mode,
+        hasVocals,
+        model: finalModel,
+        retryAttempts: retryCount,
+      });
     } finally {
       setLoading(false);
     }
@@ -989,6 +1055,10 @@ export function useGenerateForm({
     canGenerate,
     invalidateCredits,
     loading,
+    retry,
+    retryCount,
+    resetRetry,
+    isPublic,
   ]);
 
   // Handle track selection
@@ -1040,6 +1110,12 @@ export function useGenerateForm({
     loading,
     audioReferenceLoading: false,
     boostLoading,
+    // Retry state
+    isRetrying,
+    retryCount,
+    nextRetryIn,
+    canRetry,
+    cancelRetry,
     // User credits
     userBalance,
     canGenerate,

@@ -92,6 +92,7 @@ const AdminBot = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admi
 const AdminTelegram = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTelegram"));
 const AdminBroadcast = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminBroadcast"));
 const AdminAlerts = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminAlerts"));
+const GenerationMetrics = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/GenerationMetrics"));
 const AdminTariffs = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTariffs"));
 const ModerationDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/ModerationDashboard"));
 const AnalyticsDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AnalyticsDashboard"));
@@ -246,6 +247,7 @@ const App = () => (
                           <Route path="logs" element={<GenerationLogsPanel />} />
                           <Route path="deeplinks" element={<DeeplinkAnalyticsPanel />} />
                           <Route path="alerts" element={<AdminAlerts />} />
+                          <Route path="generation-metrics" element={<GenerationMetrics />} />
                           <Route path="broadcast" element={<AdminBroadcast />} />
                         </Route>
 
@@ -272,7 +274,7 @@ const App = () => (
                         <Route path="/payments/subscription" element={<Navigate to="/subscription" replace />} />
                         <Route path="/voices" element={<VoiceLibraryPage />} />
                         <Route path="/voices/history" element={<VoiceHistoryPage />} />
-                       </Route>
+                      </Route>
 
                       {/* Legacy /track/:id alias → fullscreen player */}
                       <Route
@@ -283,10 +285,6 @@ const App = () => (
                           </ProtectedRoute>
                         }
                       />
-
-
-
-
 
                       {/* Routes without BottomNavigation */}
                       <Route path="/studio/:trackId" element={<Navigate to="/studio-v2" replace />} />
