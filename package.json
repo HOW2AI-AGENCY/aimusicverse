@@ -43,6 +43,7 @@
     "preview": "vite preview",
     "size": "size-limit",
     "size:why": "size-limit --why",
+    "analyze": "npm run build && echo \"📦 Bundle analysis ready. Open dist/stats.html in your browser.\"",
     "size:track": "node scripts/track-bundle-size.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
