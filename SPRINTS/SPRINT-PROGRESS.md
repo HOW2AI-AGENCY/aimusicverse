@@ -9,7 +9,7 @@
 | Sprint                                 | Статус          | Прогресс                                 |
 | -------------------------------------- | --------------- | ---------------------------------------- |
 | Sprint 001-033                         | ✅ ЗАВЕРШЕНЫ    | 100%                                     |
-| Sprint 034 (Generation Reliability)    | 🔄 В РАБОТЕ     | 10/13 задач, auto-retry + A/B + metrics  |
+| Sprint 034 (Generation Reliability)    | 🔄 В РАБОТЕ     | 11/13 задач, auto-retry + A/B + metrics  |
 | Sprint 035 (Platform Integrations)     | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
 | Q1 2026 Plan                           | ✅ ЗАВЕРШЁН     | Phase 1-6 Complete, Sprints A-E Complete |
 | Phase 8: Dead Code Removal             | ✅ ЗАВЕРШЁН     | 196 файлов, 45K строк                    |
@@ -22,7 +22,7 @@
 | **Phase 10B: Critical Path Tests**     | ✅ ЗАВЕРШЁН     | 320 тестов, 5 новых test suites          |
 | **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии            |
 | **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                         |
-| **Sprint 034: Generation Reliability** | 🔄 В РАБОТЕ     | 10/13 задач, auto-retry + A/B + metrics  |
+| **Sprint 034: Generation Reliability** | 🔄 В РАБОТЕ     | 11/13 задач, auto-retry + A/B + metrics  |
 | **Sprint 035: Platform Integrations**  | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
 
 ---
@@ -189,7 +189,7 @@
 
 - [x] Dashboard метрик генерации (`/admin/generation-metrics`)
 - [x] Sentry breadcrumbs для flow генерации
-- [ ] Алерты при failure rate >10% (Edge Function)
+- [x] Алерты при failure rate >10% (Edge Function)
 - [x] Интеграция `useAutomaticRetry` в `handleGenerate()` (2 retries + exp. backoff)
 - [x] Structured failure categories в `generation_tasks` (abort_reason, retry_count, failure_category)
 - [x] Prompt pre-validation перед отправкой

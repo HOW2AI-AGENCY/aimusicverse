@@ -60,7 +60,7 @@
 | ------ | ---------------------------------------------------------------------------------- | --------- | ------ | ---------------------------------------------------------------------- |
 | 034-01 | ✅ Dashboard метрик генерации (success rate, avg time, errors by type)             | P0        | 1d     | `src/pages/admin/GenerationMetrics.tsx`, `src/App.tsx`                 |
 | 034-02 | ✅ Sentry breadcrumbs для полного flow генерации                                   | P0        | 0.5d   | `src/hooks/generation/useGenerateForm.ts`, `src/lib/sentry.ts`         |
-| 034-03 | Алерты при failure rate >10% (Edge Function + Telegram Bot notification)           | P1        | 0.5d   | `supabase/functions/generation-alert/`                                 |
+| 034-03 | ✅ Алерты при failure rate >10% (Edge Function + Telegram Bot notification)        | P1        | 0.5d   | `supabase/functions/generation-failure-alert/`                         |
 | 034-04 | ✅ Логирование параметров провалившихся генераций (prompt, style, model, duration) | P0        | 1d     | `src/hooks/generation/useGenerateForm.ts`, `src/api/generation.api.ts` |
 
 ### Фаза 2: Интеграция retry/fallback (4 дня)
@@ -87,7 +87,7 @@
 - [ ] Generation failure rate: <8% (с 12%) — infrastructure ready, measuring
 - [ ] Error recovery rate: >65% (с ~40%) — auto-retry integrated
 - [x] Dashboard метрик генерации работает
-- [ ] Алерты настроены и уведомляют в Telegram (034-03 pending)
+- [x] Алерты настроены и уведомляют в Telegram (034-03 done)
 - [x] A/B framework запущен с ≥1 экспериментом (PROMPT_SUGGESTIONS)
 
 ---
