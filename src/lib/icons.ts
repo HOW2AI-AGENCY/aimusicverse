@@ -39,6 +39,7 @@ export {
   ExternalLink,
   Link,
   LogOut,
+  LogIn,
   Settings,
   User,
   Users,
@@ -177,6 +178,7 @@ export {
   Flag,
   Award,
   Trophy,
+  Target,
   Medal,
   Crown,
   Zap,
@@ -227,6 +229,7 @@ export {
   Image,
   ImagePlus,
   ImageOff,
+  ImageIcon,
   Camera,
   CameraOff,
   Video,
@@ -252,6 +255,7 @@ export {
   Mail,
   MailOpen,
   Inbox,
+  Instagram,
   Globe,
   Globe2,
   Link2,
@@ -387,4 +391,3 @@ export {
   Hourglass,
   AlarmClock,
 } from "lucide-react";
-
