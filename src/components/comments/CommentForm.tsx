@@ -39,7 +39,7 @@ export function CommentForm({
   const { user } = useAuth();
   const [content, setContent] = useState("");
   const [attachedTimestamp, setAttachedTimestamp] = useState<number | null>(null);
-  const currentTime = usePlayerStore((s) => s.currentTime);
+  const currentTime = usePlayerStore((s) => (s as unknown as { currentTime?: number }).currentTime ?? 0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

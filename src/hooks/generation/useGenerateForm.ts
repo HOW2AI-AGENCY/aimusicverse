@@ -1034,29 +1034,31 @@ export function useGenerateForm({
       });
 
       const failureCategory = classifyFailure(error);
-      supabase
-        .from("generation_tasks")
-        .insert({
-          user_id: (await supabase.auth.getUser()).data.user?.id ?? "",
-          prompt: (mode === "simple" ? description : lyrics)?.slice(0, 500) || "",
-          status: "failed",
-          source: "mini_app",
-          error_message: errorMessage.slice(0, 500),
-          failure_category: failureCategory,
-          retry_count: retryCount,
-          model_used: finalModel,
-          generation_mode: submissionMode,
-          generation_params: {
-            mode,
-            model: finalModel,
-            hasVocals,
-            hasAudioFile: !!audioFile,
-            hasReference: !!activeReference,
-            promptLength: (mode === "simple" ? description : lyrics)?.length || 0,
-          },
-        })
-        .then(() => {})
-        .catch(() => {});
+      try {
+        await supabase
+          .from("generation_tasks")
+          .insert({
+            user_id: (await supabase.auth.getUser()).data.user?.id ?? "",
+            prompt: (mode === "simple" ? description : lyrics)?.slice(0, 500) || "",
+            status: "failed",
+            source: "mini_app",
+            error_message: errorMessage.slice(0, 500),
+            failure_category: failureCategory,
+            retry_count: retryCount,
+            model_used: finalModel,
+            generation_mode: submissionMode,
+            generation_params: {
+              mode,
+              model: finalModel,
+              hasVocals,
+              hasAudioFile: !!audioFile,
+              hasReference: !!activeReference,
+              promptLength: (mode === "simple" ? description : lyrics)?.length || 0,
+            },
+          } as never);
+      } catch {
+        /* swallow logging failures */
+      }
     } finally {
       setLoading(false);
     }

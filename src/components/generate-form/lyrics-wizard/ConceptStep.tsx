@@ -97,7 +97,7 @@ export function ConceptStep() {
             <SelectContent>
               {GENRES.map((genre) => (
                 <SelectItem key={genre.value} value={genre.value}>
-                  {genre.emoji} {genre.label}
+                  {genre.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -128,7 +128,7 @@ export function ConceptStep() {
               className="cursor-pointer transition-colors"
               onClick={() => toggleMood(mood.value)}
             >
-              {mood.emoji} {mood.label}
+              {mood.label}
               {concept.mood.includes(mood.value) && <X className="h-3 w-3 ml-1" />}
             </Badge>
           ))}

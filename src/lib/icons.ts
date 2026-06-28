@@ -345,6 +345,10 @@ export {
   Cpu,
   MemoryStick,
   Webhook,
+  Smile,
+  Frown,
+  Mountain,
+  Wind,
 } from "lucide-react";
 
 // ============================================

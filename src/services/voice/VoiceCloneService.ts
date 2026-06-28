@@ -221,7 +221,7 @@ export class VoiceCloneService {
         calBackUrl: callBackUrl || `${this.config.baseUrl}/webhooks/voice/regenerate`,
       };
 
-      const response = await this.callApi<ValidateVoiceResponse>(ENDPOINTS.REGENERATE_PHRASE, "POST", request);
+      const response = await this.callApi<ValidateVoiceResponse>(ENDPOINTS.REGENERATE_PHRASE, "POST", request as unknown as Record<string, unknown>);
 
       logger.info("Phrase regenerated", { taskId: response.validate_task_id });
       return response.validate_task_id;

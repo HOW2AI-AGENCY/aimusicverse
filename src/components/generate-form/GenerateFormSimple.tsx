@@ -44,7 +44,7 @@ export function GenerateFormSimple({
   const { trackFeature, trackAction } = useFeatureUsageTracking();
   const hasTrackedView = useRef(false);
   const { isControl: hidePromptSuggestions, trackConversion: trackSuggestionConversion } = useExperiment(
-    EXPERIMENTS.PROMPT_SUGGESTIONS,
+    EXPERIMENTS.PROMPT_SUGGESTIONS as unknown as Parameters<typeof useExperiment>[0],
   );
 
   // Track form view once on mount

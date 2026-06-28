@@ -111,7 +111,7 @@ export async function fetchGenerationLogs(filters: GenerationLogsFilter = {}): P
 
   const { data, error } = await query;
   if (error) throw new Error(error.message);
-  return data as GenerationLog[];
+  return data as unknown as GenerationLog[];
 }
 
 /**
@@ -220,7 +220,7 @@ export async function logGenerationFailure(
       generation_params: details.generation_params || null,
       error_message: details.error_message || null,
       updated_at: new Date().toISOString(),
-    })
+    } as never)
     .eq("id", taskId);
 
   if (error) throw new Error(error.message);
@@ -230,11 +230,12 @@ export async function logGenerationFailure(
  * Fetch failure pattern analysis
  */
 export async function fetchFailurePatterns(timeRange: "24h" | "7d" | "30d" = "7d"): Promise<FailurePattern[]> {
-  const { data, error } = await supabase.rpc("get_generation_failure_patterns", {
-    _time_period: getInterval(timeRange),
-  });
+  const { data, error } = await (supabase.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }>)(
+    "get_generation_failure_patterns",
+    { _time_period: getInterval(timeRange) },
+  );
   if (error) throw new Error(error.message);
-  return (data as FailurePattern[]) || [];
+  return ((data as unknown) as FailurePattern[]) || [];
 }
 
 /**
@@ -243,9 +244,10 @@ export async function fetchFailurePatterns(timeRange: "24h" | "7d" | "30d" = "7d
 export async function fetchSuccessTimeline(
   timeRange: "24h" | "7d" | "30d" = "7d",
 ): Promise<Array<{ bucket: string; total: number; completed: number; failed: number; success_rate: number }>> {
-  const { data, error } = await supabase.rpc("get_generation_success_timeline", {
-    _time_period: getInterval(timeRange),
-  });
+  const { data, error } = await (supabase.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: { message: string } | null }>)(
+    "get_generation_success_timeline",
+    { _time_period: getInterval(timeRange) },
+  );
   if (error) throw new Error(error.message);
-  return data || [];
+  return (data as Array<{ bucket: string; total: number; completed: number; failed: number; success_rate: number }>) || [];
 }
