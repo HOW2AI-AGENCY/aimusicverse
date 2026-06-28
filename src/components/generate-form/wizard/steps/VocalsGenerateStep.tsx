@@ -64,7 +64,7 @@ export function VocalsGenerateStep({ onGenerate, onBack, isLoading }: VocalsGene
 
   const summaryItems = [
     { icon: Music, label: "Стиль", value: `${data.selectedGenre || "—"} / ${data.selectedMood || "—"}` },
-    { icon: Settings, label: "Модель", value: `${currentModel.emoji} ${currentModel.name}` },
+    { icon: Settings, label: "Модель", value: currentModel.name },
   ];
 
   return (
