@@ -130,7 +130,10 @@ export function StyleStep({ onNext, onBack }: StyleStepProps) {
                 selectedMood === mood.id ? "border-primary bg-primary/10" : "border-transparent hover:bg-muted",
               )}
             >
-              <span className="text-lg">{mood.emoji}</span>
+              {(() => {
+                const Icon = getMoodIcon(mood.id);
+                return <Icon className="w-4 h-4 text-foreground/80" aria-hidden="true" />;
+              })()}
               <span className="text-[10px] font-medium">{mood.label}</span>
             </button>
           ))}
