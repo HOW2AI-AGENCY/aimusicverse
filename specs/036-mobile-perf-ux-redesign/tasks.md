@@ -27,10 +27,10 @@
 
 **Purpose**: Create foundational files and configurations needed by all user stories
 
-- [ ] T001 Create design tokens CSS file at `src/styles/tokens.css` with CSS custom properties for colors (brand, neutral, semantic, surface, text), typography (sizes, weights, line-heights), spacing (8px grid scale), radii, shadows, and transitions
-- [ ] T002 [P] Create TypeScript design tokens companion at `src/lib/design-tokens.ts` exporting typed token objects that mirror the CSS custom properties
-- [ ] T003 [P] Import `tokens.css` in `src/main.tsx` and verify Tailwind `theme.extend` references CSS custom properties in `tailwind.config.ts`
-- [ ] T004 [P] Create Zod schemas for GestureConfig and UserPreferences in `src/lib/schemas/preferences.schema.ts` per data-model.md validation rules
+- [x] T001 Create design tokens CSS file at `src/styles/tokens.css` with CSS custom properties for colors (brand, neutral, semantic, surface, text), typography (sizes, weights, line-heights), spacing (8px grid scale), radii, shadows, and transitions
+- [x] T002 [P] Create TypeScript design tokens companion at `src/lib/design-tokens.ts` exporting typed token objects that mirror the CSS custom properties
+- [x] T003 [P] Import `tokens.css` in `src/main.tsx` and verify Tailwind `theme.extend` references CSS custom properties in `tailwind.config.ts`
+- [x] T004 [P] Create Zod schemas for GestureConfig and UserPreferences in `src/lib/schemas/preferences.schema.ts` per data-model.md validation rules
 
 ---
 
@@ -40,11 +40,11 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create `usePreferencesStore` Zustand store at `src/stores/usePreferencesStore.ts` with two slices: `preferences` (theme, textSize, reducedMotion, audioQuality, notificationsEnabled, compactCards) and `gestureConfig` (swipeEnabled, swipeSensitivity, longPressEnabled, longPressDuration, doubleTapEnabled, pullToRefreshEnabled, hapticEnabled, hapticIntensity)
-- [ ] T006 [P] Add triple persistence middleware to `usePreferencesStore`: Zustand → localStorage (`user-preferences`, `gesture-config` keys) → Telegram CloudStorage (`prefs`, `gestures` keys) with async write
-- [ ] T007 [P] Create `useGestureConfig` hook at `src/hooks/useGestureConfig.ts` that reads gesture settings from `usePreferencesStore` and provides typed getters
-- [ ] T008 [P] Create `useUserPreferences` hook at `src/hooks/useUserPreferences.ts` that reads user preferences from `usePreferencesStore` and applies theme/textSize/reducedMotion to DOM
-- [ ] T009 Wire `useUserPreferences` into `src/App.tsx` to apply theme class (`dark`/`light`) and text scale CSS variable (`--text-scale`) on mount and on change
+- [x] T005 Create `usePreferencesStore` Zustand store at `src/stores/usePreferencesStore.ts` with two slices: `preferences` (theme, textSize, reducedMotion, audioQuality, notificationsEnabled, compactCards) and `gestureConfig` (swipeEnabled, swipeSensitivity, longPressEnabled, longPressDuration, doubleTapEnabled, pullToRefreshEnabled, hapticEnabled, hapticIntensity)
+- [x] T006 [P] Add triple persistence middleware to `usePreferencesStore`: Zustand → localStorage (`user-preferences`, `gesture-config` keys) → Telegram CloudStorage (`prefs`, `gestures` keys) with async write
+- [x] T007 [P] Create `useGestureConfig` hook at `src/hooks/useGestureConfig.ts` that reads gesture settings from `usePreferencesStore` and provides typed getters
+- [x] T008 [P] Create `useDisplayPreferences` hook (renamed from useUserPreferences to avoid conflict) at `src/hooks/useUserPreferences.ts` that reads user preferences from `usePreferencesStore` and applies theme/textSize/reducedMotion to DOM
+- [x] T009 Wire `useDisplayPreferences` into `src/App.tsx` to apply theme class (`dark`/`light`) and text scale CSS variable (`--text-scale`) on mount and on change
 
 **Checkpoint**: Foundation ready — design tokens, preferences store, and hooks available for all user stories
 

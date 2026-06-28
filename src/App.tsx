@@ -1,4 +1,4 @@
-import { lazy, Suspense, memo, useEffect } from "react";
+import { Suspense, memo, useEffect } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -25,6 +25,7 @@ import { LyricsEditorMetricsOverlay } from "@/components/dev/LyricsEditorMetrics
 
 // Consolidated providers for cleaner architecture
 import { CoreProviders, UIProviders, FeatureProviders } from "@/providers";
+import { useDisplayPreferences } from "@/hooks/useDisplayPreferences";
 
 // Sentry is initialized in main.tsx (avoid double init)
 
@@ -63,22 +64,22 @@ const Auth = lazyWithRetry(() => import("./pages/Auth")); // Critical: auth flow
 // Generate page removed - redirect functionality moved to Index.tsx
 const Library = lazyWithRetry(() => import("./pages/Library")); // Critical: main navigation
 
-// Secondary pages - standard lazy
-const ProfilePage = lazy(() => import("./pages/ProfilePage"));
-const PublicProfilePage = lazy(() => import("./pages/PublicProfilePage"));
-const Settings = lazy(() => import("./pages/Settings"));
+// Secondary pages - lazy with retry
+const ProfilePage = lazyWithRetry(() => import("./pages/ProfilePage"));
+const PublicProfilePage = lazyWithRetry(() => import("./pages/PublicProfilePage"));
+const Settings = lazyWithRetry(() => import("./pages/Settings"));
 // Generate page removed - redirect functionality moved to Index.tsx with GenerateRedirect component
-const Projects = lazy(() => import("./pages/Projects"));
-const ProjectDetail = lazy(() => import("./pages/ProjectDetail"));
-const Artists = lazy(() => import("./pages/Artists"));
-const Playlists = lazy(() => import("./pages/Playlists"));
-const Blog = lazy(() => import("./pages/Blog"));
-const Community = lazy(() => import("./pages/Community"));
+const Projects = lazyWithRetry(() => import("./pages/Projects"));
+const ProjectDetail = lazyWithRetry(() => import("./pages/ProjectDetail"));
+const Artists = lazyWithRetry(() => import("./pages/Artists"));
+const Playlists = lazyWithRetry(() => import("./pages/Playlists"));
+const Blog = lazyWithRetry(() => import("./pages/Blog"));
+const Community = lazyWithRetry(() => import("./pages/Community"));
 
-const Rewards = lazy(() => import("./pages/Rewards"));
-const Referral = lazy(() => import("./pages/Referral"));
-const VoiceLibraryPage = lazy(() => import("./pages/VoiceLibraryPage"));
-const VoiceHistoryPage = lazy(() => import("./pages/VoiceHistoryPage"));
+const Rewards = lazyWithRetry(() => import("./pages/Rewards"));
+const Referral = lazyWithRetry(() => import("./pages/Referral"));
+const VoiceLibraryPage = lazyWithRetry(() => import("./pages/VoiceLibraryPage"));
+const VoiceHistoryPage = lazyWithRetry(() => import("./pages/VoiceHistoryPage"));
 
 // Heavy pages - load on demand
 const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
@@ -170,6 +171,14 @@ const ErrorPage = lazy(() => import("./pages/ErrorPage"));
 
 // QueryClient is now initialized in CoreProviders
 
+// Feature 036: Apply user preferences (theme, text scale, reduced motion) to DOM
+import { useDisplayPreferences } from "@/hooks/useDisplayPreferences";
+
+function PreferencesApplicator({ children }: { children: React.ReactNode }) {
+  useDisplayPreferences();
+  return <>{children}</>;
+}
+
 const App = () => (
   <ErrorBoundaryWrapper>
     <ErrorBoundary>
@@ -177,6 +186,7 @@ const App = () => (
         <FeatureProviders>
           <BrowserRouter>
             <UIProviders>
+              <PreferencesApplicator>
               <NavigationProvider>
                 <DeepLinkHandler />
                 <Suspense fallback={<PageSkeleton variant="default" />}>
@@ -349,6 +359,7 @@ const App = () => (
                 </Suspense>
                 {import.meta.env.DEV && <LyricsEditorMetricsOverlay />}
               </NavigationProvider>
+              </PreferencesApplicator>
             </UIProviders>
           </BrowserRouter>
         </FeatureProviders>

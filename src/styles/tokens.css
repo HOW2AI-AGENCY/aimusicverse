@@ -1,0 +1,90 @@
+/**
+ * Consolidated Design Tokens
+ * Unified CSS custom property layer extending the design system.
+ * References existing vars from colors.css, spacing.css, shadows.css, typography.css.
+ */
+
+:root {
+  /* ── Text Scale (user preference) ── */
+  --text-scale: 1.0;
+
+  /* ── Brand Colors ── */
+  --brand-primary: hsl(20 100% 62%);
+  --brand-primary-hover: hsl(20 100% 55%);
+  --brand-primary-active: hsl(20 100% 48%);
+
+  /* ── Neutral Scale ── */
+  --neutral-50: hsl(0 0% 98%);
+  --neutral-100: hsl(0 0% 96%);
+  --neutral-200: hsl(0 0% 90%);
+  --neutral-300: hsl(0 0% 80%);
+  --neutral-400: hsl(0 0% 64%);
+  --neutral-500: hsl(0 0% 46%);
+  --neutral-600: hsl(0 0% 32%);
+  --neutral-700: hsl(0 0% 22%);
+  --neutral-800: hsl(0 0% 14%);
+  --neutral-900: hsl(0 0% 9%);
+
+  /* ── Semantic Colors (mapped to existing vars) ── */
+  --color-success: hsl(var(--success));
+  --color-warning: hsl(var(--warning));
+  --color-error: hsl(var(--destructive));
+
+  /* ── Surface Tokens ── */
+  --surface-primary: hsl(var(--background));
+  --surface-secondary: hsl(var(--muted));
+  --surface-elevated: hsl(var(--card));
+
+  /* ── Text Tokens ── */
+  --text-primary: hsl(var(--foreground));
+  --text-secondary: hsl(var(--muted-foreground));
+  --text-tertiary: hsl(var(--muted-foreground) / 0.7);
+
+  /* ── Font Sizes (scaled) ── */
+  --font-size-xs: calc(12px * var(--text-scale));
+  --font-size-sm: calc(14px * var(--text-scale));
+  --font-size-base: calc(16px * var(--text-scale));
+  --font-size-lg: calc(20px * var(--text-scale));
+  --font-size-xl: calc(24px * var(--text-scale));
+  --font-size-2xl: calc(32px * var(--text-scale));
+
+  /* ── Font Weights ── */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ── Line Heights ── */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.4;
+  --line-height-relaxed: 1.6;
+
+  /* ── Spacing (8px grid, refs existing vars) ── */
+  --spacing-1: var(--spacing-micro);         /* 4px */
+  --spacing-2: var(--spacing-tiny);          /* 8px */
+  --spacing-3: var(--spacing-compact);       /* 12px */
+  --spacing-4: var(--spacing-base);          /* 16px */
+  --spacing-5: var(--spacing-comfortable);   /* 20px */
+  --spacing-6: var(--spacing-relaxed);       /* 24px */
+  --spacing-8: var(--spacing-spacious);      /* 32px */
+  --spacing-10: 40px;
+  --spacing-12: var(--spacing-section);      /* 48px */
+  --spacing-16: var(--spacing-section-spacious); /* 64px */
+
+  /* ── Border Radii ── */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ── Shadows (refs existing vars) ── */
+  --shadow-sm: var(--shadow-1);
+  --shadow-md: var(--shadow-3);
+  --shadow-lg: var(--shadow-5);
+
+  /* ── Transitions ── */
+  --transition-fast: 100ms ease;
+  --transition-normal: 200ms ease;
+  --transition-slow: 300ms ease;
+}
