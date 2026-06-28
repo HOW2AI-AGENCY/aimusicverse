@@ -14,6 +14,7 @@ export interface Comment {
   parent_id: string | null;
   likes_count: number;
   is_moderated: boolean;
+  timestamp_seconds: number | null;
   created_at: string;
   updated_at: string;
   user?: {
@@ -99,7 +100,7 @@ export function useAddComment() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ trackId, content, parentId }: { trackId: string; content: string; parentId?: string }) => {
+    mutationFn: async ({ trackId, content, parentId, timestampSeconds }: { trackId: string; content: string; parentId?: string; timestampSeconds?: number | null }) => {
       if (!user?.id) throw new Error("Не авторизован");
 
       const { data, error } = await supabase
@@ -109,6 +110,7 @@ export function useAddComment() {
           user_id: user.id,
           content: content.trim(),
           parent_id: parentId || null,
+          ...(timestampSeconds != null && { timestamp_seconds: timestampSeconds }),
         })
         .select()
         .single();
