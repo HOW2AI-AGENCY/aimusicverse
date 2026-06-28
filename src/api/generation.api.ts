@@ -220,7 +220,7 @@ export async function logGenerationFailure(
       generation_params: details.generation_params || null,
       error_message: details.error_message || null,
       updated_at: new Date().toISOString(),
-    })
+    } as never)
     .eq("id", taskId);
 
   if (error) throw new Error(error.message);
