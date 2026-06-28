@@ -18,7 +18,7 @@ const telegramLogger = logger.child({ module: "TelegramInit" });
 // Boot logging helper
 const bootLog = (msg: string) => {
   const entry = `[TelegramContext] ${msg}`;
-  console.log(entry);
+  telegramLogger.info(entry);
   try {
     const existing = JSON.parse(sessionStorage.getItem("musicverse_boot_log") || "[]");
     existing.push(`[${new Date().toISOString()}] ${entry}`);
