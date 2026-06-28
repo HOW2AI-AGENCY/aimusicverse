@@ -64,3 +64,6 @@ export { usePromptValidation } from "./usePromptValidation";
 
 // Generation queue position (Sprint 034)
 export { useGenerationQueue } from "./useGenerationQueue";
+
+// Delivery tracking for A/B clip monitoring (Sprint 034)
+export { useDeliveryTracking } from "./useDeliveryTracking";

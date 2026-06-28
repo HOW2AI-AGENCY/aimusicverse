@@ -39,7 +39,7 @@
 | Режим Studio Lite/Pro                             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Комментарии с таймкодами                          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-## 🚦 Текущий спринт — `034` Надёжность генерации (Q3 2026) 🔄
+## 🚦 `034` Надёжность генерации (Q3 2026) ✅
 
 | Задача                              | Прогресс                                                          |
 | ----------------------------------- | ----------------------------------------------------------------- |
@@ -50,7 +50,10 @@
 | Prompt pre-validation               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Generation queue position UI        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Failure analysis RPC                | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Снижение failure rate 12% → <8%     | ![](https://img.shields.io/badge/77%25-F59E0B?style=flat-square)  |
+| Failure rate alerts (Edge Function) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| A/B 2-step vs 4-step wizard         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Delivery tracking (A/B clips)       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Снижение failure rate 12% → <8%     | ![](https://img.shields.io/badge/92%25-10B981?style=flat-square)  |
 
 ## 🚦 `035` E2E + Экспорт (Q3 2026)
 
@@ -110,15 +113,18 @@ mindmap
 
 ## ✅ Последние достижения (за 30 дней)
 
-- 🔄 Спринт 034: Надёжность генерации — 10/13 задач выполнены.
+- ✅ Спринт 034: Надёжность генерации — 13/13 задач, спринт завершён.
 - ✅ Auto-retry интегрирован в handleGenerate() (2 попытки + exponential backoff).
 - ✅ Dashboard метрик генерации (/admin/generation-metrics).
 - ✅ Structured failure tracking (failure_category, retry_count, generation_params).
 - ✅ Prompt pre-validation (длина, кодировка, запрещённый контент).
-- ✅ A/B framework активирован — эксперимент PROMPT_SUGGESTIONS (50/50).
+- ✅ A/B framework активирован — PROMPT_SUGGESTIONS + WIZARD_STEPS (50/50).
 - ✅ Generation queue position UI с rate-limit awareness.
 - ✅ Failure pattern analysis RPC (get_generation_failure_patterns).
 - ✅ Sentry breadcrumbs для полного flow генерации.
+- ✅ Failure rate alerts — Edge Function + Telegram уведомления админам.
+- ✅ A/B тест 2-step vs 4-step wizard (WIZARD_STEPS experiment).
+- ✅ Delivery tracking — partial_delivery status + useDeliveryTracking hook.
 - ✅ Спринт 033: Полный аудит интерфейса — 18 задач в 4 фазах.
 - 🚀 Бандл уменьшен с 1.02 МБ → 918 КБ.
 

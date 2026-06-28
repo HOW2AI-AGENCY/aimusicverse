@@ -267,6 +267,19 @@ export const EXPERIMENTS = {
     metrics: ["generation_started", "generation_completed", "generation_satisfaction"],
   },
 
+  // Sprint 034: Test 2-step vs 4-step generation wizard
+  WIZARD_STEPS: {
+    id: "wizard_steps_v1",
+    name: "Wizard Step Count",
+    description: "Compare 2-step (condensed) vs 4-step (current) generation wizard",
+    variants: [
+      { id: "control", name: "4-Step Wizard", weight: 50 },
+      { id: "treatment", name: "2-Step Wizard", weight: 50 },
+    ],
+    status: "running" as const,
+    metrics: ["generation_started", "generation_completed", "wizard_abandon_rate", "time_to_generate"],
+  },
+
   // Player UX
   PLAYER_EXPAND_CTA: {
     id: "player_expand_cta",

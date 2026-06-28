@@ -78,9 +78,9 @@
 | #      | Задача                                                                                   | Приоритет | Effort | Файлы                                                                |
 | ------ | ---------------------------------------------------------------------------------------- | --------- | ------ | -------------------------------------------------------------------- |
 | 034-10 | ✅ **Активировать** `useExperiment` (хук готов) — первый эксперимент: prompt suggestions | P1        | 0.5d   | `src/lib/ab-testing/index.ts` (PROMPT_SUGGESTIONS status=running)    |
-| 034-11 | A/B тест: 2-step vs 4-step generation wizard                                             | P2        | 0.5d   | `src/components/generate-form/`                                      |
+| 034-11 | ✅ A/B тест: 2-step vs 4-step generation wizard                                          | P2        | 0.5d   | `src/components/generate-form/wizard/`, `src/lib/ab-testing/`        |
 | 034-12 | ✅ Анализ failure patterns (корреляция style/mood/duration с ошибками) — RPC функция     | P1        | 1d     | `supabase/migrations/20260628120000_generation_failure_tracking.sql` |
-| 034-13 | Delivery tracking: мониторинг получения обоих clip-ов (A/B версии)                       | P2        | 1d     | `supabase/functions/suno-music-callback/`                            |
+| 034-13 | ✅ Delivery tracking: мониторинг получения обоих clip-ов (A/B версии)                    | P2        | 1d     | `supabase/functions/suno-music-callback/`, `src/hooks/generation/`   |
 
 ### Критерии успеха Sprint 034
 

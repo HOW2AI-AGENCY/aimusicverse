@@ -1,15 +1,20 @@
 /**
  * GenerationWizard - Step-by-step music generation with AI assistance
+ * A/B tested: 2-step (treatment) vs 4-step (control) — WIZARD_STEPS experiment
  */
 
 import { useCallback } from "react";
 import { AnimatePresence } from "@/lib/motion";
 import { useGenerationWizardStore, type WizardStep } from "@/stores/generationWizardStore";
+import { useExperiment } from "@/hooks/useExperiment";
+import { EXPERIMENTS } from "@/lib/ab-testing";
 import { WizardProgress } from "./WizardProgress";
 import { IdeaStep } from "./steps/IdeaStep";
 import { StyleSettingsStep } from "./steps/StyleSettingsStep";
 import { VocalsLyricsStep } from "./steps/VocalsLyricsStep";
 import { PreviewStep } from "./steps/PreviewStep";
+import { IdeaStyleCombinedStep } from "./steps/IdeaStyleCombinedStep";
+import { VocalsGenerateStep } from "./steps/VocalsGenerateStep";
 
 interface GenerationWizardProps {
   onGenerate: (params: WizardGenerateParams) => void;
@@ -27,9 +32,14 @@ export interface WizardGenerateParams {
   isPublic: boolean;
 }
 
+const TWO_STEP_FLOW: WizardStep[] = ["idea", "vocals-lyrics"];
+
 export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProps) {
   const { currentStep, completedSteps, data, setStep, nextStep, prevStep, markStepComplete } =
     useGenerationWizardStore();
+
+  const { isControl: isFourStep, trackConversion } = useExperiment(EXPERIMENTS.WIZARD_STEPS);
+  const isTwoStep = !isFourStep;
 
   const handleStepClick = useCallback(
     (step: WizardStep) => {
@@ -40,11 +50,28 @@ export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProp
 
   const handleNext = useCallback(() => {
     markStepComplete(currentStep);
-    nextStep();
-  }, [currentStep, markStepComplete, nextStep]);
+    if (isTwoStep) {
+      const currentIndex = TWO_STEP_FLOW.indexOf(currentStep);
+      if (currentIndex < TWO_STEP_FLOW.length - 1) {
+        setStep(TWO_STEP_FLOW[currentIndex + 1]);
+      }
+    } else {
+      nextStep();
+    }
+  }, [currentStep, markStepComplete, nextStep, isTwoStep, setStep]);
+
+  const handleBack = useCallback(() => {
+    if (isTwoStep) {
+      const currentIndex = TWO_STEP_FLOW.indexOf(currentStep);
+      if (currentIndex > 0) {
+        setStep(TWO_STEP_FLOW[currentIndex - 1]);
+      }
+    } else {
+      prevStep();
+    }
+  }, [currentStep, isTwoStep, prevStep, setStep]);
 
   const handleGenerate = useCallback(() => {
-    // Build style string from wizard data
     const styleParts: string[] = [];
     if (data.selectedGenre) styleParts.push(data.selectedGenre);
     if (data.selectedMood) styleParts.push(data.selectedMood);
@@ -62,30 +89,46 @@ export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProp
       isPublic: data.isPublic,
     };
 
+    trackConversion("generation_started");
     onGenerate(params);
-  }, [data, onGenerate]);
+  }, [data, onGenerate, trackConversion]);
 
   const renderStep = () => {
+    if (isTwoStep) {
+      switch (currentStep) {
+        case "idea":
+          return <IdeaStyleCombinedStep onNext={handleNext} />;
+        case "vocals-lyrics":
+          return <VocalsGenerateStep onGenerate={handleGenerate} onBack={handleBack} isLoading={isLoading} />;
+        default:
+          return <IdeaStyleCombinedStep onNext={handleNext} />;
+      }
+    }
+
     switch (currentStep) {
       case "idea":
         return <IdeaStep onNext={handleNext} />;
       case "style-settings":
-        return <StyleSettingsStep onNext={handleNext} onBack={prevStep} />;
+        return <StyleSettingsStep onNext={handleNext} onBack={handleBack} />;
       case "vocals-lyrics":
-        return <VocalsLyricsStep onNext={handleNext} onBack={prevStep} />;
+        return <VocalsLyricsStep onNext={handleNext} onBack={handleBack} />;
       case "preview":
-        return <PreviewStep onGenerate={handleGenerate} onBack={prevStep} isLoading={isLoading} />;
+        return <PreviewStep onGenerate={handleGenerate} onBack={handleBack} isLoading={isLoading} />;
       default:
         return <IdeaStep onNext={handleNext} />;
     }
   };
 
+  const activeSteps = isTwoStep ? TWO_STEP_FLOW : undefined;
+
   return (
     <div className="space-y-4">
-      {/* Progress indicator */}
-      <WizardProgress currentStep={currentStep} completedSteps={completedSteps} onStepClick={handleStepClick} />
-
-      {/* Step content */}
+      <WizardProgress
+        currentStep={currentStep}
+        completedSteps={completedSteps}
+        onStepClick={handleStepClick}
+        steps={activeSteps}
+      />
       <AnimatePresence mode="wait">{renderStep()}</AnimatePresence>
     </div>
   );

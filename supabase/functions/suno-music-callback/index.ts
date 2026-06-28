@@ -991,16 +991,28 @@ serve(async (req) => {
         }
       }
 
+      const expectedClips = task.expected_clips ?? 2;
+      const deliveryComplete = clips.length >= expectedClips;
+
       await supabase
         .from("generation_tasks")
         .update({
-          status: "completed",
+          status: deliveryComplete ? "completed" : "partial_delivery",
           completed_at: new Date().toISOString(),
           callback_received_at: new Date().toISOString(),
           audio_clips: JSON.stringify(clips),
           received_clips: clips.length,
         })
         .eq("id", task.id);
+
+      if (!deliveryComplete) {
+        logger.warn("Partial clip delivery", {
+          taskId: task.id,
+          expected: expectedClips,
+          received: clips.length,
+          trackId,
+        });
+      }
 
       // Log to content_audit_log for deposition/copyright proof
       const finalClip = clips[0];
