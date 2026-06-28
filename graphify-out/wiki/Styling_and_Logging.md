@@ -1,16 +1,14 @@
 # Styling and Logging
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [usePromptDJFromReference.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L1) (6 connections)
-- [energyToWeight()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L25) (1 connections)
-- [normalizeEnergy()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L106) (1 connections)
-- [normalizeGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L35) (1 connections)
-- [normalizeInstrument()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L119) (1 connections)
-- [normalizeMood()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L73) (1 connections)
-- [usePromptDJFromReference()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts#L151) (1 connections)
+- [touch-friendly.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L60) (1 connections)
+- [patterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L174) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L44) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJFromReference.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJFromReference.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-friendly.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-friendly.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

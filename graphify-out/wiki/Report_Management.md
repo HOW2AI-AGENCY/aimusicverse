@@ -1,19 +1,18 @@
 # Report Management
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ErrorTrendsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L1) (10 connections)
-- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L84) (1 connections)
-- [edgeFn](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L307) (1 connections)
-- [[expandedError, setExpandedError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L87) (1 connections)
-- [extractEdgeFunction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L61) (1 connections)
-- [groupByEdgeFunction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L73) (1 connections)
-- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L308) (1 connections)
-- [parseStackTrace()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L45) (1 connections)
-- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L382) (1 connections)
-- [stackInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx#L306) (1 connections)
+- [EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L1) (8 connections)
+- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L29) (1 connections)
+- [handleCancel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L53) (1 connections)
+- [handleCopy](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L58) (1 connections)
+- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L45) (1 connections)
+- [handleStartEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L39) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L28) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L64) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -21,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ErrorTrendsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ErrorTrendsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\EditablePromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/EditablePromptPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 19 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

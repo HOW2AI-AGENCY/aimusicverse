@@ -1,10 +1,11 @@
 # Quality Assurance
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [API Integration Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/api-agent.agent.md) (0 connections)
+- [TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L1) (1 connections)
+- [TitleSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L11) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.github/api-agent.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/api-agent.agent.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,25 +1,23 @@
 # Generation Management
 
-> 16 nodes · cohesion 0.12
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [SyntaxHighlightedEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L1) (15 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L91) (1 connections)
-- [countSyllables()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L43) (1 connections)
-- [currentLineSyllables](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L133) (1 connections)
-- [[cursorLine, setCursorLine]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L125) (1 connections)
-- [handleScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L149) (1 connections)
-- [handleSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L157) (1 connections)
-- [highlightRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L127) (1 connections)
-- [highlightSyntax()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L56) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L124) (1 connections)
-- [lines](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L130) (1 connections)
-- [syllables](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L255) (1 connections)
-- [syllableStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L141) (1 connections)
-- [SYNTAX_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L19) (1 connections)
-- [TAG_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L31) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx#L126) (1 connections)
+- [audio-sw.js](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L1) (16 connections)
+- [AUDIO_EXTENSIONS](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L12) (1 connections)
+- [AUDIO_URL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L15) (1 connections)
+- [cache](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L160) (1 connections)
+- [CACHE_NAME](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L10) (1 connections)
+- [cachedResponse](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L163) (1 connections)
+- [isAudioUrl()](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L26) (1 connections)
+- [MAX_CACHE_SIZE_MB](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L11) (1 connections)
+- [networkResponse](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L177) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L204) (1 connections)
+- [size](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L244) (1 connections)
+- [{ type, payload }](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L198) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L153) (1 connections)
+- [urls](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js#L216) (1 connections)
 
 ## Relationships
 
@@ -27,14 +25,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\SyntaxHighlightedEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SyntaxHighlightedEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\public\audio-sw.js](file:///D:/.MUSICVERSE/aimusicverse/public/audio-sw.js)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 29 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,16 +1,14 @@
 # Sheet Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [HardwareSwitch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L1) (6 connections)
-- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L28) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L49) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L48) (1 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L51) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L178) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx#L22) (1 connections)
+- [LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L1) (2 connections)
+- [IconComponent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L39) (2 connections)
+- [Switch](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L6) (2 connections)
+- [switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx#L1) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareSwitch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareSwitch.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\switch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/switch.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (75%)
+- INFERRED: 2 (25%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

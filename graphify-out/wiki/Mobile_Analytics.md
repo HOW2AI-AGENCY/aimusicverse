@@ -1,12 +1,11 @@
 # Mobile Analytics
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L1) (2 connections)
-- [useStudioModalHandlers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L96) (1 connections)
-- [useStudioModals()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts#L52) (1 connections)
+- [usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L1) (1 connections)
+- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts#L21) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioModals.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioModals.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicArtists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicArtists.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

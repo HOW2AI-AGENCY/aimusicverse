@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [aimusicverse Development Guidelines](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/copilot-instructions.md) (0 connections)
+- [usePublicContent.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicContent.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/agents/copilot-instructions.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/copilot-instructions.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicContent.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicContent.ts)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

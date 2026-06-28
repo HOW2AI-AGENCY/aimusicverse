@@ -1,35 +1,35 @@
 # Creative Content Generation
 
-> 32 nodes · cohesion 0.06
+> 30 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L1) (22 connections)
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L1) (7 connections)
-- [Calendar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/calendar.tsx#L10) (2 connections)
-- [buttonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L374) (2 connections)
-- [TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L158) (2 connections)
-- [AI_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L37) (1 connections)
-- [badgeVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L380) (1 connections)
-- [DYNAMIC_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L338) (1 connections)
-- [EMOTIONAL_CUES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L343) (1 connections)
-- [formatCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L425) (1 connections)
-- [GENRE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L198) (1 connections)
-- [GENRES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L15) (1 connections)
-- [getGenreByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L389) (1 connections)
-- [getMoodByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L393) (1 connections)
-- [getSectionTypeByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L401) (1 connections)
-- [getStructureByValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L397) (1 connections)
-- [getTagDefinition()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L405) (1 connections)
-- [getTagsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L409) (1 connections)
-- [messageVariants](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L363) (1 connections)
-- [MOOD_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L187) (1 connections)
-- [MOODS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L40) (1 connections)
-- [PROMPT_BUILDERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L220) (1 connections)
-- [RHYME_SCHEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts#L226) (1 connections)
-- [SECTION_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L211) (1 connections)
-- [SECTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts#L132) (1 connections)
-- _... and 7 more nodes in this community_
+- [unified-studio-perf.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L1) (29 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L212) (1 connections)
+- [{ avgFPS }](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L164) (1 connections)
+- [delta](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L380) (1 connections)
+- [droppedFramePercentage](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L328) (1 connections)
+- [event](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L337) (1 connections)
+- [finalMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L228) (1 connections)
+- [frameDrops](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L286) (1 connections)
+- [growthMB](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L264) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L220) (1 connections)
+- [initialMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L202) (1 connections)
+- [interactionFrameDrops](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L289) (1 connections)
+- [iterations](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L238) (1 connections)
+- [jsSize](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L274) (1 connections)
+- [latency](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L183) (1 connections)
+- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L149) (1 connections)
+- [lyricsSelector](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L170) (1 connections)
+- [measureInteractionLatency()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L94) (1 connections)
+- [measureLoadPerformance()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L13) (1 connections)
+- [measureScrollFPS()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L37) (1 connections)
+- [memory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L242) (1 connections)
+- [memoryGrowthMB](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L232) (1 connections)
+- [memorySamples](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L239) (1 connections)
+- [metrics](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L155) (1 connections)
+- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L178) (1 connections)
+- *... and 5 more nodes in this community*
 
 ## Relationships
 
@@ -37,16 +37,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/constants.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\calendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/calendar.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\unified-studio-perf.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 60 (97%)
-- INFERRED: 2 (3%)
+- EXTRACTED: 58 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

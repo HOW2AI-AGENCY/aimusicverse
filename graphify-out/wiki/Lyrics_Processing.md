@@ -1,74 +1,110 @@
 # Lyrics Processing
 
-> 79 nodes · cohesion 0.03
+> 77 nodes · cohesion 0.03
 
 ## Key Concepts
 
-- [imageOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L1) (20 connections)
-- [performance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts#L1) (18 connections)
-- [route-preloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L1) (10 connections)
-- [AudioBufferPool](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L32) (9 connections)
-- [useAudioBufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L1) (7 connections)
-- [usePromptDJEnhanced.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJEnhanced.ts#L1) (7 connections)
-- [requestIdleCallback](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts#L178) (6 connections)
-- [.dispose()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L125) (5 connections)
-- [.evictOldest()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L66) (4 connections)
-- [.preload()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L87) (4 connections)
-- [.set()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L47) (4 connections)
-- [getOptimizedImageUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L266) (3 connections)
-- [processBatched()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts#L256) (3 connections)
-- [.scheduleProcess()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/prefetchManager.ts#L137) (3 connections)
-- [preloadCriticalRoutes()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L120) (3 connections)
-- [preloadRoute()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L87) (3 connections)
-- [processQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts#L48) (3 connections)
-- [.get()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L38) (3 connections)
-- [.processQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L107) (3 connections)
-- [.queuePreload()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L101) (3 connections)
-- [useAudioBufferPool()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts#L162) (3 connections)
-- [.clear()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L117) (2 connections)
-- [.stopCleanupTimer()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L172) (2 connections)
-- [usePredictiveGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePredictiveGeneration.ts#L1) (2 connections)
-- [generateSrcSet()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts#L192) (2 connections)
-- _... and 54 more nodes in this community_
+- [AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L1) (17 connections)
+- [errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L1) (14 connections)
+- [playerStore.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/stores/playerStore.test.ts#L1) (11 connections)
+- [toAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L523) (9 connections)
+- [retry.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L1) (8 connections)
+- [retryWithBackoff()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L77) (7 connections)
+- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L253) (6 connections)
+- [retry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/retry.ts#L1) (6 connections)
+- [getEnhancedErrorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L248) (6 connections)
+- [CircuitBreaker](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L224) (5 connections)
+- [tryCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L499) (4 connections)
+- [tryCatchSync()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L511) (4 connections)
+- [isRetriableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L312) (4 connections)
+- [showErrorWithRecovery()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L806) (4 connections)
+- [retryFetch()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L133) (4 connections)
+- [APIError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L334) (3 connections)
+- [.isRetryable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L290) (3 connections)
+- [AudioError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L396) (3 connections)
+- [err()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L492) (3 connections)
+- [GenerationError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L418) (3 connections)
+- [InsufficientCreditsError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L434) (3 connections)
+- [NetworkError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L321) (3 connections)
+- [ok()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L485) (3 connections)
+- [StorageError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L457) (3 connections)
+- [.toUserMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L462) (3 connections)
+- *... and 52 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class AudioBufferPool {
-        +useAudioBufferPool.ts()
-        +.get()
-        +.set()
-        +.evictOldest()
-        +.preload()
-        +.queuePreload()
-        +.processQueue()
-        +.clear()
-        +.getStats()
+    class APIError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class AppError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+        +.isRetryable()
+        +.getRetryDelayMs()
+        +.toJSON()
+    }
+    class AudioError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class GenerationError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class InsufficientCreditsError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class NetworkError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class StorageError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class ValidationError {
+        +AppError.ts()
+        +.constructor()
+        +.toUserMessage()
+    }
+    class CircuitBreaker {
+        +retry.ts()
+        +.constructor()
+        +.execute()
+        +.getState()
+        +.reset()
     }
 ```
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Creative Tools Development]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioBufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioBufferPool.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePredictiveGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePredictiveGeneration.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJEnhanced.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJEnhanced.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\bufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\prefetchManager.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/prefetchManager.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\imageOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/imageOptimization.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\performance.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/performance.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\route-preloader.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/route-preloader.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\stores\playerStore.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/stores/playerStore.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\errors\AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\retry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/retry.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\retry.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 170 (85%)
-- INFERRED: 30 (15%)
+- EXTRACTED: 185 (90%)
+- INFERRED: 21 (10%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

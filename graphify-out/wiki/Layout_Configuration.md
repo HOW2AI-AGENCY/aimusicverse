@@ -1,29 +1,17 @@
 # Layout Configuration
 
-> 10 nodes · cohesion 0.27
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L1) (8 connections)
-- [mapSunoError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L413) (4 connections)
-- [detectErrorCode()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L359) (3 connections)
-- [createSunoError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L483) (2 connections)
-- [getRetryDelay()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L461) (2 connections)
-- [isRetryableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L453) (2 connections)
-- [SunoError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L469) (2 connections)
-- [ERROR_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L92) (1 connections)
-- [FAQ_URLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L80) (1 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts#L470) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class SunoError {
-        +suno-error-mapper.ts()
-        +.constructor()
-    }
-```
+- [StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L1) (7 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L77) (2 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L64) (1 connections)
+- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L82) (1 connections)
+- [{ impact, select }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L62) (1 connections)
+- [MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L26) (1 connections)
+- [[selectedMode, setSelectedMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L61) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -31,14 +19,14 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\suno-error-mapper.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/suno-error-mapper.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemSeparationModeDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemSeparationModeDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (92%)
-- INFERRED: 2 (8%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

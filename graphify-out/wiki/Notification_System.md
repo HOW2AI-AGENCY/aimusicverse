@@ -1,24 +1,59 @@
 # Notification System
 
-> 15 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [MidiExportPanelMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L1) (15 connections)
-- [getFileUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L102) (3 connections)
-- [handleShare()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L136) (3 connections)
-- [handleDownloadAll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L158) (2 connections)
-- [availableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L178) (1 connections)
-- [availableFormats](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L177) (1 connections)
-- [[downloaded, setDownloaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L99) (1 connections)
-- [[downloading, setDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L98) (1 connections)
-- [[expandedFormat, setExpandedFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L100) (1 connections)
-- [FORMATS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L39) (1 connections)
-- [isAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L203) (1 connections)
-- [isDownloaded](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L205) (1 connections)
-- [isDownloading](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L204) (1 connections)
-- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L206) (1 connections)
-- [url](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx#L202) (1 connections)
+- [DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L1) (12 connections)
+- [activeInStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L92) (1 connections)
+- [[activePads, setActivePads]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L26) (1 connections)
+- [getAvailableKits()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L182) (1 connections)
+- [getPresetPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L288) (1 connections)
+- [handleInitialize](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L68) (1 connections)
+- [handlePadTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L75) (1 connections)
+- [handlePlayStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L102) (1 connections)
+- [handleSendToPromptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L130) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L111) (1 connections)
+- [{
+    isReady,
+    isPlaying,
+    currentStep,
+    bpm,
+    swing,
+    volume,
+    currentKit,
+    pattern,
+    soloTracks,
+    mutedTracks,
+    stepLength,
+    recordingState,
+    recordedAudioUrl,
+    recordedAudioBlob,
+    trackEffects,
+    initialize,
+    play,
+    stop,
+    toggleStep,
+    triggerSound,
+    setBpm,
+    setSwing,
+    setVolume,
+    setKit,
+    loadPattern,
+    clearPattern,
+    toggleSolo,
+    toggleMute,
+    getAvailableKits,
+    getPresetPatterns,
+    setStepLength,
+    startRecording,
+    stopRecording,
+    clearRecording,
+    setTrackEffect,
+    exportToMidi,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L28) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L24) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -26,14 +61,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\MidiExportPanelMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MidiExportPanelMobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumMachine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumMachine.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (94%)
-- INFERRED: 2 (6%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

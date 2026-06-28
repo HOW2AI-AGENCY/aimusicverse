@@ -1,43 +1,16 @@
 # Group Management
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L1) (9 connections)
-- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L30) (1 connections)
-- [handleApplyComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L150) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L144) (1 connections)
-- [handleDiscardComparison](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L158) (1 connections)
-- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L52) (1 connections)
-- [[replacedSections, setReplacedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L87) (1 connections)
-- [{
-  selectedSection,
-  customRange,
-  clearSelection,
-  latestCompletion,
-  setLatestCompletion,
-  editMode,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L78) (1 connections)
-- [{
-  startTime,
-  endTime,
-  sectionDuration,
-  maxDuration,
-  hasSelection,
-  isValidDuration,
-  isSubmitting,
-  prompt,
-  setPrompt,
-  tags,
-  setTags,
-  lyrics,
-  setLyrics,
-  updateRange,
-  addPreset,
-  executeReplacement,
-  reset,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx#L89) (1 connections)
+- [AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L1) (7 connections)
+- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L41) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L44) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L39) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L40) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L42) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -45,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionEditorPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionEditorPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (100%)
+- EXTRACTED: 13 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

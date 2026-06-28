@@ -1,11 +1,10 @@
 # User Role Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [AudioRecordDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L36) (1 connections)
-- [AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx#L1) (1 connections)
+- [postcss.config.js](file:///D:/.MUSICVERSE/aimusicverse/postcss.config.js#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-record\AudioRecordDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-record/AudioRecordDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\postcss.config.js](file:///D:/.MUSICVERSE/aimusicverse/postcss.config.js)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

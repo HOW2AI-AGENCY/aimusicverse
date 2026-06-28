@@ -1,23 +1,21 @@
 # Feature Access Control
 
-> 14 nodes · cohesion 0.24
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L1) (13 connections)
-- [parseTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L136) (5 connections)
-- [detectTagType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L86) (4 connections)
-- [isStructuralTagValue()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L72) (4 connections)
-- [parseFullLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L283) (4 connections)
-- [parseLine()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L170) (4 connections)
-- [extractTagFromWord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L374) (2 connections)
-- [extractTimingDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L125) (2 connections)
-- [getSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L356) (2 connections)
-- [DYNAMIC_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L55) (1 connections)
-- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L60) (1 connections)
-- [STRUCTURAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L33) (1 connections)
-- [TIMED_PATTERN](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L67) (1 connections)
-- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts#L49) (1 connections)
+- [LibraryFilterModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L1) (11 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L109) (1 connections)
+- [FILTERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L38) (1 connections)
+- [handleApply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L74) (1 connections)
+- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L82) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L69) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L108) (1 connections)
+- [[localFilter, setLocalFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L70) (1 connections)
+- [[localSort, setLocalSort]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L71) (1 connections)
+- [[localStatus, setLocalStatus]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L72) (1 connections)
+- [SORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L45) (1 connections)
+- [STATUS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -25,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\advancedTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/advancedTagParser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryFilterModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterModal.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 22 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

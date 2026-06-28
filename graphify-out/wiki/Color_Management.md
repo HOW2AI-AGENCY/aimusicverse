@@ -4,8 +4,8 @@
 
 ## Key Concepts
 
-- [jest.config.js](file:///D:/.MUSICVERSE/aimusicverse/jest.config.js#L1) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/jest.config.js#L3) (1 connections)
+- [AdminTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L8) (1 connections)
+- [AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -13,7 +13,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\jest.config.js](file:///D:/.MUSICVERSE/aimusicverse/jest.config.js)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTelegram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTelegram.tsx)
 
 ## Audit Trail
 
@@ -23,4 +23,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

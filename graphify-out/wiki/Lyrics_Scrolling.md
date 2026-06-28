@@ -1,50 +1,50 @@
 # Lyrics Scrolling
 
-> 45 nodes · cohesion 0.05
+> 38 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [Sprint 026 Execution Tracking](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L1) (18 connections)
-- [🎓 Sprint Learnings](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L254) (6 connections)
-- [✅ Completed Tasks (26 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L26) (5 connections)
-- [📝 Daily Progress Log](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L606) (5 connections)
-- [🚀 Next Actions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L301) (4 connections)
-- [⏳ Pending Tasks (16 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L400) (4 connections)
-- [✅ Completed Tasks (10 SP)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L336) (3 connections)
-- [📈 Sprint Metrics Dashboard](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L164) (3 connections)
-- [📊 Definition of Done](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L555) (2 connections)
-- [🔄 In Progress (0 SP currently active)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L381) (2 connections)
-- [🎯 Sprint Health](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L192) (2 connections)
-- [🔬 Technical Progress](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L206) (2 connections)
-- [US-026-002: Quick Create Presets (6 SP) ✅ 100%](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L28) (2 connections)
-- [SPRINT_026_EXECUTION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L1) (1 connections)
-- [Architecture Decisions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L208) (1 connections)
-- [Areas for Future Improvement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L282) (1 connections)
-- [Day 1 (Dec 30, 2025)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L608) (1 connections)
-- [Day 2 (Dec 31, 2025)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L614) (1 connections)
-- [Day 3 (Jan 1, 2026)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L620) (1 connections)
-- [Day 4 (Jan 2, 2026)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L627) (1 connections)
-- [🔗 Dependencies](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L651) (1 connections)
-- [Documentation (4 SP estimated) ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L370) (1 connections)
-- [📁 Files Created (5 files)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L471) (1 connections)
-- [Immediate (Days 4-5)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L538) (1 connections)
-- [💡 Key Decisions](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md#L238) (1 connections)
-- _... and 20 more nodes in this community_
+- [social-features.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L1) (37 connections)
+- [generateTestUser()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L7) (2 connections)
+- [activityItems](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L166) (1 connections)
+- [afterScrollCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L267) (1 connections)
+- [commentsList](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L111) (1 connections)
+- [commentText](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L103) (1 connections)
+- [deliveryTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L344) (1 connections)
+- [firstActivity](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L175) (1 connections)
+- [firstTrack](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L93) (1 connections)
+- [firstUserCard](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L77) (1 connections)
+- [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L81) (1 connections)
+- [fps](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L288) (1 connections)
+- [frameCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L277) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L281) (1 connections)
+- [initialCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L258) (1 connections)
+- [initialLikeText](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L127) (1 connections)
+- [itemCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L167) (1 connections)
+- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L126) (1 connections)
+- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L251) (1 connections)
+- [notificationBell](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L141) (1 connections)
+- [notificationTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L368) (1 connections)
+- [page1](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L324) (1 connections)
+- [page2](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L325) (1 connections)
+- [privacySelect](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L219) (1 connections)
+- [profileSetupExists](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts#L32) (1 connections)
+- *... and 13 more nodes in this community*
 
 ## Relationships
 
-- [[Project Management]] (90 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_026_EXECUTION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_026_EXECUTION.md)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\social-features.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/social-features.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 90 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 74 (99%)
+- INFERRED: 1 (1%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

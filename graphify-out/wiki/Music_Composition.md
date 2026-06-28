@@ -1,14 +1,13 @@
 # Music Composition
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L1) (4 connections)
-- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L40) (1 connections)
-- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L42) (1 connections)
-- [StatItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L18) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L39) (1 connections)
+- [unified-empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L1) (3 connections)
+- [isLucideIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L143) (2 connections)
+- [UnifiedEmptyState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L147) (2 connections)
+- [emptyStateConfigs](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -16,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\unified-empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/unified-empty-state.tsx)
 
 ## Audit Trail
 
@@ -26,4 +25,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

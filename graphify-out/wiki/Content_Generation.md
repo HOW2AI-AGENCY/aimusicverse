@@ -1,14 +1,12 @@
 # Content Generation
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L1) (4 connections)
-- [DeferredProviders()](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L34) (1 connections)
-- [FeatureProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L78) (1 connections)
-- [GamificationProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L22) (1 connections)
-- [PaywallProvider](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx#L25) (1 connections)
+- [QuickPresets.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx#L1) (2 connections)
+- [QuickPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx#L113) (2 connections)
+- [QUICK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\providers\FeatureProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/FeatureProviders.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\QuickPresets.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/QuickPresets.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (80%)
+- INFERRED: 1 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

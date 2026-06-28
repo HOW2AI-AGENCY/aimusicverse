@@ -1,20 +1,18 @@
 # Accessibility Utilities
 
-> 11 nodes · cohesion 0.18
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L1) (10 connections)
-- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L29) (1 connections)
-- [{ data: posts, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L32) (1 connections)
-- [{ data: selectedPost, isLoading: isLoadingPost }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L33) (1 connections)
-- [deletePost](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L34) (1 connections)
-- [[editingPost, setEditingPost]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L36) (1 connections)
-- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L30) (1 connections)
-- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L37) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L25) (1 connections)
-- [postSlug](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L27) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L26) (1 connections)
+- [ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L1) (8 connections)
+- [globalIdx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L125) (1 connections)
+- [groupedRecs](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L53) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L62) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L113) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L114) (1 connections)
+- [[selectedIndex, setSelectedIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L50) (1 connections)
+- [TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L29) (1 connections)
+- [TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -22,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

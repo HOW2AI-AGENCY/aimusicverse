@@ -1,10 +1,11 @@
 # Workflow Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Speckit Specify Agent](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.specify.agent.md) (0 connections)
+- [MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L1) (1 connections)
+- [MobileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.github/agents/speckit.specify.agent.md](file:///D:/.MUSICVERSE/aimusicverse/.github/agents/speckit.specify.agent.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\forms\MobileSelect.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/forms/MobileSelect.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

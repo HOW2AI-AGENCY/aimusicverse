@@ -1,17 +1,16 @@
 # Tier Management
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [DoubleTapLike.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L1) (7 connections)
-- [handleTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L27) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L21) (1 connections)
-- [{ isLiked, toggleLike }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L22) (1 connections)
-- [lastTapRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L24) (1 connections)
-- [[showHeart, setShowHeart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L23) (1 connections)
-- [singleTapTimeoutRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L25) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L20) (1 connections)
+- [useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L1) (6 connections)
+- [useFeaturedContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L233) (1 connections)
+- [usePublicArtists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L109) (1 connections)
+- [usePublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L145) (1 connections)
+- [usePublicProjects()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L73) (1 connections)
+- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L28) (1 connections)
+- [useSearchPublicContent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts#L272) (1 connections)
 
 ## Relationships
 
@@ -19,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\DoubleTapLike.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\useBasicQueries.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/useBasicQueries.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

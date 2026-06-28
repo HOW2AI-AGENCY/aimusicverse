@@ -1,25 +1,39 @@
 # Emoji Management
 
-> 16 nodes · cohesion 0.20
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [fetchUsersWithBalances()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L92) (9 connections)
-- [admin.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L1) (9 connections)
-- [admin.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L1) (6 connections)
-- [getAdminDashboardData()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L53) (4 connections)
-- [getUsersByBalance()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L83) (4 connections)
-- [getCurrentUserAdminStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L68) (3 connections)
-- [getLowBalanceUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L99) (3 connections)
-- [getZeroBalanceUsers()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L107) (3 connections)
-- [checkAdminRole()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L55) (2 connections)
-- [fetchBotMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L145) (2 connections)
-- [fetchUserBalanceSummary()](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts#L83) (2 connections)
-- [isCurrentUserAdmin()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L70) (2 connections)
-- [analyzeBotHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L135) (1 connections)
-- [calculateChurnRisk()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L114) (1 connections)
-- [getIntervalFromTimeRange()](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L36) (1 connections)
-- [TIME_RANGES](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts#L29) (1 connections)
+- [PromptDJClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L1) (14 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L199) (2 connections)
+- [applyPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L88) (1 connections)
+- [CHANNEL_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L44) (1 connections)
+- [{
+    channels,
+    updateChannel,
+    globalSettings,
+    updateGlobalSettings,
+    isGenerating,
+    generatedTracks,
+    generateMusic,
+    isPlaying,
+    currentTrack,
+    playTrack,
+    stopPlayback,
+    currentPrompt,
+    analyzerNode,
+    removeTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L70) (1 connections)
+- [customChannel](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L142) (1 connections)
+- [{ description, bpm }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L141) (1 connections)
+- [drumData](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L138) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L121) (1 connections)
+- [handleUseAsReference](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L109) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L67) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L66) (1 connections)
+- [QUICK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L52) (1 connections)
+- [resetChannels](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L102) (1 connections)
+- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -27,15 +41,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\admin.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/admin.api.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\services\admin.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/admin.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\PromptDJClean.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/PromptDJClean.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 35 (66%)
-- INFERRED: 18 (34%)
+- EXTRACTED: 28 (97%)
+- INFERRED: 1 (3%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

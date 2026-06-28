@@ -1,16 +1,14 @@
 # UI Variants
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [LyricsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L1) (6 connections)
-- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L45) (1 connections)
-- [lyricsValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L40) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L34) (1 connections)
-- [[saveDialogOpen, setSaveDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L36) (1 connections)
-- [[showVisualEditor, setShowVisualEditor]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L35) (1 connections)
-- [[templateSelectorOpen, setTemplateSelectorOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx#L37) (1 connections)
+- [WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L1) (4 connections)
+- [ChangeIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L15) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L39) (1 connections)
+- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L52) (1 connections)
+- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\LyricsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

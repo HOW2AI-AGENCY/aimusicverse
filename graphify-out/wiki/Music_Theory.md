@@ -1,13 +1,12 @@
 # Music Theory
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L1) (3 connections)
-- [FEATURE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L19) (1 connections)
-- [TIER_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L36) (1 connections)
-- [UpgradePrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L43) (1 connections)
+- [useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L1) (2 connections)
+- [useStudioActivityLogger()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L56) (2 connections)
+- [IMPORTANT_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts#L47) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStudioActivityLogger.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStudioActivityLogger.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (80%)
+- INFERRED: 1 (20%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

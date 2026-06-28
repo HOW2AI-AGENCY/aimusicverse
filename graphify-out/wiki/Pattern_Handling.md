@@ -1,13 +1,12 @@
 # Pattern Handling
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L1) (3 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L31) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L49) (1 connections)
-- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx#L53) (1 connections)
+- [useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L6) (1 connections)
+- [useEmotionAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts#L15) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsLine.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsLine.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEmotionAnalysis.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEmotionAnalysis.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

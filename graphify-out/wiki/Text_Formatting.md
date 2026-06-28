@@ -1,29 +1,30 @@
 # Text Formatting
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [glass-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L1) (4 connections)
-- [GlassCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L32) (1 connections)
-- [hoverClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L25) (1 connections)
-- [paddingClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L12) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx#L19) (1 connections)
+- [Telegram Payments Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_PAYMENTS.md) (3 connections)
+- [Bot API 9.x Updates](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md) (1 connections)
+- [Sprint 3 - Integration Payments](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md) (1 connections)
+- [Telegram Stars Payments](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Variant Management]] (6 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\glass-card.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/glass-card.tsx)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT_3_4.md)
+- [docs/TELEGRAM_MINI_APP_FEATURES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md)
+- [docs/TELEGRAM_PAYMENTS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_PAYMENTS.md)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,12 +1,11 @@
 # Transcription Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L1) (2 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L19) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx#L20) (1 connections)
+- [ProfileTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/ProfileTab.tsx#L1) (1 connections)
+- [ProfileTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/ProfileTab.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\ProfileTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/ProfileTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

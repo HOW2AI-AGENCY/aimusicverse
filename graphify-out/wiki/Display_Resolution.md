@@ -1,19 +1,13 @@
 # Display Resolution
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L1) (4 connections)
-- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L49) (1 connections)
-- [{
-  hasGeneratedTrack,
-  hasPlayedTrack,
-  hasVisitedLibrary,
-  completedOnboarding,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L24) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L50) (1 connections)
-- [steps](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx#L31) (1 connections)
+- [useInfiniteGenreTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L1) (4 connections)
+- [flattenGenreTracksPages()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L157) (1 connections)
+- [GENRE_DB_VALUES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L13) (1 connections)
+- [useInfiniteGenreTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts#L41) (1 connections)
 
 ## Relationships
 
@@ -21,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\NewUserProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/NewUserProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useInfiniteGenreTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useInfiniteGenreTracks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

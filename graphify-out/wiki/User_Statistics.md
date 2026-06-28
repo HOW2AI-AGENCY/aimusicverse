@@ -1,31 +1,30 @@
 # User Statistics
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L1) (6 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L54) (1 connections)
-- [handleLike()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L61) (1 connections)
-- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L53) (1 connections)
-- [likeComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L51) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L56) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx#L50) (1 connections)
+- [Infrastructure Audit - Storage & CDN Architecture](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (5 connections)
+- [CDN Assets Table](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
+- [Media Processing Queue](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
+- [Storage Buckets (tracks, covers, stems, uploads, avatars, temp)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
+- [Storage Management Tables (storage_usage, file_registry)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
+- [Storage RLS Policies](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Playlist Management]] (10 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentItem.tsx)
+- [docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

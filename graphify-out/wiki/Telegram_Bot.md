@@ -1,12 +1,11 @@
 # Telegram Bot
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [stemReferenceStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L1) (2 connections)
-- [EXPIRY_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L24) (1 connections)
-- [useStemReferenceStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts#L26) (1 connections)
+- [useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L1) (1 connections)
+- [useMultiTrackAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\stemReferenceStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/stemReferenceStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

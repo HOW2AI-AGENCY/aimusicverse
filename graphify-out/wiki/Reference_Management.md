@@ -1,11 +1,10 @@
 # Reference Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L1) (1 connections)
-- [VARIANT_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts#L177) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/types.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

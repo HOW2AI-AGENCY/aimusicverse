@@ -1,31 +1,22 @@
 # Chart Visualization
 
-> 14 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L1) (13 connections)
-- [{ activeReference, clearActive, analysisStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L50) (1 connections)
-- [defaultContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L99) (1 connections)
-- [effectiveDur](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L98) (1 connections)
-- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L142) (1 connections)
-- [getModeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L129) (1 connections)
-- [getModeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L123) (1 connections)
-- [getSourceIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L109) (1 connections)
-- [handleContinueAtChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L86) (1 connections)
-- [handleModeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L71) (1 connections)
-- [handleRemove](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L66) (1 connections)
-- [hasAnalysisData](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L135) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L52) (1 connections)
-- [{
-  isPlaying,
-  currentTime,
-  duration,
-  isLoading,
-  isBuffering,
-  togglePlay,
-  seek,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx#L54) (1 connections)
+- [StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L1) (12 connections)
+- [activeIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L71) (1 connections)
+- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L163) (1 connections)
+- [GAP_MERGE_THRESHOLD_S](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L31) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L167) (1 connections)
+- [isReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L168) (1 connections)
+- [isSectionReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L59) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L166) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L161) (1 connections)
+- [normalizedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L83) (1 connections)
+- [originalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L165) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L34) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L162) (1 connections)
 
 ## Relationships
 
@@ -33,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\InlineReferencePreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/InlineReferencePreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,14 +1,13 @@
 # Media Metadata
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L1) (4 connections)
-- [hapticClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L94) (1 connections)
-- [hapticPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L13) (1 connections)
-- [useHapticPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L74) (1 connections)
-- [withHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L81) (1 connections)
+- [fetchFunnelDropoffStats()](file:///D:/.MUSICVERSE/aimusicverse/src/api/analytics.api.ts#L245) (4 connections)
+- [funnel.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts#L1) (2 connections)
+- [analyzeFunnelDropoff()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts#L19) (2 connections)
+- [getFunnelDropoffStats()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts#L58) (2 connections)
 
 ## Relationships
 
@@ -16,14 +15,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\api\analytics.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/analytics.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\funnel.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/funnel.service.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 5 (50%)
+- INFERRED: 5 (50%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

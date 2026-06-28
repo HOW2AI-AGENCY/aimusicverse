@@ -1,17 +1,15 @@
 # Caching System
 
-> 8 nodes · cohesion 0.32
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L1) (7 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L17) (3 connections)
-- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L49) (2 connections)
-- [handleGoHome()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L44) (2 connections)
-- [errorDetails](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L21) (1 connections)
-- [errorMessage](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L20) (1 connections)
-- [handleRefresh()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L39) (1 connections)
-- [{ hapticFeedback, showBackButton, hideBackButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx#L18) (1 connections)
+- [useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L1) (6 connections)
+- [useFeatureFlags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L44) (2 connections)
+- [useIsFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L151) (2 connections)
+- [FLAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L35) (1 connections)
+- [useToggleFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L62) (1 connections)
+- [useUpdateFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L111) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\ErrorPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ErrorPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 13 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

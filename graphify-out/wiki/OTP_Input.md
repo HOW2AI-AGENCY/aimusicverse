@@ -1,12 +1,11 @@
 # OTP Input
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L1) (2 connections)
-- [TranscriptionInProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L15) (1 connections)
-- [TranscriptionPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx#L57) (1 connections)
+- [MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L1) (1 connections)
+- [MobileStudioPlayerBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\TranscriptionInProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/TranscriptionInProgress.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileStudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioPlayerBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

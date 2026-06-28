@@ -1,21 +1,19 @@
 # Audio Error Handling
 
-> 12 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [content-moderation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L1) (11 connections)
-- [validateCommentContent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L71) (3 connections)
-- [containsProfanity()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L35) (2 connections)
-- [isCommentRateLimitExceeded()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L102) (2 connections)
-- [isFollowRateLimitExceeded()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L116) (2 connections)
-- [isLikeRateLimitExceeded()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L128) (2 connections)
-- [isSpam()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L43) (2 connections)
-- [formatContentWithMentions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L152) (1 connections)
-- [PROFANITY_LIST](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L7) (1 connections)
-- [RATE_LIMIT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L26) (1 connections)
-- [sanitizeContent()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L140) (1 connections)
-- [SPAM_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts#L13) (1 connections)
+- [DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L1) (9 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L81) (2 connections)
+- [audio](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L39) (1 connections)
+- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L31) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L73) (1 connections)
+- [handleUseAsReference()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L89) (1 connections)
+- [{ pauseTrack, isPlaying: globalIsPlaying }](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L33) (1 connections)
+- [[recordingTime, setRecordingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L34) (1 connections)
+- [sourceId](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L32) (1 connections)
+- [timerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -23,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\content-moderation.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/content-moderation.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumRecorder.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (90%)
-- INFERRED: 3 (10%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,13 +1,11 @@
 # Error Handling
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L1) (3 connections)
-- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L36) (1 connections)
-- [useMultiStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L205) (1 connections)
-- [useStemAnalyzer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts#L42) (1 connections)
+- [GenerateFormActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx#L1) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx#L53) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAnalyzer.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAnalyzer.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerateFormActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerateFormActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

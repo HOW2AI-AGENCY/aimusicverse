@@ -1,13 +1,12 @@
 # Offline Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L1) (3 connections)
-- [MobileFadeTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L56) (1 connections)
-- [MobilePageTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L15) (1 connections)
-- [MobileSlideUpTransition](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx#L97) (1 connections)
+- [useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L1) (2 connections)
+- [useOptimistic()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L58) (1 connections)
+- [useOptimisticList()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts#L143) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobilePageTransition.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobilePageTransition.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOptimistic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOptimistic.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

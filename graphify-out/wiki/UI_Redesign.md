@@ -1,13 +1,11 @@
 # UI Redesign
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L1) (3 connections)
-- [studioProjectToDAWProject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L56) (2 connections)
-- [dawTrackToStudioTrackUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L68) (1 connections)
-- [studioTrackToDAWTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L40) (1 connections)
+- [VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L1) (1 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\studio\typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 2 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,20 +1,19 @@
 # AI Analysis
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L1) (10 connections)
-- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L60) (1 connections)
-- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L62) (1 connections)
-- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L69) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L93) (1 connections)
-- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L101) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L176) (1 connections)
-- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L91) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L87) (1 connections)
-- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L90) (1 connections)
-- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx#L89) (1 connections)
+- [home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L1) (9 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L76) (1 connections)
+- [dupes](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L48) (1 connections)
+- [EXPECTED_ORDER](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L11) (1 connections)
+- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L30) (1 connections)
+- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L31) (1 connections)
+- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L28) (1 connections)
+- [sectionIds](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L38) (1 connections)
+- [seen](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L54) (1 connections)
+- [sortedByExpected](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -22,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\UnifiedProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/UnifiedProjectCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.navigation.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

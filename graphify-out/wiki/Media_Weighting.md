@@ -1,14 +1,13 @@
 # Media Weighting
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L1) (4 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L38) (1 connections)
-- [hasMetadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L37) (1 connections)
-- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L36) (1 connections)
-- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx#L24) (1 connections)
+- [useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L1) (3 connections)
+- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L37) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L14) (1 connections)
+- [useMidiSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts#L44) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectInfoCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectInfoCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMidiSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMidiSync.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

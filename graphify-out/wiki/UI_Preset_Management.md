@@ -1,16 +1,14 @@
 # UI Preset Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [MobileStudioQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L1) (6 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L66) (1 connections)
-- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L60) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L53) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L123) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L52) (1 connections)
-- [toggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx#L55) (1 connections)
+- [GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L1) (4 connections)
+- [aWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L31) (1 connections)
+- [bWeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L32) (1 connections)
+- [genreA](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L34) (1 connections)
+- [genreB](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileStudioQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioQuickActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenreCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenreCrossfader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

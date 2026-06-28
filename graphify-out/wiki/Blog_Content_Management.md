@@ -1,20 +1,19 @@
 # Blog Content Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L1) (10 connections)
-- [checkinDates](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L49) (1 connections)
-- [{ data: checkins, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L19) (1 connections)
-- [dayNames](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L52) (1 connections)
-- [dayNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L78) (1 connections)
-- [dayOfWeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L77) (1 connections)
-- [isCheckedIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L75) (1 connections)
-- [isToday](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L76) (1 connections)
-- [last7Days](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L43) (1 connections)
-- [today](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L50) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L17) (1 connections)
+- [ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L1) (9 connections)
+- [currentChordIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L62) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L30) (1 connections)
+- [handleChordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L67) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L76) (1 connections)
+- [handleExport](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L82) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L45) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L157) (1 connections)
+- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L48) (1 connections)
+- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx#L51) (1 connections)
 
 ## Relationships
 
@@ -22,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ChordSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

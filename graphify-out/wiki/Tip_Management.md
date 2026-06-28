@@ -1,24 +1,22 @@
 # Tip Management
 
-> 15 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [MobilePaymentScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L1) (8 connections)
-- [useStarsProducts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L1) (5 connections)
-- [featured](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L65) (2 connections)
-- [useFeaturedProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L44) (2 connections)
-- [useGroupedProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L70) (2 connections)
-- [useStarsProducts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L31) (2 connections)
-- [autoSelect](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L55) (1 connections)
-- [base](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L92) (1 connections)
-- [baseRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L98) (1 connections)
-- [product](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L58) (1 connections)
-- [productCode](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L54) (1 connections)
-- [savings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L103) (1 connections)
-- [selectedRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx#L99) (1 connections)
-- [starsProductsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L20) (1 connections)
-- [useProductsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts#L57) (1 connections)
+- [MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L1) (12 connections)
+- [[activeMode, setActiveMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L87) (1 connections)
+- [chordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L92) (1 connections)
+- [handleRecordingSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L104) (1 connections)
+- [handleToggleChordDetection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L114) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L84) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L161) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L222) (1 connections)
+- [{ isActive: isPro }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L85) (1 connections)
+- [promptDJ](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L101) (1 connections)
+- [RECORDING_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L55) (1 connections)
+- [[selectedRecordingType, setSelectedRecordingType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L89) (1 connections)
+- [[showRecordDrawer, setShowRecordDrawer]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx#L88) (1 connections)
 
 ## Relationships
 
@@ -26,15 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStarsProducts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsProducts.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\MobilePaymentScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/MobilePaymentScreen.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MusicLabPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MusicLabPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (93%)
-- INFERRED: 2 (7%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

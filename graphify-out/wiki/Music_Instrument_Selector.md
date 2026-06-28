@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [UsersTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/UsersTab.tsx#L1) (1 connections)
-- [UsersTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/UsersTab.tsx#L49) (1 connections)
+- [Suno Voice API](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md) (1 connections)
+- [Voice Cloning 6-Step Workflow](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Confirmation]] (2 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\tabs\UsersTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/tabs/UsersTab.tsx)
+- [docs/VOICE_CLONING_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/VOICE_CLONING_INTEGRATION.md)
 
 ## Audit Trail
 
@@ -23,4 +23,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

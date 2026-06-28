@@ -1,22 +1,20 @@
 # Slider Component
 
-> 13 nodes · cohesion 0.22
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L1) (12 connections)
-- [sanitizeText()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L29) (5 connections)
-- [validatePrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L50) (3 connections)
-- [isSpamPattern()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L200) (2 connections)
-- [validateDescription()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L135) (2 connections)
-- [validateMessage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L163) (2 connections)
-- [validateTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L100) (2 connections)
-- [escapeSQLLike()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L309) (1 connections)
-- [isValidTelegramUserId()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L286) (1 connections)
-- [isValidUrl()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L295) (1 connections)
-- [maskSensitiveData()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L269) (1 connections)
-- [MAX_LENGTHS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L15) (1 connections)
-- [sanitizeHTML()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L240) (1 connections)
+- [DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L1) (10 connections)
+- [generateStarMovements()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L11) (2 connections)
+- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L22) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L61) (1 connections)
+- [{ data: canCheckin, isLoading: checkingStatus }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L20) (1 connections)
+- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L21) (1 connections)
+- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L25) (1 connections)
+- [nextStreakBonus](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L40) (1 connections)
+- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L23) (1 connections)
+- [[starMovements]](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L19) (1 connections)
+- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -24,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\DailyCheckin.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/DailyCheckin.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

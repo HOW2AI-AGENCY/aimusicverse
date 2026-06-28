@@ -1,12 +1,11 @@
 # String Manipulation
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L1) (2 connections)
-- [MarqueeTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L69) (1 connections)
-- [MarqueeTitleComponent()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L17) (1 connections)
+- [OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L1) (1 connections)
+- [OnboardingStepCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingStepCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingStepCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,23 +1,14 @@
 # UI Icon Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [FeedbackToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L1) (6 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L89) (1 connections)
-- [hapticMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L46) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L77) (1 connections)
-- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L30) (1 connections)
-- [iconStyleMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L38) (1 connections)
-- [{
-  type = 'info',
-  haptic = true,
-  action,
-  duration,
-  description,
-  ...rest
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx#L63) (1 connections)
+- [ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L1) (4 connections)
+- [handleSwipeAddToQueue](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L51) (1 connections)
+- [handleSwipeSwitchVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L55) (1 connections)
+- [{ isOwnTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L62) (1 connections)
+- [{ sheetOpen, setSheetOpen, isMobile, isCurrentlyPlaying, handlePlay, handleCardClick, openSheet }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -25,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FeedbackToast.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FeedbackToast.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ListVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ListVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

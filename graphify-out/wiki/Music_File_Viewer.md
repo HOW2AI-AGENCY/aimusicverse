@@ -1,27 +1,21 @@
 # Music File Viewer
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L1) (12 connections)
-- [{ data: lyricsData, isLoading: lyricsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L72) (1 connections)
-- [{ data: replacedSections }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L85) (1 connections)
-- [{ data: sourceTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L57) (1 connections)
-- [detectedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L78) (1 connections)
-- [handleCloseEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L106) (1 connections)
-- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L98) (1 connections)
-- [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L53) (1 connections)
-- [replacedRanges](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L88) (1 connections)
-- [{
-  selectedSection,
-  selectedSectionIndex,
-  selectSection,
-  clearSelection,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L45) (1 connections)
-- [[selectedTrack, setSelectedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L42) (1 connections)
-- [[showEditor, setShowEditor]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L43) (1 connections)
-- [sourceTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx#L54) (1 connections)
+- [CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L1) (11 connections)
+- [formatRelative()](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L11) (2 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L38) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L39) (1 connections)
+- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L36) (1 connections)
+- [keepEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L83) (1 connections)
+- [pending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L79) (1 connections)
+- [pendingRelative](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L40) (1 connections)
+- [ready](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L27) (1 connections)
+- [selected](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L37) (1 connections)
+- [selectedPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L31) (1 connections)
+- [{ voices, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -29,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\voice-clone\CustomVoicePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/voice-clone/CustomVoicePicker.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

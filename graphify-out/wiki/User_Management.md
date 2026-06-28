@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Analyze Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.analyze.md) (0 connections)
+- [GitHub Best Practices Implementation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.kilocode/workflows/speckit.analyze.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.analyze.md)
+- [docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/DOCUMENTATION_IMPROVEMENTS_SUMMARY.md)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

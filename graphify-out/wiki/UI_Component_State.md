@@ -1,18 +1,16 @@
 # UI Component State
 
-> 9 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [usePerformanceOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L1) (8 connections)
-- [useIntersectionObserver()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L45) (2 connections)
-- [useLazyImage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L155) (2 connections)
-- [useThrottledValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L199) (2 connections)
-- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L184) (1 connections)
-- [usePerformanceMonitor()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L132) (1 connections)
-- [usePrefetch()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L83) (1 connections)
-- [useReducedMotion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L13) (1 connections)
-- [useResizeObserver()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts#L103) (1 connections)
+- [TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L1) (6 connections)
+- [handleExecute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L27) (1 connections)
+- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L22) (1 connections)
+- [LANGUAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L13) (1 connections)
+- [[preserveSyllables, setPreserveSyllables]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L20) (1 connections)
+- [sourceLanguage](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L25) (1 connections)
+- [[targetLanguage, setTargetLanguage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePerformanceOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePerformanceOptimization.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\TranslateToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/TranslateToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

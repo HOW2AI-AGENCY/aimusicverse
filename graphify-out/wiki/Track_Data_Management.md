@@ -1,12 +1,11 @@
 # Track Data Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L7) (1 connections)
-- [useGuitarRecordings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts#L41) (1 connections)
+- [empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L1) (1 connections)
+- [EmptyState](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGuitarRecordings.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGuitarRecordings.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\empty-state.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/empty-state.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

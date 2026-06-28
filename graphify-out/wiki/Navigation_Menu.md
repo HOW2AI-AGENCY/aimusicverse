@@ -1,15 +1,13 @@
 # Navigation Menu
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [navigation-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/navigation-menu.tsx#L1) (5 connections)
-- [NavigationMenu](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/navigation-menu.tsx#L8) (1 connections)
-- [NavigationMenuItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/navigation-menu.tsx#L35) (1 connections)
-- [NavigationMenuList](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/navigation-menu.tsx#L23) (1 connections)
-- [NavigationMenuTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/navigation-menu.tsx#L41) (1 connections)
-- [navigationMenuTriggerStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/navigation-menu.tsx#L37) (1 connections)
+- [QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L1) (3 connections)
+- [{ attributes, listeners, setNodeRef, transform, transition, isDragging }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L19) (1 connections)
+- [hasVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L27) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\navigation-menu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/navigation-menu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

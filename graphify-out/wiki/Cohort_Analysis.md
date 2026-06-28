@@ -1,13 +1,12 @@
 # Cohort Analysis
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AdminSendMessageDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L1) (4 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L39) (1 connections)
-- [[message, setMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L38) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx#L37) (1 connections)
+- [OptimizedVolumeSlider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedVolumeSlider.tsx#L1) (2 connections)
+- [OptimizedVolumeSlider](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedVolumeSlider.tsx#L29) (1 connections)
+- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedVolumeSlider.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminSendMessageDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminSendMessageDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedVolumeSlider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedVolumeSlider.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

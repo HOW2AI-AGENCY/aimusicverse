@@ -1,25 +1,41 @@
 # Timeline Editor
 
-> 16 nodes · cohesion 0.12
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [GuitarTabEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L1) (15 connections)
-- [absolutePos](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L441) (1 connections)
-- [BEATS_PER_MEASURE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L74) (1 connections)
-- [GuitarTabEditor](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L77) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L448) (1 connections)
-- [isMeasureStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L449) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L447) (1 connections)
-- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L442) (1 connections)
-- [MEASURES_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L73) (1 connections)
-- [note](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L446) (1 connections)
-- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L443) (1 connections)
-- [POSITIONS_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L75) (1 connections)
-- [STRING_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L51) (1 connections)
-- [STRING_MIDI_NOTES](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L52) (1 connections)
-- [TECHNIQUE_SYMBOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L63) (1 connections)
-- [TOOL_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx#L54) (1 connections)
+- [StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L1) (13 connections)
+- [AI_TOOL_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L90) (1 connections)
+- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L179) (1 connections)
+- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L180) (1 connections)
+- [handleAddNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L350) (1 connections)
+- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L549) (1 connections)
+- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L528) (1 connections)
+- [{
+    lyrics,
+    sections,
+    versions,
+    sectionNotes,
+    stats,
+    isDirty,
+    activeAITool,
+    isLoading,
+    isSaving,
+    isRestoring,
+    setLyrics,
+    save,
+    restoreVersion,
+    selectAITool,
+    closeAITool,
+    addNote,
+    deleteNote,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L494) (1 connections)
+- [[newNoteContent, setNewNoteContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L348) (1 connections)
+- [[newNoteSection, setNewNoteSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L347) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L140) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L79) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L492) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L491) (1 connections)
 
 ## Relationships
 
@@ -27,14 +43,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\tab-editor\GuitarTabEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/tab-editor/GuitarTabEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

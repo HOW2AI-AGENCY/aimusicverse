@@ -1,20 +1,18 @@
 # Image Handling
 
-> 11 nodes · cohesion 0.18
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L1) (10 connections)
-- [ariaUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L343) (1 connections)
-- [contrastUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L259) (1 connections)
-- [focusUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L188) (1 connections)
-- [getSkipLinkProps()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L401) (1 connections)
-- [keyboardUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L300) (1 connections)
-- [srUtils](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L232) (1 connections)
-- [TOUCH_TARGET](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L12) (1 connections)
-- [useFocusTrap()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L95) (1 connections)
-- [useKeyboardNavigation()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L21) (1 connections)
-- [useLiveAnnounce()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts#L147) (1 connections)
+- [UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L1) (8 connections)
+- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L34) (1 connections)
+- [ErrorIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L49) (1 connections)
+- [handleContactSupport](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L62) (1 connections)
+- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L55) (1 connections)
+- [handleFaqClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L68) (1 connections)
+- [handleRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L51) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L59) (1 connections)
+- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -22,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\accessibility.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/accessibility.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\errors\UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [App Crash Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/FIX_SUMMARY_CRASH_2025-12-10.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/index.ts)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

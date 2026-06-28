@@ -1,14 +1,12 @@
 # Session Management
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L1) (4 connections)
-- [ANALYSIS_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L6) (1 connections)
-- [PRODUCER_REVIEW_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L164) (1 connections)
-- [SUNO_TAGS_REFERENCE](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L222) (1 connections)
-- [WRITING_MODE_PROMPT](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts#L101) (1 connections)
+- [TrackHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx#L1) (2 connections)
+- [generateWaveformData()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx#L34) (1 connections)
+- [TrackHistoryItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions_shared\ai-prompts.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/ai-prompts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\TrackHistoryItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/TrackHistoryItem.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

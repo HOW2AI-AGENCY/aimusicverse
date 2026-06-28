@@ -1,13 +1,11 @@
 # Status Management
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L1) (3 connections)
-- [midiToNoteName()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L22) (1 connections)
-- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L30) (1 connections)
-- [useMidiSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts#L32) (1 connections)
+- [TierCreditsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierCreditsSection.tsx#L1) (1 connections)
+- [TierCreditsSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierCreditsSection.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiSynth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiSynth.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierCreditsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierCreditsSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

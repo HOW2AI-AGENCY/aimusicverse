@@ -1,12 +1,11 @@
 # Stem Display
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [StemDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L1) (2 connections)
-- [sanitizeFilename()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L23) (1 connections)
-- [StemDownloadPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx#L27) (1 connections)
+- [StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L1) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\StemDownloadPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/StemDownloadPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

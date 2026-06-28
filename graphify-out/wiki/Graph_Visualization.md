@@ -1,34 +1,32 @@
 # Graph Visualization
 
-> 25 nodes · cohesion 0.08
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L1) (24 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L81) (1 connections)
-- [animate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L119) (1 connections)
-- [animationRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L30) (1 connections)
-- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L111) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L28) (1 connections)
-- [centerX](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L76) (1 connections)
-- [centerY](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L77) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L29) (1 connections)
-- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L113) (1 connections)
-- [[dimensions, setDimensions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L38) (1 connections)
-- [[dragStart, setDragStart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L36) (1 connections)
-- [filteredData](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L41) (1 connections)
-- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L200) (1 connections)
-- [handleMouseDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L189) (1 connections)
-- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L194) (1 connections)
-- [[hoveredNode, setHoveredNode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L37) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L35) (1 connections)
-- [{ nodes, edges }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L116) (1 connections)
-- [[pan, setPan]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L34) (1 connections)
-- [positions](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L117) (1 connections)
-- [positionsRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L31) (1 connections)
-- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L82) (1 connections)
-- [updateDimensions()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L95) (1 connections)
-- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx#L33) (1 connections)
+- [navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L1) (22 connections)
+- [activeCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L68) (1 connections)
+- [activeItem](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L64) (1 connections)
+- [body](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L89) (1 connections)
+- [bottomNav](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L35) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L93) (1 connections)
+- [fallback](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L22) (1 connections)
+- [focusedElement](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L209) (1 connections)
+- [hasFocus](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L210) (1 connections)
+- [hasReal](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L23) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L204) (1 connections)
+- [itemCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L53) (1 connections)
+- [landmarkCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L196) (1 connections)
+- [navCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L39) (1 connections)
+- [navItems](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L49) (1 connections)
+- [navLandmarks](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L192) (1 connections)
+- [navTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L226) (1 connections)
+- [root](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L20) (1 connections)
+- [routes](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L76) (1 connections)
+- [skipCount](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L184) (1 connections)
+- [skipLink](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L180) (1 connections)
+- [startTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L222) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts#L142) (1 connections)
 
 ## Relationships
 
@@ -36,14 +34,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\ForceGraph.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/ForceGraph.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\navigation.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/navigation.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 48 (100%)
+- EXTRACTED: 44 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

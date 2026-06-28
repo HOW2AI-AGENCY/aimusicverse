@@ -1,11 +1,10 @@
 # Document Structure
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L1) (1 connections)
-- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L35) (1 connections)
+- [vitest.shims.d.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.shims.d.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\vitest.shims.d.ts](file:///D:/.MUSICVERSE/aimusicverse/vitest.shims.d.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

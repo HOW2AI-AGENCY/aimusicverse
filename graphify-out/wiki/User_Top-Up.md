@@ -1,18 +1,17 @@
 # User Top-Up
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L1) (8 connections)
-- [globalIdx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L128) (1 connections)
-- [groupedRecs](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L53) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L59) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L116) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L117) (1 connections)
-- [[selectedIndex, setSelectedIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L50) (1 connections)
-- [TYPE_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L29) (1 connections)
-- [TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx#L36) (1 connections)
+- [Analytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L1) (7 connections)
+- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L14) (1 connections)
+- [generationStats](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L60) (1 connections)
+- [Header](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L89) (1 connections)
+- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L13) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L15) (1 connections)
+- [mainStats](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L29) (1 connections)
+- [successRate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx#L84) (1 connections)
 
 ## Relationships
 
@@ -20,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ContextRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ContextRecommendations.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Analytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Analytics.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,14 +1,12 @@
 # Music Playlist Management
 
-> 5 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L1) (4 connections)
-- [useAIAssistant()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L175) (2 connections)
-- [useIsAIAssistantEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L186) (2 connections)
-- [AIAssistantContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L49) (1 connections)
-- [AIAssistantProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx#L60) (1 connections)
+- [StyleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L1) (2 connections)
+- [hasError](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L27) (1 connections)
+- [styleValidation](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\AIAssistantContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/AIAssistantContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\StyleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/StyleSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

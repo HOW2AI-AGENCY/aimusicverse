@@ -1,17 +1,16 @@
 # Error Telemetry
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L1) (8 connections)
-- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L44) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L41) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L47) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L42) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L43) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L45) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx#L46) (1 connections)
+- [useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L1) (6 connections)
+- [useActiveUsersStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L143) (1 connections)
+- [useContentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L247) (1 connections)
+- [useErrorDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L184) (1 connections)
+- [useGenerationModeStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L99) (1 connections)
+- [useModelUsageStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L47) (1 connections)
+- [useSourceDistribution()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts#L273) (1 connections)
 
 ## Relationships
 
@@ -19,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\AddVocalsToReferenceDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/AddVocalsToReferenceDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEnhancedAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

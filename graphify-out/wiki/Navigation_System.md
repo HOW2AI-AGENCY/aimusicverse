@@ -1,11 +1,10 @@
 # Navigation System
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [DrumIntegration.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/DrumIntegration.tsx#L1) (1 connections)
-- [DrumIntegration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/DrumIntegration.tsx#L10) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\DrumIntegration.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/DrumIntegration.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

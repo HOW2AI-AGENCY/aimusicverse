@@ -1,14 +1,13 @@
 # User Analytics
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L1) (4 connections)
-- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L178) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L249) (1 connections)
-- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L57) (1 connections)
-- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L248) (1 connections)
+- [TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L1) (3 connections)
+- [IconTouchButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L128) (1 connections)
+- [PressableCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L91) (1 connections)
+- [TouchFeedback](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\TouchFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/TouchFeedback.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

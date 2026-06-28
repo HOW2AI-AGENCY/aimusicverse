@@ -1,33 +1,30 @@
 # LED Display Control
 
-> 24 nodes · cohesion 0.08
+> 21 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L1) (23 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L177) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L118) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L50) (1 connections)
-- [db](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L51) (1 connections)
-- [dbScale](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L23) (1 connections)
-- [displayDb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L232) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L275) (1 connections)
-- [isPeak](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L276) (1 connections)
-- [isRed](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L277) (1 connections)
-- [isYellow](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L278) (1 connections)
-- [ledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L99) (1 connections)
-- [leds](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L101) (1 connections)
-- [peakRotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L158) (1 connections)
-- [percentage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L233) (1 connections)
-- [rotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L157) (1 connections)
-- [segments](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L266) (1 connections)
-- [segmentValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L274) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L31) (1 connections)
-- [toDB()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L26) (1 connections)
-- [x1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L178) (1 connections)
-- [x2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L180) (1 connections)
-- [y1](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L179) (1 connections)
-- [y2](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx#L181) (1 connections)
+- [notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L1) (15 connections)
+- [queueNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L42) (8 connections)
+- [processQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L58) (7 connections)
+- [notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L1) (6 connections)
+- [saveFailedNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L118) (4 connections)
+- [notifyGenerationComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L139) (3 connections)
+- [sendTelegramMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L98) (3 connections)
+- [delay()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L87) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L10) (2 connections)
+- [notifyAchievement()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L189) (2 connections)
+- [notifyGenerationFailed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L150) (2 connections)
+- [notifySocialEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L161) (2 connections)
+- [sendCustomMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L211) (2 connections)
+- [DEDUPE_TIMEOUT_MS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L19) (1 connections)
+- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L37) (1 connections)
+- [MAX_RETRIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L34) (1 connections)
+- [MAX_STORED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L20) (1 connections)
+- [notificationQueue](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L36) (1 connections)
+- [notify](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L54) (1 connections)
+- [RETRY_DELAY_MS](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts#L35) (1 connections)
+- [shownNotifications](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts#L18) (1 connections)
 
 ## Relationships
 
@@ -35,14 +32,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\VUMeter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/VUMeter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/notifications.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\telegram\notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/notifications.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 59 (89%)
+- INFERRED: 7 (11%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

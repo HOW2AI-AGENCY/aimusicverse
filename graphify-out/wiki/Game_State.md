@@ -1,14 +1,13 @@
 # Game State
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L1) (4 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L33) (1 connections)
-- [currentArtists](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L41) (1 connections)
-- [{ data: publicArtists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L34) (1 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L36) (1 connections)
+- [LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L1) (3 connections)
+- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L19) (1 connections)
+- [LEDIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L59) (1 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx#L52) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\LEDIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/LEDIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

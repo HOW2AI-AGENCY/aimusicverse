@@ -1,15 +1,13 @@
 # Timer Management
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L1) (5 connections)
-- [[elapsedTime, setElapsedTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L31) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L42) (1 connections)
-- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L30) (1 connections)
-- [remainingTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L54) (1 connections)
-- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx#L41) (1 connections)
+- [GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L1) (3 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L29) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L30) (1 connections)
+- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\GenerateButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/GenerateButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\GenerationStepIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/GenerationStepIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

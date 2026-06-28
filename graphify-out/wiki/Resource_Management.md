@@ -1,18 +1,17 @@
 # Resource Management
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L1) (8 connections)
-- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L24) (1 connections)
-- [ErrorIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L39) (1 connections)
-- [handleContactSupport](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L52) (1 connections)
-- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L45) (1 connections)
-- [handleFaqClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L58) (1 connections)
-- [handleRetry](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L41) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L49) (1 connections)
-- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx#L50) (1 connections)
+- [useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L1) (7 connections)
+- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L12) (1 connections)
+- [useDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L106) (1 connections)
+- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L56) (1 connections)
+- [useRenderTracker()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L150) (1 connections)
+- [useShallowMemo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L88) (1 connections)
+- [useStableCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L140) (1 connections)
+- [useStableObject()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L176) (1 connections)
 
 ## Relationships
 
@@ -20,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\errors\UserFriendlyError.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/errors/UserFriendlyError.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

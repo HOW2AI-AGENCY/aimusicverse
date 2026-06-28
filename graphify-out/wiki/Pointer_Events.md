@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [TierCreditsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierCreditsSection.tsx#L1) (1 connections)
-- [TierCreditsSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierCreditsSection.tsx#L17) (1 connections)
+- [Sprint 007 Closure - Mobile-First Setup](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md) (1 connections)
+- [Sprint Closure Audit - Sprint 7 & 8 Status](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Tier Management]] (2 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierCreditsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierCreditsSection.tsx)
+- [docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_CLOSURE_AUDIT_2025-12-02.md)
 
 ## Audit Trail
 
@@ -23,4 +23,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,12 +1,11 @@
 # Task Tracking
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [input-otp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L1) (2 connections)
-- [{ char, hasFakeCaret, isActive }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L29) (1 connections)
-- [inputOTPContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx#L28) (1 connections)
+- [TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L1) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\input-otp.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input-otp.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCommentsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCommentsSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Speckit Constitution Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.constitution.prompt.md) (0 connections)
+- [SectionReferenceDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionReferenceDisplay.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.github/prompts/speckit.constitution.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.constitution.prompt.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\SectionReferenceDisplay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionReferenceDisplay.tsx)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

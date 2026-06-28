@@ -1,16 +1,14 @@
 # File Upload
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [FollowingFeed.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L1) (6 connections)
-- [allTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L39) (1 connections)
-- [{ data, isLoading, hasNextPage, fetchNextPage, isFetchingNextPage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L36) (1 connections)
-- [feedSummary](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L37) (1 connections)
-- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L35) (1 connections)
-- [filterOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L27) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx#L34) (1 connections)
+- [Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L1) (4 connections)
+- [breadcrumbItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L38) (1 connections)
+- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L80) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L35) (1 connections)
+- [ROUTE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\social\FollowingFeed.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/social/FollowingFeed.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\Breadcrumbs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/Breadcrumbs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

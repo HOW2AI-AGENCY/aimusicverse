@@ -1,28 +1,25 @@
 # Authentication System
 
-> 19 nodes · cohesion 0.11
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L1) (10 connections)
-- [use-realtime-track-updates.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L1) (7 connections)
-- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L60) (2 connections)
-- [onUpdate](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L72) (2 connections)
-- [[cursorPosition, setCursorPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L37) (1 connections)
-- [handleOpenTagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L65) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L35) (1 connections)
-- [lineTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L104) (1 connections)
-- [[localContent, setLocalContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L36) (1 connections)
-- [sectionLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L40) (1 connections)
-- [syllableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L42) (1 connections)
-- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L41) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L38) (1 connections)
-- [defaultParams](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L38) (1 connections)
-- [params](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L60) (1 connections)
-- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L158) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L79) (1 connections)
-- [{ unmount }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L98) (1 connections)
-- [updateTypes](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts#L130) (1 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L1) (7 connections)
+- [touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L1) (5 connections)
+- [touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L1) (3 connections)
+- [touchTarget](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L12) (3 connections)
+- [circularStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L52) (1 connections)
+- [CloseButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L229) (1 connections)
+- [CompactIconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L197) (1 connections)
+- [getTouchTargetPadding()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L47) (1 connections)
+- [IconButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L161) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx#L46) (1 connections)
+- [TOUCH_CLASSES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L30) (1 connections)
+- [TOUCH_TARGET_MIN_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L6) (1 connections)
+- [TouchableIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L78) (1 connections)
+- [TouchableLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L124) (1 connections)
+- [TouchableListItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx#L284) (1 connections)
+- [validateTouchTarget()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -30,15 +27,16 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx)
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\use-realtime-track-updates.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/use-realtime-track-updates.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\touch-target.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/touch-target.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\touch-target.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/touch-target.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (94%)
-- INFERRED: 2 (6%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,19 +1,18 @@
 # User Session Management
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L144) (1 connections)
-- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L222) (1 connections)
-- [filteredJourneys](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L224) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L174) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L117) (1 connections)
-- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L175) (1 connections)
-- [JOURNEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L45) (1 connections)
-- [OUTCOME_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L106) (1 connections)
-- [outcomeStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L118) (1 connections)
+- [SubscriptionUpgradePopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L161) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L152) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L82) (1 connections)
+- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L153) (1 connections)
+- [REASON_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L68) (1 connections)
+- [[selectedTier, setSelectedTier]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L81) (1 connections)
+- [TIERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L36) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L80) (1 connections)
 
 ## Relationships
 
@@ -21,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\popups\SubscriptionUpgradePopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 17 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,31 +1,30 @@
 # UI Framework
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L1) (6 connections)
-- [[expandedUsers, setExpandedUsers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L197) (1 connections)
-- [getColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L50) (1 connections)
-- [RISK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L35) (1 connections)
-- [RISK_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L42) (1 connections)
-- [toggleUser()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L199) (1 connections)
-- [{ users, summary, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L192) (1 connections)
+- [Comprehensive Audit - Russian Language](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (5 connections)
+- [Deep Commands System](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
+- [Rich Notifications (10+ types)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
+- [TelegramBridge Service](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
+- [Voice-to-Music Pipeline](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
+- [Telegram Integration Enhancement](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Version Management]] (10 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx)
+- [docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_COMPLETION_SUMMARY_RU.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

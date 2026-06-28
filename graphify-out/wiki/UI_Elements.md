@@ -1,13 +1,12 @@
 # UI Elements
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [VirtualizedCloudList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L1) (3 connections)
-- [isPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L51) (1 connections)
-- [mins](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L45) (1 connections)
-- [secs](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx#L46) (1 connections)
+- [PullToRefresh.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx#L1) (2 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx#L41) (1 connections)
+- [{ containerRef, isPulling, isRefreshing, pullDistance, progress }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\VirtualizedCloudList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/VirtualizedCloudList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\PullToRefresh.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/PullToRefresh.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

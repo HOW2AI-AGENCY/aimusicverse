@@ -1,20 +1,18 @@
 # Reward Calculation
 
-> 11 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L1) (11 connections)
-- [handleCreate()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L58) (4 connections)
-- [handleModeChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L51) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L23) (2 connections)
-- [{ createEmptyProject, createFromTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L24) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L33) (1 connections)
-- [[loadingTracks, setLoadingTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L37) (1 connections)
-- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L34) (1 connections)
-- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L32) (1 connections)
-- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L36) (1 connections)
-- [[tracks, setTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L35) (1 connections)
+- [WizardProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L1) (8 connections)
+- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L33) (1 connections)
+- [DEFAULT_STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L14) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L41) (1 connections)
+- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L40) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L38) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L39) (1 connections)
+- [stepsConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L32) (1 connections)
+- [TWO_STEP_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -22,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\studio-v2\NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\WizardProgress.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/WizardProgress.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (92%)
-- INFERRED: 2 (8%)
+- EXTRACTED: 16 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

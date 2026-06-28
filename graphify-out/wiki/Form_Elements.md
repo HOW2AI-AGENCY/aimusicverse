@@ -1,17 +1,15 @@
 # Form Elements
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L1) (7 connections)
-- [compressorPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L59) (1 connections)
-- [defaultCompressorSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L28) (1 connections)
-- [defaultEQSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L20) (1 connections)
-- [defaultReverbSettings](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L37) (1 connections)
-- [defaultStemEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L43) (1 connections)
-- [eqPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L50) (1 connections)
-- [reverbPresets](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts#L68) (1 connections)
+- [ShareActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L1) (5 connections)
+- [hasAnyAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L27) (1 connections)
+- [showCopyLink](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L23) (1 connections)
+- [showPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L24) (1 connections)
+- [showProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L25) (1 connections)
+- [showTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemEffectsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemEffectsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\ShareActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/ShareActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

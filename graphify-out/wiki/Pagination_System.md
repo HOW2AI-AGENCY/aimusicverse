@@ -1,17 +1,15 @@
 # Pagination System
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L1) (7 connections)
-- [cacheHits](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L50) (1 connections)
-- [cacheMisses](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L51) (1 connections)
-- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L40) (1 connections)
-- [formatCacheSize()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L275) (1 connections)
-- [globalCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L48) (1 connections)
-- [totalCacheSize](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L49) (1 connections)
-- [useAudioBufferCache()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts#L53) (1 connections)
+- [AdvancedMusicAnalytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L1) (5 connections)
+- [arousalPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L23) (1 connections)
+- [emotionQuadrant](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L36) (1 connections)
+- [getEmotionQuadrant()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L27) (1 connections)
+- [hasAdvancedData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L11) (1 connections)
+- [valencePercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useAudioBufferCache.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useAudioBufferCache.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\AdvancedMusicAnalytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,31 +1,26 @@
 # Dialog Management
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [End-to-End Validation Summary](file:///D:/.MUSICVERSE/aimusicverse/scripts/end-to-end-validation.md) (3 connections)
-- [Accessibility Audit Results (Manual Review)](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit-results.md) (1 connections)
-- [Performance Audit Summary](file:///D:/.MUSICVERSE/aimusicverse/scripts/performance-audit-results.md) (1 connections)
-- [Responsive Layout Testing Plan](file:///D:/.MUSICVERSE/aimusicverse/scripts/responsive-testing-results.md) (1 connections)
+- [SafeAreaSkeletonPlaceholder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaSkeletonPlaceholder.tsx#L1) (1 connections)
+- [SafeAreaSkeletonPlaceholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaSkeletonPlaceholder.tsx#L25) (1 connections)
 
 ## Relationships
 
-- [[Quality Assurance]] (6 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [scripts/accessibility-audit-results.md](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit-results.md)
-- [scripts/end-to-end-validation.md](file:///D:/.MUSICVERSE/aimusicverse/scripts/end-to-end-validation.md)
-- [scripts/performance-audit-results.md](file:///D:/.MUSICVERSE/aimusicverse/scripts/performance-audit-results.md)
-- [scripts/responsive-testing-results.md](file:///D:/.MUSICVERSE/aimusicverse/scripts/responsive-testing-results.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SafeAreaSkeletonPlaceholder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SafeAreaSkeletonPlaceholder.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

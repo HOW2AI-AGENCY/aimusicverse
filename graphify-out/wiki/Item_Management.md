@@ -1,19 +1,18 @@
 # Item Management
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L1) (9 connections)
-- [handleNotify()](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L36) (2 connections)
-- [[currentFeature, setCurrentFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L191) (1 connections)
-- [description](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L33) (1 connections)
-- [hideComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L217) (1 connections)
-- [icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L34) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L190) (1 connections)
-- [metadata](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L30) (1 connections)
-- [showComingSoon](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L198) (1 connections)
-- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx#L32) (1 connections)
+- [SectionReplacementHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L1) (8 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L196) (1 connections)
+- [completedCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L58) (1 connections)
+- [{ data: sections, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L35) (1 connections)
+- [[expandedSection, setExpandedSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L37) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L209) (1 connections)
+- [groupedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L41) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L36) (1 connections)
+- [[playingId, setPlayingId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -21,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\beta\ComingSoonModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/beta/ComingSoonModal.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SectionReplacementHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SectionReplacementHistory.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 16 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

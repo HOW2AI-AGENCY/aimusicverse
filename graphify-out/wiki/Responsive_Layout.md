@@ -1,14 +1,13 @@
 # Responsive Layout
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L1) (4 connections)
-- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L227) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L131) (1 connections)
-- [Container](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L35) (1 connections)
-- [containerProps](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx#L37) (1 connections)
+- [LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L1) (3 connections)
+- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L36) (1 connections)
+- [containerSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L28) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\EmptyState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/EmptyState.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\LoadingSpinner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/LoadingSpinner.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

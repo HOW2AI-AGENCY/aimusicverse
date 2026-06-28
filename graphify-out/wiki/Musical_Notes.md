@@ -1,34 +1,16 @@
 # Musical Notes
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [SmartSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L1) (8 connections)
-- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L27) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L124) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L101) (1 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L316) (1 connections)
-- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L73) (1 connections)
-- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L43) (1 connections)
-- [{ selectedSection, customRange, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L72) (1 connections)
-- [{
-  startTime,
-  endTime,
-  sectionDuration,
-  maxDuration,
-  isValidDuration,
-  isSubmitting,
-  prompt,
-  setPrompt,
-  tags,
-  setTags,
-  lyrics,
-  setLyrics,
-  addPreset,
-  executeReplacement,
-  reset,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx#L75) (1 connections)
+- [ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L1) (6 connections)
+- [availableModes](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L39) (1 connections)
+- [cfg](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L53) (1 connections)
+- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L74) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L82) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L54) (1 connections)
+- [modeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -36,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SmartSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SmartSectionEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

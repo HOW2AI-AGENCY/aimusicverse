@@ -1,16 +1,14 @@
 # Step Navigation
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L1) (6 connections)
-- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L112) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L110) (1 connections)
-- [LyricsCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L54) (1 connections)
-- [LyricsChip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L22) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L109) (1 connections)
-- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L119) (1 connections)
+- [ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L1) (4 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L27) (1 connections)
+- [currentArtists](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L35) (1 connections)
+- [{ data: publicArtists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L28) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ArtistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ArtistSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

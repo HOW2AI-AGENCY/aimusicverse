@@ -1,21 +1,20 @@
 # Creator Management
 
-> 12 nodes · cohesion 0.18
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L1) (11 connections)
-- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L113) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L99) (2 connections)
-- [adminSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L85) (1 connections)
-- [allItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L109) (1 connections)
-- [allSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L106) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L103) (1 connections)
-- [isActive()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L128) (1 connections)
-- [{ isAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L102) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L100) (1 connections)
-- [menuSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L47) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx#L101) (1 connections)
+- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
+- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
+- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
+- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
+- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
+- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
+- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
+- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
+- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MoreMenuSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MoreMenuSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

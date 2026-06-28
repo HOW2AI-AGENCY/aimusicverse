@@ -1,20 +1,19 @@
 # User Interface Actions
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [TranscriptionToGenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L1) (11 connections)
-- [generateDetailedPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L91) (2 connections)
-- [generateStylePrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L44) (2 connections)
-- [handleCopyPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L123) (2 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L40) (1 connections)
-- [[customPrompt, setCustomPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L41) (1 connections)
-- [detailedPrompt](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L121) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L193) (1 connections)
-- [metrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L153) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L39) (1 connections)
-- [stylePrompt](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx#L120) (1 connections)
+- [dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L1) (9 connections)
+- [closeRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L145) (1 connections)
+- [Dialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L11) (1 connections)
+- [DialogClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L17) (1 connections)
+- [DialogOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L19) (1 connections)
+- [DialogPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L15) (1 connections)
+- [DialogTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L13) (1 connections)
+- [innerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L144) (1 connections)
+- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L141) (1 connections)
+- [useSwipeDownToClose()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -22,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\TranscriptionToGenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionToGenerationBridge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\dialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/dialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 21 (88%)
-- INFERRED: 3 (12%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

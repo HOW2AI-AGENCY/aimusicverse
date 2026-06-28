@@ -1,17 +1,15 @@
 # Scroll Management
 
-> 8 nodes · cohesion 0.39
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L1) (7 connections)
-- [useMusicGraphData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L155) (5 connections)
-- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L96) (2 connections)
-- [useMusicStyles()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L112) (2 connections)
-- [useStyleTagMappings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L127) (2 connections)
-- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L141) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L70) (1 connections)
-- [GENRE_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts#L83) (1 connections)
+- [UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L1) (5 connections)
+- [{ actionState, isProcessing, dialogs, closeDialog, executeAction, handleConfirmDelete, stems }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L54) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L47) (1 connections)
+- [isOwner](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L52) (1 connections)
+- [[mobileSheetOpen, setMobileSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L48) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx#L49) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicGraph.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicGraph.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\UnifiedTrackMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/UnifiedTrackMenu.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

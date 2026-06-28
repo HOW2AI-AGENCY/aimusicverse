@@ -1,26 +1,24 @@
 # Feedback Management
 
-> 17 nodes · cohesion 0.12
+> 15 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L1) (17 connections)
-- [CreditInfoItem()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L48) (1 connections)
-- [{ data: groupedProducts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L85) (1 connections)
-- [displayProducts](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L110) (1 connections)
-- [handleProductClick()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L112) (1 connections)
-- [handlePurchase()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L117) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L80) (1 connections)
-- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L79) (1 connections)
-- [isBestValue](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L267) (1 connections)
-- [isProcessing](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L123) (1 connections)
-- [{ pay: payWithTinkoff, isLoading: isTinkoffLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L86) (1 connections)
-- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L263) (1 connections)
-- [[selectedProduct, setSelectedProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L82) (1 connections)
-- [[showPurchasePanel, setShowPurchasePanel]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L83) (1 connections)
-- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L125) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L78) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx#L81) (1 connections)
+- [ProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L1) (14 connections)
+- [handleSeek()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L43) (3 connections)
+- [handlePointerDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L55) (2 connections)
+- [handlePointerMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L60) (2 connections)
+- [bufferedPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L71) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L98) (1 connections)
+- [handlePointerUp()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L66) (1 connections)
+- [handleSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L76) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L32) (1 connections)
+- [[isHovering, setIsHovering]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L34) (1 connections)
+- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L33) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L70) (1 connections)
+- [progressRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L35) (1 connections)
+- [trackHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L73) (1 connections)
+- [trackHoverHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx#L74) (1 connections)
 
 ## Relationships
 
@@ -28,14 +26,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\BuyCredits.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/BuyCredits.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\ProgressBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/ProgressBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 33 (100%)
+- EXTRACTED: 32 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

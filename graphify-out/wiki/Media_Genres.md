@@ -1,14 +1,12 @@
 # Media Genres
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L1) (4 connections)
-- [getPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L151) (1 connections)
-- [getPresetsByCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L158) (1 connections)
-- [QUICK_CREATE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L25) (1 connections)
-- [searchPresetsByTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts#L165) (1 connections)
+- [DrumStepLengthSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx#L1) (2 connections)
+- [DrumStepLengthSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx#L14) (1 connections)
+- [stepLengths](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\quickCreatePresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/quickCreatePresets.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumStepLengthSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumStepLengthSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

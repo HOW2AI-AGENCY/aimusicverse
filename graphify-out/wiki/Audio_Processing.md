@@ -1,10 +1,11 @@
 # Audio Processing
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Speckit Plan Workflow](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.plan.md) (0 connections)
+- [dashboard](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx#L98) (1 connections)
+- [AdminDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.kilocode/workflows/speckit.plan.md](file:///D:/.MUSICVERSE/aimusicverse/.kilocode/workflows/speckit.plan.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\AdminDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/AdminDashboard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

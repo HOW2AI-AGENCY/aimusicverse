@@ -1,21 +1,20 @@
 # UI Configuration
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L1) (11 connections)
-- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L42) (1 connections)
-- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L74) (1 connections)
-- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L45) (1 connections)
-- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L57) (1 connections)
-- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L67) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L34) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L36) (1 connections)
-- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L37) (1 connections)
-- [knobRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L35) (1 connections)
-- [startValueRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L39) (1 connections)
-- [startYRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L38) (1 connections)
+- [Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L1) (10 connections)
+- [{ data: adminAuth }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L30) (1 connections)
+- [{ data: posts, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L33) (1 connections)
+- [{ data: selectedPost, isLoading: isLoadingPost }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L34) (1 connections)
+- [deletePost](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L35) (1 connections)
+- [[editingPost, setEditingPost]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L37) (1 connections)
+- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L31) (1 connections)
+- [[isCreating, setIsCreating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L38) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L26) (1 connections)
+- [postSlug](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L28) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\melody-mixer\StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Blog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Blog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

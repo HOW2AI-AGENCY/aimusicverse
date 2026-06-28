@@ -1,16 +1,14 @@
 # Undo Redo Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [MetricsTrend.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx#L1) (6 connections)
-- [getTrendBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx#L50) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx#L135) (1 connections)
-- [latest](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx#L139) (1 connections)
-- [oldest](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx#L140) (1 connections)
-- [trend](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx#L136) (1 connections)
-- [trendItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx#L39) (1 connections)
+- [GenerationStepper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L67) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L59) (1 connections)
+- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L24) (1 connections)
+- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\performance\MetricsTrend.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/MetricsTrend.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationStepper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationStepper.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

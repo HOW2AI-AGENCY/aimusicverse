@@ -1,15 +1,13 @@
 # Rendering Configuration
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useStemTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L1) (5 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L11) (1 connections)
-- [useDeleteTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L240) (1 connections)
-- [useSaveTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L158) (1 connections)
-- [useStemTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L56) (1 connections)
-- [useTrackTranscriptions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts#L111) (1 connections)
+- [RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L1) (3 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L54) (1 connections)
+- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L33) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStemTranscription.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemTranscription.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingControls.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

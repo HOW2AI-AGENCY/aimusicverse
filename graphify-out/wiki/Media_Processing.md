@@ -1,35 +1,35 @@
 # Media Processing
 
-> 31 nodes · cohesion 0.07
+> 27 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [sunoMetaTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L1) (30 connections)
-- [getAllSunoMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L413) (3 connections)
-- [extractTagsFromLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L436) (2 connections)
-- [findSunoMetaTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L420) (2 connections)
-- [getMissingCriticalTags()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L451) (2 connections)
-- [getTagsByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L486) (2 connections)
-- [hasEndTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L444) (2 connections)
-- [parseCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L470) (2 connections)
-- [ALL_SUNO_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L405) (1 connections)
-- [ANTI_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L203) (1 connections)
-- [BEST_PRACTICES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L195) (1 connections)
-- [buildCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L479) (1 connections)
-- [COMPOUND_TAG_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L298) (1 connections)
-- [CONFLICTING_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L214) (1 connections)
-- [DRILL_TRAP_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L345) (1 connections)
-- [DYNAMICS_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L125) (1 connections)
-- [formatMetaTagForInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L428) (1 connections)
-- [isValidCompoundTag()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L462) (1 connections)
-- [PRODUCTION_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L155) (1 connections)
-- [SFX_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L139) (1 connections)
-- [SILENCE_CONTROL_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L335) (1 connections)
-- [SOLO_DESCRIPTOR_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L312) (1 connections)
-- [SOLO_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L102) (1 connections)
-- [STRUCTURE_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L38) (1 connections)
-- [SUNO_META_TAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts#L228) (1 connections)
-- _... and 6 more nodes in this community_
+- [ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L1) (27 connections)
+- [barHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L127) (1 connections)
+- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L119) (1 connections)
+- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L105) (1 connections)
+- [canvasHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L118) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L37) (1 connections)
+- [clampedContinueAt](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L46) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L204) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L36) (1 connections)
+- [continuePercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L47) (1 connections)
+- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L108) (1 connections)
+- [cutPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L120) (1 connections)
+- [cutX](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L145) (1 connections)
+- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L111) (1 connections)
+- [effectiveMaxTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L43) (1 connections)
+- [extensionLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L182) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L166) (1 connections)
+- [handleSliderChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L157) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L40) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L39) (1 connections)
+- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L53) (1 connections)
+- [percent](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L129) (1 connections)
+- [rect](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L112) (1 connections)
+- [[waveformData, setWaveformData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L38) (1 connections)
+- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx#L117) (1 connections)
+- *... and 2 more nodes in this community*
 
 ## Relationships
 
@@ -37,14 +37,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoMetaTags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoMetaTags.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ExtendRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtendRangeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 66 (97%)
-- INFERRED: 2 (3%)
+- EXTRACTED: 53 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

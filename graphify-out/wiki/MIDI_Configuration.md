@@ -1,19 +1,17 @@
 # MIDI Configuration
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L1) (9 connections)
-- [DESKTOP_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L19) (1 connections)
-- [MOBILE_ROW_HEIGHT](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L18) (1 connections)
-- [props](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L83) (1 connections)
-- [rowHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L74) (1 connections)
-- [shouldVirtualize](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L73) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L80) (1 connections)
-- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L79) (1 connections)
-- [transcription](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L81) (1 connections)
-- [VIRTUALIZATION_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx#L15) (1 connections)
+- [DoubleTapLike.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L1) (7 connections)
+- [handleTap](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L27) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L21) (1 connections)
+- [{ isLiked, toggleLike }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L22) (1 connections)
+- [lastTapRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L24) (1 connections)
+- [[showHeart, setShowHeart]](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L23) (1 connections)
+- [singleTapTimeoutRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L25) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\VirtualizedStemList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/VirtualizedStemList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\DoubleTapLike.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/DoubleTapLike.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

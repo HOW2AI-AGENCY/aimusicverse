@@ -1,31 +1,26 @@
 # Drum Step Length
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Mobile-First Minimalist UI Redesign Specification](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/spec.md) (3 connections)
-- [Mobile-First Minimalist UI Redesign Requirements Checklist](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/checklists/requirements.md) (1 connections)
-- [Mobile-First Minimalist UI Redesign API Contracts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/contracts/api-contracts.md) (1 connections)
-- [Mobile-First Minimalist UI Redesign Tasks](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/tasks.md) (1 connections)
+- [DesktopContentLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopContentLayout.tsx#L1) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopContentLayout.tsx#L48) (1 connections)
 
 ## Relationships
 
-- [[UI Redesign]] (6 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-mobile-ui-redesign/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/checklists/requirements.md)
-- [specs/001-mobile-ui-redesign/contracts/api-contracts.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/contracts/api-contracts.md)
-- [specs/001-mobile-ui-redesign/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/spec.md)
-- [specs/001-mobile-ui-redesign/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-mobile-ui-redesign/tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopContentLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopContentLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

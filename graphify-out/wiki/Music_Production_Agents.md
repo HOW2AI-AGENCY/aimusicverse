@@ -1,20 +1,19 @@
 # Music Production Agents
 
-> 11 nodes · cohesion 0.20
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L1) (5 connections)
-- [useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L1) (4 connections)
-- [UserJourneyPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L19) (3 connections)
-- [getPageLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L57) (2 connections)
-- [normalizePagePath()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L46) (2 connections)
-- [useUserJourneyAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L62) (2 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L233) (1 connections)
-- [node](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L258) (1 connections)
-- [{ nodePositions, pathData, maxValue }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L153) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx#L132) (1 connections)
-- [PAGE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts#L31) (1 connections)
+- [PublishProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L1) (9 connections)
+- [[bannerDialogOpen, setBannerDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L38) (1 connections)
+- [completedTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L40) (1 connections)
+- [handlePublish()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L45) (1 connections)
+- [handlePublishWithoutBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L59) (1 connections)
+- [hasBanner](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L43) (1 connections)
+- [isComplete](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L106) (1 connections)
+- [isReadyToPublish](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L42) (1 connections)
+- [{ mutate: publishProject, isPending }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L37) (1 connections)
+- [totalTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -22,15 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\UserJourneyPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/UserJourneyPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\analytics\useUserJourneyAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/analytics/useUserJourneyAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\PublishProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/PublishProjectDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (87%)
-- INFERRED: 3 (13%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

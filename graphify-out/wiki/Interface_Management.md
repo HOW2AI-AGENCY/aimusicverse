@@ -1,31 +1,29 @@
 # Interface Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [DOCUMENTATION_INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (3 connections)
-- [ARCHIVE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
-- [PROJECT_STATUS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
-- [SPRINTS/SPRINT-PROGRESS.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (2 connections)
-- [docs/archive/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
-- [docs/README.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
-- [specs/sprint-011-social-features/spec.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md) (1 connections)
+- [useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L1) (4 connections)
+- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L63) (1 connections)
+- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L42) (1 connections)
+- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L40) (1 connections)
+- [useStemAudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts#L78) (1 connections)
 
 ## Relationships
 
-- [[Project Documentation]] (12 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2026-01/REPOSITORY_CLEANUP_SUMMARY.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemAudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemAudioEngine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

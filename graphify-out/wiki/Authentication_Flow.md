@@ -1,14 +1,13 @@
 # Authentication Flow
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L1) (4 connections)
-- [getHintsByContext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L220) (1 connections)
-- [HINT_ALIASES](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L203) (1 connections)
-- [HINT_REGISTRY](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L28) (1 connections)
-- [resolveHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L213) (1 connections)
+- [useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L1) (3 connections)
+- [ConfirmContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L43) (1 connections)
+- [ConfirmProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L50) (1 connections)
+- [useConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts#L96) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useConfirm.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useConfirm.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

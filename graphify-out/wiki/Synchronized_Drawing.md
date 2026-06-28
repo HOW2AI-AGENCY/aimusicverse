@@ -1,12 +1,11 @@
 # Synchronized Drawing
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [SoundToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx#L1) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx#L30) (1 connections)
-- [SoundToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx#L12) (1 connections)
+- [TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L1) (1 connections)
+- [TagsResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\SoundToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/SoundToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TagsResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TagsResultCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

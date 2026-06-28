@@ -1,30 +1,33 @@
 # Referral Sharing
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [InviteFriendsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/InviteFriendsCard.tsx#L1) (5 connections)
-- [handleCopyCode()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/InviteFriendsCard.tsx#L36) (2 connections)
-- [{ data: stats, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/InviteFriendsCard.tsx#L27) (1 connections)
-- [handleShare()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/InviteFriendsCard.tsx#L31) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/InviteFriendsCard.tsx#L29) (1 connections)
-- [{ link: referralLink, share }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/InviteFriendsCard.tsx#L28) (1 connections)
+- [Audio System Improvements 2025-12-09](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_SYSTEM_IMPROVEMENTS_2025-12-09.md) (3 connections)
+- [Audio Player No Sound Fix V2](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_V2_2025-12-10.md) (2 connections)
+- [Audio Player No Sound Fix](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_2025-12-10.md) (1 connections)
+- [Professional Platform Visual Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md) (1 connections)
+- [Bug Fix Summary - Stem Studio](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Audio Control]] (8 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\InviteFriendsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/InviteFriendsCard.tsx)
+- [docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_2025-12-10.md)
+- [docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_V2_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_PLAYER_NO_SOUND_FIX_V2_2025-12-10.md)
+- [docs/archive/2025-12/AUDIO_SYSTEM_IMPROVEMENTS_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIO_SYSTEM_IMPROVEMENTS_2025-12-09.md)
+- [docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_VISUAL_SUMMARY.md)
+- [docs/archive/2025-12/BUGFIX_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BUGFIX_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (91%)
-- INFERRED: 1 (9%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

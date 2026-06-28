@@ -1,16 +1,14 @@
 # Achievements Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L1) (6 connections)
-- [buttonId](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L55) (1 connections)
-- [contentId](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L54) (1 connections)
-- [handleToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L75) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L52) (1 connections)
-- [id](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L53) (1 connections)
-- [[isCollapsed, setIsCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx#L58) (1 connections)
+- [PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L1) (4 connections)
+- [genreColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L17) (1 connections)
+- [genres](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L102) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L99) (1 connections)
+- [PatternCard](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CollapsibleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\PatternBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/PatternBrowser.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

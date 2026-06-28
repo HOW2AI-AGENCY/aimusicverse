@@ -1,11 +1,10 @@
 # Contextual Information
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [SubscriptionRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialogs/SubscriptionRequiredDialog.tsx#L1) (1 connections)
-- [SubscriptionRequiredDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialogs/SubscriptionRequiredDialog.tsx#L24) (1 connections)
+- [UnifiedTrackCard.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/UnifiedTrackCard.contract.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialogs\SubscriptionRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialogs/SubscriptionRequiredDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\specs\001-ui-refactor\contracts\UnifiedTrackCard.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/UnifiedTrackCard.contract.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

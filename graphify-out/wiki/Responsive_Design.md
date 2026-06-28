@@ -1,12 +1,11 @@
 # Responsive Design
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L1) (2 connections)
-- [RadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L7) (1 connections)
-- [RadioGroupItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L15) (1 connections)
+- [PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L1) (1 connections)
+- [PlayingIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx#L14) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\PlayingIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/PlayingIndicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

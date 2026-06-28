@@ -1,11 +1,10 @@
 # Configuration Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useProjectDetailState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailState.ts#L1) (1 connections)
-- [useProjectDetailState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailState.ts#L61) (1 connections)
+- [TrackCoverSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackCoverSection.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\project\useProjectDetailState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackCoverSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackCoverSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

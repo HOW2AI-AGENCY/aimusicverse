@@ -1,14 +1,13 @@
 # Financial Metrics
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L1) (4 connections)
-- [getBarColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L52) (1 connections)
-- [STEP_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L25) (1 connections)
-- [TIME_RANGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L33) (1 connections)
-- [widthPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx#L49) (1 connections)
+- [TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L1) (3 connections)
+- [isAllowed](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L47) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L27) (1 connections)
+- [toggleRemixMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\FunnelVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/FunnelVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackRemixToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackRemixToggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

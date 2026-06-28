@@ -1,14 +1,12 @@
 # Tablet Limits
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [usePromptBuilder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L1) (4 connections)
-- [getCacheKey()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L13) (2 connections)
-- [MAX_CACHE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L11) (1 connections)
-- [promptCache](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L10) (1 connections)
-- [usePromptBuilder()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts#L22) (1 connections)
+- [TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L1) (2 connections)
+- [getLanguageFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L81) (1 connections)
+- [TranslateResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptBuilder.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptBuilder.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\TranslateResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/TranslateResultCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

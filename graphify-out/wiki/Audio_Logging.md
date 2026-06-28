@@ -1,12 +1,11 @@
 # Audio Logging
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
-- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
+- [pull-to-refresh-indicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pull-to-refresh-indicator.tsx#L1) (1 connections)
+- [isReady](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pull-to-refresh-indicator.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pull-to-refresh-indicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pull-to-refresh-indicator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

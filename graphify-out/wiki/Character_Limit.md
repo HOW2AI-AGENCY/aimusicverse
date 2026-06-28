@@ -1,14 +1,13 @@
 # Character Limit
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L1) (4 connections)
-- [artistMatch](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L27) (1 connections)
-- [handleApplySuggestion](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L34) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L25) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx#L29) (1 connections)
+- [BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L1) (3 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L40) (1 connections)
+- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L39) (1 connections)
+- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptValidationAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptValidationAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\waveform\BeatGridOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/waveform/BeatGridOverlay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

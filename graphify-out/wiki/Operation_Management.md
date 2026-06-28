@@ -1,13 +1,11 @@
 # Operation Management
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useStemMidi.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L1) (3 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L7) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L27) (1 connections)
-- [useStemMidi()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts#L69) (1 connections)
+- [MiniWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx#L1) (1 connections)
+- [MiniWaveform](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStemMidi.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStemMidi.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\MiniWaveform.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/MiniWaveform.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

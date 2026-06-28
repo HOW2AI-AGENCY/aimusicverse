@@ -1,11 +1,10 @@
 # Data Formatting
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [AnimatedCounter](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx#L29) (1 connections)
-- [AnimatedCounter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx#L1) (1 connections)
+- [FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\AnimatedCounter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedCounter.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenBackground.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenBackground.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

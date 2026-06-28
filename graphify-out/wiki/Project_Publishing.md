@@ -1,19 +1,17 @@
 # Project Publishing
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [SectionQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L1) (9 connections)
-- [availableTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L54) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L63) (1 connections)
-- [items](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L62) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L64) (1 connections)
-- [priorityTypes](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L53) (1 connections)
-- [SECTION_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L15) (1 connections)
-- [{ section, index, isTooLong }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L68) (1 connections)
-- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L22) (1 connections)
-- [sectionsByType](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx#L36) (1 connections)
+- [DrumPadsPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L105) (1 connections)
+- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L28) (1 connections)
+- [handlePointerLeave](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L44) (1 connections)
+- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L40) (1 connections)
+- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L146) (1 connections)
+- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L26) (1 connections)
+- [[isPressed, setIsPressed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionQuickActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionQuickActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\DrumPadsPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/DrumPadsPro.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

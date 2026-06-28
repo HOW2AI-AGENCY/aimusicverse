@@ -1,22 +1,28 @@
 # Menu Navigation
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L1) (12 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L26) (2 connections)
-- [activeLineIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L91) (1 connections)
-- [findActiveLine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L44) (1 connections)
-- [handleLineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L111) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L129) (1 connections)
-- [isNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L130) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L131) (1 connections)
-- [lastActiveLineRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L73) (1 connections)
-- [line](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L126) (1 connections)
-- [lines](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L76) (1 connections)
-- [linesWithTimestamps](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L79) (1 connections)
-- [virtuosoRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L72) (1 connections)
+- [AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L1) (12 connections)
+- [[creatingNew, setCreatingNew]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L23) (1 connections)
+- [filteredPlaylists](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L42) (1 connections)
+- [handleAddToPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L48) (1 connections)
+- [handleCreateNewPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L84) (1 connections)
+- [handleOpenChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L127) (1 connections)
+- [[newPlaylistName, setNewPlaylistName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L24) (1 connections)
+- [{
+    playlists,
+    isLoading: playlistsLoading,
+    createPlaylist,
+    addTrackToPlaylist,
+    isCreating,
+    isAdding,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L30) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L21) (1 connections)
+- [[selectedPlaylistId, setSelectedPlaylistId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L22) (1 connections)
+- [triggerSelectionHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L27) (1 connections)
+- [triggerSuccessHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx#L26) (1 connections)
 
 ## Relationships
 
@@ -24,14 +30,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\AddToPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/AddToPlaylistDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 23 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

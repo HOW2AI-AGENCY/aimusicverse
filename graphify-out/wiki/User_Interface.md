@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Project Audit MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_AUDIT.md) (0 connections)
+- [PageSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton/PageSkeleton.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/audits-2025-12/PROJECT_AUDIT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/PROJECT_AUDIT.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton\PageSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton/PageSkeleton.tsx)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

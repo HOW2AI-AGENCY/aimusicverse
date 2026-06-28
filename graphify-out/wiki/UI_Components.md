@@ -1,12 +1,11 @@
 # UI Components
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L1) (2 connections)
-- [mood](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L40) (1 connections)
-- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L41) (1 connections)
+- [LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L1) (1 connections)
+- [LyricsAutoScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsAutoScroll.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsAutoScroll.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

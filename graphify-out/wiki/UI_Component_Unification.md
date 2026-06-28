@@ -1,14 +1,12 @@
 # UI Component Unification
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [unified-dialog.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx#L1) (5 connections)
-- [backdrop](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx#L58) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx#L43) (1 connections)
-- [handleConfirm](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx#L87) (1 connections)
-- [{ rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx#L45) (1 connections)
+- [RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L1) (2 connections)
+- [modes](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L26) (1 connections)
+- [RecordingTypeSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\dialog\unified-dialog.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingTypeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingTypeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 9 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

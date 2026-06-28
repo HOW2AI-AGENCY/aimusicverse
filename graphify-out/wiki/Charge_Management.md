@@ -1,46 +1,32 @@
 # Charge Management
 
-> 26 nodes · cohesion 0.08
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [ReferenceAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L1) (20 connections)
-- [ReferenceAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L1) (8 connections)
-- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L106) (2 connections)
-- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L82) (2 connections)
-- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L65) (2 connections)
-- [[isMuted, setIsMuted]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L63) (2 connections)
-- [audio](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L40) (1 connections)
-- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L30) (1 connections)
-- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L32) (1 connections)
-- [[duration, setDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L33) (1 connections)
-- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L37) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L33) (1 connections)
-- [getModeColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L123) (1 connections)
-- [getModeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L113) (1 connections)
-- [handleEnded()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L49) (1 connections)
-- [handleError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L50) (1 connections)
-- [handleLoadedMetadata()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L44) (1 connections)
-- [handleSliderSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L86) (1 connections)
-- [handleTimeUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L43) (1 connections)
-- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L72) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L36) (1 connections)
-- [{
-  isPlaying,
-  currentTime,
-  duration,
-  isLoading,
-  isBuffering,
-  error,
-  togglePlay,
-  seek,
-  setVolume,
-  reset,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx#L49) (1 connections)
-- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L31) (1 connections)
-- [toggleMute()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L102) (1 connections)
-- [[volume, setVolume]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx#L34) (1 connections)
-- _... and 1 more nodes in this community_
+- [CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L1) (23 connections)
+- [addGenreTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L92) (1 connections)
+- [addMoodTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L99) (1 connections)
+- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L69) (1 connections)
+- [[avatarUrl, setAvatarUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L41) (1 connections)
+- [[bio, setBio]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L35) (1 connections)
+- [{ createArtist, isCreating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L29) (1 connections)
+- [[genreTags, setGenreTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L37) (1 connections)
+- [handleSelectTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L87) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L27) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L26) (1 connections)
+- [[moodTags, setMoodTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L38) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L34) (1 connections)
+- [[newGenreTag, setNewGenreTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L39) (1 connections)
+- [[newMoodTag, setNewMoodTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L40) (1 connections)
+- [resetForm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L45) (1 connections)
+- [selectedTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L43) (1 connections)
+- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L32) (1 connections)
+- [[step, setStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L31) (1 connections)
+- [[styleDescription, setStyleDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L36) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L76) (1 connections)
+- [{ tracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L28) (1 connections)
+- [trackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -48,15 +34,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\ReferenceAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ReferenceAudioPlayer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceAudioPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\artist\CreateArtistFromTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/artist/CreateArtistFromTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 55 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 45 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

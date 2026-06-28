@@ -1,12 +1,11 @@
 # Last Element Retrieval
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useAITools.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L1) (2 connections)
-- [cleanLyricsFromSyllableCounts()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L18) (1 connections)
-- [useAITools()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts#L37) (1 connections)
+- [DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L1) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useAITools.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useAITools.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\DoubleTapSeekFeedback.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/DoubleTapSeekFeedback.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

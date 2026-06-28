@@ -1,14 +1,13 @@
 # UI Expansion
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L1) (4 connections)
-- [ANALYSIS_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L12) (1 connections)
-- [AnalyzeToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L19) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L101) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx#L102) (1 connections)
+- [useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L1) (3 connections)
+- [useSectionNotes()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L158) (2 connections)
+- [useSectionNotesData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L97) (2 connections)
+- [sectionNotesKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -16,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\AnalyzeToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/AnalyzeToolPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSectionNotes.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSectionNotes.ts)
 
 ## Audit Trail
 
@@ -26,4 +25,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

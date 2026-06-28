@@ -1,10 +1,15 @@
 # Audio Analysis
 
-> 1 nodes · cohesion 1.00
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [Black Screen Fix Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md) (0 connections)
+- [FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L1) (5 connections)
+- [{ data: masterVersion }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L35) (1 connections)
+- [FullscreenDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L22) (1 connections)
+- [FullscreenMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L18) (1 connections)
+- [isMobileViewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L34) (1 connections)
+- [resolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -12,14 +17,14 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/BLACK_SCREEN_FIX_SUMMARY_RU.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

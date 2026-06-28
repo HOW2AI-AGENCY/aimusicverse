@@ -1,13 +1,12 @@
 # Resource Monitoring
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L1) (3 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L79) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L80) (1 connections)
-- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx#L44) (1 connections)
+- [label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L1) (2 connections)
+- [Label](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L9) (1 connections)
+- [labelVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx#L7) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\common\DetailSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/DetailSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\label.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/label.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

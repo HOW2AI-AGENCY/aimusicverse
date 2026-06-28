@@ -1,22 +1,21 @@
 # Media Handling
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [ScoreViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L1) (13 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L43) (1 connections)
-- [availableFormats](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L77) (1 connections)
-- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L278) (1 connections)
-- [handleZoomIn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L74) (1 connections)
-- [handleZoomOut()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L75) (1 connections)
-- [hasAnyScore](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L50) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L117) (1 connections)
-- [[isFullscreen, setIsFullscreen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L45) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L277) (1 connections)
-- [[pdfLoading, setPdfLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L46) (1 connections)
-- [{ pdfUrl, musicXmlUrl, gp5Url, midiUrl, midiQuantUrl }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L48) (1 connections)
-- [[zoom, setZoom]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx#L44) (1 connections)
+- [AIActionsFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L1) (11 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L113) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L330) (1 connections)
+- [disabledReason](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L297) (1 connections)
+- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L273) (1 connections)
+- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L289) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L103) (1 connections)
+- [isDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L296) (1 connections)
+- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L102) (1 connections)
+- [isOperationDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L106) (1 connections)
+- [studioMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L104) (1 connections)
+- [toggleOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx#L268) (1 connections)
 
 ## Relationships
 
@@ -24,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ScoreViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ScoreViewer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AIActionsFAB.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AIActionsFAB.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 25 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

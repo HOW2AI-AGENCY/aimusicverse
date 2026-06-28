@@ -1,19 +1,17 @@
 # Graphic Properties
 
-> 10 nodes · cohesion 0.29
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L1) (9 connections)
-- [getStemDisplayInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L186) (5 connections)
-- [getStemLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L146) (3 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L156) (2 connections)
-- [getStemEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L166) (2 connections)
-- [getStemIconName()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L176) (2 connections)
-- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L55) (1 connections)
-- [STEM_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L84) (1 connections)
-- [STEM_ICON_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L113) (1 connections)
-- [STEM_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L9) (1 connections)
+- [OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L1) (7 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L100) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L110) (1 connections)
+- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L41) (1 connections)
+- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L30) (1 connections)
+- [StemControls](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L63) (1 connections)
+- [StemLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L51) (1 connections)
+- [waveformColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx#L102) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedStemTrack.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedStemTrack.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

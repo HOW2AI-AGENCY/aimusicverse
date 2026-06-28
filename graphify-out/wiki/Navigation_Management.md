@@ -1,14 +1,13 @@
 # Navigation Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L1) (4 connections)
-- [[activeCategory, setActiveCategory]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L15) (1 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L27) (1 connections)
-- [filteredPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L17) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx#L14) (1 connections)
+- [useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L1) (3 connections)
+- [calculateRMS()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L35) (1 connections)
+- [DEFAULT_LEVELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L26) (1 connections)
+- [useStemAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts#L46) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\PresetBrowser.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/PresetBrowser.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useStemAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useStemAudioLevels.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

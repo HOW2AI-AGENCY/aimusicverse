@@ -1,27 +1,25 @@
 # Mobile Studio Migration
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Design Token Inconsistency Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (1 connections)
-- [Layout System](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYOUT_SYSTEM.md) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/comments/index.ts#L1) (0 connections)
 
 ## Relationships
 
-- [[UI Consistency]] (2 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
-- [docs/LAYOUT_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/LAYOUT_SYSTEM.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\comments\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/comments/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

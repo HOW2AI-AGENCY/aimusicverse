@@ -1,15 +1,13 @@
 # Image Display
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TrackCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L1) (5 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L81) (1 connections)
-- [displayTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L83) (1 connections)
-- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L80) (1 connections)
-- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L82) (1 connections)
-- [SIZE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L33) (1 connections)
+- [LibraryFilterChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L1) (3 connections)
+- [count](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L32) (1 connections)
+- [filterOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L20) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryFilterChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryFilterChips.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

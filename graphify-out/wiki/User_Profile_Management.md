@@ -1,28 +1,25 @@
 # User Profile Management
 
-> 19 nodes · cohesion 0.12
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [telemetry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L1) (24 connections)
-- [flushMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L250) (6 connections)
-- [getSessionDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L236) (3 connections)
-- [getErrorStats()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L243) (2 connections)
-- [ERROR_RATE_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L150) (1 connections)
-- [errorCounts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L51) (1 connections)
-- [errorRateWindow](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L154) (1 connections)
-- [featureTimers](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L52) (1 connections)
-- [flushIntervalId](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L57) (1 connections)
-- [generationAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L349) (1 connections)
-- [isInitialized](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L58) (1 connections)
-- [metricsBuffer](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L50) (1 connections)
-- [navigationAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L403) (1 connections)
-- [playerAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L378) (1 connections)
-- [sessionId](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L55) (1 connections)
-- [sessionStartTime](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L56) (1 connections)
-- [studioAnalytics](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L324) (1 connections)
-- [TELEMETRY_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L41) (1 connections)
-- [withTiming()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts#L304) (1 connections)
+- [SynchronizedSectionLyrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L1) (15 connections)
+- [activeWordIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L94) (1 connections)
+- [activeWordRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L42) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L41) (1 connections)
+- [[editedText, setEditedText]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L40) (1 connections)
+- [handleCancelEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L122) (1 connections)
+- [handleSaveEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L117) (1 connections)
+- [handleStartEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L112) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L187) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L39) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L188) (1 connections)
+- [lastSyncedRangeRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L70) (1 connections)
+- [lyricsText](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L58) (1 connections)
+- [newLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L76) (1 connections)
+- [rangeKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L74) (1 connections)
+- [sectionWords](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -30,14 +27,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\telemetry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/telemetry.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\SynchronizedSectionLyrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/SynchronizedSectionLyrics.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (92%)
-- INFERRED: 4 (8%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

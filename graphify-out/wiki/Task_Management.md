@@ -1,10 +1,12 @@
 # Task Management
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [/speckit.clarify command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md) (0 connections)
+- [Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L1) (2 connections)
+- [roundedClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L78) (1 connections)
+- [widths](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx#L110) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [.claude/commands/speckit.clarify.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.clarify.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\Shimmer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/Shimmer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

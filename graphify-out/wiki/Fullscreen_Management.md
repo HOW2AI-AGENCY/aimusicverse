@@ -1,15 +1,13 @@
 # Fullscreen Management
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L1) (5 connections)
-- [{ data: masterVersion }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L35) (1 connections)
-- [FullscreenDesktop](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L22) (1 connections)
-- [FullscreenMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L18) (1 connections)
-- [isMobileViewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L34) (1 connections)
-- [resolved](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx#L37) (1 connections)
+- [AppLogo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L1) (3 connections)
+- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L22) (1 connections)
+- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L48) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx#L31) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\FullscreenPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/FullscreenPlayer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\branding\AppLogo.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/branding/AppLogo.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,24 +1,22 @@
 # MIDI Controller
 
-> 15 nodes · cohesion 0.13
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L1) (12 connections)
-- [usePromptDJStore](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L161) (2 connections)
-- [usePromptHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L27) (2 connections)
-- [usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts#L1) (1 connections)
-- [dbPromise](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L57) (1 connections)
-- [DEFAULT_CHANNELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L80) (1 connections)
-- [DEFAULT_SETTINGS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L92) (1 connections)
-- [indexedDBStorage](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L11) (1 connections)
-- [openDB()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L58) (1 connections)
-- [selectChannels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L272) (1 connections)
-- [selectHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L274) (1 connections)
-- [selectPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L275) (1 connections)
-- [selectRecentPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L283) (1 connections)
-- [selectSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L273) (1 connections)
-- [selectTopRatedPrompts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L278) (1 connections)
+- [MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L1) (12 connections)
+- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L149) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L170) (1 connections)
+- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L148) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L147) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L217) (1 connections)
+- [getSectionStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L83) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L145) (1 connections)
+- [isActiveSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L75) (1 connections)
+- [playSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L97) (1 connections)
+- [replacement](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L146) (1 connections)
+- [SECTION_BG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L50) (1 connections)
+- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -26,15 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePromptHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptHistory.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (93%)
-- INFERRED: 2 (7%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

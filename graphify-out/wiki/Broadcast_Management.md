@@ -1,32 +1,29 @@
 # Broadcast Management
 
-> 23 nodes · cohesion 0.09
+> 20 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L1) (22 connections)
-- [handleBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L144) (2 connections)
-- [handleCostChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L178) (2 connections)
-- [handleCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L161) (2 connections)
-- [handleFeatureToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L194) (2 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L211) (1 connections)
-- [[broadcastMessage, setBroadcastMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L126) (1 connections)
-- [[broadcastOpen, setBroadcastOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L119) (1 connections)
-- [[broadcastTitle, setBroadcastTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L125) (1 connections)
-- [[costOpen, setCostOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L121) (1 connections)
-- [[creditAmount, setCreditAmount]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L129) (1 connections)
-- [[creditOpen, setCreditOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L120) (1 connections)
-- [[creditReason, setCreditReason]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L130) (1 connections)
-- [{ data: features }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L142) (1 connections)
-- [[featureOpen, setFeatureOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L122) (1 connections)
-- [[newCost, setNewCost]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L133) (1 connections)
-- [quickBroadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L138) (1 connections)
-- [quickCredit](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L139) (1 connections)
-- [[selectedFeature, setSelectedFeature]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L136) (1 connections)
-- [toggleFeature](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L141) (1 connections)
-- [updateConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L140) (1 connections)
-- [useQuickBroadcast()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L45) (1 connections)
-- [useQuickCredit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx#L73) (1 connections)
+- [StudioWaveformTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L1) (20 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L59) (1 connections)
+- [getSeekTimeFromPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L147) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L160) (1 connections)
+- [handleTouchEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L195) (1 connections)
+- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L184) (1 connections)
+- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L170) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L66) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L63) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L65) (1 connections)
+- [[isReady, setIsReady]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L62) (1 connections)
+- [[isSeeking, setIsSeeking]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L64) (1 connections)
+- [markerInterval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L201) (1 connections)
+- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L73) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L68) (1 connections)
+- [showSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L69) (1 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L202) (1 connections)
+- [timeMarkers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L200) (1 connections)
+- [waveformRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L60) (1 connections)
+- [wavesurferRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -34,14 +31,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\QuickActionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/QuickActionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioWaveformTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioWaveformTimeline.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 44 (92%)
-- INFERRED: 4 (8%)
+- EXTRACTED: 39 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

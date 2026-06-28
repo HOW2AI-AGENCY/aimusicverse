@@ -1,12 +1,11 @@
 # Scrolling Interface
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L1) (2 connections)
-- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L17) (1 connections)
-- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L18) (1 connections)
+- [StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx#L128) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

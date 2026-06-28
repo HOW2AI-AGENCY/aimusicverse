@@ -1,12 +1,11 @@
 # Data Storage
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useAutoPlaylists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L1) (2 connections)
-- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L13) (1 connections)
-- [useAutoPlaylists()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts#L22) (1 connections)
+- [TrackStudioSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L1) (1 connections)
+- [TrackStudioSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAutoPlaylists.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoPlaylists.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\TrackStudioSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

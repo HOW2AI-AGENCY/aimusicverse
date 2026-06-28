@@ -1,15 +1,13 @@
 # API Response Management
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useTrackDetails.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L1) (5 connections)
-- [useTrackAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L101) (1 connections)
-- [useTrackChangelog()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L117) (1 connections)
-- [useTrackDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L19) (1 connections)
-- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L85) (1 connections)
-- [useTrackVersions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts#L69) (1 connections)
+- [NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L1) (3 connections)
+- [GAMIFICATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L72) (1 connections)
+- [GENERATION_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L23) (1 connections)
+- [SOCIAL_TOGGLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackDetails.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackDetails.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\NotificationsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/NotificationsTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

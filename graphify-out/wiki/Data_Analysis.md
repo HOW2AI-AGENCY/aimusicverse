@@ -1,10 +1,13 @@
 # Data Analysis
 
-> 1 nodes · cohesion 1.00
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [Data Model UI Component Unification Phase 2](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/data-model.md) (0 connections)
+- [Button()](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.tsx#L19) (2 connections)
+- [button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.tsx#L1) (2 connections)
+- [buttonVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.tsx#L8) (1 connections)
+- [Button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -12,14 +15,15 @@
 
 ## Source Files
 
-- [specs/002-ui-component-unification/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/data-model.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/button.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Button.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Button.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,35 +1,35 @@
 # Performance Metrics
 
-> 30 nodes · cohesion 0.07
+> 26 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [unified-studio-perf.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L1) (29 connections)
-- [actions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L212) (1 connections)
-- [{ avgFPS }](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L164) (1 connections)
-- [delta](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L380) (1 connections)
-- [droppedFramePercentage](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L328) (1 connections)
-- [event](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L337) (1 connections)
-- [finalMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L228) (1 connections)
-- [frameDrops](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L286) (1 connections)
-- [growthMB](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L264) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L220) (1 connections)
-- [initialMemory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L202) (1 connections)
-- [interactionFrameDrops](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L289) (1 connections)
-- [iterations](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L238) (1 connections)
-- [jsSize](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L274) (1 connections)
-- [latency](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L183) (1 connections)
-- [loadTime](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L149) (1 connections)
-- [lyricsSelector](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L170) (1 connections)
-- [measureInteractionLatency()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L94) (1 connections)
-- [measureLoadPerformance()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L13) (1 connections)
-- [measureScrollFPS()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L37) (1 connections)
-- [memory](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L242) (1 connections)
-- [memoryGrowthMB](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L232) (1 connections)
-- [memorySamples](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L239) (1 connections)
-- [metrics](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L155) (1 connections)
-- [playButton](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts#L178) (1 connections)
-- _... and 5 more nodes in this community_
+- [TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L1) (13 connections)
+- [styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L1) (11 connections)
+- [parseStyleTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L80) (4 connections)
+- [parseTrackTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L196) (3 connections)
+- [cleanTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L46) (2 connections)
+- [getDisplayTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L215) (2 connections)
+- [isValidTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L58) (2 connections)
+- [addTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L123) (2 connections)
+- [detectCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L31) (1 connections)
+- [INSTRUMENT_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L23) (1 connections)
+- [MOOD_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L18) (1 connections)
+- [STRUCTURE_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L25) (1 connections)
+- [TEMPO_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L22) (1 connections)
+- [VOCAL_PATTERNS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts#L20) (1 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L121) (1 connections)
+- [addBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L136) (1 connections)
+- [ADVANCED_TAGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L112) (1 connections)
+- [BACK_VOCAL_EFFECTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L98) (1 connections)
+- [[backVocals, setBackVocals]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L120) (1 connections)
+- [clearAll](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L176) (1 connections)
+- [copyToClipboard](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L167) (1 connections)
+- [generateCompoundTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L149) (1 connections)
+- [removeBackVocal](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L145) (1 connections)
+- [removeTag](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L132) (1 connections)
+- [[selectedTags, setSelectedTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx#L119) (1 connections)
+- *... and 1 more nodes in this community*
 
 ## Relationships
 
@@ -37,14 +37,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\unified-studio-perf.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/unified-studio-perf.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\TagBuilderPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/TagBuilderPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\styleTagParser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/styleTagParser.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 58 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 54 (95%)
+- INFERRED: 3 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

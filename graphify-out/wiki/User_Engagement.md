@@ -1,12 +1,11 @@
 # User Engagement
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L1) (2 connections)
-- [lyricsLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L17) (1 connections)
-- [useLyricsStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts#L46) (1 connections)
+- [useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L1) (1 connections)
+- [useStemControls()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useLyricsStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useLyricsStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemControls.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemControls.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

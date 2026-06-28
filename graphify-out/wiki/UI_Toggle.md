@@ -1,16 +1,14 @@
 # UI Toggle
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L1) (6 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L23) (1 connections)
-- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L46) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L38) (1 connections)
-- [contentRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L39) (1 connections)
-- [[isOverflowing, setIsOverflowing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L40) (1 connections)
-- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx#L42) (1 connections)
+- [LyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L1) (4 connections)
+- [parse()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L30) (1 connections)
+- [SECTION_META](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L18) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L67) (1 connections)
+- [totalLines](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx#L68) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\ScrollableTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/ScrollableTagsRow.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\LyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

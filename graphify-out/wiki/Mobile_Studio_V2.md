@@ -1,15 +1,13 @@
 # Mobile Studio V2
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.83
 
 ## Key Concepts
 
-- [layout.bottomnav-overlap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L1) (5 connections)
-- [lastBottom](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L31) (1 connections)
-- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L18) (1 connections)
-- [nav](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L23) (1 connections)
-- [navBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L25) (1 connections)
-- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts#L3) (1 connections)
+- [TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L1) (3 connections)
+- [TelegramSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L39) (3 connections)
+- [getTelegramSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L35) (2 connections)
+- [getTelegramSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L31) (2 connections)
 
 ## Relationships
 
@@ -17,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.bottomnav-overlap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.bottomnav-overlap.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx)
 
 ## Audit Trail
 
@@ -27,4 +25,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

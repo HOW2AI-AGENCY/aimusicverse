@@ -1,12 +1,11 @@
 # Picture-in-Picture
 
-> 3 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L1) (3 connections)
-- [formatCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L26) (2 connections)
-- [usePlatformStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts#L70) (2 connections)
+- [separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L1) (1 connections)
+- [Separator](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePlatformStats.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePlatformStats.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\separator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/separator.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

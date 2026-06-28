@@ -1,13 +1,11 @@
 # Section Notes
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L1) (3 connections)
-- [MusicLabAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L18) (1 connections)
-- [MusicLabAudioProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L20) (1 connections)
-- [useMusicLabAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx#L37) (1 connections)
+- [TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L1) (1 connections)
+- [TrackDetailDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx#L11) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\contexts\MusicLabAudioContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/MusicLabAudioContext.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

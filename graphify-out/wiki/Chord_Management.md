@@ -1,19 +1,17 @@
 # Chord Management
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [EnhancedTrackActionMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L1) (9 connections)
-- [handleAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L117) (2 connections)
-- [[deleteDialogOpen, setDeleteDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L114) (1 connections)
-- [group](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L279) (1 connections)
-- [groupedActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L241) (1 connections)
-- [groupLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L247) (1 connections)
-- [groupOrder](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L255) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L290) (1 connections)
-- [[isExecuting, setIsExecuting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L115) (1 connections)
-- [trackActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx#L129) (1 connections)
+- [ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L1) (7 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L68) (1 connections)
+- [ProfileSetupStep3Social()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L47) (1 connections)
+- [SOCIAL_FIELDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L38) (1 connections)
+- [SoundCloudIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L26) (1 connections)
+- [SpotifyIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L20) (1 connections)
+- [TwitterIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L14) (1 connections)
+- [YouTubeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\EnhancedTrackActionMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/EnhancedTrackActionMenu.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

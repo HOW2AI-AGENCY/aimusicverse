@@ -1,14 +1,12 @@
 # Z-Index Management
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L1) (4 connections)
-- [getAvailableGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L395) (2 connections)
-- [getTemplateById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L388) (1 connections)
-- [getTemplatesByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L381) (1 connections)
-- [SUNO_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts#L18) (1 connections)
+- [AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L1) (2 connections)
+- [getAudioWeightDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L22) (1 connections)
+- [getAudioWeightLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoTemplates.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoTemplates.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

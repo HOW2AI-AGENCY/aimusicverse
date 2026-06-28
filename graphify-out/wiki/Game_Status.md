@@ -1,11 +1,10 @@
 # Game Status
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L1) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx#L41) (1 connections)
+- [LibraryDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryDialogs.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioPlayerBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioPlayerBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\LibraryDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/LibraryDialogs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

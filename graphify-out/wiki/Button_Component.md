@@ -1,16 +1,14 @@
 # Button Component
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L1) (6 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L56) (1 connections)
-- [handleOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L50) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L47) (1 connections)
-- [[sheetOpen, setSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L48) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L60) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L65) (1 connections)
+- [TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L1) (4 connections)
+- [hapticClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L94) (1 connections)
+- [hapticPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L13) (1 connections)
+- [useHapticPatterns()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L74) (1 connections)
+- [withHaptic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx#L81) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramHaptics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramHaptics.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

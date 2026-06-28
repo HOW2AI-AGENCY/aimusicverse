@@ -1,14 +1,13 @@
 # Content Parsing
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L1) (4 connections)
-- [changeTypeFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L68) (1 connections)
-- [getChangeTypeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L79) (1 connections)
-- [[showDeleteConfirm, setShowDeleteConfirm]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L114) (1 connections)
-- [timeAgo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx#L116) (1 connections)
+- [usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L1) (3 connections)
+- [usePaymentHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L24) (2 connections)
+- [useRecentTransactions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L56) (2 connections)
+- [paymentHistoryKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts#L10) (1 connections)
 
 ## Relationships
 
@@ -16,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsVersionsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsVersionsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentHistory.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentHistory.ts)
 
 ## Audit Trail
 
@@ -26,4 +25,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

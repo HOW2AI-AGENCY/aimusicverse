@@ -1,15 +1,13 @@
 # Route Navigation
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useAutoTagDiscovery.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L1) (5 connections)
-- [useAddStyle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L135) (1 connections)
-- [useAddTag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L108) (1 connections)
-- [useAddTagRelationship()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L162) (1 connections)
-- [useAutoTagDiscovery()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L23) (1 connections)
-- [useLearnFromGenerations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts#L199) (1 connections)
+- [EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L1) (4 connections)
+- [[formData, setFormData]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L31) (1 connections)
+- [[trackParams, setTrackParams]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L37) (1 connections)
+- [{ updateTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAutoTagDiscovery.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAutoTagDiscovery.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\EditTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/EditTrackDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 7 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

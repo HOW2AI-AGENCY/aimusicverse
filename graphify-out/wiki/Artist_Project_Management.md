@@ -1,35 +1,35 @@
 # Artist Project Management
 
-> 44 nodes · cohesion 0.05
+> 37 nodes · cohesion 0.05
 
 ## Key Concepts
 
-- [UnifiedLyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L1) (44 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L34) (3 connections)
-- [[activeWordIndex, setActiveWordIndex]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L92) (1 connections)
-- [AUTO_SCROLL_DISTANCE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L13) (1 connections)
-- [AUTO_SCROLL_RESUME_DELAY](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L12) (1 connections)
-- [container](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L139) (1 connections)
-- [containerRect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L187) (1 connections)
-- [[copied, setCopied]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L91) (1 connections)
-- [currentLine](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L373) (1 connections)
-- [currentPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L190) (1 connections)
-- [el](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L183) (1 connections)
-- [elementRect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L188) (1 connections)
-- [globalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L286) (1 connections)
-- [handleScroll](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L110) (1 connections)
-- [handleWordClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L224) (1 connections)
-- [hasDoubleNewline](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L386) (1 connections)
-- [hasNewline](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L385) (1 connections)
-- [hasTimeGap](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L390) (1 connections)
-- [hasTimestampedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L107) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L375) (1 connections)
-- [idx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L166) (1 connections)
-- [isLineActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L262) (1 connections)
-- [isLinePast](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L263) (1 connections)
-- [isProgrammaticScrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L97) (1 connections)
-- [isWordActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx#L287) (1 connections)
-- _... and 19 more nodes in this community_
+- [WaveformRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L1) (37 connections)
+- [barHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L137) (1 connections)
+- [barW](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L154) (1 connections)
+- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L117) (1 connections)
+- [barX](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L153) (1 connections)
+- [canvas](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L103) (1 connections)
+- [canvasHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L116) (1 connections)
+- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L46) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L311) (1 connections)
+- [computedStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L124) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L45) (1 connections)
+- [ctx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L106) (1 connections)
+- [dpr](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L109) (1 connections)
+- [endPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L119) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L278) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L173) (1 connections)
+- [handleMouseMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L179) (1 connections)
+- [handleMouseUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L205) (1 connections)
+- [handleTouchEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L258) (1 connections)
+- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L231) (1 connections)
+- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L226) (1 connections)
+- [inRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L142) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L48) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L49) (1 connections)
+- [mutedFgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx#L126) (1 connections)
+- *... and 12 more nodes in this community*
 
 ## Relationships
 
@@ -37,14 +37,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\UnifiedLyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/UnifiedLyricsView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\editor\WaveformRangeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/editor/WaveformRangeSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 87 (98%)
-- INFERRED: 2 (2%)
+- EXTRACTED: 73 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

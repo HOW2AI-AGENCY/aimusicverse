@@ -1,13 +1,12 @@
 # Mobile Transitions
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L1) (3 connections)
-- [SectionNotesPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L82) (1 connections)
-- [sectionTypeColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L70) (1 connections)
-- [sectionTypeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx#L58) (1 connections)
+- [useGenerationAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L1) (2 connections)
+- [fetchGenerationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L81) (1 connections)
+- [useGenerationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts#L128) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\SectionNotesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/SectionNotesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useGenerationAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useGenerationAnalytics.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

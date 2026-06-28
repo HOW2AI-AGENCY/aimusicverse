@@ -1,12 +1,11 @@
 # Data Fetching
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L1) (2 connections)
-- [AIProgressIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L30) (1 connections)
-- [STEP_INFO](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx#L16) (1 connections)
+- [StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L1) (1 connections)
+- [StarsPaymentButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIProgressIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIProgressIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\StarsPaymentButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/StarsPaymentButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,15 +1,13 @@
 # Drawer Management
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [drawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L1) (5 connections)
-- [Drawer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L8) (1 connections)
-- [DrawerClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L17) (1 connections)
-- [DrawerPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L15) (1 connections)
-- [DrawerTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L13) (1 connections)
-- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx#L48) (1 connections)
+- [NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L1) (3 connections)
+- [colorMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L28) (1 connections)
+- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L16) (1 connections)
+- [NotificationCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\drawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/drawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\NotificationCenter.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/NotificationCenter.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

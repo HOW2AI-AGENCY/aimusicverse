@@ -1,41 +1,31 @@
 # Timestamp Management
 
-> 9 nodes · cohesion 0.31
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [Итоговый отчет: Анализ проекта MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/analysis-report.md) (5 connections)
-- [Specification & Tasks Work Summary 2026-01-05](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/WORK-SUMMARY-2026-01-05.md) (5 connections)
-- [План доработки, улучшения и расширения MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md) (3 connections)
-- [План развития и улучшения MusicVerse AI](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/studio-development-plan.md) (3 connections)
-- [Анализ проекта MusicVerse AI - Навигация](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/project-analysis.md) (2 connections)
-- [Отчет об улучшении системы AI-помощника для написания текстов песен](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/lyrics-assistant-improvements.md) (1 connections)
-- [Bundle Size Baseline Report](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/bundle-baseline.md) (1 connections)
-- [Specification Quality Checklist: UI Component Unification Phase 2](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/checklists/requirements.md) (1 connections)
-- [Specification Quality Checklist: Professional & Stylish UI Enhancement](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/checklists/requirements.md) (1 connections)
+- [TrackCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L1) (6 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L121) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L81) (1 connections)
+- [displayTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L83) (1 connections)
+- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L80) (1 connections)
+- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L82) (1 connections)
+- [SIZE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx#L33) (1 connections)
 
 ## Relationships
 
-- [[MusicVerse AI]] (22 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/ru/analysis-report.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/analysis-report.md)
-- [docs/ru/improvement-plan.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/improvement-plan.md)
-- [docs/ru/lyrics-assistant-improvements.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/lyrics-assistant-improvements.md)
-- [docs/ru/project-analysis.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/project-analysis.md)
-- [docs/ru/studio-development-plan.md](file:///D:/.MUSICVERSE/aimusicverse/docs/ru/studio-development-plan.md)
-- [specs/001-unified-interface/WORK-SUMMARY-2026-01-05.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/WORK-SUMMARY-2026-01-05.md)
-- [specs/001-unified-interface/bundle-baseline.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/bundle-baseline.md)
-- [specs/002-ui-component-unification/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/checklists/requirements.md)
-- [specs/032-professional-ui/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/032-professional-ui/checklists/requirements.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\TrackCover.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/TrackCover.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (82%)
-- INFERRED: 4 (18%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

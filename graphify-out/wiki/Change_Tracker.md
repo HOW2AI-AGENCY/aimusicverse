@@ -1,15 +1,14 @@
 # Change Tracker
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [RealTimeMetrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L1) (5 connections)
-- [formatTimeSince()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L129) (2 connections)
-- [channel](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L106) (1 connections)
-- [{ data, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L30) (1 connections)
-- [[pulse, setPulse]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L28) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx#L99) (1 connections)
+- [bufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L1) (5 connections)
+- [bufferPoolInstance](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L180) (1 connections)
+- [createBufferPool()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L195) (1 connections)
+- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L23) (1 connections)
+- [getBufferPool()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts#L185) (1 connections)
 
 ## Relationships
 
@@ -17,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RealTimeMetrics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RealTimeMetrics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\audio\bufferPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audio/bufferPool.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (91%)
-- INFERRED: 1 (9%)
+- EXTRACTED: 9 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,12 +1,11 @@
 # Navigation Components
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L1) (2 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L27) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L61) (1 connections)
+- [Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L1) (1 connections)
+- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\Playhead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/Playhead.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

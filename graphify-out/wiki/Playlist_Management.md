@@ -1,16 +1,14 @@
 # Playlist Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L1) (6 connections)
-- [categoryColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L64) (1 connections)
-- [CategoryIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L243) (1 connections)
-- [categoryIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L56) (1 connections)
-- [genrePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L72) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L220) (1 connections)
-- [PresetsManager()](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx#L81) (1 connections)
+- [TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L1) (4 connections)
+- [CATEGORY_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L15) (1 connections)
+- [categoryStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L76) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L87) (1 connections)
+- [{ visible, hiddenCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\professional\PresetsManager.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/professional/PresetsManager.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

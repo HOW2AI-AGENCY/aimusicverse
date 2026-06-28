@@ -1,20 +1,18 @@
 # Remix Management
 
-> 11 nodes · cohesion 0.18
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L1) (10 connections)
-- [compact](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L59) (1 connections)
-- [compactBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L73) (1 connections)
-- [count](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L66) (1 connections)
-- [last](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L71) (1 connections)
-- [lastBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L72) (1 connections)
-- [main](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L53) (1 connections)
-- [mountCompact()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L21) (1 connections)
-- [SAMPLE_TRACK](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L10) (1 connections)
-- [sections](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L65) (1 connections)
-- [VIEWPORTS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts#L36) (1 connections)
+- [Section.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L1) (8 connections)
+- [densityToBodyGap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L64) (1 connections)
+- [densityToHeaderGap](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L71) (1 connections)
+- [densityToInnerPad](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L78) (1 connections)
+- [hasHeader](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L125) (1 connections)
+- [hasSurface](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L126) (1 connections)
+- [maxWidthToClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L100) (1 connections)
+- [Tag](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L124) (1 connections)
+- [toneToSurface](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx#L85) (1 connections)
 
 ## Relationships
 
@@ -22,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\layout.player-offset.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/layout.player-offset.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\Section.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/Section.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

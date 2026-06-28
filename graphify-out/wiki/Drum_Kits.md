@@ -1,19 +1,17 @@
 # Drum Kits
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L33) (2 connections)
-- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
-- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L42) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
-- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L25) (1 connections)
-- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
-- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
+- [utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L1) (7 connections)
+- [countSyllables()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L29) (1 connections)
+- [generateSunoPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L41) (1 connections)
+- [insertTagAtCursor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L111) (1 connections)
+- [parseTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L4) (1 connections)
+- [parseTextToSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L62) (1 connections)
+- [translateTagsToEnglish()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L20) (1 connections)
+- [translateTagsToRussian()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

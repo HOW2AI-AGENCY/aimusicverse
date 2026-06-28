@@ -1,12 +1,11 @@
 # Instrument Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L1) (2 connections)
-- [createWrapper()](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L20) (1 connections)
-- [module](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx#L37) (1 connections)
+- [utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts#L1) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts#L4) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\studio\unified\UnifiedStudioMobile.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/studio/unified/UnifiedStudioMobile.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\utils.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

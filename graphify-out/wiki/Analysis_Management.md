@@ -1,13 +1,12 @@
 # Analysis Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L1) (3 connections)
-- [isAlertDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L177) (1 connections)
-- [isModalDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L159) (1 connections)
-- [isSheetDialogProps()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts#L168) (1 connections)
+- [scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L1) (2 connections)
+- [ScrollArea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L6) (1 connections)
+- [ScrollBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/unified-dialog.types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

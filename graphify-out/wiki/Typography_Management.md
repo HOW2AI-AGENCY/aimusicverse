@@ -1,17 +1,15 @@
 # Typography Management
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L1) (7 connections)
-- [useBatchedUpdates()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L11) (1 connections)
-- [useDeferredValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L107) (1 connections)
-- [useRAFThrottle()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L55) (1 connections)
-- [useRenderTracker()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L156) (1 connections)
-- [useShallowMemo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L86) (1 connections)
-- [useStableCallback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L141) (1 connections)
-- [useStableObject()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts#L188) (1 connections)
+- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
+- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L127) (1 connections)
+- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
+- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L161) (1 connections)
+- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L88) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L71) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useRenderOptimization.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useRenderOptimization.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

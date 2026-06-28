@@ -1,23 +1,25 @@
 # Music Tagging
 
-> 14 nodes · cohesion 0.14
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [SectionLyricsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L1) (13 connections)
-- [acceptPendingLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L98) (1 connections)
-- [AI_MODES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L37) (1 connections)
-- [[error, setError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L55) (1 connections)
-- [handleAIEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L68) (1 connections)
-- [handleAutoRegenerate](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L118) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L56) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L59) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L52) (1 connections)
-- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L53) (1 connections)
-- [lyricsChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L58) (1 connections)
-- [[pendingLyrics, setPendingLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L54) (1 connections)
-- [rejectPendingLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L106) (1 connections)
-- [resetToOriginal](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx#L111) (1 connections)
+- [DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L1) (11 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L41) (1 connections)
+- [campaignData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L94) (1 connections)
+- [{ data: events, isLoading: eventsLoading, refetch: refetchEvents }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L44) (1 connections)
+- [{ data: stats, isLoading: statsLoading, refetch: refetchStats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L43) (1 connections)
+- [{
+    data: summary,
+    isLoading: summaryLoading,
+    refetch: refetchSummary,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L47) (1 connections)
+- [funnelData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L107) (1 connections)
+- [heatmapData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L79) (1 connections)
+- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L66) (1 connections)
+- [refetch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L60) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L40) (1 connections)
+- [trendData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx#L69) (1 connections)
 
 ## Relationships
 
@@ -25,14 +27,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionLyricsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionLyricsEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\DeeplinkAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/DeeplinkAnalyticsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

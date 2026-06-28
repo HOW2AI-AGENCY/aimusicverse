@@ -1,12 +1,11 @@
 # User Interface Styles
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L1) (2 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L51) (1 connections)
-- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx#L52) (1 connections)
+- [SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L1) (1 connections)
+- [SmartAlertProviderWrapper()](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\desktop\DesktopMasterDetailLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/desktop/DesktopMasterDetailLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertProviderWrapper.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertProviderWrapper.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/index.ts#L1) (0 connections)
+- [Sprint 008 Kickoff Checklist](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_KICKOFF_CHECKLIST.md) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/index.ts)
+- [docs/archive/audits-2025-12/SPRINT_008_KICKOFF_CHECKLIST.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_KICKOFF_CHECKLIST.md)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

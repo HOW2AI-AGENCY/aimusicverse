@@ -1,23 +1,22 @@
 # Product Selection
 
-> 14 nodes · cohesion 0.20
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [LyricsVisualEditorCompact.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L1) (14 connections)
-- [updateSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L114) (7 connections)
-- [addSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L119) (3 connections)
-- [applyTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L141) (3 connections)
-- [changeSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L133) (3 connections)
-- [sectionsToLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L97) (3 connections)
-- [deleteSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L137) (2 connections)
-- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L52) (2 connections)
-- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L151) (1 connections)
-- [parsed](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L108) (1 connections)
-- [QUICK_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L46) (1 connections)
-- [SECTION_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L34) (1 connections)
-- [[sections, setSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L105) (1 connections)
-- [typeInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx#L159) (1 connections)
+- [HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L1) (12 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L146) (1 connections)
+- [displayValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L101) (1 connections)
+- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L64) (1 connections)
+- [handlePosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L48) (1 connections)
+- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L93) (1 connections)
+- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L84) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L45) (1 connections)
+- [normalizedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L47) (1 connections)
+- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L124) (1 connections)
+- [trackRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L44) (1 connections)
+- [updateValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L50) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L103) (1 connections)
 
 ## Relationships
 
@@ -25,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\LyricsVisualEditorCompact.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/LyricsVisualEditorCompact.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 38 (88%)
-- INFERRED: 5 (12%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

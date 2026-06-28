@@ -1,12 +1,11 @@
 # Technical Information
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L1) (2 connections)
-- [hasActiveEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L58) (1 connections)
-- [[isOpen, setIsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx#L55) (1 connections)
+- [UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L1) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx#L46) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\effects\StemEffectsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/effects/StemEffectsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\UnifiedStudioLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/UnifiedStudioLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

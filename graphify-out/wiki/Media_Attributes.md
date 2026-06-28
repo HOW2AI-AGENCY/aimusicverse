@@ -1,19 +1,18 @@
 # Media Attributes
 
-> 10 nodes · cohesion 0.22
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [TagRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L1) (9 connections)
-- [handleCopyTag()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L66) (3 connections)
-- [handleTagClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L73) (2 connections)
-- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L31) (1 connections)
-- [[copiedTag, setCopiedTag]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L53) (1 connections)
-- [{ data: combinations, isLoading: loadingCombinations }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L57) (1 connections)
-- [{ data: popularity, isLoading: loadingPopularity }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L56) (1 connections)
-- [[expandedSections, setExpandedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L48) (1 connections)
-- [recommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L55) (1 connections)
-- [toggleSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx#L59) (1 connections)
+- [home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L1) (8 connections)
+- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L22) (1 connections)
+- [header](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L12) (1 connections)
+- [headerBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L38) (1 connections)
+- [overflow](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L29) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L20) (1 connections)
+- [tablist](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L15) (1 connections)
+- [tablistBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L39) (1 connections)
+- [WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L3) (1 connections)
 
 ## Relationships
 
@@ -21,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\TagRecommendations.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/TagRecommendations.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 16 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

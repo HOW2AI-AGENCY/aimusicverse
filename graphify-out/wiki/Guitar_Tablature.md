@@ -1,27 +1,25 @@
 # Guitar Tablature
 
-> 18 nodes · cohesion 0.11
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [AddInstrumentalDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L1) (17 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L65) (1 connections)
-- [[audioWeight, setAudioWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L74) (1 connections)
-- [[customStyle, setCustomStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L69) (1 connections)
-- [effectiveStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L81) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L152) (1 connections)
-- [handleInstrumentSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L86) (1 connections)
-- [handleSubmit](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L95) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L62) (1 connections)
-- [INSTRUMENT_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L46) (1 connections)
-- [[instrumentType, setInstrumentType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L68) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L209) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L64) (1 connections)
-- [[negativeTags, setNegativeTags]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L71) (1 connections)
-- [preset](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L208) (1 connections)
-- [safeAreaBottom](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L78) (1 connections)
-- [[styleWeight, setStyleWeight]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L75) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx#L70) (1 connections)
+- [Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L1) (15 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L42) (1 connections)
+- [initialTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L41) (1 connections)
+- [{ isAuthenticated, loading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L33) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L34) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L35) (1 connections)
+- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L37) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L36) (1 connections)
+- [selectedProject](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L47) (1 connections)
+- [[selectedProjectId, setSelectedProjectId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L45) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L58) (1 connections)
+- [statusLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L17) (1 connections)
+- [tab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L51) (1 connections)
+- [typeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L25) (1 connections)
+- [urlTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L40) (1 connections)
+- [VALID_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -29,14 +27,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddInstrumentalDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddInstrumentalDrawer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Projects.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Projects.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

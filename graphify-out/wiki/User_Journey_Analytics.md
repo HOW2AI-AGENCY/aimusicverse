@@ -1,20 +1,18 @@
 # User Journey Analytics
 
-> 11 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [mention-parser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L1) (10 connections)
-- [getUniqueMentionedUserIds()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L81) (4 connections)
-- [generateMentionNotifications()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L59) (2 connections)
-- [validateMentionLimit()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L157) (2 connections)
-- [countMentions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L148) (1 connections)
-- [createMentionClickHandler()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L132) (1 connections)
-- [extractMentions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L10) (1 connections)
-- [formatMentionsAsLinks()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L101) (1 connections)
-- [getMentionSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L178) (1 connections)
-- [isUserMentioned()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L89) (1 connections)
-- [validateMentions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts#L36) (1 connections)
+- [ValidationMessage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L1) (8 connections)
+- [artistCheck](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L208) (1 connections)
+- [blockedArtist](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L140) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L64) (1 connections)
+- [hasExtras](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L67) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L65) (1 connections)
+- [levelConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L27) (1 connections)
+- [[showExamples, setShowExamples]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L66) (1 connections)
+- [styleSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx#L143) (1 connections)
 
 ## Relationships
 
@@ -22,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\mention-parser.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/mention-parser.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ValidationMessage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ValidationMessage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (88%)
-- INFERRED: 3 (12%)
+- EXTRACTED: 16 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

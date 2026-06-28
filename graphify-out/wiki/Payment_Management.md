@@ -1,13 +1,11 @@
 # Payment Management
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L1) (4 connections)
-- [shimmer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L194) (1 connections)
-- [shimmerClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L195) (1 connections)
-- [TrackRowSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx#L12) (1 connections)
+- [vite.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L1) (1 connections)
+- [reactPriorityPlugin()](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeletons\TrackListSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeletons/TrackListSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\vite.config.ts](file:///D:/.MUSICVERSE/aimusicverse/vite.config.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 7 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

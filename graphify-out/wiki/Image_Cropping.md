@@ -1,24 +1,22 @@
 # Image Cropping
 
-> 15 nodes · cohesion 0.13
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L1) (14 connections)
-- [ChartContainer](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L32) (1 connections)
-- [ChartContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L20) (1 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L77) (1 connections)
-- [colorConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L62) (1 connections)
-- [{ config }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L127) (1 connections)
-- [configLabelKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L295) (1 connections)
-- [indicatorColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L172) (1 connections)
-- [itemConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L171) (1 connections)
-- [key](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L170) (1 connections)
-- [nestLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L157) (1 connections)
-- [payloadPayload](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L290) (1 connections)
-- [THEMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L7) (1 connections)
-- [tooltipLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L129) (1 connections)
-- [useChart()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx#L22) (1 connections)
+- [VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L1) (12 connections)
+- [finalTranscript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L92) (1 connections)
+- [i](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L95) (1 connections)
+- [interim](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L93) (1 connections)
+- [[interimTranscript, setInterimTranscript]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L60) (1 connections)
+- [[isListening, setIsListening]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L57) (1 connections)
+- [[isProcessing, setIsProcessing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L58) (1 connections)
+- [isSupported](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L150) (1 connections)
+- [recognition](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L81) (1 connections)
+- [recognitionRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L59) (1 connections)
+- [SpeechRecognitionClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L64) (1 connections)
+- [toggleListening](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L133) (1 connections)
+- [transcript](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx#L96) (1 connections)
 
 ## Relationships
 
@@ -26,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\chart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/chart.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\VoiceInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/VoiceInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

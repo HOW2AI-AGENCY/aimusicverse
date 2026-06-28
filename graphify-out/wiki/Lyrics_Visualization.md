@@ -1,17 +1,15 @@
 # Lyrics Visualization
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L1) (7 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L70) (1 connections)
-- [ProfileSetupStep3Social()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L47) (1 connections)
-- [SOCIAL_FIELDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L38) (1 connections)
-- [SoundCloudIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L26) (1 connections)
-- [SpotifyIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L20) (1 connections)
-- [TwitterIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L14) (1 connections)
-- [YouTubeIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx#L32) (1 connections)
+- [AdminTabSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L1) (5 connections)
+- [CurrentIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L93) (1 connections)
+- [currentTab](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L92) (1 connections)
+- [getIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L67) (1 connections)
+- [ICON_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L51) (1 connections)
+- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx#L105) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep3Social.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep3Social.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\AdminTabSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminTabSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

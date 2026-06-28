@@ -1,34 +1,35 @@
 # Lyrics Formatting
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L1) (9 connections)
-- [{ activeTrack, isPlaying, playTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L24) (1 connections)
-- [{ data: versions, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L44) (1 connections)
-- [gapClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L37) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L109) (1 connections)
-- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L110) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L108) (1 connections)
-- [originalTrackId](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L27) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L31) (1 connections)
-- [versionTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx#L88) (1 connections)
+- [Telegram Mini Apps 2.0](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md) (4 connections)
+- [Telegram Mini App Advanced Features](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (4 connections)
+- [Device Sensors API](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (2 connections)
+- [Biometric Authentication](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
+- [Fullscreen Mode API](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (1 connections)
+- [QR Scanner for Collaboration](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
+- [SecureStorage Encrypted Storage](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md) (1 connections)
+- [ShareToStory Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
+- [Sprint 2 - Mini App Advanced](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Image Handling]] (16 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\VersionSwitcher.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VersionSwitcher.tsx)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md)
+- [docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_ADVANCED_FEATURES.md)
+- [docs/TELEGRAM_MINI_APP_FEATURES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP_FEATURES.md)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 10 (62%)
+- INFERRED: 6 (38%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

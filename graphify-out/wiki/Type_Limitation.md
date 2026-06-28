@@ -1,12 +1,11 @@
 # Type Limitation
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L1) (2 connections)
-- [SIZES](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L17) (1 connections)
-- [VerificationBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx#L23) (1 connections)
+- [PrivacyTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx#L1) (1 connections)
+- [PrivacyTab()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\VerificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/VerificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\tabs\PrivacyTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/tabs/PrivacyTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

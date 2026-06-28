@@ -1,13 +1,12 @@
 # Blog Skeletons
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L1) (3 connections)
-- [MOCK_COHORTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L55) (1 connections)
-- [MOCK_RETENTION_TREND](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L47) (1 connections)
-- [summaryStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx#L65) (1 connections)
+- [SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L1) (2 connections)
+- [CATEGORY_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L23) (1 connections)
+- [parsedTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\RetentionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/RetentionPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\SimplifiedTagsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/SimplifiedTagsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

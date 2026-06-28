@@ -1,33 +1,27 @@
 # User Roles
 
-> 5 nodes · cohesion 0.60
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Telegram Stars Payment System - Implementation Progress](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT.md) (3 connections)
-- [Telegram Stars Payment System - Phase 3 Implementation Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE3.md) (3 connections)
-- [Telegram Stars Payment System - Phase 4 Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE4.md) (2 connections)
-- [Telegram Stars Payment System - Phase 5 Complete](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE5.md) (2 connections)
-- [Implementation Summary - Critical Telegram Integration Fixes](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_SUMMARY_TELEGRAM_FIXES.md) (2 connections)
+- [SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L1) (2 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L22) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx#L56) (1 connections)
 
 ## Relationships
 
-- [[Telegram Payments]] (12 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE3.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE3.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE4.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE4.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE5.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_PROGRESS_STARS_PAYMENT_PHASE5.md)
-- [docs/archive/implementation-reports/IMPLEMENTATION_SUMMARY_TELEGRAM_FIXES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/IMPLEMENTATION_SUMMARY_TELEGRAM_FIXES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionEditorHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionEditorHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

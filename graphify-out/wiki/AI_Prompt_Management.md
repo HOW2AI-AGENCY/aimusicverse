@@ -1,26 +1,24 @@
 # AI Prompt Management
 
-> 17 nodes · cohesion 0.12
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [ProfileEmojiPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L1) (16 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L69) (1 connections)
-- [clearEmojiStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L153) (1 connections)
-- [emojiCategories](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L71) (1 connections)
-- [[hasAccess, setHasAccess]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L66) (1 connections)
-- [isEmojiStatusAvailable](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L78) (1 connections)
-- [[isRequesting, setIsRequesting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L67) (1 connections)
-- [[isSettingEmoji, setIsSettingEmoji]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L68) (1 connections)
-- [isTelegram](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L63) (1 connections)
-- [isTelegramPremium](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L81) (1 connections)
-- [MOOD_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L31) (1 connections)
-- [MUSIC_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L18) (1 connections)
-- [requestAccess](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L84) (1 connections)
-- [[selectedEmoji, setSelectedEmoji]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L65) (1 connections)
-- [setEmojiStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L116) (1 connections)
-- [STATUS_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L44) (1 connections)
-- [webApp](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx#L62) (1 connections)
+- [ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L1) (14 connections)
+- [baseFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L214) (1 connections)
+- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L10) (1 connections)
+- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L184) (1 connections)
+- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L194) (1 connections)
+- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L213) (1 connections)
+- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L212) (1 connections)
+- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L139) (1 connections)
+- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L183) (1 connections)
+- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L186) (1 connections)
+- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L195) (1 connections)
+- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L196) (1 connections)
+- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L193) (1 connections)
+- [{ width, height, fontSize, dotSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L192) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L273) (1 connections)
 
 ## Relationships
 
@@ -28,14 +26,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\ProfileEmojiPicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/ProfileEmojiPicker.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,17 +1,15 @@
 # Event Management
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [waveformWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L1) (7 connections)
-- [arrayBuffer](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L113) (1 connections)
-- [errorResult](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L87) (1 connections)
-- [generatePeaksFromArrayBuffer()](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L28) (1 connections)
-- [peaks](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L114) (1 connections)
-- [response](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L108) (1 connections)
-- [result](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L116) (1 connections)
-- [{ type, audioUrl, samples, id }](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L80) (1 connections)
+- [stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L1) (5 connections)
+- [getActionsForStemType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L294) (2 connections)
+- [getGroupedActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L309) (2 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L327) (1 connections)
+- [normalizeTrackType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L338) (1 connections)
+- [STEM_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L64) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\workers\waveformWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

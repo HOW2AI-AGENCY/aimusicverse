@@ -1,17 +1,16 @@
 # UI Design System
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L1) (8 connections)
-- [barWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L174) (1 connections)
-- [conversionRate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L175) (1 connections)
-- [conversionRates](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L133) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L84) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L173) (1 connections)
-- [maxCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L144) (1 connections)
-- [stages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx#L90) (1 connections)
+- [TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L1) (6 connections)
+- [handleTagClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L44) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L38) (2 connections)
+- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L39) (1 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L40) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L17) (1 connections)
+- [hasHD](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -19,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ConversionFunnelPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ConversionFunnelPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

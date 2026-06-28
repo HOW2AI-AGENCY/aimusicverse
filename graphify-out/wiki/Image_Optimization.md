@@ -1,20 +1,18 @@
 # Image Optimization
 
-> 11 nodes · cohesion 0.18
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [RefinedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L1) (10 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L84) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L79) (1 connections)
-- [handleLike](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L66) (1 connections)
-- [handleOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L73) (1 connections)
-- [handlePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L60) (1 connections)
-- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L57) (1 connections)
-- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L91) (1 connections)
-- [isFeatured](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L92) (1 connections)
-- [[isHovered, setIsHovered]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L56) (1 connections)
-- [[localLiked, setLocalLiked]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx#L58) (1 connections)
+- [SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L1) (8 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L82) (1 connections)
+- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L178) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L242) (1 connections)
+- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L57) (1 connections)
+- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L129) (1 connections)
+- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L130) (1 connections)
+- [isGroupStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L131) (1 connections)
+- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx#L241) (1 connections)
 
 ## Relationships
 
@@ -22,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\RefinedTrackCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/RefinedTrackCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\pro\SequencerPro.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/pro/SequencerPro.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

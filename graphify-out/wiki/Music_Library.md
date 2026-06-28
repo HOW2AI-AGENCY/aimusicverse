@@ -1,11 +1,10 @@
 # Music Library
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L1) (1 connections)
-- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx#L20) (1 connections)
+- [useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumPadGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumPadGrid.tsx)
+- [D:\.MUSICVERSE\aimusicverse\specs\001-ui-refactor\contracts\useTrackData.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/contracts/useTrackData.contract.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

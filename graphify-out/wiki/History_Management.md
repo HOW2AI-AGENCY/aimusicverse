@@ -1,14 +1,13 @@
 # History Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L1) (4 connections)
-- [ChangeIndicator](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L15) (1 connections)
-- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L41) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L54) (1 connections)
-- [summary](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx#L42) (1 connections)
+- [creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L1) (3 connections)
+- [CreatorAvatar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L28) (1 connections)
+- [CreatorLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L87) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analytics\WeeklySummaryCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analytics/WeeklySummaryCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\creator-avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/creator-avatar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

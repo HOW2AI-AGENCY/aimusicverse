@@ -1,13 +1,12 @@
 # Messaging Themes
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L1) (3 connections)
-- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L134) (1 connections)
-- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L142) (1 connections)
-- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L123) (1 connections)
+- [useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L1) (2 connections)
+- [useSimpleVirtualization()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L143) (1 connections)
+- [useVirtualizedTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts#L36) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useVirtualizedTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useVirtualizedTracks.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

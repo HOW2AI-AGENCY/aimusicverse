@@ -1,29 +1,25 @@
 # Reports Management
 
-> 20 nodes · cohesion 0.10
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ModerationDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L1) (20 connections)
-- [toggleSelectAll()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L133) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L29) (1 connections)
-- [batchUpdateMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L98) (1 connections)
-- [[currentPage, setCurrentPage]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L33) (1 connections)
-- [{ data: adminData, isLoading: isCheckingAdmin }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L26) (1 connections)
-- [{ data: reportsData, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L36) (1 connections)
-- [[entityFilter, setEntityFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L30) (1 connections)
-- [getStatusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L185) (1 connections)
-- [isAdmin](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L27) (1 connections)
-- [ITEMS_PER_PAGE](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L22) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L25) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L28) (1 connections)
-- [reports](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L73) (1 connections)
-- [resetFilters()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L154) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L31) (1 connections)
-- [[selectedReports, setSelectedReports]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L32) (1 connections)
-- [toggleReportSelection()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L120) (1 connections)
-- [totalPages](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L74) (1 connections)
-- [updateStatusMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx#L76) (1 connections)
+- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L1) (15 connections)
+- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L58) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L91) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L53) (1 connections)
+- [[currentSnapPoint, setCurrentSnapPoint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L52) (1 connections)
+- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L34) (1 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L82) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L64) (1 connections)
+- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L55) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L47) (1 connections)
+- [rawSnapRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L59) (1 connections)
+- [safeDefaultSnap](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L51) (1 connections)
+- [snapHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L61) (1 connections)
+- [snapRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L60) (1 connections)
+- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L35) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -31,14 +27,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\ModerationDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/ModerationDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 39 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

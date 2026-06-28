@@ -1,13 +1,12 @@
 # Product Attributes
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L1) (3 connections)
-- [Avatar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L6) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L27) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx#L30) (1 connections)
+- [voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L1) (2 connections)
+- [html](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L47) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts#L34) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\avatar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/avatar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\voice-clone.flow.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/voice-clone.flow.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

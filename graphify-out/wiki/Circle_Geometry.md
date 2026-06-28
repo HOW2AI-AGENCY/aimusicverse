@@ -1,20 +1,12 @@
 # Circle Geometry
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L1) (3 connections)
-- [{
-  attributes,
-  listeners,
-  setNodeRef,
-  transform,
-  transition,
-  isDragging,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L19) (1 connections)
-- [hasVersions](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L34) (1 connections)
-- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx#L28) (1 connections)
+- [useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L1) (2 connections)
+- [useScrollReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L44) (1 connections)
+- [useStaggeredReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L119) (1 connections)
 
 ## Relationships
 
@@ -22,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueItem.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

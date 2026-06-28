@@ -1,31 +1,30 @@
 # Data Analysis Integration
 
-> 7 nodes · cohesion 0.29
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L1) (6 connections)
-- [availableModes](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L39) (1 connections)
-- [cfg](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L53) (1 connections)
-- [currentMode](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L74) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L86) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L54) (1 connections)
-- [modeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx#L21) (1 connections)
+- [Track Generation Fixes - 10 Critical Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md) (5 connections)
+- [Fix: Inverted customMode Logic](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md) (1 connections)
+- [Fix: Missing Credit Validation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md) (1 connections)
+- [Fix: Parameter Name Inconsistency](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md) (1 connections)
+- [Fix: Race Condition in Credit Deduction](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md) (1 connections)
+- [Improvement: Retry Logic for Audio Downloads](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Animation Effects]] (10 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ReferenceModeSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ReferenceModeSelector.tsx)
+- [docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/implementation-reports/FIXES_SUMMARY_2025-12-12.md)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,16 +1,14 @@
 # Suno Tag Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L1) (6 connections)
-- [EXCLUDED_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L17) (1 connections)
-- [historyLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L14) (1 connections)
-- [selectCanRedo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L101) (1 connections)
-- [selectCanUndo()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L96) (1 connections)
-- [selectHistoryState()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L86) (1 connections)
-- [useStudioHistoryStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L35) (1 connections)
+- [TelegramProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L1) (4 connections)
+- [actions](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L20) (1 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L89) (1 connections)
+- [TelegramContext](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L15) (1 connections)
+- [{ webApp, user, platform, initData, isInitialized, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\TelegramProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/TelegramProvider.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

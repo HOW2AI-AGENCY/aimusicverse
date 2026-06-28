@@ -1,15 +1,13 @@
 # Model Metadata
 
-> 6 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L1) (5 connections)
-- [getActionsForStemType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L261) (2 connections)
-- [getGroupedActions()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L276) (2 connections)
-- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L291) (1 connections)
-- [normalizeTrackType()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L302) (1 connections)
-- [STEM_ACTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts#L31) (1 connections)
+- [useStudioTrackState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L38) (2 connections)
+- [useTrackStems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L17) (2 connections)
+- [useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts#L1) (1 connections)
+- [useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\stemActionsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/stemActionsConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\hooks\useStudioTrackState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/hooks/useStudioTrackState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackStems.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackStems.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

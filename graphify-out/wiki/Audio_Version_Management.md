@@ -1,19 +1,17 @@
 # Audio Version Management
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L1) (9 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L27) (1 connections)
-- [hasStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L75) (1 connections)
-- [hasVocals](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L72) (1 connections)
-- [icons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L79) (1 connections)
-- [isCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L76) (1 connections)
-- [isExtend](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L77) (1 connections)
-- [isInstrumental](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L73) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L37) (1 connections)
-- [trackAny](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx#L70) (1 connections)
+- [ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L1) (7 connections)
+- [DEFAULT_STATUS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L36) (1 connections)
+- [DEFAULT_STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L38) (1 connections)
+- [DEFAULT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L45) (1 connections)
+- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L64) (1 connections)
+- [ProjectStatusBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L152) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L62) (1 connections)
+- [typeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx#L63) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\StatusIcons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/StatusIcons.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMeta.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMeta.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

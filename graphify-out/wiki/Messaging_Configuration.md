@@ -1,13 +1,12 @@
 # Messaging Configuration
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [CoverPromptSuggester.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L1) (3 connections)
-- [BRANDED_PROMPTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L22) (1 connections)
-- [CoverPromptSuggester()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L92) (1 connections)
-- [generateRandomPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx#L65) (1 connections)
+- [radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L1) (2 connections)
+- [RadioGroup](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L7) (1 connections)
+- [RadioGroupItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx#L15) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\cover\CoverPromptSuggester.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cover/CoverPromptSuggester.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\radio-group.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/radio-group.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

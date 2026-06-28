@@ -1,17 +1,16 @@
 # Project Audits
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L1) (9 connections)
-- [checkConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L219) (1 connections)
-- [CheckIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L220) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L119) (1 connections)
-- [{ data: healthStatus, isLoading, refetch, dataUpdatedAt }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L69) (1 connections)
-- [[isSendingTest, setIsSendingTest]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L67) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L42) (1 connections)
-- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx#L123) (1 connections)
+- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
+- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
+- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L42) (1 connections)
+- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L31) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L48) (1 connections)
+- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L43) (1 connections)
+- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L47) (1 connections)
 
 ## Relationships
 
@@ -19,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\SystemStatusCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/SystemStatusCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

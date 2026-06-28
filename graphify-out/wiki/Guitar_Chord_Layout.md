@@ -1,24 +1,22 @@
 # Guitar Chord Layout
 
-> 15 nodes · cohesion 0.13
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L1) (17 connections)
-- [buildPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L132) (2 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L128) (1 connections)
-- [ASSET_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L51) (1 connections)
-- [[assetType, setAssetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L99) (1 connections)
-- [currentMediaUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L125) (1 connections)
-- [[customPrompt, setCustomPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L100) (1 connections)
-- [entityTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L113) (1 connections)
-- [[generatedUrl, setGeneratedUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L103) (1 connections)
-- [getCurrentMediaUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L116) (1 connections)
-- [[isGenerating, setIsGenerating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L102) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L98) (1 connections)
-- [[selectedPreset, setSelectedPreset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L101) (1 connections)
-- [STYLE_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L81) (1 connections)
-- [targetEntity](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx#L112) (1 connections)
+- [StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L1) (12 connections)
+- [angle](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L42) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L94) (1 connections)
+- [handleDoubleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L83) (1 connections)
+- [handlePointerDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L45) (1 connections)
+- [handlePointerMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L60) (1 connections)
+- [handlePointerUp](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L73) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L34) (1 connections)
+- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L36) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L37) (1 connections)
+- [knobRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L35) (1 connections)
+- [startValueRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L39) (1 connections)
+- [startYRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -26,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectMediaGenerator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectMediaGenerator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\melody-mixer\StyleKnob.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/melody-mixer/StyleKnob.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

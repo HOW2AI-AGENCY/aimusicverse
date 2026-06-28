@@ -1,17 +1,16 @@
 # Mobile Platform Development
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [recordings.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L1) (7 connections)
-- [calculateTotalDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L507) (1 connections)
-- [completeRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L211) (1 connections)
-- [formatChordForDisplay()](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L494) (1 connections)
-- [getChordResults()](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L333) (1 connections)
-- [isChordAnalysisComplete()](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L482) (1 connections)
-- [startRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L152) (1 connections)
-- [triggerChordDetection()](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts#L274) (1 connections)
+- [TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L1) (6 connections)
+- [buttonSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L23) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L74) (1 connections)
+- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L51) (1 connections)
+- [isGridSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L54) (1 connections)
+- [showOverlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L53) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -19,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\api\recordings.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/recordings.api.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\TrackCoverImage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/TrackCoverImage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,25 +1,27 @@
 # File Management
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Speckit Tasks Prompt](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.tasks.prompt.md) (0 connections)
+- [CloudStorage Synchronization](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md) (1 connections)
+- [Telegram Deep Linking](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[User Management]] (2 shared connections)
 
 ## Source Files
 
-- [.github/prompts/speckit.tasks.prompt.md](file:///D:/.MUSICVERSE/aimusicverse/.github/prompts/speckit.tasks.prompt.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_QUICKSTART.md)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION_SPRINT.md)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

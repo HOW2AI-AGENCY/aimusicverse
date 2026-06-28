@@ -1,12 +1,11 @@
 # View Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L1) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L12) (1 connections)
-- [{ showBackButton, hideBackButton, hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx#L13) (1 connections)
+- [useWaveform.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts#L1) (1 connections)
+- [useWaveform()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts#L31) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Terms.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Terms.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useWaveform.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useWaveform.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

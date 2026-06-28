@@ -1,19 +1,30 @@
 # Animation Effects
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L1) (9 connections)
-- [drumKits](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L130) (1 connections)
-- [getKitById()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L132) (1 connections)
-- [kit808](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L23) (1 connections)
-- [kit909](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L41) (1 connections)
-- [kitAcoustic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L59) (1 connections)
-- [kitEthnic](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L113) (1 connections)
-- [kitLoFi](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L77) (1 connections)
-- [kitTrap](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L95) (1 connections)
-- [presetPatterns](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts#L143) (1 connections)
+- [OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L1) (7 connections)
+- [enrichedStems](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L50) (1 connections)
+- [handleMasterMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L83) (1 connections)
+- [handleMuteToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L69) (1 connections)
+- [handleSoloToggle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L76) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L62) (1 connections)
+- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L87) (1 connections)
+- [{
+    stemStates,
+    masterVolume,
+    masterMuted,
+    setMasterVolume,
+    setMasterMuted,
+    setStemVolume,
+    toggleMute,
+    toggleSolo,
+    hasSoloStems,
+    resetToDefaults,
+    getEffectiveVolume,
+    isStemEffectivelyMuted,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx#L34) (1 connections)
 
 ## Relationships
 
@@ -21,14 +32,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\drum-kits.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/drum-kits.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,24 +1,22 @@
 # Guitar Fingering
 
-> 15 nodes · cohesion 0.14
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L1) (8 connections)
-- [StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L1) (7 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L180) (2 connections)
-- [stemType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L47) (2 connections)
-- [emojiMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L237) (1 connections)
-- [groupedActions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L48) (1 connections)
-- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L50) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L46) (1 connections)
-- [isDisabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx#L179) (1 connections)
-- [isGuitar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L103) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L95) (1 connections)
-- [MIDI_MODELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L42) (1 connections)
-- [midiModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L102) (1 connections)
-- [[selectedMidiModel, setSelectedMidiModel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L96) (1 connections)
-- [STEM_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx#L73) (1 connections)
+- [SmartAlertOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L1) (12 connections)
+- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L83) (1 connections)
+- [handleLearnMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L101) (1 connections)
+- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L53) (1 connections)
+- [IllustrationComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L111) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L84) (1 connections)
+- [primaryAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L114) (1 connections)
+- [[progress, setProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L52) (1 connections)
+- [[showFeatureSheet, setShowFeatureSheet]](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L51) (1 connections)
+- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L85) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L110) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L87) (1 connections)
+- [typeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -26,15 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\actions\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/actions/StemActionSheet.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StemActionSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StemActionSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\SmartAlertOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/SmartAlertOverlay.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

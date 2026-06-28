@@ -1,11 +1,10 @@
 # Dashboard Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L1) (1 connections)
-- [useMultiTrackAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts#L26) (1 connections)
+- [TrackInfoSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackInfoSection.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useMultiTrackAudio.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useMultiTrackAudio.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\TrackInfoSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackInfoSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

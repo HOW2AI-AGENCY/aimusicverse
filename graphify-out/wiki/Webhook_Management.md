@@ -1,14 +1,13 @@
 # Webhook Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L1) (4 connections)
-- [BASE_DESCRIPTION](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L18) (1 connections)
-- [BASE_TITLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L17) (1 connections)
-- [SEO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L95) (1 connections)
-- [SEOHead()](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L20) (1 connections)
+- [ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L1) (3 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L44) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L19) (2 connections)
+- [{ data: parentTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -16,7 +15,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\ParentTrackLink.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/ParentTrackLink.tsx)
 
 ## Audit Trail
 
@@ -26,4 +25,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

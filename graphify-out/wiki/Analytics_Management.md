@@ -1,14 +1,12 @@
 # Analytics Management
 
-> 5 nodes · cohesion 0.60
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [OnboardingTrigger()](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L8) (3 connections)
-- [useOnboarding](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L20) (3 connections)
-- [useShouldShowOnboarding()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L71) (3 connections)
-- [useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts#L1) (2 connections)
-- [OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx#L1) (1 connections)
+- [useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L1) (2 connections)
+- [useWorkflowEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L95) (1 connections)
+- [WORKFLOWS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -16,15 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOnboarding.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOnboarding.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\hooks\useWorkflowEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/hooks/useWorkflowEngine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (67%)
-- INFERRED: 4 (33%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

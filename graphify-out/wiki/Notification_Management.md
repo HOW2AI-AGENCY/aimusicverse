@@ -1,22 +1,21 @@
 # Notification Management
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L1) (12 connections)
-- [balance](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L63) (1 connections)
-- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L36) (1 connections)
-- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L293) (1 connections)
-- [{ data: canCheckin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L35) (1 connections)
-- [{ data: credits, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L34) (1 connections)
-- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L39) (1 connections)
-- [level](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L60) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L32) (1 connections)
-- [{ progress, current: currentXP, next: nextLevelXP }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L61) (1 connections)
-- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L37) (1 connections)
-- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L62) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L33) (1 connections)
+- [AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L1) (11 connections)
+- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L77) (2 connections)
+- [AUDIO_ERROR_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L28) (1 connections)
+- [audioElements](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L114) (1 connections)
+- [{ children, fallbackMessage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L135) (1 connections)
+- [errorType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L138) (1 connections)
+- [getAudioErrorType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L36) (1 connections)
+- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L73) (1 connections)
+- [getRecoveryHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L48) (1 connections)
+- [handleAudioError](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L202) (1 connections)
+- [{ hasError, error, isRecovering }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L134) (1 connections)
+- [recoveryHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L139) (1 connections)
 
 ## Relationships
 
@@ -24,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 22 (96%)
+- INFERRED: 1 (4%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

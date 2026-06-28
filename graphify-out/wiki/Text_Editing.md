@@ -1,18 +1,16 @@
 # Text Editing
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L1) (8 connections)
-- [{ analytics, getRecommendations, topRated, history }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L37) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L86) (1 connections)
-- [deletePreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L45) (1 connections)
-- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L55) (1 connections)
-- [handleApplyRecommendation](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L51) (1 connections)
-- [loadPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L41) (1 connections)
-- [recommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L49) (1 connections)
-- [userPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L38) (1 connections)
+- [ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L1) (6 connections)
+- [ChurnScoreBar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L44) (1 connections)
+- [[expandedUsers, setExpandedUsers]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L170) (1 connections)
+- [RISK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L30) (1 connections)
+- [RISK_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L37) (1 connections)
+- [toggleUser()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L172) (1 connections)
+- [{ users, summary, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx#L165) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ChurnPredictionPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ChurnPredictionPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

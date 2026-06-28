@@ -1,13 +1,12 @@
 # Preset Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [SettingsSidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L1) (3 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L41) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L42) (1 connections)
-- [settingsTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx#L25) (1 connections)
+- [useUnifiedRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L1) (2 connections)
+- [AUDIO_SETTINGS_BY_MODE](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L46) (1 connections)
+- [useUnifiedRecording()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts#L73) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\SettingsSidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/SettingsSidebar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useUnifiedRecording.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useUnifiedRecording.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

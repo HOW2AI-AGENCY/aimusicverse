@@ -1,10 +1,13 @@
 # Sprint Reporting
 
-> 1 nodes · cohesion 1.00
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [Sprint 025 Complete - Final Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_FINAL_REPORT.md) (0 connections)
+- [TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L1) (3 connections)
+- [TelegramThemeContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L29) (1 connections)
+- [TelegramThemeProvider()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L37) (1 connections)
+- [useTelegramTheme()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx#L147) (1 connections)
 
 ## Relationships
 
@@ -12,14 +15,14 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_025_FINAL_REPORT.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_FINAL_REPORT.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramThemeProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramThemeProvider.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

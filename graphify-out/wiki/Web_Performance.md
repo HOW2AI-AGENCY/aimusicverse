@@ -4,16 +4,12 @@
 
 ## Key Concepts
 
-- [ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L1) (1 connections)
-- [ExtendTrackDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx#L30) (1 connections)
+- **env-vars-suno** (1 connections)
+- **env-vars-supabase** (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
-
-## Source Files
-
-- [D:\.MUSICVERSE\aimusicverse\src\components\ExtendTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ExtendTrackDialog.tsx)
+- [[Configuration Health]] (2 shared connections)
 
 ## Audit Trail
 
@@ -23,4 +19,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

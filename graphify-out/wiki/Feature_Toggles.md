@@ -1,13 +1,12 @@
 # Feature Toggles
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [ChannelCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L1) (3 connections)
-- [CHANNEL_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L18) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L50) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx#L51) (1 connections)
+- [useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L1) (2 connections)
+- [audioLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L23) (1 connections)
+- [useAudioPlayer()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\ChannelCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/ChannelCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useAudioPlayer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useAudioPlayer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,12 +1,11 @@
 # Bar Chart
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L1) (2 connections)
-- [feature](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L25) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx#L28) (1 connections)
+- [MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L1) (1 connections)
+- [MobileQuickActionsGrid](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\notifications\smart-alerts\FeatureDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/notifications/smart-alerts/FeatureDetailSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\MobileQuickActionsGrid.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/MobileQuickActionsGrid.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

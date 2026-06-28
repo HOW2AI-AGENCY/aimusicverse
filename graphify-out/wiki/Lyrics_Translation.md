@@ -1,22 +1,14 @@
 # Lyrics Translation
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [NetworkStatusIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L1) (6 connections)
-- [getStatusConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L65) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L107) (1 connections)
-- [{ isOnline, isSlowConnection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L174) (1 connections)
-- [{
-  isOnline,
-  isSlowConnection,
-  connectionType,
-  isSuitableForStreaming,
-  networkInfo,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L39) (1 connections)
-- [[showIndicator, setShowIndicator]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L47) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx#L106) (1 connections)
+- [registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L1) (4 connections)
+- [getHintsByContext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L210) (1 connections)
+- [HINT_ALIASES](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L193) (1 connections)
+- [HINT_REGISTRY](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L23) (1 connections)
+- [resolveHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts#L203) (1 connections)
 
 ## Relationships
 
@@ -24,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\NetworkStatusIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/NetworkStatusIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\hints\registry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/registry.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

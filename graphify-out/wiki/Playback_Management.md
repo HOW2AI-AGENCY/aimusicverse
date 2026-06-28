@@ -1,41 +1,31 @@
 # Playback Management
 
-> 9 nodes · cohesion 0.31
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [UI Architecture Refactoring Phase 3 MVP Complete](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE3_MVP_COMPLETE.md) (5 connections)
-- [UI Architecture Refactoring Research Report](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/research.md) (4 connections)
-- [UI Architecture Refactoring Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/plan.md) (3 connections)
-- [UI Architecture Refactoring Data Model](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/data-model.md) (2 connections)
-- [UI Architecture Refactoring Quickstart Guide](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/quickstart.md) (2 connections)
-- [UI Architecture Refactoring Specification](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/spec.md) (2 connections)
-- [UI Architecture Refactoring Tasks](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/tasks.md) (2 connections)
-- [UI Architecture Refactoring Requirements Checklist](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/checklists/requirements.md) (1 connections)
-- [UI Architecture Refactoring Phase 1 Complete](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE1_COMPLETE.md) (1 connections)
+- [StudioMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L1) (6 connections)
+- [handleChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L251) (1 connections)
+- [handlePanChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L102) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L95) (1 connections)
+- [masterVolume](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L42) (1 connections)
+- [{ project, selectedTrackId, selectTrack, setMasterVolume }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L32) (1 connections)
+- [{ setTrackVolume, setTrackPan, toggleTrackMute, toggleTrackSolo, removeTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx#L93) (1 connections)
 
 ## Relationships
 
-- [[UI Architecture Refactoring]] (22 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-ui-refactor/PHASE1_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE1_COMPLETE.md)
-- [specs/001-ui-refactor/PHASE3_MVP_COMPLETE.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/PHASE3_MVP_COMPLETE.md)
-- [specs/001-ui-refactor/checklists/requirements.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/checklists/requirements.md)
-- [specs/001-ui-refactor/data-model.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/data-model.md)
-- [specs/001-ui-refactor/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/plan.md)
-- [specs/001-ui-refactor/quickstart.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/quickstart.md)
-- [specs/001-ui-refactor/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/research.md)
-- [specs/001-ui-refactor/spec.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/spec.md)
-- [specs/001-ui-refactor/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-refactor/tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioMixerPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioMixerPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

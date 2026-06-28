@@ -1,14 +1,13 @@
 # Compression Settings
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [InlineStemNotes.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L1) (4 connections)
-- [handleToggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L41) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L38) (1 connections)
-- [{ latestTranscription, hasTranscription, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L39) (1 connections)
-- [metadataText](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx#L46) (1 connections)
+- [useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L1) (3 connections)
+- [OPERATION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L56) (1 connections)
+- [STEM_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L54) (1 connections)
+- [useStudioOperationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts#L68) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\InlineStemNotes.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/InlineStemNotes.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioOperationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioOperationLock.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,21 +1,20 @@
 # Admin Image Management
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L1) (11 connections)
-- [availableModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L76) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L119) (1 connections)
-- [CurrentIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L79) (1 connections)
-- [currentModeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L78) (1 connections)
-- [currentModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L77) (1 connections)
-- [handleHistoryClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L71) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L120) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L121) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L69) (1 connections)
-- [MODE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L41) (1 connections)
-- [MODE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L57) (1 connections)
+- [SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L1) (10 connections)
+- [[cursorPosition, setCursorPosition]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L37) (1 connections)
+- [handleOpenTagMenu()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L65) (1 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L60) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L35) (1 connections)
+- [lineTags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L100) (1 connections)
+- [[localContent, setLocalContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L36) (1 connections)
+- [sectionLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L40) (1 connections)
+- [syllableCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L42) (1 connections)
+- [tags](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L41) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\SectionBlock.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/SectionBlock.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

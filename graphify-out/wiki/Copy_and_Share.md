@@ -1,16 +1,14 @@
 # Copy and Share
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L1) (6 connections)
-- [buttonSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L41) (1 connections)
-- [currentLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L39) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L31) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L45) (1 connections)
-- [iconSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L40) (1 connections)
-- [isStudioVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx#L44) (1 connections)
+- [TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L1) (4 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L114) (1 connections)
+- [sizeStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L165) (1 connections)
+- [TelegramMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L28) (1 connections)
+- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx#L159) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\components\VersionPills.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/components/VersionPills.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramButtons.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramButtons.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

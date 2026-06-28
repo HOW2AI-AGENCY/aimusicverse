@@ -1,15 +1,14 @@
 # Software Development
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L1) (6 connections)
-- [{ AxePuppeteer }](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L8) (1 connections)
-- [fs](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L10) (1 connections)
-- [pages](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L13) (1 connections)
-- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L11) (1 connections)
-- [puppeteer](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js#L9) (1 connections)
+- [useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L1) (4 connections)
+- [createImpulseResponse()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L25) (1 connections)
+- [getAudioContext()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L17) (1 connections)
+- [sharedAudioContext](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L15) (1 connections)
+- [useStemStudioEngine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts#L58) (1 connections)
 
 ## Relationships
 
@@ -17,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\scripts\accessibility-audit.js](file:///D:/.MUSICVERSE/aimusicverse/scripts/accessibility-audit.js)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStemStudioEngine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStemStudioEngine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 11 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

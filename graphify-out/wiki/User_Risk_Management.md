@@ -1,16 +1,14 @@
 # User Risk Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [CommentSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L1) (6 connections)
-- [COMMENT_SUGGESTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L20) (1 connections)
-- [getSuggestionsForGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L127) (1 connections)
-- [handleSuggestionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L185) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L179) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L183) (1 connections)
-- [{ trackEvent }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx#L180) (1 connections)
+- [SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L1) (4 connections)
+- [BASE_DESCRIPTION](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L19) (1 connections)
+- [BASE_TITLE](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L18) (1 connections)
+- [SEO_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L112) (1 connections)
+- [SEOHead()](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentSuggestions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentSuggestions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\SEOHead.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/SEOHead.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

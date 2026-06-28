@@ -1,15 +1,13 @@
 # Music Visualization
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L1) (5 connections)
-- [DEFAULT_TITLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L80) (1 connections)
-- [INVALIDATE_QUERY_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L91) (1 connections)
-- [OPERATION_ENDPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L69) (1 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L12) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts#L55) (1 connections)
+- [UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L1) (3 connections)
+- [isMac](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L23) (1 connections)
+- [modKey](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L24) (1 connections)
+- [{ undo, redo, canUndo, canRedo, historyLength, historyIndex }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx#L21) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\audioProcessing\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/audioProcessing/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\UndoRedoControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/UndoRedoControls.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

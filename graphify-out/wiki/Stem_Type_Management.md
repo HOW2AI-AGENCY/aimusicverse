@@ -1,12 +1,11 @@
 # Stem Type Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L1) (2 connections)
-- [MIN_HAPTIC_VERSION](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L11) (1 connections)
-- [useHapticFeedback()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts#L13) (1 connections)
+- [FloatingMainButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingMainButton.tsx#L1) (1 connections)
+- [FloatingMainButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingMainButton.tsx#L25) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useHapticFeedback.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useHapticFeedback.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingMainButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingMainButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

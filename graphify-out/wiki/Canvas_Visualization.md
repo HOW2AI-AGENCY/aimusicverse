@@ -1,35 +1,32 @@
 # Canvas Visualization
 
-> 26 nodes · cohesion 0.08
+> 23 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [TranscriptionPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L1) (25 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L45) (1 connections)
-- [canvasRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L374) (1 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L421) (1 connections)
-- [[currentPage, setCurrentPage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L49) (1 connections)
-- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L47) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L382) (1 connections)
-- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L74) (1 connections)
-- [handleNextPage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L70) (1 connections)
-- [handlePrevPage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L66) (1 connections)
-- [handleZoomIn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L58) (1 connections)
-- [handleZoomOut()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L62) (1 connections)
-- [hasMidi](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L53) (1 connections)
-- [hasSheetMusic](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L51) (1 connections)
-- [hasTablature](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L52) (1 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L417) (1 connections)
-- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L46) (1 connections)
-- [maxPitch](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L378) (1 connections)
-- [minPitch](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L377) (1 connections)
-- [opacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L420) (1 connections)
-- [pitchRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L379) (1 connections)
-- [totalPages](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L56) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L415) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L414) (1 connections)
-- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx#L398) (1 connections)
-- _... and 1 more nodes in this community_
+- [BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L1) (18 connections)
+- [SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L1) (4 connections)
+- [handleFileChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L52) (2 connections)
+- [loadTemplate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L67) (2 connections)
+- [saveTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L29) (2 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L24) (2 connections)
+- [broadcast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L27) (1 connections)
+- [clearImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L59) (1 connections)
+- [{ data: templates }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L28) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L25) (1 connections)
+- [handleSend()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L77) (1 connections)
+- [[imageFile, setImageFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L20) (1 connections)
+- [[imageUrl, setImageUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L19) (1 connections)
+- [[message, setMessage]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L17) (1 connections)
+- [[saveAsTemplate, setSaveAsTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L22) (1 connections)
+- [[targetType, setTargetType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L18) (1 connections)
+- [[templateName, setTemplateName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L23) (1 connections)
+- [[templatesOpen, setTemplatesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L24) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L16) (1 connections)
+- [[uploading, setUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx#L21) (1 connections)
+- [lyricsPreview](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L41) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L21) (1 connections)
+- [{ saveTemplate, isSaving }](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx#L22) (1 connections)
 
 ## Relationships
 
@@ -37,14 +34,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\TranscriptionPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/TranscriptionPreview.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\BroadcastPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/BroadcastPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\SaveTemplateDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/SaveTemplateDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 50 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 44 (94%)
+- INFERRED: 3 (6%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,24 +1,22 @@
 # Rendering Metrics
 
-> 15 nodes · cohesion 0.13
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L1) (14 connections)
-- [baseFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L217) (1 connections)
-- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L10) (1 connections)
-- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L184) (1 connections)
-- [fretSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L194) (1 connections)
-- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L216) (1 connections)
-- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L215) (1 connections)
-- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L139) (1 connections)
-- [normalizedChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L183) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L186) (1 connections)
-- [startX](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L195) (1 connections)
-- [startY](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L196) (1 connections)
-- [stringSpacing](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L193) (1 connections)
-- [{ width, height, fontSize, dotSize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L192) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx#L284) (1 connections)
+- [FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L1) (12 connections)
+- [categorizedFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L210) (1 connections)
+- [categoryFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L288) (1 connections)
+- [{ data: flags, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L195) (1 connections)
+- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L151) (1 connections)
+- [handleToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L199) (1 connections)
+- [handleUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L203) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L150) (1 connections)
+- [[showSettings, setShowSettings]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L38) (1 connections)
+- [toggleFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L196) (1 connections)
+- [totalEnabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L213) (1 connections)
+- [totalFlags](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L214) (1 connections)
+- [updateFlag](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx#L197) (1 connections)
 
 ## Relationships
 
@@ -26,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagram.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagram.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\features\FeatureFlagsEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/features/FeatureFlagsEditor.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

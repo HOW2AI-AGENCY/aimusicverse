@@ -1,44 +1,40 @@
 # Graph Exploration
 
-> 20 nodes · cohesion 0.12
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L1) (21 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L99) (5 connections)
-- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L112) (2 connections)
-- [handleGenerateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L177) (2 connections)
-- [handleGenerateExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L181) (2 connections)
-- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L111) (2 connections)
-- [handleOpenStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L185) (2 connections)
-- [analysisComplete](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L239) (1 connections)
-- [buildStemsArray()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L74) (1 connections)
-- [{ close }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L103) (1 connections)
-- [{ data: reference, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L115) (1 connections)
-- [deleteMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L133) (1 connections)
-- [hasStemUrls](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L240) (1 connections)
-- [{ id }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L97) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L102) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L101) (1 connections)
-- [reanalyzeMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L153) (1 connections)
-- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L98) (1 connections)
-- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L106) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L100) (1 connections)
+- [seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L1) (15 connections)
+- [canonical](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L40) (1 connections)
+- [checks](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L26) (1 connections)
+- [DIST](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L10) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L12) (1 connections)
+- [fail()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L15) (1 connections)
+- [html](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L25) (1 connections)
+- [indexPath](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L18) (1 connections)
+- [ogUrl](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L42) (1 connections)
+- [PUBLIC](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L11) (1 connections)
+- [robots](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L57) (1 connections)
+- [sitemap](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L49) (1 connections)
+- [txt](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L60) (1 connections)
+- [warn](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L13) (1 connections)
+- [warnMsg()](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L16) (1 connections)
+- [xml](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs#L52) (1 connections)
 
 ## Relationships
 
-- [[User Achievements]] (1 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\seo-check.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/seo-check.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 48 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 30 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

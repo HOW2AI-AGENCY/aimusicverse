@@ -1,11 +1,10 @@
 # UI State Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx#L1) (1 connections)
-- [KeyboardShortcutsDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx#L26) (1 connections)
+- [AppHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/AppHeader.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\KeyboardShortcutsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/KeyboardShortcutsDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\AppHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/AppHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

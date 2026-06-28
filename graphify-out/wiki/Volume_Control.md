@@ -1,22 +1,21 @@
 # Volume Control
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L1) (12 connections)
-- [activeIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L69) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L159) (1 connections)
-- [GAP_MERGE_THRESHOLD_S](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L31) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L165) (1 connections)
-- [isReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L166) (1 connections)
-- [isSectionReplaced](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L60) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L164) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L157) (1 connections)
-- [normalizedSections](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L81) (1 connections)
-- [originalIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L161) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L34) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx#L158) (1 connections)
+- [VoiceHistoryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L1) (12 connections)
+- [filtered](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L54) (1 connections)
+- [isInProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L43) (1 connections)
+- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L51) (1 connections)
+- [[retryingId, setRetryingId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L52) (1 connections)
+- [statusBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L16) (1 connections)
+- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L50) (1 connections)
+- [t](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L142) (1 connections)
+- [taskId](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L143) (1 connections)
+- [[typeFilter, setTypeFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L49) (1 connections)
+- [typeLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L39) (1 connections)
+- [{ voices, isLoading, deleteVoice }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -24,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioSectionOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioSectionOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\VoiceHistoryPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/VoiceHistoryPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 23 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,13 +1,11 @@
 # Subscription Management
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L1) (3 connections)
-- [useAdminModerationReports()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L32) (1 connections)
-- [useModerationStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L112) (1 connections)
-- [useUpdateReportStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts#L77) (1 connections)
+- [ActorCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L14) (1 connections)
+- [ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAdminModerationReports.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAdminModerationReports.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\actors\ActorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/actors/ActorCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

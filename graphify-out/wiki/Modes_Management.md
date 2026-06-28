@@ -1,11 +1,10 @@
 # Modes Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L1) (1 connections)
-- [ProfileSetupStep1Basic()](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx#L21) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\profile\setup\ProfileSetupStep1Basic.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/setup/ProfileSetupStep1Basic.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\engagement\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/engagement/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

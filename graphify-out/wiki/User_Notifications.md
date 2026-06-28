@@ -1,19 +1,17 @@
 # User Notifications
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [EnhancedMixPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L1) (9 connections)
-- [handleClearSaved()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L75) (2 connections)
-- [handleLoadPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L51) (2 connections)
-- [handleLoadSaved()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L59) (2 connections)
-- [availablePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L48) (1 connections)
-- [{ getAvailablePresets, loadSavedMix, clearSavedMix }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L46) (1 connections)
-- [handleShowDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L80) (1 connections)
-- [savedMix](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L49) (1 connections)
-- [[showPresetDetails, setShowPresetDetails]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L45) (1 connections)
-- [stem](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx#L190) (1 connections)
+- [UnifiedListRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L1) (7 connections)
+- [ActionIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L188) (1 connections)
+- [BadgeIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L164) (1 connections)
+- [coverSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L85) (1 connections)
+- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L82) (1 connections)
+- [isDraggable](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L83) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L81) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx#L86) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\EnhancedMixPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EnhancedMixPresetsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\common\UnifiedListRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/common/UnifiedListRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (86%)
-- INFERRED: 3 (14%)
+- EXTRACTED: 14 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

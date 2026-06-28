@@ -1,19 +1,28 @@
 # Stem Representation
 
-> 10 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L1) (9 connections)
-- [handleTabChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L62) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L50) (2 connections)
-- [activeTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L56) (1 connections)
-- [CurrentTabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L83) (1 connections)
-- [{ data: auth, isLoading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L53) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L52) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L51) (1 connections)
-- [TAB_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L28) (1 connections)
-- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L116) (1 connections)
+- [GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L1) (7 connections)
+- [canDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L67) (1 connections)
+- [[deleteDialogOpen, setDeleteDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L51) (1 connections)
+- [handleDelete](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L97) (1 connections)
+- [handleDrag](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L93) (1 connections)
+- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L70) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isMobile,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+    isOwnTrack,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L53) (1 connections)
+- [[swipeOffset, setSwipeOffset]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -21,14 +30,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\GridVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/GridVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

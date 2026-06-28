@@ -1,15 +1,13 @@
 # Content Presentation
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L1) (6 connections)
-- [ListItemSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L201) (1 connections)
-- [PlayerSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L159) (1 connections)
-- [TrackCardSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L33) (1 connections)
-- [TrackCardSkeletonCompact()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L140) (1 connections)
-- [WAVEFORM_HEIGHTS](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx#L14) (1 connections)
+- [PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L1) (3 connections)
+- [iconSizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L30) (1 connections)
+- [PremiumBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L36) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\skeleton-components.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/skeleton-components.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PremiumBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PremiumBadge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 11 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

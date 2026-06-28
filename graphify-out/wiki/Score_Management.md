@@ -1,12 +1,11 @@
 # Score Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [ProviderSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx#L1) (2 connections)
-- [PROVIDERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx#L17) (1 connections)
-- [ProviderSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx#L11) (1 connections)
+- [NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L1) (1 connections)
+- [NodeDetails()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProviderSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProviderSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\NodeDetails.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/NodeDetails.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

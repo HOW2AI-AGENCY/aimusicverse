@@ -1,14 +1,12 @@
 # Artist Management
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L1) (4 connections)
-- [ARTIST_REPLACEMENTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L16) (1 connections)
-- [findArtistReplacement()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L133) (1 connections)
-- [getGenreSuggestions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L181) (1 connections)
-- [replaceArtistsWithGenres()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts#L148) (1 connections)
+- [ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L1) (2 connections)
+- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L19) (1 connections)
+- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\artistReplacements.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/artistReplacements.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\profile\ProfileHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/profile/ProfileHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

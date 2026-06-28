@@ -1,21 +1,19 @@
 # Pricing Information
 
-> 12 nodes · cohesion 0.17
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L1) (11 connections)
-- [bgColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L142) (1 connections)
-- [color](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L141) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L140) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L201) (1 connections)
-- [getSectionStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L84) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L138) (1 connections)
-- [isActiveSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L79) (1 connections)
-- [playSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L93) (1 connections)
-- [replacement](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L139) (1 connections)
-- [SECTION_BG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L53) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx#L38) (1 connections)
+- [UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L141) (1 connections)
+- [[filter, setFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L221) (1 connections)
+- [filteredJourneys](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L223) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L170) (1 connections)
+- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L117) (1 connections)
+- [isLast](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L171) (1 connections)
+- [JOURNEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L45) (1 connections)
+- [OUTCOME_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L106) (1 connections)
+- [outcomeStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx#L118) (1 connections)
 
 ## Relationships
 
@@ -23,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileSectionsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileSectionsView.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\UserJourneyTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/UserJourneyTimeline.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

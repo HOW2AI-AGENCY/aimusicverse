@@ -1,15 +1,13 @@
 # Invoice Management
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L1) (5 connections)
-- [chordColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L85) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L139) (1 connections)
-- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L158) (1 connections)
-- [stemColors](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L99) (1 connections)
-- [studioAnimations](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts#L5) (1 connections)
+- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L1) (3 connections)
+- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L68) (1 connections)
+- [TAG_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L82) (1 connections)
+- [UI_TRANSLATIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L32) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\studio-animations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio-animations.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\suno\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

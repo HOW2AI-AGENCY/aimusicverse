@@ -1,12 +1,11 @@
 # Audio Configuration
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useReferenceAnalysisData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L1) (2 connections)
-- [STORAGE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L32) (1 connections)
-- [useReferenceAnalysisData()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts#L34) (1 connections)
+- [slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L1) (1 connections)
+- [Slider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx#L10) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReferenceAnalysisData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReferenceAnalysisData.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\slider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/slider.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

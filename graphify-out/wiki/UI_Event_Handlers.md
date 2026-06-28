@@ -1,18 +1,16 @@
 # UI Event Handlers
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [NotificationSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L1) (8 connections)
-- [enabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L140) (1 connections)
-- [[expandedGroups, setExpandedGroups]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L126) (1 connections)
-- [groupEnabledCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L198) (1 connections)
-- [handleToggleAll()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L145) (1 connections)
-- [isExpanded](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L197) (1 connections)
-- [NOTIFICATION_GROUPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L46) (1 connections)
-- [toggleGroup()](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L128) (1 connections)
-- [totalCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx#L143) (1 connections)
+- [ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L1) (6 connections)
+- [change](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L174) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L193) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L30) (1 connections)
+- [days](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L28) (1 connections)
+- [isNeutral](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L181) (1 connections)
+- [isPositive](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx#L180) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\settings\NotificationSettingsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/NotificationSettingsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ComparisonPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ComparisonPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

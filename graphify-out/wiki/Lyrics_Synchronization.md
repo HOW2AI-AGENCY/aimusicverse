@@ -1,35 +1,60 @@
 # Lyrics Synchronization
 
-> 37 nodes · cohesion 0.07
+> 33 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [trackEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L13) (17 connections)
-- [SmartPaywallDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L1) (11 connections)
-- [events.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L1) (10 connections)
-- [TrialBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx#L1) (8 connections)
-- [useAppNavigate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L1) (6 connections)
-- [navigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L111) (5 connections)
-- [handleStartTrial()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L138) (4 connections)
-- [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L159) (4 connections)
-- [navigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx#L35) (4 connections)
-- [trackButtonClick()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L126) (3 connections)
-- [trackGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L43) (3 connections)
-- [trackGenerationMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L66) (3 connections)
-- [getGlobalNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L39) (3 connections)
-- [trackOnboardingStep()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L92) (2 connections)
-- [trackPageView()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L27) (2 connections)
-- [trackTrackLiked()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L156) (2 connections)
-- [trackTrackPlayed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L141) (2 connections)
-- [trackTrackShared()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L172) (2 connections)
-- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L170) (2 connections)
-- [globalNavigate](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L33) (2 connections)
-- [navigateTo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L47) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L121) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L107) (1 connections)
-- [MESSAGING](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L41) (1 connections)
-- [PRO_BENEFITS](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L85) (1 connections)
-- _... and 12 more nodes in this community_
+- [LyricsValidator](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L127) (17 connections)
+- [.validateForSuno()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L177) (8 connections)
+- [LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L1) (6 connections)
+- [LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L1) (5 connections)
+- [LyricsFormatter](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L101) (5 connections)
+- [.validate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L131) (5 connections)
+- [.findInvalidSectionTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L439) (4 connections)
+- [isValidSectionTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L110) (3 connections)
+- [.validateTagInsertion()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L576) (3 connections)
+- [.calculateCharCount()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L169) (2 connections)
+- [.formatFinal()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L105) (2 connections)
+- [sanitizeTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L63) (2 connections)
+- [wrapInBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L82) (2 connections)
+- [.autoFixIssues()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L401) (2 connections)
+- [.calculateValidationScore()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L378) (2 connections)
+- [.checkConflictingTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L271) (2 connections)
+- [.checkMissingEndTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L219) (2 connections)
+- [.checkRussianTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L236) (2 connections)
+- [.checkSectionBalance()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L545) (2 connections)
+- [.checkStructureTags()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L356) (2 connections)
+- [.checkTagOverload()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L302) (2 connections)
+- [.checkWrongBrackets()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L326) (2 connections)
+- [.isDynamicTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L457) (2 connections)
+- [normalizeSectionTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts#L118) (2 connections)
+- [isValidBracketTag()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts#L42) (1 connections)
+- *... and 8 more nodes in this community*
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class LyricsFormatter {
+        +LyricsFormatter.ts()
+        +.formatFinal()
+        +.calculateCharCount()
+        +.extractSections()
+        +.validateStructure()
+    }
+    class LyricsValidator {
+        +LyricsValidator.ts()
+        +.validate()
+        +.validateForSuno()
+        +.checkMissingEndTag()
+        +.checkRussianTags()
+        +.checkConflictingTags()
+        +.checkTagOverload()
+        +.checkWrongBrackets()
+        +.checkStructureTags()
+        +.calculateValidationScore()
+    }
+```
 
 ## Relationships
 
@@ -37,17 +62,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\SmartPaywallDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\TrialBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAppNavigate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\events.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsFormatter.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsFormatter.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\lyrics\LyricsValidator.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsValidator.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 92 (81%)
-- INFERRED: 21 (19%)
+- EXTRACTED: 90 (95%)
+- INFERRED: 5 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

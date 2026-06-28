@@ -1,12 +1,22 @@
 # Music Playlists
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L1) (2 connections)
-- [ScrollArea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L6) (1 connections)
-- [ScrollBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx#L28) (1 connections)
+- [MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L1) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleKeyDown,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx#L39) (1 connections)
 
 ## Relationships
 
@@ -14,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\scroll-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/scroll-area.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\MinimalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/MinimalVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

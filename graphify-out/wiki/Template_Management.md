@@ -1,12 +1,11 @@
 # Template Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L1) (2 connections)
-- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L17) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx#L32) (1 connections)
+- [onboardingSteps.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts#L1) (1 connections)
+- [ONBOARDING_STEPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts#L20) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\loading\CSSEqualizer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/loading/CSSEqualizer.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\onboardingSteps.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/onboardingSteps.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

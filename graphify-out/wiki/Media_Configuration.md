@@ -1,22 +1,21 @@
 # Media Configuration
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L1) (12 connections)
-- [addComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L26) (1 connections)
-- [{ data: comments = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L25) (1 connections)
-- [deleteComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L27) (1 connections)
-- [formInput](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L115) (1 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L51) (1 connections)
-- [handleReply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L41) (1 connections)
-- [handleReport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L55) (1 connections)
-- [handleSubmitComment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L36) (1 connections)
-- [mappedComments](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L67) (1 connections)
-- [[replyTo, setReplyTo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L29) (1 connections)
-- [[reportTarget, setReportTarget]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L30) (1 connections)
-- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L24) (1 connections)
+- [RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L1) (11 connections)
+- [audio](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L45) (1 connections)
+- [[audioDuration, setAudioDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L35) (1 connections)
+- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L32) (1 connections)
+- [barProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L119) (1 connections)
+- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L34) (1 connections)
+- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L96) (1 connections)
+- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L78) (1 connections)
+- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L120) (1 connections)
+- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L33) (1 connections)
+- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L102) (1 connections)
+- [togglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx#L67) (1 connections)
 
 ## Relationships
 
@@ -24,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\recording\RecordingPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/recording/RecordingPreview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

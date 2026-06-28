@@ -1,63 +1,63 @@
 # Lyric Generation
 
-> 487 nodes · cohesion 0.01
+> 475 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [setItem()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L39) (59 connections)
-- [getItem()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L83) (56 connections)
-- [.parse()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L97) (51 connections)
-- [MainLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MainLayout.tsx#L1) (44 connections)
-- [PromptHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptHistory.tsx#L1) (27 connections)
-- [deeplink-tracker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/analytics/deeplink-tracker.ts#L1) (24 connections)
-- [LyricsParser](file:///D:/.MUSICVERSE/aimusicverse/src/lib/lyrics/LyricsParser.ts#L93) (23 connections)
-- [removeItem()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L182) (18 connections)
-- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/ab-testing/index.ts#L1) (15 connections)
-- [PaymentFail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentFail.tsx#L1) (15 connections)
-- [Templates.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Templates.tsx#L1) (15 connections)
-- [EnhancedContextTips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx#L1) (14 connections)
-- [StudioOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/StudioOnboarding.tsx#L1) (14 connections)
-- [ContinueDraftCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx#L1) (12 connections)
-- [VolumeControl.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VolumeControl.tsx#L1) (12 connections)
-- [WorkflowGuide.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/workflows/WorkflowGuide.tsx#L1) (12 connections)
-- [cleanupStaleData.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cleanupStaleData.ts#L1) (12 connections)
-- [WorkflowEngine](file:///D:/.MUSICVERSE/aimusicverse/src/lib/workflow-engine.ts#L234) (12 connections)
-- [cloudStorage.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cloudStorage.ts#L1) (11 connections)
-- [session.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/session.service.ts#L1) (11 connections)
-- [.getState()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/workflow-engine.ts#L257) (11 connections)
-- [HintRegistry.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/HintRegistry.tsx#L1) (10 connections)
-- [cleanPlaybackPositions()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/cleanupStaleData.ts#L77) (9 connections)
-- [FeatureHighlight.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureHighlight.tsx#L1) (9 connections)
-- [ProfileSetupOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/ProfileSetupOnboarding.tsx#L1) (9 connections)
-- _... and 462 more nodes in this community_
+- [telegram-api.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/telegram-api.ts#L1) (98 connections)
+- [config.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/config.ts#L1) (81 connections)
+- [supabase-client.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/core/supabase-client.ts#L1) (59 connections)
+- [.build()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts#L93) (47 connections)
+- [.addButton()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/button-builder.ts#L50) (43 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/index.ts#L1) (43 connections)
+- [buildMessage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/message-formatter.ts#L311) (42 connections)
+- [text-processor.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/text-processor.ts#L1) (36 connections)
+- [message-formatter.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/message-formatter.ts#L1) (35 connections)
+- [logBotAction()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/bot-logger.ts#L68) (29 connections)
+- [dynamic-menu.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/dynamic-menu.ts#L1) (29 connections)
+- [bot-logger.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/bot-logger.ts#L1) (29 connections)
+- [button-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/button-builder.ts#L1) (29 connections)
+- [telegram-config.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-config.ts#L1) (28 connections)
+- [handleDeepLink()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/deep-links.ts#L699) (27 connections)
+- [active-menu-manager.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/core/active-menu-manager.ts#L1) (26 connections)
+- [sendPhoto()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/telegram-api.ts#L181) (26 connections)
+- [handleCommand()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/bot.ts#L107) (25 connections)
+- [deep-links.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/deep-links.ts#L1) (25 connections)
+- [handleDashboard()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/dashboard.ts#L107) (25 connections)
+- [.addRow()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/button-builder.ts#L59) (23 connections)
+- [router.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/router.ts#L1) (23 connections)
+- [notifications.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/notifications.ts#L1) (22 connections)
+- [getMenuImage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/keyboards/menu-images.ts#L138) (22 connections)
+- [navigation.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/handlers/navigation.ts#L1) (21 connections)
+- *... and 450 more nodes in this community*
 
 ## Class Diagram
 
 ```mermaid
 classDiagram
-    class LyricsParser {
-        +LyricsParser.ts()
-        +.parse()
-        +.extractSections()
-        +.detectSectionType()
-        +.extractInlineTags()
-        +.detectTagType()
-        +.extractAllTags()
-        +.validateTags()
-        +.analyzeSyllables()
-        +.countSyllables()
+    class ButtonBuilder {
+        +button-builder.ts()
+        +.addButton()
+        +.addRow()
+        +.addButtons()
+        +.addPreset()
+        +.addDivider()
+        +.build()
+        +.createButton()
+        +.getPresetButtons()
+        +.getNavigationButtons()
     }
-    class WorkflowEngine {
-        +workflow-engine.ts()
-        +.startWorkflow()
-        +.getState()
-        +.saveState()
-        +.completeStep()
-        +.goToStep()
-        +.skipWorkflow()
-        +.clearState()
-        +.getCurrentWorkflow()
-        +.getCurrentStep()
+    class TrackNameBuilder {
+        +track-name-builder.ts()
+        +.build()
+        +.extractBaseTitle()
+        +.extractPerformer()
+        +.applyTemplate()
+        +.buildDisplayTitle()
+        +.buildFileName()
+        +.buildWithArtist()
+        +.buildVersionTitle()
+        +.buildStemTitle()
     }
 ```
 
@@ -67,33 +67,33 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ErrorBoundary.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\MainLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/MainLayout.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\TrackDetailSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/TrackDetailSheet.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\announcements\SubscriptionFeatureAnnouncement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/announcements/SubscriptionFeatureAnnouncement.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\PromptHistory.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/PromptHistory.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\inspirationPrompts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/inspirationPrompts.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\hints\HintRegistry.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/hints/HintRegistry.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\ContinueDraftCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/ContinueDraftCard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\layout\SystemAnnouncement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/SystemAnnouncement.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\EarlyListeningAnnouncement.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EarlyListeningAnnouncement.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphOnboarding.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\FeatureHighlight.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/FeatureHighlight.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\ProfileSetupOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/ProfileSetupOnboarding.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\VolumeControl.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/VolumeControl.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\PaywallProvider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/PaywallProvider.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\premium\ProactiveUpsellBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/ProactiveUpsellBanner.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\MixPresetsMenu.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/MixPresetsMenu.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\shared\EnhancedContextTips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/EnhancedContextTips.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\shared\StudioOnboarding.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/shared/StudioOnboarding.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\RemixButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/RemixButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\supabase-client.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/supabase-client.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\telegram-config.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-config.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\telegram-metadata.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-metadata.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\telegram-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/telegram-utils.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\track-name-builder.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-name-builder.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\track-naming.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/track-naming.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\suno-music-callback\index.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/suno-music-callback/index.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\bot.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/bot.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\analyze.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/analyze.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\artists.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/artists.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\audio.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/audio.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\dynamic-menu.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/dynamic-menu.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\media-group.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/media-group.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\media.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/media.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\midi.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/midi.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\misc.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/misc.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\navigation.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/navigation.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\payments.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/payments.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\projects.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/projects.ts)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\callbacks\quick-actions.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/callbacks/quick-actions.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 1058 (71%)
-- INFERRED: 423 (29%)
+- EXTRACTED: 1985 (68%)
+- INFERRED: 935 (32%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

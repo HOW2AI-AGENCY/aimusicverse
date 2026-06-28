@@ -1,14 +1,12 @@
 # Threshold Management
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [useAlerts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAlerts.ts#L1) (4 connections)
-- [DEFAULT_THRESHOLDS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAlerts.ts#L31) (1 connections)
-- [formatMetricValue()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAlerts.ts#L208) (1 connections)
-- [useAlertHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAlerts.ts#L224) (1 connections)
-- [useAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAlerts.ts#L82) (1 connections)
+- [GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L1) (2 connections)
+- [GenerationBridge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L13) (1 connections)
+- [usePresetToParams()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useAlerts.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useAlerts.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

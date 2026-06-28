@@ -1,50 +1,54 @@
 # User Moderation
 
-> 49 nodes · cohesion 0.04
+> 40 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [Player System Audit & Optimization Report](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L1) (12 connections)
-- [Part 1: Critical Bug Fixes](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L18) (7 connections)
-- [Part 2: New Features](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L259) (7 connections)
-- [Appendices](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L860) (4 connections)
-- [Part 3: Performance Optimizations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L516) (4 connections)
-- [Part 4: Code Quality Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L580) (4 connections)
-- [Part 5: Testing & Validation](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L624) (4 connections)
-- [Part 6: Migration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L682) (4 connections)
-- [Part 8: Future Recommendations](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L764) (4 connections)
-- [Part 9: Conclusion](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L819) (4 connections)
-- [Part 7: Performance Metrics](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L737) (3 connections)
-- [Executive Summary](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L6) (2 connections)
-- [PLAYER_SYSTEM_AUDIT_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L1) (1 connections)
-- [1.1 RAF Cleanup Leak in `useDebouncedAudioTime`](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L20) (1 connections)
-- [1.2 Crossfade Memory Leak in `useOptimizedAudioPlayer`](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L67) (1 connections)
-- [1.3 Race Condition in `GlobalAudioProvider`](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L109) (1 connections)
-- [1.4 Queue Restoration Validation Issues](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L156) (1 connections)
-- [1.5 Stem Audio Sync Invalid Audio Handling](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L190) (1 connections)
-- [1.6 Stem Playback Partial Failure Handling](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L224) (1 connections)
-- [2.1 Playback Position Persistence (`usePlaybackPosition`)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L261) (1 connections)
-- [2.2 Buffer Monitoring (`useBufferMonitor`)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L299) (1 connections)
-- [2.3 Queue History (`useQueueHistory`)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L353) (1 connections)
-- [2.4 Smart Shuffle Algorithm](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L398) (1 connections)
-- [2.5 Enhanced Repeat-One Mode](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L432) (1 connections)
-- [2.6 Improved Solo/Mute Logic](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md#L480) (1 connections)
-- _... and 24 more nodes in this community_
+- [trackEvent()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L13) (17 connections)
+- [SmartPaywallDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L1) (12 connections)
+- [events.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L1) (10 connections)
+- [TrialBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx#L1) (8 connections)
+- [useAppNavigate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L1) (6 connections)
+- [trackFeatureUsed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L117) (6 connections)
+- [navigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L101) (5 connections)
+- [handleStartTrial()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L132) (4 connections)
+- [handleSubscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L153) (4 connections)
+- [navigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx#L31) (4 connections)
+- [trackButtonClick()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L135) (3 connections)
+- [trackGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L43) (3 connections)
+- [trackGenerationMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L66) (3 connections)
+- [redirectToPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/services/tinkoffPaymentService.ts#L342) (3 connections)
+- [getGlobalNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L42) (3 connections)
+- [trackOnboardingStep()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L95) (2 connections)
+- [trackPageView()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L24) (2 connections)
+- [trackTrackLiked()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L171) (2 connections)
+- [trackTrackPlayed()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L153) (2 connections)
+- [trackTrackShared()](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts#L190) (2 connections)
+- [handleDismiss()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L164) (2 connections)
+- [globalNavigate](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L36) (2 connections)
+- [navigateTo()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts#L50) (2 connections)
+- [{ canShow: canShowPaywall, recordShown: recordPaywallShown }](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L96) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx#L111) (1 connections)
+- *... and 15 more nodes in this community*
 
 ## Relationships
 
-- [[Audio Playback]] (96 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/PLAYER_SYSTEM_AUDIT_2025-12-10.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\SmartPaywallDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/SmartPaywallDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\TrialBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TrialBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAppNavigate.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAppNavigate.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\analytics\events.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/analytics/events.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\services\tinkoffPaymentService.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/tinkoffPaymentService.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 96 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 97 (78%)
+- INFERRED: 27 (22%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

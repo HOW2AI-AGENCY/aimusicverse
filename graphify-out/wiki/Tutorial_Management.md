@@ -1,18 +1,17 @@
 # Tutorial Management
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.36
 
 ## Key Concepts
 
-- [EditPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L1) (9 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L71) (2 connections)
-- [[coverUrl, setCoverUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L30) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L28) (1 connections)
-- [[isGeneratingCover, setIsGeneratingCover]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L32) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L29) (1 connections)
-- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L31) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L27) (1 connections)
-- [{ updatePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx#L26) (1 connections)
+- [response-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L1) (8 connections)
+- [errorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L55) (4 connections)
+- [authErrorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L88) (2 connections)
+- [notFoundResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L98) (2 connections)
+- [validationErrorResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L78) (2 connections)
+- [corsHeaders](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L8) (1 connections)
+- [optionsResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L105) (1 connections)
+- [successResponse()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts#L33) (1 connections)
 
 ## Relationships
 
@@ -20,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\EditPlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/EditPlaylistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\_shared\response-utils.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/_shared/response-utils.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (94%)
-- INFERRED: 1 (6%)
+- EXTRACTED: 21 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

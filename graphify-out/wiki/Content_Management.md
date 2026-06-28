@@ -1,11 +1,10 @@
 # Content Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L1) (1 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx#L19) (1 connections)
+- [contract_unified-form-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\VocalsToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/VocalsToggle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-form.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-form.types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

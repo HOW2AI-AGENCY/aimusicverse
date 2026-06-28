@@ -1,11 +1,10 @@
 # Version Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L1) (1 connections)
-- [exportTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx#L75) (1 connections)
+- [SectionTypePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTypePicker.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioDialogs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioDialogs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\SectionTypePicker.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/SectionTypePicker.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

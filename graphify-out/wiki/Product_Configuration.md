@@ -1,14 +1,12 @@
 # Product Configuration
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L1) (4 connections)
-- [ProBadge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L38) (1 connections)
-- [ProFeatureIndicator()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L64) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L32) (1 connections)
-- [variantConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx#L14) (1 connections)
+- [ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L1) (2 connections)
+- [isDevEnvironment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L15) (1 connections)
+- [ProtectedRoute](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pro-badge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pro-badge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ProtectedRoute.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ProtectedRoute.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

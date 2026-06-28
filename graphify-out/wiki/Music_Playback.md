@@ -1,24 +1,13 @@
 # Music Playback
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [PerformanceChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L1) (4 connections)
-- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L46) (1 connections)
-- [{
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  ReferenceLine,
-  Legend,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L86) (1 connections)
-- [mounted](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L37) (1 connections)
-- [[recharts, setRecharts]](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx#L34) (1 connections)
+- [mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L1) (3 connections)
+- [getMixPreset()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L229) (1 connections)
+- [getPresetStemSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L236) (1 connections)
+- [MIX_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts#L27) (1 connections)
 
 ## Relationships
 
@@ -26,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\performance\PerformanceChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/performance/PerformanceChart.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\mixPresetsConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/mixPresetsConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

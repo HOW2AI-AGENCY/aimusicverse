@@ -1,14 +1,13 @@
 # Change Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L1) (4 connections)
-- [CATEGORY_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L18) (1 connections)
-- [categoryInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L38) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L39) (1 connections)
-- [resolvedCategory](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx#L37) (1 connections)
+- [OfflineBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L10) (2 connections)
+- [useOffline()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L18) (2 connections)
+- [OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx#L1) (1 connections)
+- [useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts#L1) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\shared\TagBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/shared/TagBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\offline\OfflineBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/offline/OfflineBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useOffline.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useOffline.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 4 (67%)
+- INFERRED: 2 (33%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

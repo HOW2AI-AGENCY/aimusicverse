@@ -1,12 +1,11 @@
 # Toggle Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L1) (2 connections)
-- [Breadcrumb](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L7) (1 connections)
-- [Comp](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx#L42) (1 connections)
+- [useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L1) (1 connections)
+- [useStudioShellState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts#L11) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\breadcrumb.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/breadcrumb.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioShellState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioShellState.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

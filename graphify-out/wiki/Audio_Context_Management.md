@@ -1,113 +1,62 @@
 # Audio Context Management
 
-> 121 nodes · cohesion 0.02
+> 155 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L1) (26 connections)
-- [AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L1) (17 connections)
-- [errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L1) (14 connections)
-- [AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx#L1) (13 connections)
-- [errorReporting.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L1) (13 connections)
-- [toAppError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L428) (11 connections)
-- [reportError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L65) (11 connections)
-- [retry.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L1) (8 connections)
-- [retryWithBackoff()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L77) (8 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx#L177) (7 connections)
-- [AppError](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L138) (6 connections)
-- [retry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/retry.ts#L1) (6 connections)
-- [getEnhancedErrorInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L242) (6 connections)
-- [displayError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L117) (6 connections)
-- [tryCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L402) (5 connections)
-- [tryCatchSync()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L416) (5 connections)
-- [showErrorWithRecovery()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L571) (5 connections)
-- [CircuitBreaker](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L226) (5 connections)
-- [.isRetryable()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L175) (4 connections)
-- [.toUserMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts#L363) (4 connections)
-- [getRecoveryAction()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L364) (4 connections)
-- [isRetriableError()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L308) (4 connections)
-- [validatePromptForGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts#L549) (4 connections)
-- [shouldReport()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts#L54) (4 connections)
-- [retryFetch()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts#L139) (4 connections)
-- _... and 96 more nodes in this community_
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class APIError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class AppError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-        +.isRetryable()
-        +.getRetryDelayMs()
-        +.toJSON()
-    }
-    class AudioError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class GenerationError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class InsufficientCreditsError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class NetworkError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class StorageError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class ValidationError {
-        +AppError.ts()
-        +.constructor()
-        +.toUserMessage()
-    }
-    class CircuitBreaker {
-        +retry.ts()
-        +.constructor()
-        +.execute()
-        +.getState()
-        +.reset()
-    }
-```
+- [LyricsSectionAdvanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx#L1) (23 connections)
+- [PaymentSuccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentSuccess.tsx#L1) (21 connections)
+- [EnhancedVersionTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/EnhancedVersionTimeline.tsx#L1) (18 connections)
+- [ShareTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/ShareTrackDialog.tsx#L1) (18 connections)
+- [UnifiedRewardNotification.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L1) (17 connections)
+- [open](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx#L50) (16 connections)
+- [audioServiceWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audioServiceWorker.ts#L1) (13 connections)
+- [ExportFilesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L1) (11 connections)
+- [OfflineIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/OfflineIndicator.tsx#L1) (11 connections)
+- [MidiFilesCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiFilesCard.tsx#L1) (8 connections)
+- [main()](file:///D:/.MUSICVERSE/aimusicverse/scripts/axe-report.py#L8) (7 connections)
+- [SubscriptionSuccessPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L1) (7 connections)
+- [unified-dialog.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx#L1) (7 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx#L80) (5 connections)
+- [getCachedAudioBlob()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audioServiceWorker.ts#L194) (4 connections)
+- [isServiceWorkerSupported()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audioServiceWorker.ts#L26) (4 connections)
+- [frame()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentSuccess.tsx#L102) (4 connections)
+- [getAudioCacheSize()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audioServiceWorker.ts#L165) (3 connections)
+- [isAudioCached()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audioServiceWorker.ts#L179) (3 connections)
+- [handleDownload()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/EnhancedVersionTimeline.tsx#L179) (3 connections)
+- [handleOpenInTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentSuccess.tsx#L144) (3 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentSuccess.tsx#L21) (3 connections)
+- [fireConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx#L56) (3 connections)
+- [triggerConfetti()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx#L133) (3 connections)
+- [cacheAudioViaSW()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audioServiceWorker.ts#L122) (2 connections)
+- *... and 130 more nodes in this community*
 
 ## Relationships
 
-- [[User Achievements]] (1 shared connections)
+- [[Creative Tools Development]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\AudioCoverDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/AudioCoverDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\AddVocalsDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/AddVocalsDrawer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errorHandling.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorHandling.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errorReporting.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errorReporting.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errors\AppError.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/AppError.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\errors\useErrorRecovery.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/errors/useErrorRecovery.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\lib\retry.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/retry.ts)
-- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\retry.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/retry.ts)
+- [D:\.MUSICVERSE\aimusicverse\scripts\axe-report.py](file:///D:/.MUSICVERSE/aimusicverse/scripts/axe-report.py)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\UnifiedRewardNotification.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/UnifiedRewardNotification.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\LyricsSectionAdvanced.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/LyricsSectionAdvanced.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ExportFilesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ExportFilesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\popups\SubscriptionSuccessPopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionSuccessPopup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\MidiFilesCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiFilesCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\OfflineIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/OfflineIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\EnhancedVersionTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/EnhancedVersionTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\ShareTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/ShareTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\audioServiceWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/audioServiceWorker.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\PaymentFail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentFail.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\payments\PaymentSuccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/payments/PaymentSuccess.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\unit\components\dialog\unified-dialog.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/components/dialog/unified-dialog.test.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 290 (85%)
-- INFERRED: 51 (15%)
+- EXTRACTED: 311 (86%)
+- INFERRED: 49 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

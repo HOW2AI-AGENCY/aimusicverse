@@ -1,14 +1,13 @@
 # Icon Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L1) (4 connections)
-- [artistName](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L53) (1 connections)
-- [examples](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L73) (1 connections)
-- [extractArtistFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L32) (1 connections)
-- [suggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx#L56) (1 connections)
+- [useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L1) (3 connections)
+- [analysisLogger](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L6) (1 connections)
+- [useAnalyzeAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L53) (1 connections)
+- [useAudioAnalysis()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\ArtistNameErrorAlert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/ArtistNameErrorAlert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAudioAnalysis.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAudioAnalysis.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

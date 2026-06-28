@@ -1,12 +1,11 @@
 # STEM Prioritization
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L1) (2 connections)
-- [mapStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L49) (1 connections)
-- [useSystemHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx#L57) (1 connections)
+- [textarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx#L1) (1 connections)
+- [Textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx#L7) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useSystemHealth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useSystemHealth.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\textarea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/textarea.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

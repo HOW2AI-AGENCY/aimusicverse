@@ -1,22 +1,20 @@
 # User Preferences
 
-> 13 nodes · cohesion 0.15
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L1) (12 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L188) (1 connections)
-- [displayValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L89) (1 connections)
-- [handleMouseDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L61) (1 connections)
-- [handlePosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L48) (1 connections)
-- [handleTouchMove](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L84) (1 connections)
-- [handleTouchStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L78) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L45) (1 connections)
-- [normalizedValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L47) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L112) (1 connections)
-- [trackRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L44) (1 connections)
-- [updateValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L50) (1 connections)
-- [variantStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx#L91) (1 connections)
+- [wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L1) (10 connections)
+- [attempt](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L26) (1 connections)
+- [host](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L15) (1 connections)
+- [intervalMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L19) (1 connections)
+- [lastError](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L27) (1 connections)
+- [path](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L17) (1 connections)
+- [port](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L16) (1 connections)
+- [res](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L32) (1 connections)
+- [start](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L25) (1 connections)
+- [timeoutMs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L18) (1 connections)
+- [url](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs#L21) (1 connections)
 
 ## Relationships
 
@@ -24,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\hardware\HardwareFader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/hardware/HardwareFader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\scripts\wait-for-dev-server.mjs](file:///D:/.MUSICVERSE/aimusicverse/scripts/wait-for-dev-server.mjs)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,17 +1,16 @@
 # Configuration Health
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L1) (3 connections)
-- [getTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L213) (3 connections)
-- [TierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L21) (2 connections)
-- [EditorTierIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L35) (2 connections)
-- [SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx#L1) (1 connections)
-- [SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx#L1) (1 connections)
-- [formatPeriod()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L224) (1 connections)
-- [useSubscriptionTiers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts#L79) (1 connections)
+- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L1) (6 connections)
+- [isBottomSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L82) (1 connections)
+- [isFullscreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L77) (1 connections)
+- [Sheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L10) (1 connections)
+- [SheetClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L14) (1 connections)
+- [SheetPortal](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L16) (1 connections)
+- [SheetTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -19,16 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierCard.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\SubscriptionTierEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/SubscriptionTierEditor.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useSubscriptionTiers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useSubscriptionTiers.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/sheet.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (71%)
-- INFERRED: 4 (29%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

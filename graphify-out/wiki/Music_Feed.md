@@ -1,16 +1,14 @@
 # Music Feed
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L1) (6 connections)
-- [activeEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L32) (1 connections)
-- [EFFECT_COLOR_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L21) (1 connections)
-- [eqActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L40) (1 connections)
-- [eqDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L42) (1 connections)
-- [ratio](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L58) (1 connections)
-- [wetDryPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx#L69) (1 connections)
+- [MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L1) (4 connections)
+- [filteredItems](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L30) (1 connections)
+- [handleClear()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L41) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L45) (1 connections)
+- [[query, setQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx#L28) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\EffectsIndicator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/EffectsIndicator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\navigation\MenuSearch.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/navigation/MenuSearch.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

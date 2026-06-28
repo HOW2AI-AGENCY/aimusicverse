@@ -1,12 +1,11 @@
 # Data Presentation
 
-> 3 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [handleOpenInStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L15) (3 connections)
-- [TrackStudioSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L1) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx#L13) (2 connections)
+- [useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L1) (1 connections)
+- [useStudioDialogState()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts#L19) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\TrackStudioSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/TrackStudioSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\useStudioDialogState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/useStudioDialogState.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 2 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

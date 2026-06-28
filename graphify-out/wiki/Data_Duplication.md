@@ -1,25 +1,14 @@
 # Data Duplication
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L1) (6 connections)
-- [followButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L192) (1 connections)
-- [{
-  isLiked,
-  likesCount,
-  toggleLike,
-  isLikePending,
-  isFollowing,
-  toggleFollow,
-  share,
-  isSharing,
-  }](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L66) (1 connections)
-- [likeButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L142) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L101) (1 connections)
-- [shareButton](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L160) (1 connections)
-- [user](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx#L133) (1 connections)
+- [useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L1) (4 connections)
+- [createDrumSynth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L98) (1 connections)
+- [defaultTrackEffects](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L90) (1 connections)
+- [ToneModule](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L19) (1 connections)
+- [useDrumMachine()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts#L115) (1 connections)
 
 ## Relationships
 
@@ -27,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\integration\social-hooks.test.tsx](file:///D:/.MUSICVERSE/aimusicverse/tests/integration/social-hooks.test.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useDrumMachine.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useDrumMachine.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

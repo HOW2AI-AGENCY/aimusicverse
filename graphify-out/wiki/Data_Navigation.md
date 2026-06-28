@@ -1,46 +1,25 @@
 # Data Navigation
 
-> 19 nodes · cohesion 0.11
+> 16 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [TrackLanesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L1) (18 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L434) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L34) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L52) (1 connections)
-- [effectiveDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L342) (1 connections)
-- [handleTimelineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L57) (1 connections)
-- [handleZoomIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L66) (1 connections)
-- [handleZoomOut](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L70) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L412) (1 connections)
-- [isMajor](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L418) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L35) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L344) (1 connections)
-- [markers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L409) (1 connections)
-- [{
-  project,
-  currentTime,
-  isPlaying,
-  zoom,
-  snapToGrid,
-  selectedTrackId,
-  selectedClipId,
-  setZoom,
-  setSnapToGrid,
-  selectTrack,
-  selectClip,
-  seek,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L37) (1 connections)
-- [{
-  setTrackVolume,
-  toggleTrackMute,
-  toggleTrackSolo,
-  removeTrack,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L206) (1 connections)
-- [t](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L417) (1 connections)
-- [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L53) (1 connections)
-- [trackHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L54) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx#L343) (1 connections)
+- [MidiPlayerCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L1) (15 connections)
+- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L47) (1 connections)
+- [handleSeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L111) (1 connections)
+- [handleTogglePlayback](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L94) (1 connections)
+- [hasNotation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L148) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L64) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L38) (1 connections)
+- [[isPlaying, setIsPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L46) (1 connections)
+- [{ isReady, isMuted, volume, playNote, stopAll, setVolume, setMuted, initialize }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L40) (1 connections)
+- [{ parseMidiFromUrl, parsedMidi, isLoading: isParsing, error: parseError }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L39) (1 connections)
+- [percent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L232) (1 connections)
+- [[playbackInterval, setPlaybackInterval]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L48) (1 connections)
+- [[playedNotes, setPlayedNotes]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L49) (1 connections)
+- [rect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L231) (1 connections)
+- [startTime](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L62) (1 connections)
+- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -48,14 +27,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\TrackLanesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/TrackLanesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\MidiPlayerCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/MidiPlayerCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 36 (100%)
+- EXTRACTED: 30 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

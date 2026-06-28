@@ -1,11 +1,10 @@
 # User Input
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Checkbox](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx#L7) (1 connections)
-- [checkbox.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx#L1) (1 connections)
+- [BannerRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/BannerRequiredDialog.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\checkbox.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/checkbox.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\BannerRequiredDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/BannerRequiredDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

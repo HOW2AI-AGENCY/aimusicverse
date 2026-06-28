@@ -1,11 +1,10 @@
 # Music Display
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [{ data: credits, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx#L11) (1 connections)
-- [CreditsBalance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx#L1) (1 connections)
+- [MobileBottomSheet.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/MobileBottomSheet.contract.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\CreditsBalance.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/CreditsBalance.tsx)
+- [D:\.MUSICVERSE\aimusicverse\specs\001-unified-interface\contracts\MobileBottomSheet.contract.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/contracts/MobileBottomSheet.contract.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

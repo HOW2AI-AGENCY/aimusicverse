@@ -1,16 +1,14 @@
 # Filtering System
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [PlayerErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L1) (7 connections)
-- [{ children, fallback, showDetails = false }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L140) (1 connections)
-- [componentWillUnmount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L84) (1 connections)
-- [constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L38) (1 connections)
-- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L49) (1 connections)
-- [{ hasError, error, errorInfo, errorCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L139) (1 connections)
-- [isRepeatingError](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx#L149) (1 connections)
+- [AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L1) (4 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L31) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L22) (2 connections)
+- [{ data: adminAuth, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L24) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx#L23) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\PlayerErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/PlayerErrorBoundary.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\AdminQuickAccess.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/AdminQuickAccess.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 13 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

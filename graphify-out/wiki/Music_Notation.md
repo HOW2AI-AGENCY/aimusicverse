@@ -1,21 +1,20 @@
 # Music Notation
 
-> 12 nodes · cohesion 0.18
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [PopularCreatorsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L1) (11 connections)
-- [handleCreatorClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L103) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L43) (2 connections)
-- [{ data: creators, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L46) (1 connections)
-- [displayName](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L187) (1 connections)
-- [getRankConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L192) (1 connections)
-- [handleFollowClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L201) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L44) (1 connections)
-- [{ isFollowing, toggleFollow, isLoading: isFollowLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L185) (1 connections)
-- [isOwnProfile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L184) (1 connections)
-- [rankConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L199) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx#L182) (1 connections)
+- [form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L1) (10 connections)
+- [Form](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L9) (1 connections)
+- [FormControl](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L85) (1 connections)
+- [FormDescription](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L102) (1 connections)
+- [FormField](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L20) (1 connections)
+- [FormFieldContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L18) (1 connections)
+- [FormItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L62) (1 connections)
+- [FormItemContext](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L60) (1 connections)
+- [FormLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L75) (1 connections)
+- [FormMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L111) (1 connections)
+- [useFormField()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\PopularCreatorsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/PopularCreatorsSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\form.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/form.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

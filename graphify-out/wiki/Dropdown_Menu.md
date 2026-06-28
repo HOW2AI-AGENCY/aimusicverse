@@ -1,18 +1,16 @@
 # Dropdown Menu
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L1) (8 connections)
-- [handleStepClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L40) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L59) (1 connections)
-- [isClickable](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L58) (1 connections)
-- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L38) (1 connections)
-- [isCompleted](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L56) (1 connections)
-- [isCurrent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L57) (1 connections)
-- [isVertical](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L37) (1 connections)
-- [progress](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx#L174) (1 connections)
+- [MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L1) (6 connections)
+- [checkOverflow()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L24) (1 connections)
+- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L18) (1 connections)
+- [observer](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L37) (1 connections)
+- [[overflow, setOverflow]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L21) (1 connections)
+- [[shouldAnimate, setShouldAnimate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L20) (1 connections)
+- [textRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx#L19) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ProgressSteps.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ProgressSteps.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\MarqueeTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/MarqueeTitle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

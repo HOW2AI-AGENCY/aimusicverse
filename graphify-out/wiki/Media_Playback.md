@@ -1,13 +1,12 @@
 # Media Playback
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L1) (3 connections)
-- [BlogCardSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L5) (1 connections)
-- [BlogFeaturedSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L24) (1 connections)
-- [BlogListSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx#L41) (1 connections)
+- [alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L1) (2 connections)
+- [Alert](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L21) (1 connections)
+- [alertVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\blog\BlogSkeleton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/blog/BlogSkeleton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/alert.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

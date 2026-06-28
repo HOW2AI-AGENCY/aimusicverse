@@ -1,35 +1,17 @@
 # User Account Management
 
-> 10 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L1) (9 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L96) (2 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L104) (2 connections)
-- [containerVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L25) (1 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L141) (1 connections)
-- [[isAdvancedOpen, setIsAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L68) (1 connections)
-- [isVisible](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L113) (1 connections)
-- [itemVariants](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L41) (1 connections)
-- [{ selectedSection, customRange, editMode, clearSelection }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L67) (1 connections)
-- [{
-  startTime,
-  endTime,
-  sectionDuration,
-  maxDuration,
-  isValidDuration,
-  isSubmitting,
-  prompt,
-  setPrompt,
-  tags,
-  setTags,
-  lyrics,
-  setLyrics,
-  addPreset,
-  executeReplacement,
-  reset,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx#L70) (1 connections)
+- [DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L83) (1 connections)
+- [hasSoloActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L114) (1 connections)
+- [isAudible](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L45) (1 connections)
+- [isCurrentStep](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L75) (1 connections)
+- [isDownbeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L76) (1 connections)
+- [step](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L150) (1 connections)
+- [stepIndicators](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx#L117) (1 connections)
 
 ## Relationships
 
@@ -37,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\IntegratedSectionEditor.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/IntegratedSectionEditor.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumSequencer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumSequencer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

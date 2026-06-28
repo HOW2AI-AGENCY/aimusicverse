@@ -1,18 +1,16 @@
 # Content Comparison
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [ChordOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L1) (8 connections)
-- [CHORD_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L29) (1 connections)
-- [chordPositions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L82) (1 connections)
-- [colorClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L119) (1 connections)
-- [currentChord](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L93) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L52) (1 connections)
-- [handleChordClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L98) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L79) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx#L118) (1 connections)
+- [UploadDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L1) (8 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L165) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L25) (1 connections)
+- [{ isRecording, recordingTime, startRecording, stopRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L67) (1 connections)
+- [{ saveAudio, updateAnalysis }](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L28) (1 connections)
+- [[uploading, setUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L26) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ChordOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ChordOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\cloud\UploadDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/cloud/UploadDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

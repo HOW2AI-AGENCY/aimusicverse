@@ -1,21 +1,20 @@
 # User Retention
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L1) (11 connections)
-- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L78) (1 connections)
-- [FeatureTutorialDialog](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L19) (1 connections)
-- [handleAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L106) (1 connections)
-- [handleDismiss](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L111) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L90) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L104) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L100) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L103) (1 connections)
-- [TIPS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L28) (1 connections)
-- [todaysTip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L93) (1 connections)
-- [[tutorialOpen, setTutorialOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx#L101) (1 connections)
+- [FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L1) (10 connections)
+- [charCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L184) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L74) (1 connections)
+- [hasValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L44) (1 connections)
+- [inputPaddingTop](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L60) (1 connections)
+- [isFloating](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L45) (1 connections)
+- [[isFocused, setIsFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L41) (1 connections)
+- [isPassword](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L46) (1 connections)
+- [labelSizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L54) (1 connections)
+- [[showPassword, setShowPassword]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L42) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx#L48) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\DailyTipCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/DailyTipCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\FloatingInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/FloatingInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

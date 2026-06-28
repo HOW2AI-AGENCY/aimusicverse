@@ -1,17 +1,15 @@
 # Context Menu
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L1) (7 connections)
-- [Pagination()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L7) (1 connections)
-- [PaginationContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L17) (1 connections)
-- [PaginationEllipsis()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L65) (1 connections)
-- [PaginationItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L24) (1 connections)
-- [PaginationLink()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L34) (1 connections)
-- [PaginationNext()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L57) (1 connections)
-- [PaginationPrevious()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx#L49) (1 connections)
+- [ProjectHero.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L1) (5 connections)
+- [isPublished](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L59) (1 connections)
+- [projectType](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L58) (1 connections)
+- [status](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L57) (1 connections)
+- [STATUS_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L35) (1 connections)
+- [TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\pagination.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/pagination.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\detail\ProjectHero.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/detail/ProjectHero.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

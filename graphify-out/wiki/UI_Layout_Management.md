@@ -1,52 +1,31 @@
 # UI Layout Management
 
-> 25 nodes · cohesion 0.12
+> 22 nodes · cohesion 0.09
 
 ## Key Concepts
 
-- [RealtimeMonitor](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L30) (18 connections)
-- [useRealtimeMonitoring.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L1) (7 connections)
-- [.notifyListeners()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L207) (6 connections)
-- [.addAlert()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L211) (4 connections)
-- [.recordMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L156) (4 connections)
-- [.updateConnectionState()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L123) (4 connections)
-- [.checkConnectionHealth()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L79) (3 connections)
-- [.exportMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L228) (3 connections)
-- [.getInstance()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L55) (3 connections)
-- [.registerChannel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L111) (3 connections)
-- [useChannelMonitoring()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L270) (3 connections)
-- [useRealtimeMonitoring()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L239) (3 connections)
-- [measureLatency()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L310) (2 connections)
-- [.constructor()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L50) (2 connections)
-- [.getAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L189) (2 connections)
-- [.getMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L185) (2 connections)
-- [.recordLostMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L180) (2 connections)
-- [.startMonitoring()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L62) (2 connections)
-- [.unregisterChannel()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L117) (2 connections)
-- [LATENCY_THRESHOLD_CRITICAL](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L27) (1 connections)
-- [LATENCY_THRESHOLD_WARNING](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L26) (1 connections)
-- [MAX_LATENCY_SAMPLES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L28) (1 connections)
-- [.clearAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L193) (1 connections)
-- [.subscribe()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L197) (1 connections)
-- [.subscribeToAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts#L202) (1 connections)
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class RealtimeMonitor {
-        +useRealtimeMonitoring.ts()
-        +.constructor()
-        +.getInstance()
-        +.startMonitoring()
-        +.checkConnectionHealth()
-        +.registerChannel()
-        +.unregisterChannel()
-        +.updateConnectionState()
-        +.recordMessage()
-        +.recordLostMessage()
-    }
-```
+- [EnhancedVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L1) (21 connections)
+- [{ activeTrack, isPlaying, playTrack, pauseTrack }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L42) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L187) (1 connections)
+- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L141) (1 connections)
+- [[detailsOpen, setDetailsOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L46) (1 connections)
+- [handleAddToPlaylist](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L112) (1 connections)
+- [handleCardClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L62) (1 connections)
+- [handleFollow](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L125) (1 connections)
+- [handlePlay](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L67) (1 connections)
+- [handleShare](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L80) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L43) (1 connections)
+- [[imageError, setImageError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L45) (1 connections)
+- [isCurrentlyPlaying](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L54) (1 connections)
+- [isCurrentTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L53) (1 connections)
+- [{ isFollowing, toggleFollow, isLoading: isFollowLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L51) (1 connections)
+- [[isHovered, setIsHovered]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L48) (1 connections)
+- [isOwnTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L50) (1 connections)
+- [platformCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L139) (1 connections)
+- [[playlistSheetOpen, setPlaylistSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L47) (1 connections)
+- [sunoCover](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L140) (1 connections)
+- [trackForPlayer](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L56) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -54,14 +33,14 @@ classDiagram
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\monitoring\useRealtimeMonitoring.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/monitoring/useRealtimeMonitoring.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\EnhancedVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/EnhancedVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 72 (89%)
-- INFERRED: 9 (11%)
+- EXTRACTED: 42 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,20 +1,18 @@
 # Drag-and-Drop
 
-> 11 nodes · cohesion 0.18
+> 9 nodes · cohesion 0.28
 
 ## Key Concepts
 
-- [WaveformAnalysisOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L1) (10 connections)
-- [CHORD_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L30) (1 connections)
-- [getChordColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L40) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L76) (1 connections)
-- [isNear](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L108) (1 connections)
-- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L107) (1 connections)
-- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L77) (1 connections)
-- [left](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L74) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L106) (1 connections)
-- [visibleBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L56) (1 connections)
-- [width](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx#L75) (1 connections)
+- [EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L1) (8 connections)
+- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L64) (3 connections)
+- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L53) (2 connections)
+- [handleSave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L45) (2 connections)
+- [[editValue, setEditValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L33) (1 connections)
+- [handleReset()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L58) (1 connections)
+- [hasChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L43) (1 connections)
+- [[isEditing, setIsEditing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L32) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx#L42) (1 connections)
 
 ## Relationships
 
@@ -22,7 +20,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\WaveformAnalysisOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/WaveformAnalysisOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\EconomyConfigItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/EconomyConfigItem.tsx)
 
 ## Audit Trail
 
@@ -32,4 +30,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

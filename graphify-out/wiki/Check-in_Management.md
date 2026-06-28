@@ -1,20 +1,19 @@
 # Check-in Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [GuitarAnalysisReportMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L1) (10 connections)
-- [handleCopyTags()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L64) (2 connections)
-- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L46) (1 connections)
-- [[currentTime, setCurrentTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L48) (1 connections)
-- [displayedChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L71) (1 connections)
-- [[expandedSections, setExpandedSections]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L51) (1 connections)
-- [[fullscreenView, setFullscreenView]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L50) (1 connections)
-- [[showAllChords, setShowAllChords]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L49) (1 connections)
-- [{ tap, selectionChanged }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L45) (1 connections)
-- [toggleSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L59) (1 connections)
-- [uniqueChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx#L70) (1 connections)
+- [HeaderVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L1) (11 connections)
+- [[activeId, setActiveId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L48) (1 connections)
+- [activeLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L135) (1 connections)
+- [activeVersion](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L134) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L153) (1 connections)
+- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L46) (1 connections)
+- [[isUpdating, setIsUpdating]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L47) (1 connections)
+- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L154) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L49) (1 connections)
+- [[versions, setVersions]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx#L45) (1 connections)
 
 ## Relationships
 
@@ -22,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\GuitarAnalysisReportMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/GuitarAnalysisReportMobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\HeaderVersionSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/HeaderVersionSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (95%)
-- INFERRED: 1 (5%)
+- EXTRACTED: 20 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

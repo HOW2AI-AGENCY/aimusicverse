@@ -1,10 +1,11 @@
 # Performance Monitoring
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Bug Report Issue Template](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/bug_report.md) (0 connections)
+- [useReplacedSections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts#L1) (1 connections)
+- [useReplacedSections()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [.github/ISSUE_TEMPLATE/bug_report.md](file:///D:/.MUSICVERSE/aimusicverse/.github/ISSUE_TEMPLATE/bug_report.md)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useReplacedSections.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useReplacedSections.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,11 +1,10 @@
 # Telegram Bot Payments
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [track.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/track.ts#L1) (1 connections)
-- [isPlayableTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/types/track.ts#L87) (1 connections)
+- [useAuth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAuth.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\types\track.ts](file:///D:/.MUSICVERSE/aimusicverse/src/types/track.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useAuth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useAuth.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

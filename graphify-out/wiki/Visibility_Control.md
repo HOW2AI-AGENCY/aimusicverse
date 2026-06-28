@@ -1,17 +1,15 @@
 # Visibility Control
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [useBotMenuItems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L1) (8 connections)
-- [useBotMenuItems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L57) (1 connections)
-- [useBotMenuItemsByParent()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L76) (1 connections)
-- [useCreateMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L102) (1 connections)
-- [useDeleteMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L161) (1 connections)
-- [useReorderMenuItems()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L188) (1 connections)
-- [useToggleMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L222) (1 connections)
-- [useUpdateMenuItem()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts#L131) (1 connections)
+- [OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L1) (5 connections)
+- [ChannelControls](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L68) (1 connections)
+- [handleToggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L124) (1 connections)
+- [handleToggleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L132) (1 connections)
+- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L113) (1 connections)
+- [VolumeFader](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotMenuItems.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotMenuItems.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\OptimizedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/OptimizedMixerChannel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

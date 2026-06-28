@@ -1,15 +1,13 @@
 # User Input Management
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [MobileStudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioHeader.tsx#L1) (5 connections)
-- [handleBack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioHeader.tsx#L63) (1 connections)
-- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioHeader.tsx#L80) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioHeader.tsx#L68) (1 connections)
-- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioHeader.tsx#L73) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioHeader.tsx#L61) (1 connections)
+- [FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L1) (3 connections)
+- [FeaturedSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L49) (1 connections)
+- [SKELETON_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L34) (1 connections)
+- [TrackSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileStudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileStudioHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

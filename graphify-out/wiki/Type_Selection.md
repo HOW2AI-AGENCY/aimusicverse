@@ -1,13 +1,12 @@
 # Type Selection
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [StyleCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L1) (3 connections)
-- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L14) (1 connections)
-- [handleDoubleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L20) (1 connections)
-- [sliderValue](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx#L12) (1 connections)
+- [useBeatGrid.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L1) (2 connections)
+- [generateSyntheticBeatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L86) (1 connections)
+- [useBeatGrid()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\StyleCrossfader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/StyleCrossfader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useBeatGrid.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useBeatGrid.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

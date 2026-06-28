@@ -1,16 +1,14 @@
 # Audio Effects
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [GuitarTrackIntegration.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx#L1) (6 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx#L45) (1 connections)
-- [completionStats](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx#L59) (1 connections)
-- [hasBeats](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx#L52) (1 connections)
-- [hasChords](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx#L51) (1 connections)
-- [hasExport](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx#L53) (1 connections)
-- [[isExpanded, setIsExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx#L44) (1 connections)
+- [CreditPackageCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L1) (4 connections)
+- [description](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L33) (1 connections)
+- [name](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L28) (1 connections)
+- [pricePerTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L39) (1 connections)
+- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx#L38) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\GuitarTrackIntegration.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/GuitarTrackIntegration.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\CreditPackageCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/CreditPackageCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

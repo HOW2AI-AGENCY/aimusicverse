@@ -1,12 +1,11 @@
 # Client Query
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L1) (2 connections)
-- [CoreProviders](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L48) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx#L24) (1 connections)
+- [useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L1) (1 connections)
+- [useProjectDetailDialogs()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts#L22) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\providers\CoreProviders.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/providers/CoreProviders.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\project\useProjectDetailDialogs.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/project/useProjectDetailDialogs.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,17 +1,16 @@
 # Deeplink Analytics
 
-> 8 nodes · cohesion 0.32
+> 7 nodes · cohesion 0.43
 
 ## Key Concepts
 
-- [alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L1) (7 connections)
-- [triggerSelectionHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L45) (3 connections)
-- [handleCancel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L65) (2 connections)
-- [handleConfirm()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L54) (2 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L99) (1 connections)
-- [[isConfirming, setIsConfirming]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L43) (1 connections)
-- [severityConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L72) (1 connections)
-- [triggerWarningHaptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx#L44) (1 connections)
+- [usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L1) (6 connections)
+- [usePublicTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L31) (4 connections)
+- [useNewTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L165) (2 connections)
+- [usePopularTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L172) (2 connections)
+- [useTrendingTracks()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L179) (2 connections)
+- [useIncrementPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L150) (1 connections)
+- [useToggleTrackLike()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts#L118) (1 connections)
 
 ## Relationships
 
@@ -19,7 +18,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\alert.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/alert.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePublicTracks.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePublicTracks.ts)
 
 ## Audit Trail
 
@@ -29,4 +28,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

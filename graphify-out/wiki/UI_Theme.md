@@ -1,15 +1,13 @@
 # UI Theme
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [StatsHighlightBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L1) (5 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L89) (1 connections)
-- [{ formatted, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L45) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L88) (1 connections)
-- [statColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L19) (1 connections)
-- [stats](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx#L47) (1 connections)
+- [ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L1) (3 connections)
+- [COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L156) (1 connections)
+- [{ data, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L44) (1 connections)
+- [lyricsData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx#L167) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\StatsHighlightBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/StatsHighlightBanner.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\ContentAnalyticsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/ContentAnalyticsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,12 +1,11 @@
 # Recommendation System
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L1) (2 connections)
-- [GenerationBridge()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L13) (1 connections)
-- [usePresetToParams()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx#L40) (1 connections)
+- [ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L1) (1 connections)
+- [ShareProjectCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx#L24) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-lab\GenerationBridge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-lab/GenerationBridge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ShareProjectCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ShareProjectCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

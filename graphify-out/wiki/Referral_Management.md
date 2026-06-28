@@ -1,24 +1,23 @@
 # Referral Management
 
-> 15 nodes · cohesion 0.13
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L1) (14 connections)
-- [background](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L81) (1 connections)
-- [containerClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L58) (1 connections)
-- [defaultMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L67) (1 connections)
-- [[dismissed, setDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L222) (1 connections)
-- [displayMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L75) (1 connections)
-- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L225) (1 connections)
-- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L43) (1 connections)
-- [[loadingTime, setLoadingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L220) (1 connections)
-- [retryTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L230) (1 connections)
-- [shouldReduceMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L42) (1 connections)
-- [[showRetry, setShowRetry]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L221) (1 connections)
-- [simulatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L238) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L48) (1 connections)
-- [zIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L82) (1 connections)
+- [browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L1) (13 connections)
+- [apis](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L18) (1 connections)
+- [audioSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L172) (1 connections)
+- [dimensions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L264) (1 connections)
+- [dynamicImport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L125) (1 connections)
+- [es6Support](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L75) (1 connections)
+- [fetchTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L227) (1 connections)
+- [imageSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L152) (1 connections)
+- [mediaQuerySupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L280) (1 connections)
+- [perf](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L313) (1 connections)
+- [perfSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L296) (1 connections)
+- [report](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L339) (1 connections)
+- [storageTest](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L190) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts#L255) (1 connections)
 
 ## Relationships
 
@@ -26,14 +25,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\browser-compatibility.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/browser-compatibility.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

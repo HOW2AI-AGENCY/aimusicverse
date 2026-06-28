@@ -1,13 +1,12 @@
 # Client Permissions
 
-> 4 nodes · cohesion 0.83
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L1) (3 connections)
-- [TelegramSafeArea()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L39) (3 connections)
-- [getTelegramSafeAreaBottom()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L35) (2 connections)
-- [getTelegramSafeAreaTop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx#L31) (2 connections)
+- [historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L1) (2 connections)
+- [createHistorySlice()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L47) (1 connections)
+- [DEFAULT_EXCLUDE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts#L29) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\TelegramSafeArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/TelegramSafeArea.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\zustand\historyMiddleware.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/zustand/historyMiddleware.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

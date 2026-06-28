@@ -1,13 +1,12 @@
 # Telegram UI
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L1) (3 connections)
-- [getShortName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L56) (1 connections)
-- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L43) (1 connections)
-- [[showPresets, setShowPresets]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx#L41) (1 connections)
+- [useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L1) (2 connections)
+- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L41) (1 connections)
+- [useTransportSync()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts#L48) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileMixerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileMixerContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useTransportSync.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useTransportSync.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

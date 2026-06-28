@@ -1,18 +1,16 @@
 # Music Interaction
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [StemsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L1) (8 connections)
-- [{ data: stems, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L36) (1 connections)
-- [generateStemsMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L50) (1 connections)
-- [[generatingStems, setGeneratingStems]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L34) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L145) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L146) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L33) (1 connections)
-- [stemIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L16) (1 connections)
-- [stemLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx#L24) (1 connections)
+- [MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L1) (6 connections)
+- [handleCreateClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L51) (2 connections)
+- [handleSearchToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L38) (1 connections)
+- [handleViewModeChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L46) (1 connections)
+- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L29) (1 connections)
+- [[isSearchExpanded, setIsSearchExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L28) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\StemsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/StemsTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\MobileProjectsToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/MobileProjectsToolbar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 12 (92%)
+- INFERRED: 1 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

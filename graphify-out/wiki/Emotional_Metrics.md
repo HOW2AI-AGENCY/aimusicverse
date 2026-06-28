@@ -1,15 +1,13 @@
 # Emotional Metrics
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [AdvancedMusicAnalytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L1) (5 connections)
-- [arousalPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L19) (1 connections)
-- [emotionQuadrant](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L32) (1 connections)
-- [getEmotionQuadrant()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L23) (1 connections)
-- [hasAdvancedData](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L11) (1 connections)
-- [valencePercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx#L20) (1 connections)
+- [MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L1) (3 connections)
+- [handleMore()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L62) (2 connections)
+- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L56) (1 connections)
+- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L54) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\AdvancedMusicAnalytics.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/AdvancedMusicAnalytics.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

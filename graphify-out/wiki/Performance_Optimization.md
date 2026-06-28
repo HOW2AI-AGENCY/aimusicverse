@@ -1,33 +1,30 @@
 # Performance Optimization
 
-> 24 nodes · cohesion 0.08
+> 21 nodes · cohesion 0.10
 
 ## Key Concepts
 
-- [🚀 Sprint 025 Started - Optimization Sprint](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L1) (10 connections)
-- [💡 Key Insights](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L98) (4 connections)
-- [🎯 Следующие шаги (День 2-3)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L37) (4 connections)
-- [✅ Что сделано сегодня](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L9) (4 connections)
-- [🎯 Sprint Goals Recap](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L85) (3 connections)
-- [📞 Team Communication](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L118) (3 connections)
-- [SPRINT_025_DAY1_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L1) (1 connections)
-- [1. Performance Monitoring Infrastructure ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L11) (1 connections)
-- [2. Music Lab Hub Foundation ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L20) (1 connections)
-- [3. Documentation ✅](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L30) (1 connections)
-- [Challenges Ahead:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L106) (1 connections)
-- [Daily Standup Format:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L120) (1 connections)
-- [✅ Definition of Done (Sprint 025)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L132) (1 connections)
-- [🚀 Momentum](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L147) (1 connections)
-- [Next Sync:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L125) (1 connections)
-- [Opportunities:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L111) (1 connections)
-- [📊 Sprint Metrics Dashboard](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L59) (1 connections)
-- [Week 1 Goals (Dec 16-22):](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L87) (1 connections)
-- [Week 2 Goals (Dec 23-29):](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L92) (1 connections)
-- [What's Working Well:](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L100) (1 connections)
-- [📁 Новые файлы](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L71) (1 connections)
-- [Приоритет 1: List Performance Optimization](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L39) (1 connections)
-- [Приоритет 2: Music Lab Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L45) (1 connections)
-- [Приоритет 3: Bundle Optimization](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md#L51) (1 connections)
+- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L1) (16 connections)
+- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L1) (4 connections)
+- [getNextZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L101) (2 connections)
+- [getZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L69) (2 connections)
+- [isValidZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L87) (2 connections)
+- [compareZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L154) (1 connections)
+- [getDropdownZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L128) (1 connections)
+- [getModalZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L114) (1 connections)
+- [getSheetZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L121) (1 connections)
+- [getToastZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L142) (1 connections)
+- [getTooltipZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L135) (1 connections)
+- [getZIndexString()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L76) (1 connections)
+- [isAbove()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L163) (1 connections)
+- [isBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L170) (1 connections)
+- [wouldConflict()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L94) (1 connections)
+- [Z_INDEX](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L30) (1 connections)
+- [Z_INDEX_VARS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L117) (1 connections)
+- [zIndexDescriptions](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L180) (1 connections)
+- [zIndexLayers](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L36) (1 connections)
+- [zIndexTokens](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts#L206) (1 connections)
+- [zIndexUtilities](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L136) (1 connections)
 
 ## Relationships
 
@@ -35,14 +32,15 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_025_DAY1_SUMMARY.md)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/z-index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (100%)
+- EXTRACTED: 42 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

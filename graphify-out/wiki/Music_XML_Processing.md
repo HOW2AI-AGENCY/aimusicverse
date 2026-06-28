@@ -1,15 +1,13 @@
 # Music XML Processing
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.83
 
 ## Key Concepts
 
-- [MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L1) (2 connections)
-- [useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L1) (2 connections)
-- [MusicXMLViewer()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L30) (2 connections)
-- [useMusicXML()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L30) (2 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx#L229) (1 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts#L12) (1 connections)
+- [audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L1) (5 connections)
+- [watermarkAudio()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L29) (3 connections)
+- [applyWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L52) (2 connections)
+- [detectWatermark()](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts#L59) (2 connections)
 
 ## Relationships
 
@@ -17,15 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\MusicXMLViewer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/MusicXMLViewer.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMusicXML.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMusicXML.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\api\audio-watermark.api.ts](file:///D:/.MUSICVERSE/aimusicverse/src/api/audio-watermark.api.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (80%)
-- INFERRED: 2 (20%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

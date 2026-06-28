@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Audit Navigation Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_NAVIGATION_2025-12-09.md) (0 connections)
+- [TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/2025-12/AUDIT_NAVIGATION_2025-12-09.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/2025-12/AUDIT_NAVIGATION_2025-12-09.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierPricingSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierPricingSection.tsx)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

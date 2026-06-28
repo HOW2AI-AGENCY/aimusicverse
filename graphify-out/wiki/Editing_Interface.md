@@ -1,19 +1,18 @@
 # Editing Interface
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [StudioHubPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L1) (8 connections)
-- [handleNavigate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx#L24) (2 connections)
-- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L70) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L43) (2 connections)
-- [EmptyLibraryState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx#L1) (1 connections)
-- [[deleteId, setDeleteId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L46) (1 connections)
-- [{ deleteProject, isLoading: isDeleting }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L47) (1 connections)
-- [getTrackCount()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L79) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L45) (1 connections)
-- [[projects, setProjects]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx#L44) (1 connections)
+- [useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L1) (8 connections)
+- [useTagRecommendations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L114) (5 connections)
+- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L281) (2 connections)
+- [useTagPopularity()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L58) (2 connections)
+- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L96) (2 connections)
+- [useTagUsageHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L37) (2 connections)
+- [getCurrentUser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L6) (1 connections)
+- [useSuccessfulCombinations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L295) (1 connections)
+- [useTrackTagUsage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L242) (1 connections)
 
 ## Relationships
 
@@ -21,15 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\EmptyLibraryState.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/EmptyLibraryState.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\pages\studio-v2\StudioHubPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/StudioHubPage.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 17 (85%)
-- INFERRED: 3 (15%)
+- EXTRACTED: 24 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

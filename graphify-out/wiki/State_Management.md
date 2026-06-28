@@ -1,12 +1,11 @@
 # State Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L1) (2 connections)
-- [useUserBalanceSummary()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L5) (1 connections)
-- [useUsersWithBalances()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts#L13) (1 connections)
+- [safe-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx#L1) (1 connections)
+- [SafeArea](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useUserBalanceSummary.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useUserBalanceSummary.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\safe-area\safe-area.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/safe-area/safe-area.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,41 +1,21 @@
 # Music Genre Management
 
-> 14 nodes · cohesion 0.14
+> 12 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L1) (13 connections)
-- [AI_TOOL_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L84) (1 connections)
-- [categories](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L173) (1 connections)
-- [categoryLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L174) (1 connections)
-- [handleAddNote](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L348) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L544) (1 connections)
-- [handleSectionClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L526) (1 connections)
-- [{
-  lyrics,
-  sections,
-  versions,
-  sectionNotes,
-  stats,
-  isDirty,
-  activeAITool,
-  isLoading,
-  isSaving,
-  isRestoring,
-  setLyrics,
-  save,
-  restoreVersion,
-  selectAITool,
-  closeAITool,
-  addNote,
-  deleteNote,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L492) (1 connections)
-- [[newNoteContent, setNewNoteContent]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L346) (1 connections)
-- [[newNoteSection, setNewNoteSection]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L345) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L134) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L73) (1 connections)
-- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L490) (1 connections)
-- [[viewMode, setViewMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx#L489) (1 connections)
+- [RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L1) (11 connections)
+- [getRetentionColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L39) (2 connections)
+- [RetentionCell()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L67) (2 connections)
+- [AverageCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L100) (1 connections)
+- [averages](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L129) (1 connections)
+- [{ data: cohorts, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L127) (1 connections)
+- [dateRange](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L118) (1 connections)
+- [formatDate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L52) (1 connections)
+- [RETENTION_COLUMNS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L29) (1 connections)
+- [TIME_RANGE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L22) (1 connections)
+- [[timeRange, setTimeRange]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L116) (1 connections)
+- [totalUsers](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx#L134) (1 connections)
 
 ## Relationships
 
@@ -43,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioLyricsSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioLyricsSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\RetentionHeatmap.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/RetentionHeatmap.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

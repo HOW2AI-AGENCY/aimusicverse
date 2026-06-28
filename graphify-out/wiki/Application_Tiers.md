@@ -1,29 +1,26 @@
 # Application Tiers
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [UI/UX Audit Implementation Plan](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/plan.md) (2 connections)
-- [UI/UX Audit Research Document](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/research.md) (1 connections)
-- [UI/UX Audit Tasks Breakdown](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminOverview.tsx#L11) (1 connections)
+- [AdminOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminOverview.tsx#L1) (1 connections)
 
 ## Relationships
 
-- [[UI/UX Audit]] (4 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [specs/001-ui-ux-audit/plan.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/plan.md)
-- [specs/001-ui-ux-audit/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/research.md)
-- [specs/001-ui-ux-audit/tasks.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-ui-ux-audit/tasks.md)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminOverview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminOverview.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

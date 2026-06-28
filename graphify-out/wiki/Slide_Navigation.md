@@ -1,20 +1,19 @@
 # Slide Navigation
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [ProjectAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L1) (12 connections)
-- [[aiDialogOpen, setAiDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L37) (1 connections)
-- [[analysis, setAnalysis]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L36) (1 connections)
-- [applyImprovement()](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L104) (1 connections)
-- [contextData](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L43) (1 connections)
-- [[isAnalyzing, setIsAnalyzing]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L34) (1 connections)
-- [[isApplying, setIsApplying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L35) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L32) (1 connections)
-- [savedAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L44) (1 connections)
-- [[selectedField, setSelectedField]](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L38) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx#L33) (1 connections)
+- [Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L1) (9 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L34) (2 connections)
+- [[createDialogOpen, setCreateDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L28) (1 connections)
+- [[editingPlaylist, setEditingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L29) (1 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L43) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L32) (1 connections)
+- [{ playlists, isLoading, deletePlaylist }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L27) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L26) (1 connections)
+- [[selectedPlaylist, setSelectedPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L31) (1 connections)
+- [[sharingPlaylist, setSharingPlaylist]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -22,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectAnalysisTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectAnalysisTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Playlists.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Playlists.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 18 (95%)
+- INFERRED: 1 (5%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

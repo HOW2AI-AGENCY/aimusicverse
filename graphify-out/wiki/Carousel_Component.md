@@ -1,17 +1,15 @@
 # Carousel Component
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [input.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L1) (7 connections)
-- [Default](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L26) (1 connections)
-- [Disabled](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L40) (1 connections)
-- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L5) (1 connections)
-- [Password](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L32) (1 connections)
-- [Search](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L74) (1 connections)
-- [WithButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L60) (1 connections)
-- [WithLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx#L48) (1 connections)
+- [TierComparisonCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L1) (5 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L90) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L91) (1 connections)
+- [renderValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L66) (1 connections)
+- [TIER_FEATURES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L18) (1 connections)
+- [TIERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\input.stories.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/input.stories.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\TierComparisonCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/TierComparisonCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

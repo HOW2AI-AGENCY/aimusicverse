@@ -1,17 +1,16 @@
 # User Confirmation
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [LinkToTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L1) (8 connections)
-- [filteredTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L54) (1 connections)
-- [[isSaving, setIsSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L50) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L154) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L52) (1 connections)
-- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L48) (1 connections)
-- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L49) (1 connections)
-- [{ tracks, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx#L51) (1 connections)
+- [storage.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L1) (6 connections)
+- [buckets](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L87) (1 connections)
+- [errors](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L29) (1 connections)
+- [fileApiSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L113) (1 connections)
+- [quotaSupport](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L129) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L37) (1 connections)
+- [viewports](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts#L178) (1 connections)
 
 ## Relationships
 
@@ -19,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\LinkToTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/LinkToTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\tests\e2e\storage.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/storage.spec.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

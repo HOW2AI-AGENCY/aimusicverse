@@ -1,13 +1,12 @@
 # Selection Management
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L1) (3 connections)
-- [CATEGORY_STYLES](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L15) (1 connections)
-- [categoryStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L84) (1 connections)
-- [{ visible, hiddenCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx#L65) (1 connections)
+- [useBatchStemProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L1) (2 connections)
+- [initialState](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L41) (1 connections)
+- [useBatchStemProcessing()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts#L50) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\TrackStyleTags.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/TrackStyleTags.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBatchStemProcessing.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBatchStemProcessing.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

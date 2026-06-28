@@ -1,19 +1,17 @@
 # Audio Track Management
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L1) (9 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L146) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L117) (1 connections)
-- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L134) (1 connections)
-- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L124) (1 connections)
-- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L129) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L115) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L121) (1 connections)
-- [isMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L122) (1 connections)
-- [STEM_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx#L24) (1 connections)
+- [PaymentSuccessModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L274) (1 connections)
+- [ConfettiParticle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L24) (1 connections)
+- [FloatingStar()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L61) (1 connections)
+- [getText()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L106) (1 connections)
+- [[showConfetti, setShowConfetti]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L85) (1 connections)
+- [text](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L139) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx#L101) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedMixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedMixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentSuccessModal.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentSuccessModal.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

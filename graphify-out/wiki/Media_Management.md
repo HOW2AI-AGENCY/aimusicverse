@@ -1,14 +1,12 @@
 # Media Management
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L1) (4 connections)
-- [AnimatedIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L23) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L87) (1 connections)
-- [isTelegramApp](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L86) (1 connections)
-- [{ webApp }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx#L85) (1 connections)
+- [MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L1) (2 connections)
+- [mood](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L34) (1 connections)
+- [style](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Rewards.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Rewards.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\MoodStyleSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/MoodStyleSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

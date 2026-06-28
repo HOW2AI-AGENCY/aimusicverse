@@ -1,21 +1,19 @@
 # Theme Management
 
-> 12 nodes · cohesion 0.17
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [Pricing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L1) (12 connections)
-- [creditPackages](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L98) (1 connections)
-- [{ data: products, isLoading, error }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L68) (1 connections)
-- [handler()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L59) (1 connections)
-- [{ isAdmin, isLoading: roleLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L49) (1 connections)
-- [mapToStarsProduct()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L31) (1 connections)
-- [[purchasingProduct, setPurchasingProduct]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L52) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L50) (1 connections)
-- [subscriptions](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L99) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L48) (1 connections)
-- [userId](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L51) (1 connections)
-- [{ webApp, showAlert }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx#L47) (1 connections)
+- [HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L1) (9 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L214) (1 connections)
+- [getGreeting()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L37) (1 connections)
+- [handleMenuClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L75) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L72) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L73) (1 connections)
+- [[menuOpen, setMenuOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L70) (1 connections)
+- [MoreMenuSheet](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L26) (1 connections)
+- [{ text, icon, gradient }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L69) (1 connections)
+- [unreadCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx#L71) (1 connections)
 
 ## Relationships
 
@@ -23,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Pricing.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Pricing.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\HomeHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/HomeHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 23 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

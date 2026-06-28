@@ -1,22 +1,20 @@
 # Onboarding Navigation
 
-> 13 nodes · cohesion 0.15
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useStudioState.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L1) (12 connections)
-- [effective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L126) (1 connections)
-- [initialHasSolo](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L450) (1 connections)
-- [initialMutedIds](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L451) (1 connections)
-- [initialSoloIds](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L452) (1 connections)
-- [initialState](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L483) (1 connections)
-- [mockStems](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L11) (1 connections)
-- [newStates](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L379) (1 connections)
-- [nonSoloEffective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L273) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L20) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L443) (1 connections)
-- [soloEffective](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L269) (1 connections)
-- [state](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts#L47) (1 connections)
+- [CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L1) (10 connections)
+- [availableModels](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L56) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L122) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L113) (1 connections)
+- [currentModel](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L57) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L114) (1 connections)
+- [info](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L146) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L115) (1 connections)
+- [lowBalance](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L58) (1 connections)
+- [MODE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L39) (1 connections)
+- [MODE_KEYS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx#L44) (1 connections)
 
 ## Relationships
 
@@ -24,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\studio\useStudioState.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/studio/useStudioState.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\CollapsibleFormHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/CollapsibleFormHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

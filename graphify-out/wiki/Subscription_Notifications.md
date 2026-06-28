@@ -1,47 +1,48 @@
 # Subscription Notifications
 
-> 23 nodes · cohesion 0.09
+> 20 nodes · cohesion 0.12
 
 ## Key Concepts
 
-- [ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L1) (24 connections)
-- [ACCEPTED_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L52) (1 connections)
-- [audioRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L62) (1 connections)
-- [[audioUrl, setAudioUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L66) (1 connections)
-- [[duration, setDuration]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L67) (1 connections)
-- [[file, setFile]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L65) (1 connections)
-- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L61) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L89) (1 connections)
-- [handleDragLeave](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L139) (1 connections)
-- [handleDragOver](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L133) (1 connections)
-- [handleDrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L145) (1 connections)
-- [handleFileSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L96) (1 connections)
-- [handleInputChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L156) (1 connections)
-- [[isComplete, setIsComplete]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L72) (1 connections)
-- [[isDragging, setIsDragging]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L64) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L60) (1 connections)
-- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L70) (1 connections)
-- [MAX_FILE_SIZE](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L51) (1 connections)
-- [resetState](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L74) (1 connections)
-- [TRACK_TYPE_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L42) (1 connections)
-- [[trackName, setTrackName]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L68) (1 connections)
-- [[trackType, setTrackType]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L69) (1 connections)
-- [[uploadProgress, setUploadProgress]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx#L71) (1 connections)
+- [ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L1) (21 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L104) (5 connections)
+- [handleClose()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L117) (2 connections)
+- [handleGenerateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L179) (2 connections)
+- [handleGenerateExtend()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L183) (2 connections)
+- [handleGoBack()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L116) (2 connections)
+- [handleOpenStudio()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L187) (2 connections)
+- [analysisComplete](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L238) (1 connections)
+- [buildStemsArray()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L74) (1 connections)
+- [{ close }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L108) (1 connections)
+- [{
+    data: reference,
+    isLoading,
+    error,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L120) (1 connections)
+- [deleteMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L138) (1 connections)
+- [hasStemUrls](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L239) (1 connections)
+- [{ id }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L102) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L107) (1 connections)
+- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L106) (1 connections)
+- [reanalyzeMutation](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L155) (1 connections)
+- [[searchParams]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L103) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L111) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx#L105) (1 connections)
 
 ## Relationships
 
-- [[User Achievements]] (1 shared connections)
+- [[Content Comparison]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ImportAudioDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ImportAudioDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\ReferenceAudioDetail.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/ReferenceAudioDetail.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 46 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 48 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

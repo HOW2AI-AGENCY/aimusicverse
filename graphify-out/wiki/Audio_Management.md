@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.analyze command](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.analyze.md) (0 connections)
+- [command.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/command.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.roo/commands/speckit.analyze.md](file:///D:/.MUSICVERSE/aimusicverse/.roo/commands/speckit.analyze.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\command.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/command.tsx)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

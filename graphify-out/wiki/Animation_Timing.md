@@ -1,15 +1,13 @@
 # Animation Timing
 
-> 6 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L1) (6 connections)
-- [useFeatureFlags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L44) (2 connections)
-- [useIsFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L149) (2 connections)
-- [FLAG_CATEGORIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L35) (1 connections)
-- [useToggleFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L62) (1 connections)
-- [useUpdateFeatureFlag()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts#L111) (1 connections)
+- [SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L1) (3 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L51) (1 connections)
+- [lyricsChanged](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L37) (1 connections)
+- [[showLyrics, setShowLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx#L36) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\admin\useFeatureFlags.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/admin/useFeatureFlags.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\section-editor\SectionPromptInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/section-editor/SectionPromptInput.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 13 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

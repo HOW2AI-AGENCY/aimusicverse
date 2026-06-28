@@ -1,15 +1,13 @@
 # Report Submission
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ReportTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/ReportTrackDialog.tsx#L1) (6 connections)
-- [[details, setDetails]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/ReportTrackDialog.tsx#L32) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/ReportTrackDialog.tsx#L30) (1 connections)
-- [[isSubmitting, setIsSubmitting]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/ReportTrackDialog.tsx#L33) (1 connections)
-- [[reason, setReason]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/ReportTrackDialog.tsx#L31) (1 connections)
-- [REPORT_REASONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/ReportTrackDialog.tsx#L15) (1 connections)
+- [OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L1) (3 connections)
+- [parseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L26) (2 connections)
+- [findActiveLine()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L44) (1 connections)
+- [OptimizedLyricsPanel](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\ReportTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/ReportTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\OptimizedLyricsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/OptimizedLyricsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 11 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

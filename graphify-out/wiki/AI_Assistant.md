@@ -1,14 +1,12 @@
 # AI Assistant
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L1) (4 connections)
-- [getZIndex()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L109) (1 connections)
-- [Z_INDEX](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L30) (1 connections)
-- [Z_INDEX_VARS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L117) (1 connections)
-- [zIndexUtilities](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts#L136) (1 connections)
+- [ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L1) (2 connections)
+- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L51) (1 connections)
+- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\constants\z-index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/z-index.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\ProjectTrackSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/ProjectTrackSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

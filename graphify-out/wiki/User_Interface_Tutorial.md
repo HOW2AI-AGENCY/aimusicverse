@@ -1,21 +1,20 @@
 # User Interface Tutorial
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L1) (11 connections)
-- [handleCopyLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L65) (2 connections)
-- [handleRecognizeLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L41) (2 connections)
-- [handleUseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L71) (2 connections)
-- [apiLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L38) (1 connections)
-- [[editedLyrics, setEditedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L32) (1 connections)
-- [handleCreateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L80) (1 connections)
-- [handleUseApiLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L56) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L30) (1 connections)
-- [{ isRecognizing, result, recognizeLyrics, clearResult }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L35) (1 connections)
-- [[lyricsSource, setLyricsSource]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L33) (1 connections)
-- [[showLyricsDialog, setShowLyricsDialog]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L31) (1 connections)
+- [NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L1) (11 connections)
+- [handleCreate()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L58) (4 connections)
+- [handleModeChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L51) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L23) (2 connections)
+- [{ createEmptyProject, createFromTrack, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L24) (1 connections)
+- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L33) (1 connections)
+- [[loadingTracks, setLoadingTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L37) (1 connections)
+- [[mode, setMode]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L34) (1 connections)
+- [[name, setName]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L32) (1 connections)
+- [[selectedTrackId, setSelectedTrackId]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L36) (1 connections)
+- [[tracks, setTracks]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\music-recognition\RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\studio-v2\NewStudioProjectPage.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/studio-v2/NewStudioProjectPage.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (88%)
-- INFERRED: 3 (12%)
+- EXTRACTED: 24 (92%)
+- INFERRED: 2 (8%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

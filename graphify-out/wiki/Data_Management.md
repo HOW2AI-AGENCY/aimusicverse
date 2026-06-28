@@ -1,10 +1,12 @@
 # Data Management
 
-> 1 nodes · cohesion 1.00
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [Phase 0 Research Unified Interface Audit & Analysis](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/research.md) (0 connections)
+- [waveformWorkerPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts#L1) (3 connections)
+- [SAMPLES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts#L16) (1 connections)
+- [WORKER_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts#L15) (1 connections)
 
 ## Relationships
 
@@ -12,14 +14,14 @@
 
 ## Source Files
 
-- [specs/001-unified-interface/research.md](file:///D:/.MUSICVERSE/aimusicverse/specs/001-unified-interface/research.md)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\waveformWorkerPool.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/waveformWorkerPool.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 5 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

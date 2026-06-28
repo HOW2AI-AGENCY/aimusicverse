@@ -1,22 +1,21 @@
 # Lyric Parsing
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L1) (12 connections)
-- [backdropOpacity](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L54) (1 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L82) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L49) (1 connections)
-- [[currentSnapPoint, setCurrentSnapPoint]](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L48) (1 connections)
-- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L34) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L73) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L58) (1 connections)
-- [height](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L51) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L47) (1 connections)
-- [snapHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L55) (1 connections)
-- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L35) (1 connections)
-- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx#L50) (1 connections)
+- [LyricsSections.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L1) (11 connections)
+- [detectSectionType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L101) (1 connections)
+- [getSectionVariant()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L118) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L140) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L139) (1 connections)
+- [MAX_SECTION_LINES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L38) (1 connections)
+- [MIN_SECTION_LINES](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L37) (1 connections)
+- [mins](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L178) (1 connections)
+- [secs](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L179) (1 connections)
+- [SECTION_GAP_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L36) (1 connections)
+- [sections](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L116) (1 connections)
+- [useLyricsSections()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -24,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\dialog\variants\sheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dialog/variants/sheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsSections.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsSections.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,13 +1,12 @@
 # UI Assets
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L1) (3 connections)
-- [handleMore()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L62) (2 connections)
-- [handleBack()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L56) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx#L54) (1 connections)
+- [useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L6) (1 connections)
+- [useMidiTranscription()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx#L8) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileHeaderBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileHeaderBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useMidiTranscription.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useMidiTranscription.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (86%)
-- INFERRED: 1 (14%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,12 +1,11 @@
 # Validation Handling
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L1) (2 connections)
-- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L24) (1 connections)
-- [detailedDescriptionRu](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx#L25) (1 connections)
+- [SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L1) (1 connections)
+- [cleanWord](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierTelegramSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierTelegramSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics\SynchronizedWord.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics/SynchronizedWord.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

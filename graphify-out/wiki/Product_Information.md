@@ -1,13 +1,11 @@
 # Product Information
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L1) (3 connections)
-- [originalError](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L140) (1 connections)
-- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L125) (1 connections)
-- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts#L126) (1 connections)
+- [YouStrip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/YouStrip.tsx#L1) (1 connections)
+- [GamificationBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/YouStrip.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\_\_tests\_\_\vitest.setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/vitest.setup.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\YouStrip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/YouStrip.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

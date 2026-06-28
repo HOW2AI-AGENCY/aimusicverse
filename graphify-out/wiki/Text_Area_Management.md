@@ -1,20 +1,19 @@
 # Text Area Management
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L1) (10 connections)
-- [bestValueId](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L43) (1 connections)
-- [creditsAmount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L75) (1 connections)
-- [discount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L74) (1 connections)
-- [getBestValue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L24) (1 connections)
-- [getDiscount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L53) (1 connections)
-- [getProductLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L46) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L72) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L73) (1 connections)
-- [priceRub](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L76) (1 connections)
-- [tracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx#L77) (1 connections)
+- [stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L1) (9 connections)
+- [getStemDisplayInfo()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L186) (5 connections)
+- [getStemColor()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L156) (2 connections)
+- [getStemEmoji()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L166) (2 connections)
+- [getStemIconName()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L176) (2 connections)
+- [getStemLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L146) (2 connections)
+- [STEM_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L55) (1 connections)
+- [STEM_EMOJIS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L84) (1 connections)
+- [STEM_ICON_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L113) (1 connections)
+- [STEM_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts#L9) (1 connections)
 
 ## Relationships
 
@@ -22,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\payments\PaymentPackageSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/PaymentPackageSelector.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\stemLabels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/stemLabels.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,18 +1,16 @@
 # Guitar Chord Management
 
-> 9 nodes · cohesion 0.22
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L1) (8 connections)
-- [box](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L22) (1 connections)
-- [header](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L12) (1 connections)
-- [headerBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L38) (1 connections)
-- [overflow](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L29) (1 connections)
-- [tab](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L20) (1 connections)
-- [tablist](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L15) (1 connections)
-- [tablistBox](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L39) (1 connections)
-- [WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts#L3) (1 connections)
+- [AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L1) (8 connections)
+- [displayUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L107) (1 connections)
+- [fileInputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L20) (1 connections)
+- [initials](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L108) (1 connections)
+- [[isUploading, setIsUploading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L18) (1 connections)
+- [[previewUrl, setPreviewUrl]](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L19) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\home.quickstart.responsive.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/home.quickstart.responsive.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\settings\AvatarUpload.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/settings/AvatarUpload.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,17 +1,16 @@
 # UI Architecture Refactoring
 
-> 8 nodes · cohesion 0.25
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [TelemetryDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L1) (7 connections)
-- [{ data: errors, isLoading: errorsLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L26) (1 connections)
-- [{ data: telemetry, isLoading: telemetryLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L25) (1 connections)
-- [getPlatformIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L31) (1 connections)
-- [getSeverityColor()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L44) (1 connections)
-- [isLoading](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L28) (1 connections)
-- [TIME_PERIODS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L16) (1 connections)
-- [[timePeriod, setTimePeriod]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx#L24) (1 connections)
+- [TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L1) (6 connections)
+- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L56) (1 connections)
+- [handleOpen](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L50) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L47) (1 connections)
+- [[sheetOpen, setSheetOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L48) (1 connections)
+- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L60) (1 connections)
+- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -19,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\TelemetryDashboard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/TelemetryDashboard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackActionTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackActionTrigger.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

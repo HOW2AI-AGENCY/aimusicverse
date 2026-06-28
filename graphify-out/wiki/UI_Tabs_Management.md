@@ -1,14 +1,13 @@
 # UI Tabs Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [IconGridButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L1) (4 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L56) (1 connections)
-- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L25) (1 connections)
-- [handleClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L43) (1 connections)
-- [styles](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx#L41) (1 connections)
+- [Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L1) (3 connections)
+- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L25) (1 connections)
+- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L33) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts#L6) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\IconGridButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/IconGridButton.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Header.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Header.stories.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

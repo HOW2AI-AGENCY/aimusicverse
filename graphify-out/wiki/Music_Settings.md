@@ -1,20 +1,19 @@
 # Music Settings
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L1) (10 connections)
-- [{ data: leaderboard, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L22) (1 connections)
-- [{ data: userCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L23) (1 connections)
-- [isCurrentUser](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L66) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L21) (1 connections)
-- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L65) (1 connections)
-- [RANK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L13) (1 connections)
-- [topThree](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L43) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L20) (1 connections)
-- [userPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L26) (1 connections)
-- [xpToNextRank](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L33) (1 connections)
+- [TrackLaneRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L1) (9 connections)
+- [controlsWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L41) (1 connections)
+- [handleDragOver](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L60) (1 connections)
+- [handleDrop](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L46) (1 connections)
+- [hasSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L43) (1 connections)
+- [isEffectivelyMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L44) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L36) (1 connections)
+- [laneRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L35) (1 connections)
+- [{ toggleTrackMute, toggleTrackSolo, setTrackVolume, removeTrack, currentProject }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L38) (1 connections)
+- [trackHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx#L40) (1 connections)
 
 ## Relationships
 
@@ -22,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\timeline\TrackLaneRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/timeline/TrackLaneRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

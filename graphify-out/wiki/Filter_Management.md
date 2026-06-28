@@ -1,19 +1,18 @@
 # Filter Management
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.31
 
 ## Key Concepts
 
-- [AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L1) (9 connections)
-- [activeButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L49) (1 connections)
-- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L43) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L122) (1 connections)
-- [PRIMARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L32) (1 connections)
-- [primaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L54) (1 connections)
-- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L44) (1 connections)
-- [SECONDARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L34) (1 connections)
-- [secondaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L55) (1 connections)
-- [toolsToShow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L56) (1 connections)
+- [chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L1) (8 connections)
+- [getChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L142) (3 connections)
+- [getAllChords()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L157) (2 connections)
+- [getChordsByType()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L164) (2 connections)
+- [hasChordFingering()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L150) (2 connections)
+- [normalizeChord()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L120) (2 connections)
+- [CHORD_FINGERINGS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L13) (1 connections)
+- [FINGER_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L102) (1 connections)
+- [STRING_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts#L111) (1 connections)
 
 ## Relationships
 
@@ -21,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\chord-data.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/chord-data.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

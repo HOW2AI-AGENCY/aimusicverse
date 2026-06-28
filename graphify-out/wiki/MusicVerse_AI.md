@@ -1,12 +1,11 @@
 # MusicVerse AI
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L1) (2 connections)
-- [projectLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L24) (1 connections)
-- [useProjectStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts#L53) (1 connections)
+- [useStudioHandlers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioHandlers.ts#L1) (1 connections)
+- [useStudioHandlers()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioHandlers.ts#L61) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useProjectStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useProjectStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioHandlers.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioHandlers.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

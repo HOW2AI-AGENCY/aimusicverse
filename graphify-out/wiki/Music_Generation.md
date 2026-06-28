@@ -1,23 +1,21 @@
 # Music Generation
 
-> 14 nodes · cohesion 0.18
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [ChipInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L1) (13 connections)
-- [addChip](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L51) (3 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L67) (3 connections)
-- [handleSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L233) (2 connections)
-- [handleSuggestionClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L80) (2 connections)
-- [removeChip](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L62) (2 connections)
-- [canAddMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L85) (1 connections)
-- [filteredSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L43) (1 connections)
-- [inputRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L41) (1 connections)
-- [[inputValue, setInputValue]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L39) (1 connections)
-- [[isFocused, setIsFocused]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L40) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L256) (1 connections)
-- [showSuggestions](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L49) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx#L247) (1 connections)
+- [LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L1) (11 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L81) (1 connections)
+- [{ data: leaderboard, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L22) (1 connections)
+- [{ data: userCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L23) (1 connections)
+- [isCurrentUser](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L61) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L21) (1 connections)
+- [position](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L60) (1 connections)
+- [RANK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L13) (1 connections)
+- [topThree](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L43) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L20) (1 connections)
+- [userPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L26) (1 connections)
+- [xpToNextRank](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -25,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\ChipInput.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/ChipInput.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\LeaderboardWidget.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/LeaderboardWidget.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (97%)
-- INFERRED: 1 (3%)
+- EXTRACTED: 22 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,25 +1,23 @@
 # Tour Navigation
 
-> 16 nodes · cohesion 0.12
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [NotesViewerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L1) (15 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L66) (1 connections)
-- [availableTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L147) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L121) (1 connections)
-- [handleDownload](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L129) (1 connections)
-- [handleOpenExternal](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L140) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L181) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L65) (1 connections)
-- [[localPlaying, setLocalPlaying]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L68) (1 connections)
-- [[localTime, setLocalTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L67) (1 connections)
-- [notes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L96) (1 connections)
-- [{ parseMidiFromUrl, parsedMidi, isLoading: isParsing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L70) (1 connections)
-- [{ parseMusicXmlFromUrl, parsedXml, isLoading: isParsingXml }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L71) (1 connections)
-- [{ playNote, stopAll, isReady }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L72) (1 connections)
-- [xmlDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L125) (1 connections)
-- [xmlNotes](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx#L108) (1 connections)
+- [Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L1) (13 connections)
+- [handleMouseLeave()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L55) (2 connections)
+- [handleMouseMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L44) (2 connections)
+- [cardRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L25) (1 connections)
+- [handleClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L60) (1 connections)
+- [[isFlipped, setIsFlipped]](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L26) (1 connections)
+- [rotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L33) (1 connections)
+- [rotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L34) (1 connections)
+- [shineX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L41) (1 connections)
+- [shineY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L42) (1 connections)
+- [springRotateX](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L37) (1 connections)
+- [springRotateY](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L38) (1 connections)
+- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L29) (1 connections)
+- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -27,14 +25,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\NotesViewerDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/NotesViewerDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\payments\Card3D.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/payments/Card3D.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 30 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 26 (93%)
+- INFERRED: 2 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

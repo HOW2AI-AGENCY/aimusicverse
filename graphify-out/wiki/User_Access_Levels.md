@@ -1,13 +1,11 @@
 # User Access Levels
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L1) (3 connections)
-- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L22) (1 connections)
-- [useBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L42) (1 connections)
-- [useUpdateBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L70) (1 connections)
+- [AdminDashboardHeader()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L25) (1 connections)
+- [AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\dashboard\AdminDashboardHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/dashboard/AdminDashboardHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

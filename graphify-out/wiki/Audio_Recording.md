@@ -4,16 +4,17 @@
 
 ## Key Concepts
 
-- [AdminUserCreditsDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L26) (1 connections)
-- [AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx#L1) (1 connections)
+- [Telegram Mini App Integration Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md) (1 connections)
+- [Z-Index Layering System](file:///D:/.MUSICVERSE/aimusicverse/docs/Z_INDEX_HIERARCHY.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Music Metadata]] (2 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminUserCreditsDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminUserCreditsDialog.tsx)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_MINI_APP_INTEGRATION.md)
+- [docs/Z_INDEX_HIERARCHY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/Z_INDEX_HIERARCHY.md)
 
 ## Audit Trail
 
@@ -23,4 +24,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,19 +1,17 @@
 # Editing Functionality
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [progress-ring.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L1) (9 connections)
-- [circumference](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L41) (1 connections)
-- [colorClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L44) (1 connections)
-- [dimension](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L38) (1 connections)
-- [gradientId](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L52) (1 connections)
-- [radius](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L40) (1 connections)
-- [sizeMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L16) (1 connections)
-- [stroke](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L39) (1 connections)
-- [strokeDashoffset](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L42) (1 connections)
-- [strokeWidthMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx#L22) (1 connections)
+- [LyricsRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L1) (7 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L47) (1 connections)
+- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L67) (1 connections)
+- [isHighlighted](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L72) (1 connections)
+- [isPast](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L68) (1 connections)
+- [isUpcoming](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L69) (1 connections)
+- [renderWord()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L36) (1 connections)
+- [WORD_TIMING_TOLERANCE](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\progress-ring.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/progress-ring.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\lyrics-panel\LyricsRenderer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/lyrics-panel/LyricsRenderer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

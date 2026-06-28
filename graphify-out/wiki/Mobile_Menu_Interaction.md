@@ -1,18 +1,17 @@
 # Mobile Menu Interaction
 
-> 9 nodes · cohesion 0.22
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L1) (8 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L109) (1 connections)
-- [DRAG_CLOSE_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L33) (1 connections)
-- [handleBackdropClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L66) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L61) (1 connections)
-- [handleDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L49) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L46) (1 connections)
-- [VELOCITY_THRESHOLD](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L34) (1 connections)
-- [x](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx#L47) (1 connections)
+- [waveformWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L1) (7 connections)
+- [arrayBuffer](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L114) (1 connections)
+- [errorResult](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L88) (1 connections)
+- [generatePeaksFromArrayBuffer()](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L28) (1 connections)
+- [peaks](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L115) (1 connections)
+- [response](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L109) (1 connections)
+- [result](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L117) (1 connections)
+- [{ type, audioUrl, samples, id }](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts#L81) (1 connections)
 
 ## Relationships
 
@@ -20,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\mobile\MobileSlidePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/mobile/MobileSlidePanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\workers\waveformWorker.ts](file:///D:/.MUSICVERSE/aimusicverse/src/workers/waveformWorker.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 14 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

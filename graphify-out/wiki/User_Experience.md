@@ -1,10 +1,11 @@
 # User Experience
 
-> 1 nodes · cohesion 1.00
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Long Track Names Truncation Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (0 connections)
+- [ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L1) (1 connections)
+- [PROJECT_TEMPLATES](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -12,14 +13,14 @@
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectTemplateSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectTemplateSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

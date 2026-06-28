@@ -2,35 +2,35 @@
   "hotspots": [
     {
       "label": "useGenerateForm()",
-      "risk": 0.602,
+      "risk": 0.603,
       "type": "FUNCTION"
     },
     {
       "label": "usePromptDJEnhanced()",
-      "risk": 0.542,
+      "risk": 0.475,
       "type": "FUNCTION"
     },
     {
       "label": "LyricsParser",
-      "risk": 0.512,
+      "risk": 0.462,
       "type": "CLASS"
     },
     {
       "label": "GlobalAudioProvider()",
-      "risk": 0.496,
+      "risk": 0.456,
       "type": "FUNCTION"
     },
     {
-      "label": "useLyricsChat()",
-      "risk": 0.479,
+      "label": "useTelegramActions()",
+      "risk": 0.338,
       "type": "FUNCTION"
     }
   ],
   "blast_radius": {
-    "error": 511,
-    "from": 446,
-    "Select": 314,
-    "map": 269,
-    "now": 219
+    "error": 459,
+    "from": 439,
+    "Select": 309,
+    "map": 246,
+    "now": 204
   }
 }

@@ -1,13 +1,11 @@
 # Funnel Analytics
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L1) (3 connections)
-- [STATUS_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L49) (1 connections)
-- [STATUS_PROGRESS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L59) (1 connections)
-- [useExtendProgress()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts#L69) (1 connections)
+- [DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L1) (1 connections)
+- [DrumKitSelector](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx#L13) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useExtendProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useExtendProgress.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\drum-machine\DrumKitSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/drum-machine/DrumKitSelector.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

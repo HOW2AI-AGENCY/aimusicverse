@@ -1,19 +1,17 @@
 # Input Field
 
-> 10 nodes · cohesion 0.20
+> 8 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L1) (9 connections)
-- [BREAKPOINTS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L15) (1 connections)
-- [GAPS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L89) (1 connections)
-- [GRID_COLS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L36) (1 connections)
-- [hideBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L140) (1 connections)
-- [LAYOUT_RATIOS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L103) (1 connections)
-- [matchesBreakpoint()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L154) (1 connections)
-- [MAX_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L67) (1 connections)
-- [showBelow()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L147) (1 connections)
-- [SIDEBAR_WIDTHS](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts#L126) (1 connections)
+- [MobilePlayerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L1) (7 connections)
+- [handleShare()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L88) (2 connections)
+- [handleSkip](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L73) (1 connections)
+- [isMuted](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L60) (1 connections)
+- [mainAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L63) (1 connections)
+- [[showVolumeSlider, setShowVolumeSlider]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L59) (1 connections)
+- [timeout](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L68) (1 connections)
+- [toggleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx#L83) (1 connections)
 
 ## Relationships
 
@@ -21,14 +19,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\lib\breakpoints.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/breakpoints.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobilePlayerContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobilePlayerContent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 14 (93%)
+- INFERRED: 1 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

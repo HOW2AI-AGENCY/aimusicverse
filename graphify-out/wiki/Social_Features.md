@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [Sprint 011 Social Features - Implementation Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_IMPLEMENTATION_GUIDE.md) (0 connections)
+- [TelegramContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TelegramContext.tsx#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [docs/archive/sprint-reports/SPRINT_011_IMPLEMENTATION_GUIDE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/sprint-reports/SPRINT_011_IMPLEMENTATION_GUIDE.md)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\TelegramContext.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/TelegramContext.tsx)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

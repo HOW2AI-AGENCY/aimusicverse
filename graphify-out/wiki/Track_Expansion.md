@@ -1,14 +1,13 @@
 # Track Expansion
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L1) (4 connections)
-- [handleEffects](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L67) (1 connections)
-- [handleMute](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L57) (1 connections)
-- [handleSolo](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L62) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx#L55) (1 connections)
+- [typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L1) (3 connections)
+- [studioProjectToDAWProject()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L56) (2 connections)
+- [dawTrackToStudioTrackUpdate()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L68) (1 connections)
+- [studioTrackToDAWTrack()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MixerChannel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MixerChannel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\studio\typeAdapters.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/studio/typeAdapters.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (86%)
+- INFERRED: 1 (14%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

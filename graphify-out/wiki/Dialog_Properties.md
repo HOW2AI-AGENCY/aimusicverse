@@ -1,34 +1,38 @@
 # Dialog Properties
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [Player Deep Links Missing Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (3 connections)
-- [Navigation System](file:///D:/.MUSICVERSE/aimusicverse/docs/NAVIGATION_SYSTEM.md) (2 connections)
-- [MusicVerse AI Platform Specification](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md) (2 connections)
-- [track_versions Constraint Violation Issue](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md) (1 connections)
-- [Navigation Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/NAVIGATION.md) (1 connections)
-- [Navigation Index](file:///D:/.MUSICVERSE/aimusicverse/docs/NAVIGATION_INDEX.md) (1 connections)
+- [ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L1) (3 connections)
+- [handleMenuClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L59) (1 connections)
+- [handlePlayClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L50) (1 connections)
+- [{
+    sheetOpen,
+    setSheetOpen,
+    isHovered,
+    isCurrentlyPlaying,
+    handlePlay,
+    handleCardClick,
+    handleMouseEnter,
+    handleMouseLeave,
+    openSheet,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx#L38) (1 connections)
 
 ## Relationships
 
-- [[Navigation System]] (10 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/KNOWN_ISSUES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/KNOWN_ISSUES.md)
-- [docs/NAVIGATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/NAVIGATION.md)
-- [docs/NAVIGATION_INDEX.md](file:///D:/.MUSICVERSE/aimusicverse/docs/NAVIGATION_INDEX.md)
-- [docs/NAVIGATION_SYSTEM.md](file:///D:/.MUSICVERSE/aimusicverse/docs/NAVIGATION_SYSTEM.md)
-- [docs/PROJECT_SPECIFICATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track\track-card-new\variants\ProfessionalVariant.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/track-card-new/variants/ProfessionalVariant.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
-- INFERRED: 10 (100%)
+- EXTRACTED: 6 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

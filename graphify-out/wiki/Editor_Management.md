@@ -1,16 +1,14 @@
 # Editor Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L1) (6 connections)
-- [displayTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L65) (1 connections)
-- [handleLoadMore](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L72) (1 connections)
-- [handleTrackClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L67) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L62) (1 connections)
-- [SKELETON_COUNT](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L33) (1 connections)
-- [TrackSkeleton](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx#L36) (1 connections)
+- [QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L1) (4 connections)
+- [{ data: credits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L36) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L38) (1 connections)
+- [StatItem()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L18) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\home\FeaturedSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/FeaturedSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\QuickStats.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/QuickStats.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

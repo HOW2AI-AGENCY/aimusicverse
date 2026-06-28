@@ -1,35 +1,33 @@
 # Music Timing
 
-> 28 nodes · cohesion 0.07
+> 24 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [timeline-snap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L1) (27 connections)
-- [beatLines](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L193) (1 connections)
-- [betweenGrid](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L335) (1 connections)
-- [bpm](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L136) (1 connections)
-- [dragPlayhead()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L13) (1 connections)
-- [dragPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L307) (1 connections)
-- [dragTimeDisplays](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L371) (1 connections)
-- [event](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L159) (1 connections)
-- [finalPosition](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L145) (1 connections)
-- [getBPMDisplay()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L121) (1 connections)
-- [getPlayheadPosition()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L100) (1 connections)
-- [getTimeDisplay()](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L113) (1 connections)
-- [gridLines](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L181) (1 connections)
-- [hapticEvents](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L243) (1 connections)
-- [i](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L315) (1 connections)
-- [isSnapped](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L343) (1 connections)
-- [measureLines](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L192) (1 connections)
-- [observer](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L294) (1 connections)
-- [originalHaptic](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L230) (1 connections)
-- [playhead](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L289) (1 connections)
-- [positions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L285) (1 connections)
-- [positionZoomedIn](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L390) (1 connections)
-- [positionZoomedOut](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L400) (1 connections)
-- [snapDivision](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L203) (1 connections)
-- [snapPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts#L324) (1 connections)
-- _... and 3 more nodes in this community_
+- [DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L1) (23 connections)
+- [handleProjectSelect()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L85) (2 connections)
+- [{ activeReference }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L59) (1 connections)
+- [[advancedOpen, setAdvancedOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L70) (1 connections)
+- [[artistDialogOpen, setArtistDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L63) (1 connections)
+- [{ artists }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L57) (1 connections)
+- [[audioActionDialogOpen, setAudioActionDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L64) (1 connections)
+- [chordInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L330) (1 connections)
+- [form](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L75) (1 connections)
+- [FormSkeleton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L41) (1 connections)
+- [GenerateFormCustom](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L36) (1 connections)
+- [GenerateFormSimple](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L33) (1 connections)
+- [handleGenerate()](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L98) (1 connections)
+- [[historyOpen, setHistoryOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L66) (1 connections)
+- [[lyricsAssistantOpen, setLyricsAssistantOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L67) (1 connections)
+- [[projectDialogOpen, setProjectDialogOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L62) (1 connections)
+- [{ projects }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L56) (1 connections)
+- [projectTracks](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L83) (1 connections)
+- [[projectTrackStep, setProjectTrackStep]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L69) (1 connections)
+- [qc](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L71) (1 connections)
+- [[stylesOpen, setStylesOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L68) (1 connections)
+- [{ tracks: allTracks }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L58) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L72) (1 connections)
+- [[voiceCloneOpen, setVoiceCloneOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx#L65) (1 connections)
 
 ## Relationships
 
@@ -37,14 +35,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\e2e\studio\timeline-snap.spec.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/e2e/studio/timeline-snap.spec.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\library\DesktopLibrarySidebar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/DesktopLibrarySidebar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 54 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 46 (98%)
+- INFERRED: 1 (2%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

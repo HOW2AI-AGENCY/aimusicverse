@@ -1,15 +1,13 @@
 # Deep Link Management
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L1) (5 connections)
-- [Display](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L132) (1 connections)
-- [Heading](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L38) (1 connections)
-- [Prose](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L166) (1 connections)
-- [Text](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L93) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx#L76) (1 connections)
+- [UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L1) (3 connections)
+- [FEATURE_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L19) (1 connections)
+- [TIER_NAMES](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L36) (1 connections)
+- [UpgradePrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\typography.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/typography.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\premium\UpgradePrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/premium/UpgradePrompt.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

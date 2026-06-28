@@ -1,32 +1,18 @@
 # Conversion Metrics
 
-> 10 nodes · cohesion 0.20
+> 9 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L1) (9 connections)
-- [[analysisResult, setAnalysisResult]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L25) (1 connections)
-- [{ analyze, isAnalyzing }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L42) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L77) (1 connections)
-- [handleAnalyze](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L62) (1 connections)
-- [handleReset](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L57) (1 connections)
-- [handleStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L44) (1 connections)
-- [handleStop](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L52) (1 connections)
-- [{
-  isRecording,
-  isPaused,
-  audioUrl,
-  audioBlob,
-  duration,
-  audioLevel,
-  waveformData,
-  startRecording,
-  stopRecording,
-  pauseRecording,
-  resumeRecording,
-  resetRecording,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L27) (1 connections)
-- [[recordingMode, setRecordingMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx#L24) (1 connections)
+- [SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L1) (8 connections)
+- [{ analytics, getRecommendations, topRated, history }](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L28) (1 connections)
+- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L80) (1 connections)
+- [deletePreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L36) (1 connections)
+- [getChannelConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L49) (1 connections)
+- [handleApplyRecommendation](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L42) (1 connections)
+- [loadPreset](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L32) (1 connections)
+- [recommendations](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L40) (1 connections)
+- [userPresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -34,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\audio-hub\AudioHubRecorder.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-hub/AudioHubRecorder.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\prompt-dj\SmartPresetsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/prompt-dj/SmartPresetsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 18 (100%)
+- EXTRACTED: 16 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

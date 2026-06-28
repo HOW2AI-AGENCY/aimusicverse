@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [{ currentMetrics, activeAlerts, healthStatus, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx#L18) (1 connections)
-- [AlertsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx#L1) (1 connections)
+- [HMAC-SHA256 Validation](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md) (1 connections)
+- [Telegram OAuth Flow Architecture](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Deeplink Analytics]] (2 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\AlertsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx)
+- [docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_MINI_APP/TELEGRAM_INTEGRATION.md)
 
 ## Audit Trail
 
@@ -23,4 +23,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

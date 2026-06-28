@@ -1,35 +1,46 @@
 # Image Cropper
 
-> 27 nodes · cohesion 0.08
+> 24 nodes · cohesion 0.08
 
 ## Key Concepts
 
-- [MobileDAWTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L1) (26 connections)
-- [bind](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L129) (2 connections)
-- [handleEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L221) (2 connections)
-- [handleMove()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L220) (2 connections)
-- [handlePlayheadDrag](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L189) (2 connections)
-- [handlePlayheadDragEnd](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L209) (2 connections)
-- [bpmMarkers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L144) (1 connections)
-- [colors](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L330) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L97) (1 connections)
-- [containerWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L240) (1 connections)
-- [getTrackConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L68) (1 connections)
-- [handlePlayheadDragStart](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L183) (1 connections)
-- [handleTimelineClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L115) (1 connections)
-- [haptic](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L103) (1 connections)
-- [[isDraggingPlayhead, setIsDraggingPlayhead]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L102) (1 connections)
-- [leftPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L328) (1 connections)
-- [playheadPosition](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L241) (1 connections)
-- [playheadRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L99) (1 connections)
-- [progressPercent](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L112) (1 connections)
-- [[scrollLeft, setScrollLeft]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L101) (1 connections)
-- [SECTION_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L72) (1 connections)
-- [timelineRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L98) (1 connections)
-- [timelineWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L106) (1 connections)
-- [timeMarkers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L170) (1 connections)
-- [TRACK_TYPE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx#L54) (1 connections)
-- _... and 2 more nodes in this community_
+- [MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L1) (23 connections)
+- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L105) (1 connections)
+- [context](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L108) (1 connections)
+- [handleApplyLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L253) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L243) (1 connections)
+- [handleQuickAction](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L226) (1 connections)
+- [handleSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L237) (1 connections)
+- [handleStartWorkflow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L218) (1 connections)
+- [handleToolExecute](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L210) (1 connections)
+- [handleToolSelect](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L201) (1 connections)
+- [hasAnalysis](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L301) (1 connections)
+- [hasAnalysisResults](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L163) (1 connections)
+- [hasGeneratedLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L159) (1 connections)
+- [[input, setInput]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L103) (1 connections)
+- [{ isRecording, isProcessing, toggleRecording }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L151) (1 connections)
+- [latestLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L167) (1 connections)
+- [{ messages, isLoading, activeTool, executeTool, sendChatMessage, clearMessages, setActiveTool }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L123) (1 connections)
+- [[openToolPanel, setOpenToolPanel]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L104) (1 connections)
+- [renderMessage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L295) (1 connections)
+- [renderToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L261) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L106) (1 connections)
+- [TAB_TOOLS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L173) (1 connections)
+- [viewport](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L196) (1 connections)
+- [{
+    workflow: activeWorkflow,
+    currentStep,
+    currentStepIndex,
+    stepResults,
+    status: workflowStatus,
+    progress: workflowProgress,
+    startWorkflow,
+    pauseWorkflow,
+    resumeWorkflow,
+    skipStep,
+    cancelWorkflow,
+    isRunning: isWorkflowRunning,
+  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx#L131) (1 connections)
 
 ## Relationships
 
@@ -37,14 +48,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileDAWTimeline.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileDAWTimeline.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\MobileAIAgentPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/MobileAIAgentPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 56 (98%)
-- INFERRED: 1 (2%)
+- EXTRACTED: 46 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

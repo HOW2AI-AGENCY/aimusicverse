@@ -1,16 +1,14 @@
 # Menu Management
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L1) (6 connections)
-- [displayCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L40) (1 connections)
-- [positionClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L42) (1 connections)
-- [showBadge](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L39) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L49) (1 connections)
-- [statusColors](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L137) (1 connections)
-- [variantClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx#L55) (1 connections)
+- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
+- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
+- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
+- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
+- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\NotificationBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/NotificationBadge.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

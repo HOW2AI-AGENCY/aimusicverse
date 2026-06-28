@@ -4,16 +4,16 @@
 
 ## Key Concepts
 
-- [TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L1) (1 connections)
-- [TierDisplaySection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx#L18) (1 connections)
+- [Project Audit with Improvements](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md) (1 connections)
+- [Code Quality - Lint Errors Fixed](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[MusicVerse AI]] (2 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierDisplaySection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierDisplaySection.tsx)
+- [docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/AUDIT_SUMMARY_2025-12-02.md)
 
 ## Audit Trail
 
@@ -23,4 +23,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

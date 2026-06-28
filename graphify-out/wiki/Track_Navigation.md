@@ -1,13 +1,12 @@
 # Track Navigation
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L1) (3 connections)
-- [SECTION_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L68) (1 connections)
-- [TAG_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L82) (1 connections)
-- [UI_TRANSLATIONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts#L32) (1 connections)
+- [useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L35) (1 connections)
+- [useTelegramSensors()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts#L79) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\suno\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/suno/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSensors.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSensors.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,15 +1,14 @@
 # Project Documentation
 
-> 6 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.60
 
 ## Key Concepts
 
-- [generation.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L1) (6 connections)
-- [analyzeGenerationDurations()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L124) (2 connections)
-- [analyzeFailedLogs()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L76) (1 connections)
-- [calculateSuccessTrend()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L99) (1 connections)
-- [filterLogsByStatus()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L66) (1 connections)
-- [mergeRealtimeLogs()](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts#L164) (1 connections)
+- [useStudioGestures.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L1) (4 connections)
+- [useStudioGestures()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L56) (3 connections)
+- [usePinchZoom()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L232) (2 connections)
+- [useSwipeNavigation()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L247) (2 connections)
+- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts#L45) (1 connections)
 
 ## Relationships
 
@@ -17,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\generation.service.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/generation.service.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useStudioGestures.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useStudioGestures.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 11 (92%)
-- INFERRED: 1 (8%)
+- EXTRACTED: 12 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

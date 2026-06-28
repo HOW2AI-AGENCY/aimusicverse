@@ -1,12 +1,11 @@
 # Application State
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L1) (2 connections)
-- [useScrollReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L44) (1 connections)
-- [useStaggeredReveal()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts#L120) (1 connections)
+- [tabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx#L1) (1 connections)
+- [Tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx#L6) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useScrollReveal.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useScrollReveal.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\tabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tabs.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

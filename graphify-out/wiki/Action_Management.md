@@ -1,14 +1,12 @@
 # Action Management
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L1) (4 connections)
-- [getComingSoonFeatures()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L65) (2 connections)
-- [APP_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L6) (1 connections)
-- [FEATURE_METADATA](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L74) (1 connections)
-- [isFeatureEnabled()](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts#L58) (1 connections)
+- [TierFeaturesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx#L1) (2 connections)
+- [FeatureToggle()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx#L23) (1 connections)
+- [TierFeaturesSection()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx#L32) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\config\app.config.ts](file:///D:/.MUSICVERSE/aimusicverse/src/config/app.config.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\subscription\TierFeaturesSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/subscription/TierFeaturesSection.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (89%)
-- INFERRED: 1 (11%)
+- EXTRACTED: 4 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,14 +1,13 @@
 # Hint Management
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [GenerationErrorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L1) (4 connections)
-- [ERROR_ICONS](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L23) (1 connections)
-- [iconColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L45) (1 connections)
-- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L44) (1 connections)
-- [needsEdit](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx#L47) (1 connections)
+- [useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L1) (3 connections)
+- [DEFAULT_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L22) (1 connections)
+- [useBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L42) (1 connections)
+- [useUpdateBotConfig()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts#L66) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generation\GenerationErrorCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generation/GenerationErrorCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useBotConfig.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useBotConfig.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

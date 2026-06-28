@@ -1,22 +1,20 @@
 # Touch Interaction
 
-> 13 nodes · cohesion 0.15
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L1) (12 connections)
-- [formatted](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L186) (1 connections)
-- [lines](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L162) (1 connections)
-- [mockAudioUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L26) (1 connections)
-- [mockBPMResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L39) (1 connections)
-- [mockDuration](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L27) (1 connections)
-- [mockNearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L127) (1 connections)
-- [mockPositions](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L145) (1 connections)
-- [mockSnapResult](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L101) (1 connections)
-- [nearest](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L136) (1 connections)
-- [{ result }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L42) (1 connections)
-- [{ result, rerender }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L221) (1 connections)
-- [snapped](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts#L116) (1 connections)
+- [StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L1) (10 connections)
+- [checkinDates](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L49) (1 connections)
+- [{ data: checkins, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L19) (1 connections)
+- [dayNames](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L52) (1 connections)
+- [dayNum](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L78) (1 connections)
+- [dayOfWeek](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L77) (1 connections)
+- [isCheckedIn](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L75) (1 connections)
+- [isToday](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L76) (1 connections)
+- [last7Days](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L43) (1 connections)
+- [today](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L50) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx#L17) (1 connections)
 
 ## Relationships
 
@@ -24,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\hooks\useBPMGrid.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/hooks/useBPMGrid.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\StreakCalendar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/StreakCalendar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

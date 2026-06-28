@@ -1,13 +1,11 @@
 # Supabase Configuration
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useRealTimeAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L1) (3 connections)
-- [DEFAULT_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L35) (1 connections)
-- [useMultiTrackLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L209) (1 connections)
-- [useRealTimeAudioLevels()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts#L44) (1 connections)
+- [DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L1) (1 connections)
+- [layoutRatio](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx#L35) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\useRealTimeAudioLevels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/useRealTimeAudioLevels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\DesktopContentHubLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/DesktopContentHubLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

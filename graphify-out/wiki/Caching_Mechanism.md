@@ -1,14 +1,12 @@
 # Caching Mechanism
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L1) (4 connections)
-- [analyticsKeys](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L71) (1 connections)
-- [useGamificationAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L117) (1 connections)
-- [usePaymentAnalytics()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L80) (1 connections)
-- [useQuickPaymentStats()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts#L159) (1 connections)
+- [ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L1) (2 connections)
+- [getScoreLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L36) (2 connections)
+- [ProducerResultCard()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx#L43) (2 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\usePaymentAnalytics.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePaymentAnalytics.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\results\ProducerResultCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/results/ProducerResultCard.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

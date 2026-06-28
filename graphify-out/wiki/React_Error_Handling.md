@@ -1,13 +1,11 @@
 # React Error Handling
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L1) (3 connections)
-- [supabase](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L11) (1 connections)
-- [SUPABASE_PUBLISHABLE_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L6) (1 connections)
-- [SUPABASE_URL](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts#L5) (1 connections)
+- [PrivacyToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx#L1) (1 connections)
+- [handleChange()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\integrations\supabase\client.ts](file:///D:/.MUSICVERSE/aimusicverse/src/integrations/supabase/client.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\PrivacyToggle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/PrivacyToggle.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

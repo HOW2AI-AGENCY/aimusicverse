@@ -1,13 +1,11 @@
 # Authentication Control
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L1) (3 connections)
-- [createDefaultViewSettings()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L156) (1 connections)
-- [generateId()](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L154) (1 connections)
-- [TRACK_COLORS](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts#L141) (1 connections)
+- [formatPlayCount()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L24) (1 connections)
+- [CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\CommunityTrending.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/CommunityTrending.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,11 +1,10 @@
 # Media Formatting
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [EditableTrackTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx#L1) (1 connections)
-- [EditableTrackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx#L21) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\EditableTrackTitle.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/EditableTrackTitle.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,24 +1,22 @@
 # Audio Application Architecture
 
-> 15 nodes · cohesion 0.13
+> 13 nodes · cohesion 0.15
 
 ## Key Concepts
 
-- [ChordDiagramUnified.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L1) (14 connections)
-- [adjustedFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L167) (1 connections)
-- [Component](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L72) (1 connections)
-- [componentProps](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L73) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L47) (1 connections)
-- [fingering](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L46) (1 connections)
-- [firstString](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L171) (1 connections)
-- [{ frets, fingers = [], barres = [] }](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L66) (1 connections)
-- [lastString](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L172) (1 connections)
-- [maxFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L67) (1 connections)
-- [minFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L68) (1 connections)
-- [numFrets](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L69) (1 connections)
-- [SIZE_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L28) (1 connections)
-- [startFret](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L70) (1 connections)
-- [y](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx#L170) (1 connections)
+- [CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L1) (12 connections)
+- [addComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L31) (1 connections)
+- [{ data: comments = [], isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L30) (1 connections)
+- [deleteComment](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L32) (1 connections)
+- [formInput](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L123) (1 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L56) (1 connections)
+- [handleReply()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L46) (1 connections)
+- [handleReport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L60) (1 connections)
+- [handleSubmitComment()](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L41) (1 connections)
+- [mappedComments](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L72) (1 connections)
+- [[replyTo, setReplyTo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L34) (1 connections)
+- [[reportTarget, setReportTarget]](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L35) (1 connections)
+- [title](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -26,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\guitar\ChordDiagramUnified.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/guitar/ChordDiagramUnified.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\comments\CommentsList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/comments/CommentsList.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 28 (100%)
+- EXTRACTED: 24 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

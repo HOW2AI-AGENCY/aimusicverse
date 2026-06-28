@@ -1,13 +1,12 @@
 # Product Sizing
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AnalysisResultsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L1) (3 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L44) (1 connections)
-- [availableTabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L48) (1 connections)
-- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx#L45) (1 connections)
+- [InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L1) (2 connections)
+- [showDetails](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L17) (1 connections)
+- [showTogglePublic](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\analysis\AnalysisResultsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/analysis/AnalysisResultsPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\InfoActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/InfoActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

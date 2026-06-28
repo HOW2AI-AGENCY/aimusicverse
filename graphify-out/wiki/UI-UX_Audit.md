@@ -1,12 +1,11 @@
 # UI/UX Audit
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L1) (2 connections)
-- [trackLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L22) (1 connections)
-- [useTrackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts#L67) (1 connections)
+- [useTelegramSecondaryButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts#L1) (1 connections)
+- [useTelegramSecondaryButton()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts#L61) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useTrackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useTrackStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSecondaryButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSecondaryButton.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

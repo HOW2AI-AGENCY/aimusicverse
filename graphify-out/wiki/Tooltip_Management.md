@@ -1,14 +1,12 @@
 # Tooltip Management
 
-> 5 nodes · cohesion 0.40
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L1) (4 connections)
-- [Tooltip](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L8) (1 connections)
-- [TooltipContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L12) (1 connections)
-- [TooltipProvider](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L6) (1 connections)
-- [TooltipTrigger](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx#L10) (1 connections)
+- [AlertsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx#L1) (2 connections)
+- [{ currentMetrics, activeAlerts, healthStatus, isLoading, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx#L15) (1 connections)
+- [switch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx#L209) (1 connections)
 
 ## Relationships
 
@@ -16,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\tooltip.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/tooltip.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\AlertsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/AlertsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

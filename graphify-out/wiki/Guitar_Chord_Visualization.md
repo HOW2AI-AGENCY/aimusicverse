@@ -1,27 +1,24 @@
 # Guitar Chord Visualization
 
-> 18 nodes · cohesion 0.11
+> 15 nodes · cohesion 0.13
 
 ## Key Concepts
 
-- [UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L1) (17 connections)
-- [dawProject](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L108) (1 connections)
-- [engineId](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L115) (1 connections)
-- [handleClose](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L131) (1 connections)
-- [handlers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L87) (1 connections)
-- [handleVersionSaved](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L140) (1 connections)
-- [id](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L49) (1 connections)
-- [mainTrack](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L70) (1 connections)
-- [mainTrackTitle](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L72) (1 connections)
-- [mainTrackUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L71) (1 connections)
-- [modalHandlers](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L61) (1 connections)
-- [modals](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L60) (1 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L48) (1 connections)
-- [operationLock](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L64) (1 connections)
-- [{ patterns }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L57) (1 connections)
-- [{ separate, isSeparating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L67) (1 connections)
-- [studio](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L56) (1 connections)
-- [trackForSeparation](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx#L75) (1 connections)
+- [UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L1) (14 connections)
+- [background](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L81) (1 connections)
+- [containerClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L58) (1 connections)
+- [defaultMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L67) (1 connections)
+- [[dismissed, setDismissed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L199) (1 connections)
+- [displayMessage](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L75) (1 connections)
+- [interval](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L202) (1 connections)
+- [[isVisible, setIsVisible]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L43) (1 connections)
+- [[loadingTime, setLoadingTime]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L197) (1 connections)
+- [retryTimer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L207) (1 connections)
+- [shouldReduceMotion](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L42) (1 connections)
+- [[showRetry, setShowRetry]](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L198) (1 connections)
+- [simulatedProgress](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L215) (1 connections)
+- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L48) (1 connections)
+- [zIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx#L82) (1 connections)
 
 ## Relationships
 
@@ -29,14 +26,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\UnifiedStudioMobile.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/UnifiedStudioMobile.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\UnifiedSplashScreen.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/UnifiedSplashScreen.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 34 (100%)
+- EXTRACTED: 28 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

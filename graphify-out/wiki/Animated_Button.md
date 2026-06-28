@@ -1,20 +1,18 @@
 # Animated Button
 
-> 11 nodes · cohesion 0.18
+> 9 nodes · cohesion 0.25
 
 ## Key Concepts
 
-- [optimized-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L1) (10 connections)
-- [finalQuality](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L61) (1 connections)
-- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L179) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L71) (1 connections)
-- [optimizedWidth](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L69) (1 connections)
-- [pixelSize](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L180) (1 connections)
-- [placeholder](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L63) (1 connections)
-- [{ qualityPercent, maxWidth }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L60) (1 connections)
-- [{ ref, isLoaded, currentSrc }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L239) (1 connections)
-- [{ ref, isLoaded, isError, currentSrc }](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L81) (1 connections)
-- [srcSet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx#L76) (1 connections)
+- [LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L1) (8 connections)
+- [handleEdit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L32) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L26) (2 connections)
+- [[deleteConfirmId, setDeleteConfirmId]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L30) (1 connections)
+- [filteredTemplates](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L36) (1 connections)
+- [handleDelete()](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L43) (1 connections)
+- [[searchQuery, setSearchQuery]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L28) (1 connections)
+- [[selectedTemplate, setSelectedTemplate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L29) (1 connections)
+- [{ templates, isLoading, deleteTemplate }](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx#L27) (1 connections)
 
 ## Relationships
 
@@ -22,14 +20,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\optimized-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/optimized-image.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\content-hub\tabs\LyricsTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/content-hub/tabs/LyricsTab.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 20 (100%)
+- EXTRACTED: 18 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

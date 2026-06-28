@@ -1,35 +1,35 @@
 # Admin Management
 
-> 33 nodes · cohesion 0.06
+> 30 nodes · cohesion 0.07
 
 ## Key Concepts
 
-- [rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L1) (32 connections)
-- [adminToken](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L28) (1 connections)
-- [adminUserId](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L24) (1 connections)
-- [{ data: adminSession }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L85) (1 connections)
-- [{ data: adminUser }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L53) (1 connections)
-- [{ data: allSubs }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L325) (1 connections)
-- [{ data: allTransactions }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L318) (1 connections)
-- [{ data, error }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L128) (1 connections)
-- [{ data: product }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L95) (1 connections)
-- [{ data: session1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L67) (1 connections)
-- [{ data: session2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L76) (1 connections)
-- [{ data: sub1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L255) (1 connections)
-- [{ data: sub2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L268) (1 connections)
-- [{ data: tx1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L184) (1 connections)
-- [{ data: tx2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L198) (1 connections)
-- [{ data: user1 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L38) (1 connections)
-- [{ data: user2 }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L45) (1 connections)
-- [{ error }](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L139) (1 connections)
-- [supabaseAdmin](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L18) (1 connections)
-- [supabaseAnonKey](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L33) (1 connections)
-- [supabaseServiceKey](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L32) (1 connections)
-- [supabaseUrl](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L31) (1 connections)
-- [supabaseUser1](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L19) (1 connections)
-- [supabaseUser2](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L20) (1 connections)
-- [testProductId](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts#L25) (1 connections)
-- _... and 8 more nodes in this community_
+- [schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L1) (29 connections)
+- [clipSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L70) (1 connections)
+- [commentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L285) (1 connections)
+- [createCommentSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L298) (1 connections)
+- [createProjectParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L180) (1 connections)
+- [createReportSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L314) (1 connections)
+- [generationParamsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L270) (1 connections)
+- [lyricsFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L260) (1 connections)
+- [noteTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L230) (1 connections)
+- [paginationSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L22) (1 connections)
+- [projectStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L132) (1 connections)
+- [reportReasonSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L309) (1 connections)
+- [schemas](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L323) (1 connections)
+- [sortSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L30) (1 connections)
+- [stemsModeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L137) (1 connections)
+- [studioLyricVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L235) (1 connections)
+- [studioProjectSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L157) (1 connections)
+- [studioSectionNoteSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L247) (1 connections)
+- [studioTrackSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L97) (1 connections)
+- [trackEffectsSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L88) (1 connections)
+- [trackFormDataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L119) (1 connections)
+- [trackMetadataSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L50) (1 connections)
+- [trackStatusSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L45) (1 connections)
+- [trackTypeSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L40) (1 connections)
+- [trackVersionSchema](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts#L59) (1 connections)
+- *... and 5 more nodes in this community*
 
 ## Relationships
 
@@ -37,14 +37,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\tests\unit\rlsPolicies.test.ts](file:///D:/.MUSICVERSE/aimusicverse/tests/unit/rlsPolicies.test.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\lib\validation\schemas.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/validation/schemas.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 64 (100%)
+- EXTRACTED: 58 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

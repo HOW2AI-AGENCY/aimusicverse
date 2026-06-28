@@ -1,16 +1,14 @@
 # Modal Management
 
-> 7 nodes · cohesion 0.33
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L1) (6 connections)
-- [handleTagClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L44) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L38) (2 connections)
-- [coverUrl](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L39) (1 connections)
-- [duration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L40) (1 connections)
-- [formatDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L17) (1 connections)
-- [hasHD](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx#L41) (1 connections)
+- [BiometricPrompt()](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L41) (2 connections)
+- [useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L1) (2 connections)
+- [useTelegramBiometric()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L48) (2 connections)
+- [BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx#L1) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts#L30) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\TrackSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/TrackSheetHeader.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\telegram\advanced\BiometricPrompt.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/telegram/advanced/BiometricPrompt.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramBiometric.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramBiometric.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 6 (75%)
+- INFERRED: 2 (25%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

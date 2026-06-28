@@ -1,36 +1,22 @@
 # Music Arrangement
 
-> 14 nodes · cohesion 0.15
+> 13 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L1) (14 connections)
-- [getRepeatIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L172) (2 connections)
-- [getRepeatLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L177) (2 connections)
-- [handleClearQueue()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L107) (2 connections)
-- [handleToggleVersionMode()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L115) (2 connections)
-- [{ currentTrack, upNextTracks, remainingDuration }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L63) (1 connections)
-- [formatTotalDuration()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L72) (1 connections)
-- [handleDragEnd()](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L92) (1 connections)
-- [{ isEnabled: radioEnabled, isFetching: radioFetching, toggleRadioMode, autoAddedCount }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L45) (1 connections)
-- [[isSaving, setIsSaving]](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L42) (1 connections)
-- [{
-  queue,
-  currentIndex,
-  reorderQueue,
-  removeFromQueue,
-  clearQueue,
-  versionMode,
-  toggleVersionMode,
-  shuffle,
-  repeat,
-  toggleShuffle,
-  toggleRepeat,
-  activeTrack
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L47) (1 connections)
-- [sensors](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L81) (1 connections)
-- [totalDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L71) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx#L41) (1 connections)
+- [sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L1) (12 connections)
+- [sanitizeText()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L29) (5 connections)
+- [validatePrompt()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L52) (3 connections)
+- [isSpamPattern()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L202) (2 connections)
+- [validateDescription()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L137) (2 connections)
+- [validateMessage()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L165) (2 connections)
+- [validateTitle()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L102) (2 connections)
+- [escapeSQLLike()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L304) (1 connections)
+- [isValidTelegramUserId()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L281) (1 connections)
+- [isValidUrl()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L290) (1 connections)
+- [maskSensitiveData()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L262) (1 connections)
+- [MAX_LENGTHS](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L15) (1 connections)
+- [sanitizeHTML()](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts#L233) (1 connections)
 
 ## Relationships
 
@@ -38,14 +24,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\QueueSheet.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/QueueSheet.tsx)
+- [D:\.MUSICVERSE\aimusicverse\supabase\functions\telegram-bot\utils\sanitize.ts](file:///D:/.MUSICVERSE/aimusicverse/supabase/functions/telegram-bot/utils/sanitize.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 29 (94%)
-- INFERRED: 2 (6%)
+- EXTRACTED: 34 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

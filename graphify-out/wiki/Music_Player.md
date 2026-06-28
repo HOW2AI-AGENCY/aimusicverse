@@ -1,12 +1,11 @@
 # Music Player
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L1) (2 connections)
-- [DEFAULT_PROVIDER_FOR_TYPE](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L205) (1 connections)
-- [PROVIDER_CAPABILITIES](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts#L194) (1 connections)
+- [useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L1) (1 connections)
+- [useLoopRegion()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts#L55) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\services\unified-analysis\types.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/unified-analysis/types.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useLoopRegion.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useLoopRegion.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

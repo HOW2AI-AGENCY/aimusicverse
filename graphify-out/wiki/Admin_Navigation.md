@@ -1,21 +1,19 @@
 # Admin Navigation
 
-> 12 nodes · cohesion 0.17
+> 10 nodes · cohesion 0.20
 
 ## Key Concepts
 
-- [AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L1) (11 connections)
-- [componentDidCatch()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L77) (2 connections)
-- [AUDIO_ERROR_TYPES](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L28) (1 connections)
-- [audioElements](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L114) (1 connections)
-- [{ children, fallbackMessage }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L135) (1 connections)
-- [errorType](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L138) (1 connections)
-- [getAudioErrorType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L36) (1 connections)
-- [getDerivedStateFromError()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L73) (1 connections)
-- [getRecoveryHint()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L48) (1 connections)
-- [handleAudioError](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L217) (1 connections)
-- [{ hasError, error, isRecovering }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L134) (1 connections)
-- [recoveryHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx#L139) (1 connections)
+- [ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L1) (9 connections)
+- [{ data: reports, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L41) (1 connections)
+- [{ data: stats }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L42) (1 connections)
+- [handleQuickAction()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L45) (1 connections)
+- [REASON_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L31) (1 connections)
+- [STATUS_CONFIG](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L24) (1 connections)
+- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L123) (1 connections)
+- [[statusFilter, setStatusFilter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L40) (1 connections)
+- [StatusIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L125) (1 connections)
+- [updateStatus](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx#L43) (1 connections)
 
 ## Relationships
 
@@ -23,14 +21,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\AudioErrorBoundary.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/AudioErrorBoundary.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\ModerationReportsPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/ModerationReportsPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 22 (96%)
-- INFERRED: 1 (4%)
+- EXTRACTED: 18 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

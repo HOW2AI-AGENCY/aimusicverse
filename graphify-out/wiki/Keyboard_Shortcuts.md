@@ -1,13 +1,11 @@
 # Keyboard Shortcuts
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L1) (3 connections)
-- [CREDITS_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L26) (1 connections)
-- [SUBSCRIPTION_QUERY_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L27) (1 connections)
-- [useStarsPayment()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts#L29) (1 connections)
+- [ExtractLyricsButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtractLyricsButton.tsx#L1) (1 connections)
+- [ExtractLyricsButton()](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtractLyricsButton.tsx#L18) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useStarsPayment.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useStarsPayment.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\audio-reference\ExtractLyricsButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/audio-reference/ExtractLyricsButton.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

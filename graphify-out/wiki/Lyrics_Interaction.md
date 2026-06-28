@@ -1,23 +1,14 @@
 # Lyrics Interaction
 
-> 7 nodes · cohesion 0.38
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L1) (6 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L57) (3 connections)
-- [handleRedo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L45) (2 connections)
-- [handleUndo](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L35) (2 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L89) (1 connections)
-- [historyLength](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L88) (1 connections)
-- [{
-  undo,
-  redo,
-  canUndo,
-  canRedo,
-  getHistoryLength,
-  getHistoryIndex
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx#L26) (1 connections)
+- [ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L1) (4 connections)
+- [canSend](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L67) (1 connections)
+- [handleKeyDown](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L45) (1 connections)
+- [textarea](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L37) (1 connections)
+- [textareaRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx#L33) (1 connections)
 
 ## Relationships
 
@@ -25,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\LyricsHistoryBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/LyricsHistoryBar.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\lyrics-chat\ChatInputArea.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/lyrics-chat/ChatInputArea.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 16 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

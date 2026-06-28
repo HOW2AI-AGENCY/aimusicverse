@@ -1,18 +1,16 @@
 # Drag and Motion
 
-> 9 nodes · cohesion 0.33
+> 7 nodes · cohesion 0.29
 
 ## Key Concepts
 
-- [useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L1) (8 connections)
-- [useTagRecommendations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L114) (5 connections)
-- [useMetaTags()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L283) (2 connections)
-- [useTagPopularity()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L56) (2 connections)
-- [useTagRelationships()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L94) (2 connections)
-- [useTagUsageHistory()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L35) (2 connections)
-- [getCurrentUser()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L6) (1 connections)
-- [useSuccessfulCombinations()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L299) (1 connections)
-- [useTrackTagUsage()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts#L242) (1 connections)
+- [GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L1) (6 connections)
+- [CATEGORY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L35) (1 connections)
+- [hasFilters](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L59) (1 connections)
+- [NODE_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L28) (1 connections)
+- [toggleCategory()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L69) (1 connections)
+- [toggleGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L61) (1 connections)
+- [toggleNodeType()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx#L77) (1 connections)
 
 ## Relationships
 
@@ -20,14 +18,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTagRecommendations.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTagRecommendations.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-graph\GraphFilters.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-graph/GraphFilters.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 12 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

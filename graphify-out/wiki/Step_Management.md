@@ -1,12 +1,11 @@
 # Step Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L1) (2 connections)
-- [getAudioWeightDescription()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L22) (1 connections)
-- [getAudioWeightLabel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx#L13) (1 connections)
+- [ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L1) (1 connections)
+- [ProducerToolPanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx#L12) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\AdvancedSettings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/AdvancedSettings.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\ProducerToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/ProducerToolPanel.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,50 +1,51 @@
 # User Interaction Tracking
 
-> 41 nodes · cohesion 0.05
+> 36 nodes · cohesion 0.06
 
 ## Key Concepts
 
-- [LyricsStudio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L1) (42 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L160) (2 connections)
-- [sectionsToLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L130) (2 connections)
-- [[aiPanelOpen, setAiPanelOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L211) (1 connections)
-- [enrichedTags](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L308) (1 connections)
-- [[globalTags, setGlobalTags]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L205) (1 connections)
-- [handleBack](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L389) (1 connections)
-- [handleLoadTemplate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L370) (1 connections)
-- [handleNewDocument](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L376) (1 connections)
-- [handleOpenNotes](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L360) (1 connections)
-- [handleSave](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L315) (1 connections)
-- [handleSaveNote](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L366) (1 connections)
-- [handleSectionsChange](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L310) (1 connections)
-- [[isDirty, setIsDirty]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L207) (1 connections)
-- [[isEditingTitle, setIsEditingTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L215) (1 connections)
-- [[isLoadingTrack, setIsLoadingTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L198) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L165) (1 connections)
-- [isProjectTrackMode](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L168) (1 connections)
-- [[isSavingLyrics, setIsSavingLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L214) (1 connections)
-- [lastIdx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L888) (1 connections)
-- [lyricsHistory](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L222) (1 connections)
-- [lyricsVersioning](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L218) (1 connections)
-- [[notesPanelOpen, setNotesPanelOpen]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L209) (1 connections)
-- [parsedSections](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L897) (1 connections)
-- [[projectData, setProjectData]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx#L179) (1 connections)
-- _... and 16 more nodes in this community_
+- [LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L1) (21 connections)
+- [ExportMixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L1) (14 connections)
+- [handleExport()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L58) (3 connections)
+- [readMetrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L39) (3 connections)
+- [sample()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L244) (3 connections)
+- [tick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L218) (3 connections)
+- [downloadBlob()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L46) (2 connections)
+- [loop()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L271) (2 connections)
+- [next](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L296) (2 connections)
+- [toCSV()](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L58) (2 connections)
+- [activeTracksCount](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L98) (1 connections)
+- [bitrateOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L92) (1 connections)
+- [[format, setFormat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L32) (1 connections)
+- [formatOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L87) (1 connections)
+- [handleCancelExport](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L41) (1 connections)
+- [{ isExporting, exportProgress, exportMix, cancelExport, downloadBlob }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L38) (1 connections)
+- [[limiter, setLimiter]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L36) (1 connections)
+- [[mp3Bitrate, setMp3Bitrate]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L34) (1 connections)
+- [[normalize, setNormalize]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L35) (1 connections)
+- [[quality, setQuality]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L33) (1 connections)
+- [qualityOptions](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L81) (1 connections)
+- [{ shouldShowUIButton }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx#L50) (1 connections)
+- [COLLAPSED_KEY](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L24) (1 connections)
+- [FLASH_MS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L25) (1 connections)
+- [HISTORY_INTERVAL_MS](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx#L29) (1 connections)
+- *... and 11 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Content Comparison]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\LyricsStudio.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/LyricsStudio.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\dev\LyricsEditorMetricsOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/dev/LyricsEditorMetricsOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\ExportMixDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/ExportMixDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 83 (99%)
-- INFERRED: 1 (1%)
+- EXTRACTED: 75 (93%)
+- INFERRED: 6 (7%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

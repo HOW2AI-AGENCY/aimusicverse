@@ -1,13 +1,12 @@
 # Media Controls
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AddTrackDialog()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx#L41) (2 connections)
-- [AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx#L1) (2 connections)
-- [getDefaultTrackName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx#L27) (1 connections)
-- [AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AddTrackDialog.tsx#L1) (1 connections)
+- [useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L1) (2 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L18) (1 connections)
+- [useTelegramOrientationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L40) (1 connections)
 
 ## Relationships
 
@@ -15,15 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/AddTrackDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\AddTrackDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/AddTrackDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

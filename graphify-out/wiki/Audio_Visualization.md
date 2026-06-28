@@ -1,11 +1,10 @@
 # Audio Visualization
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [AdminAlerts()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L9) (1 connections)
-- [AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx#L1) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminAlerts.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminAlerts.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\ui\touch-target\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/touch-target/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

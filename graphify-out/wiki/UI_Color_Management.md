@@ -1,17 +1,15 @@
 # UI Color Management
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L1) (7 connections)
-- [beats](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L28) (1 connections)
-- [containerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L24) (1 connections)
-- [handleBeatClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L56) (1 connections)
-- [handleTimelineClick()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L45) (1 connections)
-- [[hoveredBeat, setHoveredBeat]](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L25) (1 connections)
-- [measures](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L38) (1 connections)
-- [trackDuration](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx#L35) (1 connections)
+- [LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L1) (5 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L82) (1 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L104) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L102) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L101) (1 connections)
+- [visiblePresets](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx#L114) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\BeatsVisualization.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/BeatsVisualization.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\LyricsPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/LyricsPresetsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 14 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

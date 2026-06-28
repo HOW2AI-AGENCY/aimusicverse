@@ -1,13 +1,11 @@
 # Klang.io Integration
 
-> 4 nodes · cohesion 0.50
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L1) (3 connections)
-- [[activeTab, setActiveTab]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L41) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L40) (1 connections)
-- [settings](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx#L39) (1 connections)
+- [BotContextBanner()](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx#L18) (1 connections)
+- [BotContextBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx#L1) (1 connections)
 
 ## Relationships
 
@@ -15,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\Settings.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Settings.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\BotContextBanner.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/BotContextBanner.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

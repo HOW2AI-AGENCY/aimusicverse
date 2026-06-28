@@ -1,16 +1,14 @@
 # Audio Mixer
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L1) (6 connections)
-- [availableFiles](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L264) (1 connections)
-- [{ data: transcription, isLoading, error, refetch }](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L74) (1 connections)
-- [downloadFile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L239) (1 connections)
-- [durationSeconds](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L71) (1 connections)
-- [[isDownloading, setIsDownloading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L69) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx#L68) (1 connections)
+- [MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L1) (4 connections)
+- [[expandedTrack, setExpandedTrack]](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L60) (1 connections)
+- [getTrackIcon()](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L66) (1 connections)
+- [isPending](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L169) (1 connections)
+- [toggleExpand](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx#L62) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioNotationPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioNotationPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\MobileTracksContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/MobileTracksContent.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

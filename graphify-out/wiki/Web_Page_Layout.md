@@ -1,12 +1,11 @@
 # Web Page Layout
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useViewStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L1) (2 connections)
-- [useViewStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L63) (1 connections)
-- [viewLogger](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts#L32) (1 connections)
+- [useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L1) (1 connections)
+- [useTelegramSettingsButton()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts#L35) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\stores\studio\useViewStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useViewStore.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramSettingsButton.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramSettingsButton.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

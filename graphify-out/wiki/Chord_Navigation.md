@@ -1,25 +1,23 @@
 # Chord Navigation
 
-> 16 nodes · cohesion 0.13
+> 14 nodes · cohesion 0.14
 
 ## Key Concepts
 
-- [ScreenshotNavigator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L1) (15 connections)
-- [handleKeyDown()](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L77) (2 connections)
-- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L48) (2 connections)
-- [[autoTourDelay, setAutoTourDelay]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L54) (1 connections)
-- [currentIndex](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L57) (1 connections)
-- [currentScreen](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L58) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L218) (1 connections)
-- [iconMap](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L32) (1 connections)
-- [isActive](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L219) (1 connections)
-- [[isAutoTour, setIsAutoTour]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L53) (1 connections)
-- [[isCollapsed, setIsCollapsed]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L51) (1 connections)
-- [[isHidden, setIsHidden]](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L52) (1 connections)
-- [isPassed](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L220) (1 connections)
-- [{ isScreenshotMode, disableScreenshotMode }](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L47) (1 connections)
-- [location](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L49) (1 connections)
-- [timer](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx#L64) (1 connections)
+- [GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L1) (13 connections)
+- [balance](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L58) (1 connections)
+- [checkin](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L33) (1 connections)
+- [colorStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L278) (1 connections)
+- [content](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L285) (1 connections)
+- [{ data: canCheckin }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L32) (1 connections)
+- [{ data: credits, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L31) (1 connections)
+- [handleCheckin()](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L36) (1 connections)
+- [level](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L55) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L29) (1 connections)
+- [{ progress, current: currentXP, next: nextLevelXP }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L56) (1 connections)
+- [{ showStreak, showCredits }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L34) (1 connections)
+- [streak](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L57) (1 connections)
+- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx#L30) (1 connections)
 
 ## Relationships
 
@@ -27,14 +25,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\screenshot\ScreenshotNavigator.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/screenshot/ScreenshotNavigator.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\gamification\GamificationBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/gamification/GamificationBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 32 (100%)
+- EXTRACTED: 26 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,21 +1,20 @@
 # Text Validation
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L1) (12 connections)
-- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L29) (1 connections)
-- [defaultStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L36) (1 connections)
-- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L38) (1 connections)
-- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L27) (1 connections)
-- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L32) (1 connections)
-- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L28) (1 connections)
-- [[showTrackInfo, setShowTrackInfo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L33) (1 connections)
-- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L30) (1 connections)
-- [styleHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L44) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L31) (1 connections)
-- [trackLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L37) (1 connections)
+- [AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L1) (10 connections)
+- [activeButton](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L43) (1 connections)
+- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L146) (1 connections)
+- [[expanded, setExpanded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L37) (1 connections)
+- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L107) (1 connections)
+- [PRIMARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L32) (1 connections)
+- [primaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L48) (1 connections)
+- [scrollRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L38) (1 connections)
+- [SECONDARY_TOOL_IDS](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L34) (1 connections)
+- [secondaryTools](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L49) (1 connections)
+- [toolsToShow](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx#L50) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIToolbar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIToolbar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 23 (100%)
+- EXTRACTED: 20 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

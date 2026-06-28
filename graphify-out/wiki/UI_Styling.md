@@ -1,12 +1,11 @@
 # UI Styling
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L1) (2 connections)
-- [formatModelName()](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L14) (1 connections)
-- [TechInfoItem](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx#L32) (1 connections)
+- [StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L1) (1 connections)
+- [StudioShellTransportBar](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\sections\TrackTechnicalSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/sections/TrackTechnicalSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\unified\StudioShell\StudioShellTransportBar.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/unified/StudioShell/StudioShellTransportBar.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

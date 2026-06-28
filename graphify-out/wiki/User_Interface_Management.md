@@ -1,69 +1,73 @@
 # User Interface Management
 
-> 240 nodes · cohesion 0.01
+> 272 nodes · cohesion 0.01
 
 ## Key Concepts
 
-- [hapticImpact()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptic.ts#L52) (36 connections)
-- [SwipeableTrackItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SwipeableTrackItem.tsx#L1) (20 connections)
-- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/LyricsView.tsx#L1) (20 connections)
-- [share.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L1) (19 connections)
-- [WriteToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/WriteToolPanel.tsx#L1) (17 connections)
-- [CompactSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/CompactSheetHeader.tsx#L1) (13 connections)
-- [CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/CollapsibleSection.tsx#L1) (13 connections)
-- [hapticNotification()](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptic.ts#L65) (12 connections)
-- [OnboardingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingOverlay.tsx#L1) (11 connections)
-- [OnboardingSlider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/OnboardingSlider.tsx#L1) (11 connections)
-- [LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx#L1) (11 connections)
-- [SharePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/SharePlaylistDialog.tsx#L1) (9 connections)
-- [QuickActionsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QuickActionsSection.tsx#L1) (9 connections)
-- [AddToProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx#L1) (9 connections)
-- [PlaylistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/PlaylistSelector.tsx#L1) (9 connections)
-- [getWebApp()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L44) (9 connections)
-- [sharePlaylistURL()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L223) (9 connections)
-- [shareTrackURL()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L119) (9 connections)
-- [LyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/LyricsPreview.tsx#L1) (8 connections)
-- [PromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/PromptPreview.tsx#L1) (8 connections)
-- [QueueActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QueueActions.tsx#L1) (8 connections)
-- [haptic.ts](file:///D:/.MUSICVERSE/aimusicverse/src/lib/haptic.ts#L1) (8 connections)
-- [sharePlaylistToStory()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L198) (8 connections)
-- [shareTrackToStory()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/share.ts#L96) (8 connections)
-- [PlaybackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/PlaybackActions.tsx#L1) (7 connections)
-- _... and 215 more nodes in this community_
+- [MusicVerse AI Platform](file:///D:/.MUSICVERSE/aimusicverse/README.md) (29 connections)
+- [Zustand 5.0](file:///D:/.MUSICVERSE/aimusicverse/README.md) (27 connections)
+- [usePromptDJStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/usePromptDJStore.ts#L1) (13 connections)
+- [useGenerationWizardStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/generationWizardStore.ts#L87) (13 connections)
+- [sunoModels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoModels.ts#L1) (10 connections)
+- [lyricsWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/lyricsWizardStore.ts#L1) (9 connections)
+- [playbackSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/playbackSlice.ts#L1) (7 connections)
+- [stemMixerSlice.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/slices/stemMixerSlice.ts#L1) (7 connections)
+- [useStudioHistoryStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/useStudioHistoryStore.ts#L1) (7 connections)
+- [usePlaybackStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/usePlaybackStore.ts#L1) (7 connections)
+- [useStemMixerStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L1) (7 connections)
+- [usePlaybackStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/studio/usePlaybackStore.ts#L58) (7 connections)
+- [Platform Specification](file:///D:/.MUSICVERSE/aimusicverse/docs/PROJECT_SPECIFICATION.md) (6 connections)
+- [Architecture Documentation Hub](file:///D:/.MUSICVERSE/aimusicverse/ARCHITECTURE_HUB.md) (6 connections)
+- [useStemMixerStore](file:///D:/.MUSICVERSE/aimusicverse/src/stores/useStemMixerStore.ts#L21) (6 connections)
+- [Telegram Bot Architecture](file:///D:/.MUSICVERSE/aimusicverse/docs/TELEGRAM_BOT_ARCHITECTURE.md) (5 connections)
+- [generationWizardStore.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/generationWizardStore.ts#L1) (5 connections)
+- [stemMixerSlice.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stores/__tests__/stemMixerSlice.test.ts#L1) (5 connections)
+- [Layered Architecture Pattern](file:///D:/.MUSICVERSE/aimusicverse/CLAUDE.md) (5 connections)
+- [Project Status Tracker](file:///D:/.MUSICVERSE/aimusicverse/PROJECT_STATUS.md) (5 connections)
+- [getAvailableModels()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoModels.ts#L91) (5 connections)
+- [Product Design Constitution](file:///D:/.MUSICVERSE/aimusicverse/docs/PRODUCT_DESIGN_CONSTITUTION.md) (4 connections)
+- [IdeaStyleCombinedStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/IdeaStyleCombinedStep.tsx#L1) (4 connections)
+- [StyleSettingsStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/StyleSettingsStep.tsx#L1) (4 connections)
+- [StyleStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/StyleStep.tsx#L1) (4 connections)
+- *... and 247 more nodes in this community*
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Music Notation]] (77 shared connections)
+- [[UI Layout Management]] (64 shared connections)
+- [[Social Media Interaction]] (28 shared connections)
+- [[User Interaction]] (19 shared connections)
+- [[Creative Tools Development]] (1 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\_\_tests\_\_\hooks\useSwipeNavigation.test.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/hooks/useSwipeNavigation.test.ts)
-- [D:\.MUSICVERSE\aimusicverse\src\components\OnboardingSlider.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/OnboardingSlider.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\library\SwipeableTrackItem.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/library/SwipeableTrackItem.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\AIAgentTabs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/AIAgentTabs.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\QuickActionChips.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/QuickActionChips.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\lyrics-workspace\ai-agent\tools\WriteToolPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/lyrics-workspace/ai-agent/tools/WriteToolPanel.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingOverlay.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\SharePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/SharePlaylistDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\CollapsibleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/CollapsibleSection.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\CompactSheetHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/CompactSheetHeader.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\LyricsPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/LyricsPreview.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\PlaybackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/PlaybackActions.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\PromptPreview.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/PromptPreview.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\QueueActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QueueActions.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\QuickActionsSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/QuickActionsSection.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-actions\sections\StemsActionButton.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-actions/sections/StemsActionButton.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/LyricsView.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\AddToProjectDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/AddToProjectDialog.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-menu\PlaylistSelector.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-menu/PlaylistSelector.tsx)
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\LyricsView.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/LyricsView.tsx)
+- [ARCHITECTURE_HUB.md](file:///D:/.MUSICVERSE/aimusicverse/ARCHITECTURE_HUB.md)
+- [CHANGELOG.md](file:///D:/.MUSICVERSE/aimusicverse/CHANGELOG.md)
+- [CLAUDE.md](file:///D:/.MUSICVERSE/aimusicverse/CLAUDE.md)
+- [CONTRIBUTING.md](file:///D:/.MUSICVERSE/aimusicverse/CONTRIBUTING.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\GenerationWizard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/GenerationWizard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\IdeaStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/IdeaStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\IdeaStyleCombinedStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/IdeaStyleCombinedStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\LyricsStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/LyricsStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\PreviewStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/PreviewStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\SettingsStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/SettingsStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\StyleSettingsStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/StyleSettingsStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\StyleStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/StyleStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\VocalsGenerateStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/VocalsGenerateStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\VocalsLyricsStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/VocalsLyricsStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\wizard\steps\VocalsStep.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/wizard/steps/VocalsStep.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\OnboardingTrigger.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/OnboardingTrigger.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\onboarding\QuickStartOverlay.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/onboarding/QuickStartOverlay.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\sunoModels.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/sunoModels.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\audio\usePlayerState.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/audio/usePlayerState.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\generation\useReplaceSectionProgress.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/generation/useReplaceSectionProgress.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 506 (80%)
-- INFERRED: 124 (20%)
+- EXTRACTED: 538 (90%)
+- INFERRED: 61 (10%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

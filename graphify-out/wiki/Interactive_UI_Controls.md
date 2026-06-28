@@ -1,22 +1,21 @@
 # Interactive UI Controls
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.21
 
 ## Key Concepts
 
-- [lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L1) (12 connections)
-- [cn()](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L138) (1 connections)
-- [element](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L55) (1 connections)
-- [handleError](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L91) (1 connections)
-- [handleLoad](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L87) (1 connections)
-- [[hasError, setHasError]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L33) (1 connections)
-- [imgRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L34) (1 connections)
-- [[isLoaded, setIsLoaded]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L32) (1 connections)
-- [observerRef](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L35) (1 connections)
-- [optimizedSrc](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L39) (1 connections)
-- [[shouldLoad, setShouldLoad]](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L36) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L47) (1 connections)
-- [srcSet](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx#L44) (1 connections)
+- [Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L1) (7 connections)
+- [authenticateWithTelegram()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L28) (5 connections)
+- [handleAuth()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L21) (3 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L14) (3 connections)
+- [setSession()](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L53) (3 connections)
+- [auth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L1) (3 connections)
+- [handleGuestMode()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L32) (2 connections)
+- [{ enableGuestMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L17) (1 connections)
+- [{ isAuthenticated, loading, authenticateWithTelegram }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L15) (1 connections)
+- [[isAuthenticating, setIsAuthenticating]](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L19) (1 connections)
+- [log](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts#L9) (1 connections)
+- [{ webApp, user, isInitialized, isDevelopmentMode }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx#L16) (1 connections)
 
 ## Relationships
 
@@ -24,14 +23,15 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\lazy-image.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/lazy-image.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\Auth.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/Auth.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\services\telegram\auth.ts](file:///D:/.MUSICVERSE/aimusicverse/src/services/telegram/auth.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 26 (84%)
+- INFERRED: 5 (16%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

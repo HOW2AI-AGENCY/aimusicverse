@@ -1,37 +1,36 @@
 # Speech Recognition
 
-> 13 nodes · cohesion 0.15
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L1) (12 connections)
-- [bgClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L130) (1 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L126) (1 connections)
-- [displayLabel](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L128) (1 connections)
-- [IconComponent](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L133) (1 connections)
-- [isCustomIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L134) (1 connections)
-- [isSpinning](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L135) (1 connections)
-- [s](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L152) (1 connections)
-- [shouldPulse](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L129) (1 connections)
-- [sizeClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L137) (1 connections)
-- [sizes](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L221) (1 connections)
-- [statusConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L43) (1 connections)
-- [textClass](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx#L131) (1 connections)
+- [Sprint 008 Completion - Library & Player MVP](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (11 connections)
+- [ExpandedPlayer Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [PlaybackControls Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [ProgressBar Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [QueueSheet Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [QueueItem Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [VolumeControl Component](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [Haptic Feedback Integration](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [Infinite Scroll Library](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [Swipe Gestures (Like/Delete)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [Three-Mode Player (Compact/Expanded/Fullscreen)](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
+- [useTracksInfinite Hook](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md) (1 connections)
 
 ## Relationships
 
-- No strong cross-community connections detected
+- [[Audio Error Handling]] (22 shared connections)
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\StatusBadge.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/StatusBadge.tsx)
+- [docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md](file:///D:/.MUSICVERSE/aimusicverse/docs/archive/audits-2025-12/SPRINT_008_COMPLETION_SUMMARY.md)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
+- EXTRACTED: 22 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

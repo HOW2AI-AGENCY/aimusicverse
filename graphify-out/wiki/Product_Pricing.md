@@ -1,20 +1,19 @@
 # Product Pricing
 
-> 11 nodes · cohesion 0.18
+> 10 nodes · cohesion 0.22
 
 ## Key Concepts
 
-- [ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L1) (10 connections)
-- [colorPalette](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L77) (1 connections)
-- [hasBasicInfo](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L80) (1 connections)
-- [hasContent](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L82) (1 connections)
-- [hasVisualStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L81) (1 connections)
-- [IMAGE_STYLE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L46) (1 connections)
-- [language](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L76) (1 connections)
-- [LANGUAGE_MAP](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L24) (1 connections)
-- [PROJECT_TYPE_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L35) (1 connections)
-- [TYPOGRAPHY_LABELS](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L59) (1 connections)
-- [visualKeywords](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx#L78) (1 connections)
+- [AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L1) (9 connections)
+- [handleTabChange()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L75) (2 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L63) (2 connections)
+- [activeTab](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L69) (1 connections)
+- [CurrentTabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L96) (1 connections)
+- [{ data: auth, isLoading: authLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L66) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L65) (1 connections)
+- [location](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L64) (1 connections)
+- [TAB_OPTIONS](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L41) (1 connections)
+- [TabIcon](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx#L130) (1 connections)
 
 ## Relationships
 
@@ -22,7 +21,7 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\project\ProjectDetailsCard.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/project/ProjectDetailsCard.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminLayout.tsx)
 
 ## Audit Trail
 
@@ -32,4 +31,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

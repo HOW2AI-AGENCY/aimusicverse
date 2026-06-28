@@ -1,15 +1,13 @@
 # Change Log
 
-> 6 nodes · cohesion 0.33
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [ChangelogTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/ChangelogTab.tsx#L1) (5 connections)
-- [changeTypeIcons](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/ChangelogTab.tsx#L14) (1 connections)
-- [changeTypeLabels](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/ChangelogTab.tsx#L22) (1 connections)
-- [{ data: changelog, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/ChangelogTab.tsx#L31) (1 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/ChangelogTab.tsx#L86) (1 connections)
-- [label](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/ChangelogTab.tsx#L87) (1 connections)
+- [UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L1) (3 connections)
+- [is4K](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L55) (1 connections)
+- [isUltraWide](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L54) (1 connections)
+- [maxWidthClasses](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx#L29) (1 connections)
 
 ## Relationships
 
@@ -17,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track\ChangelogTab.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track/ChangelogTab.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\UltraWideLayout.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/UltraWideLayout.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 10 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

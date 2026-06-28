@@ -1,12 +1,11 @@
 # Data Expiry Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L1) (2 connections)
-- [log](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L18) (1 connections)
-- [useTelegramOrientationLock()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts#L40) (1 connections)
+- [useTrackChangelog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackChangelog.tsx#L1) (1 connections)
+- [useTrackChangelog()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackChangelog.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\telegram\useTelegramOrientationLock.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/telegram/useTelegramOrientationLock.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useTrackChangelog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useTrackChangelog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

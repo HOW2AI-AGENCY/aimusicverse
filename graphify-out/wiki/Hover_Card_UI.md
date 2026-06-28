@@ -1,13 +1,12 @@
 # Hover Card UI
 
-> 4 nodes · cohesion 0.50
+> 3 nodes · cohesion 0.67
 
 ## Key Concepts
 
-- [AnimatedList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L1) (3 connections)
-- [containerStyles](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L61) (1 connections)
-- [gridCols](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L134) (1 connections)
-- [shouldAnimate](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx#L66) (1 connections)
+- [setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L1) (2 connections)
+- [r](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L134) (1 connections)
+- [v](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts#L135) (1 connections)
 
 ## Relationships
 
@@ -15,14 +14,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\ui\AnimatedList.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/ui/AnimatedList.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\__tests__\setup.ts](file:///D:/.MUSICVERSE/aimusicverse/src/__tests__/setup.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 6 (100%)
+- EXTRACTED: 4 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

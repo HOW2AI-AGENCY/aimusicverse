@@ -1,11 +1,10 @@
 # Time Management
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L1) (1 connections)
-- [TitleSection](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx#L11) (1 connections)
+- [contract_unified-dialog-types](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-dialog.types.ts) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\generate-form\sections\TitleSection.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/generate-form/sections/TitleSection.tsx)
+- [D:\.MUSICVERSE\aimusicverse\specs\002-ui-component-unification\contracts\unified-dialog.types.ts](file:///D:/.MUSICVERSE/aimusicverse/specs/002-ui-component-unification/contracts/unified-dialog.types.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

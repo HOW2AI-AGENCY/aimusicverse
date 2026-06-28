@@ -1,17 +1,15 @@
 # FAQ Management
 
-> 8 nodes · cohesion 0.25
+> 6 nodes · cohesion 0.33
 
 ## Key Concepts
 
-- [SubscriptionUpgradePopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L1) (8 connections)
-- [Icon](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L175) (1 connections)
-- [[isLoading, setIsLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L98) (1 connections)
-- [isSelected](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L176) (1 connections)
-- [REASON_MESSAGES](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L84) (1 connections)
-- [[selectedTier, setSelectedTier]](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L97) (1 connections)
-- [TIERS](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L46) (1 connections)
-- [{ user }](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx#L96) (1 connections)
+- [DeeplinkTrendsChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L1) (5 connections)
+- [chartData](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L50) (1 connections)
+- [labels](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L115) (1 connections)
+- [trend](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L29) (1 connections)
+- [trendColor](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L60) (1 connections)
+- [TrendIcon](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx#L58) (1 connections)
 
 ## Relationships
 
@@ -19,14 +17,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\popups\SubscriptionUpgradePopup.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/popups/SubscriptionUpgradePopup.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\analytics\DeeplinkTrendsChart.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/analytics/DeeplinkTrendsChart.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 15 (100%)
+- EXTRACTED: 10 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -1,31 +1,26 @@
 # Music Structure
 
-> 4 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [Performance Optimization Guide](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION.md) (3 connections)
-- [Performance Monitoring Setup](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_MONITORING_SETUP.md) (2 connections)
-- [Quality Gates Documentation](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md) (2 connections)
-- [Performance Optimization Guide (Summary)](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION_GUIDE.md) (1 connections)
+- [MobileNavDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx#L1) (1 connections)
+- [MobileNavDrawer](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx#L23) (1 connections)
 
 ## Relationships
 
-- [[Performance Management]] (8 shared connections)
+- No strong cross-community connections detected
 
 ## Source Files
 
-- [docs/PERFORMANCE_MONITORING_SETUP.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_MONITORING_SETUP.md)
-- [docs/PERFORMANCE_OPTIMIZATION.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION.md)
-- [docs/PERFORMANCE_OPTIMIZATION_GUIDE.md](file:///D:/.MUSICVERSE/aimusicverse/docs/PERFORMANCE_OPTIMIZATION_GUIDE.md)
-- [docs/QUALITY_GATES.md](file:///D:/.MUSICVERSE/aimusicverse/docs/QUALITY_GATES.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\layout\MobileNavDrawer.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/layout/MobileNavDrawer.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 0 (0%)
-- INFERRED: 8 (100%)
+- EXTRACTED: 2 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

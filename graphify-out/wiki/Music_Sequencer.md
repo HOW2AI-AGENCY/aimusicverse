@@ -1,35 +1,21 @@
 # Music Sequencer
 
-> 14 nodes · cohesion 0.14
+> 12 nodes · cohesion 0.17
 
 ## Key Concepts
 
-- [UnifiedPlayerControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L1) (13 connections)
-- [config](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L77) (1 connections)
-- [{ currentTime, duration, seek }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L75) (1 connections)
-- [handleNext](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L93) (1 connections)
-- [handlePlayPause](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L79) (1 connections)
-- [handlePrevious](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L88) (1 connections)
-- [handleRepeat](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L103) (1 connections)
-- [handleSeekBackward](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L112) (1 connections)
-- [handleSeekForward](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L117) (1 connections)
-- [handleShuffle](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L98) (1 connections)
-- [handleVolumeChange](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L108) (1 connections)
-- [isCompact](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L122) (1 connections)
-- [{
-  isPlaying,
-  playTrack,
-  pauseTrack,
-  nextTrack,
-  previousTrack,
-  repeat,
-  shuffle,
-  toggleRepeat,
-  toggleShuffle,
-  volume,
-  setVolume,
-  }](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L61) (1 connections)
-- [sizeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx#L31) (1 connections)
+- [NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L1) (12 connections)
+- [[customMode, setCustomMode]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L29) (1 connections)
+- [defaultStyle](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L36) (1 connections)
+- [hasLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L38) (1 connections)
+- [isMobile](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L27) (1 connections)
+- [[loading, setLoading]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L32) (1 connections)
+- [[prompt, setPrompt]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L28) (1 connections)
+- [[showTrackInfo, setShowTrackInfo]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L33) (1 connections)
+- [[style, setStyle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L30) (1 connections)
+- [styleHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L44) (1 connections)
+- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L31) (1 connections)
+- [trackLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx#L37) (1 connections)
 
 ## Relationships
 
@@ -37,14 +23,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\player\UnifiedPlayerControls.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/player/UnifiedPlayerControls.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\NewArrangementDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/NewArrangementDialog.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 26 (100%)
+- EXTRACTED: 23 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

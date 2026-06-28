@@ -1,11 +1,10 @@
 # UI Component Development
 
-> 2 nodes · cohesion 1.00
+> 1 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [AdminTariffs()](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L7) (1 connections)
-- [AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx#L1) (1 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -13,14 +12,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\pages\admin\AdminTariffs.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/pages/admin/AdminTariffs.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\contexts\telegram\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/contexts/telegram/index.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 2 (100%)
+- EXTRACTED: 0 (0%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

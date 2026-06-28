@@ -1,14 +1,13 @@
 # Accordion Component
 
-> 5 nodes · cohesion 0.40
+> 4 nodes · cohesion 0.50
 
 ## Key Concepts
 
-- [TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L1) (4 connections)
-- [defaultScrollHeight](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L61) (1 connections)
-- [DIALOG_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L46) (1 connections)
-- [SHEET_TABS](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L36) (1 connections)
-- [tabs](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx#L60) (1 connections)
+- [Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L1) (3 connections)
+- [LoggedIn](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L21) (1 connections)
+- [LoggedOut](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L18) (1 connections)
+- [meta](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts#L6) (1 connections)
 
 ## Relationships
 
@@ -16,14 +15,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\track-detail\TrackDetailContent.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/track-detail/TrackDetailContent.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\stories\Page.stories.ts](file:///D:/.MUSICVERSE/aimusicverse/src/stories/Page.stories.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 8 (100%)
+- EXTRACTED: 6 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

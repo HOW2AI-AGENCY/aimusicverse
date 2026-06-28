@@ -1,12 +1,11 @@
 # Visibility Management
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [SectionComparePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx#L1) (2 connections)
-- [formatTime()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx#L149) (1 connections)
-- [SectionComparePanel()](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx#L19) (1 connections)
+- [StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L1) (1 connections)
+- [navigate](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx#L41) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\stem-studio\SectionComparePanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/stem-studio/SectionComparePanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\studio\layout\StudioHeader.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/studio/layout/StudioHeader.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

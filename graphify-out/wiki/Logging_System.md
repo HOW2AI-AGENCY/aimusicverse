@@ -1,12 +1,11 @@
 # Logging System
 
-> 3 nodes · cohesion 0.67
+> 2 nodes · cohesion 1.00
 
 ## Key Concepts
 
-- [useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L1) (2 connections)
-- [stemTypeConfig](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L127) (1 connections)
-- [useContextualGeneration()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts#L45) (1 connections)
+- [useEnhancedKeyboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts#L1) (1 connections)
+- [useEnhancedKeyboard()](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts#L14) (1 connections)
 
 ## Relationships
 
@@ -14,14 +13,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\studio\useContextualGeneration.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/studio/useContextualGeneration.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\hooks\useEnhancedKeyboard.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/useEnhancedKeyboard.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 4 (100%)
+- EXTRACTED: 2 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

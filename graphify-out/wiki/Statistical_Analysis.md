@@ -1,16 +1,14 @@
 # Statistical Analysis
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L1) (6 connections)
-- [BATCH_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L115) (1 connections)
-- [GENRE_FETCH_LIMIT](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L120) (1 connections)
-- [GENRE_PLAYLISTS](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L27) (1 connections)
-- [GENRE_QUERIES](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L16) (1 connections)
-- [PUBLIC_CONTENT_GC_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L110) (1 connections)
-- [PUBLIC_CONTENT_STALE_TIME](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts#L105) (1 connections)
+- [lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L1) (4 connections)
+- [getLyricsPresetById()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L151) (1 connections)
+- [getLyricsPresetsByGenre()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L156) (1 connections)
+- [getQuickLyricsPresets()](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L161) (1 connections)
+- [LYRICS_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts#L26) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\hooks\public-content\constants.ts](file:///D:/.MUSICVERSE/aimusicverse/src/hooks/public-content/constants.ts)
+- [D:\.MUSICVERSE\aimusicverse\src\constants\lyricsPresets.ts](file:///D:/.MUSICVERSE/aimusicverse/src/constants/lyricsPresets.ts)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (100%)
+- EXTRACTED: 8 (100%)
 - INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

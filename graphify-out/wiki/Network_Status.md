@@ -1,16 +1,14 @@
 # Network Status
 
-> 7 nodes · cohesion 0.29
+> 5 nodes · cohesion 0.40
 
 ## Key Concepts
 
-- [CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L1) (6 connections)
-- [handleSubmit()](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L24) (2 connections)
-- [{ createPlaylist, isCreating }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L18) (1 connections)
-- [[description, setDescription]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L21) (1 connections)
-- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L19) (1 connections)
-- [[isPublic, setIsPublic]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L22) (1 connections)
-- [[title, setTitle]](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx#L20) (1 connections)
+- [TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L1) (4 connections)
+- [handlePresetClick](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L150) (1 connections)
+- [{ hapticFeedback }](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L148) (1 connections)
+- [TRACK_PRESETS](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L20) (1 connections)
+- [TrackChip](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx#L61) (1 connections)
 
 ## Relationships
 
@@ -18,14 +16,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\playlist\CreatePlaylistDialog.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/playlist/CreatePlaylistDialog.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\home\TrackPresetsRow.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/home/TrackPresetsRow.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 12 (92%)
-- INFERRED: 1 (8%)
+- EXTRACTED: 8 (100%)
+- INFERRED: 0 (0%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

@@ -4,7 +4,7 @@
 
 ## Key Concepts
 
-- [/speckit.checklist command](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.checklist.md) (0 connections)
+- [index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/index.ts#L1) (0 connections)
 
 ## Relationships
 
@@ -12,7 +12,7 @@
 
 ## Source Files
 
-- [.claude/commands/speckit.checklist.md](file:///D:/.MUSICVERSE/aimusicverse/.claude/commands/speckit.checklist.md)
+- [D:\.MUSICVERSE\aimusicverse\src\components\admin\economy\index.ts](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/economy/index.ts)
 
 ## Audit Trail
 
@@ -22,4 +22,4 @@
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*

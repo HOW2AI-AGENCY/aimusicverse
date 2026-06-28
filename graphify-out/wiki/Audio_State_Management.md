@@ -1,21 +1,20 @@
 # Audio State Management
 
-> 12 nodes · cohesion 0.17
+> 11 nodes · cohesion 0.18
 
 ## Key Concepts
 
-- [AdminBotImagesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L1) (13 connections)
-- [accessHint](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L108) (1 connections)
-- [canManage](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L106) (1 connections)
-- [{ data: adminAuth, isLoading: adminAuthLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L105) (1 connections)
-- [{ data: imageConfig, isLoading }](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L115) (1 connections)
-- [fileInputRefs](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L102) (1 connections)
-- [getImageUrl()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L252) (1 connections)
-- [isCustomImage()](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L257) (1 connections)
-- [MENU_IMAGE_CONFIGS](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L27) (1 connections)
-- [queryClient](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L103) (1 connections)
-- [saveConfigMutation](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L132) (1 connections)
-- [[uploadingKey, setUploadingKey]](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx#L101) (1 connections)
+- [RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L1) (10 connections)
+- [handleCopyLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L54) (2 connections)
+- [handleRecognizeLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L30) (2 connections)
+- [handleUseLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L60) (2 connections)
+- [apiLyrics](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L27) (1 connections)
+- [[editedLyrics, setEditedLyrics]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L21) (1 connections)
+- [handleCreateCover()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L69) (1 connections)
+- [handleUseApiLyrics()](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L45) (1 connections)
+- [{ isRecognizing, result, recognizeLyrics, clearResult }](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L24) (1 connections)
+- [[lyricsSource, setLyricsSource]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L22) (1 connections)
+- [[showLyricsDialog, setShowLyricsDialog]](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx#L20) (1 connections)
 
 ## Relationships
 
@@ -23,14 +22,14 @@
 
 ## Source Files
 
-- [D:\.MUSICVERSE\aimusicverse\src\components\admin\AdminBotImagesPanel.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/admin/AdminBotImagesPanel.tsx)
+- [D:\.MUSICVERSE\aimusicverse\src\components\music-recognition\RecognizedTrackActions.tsx](file:///D:/.MUSICVERSE/aimusicverse/src/components/music-recognition/RecognizedTrackActions.tsx)
 
 ## Audit Trail
 
-- EXTRACTED: 24 (100%)
-- INFERRED: 0 (0%)
+- EXTRACTED: 20 (87%)
+- INFERRED: 3 (13%)
 - AMBIGUOUS: 0 (0%)
 
 ---
 
-_Part of the graphify knowledge wiki. See [[index]] to navigate._
+*Part of the graphify knowledge wiki. See [[index]] to navigate.*
