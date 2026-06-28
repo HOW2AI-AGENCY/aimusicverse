@@ -176,7 +176,7 @@ export function SmartPromptSuggestions({
                   variant="outline"
                   size="sm"
                   onClick={() => onSelectPrompt(template.prompt)}
-                  className="chip-button h-9 px-3 text-xs gap-1.5 flex-shrink-0 whitespace-nowrap hover:bg-primary/10 hover:text-primary hover:border-primary"
+                  className="chip-button h-10 min-h-[44px] px-3 text-xs gap-1.5 flex-shrink-0 whitespace-nowrap hover:bg-primary/10 hover:text-primary hover:border-primary"
                 >
                   <Icon className="h-3.5 w-3.5" />
                   {template.title}

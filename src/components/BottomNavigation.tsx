@@ -141,14 +141,14 @@ export const BottomNavigation = memo(function BottomNavigation() {
                 />
                 <item.icon
                   className={cn(
-                    "relative w-[18px] h-[18px] transition-transform duration-200",
+                    "relative w-5 h-5 transition-transform duration-200",
                     active && "text-primary",
                   )}
                   strokeWidth={active ? 2.4 : 2}
                 />
                 <span
                   className={cn(
-                    "relative text-[10px] leading-none tracking-tight transition-all duration-200",
+                    "relative text-[11px] leading-none tracking-tight transition-all duration-200",
                     typographyClass.caption,
                     active ? "font-semibold text-foreground" : "font-medium",
                   )}

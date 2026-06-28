@@ -43,12 +43,8 @@ interface DialogContentProps extends React.ComponentPropsWithoutRef<typeof Dialo
    * If true, render as a native bottom-sheet on mobile (<640px) — slide-up from bottom,
    * full width, drag-handle, safe-area-bottom padding, swipe-to-dismiss.
    *
-   * NOTE: This is opt-in (mobileSheet={true}) rather than auto-detected to avoid breaking
-   * existing dialogs that rely on centered/constrained geometry. For true mobile-first UX,
-   * consider using the Drawer component from vaul which auto-detects viewport.
-   *
-   * Future improvement: Auto-detect mobile viewport and make bottom sheet the default
-   * behavior with a desktopMode opt-out prop. See analysis: 96 dialogs exist, 0 use this prop.
+   * Enabled by default: renders as native bottom-sheet on mobile (<640px).
+   * Set mobileSheet={false} to force centered modal on all viewports.
    */
   mobileSheet?: boolean;
 }
@@ -140,7 +136,7 @@ function useSwipeDownToClose(
 }
 
 const DialogContent = React.forwardRef<React.ElementRef<typeof DialogPrimitive.Content>, DialogContentProps>(
-  ({ className, children, hideTitle = false, accessibleTitle = "Диалоговое окно", mobileSheet = false, ...props }, ref) => {
+  ({ className, children, hideTitle = false, accessibleTitle = "Диалоговое окно", mobileSheet = true, ...props }, ref) => {
     // Check if this is a fullscreen dialog (has h-[100dvh], h-screen, or h-[100vh] in className)
     const isFullscreen =
       className?.includes("h-[100dvh]") || className?.includes("h-screen") || className?.includes("h-[100vh]");

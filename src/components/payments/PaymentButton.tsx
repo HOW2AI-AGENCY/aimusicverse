@@ -39,7 +39,7 @@ export function PaymentButton({
       return (
         <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="flex items-center gap-3">
           <motion.div
-            className={cn("w-8 h-8 rounded-full flex items-center justify-center", surface.medium)}
+            className={cn("w-8 h-8 min-w-[44px] min-h-[44px] rounded-full flex items-center justify-center", surface.medium)}
             animate={{ rotate: [0, 360] }}
             transition={{ duration: 0.5 }}
           >

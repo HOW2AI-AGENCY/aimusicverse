@@ -80,8 +80,8 @@ export const QuickLikeButton = memo(function QuickLikeButton({
   );
 
   const sizeClasses = {
-    sm: "w-7 h-7",
-    md: "w-9 h-9",
+    sm: "w-7 h-7 min-w-[44px] min-h-[44px]",
+    md: "w-9 h-9 min-w-[44px] min-h-[44px]",
     lg: "w-11 h-11",
   };
 

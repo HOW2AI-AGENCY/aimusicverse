@@ -390,7 +390,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button type="button" variant="default" size="sm" className="gap-2 h-9 shadow-md">
+                <Button type="button" variant="default" size="sm" className="gap-2 h-11 shadow-md">
                   <Plus className="w-4 h-4" />
                   Добавить
                   <ChevronDown className="w-3 h-3 opacity-70" />
@@ -426,7 +426,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
             </DropdownMenu>
 
             {onAIGenerate && (
-              <Button type="button" variant="secondary" size="sm" onClick={onAIGenerate} className="gap-2 h-9">
+              <Button type="button" variant="secondary" size="sm" onClick={onAIGenerate} className="gap-2 h-11">
                 <Sparkles className="w-4 h-4" />
                 AI Лирика
               </Button>
@@ -576,7 +576,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                                     type="button"
                                     variant="ghost"
                                     size="icon"
-                                    className="h-8 w-8 text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10"
+                                    className="h-8 w-8 min-w-[44px] min-h-[44px] text-emerald-500 hover:text-emerald-600 hover:bg-emerald-500/10"
                                     onClick={() => handleSaveEdit(section.id)}
                                   >
                                     <Check className="w-4 h-4" />
@@ -587,13 +587,13 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                                       onResult={(text) => handleVoiceInput(section.id, text)}
                                       context="lyrics"
                                       size="icon"
-                                      className="h-8 w-8"
+                                      className="h-8 w-8 min-w-[44px] min-h-[44px]"
                                     />
                                     <Button
                                       type="button"
                                       variant="ghost"
                                       size="icon"
-                                      className="h-8 w-8 hover:bg-primary/10"
+                                      className="h-8 w-8 min-w-[44px] min-h-[44px] hover:bg-primary/10"
                                       onClick={() => setEditingId(section.id)}
                                     >
                                       <Edit2 className="w-4 h-4" />
@@ -602,7 +602,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                                       type="button"
                                       variant="ghost"
                                       size="icon"
-                                      className="h-8 w-8 hover:bg-primary/10"
+                                      className="h-8 w-8 min-w-[44px] min-h-[44px] hover:bg-primary/10"
                                       onClick={() => handleDuplicateSection(section.id)}
                                       title="Дублировать секцию"
                                     >
@@ -614,7 +614,7 @@ export function LyricsVisualEditor({ value, onChange, onAIGenerate }: LyricsVisu
                                   type="button"
                                   variant="ghost"
                                   size="icon"
-                                  className="h-8 w-8 text-destructive hover:text-destructive hover:bg-destructive/10"
+                                  className="h-8 w-8 min-w-[44px] min-h-[44px] text-destructive hover:text-destructive hover:bg-destructive/10"
                                   onClick={() => handleDeleteSection(section.id)}
                                 >
                                   <Trash2 className="w-4 h-4" />
