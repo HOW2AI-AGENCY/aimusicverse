@@ -76,20 +76,20 @@ Most AI music tools are standalone web apps that require context-switching. Musi
 
 ## ✨ Features
 
-| Category | Capability | Status |
-| --- | --- | :---: |
-| 🤖 **Generation** | Suno v5 — 277+ styles, custom lyrics, instrumentals, A/B versions, extend & remix | ✅ |
-| 🎙️ **Voice Cloning** | 6-step voice clone, personalised generation, cross-genre library | ✅ |
-| 🎛️ **Studio** | 16-channel mixer, timeline, section regeneration, A/B comparison | ✅ |
-| 🪓 **Stems** | 4-stem separation (vocals · drums · bass · other) with mixer | ✅ |
-| 🎼 **MIDI** | 6 AI transcription models, multi-track export | ✅ |
-| 📝 **Lyrics AI** | 10+ tools — rhythm, rhyme, structure, translate, generate | ✅ |
-| 👥 **Social** | Profiles, likes, comments, follows, leaderboards, referrals | ✅ |
-| 🎮 **Gamification** | Daily check-ins, streaks, XP, 20+ achievements, Stars rewards | ✅ |
-| 💳 **Monetisation** | Telegram Stars, tiered subscriptions, credit packs | ✅ |
-| 📱 **Telegram-native** | MainButton, BackButton, haptics, Stories share, deep-links | ✅ |
-| 🧠 **Realtime co-creation** | Collaborative session, presence, live waveform | 🚧 |
-| 🌍 **Marketplace** | Sell beats / loops / voices | 📋 |
+| Category                    | Capability                                                                        | Status |
+| --------------------------- | --------------------------------------------------------------------------------- | :----: |
+| 🤖 **Generation**           | Suno v5 — 277+ styles, custom lyrics, instrumentals, A/B versions, extend & remix |   ✅   |
+| 🎙️ **Voice Cloning**        | 6-step voice clone, personalised generation, cross-genre library                  |   ✅   |
+| 🎛️ **Studio**               | 16-channel mixer, timeline, section regeneration, A/B comparison, Lite/Pro modes  |   ✅   |
+| 🪓 **Stems**                | 4-stem separation (vocals · drums · bass · other) with mixer                      |   ✅   |
+| 🎼 **MIDI**                 | 6 AI transcription models, multi-track export                                     |   ✅   |
+| 📝 **Lyrics AI**            | 10+ tools — rhythm, rhyme, structure, translate, generate                         |   ✅   |
+| 👥 **Social**               | Profiles, likes, comments (timestamped), follows, leaderboards, referrals         |   ✅   |
+| 🎮 **Gamification**         | Daily check-ins, streaks, XP, 20+ achievements, Stars rewards                     |   ✅   |
+| 💳 **Monetisation**         | Telegram Stars, tiered subscriptions, credit packs, smart throttling              |   ✅   |
+| 📱 **Telegram-native**      | MainButton, BackButton, haptics, Stories share, deep-links                        |   ✅   |
+| 🧠 **Realtime co-creation** | Collaborative session, presence, live waveform                                    |   🚧   |
+| 🌍 **Marketplace**          | Sell beats / loops / voices                                                       |   📋   |
 
 ---
 
@@ -174,19 +174,19 @@ npm run dev          # → http://localhost:8080
 <details>
 <summary><b>All scripts</b></summary>
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Vite dev server (port 8080) |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build |
-| `npm test` | Vitest unit tests |
-| `npm run test:coverage` | Coverage report |
-| `npm run test:e2e` | Playwright E2E |
+| Command                   | Purpose                                   |
+| ------------------------- | ----------------------------------------- |
+| `npm run dev`             | Vite dev server (port 8080)               |
+| `npm run build`           | Production build                          |
+| `npm run preview`         | Preview production build                  |
+| `npm test`                | Vitest unit tests                         |
+| `npm run test:coverage`   | Coverage report                           |
+| `npm run test:e2e`        | Playwright E2E                            |
 | `npm run test:e2e:mobile` | Mobile emulation E2E (Pixel 5, iPhone 12) |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier |
-| `npm run size` | Bundle-size guard (max 950 KB) |
-| `npm run storybook` | Storybook on :6006 |
+| `npm run lint`            | ESLint                                    |
+| `npm run format`          | Prettier                                  |
+| `npm run size`            | Bundle-size guard (max 950 KB)            |
+| `npm run storybook`       | Storybook on :6006                        |
 
 </details>
 
@@ -206,6 +206,7 @@ See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Supabase c
 <td valign="top" width="50%">
 
 **Frontend**
+
 - React 19.2 · TypeScript 5.9 · Vite 5
 - Tailwind 3.4 · shadcn/ui · Radix UI
 - Zustand 5 · TanStack Query 5.90
@@ -217,6 +218,7 @@ See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Supabase c
 <td valign="top" width="50%">
 
 **Backend & AI**
+
 - Supabase — Postgres · Edge Functions · Storage · Realtime
 - Suno AI v5 · Klang.io MIDI
 - 80+ Deno Edge Functions
@@ -228,6 +230,7 @@ See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Supabase c
 <td valign="top">
 
 **Audio**
+
 - Tone.js 14.9 · Wavesurfer.js 7.8
 - Single `<audio>` element via `GlobalAudioProvider`
 - iOS-safe audio element pool
@@ -237,6 +240,7 @@ See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Supabase c
 <td valign="top">
 
 **Quality**
+
 - Vitest 4 · Playwright 1.57
 - ESLint · Prettier · Husky · commitlint
 - size-limit (950 KB budget)
@@ -299,12 +303,12 @@ npm run clean:cache         # Wipe node_modules/.vite, dist, .turbo, coverage
 npm run reset               # clean:cache + npm install + full rebuild
 ```
 
-| Symptom | Run first | Why |
-| --- | --- | --- |
-| White screen after a CSS edit | `npm run check:css-imports` | Misplaced `@import` in `src/index.css` is silently dropped by Vite and breaks all styles. The script points at the exact line and shows the correct structure. |
-| Dev server stuck / stale modules / weird HMR | `npm run clean:cache` then `npm run dev` | Clears `node_modules/.vite` + other caches that survive code changes. |
-| "Works in prod, broken locally" or vice versa | `npm run reset` | Full clean install + production build from scratch. |
-| CI build fails with CSS errors | Read the `vite-build-log` artifact in the PR | Full `vite build` stdout/stderr is uploaded on every PR; the `smoke-boot-log` artifact also contains `musicverse_boot_log` and any captured stack traces. |
+| Symptom                                       | Run first                                    | Why                                                                                                                                                            |
+| --------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| White screen after a CSS edit                 | `npm run check:css-imports`                  | Misplaced `@import` in `src/index.css` is silently dropped by Vite and breaks all styles. The script points at the exact line and shows the correct structure. |
+| Dev server stuck / stale modules / weird HMR  | `npm run clean:cache` then `npm run dev`     | Clears `node_modules/.vite` + other caches that survive code changes.                                                                                          |
+| "Works in prod, broken locally" or vice versa | `npm run reset`                              | Full clean install + production build from scratch.                                                                                                            |
+| CI build fails with CSS errors                | Read the `vite-build-log` artifact in the PR | Full `vite build` stdout/stderr is uploaded on every PR; the `smoke-boot-log` artifact also contains `musicverse_boot_log` and any captured stack traces.      |
 
 `check:css-imports` runs automatically:
 
@@ -331,6 +335,7 @@ On **failure** it dumps a per-browser folder with everything needed to
 debug without re-running locally:
 
 `test-results/smoke/<browser>/`
+
 - `boot-log.json` — `musicverse_boot_log` from `sessionStorage`
 - `early-errors.json` — `window.__EARLY_ERRORS` captured by `index.html`
 - `console-errors.log` / `page-errors.log` — stack traces
@@ -357,11 +362,11 @@ Rerun artifacts land in `test-results/smoke/pw-output-<browser>-rerun/` so they 
 
 A shared layout shell that paints itself with `bg-primary` / `bg-accent` / `bg-gradient-primary` makes the whole app neon-bright. Two guards stop that from coming back:
 
-| Command | When to run |
-| --- | --- |
-| `npm run check:section-tokens` | Before committing changes to `src/components/layout/Section.tsx` (also runs in `prebuild` + pre-commit + CI). |
+| Command                                 | When to run                                                                                                                                                            |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm run check:section-tokens`          | Before committing changes to `src/components/layout/Section.tsx` (also runs in `prebuild` + pre-commit + CI).                                                          |
 | `npm run check:section-tokens -- --fix` | **Codemod** — auto-replaces forbidden tokens (`bg-primary` → `bg-card/60`, `bg-gradient-primary` → `bg-gradient-to-br from-card/60 via-background to-muted/40`, etc.). |
-| `npm run check:design-tokens` | Aggregate: CSS `@import` order + Section tokens. |
+| `npm run check:design-tokens`           | Aggregate: CSS `@import` order + Section tokens.                                                                                                                       |
 
 Need a one-off exception? Add `// section-tokens-allow-next-line` directly above the line (justify it in the PR — these should be rare). The same opt-out works inline: `bg-primary // section-tokens-allow`.
 
@@ -377,6 +382,7 @@ npm run test:visual:update       # refresh baselines after an INTENTIONAL color 
 ```
 
 Run `test:visual` whenever you touch:
+
 - `src/index.css` (color tokens)
 - `tailwind.config.ts`
 - `src/components/layout/Section.tsx` or any shared card/section component
@@ -385,33 +391,29 @@ If it fails with `avg luminance … > 0.32`, the surface is too bright — fix t
 
 ### When to run what (CI failed?)
 
-| Symptom | First command |
-| --- | --- |
-| White screen / app won't load | `npm run check:css-imports` then `npm run test:smoke:chromium` |
-| Smoke green locally, red in CI on one browser only | `npm run e2e:smoke:rerun` (matches CI matrix, retains video/trace) |
-| Sections look too bright / saturated | `npm run check:section-tokens` (then `-- --fix`), then `npm run test:visual` |
-| Bundler / cache acting weird | `npm run clean:cache` or `npm run reset` |
+| Symptom                                            | First command                                                                |
+| -------------------------------------------------- | ---------------------------------------------------------------------------- |
+| White screen / app won't load                      | `npm run check:css-imports` then `npm run test:smoke:chromium`               |
+| Smoke green locally, red in CI on one browser only | `npm run e2e:smoke:rerun` (matches CI matrix, retains video/trace)           |
+| Sections look too bright / saturated               | `npm run check:section-tokens` (then `-- --fix`), then `npm run test:visual` |
+| Bundler / cache acting weird                       | `npm run clean:cache` or `npm run reset`                                     |
 
 ---
 
-
-
-
-
 ## 📚 Documentation
 
-| Section | Entry point |
-| --- | --- |
-| 📖 **Full index** | [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) |
-| 🏛 **Architecture hub** | [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) |
-| 🧩 **Knowledge base** | [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) |
-| 🗂 **Repo structure** | [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md) |
-| 🗺 **Roadmap** | [`ROADMAP.md`](ROADMAP.md) |
-| 📊 **Project status** | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) |
-| 🪲 **Known issues** | [`KNOWN_ISSUES_TRACKED.md`](KNOWN_ISSUES_TRACKED.md) |
-| 🤝 **Contributing** | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
-| 🔒 **Security** | [`SECURITY.md`](SECURITY.md) |
-| 📝 **Changelog** | [`CHANGELOG.md`](CHANGELOG.md) |
+| Section                 | Entry point                                          |
+| ----------------------- | ---------------------------------------------------- |
+| 📖 **Full index**       | [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md)   |
+| 🏛 **Architecture hub** | [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md)         |
+| 🧩 **Knowledge base**   | [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md)             |
+| 🗂 **Repo structure**   | [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md) |
+| 🗺 **Roadmap**          | [`ROADMAP.md`](ROADMAP.md)                           |
+| 📊 **Project status**   | [`PROJECT_STATUS.md`](PROJECT_STATUS.md)             |
+| 🪲 **Known issues**     | [`KNOWN_ISSUES_TRACKED.md`](KNOWN_ISSUES_TRACKED.md) |
+| 🤝 **Contributing**     | [`CONTRIBUTING.md`](CONTRIBUTING.md)                 |
+| 🔒 **Security**         | [`SECURITY.md`](SECURITY.md)                         |
+| 📝 **Changelog**        | [`CHANGELOG.md`](CHANGELOG.md)                       |
 
 > [!TIP]
 > **New here?** Start with [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) then [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) then [`CONTRIBUTING.md`](CONTRIBUTING.md).
@@ -464,8 +466,8 @@ Vulnerability disclosure: [`SECURITY.md`](SECURITY.md)
 
 <div align="center">
 
-| 📚 Index | 🏛 Architecture | 🗺 Roadmap | 🤝 Contributing | 🔒 Security | 📝 Changelog |
-| :---: | :---: | :---: | :---: | :---: | :---: |
+|            📚 Index             |      🏛 Architecture       |      🗺 Roadmap       |         🤝 Contributing         |       🔒 Security       |       📝 Changelog        |
+| :-----------------------------: | :------------------------: | :-------------------: | :-----------------------------: | :---------------------: | :-----------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
 
 **Made with ❤️ by the MusicVerse AI team**

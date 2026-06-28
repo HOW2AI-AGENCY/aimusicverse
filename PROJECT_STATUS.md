@@ -5,8 +5,8 @@
 **Snapshot of the project's current health, sprint progress, and key metrics.**
 
 <p>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-032-26A5E4?style=for-the-badge"/>
-  <img alt="Progress" src="https://img.shields.io/badge/overall-88%25-F59E0B?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-033-26A5E4?style=for-the-badge"/>
+  <img alt="Progress" src="https://img.shields.io/badge/overall-92%25-F59E0B?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
   <img alt="E2E Coverage" src="https://img.shields.io/badge/e2e-0%25-475569?style=for-the-badge"/>
   <img alt="Bundle" src="https://img.shields.io/badge/bundle-918kb%2F950kb-10B981?style=for-the-badge"/>
@@ -26,36 +26,40 @@
 > [!NOTE]
 > Updated weekly during sprint review. For real-time CI status see the [Actions tab](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
 
-## 🚦 Current sprint — `032` Final UI/UX Audit & Polish ✅
+## 🚦 Current sprint — `033` Interface Audit & UX Overhaul ✅
 
-| Track | Progress |
-| --- | --- |
-| Z-index hierarchy | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Track card variants | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Glassmorphism consistency | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Touch feedback | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Track                                      | Progress                                                          |
+| ------------------------------------------ | ----------------------------------------------------------------- |
+| Dialog→BottomSheet mobile default          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Touch targets ≥ 44px audit                 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Generation wizard 6→4 steps                | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Library inline filters                     | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Monetization throttling                    | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Micro-interactions (like burst, PTR pulse) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Studio Lite/Pro mode                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Timestamped comments                       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-## 🚦 Next up — `033` UI Improvements (Q3 2026)
+## 🚦 Next up — `034` Generation Reliability (Q3 2026)
 
-| Track | Progress |
-| --- | --- |
-| UI components update | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Bundle optimization | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Performance improvements | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Track                    | Progress                                                        |
+| ------------------------ | --------------------------------------------------------------- |
+| Failure rate 12% → <8%   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Retry logic improvements | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| E2E test coverage        | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🧮 Key metrics
 
-| Metric | Value | Target |
-| --- | :---: | :---: |
-| Components | 935+ | — |
-| Hooks | 200+ | — |
-| Edge Functions | 80+ | — |
-| Bundle size (gzip) | **918 KB** | ≤ 950 KB ✅ |
-| Unit test coverage | **82%** | ≥ 80% ✅ |
-| E2E specs | 47 | — |
-| Lighthouse (mobile) | 92 | ≥ 90 ✅ |
-| Accessibility (axe) | 0 critical | 0 ✅ |
-| Sentry error rate (24h) | 0.04% | < 0.1% ✅ |
+| Metric                  |   Value    |   Target    |
+| ----------------------- | :--------: | :---------: |
+| Components              |    935+    |      —      |
+| Hooks                   |    200+    |      —      |
+| Edge Functions          |    80+     |      —      |
+| Bundle size (gzip)      | **918 KB** | ≤ 950 KB ✅ |
+| Unit test coverage      |  **82%**   |  ≥ 80% ✅   |
+| E2E specs               |     47     |      —      |
+| Lighthouse (mobile)     |     92     |   ≥ 90 ✅   |
+| Accessibility (axe)     | 0 critical |    0 ✅     |
+| Sentry error rate (24h) |   0.04%    |  < 0.1% ✅  |
 
 ## 🏗 Architecture pillars
 
@@ -85,6 +89,11 @@ mindmap
 
 ## ✅ Recent wins (last 30 days)
 
+- ✅ Sprint 033: Complete interface audit — 18 tasks across 4 phases.
+- ✅ Generation wizard simplified from 6 to 4 steps.
+- ✅ Studio Lite/Pro mode for reduced cognitive load.
+- ✅ Timestamped comments (SoundCloud-style).
+- ✅ Monetization throttling — max 1 banner/session.
 - 🚀 Bundle reduced from 1.02 MB → 918 KB.
 - ✅ E2E mobile job stabilised (Mobile Chrome + Mobile Safari).
 - ✅ Dev-overlay hardened: pointer-events guard, IME-safe hotkey.
@@ -94,6 +103,7 @@ mindmap
 ## 🚨 Active blockers
 
 None at the time of writing. Watch list:
+
 - iOS Safari audio element pool nearing 9/10 in heavy sessions.
 - Suno API rate-limits during peak hours.
 
@@ -103,10 +113,10 @@ None at the time of writing. Watch list:
 
 ### 🔗 Related Documentation
 
-| 📚 Index | 🗺 Roadmap | 📝 Changelog | 🪲 Issues | 🤝 Contributing |
-| :---: | :---: | :---: | :---: | :---: |
+|            📚 Index             |      🗺 Roadmap       |       📝 Changelog        |             🪲 Issues             |         🤝 Contributing         |
+| :-----------------------------: | :-------------------: | :-----------------------: | :-------------------------------: | :-----------------------------: |
 | [Index](DOCUMENTATION_INDEX.md) | [Roadmap](ROADMAP.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) | [Contributing](CONTRIBUTING.md) |
 
-<sub>Last updated: 2026-06-27</sub>
+<sub>Last updated: 2026-06-28</sub>
 
 </div>

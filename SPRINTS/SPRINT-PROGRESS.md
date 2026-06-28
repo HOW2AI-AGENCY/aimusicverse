@@ -1,30 +1,29 @@
 # Sprint Progress Tracker
 
-**Последнее обновление**: 2026-06-27
+**Последнее обновление**: 2026-06-28
 
 > 📌 **Важно**: Это документ отслеживает все спринты и их статусы. Для детального плана задач смотрите [SPRINTS/BACKLOG.md](SPRINTS/BACKLOG.md).
 
 ## 📊 Общий статус
 
-| Sprint                              | Статус         | Прогресс                                 |
-| ----------------------------------- | -------------- | ---------------------------------------- |
-| Sprint 001-032                      | ✅ ЗАВЕРШЕНЫ   | 100%                                     |
-| Sprint 033 (UI Improvements)        | ⏳ ЗАПЛАНИРОВАН | Spec 001 реализация                      |
-| Sprint 034 (Generation Reliability) | ⏳ ЗАПЛАНИРОВАН | Failure rate 12% → <8%                   |
-| Sprint 035 (Platform Integrations)  | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
-| Q1 2026 Plan                        | ✅ ЗАВЕРШЁН    | Phase 1-6 Complete, Sprints A-E Complete |
-| Phase 8: Dead Code Removal          | ✅ ЗАВЕРШЁН    | 196 файлов, 45K строк                    |
-| Sprint 9A: Deduplication            | ✅ ЗАВЕРШЁН    | 5 дубликатов, 1.35K строк                |
-| Sprint 9B: Split Giant Files        | ⏳ ЗАПЛАНИРОВАН | 50+ файлов >500 строк                    |
-| Sprint 9C: Lyrics Consolidation     | ⏳ ЗАПЛАНИРОВАН | 30+ lyrics-компонентов из 6 директорий   |
-| Sprint 9D: Reorganize components/ui | ⏳ ЗАПЛАНИРОВАН | 90+ файлов требуют группировки           |
-| Sprint 9E: Final Verification       | ⏳ ЗАПЛАНИРОВАН | tsc, build, size, tests                  |
-| **Phase 10A: Test Infrastructure**  | ✅ ЗАВЕРШЁН    | Jest→Vitest, 237 тестов починено         |
-| **Phase 10B: Critical Path Tests**  | ✅ ЗАВЕРШЁН    | 320 тестов, 5 новых test suites          |
-| **Phase 10C: E2E Tests**            | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии            |
-| **Sprint 033: UI Improvements**     | ⏳ ЗАПЛАНИРОВАН | Spec 001 реализация                      |
-| **Sprint 034: Generation Reliability** | ⏳ ЗАПЛАНИРОВАН | Failure rate 12% → <8%               |
-| **Sprint 035: Platform Integrations** | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export     |
+| Sprint                                 | Статус          | Прогресс                                 |
+| -------------------------------------- | --------------- | ---------------------------------------- |
+| Sprint 001-033                         | ✅ ЗАВЕРШЕНЫ    | 100%                                     |
+| Sprint 034 (Generation Reliability)    | ⏳ ЗАПЛАНИРОВАН | Failure rate 12% → <8%                   |
+| Sprint 035 (Platform Integrations)     | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
+| Q1 2026 Plan                           | ✅ ЗАВЕРШЁН     | Phase 1-6 Complete, Sprints A-E Complete |
+| Phase 8: Dead Code Removal             | ✅ ЗАВЕРШЁН     | 196 файлов, 45K строк                    |
+| Sprint 9A: Deduplication               | ✅ ЗАВЕРШЁН     | 5 дубликатов, 1.35K строк                |
+| Sprint 9B: Split Giant Files           | ⏳ ЗАПЛАНИРОВАН | 50+ файлов >500 строк                    |
+| Sprint 9C: Lyrics Consolidation        | ⏳ ЗАПЛАНИРОВАН | 30+ lyrics-компонентов из 6 директорий   |
+| Sprint 9D: Reorganize components/ui    | ⏳ ЗАПЛАНИРОВАН | 90+ файлов требуют группировки           |
+| Sprint 9E: Final Verification          | ⏳ ЗАПЛАНИРОВАН | tsc, build, size, tests                  |
+| **Phase 10A: Test Infrastructure**     | ✅ ЗАВЕРШЁН     | Jest→Vitest, 237 тестов починено         |
+| **Phase 10B: Critical Path Tests**     | ✅ ЗАВЕРШЁН     | 320 тестов, 5 новых test suites          |
+| **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии            |
+| **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                         |
+| **Sprint 034: Generation Reliability** | ⏳ ЗАПЛАНИРОВАН | Failure rate 12% → <8%                   |
+| **Sprint 035: Platform Integrations**  | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
 
 ---
 
@@ -152,13 +151,37 @@
 
 ---
 
-### Sprint 033: UI Improvements ⏳ PLANNED (Q3 2026)
+### Sprint 033: Interface Audit & UX Overhaul ✅
 
-Реализация Spec 001: UI Improvements ([PR #280](https://github.com/HOW2AI-AGENCY/aimusicverse/pull/280))
+#### Phase 1: Critical UX Fixes
 
-- [ ] Обновлённые UI компоненты
-- [ ] Bundle size optimization
-- [ ] Performance improvements
+- [x] Dialog → BottomSheet on mobile (mobileSheet default=true)
+- [x] Touch targets ≥ 44px in 6 components
+- [x] ARIA labels for navigation components
+- [x] console.log → logger migration
+- [x] BottomNavigation icon/label sizes increased
+- [x] Generation form buttons to h-11
+- [x] Onboarding simplified: 10-step → QuickStartOverlay (3 steps)
+- [x] Generation wizard 6→4 steps (StyleSettingsStep, VocalsLyricsStep)
+
+#### Phase 2: Interface Polish
+
+- [x] Library CompactFilterBar: inline sort dropdown (removed modal)
+- [x] Monetization throttling (UpsellStrategy service)
+- [x] Micro-interactions: like burst particles, pull-to-refresh pulse ring
+
+#### Phase 3: Studio & Social
+
+- [x] Studio Lite/Pro mode toggle (ViewStore + StudioShellHeader)
+- [x] AIActionsFAB filtered by studioMode
+- [x] Timestamped comments (Comment interface + CommentForm + CommentItem)
+
+#### Phase 4: Quality Assurance
+
+- [x] TypeScript compilation verified
+- [x] 362 unit tests passing
+- [x] Production build successful
+- [x] commitlint ESM compatibility fix
 
 ### Sprint 034: Generation Reliability ⏳ PLANNED (Q3 2026)
 
@@ -196,20 +219,20 @@ All sprints 001-032 are completed and archived in `SPRINTS/completed/`.
 
 ## 📈 Метрики
 
-| Метрика          | Текущее | Цель   |
-| ---------------- | ------- | ------ |
-| Users            | 574+    | 1,000+ |
-| Tracks           | 1,800+  | 5,000+ |
-| Files .ts/.tsx   | 1,736   | —      |
-| Components       | 935+    | —      |
-| Hooks            | 340+    | —      |
-| Pages            | 57+     | —      |
-| Edge Functions   | 120+    | —      |
-| Success Rate     | ~88%    | >92%   |
-| DAU              | ~25     | 50+    |
-| **Unit Tests**   | **320** | 500+   |
-| **Test Suites**  | **24**  | 40+    |
-| **Test Runner**  | Vitest  | —      |
+| Метрика         | Текущее | Цель   |
+| --------------- | ------- | ------ |
+| Users           | 574+    | 1,000+ |
+| Tracks          | 1,800+  | 5,000+ |
+| Files .ts/.tsx  | 1,736   | —      |
+| Components      | 935+    | —      |
+| Hooks           | 340+    | —      |
+| Pages           | 57+     | —      |
+| Edge Functions  | 120+    | —      |
+| Success Rate    | ~88%    | >92%   |
+| DAU             | ~25     | 50+    |
+| **Unit Tests**  | **320** | 500+   |
+| **Test Suites** | **24**  | 40+    |
+| **Test Runner** | Vitest  | —      |
 
 ---
 
@@ -221,6 +244,6 @@ All sprints 001-032 are completed and archived in `SPRINTS/completed/`.
 
 ---
 
-_Обновлено: 2026-06-27_
+_Обновлено: 2026-06-28_
 
 > 🔗 Навигация: [DOCUMENTATION_INDEX.md](../DOCUMENTATION_INDEX.md) • [PROJECT_STATUS.md](../PROJECT_STATUS.md) • [BACKLOG.md](BACKLOG.md)
