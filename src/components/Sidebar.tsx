@@ -18,7 +18,6 @@ import {
   ChevronDown,
   ChevronRight,
   Guitar,
-  PanelLeftClose,
   PanelLeft,
   Shield,
   Layers,
