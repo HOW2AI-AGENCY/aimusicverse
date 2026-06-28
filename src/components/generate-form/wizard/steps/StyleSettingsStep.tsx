@@ -190,9 +190,13 @@ export function StyleSettingsStep({ onNext, onBack }: StyleSettingsStepProps) {
                   model === m.key ? "border-primary bg-primary/10" : "border-border",
                 )}
               >
-                <span>{m.emoji}</span>
+                {(() => {
+                  const info = getModelDisplayInfo(m.apiModel ?? m.key);
+                  const Icon = info?.icon;
+                  return Icon ? <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" /> : null;
+                })()}
                 <span className="font-medium">{m.name}</span>
-                <span className="text-muted-foreground">{m.cost}💎</span>
+                <span className="text-muted-foreground">{m.cost} кр.</span>
               </button>
             ))}
           </div>
