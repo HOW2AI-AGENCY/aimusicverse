@@ -10,14 +10,20 @@ let hasTerser = false;
 
 try {
   visualizer = (await import("rollup-plugin-visualizer")).visualizer;
-} catch {}
+} catch {
+  /* optional dependency */
+}
 try {
   viteCompression = (await import("vite-plugin-compression")).default;
-} catch {}
+} catch {
+  /* optional dependency */
+}
 try {
   await import("terser");
   hasTerser = true;
-} catch {}
+} catch {
+  /* falls back to esbuild */
+}
 
 /**
  * Custom plugin to ensure React vendor chunk loads before other chunks
