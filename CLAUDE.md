@@ -620,3 +620,17 @@ Rules:
 - If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
 - Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
 - After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+
+## Documentation
+
+This project maintains extensive documentation at the root level:
+
+- **README.md** — project landing page with screenshots, progress, and investor info
+- **DOCUMENTATION_INDEX.md** — role-based navigation hub (Developer, Designer, PM, Investor, Contributor)
+- **ARCHITECTURE_HUB.md** — canonical architecture reference with Mermaid diagrams and ADRs
+- **PROJECT_STATUS.md** — current sprint status, metrics, and audit findings
+- **ROADMAP.md** — quarterly roadmap with Gantt chart and objectives
+- **CHANGELOG.md** — Keep a Changelog format release notes
+- **MAINTENANCE.md** — how to keep documentation up to date after changes
+
+To update documentation after code changes: follow the checklist in `MAINTENANCE.md`.

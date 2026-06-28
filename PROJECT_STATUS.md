@@ -55,27 +55,44 @@
 | Delivery tracking (A/B clips)       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Снижение failure rate 12% → <8%     | ![](https://img.shields.io/badge/92%25-10B981?style=flat-square)  |
 
-## 🚦 Feature: `033-mobile-ui-improvements` — В РАБОТЕ 🟡
+## 🚦 Feature: `033-mobile-ui-improvements` — ЗАВЕРШЁН ✅
 
-**Прогресс**: 19/114 задач (17%) | **Фаза**: P1 Stories | **Issues**: [#317–#430](https://github.com/HOW2AI-AGENCY/aimusicverse/issues?q=label%3A%22📄+DOCS%22)
+**Прогресс**: 114/114 задач (100%) | **Фаза**: Complete | **Issues**: [#317–#430](https://github.com/HOW2AI-AGENCY/aimusicverse/issues?q=label%3A%22📄+DOCS%22)
 
 | Фаза                       |  Задачи   | Прогресс                                                          |
 | -------------------------- | :-------: | ----------------------------------------------------------------- |
 | Phase 1: Setup             | T001–T005 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Phase 2: Foundational      | T006–T013 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Phase 3: US1 Navigation    | T014–T019 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Phase 4: US2 Gestures      | T020–T027 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Phase 5: US6 Accessibility | T028–T035 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Phase 6: US4 Errors        | T036–T044 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Phase 7–12: P2/P3 Stories  | T045–T099 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
-| Phase 13: Polish           | T100–T114 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Phase 4: US2 Gestures      | T020–T027 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Phase 5: US6 Accessibility | T028–T035 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Phase 6: US4 Errors        | T036–T044 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Phase 7-12: P2/P3 Stories  | T045–T099 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Phase 13: Polish           | T100–T114 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
 ### ✅ Завершено (2026-06-29)
 
 - ✅ **Phase 1 Setup**: структура директорий, типы (queue, gestures, notifications), Zod-схемы, CSS (shimmer, accessibility)
 - ✅ **Phase 2 Foundational**: queueStorage, gestureSettings, notificationManager, a11yHelpers, shimmerAnimation, migration, types/index.ts
 - ✅ **Phase 3 US1 Navigation**: MoreMenuHintTooltip, RecentlyUsedSection, hint dismissal, back button audit (18/23 pages standard)
-- ✅ 19/114 total tasks — P1 phase 1 из 4 завершён
+- ✅ **Phase 4 US2 Gestures**: PlayerGestureHints, DoubleTapSeekFeedback, SwipeChevronIndicator, GestureSettingsPanel
+- ✅ **Phase 5 US6 Accessibility**: 14px caption, keyboard gestures (Arrow/Space/Escape), focus-visible, WCAG AA
+- ✅ **Phase 6 US4 Errors**: NetworkErrorState, ServerErrorState, TimeoutErrorState with Retry/Back/Report
+- ✅ **Phases 7-13**: P2 loading/notifications/queue/polish + P3 empty states/recently played + analytics
+- ✅ **114/114 total tasks — SPRINT ЗАВЕРШЁН**
+
+## 🚦 Feature: `035-repo-docs-revamp` — В РАБОТЕ 🟡
+
+**Прогресс**: задачи в процессе | **Фаза**: Phase 2 Foundational | **Тип**: Documentation
+
+| Задача                                      |                            Прогресс                             |
+| ------------------------------------------- | :-------------------------------------------------------------: |
+| README redesign (инвесторы + клиенты)       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| DOCUMENTATION_INDEX role-based navigation   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| KNOWLEDGE_BASE.md deletion + redistribution | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| MAINTENANCE.md overhaul                     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Unified footers across all .md files        | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Screenshots (4 screens)                     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 | Задача                                          | Прогресс                                                        |
 | ----------------------------------------------- | --------------------------------------------------------------- |
