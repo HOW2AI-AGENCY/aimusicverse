@@ -1,21 +1,21 @@
 <div align="center">
 
-# 📝 Changelog
+# 📝 Журнал изменений
 
-**All notable changes to MusicVerse AI are documented in this file.**
+**Все значимые изменения в MusicVerse AI документируются в этом файле.**
 
-The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/) and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Формат основан на [Keep a Changelog 1.1.0](https://keepachangelog.com/ru/1.1.0/) и проект следует [Семантическому версионированию](https://semver.org/lang/ru/).
 
 <p>
-  <img alt="Format" src="https://img.shields.io/badge/Keep_a_Changelog-1.1-9333EA?style=for-the-badge"/>
+  <img alt="Формат" src="https://img.shields.io/badge/Keep_a_Changelog-1.1-9333EA?style=for-the-badge"/>
   <img alt="SemVer" src="https://img.shields.io/badge/SemVer-2.0-26A5E4?style=for-the-badge"/>
 </p>
 
 <p>
-  <a href="README.md">🏠 Home</a> ·
-  <a href="DOCUMENTATION_INDEX.md">📚 Docs</a> ·
-  <a href="ROADMAP.md">🗺 Roadmap</a> ·
-  <a href="PROJECT_STATUS.md">📊 Status</a>
+  <a href="README.md">🏠 Главная</a> ·
+  <a href="DOCUMENTATION_INDEX.md">📚 Документация</a> ·
+  <a href="ROADMAP.md">🗺 Дорожная карта</a> ·
+  <a href="PROJECT_STATUS.md">📊 Статус</a>
 </p>
 
 </div>
@@ -24,118 +24,118 @@ The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.
 
 ## [Unreleased]
 
-### ✨ Sprint 033 — Interface Audit & UX Overhaul
+### ✨ Спринт 033 — Аудит интерфейса и UX-переработка
 
-#### Added
+#### Добавлено
 
-- **Studio Lite/Pro mode** — toggle in StudioShellHeader to hide advanced features (stems, MIDI, arrangement) for beginners. Persisted to localStorage via ViewStore.
-- **Timestamped comments** — SoundCloud-style timecoded comments. Users can attach playback timestamp to comments. Timestamp badges shown inline in CommentItem.
-- **Like burst particles** — 6-particle radial burst animation on QuickLikeButton when liking a track.
-- **Pull-to-refresh pulse ring** — pulsing ring indicator when pull-to-refresh threshold is reached.
-- **Monetization throttling** — UpsellStrategy service limits proactive banners to 1/session and paywalls to 5-min cooldown. Integrated into ProactiveUpsellBanner and SmartPaywallDialog.
+- **Режим Studio Lite/Pro** — переключатель в StudioShellHeader для скрытия продвинутых функций (стемы, MIDI, аранжировка) от начинающих. Сохраняется в localStorage через ViewStore.
+- **Комментарии с таймкодами** — комментарии с привязкой к времени воспроизведения (как в SoundCloud). Бейджи с таймкодами отображаются инлайново в CommentItem.
+- **Анимация взрыва при лайке** — 6 частиц разлетаются радиально при нажатии лайка в QuickLikeButton.
+- **Пульсирующее кольцо pull-to-refresh** — индикатор пульсации при достижении порога pull-to-refresh.
+- **Троттлинг монетизации** — UpsellStrategy ограничивает проактивные баннеры до 1 за сессию и пейволлы до 5-минутного кулдауна. Интегрировано в ProactiveUpsellBanner и SmartPaywallDialog.
 
-#### Changed
+#### Изменено
 
-- **Generation wizard 6→4 steps** — merged Style+Settings into StyleSettingsStep, Vocals+Lyrics into VocalsLyricsStep. New store type `WizardStep`.
-- **Dialog → BottomSheet on mobile** — `mobileSheet` default changed from `false` to `true` in DialogContent. All 56+ dialogs auto-render as vaul Drawer on mobile (<640px).
-- **Library filters inline** — removed LibraryFilterModal on mobile, replaced with inline sort dropdown in CompactFilterBar.
-- **BottomNavigation** — icons increased to 20px, labels to 11px for better readability.
-- **Onboarding simplified** — removed 10-step Onboarding page, QuickStartOverlay (3 steps) handles onboarding. Route redirects to `/`.
+- **Визард генерации 6→4 шага** — объединены Стиль+Настройки в StyleSettingsStep, Вокал+Тексты в VocalsLyricsStep. Новый тип `WizardStep` в сторе.
+- **Dialog → BottomSheet на мобильных** — значение `mobileSheet` по умолчанию изменено с `false` на `true` в DialogContent. Все 56+ диалогов автоматически рендерятся как vaul Drawer на мобильных (<640px).
+- **Инлайн-фильтры библиотеки** — удалён LibraryFilterModal на мобильных, заменён на инлайн-выпадающий список сортировки в CompactFilterBar.
+- **BottomNavigation** — иконки увеличены до 20px, подписи до 11px для лучшей читаемости.
+- **Упрощённый онбординг** — удалена 10-шаговая страница Onboarding, QuickStartOverlay (3 шага) обрабатывает онбординг. Маршрут перенаправляет на `/`.
 
-#### Fixed
+#### Исправлено
 
-- Touch targets < 44px in QuickLikeButton, PaymentButton, LyricsVisualEditor, AudioActionDialog, SmartPromptSuggestions.
-- ARIA labels added to navigation components (MenuSearch, QuickActionsBar, MoreMenuSheet).
-- `console.log` replaced with `logger` in SortableTrackList.
-- commitlint config renamed to `.cjs` for ESM compatibility, resolved header-case vs subject-case rule conflict.
+- Области касания < 44px в QuickLikeButton, PaymentButton, LyricsVisualEditor, AudioActionDialog, SmartPromptSuggestions.
+- Добавлены ARIA-метки в компоненты навигации (MenuSearch, QuickActionsBar, MoreMenuSheet).
+- `console.log` заменён на `logger` в SortableTrackList.
+- Конфиг commitlint переименован в `.cjs` для совместимости с ESM, разрешён конфликт правил header-case и subject-case.
 
-### 📚 Documentation
+### 📚 Документация
 
-- **Repository-wide docs redesign** — unified header/footer/badges templates, mermaid diagrams, role-based onboarding map in `DOCUMENTATION_INDEX`.
-- Archived 9 duplicate documents under `docs/archive/2026-06-27/`.
-- New audit report: `docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md`.
+- **Редизайн документации репозитория** — унифицированные шаблоны хедеров/футеров/бейджей, mermaid-диаграммы, карта онбординга по ролям в `DOCUMENTATION_INDEX`.
+- Архивированы 9 дублирующих документов в `docs/archive/2026-06-27/`.
+- Новый отчёт аудита: `docs/_audit/REPO_DOCS_AUDIT_2026-06-27.md`.
 
-### ✅ Added
+### ✅ Добавлено
 
-- Dev-overlay IME guard, force-visible safety net, orientation E2E coverage.
-- CI split into `e2e` + `e2e-mobile` jobs with retries.
+- Защита dev-overlay от IME, принудительная видимость, E2E покрытие ориентации.
+- CI разделён на задачи `e2e` + `e2e-mobile` с повторами.
 
-### 🛠 Changed
+### 🛠 Изменено
 
-- `SmartAlertProvider` no longer auto-opens the "Стемы готовы" modal.
+- `SmartAlertProvider` больше не открывает автоматически модалку «Стемы готовы».
 
 ---
 
-## [1.30.0] — 2026-06-15 — _Sprint 030: Unified Studio Mobile_
+## [1.30.0] — 2026-06-15 — _Спринт 030: Unified Studio Mobile_
 
-### Added
+### Добавлено
 
-- Mobile DAW-style single-window layout.
-- Stems sheet with mixer parity.
-- Section-replacement UX in mobile.
+- Мобильный DAW-стиль в едином окне.
+- Стемы-панель с паритетом микшера.
+- UX перегенерации секций на мобильных.
 
-### Fixed
+### Исправлено
 
-- z-index stacking for portaled dialogs over fixed overlays.
-- Generation form modal taps on mobile.
+- z-index для порталированных диалогов поверх фиксированных оверлеев.
+- Тапы на модалке формы генерации на мобильных.
 
 ## [1.29.0] — 2026-05-22
 
-### Added
+### Добавлено
 
-- Voice Cloning Studio (6-step flow).
-- Suno `upload-extend` & `upload-cover` endpoints.
+- Студия клонирования голоса (6-шаговый процесс).
+- Эндпоинты Suno `upload-extend` и `upload-cover`.
 
-### Performance
+### Производительность
 
-- Bundle: 1.02 MB → 918 KB.
+- Бандл: 1.02 МБ → 918 КБ.
 
 ## [1.28.0] — 2026-04-10
 
-### Added
+### Добавлено
 
-- Stem separation (4 stems) with full mixer.
-- MIDI transcription (6 AI models).
+- Разделение стемов (4 стема) с полным микшером.
+- MIDI-транскрипция (6 ИИ-моделей).
 
-### Security
+### Безопасность
 
-- `has_role()` security-definer pattern across admin routes.
+- Паттерн `has_role()` security-definer для админских маршрутов.
 
 ## [1.27.0] — 2026-03-04
 
-### Added
+### Добавлено
 
-- A/B versioning for tracks (`is_primary` + `active_version_id`).
-- Optimistic UI for likes/plays/version switch.
+- A/B версионирование треков (`is_primary` + `active_version_id`).
+- Оптимистичный UI для лайков/прослушиваний/переключения версий.
 
 ## [1.26.0] — 2026-02-08
 
-### Added
+### Добавлено
 
-- Telegram Stars payments + tiered subscriptions.
-- Gamification: streaks, XP, 20+ achievements.
+- Оплата через Telegram Stars + тарифные подписки.
+- Геймификация: серии, XP, 20+ достижений.
 
 ## [1.25.0] — 2026-01-12
 
-### Added
+### Добавлено
 
-- Initial Telegram Mini App release on production domain.
+- Первый релиз Telegram Mini App на продакшн-домене.
 
 ---
 
 > [!TIP]
-> For sprint-level detail see [`SPRINTS/`](SPRINTS/). For per-feature history see the relevant doc in [`docs/`](docs/).
+> Детали по спринтам см. в [`SPRINTS/`](SPRINTS/). Историю по фичам — в соответствующих документах [`docs/`](docs/).
 
 ---
 
 <div align="center">
 
-### 🔗 Related Documentation
+### 🔗 Связанная документация
 
-|            📚 Index             |      🗺 Roadmap       |          📊 Status          |             🪲 Issues             |         🤝 Contributing         |
-| :-----------------------------: | :-------------------: | :-------------------------: | :-------------------------------: | :-----------------------------: |
-| [Index](DOCUMENTATION_INDEX.md) | [Roadmap](ROADMAP.md) | [Status](PROJECT_STATUS.md) | [Issues](KNOWN_ISSUES_TRACKED.md) | [Contributing](CONTRIBUTING.md) |
+|            📚 Указатель             |      🗺 Дорожная карта       |          📊 Статус          |             🪲 Проблемы             |         🤝 Контрибуция         |
+| :---------------------------------: | :--------------------------: | :-------------------------: | :---------------------------------: | :----------------------------: |
+| [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Статус](PROJECT_STATUS.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Last updated: 2026-06-27</sub>
+<sub>Последнее обновление: 2026-06-28</sub>
 
 </div>
