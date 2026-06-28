@@ -9,6 +9,7 @@ import { Crown, X, Sparkles, ChevronRight } from "@/lib/icons";
 import { Button } from "@/components/ui/button";
 import { useCreditsLimits } from "@/hooks/useCreditsLimits";
 import { useTelegram } from "@/contexts/TelegramContext";
+import { useUpsellThrottle } from "@/hooks/useUpsellThrottle";
 import { SubscriptionUpgradePopup } from "@/components/popups/SubscriptionUpgradePopup";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
 }: ProactiveUpsellBannerProps) {
   const { isFreeUser } = useCreditsLimits();
   const { hapticFeedback } = useTelegram();
+  const { canShow: canShowBanner, recordShown } = useUpsellThrottle("banner");
   const [isDismissed, setIsDismissed] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
 
@@ -39,8 +41,8 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
     }
   }, []);
 
-  // Don't show for paid users or if dismissed
-  if (!isFreeUser || isDismissed) {
+  // Don't show for paid users, if dismissed, or if throttled
+  if (!isFreeUser || isDismissed || !canShowBanner) {
     return null;
   }
 
@@ -52,6 +54,7 @@ export const ProactiveUpsellBanner = memo(function ProactiveUpsellBanner({
   const handleDismiss = () => {
     hapticFeedback?.("light");
     setIsDismissed(true);
+    recordShown();
     sessionStorage.setItem(SESSION_KEY, "true");
   };
 
