@@ -156,9 +156,9 @@ supabase/functions/ai-lyrics-assistant/index.ts
 
 ## 📚 Документация
 
-- [AI_LYRICS_ASSISTANT.md](../docs/AI_LYRICS_ASSISTANT.md) - Обновлённая документация
-- [PROJECT_STATUS.md](../PROJECT_STATUS.md) - Статус проекта
-- [CHANGELOG.md](../CHANGELOG.md) - История изменений
+- [AI_LYRICS_ASSISTANT.md](../../docs/AI_LYRICS_ASSISTANT.md) - Обновлённая документация
+- [PROJECT_STATUS.md](../../PROJECT_STATUS.md) - Статус проекта
+- [CHANGELOG.md](../../CHANGELOG.md) - История изменений
 
 ---
 

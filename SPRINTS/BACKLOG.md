@@ -67,7 +67,7 @@
 | T008 | Внедрить Infinite Query в Библиотеке                               | Высокий     | ✅ Done        | E003 |
 | T009 | Использовать React.lazy для страниц                                | Низкий      | ✅ Done        | E001 |
 | T010 | Реализовать систему связи реального времени между ботом и Mini App | Высокий     | ✅ Done        | E004 |
-| T011 | Интегрировать платежную систему (Tinkoff Payments)                  | Высокий     | ✅ Done        | E004 |
+| T011 | Интегрировать платежную систему (Tinkoff Payments)                 | Высокий     | ✅ Done        | E004 |
 | T012 | Реализовать полноценную систему уведомлений для пользователя       | Средний     | ✅ Done        | E005 |
 | T013 | Добавить функцию "лайков" для треков с сохранением в БД            | Средний     | ✅ Done        | E005 |
 | T014 | Отображать детальную информацию о треке в боте                     | Низкий      | ✅ Done        | E005 |
@@ -104,17 +104,17 @@
 
 ## 🆕 E008: Phase 9 — Deduplication & Refactoring (2026-06)
 
-| ID   | Название                                                  | Приоритет   | Статус         | Эпик |
-| ---- | --------------------------------------------------------- | ----------- | -------------- | ---- |
-| T043 | **9B: Разбить StudioShell.tsx (1873 строки)**             | Критический | ⏳ Planned     | E008 |
-| T044 | **9B: Разбить UnifiedStudioContent.tsx (1451 строка)**    | Критический | ⏳ Planned     | E008 |
-| T045 | **9B: Разбить MobileFullscreenPlayer.tsx (1067 строк)**   | Высокий     | ⏳ Planned     | E008 |
-| T046 | **9B: Разбить остальные файлы >500 строк**                | Высокий     | ⏳ Planned     | E008 |
-| T047 | **9C: Консолидация Lyrics-экосистемы**                    | Средний     | ⏳ Planned     | E008 |
-| T048 | **9D: Реорганизация components/ui/**                      | Средний     | ⏳ Planned     | E008 |
-| T049 | **9E: Финальная верификация (tsc, build, size, tests)**   | Высокий     | ⏳ Planned     | E008 |
-| T050 | **Тестовое покрытие: unit-тесты критического пути**       | Критический | ✅ Done        | E010 |
-| T051 | **Тестовое покрытие: E2E-тесты ключевых сценариев**       | Высокий     | ⏳ Planned     | E010 |
+| ID   | Название                                                | Приоритет   | Статус     | Эпик |
+| ---- | ------------------------------------------------------- | ----------- | ---------- | ---- |
+| T043 | **9B: Разбить StudioShell.tsx (1873 строки)**           | Критический | ⏳ Planned | E008 |
+| T044 | **9B: Разбить UnifiedStudioContent.tsx (1451 строка)**  | Критический | ⏳ Planned | E008 |
+| T045 | **9B: Разбить MobileFullscreenPlayer.tsx (1067 строк)** | Высокий     | ⏳ Planned | E008 |
+| T046 | **9B: Разбить остальные файлы >500 строк**              | Высокий     | ⏳ Planned | E008 |
+| T047 | **9C: Консолидация Lyrics-экосистемы**                  | Средний     | ⏳ Planned | E008 |
+| T048 | **9D: Реорганизация components/ui/**                    | Средний     | ⏳ Planned | E008 |
+| T049 | **9E: Финальная верификация (tsc, build, size, tests)** | Высокий     | ⏳ Planned | E008 |
+| T050 | **Тестовое покрытие: unit-тесты критического пути**     | Критический | ✅ Done    | E010 |
+| T051 | **Тестовое покрытие: E2E-тесты ключевых сценариев**     | Высокий     | ⏳ Planned | E010 |
 
 ---
 
@@ -124,22 +124,22 @@
 
 Миграция тестового раннера Jest → Vitest, восстановление тестовой инфраструктуры и написание unit-тестов для критических путей приложения.
 
-| ID   | Название                                                     | Приоритет   | Статус         | Эпик |
-| ---- | ------------------------------------------------------------ | ----------- | -------------- | ---- |
-| T063 | **10A: Миграция Jest → Vitest**                              | Критический | ✅ Done        | E010 |
-| T064 | **10A: Исправление нативных биндингов Windows**              | Критический | ✅ Done        | E010 |
-| T065 | **10A: Глобальный мок Supabase для тестов**                  | Критический | ✅ Done        | E010 |
-| T066 | **10A: Починка 22 failing test suites (237 тестов)**         | Критический | ✅ Done        | E010 |
-| T067 | **10B: Unit-тесты Player Store (39 тестов)**                 | Высокий     | ✅ Done        | E010 |
-| T068 | **10B: Unit-тесты Auth Context (5 тестов)**                  | Высокий     | ✅ Done        | E010 |
-| T069 | **10B: Unit-тесты Version Switcher (18 тестов)**             | Высокий     | ✅ Done        | E010 |
-| T070 | **10B: Unit-тесты Generation Draft (10 тестов)**             | Высокий     | ✅ Done        | E010 |
-| T071 | **10B: Unit-тесты Generation Result (11 тестов)**            | Высокий     | ✅ Done        | E010 |
-| T072 | **10C: E2E-тесты генерации трека**                           | Высокий     | ⏳ Planned     | E010 |
-| T073 | **10C: E2E-тесты навигации по библиотеке**                   | Средний     | ⏳ Planned     | E010 |
-| T074 | **10C: E2E-тесты плеера (play/pause/queue)**                 | Средний     | ⏳ Planned     | E010 |
-| T075 | **10C: E2E-тесты переключения версий A/B**                   | Средний     | ⏳ Planned     | E010 |
-| T076 | **10C: E2E-тесты mobile viewport**                           | Средний     | ⏳ Planned     | E010 |
+| ID   | Название                                             | Приоритет   | Статус     | Эпик |
+| ---- | ---------------------------------------------------- | ----------- | ---------- | ---- |
+| T063 | **10A: Миграция Jest → Vitest**                      | Критический | ✅ Done    | E010 |
+| T064 | **10A: Исправление нативных биндингов Windows**      | Критический | ✅ Done    | E010 |
+| T065 | **10A: Глобальный мок Supabase для тестов**          | Критический | ✅ Done    | E010 |
+| T066 | **10A: Починка 22 failing test suites (237 тестов)** | Критический | ✅ Done    | E010 |
+| T067 | **10B: Unit-тесты Player Store (39 тестов)**         | Высокий     | ✅ Done    | E010 |
+| T068 | **10B: Unit-тесты Auth Context (5 тестов)**          | Высокий     | ✅ Done    | E010 |
+| T069 | **10B: Unit-тесты Version Switcher (18 тестов)**     | Высокий     | ✅ Done    | E010 |
+| T070 | **10B: Unit-тесты Generation Draft (10 тестов)**     | Высокий     | ✅ Done    | E010 |
+| T071 | **10B: Unit-тесты Generation Result (11 тестов)**    | Высокий     | ✅ Done    | E010 |
+| T072 | **10C: E2E-тесты генерации трека**                   | Высокий     | ⏳ Planned | E010 |
+| T073 | **10C: E2E-тесты навигации по библиотеке**           | Средний     | ⏳ Planned | E010 |
+| T074 | **10C: E2E-тесты плеера (play/pause/queue)**         | Средний     | ⏳ Planned | E010 |
+| T075 | **10C: E2E-тесты переключения версий A/B**           | Средний     | ⏳ Planned | E010 |
+| T076 | **10C: E2E-тесты mobile viewport**                   | Средний     | ⏳ Planned | E010 |
 
 ### Результаты Phase 10A-10B
 
@@ -150,29 +150,29 @@
 
 ### Новые тестовые файлы
 
-| Файл | Тестов | Покрытие |
-| ---- | ------ | -------- |
-| `src/__tests__/stores/playerStore.test.ts` | 39 | Player store: play, queue, shuffle, repeat, volume, modes |
-| `tests/unit/hooks/useAuth.test.ts` | 5 | Auth context: provider, consumer, loading states |
-| `tests/unit/hooks/useVersionSwitcher.test.ts` | 18 | Version fetch, switch, setPrimary, cache, loading |
-| `tests/unit/hooks/useGenerateDraft.test.ts` | 10 | Draft save, load, expiry, auto-save, debounce |
-| `tests/unit/hooks/useGenerationResult.test.ts` | 11 | Result sheet: show, close, clear, dedup, session |
+| Файл                                           | Тестов | Покрытие                                                  |
+| ---------------------------------------------- | ------ | --------------------------------------------------------- |
+| `src/__tests__/stores/playerStore.test.ts`     | 39     | Player store: play, queue, shuffle, repeat, volume, modes |
+| `tests/unit/hooks/useAuth.test.ts`             | 5      | Auth context: provider, consumer, loading states          |
+| `tests/unit/hooks/useVersionSwitcher.test.ts`  | 18     | Version fetch, switch, setPrimary, cache, loading         |
+| `tests/unit/hooks/useGenerateDraft.test.ts`    | 10     | Draft save, load, expiry, auto-save, debounce             |
+| `tests/unit/hooks/useGenerationResult.test.ts` | 11     | Result sheet: show, close, clear, dedup, session          |
 
 ---
 
 ## 🆕 E011: Product Development (Q3-Q4 2026)
 
-| ID   | Название                                                     | Приоритет   | Статус         | Эпик |
-| ---- | ------------------------------------------------------------ | ----------- | -------------- | ---- |
-| T077 | **Sprint 033: Реализация Spec 001 UI Improvements**          | Высокий     | ⏳ Planned     | E011 |
-| T078 | **Sprint 034: Снижение failure rate генерации (<8%)**        | Высокий     | ⏳ Planned     | E011 |
-| T079 | **Sprint 034: Dashboard метрик генерации**                   | Средний     | ⏳ Planned     | E011 |
-| T080 | **Sprint 035: Spotify export**                               | Средний     | ⏳ Planned     | E011 |
-| T081 | **Sprint 035: Apple Music export**                           | Средний     | ⏳ Planned     | E011 |
-| T082 | **Sprint 035: YouTube export**                               | Средний     | ⏳ Planned     | E011 |
-| T083 | **Sprint 035: Public API для third-party интеграций**        | Низкий      | ⏳ Planned     | E011 |
-| T084 | **A/B тестирование UX (онбординг, конверсия)**               | Средний     | ⏳ Planned     | E011 |
-| T085 | **Онбординг ревамп (снижение bounce rate с 72%)**            | Высокий     | ⏳ Planned     | E011 |
+| ID   | Название                                              | Приоритет | Статус     | Эпик |
+| ---- | ----------------------------------------------------- | --------- | ---------- | ---- |
+| T077 | **Sprint 033: Реализация Spec 001 UI Improvements**   | Высокий   | ⏳ Planned | E011 |
+| T078 | **Sprint 034: Снижение failure rate генерации (<8%)** | Высокий   | ⏳ Planned | E011 |
+| T079 | **Sprint 034: Dashboard метрик генерации**            | Средний   | ⏳ Planned | E011 |
+| T080 | **Sprint 035: Spotify export**                        | Средний   | ⏳ Planned | E011 |
+| T081 | **Sprint 035: Apple Music export**                    | Средний   | ⏳ Planned | E011 |
+| T082 | **Sprint 035: YouTube export**                        | Средний   | ⏳ Planned | E011 |
+| T083 | **Sprint 035: Public API для third-party интеграций** | Низкий    | ⏳ Planned | E011 |
+| T084 | **A/B тестирование UX (онбординг, конверсия)**        | Средний   | ⏳ Planned | E011 |
+| T085 | **Онбординг ревамп (снижение bounce rate с 72%)**     | Высокий   | ⏳ Planned | E011 |
 
 ---
 
@@ -722,6 +722,7 @@
 ## 🆕 Sprint 037: Infrastructure Hardening & Developer Experience (Q3 2026)
 
 ### Обзор
+
 Sprint 037 фокусируется на инфраструктурном hardening и улучшении Developer Experience. 12 задач, ~30 SP, 10 дней. Детальный план: [`SPRINTS/SPRINT-037-PLAN.md`](SPRINTS/SPRINT-037-PLAN.md).
 
 > **Note:** Некоторые задачи пересекаются с существующими эпиками E008 (CQ-003 Test Coverage, CQ-004 E2E Tests, CQ-005 Bundle Optimization, INF-003 Monitoring/Sentry). Sprint 037 является их конкретной реализацией в рамках текущего спринта.
@@ -729,31 +730,32 @@ Sprint 037 фокусируется на инфраструктурном harden
 ### Задачи
 
 #### Code Quality 📊
-| ID | Задача | Статус | Связано с E008 |
-|----|--------|--------|----------------|
-| 037-01 | Remove legacy Babel/Jest configs | ✅ Done | — |
-| 037-02 | Add `graphify update .` to `.husky/pre-commit` hook | ⏳ Planned | — |
-| 037-03 | Basic unit tests for Audio System (Tone.js + Web Audio API) | ⏳ Planned | — |
-| 037-04 | Edge Function unit tests (Vitest with supabase mocking) | ⏳ Planned | — |
-| 037-05 | Increase test coverage to 500+ tests | ⏳ Planned | CQ-003 |
-| 037-06 | Playwright E2E import/export tests (partial — core flows) | ⏳ Planned | CQ-004 |
-| 037-07 | Storybook for core components (Player, Studio, TrackList) | ⏳ Planned | — |
-| 037-08 | Bundle size audit + optimization | ⏳ Planned | CQ-005 |
-| 037-09 | Enable strict TypeScript mode (`strict: true`) | ⏳ Planned | — |
-| 037-10 | Custom ESLint plugin for import validation | ⏳ Planned | — |
-| 037-11 | Accessibility audit automation (axe-playwright in CI) | ⏳ Planned | UI-001 |
-| 037-12 | Sentry for error tracking (production error monitoring) | ⏳ Planned | INF-003 |
+
+| ID     | Задача                                                      | Статус     | Связано с E008 |
+| ------ | ----------------------------------------------------------- | ---------- | -------------- |
+| 037-01 | Remove legacy Babel/Jest configs                            | ✅ Done    | —              |
+| 037-02 | Add `graphify update .` to `.husky/pre-commit` hook         | ⏳ Planned | —              |
+| 037-03 | Basic unit tests for Audio System (Tone.js + Web Audio API) | ⏳ Planned | —              |
+| 037-04 | Edge Function unit tests (Vitest with supabase mocking)     | ⏳ Planned | —              |
+| 037-05 | Increase test coverage to 500+ tests                        | ⏳ Planned | CQ-003         |
+| 037-06 | Playwright E2E import/export tests (partial — core flows)   | ⏳ Planned | CQ-004         |
+| 037-07 | Storybook for core components (Player, Studio, TrackList)   | ⏳ Planned | —              |
+| 037-08 | Bundle size audit + optimization                            | ⏳ Planned | CQ-005         |
+| 037-09 | Enable strict TypeScript mode (`strict: true`)              | ⏳ Planned | —              |
+| 037-10 | Custom ESLint plugin for import validation                  | ⏳ Planned | —              |
+| 037-11 | Accessibility audit automation (axe-playwright in CI)       | ⏳ Planned | UI-001         |
+| 037-12 | Sentry for error tracking (production error monitoring)     | ⏳ Planned | INF-003        |
 
 #### Story Points
 
-| Фаза | Задачи | SP |
-|------|--------|----|
-| Phase 1: Quick Wins | 037-01, 037-02 | 2 |
-| Phase 2: Testing Foundation | 037-03, 037-04, 037-05 | 10 |
-| Phase 3: Quality Tooling | 037-06, 037-07, 037-08 | 9 |
-| Phase 4: Code Standards | 037-09, 037-10 | 5 |
-| Phase 5: Monitoring & A11y | 037-11, 037-12 | 4 |
-| **Total** | **12 задач** | **~30 SP** |
+| Фаза                        | Задачи                 | SP         |
+| --------------------------- | ---------------------- | ---------- |
+| Phase 1: Quick Wins         | 037-01, 037-02         | 2          |
+| Phase 2: Testing Foundation | 037-03, 037-04, 037-05 | 10         |
+| Phase 3: Quality Tooling    | 037-06, 037-07, 037-08 | 9          |
+| Phase 4: Code Standards     | 037-09, 037-10         | 5          |
+| Phase 5: Monitoring & A11y  | 037-11, 037-12         | 4          |
+| **Total**                   | **12 задач**           | **~30 SP** |
 
 ---
 
@@ -794,8 +796,6 @@ gantt
 
 ## 🔗 Связанные документы
 
-- 📊 [Sprint Audit 2025-12-02](../SPRINT_AUDIT_2025-12-02.md) - Детальный аудит
-- 📋 [Sprint Management](../SPRINT_MANAGEMENT.md) - Управление спринтами
 - 📚 [Documentation Index](../docs/INDEX.md) - Навигация по документации
 - 🔐 [Security Policy](../SECURITY.md) - Политика безопасности
 - 🤝 [Contributing](../CONTRIBUTING.md) - Руководство по участию

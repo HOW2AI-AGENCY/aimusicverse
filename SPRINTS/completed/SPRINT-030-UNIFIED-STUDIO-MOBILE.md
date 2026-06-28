@@ -306,7 +306,7 @@ UnifiedStudioMobile (новый)
 ### 📱 Блок 2: DAW Canvas Integration (4 дня) — UPDATED
 
 > **Архитектурное решение:** Вместо табов реализуем единый DAW-подобный интерфейс.
-> См. [ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md](../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md)
+> См. [ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md](../../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md)
 
 #### Задача 2.1: Интеграция компонентов из StemStudio
 
@@ -591,10 +591,9 @@ UnifiedStudioMobile (новый)
 
 ## 📚 Связанные документы
 
-- [UNIFIED_STUDIO_ANALYSIS_AND_PLAN.md](../UNIFIED_STUDIO_ANALYSIS_AND_PLAN.md)
-- [Mobile Optimization Roadmap](../docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
-- [Audio Architecture](../docs/AUDIO_ARCHITECTURE_DIAGRAM.md)
-- [ADR-011 Unified Studio Architecture](../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md) ← NEW
+- [Mobile Optimization Roadmap](../../docs/mobile/OPTIMIZATION_ROADMAP_2026.md)
+- [Audio Architecture](../../docs/AUDIO_ARCHITECTURE_DIAGRAM.md)
+- [ADR-011 Unified Studio Architecture](../../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md)
 
 ---
 
@@ -629,7 +628,7 @@ UnifiedStudioMobile (новый)
 ### Phase 3: DAW Canvas Integration (In Progress) — NEW ARCHITECTURE
 
 > **Решение:** Единый DAW интерфейс вместо табов
-> **ADR:** [ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md](../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md)
+> **ADR:** [ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md](../../ADR/ADR-011-UNIFIED-STUDIO-ARCHITECTURE.md)
 
 **Задача 3.1: Интеграция компонентов из StemStudio**
 

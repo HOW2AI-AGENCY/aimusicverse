@@ -5,7 +5,7 @@
 **Команда**: 2 разработчика  
 **Статус**: 🟢 В РАБОТЕ
 
-Полная документация: [SPRINT-025-TO-028-DETAILED-PLAN.md](./SPRINT-025-TO-028-DETAILED-PLAN.md#-sprint-025-optimization-sprint)
+Полная документация: SPRINT-025-TO-028-DETAILED-PLAN (archived)
 
 ---
 

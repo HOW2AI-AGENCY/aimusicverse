@@ -4,13 +4,13 @@
 **Период**: 2026-01-12 - 2026-01-26 (2 недели)  
 **Цель**: Реализовать главную страницу с публичным контентом и AI Assistant режим для управляемой генерации музыки
 
-**⚠️ КРИТИЧНО**: Спринт начинается с Phase 0: Infrastructure Prerequisites - полная настройка storage системы согласно [INFRASTRUCTURE_AUDIT_2025-12-03.md](../INFRASTRUCTURE_AUDIT_2025-12-03.md)
+**⚠️ КРИТИЧНО**: Спринт начинается с Phase 0: Infrastructure Prerequisites - полная настройка storage системы согласно [INFRASTRUCTURE_AUDIT_2025-12-03.md](../../docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md)
 
 **Ключевые документы**:
 
-- [Infrastructure Audit](../INFRASTRUCTURE_AUDIT_2025-12-03.md) - детальный план storage infrastructure
-- [Infrastructure Naming Conventions](../INFRASTRUCTURE_NAMING_CONVENTIONS.md) - правильные имена таблиц и полей
-- [Constitution v2.1.0](../.specify/memory/constitution.md) - включает Storage standards
+- [Infrastructure Audit](../../docs/archive/audits-2025-12/INFRASTRUCTURE_AUDIT_2025-12-03.md) - детальный план storage infrastructure
+- [Infrastructure Naming Conventions](../../docs/architecture/INFRASTRUCTURE_NAMING_CONVENTIONS.md) - правильные имена таблиц и полей
+- [Constitution v2.1.0](../../.specify/memory/constitution.md) - включает Storage standards
 
 ---
 
