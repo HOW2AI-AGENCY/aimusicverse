@@ -251,7 +251,9 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("/pages/Studio") && !id.includes("/pages/StudioHub")) return "page-studio";
           if (id.includes("/pages/StudioHub")) return "page-studio-hub";
           if (id.includes("/pages/LyricsStudio") || id.includes("/pages/LyricsWorkspace")) return "page-lyrics-studio";
-          if (id.includes("/pages/Projects")) return "page-projects";
+          // Note: /pages/Projects is intentionally NOT chunked here.
+          // Manual chunking caused a TDZ crash ("Cannot access 'p' before init")
+          // due to circular deps via content-hub components.
           if (id.includes("/pages/Analytics")) return "page-analytics";
 
           // Feature components - grouped to avoid circular deps
