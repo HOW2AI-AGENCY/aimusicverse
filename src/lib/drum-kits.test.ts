@@ -1,4 +1,5 @@
-import { describe, it, expect } from "vitest";
+import { vi, describe, it, expect } from "vitest";
+vi.mock("tone", () => ({}));
 import {
   drumKits,
   getKitById,
@@ -17,7 +18,7 @@ describe("drumKits", () => {
   });
 
   it("each kit has required fields", () => {
-    const requiredFields: (keyof DrumKit)[] = ["id", "name", "icon", "color", "sounds"];
+    const requiredFields: (keyof DrumKit)[] = ["id", "name", "icon", "description", "sounds"];
     for (const kit of drumKits) {
       for (const field of requiredFields) {
         expect(kit).toHaveProperty(field);
@@ -42,7 +43,8 @@ describe("drumKits", () => {
       for (const sound of kit.sounds) {
         expect(sound).toHaveProperty("id");
         expect(sound).toHaveProperty("name");
-        expect(sound).toHaveProperty("icon");
+        expect(sound).toHaveProperty("shortName");
+        expect(sound).toHaveProperty("color");
         expect(validTypes).toContain(sound.type);
         expect(sound).toHaveProperty("params");
       }
