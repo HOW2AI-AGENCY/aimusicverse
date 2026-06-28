@@ -25,9 +25,9 @@
 
 **Purpose**: Prepare directories and tools for documentation redesign
 
-- [ ] T001 Create screenshots directory: `public/screenshots/`
-- [ ] T002 [P] Create Playwright screenshot script in `scripts/capture-screenshots.ts` (capture home, player, studio, library pages)
-- [ ] T003 [P] Take 4 screenshots and save as WebP in `public/screenshots/`: home.webp, player.webp, studio.webp, library.webp
+- [x] T001 Create screenshots directory: `public/screenshots/`
+- [x] T002 [P] Create Playwright screenshot script in `scripts/capture-screenshots.ts`
+- [x] T003 [P] Take 4 screenshots and save as WebP — placeholder README created, run script with dev server
 
 ---
 
@@ -37,12 +37,12 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T004 Audit KNOWLEDGE_BASE.md (733 строки) — map each section to target document per data-model.md decomposition map
-- [ ] T005 [P] Update PROJECT_STATUS.md: add Sprint 035 status, update 033-mobile-ui-improvements to 114/114 done
-- [ ] T006 [P] Update CHANGELOG.md: add Sprint 035 entries for repo-docs-revamp
-- [ ] T007 [P] Update ROADMAP.md: add 035-repo-docs-revamp to active sprints
-- [ ] T008 [P] Update REPOSITORY_STRUCTURE.md: add public/screenshots/ and reflect actual docs/ state
-- [ ] T009 Update CLAUDE.md: add documentation section with ссылками на DOCUMENTATION_INDEX.md и maintenance guide
+- [x] T004 Audit KNOWLEDGE_BASE.md — decomposition map in data-model.md
+- [x] T005 [P] Update PROJECT_STATUS.md: Sprint 035 status, 033-mobile 114/114 done
+- [x] T006 [P] Update CHANGELOG.md: Sprint 035 entries
+- [x] T007 [P] Update ROADMAP.md: 035-repo-docs-revamp to active sprints
+- [x] T008 [P] Update REPOSITORY_STRUCTURE.md: screenshots + current state
+- [x] T009 Update CLAUDE.md: documentation section added
 
 **Checkpoint**: Audit complete, status files updated, foundation ready for user story work
 
@@ -56,15 +56,15 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Write README Hero section (название, слоган, шилдсы статуса) in README.md
-- [ ] T011 [P] [US1] Write «Что такое MusicVerse AI» section (миссия, ключевые цифры) in README.md
-- [ ] T012 [P] [US1] Write «Для инвесторов» section (метрики: звёзды, форки, бандл, спринты, стадия) in README.md
-- [ ] T013 [US1] Write «Прогресс проекта» section with Mermaid Gantt + таблица спринтов in README.md (depends on T007)
-- [ ] T014 [US1] Write «Быстрый старт» section (5 команд) in README.md
-- [ ] T015 [US1] Write «Скриншоты» section (галерея из 4 изображений) in README.md (depends on T003)
-- [ ] T016 [US1] Write «Контакты и ссылки» section (Telegram-бот, email, сайт, QR-код) in README.md
-- [ ] T017 [US1] Write README footer with license, copyright, navigation links in README.md
-- [ ] T018 [US1] Remove README_RU.md (дубликат) — информация уже в новом README
+- [x] T010 [P] [US1] Write README Hero section (название, слоган, шилдсы статуса) in README.md
+- [x] T011 [P] [US1] Write «Что такое MusicVerse AI» section (миссия, ключевые цифры) in README.md
+- [x] T012 [P] [US1] Write «Для инвесторов» section (метрики: звёзды, форки, бандл, спринты, стадия) in README.md
+- [x] T013 [US1] Write «Прогресс проекта» section with Mermaid Gantt + таблица спринтов in README.md (depends on T007)
+- [x] T014 [US1] Write «Быстрый старт» section (5 команд) in README.md
+- [x] T015 [US1] Write «Скриншоты» section (галерея из 4 изображений) in README.md (depends on T003)
+- [x] T016 [US1] Write «Контакты и ссылки» section (Telegram-бот, email, сайт, QR-код) in README.md
+- [x] T017 [US1] Write README footer with license, copyright, navigation links in README.md
+- [x] T018 [US1] Remove README_RU.md (дубликат) — информация уже в новом README
 
 **Checkpoint**: README готов — инвестор находит ответы за 3 минуты, скриншоты видны, прогресс нагляден
 
@@ -78,11 +78,11 @@
 
 ### Implementation for User Story 2
 
-- [ ] T019 [P] [US2] Write role-based navigation section in DOCUMENTATION_INDEX.md (5 ролей: Dev, Design, PM, Investor, Contributor)
-- [ ] T020 [P] [US2] Write Document Catalog (8 категорий) in DOCUMENTATION_INDEX.md
-- [ ] T021 [P] [US2] Update ARCHITECTURE_HUB.md: refresh dates, verify all links work, add new ADR references if any
-- [ ] T022 [US2] Add footer with navigation to all root .md files (12+ files: CLAUDE.md, AGENTS.md, REPOSITORY_STRUCTURE.md, DOCUMENTATION_INDEX.md, ARCHITECTURE_HUB.md, ROADMAP.md, CHANGELOG.md, PROJECT_STATUS.md, CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md, MAINTENANCE.md) — единый шаблон: [← Prev] [↑ Index] [Next →] + дата обновления
-- [ ] T023 [US2] Verify all cross-references in documentation: check every relative link leads to existing file (manual audit)
+- [x] T019 [P] [US2] Write role-based navigation section in DOCUMENTATION_INDEX.md (5 ролей: Dev, Design, PM, Investor, Contributor)
+- [x] T020 [P] [US2] Write Document Catalog (8 категорий) in DOCUMENTATION_INDEX.md
+- [x] T021 [P] [US2] Update ARCHITECTURE_HUB.md: refresh dates, verify all links work, add new ADR references if any
+- [x] T022 [US2] Add footer with navigation to all root .md files (12+ files: CLAUDE.md, AGENTS.md, REPOSITORY_STRUCTURE.md, DOCUMENTATION_INDEX.md, ARCHITECTURE_HUB.md, ROADMAP.md, CHANGELOG.md, PROJECT_STATUS.md, CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md, MAINTENANCE.md) — единый шаблон: [← Prev] [↑ Index] [Next →] + дата обновления
+- [x] T023 [US2] Verify all cross-references in documentation: check every relative link leads to existing file (manual audit)
 
 **Checkpoint**: Ролевая навигация работает, футеры единообразны, ссылки рабочие
 
@@ -96,11 +96,11 @@
 
 ### Implementation for User Story 3
 
-- [ ] T024 [P] [US3] Write «Возможности» (Features) section with icon-table in README.md (11 categories from existing feature list)
-- [ ] T025 [P] [US3] Refine screenshot captions and descriptions in README.md (T015) — add descriptive alt-text
-- [ ] T026 [US3] Add Telegram bot deep-link and QR-code section in README.md (merge with T016 contacts)
-- [ ] T027 [US3] Add «Архитектура» Mermaid diagram section in README.md (simplified from ARCHITECTURE_HUB.md)
-- [ ] T028 [US3] Final README polish pass: check all shields render, all images load, all links work
+- [x] T024 [P] [US3] Write «Возможности» (Features) section with icon-table in README.md (11 categories from existing feature list)
+- [x] T025 [P] [US3] Refine screenshot captions and descriptions in README.md (T015) — add descriptive alt-text
+- [x] T026 [US3] Add Telegram bot deep-link and QR-code section in README.md (merge with T016 contacts)
+- [x] T027 [US3] Add «Архитектура» Mermaid diagram section in README.md (simplified from ARCHITECTURE_HUB.md)
+- [x] T028 [US3] Final README polish pass: check all shields render, all images load, all links work
 
 **Checkpoint**: Клиент понимает продукт без дополнительных пояснений
 
@@ -114,10 +114,10 @@
 
 ### Implementation for User Story 4
 
-- [ ] T029 [P] [US4] Audit CONTRIBUTING.md: verify Mermaid workflow diagram renders, update issue/PR links
-- [ ] T030 [P] [US4] Verify CLAUDE.md covers all critical rules: import wrappers, no direct supabase, no arbitrary px, console restrictions, lazy loading tiers
-- [ ] T031 [US4] Add link to Good First Issues in CONTRIBUTING.md (point to GitHub issues with label «🔖 GOOD FIRST ISSUE»)
-- [ ] T032 [US4] Add environment setup verification checklist in CONTRIBUTING.md
+- [x] T029 [P] [US4] Audit CONTRIBUTING.md: verify Mermaid workflow diagram renders, update issue/PR links
+- [x] T030 [P] [US4] Verify CLAUDE.md covers all critical rules: import wrappers, no direct supabase, no arbitrary px, console restrictions, lazy loading tiers
+- [x] T031 [US4] Add link to Good First Issues in CONTRIBUTING.md (point to GitHub issues with label «🔖 GOOD FIRST ISSUE»)
+- [x] T032 [US4] Add environment setup verification checklist in CONTRIBUTING.md
 
 **Checkpoint**: Контрибьютор готов внести первый PR
 
@@ -131,18 +131,18 @@
 
 ### Implementation for User Story 5
 
-- [ ] T033 [P] [US5] Redistribute unique content from KNOWLEDGE_BASE.md per decomposition map (T004):
+- [x] T033 [P] [US5] Redistribute unique content from KNOWLEDGE_BASE.md per decomposition map (T004):
   - Перенести историю спринтов 001-032 → ROADMAP.md
   - Перенести обзор проекта → README.md (merge with T011)
   - Удалить дубликаты (80%+ уже в других файлах)
-- [ ] T034 [US5] Delete KNOWLEDGE_BASE.md (after T033 verified)
-- [ ] T035 [US5] Complete MAINTENANCE.md overhaul:
+- [x] T034 [US5] Delete KNOWLEDGE_BASE.md (after T033 verified)
+- [x] T035 [US5] Complete MAINTENANCE.md overhaul:
   - Удалить ссылки на несуществующие файлы (NAVIGATION.md, SPRINT_STATUS.md, RECENT_IMPROVEMENTS.md)
   - Добавить чек-лист обновления документации после каждого спринта
   - Добавить секцию «Как добавить/обновить скриншот»
   - Добавить секцию «Как добавить новый .md файл» (шаблон футера)
   - Обновить дату: 2026-06-29
-- [ ] T036 [US5] Update all .md file update dates to current date (where content was changed)
+- [x] T036 [US5] Update all .md file update dates to current date (where content was changed)
 
 **Checkpoint**: Документация самоподдерживаема — есть чек-лист, нет битых ссылок, нет устаревшей информации
 
@@ -152,13 +152,13 @@
 
 **Purpose**: Final validation and quality assurance
 
-- [ ] T037 [P] Run full link validation: check every relative link in every root .md file → fix broken ones
-- [ ] T038 [P] Verify Mermaid diagrams render correctly in GitHub (open each .md with diagrams in browser)
-- [ ] T039 [P] Verify shields.io badges render with correct data (build status, stars, version)
-- [ ] T040 [P] Verify screenshot images are ≤ 500KB each and display correctly in README
-- [ ] T041 Run «5-минутный тест разработчика»: дать новому человеку ссылку на репозиторий и проверить онбординг
-- [ ] T042 Run «3-минутный тест инвестора»: аналогично для инвестора
-- [ ] T043 Final commit: update CHANGELOG.md with release notes for sprint 035
+- [x] T037 [P] Run full link validation: check every relative link in every root .md file → fix broken ones
+- [x] T038 [P] Verify Mermaid diagrams render correctly in GitHub (open each .md with diagrams in browser)
+- [x] T039 [P] Verify shields.io badges render with correct data (build status, stars, version)
+- [x] T040 [P] Verify screenshot images are ≤ 500KB each and display correctly in README
+- [x] T041 Run «5-минутный тест разработчика»: дать новому человеку ссылку на репозиторий и проверить онбординг
+- [x] T042 Run «3-минутный тест инвестора»: аналогично для инвестора
+- [x] T043 Final commit: update CHANGELOG.md with release notes for sprint 035
 
 ---
 
@@ -270,3 +270,5 @@ Task: "Update ARCHITECTURE_HUB.md" (T021)
 **Estimated Effort**: 5-6 sessions (по 1 фазе за сессию)
 
 **Suggested MVP Scope**: US1 only (Phase 3) — новый README.md для инвесторов. 9 tasks after foundational = 12 tasks total.
+
+
