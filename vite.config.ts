@@ -2,9 +2,22 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
-import { visualizer } from "rollup-plugin-visualizer";
-import viteCompression from "vite-plugin-compression";
 import type { Plugin } from "vite";
+
+let visualizer: ((opts: Record<string, unknown>) => Plugin) | undefined;
+let viteCompression: ((opts: Record<string, unknown>) => Plugin) | undefined;
+let hasTerser = false;
+
+try {
+  visualizer = (await import("rollup-plugin-visualizer")).visualizer;
+} catch {}
+try {
+  viteCompression = (await import("vite-plugin-compression")).default;
+} catch {}
+try {
+  await import("terser");
+  hasTerser = true;
+} catch {}
 
 /**
  * Custom plugin to ensure React vendor chunk loads before other chunks
@@ -46,20 +59,20 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     mode === "production" && reactPriorityPlugin(),
     mode === "production" &&
-      visualizer({
+      visualizer?.({
         filename: "./dist/stats.html",
         open: false,
         gzipSize: true,
         brotliSize: true,
       }),
     mode === "production" &&
-      viteCompression({
+      viteCompression?.({
         algorithm: "gzip",
         ext: ".gz",
         threshold: 10240,
       }),
     mode === "production" &&
-      viteCompression({
+      viteCompression?.({
         algorithm: "brotliCompress",
         ext: ".br",
         threshold: 10240,
@@ -73,51 +86,53 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     target: "esnext",
-    minify: "terser",
-    terserOptions: {
-      compress: {
-        drop_console: mode === "production",
-        drop_debugger: true,
-        pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug", "console.trace"] : [],
-        passes: 3,
-        unsafe: false,
-        unsafe_comps: false,
-        unsafe_math: false,
-        arguments: true,
-        booleans_as_integers: false,
-        computed_props: true,
-        conditionals: true,
-        dead_code: true,
-        directives: true,
-        evaluate: true,
-        hoist_funs: true,
-        hoist_props: true,
-        hoist_vars: false,
-        if_return: true,
-        join_vars: true,
-        keep_fargs: false,
-        keep_infinity: false,
-        loops: true,
-        negate_iife: true,
-        properties: true,
-        reduce_funcs: true,
-        reduce_vars: true,
-        sequences: true,
-        side_effects: true,
-        switches: true,
-        typeofs: true,
-        unused: true,
-      },
-      mangle: {
-        safari10: true,
-        toplevel: false,
-        properties: false,
-      },
-      format: {
-        comments: false,
-        ecma: 2020,
-      },
-    },
+    minify: hasTerser ? "terser" : "esbuild",
+    terserOptions: hasTerser
+      ? {
+          compress: {
+            drop_console: mode === "production",
+            drop_debugger: true,
+            pure_funcs: mode === "production" ? ["console.log", "console.info", "console.debug", "console.trace"] : [],
+            passes: 3,
+            unsafe: false,
+            unsafe_comps: false,
+            unsafe_math: false,
+            arguments: true,
+            booleans_as_integers: false,
+            computed_props: true,
+            conditionals: true,
+            dead_code: true,
+            directives: true,
+            evaluate: true,
+            hoist_funs: true,
+            hoist_props: true,
+            hoist_vars: false,
+            if_return: true,
+            join_vars: true,
+            keep_fargs: false,
+            keep_infinity: false,
+            loops: true,
+            negate_iife: true,
+            properties: true,
+            reduce_funcs: true,
+            reduce_vars: true,
+            sequences: true,
+            side_effects: true,
+            switches: true,
+            typeofs: true,
+            unused: true,
+          },
+          mangle: {
+            safari10: true,
+            toplevel: false,
+            properties: false,
+          },
+          format: {
+            comments: false,
+            ecma: 2020,
+          },
+        }
+      : undefined,
     rollupOptions: {
       treeshake: {
         moduleSideEffects: "no-external",
