@@ -111,7 +111,7 @@ export async function fetchGenerationLogs(filters: GenerationLogsFilter = {}): P
 
   const { data, error } = await query;
   if (error) throw new Error(error.message);
-  return data as GenerationLog[];
+  return data as unknown as GenerationLog[];
 }
 
 /**
