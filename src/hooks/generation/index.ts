@@ -61,3 +61,6 @@ export { STATUS_MESSAGES, STATUS_PROGRESS, OPERATION_ENDPOINTS } from "./audioPr
 
 // Prompt pre-validation (Sprint 034)
 export { usePromptValidation } from "./usePromptValidation";
+
+// Generation queue position (Sprint 034)
+export { useGenerationQueue } from "./useGenerationQueue";

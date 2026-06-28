@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { notify } from "@/lib/notifications";
 import { useTelegram } from "@/contexts/TelegramContext";
 import { useFeatureUsageTracking, FeatureEvents } from "@/hooks/analytics";
+import { useExperiment } from "@/hooks/useExperiment";
+import { EXPERIMENTS } from "@/lib/ab-testing";
 
 interface GenerateFormSimpleProps {
   description: string;
@@ -41,6 +43,9 @@ export function GenerateFormSimple({
   const { hapticFeedback } = useTelegram();
   const { trackFeature, trackAction } = useFeatureUsageTracking();
   const hasTrackedView = useRef(false);
+  const { isControl: hidePromptSuggestions, trackConversion: trackSuggestionConversion } = useExperiment(
+    EXPERIMENTS.PROMPT_SUGGESTIONS,
+  );
 
   // Track form view once on mount
   useEffect(() => {
@@ -139,16 +144,21 @@ export function GenerateFormSimple({
             >
               <div className="flex items-center gap-2 min-w-0">
                 <SectionLabel label="Тип трека" hint={SECTION_HINTS.trackType} />
-                <span className={cn(
-                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold",
-                  "bg-primary/15 text-primary border border-primary/25",
-                )}>
+                <span
+                  className={cn(
+                    "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold",
+                    "bg-primary/15 text-primary border border-primary/25",
+                  )}
+                >
                   {hasVocals ? <Mic className="w-3 h-3" /> : <Music2 className="w-3 h-3" />}
                   {hasVocals ? "Вокал" : "Инструментал"}
                 </span>
               </div>
               <ChevronDown
-                className={cn("w-4 h-4 text-muted-foreground transition-transform shrink-0", trackTypeOpen && "rotate-180")}
+                className={cn(
+                  "w-4 h-4 text-muted-foreground transition-transform shrink-0",
+                  trackTypeOpen && "rotate-180",
+                )}
                 aria-hidden="true"
               />
             </button>
@@ -320,9 +330,16 @@ export function GenerateFormSimple({
               </div>
             </div>
 
-            {/* Smart Prompt Suggestions */}
-            {!description && (
-              <SmartPromptSuggestions onSelectPrompt={onDescriptionChange} currentPrompt={description} compact={true} />
+            {/* Smart Prompt Suggestions — A/B tested (PROMPT_SUGGESTIONS experiment) */}
+            {!description && !hidePromptSuggestions && (
+              <SmartPromptSuggestions
+                onSelectPrompt={(prompt) => {
+                  onDescriptionChange(prompt);
+                  trackSuggestionConversion("prompt_selected");
+                }}
+                currentPrompt={description}
+                compact={true}
+              />
             )}
 
             {/* Artist name warning with replacement suggestions */}

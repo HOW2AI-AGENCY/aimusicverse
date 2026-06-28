@@ -70,8 +70,8 @@
 | 034-05 | ✅ **Интегрировать** `useAutomaticRetry` в `handleGenerate()` (хук готов, нужен wiring) | P0        | 0.5d   | `src/hooks/generation/useGenerateForm.ts:594-993`                                              |
 | 034-06 | ✅ Добавить `abort_reason`, `retry_count`, `failure_category` в `generation_tasks`      | P0        | 0.5d   | `supabase/migrations/20260628120000_generation_failure_tracking.sql`                           |
 | 034-07 | ✅ Prompt pre-validation (длина, запрещённые слова, кодировка) перед отправкой          | P0        | 1d     | `src/lib/prompt-validator.ts`, `src/hooks/generation/usePromptValidation.ts`                   |
-| 034-08 | Expose backend `MODEL_FALLBACK_CHAIN` в UI — показать пользователю fallback             | P1        | 1d     | `src/services/generation-fallback.service.ts`                                                  |
-| 034-09 | Очередь генераций с rate-limit awareness (UI показ позиции в очереди)                   | P1        | 1d     | `src/hooks/generation/useGenerationQueue.ts`, `src/components/generate-form/QueuePosition.tsx` |
+| 034-08 | ✅ Expose backend `MODEL_FALLBACK_CHAIN` в UI — показать пользователю fallback          | P1        | 1d     | Already in `src/constants/sunoModels.ts` (validateModel + toast warning)                       |
+| 034-09 | ✅ Очередь генераций с rate-limit awareness (UI показ позиции в очереди)                | P1        | 1d     | `src/hooks/generation/useGenerationQueue.ts`, `src/components/generate-form/QueuePosition.tsx` |
 
 ### Фаза 3: A/B тесты и анализ (3 дня)
 
@@ -84,11 +84,11 @@
 
 ### Критерии успеха Sprint 034
 
-- [ ] Generation failure rate: <8% (с 12%)
-- [ ] Error recovery rate: >65% (с ~40%)
-- [ ] Dashboard метрик генерации работает
-- [ ] Алерты настроены и уведомляют в Telegram
-- [ ] A/B framework запущен с ≥1 экспериментом
+- [ ] Generation failure rate: <8% (с 12%) — infrastructure ready, measuring
+- [ ] Error recovery rate: >65% (с ~40%) — auto-retry integrated
+- [x] Dashboard метрик генерации работает
+- [ ] Алерты настроены и уведомляют в Telegram (034-03 pending)
+- [x] A/B framework запущен с ≥1 экспериментом (PROMPT_SUGGESTIONS)
 
 ---
 
