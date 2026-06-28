@@ -5,7 +5,7 @@
 **Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Спринт" src="https://img.shields.io/badge/sprint-033-26A5E4?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-034-26A5E4?style=for-the-badge"/>
   <img alt="Прогресс" src="https://img.shields.io/badge/overall-92%25-F59E0B?style=for-the-badge"/>
   <img alt="Здоровье" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
   <img alt="E2E покрытие" src="https://img.shields.io/badge/e2e-0%25-475569?style=for-the-badge"/>
@@ -39,31 +39,34 @@
 | Режим Studio Lite/Pro                             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Комментарии с таймкодами                          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-## 🚦 Далее — `034` Надёжность генерации (Q3 2026)
+## 🚦 Текущий спринт — `034` Надёжность генерации (Q3 2026) 🔄
 
-| Задача                                           | Прогресс                                                        |
-| ------------------------------------------------ | --------------------------------------------------------------- |
-| Dashboard метрик генерации                       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Интеграция useAutomaticRetry в flow              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Structured failure categories                    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| A/B тесты генерации (useExperiment)              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Снижение failure rate 12% → <8%                  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                              | Прогресс                                                          |
+| ----------------------------------- | ----------------------------------------------------------------- |
+| Dashboard метрик генерации          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Интеграция useAutomaticRetry в flow | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Structured failure categories       | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| A/B тесты генерации (useExperiment) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Prompt pre-validation               | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Generation queue position UI        | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Failure analysis RPC                | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Снижение failure rate 12% → <8%     | ![](https://img.shields.io/badge/77%25-F59E0B?style=flat-square)  |
 
 ## 🚦 `035` E2E + Экспорт (Q3 2026)
 
-| Задача                                           | Прогресс                                                        |
-| ------------------------------------------------ | --------------------------------------------------------------- |
-| E2E стабилизация (47 spec → CI green)            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Export service (WAV/MP3/FLAC)                    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Playwright CI pipeline                           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                | Прогресс                                                        |
+| ------------------------------------- | --------------------------------------------------------------- |
+| E2E стабилизация (47 spec → CI green) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Export service (WAV/MP3/FLAC)         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Playwright CI pipeline                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🚦 `036` Качество и стабильность (Q3 2026)
 
-| Задача                                           | Прогресс                                                        |
-| ------------------------------------------------ | --------------------------------------------------------------- |
-| Phase 9B: разбить файлы >800 строк              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Unit-тесты 362 → 500+                           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Service Worker + оффлайн                         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                             | Прогресс                                                        |
+| ---------------------------------- | --------------------------------------------------------------- |
+| Phase 9B: разбить файлы >800 строк | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Unit-тесты 362 → 500+              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Service Worker + оффлайн           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🧮 Ключевые метрики
 
@@ -107,16 +110,17 @@ mindmap
 
 ## ✅ Последние достижения (за 30 дней)
 
+- 🔄 Спринт 034: Надёжность генерации — 10/13 задач выполнены.
+- ✅ Auto-retry интегрирован в handleGenerate() (2 попытки + exponential backoff).
+- ✅ Dashboard метрик генерации (/admin/generation-metrics).
+- ✅ Structured failure tracking (failure_category, retry_count, generation_params).
+- ✅ Prompt pre-validation (длина, кодировка, запрещённый контент).
+- ✅ A/B framework активирован — эксперимент PROMPT_SUGGESTIONS (50/50).
+- ✅ Generation queue position UI с rate-limit awareness.
+- ✅ Failure pattern analysis RPC (get_generation_failure_patterns).
+- ✅ Sentry breadcrumbs для полного flow генерации.
 - ✅ Спринт 033: Полный аудит интерфейса — 18 задач в 4 фазах.
-- ✅ Визард генерации упрощён с 6 до 4 шагов.
-- ✅ Режим Studio Lite/Pro для снижения когнитивной нагрузки.
-- ✅ Комментарии с таймкодами (как в SoundCloud).
-- ✅ Троттлинг монетизации — макс. 1 баннер за сессию.
 - 🚀 Бандл уменьшен с 1.02 МБ → 918 КБ.
-- ✅ E2E мобильная задача стабилизирована (Mobile Chrome + Mobile Safari).
-- ✅ Dev-overlay усилен: защита pointer-events, IME-безопасный хоткей.
-- ✅ Автомодалка «Стемы готовы» удалена (добавлено ограничение памяти).
-- 📝 Редизайн документации.
 
 ## 🚨 Активные блокеры
 
