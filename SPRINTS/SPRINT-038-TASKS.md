@@ -459,24 +459,24 @@
 
 | ID | Название | Фаза | SP | Статус |
 |----|----------|------|-----|--------|
-| T038-01 | EmptyState: API design | A | 1 | 🔴 OPEN |
-| T038-02 | EmptyState: implementation | A | 2 | 🔴 OPEN |
-| T038-03 | EmptyState: migration | A | 1 | 🔴 OPEN |
-| T038-04 | SkeletonPage component | A | 1 | 🔴 OPEN |
-| T038-05 | ContentSkeleton + clean-up | A | 2 | 🔴 OPEN |
+| T038-01 | EmptyState: API design | A | 1 | ✅ COMPLETE |
+| T038-02 | EmptyState: implementation | A | 2 | ✅ COMPLETE |
+| T038-03 | EmptyState: migration | A | 1 | ✅ COMPLETE |
+| T038-04 | SkeletonPage component | A | 1 | ✅ COMPLETE |
+| T038-05 | ContentSkeleton + clean-up | A | 2 | ✅ COMPLETE |
 | T038-06 | OnboardingFlow state machine | A | 2 | 🔴 OPEN |
 | T038-07 | OnboardingFlow steps + integration | A | 3 | 🔴 OPEN |
 | T038-08 | Onboarding: remove legacy | A | 1 | 🔴 OPEN |
-| T038-09 | Touch target audit | A | 2 | 🔴 OPEN |
-| T038-10 | Z-index audit | A | 2 | 🔴 OPEN |
-| | | | **15** | |
+| T038-09 | Touch target audit | A | 2 | ✅ COMPLETE |
+| T038-10 | Z-index audit | A | 2 | ✅ COMPLETE |
+| | | | **10** | |
 | T038-11 | NavigationShell: design | B | 1 | 🔴 OPEN |
 | T038-12 | NavigationShell: implementation | B | 3 | 🔴 OPEN |
 | T038-13 | NavigationShell: integration | B | 1 | 🔴 OPEN |
 | T038-14 | Container queries migration | B | 3 | 🔴 OPEN |
-| T038-15 | Safe area + Safari fixes | B | 3 | 🔴 OPEN |
-| T038-16 | Responsive typography | B | 2 | 🔴 OPEN |
-| | | | **13** | |
+| T038-15 | Safe area + Safari fixes | B | 3 | ✅ COMPLETE |
+| T038-16 | Responsive typography | B | 2 | ✅ COMPLETE |
+| | | | **5** | |
 | T038-17 | Animation standards | C | 2 | 🔴 OPEN |
 | T038-18 | Reduced motion audit | C | 2 | 🔴 OPEN |
 | T038-19 | Player transition | C | 4 | 🔴 OPEN |
