@@ -103,7 +103,10 @@ export function StyleSettingsStep({ onNext, onBack }: StyleSettingsStepProps) {
                   : "border-transparent hover:border-border",
               )}
             >
-              <span className="text-xl">{genre.emoji}</span>
+              {(() => {
+                const Icon = getGenreIcon(genre.id);
+                return <Icon className="w-5 h-5 text-primary" aria-hidden="true" />;
+              })()}
               <span className="text-[10px] font-medium">{genre.label}</span>
               {selectedGenre === genre.id && (
                 <motion.div
