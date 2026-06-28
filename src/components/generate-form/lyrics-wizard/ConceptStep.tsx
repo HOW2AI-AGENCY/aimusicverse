@@ -128,7 +128,7 @@ export function ConceptStep() {
               className="cursor-pointer transition-colors"
               onClick={() => toggleMood(mood.value)}
             >
-              {mood.emoji} {mood.label}
+              {mood.label}
               {concept.mood.includes(mood.value) && <X className="h-3 w-3 ml-1" />}
             </Badge>
           ))}
