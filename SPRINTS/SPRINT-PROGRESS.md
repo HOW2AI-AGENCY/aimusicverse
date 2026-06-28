@@ -185,19 +185,36 @@
 
 ### Sprint 034: Generation Reliability ⏳ PLANNED (Q3 2026)
 
-Снижение failure rate с 12% до <8%
+Снижение failure rate с 12% до <8%. [Детальный план](SPRINT-034-036-PLAN.md)
 
-- [ ] Расширенный мониторинг ошибок генерации
-- [ ] Улучшение retry/fallback стратегии
-- [ ] A/B тестирование параметров генерации
-- [ ] Dashboard метрик генерации
+- [ ] Dashboard метрик генерации (success rate, errors by type)
+- [ ] Sentry breadcrumbs для flow генерации
+- [ ] Алерты при failure rate >10%
+- [ ] Интеграция `useAutomaticRetry` в `handleGenerate()` (хук готов)
+- [ ] Structured failure categories в `generation_tasks` (abort_reason, retry_count)
+- [ ] Prompt pre-validation перед отправкой
+- [ ] Активация `useExperiment` для A/B тестов генерации
+- [ ] Delivery tracking для обоих clip-ов (A/B версии)
 
-### Sprint 035: Platform Integrations ⏳ PLANNED (Q3-Q4 2026)
+### Sprint 035: E2E + Platform Export ⏳ PLANNED (Q3 2026)
 
-- [ ] Spotify export
-- [ ] Apple Music export
-- [ ] YouTube export
-- [ ] Public API для third-party интеграций
+Стабилизация E2E + начало экспортов. [Детальный план](SPRINT-034-036-PLAN.md)
+
+- [ ] Починить smoke + navigation E2E тесты (47 spec написаны, 0% проходят)
+- [ ] Настроить Playwright CI pipeline
+- [ ] Универсальный export service (WAV/MP3/FLAC)
+- [ ] YouTube-ready export (аудио + обложка → видео)
+- [ ] Telegram Stories sharing с аудио-превью
+
+### Sprint 036: Quality & Stability ⏳ PLANNED (Q3 2026)
+
+Рефакторинг + тесты + Service Worker. [Детальный план](SPRINT-034-036-PLAN.md)
+
+- [ ] Разбить GlobalAudioProvider.tsx (982 строки) → hooks/state/queue
+- [ ] Разбить 5 файлов >800 строк
+- [ ] Unit-тесты до 500+ (с 362)
+- [ ] Service Worker с Workbox (cache-first для статики + аудио)
+- [ ] Phase 9C: Консолидация Lyrics-экосистемы
 
 ---
 

@@ -41,11 +41,29 @@
 
 ## 🚦 Далее — `034` Надёжность генерации (Q3 2026)
 
-| Задача                            | Прогресс                                                        |
-| --------------------------------- | --------------------------------------------------------------- |
-| Снижение частоты ошибок 12% → <8% | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Улучшение логики повторов         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| E2E покрытие тестами              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                           | Прогресс                                                        |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| Dashboard метрик генерации                       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Интеграция useAutomaticRetry в flow              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Structured failure categories                    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| A/B тесты генерации (useExperiment)              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Снижение failure rate 12% → <8%                  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+
+## 🚦 `035` E2E + Экспорт (Q3 2026)
+
+| Задача                                           | Прогресс                                                        |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| E2E стабилизация (47 spec → CI green)            | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Export service (WAV/MP3/FLAC)                    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Playwright CI pipeline                           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+
+## 🚦 `036` Качество и стабильность (Q3 2026)
+
+| Задача                                           | Прогресс                                                        |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| Phase 9B: разбить файлы >800 строк              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Unit-тесты 362 → 500+                           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Service Worker + оффлайн                         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🧮 Ключевые метрики
 
