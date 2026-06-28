@@ -19,6 +19,7 @@ import {
   ChevronRight,
   Guitar,
   PanelLeft,
+  PanelLeftClose,
   Shield,
   Layers,
   CreditCard,
