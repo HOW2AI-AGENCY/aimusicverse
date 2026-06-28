@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
+import { LazyImage } from "@/components/ui/lazy-image";
 import type { Tables } from "@/integrations/supabase/types";
 
 interface ExtendDialogProps {
@@ -80,7 +81,7 @@ export function ExtendDialog({ open, onOpenChange, track }: ExtendDialogProps) {
           {/* Current Track */}
           <div className="flex items-center gap-3 p-3 rounded-lg bg-muted/50">
             {track.cover_url ? (
-              <img src={track.cover_url} alt={track.title || "Cover"} className="w-12 h-12 rounded object-cover" />
+              <LazyImage src={track.cover_url} alt={track.title || "Cover"} className="w-12 h-12 rounded object-cover" />
             ) : (
               <div className="w-12 h-12 rounded bg-muted flex items-center justify-center">
                 <Music className="w-5 h-5 text-muted-foreground" />

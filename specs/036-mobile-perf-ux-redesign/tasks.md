@@ -58,11 +58,11 @@
 
 ### Implementation for User Story 1
 
-- [ ] T010 [P] [US1] Audit all 57 pages in `src/pages/` for React.lazy() coverage — list any pages imported eagerly and convert to lazy imports in `src/App.tsx`
+- [x] T010 [P] [US1] Audit all 57 pages — 50 converted from lazy() to lazyWithRetry() in `src/pages/` for React.lazy() coverage — list any pages imported eagerly and convert to lazy imports in `src/App.tsx`
 - [ ] T011 [P] [US1] Audit all image usages across `src/components/` — replace any raw `<img>` tags with `LazyImage` from `src/components/ui/lazy-image.tsx`
 - [ ] T012 [P] [US1] Identify and remove 6 duplicate hook pairs listed in PROJECT_STATUS.md — consolidate into single canonical hooks, update all imports (~1700 LOC reduction)
-- [ ] T013 [P] [US1] Audit DnD library usage — find all imports of `react-beautiful-dnd` and `@dnd-kit`, consolidate to `@dnd-kit` only, remove `react-beautiful-dnd` from `package.json` (~50KB savings)
-- [ ] T014 [US1] Audit all framer-motion imports across `src/` — replace any direct `import { ... } from 'framer-motion'` with `import { ... } from '@/lib/motion'`
+- [x] T013 [P] [US1] Audit DnD library usage — already consolidated to @dnd-kit, react-beautiful-dnd not present — find all imports of `react-beautiful-dnd` and `@dnd-kit`, consolidate to `@dnd-kit` only, remove `react-beautiful-dnd` from `package.json` (~50KB savings)
+- [x] T014 [US1] Audit all framer-motion imports — already using @/lib/motion wrapper exclusively across `src/` — replace any direct `import { ... } from 'framer-motion'` with `import { ... } from '@/lib/motion'`
 - [ ] T015 [US1] Audit list components in `src/components/library/`, `src/components/player/Queue*.tsx`, and playlist screens — ensure all lists >50 items use `react-virtuoso` with proper overscan
 - [ ] T016 [US1] Audit animations across `src/components/` — replace any CSS/JS animations using `width`, `height`, `top`, `left`, `margin`, `padding` with `transform`/`opacity`/`filter` equivalents
 - [ ] T017 [US1] Split `src/hooks/useGenerateForm.ts` (1218 LOC) into 4 focused hooks: `useGenerateFormState.ts`, `useGenerateFormValidation.ts`, `useGenerateFormDraft.ts`, `useGenerateFormSubmit.ts` — each <300 LOC

@@ -81,93 +81,93 @@ const Referral = lazyWithRetry(() => import("./pages/Referral"));
 const VoiceLibraryPage = lazyWithRetry(() => import("./pages/VoiceLibraryPage"));
 const VoiceHistoryPage = lazyWithRetry(() => import("./pages/VoiceHistoryPage"));
 
-// Heavy pages - load on demand
-const Analytics = lazy(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
-const AdminDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/AdminDashboard"));
-const AdminLayout = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminLayout"));
-const AdminOverview = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminOverview"));
-const AdminEconomy = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminEconomy"));
-const AdminUsers = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminUsers"));
-const AdminTracks = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTracks"));
-const AdminBot = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminBot"));
-const AdminTelegram = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTelegram"));
-const AdminBroadcast = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminBroadcast"));
-const AdminAlerts = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminAlerts"));
-const GenerationMetrics = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/GenerationMetrics"));
-const AdminTariffs = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTariffs"));
-const ModerationDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/ModerationDashboard"));
-const AnalyticsDashboard = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AnalyticsDashboard"));
-const AdminFeedback = lazy(() => import(/* webpackChunkName: "admin" */ "./pages/admin/Feedback"));
-const GenerationStatsPanel = lazy(() =>
+// Heavy pages - load on demand with retry
+const Analytics = lazyWithRetry(() => import(/* webpackChunkName: "analytics" */ "./pages/Analytics"));
+const AdminDashboard = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/AdminDashboard"));
+const AdminLayout = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminLayout"));
+const AdminOverview = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminOverview"));
+const AdminEconomy = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminEconomy"));
+const AdminUsers = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminUsers"));
+const AdminTracks = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTracks"));
+const AdminBot = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminBot"));
+const AdminTelegram = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTelegram"));
+const AdminBroadcast = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminBroadcast"));
+const AdminAlerts = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminAlerts"));
+const GenerationMetrics = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/GenerationMetrics"));
+const AdminTariffs = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AdminTariffs"));
+const ModerationDashboard = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/ModerationDashboard"));
+const AnalyticsDashboard = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/AnalyticsDashboard"));
+const AdminFeedback = lazyWithRetry(() => import(/* webpackChunkName: "admin" */ "./pages/admin/Feedback"));
+const GenerationStatsPanel = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/admin/GenerationStatsPanel").then((m) => ({
     default: m.GenerationStatsPanel,
   })),
 );
-const PerformanceDashboard = lazy(() =>
+const PerformanceDashboard = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/performance").then((m) => ({ default: m.PerformanceDashboard })),
 );
-const UserBalancesPanel = lazy(() =>
+const UserBalancesPanel = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/admin/UserBalancesPanel").then((m) => ({
     default: m.UserBalancesPanel,
   })),
 );
-const StarsPaymentsPanel = lazy(() =>
+const StarsPaymentsPanel = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/admin/StarsPaymentsPanel").then((m) => ({
     default: m.StarsPaymentsPanel,
   })),
 );
-const GenerationLogsPanel = lazy(() =>
+const GenerationLogsPanel = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/admin/GenerationLogsPanel").then((m) => ({
     default: m.GenerationLogsPanel,
   })),
 );
-const DeeplinkAnalyticsPanel = lazy(() =>
+const DeeplinkAnalyticsPanel = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/admin/DeeplinkAnalyticsPanel").then((m) => ({
     default: m.DeeplinkAnalyticsPanel,
   })),
 );
-const EnhancedAnalyticsPanel = lazy(() =>
+const EnhancedAnalyticsPanel = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/admin/EnhancedAnalyticsPanel").then((m) => ({
     default: m.EnhancedAnalyticsPanel,
   })),
 );
-const ModerationReportsPanel = lazy(() =>
+const ModerationReportsPanel = lazyWithRetry(() =>
   import(/* webpackChunkName: "admin" */ "./components/admin/ModerationReportsPanel").then((m) => ({
     default: m.ModerationReportsPanel,
   })),
 );
-const BlockedUsersPage = lazy(() => import("./pages/settings/BlockedUsersPage"));
-const Templates = lazy(() => import("./pages/Templates"));
-const MusicGraph = lazy(() => import("./pages/MusicGraph"));
-const CreativeTools = lazy(() => import("./pages/CreativeTools"));
-const ProfessionalDashboardPage = lazy(() => import("./pages/ProfessionalDashboard"));
+const BlockedUsersPage = lazyWithRetry(() => import("./pages/settings/BlockedUsersPage"));
+const Templates = lazyWithRetry(() => import("./pages/Templates"));
+const MusicGraph = lazyWithRetry(() => import("./pages/MusicGraph"));
+const CreativeTools = lazyWithRetry(() => import("./pages/CreativeTools"));
+const ProfessionalDashboardPage = lazyWithRetry(() => import("./pages/ProfessionalDashboard"));
 
-const GuitarStudio = lazy(() => import("./pages/GuitarStudio"));
-const MusicLab = lazy(() => import("./pages/MusicLab"));
-const AlbumView = lazy(() => import("./pages/AlbumView"));
-const LyricsStudio = lazy(() => import("./pages/LyricsStudio"));
-const ReferenceAudioDetail = lazy(() => import("./pages/ReferenceAudioDetail"));
-const AudioHub = lazy(() => import("./pages/AudioHub"));
-const MobilePlayerPage = lazy(() => import("./pages/MobilePlayerPage"));
+const GuitarStudio = lazyWithRetry(() => import("./pages/GuitarStudio"));
+const MusicLab = lazyWithRetry(() => import("./pages/MusicLab"));
+const AlbumView = lazyWithRetry(() => import("./pages/AlbumView"));
+const LyricsStudio = lazyWithRetry(() => import("./pages/LyricsStudio"));
+const ReferenceAudioDetail = lazyWithRetry(() => import("./pages/ReferenceAudioDetail"));
+const AudioHub = lazyWithRetry(() => import("./pages/AudioHub"));
+const MobilePlayerPage = lazyWithRetry(() => import("./pages/MobilePlayerPage"));
 
 // Legacy Studio Hub - now redirects to Studio V2
-// const StudioHub = lazy(() => import("./pages/Studio"));
+// const StudioHub = lazyWithRetry(() => import("./pages/Studio"));
 
 // Studio V2 pages (isolated from existing studio)
-const StudioHubPage = lazy(() => import("./pages/studio-v2/StudioHubPage"));
-const UnifiedStudioPage = lazy(() => import("./pages/studio-v2/UnifiedStudioPage"));
-const NewStudioProjectPage = lazy(() => import("./pages/studio-v2/NewStudioProjectPage"));
+const StudioHubPage = lazyWithRetry(() => import("./pages/studio-v2/StudioHubPage"));
+const UnifiedStudioPage = lazyWithRetry(() => import("./pages/studio-v2/UnifiedStudioPage"));
+const NewStudioProjectPage = lazyWithRetry(() => import("./pages/studio-v2/NewStudioProjectPage"));
 
-const Terms = lazy(() => import("./pages/Terms"));
-const Privacy = lazy(() => import("./pages/Privacy"));
-const Pricing = lazy(() => import("./pages/Pricing"));
-const BuyCredits = lazy(() => import("./pages/payments/BuyCredits"));
-const MobilePaymentScreen = lazy(() => import("./pages/payments/MobilePaymentScreen"));
-const Subscription = lazy(() => import("./pages/payments/Subscription"));
-const PaymentSuccess = lazy(() => import("./pages/payments/PaymentSuccess"));
-const PaymentFail = lazy(() => import("./pages/payments/PaymentFail"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const ErrorPage = lazy(() => import("./pages/ErrorPage"));
+const Terms = lazyWithRetry(() => import("./pages/Terms"));
+const Privacy = lazyWithRetry(() => import("./pages/Privacy"));
+const Pricing = lazyWithRetry(() => import("./pages/Pricing"));
+const BuyCredits = lazyWithRetry(() => import("./pages/payments/BuyCredits"));
+const MobilePaymentScreen = lazyWithRetry(() => import("./pages/payments/MobilePaymentScreen"));
+const Subscription = lazyWithRetry(() => import("./pages/payments/Subscription"));
+const PaymentSuccess = lazyWithRetry(() => import("./pages/payments/PaymentSuccess"));
+const PaymentFail = lazyWithRetry(() => import("./pages/payments/PaymentFail"));
+const NotFound = lazyWithRetry(() => import("./pages/NotFound"));
+const ErrorPage = lazyWithRetry(() => import("./pages/ErrorPage"));
 
 // QueryClient is now initialized in CoreProviders
 

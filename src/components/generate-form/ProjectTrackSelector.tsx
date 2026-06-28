@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { FolderOpen, Music, Play } from "@/lib/icons";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface Project {
   id: string;
@@ -91,7 +92,7 @@ export function ProjectTrackSelector({
                   <div className="flex items-center gap-3 w-full">
                     <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center flex-shrink-0 overflow-hidden">
                       {project.cover_url ? (
-                        <img src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
+                        <LazyImage src={project.cover_url} alt={project.title} className="w-full h-full object-cover" />
                       ) : (
                         <FolderOpen className="w-8 h-8 text-primary" />
                       )}

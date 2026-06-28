@@ -62,6 +62,7 @@ import { AppHeader } from "@/components/layout/AppHeader";
 import { EditableTitle } from "@/components/ui/editable-title";
 import { cn } from "@/lib/utils";
 import logo from "@/assets/logo.png";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 // Parse lyrics text into sections
 function parseLyricsToSections(lyrics: string): LyricsSection[] {
@@ -445,7 +446,7 @@ export default function LyricsStudio() {
             <div className="flex items-center gap-2.5 flex-1 min-w-0">
               <div className="w-10 h-10 rounded-lg overflow-hidden bg-muted shrink-0 shadow-sm">
                 {projectData.cover_url ? (
-                  <img src={projectData.cover_url} alt={projectData.title} className="w-full h-full object-cover" />
+                  <LazyImage src={projectData.cover_url} alt={projectData.title} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-primary/20 to-primary/5">
                     <Music2 className="w-5 h-5 text-primary/50" />

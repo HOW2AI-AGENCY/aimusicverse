@@ -25,6 +25,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { UnifiedWaveform, type StemType } from "@/components/waveform/UnifiedWaveform";
 
 const TRACK_CONFIG = {
@@ -197,8 +198,7 @@ export const OptimizedTrackRow = memo(function OptimizedTrackRow({
             )}
           >
             {coverUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={coverUrl} alt="" className="h-full w-full object-cover" />
+              <LazyImage src={coverUrl} alt="" className="h-full w-full object-cover" />
             ) : (
               <Icon className="h-4 w-4 text-white/90" />
             )}

@@ -15,6 +15,7 @@ import { hapticImpact } from "@/lib/haptic";
 import { toast } from "sonner";
 import { EditableTrackTitle } from "./EditableTrackTitle";
 import { UnifiedVersionSelector } from "@/components/shared/UnifiedVersionSelector";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 // Format duration from seconds to mm:ss
 const formatDuration = (seconds: number): string => {
@@ -90,7 +91,7 @@ export const CompactSheetHeader = memo(function CompactSheetHeader({ track, onCl
           )}
         >
           {coverUrl ? (
-            <img src={coverUrl} alt={track.title || "Cover"} className="w-full h-full object-cover" />
+            <LazyImage src={coverUrl} alt={track.title || "Cover"} className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
               <Music2 className="w-5 h-5 text-primary/60" />

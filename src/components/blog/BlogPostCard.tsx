@@ -8,6 +8,7 @@ import { Calendar, Clock, Edit, Trash2, Eye } from "@/lib/icons";
 import { formatDistanceToNow, format, ru } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 import type { BlogPost } from "@/hooks/useBlog";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -48,7 +49,7 @@ export const BlogPostCard = memo(function BlogPostCard({
           {/* Hero image */}
           <div className="relative h-48 sm:h-64 overflow-hidden">
             {post.cover_url ? (
-              <img
+              <LazyImage
                 src={post.cover_url}
                 alt={post.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -116,7 +117,7 @@ export const BlogPostCard = memo(function BlogPostCard({
           onClick={handleClick}
         >
           {post.cover_url && (
-            <img src={post.cover_url} alt="" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+            <LazyImage src={post.cover_url} alt="" className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
           )}
           <div className="flex-1 min-w-0">
             <h4 className="font-medium text-sm line-clamp-1">{post.title}</h4>

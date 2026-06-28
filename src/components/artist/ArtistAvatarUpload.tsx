@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { logger } from "@/lib/logger";
 import { cn } from "@/lib/utils";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface ArtistAvatarUploadProps {
   avatarUrl: string | null;
@@ -135,7 +136,7 @@ export function ArtistAvatarUpload({
             )}
           >
             {avatarUrl ? (
-              <img src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
+              <LazyImage src={avatarUrl} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
                 <ImageIcon className="w-12 h-12 text-primary/50" />
@@ -162,7 +163,7 @@ export function ArtistAvatarUpload({
         {/* Reference Image Preview */}
         {referenceImage && (
           <div className="flex items-center gap-2 p-2 rounded-lg bg-muted/50 border border-border/50">
-            <img src={referenceImage} alt="Reference" className="w-10 h-10 rounded object-cover" />
+            <LazyImage src={referenceImage} alt="Reference" className="w-10 h-10 rounded object-cover" />
             <span className="text-xs text-muted-foreground">Референс загружен</span>
             <button onClick={() => setReferenceImage(null)} className="p-1 rounded-full hover:bg-muted">
               <X className="w-3 h-3" />

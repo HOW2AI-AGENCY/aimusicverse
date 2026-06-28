@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Music } from "@/lib/icons";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { EditableTierFields } from "@/hooks/admin/useSubscriptionTiers";
 
 interface TierTelegramSectionProps {
@@ -34,7 +35,7 @@ export function TierTelegramSection({ editedTier, onUpdateField, onUpdateNestedF
           value={coverUrl ?? ""}
           onChange={(e) => onUpdateField("cover_url", e.target.value || null)}
         />
-        {coverUrl && <img src={coverUrl} alt="Preview" className="w-full h-32 object-cover rounded-lg mt-2" />}
+        {coverUrl && <LazyImage src={coverUrl} alt="Preview" className="w-full h-32 object-cover rounded-lg mt-2" />}
       </div>
 
       <div className="space-y-2">

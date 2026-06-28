@@ -13,6 +13,7 @@ import { ProjectBannerEditor } from "./ProjectBannerEditor";
 import { VisualStyleEditor } from "./VisualStyleEditor";
 import { useQueryClient } from "@tanstack/react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LazyImage } from "@/components/ui/lazy-image";
 import { supabase } from "@/integrations/supabase/client";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { logger } from "@/lib/logger";
@@ -259,7 +260,7 @@ export const ProjectSettingsSheet = ({ open, onOpenChange, project }: ProjectSet
               {/* Preview current banner */}
               {project.banner_url ? (
                 <div className="relative aspect-video rounded-lg overflow-hidden border">
-                  <img src={project.banner_url} alt="Banner" className="w-full h-full object-cover" />
+                  <LazyImage src={project.banner_url} alt="Banner" className="w-full h-full object-cover" />
                   <div
                     className={cn(
                       "absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity",

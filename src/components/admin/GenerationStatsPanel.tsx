@@ -29,6 +29,7 @@ import {
   BarChart3,
 } from "@/lib/icons";
 import { format } from "@/lib/date-utils";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface AggregatedStats {
   total_generations: number;
@@ -414,7 +415,7 @@ export function GenerationStatsPanel() {
                     <span className="text-[10px] text-muted-foreground w-3">{idx + 1}</span>
                     <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-[10px] font-medium overflow-hidden flex-shrink-0">
                       {user.photo_url ? (
-                        <img src={user.photo_url} alt="" className="w-full h-full object-cover" />
+                        <LazyImage src={user.photo_url} alt="" className="w-full h-full object-cover" />
                       ) : (
                         user.first_name[0]?.toUpperCase()
                       )}

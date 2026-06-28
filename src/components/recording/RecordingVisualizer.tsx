@@ -58,9 +58,10 @@ export const RecordingVisualizer = memo(function RecordingVisualizer({
         {waveformData.slice(-100).map((value, i) => (
           <motion.div
             key={i}
-            className="w-1 rounded-full bg-primary/60"
-            initial={{ height: 4 }}
-            animate={{ height: Math.max(4, value * height * 0.9) }}
+            className="w-1 rounded-full bg-primary/60 origin-center"
+            style={{ height }}
+            initial={{ scaleY: 4 / height }}
+            animate={{ scaleY: Math.max(4, value * height * 0.9) / height }}
             transition={{ duration: 0.05 }}
           />
         ))}

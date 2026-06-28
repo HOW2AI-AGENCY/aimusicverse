@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Music, Search, Globe, Lock } from "@/lib/icons";
+import { LazyImage } from "@/components/ui/lazy-image";
 
 interface Track {
   id: string;
@@ -88,7 +89,7 @@ function TrackListItem({ track, onClick }: { track: Track; onClick: () => void }
       {/* Cover */}
       <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-md overflow-hidden bg-muted flex-shrink-0">
         {track.cover_url ? (
-          <img src={track.cover_url} alt="" className="w-full h-full object-cover" />
+          <LazyImage src={track.cover_url} alt="" className="w-full h-full object-cover" />
         ) : (
           <div className="flex items-center justify-center h-full">
             <Music className="h-4 w-4 md:h-5 md:w-5 text-muted-foreground" />
