@@ -267,46 +267,41 @@ export default defineConfig(({ mode }) => ({
 
           // Pages
           if (id.includes("/pages/StemStudio")) return "page-stem-studio";
-          if (id.includes("/pages/AdminDashboard")) return "page-admin";
           if (id.includes("/pages/MusicGraph")) return "page-music-graph";
           if (id.includes("/pages/Studio") && !id.includes("/pages/StudioHub")) return "page-studio";
           if (id.includes("/pages/StudioHub")) return "page-studio-hub";
-          if (id.includes("/pages/LyricsStudio") || id.includes("/pages/LyricsWorkspace")) return "page-lyrics-studio";
-          // Note: /pages/Projects is intentionally NOT chunked here.
-          // Manual chunking caused a TDZ crash ("Cannot access 'p' before init")
-          // due to circular deps via content-hub components.
+          // Note: /pages/Projects, /pages/LyricsStudio, /pages/LyricsWorkspace,
+          // and /pages/AdminDashboard are intentionally NOT chunked separately —
+          // they're part of the circular dependency chain merged into
+          // feature-admin-studio below.
           // Feature components - grouped to avoid circular deps
-          if (id.includes("/components/stem-studio/") || id.includes("/components/audio-reference/")) {
-            return "feature-stem-studio";
-          }
-          if (id.includes("/components/lyrics/") || id.includes("/components/lyrics-workspace/")) {
-            return "feature-lyrics-wizard";
-          }
-          if (id.includes("/components/generate-form/")) {
-            return "feature-generation-form";
-          }
-          // Studio - merged to avoid circular deps
+          //
+          // IMPORTANT: page-admin, feature-generation-form, feature-stem-studio,
+          // feature-lyrics-wizard, feature-studio, feature-studio-unified,
+          // store-studio, and page-lyrics-studio form a circular dependency chain.
+          // We merge ALL of them into a single chunk to prevent chunk-level TDZ
+          // errors ("Cannot access X before initialization").
           if (
+            id.includes("/pages/AdminDashboard") ||
+            id.includes("/pages/LyricsStudio") ||
+            id.includes("/pages/LyricsWorkspace") ||
+            id.includes("/stores/studio/") ||
+            id.includes("/components/stem-studio/") ||
+            id.includes("/components/audio-reference/") ||
+            id.includes("/components/lyrics/") ||
+            id.includes("/components/lyrics-workspace/") ||
+            id.includes("/components/generate-form/") ||
             id.includes("/components/studio/mixer/") ||
             id.includes("/components/studio/editor/") ||
-            id.includes("/components/studio/timeline/")
+            id.includes("/components/studio/timeline/") ||
+            id.includes("/components/studio/unified/") ||
+            id.includes("/components/studio/")
           ) {
-            return "feature-studio";
-          }
-          if (id.includes("/components/studio/unified/")) {
-            return "feature-studio-unified";
-          }
-          if (id.includes("/components/studio/")) {
-            return "feature-studio";
+            return "feature-admin-studio";
           }
           // Note: /components/analytics/ is intentionally NOT chunked here.
           // Manual chunking caused a TDZ crash ("Cannot access 'w' before init")
           // due to circular deps via the @/hooks/analytics barrel.
-
-          // Stores
-          if (id.includes("/stores/studio/")) {
-            return "store-studio";
-          }
           // Default: let vite decide the chunk
         },
         chunkFileNames: "assets/[name]-[hash].js",
