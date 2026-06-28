@@ -142,27 +142,39 @@ export const CollapsibleFormHeader = memo(function CollapsibleFormHeader({
                 className="flex items-center gap-1 min-h-[44px] min-w-[44px] px-2.5 rounded-xl bg-muted/40 border border-border/50 hover:bg-muted transition-all"
                 aria-label={`Модель ${currentModel.name}`}
               >
-                <span className="text-sm leading-none">{currentModel.emoji}</span>
+                {(() => {
+                  const info = getModelDisplayInfo(currentModel.apiModel ?? currentModel.key);
+                  const Icon = info?.icon;
+                  return Icon ? (
+                    <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" />
+                  ) : (
+                    <span className="text-[10px] font-semibold">{currentModel.name}</span>
+                  );
+                })()}
                 <ChevronDown className="w-3 h-3 text-muted-foreground" aria-hidden="true" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="min-w-[180px] bg-popover">
-              {availableModels.map((m) => (
-                <DropdownMenuItem
-                  key={m.key}
-                  onClick={() => onModelChange(m.key)}
-                  className={cn("flex items-center gap-2 text-xs", model === m.key && "bg-primary/10")}
-                >
-                  <span>{m.emoji}</span>
-                  <div className="flex flex-col flex-1 min-w-0">
-                    <span className="font-medium text-xs">{m.name}</span>
-                    <span className="text-[9px] text-muted-foreground">{m.cost}💎</span>
-                  </div>
-                  {m.status === "latest" && (
-                    <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary font-medium">NEW</span>
-                  )}
-                </DropdownMenuItem>
-              ))}
+              {availableModels.map((m) => {
+                const info = getModelDisplayInfo(m.apiModel ?? m.key);
+                const Icon = info?.icon;
+                return (
+                  <DropdownMenuItem
+                    key={m.key}
+                    onClick={() => onModelChange(m.key)}
+                    className={cn("flex items-center gap-2 text-xs", model === m.key && "bg-primary/10")}
+                  >
+                    {Icon ? <Icon className={cn("w-3.5 h-3.5", info?.color)} aria-hidden="true" /> : null}
+                    <div className="flex flex-col flex-1 min-w-0">
+                      <span className="font-medium text-xs">{m.name}</span>
+                      <span className="text-[9px] text-muted-foreground">{m.cost} кр.</span>
+                    </div>
+                    {m.status === "latest" && (
+                      <span className="text-[8px] px-1 py-0.5 rounded bg-primary/20 text-primary font-medium">NEW</span>
+                    )}
+                  </DropdownMenuItem>
+                );
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
         )}
