@@ -506,11 +506,13 @@ Logger persists to sessionStorage and integrates with Sentry.
 
 **Current Status:**
 
-- Sprint: 033 (Interface Audit & UX Overhaul) - complete
-- Health Score: 98/100
-- Components: 940+
-- Bundle Size Target: 950 KB
-- Overall Progress: 92% (33 sprints complete)
+- Sprint: 035 (Stabilization + Architecture Cleanup) - planned
+- Architecture Audit: Complete (2026-06-28) — score 6.1/10, plan to 8.4/10
+- Components: 987, Hooks: 347, Stores: 20, API files: 20, Services: 18
+- Bundle Size: 918 KB / 950 KB limit
+- Unit Tests: 7 files (critical gap), E2E: 47 specs
+- Key Issues: 30+ layer violations, 6 code duplicates, 342 `any` types, 33 files >500 LOC
+- Overall Progress: 93% (34 sprints complete)
 
 ## Telegram Bot Integration
 
