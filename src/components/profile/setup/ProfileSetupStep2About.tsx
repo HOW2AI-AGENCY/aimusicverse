@@ -3,7 +3,7 @@ import { FileText, Music, Mic2, Headphones } from "@/lib/icons";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import type { ProfileSetupData } from "./EnhancedProfileSetup";
+import type { ProfileSetupData } from "./profile-setup.types";
 
 interface ProfileSetupStep2AboutProps {
   data: ProfileSetupData;

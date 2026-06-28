@@ -25,7 +25,7 @@ import { useEffect, useState } from "react";
 import { motion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, Info, CheckCircle } from "@/lib/icons";
-import { DialogBackdrop, DialogContainer } from "../unified-dialog";
+import { DialogBackdrop, DialogContainer } from "../dialog-shared";
 import { useHapticFeedback } from "@/lib/mobile-utils";
 import type { AlertDialogProps } from "../unified-dialog.types";
 

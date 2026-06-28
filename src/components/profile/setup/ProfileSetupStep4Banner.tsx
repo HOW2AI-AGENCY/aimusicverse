@@ -8,7 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 import { logger } from "@/lib/logger";
 import { ImageGeneratorDialog } from "../ImageGeneratorDialog";
-import type { ProfileSetupData } from "./EnhancedProfileSetup";
+import type { ProfileSetupData } from "./profile-setup.types";
 import { surface } from "@/lib/overlay-colors";
 
 interface ProfileSetupStep4BannerProps {
