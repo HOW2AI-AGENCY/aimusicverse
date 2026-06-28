@@ -10,7 +10,7 @@
 | -------------------------------------- | --------------- | ---------------------------------------- |
 | Sprint 001-033                         | ✅ ЗАВЕРШЕНЫ    | 100%                                     |
 | Sprint 034 (Generation Reliability)    | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                           |
-| Sprint 035 (Platform Integrations)     | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
+| Sprint 035 (E2E + Export)              | ⏳ ЗАПЛАНИРОВАН | E2E стабилизация, WAV/MP3/FLAC экспорт   |
 | Q1 2026 Plan                           | ✅ ЗАВЕРШЁН     | Phase 1-6 Complete, Sprints A-E Complete |
 | Phase 8: Dead Code Removal             | ✅ ЗАВЕРШЁН     | 196 файлов, 45K строк                    |
 | Sprint 9A: Deduplication               | ✅ ЗАВЕРШЁН     | 5 дубликатов, 1.35K строк                |
@@ -23,7 +23,8 @@
 | **Phase 10C: E2E Tests**               | ⏳ ЗАПЛАНИРОВАН | Playwright, ключевые сценарии            |
 | **Sprint 033: Interface Audit**        | ✅ ЗАВЕРШЁН     | 18 задач, 4 фазы                         |
 | **Sprint 034: Generation Reliability** | ✅ ЗАВЕРШЁН     | 13/13 задач ✅                           |
-| **Sprint 035: Platform Integrations**  | ⏳ ЗАПЛАНИРОВАН | Spotify/Apple Music/YouTube export       |
+| **Sprint 035: E2E + Export**           | ⏳ ЗАПЛАНИРОВАН | E2E стабилизация, WAV/MP3/FLAC экспорт   |
+| **Sprint 036: Quality & Stability**   | ⏳ ЗАПЛАНИРОВАН | Split >800 LOC files, unit tests 500+    |
 
 ---
 

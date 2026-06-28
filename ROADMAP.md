@@ -5,8 +5,8 @@
 **Where MusicVerse AI is going — quarter by quarter.**
 
 <p>
-  <img alt="Progress" src="https://img.shields.io/badge/2026-88%25_complete-F59E0B?style=for-the-badge"/>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-032-26A5E4?style=for-the-badge"/>
+  <img alt="Progress" src="https://img.shields.io/badge/2026-92%25_complete-F59E0B?style=for-the-badge"/>
+  <img alt="Sprint" src="https://img.shields.io/badge/sprint-034-26A5E4?style=for-the-badge"/>
   <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
 </p>
 
@@ -33,11 +33,13 @@ gantt
     Voice Cloning Studio         :done, 2026-03, 2026-05
     Bundle Optimisation (<950kb) :done, 2026-04, 2026-05
     Audio Section Replacement    :done, 2026-05, 2026-06
+    Interface Audit (033)        :done, 2026-06, 2026-06
+    Generation Reliability (034) :done, 2026-06, 2026-06
     section In progress
-    UI Improvements Spec 001     :active, 2026-06, 2026-07
+    E2E + Export (035)           :active, 2026-07, 2026-08
     Realtime co-creation         :active, 2026-07, 2026-09
     Marketplace MVP              :active, 2026-08, 2026-10
-    A/B test framework           :active, 2026-07, 2026-08
+    A/B test framework           :done, 2026-07, 2026-08
     section Planned
     Multi-language UI            : 2026-09, 2026-10
     Public Developer API         : 2026-10, 2026-12
@@ -52,7 +54,7 @@ gantt
 | :---: | --- | :---: |
 | 1 | Realtime sessions (presence, cursors, waveform sync) | ![](https://img.shields.io/badge/45%25-F59E0B?style=flat-square) |
 | 2 | Marketplace MVP (beats / loops / voices) | ![](https://img.shields.io/badge/30%25-F59E0B?style=flat-square) |
-| 3 | A/B testing framework rollout | ![](https://img.shields.io/badge/70%25-10B981?style=flat-square) |
+| 3 | A/B testing framework rollout | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | 4 | Lyrics co-editing | ![](https://img.shields.io/badge/10%25-475569?style=flat-square) |
 
 ### Q4 2026 — Platform
@@ -85,9 +87,11 @@ gantt
 
 ## 📊 Sprint history
 
-See [`SPRINTS/`](SPRINTS/) — 32 completed sprints, archived under [`SPRINTS/completed/`](SPRINTS/completed/).
+See [`SPRINTS/`](SPRINTS/) — 34 completed sprints, archived under [`SPRINTS/completed/`](SPRINTS/completed/).
 
 ### Completed
+- **Sprint 034** — Generation Reliability (auto-retry, failure tracking, A/B experiments, queue UI)
+- **Sprint 033** — Interface Audit & UX Overhaul (18 tasks, 4 phases)
 - **Sprint 032** — Final UI/UX Audit & Polish
 - **Sprint 031** — Data Model & Optimization Phase 2
 - **Sprint 030** — Unified Studio Mobile
@@ -103,6 +107,6 @@ See [`SPRINTS/`](SPRINTS/) — 32 completed sprints, archived under [`SPRINTS/co
 | :---: | :---: | :---: | :---: | :---: |
 | [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Status](PROJECT_STATUS.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) |
 
-<sub>Last updated: 2026-06-27</sub>
+<sub>Last updated: 2026-06-28</sub>
 
 </div>

@@ -24,6 +24,36 @@
 
 ## [Unreleased]
 
+### ✨ Спринт 034 — Надёжность генерации
+
+#### Добавлено
+
+- **Dashboard метрик генерации** — `/admin/generation-metrics` с визуализацией failure rate, retry count, параметров генерации.
+- **Auto-retry в handleGenerate()** — 2 попытки с exponential backoff, интегрировано в основной flow генерации.
+- **Structured failure tracking** — категории ошибок (`failure_category`), счётчик ретраев (`retry_count`), параметры генерации (`generation_params`).
+- **Prompt pre-validation** — проверка длины, кодировки и запрещённого контента перед отправкой в Suno API.
+- **A/B framework** — эксперименты `PROMPT_SUGGESTIONS` и `WIZARD_STEPS` (50/50 split), хук `useExperiment`.
+- **Generation queue position UI** — отображение позиции в очереди с учётом rate-limit.
+- **Failure pattern analysis RPC** — `get_generation_failure_patterns` для серверного анализа паттернов ошибок.
+- **Failure rate alerts** — Edge Function + уведомления в Telegram для админов при превышении порога.
+- **A/B тест 2-step vs 4-step wizard** — эксперимент `WIZARD_STEPS` для оптимизации конверсии.
+- **Delivery tracking** — статус `partial_delivery`, хук `useDeliveryTracking` для отслеживания доставки A/B клипов.
+- **Sentry breadcrumbs** — полный flow генерации покрыт breadcrumbs для диагностики.
+
+#### Исправлено
+
+- TDZ-ошибка в analytics chunk из-за циклической зависимости lucide-react.
+- Централизация экспортов lucide-react для оптимизации бандла.
+- Конфликт в lyricspanel.tsx после merge.
+
+### 🔧 Инфраструктура
+
+- Миграция тестов с Jest на Vitest + Husky pre-commit hooks.
+- Удаление мёртвого кода (chore/remove-dead-code).
+- Автоматическое обновление version badges в README.
+
+---
+
 ### ✨ Спринт 033 — Аудит интерфейса и UX-переработка
 
 #### Добавлено

@@ -133,7 +133,7 @@ API Layer (src/api/) → Service Layer (src/services/) → Hooks (src/hooks/) �
 - **API Layer** — прямые запросы к Supabase, типизированные
 - **Service Layer** — бизнес-логика, трансформация данных
 - **Hook Layer** — интеграция с React Query, управление состоянием
-- **Component Layer** — UI-представление (940+ компонентов)
+- **Component Layer** — UI-представление (987 компонентов)
 
 </details>
 
@@ -234,7 +234,7 @@ npm run dev          # → http://localhost:8080
 
 **Качество**
 
-- Vitest 4 · Playwright 1.57
+- Vitest 4 · Playwright 1.61
 - ESLint · Prettier · Husky · commitlint
 - size-limit (бюджет 950 КБ)
 - axe-core a11y · Storybook
@@ -250,15 +250,15 @@ npm run dev          # → http://localhost:8080
 ```text
 aimusicverse/
 ├── src/
-│   ├── components/       # 940+ React-компонентов (плеер, студия, генерация, тексты, ...)
-│   ├── hooks/            # 200+ пользовательских хуков (аудио, генерация, студия, telegram)
-│   ├── stores/           # 8 Zustand-хранилищ (плеер, студия, тексты, микшер)
+│   ├── components/       # 987 React-компонентов (плеер, студия, генерация, тексты, ...)
+│   ├── hooks/            # 347 пользовательских хуков (аудио, генерация, студия, telegram)
+│   ├── stores/           # 25 Zustand-хранилищ (плеер, студия, тексты, микшер)
 │   ├── services/         # 13 сервисных модулей (бизнес-логика)
 │   ├── api/              # 13 API-модулей (запросы к Supabase)
-│   ├── pages/            # 40+ страниц с ленивой загрузкой
+│   ├── pages/            # 58 страниц с ленивой загрузкой
 │   ├── contexts/         # React Context провайдеры (Auth, Theme, Telegram)
 │   └── lib/              # Утилиты (логгер, ошибки, аудио, анимации)
-├── supabase/             # 80+ Edge Functions, миграции, конфиг
+├── supabase/             # 130 Edge Functions, миграции, конфиг
 ├── docs/                 # Архитектура, API, гайды, дизайн-система
 ├── tests/                # Unit (Vitest) + E2E (Playwright)
 ├── ADR/                  # Записи архитектурных решений
@@ -420,9 +420,11 @@ gantt
     Unified Studio Mobile     :done, 2026-01, 2026-04
     Клонирование голоса       :done, 2026-03, 2026-05
     Аудит интерфейса (033)    :done, 2026-06, 2026-06
+    Надёжность генерации (034):done, 2026-06, 2026-06
     section В работе
-    Совместное создание       :active, 2026-06, 2026-08
-    MVP Маркетплейса          :active, 2026-07, 2026-09
+    E2E + Экспорт (035)       :active, 2026-07, 2026-08
+    Совместное создание       :active, 2026-07, 2026-09
+    MVP Маркетплейса          :active, 2026-08, 2026-10
     section Запланировано
     Мультиязычный UI          : 2026-09, 2026-10
     Публичный API             : 2026-10, 2026-12
