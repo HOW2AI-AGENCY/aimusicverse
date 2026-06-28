@@ -97,7 +97,7 @@ export function ConceptStep() {
             <SelectContent>
               {GENRES.map((genre) => (
                 <SelectItem key={genre.value} value={genre.value}>
-                  {genre.emoji} {genre.label}
+                  {genre.label}
                 </SelectItem>
               ))}
             </SelectContent>
