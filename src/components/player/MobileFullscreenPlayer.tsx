@@ -41,6 +41,7 @@ import { glassButton } from "@/lib/glass";
 import { motion, AnimatePresence, PanInfo } from "@/lib/motion";
 import { hapticImpact } from "@/lib/haptic";
 import { logger } from "@/lib/logger";
+import { useKeyboardGestureControls } from "@/hooks/useKeyboardGestureControls";
 import "@/styles/lyrics-sync.css";
 
 // Swipe thresholds
@@ -103,6 +104,17 @@ export function MobileFullscreenPlayer({ track, onClose, currentVersion }: Mobil
     currentIndex,
   } = usePlayerStore();
   const { audioElement } = useGlobalAudioPlayer();
+
+  // Keyboard gesture controls for desktop accessibility
+  useKeyboardGestureControls({
+    seekAmount: SEEK_AMOUNT,
+    onSeekForward: () => seek(Math.min(duration, currentTime + SEEK_AMOUNT)),
+    onSeekBackward: () => seek(Math.max(0, currentTime - SEEK_AMOUNT)),
+    onNextTrack: nextTrack,
+    onPrevTrack: previousTrack,
+    onTogglePlay: () => (isPlaying ? pauseTrack() : playTrack(track)),
+    onClose,
+  });
 
   // Prefetch covers for smooth transitions
   usePrefetchTrackCovers(queue, currentIndex, { count: 3 });

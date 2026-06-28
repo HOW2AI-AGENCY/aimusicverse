@@ -10,8 +10,10 @@
 
 :root {
   /* Font Families */
-  --font-sans: "DM Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "JetBrains Mono", "Roboto Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  --font-sans:
+    "DM Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    "JetBrains Mono", "Roboto Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
   --font-display: "Space Grotesk", "DM Sans", system-ui, sans-serif;
 
   /* Font Weights */
@@ -118,7 +120,7 @@
 
 .text-caption {
   font-family: var(--font-sans);
-  font-size: 0.75rem; /* 12px */
+  font-size: 0.875rem; /* 14px — WCAG AA minimum */
   font-weight: var(--font-normal);
   line-height: var(--leading-normal);
   color: hsl(var(--muted-foreground));
