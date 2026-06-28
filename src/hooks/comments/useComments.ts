@@ -111,7 +111,7 @@ export function useAddComment() {
           content: content.trim(),
           parent_id: parentId || null,
           ...(timestampSeconds != null && { timestamp_seconds: timestampSeconds }),
-        })
+        } as never)
         .select()
         .single();
 
