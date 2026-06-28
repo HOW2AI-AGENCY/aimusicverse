@@ -147,6 +147,7 @@ export const useUnifiedStudioStore = create<
         setViewMode: useViewStore.getState().setViewMode,
         setSnapToGrid: useViewStore.getState().setSnapToGrid,
         setGridSize: useViewStore.getState().setGridSize,
+        setStudioMode: useViewStore.getState().setStudioMode,
 
         // Lyrics actions
         setCurrentLyrics: useLyricsStore.getState().setCurrentLyrics,
@@ -196,6 +197,7 @@ useViewStore.subscribe((state) => {
     viewMode: state.viewMode,
     snapToGrid: state.snapToGrid,
     gridSize: state.gridSize,
+    studioMode: state.studioMode,
   });
 });
 

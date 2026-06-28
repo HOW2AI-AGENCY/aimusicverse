@@ -13,6 +13,7 @@ export type TrackType = "main" | "vocal" | "instrumental" | "stem" | "sfx" | "dr
 export type ProjectStatus = "draft" | "mixing" | "mastering" | "completed" | "archived";
 export type StemsMode = "none" | "simple" | "detailed";
 export type ViewMode = "timeline" | "mixer" | "compact";
+export type StudioMode = "lite" | "pro";
 export type TrackStatus = "ready" | "pending" | "processing" | "failed";
 
 // ============ Core Interfaces ============

@@ -24,7 +24,7 @@ import {
   Sparkles,
   Rows3,
 } from "@/lib/icons";
-import type { ViewMode } from "@/stores/useUnifiedStudioStore";
+import type { ViewMode, StudioMode } from "@/stores/useUnifiedStudioStore";
 import type { AutoSaveStatus } from "@/hooks/studio/useAutoSave";
 
 interface StudioShellHeaderProps {
@@ -48,6 +48,8 @@ interface StudioShellHeaderProps {
   onUndo: () => void;
   onRedo: () => void;
   onViewModeChange: (mode: ViewMode) => void;
+  studioMode: StudioMode;
+  onStudioModeChange: (mode: StudioMode) => void;
   /** Open mixer sheet on mobile */
   onOpenMixer?: () => void;
 }
@@ -73,6 +75,8 @@ export const StudioShellHeader = memo(function StudioShellHeader({
   onUndo,
   onRedo,
   onViewModeChange,
+  studioMode,
+  onStudioModeChange,
   onOpenMixer,
 }: StudioShellHeaderProps) {
   return (
@@ -104,28 +108,54 @@ export const StudioShellHeader = memo(function StudioShellHeader({
         </div>
       </div>
 
-      {/* Center: Desktop View Mode Tabs */}
+      {/* Center: Desktop View Mode Tabs + Studio Mode */}
       {!isMobile && (
-        <Tabs value={viewMode} onValueChange={(v) => onViewModeChange(v as ViewMode)} className="w-auto">
-          <TabsList className="h-8">
-            <TabsTrigger value="timeline" className="h-7 px-2 gap-1">
-              <Rows3 className="h-4 w-4" />
-              <span className="hidden lg:inline">Дорожки</span>
-            </TabsTrigger>
-            <TabsTrigger value="mixer" className="h-7 px-2 gap-1">
-              <Sliders className="h-4 w-4" />
-              <span className="hidden lg:inline">Микшер</span>
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
+        <div className="flex items-center gap-2">
+          <Tabs value={viewMode} onValueChange={(v) => onViewModeChange(v as ViewMode)} className="w-auto">
+            <TabsList className="h-8">
+              <TabsTrigger value="timeline" className="h-7 px-2 gap-1">
+                <Rows3 className="h-4 w-4" />
+                <span className="hidden lg:inline">Дорожки</span>
+              </TabsTrigger>
+              <TabsTrigger value="mixer" className="h-7 px-2 gap-1">
+                <Sliders className="h-4 w-4" />
+                <span className="hidden lg:inline">Микшер</span>
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          <button
+            onClick={() => onStudioModeChange(studioMode === "lite" ? "pro" : "lite")}
+            className={cn(
+              "flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider transition-all border",
+              studioMode === "pro"
+                ? "bg-primary/15 text-primary border-primary/40"
+                : "bg-muted/50 text-muted-foreground border-border hover:border-primary/30",
+            )}
+          >
+            {studioMode === "pro" ? "Pro" : "Lite"}
+          </button>
+        </div>
       )}
 
       {/* Center: Mobile quick access - unified interface, no tabs */}
-      {isMobile && onOpenMixer && (
+      {isMobile && (
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onOpenMixer} title="Микшер">
-            <Sliders className="h-4 w-4" />
-          </Button>
+          <button
+            onClick={() => onStudioModeChange(studioMode === "lite" ? "pro" : "lite")}
+            className={cn(
+              "flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider transition-all border min-h-[32px]",
+              studioMode === "pro"
+                ? "bg-primary/15 text-primary border-primary/40"
+                : "bg-muted/50 text-muted-foreground border-border",
+            )}
+          >
+            {studioMode === "pro" ? "Pro" : "Lite"}
+          </button>
+          {onOpenMixer && (
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={onOpenMixer} title="Микшер">
+              <Sliders className="h-4 w-4" />
+            </Button>
+          )}
         </div>
       )}
 
