@@ -21,6 +21,13 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
+# Update structure graph via graphify
+echo "📊 Updating structure graph..."
+npx graphify update .
+if [ $? -ne 0 ]; then
+  echo "⚠️  graphify update failed (non-blocking)"
+fi
+
 # Run lint-staged for staged files
 npx lint-staged
 

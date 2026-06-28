@@ -719,6 +719,44 @@
 
 ---
 
+## 🆕 Sprint 037: Infrastructure Hardening & Developer Experience (Q3 2026)
+
+### Обзор
+Sprint 037 фокусируется на инфраструктурном hardening и улучшении Developer Experience. 12 задач, ~30 SP, 10 дней. Детальный план: [`SPRINTS/SPRINT-037-PLAN.md`](SPRINTS/SPRINT-037-PLAN.md).
+
+> **Note:** Некоторые задачи пересекаются с существующими эпиками E008 (CQ-003 Test Coverage, CQ-004 E2E Tests, CQ-005 Bundle Optimization, INF-003 Monitoring/Sentry). Sprint 037 является их конкретной реализацией в рамках текущего спринта.
+
+### Задачи
+
+#### Code Quality 📊
+| ID | Задача | Статус | Связано с E008 |
+|----|--------|--------|----------------|
+| 037-01 | Remove legacy Babel/Jest configs | ✅ Done | — |
+| 037-02 | Add `graphify update .` to `.husky/pre-commit` hook | ⏳ Planned | — |
+| 037-03 | Basic unit tests for Audio System (Tone.js + Web Audio API) | ⏳ Planned | — |
+| 037-04 | Edge Function unit tests (Vitest with supabase mocking) | ⏳ Planned | — |
+| 037-05 | Increase test coverage to 500+ tests | ⏳ Planned | CQ-003 |
+| 037-06 | Playwright E2E import/export tests (partial — core flows) | ⏳ Planned | CQ-004 |
+| 037-07 | Storybook for core components (Player, Studio, TrackList) | ⏳ Planned | — |
+| 037-08 | Bundle size audit + optimization | ⏳ Planned | CQ-005 |
+| 037-09 | Enable strict TypeScript mode (`strict: true`) | ⏳ Planned | — |
+| 037-10 | Custom ESLint plugin for import validation | ⏳ Planned | — |
+| 037-11 | Accessibility audit automation (axe-playwright in CI) | ⏳ Planned | UI-001 |
+| 037-12 | Sentry for error tracking (production error monitoring) | ⏳ Planned | INF-003 |
+
+#### Story Points
+
+| Фаза | Задачи | SP |
+|------|--------|----|
+| Phase 1: Quick Wins | 037-01, 037-02 | 2 |
+| Phase 2: Testing Foundation | 037-03, 037-04, 037-05 | 10 |
+| Phase 3: Quality Tooling | 037-06, 037-07, 037-08 | 9 |
+| Phase 4: Code Standards | 037-09, 037-10 | 5 |
+| Phase 5: Monitoring & A11y | 037-11, 037-12 | 4 |
+| **Total** | **12 задач** | **~30 SP** |
+
+---
+
 <div align="center">
 
 ## 🎯 Эпик E008: Roadmap Timeline

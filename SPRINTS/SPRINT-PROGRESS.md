@@ -219,8 +219,25 @@
 - [ ] Unit-тесты до 500+ (с 362)
 - [ ] Service Worker с Workbox (cache-first для статики + аудио)
 - [ ] Phase 9C: Консолидация Lyrics-экосистемы
+### Sprint 037: Infrastructure Hardening & Developer Experience ⏳ ACTIVE (Q3 2026, ~30 SP over 10 days)
+
+Инфраструктурное укрепление и улучшение DX. [Детальный план](SPRINT-037-PLAN.md)
+
+- [ ] 037-01: Удалить Babel/Jest конфиги (legacy)
+- [ ] 037-02: Добавить `graphify update .` в pre-commit hook
+- [ ] 037-03: Базовые unit-тесты для Audio System
+- [ ] 037-04: Edge Function unit-тесты
+- [ ] 037-05: Увеличить тестовое покрытие до 500+
+- [ ] 037-06: Playwright E2E import/export тесты (partial)
+- [ ] 037-07: Storybook для core-компонентов
+- [ ] 037-08: Bundle size audit + оптимизация
+- [ ] 037-09: Строгий TypeScript mode
+- [ ] 037-10: Кастомный ESLint плагин для import validation
+- [ ] 037-11: Accessibility audit automation
+- [ ] 037-12: Sentry для error tracking
 
 ---
+
 
 ## ✅ Completed Sprints Archive
 

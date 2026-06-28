@@ -1,10 +1,13 @@
 /**
  * Vitest test setup file
  * Configures testing environment and global mocks
+ *
+ * NOTE: `globals: true` is set in vitest.config.ts, so `vi`, `afterEach`, etc.
+ * are globally available without explicit imports. Importing from "vitest"
+ * in setup files conflicts with Vitest v4's context detection.
  */
 
 import "@testing-library/jest-dom/vitest";
-import { vi, afterEach } from "vitest";
 
 // Mock window.matchMedia
 Object.defineProperty(window, "matchMedia", {
