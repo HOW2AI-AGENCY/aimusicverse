@@ -60,24 +60,48 @@
 | Задача                                | Прогресс                                                        |
 | ------------------------------------- | --------------------------------------------------------------- |
 | E2E стабилизация (47 spec → CI green) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Export service (WAV/MP3/FLAC)         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 | Playwright CI pipeline                | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Export service (WAV/MP3/FLAC)         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Устранение 484 `any` типов (→ <50)    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| ESLint strict rules                   | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| npm run build в CI (zero warnings)    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Удаление неиспользуемых зависимостей  | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
-## 🚦 `036` Качество и стабильность (Q3 2026)
+## 🚦 `036` Рефакторинг и архитектура (Q3 2026)
 
-| Задача                             | Прогресс                                                        |
-| ---------------------------------- | --------------------------------------------------------------- |
-| Phase 9B: разбить файлы >800 строк | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Unit-тесты 362 → 500+              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Service Worker + оффлайн           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                                          | Прогресс                                                        |
+| ----------------------------------------------- | --------------------------------------------------------------- |
+| Разбить файлы >500 строк (30+ файлов)           | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Разделить useUnifiedStudioStore (38KB)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Устранить нарушения слоёв (компоненты→supabase) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Консолидация lyrics-компонентов (6→2 папки)     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Организация components/ui (90+ файлов)          | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+
+## 🚦 `037` Тестовое покрытие (Q3–Q4 2026)
+
+| Задача                                     | Прогресс                                                        |
+| ------------------------------------------ | --------------------------------------------------------------- |
+| Unit-тесты 362 → 500+                      | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Покрытие критических хуков (audio, studio) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Тесты API/Service слоёв                    | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Mutation testing (Stryker)                 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+
+## 🚦 `038` DX и инфраструктура (Q4 2026)
+
+| Задача                               | Прогресс                                                        |
+| ------------------------------------ | --------------------------------------------------------------- |
+| Service Worker + оффлайн             | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Lighthouse CI budget enforcement     | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Storybook coverage (50+ компонентов) | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Bundle size regression CI gate       | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
 ## 🧮 Ключевые метрики
 
 | Метрика                |   Значение    |    Цель     |
 | ---------------------- | :-----------: | :---------: |
-| Компоненты             |     987       |      —      |
-| Хуки                   |     347       |      —      |
-| Edge Functions         |     130       |      —      |
+| Компоненты             |      987      |      —      |
+| Хуки                   |      347      |      —      |
+| Edge Functions         |      130      |      —      |
 | Размер бандла (gzip)   |  **918 КБ**   | ≤ 950 КБ ✅ |
 | Покрытие unit-тестами  |    **82%**    |  ≥ 80% ✅   |
 | E2E спецификации       |      47       |      —      |
@@ -145,7 +169,7 @@ mindmap
 
 ### 🔗 Связанная документация
 
-|            📚 Указатель             |      🗺 Дорожная карта       |  📝 Журнал изменений   |             🪲 Проблемы             |         🤝 Контрибуция         |
+|            📚 Указатель             |       🗺 Дорожная карта       |  📝 Журнал изменений   |             🪲 Проблемы             |         🤝 Контрибуция         |
 | :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
 | [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
