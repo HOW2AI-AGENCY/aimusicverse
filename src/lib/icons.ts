@@ -388,9 +388,3 @@ export {
   AlarmClock,
 } from "lucide-react";
 
-// ============================================
-// Catch-all re-export (Phase 10 UI unification)
-// Guarantees any lucide-react icon is reachable via @/lib/icons.
-// Curated exports above are kept for documentation and bundle clarity.
-// ============================================
-export * from "lucide-react";

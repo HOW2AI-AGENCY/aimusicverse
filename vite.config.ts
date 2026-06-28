@@ -254,8 +254,6 @@ export default defineConfig(({ mode }) => ({
           // Note: /pages/Projects is intentionally NOT chunked here.
           // Manual chunking caused a TDZ crash ("Cannot access 'p' before init")
           // due to circular deps via content-hub components.
-          if (id.includes("/pages/Analytics")) return "page-analytics";
-
           // Feature components - grouped to avoid circular deps
           if (id.includes("/components/stem-studio/") || id.includes("/components/audio-reference/")) {
             return "feature-stem-studio";

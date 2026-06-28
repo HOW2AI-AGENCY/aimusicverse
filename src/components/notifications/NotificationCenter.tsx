@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Bell, Volume2, VolumeX, CheckCheck, Trash2, ExternalLink } from "@/lib/icons";
+import { Bell, Volume2, VolumeX, Check, Trash2, ExternalLink } from "@/lib/icons";
 import { motion, AnimatePresence } from "@/lib/motion";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -76,7 +76,7 @@ function NotificationCard({
             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
               {!notification.read && (
                 <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => onMarkAsRead(notification.id)}>
-                  <CheckCheck className="w-3 h-3" />
+                  <Check className="w-3 h-3" />
                 </Button>
               )}
               <Button
@@ -200,7 +200,7 @@ export function NotificationCenter() {
 
             {unreadCount > 0 && (
               <Button variant="ghost" size="sm" onClick={markAllAsRead} className="text-xs h-8">
-                <CheckCheck className="w-3 h-3 mr-1" />
+                <Check className="w-3 h-3 mr-1" />
                 Прочитать все
               </Button>
             )}
