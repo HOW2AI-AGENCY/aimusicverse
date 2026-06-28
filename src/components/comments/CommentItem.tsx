@@ -1,9 +1,10 @@
 // CommentItem component - Sprint 011
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, Reply, MoreHorizontal, Flag, Trash2 } from "@/lib/icons";
+import { Heart, Reply, MoreHorizontal, Flag, Trash2, Clock } from "@/lib/icons";
 import { formatDistanceToNow, ru } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
+import { formatTime } from "@/lib/formatters";
 import { useAuth } from "@/hooks/useAuth";
 import { useLikeComment } from "@/hooks/engagement/useLikeComment";
 import {
@@ -20,6 +21,7 @@ export interface Comment {
   track_id: string;
   parent_id: string | null;
   likes_count: number;
+  timestamp_seconds?: number | null;
   created_at: string;
   is_liked?: boolean;
   user?: {
@@ -72,7 +74,15 @@ export function CommentItem({ comment, trackId, onReply, onDelete, onReport, isR
           <span className="text-xs text-muted-foreground">{timeAgo}</span>
         </div>
 
-        <p className="text-sm text-foreground whitespace-pre-wrap break-words">{comment.content}</p>
+        <div className="text-sm text-foreground whitespace-pre-wrap break-words">
+          {comment.timestamp_seconds != null && (
+            <span className="inline-flex items-center gap-0.5 mr-1.5 px-1.5 py-0.5 rounded bg-primary/10 text-primary text-xs font-mono cursor-pointer hover:bg-primary/20 transition-colors">
+              <Clock className="w-3 h-3" />
+              {formatTime(comment.timestamp_seconds)}
+            </span>
+          )}
+          {comment.content}
+        </div>
 
         <div className="flex items-center gap-2 mt-2">
           <Button

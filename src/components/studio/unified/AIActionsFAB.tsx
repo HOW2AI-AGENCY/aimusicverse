@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useHapticFeedback } from "@/hooks/useHapticFeedback";
+import { useViewStore } from "@/stores/studio";
 import { StudioOperation } from "@/hooks/studio/useStudioOperationLock";
 import {
   Sparkles,
@@ -100,6 +101,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
 }: AIActionsFABProps) {
   const [isOpen, setIsOpen] = useState(false);
   const haptic = useHapticFeedback();
+  const studioMode = useViewStore((s) => s.studioMode);
 
   const isOperationDisabled = useCallback(
     (op: StudioOperation): boolean => {
@@ -242,8 +244,10 @@ export const AIActionsFAB = memo(function AIActionsFAB({
       });
     }
 
-    // Filter out actions without callbacks
-    return baseActions.filter((action) => action.onClick);
+    const LITE_ACTIONS = new Set(["generate", "lyrics", "add_vocals", "musiclab"]);
+    return baseActions
+      .filter((action) => action.onClick)
+      .filter((action) => studioMode === "pro" || LITE_ACTIONS.has(action.id));
   }, [
     onGenerate,
     onExtend,
@@ -258,6 +262,7 @@ export const AIActionsFAB = memo(function AIActionsFAB({
     onOpenPresets,
     onOpenDashboard,
     canSaveAsNewVersion,
+    studioMode,
   ]);
 
   const toggleOpen = useCallback(() => {

@@ -38,8 +38,8 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
     preview: string;
   } | null>(null);
 
-  const handleSubmitComment = async (content: string, parentId?: string | null) => {
-    await addComment.mutateAsync({ trackId, content, parentId: parentId || undefined });
+  const handleSubmitComment = async (content: string, parentId?: string | null, timestampSeconds?: number | null) => {
+    await addComment.mutateAsync({ trackId, content, parentId: parentId || undefined, timestampSeconds });
     setReplyTo(null);
   };
 
@@ -76,6 +76,7 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
     track_id: c.track_id,
     parent_id: c.parent_id,
     likes_count: c.likes_count,
+    timestamp_seconds: c.timestamp_seconds,
     created_at: c.created_at,
     is_liked: c.isLiked,
     user: c.user
@@ -140,6 +141,7 @@ export function CommentsList({ trackId, trackTitle, track, className }: Comments
         onSubmit={handleSubmitComment}
         onCancelReply={() => setReplyTo(null)}
         isLoading={addComment.isPending}
+        enableTimestamp
       />
 
       {/* Comments List */}

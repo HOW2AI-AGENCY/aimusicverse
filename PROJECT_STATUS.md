@@ -1,22 +1,22 @@
 <div align="center">
 
-# 📊 Project Status
+# 📊 Статус проекта
 
-**Snapshot of the project's current health, sprint progress, and key metrics.**
+**Снимок текущего состояния, прогресса спринтов и ключевых метрик.**
 
 <p>
-  <img alt="Sprint" src="https://img.shields.io/badge/sprint-032-26A5E4?style=for-the-badge"/>
-  <img alt="Progress" src="https://img.shields.io/badge/overall-88%25-F59E0B?style=for-the-badge"/>
-  <img alt="Health" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
-  <img alt="E2E Coverage" src="https://img.shields.io/badge/e2e-0%25-475569?style=for-the-badge"/>
-  <img alt="Bundle" src="https://img.shields.io/badge/bundle-918kb%2F950kb-10B981?style=for-the-badge"/>
+  <img alt="Спринт" src="https://img.shields.io/badge/sprint-033-26A5E4?style=for-the-badge"/>
+  <img alt="Прогресс" src="https://img.shields.io/badge/overall-92%25-F59E0B?style=for-the-badge"/>
+  <img alt="Здоровье" src="https://img.shields.io/badge/health-98%2F100-9333EA?style=for-the-badge"/>
+  <img alt="E2E покрытие" src="https://img.shields.io/badge/e2e-0%25-475569?style=for-the-badge"/>
+  <img alt="Бандл" src="https://img.shields.io/badge/bundle-918kb%2F950kb-10B981?style=for-the-badge"/>
 </p>
 
 <p>
-  <a href="README.md">🏠 Home</a> ·
-  <a href="DOCUMENTATION_INDEX.md">📚 Docs</a> ·
-  <a href="ROADMAP.md">🗺 Roadmap</a> ·
-  <a href="CHANGELOG.md">📝 Changelog</a>
+  <a href="README.md">🏠 Главная</a> ·
+  <a href="DOCUMENTATION_INDEX.md">📚 Документация</a> ·
+  <a href="ROADMAP.md">🗺 Дорожная карта</a> ·
+  <a href="CHANGELOG.md">📝 Журнал изменений</a>
 </p>
 
 </div>
@@ -24,89 +24,99 @@
 ---
 
 > [!NOTE]
-> Updated weekly during sprint review. For real-time CI status see the [Actions tab](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
+> Обновляется еженедельно во время ревью спринта. Для статуса CI в реальном времени см. [вкладку Actions](https://github.com/HOW2AI-AGENCY/aimusicverse/actions).
 
-## 🚦 Current sprint — `032` Final UI/UX Audit & Polish ✅
+## 🚦 Текущий спринт — `033` Аудит интерфейса и UX-переработка ✅
 
-| Track | Progress |
-| --- | --- |
-| Z-index hierarchy | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Track card variants | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Glassmorphism consistency | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Touch feedback | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Задача                                            | Прогресс                                                          |
+| ------------------------------------------------- | ----------------------------------------------------------------- |
+| Dialog→BottomSheet по умолчанию на мобильных      | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Области касания ≥ 44px                            | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Визард генерации 6→4 шага                         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Инлайн-фильтры библиотеки                         | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Троттлинг монетизации                             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Микро-взаимодействия (взрыв лайка, пульсация PTR) | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Режим Studio Lite/Pro                             | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
+| Комментарии с таймкодами                          | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 
-## 🚦 Next up — `033` UI Improvements (Q3 2026)
+## 🚦 Далее — `034` Надёжность генерации (Q3 2026)
 
-| Track | Progress |
-| --- | --- |
-| UI components update | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Bundle optimization | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
-| Performance improvements | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Задача                            | Прогресс                                                        |
+| --------------------------------- | --------------------------------------------------------------- |
+| Снижение частоты ошибок 12% → <8% | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| Улучшение логики повторов         | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
+| E2E покрытие тестами              | ![](https://img.shields.io/badge/0%25-475569?style=flat-square) |
 
-## 🧮 Key metrics
+## 🧮 Ключевые метрики
 
-| Metric | Value | Target |
-| --- | :---: | :---: |
-| Components | 935+ | — |
-| Hooks | 200+ | — |
-| Edge Functions | 80+ | — |
-| Bundle size (gzip) | **918 KB** | ≤ 950 KB ✅ |
-| Unit test coverage | **82%** | ≥ 80% ✅ |
-| E2E specs | 47 | — |
-| Lighthouse (mobile) | 92 | ≥ 90 ✅ |
-| Accessibility (axe) | 0 critical | 0 ✅ |
-| Sentry error rate (24h) | 0.04% | < 0.1% ✅ |
+| Метрика                |   Значение    |    Цель     |
+| ---------------------- | :-----------: | :---------: |
+| Компоненты             |     940+      |      —      |
+| Хуки                   |     200+      |      —      |
+| Edge Functions         |      80+      |      —      |
+| Размер бандла (gzip)   |  **918 КБ**   | ≤ 950 КБ ✅ |
+| Покрытие unit-тестами  |    **82%**    |  ≥ 80% ✅   |
+| E2E спецификации       |      47       |      —      |
+| Lighthouse (мобильный) |      92       |   ≥ 90 ✅   |
+| Доступность (axe)      | 0 критических |    0 ✅     |
+| Ошибки Sentry (24ч)    |     0.04%     |  < 0.1% ✅  |
 
-## 🏗 Architecture pillars
+## 🏗 Архитектурные столпы
 
 ```mermaid
 mindmap
   root((MusicVerse AI))
-    Studio
+    Студия
       Unified Studio Mobile
-      Mixer
-      Section editor
-      Stems
-    Generation
+      Микшер
+      Редактор секций
+      Стемы
+    Генерация
       Suno v5
-      Voice cloning
-      Lyrics AI
+      Клонирование голоса
+      ИИ-тексты
     Telegram
       MainButton
-      Haptics
+      Вибрация
       Stories
-      Deep links
-    Cloud
+      Дип-линки
+    Облако
       Postgres + RLS
       Edge Functions
       Realtime
-      Storage
+      Хранилище
 ```
 
-## ✅ Recent wins (last 30 days)
+## ✅ Последние достижения (за 30 дней)
 
-- 🚀 Bundle reduced from 1.02 MB → 918 KB.
-- ✅ E2E mobile job stabilised (Mobile Chrome + Mobile Safari).
-- ✅ Dev-overlay hardened: pointer-events guard, IME-safe hotkey.
-- ✅ Stems-ready auto-modal removed (memory constraint added).
-- 📝 Documentation overhaul (this redesign).
+- ✅ Спринт 033: Полный аудит интерфейса — 18 задач в 4 фазах.
+- ✅ Визард генерации упрощён с 6 до 4 шагов.
+- ✅ Режим Studio Lite/Pro для снижения когнитивной нагрузки.
+- ✅ Комментарии с таймкодами (как в SoundCloud).
+- ✅ Троттлинг монетизации — макс. 1 баннер за сессию.
+- 🚀 Бандл уменьшен с 1.02 МБ → 918 КБ.
+- ✅ E2E мобильная задача стабилизирована (Mobile Chrome + Mobile Safari).
+- ✅ Dev-overlay усилен: защита pointer-events, IME-безопасный хоткей.
+- ✅ Автомодалка «Стемы готовы» удалена (добавлено ограничение памяти).
+- 📝 Редизайн документации.
 
-## 🚨 Active blockers
+## 🚨 Активные блокеры
 
-None at the time of writing. Watch list:
-- iOS Safari audio element pool nearing 9/10 in heavy sessions.
-- Suno API rate-limits during peak hours.
+Нет на момент написания. Под наблюдением:
+
+- Пул аудио-элементов iOS Safari приближается к 9/10 в тяжёлых сессиях.
+- Лимиты Suno API в часы пик.
 
 ---
 
 <div align="center">
 
-### 🔗 Related Documentation
+### 🔗 Связанная документация
 
-| 📚 Index | 🗺 Roadmap | 📝 Changelog | 🪲 Issues | 🤝 Contributing |
-| :---: | :---: | :---: | :---: | :---: |
-| [Index](DOCUMENTATION_INDEX.md) | [Roadmap](ROADMAP.md) | [Changelog](CHANGELOG.md) | [Issues](KNOWN_ISSUES_TRACKED.md) | [Contributing](CONTRIBUTING.md) |
+|            📚 Указатель             |      🗺 Дорожная карта       |  📝 Журнал изменений   |             🪲 Проблемы             |         🤝 Контрибуция         |
+| :---------------------------------: | :--------------------------: | :--------------------: | :---------------------------------: | :----------------------------: |
+| [Указатель](DOCUMENTATION_INDEX.md) | [Дорожная карта](ROADMAP.md) | [Журнал](CHANGELOG.md) | [Проблемы](KNOWN_ISSUES_TRACKED.md) | [Контрибуция](CONTRIBUTING.md) |
 
-<sub>Last updated: 2026-06-27</sub>
+<sub>Последнее обновление: 2026-06-28</sub>
 
 </div>

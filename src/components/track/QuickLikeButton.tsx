@@ -15,6 +15,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { notify } from "@/lib/notifications";
 import { pill } from "@/lib/overlay-colors";
 
+const BURST_ANGLES = Array.from({ length: 6 }, (_, i) => (i * Math.PI * 2) / 6);
+
 interface QuickLikeButtonProps {
   trackId: string;
   isLiked?: boolean;
@@ -64,7 +66,7 @@ export const QuickLikeButton = memo(function QuickLikeButton({
 
       // Start animation
       setIsAnimating(true);
-      setTimeout(() => setIsAnimating(false), 300);
+      setTimeout(() => setIsAnimating(false), 450);
 
       // Toggle like
       toggleLike();
@@ -116,7 +118,7 @@ export const QuickLikeButton = memo(function QuickLikeButton({
       onClick={handleClick}
       disabled={isLoading}
       className={cn(
-        "flex items-center justify-center gap-1",
+        "relative flex items-center justify-center gap-1",
         sizeClasses[size],
         variantClasses[variant],
         isLoading && "opacity-50 cursor-not-allowed",
@@ -125,6 +127,29 @@ export const QuickLikeButton = memo(function QuickLikeButton({
       aria-label={currentIsLiked ? "Убрать лайк" : "Поставить лайк"}
       aria-pressed={currentIsLiked}
     >
+      {/* Burst particles on like */}
+      <AnimatePresence>
+        {isAnimating && currentIsLiked && (
+          <>
+            {BURST_ANGLES.map((angle, i) => (
+              <motion.span
+                key={`burst-${i}`}
+                className="absolute w-1.5 h-1.5 rounded-full bg-red-500"
+                initial={{ scale: 1, x: 0, y: 0, opacity: 1 }}
+                animate={{
+                  x: Math.cos(angle) * 16,
+                  y: Math.sin(angle) * 16,
+                  scale: 0,
+                  opacity: 0,
+                }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              />
+            ))}
+          </>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence mode="wait">
         <motion.div
           key={currentIsLiked ? "liked" : "unliked"}

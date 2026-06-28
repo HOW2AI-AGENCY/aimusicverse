@@ -26,7 +26,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { logger } from "@/lib/logger";
-import type { ViewMode } from "./types";
+import type { ViewMode, StudioMode } from "./types";
 import { createDefaultViewSettings } from "./types";
 
 const viewLogger = logger.child({ module: "ViewStore" });
@@ -45,6 +45,8 @@ interface ViewState {
   snapToGrid: boolean;
   /** Grid subdivision size */
   gridSize: number;
+  /** Studio complexity mode */
+  studioMode: StudioMode;
 
   /** Set zoom level */
   setZoom: (zoom: number) => void;
@@ -54,6 +56,8 @@ interface ViewState {
   setSnapToGrid: (snap: boolean) => void;
   /** Set grid subdivision size */
   setGridSize: (size: number) => void;
+  /** Set studio mode (lite/pro) */
+  setStudioMode: (mode: StudioMode) => void;
   /** Reset all view settings to defaults */
   resetView: () => void;
 }
@@ -65,6 +69,7 @@ export const useViewStore = create<ViewState>()(
     (set, get) => ({
       // Initial state
       ...createDefaultViewSettings(),
+      studioMode: "lite" as StudioMode,
 
       /**
        * Set zoom level
@@ -96,6 +101,14 @@ export const useViewStore = create<ViewState>()(
       setGridSize: (size: number) => {
         set({ gridSize: size });
         viewLogger.debug("Grid size changed", { size });
+      },
+
+      /**
+       * Set studio mode
+       */
+      setStudioMode: (mode: StudioMode) => {
+        set({ studioMode: mode });
+        viewLogger.info("Studio mode changed", { mode });
       },
 
       /**

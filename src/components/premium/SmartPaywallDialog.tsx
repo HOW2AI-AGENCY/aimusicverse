@@ -17,6 +17,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { navigateTo, getGlobalNavigate } from "@/hooks/useAppNavigate";
 import type { PaywallTriggerReason } from "@/hooks/usePaywallTrigger";
 import { trackEvent } from "@/services/analytics";
+import { useUpsellThrottle } from "@/hooks/useUpsellThrottle";
 
 interface SmartPaywallDialogProps {
   open: boolean;
@@ -92,6 +93,7 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
   onPaywallShown,
 }: SmartPaywallDialogProps) {
   const { user } = useAuth();
+  const { canShow: canShowPaywall, recordShown: recordPaywallShown } = useUpsellThrottle("paywall");
   const [isLoading, setIsLoading] = useState(false);
   const [showTrial, setShowTrial] = useState(true);
 
@@ -108,9 +110,10 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
   const messaging = MESSAGING[reason] || MESSAGING.soft_upsell;
   const Icon = messaging.icon;
 
-  // Track paywall view
+  // Track paywall view and enforce throttle
   useEffect(() => {
-    if (open) {
+    if (open && canShowPaywall) {
+      recordPaywallShown();
       trackEvent({
         eventType: "paywall_view",
         metadata: {
@@ -120,8 +123,11 @@ export const SmartPaywallDialog = memo(function SmartPaywallDialog({
         },
       });
       onPaywallShown?.();
+    } else if (open && !canShowPaywall) {
+      logger.info("Paywall throttled — cooldown active", { reason });
+      onClose();
     }
-  }, [open, reason, generationCount, messaging.variant, onPaywallShown]);
+  }, [open, canShowPaywall, reason, generationCount, messaging.variant, onPaywallShown, onClose, recordPaywallShown]);
 
   const handleStartTrial = async () => {
     if (!user) {

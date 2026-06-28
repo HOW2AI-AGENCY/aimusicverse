@@ -4,16 +4,16 @@
 
 # 🎵 MusicVerse AI
 
-**Professional AI-powered music creation — delivered as a Telegram Mini App.**
+**Профессиональная платформа для создания музыки с ИИ — в формате Telegram Mini App.**
 
-Generate, edit, mix, and publish music end-to-end without leaving Telegram.
+Генерируйте, редактируйте, сводите и публикуйте музыку, не выходя из Telegram.
 
 <p>
   <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/HOW2AI-AGENCY/aimusicverse/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&color=10B981"/></a>
-  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/releases"><img alt="Version" src="https://img.shields.io/github/v/release/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&color=475569"/></a>
-  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/></a>
-  <a href="https://codecov.io/gh/HOW2AI-AGENCY/aimusicverse"><img alt="Coverage" src="https://img.shields.io/codecov/c/github/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&logo=codecov&logoColor=white&color=10B981"/></a>
-  <img alt="Bundle" src="https://img.shields.io/badge/bundle-%3C950kb-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
+  <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/releases"><img alt="Версия" src="https://img.shields.io/github/v/release/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&color=475569"/></a>
+  <a href="LICENSE"><img alt="Лицензия: MIT" src="https://img.shields.io/badge/license-MIT-475569?style=for-the-badge"/></a>
+  <a href="https://codecov.io/gh/HOW2AI-AGENCY/aimusicverse"><img alt="Покрытие" src="https://img.shields.io/codecov/c/github/HOW2AI-AGENCY/aimusicverse?style=for-the-badge&logo=codecov&logoColor=white&color=10B981"/></a>
+  <img alt="Бандл" src="https://img.shields.io/badge/bundle-%3C950kb-10B981?style=for-the-badge&logo=webpack&logoColor=white"/>
   <a href="https://t.me/AIMusicVerseBot"><img alt="Telegram" src="https://img.shields.io/badge/Telegram-Mini_App-26A5E4?style=for-the-badge&logo=telegram&logoColor=white"/></a>
 </p>
 
@@ -29,83 +29,83 @@ Generate, edit, mix, and publish music end-to-end without leaving Telegram.
 <!-- BADGES:END -->
 
 <p>
-  <a href="#-quick-start"><img src="https://img.shields.io/badge/🚀-Quick_Start-26A5E4?style=for-the-badge"/></a>
-  <a href="#-features"><img src="https://img.shields.io/badge/✨-Features-9333EA?style=for-the-badge"/></a>
-  <a href="#-architecture"><img src="https://img.shields.io/badge/🏛-Architecture-475569?style=for-the-badge"/></a>
-  <a href="DOCUMENTATION_INDEX.md"><img src="https://img.shields.io/badge/📚-Docs-10B981?style=for-the-badge"/></a>
-  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/🤝-Contributing-F59E0B?style=for-the-badge"/></a>
-  <a href="ROADMAP.md"><img src="https://img.shields.io/badge/🗺-Roadmap-EF4444?style=for-the-badge"/></a>
+  <a href="#-быстрый-старт"><img src="https://img.shields.io/badge/🚀-Быстрый_старт-26A5E4?style=for-the-badge"/></a>
+  <a href="#-возможности"><img src="https://img.shields.io/badge/✨-Возможности-9333EA?style=for-the-badge"/></a>
+  <a href="#-архитектура"><img src="https://img.shields.io/badge/🏛-Архитектура-475569?style=for-the-badge"/></a>
+  <a href="DOCUMENTATION_INDEX.md"><img src="https://img.shields.io/badge/📚-Документация-10B981?style=for-the-badge"/></a>
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/🤝-Контрибуция-F59E0B?style=for-the-badge"/></a>
+  <a href="ROADMAP.md"><img src="https://img.shields.io/badge/🗺-Дорожная_карта-EF4444?style=for-the-badge"/></a>
 </p>
 
-[🇷🇺 Русская версия](README_RU.md) · [🌐 Live preview](https://aimusicverse.lovable.app) · [💬 Telegram bot](https://t.me/AIMusicVerseBot)
+[🌐 Демо](https://aimusicverse.lovable.app) · [💬 Telegram бот](https://t.me/AIMusicVerseBot)
 
 </div>
 
 ---
 
 > [!NOTE]
-> **MusicVerse AI** pairs **Suno AI v5** with a full DAW-style mobile studio, AI-assisted lyrics, stem separation, MIDI transcription, gamification, and Telegram-native UX (haptics, MainButton, Stories sharing) — all inside Telegram.
+> **MusicVerse AI** объединяет **Suno AI v5** с полноценной мобильной DAW-студией, ИИ-текстами, разделением стемов, MIDI-транскрипцией, геймификацией и нативным Telegram UX (вибрация, MainButton, публикация в Stories) — всё внутри Telegram.
 
-## Table of Contents
+## Содержание
 
-- [Why MusicVerse](#-why-musicverse)
-- [Features](#-features)
-- [Demo](#-demo)
-- [Quick Start](#-quick-start)
-- [Architecture](#-architecture)
-- [Tech Stack](#-tech-stack)
-- [Project Structure](#-project-structure)
-- [Testing & Quality](#-testing--quality)
-- [Documentation](#-documentation)
-- [Roadmap](#-roadmap-snapshot)
-- [Contributing](#-contributing)
-- [License](#-license)
-
----
-
-## 💡 Why MusicVerse
-
-Most AI music tools are standalone web apps that require context-switching. MusicVerse brings **the entire music creation workflow** directly into Telegram:
-
-- **Zero friction** — no sign-up forms, no app installs. Open the bot, tap "Create," and go.
-- **Full studio on mobile** — 16-channel mixer, stem separation, MIDI export, waveform editing. Not a toy.
-- **Social by default** — share to Stories, collaborate in real-time, build a following — all inside the messenger your audience already uses.
-- **A/B everything** — every generation produces two versions. Compare, extend, remix, iterate.
+- [Почему MusicVerse](#-почему-musicverse)
+- [Возможности](#-возможности)
+- [Демо](#-демо)
+- [Быстрый старт](#-быстрый-старт)
+- [Архитектура](#-архитектура)
+- [Стек технологий](#-стек-технологий)
+- [Структура проекта](#-структура-проекта)
+- [Тестирование и качество](#-тестирование-и-качество)
+- [Документация](#-документация)
+- [Дорожная карта](#-дорожная-карта)
+- [Контрибуция](#-контрибуция)
+- [Лицензия](#-лицензия)
 
 ---
 
-## ✨ Features
+## 💡 Почему MusicVerse
 
-| Category | Capability | Status |
-| --- | --- | :---: |
-| 🤖 **Generation** | Suno v5 — 277+ styles, custom lyrics, instrumentals, A/B versions, extend & remix | ✅ |
-| 🎙️ **Voice Cloning** | 6-step voice clone, personalised generation, cross-genre library | ✅ |
-| 🎛️ **Studio** | 16-channel mixer, timeline, section regeneration, A/B comparison | ✅ |
-| 🪓 **Stems** | 4-stem separation (vocals · drums · bass · other) with mixer | ✅ |
-| 🎼 **MIDI** | 6 AI transcription models, multi-track export | ✅ |
-| 📝 **Lyrics AI** | 10+ tools — rhythm, rhyme, structure, translate, generate | ✅ |
-| 👥 **Social** | Profiles, likes, comments, follows, leaderboards, referrals | ✅ |
-| 🎮 **Gamification** | Daily check-ins, streaks, XP, 20+ achievements, Stars rewards | ✅ |
-| 💳 **Monetisation** | Telegram Stars, tiered subscriptions, credit packs | ✅ |
-| 📱 **Telegram-native** | MainButton, BackButton, haptics, Stories share, deep-links | ✅ |
-| 🧠 **Realtime co-creation** | Collaborative session, presence, live waveform | 🚧 |
-| 🌍 **Marketplace** | Sell beats / loops / voices | 📋 |
+Большинство ИИ-инструментов для музыки — отдельные веб-приложения, требующие переключения контекста. MusicVerse переносит **весь процесс создания музыки** прямо в Telegram:
+
+- **Без барьеров** — никаких регистраций и установок. Откройте бота, нажмите «Создать» и вперёд.
+- **Полноценная студия на мобильном** — 16-канальный микшер, разделение стемов, MIDI-экспорт, редактор волновой формы. Не игрушка.
+- **Социальность по умолчанию** — делитесь в Stories, работайте совместно в реальном времени, набирайте аудиторию — всё в мессенджере, где ваши слушатели уже есть.
+- **A/B тестирование** — каждая генерация создаёт две версии. Сравнивайте, продлевайте, ремиксуйте, итерируйте.
 
 ---
 
-## 🖼 Demo
+## ✨ Возможности
 
-<!-- Replace with actual screenshots or a GIF recording of the app -->
+| Категория                  | Функционал                                                                          | Статус |
+| -------------------------- | ----------------------------------------------------------------------------------- | :----: |
+| 🤖 **Генерация**           | Suno v5 — 277+ стилей, свои тексты, инструменталы, A/B версии, продление и ремиксы  |   ✅   |
+| 🎙️ **Клонирование голоса** | 6-шаговый процесс, персонализированная генерация, кросс-жанровая библиотека         |   ✅   |
+| 🎛️ **Студия**              | 16-канальный микшер, таймлайн, перегенерация секций, A/B сравнение, режимы Lite/Pro |   ✅   |
+| 🪓 **Стемы**               | 4-стемное разделение (вокал · ударные · бас · другое) с микшером                    |   ✅   |
+| 🎼 **MIDI**                | 6 ИИ-моделей транскрипции, многодорожечный экспорт                                  |   ✅   |
+| 📝 **ИИ-тексты**           | 10+ инструментов — ритм, рифма, структура, перевод, генерация                       |   ✅   |
+| 👥 **Социальное**          | Профили, лайки, комментарии (с таймкодами), подписки, рейтинги, рефералы            |   ✅   |
+| 🎮 **Геймификация**        | Ежедневные чек-ины, серии, XP, 20+ достижений, награды Stars                        |   ✅   |
+| 💳 **Монетизация**         | Telegram Stars, тарифные подписки, пакеты кредитов, умный троттлинг                 |   ✅   |
+| 📱 **Telegram-нативный**   | MainButton, BackButton, вибрация, Stories, дип-линки                                |   ✅   |
+| 🧠 **Совместное создание** | Коллаборативные сессии, присутствие, live-волновая форма                            |   🚧   |
+| 🌍 **Маркетплейс**         | Продажа битов / лупов / голосов                                                     |   📋   |
+
+---
+
+## 🖼 Демо
+
+<!-- Замените на скриншоты или GIF-запись приложения -->
 
 <div align="center">
 
-> Screenshots and demo video coming soon. Try the live app at [@AIMusicVerseBot](https://t.me/AIMusicVerseBot).
+> Скриншоты и демо-видео скоро будут. Попробуйте приложение: [@AIMusicVerseBot](https://t.me/AIMusicVerseBot).
 
 </div>
 
 ---
 
-## 🏛 Architecture
+## 🏛 Архитектура
 
 ```mermaid
 flowchart LR
@@ -120,47 +120,47 @@ flowchart LR
         Storage[Object Storage]
         Realtime[Realtime]
     end
-    subgraph AI["🤖 AI Providers"]
+    subgraph AI["🤖 ИИ-провайдеры"]
         Suno[Suno AI v5]
         Klang[Klang.io MIDI]
     end
     Client <-->|REST + Realtime| Cloud
     Edge -->|HTTPS| AI
-    Edge -->|notify| Bot[🤖 Telegram Bot]
-    Bot -->|Stories · audio| Client
+    Edge -->|уведомления| Bot[🤖 Telegram Bot]
+    Bot -->|Stories · аудио| Client
 ```
 
 <details>
-<summary><b>Data flow pattern</b></summary>
+<summary><b>Паттерн потока данных</b></summary>
 
 ```
 API Layer (src/api/) → Service Layer (src/services/) → Hooks (src/hooks/) → Components (src/components/)
 ```
 
-- **API Layer** — Direct Supabase queries, type-safe
-- **Service Layer** — Business logic, data transformation
-- **Hook Layer** — React Query integration, state management
-- **Component Layer** — UI presentation (935+ components)
+- **API Layer** — прямые запросы к Supabase, типизированные
+- **Service Layer** — бизнес-логика, трансформация данных
+- **Hook Layer** — интеграция с React Query, управление состоянием
+- **Component Layer** — UI-представление (940+ компонентов)
 
 </details>
 
-Full diagrams: [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) · [`docs/ARCHITECTURE_DIAGRAMS.md`](docs/ARCHITECTURE_DIAGRAMS.md)
+Полные диаграммы: [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) · [`docs/ARCHITECTURE_DIAGRAMS.md`](docs/ARCHITECTURE_DIAGRAMS.md)
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Быстрый старт
 
 <details open>
-<summary><b>Prerequisites</b></summary>
+<summary><b>Предварительные требования</b></summary>
 
 - Node.js **>= 20**
-- npm **>= 10** (or pnpm / bun)
-- Telegram desktop / mobile client (for Mini App testing)
+- npm **>= 10** (или pnpm / bun)
+- Telegram Desktop / мобильный клиент (для тестирования Mini App)
 
 </details>
 
 <details open>
-<summary><b>Install &amp; run</b></summary>
+<summary><b>Установка и запуск</b></summary>
 
 ```bash
 git clone https://github.com/HOW2AI-AGENCY/aimusicverse.git
@@ -172,51 +172,53 @@ npm run dev          # → http://localhost:8080
 </details>
 
 <details>
-<summary><b>All scripts</b></summary>
+<summary><b>Все команды</b></summary>
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Vite dev server (port 8080) |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build |
-| `npm test` | Vitest unit tests |
-| `npm run test:coverage` | Coverage report |
-| `npm run test:e2e` | Playwright E2E |
-| `npm run test:e2e:mobile` | Mobile emulation E2E (Pixel 5, iPhone 12) |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier |
-| `npm run size` | Bundle-size guard (max 950 KB) |
-| `npm run storybook` | Storybook on :6006 |
+| Команда                   | Назначение                                  |
+| ------------------------- | ------------------------------------------- |
+| `npm run dev`             | Dev-сервер Vite (порт 8080)                 |
+| `npm run build`           | Продакшн-сборка                             |
+| `npm run preview`         | Предпросмотр продакшн-сборки                |
+| `npm test`                | Unit-тесты Vitest                           |
+| `npm run test:coverage`   | Отчёт о покрытии                            |
+| `npm run test:e2e`        | E2E-тесты Playwright                        |
+| `npm run test:e2e:mobile` | E2E мобильная эмуляция (Pixel 5, iPhone 12) |
+| `npm run lint`            | ESLint                                      |
+| `npm run format`          | Prettier                                    |
+| `npm run size`            | Контроль размера бандла (макс. 950 КБ)      |
+| `npm run storybook`       | Storybook на :6006                          |
 
 </details>
 
 <details>
-<summary><b>Environment variables</b></summary>
+<summary><b>Переменные окружения</b></summary>
 
-See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Supabase credentials (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`) are auto-injected in Lovable Cloud. Never commit `.env` files.
+См. [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Данные Supabase (`VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`) автоматически подставляются в Lovable Cloud. Никогда не коммитьте `.env` файлы.
 
 </details>
 
 ---
 
-## 🧱 Tech Stack
+## 🧱 Стек технологий
 
 <table>
 <tr>
 <td valign="top" width="50%">
 
-**Frontend**
+**Фронтенд**
+
 - React 19.2 · TypeScript 5.9 · Vite 5
 - Tailwind 3.4 · shadcn/ui · Radix UI
 - Zustand 5 · TanStack Query 5.90
-- Framer Motion (tree-shaken via `@/lib/motion`)
+- Framer Motion (tree-shaking через `@/lib/motion`)
 - React Hook Form + Zod
 - react-virtuoso · vaul
 
 </td>
 <td valign="top" width="50%">
 
-**Backend & AI**
+**Бэкенд и ИИ**
+
 - Supabase — Postgres · Edge Functions · Storage · Realtime
 - Suno AI v5 · Klang.io MIDI
 - 80+ Deno Edge Functions
@@ -227,19 +229,21 @@ See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Supabase c
 <tr>
 <td valign="top">
 
-**Audio**
+**Аудио**
+
 - Tone.js 14.9 · Wavesurfer.js 7.8
-- Single `<audio>` element via `GlobalAudioProvider`
-- iOS-safe audio element pool
-- IndexedDB waveform cache
+- Единый элемент `<audio>` через `GlobalAudioProvider`
+- Безопасный для iOS пул аудио-элементов
+- Кэш волновых форм в IndexedDB
 
 </td>
 <td valign="top">
 
-**Quality**
+**Качество**
+
 - Vitest 4 · Playwright 1.57
 - ESLint · Prettier · Husky · commitlint
-- size-limit (950 KB budget)
+- size-limit (бюджет 950 КБ)
 - axe-core a11y · Storybook
 
 </td>
@@ -248,229 +252,224 @@ See [`docs/ENVIRONMENT_VARIABLES.md`](docs/ENVIRONMENT_VARIABLES.md). Supabase c
 
 ---
 
-## 📂 Project Structure
+## 📂 Структура проекта
 
 ```text
 aimusicverse/
 ├── src/
-│   ├── components/       # 935+ React components (player, studio, generate, lyrics, ...)
-│   ├── hooks/            # 200+ custom hooks (audio, generation, studio, telegram)
-│   ├── stores/           # 8 Zustand stores (player, studio, lyrics, mixer)
-│   ├── services/         # 13 service modules (business logic)
-│   ├── api/              # 13 API modules (Supabase queries)
-│   ├── pages/            # 40+ lazy-loaded route pages
-│   ├── contexts/         # React Context providers (Auth, Theme, Telegram)
-│   └── lib/              # Utilities (logger, errors, audio, motion)
-├── supabase/             # 80+ Edge Functions, migrations, config
-├── docs/                 # Architecture, API, guides, design system
+│   ├── components/       # 940+ React-компонентов (плеер, студия, генерация, тексты, ...)
+│   ├── hooks/            # 200+ пользовательских хуков (аудио, генерация, студия, telegram)
+│   ├── stores/           # 8 Zustand-хранилищ (плеер, студия, тексты, микшер)
+│   ├── services/         # 13 сервисных модулей (бизнес-логика)
+│   ├── api/              # 13 API-модулей (запросы к Supabase)
+│   ├── pages/            # 40+ страниц с ленивой загрузкой
+│   ├── contexts/         # React Context провайдеры (Auth, Theme, Telegram)
+│   └── lib/              # Утилиты (логгер, ошибки, аудио, анимации)
+├── supabase/             # 80+ Edge Functions, миграции, конфиг
+├── docs/                 # Архитектура, API, гайды, дизайн-система
 ├── tests/                # Unit (Vitest) + E2E (Playwright)
-├── ADR/                  # Architecture decision records
-├── SPRINTS/              # Sprint planning & tracking
-└── specs/                # Technical specifications
+├── ADR/                  # Записи архитектурных решений
+├── SPRINTS/              # Планирование и отслеживание спринтов
+└── specs/                # Технические спецификации
 ```
 
-Detailed tree: [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md)
+Подробная структура: [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md)
 
 ---
 
-## 🧪 Testing & Quality
+## 🧪 Тестирование и качество
 
 ```bash
-npm test                  # Unit tests (Vitest)
-npm run test:coverage     # Coverage report
-npm run test:e2e          # E2E — desktop + mobile (Playwright)
-npm run test:e2e:mobile   # Mobile only — Pixel 5 + iPhone 12
-npm run size              # Bundle budget guard (max 950 KB)
+npm test                  # Unit-тесты (Vitest)
+npm run test:coverage     # Отчёт о покрытии
+npm run test:e2e          # E2E — десктоп + мобильный (Playwright)
+npm run test:e2e:mobile   # Только мобильные — Pixel 5 + iPhone 12
+npm run size              # Контроль бюджета бандла (макс. 950 КБ)
 ```
 
 > [!IMPORTANT]
-> CI runs split jobs for desktop E2E and mobile E2E (Chrome + Safari). Z-index, IME, and dev-overlay specs are mandatory gates. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+> CI разделяет задачи на `e2e` + `e2e-mobile` с повторами. Z-index, IME и dev-overlay тесты обязательны. См. [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 ---
 
-## 🛟 Troubleshooting: white screen / app won't load
+## 🛟 Устранение неполадок: белый экран / приложение не загружается
 
-Use these scripts when the app refuses to boot, you see a blank screen,
-or `Загрузка занимает больше времени...` hangs in the browser.
+Используйте эти скрипты, когда приложение не загружается, вы видите белый экран или `Загрузка занимает больше времени...` зависает в браузере.
 
 ```bash
-npm run check:css-imports   # Validate @import order in src/index.css
-npm run clean:cache         # Wipe node_modules/.vite, dist, .turbo, coverage
-npm run reset               # clean:cache + npm install + full rebuild
+npm run check:css-imports   # Проверка порядка @import в src/index.css
+npm run clean:cache         # Очистка node_modules/.vite, dist, .turbo, coverage
+npm run reset               # clean:cache + npm install + полная пересборка
 ```
 
-| Symptom | Run first | Why |
-| --- | --- | --- |
-| White screen after a CSS edit | `npm run check:css-imports` | Misplaced `@import` in `src/index.css` is silently dropped by Vite and breaks all styles. The script points at the exact line and shows the correct structure. |
-| Dev server stuck / stale modules / weird HMR | `npm run clean:cache` then `npm run dev` | Clears `node_modules/.vite` + other caches that survive code changes. |
-| "Works in prod, broken locally" or vice versa | `npm run reset` | Full clean install + production build from scratch. |
-| CI build fails with CSS errors | Read the `vite-build-log` artifact in the PR | Full `vite build` stdout/stderr is uploaded on every PR; the `smoke-boot-log` artifact also contains `musicverse_boot_log` and any captured stack traces. |
+| Симптом                                             | Первая команда                             | Причина                                                                                                                                            |
+| --------------------------------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Белый экран после правки CSS                        | `npm run check:css-imports`                | Неправильный `@import` в `src/index.css` тихо отбрасывается Vite и ломает все стили. Скрипт указывает на строку и показывает правильную структуру. |
+| Dev-сервер завис / устаревшие модули / странный HMR | `npm run clean:cache`, затем `npm run dev` | Очищает `node_modules/.vite` и другие кэши, которые переживают изменения кода.                                                                     |
+| «Работает в проде, сломано локально» или наоборот   | `npm run reset`                            | Полная чистая установка + продакшн-сборка с нуля.                                                                                                  |
+| CI-сборка падает с CSS-ошибками                     | Читайте артефакт `vite-build-log` в PR     | Полный stdout/stderr `vite build` загружается в каждом PR.                                                                                         |
 
-`check:css-imports` runs automatically:
+`check:css-imports` запускается автоматически:
 
-- on every commit via Husky `pre-commit` (commit is blocked on violation),
-- before every `npm run build` (`prebuild` hook),
-- in CI before `vite build`.
+- на каждом коммите через Husky `pre-commit` (коммит блокируется при нарушении),
+- перед каждым `npm run build` (хук `prebuild`),
+- в CI перед `vite build`.
 
-### Smoke tests (local, same as CI)
+### Smoke-тесты (локально, аналогично CI)
 
 ```bash
-npm run test:smoke              # serial: chromium + firefox + webkit
-npm run test:smoke:matrix       # parallel matrix (3 workers, 1 per browser)
-npm run test:smoke:chromium     # one engine, fastest
-npm run test:smoke:report       # open the latest HTML report
-bash scripts/e2e.sh --parallel  # equivalent helper with per-browser stdout logs
+npm run test:smoke              # последовательно: chromium + firefox + webkit
+npm run test:smoke:matrix       # параллельная матрица (3 воркера, 1 на браузер)
+npm run test:smoke:chromium     # один движок, самый быстрый
+npm run test:smoke:report       # открыть последний HTML-отчёт
+bash scripts/e2e.sh --parallel  # эквивалентный хелпер с stdout-логами по браузерам
 BROWSERS="chromium webkit" bash scripts/e2e.sh
 ```
 
-The smoke spec boots the real React Router, validates the guest UI
-(`<main>` + nav landmark from `MainLayout`), opens `/auth` (auth surface),
-and visits `/studio-v2` to prove client-side routing.
+Smoke-спецификация запускает реальный React Router, проверяет гостевой UI (`<main>` + nav landmark из `MainLayout`), открывает `/auth` (авторизация) и переходит на `/studio-v2` для проверки клиентского роутинга.
 
-On **failure** it dumps a per-browser folder with everything needed to
-debug without re-running locally:
+При **ошибке** создаётся папка для каждого браузера со всем необходимым для отладки:
 
 `test-results/smoke/<browser>/`
-- `boot-log.json` — `musicverse_boot_log` from `sessionStorage`
-- `early-errors.json` — `window.__EARLY_ERRORS` captured by `index.html`
-- `console-errors.log` / `page-errors.log` — stack traces
-- `failed-requests.log` — 4xx/5xx + `requestfailed` events
-- `dom-map.json` — counts + samples for `main`, `nav`, `[data-testid]`, etc.
-- `failure-<ts>.png` — full-page screenshot
+
+- `boot-log.json` — `musicverse_boot_log` из `sessionStorage`
+- `early-errors.json` — `window.__EARLY_ERRORS`, захваченные `index.html`
+- `console-errors.log` / `page-errors.log` — стек-трейсы
+- `failed-requests.log` — 4xx/5xx + события `requestfailed`
+- `dom-map.json` — подсчёты для `main`, `nav`, `[data-testid]` и т.д.
+- `failure-<ts>.png` — полноэкранный скриншот
 - Playwright `trace.zip` + `video.webm` (`retain-on-failure`)
 
-Every PR also gets an auto-posted CI summary comment with one-click links to the `smoke-<browser>` artifacts.
+В каждый PR автоматически публикуется комментарий CI с ссылками на артефакты `smoke-<browser>`.
 
-### Auto-rerun only the failed browser
+### Автоматический перезапуск только упавшего браузера
 
-If the parallel matrix fails, replay **only** the broken project locally with forced `trace=on` + `video=on` — no need to re-run the whole matrix:
-
-```bash
-npm run e2e:smoke:rerun                    # parallel, auto-reruns the failed browser
-bash scripts/e2e.sh --rerun-failed         # same thing
-bash scripts/e2e.sh --rerun-failed chromium firefox   # restrict the matrix
-```
-
-Rerun artifacts land in `test-results/smoke/pw-output-<browser>-rerun/` so they don't overwrite the original logs.
-
-### Section design tokens (anti-brightness guard)
-
-A shared layout shell that paints itself with `bg-primary` / `bg-accent` / `bg-gradient-primary` makes the whole app neon-bright. Two guards stop that from coming back:
-
-| Command | When to run |
-| --- | --- |
-| `npm run check:section-tokens` | Before committing changes to `src/components/layout/Section.tsx` (also runs in `prebuild` + pre-commit + CI). |
-| `npm run check:section-tokens -- --fix` | **Codemod** — auto-replaces forbidden tokens (`bg-primary` → `bg-card/60`, `bg-gradient-primary` → `bg-gradient-to-br from-card/60 via-background to-muted/40`, etc.). |
-| `npm run check:design-tokens` | Aggregate: CSS `@import` order + Section tokens. |
-
-Need a one-off exception? Add `// section-tokens-allow-next-line` directly above the line (justify it in the PR — these should be rare). The same opt-out works inline: `bg-primary // section-tokens-allow`.
-
-The ESLint config mirrors this rule as a local plugin **`section-tokens/no-saturated-brand`** (rule id) wired for the same files (`Section.tsx`, `PageContainer.tsx`, `SafeLayout.tsx`). It is **auto-fixable**: `npm run lint:fix` (or "Fix on save" in your editor) rewrites forbidden tokens through the exact same codemod as `check:section-tokens -- --fix` — single source of truth lives in `scripts/check-section-tokens.mjs` (`FORBIDDEN` table + `rewriteText`). Unit tests: `tests/unit/check-section-tokens.test.ts` and `tests/unit/eslint-section-tokens.test.ts`.
-
-### Visual regression (Section + cards)
-
-Catches "too bright" regressions and gradient drift without a human eyeballing screenshots. Two layers: pixel snapshot per Section **and** an average-luminance assertion (`< 0.32` on the dark theme).
+Если параллельная матрица упала, повторите **только** сломанный проект с `trace=on` + `video=on`:
 
 ```bash
-npm run test:visual              # run against current code
-npm run test:visual:update       # refresh baselines after an INTENTIONAL color change
+npm run e2e:smoke:rerun                    # параллельно, автоперезапуск упавшего браузера
+bash scripts/e2e.sh --rerun-failed         # то же самое
+bash scripts/e2e.sh --rerun-failed chromium firefox   # ограничить матрицу
 ```
 
-Run `test:visual` whenever you touch:
-- `src/index.css` (color tokens)
+Артефакты перезапуска попадают в `test-results/smoke/pw-output-<browser>-rerun/`, не перезаписывая оригинальные логи.
+
+### Дизайн-токены секций (защита от яркости)
+
+Общий layout с `bg-primary` / `bg-accent` / `bg-gradient-primary` делает всё приложение неоново-ярким. Два защитных механизма:
+
+| Команда                                 | Когда запускать                                                                                        |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `npm run check:section-tokens`          | Перед коммитом изменений в `src/components/layout/Section.tsx` (также в `prebuild` + pre-commit + CI). |
+| `npm run check:section-tokens -- --fix` | **Кодмод** — автозамена запрещённых токенов (`bg-primary` → `bg-card/60` и т.д.).                      |
+| `npm run check:design-tokens`           | Агрегат: порядок CSS `@import` + токены секций.                                                        |
+
+Нужно исключение? Добавьте `// section-tokens-allow-next-line` над строкой.
+
+ESLint дублирует это правило как локальный плагин **`section-tokens/no-saturated-brand`** с автофиксом. Unit-тесты: `tests/unit/check-section-tokens.test.ts` и `tests/unit/eslint-section-tokens.test.ts`.
+
+### Визуальная регрессия (секции + карточки)
+
+Ловит «слишком яркие» регрессии и дрифт градиентов без ручного просмотра скриншотов. Два слоя: пиксельный снапшот и проверка средней яркости (`< 0.32` в тёмной теме).
+
+```bash
+npm run test:visual              # запуск на текущем коде
+npm run test:visual:update       # обновить базовые снапшоты после НАМЕРЕННОГО изменения цвета
+```
+
+Запускайте `test:visual` при изменениях в:
+
+- `src/index.css` (цветовые токены)
 - `tailwind.config.ts`
-- `src/components/layout/Section.tsx` or any shared card/section component
+- `src/components/layout/Section.tsx` или любых общих компонентах карточек/секций
 
-If it fails with `avg luminance … > 0.32`, the surface is too bright — fix the token, don't bump the threshold. If it fails on pixel diff but the change is intentional, run `test:visual:update` and commit the snapshots under `tests/e2e/visual.section.spec.ts-snapshots/`.
+При ошибке `avg luminance … > 0.32` — поверхность слишком яркая, исправьте токен. При пиксельном расхождении из-за намеренного изменения — запустите `test:visual:update` и закоммитьте снапшоты.
 
-### When to run what (CI failed?)
+### Что запускать (CI упал?)
 
-| Symptom | First command |
-| --- | --- |
-| White screen / app won't load | `npm run check:css-imports` then `npm run test:smoke:chromium` |
-| Smoke green locally, red in CI on one browser only | `npm run e2e:smoke:rerun` (matches CI matrix, retains video/trace) |
-| Sections look too bright / saturated | `npm run check:section-tokens` (then `-- --fix`), then `npm run test:visual` |
-| Bundler / cache acting weird | `npm run clean:cache` or `npm run reset` |
+| Симптом                                                | Первая команда                                                                 |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Белый экран / приложение не загружается                | `npm run check:css-imports`, затем `npm run test:smoke:chromium`               |
+| Smoke зелёный локально, красный в CI на одном браузере | `npm run e2e:smoke:rerun` (соответствует матрице CI)                           |
+| Секции слишком яркие / насыщенные                      | `npm run check:section-tokens` (затем `-- --fix`), затем `npm run test:visual` |
+| Бандлер / кэш ведёт себя странно                       | `npm run clean:cache` или `npm run reset`                                      |
 
 ---
 
+## 📚 Документация
 
-
-
-
-## 📚 Documentation
-
-| Section | Entry point |
-| --- | --- |
-| 📖 **Full index** | [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) |
-| 🏛 **Architecture hub** | [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) |
-| 🧩 **Knowledge base** | [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) |
-| 🗂 **Repo structure** | [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md) |
-| 🗺 **Roadmap** | [`ROADMAP.md`](ROADMAP.md) |
-| 📊 **Project status** | [`PROJECT_STATUS.md`](PROJECT_STATUS.md) |
-| 🪲 **Known issues** | [`KNOWN_ISSUES_TRACKED.md`](KNOWN_ISSUES_TRACKED.md) |
-| 🤝 **Contributing** | [`CONTRIBUTING.md`](CONTRIBUTING.md) |
-| 🔒 **Security** | [`SECURITY.md`](SECURITY.md) |
-| 📝 **Changelog** | [`CHANGELOG.md`](CHANGELOG.md) |
+| Раздел                       | Файл                                                 |
+| ---------------------------- | ---------------------------------------------------- |
+| 📖 **Полный указатель**      | [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md)   |
+| 🏛 **Архитектурный хаб**     | [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md)         |
+| 🧩 **База знаний**           | [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md)             |
+| 🗂 **Структура репозитория** | [`REPOSITORY_STRUCTURE.md`](REPOSITORY_STRUCTURE.md) |
+| 🗺 **Дорожная карта**        | [`ROADMAP.md`](ROADMAP.md)                           |
+| 📊 **Статус проекта**        | [`PROJECT_STATUS.md`](PROJECT_STATUS.md)             |
+| 🪲 **Известные проблемы**    | [`KNOWN_ISSUES_TRACKED.md`](KNOWN_ISSUES_TRACKED.md) |
+| 🤝 **Контрибуция**           | [`CONTRIBUTING.md`](CONTRIBUTING.md)                 |
+| 🔒 **Безопасность**          | [`SECURITY.md`](SECURITY.md)                         |
+| 📝 **Журнал изменений**      | [`CHANGELOG.md`](CHANGELOG.md)                       |
 
 > [!TIP]
-> **New here?** Start with [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md) then [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md) then [`CONTRIBUTING.md`](CONTRIBUTING.md).
-> **Building a feature?** Open [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) and pick your role-based onboarding path (Frontend, Backend, Design, PM, DevOps).
+> **Новичок?** Начните с [`KNOWLEDGE_BASE.md`](KNOWLEDGE_BASE.md), затем [`ARCHITECTURE_HUB.md`](ARCHITECTURE_HUB.md), затем [`CONTRIBUTING.md`](CONTRIBUTING.md).
+> **Разрабатываете фичу?** Откройте [`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md) и выберите путь онбординга по роли (Фронтенд, Бэкенд, Дизайн, PM, DevOps).
 
 ---
 
-## 🗺 Roadmap snapshot
+## 🗺 Дорожная карта
 
 ```mermaid
 gantt
     title MusicVerse AI — 2026
     dateFormat YYYY-MM
-    section Shipped
+    section Выпущено
     Unified Studio Mobile     :done, 2026-01, 2026-04
-    Voice Cloning             :done, 2026-03, 2026-05
-    section In progress
-    Realtime co-creation      :active, 2026-06, 2026-08
-    Marketplace MVP           :active, 2026-07, 2026-09
-    section Planned
-    Multi-language UI         : 2026-09, 2026-10
-    Public API                : 2026-10, 2026-12
+    Клонирование голоса       :done, 2026-03, 2026-05
+    Аудит интерфейса (033)    :done, 2026-06, 2026-06
+    section В работе
+    Совместное создание       :active, 2026-06, 2026-08
+    MVP Маркетплейса          :active, 2026-07, 2026-09
+    section Запланировано
+    Мультиязычный UI          : 2026-09, 2026-10
+    Публичный API             : 2026-10, 2026-12
 ```
 
-Full board: [`ROADMAP.md`](ROADMAP.md)
+Полная доска: [`ROADMAP.md`](ROADMAP.md)
 
 ---
 
-## 🤝 Contributing
+## 🤝 Контрибуция
 
-Pull requests, bug reports, and design ideas are welcome.
+Пулл-реквесты, баг-репорты и идеи по дизайну приветствуются.
 
-1. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for commit style, branch policy, and review process.
-2. Review [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
-3. Open an [issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) or start a [discussion](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions).
+1. Прочтите [`CONTRIBUTING.md`](CONTRIBUTING.md) — стиль коммитов, политика веток, процесс ревью.
+2. Ознакомьтесь с [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+3. Создайте [issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues) или начните [обсуждение](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions).
 
 <a href="https://github.com/HOW2AI-AGENCY/aimusicverse/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=HOW2AI-AGENCY/aimusicverse" alt="Contributors"/>
+  <img src="https://contrib.rocks/image?repo=HOW2AI-AGENCY/aimusicverse" alt="Контрибьюторы"/>
 </a>
 
 ---
 
-## 📄 License
+## 📄 Лицензия
 
-This project is licensed under the [MIT License](LICENSE).
+Проект лицензирован под [MIT License](LICENSE).
 
-Vulnerability disclosure: [`SECURITY.md`](SECURITY.md)
+Раскрытие уязвимостей: [`SECURITY.md`](SECURITY.md)
 
 ---
 
 <div align="center">
 
-| 📚 Index | 🏛 Architecture | 🗺 Roadmap | 🤝 Contributing | 🔒 Security | 📝 Changelog |
-| :---: | :---: | :---: | :---: | :---: | :---: |
-| [Index](DOCUMENTATION_INDEX.md) | [Hub](ARCHITECTURE_HUB.md) | [Roadmap](ROADMAP.md) | [Contributing](CONTRIBUTING.md) | [Security](SECURITY.md) | [Changelog](CHANGELOG.md) |
+|            📚 Указатель             |       🏛 Архитектура       |      🗺 Дорожная карта       |         🤝 Контрибуция         |       🔒 Безопасность       |  📝 Журнал изменений   |
+| :---------------------------------: | :------------------------: | :--------------------------: | :----------------------------: | :-------------------------: | :--------------------: |
+| [Указатель](DOCUMENTATION_INDEX.md) | [Хаб](ARCHITECTURE_HUB.md) | [Дорожная карта](ROADMAP.md) | [Контрибуция](CONTRIBUTING.md) | [Безопасность](SECURITY.md) | [Журнал](CHANGELOG.md) |
 
-**Made with ❤️ by the MusicVerse AI team**
+**Сделано с ❤️ командой MusicVerse AI**
 
-<sub>[Report issue](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) · [Discuss](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)</sub>
+<sub>[Сообщить о проблеме](https://github.com/HOW2AI-AGENCY/aimusicverse/issues/new) · [Обсудить](https://github.com/HOW2AI-AGENCY/aimusicverse/discussions)</sub>
 
 [![Star History Chart](https://api.star-history.com/svg?repos=HOW2AI-AGENCY/aimusicverse&type=Date)](https://star-history.com/#HOW2AI-AGENCY/aimusicverse&Date)
 

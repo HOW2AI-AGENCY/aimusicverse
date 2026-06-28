@@ -45,8 +45,8 @@ module.exports = {
     // Require type to be lowercase
     "type-case": [2, "always", "lower-case"],
 
-    // Header must start with type
-    "header-case": [2, "always", "lower-case"],
+    // Disable header-case (conflicts with sentence-case subject)
+    "header-case": [0],
   },
   parserPreset: {
     parserOpts: {

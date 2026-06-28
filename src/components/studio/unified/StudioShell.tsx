@@ -2,6 +2,7 @@ import { memo, useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useUnifiedStudioStore, ViewMode, TrackType, TRACK_COLORS, StudioTrack } from "@/stores/useUnifiedStudioStore";
+import { useViewStore } from "@/stores/studio";
 import { SortableTrackList } from "./SortableTrackList";
 import { StudioLyricsPanelCompact } from "@/components/stem-studio/StudioLyricsPanelCompact";
 import { StudioWaveformTimeline } from "./StudioWaveformTimeline";
@@ -59,6 +60,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
     loadProject, play, pause, stop, seek, toggleTrackMute, toggleTrackSolo,
     setTrackVolume, removeTrack, setMasterVolume, reorderTracks,
   } = useUnifiedStudioStore();
+
+  const { studioMode, setStudioMode } = useViewStore();
 
   // Dialog visibility states
   const [showAddTrackDialog, setShowAddTrackDialog] = useState(false);
@@ -455,6 +458,8 @@ export const StudioShell = memo(function StudioShell({ className }: StudioShellP
         isMobile={isMobile}
         viewMode={viewMode}
         onViewModeChange={(v) => setViewMode(v)}
+        studioMode={studioMode}
+        onStudioModeChange={setStudioMode}
         canUndo={canUndo()}
         canRedo={canRedo()}
         onUndo={undo}
