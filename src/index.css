@@ -10,6 +10,13 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* ── Sprint 038-B: Responsive Typography (clamp) ──────────── */
+    --text-display: clamp(2rem, 5vw, 3.5rem);
+    --text-heading: clamp(1.25rem, 3vw, 2rem);
+    --text-body: 1rem;
+    --text-caption: 0.875rem;
+    --text-overline: 0.75rem;
+
     /* Safe Area Insets для адаптации под устройства с notch, punch-hole, и т.д. */
     --safe-area-top: env(safe-area-inset-top, 0px);
     --safe-area-bottom: env(safe-area-inset-bottom, 0px);
@@ -18,18 +25,22 @@ All colors MUST be HSL.
 
     /* Telegram Safe Area Variables (устанавливаются автоматически из Telegram WebApp)
        Fallback значения соответствуют типичным iOS устройствам (iPhone 15 Pro) */
-    --tg-safe-area-inset-top: 44px; /* iOS notch/Dynamic Island fallback */
-    --tg-safe-area-inset-bottom: 34px; /* iOS home indicator fallback */
+    --tg-safe-area-inset-top: 44px;
+    /* iOS notch/Dynamic Island fallback */
+    --tg-safe-area-inset-bottom: 34px;
+    /* iOS home indicator fallback */
     --tg-safe-area-inset-left: 0px;
     --tg-safe-area-inset-right: 0px;
 
     /* Telegram Content Safe Area (для учета нативных кнопок Telegram: MainButton, BackButton) */
     --tg-content-safe-area-inset-top: 0px;
-    --tg-content-safe-area-inset-bottom: 60px; /* MainButton height fallback */
+    --tg-content-safe-area-inset-bottom: 60px;
+    /* MainButton height fallback */
 
     /* Telegram Viewport Height (обновляется динамически) */
-    --tg-viewport-height: 100vh;
-    --tg-viewport-stable-height: 100vh;
+    /* Sprint 038-B: Use dynamic viewport height via JS (fixes Safari 100vh) */
+    --tg-viewport-height: var(--vh, 100dvh);
+    --tg-viewport-stable-height: var(--vh, 100dvh);
 
     /* Telegram Theme Params (устанавливаются автоматически из Telegram WebApp) */
     /* Hex values */
@@ -84,16 +95,26 @@ All colors MUST be HSL.
     --radius: 1rem;
 
     /* Semantic Spacing Tokens (4px base grid) */
-    --space-1: 0.25rem; /* 4px */
-    --space-2: 0.5rem; /* 8px */
-    --space-3: 0.75rem; /* 12px */
-    --space-4: 1rem; /* 16px */
-    --space-5: 1.25rem; /* 20px */
-    --space-6: 1.5rem; /* 24px */
-    --space-8: 2rem; /* 32px */
-    --space-10: 2.5rem; /* 40px */
-    --space-12: 3rem; /* 48px */
-    --space-16: 4rem; /* 64px */
+    --space-1: 0.25rem;
+    /* 4px */
+    --space-2: 0.5rem;
+    /* 8px */
+    --space-3: 0.75rem;
+    /* 12px */
+    --space-4: 1rem;
+    /* 16px */
+    --space-5: 1.25rem;
+    /* 20px */
+    --space-6: 1.5rem;
+    /* 24px */
+    --space-8: 2rem;
+    /* 32px */
+    --space-10: 2.5rem;
+    /* 40px */
+    --space-12: 3rem;
+    /* 48px */
+    --space-16: 4rem;
+    /* 64px */
 
     /* Motion Duration Tokens */
     --duration-instant: 0ms;
@@ -123,10 +144,14 @@ All colors MUST be HSL.
 
     /* === Unified semantic surfaces (Phase 1 UI unification) ===
        Use these instead of bg-white / bg-black / bg-[#...] in components. */
-    --surface-1: 0 0% 100%; /* page-level cards */
-    --surface-2: 220 20% 98%; /* nested cards on surface-1 */
-    --surface-3: 220 15% 94%; /* nested controls inside surface-2 */
-    --overlay-scrim: 220 25% 10% / 0.5; /* dialog/sheet backdrop */
+    --surface-1: 0 0% 100%;
+    /* page-level cards */
+    --surface-2: 220 20% 98%;
+    /* nested cards on surface-1 */
+    --surface-3: 220 15% 94%;
+    /* nested controls inside surface-2 */
+    --overlay-scrim: 220 25% 10% / 0.5;
+    /* dialog/sheet backdrop */
     --ring-focus: hsl(207 90% 54% / 0.5);
 
     /* Semantic state tokens (paired with -foreground for text on top) */
@@ -148,8 +173,10 @@ All colors MUST be HSL.
        Published by MainLayout but kept with safe fallbacks so any component
        can `padding-bottom: calc(var(--bottom-stack-h) + 12px)` without math. */
     --header-h: 56px;
-    --bottom-nav-h: 0px; /* set by MainLayout when nav visible */
-    --player-h: 0px; /* set by MainLayout when player active */
+    --bottom-nav-h: 0px;
+    /* set by MainLayout when nav visible */
+    --player-h: 0px;
+    /* set by MainLayout when player active */
     --safe-bottom: max(env(safe-area-inset-bottom, 0px), var(--tg-safe-area-inset-bottom, 0px));
     --bottom-stack-h: calc(var(--bottom-nav-h) + var(--player-h) + var(--safe-bottom));
 
@@ -157,21 +184,29 @@ All colors MUST be HSL.
        Mirrors src/constants/z-index.ts so CSS-only files can stay in sync. */
     --z-base: 0;
     --z-raised: 10;
-    --z-sticky-header: 30; /* MobileHeaderBar */
+    --z-sticky-header: 30;
+    /* MobileHeaderBar */
     --z-overlay: 40;
-    --z-bottom-nav: 50; /* TabBar */
-    --z-player: 60; /* CompactPlayer — ABOVE nav */
-    --z-contextual: 70; /* Hints */
-    --z-fullscreen: 90; /* MobileFullscreenPlayer, Studio */
+    --z-bottom-nav: 50;
+    /* TabBar */
+    --z-player: 60;
+    /* CompactPlayer — ABOVE nav */
+    --z-contextual: 70;
+    /* Hints */
+    --z-fullscreen: 90;
+    /* MobileFullscreenPlayer, Studio */
     --z-dialog: 140;
     --z-sheet: 150;
     --z-dropdown: 200;
-    --z-toast: 300; /* Toasts/announcements — top of the world */
+    --z-toast: 300;
+    /* Toasts/announcements — top of the world */
 
     /* Section-specific accent colors — Glass Aurora (mint + lavender) */
-    --generate: 142 71% 58%;       /* mint #4ade80 */
+    --generate: 142 71% 58%;
+    /* mint #4ade80 */
     --generate-glow: 142 71% 48%;
-    --library: 255 92% 76%;        /* lavender #a78bfa */
+    --library: 255 92% 76%;
+    /* lavender #a78bfa */
     --library-glow: 255 92% 66%;
     --projects: 262 55% 70%;
     --projects-glow: 262 55% 56%;
@@ -213,17 +248,21 @@ All colors MUST be HSL.
   .dark {
     /* Dark theme — Glass Aurora (MusicVerse 2026 redesign)
        Palette: #1a1a2e (bg) / #16213e (surface) / #4ade80 mint (primary) / #a78bfa lavender (accent) */
-    --background: 240 33% 14%;       /* #1a1a2e */
-    --foreground: 220 30% 96%;       /* near-white with cool tint */
+    --background: 240 33% 14%;
+    /* #1a1a2e */
+    --foreground: 220 30% 96%;
+    /* near-white with cool tint */
 
-    --card: 218 50% 17%;             /* #16213e */
+    --card: 218 50% 17%;
+    /* #16213e */
     --card-foreground: 220 30% 96%;
 
     --popover: 222 45% 13%;
     --popover-foreground: 220 30% 96%;
 
     /* Primary - Mint */
-    --primary: 142 71% 58%;          /* #4ade80 */
+    --primary: 142 71% 58%;
+    /* #4ade80 */
     --primary-foreground: 240 33% 10%;
 
     --secondary: 220 35% 20%;
@@ -232,7 +271,8 @@ All colors MUST be HSL.
     --muted: 222 30% 18%;
     --muted-foreground: 220 14% 65%;
 
-    --accent: 255 92% 76%;           /* #a78bfa lavender */
+    --accent: 255 92% 76%;
+    /* #a78bfa lavender */
     --accent-foreground: 240 33% 10%;
 
     --destructive: 0 72% 56%;
@@ -243,9 +283,11 @@ All colors MUST be HSL.
     --ring: 142 71% 58%;
 
     /* Section-specific accent colors — Glass Aurora */
-    --generate: 142 71% 58%;         /* mint */
+    --generate: 142 71% 58%;
+    /* mint */
     --generate-glow: 142 71% 48%;
-    --library: 255 92% 76%;          /* lavender */
+    --library: 255 92% 76%;
+    /* lavender */
     --library-glow: 255 92% 66%;
     --projects: 199 70% 62%;
     --projects-glow: 199 70% 48%;
@@ -285,7 +327,8 @@ All colors MUST be HSL.
     --sidebar-ring: 142 71% 58%;
 
     /* Dark-theme overrides for the Phase 1 semantic surfaces */
-    --surface-1: 218 50% 17%;        /* #16213e */
+    --surface-1: 218 50% 17%;
+    /* #16213e */
     --surface-2: 222 45% 14%;
     --surface-3: 222 35% 20%;
     --overlay-scrim: 240 33% 8% / 0.7;
@@ -313,7 +356,11 @@ All colors MUST be HSL.
     overflow-anchor: auto;
   }
 
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-family: var(--font-display);
   }
 
@@ -340,6 +387,7 @@ All colors MUST be HSL.
       -ms-overflow-style: none;
       scrollbar-width: none;
     }
+
     *::-webkit-scrollbar {
       display: none;
     }
@@ -356,7 +404,8 @@ All colors MUST be HSL.
   /* Основной контейнер приложения с safe areas и динамической высотой */
   #root {
     min-height: 100vh;
-    min-height: 100dvh; /* Dynamic viewport height for mobile */
+    min-height: 100dvh;
+    /* Dynamic viewport height for mobile */
     min-height: -webkit-fill-available;
   }
 
@@ -546,40 +595,23 @@ All colors MUST be HSL.
 
   /* Top Safe Areas */
   .safe-top {
-    padding-top: calc(
-      max(
-          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-          env(safe-area-inset-top, 0px)
-        ) +
-        0.75rem
-    );
+    padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)) + 0.75rem);
   }
 
   .safe-top-compact {
-    padding-top: calc(
-      max(
-          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-          env(safe-area-inset-top, 0px)
-        ) +
-        0.5rem
-    );
+    padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)) + 0.5rem);
   }
 
   .safe-top-spacious {
-    padding-top: calc(
-      max(
-          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-          env(safe-area-inset-top, 0px)
-        ) +
-        1rem
-    );
+    padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)) + 1rem);
   }
 
   .safe-top-minimal {
-    padding-top: max(
-      var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-      env(safe-area-inset-top, 0px)
-    );
+    padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px));
   }
 
   /* Bottom Safe Areas */
@@ -598,22 +630,15 @@ All colors MUST be HSL.
   /* Page Container Classes */
   .safe-page {
     min-height: var(--tg-viewport-stable-height, 100vh);
-    padding-top: calc(
-      max(
-          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-          env(safe-area-inset-top, 0px)
-        ) +
-        0.75rem
-    );
+    padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)) + 0.75rem);
     padding-bottom: calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 5rem);
   }
 
   .safe-page-fullscreen {
     min-height: var(--tg-viewport-stable-height, 100vh);
-    padding-top: max(
-      var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-      env(safe-area-inset-top, 0px)
-    );
+    padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px));
     padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
   }
 
@@ -622,28 +647,27 @@ All colors MUST be HSL.
     position: sticky;
     top: 0;
     z-index: 40;
-    padding-top: calc(
-      max(
-          var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-          env(safe-area-inset-top, 0px)
-        ) +
-        0.5rem
-    );
+    padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+          env(safe-area-inset-top, 0px)) + 0.5rem);
   }
 
   /* Legacy compatibility aliases */
   .safe-area-top {
     @apply safe-top;
   }
+
   .safe-area-bottom {
     @apply safe-bottom;
   }
+
   .header-safe {
     @apply safe-header;
   }
+
   .content-safe {
     @apply safe-top safe-bottom;
   }
+
   .bottom-nav-safe {
     @apply safe-bottom;
   }
@@ -733,6 +757,7 @@ All colors MUST be HSL.
     0% {
       background-position: -200px 0;
     }
+
     100% {
       background-position: calc(200px + 100%) 0;
     }
@@ -807,6 +832,7 @@ All colors MUST be HSL.
 
   /* Adaptive touch targets for mobile */
   @media (max-width: 768px) {
+
     .btn-touch,
     button[type="button"],
     button[type="submit"] {
@@ -958,6 +984,7 @@ All colors MUST be HSL.
       transform: scale(0);
       opacity: 0.5;
     }
+
     100% {
       transform: scale(4);
       opacity: 0;
@@ -988,6 +1015,7 @@ All colors MUST be HSL.
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(360deg);
     }
@@ -1007,10 +1035,12 @@ All colors MUST be HSL.
       transform: scale(0.95);
       opacity: 0.7;
     }
+
     50% {
       transform: scale(1);
       opacity: 1;
     }
+
     100% {
       transform: scale(0.95);
       opacity: 0.7;
@@ -1059,10 +1089,12 @@ All colors MUST be HSL.
 
   /* NEW: Floating animation */
   @keyframes float {
+
     0%,
     100% {
       transform: translateY(0);
     }
+
     50% {
       transform: translateY(-6px);
     }
@@ -1078,6 +1110,7 @@ All colors MUST be HSL.
       opacity: 0;
       transform: translateY(16px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -1092,21 +1125,27 @@ All colors MUST be HSL.
   [data-stagger-index="0"] {
     animation-delay: 0ms;
   }
+
   [data-stagger-index="1"] {
     animation-delay: 50ms;
   }
+
   [data-stagger-index="2"] {
     animation-delay: 100ms;
   }
+
   [data-stagger-index="3"] {
     animation-delay: 150ms;
   }
+
   [data-stagger-index="4"] {
     animation-delay: 200ms;
   }
+
   [data-stagger-index="5"] {
     animation-delay: 250ms;
   }
+
   [data-stagger-index="6"] {
     animation-delay: 300ms;
   }
@@ -1116,6 +1155,7 @@ All colors MUST be HSL.
     0% {
       transform: translateX(-100%);
     }
+
     100% {
       transform: translateX(100%);
     }
@@ -1130,14 +1170,12 @@ All colors MUST be HSL.
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(var(--foreground) / 0.04) 20%,
-      hsl(var(--foreground) / 0.08) 50%,
-      hsl(var(--foreground) / 0.04) 80%,
-      transparent 100%
-    );
+    background: linear-gradient(90deg,
+        transparent 0%,
+        hsl(var(--foreground) / 0.04) 20%,
+        hsl(var(--foreground) / 0.08) 50%,
+        hsl(var(--foreground) / 0.04) 80%,
+        transparent 100%);
     animation: shimmer 1.5s infinite;
   }
 
@@ -1164,28 +1202,29 @@ All colors MUST be HSL.
     0% {
       background-position: -200% 0;
     }
+
     100% {
       background-position: 200% 0;
     }
   }
 
   .skeleton-wave {
-    background: linear-gradient(
-      90deg,
-      hsl(var(--muted)) 0%,
-      hsl(var(--muted-foreground) / 0.1) 50%,
-      hsl(var(--muted)) 100%
-    );
+    background: linear-gradient(90deg,
+        hsl(var(--muted)) 0%,
+        hsl(var(--muted-foreground) / 0.1) 50%,
+        hsl(var(--muted)) 100%);
     background-size: 200% 100%;
     animation: skeleton-wave 2s linear infinite;
   }
 
   /* CSS-only pulse scale animation for LoadingSpinner music variant */
   @keyframes css-pulse-scale {
+
     0%,
     100% {
       transform: scale(1);
     }
+
     50% {
       transform: scale(1.1);
     }
@@ -1198,6 +1237,7 @@ All colors MUST be HSL.
 
   /* Disable shimmer animation during scroll for better performance */
   @media (prefers-reduced-motion: reduce) {
+
     .skeleton-shimmer::after,
     .skeleton-shimmer-optimized::after {
       animation: none;
@@ -1218,6 +1258,7 @@ All colors MUST be HSL.
     from {
       transform: rotate(0deg);
     }
+
     to {
       transform: rotate(360deg);
     }
@@ -1271,7 +1312,8 @@ All colors MUST be HSL.
   /* Floating Action Button Style */
   .fab {
     position: relative;
-    overflow: visible; /* FIXED: Allow badges to overflow */
+    overflow: visible;
+    /* FIXED: Allow badges to overflow */
     box-shadow:
       0 4px 16px -2px hsl(var(--primary) / 0.3),
       0 8px 32px -4px hsl(var(--primary) / 0.2);
@@ -1329,11 +1371,13 @@ All colors MUST be HSL.
 
   /* Slow pulse for background elements */
   @keyframes pulse-slow {
+
     0%,
     100% {
       opacity: 0.4;
       transform: scale(1);
     }
+
     50% {
       opacity: 0.6;
       transform: scale(1.05);
@@ -1347,6 +1391,7 @@ All colors MUST be HSL.
   /* iOS Safari zoom prevention on input focus */
   /* Ensures minimum 16px font size on touch devices to prevent auto-zoom */
   @supports (-webkit-touch-callout: none) {
+
     input[type="text"],
     input[type="email"],
     input[type="password"],
@@ -1378,6 +1423,7 @@ html {
 
 /* iOS-specific optimizations */
 @supports (-webkit-touch-callout: none) {
+
   /* Smooth momentum scrolling for all scrollable areas */
   .overflow-y-auto,
   .overflow-x-auto,
@@ -1394,12 +1440,13 @@ html {
     overflow-x: hidden;
   }
 
-  [data-radix-scroll-area-viewport] > div {
+  [data-radix-scroll-area-viewport]>div {
     display: block !important;
     min-width: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
   }
+
   /* Disable iOS context menu on interactive elements */
   button,
   a,
@@ -1456,7 +1503,7 @@ html {
   overflow-x: hidden;
 }
 
-[data-radix-scroll-area-viewport] > div {
+[data-radix-scroll-area-viewport]>div {
   display: block !important;
   min-width: 0 !important;
   width: 100% !important;
@@ -1465,6 +1512,7 @@ html {
 
 /* Telegram Mini App specific fixes */
 @media screen and (max-width: 768px) {
+
   /* Prevent overscroll/bounce effect that can close Mini App */
   html,
   body {
@@ -1486,11 +1534,9 @@ html {
 
   /* Ensure content doesn't get hidden behind keyboard (Telegram + iOS) */
   .pb-safe {
-    padding-bottom: max(
-      var(--tg-safe-area-inset-bottom, 0px),
-      env(safe-area-inset-bottom, 0px),
-      var(--keyboard-height, 0px)
-    );
+    padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px),
+        env(safe-area-inset-bottom, 0px),
+        var(--keyboard-height, 0px));
   }
 }
 
@@ -1542,6 +1588,7 @@ select:focus-visible,
    ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -1629,30 +1676,18 @@ select:focus-visible,
 
 /* Top safe area utilities */
 .safe-top {
-  padding-top: max(
-    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-    env(safe-area-inset-top, 0px)
-  );
+  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px));
 }
 
 .safe-top-compact {
-  padding-top: calc(
-    max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) +
-      0.5rem
-  );
+  padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)) + 0.5rem);
 }
 
 .safe-top-spacious {
-  padding-top: calc(
-    max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) +
-      1rem
-  );
+  padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)) + 1rem);
 }
 
 /* Bottom safe area utilities */
@@ -1670,30 +1705,21 @@ select:focus-visible,
 
 /* Vertical safe area (top + bottom) */
 .safe-vertical {
-  padding-top: max(
-    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-    env(safe-area-inset-top, 0px)
-  );
+  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px));
   padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
 }
 
 .safe-vertical-compact {
-  padding-top: calc(
-    max(
-        var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-        env(safe-area-inset-top, 0px)
-      ) +
-      0.5rem
-  );
+  padding-top: calc(max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+        env(safe-area-inset-top, 0px)) + 0.5rem);
   padding-bottom: calc(max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px)) + 0.5rem);
 }
 
 /* All sides safe area */
 .safe-all {
-  padding-top: max(
-    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-    env(safe-area-inset-top, 0px)
-  );
+  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px));
   padding-bottom: max(var(--tg-safe-area-inset-bottom, 0px), env(safe-area-inset-bottom, 0px));
   padding-left: env(safe-area-inset-left, 0px);
   padding-right: env(safe-area-inset-right, 0px);
@@ -1722,54 +1748,71 @@ select:focus-visible,
 .z-base {
   z-index: 0;
 }
+
 .z-raised {
   z-index: 10;
 }
+
 .z-sticky {
   z-index: 20;
 }
+
 .z-floating {
   z-index: 30;
 }
+
 .z-overlay {
   z-index: 40;
 }
+
 .z-navigation {
   z-index: 50;
 }
+
 .z-player {
   z-index: 60;
 }
+
 .z-contextual {
   z-index: 70;
 }
+
 .z-dialog {
   z-index: 140;
 }
+
 .z-sheet-backdrop {
   z-index: 150;
 }
+
 .z-sheet-content {
   z-index: 151;
 }
+
 .z-fullscreen {
   z-index: 160;
 }
+
 .z-dropdown {
   z-index: 200;
 }
+
 .z-popover {
   z-index: 200;
 }
+
 .z-tooltip {
   z-index: 250;
 }
+
 .z-toast {
   z-index: 300;
 }
+
 .z-notification {
   z-index: 300;
 }
+
 .z-max {
   z-index: 9999;
 }
@@ -1832,10 +1875,8 @@ select:focus-visible,
 
 .fixed-top-safe {
   position: fixed;
-  top: max(
-    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-    env(safe-area-inset-top, 0px)
-  );
+  top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px));
   left: 0;
   right: 0;
 }
@@ -1855,31 +1896,35 @@ select:focus-visible,
 .space-xs {
   gap: 4px;
 }
+
 .space-sm {
   gap: 8px;
 }
+
 .space-md {
   gap: 12px;
 }
+
 .space-lg {
   gap: 16px;
 }
+
 .space-xl {
   gap: 24px;
 }
+
 .space-2xl {
   gap: 32px;
 }
+
 .space-3xl {
   gap: 48px;
 }
 
 /* Padding utilities */
 .p-safe-top {
-  padding-top: max(
-    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-    env(safe-area-inset-top, 0px)
-  );
+  padding-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px));
 }
 
 .p-safe-bottom {
@@ -1888,10 +1933,8 @@ select:focus-visible,
 
 /* Margin utilities */
 .mt-safe-top {
-  margin-top: max(
-    var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
-    env(safe-area-inset-top, 0px)
-  );
+  margin-top: max(var(--tg-content-safe-area-inset-top, 0px) + var(--tg-safe-area-inset-top, 0px),
+      env(safe-area-inset-top, 0px));
 }
 
 .mb-safe-bottom {
@@ -1909,6 +1952,7 @@ select:focus-visible,
     opacity: 0;
     transform: translateY(100%) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1931,6 +1975,7 @@ select:focus-visible,
     opacity: 0;
     transform: translateY(20px) scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1947,6 +1992,7 @@ select:focus-visible,
     transform: scale(1);
     opacity: 0.5;
   }
+
   100% {
     transform: scale(1.5);
     opacity: 0;
@@ -1963,6 +2009,7 @@ select:focus-visible,
   from {
     transform: scale(0);
   }
+
   to {
     transform: scale(1);
   }
@@ -2077,6 +2124,7 @@ select:focus-visible,
 
 /* Reduce motion support for navigation animations */
 @media (prefers-reduced-motion: reduce) {
+
   .nav-slide-up,
   .nav-item-enter,
   .page-fade,
@@ -2110,38 +2158,31 @@ select:focus-visible,
  * Unified pill/chip utilities (Linear/Arc native vibe)
  * ============================================================================ */
 @layer components {
+
   /* Pill button used for filters/segmented controls */
   .pill-chip {
-    @apply inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full
-           text-[13px] font-medium leading-none tracking-tight
-           border border-border/60 bg-muted/40 text-muted-foreground
-           transition-colors duration-150 select-none
-           hover:bg-muted/70 hover:text-foreground
-           active:scale-95;
+    @apply inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full text-[13px] font-medium leading-none tracking-tight border border-border/60 bg-muted/40 text-muted-foreground transition-colors duration-150 select-none hover:bg-muted/70 hover:text-foreground active:scale-95;
   }
+
   .pill-chip[data-active="true"],
   .pill-chip.is-active {
-    @apply bg-primary/15 text-foreground border-primary/40
-           shadow-[0_0_0_1px_hsl(var(--primary)/0.25)_inset];
+    @apply bg-primary/15 text-foreground border-primary/40 shadow-[0_0_0_1px_hsl(var(--primary)/0.25)_inset];
   }
+
   .pill-chip-sm {
     @apply h-7 px-2.5 text-[11px];
   }
+
   /* Read-only tag chip (e.g. genre/style tag on a track card) */
   .tag-chip {
-    @apply inline-flex items-center h-6 px-2 rounded-full
-           text-[11px] font-medium leading-none tracking-tight
-           bg-foreground/[0.06] text-muted-foreground
-           border border-border/40;
+    @apply inline-flex items-center h-6 px-2 rounded-full text-[11px] font-medium leading-none tracking-tight bg-foreground/[0.06] text-muted-foreground border border-border/40;
   }
 
   /* Mobile list row at 64px density (TrackCard CompactVariant target) */
   .row-64 {
-    @apply h-16 flex items-center gap-3 px-3
-           rounded-2xl border border-transparent
-           transition-colors duration-150
-           hover:bg-foreground/[0.04] active:bg-foreground/[0.06];
+    @apply h-16 flex items-center gap-3 px-3 rounded-2xl border border-transparent transition-colors duration-150 hover:bg-foreground/[0.04] active:bg-foreground/[0.06];
   }
+
   .row-64[data-active="true"],
   .row-64.is-active {
     @apply bg-primary/[0.08] border-primary/25;
@@ -2149,8 +2190,7 @@ select:focus-visible,
 
   /* Section header used across new mobile screens */
   .section-title {
-    @apply font-display text-[13px] font-semibold uppercase tracking-[0.08em]
-           text-muted-foreground/80;
+    @apply font-display text-[13px] font-semibold uppercase tracking-[0.08em] text-muted-foreground/80;
   }
 
   /* Aurora-tinted surface used for premium cards/CTAs (Midnight + Aurora) */
@@ -2162,18 +2202,21 @@ select:focus-visible,
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
   }
+
   .aurora-glow {
     box-shadow:
       0 0 0 1px hsl(var(--primary) / 0.25) inset,
       0 8px 28px -6px hsl(var(--primary) / 0.45),
       0 2px 8px -2px hsl(152 42% 56% / 0.35);
   }
+
   /* Subtle moving sheen for emphasis (CTAs, generating state) */
   .sheen {
     position: relative;
     overflow: hidden;
     isolation: isolate;
   }
+
   .sheen::after {
     content: "";
     position: absolute;
@@ -2183,6 +2226,7 @@ select:focus-visible,
     animation: sheen-sweep 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     pointer-events: none;
   }
+
   @keyframes sheen-sweep {
     to {
       transform: translateX(100%);
@@ -2195,12 +2239,15 @@ select:focus-visible,
   .pb-bottom-stack {
     padding-bottom: calc(var(--bottom-stack-h, 0px) + 0.75rem);
   }
+
   .pb-bottom-stack-lg {
     padding-bottom: calc(var(--bottom-stack-h, 0px) + 1.5rem);
   }
+
   .bottom-above-stack {
     bottom: calc(var(--bottom-stack-h, 0px) + 0.5rem);
   }
+
   /* Hairline divider that adapts to the active palette */
   .hairline {
     border-color: hsl(var(--border) / 0.6);
@@ -2215,6 +2262,7 @@ select:focus-visible,
 .noise-overlay {
   position: relative;
 }
+
 .noise-overlay::after {
   content: "";
   position: absolute;
@@ -2237,6 +2285,7 @@ select:focus-visible,
 .aurora-glow {
   position: relative;
 }
+
 .aurora-glow::before {
   content: "";
   position: absolute;
@@ -2244,32 +2293,24 @@ select:focus-visible,
   left: -20%;
   right: -20%;
   bottom: -40%;
-  background: radial-gradient(
-    ellipse at 30% 50%,
-    hsl(var(--primary) / 0.12) 0%,
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 70% 50%,
-    hsl(var(--generate) / 0.08) 0%,
-    transparent 50%
-  );
+  background: radial-gradient(ellipse at 30% 50%,
+      hsl(var(--primary) / 0.12) 0%,
+      transparent 50%),
+    radial-gradient(ellipse at 70% 50%,
+      hsl(var(--generate) / 0.08) 0%,
+      transparent 50%);
   pointer-events: none;
   z-index: -1;
   filter: blur(40px);
 }
 
 .dark .aurora-glow::before {
-  background: radial-gradient(
-    ellipse at 30% 50%,
-    hsl(152 42% 56% / 0.1) 0%,
-    transparent 50%
-  ),
-  radial-gradient(
-    ellipse at 70% 50%,
-    hsl(199 70% 62% / 0.07) 0%,
-    transparent 50%
-  );
+  background: radial-gradient(ellipse at 30% 50%,
+      hsl(152 42% 56% / 0.1) 0%,
+      transparent 50%),
+    radial-gradient(ellipse at 70% 50%,
+      hsl(199 70% 62% / 0.07) 0%,
+      transparent 50%);
 }
 
 /* Mesh gradient background for hero sections */
@@ -2277,6 +2318,7 @@ select:focus-visible,
   position: relative;
   overflow: hidden;
 }
+
 .mesh-hero::before {
   content: "";
   position: absolute;
@@ -2298,11 +2340,14 @@ select:focus-visible,
 
 /* Signature glow ring for primary action buttons */
 @keyframes aurora-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow:
       0 0 20px hsl(var(--primary) / 0.25),
       0 0 40px hsl(var(--primary) / 0.1);
   }
+
   50% {
     box-shadow:
       0 0 28px hsl(var(--primary) / 0.35),
@@ -2316,43 +2361,50 @@ select:focus-visible,
 
 /* Branded skeleton shimmer — uses aurora gradient instead of generic grey */
 @keyframes aurora-shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .skeleton-aurora {
-  background: linear-gradient(
-    90deg,
-    hsl(var(--muted)) 0%,
-    hsl(var(--primary) / 0.08) 40%,
-    hsl(var(--generate) / 0.06) 60%,
-    hsl(var(--muted)) 100%
-  );
+  background: linear-gradient(90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--primary) / 0.08) 40%,
+      hsl(var(--generate) / 0.06) 60%,
+      hsl(var(--muted)) 100%);
   background-size: 200% 100%;
   animation: aurora-shimmer 2s ease-in-out infinite;
   border-radius: var(--radius);
 }
 
 .dark .skeleton-aurora {
-  background: linear-gradient(
-    90deg,
-    hsl(227 28% 13%) 0%,
-    hsl(152 42% 56% / 0.06) 40%,
-    hsl(199 70% 62% / 0.05) 60%,
-    hsl(227 28% 13%) 100%
-  );
+  background: linear-gradient(90deg,
+      hsl(227 28% 13%) 0%,
+      hsl(152 42% 56% / 0.06) 40%,
+      hsl(199 70% 62% / 0.05) 60%,
+      hsl(227 28% 13%) 100%);
   background-size: 200% 100%;
 }
 
 /* Signature track card hover — waveform gradient border-bottom reveal */
 @keyframes waveform-scan {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 .card-waveform-hover {
   position: relative;
 }
+
 .card-waveform-hover::after {
   content: "";
   position: absolute;
@@ -2360,26 +2412,26 @@ select:focus-visible,
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    hsl(var(--primary) / 0.6) 25%,
-    hsl(var(--generate) / 0.8) 50%,
-    hsl(var(--primary) / 0.6) 75%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      hsl(var(--primary) / 0.6) 25%,
+      hsl(var(--generate) / 0.8) 50%,
+      hsl(var(--primary) / 0.6) 75%,
+      transparent 100%);
   background-size: 200% 100%;
   opacity: 0;
   transition: opacity 0.3s ease;
   border-radius: 0 0 inherit inherit;
   z-index: 2;
 }
+
 @media (hover: hover) {
   .card-waveform-hover:hover::after {
     opacity: 1;
     animation: waveform-scan 2s linear infinite;
   }
 }
+
 /* When card is actively playing */
 .card-waveform-hover[data-playing="true"]::after {
   opacity: 1;
@@ -2390,13 +2442,11 @@ select:focus-visible,
 .section-divider {
   height: 1px;
   border: none;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    hsl(var(--border) / 0.5) 20%,
-    hsl(var(--primary) / 0.2) 50%,
-    hsl(var(--border) / 0.5) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg,
+      transparent 0%,
+      hsl(var(--border) / 0.5) 20%,
+      hsl(var(--primary) / 0.2) 50%,
+      hsl(var(--border) / 0.5) 80%,
+      transparent 100%);
   margin: 1.5rem 0;
 }

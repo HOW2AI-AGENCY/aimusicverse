@@ -43,6 +43,7 @@ export default {
         sans: ['"Onest"', "Inter", "system-ui", "sans-serif"],
         mono: ['"JetBrains Mono"', "Roboto Mono", "monospace"],
         display: ['"Unbounded"', '"Onest"', "system-ui", "sans-serif"],
+        body: ['"DM Sans"', "sans-serif"],
       },
       fontSize: {
         // Professional Typography Scale (from 032-professional-ui spec)
