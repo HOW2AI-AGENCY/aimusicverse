@@ -8,6 +8,7 @@ import { useActiveGenerations } from "@/hooks/generation/useActiveGenerations";
 import { Badge } from "@/components/ui/badge";
 import { preloadRoute } from "@/lib/route-preloader";
 import { typographyClass } from "@/lib/design-tokens";
+import { GenerationProgressBadge } from "@/components/loading/GenerationProgressBadge";
 
 // Lazy load heavy sheet component
 const GenerateSheet = lazy(() => import("./GenerateSheet").then((m) => ({ default: m.GenerateSheet })));
@@ -72,6 +73,11 @@ export const BottomNavigation = memo(function BottomNavigation() {
 
   return (
     <>
+      {activeGenCount > 0 && (
+        <div className="fixed bottom-20 left-0 right-0 flex justify-center z-navigation pointer-events-none">
+          <GenerationProgressBadge active count={activeGenCount} />
+        </div>
+      )}
       <nav
         className={cn("island-nav z-navigation nav-slide-up", isVisible && "nav-visible")}
         role="navigation"
@@ -140,10 +146,7 @@ export const BottomNavigation = memo(function BottomNavigation() {
                   aria-hidden
                 />
                 <item.icon
-                  className={cn(
-                    "relative w-5 h-5 transition-transform duration-200",
-                    active && "text-primary",
-                  )}
+                  className={cn("relative w-5 h-5 transition-transform duration-200", active && "text-primary")}
                   strokeWidth={active ? 2.4 : 2}
                 />
                 <span
