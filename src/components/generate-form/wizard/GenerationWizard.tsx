@@ -38,7 +38,9 @@ export function GenerationWizard({ onGenerate, isLoading }: GenerationWizardProp
   const { currentStep, completedSteps, data, setStep, nextStep, prevStep, markStepComplete } =
     useGenerationWizardStore();
 
-  const { isControl: isFourStep, trackConversion } = useExperiment(EXPERIMENTS.WIZARD_STEPS);
+  const { isControl: isFourStep, trackConversion } = useExperiment(
+    EXPERIMENTS.WIZARD_STEPS as unknown as Parameters<typeof useExperiment>[0],
+  );
   const isTwoStep = !isFourStep;
 
   const handleStepClick = useCallback(
