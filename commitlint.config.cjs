@@ -21,7 +21,7 @@ module.exports = {
     ],
 
     // Enforce sentence case for subject
-    "subject-case": [2, "always", "sentence-case"],
+    "subject-case": [2, "always", "lower-case"],
 
     // Subject max line length
     "subject-max-length": [2, "always", 72],
