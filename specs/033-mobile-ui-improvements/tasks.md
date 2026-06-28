@@ -59,12 +59,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T014 [P] Create hint tooltip component in src/components/navigation/MoreMenuHintTooltip.tsx
-- [ ] T015 [P] Create "Recently Used" section component in src/components/navigation/RecentlyUsedSection.tsx
-- [ ] T016 [US1] Update BottomNavigation in src/components/BottomNavigation.tsx (add hint tooltip, persistent active indicator, "Recently Used" section)
-- [ ] T017 [US1] Implement hint dismissal state management in src/components/BottomNavigation.tsx (store in UserPreferences)
-- [ ] T018 [US1] Standardize back button behavior across all pages (verify consistent use of MobileHeaderBar back button)
-- [ ] T019 [US1] Test navigation consistency across all pages (Index, Library, Settings, etc.)
+- [x] T014 [P] Create hint tooltip component in src/components/navigation/MoreMenuHintTooltip.tsx
+- [x] T015 [P] Create "Recently Used" section component in src/components/navigation/RecentlyUsedSection.tsx
+- [x] T016 [US1] Update BottomNavigation in src/components/BottomNavigation.tsx (add hint tooltip, persistent active indicator, "Recently Used" section)
+- [x] T017 [US1] Implement hint dismissal state management in src/components/BottomNavigation.tsx (store in UserPreferences)
+- [x] T018 [US1] Standardize back button behavior across all pages (verify consistent use of MobileHeaderBar back button)
+- [x] T019 [US1] Test navigation consistency across all pages (Index, Library, Settings, etc.)
 
 **Checkpoint**: Navigation consistency complete - hint tooltip shows, active indicator persistent, back button consistent
 

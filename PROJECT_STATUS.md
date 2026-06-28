@@ -57,13 +57,13 @@
 
 ## 🚦 Feature: `033-mobile-ui-improvements` — В РАБОТЕ 🟡
 
-**Прогресс**: 13/114 задач (11%) | **Фаза**: Foundational | **Issues**: [#317–#430](https://github.com/HOW2AI-AGENCY/aimusicverse/issues?q=label%3A%22📄+DOCS%22)
+**Прогресс**: 19/114 задач (17%) | **Фаза**: P1 Stories | **Issues**: [#317–#430](https://github.com/HOW2AI-AGENCY/aimusicverse/issues?q=label%3A%22📄+DOCS%22)
 
 | Фаза                       |  Задачи   | Прогресс                                                          |
 | -------------------------- | :-------: | ----------------------------------------------------------------- |
 | Phase 1: Setup             | T001–T005 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Phase 2: Foundational      | T006–T013 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
-| Phase 3: US1 Navigation    | T014–T019 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
+| Phase 3: US1 Navigation    | T014–T019 | ![](https://img.shields.io/badge/100%25-10B981?style=flat-square) |
 | Phase 4: US2 Gestures      | T020–T027 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
 | Phase 5: US6 Accessibility | T028–T035 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
 | Phase 6: US4 Errors        | T036–T044 | ![](https://img.shields.io/badge/0%25-475569?style=flat-square)   |
@@ -74,7 +74,8 @@
 
 - ✅ **Phase 1 Setup**: структура директорий, типы (queue, gestures, notifications), Zod-схемы, CSS (shimmer, accessibility)
 - ✅ **Phase 2 Foundational**: queueStorage, gestureSettings, notificationManager, a11yHelpers, shimmerAnimation, migration, types/index.ts
-- ✅ 13/13 foundational tasks → юзер-стори могут стартовать параллельно
+- ✅ **Phase 3 US1 Navigation**: MoreMenuHintTooltip, RecentlyUsedSection, hint dismissal, back button audit (18/23 pages standard)
+- ✅ 19/114 total tasks — P1 phase 1 из 4 завершён
 
 | Задача                                          | Прогресс                                                        |
 | ----------------------------------------------- | --------------------------------------------------------------- |
